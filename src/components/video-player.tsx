@@ -120,27 +120,14 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
         setIsPlaying(false)
       }
 
-      const containerRect = container.getBoundingClientRect();
-      const videoRect = video.getBoundingClientRect();
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const xPercent = (x / rect.width) * 100;
+      const yPercent = (y / rect.height) * 100;
       
-      // Calculate the offsets of the video relative to the container
-      const offsetX = videoRect.left - containerRect.left;
-      const offsetY = videoRect.top - containerRect.top;
-
-      // Calculate click position relative to container
-      const clickX = e.clientX - containerRect.left;
-      const clickY = e.clientY - containerRect.top;
-
-      // Check if the click is within the video's bounds (inside the container)
-      if (clickX >= offsetX && clickX <= offsetX + videoRect.width &&
-          clickY >= offsetY && clickY <= offsetY + videoRect.height) {
-        
-        // Calculate percentage position relative to the container dimensions
-        const xPercent = (clickX / containerRect.width) * 100;
-        const yPercent = (clickY / containerRect.height) * 100;
-        
-        onTimestampSelect(video.currentTime, { x: xPercent, y: yPercent });
-      }
+      onTimestampSelect(video.currentTime, { x: xPercent, y: yPercent });
     }
 
     React.useEffect(() => {
