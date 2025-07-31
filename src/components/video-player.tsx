@@ -110,50 +110,34 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       }
     }
 
-    const handleVideoClick = (e: React.MouseEvent<HTMLVideoElement>) => {
+    const handleVideoClick = (e: React.MouseEvent<HTMLElement>) => {
       const video = videoRef.current;
-      if (!video) return;
+      const container = containerRef.current;
+      if (!video || !container) return;
 
       if (!video.paused) {
         video.pause();
+        setIsPlaying(false)
       }
 
-      const rect = video.getBoundingClientRect();
-
-      // Calculate the scale of the video within its container
-      const videoRatio = video.videoWidth / video.videoHeight;
-      const elementRatio = rect.width / rect.height;
+      const containerRect = container.getBoundingClientRect();
+      const videoRect = video.getBoundingClientRect();
       
-      let scale = 1;
-      let offsetX = 0;
-      let offsetY = 0;
+      // Calculate the offsets of the video relative to the container
+      const offsetX = videoRect.left - containerRect.left;
+      const offsetY = videoRect.top - containerRect.top;
 
-      if (videoRatio > elementRatio) { // Letterboxed (top/bottom bars)
-        scale = rect.width / video.videoWidth;
-        const scaledHeight = video.videoHeight * scale;
-        offsetY = (rect.height - scaledHeight) / 2;
-      } else { // Pillarboxed (left/right bars)
-        scale = rect.height / video.videoHeight;
-        const scaledWidth = video.videoWidth * scale;
-        offsetX = (rect.width - scaledWidth) / 2;
-      }
+      // Calculate click position relative to container
+      const clickX = e.clientX - containerRect.left;
+      const clickY = e.clientY - containerRect.top;
 
-      // Get click coordinates relative to the video element
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
-
-      // Check if click is inside the visible video area
-      if (clickX >= offsetX && clickX <= rect.width - offsetX &&
-          clickY >= offsetY && clickY <= rect.height - offsetY) {
+      // Check if the click is within the video's bounds (inside the container)
+      if (clickX >= offsetX && clickX <= offsetX + videoRect.width &&
+          clickY >= offsetY && clickY <= offsetY + videoRect.height) {
         
-        // Calculate percentage position on the visible video
-        const videoX = clickX - offsetX;
-        const videoY = clickY - offsetY;
-        const videoWidth = rect.width - 2 * offsetX;
-        const videoHeight = rect.height - 2 * offsetY;
-        
-        const xPercent = (videoX / videoWidth) * 100;
-        const yPercent = (videoY / videoHeight) * 100;
+        // Calculate percentage position relative to the container dimensions
+        const xPercent = (clickX / containerRect.width) * 100;
+        const yPercent = (clickY / containerRect.height) * 100;
         
         onTimestampSelect(video.currentTime, { x: xPercent, y: yPercent });
       }
@@ -178,19 +162,26 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     }, [])
 
     return (
-      <div ref={containerRef} className="relative flex h-full w-full flex-col items-center justify-center bg-black">
+      <div 
+        ref={containerRef} 
+        className="relative flex h-full w-full flex-col items-center justify-center bg-black"
+        onClick={handleVideoClick}
+      >
         <video
           ref={videoRef}
           src={videoSrc}
           className="max-h-full w-full object-contain"
-          onClick={handleVideoClick}
-          onDoubleClick={(e) => { e.preventDefault(); handlePlayPause(); }}
+          onClick={(e) => e.stopPropagation()} // Prevent double event
+          onDoubleClick={(e) => { e.stopPropagation(); e.preventDefault(); handlePlayPause(); }}
         />
         <canvas ref={canvasRef} className="hidden" />
 
         {children}
 
-        <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white transition-opacity duration-300">
+        <div 
+          className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white transition-opacity duration-300"
+          onClick={(e) => e.stopPropagation()} // Prevent clicks on controls from triggering tag
+        >
            <div className="flex w-full items-center gap-2">
             <span className="font-code text-sm">{formatTimestamp(currentTime)}</span>
             <Slider
