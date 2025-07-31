@@ -12,15 +12,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SuggestVideoTagInputSchema = z.object({
-  videoDataUri: z
-    .string()
-    .describe(
-      "A video, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
   currentFrame: z.string().describe('The current frame of the video as a data URI.'),
-  contextFrames: z
-    .array(z.string())
-    .describe('Array of surrounding frames (data URIs) for context.'),
 });
 export type SuggestVideoTagInput = z.infer<typeof SuggestVideoTagInputSchema>;
 
@@ -39,14 +31,9 @@ const prompt = ai.definePrompt({
   name: 'suggestVideoTagPrompt',
   input: {schema: SuggestVideoTagInputSchema},
   output: {schema: SuggestVideoTagOutputSchema},
-  prompt: `You are an expert marine biologist. Given a video frame and its surrounding context frames, suggest relevant tags for the marine species visible in the current frame.
+  prompt: `You are an expert marine biologist. Given a video frame, suggest relevant tags for the marine species visible in the current frame.
 
 Current Frame: {{media url=currentFrame}}
-
-Context Frames:
-{{#each contextFrames}}
-  {{media url=this}}
-{{/each}}
 
 Suggest tags related to the marine species.`,
 });

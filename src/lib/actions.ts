@@ -9,12 +9,7 @@ export async function getTagSuggestions(currentFrame: string): Promise<string[]>
 
   try {
     const input: SuggestVideoTagInput = {
-      // The AI flow is designed for a full video context, which is complex to provide from the client.
-      // We are adapting by providing only the most critical piece of information: the current frame.
-      // The prompt has been designed to handle this gracefully.
-      videoDataUri: '', 
       currentFrame,
-      contextFrames: [],
     }
 
     const result = await suggestVideoTag(input)
