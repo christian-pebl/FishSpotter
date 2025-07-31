@@ -7,7 +7,6 @@ import { MOCK_VIDEOS, MOCK_TAGS } from "@/lib/data"
 import type { Video, Tag } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AppHeader from "@/components/app-header"
 import VideoPlayer, { type VideoPlayerRef } from "@/components/video-player"
 import TaggingForm from "@/components/tagging-form"
@@ -106,20 +105,7 @@ export default function TaggerPage() {
                   tags={currentVideoTags}
                   onCancelTag={resetSelection}
                   taggingPosition={taggingPosition}
-                >
-                  {selectedTimestamp !== null && taggingPosition !== null && (
-                    <TaggingForm 
-                        selectedTimestamp={selectedTimestamp}
-                        videoPlayerRef={videoPlayerRef}
-                        onTagAdd={handleAddTag}
-                        onCancel={resetSelection}
-                        style={{
-                          left: `${taggingPosition.x}%`,
-                          top: `${taggingPosition.y}%`,
-                        }}
-                     />
-                  )}
-                </VideoPlayer>
+                />
               </CardContent>
             </Card>
           </div>
@@ -129,11 +115,20 @@ export default function TaggerPage() {
                 <CardTitle className="font-headline">Annotation Tools</CardTitle>
               </CardHeader>
               <CardContent>
-                 <TagList
+                {selectedTimestamp !== null && taggingPosition !== null ? (
+                  <TaggingForm 
+                    selectedTimestamp={selectedTimestamp}
+                    videoPlayerRef={videoPlayerRef}
+                    onTagAdd={handleAddTag}
+                    onCancel={resetSelection}
+                  />
+                ) : (
+                  <TagList
                     tags={currentVideoTags}
                     onUpdateTag={handleUpdateTag}
                     onDeleteTag={handleDeleteTag}
-                 />
+                  />
+                )}
               </CardContent>
             </Card>
           </div>

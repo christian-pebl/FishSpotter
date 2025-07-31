@@ -9,7 +9,6 @@ import { getTagSuggestions } from "@/lib/actions"
 import { formatTimestamp } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import type { VideoPlayerRef } from "./video-player"
@@ -30,7 +29,6 @@ export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAd
   const { toast } = useToast()
   const [isSuggesting, setIsSuggesting] = React.useState(false)
   const [suggestions, setSuggestions] = React.useState<string[]>([])
-  const formRef = React.useRef<HTMLFormElement>(null)
 
   const tagTextValue = watch("tagText")
 
@@ -101,35 +99,22 @@ export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAd
 
   return (
     <div 
-        className={cn("absolute z-10 -translate-x-1/2 -translate-y-1/2", className)}
+        className={cn("w-full space-y-2 rounded-lg border bg-card p-4 shadow-sm", className)}
         {...props}
     >
-      <div className="absolute left-0 top-0 h-4 w-px -translate-y-1/2 bg-red-500" />
-      <div className="absolute left-0 top-0 h-px w-4 -translate-x-1/2 bg-red-500" />
-      <div className="absolute left-0 top-0 h-4 w-px translate-y-[-0.5px] bg-red-500" />
-      <div className="absolute left-0 top-0 w-4 h-px translate-x-[-0.5px] bg-red-500" />
-
-
-        <form 
-            ref={formRef}
-            onSubmit={handleSubmit(onSubmit)} 
-            className="relative ml-4 w-64 origin-top-left space-y-2 rounded-lg border bg-card p-3 pt-2 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <div className="flex items-center justify-between">
-                <span className="font-code text-xs text-primary">{formatTimestamp(selectedTimestamp)}</span>
-                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onCancel} type="button">
-                    <X className="h-4 w-4" />
-                </Button>
+                <h3 className="font-semibold">Add Tag</h3>
+                <span className="font-code text-sm text-primary">{formatTimestamp(selectedTimestamp)}</span>
             </div>
             
             <div className="flex items-center gap-2">
             <Input
                 id="tagText"
                 {...register("tagText", { required: true })}
-                placeholder="Tag species..."
+                placeholder="Enter species name..."
                 autoComplete="off"
-                className="h-8 text-sm"
+                className="h-9 text-sm"
             />
             <Button
                 type="button"
@@ -137,7 +122,7 @@ export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAd
                 size="icon"
                 onClick={handleSuggest}
                 disabled={isSuggesting}
-                className="h-8 w-8 shrink-0"
+                className="h-9 w-9 shrink-0"
                 aria-label="Suggest Tag"
             >
                 {isSuggesting ? (
@@ -162,10 +147,15 @@ export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAd
                 ))}
                 </div>
             )}
-
-            <Button type="submit" size="sm" className="h-8 w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={!tagTextValue}>
-                <Tag className="mr-2 h-4 w-4" /> Add Tag
-            </Button>
+            
+            <div className="flex gap-2">
+              <Button type="submit" size="sm" className="h-9 w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={!tagTextValue}>
+                  <Tag className="mr-2 h-4 w-4" /> Add Tag
+              </Button>
+              <Button type="button" variant="outline" size="sm" className="h-9 w-full" onClick={onCancel}>
+                  <X className="mr-2 h-4 w-4" /> Cancel
+              </Button>
+            </div>
         </form>
     </div>
   )

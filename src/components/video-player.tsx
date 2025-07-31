@@ -20,8 +20,28 @@ export type VideoPlayerRef = {
   captureFrame: () => string | null
 }
 
+const TagPin = ({ position }: { position: { x: number; y: number } }) => (
+  <div
+    className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
+    style={{
+      left: `${position.x}%`,
+      top: `${position.y}%`,
+      pointerEvents: 'none',
+    }}
+  >
+    <div className="relative h-4 w-4">
+      <div className="absolute left-1/2 top-0 h-1/2 w-px -translate-x-1/2 bg-red-500" />
+      <div className="absolute left-1/2 bottom-0 h-1/2 w-px -translate-x-1/2 bg-red-500" />
+      <div className="absolute top-1/2 left-0 h-px w-1/2 -translate-y-1/2 bg-red-500" />
+      <div className="absolute top-1/2 right-0 h-px w-1/2 -translate-y-1/2 bg-red-500" />
+      <div className="absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500" />
+    </div>
+  </div>
+);
+
+
 const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
-  ({ videoSrc, onTimestampSelect, children }, ref) => {
+  ({ videoSrc, onTimestampSelect, tags, taggingPosition }, ref) => {
     const videoRef = React.useRef<HTMLVideoElement>(null)
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
     const containerRef = React.useRef<HTMLDivElement>(null)
@@ -119,7 +139,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
         video.pause();
         setIsPlaying(false)
       }
-
+      
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -129,45 +149,52 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       
       onTimestampSelect(video.currentTime, { x: xPercent, y: yPercent });
     }
-
+    
     React.useEffect(() => {
       const video = videoRef.current;
       if (video) {
-        video.addEventListener("timeupdate", handleTimeUpdate)
-        video.addEventListener("loadedmetadata", handleLoadedMetadata)
-        video.addEventListener("play", () => setIsPlaying(true));
-        video.addEventListener("pause", () => setIsPlaying(false));
-      }
-      return () => {
-        if (video) {
-          video.removeEventListener("timeupdate", handleTimeUpdate)
-          video.removeEventListener("loadedmetadata", handleLoadedMetadata)
-          video.removeEventListener("play", () => setIsPlaying(true));
-          video.removeEventListener("pause", () => setIsPlaying(false));
-        }
+        const timeUpdateHandler = () => handleTimeUpdate();
+        const loadedMetadataHandler = () => handleLoadedMetadata();
+        const playHandler = () => setIsPlaying(true);
+        const pauseHandler = () => setIsPlaying(false);
+
+        video.addEventListener("timeupdate", timeUpdateHandler);
+        video.addEventListener("loadedmetadata", loadedMetadataHandler);
+        video.addEventListener("play", playHandler);
+        video.addEventListener("pause", pauseHandler);
+        
+        return () => {
+            video.removeEventListener("timeupdate", timeUpdateHandler);
+            video.removeEventListener("loadedmetadata", loadedMetadataHandler);
+            video.removeEventListener("play", playHandler);
+            video.removeEventListener("pause", pauseHandler);
+        };
       }
     }, [])
 
     return (
       <div 
         ref={containerRef} 
-        className="relative flex h-full w-full flex-col items-center justify-center bg-black"
-        onClick={handleVideoClick}
+        className="relative flex h-full w-full flex-col items-center justify-center bg-black cursor-crosshair"
       >
         <video
           ref={videoRef}
           src={videoSrc}
           className="max-h-full w-full object-contain"
-          onClick={(e) => e.stopPropagation()} // Prevent double event
+          onClick={handleVideoClick}
           onDoubleClick={(e) => { e.stopPropagation(); e.preventDefault(); handlePlayPause(); }}
         />
         <canvas ref={canvasRef} className="hidden" />
 
-        {children}
+        {taggingPosition && <TagPin position={taggingPosition} />}
+
+        {tags.map((tag) => (
+          <TagPin key={tag.id} position={tag.position} />
+        ))}
 
         <div 
-          className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white transition-opacity duration-300"
-          onClick={(e) => e.stopPropagation()} // Prevent clicks on controls from triggering tag
+          className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white opacity-0 transition-opacity duration-300 hover:opacity-100 focus-within:opacity-100"
+          onClick={(e) => e.stopPropagation()} 
         >
            <div className="flex w-full items-center gap-2">
             <span className="font-code text-sm">{formatTimestamp(currentTime)}</span>
@@ -190,7 +217,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
             <Button variant="ghost" size="icon" onClick={handleFastForward} className="text-white hover:bg-white/20 hover:text-white">
               <FastForward className="h-5 w-5" />
             </Button>
-            <div className="flex w-24 items-center gap-2">
+            <div className="ml-auto flex w-32 items-center gap-2">
               <Button variant="ghost" size="icon" onClick={toggleMute} className="text-white hover:bg-white/20 hover:text-white">
                 {isMuted || volume === 0 ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
               </Button>
