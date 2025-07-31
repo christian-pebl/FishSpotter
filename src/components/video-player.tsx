@@ -114,6 +114,10 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       const video = videoRef.current;
       if (!video) return;
 
+      if (!video.paused) {
+        video.pause();
+      }
+
       const rect = video.getBoundingClientRect();
 
       // Calculate the scale of the video within its container
