@@ -39,6 +39,7 @@ export const MOCK_TAGS: Tag[] = [
     text: 'Clownfish',
     userId: 'user-1',
     username: 'MarineExplorer',
+    position: { x: 50, y: 50 },
   },
   {
     id: 'tag-2',
@@ -47,6 +48,7 @@ export const MOCK_TAGS: Tag[] = [
     text: 'Sea Anemone',
     userId: 'user-2',
     username: 'DeepDiver',
+    position: { x: 30, y: 70 },
   },
   {
     id: 'tag-3',
@@ -55,6 +57,7 @@ export const MOCK_TAGS: Tag[] = [
     text: 'Brain Coral',
     userId: 'user-1',
     username: 'MarineExplorer',
+    position: { x: 75, y: 60 },
   },
   {
     id: 'tag-4',
@@ -63,6 +66,7 @@ export const MOCK_TAGS: Tag[] = [
     text: 'Tube Worms',
     userId: 'user-2',
     username: 'DeepDiver',
+    position: { x: 20, y: 40 },
   },
   {
     id: 'tag-5',
@@ -71,6 +75,7 @@ export const MOCK_TAGS: Tag[] = [
     text: 'Sea Otter',
     userId: 'user-1',
     username: 'MarineExplorer',
+    position: { x: 60, y: 30 },
   },
   {
     id: 'tag-6',
@@ -79,5 +84,6 @@ export const MOCK_TAGS: Tag[] = [
     text: 'Garibaldi',
     userId: 'user-1',
     username: 'MarineExplorer',
+    position: { x: 40, y: 80 },
   },
 ].sort((a,b) => a.timestamp - b.timestamp);

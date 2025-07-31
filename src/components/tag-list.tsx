@@ -52,7 +52,7 @@ function TagListItem({ tag, onUpdateTag, onDeleteTag }: { tag: Tag, onUpdateTag:
           ) : (
             <p className="text-foreground">{tag.text}</p>
           )}
-          <span className="text-xs text-muted-foreground">by {tag.username}</span>
+          <span className="text-xs text-muted-foreground">by {tag.username} at ({tag.position.x.toFixed(1)}%, {tag.position.y.toFixed(1)}%)</span>
         </div>
         <div className="flex items-center gap-1">
           {isEditing ? (

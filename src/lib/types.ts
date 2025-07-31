@@ -13,5 +13,5 @@ export interface Tag {
   text: string;
   userId: string;
   username:string;
-  position?: { x: number; y: number }; // Percentage from top-left
+  position: { x: number; y: number }; // Percentage from top-left
 }
