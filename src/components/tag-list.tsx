@@ -101,15 +101,15 @@ function TagListItem({ tag, onUpdateTag, onDeleteTag }: { tag: Tag, onUpdateTag:
 export default function TagList({ tags, onUpdateTag, onDeleteTag }: TagListProps) {
   if (tags.length === 0) {
     return (
-      <div className="flex h-48 flex-col items-center justify-center rounded-md border-2 border-dashed">
-        <p className="text-muted-foreground">No tags for this video yet.</p>
-        <p className="text-sm text-muted-foreground">Click the video to create one.</p>
+      <div className="flex h-full flex-col items-center justify-center rounded-md border-2 border-dashed">
+        <p className="text-center text-muted-foreground">No tags for this video yet.</p>
+        <p className="text-center text-sm text-muted-foreground">Click the video to create one.</p>
       </div>
     )
   }
 
   return (
-    <ScrollArea className="h-[400px] w-full pr-4">
+    <ScrollArea className="h-[calc(100vh-250px)] w-full pr-4">
       {tags.map((tag) => (
         <TagListItem key={tag.id} tag={tag} onUpdateTag={onUpdateTag} onDeleteTag={onDeleteTag} />
       ))}

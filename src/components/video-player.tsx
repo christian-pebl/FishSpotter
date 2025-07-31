@@ -5,10 +5,15 @@ import { Play, Pause, Rewind, FastForward, Volume2, VolumeX } from "lucide-react
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { formatTimestamp } from "@/lib/utils"
+import type { Tag } from "@/lib/types"
 
 export interface VideoPlayerProps {
   videoSrc: string
-  onTimestampSelect: (time: number) => void
+  onTimestampSelect: (time: number, position: { x: number, y: number }) => void
+  tags: Tag[]
+  taggingPosition: { x: number, y: number } | null
+  onCancelTag: () => void
+  children?: React.ReactNode
 }
 
 export type VideoPlayerRef = {
@@ -16,9 +21,10 @@ export type VideoPlayerRef = {
 }
 
 const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
-  ({ videoSrc, onTimestampSelect }, ref) => {
+  ({ videoSrc, onTimestampSelect, children }, ref) => {
     const videoRef = React.useRef<HTMLVideoElement>(null)
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
+    const containerRef = React.useRef<HTMLDivElement>(null)
 
     const [isPlaying, setIsPlaying] = React.useState(false)
     const [currentTime, setCurrentTime] = React.useState(0)
@@ -104,6 +110,51 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       }
     }
 
+    const handleVideoClick = (e: React.MouseEvent<HTMLVideoElement>) => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const rect = video.getBoundingClientRect();
+
+      // Calculate the scale of the video within its container
+      const videoRatio = video.videoWidth / video.videoHeight;
+      const elementRatio = rect.width / rect.height;
+      
+      let scale = 1;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (videoRatio > elementRatio) { // Letterboxed (top/bottom bars)
+        scale = rect.width / video.videoWidth;
+        const scaledHeight = video.videoHeight * scale;
+        offsetY = (rect.height - scaledHeight) / 2;
+      } else { // Pillarboxed (left/right bars)
+        scale = rect.height / video.videoHeight;
+        const scaledWidth = video.videoWidth * scale;
+        offsetX = (rect.width - scaledWidth) / 2;
+      }
+
+      // Get click coordinates relative to the video element
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      // Check if click is inside the visible video area
+      if (clickX >= offsetX && clickX <= rect.width - offsetX &&
+          clickY >= offsetY && clickY <= rect.height - offsetY) {
+        
+        // Calculate percentage position on the visible video
+        const videoX = clickX - offsetX;
+        const videoY = clickY - offsetY;
+        const videoWidth = rect.width - 2 * offsetX;
+        const videoHeight = rect.height - 2 * offsetY;
+        
+        const xPercent = (videoX / videoWidth) * 100;
+        const yPercent = (videoY / videoHeight) * 100;
+        
+        onTimestampSelect(video.currentTime, { x: xPercent, y: yPercent });
+      }
+    }
+
     React.useEffect(() => {
       const video = videoRef.current;
       if (video) {
@@ -123,17 +174,17 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     }, [])
 
     return (
-      <div className="relative flex h-full w-full flex-col items-center justify-center bg-black">
+      <div ref={containerRef} className="relative flex h-full w-full flex-col items-center justify-center bg-black">
         <video
           ref={videoRef}
           src={videoSrc}
           className="max-h-full w-full object-contain"
-          onClick={(e) => {
-            if(videoRef.current) onTimestampSelect(videoRef.current.currentTime)
-          }}
-          onDoubleClick={handlePlayPause}
+          onClick={handleVideoClick}
+          onDoubleClick={(e) => { e.preventDefault(); handlePlayPause(); }}
         />
         <canvas ref={canvasRef} className="hidden" />
+
+        {children}
 
         <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white transition-opacity duration-300">
            <div className="flex w-full items-center gap-2">

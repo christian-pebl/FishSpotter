@@ -18,38 +18,46 @@ export default function TaggerPage() {
   const [allTags, setAllTags] = React.useState<Tag[]>(MOCK_TAGS)
   const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0)
   const [selectedTimestamp, setSelectedTimestamp] = React.useState<number | null>(null)
+  const [taggingPosition, setTaggingPosition] = React.useState<{ x: number; y: number } | null>(null)
   
   const videoPlayerRef = React.useRef<VideoPlayerRef>(null)
 
   const currentVideo = videos[currentVideoIndex]
   const currentVideoTags = allTags.filter(tag => tag.videoId === currentVideo.id)
 
-  const handleTimestampSelect = (time: number) => {
+  const handleTimestampSelect = (time: number, position: { x: number, y: number }) => {
     setSelectedTimestamp(time)
+    setTaggingPosition(position)
+  }
+
+  const resetSelection = () => {
+    setSelectedTimestamp(null)
+    setTaggingPosition(null)
   }
 
   const handleNextVideo = () => {
-    setSelectedTimestamp(null)
+    resetSelection()
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length)
   }
 
   const handlePrevVideo = () => {
-    setSelectedTimestamp(null)
+    resetSelection()
     setCurrentVideoIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length)
   }
   
   const handleAddTag = (newTagText: string) => {
-    if (selectedTimestamp === null) return;
+    if (selectedTimestamp === null || taggingPosition === null) return;
     const newTag: Tag = {
       id: `tag-${Date.now()}`,
       videoId: currentVideo.id,
       timestamp: selectedTimestamp,
       text: newTagText,
       userId: 'user-1',
-      username: 'MarineExplorer'
+      username: 'MarineExplorer',
+      position: taggingPosition
     }
     setAllTags(prev => [...prev, newTag].sort((a,b) => a.timestamp - b.timestamp))
-    setSelectedTimestamp(null)
+    resetSelection()
   }
 
   const handleUpdateTag = (updatedTag: Tag) => {
@@ -95,7 +103,23 @@ export default function TaggerPage() {
                   ref={videoPlayerRef}
                   videoSrc={currentVideo.srcUrl}
                   onTimestampSelect={handleTimestampSelect}
-                />
+                  tags={currentVideoTags}
+                  onCancelTag={resetSelection}
+                  taggingPosition={taggingPosition}
+                >
+                  {selectedTimestamp !== null && taggingPosition !== null && (
+                    <TaggingForm 
+                        selectedTimestamp={selectedTimestamp}
+                        videoPlayerRef={videoPlayerRef}
+                        onTagAdd={handleAddTag}
+                        onCancel={resetSelection}
+                        style={{
+                          left: `${taggingPosition.x}%`,
+                          top: `${taggingPosition.y}%`,
+                        }}
+                     />
+                  )}
+                </VideoPlayer>
               </CardContent>
             </Card>
           </div>
@@ -105,26 +129,11 @@ export default function TaggerPage() {
                 <CardTitle className="font-headline">Annotation Tools</CardTitle>
               </CardHeader>
               <CardContent>
-                <Tabs defaultValue="add" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="add">Add Tag</TabsTrigger>
-                    <TabsTrigger value="view">View Tags ({currentVideoTags.length})</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="add" className="mt-4">
-                     <TaggingForm 
-                        selectedTimestamp={selectedTimestamp}
-                        videoPlayerRef={videoPlayerRef}
-                        onTagAdd={handleAddTag}
-                     />
-                  </TabsContent>
-                  <TabsContent value="view" className="mt-4">
-                     <TagList
-                        tags={currentVideoTags}
-                        onUpdateTag={handleUpdateTag}
-                        onDeleteTag={handleDeleteTag}
-                     />
-                  </TabsContent>
-                </Tabs>
+                 <TagList
+                    tags={currentVideoTags}
+                    onUpdateTag={handleUpdateTag}
+                    onDeleteTag={handleDeleteTag}
+                 />
               </CardContent>
             </Card>
           </div>

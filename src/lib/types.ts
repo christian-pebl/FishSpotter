@@ -12,5 +12,6 @@ export interface Tag {
   timestamp: number; // in seconds
   text: string;
   userId: string;
-  username: string;
+  username:string;
+  position?: { x: number; y: number }; // Percentage from top-left
 }

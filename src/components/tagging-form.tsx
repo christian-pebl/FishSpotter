@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Wand2, Loader2, Tag } from "lucide-react"
+import { Wand2, Loader2, Tag, X } from "lucide-react"
 import { useForm, type SubmitHandler } from "react-hook-form"
+import { cn } from "@/lib/utils"
 
 import { getTagSuggestions } from "@/lib/actions"
 import { formatTimestamp } from "@/lib/utils"
@@ -13,21 +14,23 @@ import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import type { VideoPlayerRef } from "./video-player"
 
-interface TaggingFormProps {
+interface TaggingFormProps extends React.HTMLAttributes<HTMLDivElement> {
   selectedTimestamp: number | null
   videoPlayerRef: React.RefObject<VideoPlayerRef>
   onTagAdd: (tagText: string) => void
+  onCancel: () => void
 }
 
 type Inputs = {
   tagText: string
 }
 
-export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAdd }: TaggingFormProps) {
-  const { register, handleSubmit, setValue, reset, watch } = useForm<Inputs>()
+export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAdd, onCancel, className, ...props }: TaggingFormProps) {
+  const { register, handleSubmit, setValue, reset, watch, setFocus } = useForm<Inputs>()
   const { toast } = useToast()
   const [isSuggesting, setIsSuggesting] = React.useState(false)
   const [suggestions, setSuggestions] = React.useState<string[]>([])
+  const formRef = React.useRef<HTMLFormElement>(null)
 
   const tagTextValue = watch("tagText")
 
@@ -42,7 +45,18 @@ export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAd
     // Reset form when timestamp changes
     reset()
     setSuggestions([])
-  }, [selectedTimestamp, reset])
+    setFocus("tagText")
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+            onCancel()
+        }
+    }
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+
+  }, [selectedTimestamp, reset, setFocus, onCancel])
+
 
   const handleSuggest = async () => {
     if (!videoPlayerRef.current) return
@@ -82,74 +96,74 @@ export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAd
   }
 
   if (selectedTimestamp === null) {
-    return (
-      <div className="flex h-48 flex-col items-center justify-center rounded-md border-2 border-dashed">
-        <p className="text-center text-muted-foreground">Click on the video at a specific point</p>
-        <p className="text-center text-sm text-muted-foreground">to select a timestamp for tagging.</p>
-      </div>
-    )
+    return null
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div>
-        <Label htmlFor="timestamp">Timestamp</Label>
-        <Input
-          id="timestamp"
-          type="text"
-          value={formatTimestamp(selectedTimestamp)}
-          readOnly
-          className="font-code"
-        />
-      </div>
-      <div>
-        <Label htmlFor="tagText">Species Tag</Label>
-        <div className="flex items-center gap-2">
-          <Input
-            id="tagText"
-            {...register("tagText", { required: true })}
-            placeholder="e.g., Manta Ray, Kelp"
-            autoComplete="off"
-            autoFocus
-          />
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleSuggest}
-            disabled={isSuggesting}
-            className="shrink-0"
-          >
-            {isSuggesting ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Wand2 className="mr-2 h-4 w-4" />
-            )}
-            Suggest
-          </Button>
-        </div>
-      </div>
+    <div 
+        className={cn("absolute z-10 -translate-x-1/2 -translate-y-1/2", className)}
+        {...props}
+    >
+        <div className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-red-500" />
+        <div className="absolute left-1/2 top-1/2 w-8 h-px -translate-x-1/2 -translate-y-1/2 bg-red-500" />
 
-      {suggestions.length > 0 && (
-        <div className="space-y-2">
-            <Label>Suggestions</Label>
-            <div className="flex flex-wrap gap-2">
-              {suggestions.map((suggestion) => (
-                <Badge 
-                  key={suggestion}
-                  variant="secondary"
-                  className="cursor-pointer hover:bg-primary/20"
-                  onClick={() => setValue("tagText", suggestion, {shouldDirty: true})}
-                >
-                  {suggestion}
-                </Badge>
-              ))}
+        <form 
+            ref={formRef}
+            onSubmit={handleSubmit(onSubmit)} 
+            className="relative mt-5 w-64 space-y-2 rounded-lg border bg-card p-3 pt-2 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+        >
+            <div className="flex items-center justify-between">
+                <span className="font-code text-xs text-primary">{formatTimestamp(selectedTimestamp)}</span>
+                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onCancel} type="button">
+                    <X className="h-4 w-4" />
+                </Button>
             </div>
-        </div>
-      )}
+            
+            <div className="flex items-center gap-2">
+            <Input
+                id="tagText"
+                {...register("tagText", { required: true })}
+                placeholder="Tag species..."
+                autoComplete="off"
+                className="h-8 text-sm"
+            />
+            <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={handleSuggest}
+                disabled={isSuggesting}
+                className="h-8 w-8 shrink-0"
+                aria-label="Suggest Tag"
+            >
+                {isSuggesting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                <Wand2 className="h-4 w-4" />
+                )}
+            </Button>
+            </div>
 
-      <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={!tagTextValue}>
-        <Tag className="mr-2 h-4 w-4" /> Add Tag
-      </Button>
-    </form>
+            {suggestions.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                {suggestions.map((suggestion) => (
+                    <Badge 
+                    key={suggestion}
+                    variant="secondary"
+                    className="cursor-pointer px-2 py-0.5 text-xs hover:bg-primary/20"
+                    onClick={() => setValue("tagText", suggestion, {shouldDirty: true})}
+                    >
+                    {suggestion}
+                    </Badge>
+                ))}
+                </div>
+            )}
+
+            <Button type="submit" size="sm" className="h-8 w-full bg-accent text-accent-foreground hover:bg-accent/90" disabled={!tagTextValue}>
+                <Tag className="mr-2 h-4 w-4" /> Add Tag
+            </Button>
+        </form>
+    </div>
   )
 }
