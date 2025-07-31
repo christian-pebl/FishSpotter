@@ -3,12 +3,13 @@
 import * as React from "react"
 import { formatTimestamp } from "@/lib/utils"
 import type { Tag } from "@/lib/types"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
-import { Edit, Save, Trash2, X } from "lucide-react"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Edit, Save, Trash2, X, User, MapPin } from "lucide-react"
+import { Card } from "@/components/ui/card"
 
 interface TagListProps {
   tags: Tag[]
@@ -36,65 +37,79 @@ function TagListItem({ tag, onUpdateTag, onDeleteTag }: { tag: Tag, onUpdateTag:
   }
 
   return (
-    <Card className="mb-2">
-      <CardContent className="flex items-center justify-between p-3">
-        <div className="flex flex-col">
-          <span className="font-code text-sm font-semibold text-primary">{formatTimestamp(tag.timestamp)}</span>
-          {isEditing ? (
-            <Input
-              type="text"
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="mt-1 h-8"
-              autoFocus
-            />
-          ) : (
-            <p className="text-foreground">{tag.text}</p>
-          )}
-          <span className="text-xs text-muted-foreground">by {tag.username} at ({tag.position.x.toFixed(1)}%, {tag.position.y.toFixed(1)}%)</span>
-        </div>
-        <div className="flex items-center gap-1">
-          {isEditing ? (
-            <>
-              <Button variant="ghost" size="icon" onClick={handleSave} aria-label="Save tag">
-                <Save className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={handleCancel} aria-label="Cancel edit">
-                <X className="h-4 w-4" />
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} aria-label="Edit tag">
-                <Edit className="h-4 w-4" />
-              </Button>
-               <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" aria-label="Delete tag">
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete the tag "{tag.text}".
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => onDeleteTag(tag.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+    <AccordionItem value={tag.id} className="border-b-0">
+        <Card className="mb-2">
+            <AccordionTrigger className="p-3 hover:no-underline">
+                <div className="flex w-full items-center justify-between pr-3">
+                    <span className="font-code text-sm font-semibold text-primary">{formatTimestamp(tag.timestamp)}</span>
+                    {isEditing ? (
+                        <Input
+                            type="text"
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            onClick={(e) => e.stopPropagation()}
+                            className="mx-2 h-8"
+                            autoFocus
+                        />
+                    ) : (
+                        <p className="flex-1 px-4 text-left text-foreground">{tag.text}</p>
+                    )}
+                    <div className="flex items-center gap-1">
+                    {isEditing ? (
+                        <>
+                        <Button variant="ghost" size="icon" onClick={(e) => {e.stopPropagation(); handleSave()}} aria-label="Save tag">
+                            <Save className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" onClick={(e) => {e.stopPropagation(); handleCancel()}} aria-label="Cancel edit">
+                            <X className="h-4 w-4" />
+                        </Button>
+                        </>
+                    ) : (
+                        <>
+                        <Button variant="ghost" size="icon" onClick={(e) => {e.stopPropagation(); setIsEditing(true)}} aria-label="Edit tag">
+                            <Edit className="h-4 w-4" />
+                        </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={(e) => e.stopPropagation()} aria-label="Delete tag">
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete the tag "{tag.text}".
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => onDeleteTag(tag.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                                Delete
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                        </>
+                    )}
+                    </div>
+                </div>
+            </AccordionTrigger>
+            <AccordionContent className="p-3 pt-0">
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    <span>Tagged by {tag.username}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    <span>Position: ({tag.position.x.toFixed(1)}%, {tag.position.y.toFixed(1)}%)</span>
+                  </div>
+                </div>
+            </AccordionContent>
+        </Card>
+    </AccordionItem>
   )
 }
 
@@ -110,9 +125,11 @@ export default function TagList({ tags, onUpdateTag, onDeleteTag }: TagListProps
 
   return (
     <ScrollArea className="h-[calc(100vh-250px)] w-full pr-4">
-      {tags.map((tag) => (
-        <TagListItem key={tag.id} tag={tag} onUpdateTag={onUpdateTag} onDeleteTag={onDeleteTag} />
-      ))}
+      <Accordion type="single" collapsible className="w-full space-y-0">
+        {tags.map((tag) => (
+          <TagListItem key={tag.id} tag={tag} onUpdateTag={onUpdateTag} onDeleteTag={onDeleteTag} />
+        ))}
+      </Accordion>
     </ScrollArea>
   )
 }
