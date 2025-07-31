@@ -104,13 +104,16 @@ export default function TaggingForm({ selectedTimestamp, videoPlayerRef, onTagAd
         className={cn("absolute z-10 -translate-x-1/2 -translate-y-1/2", className)}
         {...props}
     >
-        <div className="absolute left-1/2 top-1/2 h-8 w-px -translate-x-1/2 -translate-y-1/2 bg-red-500" />
-        <div className="absolute left-1/2 top-1/2 w-8 h-px -translate-x-1/2 -translate-y-1/2 bg-red-500" />
+      <div className="absolute left-0 top-0 h-4 w-px -translate-y-1/2 bg-red-500" />
+      <div className="absolute left-0 top-0 h-px w-4 -translate-x-1/2 bg-red-500" />
+      <div className="absolute left-0 top-0 h-4 w-px translate-y-[-0.5px] bg-red-500" />
+      <div className="absolute left-0 top-0 w-4 h-px translate-x-[-0.5px] bg-red-500" />
+
 
         <form 
             ref={formRef}
             onSubmit={handleSubmit(onSubmit)} 
-            className="relative mt-5 w-64 space-y-2 rounded-lg border bg-card p-3 pt-2 shadow-2xl"
+            className="relative ml-4 w-64 origin-top-left space-y-2 rounded-lg border bg-card p-3 pt-2 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
         >
             <div className="flex items-center justify-between">
