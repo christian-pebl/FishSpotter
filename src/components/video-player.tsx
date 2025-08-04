@@ -30,12 +30,12 @@ const TagPin = ({ position, isHover = false, isNew = false }: { position: { x: n
       pointerEvents: 'none',
     }}
   >
-    <div className={`relative h-4 w-4 ${isHover ? 'opacity-50' : ''}`}>
-      <div className={`absolute left-1/2 top-0 h-1/2 w-px -translate-x-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
-      <div className={`absolute left-1/2 bottom-0 h-1/2 w-px -translate-x-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
-      <div className={`absolute top-1/2 left-0 h-px w-1/2 -translate-y-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
-      <div className={`absolute top-1/2 right-0 h-px w-1/2 -translate-y-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
-      <div className={`absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
+    <div className={`relative h-6 w-6 ${isHover ? 'opacity-70' : ''} transition-opacity`}>
+      <div className={`absolute left-1/2 top-0 h-1/2 w-0.5 -translate-x-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
+      <div className={`absolute left-1/2 bottom-0 h-1/2 w-0.5 -translate-x-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
+      <div className={`absolute top-1/2 left-0 h-0.5 w-1/2 -translate-y-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
+      <div className={`absolute top-1/2 right-0 h-0.5 w-1/2 -translate-y-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
+      <div className={`absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
     </div>
   </div>
 );
@@ -149,10 +149,10 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       let offsetX = 0
       let offsetY = 0
 
-      if (videoAspectRatio > containerAspectRatio) {
+      if (videoAspectRatio > containerAspectRatio) { // Video is wider than container (letterbox)
         renderHeight = containerRect.width / videoAspectRatio
         offsetY = (containerRect.height - renderHeight) / 2
-      } else {
+      } else { // Video is taller than container (pillarbox)
         renderWidth = containerRect.height * videoAspectRatio
         offsetX = (containerRect.width - renderWidth) / 2
       }
@@ -301,4 +301,5 @@ export default VideoPlayer
     
 
     
+
 
