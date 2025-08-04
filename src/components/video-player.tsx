@@ -223,7 +223,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     return (
       <div 
         ref={containerRef} 
-        className="relative flex h-full w-full flex-col items-center justify-center bg-black cursor-crosshair"
+        className="relative flex h-full w-full flex-col items-center justify-center bg-black"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handleVideoClick}
@@ -231,7 +231,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
         <video
           ref={videoRef}
           src={videoSrc}
-          className="max-h-full w-full object-contain pointer-events-none"
+          className="max-h-full max-w-full object-contain pointer-events-none"
         />
         <canvas ref={canvasRef} className="hidden" />
 
@@ -288,5 +288,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
 VideoPlayer.displayName = "VideoPlayer"
 export default VideoPlayer
+
+    
 
     
