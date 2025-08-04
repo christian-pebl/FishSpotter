@@ -63,12 +63,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4">
-      {/* Abstract Expressionist Background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-60" />
-      <div className="absolute -bottom-1/2 -left-1/4 h-3/4 w-3/4 animate-pulse rounded-full bg-gradient-to-r from-lime-400 to-transparent opacity-40 blur-3xl" style={{ animationDuration: '10s' }} />
-      <div className="absolute -top-1/2 -right-1/4 h-3/4 w-3/4 animate-pulse rounded-full bg-gradient-to-l from-orange-400 to-transparent opacity-40 blur-3xl" style={{ animationDuration: '12s', animationDelay: '2s' }} />
-      <div className="absolute bottom-1/4 right-1/4 h-1/2 w-1/2 animate-pulse rounded-full bg-gradient-to-t from-cyan-400 to-transparent opacity-30 blur-3xl" style={{ animationDuration: '14s', animationDelay: '4s' }} />
+    <div 
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4"
+      style={{
+        backgroundImage: `url(/background.png)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <div className="absolute inset-0 bg-white/30 backdrop-blur-sm"></div>
       
       <Card className="z-10 w-full max-w-sm border-white/20 bg-white/20 backdrop-blur-lg">
         <form onSubmit={handleAuthAction}>
