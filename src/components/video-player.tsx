@@ -53,6 +53,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     const [volume, setVolume] = React.useState(1)
     const [isMuted, setIsMuted] = React.useState(false)
     const [hoverPosition, setHoverPosition] = React.useState<{x: number, y: number} | null>(null);
+    const [aspectRatio, setAspectRatio] = React.useState<number | null>(null);
 
     React.useImperativeHandle(ref, () => ({
       captureFrame: () => {
@@ -91,6 +92,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     const handleLoadedMetadata = () => {
       if (videoRef.current) {
         setDuration(videoRef.current.duration)
+        setAspectRatio(videoRef.current.videoWidth / videoRef.current.videoHeight);
       }
     }
 
@@ -133,46 +135,23 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     }
 
     const calculateClickPosition = (e: React.MouseEvent<HTMLElement>) => {
-      const container = containerRef.current;
-      const video = videoRef.current;
-      if (!container || !video || !video.videoWidth) return null;
+      const video = videoRef.current
+      if (!video) return null
 
-      const containerRect = container.getBoundingClientRect();
-      
-      const videoAspectRatio = video.videoWidth / video.videoHeight;
-      const containerAspectRatio = containerRect.width / containerRect.height;
+      const rect = video.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
 
-      let renderedWidth, renderedHeight, offsetX, offsetY;
+      const xPercent = (x / rect.width) * 100
+      const yPercent = (y / rect.height) * 100
 
-      if (videoAspectRatio > containerAspectRatio) {
-        // Video is wider than container (letterboxed)
-        renderedWidth = containerRect.width;
-        renderedHeight = containerRect.width / videoAspectRatio;
-        offsetX = 0;
-        offsetY = (containerRect.height - renderedHeight) / 2;
-      } else {
-        // Video is taller than container (pillarboxed)
-        renderedWidth = containerRect.height * videoAspectRatio;
-        renderedHeight = containerRect.height;
-        offsetX = (containerRect.width - renderedWidth) / 2;
-        offsetY = 0;
-      }
-      
-      // Calculate click position relative to the container
-      const clickX = e.clientX - containerRect.left;
-      const clickY = e.clientY - containerRect.top;
-
-      // Check if the click is within the visible video area
-      if (clickX < offsetX || clickX > offsetX + renderedWidth || clickY < offsetY || clickY > offsetY + renderedHeight) {
+      if (xPercent < 0 || xPercent > 100 || yPercent < 0 || yPercent > 100) {
         return null;
       }
-
-      // Calculate percentage position relative to the video itself
-      const xPercent = ((clickX - offsetX) / renderedWidth) * 100;
-      const yPercent = ((clickY - offsetY) / renderedHeight) * 100;
       
-      return { x: xPercent, y: yPercent };
+      return { x: xPercent, y: yPercent }
     }
+
 
     const handleVideoClick = (e: React.MouseEvent<HTMLElement>) => {
       const video = videoRef.current;
@@ -211,6 +190,9 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
         video.addEventListener("play", playHandler);
         video.addEventListener("pause", pauseHandler);
         
+        // if video src changes
+        setAspectRatio(null)
+
         return () => {
             video.removeEventListener("timeupdate", timeUpdateHandler);
             video.removeEventListener("loadedmetadata", loadedMetadataHandler);
@@ -218,66 +200,71 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
             video.removeEventListener("pause", pauseHandler);
         };
       }
-    }, [])
+    }, [videoSrc])
 
     return (
       <div 
         ref={containerRef} 
-        className="relative flex h-full w-full flex-col items-center justify-center bg-black"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleVideoClick}
+        className="relative w-full h-full flex items-center justify-center bg-black"
+        style={aspectRatio ? { aspectRatio: `${aspectRatio}` } : {}}
       >
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          className="max-h-full max-w-full object-contain pointer-events-none"
-        />
-        <canvas ref={canvasRef} className="hidden" />
-
-        {taggingPosition && <TagPin position={taggingPosition} />}
-
-        {hoverPosition && !taggingPosition && <TagPin position={hoverPosition} isHover />}
-
-        {tags.map((tag) => (
-          <TagPin key={tag.id} position={tag.position} />
-        ))}
-
         <div 
-          className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white opacity-0 transition-opacity duration-300 hover:opacity-100 focus-within:opacity-100"
-          onClick={(e) => e.stopPropagation()}
+          className="relative w-full h-full"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleVideoClick}
         >
-           <div className="flex w-full items-center gap-2">
-            <span className="font-code text-sm">{formatTimestamp(currentTime)}</span>
-            <Slider
-              value={[currentTime]}
-              max={duration}
-              step={0.1}
-              onValueChange={handleSeek}
-              className="w-full"
-            />
-            <span className="font-code text-sm">{formatTimestamp(duration)}</span>
-           </div>
-          <div className="flex items-center justify-center gap-2">
-            <Button variant="ghost" size="icon" onClick={handleRewind} className="text-white hover:bg-white/20 hover:text-white">
-              <Rewind className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon" onClick={handlePlayPause} className="h-12 w-12 text-white hover:bg-white/20 hover:text-white">
-              {isPlaying ? <Pause className="h-7 w-7" /> : <Play className="h-7 w-7" />}
-            </Button>
-            <Button variant="ghost" size="icon" onClick={handleFastForward} className="text-white hover:bg-white/20 hover:text-white">
-              <FastForward className="h-5 w-5" />
-            </Button>
-            <div className="ml-auto flex w-32 items-center gap-2">
-              <Button variant="ghost" size="icon" onClick={toggleMute} className="text-white hover:bg-white/20 hover:text-white">
-                {isMuted || volume === 0 ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
-              </Button>
+          <video
+            ref={videoRef}
+            src={videoSrc}
+            className="w-full h-full object-contain pointer-events-none"
+          />
+          <canvas ref={canvasRef} className="hidden" />
+
+          {taggingPosition && <TagPin position={taggingPosition} />}
+
+          {hoverPosition && !taggingPosition && <TagPin position={hoverPosition} isHover />}
+
+          {tags.map((tag) => (
+            <TagPin key={tag.id} position={tag.position} />
+          ))}
+
+          <div 
+            className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white opacity-0 transition-opacity duration-300 hover:opacity-100 focus-within:opacity-100"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex w-full items-center gap-2">
+              <span className="font-code text-sm">{formatTimestamp(currentTime)}</span>
               <Slider
-                value={[isMuted ? 0 : volume]}
-                max={1}
-                step={0.05}
-                onValueChange={handleVolumeChange}
+                value={[currentTime]}
+                max={duration}
+                step={0.1}
+                onValueChange={handleSeek}
+                className="w-full"
               />
+              <span className="font-code text-sm">{formatTimestamp(duration)}</span>
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <Button variant="ghost" size="icon" onClick={handleRewind} className="text-white hover:bg-white/20 hover:text-white">
+                <Rewind className="h-5 w-5" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={handlePlayPause} className="h-12 w-12 text-white hover:bg-white/20 hover:text-white">
+                {isPlaying ? <Pause className="h-7 w-7" /> : <Play className="h-7 w-7" />}
+              </Button>
+              <Button variant="ghost" size="icon" onClick={handleFastForward} className="text-white hover:bg-white/20 hover:text-white">
+                <FastForward className="h-5 w-5" />
+              </Button>
+              <div className="ml-auto flex w-32 items-center gap-2">
+                <Button variant="ghost" size="icon" onClick={toggleMute} className="text-white hover:bg-white/20 hover:text-white">
+                  {isMuted || volume === 0 ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                </Button>
+                <Slider
+                  value={[isMuted ? 0 : volume]}
+                  max={1}
+                  step={0.05}
+                  onValueChange={handleVolumeChange}
+                />
+              </div>
             </div>
           </div>
         </div>

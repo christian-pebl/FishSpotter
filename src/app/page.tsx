@@ -96,8 +96,7 @@ export default function TaggerPage() {
                 </Button>
               </div>
             </div>
-            <Card className="flex-1 overflow-hidden">
-              <CardContent className="h-full p-0">
+            <div className="flex flex-1 items-center justify-center overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm">
                 <VideoPlayer
                   ref={videoPlayerRef}
                   videoSrc={currentVideo.srcUrl}
@@ -106,8 +105,7 @@ export default function TaggerPage() {
                   onCancelTag={resetSelection}
                   taggingPosition={taggingPosition}
                 />
-              </CardContent>
-            </Card>
+            </div>
           </div>
           <div className="flex h-full flex-col">
             <Card className="flex-1">
