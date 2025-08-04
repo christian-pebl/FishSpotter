@@ -155,7 +155,7 @@ export default function LoginPage() {
              )}
             
             <p className={cn("text-xs text-foreground/70", authMode !== 'login' && 'hidden')}>
-              Hint: use `admin@fishspotter.com` or `user@fishspotter.com` with any password.
+              Hint: use an email ending in `@pebl-cic.co.uk` for admin access.
             </p>
           </CardFooter>
         </form>

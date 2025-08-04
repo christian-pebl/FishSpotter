@@ -84,7 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         id: firebaseUser.uid,
         name,
         email,
-        role: email.toLowerCase().endsWith('@fishspotter.com') ? 'admin' : 'user' // Simple logic for admin role
+        role: email.toLowerCase().endsWith('@pebl-cic.co.uk') ? 'admin' : 'user' // Simple logic for admin role
       };
 
       await setDoc(doc(db, "users", firebaseUser.uid), {
