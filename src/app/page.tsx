@@ -159,6 +159,9 @@ export default function TaggerPage() {
                 <Button variant="outline" size="icon" onClick={handlePrevVideo} aria-label="Previous Video">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
+                <span className="text-sm font-medium text-muted-foreground">
+                  {currentVideoIndex + 1} / {videos.length}
+                </span>
                 <Button variant="outline" size="icon" onClick={handleNextVideo} aria-label="Next Video">
                   <ArrowRight className="h-4 w-4" />
                 </Button>
