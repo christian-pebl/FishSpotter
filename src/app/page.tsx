@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight, Loader2, Upload, Sparkles, Award } from "lucide-react"
+import { ArrowLeft, ArrowRight, Upload, Sparkles, Award, CheckCircle2 } from "lucide-react"
 
 import { MOCK_VIDEOS, MOCK_TAGS } from "@/lib/data"
 import type { Video, Tag } from "@/lib/types"
@@ -11,11 +11,12 @@ import AppHeader from "@/components/app-header"
 import VideoPlayer, { type VideoPlayerRef } from "@/components/video-player"
 import TaggingForm from "@/components/tagging-form"
 import TagList from "@/components/tag-list"
-import { Separator } from "@/components/ui/separator"
 import { Progress } from "@/components/ui/progress"
+import LevelUpAnimation from "@/components/level-up-animation"
+import { useToast } from "@/hooks/use-toast"
 
 
-const LEVEL_UP_THRESHOLD = 100; // Points needed to level up
+const LEVEL_UP_THRESHOLD = 100;
 
 export default function TaggerPage() {
   const [videos, setVideos] = React.useState<Video[]>(MOCK_VIDEOS)
@@ -28,11 +29,25 @@ export default function TaggerPage() {
   // Gamification state
   const [score, setScore] = React.useState(0);
   const [level, setLevel] = React.useState(1);
+  const [showLevelUp, setShowLevelUp] = React.useState(false);
+  const [submittedVideoIds, setSubmittedVideoIds] = React.useState<Set<string>>(new Set());
 
   const videoPlayerRef = React.useRef<VideoPlayerRef>(null)
+  const { toast } = useToast();
 
   const currentVideo = videos[currentVideoIndex]
   const currentVideoTags = allTags.filter(tag => tag.videoId === currentVideo.id)
+  const isVideoSubmitted = submittedVideoIds.has(currentVideo.id);
+
+  const handleLevelUpCheck = (newScore: number) => {
+    const oldLevel = level;
+    const newLevel = Math.floor(newScore / LEVEL_UP_THRESHOLD) + 1;
+    if (newLevel > oldLevel) {
+      setLevel(newLevel);
+      setShowLevelUp(true);
+      setTimeout(() => setShowLevelUp(false), 3000); // Show level up animation for 3 seconds
+    }
+  };
 
   const handleTimestampSelect = (time: number, position: { x: number, y: number }) => {
     setSelectedTimestamp(time)
@@ -70,9 +85,7 @@ export default function TaggerPage() {
     // Gamification logic
     const newScore = score + 15;
     setScore(newScore);
-    if (newScore >= level * LEVEL_UP_THRESHOLD) {
-      setLevel(level + 1);
-    }
+    handleLevelUpCheck(newScore);
     
     setLastAddedTag(newTag);
     setTimeout(() => setLastAddedTag(null), 1000); // Animation duration
@@ -88,18 +101,29 @@ export default function TaggerPage() {
     setAllTags(prev => prev.filter(t => t.id !== tagId))
   }
 
+  const handleSubmitTags = () => {
+    if (isVideoSubmitted) return;
+
+    const pointsEarned = 50;
+    const newScore = score + pointsEarned;
+    setScore(newScore);
+    setSubmittedVideoIds(new Set(submittedVideoIds).add(currentVideo.id));
+    handleLevelUpCheck(newScore);
+    toast({
+      title: "Submission Successful!",
+      description: `You earned ${pointsEarned} points for submitting your tags.`,
+    });
+  }
+
   const progressToNextLevel = (score % LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD * 100;
 
   if (!currentVideo) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    )
+    return null;
   }
 
   return (
     <div className="flex h-screen w-full flex-col bg-background text-foreground">
+      {showLevelUp && <LevelUpAnimation level={level} />}
       <AppHeader />
       <main className="flex-1 overflow-y-auto p-4 lg:p-6">
         <div className="mx-auto grid h-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-3">
@@ -113,9 +137,13 @@ export default function TaggerPage() {
                 <Button variant="outline" size="icon" onClick={handleNextVideo} aria-label="Next Video">
                   <ArrowRight className="h-4 w-4" />
                 </Button>
-                <Button variant="secondary">
+                <Button variant="outline">
                   <Upload className="mr-2 h-4 w-4" />
                   Admin Upload
+                </Button>
+                <Button onClick={handleSubmitTags} disabled={isVideoSubmitted}>
+                  <CheckCircle2 className="mr-2 h-4 w-4" />
+                  {isVideoSubmitted ? "Submitted" : "Submit Tags"}
                 </Button>
               </div>
             </div>
@@ -140,26 +168,23 @@ export default function TaggerPage() {
           </div>
           <div className="flex h-full flex-col">
             <Card className="flex-1">
-              <CardHeader>
+              <CardHeader className="flex-row items-center justify-between">
                 <CardTitle className="font-headline">Annotation Tools</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="mb-4 rounded-lg border p-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <h4 className="font-semibold text-lg">User Stats</h4>
-                    <div className="flex items-center gap-2 text-yellow-500">
-                      <Award className="h-5 w-5" />
-                      <span className="font-bold">Level {level}</span>
-                    </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 text-yellow-500">
+                    <Award className="h-5 w-5" />
+                    <span className="font-bold">Level {level}</span>
                   </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-sm text-muted-foreground">
+                  <div className="w-24">
+                    <div className="flex justify-between text-xs text-muted-foreground">
                       <span>Score</span>
-                      <span>{score} / {level * LEVEL_UP_THRESHOLD}</span>
+                      <span>{score % LEVEL_UP_THRESHOLD}/{LEVEL_UP_THRESHOLD}</span>
                     </div>
-                    <Progress value={progressToNextLevel} className="h-2" />
+                    <Progress value={progressToNextLevel} className="h-1.5" />
                   </div>
                 </div>
+              </CardHeader>
+              <CardContent>
                 {selectedTimestamp !== null && taggingPosition !== null ? (
                   <TaggingForm 
                     selectedTimestamp={selectedTimestamp}
