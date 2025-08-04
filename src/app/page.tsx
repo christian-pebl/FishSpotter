@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight, Loader2, Upload, Trash } from "lucide-react"
+import { ArrowLeft, ArrowRight, Loader2, Upload, Sparkles, Award } from "lucide-react"
 
 import { MOCK_VIDEOS, MOCK_TAGS } from "@/lib/data"
 import type { Video, Tag } from "@/lib/types"
@@ -11,7 +11,11 @@ import AppHeader from "@/components/app-header"
 import VideoPlayer, { type VideoPlayerRef } from "@/components/video-player"
 import TaggingForm from "@/components/tagging-form"
 import TagList from "@/components/tag-list"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { Separator } from "@/components/ui/separator"
+import { Progress } from "@/components/ui/progress"
+
+
+const LEVEL_UP_THRESHOLD = 100; // Points needed to level up
 
 export default function TaggerPage() {
   const [videos, setVideos] = React.useState<Video[]>(MOCK_VIDEOS)
@@ -19,7 +23,12 @@ export default function TaggerPage() {
   const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0)
   const [selectedTimestamp, setSelectedTimestamp] = React.useState<number | null>(null)
   const [taggingPosition, setTaggingPosition] = React.useState<{ x: number; y: number } | null>(null)
-  
+  const [lastAddedTag, setLastAddedTag] = React.useState<Tag | null>(null);
+
+  // Gamification state
+  const [score, setScore] = React.useState(0);
+  const [level, setLevel] = React.useState(1);
+
   const videoPlayerRef = React.useRef<VideoPlayerRef>(null)
 
   const currentVideo = videos[currentVideoIndex]
@@ -56,7 +65,18 @@ export default function TaggerPage() {
       username: 'MarineExplorer',
       position: taggingPosition
     }
-    setAllTags(prev => [...prev, newTag].sort((a,b) => a.timestamp - b.timestamp))
+    setAllTags(prev => [...prev, newTag].sort((a,b) => a.timestamp - b.timestamp));
+    
+    // Gamification logic
+    const newScore = score + 15;
+    setScore(newScore);
+    if (newScore >= level * LEVEL_UP_THRESHOLD) {
+      setLevel(level + 1);
+    }
+    
+    setLastAddedTag(newTag);
+    setTimeout(() => setLastAddedTag(null), 1000); // Animation duration
+
     resetSelection()
   }
 
@@ -67,10 +87,8 @@ export default function TaggerPage() {
   const handleDeleteTag = (tagId: string) => {
     setAllTags(prev => prev.filter(t => t.id !== tagId))
   }
-  
-  const handleClearAllTags = () => {
-    setAllTags(prev => prev.filter(t => t.videoId !== currentVideo.id))
-  }
+
+  const progressToNextLevel = (score % LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD * 100;
 
   if (!currentVideo) {
     return (
@@ -101,7 +119,7 @@ export default function TaggerPage() {
                 </Button>
               </div>
             </div>
-            <div className="flex flex-1 items-center justify-center overflow-hidden rounded-lg border bg-black text-card-foreground shadow-sm" style={{aspectRatio: '16 / 9'}}>
+            <div className="relative flex flex-1 items-center justify-center overflow-hidden rounded-lg border bg-black text-card-foreground shadow-sm" style={{aspectRatio: '16 / 9'}}>
                 <VideoPlayer
                   ref={videoPlayerRef}
                   videoSrc={currentVideo.srcUrl}
@@ -110,38 +128,38 @@ export default function TaggerPage() {
                   onCancelTag={resetSelection}
                   taggingPosition={taggingPosition}
                 />
+                {lastAddedTag && (
+                  <div
+                    className="absolute z-20 -translate-x-1/2 -translate-y-1/2 animate-ping"
+                    style={{ left: `${lastAddedTag.position.x}%`, top: `${lastAddedTag.position.y}%` }}
+                  >
+                    <Sparkles className="h-8 w-8 text-yellow-400" />
+                  </div>
+                )}
             </div>
           </div>
           <div className="flex h-full flex-col">
             <Card className="flex-1">
-              <CardHeader className="flex flex-row items-center justify-between">
+              <CardHeader>
                 <CardTitle className="font-headline">Annotation Tools</CardTitle>
-                 {currentVideoTags.length > 0 && (
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="destructive" size="sm">
-                          <Trash className="mr-2 h-4 w-4" />
-                          Clear All
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This will permanently delete all {currentVideoTags.length} tags from this video. This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleClearAllTags} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                            Delete All
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  )}
               </CardHeader>
               <CardContent>
+                <div className="mb-4 rounded-lg border p-4">
+                  <div className="mb-2 flex items-center justify-between">
+                    <h4 className="font-semibold text-lg">User Stats</h4>
+                    <div className="flex items-center gap-2 text-yellow-500">
+                      <Award className="h-5 w-5" />
+                      <span className="font-bold">Level {level}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm text-muted-foreground">
+                      <span>Score</span>
+                      <span>{score} / {level * LEVEL_UP_THRESHOLD}</span>
+                    </div>
+                    <Progress value={progressToNextLevel} className="h-2" />
+                  </div>
+                </div>
                 {selectedTimestamp !== null && taggingPosition !== null ? (
                   <TaggingForm 
                     selectedTimestamp={selectedTimestamp}
