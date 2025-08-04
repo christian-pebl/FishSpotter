@@ -19,6 +19,7 @@ export interface VideoPlayerProps {
 
 export type VideoPlayerRef = {
   captureFrame: () => string | null
+  seekTo: (time: number) => void
 }
 
 const TagPin = ({ position, isHover = false, isNew = false }: { position: { x: number; y: number }, isHover?: boolean, isNew?: boolean }) => (
@@ -69,6 +70,13 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
           }
         }
         return null
+      },
+      seekTo: (time: number) => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = time;
+          videoRef.current.pause();
+          setIsPlaying(false);
+        }
       },
     }))
     
@@ -301,5 +309,6 @@ export default VideoPlayer
     
 
     
+
 
 

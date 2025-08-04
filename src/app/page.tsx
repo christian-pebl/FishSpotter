@@ -118,6 +118,13 @@ export default function TaggerPage() {
   const handleDeleteTag = (tagId: string) => {
     setAllTags(prev => prev.filter(t => t.id !== tagId))
   }
+  
+  const handleTagSelect = (tag: Tag) => {
+    if (videoPlayerRef.current) {
+        videoPlayerRef.current.seekTo(tag.timestamp);
+    }
+    onTimestampSelect(tag.timestamp, tag.position);
+  }
 
   const handleSubmitTags = () => {
     if (isVideoSubmitted) return;
@@ -237,6 +244,7 @@ export default function TaggerPage() {
                     tags={currentVideoTags}
                     onUpdateTag={handleUpdateTag}
                     onDeleteTag={handleDeleteTag}
+                    onTagSelect={handleTagSelect}
                   />
                 )}
               </CardContent>
