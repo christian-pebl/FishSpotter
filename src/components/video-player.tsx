@@ -133,40 +133,43 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     }
 
     const calculateClickPosition = (e: React.MouseEvent<HTMLElement>) => {
+      const container = containerRef.current;
       const video = videoRef.current;
-      if (!video) return null;
+      if (!container || !video || !video.videoWidth) return null;
 
-      const rect = video.getBoundingClientRect();
-
-      // Get video's rendered size, respecting object-fit: contain
+      const containerRect = container.getBoundingClientRect();
+      
       const videoAspectRatio = video.videoWidth / video.videoHeight;
-      const containerAspectRatio = rect.width / rect.height;
+      const containerAspectRatio = containerRect.width / containerRect.height;
 
-      let renderedWidth = rect.width;
-      let renderedHeight = rect.height;
-      let offsetX = 0;
-      let offsetY = 0;
+      let renderedWidth, renderedHeight, offsetX, offsetY;
 
       if (videoAspectRatio > containerAspectRatio) {
-        // Video is wider than container, so it's letterboxed (top/bottom bars)
-        renderedHeight = rect.width / videoAspectRatio;
-        offsetY = (rect.height - renderedHeight) / 2;
+        // Video is wider than container (letterboxed)
+        renderedWidth = containerRect.width;
+        renderedHeight = containerRect.width / videoAspectRatio;
+        offsetX = 0;
+        offsetY = (containerRect.height - renderedHeight) / 2;
       } else {
-        // Video is taller than container, so it's pillarboxed (left/right bars)
-        renderedWidth = rect.height * videoAspectRatio;
-        offsetX = (rect.width - renderedWidth) / 2;
+        // Video is taller than container (pillarboxed)
+        renderedWidth = containerRect.height * videoAspectRatio;
+        renderedHeight = containerRect.height;
+        offsetX = (containerRect.width - renderedWidth) / 2;
+        offsetY = 0;
       }
       
-      const x = e.clientX - rect.left - offsetX;
-      const y = e.clientY - rect.top - offsetY;
+      // Calculate click position relative to the container
+      const clickX = e.clientX - containerRect.left;
+      const clickY = e.clientY - containerRect.top;
 
-      // Only register clicks within the video's visible area
-      if (x < 0 || x > renderedWidth || y < 0 || y > renderedHeight) {
+      // Check if the click is within the visible video area
+      if (clickX < offsetX || clickX > offsetX + renderedWidth || clickY < offsetY || clickY > offsetY + renderedHeight) {
         return null;
       }
 
-      const xPercent = (x / renderedWidth) * 100;
-      const yPercent = (y / renderedHeight) * 100;
+      // Calculate percentage position relative to the video itself
+      const xPercent = ((clickX - offsetX) / renderedWidth) * 100;
+      const yPercent = ((clickY - offsetY) / renderedHeight) * 100;
       
       return { x: xPercent, y: yPercent };
     }
@@ -285,3 +288,5 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
 VideoPlayer.displayName = "VideoPlayer"
 export default VideoPlayer
+
+    
