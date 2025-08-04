@@ -24,7 +24,7 @@ interface AuthContextType {
   user: User | null
   loading: boolean
   login: (email: string, pass: string) => Promise<User>
-  signup: (name: string, email: string, pass: string) => Promise<User>
+  signup: (email: string, pass: string) => Promise<User>
   logout: () => Promise<void>
 }
 
@@ -71,11 +71,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const signup = async (name: string, email: string, pass: string): Promise<User> => {
+  const signup = async (email: string, pass: string): Promise<User> => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
       const firebaseUser = userCredential.user;
       
+      const name = email.split('@')[0];
+
       const newUser: User = {
         id: firebaseUser.uid,
         name,

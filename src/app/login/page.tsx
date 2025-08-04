@@ -20,7 +20,6 @@ export default function LoginPage() {
   const [isSignUp, setIsSignUp] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
   
-  const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
 
@@ -29,14 +28,13 @@ export default function LoginPage() {
     setIsLoading(true)
     try {
       if (isSignUp) {
-        const user = await signup(name, email, password)
+        const user = await signup(email, password)
         toast({
           title: "Sign Up Successful",
           description: `Welcome, ${user.name}! Please log in.`,
         })
         // Switch to login form after successful signup
         setIsSignUp(false)
-        setName("")
         setEmail("")
         setPassword("")
       } else {
@@ -80,21 +78,6 @@ export default function LoginPage() {
             <CardDescription className="text-foreground/80">{isSignUp ? 'Join our community of marine enthusiasts.' : 'Enter your credentials to start tagging.'}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {isSignUp && (
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-foreground/90">Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Deep Sea Diver"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="border-white/30 bg-white/30 placeholder:text-foreground/60"
-                  disabled={isLoading}
-                />
-              </div>
-            )}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-foreground/90">Email</Label>
               <Input
