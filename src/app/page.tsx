@@ -198,12 +198,6 @@ export default function TaggerPage() {
                             <Button variant="outline" size="icon" onClick={handleNextVideo} aria-label="Next Video">
                             <ArrowRight className="h-4 w-4" />
                             </Button>
-                            {user.role === 'admin' && (
-                            <Button variant="outline">
-                                <Upload className="mr-2 h-4 w-4" />
-                                Admin Upload
-                            </Button>
-                            )}
                             <Button onClick={handleSubmitTags} disabled={isVideoSubmitted}>
                             <CheckCircle2 className="mr-2 h-4 w-4" />
                             {isVideoSubmitted ? "Submitted" : "Submit Tags"}
@@ -233,21 +227,29 @@ export default function TaggerPage() {
                         <Card className="flex-1">
                         <CardHeader className="flex-row items-center justify-between">
                             <CardTitle className="font-headline">Annotation Tools</CardTitle>
-                            <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2 text-yellow-500">
-                                <Award className="h-5 w-5" />
-                                <span className="font-bold">Level {level}</span>
-                            </div>
-                            <div className="w-24">
-                                <div className="flex justify-between text-xs text-muted-foreground">
-                                <span>Score</span>
-                                <span>{score % LEVEL_UP_THRESHOLD}/{LEVEL_UP_THRESHOLD}</span>
-                                </div>
-                                <Progress value={progressToNextLevel} className="h-1.5" />
-                            </div>
+                             <div className="flex items-center gap-4">
+                                {user.role === 'admin' && (
+                                <Button variant="outline">
+                                    <Upload className="mr-2 h-4 w-4" />
+                                    Admin Upload
+                                </Button>
+                                )}
                             </div>
                         </CardHeader>
                         <CardContent>
+                            <div className="mb-4 flex items-center justify-end gap-4 rounded-md border p-2">
+                                <div className="flex items-center gap-2 text-yellow-500">
+                                    <Award className="h-5 w-5" />
+                                    <span className="font-bold">Level {level}</span>
+                                </div>
+                                <div className="w-32">
+                                    <div className="flex justify-between text-xs text-muted-foreground">
+                                    <span>Score</span>
+                                    <span>{score % LEVEL_UP_THRESHOLD}/{LEVEL_UP_THRESHOLD}</span>
+                                    </div>
+                                    <Progress value={progressToNextLevel} className="h-1.5" />
+                                </div>
+                            </div>
                             {selectedTimestamp !== null && taggingPosition !== null ? (
                             <TaggingForm 
                                 selectedTimestamp={selectedTimestamp}

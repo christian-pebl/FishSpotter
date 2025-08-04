@@ -139,7 +139,7 @@ export default function TagList({ tags, onUpdateTag, onDeleteTag, onTagSelect, a
   }
 
   return (
-    <ScrollArea className="h-[calc(100vh-250px)] max-h-[500px] w-full pr-4 md:max-h-full">
+    <ScrollArea className="h-[calc(100vh-320px)] max-h-[500px] w-full pr-4 md:max-h-full">
       <Accordion type="single" collapsible className="w-full space-y-0">
         {tags.map((tag) => (
           <TagListItem 
