@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Abyssal Annotator',
+  title: 'Critterpedia',
   description: 'Tag marine species in underwater videos.',
 };
 
