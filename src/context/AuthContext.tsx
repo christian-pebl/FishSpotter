@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signOut,
+  sendPasswordResetEmail,
   type User as FirebaseUser
 } from "firebase/auth"
 import { doc, setDoc, getDoc } from "firebase/firestore"
@@ -26,6 +27,7 @@ interface AuthContextType {
   login: (email: string, pass: string) => Promise<User>
   signup: (email: string, pass: string) => Promise<User>
   logout: () => Promise<void>
+  forgotPassword: (email: string) => Promise<void>
 }
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined)
@@ -98,6 +100,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error(error.message || "Failed to sign up.");
     }
   }
+  
+  const forgotPassword = async (email: string): Promise<void> => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error: any) {
+      console.error("Forgot Password Error:", error);
+      throw new Error(error.message || "Failed to send password reset email.");
+    }
+  }
 
   const logout = async () => {
     try {
@@ -110,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const value = { user, loading, login, signup, logout }
+  const value = { user, loading, login, signup, logout, forgotPassword }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

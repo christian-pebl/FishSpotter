@@ -14,10 +14,10 @@ import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
   const router = useRouter()
-  const { login, signup } = useAuth()
+  const { login, signup, forgotPassword } = useAuth()
   const { toast } = useToast()
   
-  const [isSignUp, setIsSignUp] = React.useState(false)
+  const [authMode, setAuthMode] = React.useState<'login' | 'signup' | 'forgotPassword'>('login')
   const [isLoading, setIsLoading] = React.useState(false)
   
   const [email, setEmail] = React.useState("")
@@ -27,17 +27,16 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
     try {
-      if (isSignUp) {
+      if (authMode === 'signup') {
         const user = await signup(email, password)
         toast({
           title: "Sign Up Successful",
           description: `Welcome, ${user.name}! Please log in.`,
         })
-        // Switch to login form after successful signup
-        setIsSignUp(false)
+        setAuthMode('login')
         setEmail("")
         setPassword("")
-      } else {
+      } else if (authMode === 'login') {
         const user = await login(email, password)
         toast({
           title: "Login Successful",
@@ -48,16 +47,41 @@ export default function LoginPage() {
         } else {
           router.push("/")
         }
+      } else if (authMode === 'forgotPassword') {
+        await forgotPassword(email)
+        toast({
+          title: "Password Reset Email Sent",
+          description: "Please check your inbox for instructions to reset your password.",
+        })
+        setAuthMode('login')
       }
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: isSignUp ? "Sign Up Failed" : "Login Failed",
+        title: authMode === 'signup' ? "Sign Up Failed" : authMode === 'login' ? "Login Failed" : "Request Failed",
         description: error.message,
       })
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const getTitle = () => {
+    if (authMode === 'signup') return 'Create Account'
+    if (authMode === 'forgotPassword') return 'Reset Password'
+    return 'Welcome to Fish Spotter'
+  }
+  
+  const getDescription = () => {
+    if (authMode === 'signup') return 'Join our community of marine enthusiasts.'
+    if (authMode === 'forgotPassword') return "Enter your email to receive a reset link."
+    return 'Enter your credentials to start tagging.'
+  }
+
+  const getButtonText = () => {
+    if (authMode === 'signup') return 'Sign Up'
+    if (authMode === 'forgotPassword') return 'Send Reset Link'
+    return 'Sign In'
   }
 
   return (
@@ -74,8 +98,8 @@ export default function LoginPage() {
       <Card className="z-10 w-full max-w-sm border-white/20 bg-white/20 backdrop-blur-lg">
         <form onSubmit={handleAuthAction}>
           <CardHeader className="items-center text-center">
-            <CardTitle className="font-headline text-3xl font-bold text-foreground">{isSignUp ? 'Create Account' : 'Welcome to Fish Spotter'}</CardTitle>
-            <CardDescription className="text-foreground/80">{isSignUp ? 'Join our community of marine enthusiasts.' : 'Enter your credentials to start tagging.'}</CardDescription>
+            <CardTitle className="font-headline text-3xl font-bold text-foreground">{getTitle()}</CardTitle>
+            <CardDescription className="text-foreground/80">{getDescription()}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -91,29 +115,46 @@ export default function LoginPage() {
                 disabled={isLoading}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground/90">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border-white/30 bg-white/30 placeholder:text-foreground/60"
-                disabled={isLoading}
-              />
-            </div>
+            {authMode !== 'forgotPassword' && (
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-foreground/90">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="border-white/30 bg-white/30 placeholder:text-foreground/60"
+                  disabled={isLoading}
+                />
+              </div>
+            )}
           </CardContent>
           <CardFooter className="flex-col gap-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading || (authMode === 'login' && (!email || !password))}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isSignUp ? 'Sign Up' : 'Sign In'}
+              {getButtonText()}
             </Button>
-            <Button type="button" variant="link" className="text-foreground/80" onClick={() => setIsSignUp(!isSignUp)} disabled={isLoading}>
-              {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
-            </Button>
-            <p className={cn("text-xs text-foreground/70", isSignUp && 'hidden')}>
+            
+            {authMode === 'login' && (
+                 <div className="flex w-full justify-between">
+                     <Button type="button" variant="link" className="text-foreground/80 px-0" onClick={() => setAuthMode('forgotPassword')} disabled={isLoading}>
+                         Forgot Password?
+                     </Button>
+                     <Button type="button" variant="link" className="text-foreground/80 px-0" onClick={() => setAuthMode('signup')} disabled={isLoading}>
+                         Don't have an account? Sign Up
+                     </Button>
+                 </div>
+             )}
+
+            {authMode !== 'login' && (
+                 <Button type="button" variant="link" className="text-foreground/80" onClick={() => setAuthMode('login')} disabled={isLoading}>
+                     Back to Sign In
+                 </Button>
+             )}
+            
+            <p className={cn("text-xs text-foreground/70", authMode !== 'login' && 'hidden')}>
               Hint: use `admin@fishspotter.com` or `user@fishspotter.com` with any password.
             </p>
           </CardFooter>
