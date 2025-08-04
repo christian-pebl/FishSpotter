@@ -14,11 +14,23 @@ import TagList from "@/components/tag-list"
 import { Progress } from "@/components/ui/progress"
 import LevelUpAnimation from "@/components/level-up-animation"
 import { useToast } from "@/hooks/use-toast"
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
 
 
 const LEVEL_UP_THRESHOLD = 100;
 
 export default function TaggerPage() {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+  }, [user, router]);
+
+
   const [videos, setVideos] = React.useState<Video[]>(MOCK_VIDEOS)
   const [allTags, setAllTags] = React.useState<Tag[]>(MOCK_TAGS)
   const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0)
@@ -70,14 +82,14 @@ export default function TaggerPage() {
   }
   
   const handleAddTag = (newTagText: string) => {
-    if (selectedTimestamp === null || taggingPosition === null) return;
+    if (selectedTimestamp === null || taggingPosition === null || !user) return;
     const newTag: Tag = {
       id: `tag-${Date.now()}`,
       videoId: currentVideo.id,
       timestamp: selectedTimestamp,
       text: newTagText,
-      userId: 'user-1',
-      username: 'MarineExplorer',
+      userId: user.id,
+      username: user.name,
       position: taggingPosition
     }
     setAllTags(prev => [...prev, newTag].sort((a,b) => a.timestamp - b.timestamp));
@@ -117,8 +129,8 @@ export default function TaggerPage() {
 
   const progressToNextLevel = (score % LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD * 100;
 
-  if (!currentVideo) {
-    return null;
+  if (!currentVideo || !user) {
+    return null; // Or a loading spinner
   }
 
   return (
@@ -137,10 +149,12 @@ export default function TaggerPage() {
                 <Button variant="outline" size="icon" onClick={handleNextVideo} aria-label="Next Video">
                   <ArrowRight className="h-4 w-4" />
                 </Button>
-                <Button variant="outline">
-                  <Upload className="mr-2 h-4 w-4" />
-                  Admin Upload
-                </Button>
+                {user.role === 'admin' && (
+                  <Button variant="outline">
+                    <Upload className="mr-2 h-4 w-4" />
+                    Admin Upload
+                  </Button>
+                )}
                 <Button onClick={handleSubmitTags} disabled={isVideoSubmitted}>
                   <CheckCircle2 className="mr-2 h-4 w-4" />
                   {isVideoSubmitted ? "Submitted" : "Submit Tags"}
