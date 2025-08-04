@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
-  title: 'Critterpedia',
+  title: 'Fish Spotter',
   description: 'Tag marine species in underwater videos.',
 };
 

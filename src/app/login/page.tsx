@@ -74,7 +74,7 @@ export default function LoginPage() {
       <Card className="z-10 w-full max-w-sm border-white/20 bg-white/20 backdrop-blur-lg">
         <form onSubmit={handleAuthAction}>
           <CardHeader className="items-center text-center">
-            <CardTitle className="font-headline text-3xl font-bold text-foreground">{isSignUp ? 'Create Account' : 'Welcome to Critterpedia'}</CardTitle>
+            <CardTitle className="font-headline text-3xl font-bold text-foreground">{isSignUp ? 'Create Account' : 'Welcome to Fish Spotter'}</CardTitle>
             <CardDescription className="text-foreground/80">{isSignUp ? 'Join our community of marine enthusiasts.' : 'Enter your credentials to start tagging.'}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -114,7 +114,7 @@ export default function LoginPage() {
               {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
             </Button>
             <p className={cn("text-xs text-foreground/70", isSignUp && 'hidden')}>
-              Hint: use `admin@critterpedia.com` or `user@critterpedia.com` with any password.
+              Hint: use `admin@fishspotter.com` or `user@fishspotter.com` with any password.
             </p>
           </CardFooter>
         </form>

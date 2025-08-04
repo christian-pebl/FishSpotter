@@ -28,7 +28,7 @@ export default function AppHeader() {
     <header className="flex h-16 shrink-0 items-center justify-between border-b px-4 lg:px-6">
       <Link href="/" className="flex items-center gap-2">
         <AppLogo className="h-8 w-8 text-primary" />
-        <h1 className="font-headline text-xl font-bold tracking-tight">Abyssal Annotator</h1>
+        <h1 className="font-headline text-xl font-bold tracking-tight">Fish Spotter</h1>
       </Link>
       {loading ? (
         <Loader2 className="h-6 w-6 animate-spin" />
