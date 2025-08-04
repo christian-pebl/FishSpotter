@@ -12,6 +12,7 @@ interface User {
 interface AuthContextType {
   user: User | null
   login: (email: string, pass: string) => User
+  signup: (name: string, email: string, pass: string) => User
   logout: () => void
 }
 
@@ -24,10 +25,11 @@ const MOCK_USERS: User[] = [
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null)
+  const [users, setUsers] = React.useState<User[]>(MOCK_USERS);
 
   const login = (email: string, pass: string): User => {
     // This is mock authentication. In a real app, you'd call an API.
-    const foundUser = MOCK_USERS.find(u => u.email.toLowerCase() === email.toLowerCase())
+    const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase())
     
     if (foundUser) {
       setUser(foundUser)
@@ -37,11 +39,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const signup = (name: string, email: string, pass: string): User => {
+    const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (existingUser) {
+      throw new Error("An account with this email already exists.");
+    }
+    
+    if (!name || !email || !pass) {
+        throw new Error("Please fill in all fields.");
+    }
+
+    const newUser: User = {
+      id: `user-${Date.now()}`,
+      name,
+      email,
+      role: 'user'
+    };
+
+    setUsers(prev => [...prev, newUser]);
+    return newUser;
+  }
+
   const logout = () => {
     setUser(null)
   }
 
-  const value = { user, login, logout }
+  const value = { user, login, signup, logout }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

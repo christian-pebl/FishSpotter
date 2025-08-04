@@ -8,31 +8,50 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
+import { cn } from "@/lib/utils"
 
 export default function LoginPage() {
   const router = useRouter()
-  const { login } = useAuth()
+  const { login, signup } = useAuth()
   const { toast } = useToast()
+  
+  const [isSignUp, setIsSignUp] = React.useState(false)
+  
+  const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleAuthAction = (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const user = login(email, password)
-      toast({
-        title: "Login Successful",
-        description: `Welcome back, ${user.name}!`,
-      })
-      if (user.role === 'admin') {
-        router.push("/admin")
+      let user;
+      if (isSignUp) {
+        user = signup(name, email, password)
+        toast({
+          title: "Sign Up Successful",
+          description: `Welcome, ${user.name}! You can now log in.`,
+        })
+        // Switch to login form after successful signup
+        setIsSignUp(false)
+        setName("")
+        setEmail("")
+        setPassword("")
       } else {
-        router.push("/")
+        user = login(email, password)
+        toast({
+          title: "Login Successful",
+          description: `Welcome back, ${user.name}!`,
+        })
+        if (user.role === 'admin') {
+          router.push("/admin")
+        } else {
+          router.push("/")
+        }
       }
     } catch (error: any) {
       toast({
         variant: "destructive",
-        title: "Login Failed",
+        title: isSignUp ? "Sign Up Failed" : "Login Failed",
         description: error.message,
       })
     }
@@ -40,18 +59,33 @@ export default function LoginPage() {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4">
-       <div className="absolute inset-0 z-0 bg-gradient-to-br from-cyan-200 via-blue-300 to-indigo-400 opacity-80" />
-        <div className="absolute -bottom-1/4 -left-1/4 h-1/2 w-1/2 rounded-full bg-gradient-to-r from-blue-400 to-transparent opacity-30 blur-3xl animate-pulse" style={{ animationDuration: '8s' }} />
-        <div className="absolute -top-1/4 -right-1/4 h-1/2 w-1/2 rounded-full bg-gradient-to-l from-cyan-400 to-transparent opacity-30 blur-3xl animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }} />
-        <div className="absolute bottom-1/4 right-1/4 h-1/3 w-1/3 rounded-full bg-gradient-to-t from-indigo-500 to-transparent opacity-20 blur-3xl animate-pulse" style={{ animationDuration: '12s', animationDelay: '4s' }} />
+      {/* Abstract Expressionist Background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-60" />
+      <div className="absolute -bottom-1/2 -left-1/4 h-3/4 w-3/4 animate-pulse rounded-full bg-gradient-to-r from-lime-400 to-transparent opacity-40 blur-3xl" style={{ animationDuration: '10s' }} />
+      <div className="absolute -top-1/2 -right-1/4 h-3/4 w-3/4 animate-pulse rounded-full bg-gradient-to-l from-orange-400 to-transparent opacity-40 blur-3xl" style={{ animationDuration: '12s', animationDelay: '2s' }} />
+      <div className="absolute bottom-1/4 right-1/4 h-1/2 w-1/2 animate-pulse rounded-full bg-gradient-to-t from-cyan-400 to-transparent opacity-30 blur-3xl" style={{ animationDuration: '14s', animationDelay: '4s' }} />
       
       <Card className="z-10 w-full max-w-sm border-white/20 bg-white/20 backdrop-blur-lg">
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleAuthAction}>
           <CardHeader className="items-center text-center">
-            <CardTitle className="font-headline text-3xl font-bold text-foreground">Welcome to Critterpedia</CardTitle>
-            <CardDescription className="text-foreground/80">Enter your credentials to start tagging.</CardDescription>
+            <CardTitle className="font-headline text-3xl font-bold text-foreground">{isSignUp ? 'Create Account' : 'Welcome to Critterpedia'}</CardTitle>
+            <CardDescription className="text-foreground/80">{isSignUp ? 'Join our community of marine enthusiasts.' : 'Enter your credentials to start tagging.'}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            {isSignUp && (
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-foreground/90">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Deep Sea Diver"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="border-white/30 bg-white/30 placeholder:text-foreground/60"
+                />
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-foreground/90">Email</Label>
               <Input
@@ -79,9 +113,12 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex-col gap-4">
             <Button type="submit" className="w-full">
-              Sign In
+              {isSignUp ? 'Sign Up' : 'Sign In'}
             </Button>
-             <p className="text-xs text-foreground/70">
+            <Button type="button" variant="link" className="text-foreground/80" onClick={() => setIsSignUp(!isSignUp)}>
+              {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
+            </Button>
+            <p className={cn("text-xs text-foreground/70", isSignUp && 'hidden')}>
               Hint: use `admin@critterpedia.com` or `user@critterpedia.com` with any password.
             </p>
           </CardFooter>
