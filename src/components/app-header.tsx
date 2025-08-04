@@ -1,30 +1,38 @@
+
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-import { UserCircle, LogOut, LayoutDashboard } from "lucide-react"
+import { UserCircle, LogOut, LayoutDashboard, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AppLogo } from "@/components/icons"
 
 export default function AppHeader() {
-  const { user, logout } = useAuth()
+  const { user, logout, loading } = useAuth()
   const router = useRouter()
 
-  const handleLogout = () => {
-    logout()
-    router.push("/login")
+  const handleLogout = async () => {
+    try {
+      await logout()
+      router.push("/login")
+    } catch (error) {
+      console.error(error)
+      // Handle logout error with a toast, perhaps
+    }
   }
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b px-4 lg:px-6">
       <Link href="/" className="flex items-center gap-2">
         <AppLogo className="h-8 w-8 text-primary" />
-        <h1 className="font-headline text-xl font-bold tracking-tight">Critterpedia</h1>
+        <h1 className="font-headline text-xl font-bold tracking-tight">Abyssal Annotator</h1>
       </Link>
-      {user && (
+      {loading ? (
+        <Loader2 className="h-6 w-6 animate-spin" />
+      ) : user ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
@@ -50,6 +58,8 @@ export default function AppHeader() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      ) : (
+        <Button onClick={() => router.push('/login')}>Login</Button>
       )}
     </header>
   )

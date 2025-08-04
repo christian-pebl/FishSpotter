@@ -1,6 +1,17 @@
+
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
+import { 
+  onAuthStateChanged, 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut,
+  type User as FirebaseUser
+} from "firebase/auth"
+import { doc, setDoc, getDoc } from "firebase/firestore"
+import { auth, db } from "@/lib/firebase"
 
 interface User {
   id: string
@@ -11,60 +22,93 @@ interface User {
 
 interface AuthContextType {
   user: User | null
-  login: (email: string, pass: string) => User
-  signup: (name: string, email: string, pass: string) => User
-  logout: () => void
+  loading: boolean
+  login: (email: string, pass: string) => Promise<User>
+  signup: (name: string, email: string, pass: string) => Promise<User>
+  logout: () => Promise<void>
 }
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined)
 
-const MOCK_USERS: User[] = [
-  { id: "user-1", name: "MarineExplorer", email: "user@critterpedia.com", role: "user" },
-  { id: "admin-1", name: "Admin Coral", email: "admin@critterpedia.com", role: "admin" },
-]
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null)
-  const [users, setUsers] = React.useState<User[]>(MOCK_USERS);
+  const [loading, setLoading] = React.useState(true)
+  const router = useRouter();
 
-  const login = (email: string, pass: string): User => {
-    // This is mock authentication. In a real app, you'd call an API.
-    const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase())
-    
-    if (foundUser) {
-      setUser(foundUser)
-      return foundUser
-    } else {
-      throw new Error("Invalid email or password")
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+        if (userDoc.exists()) {
+          setUser({ id: firebaseUser.uid, ...userDoc.data() } as User);
+        } else {
+          // Handle case where user exists in Auth but not Firestore
+          setUser(null);
+        }
+      } else {
+        setUser(null)
+      }
+      setLoading(false)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  const login = async (email: string, pass: string): Promise<User> => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+      const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
+      if (!userDoc.exists()) {
+        throw new Error("User data not found in database.");
+      }
+      const userData = { id: userCredential.user.uid, ...userDoc.data() } as User;
+      setUser(userData);
+      return userData;
+    } catch (error: any) {
+      console.error("Login Error:", error);
+      // More specific error handling can be done here
+      throw new Error(error.message || "Failed to login.");
     }
   }
 
-  const signup = (name: string, email: string, pass: string): User => {
-    const existingUser = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-    if (existingUser) {
-      throw new Error("An account with this email already exists.");
-    }
-    
-    if (!name || !email || !pass) {
-        throw new Error("Please fill in all fields.");
-    }
+  const signup = async (name: string, email: string, pass: string): Promise<User> => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      const firebaseUser = userCredential.user;
+      
+      const newUser: User = {
+        id: firebaseUser.uid,
+        name,
+        email,
+        role: email.toLowerCase().endsWith('@critterpedia.com') ? 'admin' : 'user' // Simple logic for admin role
+      };
 
-    const newUser: User = {
-      id: `user-${Date.now()}`,
-      name,
-      email,
-      role: 'user'
-    };
+      await setDoc(doc(db, "users", firebaseUser.uid), {
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role,
+      });
 
-    setUsers(prev => [...prev, newUser]);
-    return newUser;
+      // We don't set user state here, onAuthStateChanged will handle it
+      return newUser;
+    } catch (error: any) {
+      console.error("Signup Error:", error);
+      throw new Error(error.message || "Failed to sign up.");
+    }
   }
 
-  const logout = () => {
-    setUser(null)
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      router.push("/login");
+    } catch (error: any) {
+      console.error("Logout Error:", error);
+      throw new Error("Failed to logout.");
+    }
   }
 
-  const value = { user, login, signup, logout }
+  const value = { user, loading, login, signup, logout }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

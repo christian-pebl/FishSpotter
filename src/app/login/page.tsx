@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -9,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -16,20 +18,21 @@ export default function LoginPage() {
   const { toast } = useToast()
   
   const [isSignUp, setIsSignUp] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
   
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
 
-  const handleAuthAction = (e: React.FormEvent) => {
+  const handleAuthAction = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     try {
-      let user;
       if (isSignUp) {
-        user = signup(name, email, password)
+        const user = await signup(name, email, password)
         toast({
           title: "Sign Up Successful",
-          description: `Welcome, ${user.name}! You can now log in.`,
+          description: `Welcome, ${user.name}! Please log in.`,
         })
         // Switch to login form after successful signup
         setIsSignUp(false)
@@ -37,7 +40,7 @@ export default function LoginPage() {
         setEmail("")
         setPassword("")
       } else {
-        user = login(email, password)
+        const user = await login(email, password)
         toast({
           title: "Login Successful",
           description: `Welcome back, ${user.name}!`,
@@ -54,6 +57,8 @@ export default function LoginPage() {
         title: isSignUp ? "Sign Up Failed" : "Login Failed",
         description: error.message,
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -83,6 +88,7 @@ export default function LoginPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="border-white/30 bg-white/30 placeholder:text-foreground/60"
+                  disabled={isLoading}
                 />
               </div>
             )}
@@ -96,6 +102,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="border-white/30 bg-white/30 placeholder:text-foreground/60"
+                disabled={isLoading}
               />
             </div>
             <div className="space-y-2">
@@ -108,14 +115,16 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="border-white/30 bg-white/30 placeholder:text-foreground/60"
+                disabled={isLoading}
               />
             </div>
           </CardContent>
           <CardFooter className="flex-col gap-4">
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isSignUp ? 'Sign Up' : 'Sign In'}
             </Button>
-            <Button type="button" variant="link" className="text-foreground/80" onClick={() => setIsSignUp(!isSignUp)}>
+            <Button type="button" variant="link" className="text-foreground/80" onClick={() => setIsSignUp(!isSignUp)} disabled={isLoading}>
               {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
             </Button>
             <p className={cn("text-xs text-foreground/70", isSignUp && 'hidden')}>

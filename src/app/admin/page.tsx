@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -10,19 +11,23 @@ import AppHeader from "@/components/app-header"
 import { formatTimestamp } from "@/lib/utils"
 
 export default function AdminPage() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const router = useRouter()
 
   React.useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push('/login')
-    } else if (user.role !== 'admin') {
+    } else if (!loading && user && user.role !== 'admin') {
       router.push('/')
     }
-  }, [user, router])
+  }, [user, loading, router])
 
-  if (!user || user.role !== 'admin') {
-    return null // or a loading/access denied component
+  if (loading || !user || user.role !== 'admin') {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p>Loading or Access Denied...</p>
+      </div>
+    );
   }
   
   const videoMap = new Map(MOCK_VIDEOS.map(v => [v.id, v.title]));
@@ -58,7 +63,7 @@ export default function AdminPage() {
                       <TableCell>({tag.position.x.toFixed(1)}%, {tag.position.y.toFixed(1)}%)</TableCell>
                     </TableRow>
                   ))}
-                </TableBody>
+                </Body>
               </Table>
             </CardContent>
           </Card>

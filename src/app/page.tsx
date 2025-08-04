@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -21,14 +22,14 @@ import { useRouter } from "next/navigation"
 const LEVEL_UP_THRESHOLD = 100;
 
 export default function TaggerPage() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   React.useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
       router.push('/login');
     }
-  }, [user, router]);
+  }, [user, loading, router]);
 
 
   const [videos, setVideos] = React.useState<Video[]>(MOCK_VIDEOS)
@@ -129,8 +130,20 @@ export default function TaggerPage() {
 
   const progressToNextLevel = (score % LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD * 100;
 
-  if (!currentVideo || !user) {
-    return null; // Or a loading spinner
+  if (loading || !user) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (!currentVideo) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p>No videos available.</p>
+      </div>
+    );
   }
 
   return (
