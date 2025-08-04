@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight, Loader2, Upload } from "lucide-react"
+import { ArrowLeft, ArrowRight, Loader2, Upload, Trash } from "lucide-react"
 
 import { MOCK_VIDEOS, MOCK_TAGS } from "@/lib/data"
 import type { Video, Tag } from "@/lib/types"
@@ -11,6 +11,7 @@ import AppHeader from "@/components/app-header"
 import VideoPlayer, { type VideoPlayerRef } from "@/components/video-player"
 import TaggingForm from "@/components/tagging-form"
 import TagList from "@/components/tag-list"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 export default function TaggerPage() {
   const [videos, setVideos] = React.useState<Video[]>(MOCK_VIDEOS)
@@ -66,6 +67,10 @@ export default function TaggerPage() {
   const handleDeleteTag = (tagId: string) => {
     setAllTags(prev => prev.filter(t => t.id !== tagId))
   }
+  
+  const handleClearAllTags = () => {
+    setAllTags(prev => prev.filter(t => t.videoId !== currentVideo.id))
+  }
 
   if (!currentVideo) {
     return (
@@ -96,7 +101,7 @@ export default function TaggerPage() {
                 </Button>
               </div>
             </div>
-            <div className="flex flex-1 items-center justify-center overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm">
+            <div className="flex flex-1 items-center justify-center overflow-hidden rounded-lg border bg-black text-card-foreground shadow-sm" style={{aspectRatio: '16 / 9'}}>
                 <VideoPlayer
                   ref={videoPlayerRef}
                   videoSrc={currentVideo.srcUrl}
@@ -109,8 +114,32 @@ export default function TaggerPage() {
           </div>
           <div className="flex h-full flex-col">
             <Card className="flex-1">
-              <CardHeader>
+              <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="font-headline">Annotation Tools</CardTitle>
+                 {currentVideoTags.length > 0 && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" size="sm">
+                          <Trash className="mr-2 h-4 w-4" />
+                          Clear All
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will permanently delete all {currentVideoTags.length} tags from this video. This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleClearAllTags} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                            Delete All
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
               </CardHeader>
               <CardContent>
                 {selectedTimestamp !== null && taggingPosition !== null ? (
