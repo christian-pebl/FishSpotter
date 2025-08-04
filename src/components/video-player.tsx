@@ -21,7 +21,7 @@ export type VideoPlayerRef = {
   captureFrame: () => string | null
 }
 
-const TagPin = ({ position, isHover = false }: { position: { x: number; y: number }, isHover?: boolean }) => (
+const TagPin = ({ position, isHover = false, isNew = false }: { position: { x: number; y: number }, isHover?: boolean, isNew?: boolean }) => (
   <div
     className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
     style={{
@@ -31,18 +31,18 @@ const TagPin = ({ position, isHover = false }: { position: { x: number; y: numbe
     }}
   >
     <div className={`relative h-4 w-4 ${isHover ? 'opacity-50' : ''}`}>
-      <div className="absolute left-1/2 top-0 h-1/2 w-px -translate-x-1/2 bg-red-500" />
-      <div className="absolute left-1/2 bottom-0 h-1/2 w-px -translate-x-1/2 bg-red-500" />
-      <div className="absolute top-1/2 left-0 h-px w-1/2 -translate-y-1/2 bg-red-500" />
-      <div className="absolute top-1/2 right-0 h-px w-1/2 -translate-y-1/2 bg-red-500" />
-      <div className="absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500" />
+      <div className={`absolute left-1/2 top-0 h-1/2 w-px -translate-x-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
+      <div className={`absolute left-1/2 bottom-0 h-1/2 w-px -translate-x-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
+      <div className={`absolute top-1/2 left-0 h-px w-1/2 -translate-y-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
+      <div className={`absolute top-1/2 right-0 h-px w-1/2 -translate-y-1/2 ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
+      <div className={`absolute left-1/2 top-1/2 h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full ${isNew ? 'bg-accent' : 'bg-red-500'}`} />
     </div>
   </div>
 );
 
 
 const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
-  ({ videoSrc, onTimestampSelect, tags, taggingPosition }, ref) => {
+  ({ videoSrc, onTimestampSelect, tags, taggingPosition, onCancelTag }, ref) => {
     const videoRef = React.useRef<HTMLVideoElement>(null)
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
     const containerRef = React.useRef<HTMLDivElement>(null)
@@ -53,7 +53,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     const [volume, setVolume] = React.useState(1)
     const [isMuted, setIsMuted] = React.useState(false)
     const [hoverPosition, setHoverPosition] = React.useState<{x: number, y: number} | null>(null);
-    const [aspectRatio, setAspectRatio] = React.useState<number | null>(null);
+    const [aspectRatio, setAspectRatio] = React.useState<number>(16/9);
 
     React.useImperativeHandle(ref, () => ({
       captureFrame: () => {
@@ -135,25 +135,48 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     }
 
     const calculateClickPosition = (e: React.MouseEvent<HTMLElement>) => {
+      const container = containerRef.current
       const video = videoRef.current
-      if (!video) return null
+      if (!container || !video) return null
 
-      const rect = video.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+      const containerRect = container.getBoundingClientRect()
+      
+      const videoAspectRatio = video.videoWidth / video.videoHeight
+      const containerAspectRatio = containerRect.width / containerRect.height
 
-      const xPercent = (x / rect.width) * 100
-      const yPercent = (y / rect.height) * 100
+      let renderWidth = containerRect.width
+      let renderHeight = containerRect.height
+      let offsetX = 0
+      let offsetY = 0
 
-      if (xPercent < 0 || xPercent > 100 || yPercent < 0 || yPercent > 100) {
+      if (videoAspectRatio > containerAspectRatio) {
+        renderHeight = containerRect.width / videoAspectRatio
+        offsetY = (containerRect.height - renderHeight) / 2
+      } else {
+        renderWidth = containerRect.height * videoAspectRatio
+        offsetX = (containerRect.width - renderWidth) / 2
+      }
+      
+      const clickX = e.clientX - containerRect.left - offsetX
+      const clickY = e.clientY - containerRect.top - offsetY
+
+      if (clickX < 0 || clickX > renderWidth || clickY < 0 || clickY > renderHeight) {
         return null;
       }
+      
+      const xPercent = (clickX / renderWidth) * 100
+      const yPercent = (clickY / renderHeight) * 100
       
       return { x: xPercent, y: yPercent }
     }
 
 
     const handleVideoClick = (e: React.MouseEvent<HTMLElement>) => {
+      if (taggingPosition) {
+        onCancelTag()
+        return
+      }
+
       const video = videoRef.current;
       if (!video) return;
 
@@ -190,8 +213,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
         video.addEventListener("play", playHandler);
         video.addEventListener("pause", pauseHandler);
         
-        // if video src changes
-        setAspectRatio(null)
+        video.load();
 
         return () => {
             video.removeEventListener("timeupdate", timeUpdateHandler);
@@ -206,10 +228,10 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       <div 
         ref={containerRef} 
         className="relative w-full h-full flex items-center justify-center bg-black"
-        style={aspectRatio ? { aspectRatio: `${aspectRatio}` } : {}}
+        style={{ aspectRatio: `${aspectRatio}` }}
       >
         <div 
-          className="relative w-full h-full"
+          className="relative w-full h-full cursor-crosshair"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           onClick={handleVideoClick}
@@ -221,7 +243,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
           />
           <canvas ref={canvasRef} className="hidden" />
 
-          {taggingPosition && <TagPin position={taggingPosition} />}
+          {taggingPosition && <TagPin position={taggingPosition} isNew />}
 
           {hoverPosition && !taggingPosition && <TagPin position={hoverPosition} isHover />}
 
@@ -279,3 +301,4 @@ export default VideoPlayer
     
 
     
+
