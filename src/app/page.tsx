@@ -105,11 +105,6 @@ export default function TaggerPage() {
     }
     setAllTags(prev => [...prev, newTag].sort((a,b) => a.timestamp - b.timestamp));
     
-    // Gamification logic
-    const newScore = score + 15;
-    setScore(newScore);
-    handleLevelUpCheck(newScore);
-    
     setLastAddedTag(newTag);
     setTimeout(() => setLastAddedTag(null), 1000); // Animation duration
 
@@ -141,7 +136,7 @@ export default function TaggerPage() {
   const handleSubmitTags = () => {
     if (isVideoSubmitted || !currentVideo) return;
 
-    const pointsEarned = 50;
+    const pointsEarned = Math.round(currentVideo.duration);
     const newScore = score + pointsEarned;
     setScore(newScore);
     setSubmittedVideoIds(new Set(submittedVideoIds).add(currentVideo.id));
