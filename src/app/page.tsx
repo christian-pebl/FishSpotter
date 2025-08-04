@@ -78,8 +78,8 @@ export default function TaggerPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-background text-foreground">
       <AppHeader />
-      <main className="flex-1 overflow-hidden p-4 lg:p-6">
-        <div className="grid h-full grid-cols-1 gap-6 md:grid-cols-3">
+      <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <div className="mx-auto grid h-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-3">
           <div className="flex h-full flex-col gap-4 md:col-span-2">
             <div className="flex items-center justify-between">
               <h1 className="font-headline text-2xl font-bold">{currentVideo.title}</h1>

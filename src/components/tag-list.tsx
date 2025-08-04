@@ -116,7 +116,7 @@ function TagListItem({ tag, onUpdateTag, onDeleteTag }: { tag: Tag, onUpdateTag:
 export default function TagList({ tags, onUpdateTag, onDeleteTag }: TagListProps) {
   if (tags.length === 0) {
     return (
-      <div className="flex h-full flex-col items-center justify-center rounded-md border-2 border-dashed">
+      <div className="flex h-full min-h-[150px] flex-col items-center justify-center rounded-md border-2 border-dashed">
         <p className="text-center text-muted-foreground">No tags for this video yet.</p>
         <p className="text-center text-sm text-muted-foreground">Click the video to create one.</p>
       </div>
@@ -124,7 +124,7 @@ export default function TagList({ tags, onUpdateTag, onDeleteTag }: TagListProps
   }
 
   return (
-    <ScrollArea className="h-[calc(100vh-250px)] w-full pr-4">
+    <ScrollArea className="h-[calc(100vh-250px)] max-h-[500px] w-full pr-4 md:max-h-full">
       <Accordion type="single" collapsible className="w-full space-y-0">
         {tags.map((tag) => (
           <TagListItem key={tag.id} tag={tag} onUpdateTag={onUpdateTag} onDeleteTag={onDeleteTag} />
