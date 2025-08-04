@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -20,7 +21,7 @@ export type VideoPlayerRef = {
   captureFrame: () => string | null
 }
 
-const TagPin = ({ position }: { position: { x: number; y: number } }) => (
+const TagPin = ({ position, isHover = false }: { position: { x: number; y: number }, isHover?: boolean }) => (
   <div
     className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
     style={{
@@ -29,7 +30,7 @@ const TagPin = ({ position }: { position: { x: number; y: number } }) => (
       pointerEvents: 'none',
     }}
   >
-    <div className="relative h-4 w-4">
+    <div className={`relative h-4 w-4 ${isHover ? 'opacity-50' : ''}`}>
       <div className="absolute left-1/2 top-0 h-1/2 w-px -translate-x-1/2 bg-red-500" />
       <div className="absolute left-1/2 bottom-0 h-1/2 w-px -translate-x-1/2 bg-red-500" />
       <div className="absolute top-1/2 left-0 h-px w-1/2 -translate-y-1/2 bg-red-500" />
@@ -51,6 +52,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
     const [duration, setDuration] = React.useState(0)
     const [volume, setVolume] = React.useState(1)
     const [isMuted, setIsMuted] = React.useState(false)
+    const [hoverPosition, setHoverPosition] = React.useState<{x: number, y: number} | null>(null);
 
     React.useImperativeHandle(ref, () => ({
       captureFrame: () => {
@@ -130,26 +132,69 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       }
     }
 
+    const calculateClickPosition = (e: React.MouseEvent<HTMLElement>) => {
+      const video = videoRef.current;
+      if (!video) return null;
+
+      const rect = video.getBoundingClientRect();
+
+      // Get video's rendered size, respecting object-fit: contain
+      const videoAspectRatio = video.videoWidth / video.videoHeight;
+      const containerAspectRatio = rect.width / rect.height;
+
+      let renderedWidth = rect.width;
+      let renderedHeight = rect.height;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (videoAspectRatio > containerAspectRatio) {
+        // Video is wider than container, so it's letterboxed (top/bottom bars)
+        renderedHeight = rect.width / videoAspectRatio;
+        offsetY = (rect.height - renderedHeight) / 2;
+      } else {
+        // Video is taller than container, so it's pillarboxed (left/right bars)
+        renderedWidth = rect.height * videoAspectRatio;
+        offsetX = (rect.width - renderedWidth) / 2;
+      }
+      
+      const x = e.clientX - rect.left - offsetX;
+      const y = e.clientY - rect.top - offsetY;
+
+      // Only register clicks within the video's visible area
+      if (x < 0 || x > renderedWidth || y < 0 || y > renderedHeight) {
+        return null;
+      }
+
+      const xPercent = (x / renderedWidth) * 100;
+      const yPercent = (y / renderedHeight) * 100;
+      
+      return { x: xPercent, y: yPercent };
+    }
+
     const handleVideoClick = (e: React.MouseEvent<HTMLElement>) => {
       const video = videoRef.current;
-      const container = containerRef.current;
-      if (!video || !container) return;
+      if (!video) return;
 
+      const position = calculateClickPosition(e);
+      if (!position) return;
+      
       if (!video.paused) {
         video.pause();
         setIsPlaying(false)
       }
       
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const xPercent = (x / rect.width) * 100;
-      const yPercent = (y / rect.height) * 100;
-      
-      onTimestampSelect(video.currentTime, { x: xPercent, y: yPercent });
+      onTimestampSelect(video.currentTime, position);
     }
     
+    const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+      const position = calculateClickPosition(e);
+      setHoverPosition(position);
+    }
+
+    const handleMouseLeave = () => {
+      setHoverPosition(null);
+    }
+
     React.useEffect(() => {
       const video = videoRef.current;
       if (video) {
@@ -176,17 +221,20 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
       <div 
         ref={containerRef} 
         className="relative flex h-full w-full flex-col items-center justify-center bg-black cursor-crosshair"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleVideoClick}
       >
         <video
           ref={videoRef}
           src={videoSrc}
-          className="max-h-full w-full object-contain"
-          onClick={handleVideoClick}
-          onDoubleClick={(e) => { e.stopPropagation(); e.preventDefault(); handlePlayPause(); }}
+          className="max-h-full w-full object-contain pointer-events-none"
         />
         <canvas ref={canvasRef} className="hidden" />
 
         {taggingPosition && <TagPin position={taggingPosition} />}
+
+        {hoverPosition && !taggingPosition && <TagPin position={hoverPosition} isHover />}
 
         {tags.map((tag) => (
           <TagPin key={tag.id} position={tag.position} />
@@ -194,7 +242,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
         <div 
           className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white opacity-0 transition-opacity duration-300 hover:opacity-100 focus-within:opacity-100"
-          onClick={(e) => e.stopPropagation()} 
+          onClick={(e) => e.stopPropagation()}
         >
            <div className="flex w-full items-center gap-2">
             <span className="font-code text-sm">{formatTimestamp(currentTime)}</span>
