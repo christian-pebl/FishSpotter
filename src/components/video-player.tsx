@@ -5,13 +5,13 @@ import * as React from "react"
 import { Play, Pause, Rewind, FastForward, Volume2, VolumeX } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { formatTimestamp } from "@/lib/utils"
+import { formatTimestamp, cn } from "@/lib/utils"
 import type { Tag } from "@/lib/types"
 
 export interface VideoPlayerProps {
   videoSrc: string
   onTimestampSelect: (time: number, position: { x: number, y: number }) => void
-  tags: Tag[]
+  activeTag: Tag | null
   taggingPosition: { x: number, y: number } | null
   onCancelTag: () => void
   children?: React.ReactNode
@@ -22,7 +22,7 @@ export type VideoPlayerRef = {
   seekTo: (time: number) => void
 }
 
-const TagPin = ({ position, isHover = false, isNew = false }: { position: { x: number; y: number }, isHover?: boolean, isNew?: boolean }) => (
+const TagPin = ({ position, isHover = false, isNew = false, isActive = false }: { position: { x: number; y: number }, isHover?: boolean, isNew?: boolean, isActive?: boolean }) => (
   <div
     className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
     style={{
@@ -31,19 +31,19 @@ const TagPin = ({ position, isHover = false, isNew = false }: { position: { x: n
       pointerEvents: 'none',
     }}
   >
-    <div className={`relative h-6 w-6 ${isHover ? 'opacity-70' : ''} transition-opacity`}>
-      <div className={`absolute left-1/2 top-0 h-1/2 w-0.5 -translate-x-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
-      <div className={`absolute left-1/2 bottom-0 h-1/2 w-0.5 -translate-x-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
-      <div className={`absolute top-1/2 left-0 h-0.5 w-1/2 -translate-y-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
-      <div className={`absolute top-1/2 right-0 h-0.5 w-1/2 -translate-y-1/2 ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
-      <div className={`absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${isNew ? 'bg-yellow-300' : 'bg-red-500/80'}`} />
+    <div className={cn('relative h-8 w-8 transition-opacity', isHover && 'opacity-70')}>
+      <div className={cn('absolute left-1/2 top-0 h-1/2 w-1 -translate-x-1/2', isNew ? 'bg-yellow-300' : isActive ? 'bg-primary' : 'bg-red-500/80')} />
+      <div className={cn('absolute left-1/2 bottom-0 h-1/2 w-1 -translate-x-1/2', isNew ? 'bg-yellow-300' : isActive ? 'bg-primary' : 'bg-red-500/80')} />
+      <div className={cn('absolute top-1/2 left-0 h-1 w-1/2 -translate-y-1/2', isNew ? 'bg-yellow-300' : isActive ? 'bg-primary' : 'bg-red-500/80')} />
+      <div className={cn('absolute top-1/2 right-0 h-1 w-1/2 -translate-y-1/2', isNew ? 'bg-yellow-300' : isActive ? 'bg-primary' : 'bg-red-500/80')} />
+      <div className={cn('absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full', isNew ? 'bg-yellow-300' : isActive ? 'bg-primary' : 'bg-red-500/80')} />
     </div>
   </div>
 );
 
 
 const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
-  ({ videoSrc, onTimestampSelect, tags, taggingPosition, onCancelTag }, ref) => {
+  ({ videoSrc, onTimestampSelect, activeTag, taggingPosition, onCancelTag }, ref) => {
     const videoRef = React.useRef<HTMLVideoElement>(null)
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
     const containerRef = React.useRef<HTMLDivElement>(null)
@@ -180,7 +180,7 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
 
     const handleVideoClick = (e: React.MouseEvent<HTMLElement>) => {
-      if (taggingPosition) {
+      if (taggingPosition || activeTag) {
         onCancelTag()
         return
       }
@@ -252,12 +252,10 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
           <canvas ref={canvasRef} className="hidden" />
 
           {taggingPosition && <TagPin position={taggingPosition} isNew />}
+          
+          {activeTag && <TagPin position={activeTag.position} isActive />}
 
-          {hoverPosition && !taggingPosition && <TagPin position={hoverPosition} isHover />}
-
-          {tags.map((tag) => (
-            <TagPin key={tag.id} position={tag.position} />
-          ))}
+          {hoverPosition && !taggingPosition && !activeTag && <TagPin position={hoverPosition} isHover />}
 
           <div 
             className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/70 to-transparent p-4 text-white opacity-0 transition-opacity duration-300 hover:opacity-100 focus-within:opacity-100"
@@ -305,10 +303,3 @@ const VideoPlayer = React.forwardRef<VideoPlayerRef, VideoPlayerProps>(
 
 VideoPlayer.displayName = "VideoPlayer"
 export default VideoPlayer
-
-    
-
-    
-
-
-

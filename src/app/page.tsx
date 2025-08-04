@@ -38,6 +38,7 @@ export default function TaggerPage() {
   const [selectedTimestamp, setSelectedTimestamp] = React.useState<number | null>(null)
   const [taggingPosition, setTaggingPosition] = React.useState<{ x: number; y: number } | null>(null)
   const [lastAddedTag, setLastAddedTag] = React.useState<Tag | null>(null);
+  const [activeTag, setActiveTag] = React.useState<Tag | null>(null);
 
   // Gamification state
   const [score, setScore] = React.useState(0);
@@ -65,11 +66,13 @@ export default function TaggerPage() {
   const handleTimestampSelect = (time: number, position: { x: number, y: number }) => {
     setSelectedTimestamp(time)
     setTaggingPosition(position)
+    setActiveTag(null);
   }
 
   const resetSelection = () => {
     setSelectedTimestamp(null)
     setTaggingPosition(null)
+    setActiveTag(null);
   }
 
   const handleNextVideo = () => {
@@ -113,17 +116,24 @@ export default function TaggerPage() {
 
   const handleUpdateTag = (updatedTag: Tag) => {
     setAllTags(prev => prev.map(t => t.id === updatedTag.id ? updatedTag : t))
+    if (activeTag?.id === updatedTag.id) {
+        setActiveTag(updatedTag);
+    }
   }
   
   const handleDeleteTag = (tagId: string) => {
     setAllTags(prev => prev.filter(t => t.id !== tagId))
+     if (activeTag?.id === tagId) {
+        setActiveTag(null);
+    }
   }
   
   const handleTagSelect = (tag: Tag) => {
     if (videoPlayerRef.current) {
         videoPlayerRef.current.seekTo(tag.timestamp);
     }
-    onTimestampSelect(tag.timestamp, tag.position);
+    resetSelection();
+    setActiveTag(tag);
   }
 
   const handleSubmitTags = () => {
@@ -199,7 +209,7 @@ export default function TaggerPage() {
                   ref={videoPlayerRef}
                   videoSrc={currentVideo.srcUrl}
                   onTimestampSelect={handleTimestampSelect}
-                  tags={currentVideoTags}
+                  activeTag={activeTag}
                   onCancelTag={resetSelection}
                   taggingPosition={taggingPosition}
                 />
@@ -245,6 +255,7 @@ export default function TaggerPage() {
                     onUpdateTag={handleUpdateTag}
                     onDeleteTag={handleDeleteTag}
                     onTagSelect={handleTagSelect}
+                    activeTagId={activeTag?.id ?? null}
                   />
                 )}
               </CardContent>

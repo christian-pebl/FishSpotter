@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { formatTimestamp } from "@/lib/utils"
+import { formatTimestamp, cn } from "@/lib/utils"
 import type { Tag } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,9 +17,10 @@ interface TagListProps {
   onUpdateTag: (tag: Tag) => void
   onDeleteTag: (tagId: string) => void
   onTagSelect: (tag: Tag) => void
+  activeTagId: string | null
 }
 
-function TagListItem({ tag, onUpdateTag, onDeleteTag, onTagSelect }: { tag: Tag, onUpdateTag: (tag: Tag) => void, onDeleteTag: (tagId: string) => void, onTagSelect: (tag: Tag) => void }) {
+function TagListItem({ tag, onUpdateTag, onDeleteTag, onTagSelect, isActive }: { tag: Tag; onUpdateTag: (tag: Tag) => void; onDeleteTag: (tagId: string) => void; onTagSelect: (tag: Tag) => void; isActive: boolean }) {
   const [isEditing, setIsEditing] = React.useState(false)
   const [editText, setEditText] = React.useState(tag.text)
 
@@ -39,19 +40,20 @@ function TagListItem({ tag, onUpdateTag, onDeleteTag, onTagSelect }: { tag: Tag,
   }
   
   const handleTagClick = (e: React.MouseEvent) => {
-    if (!isEditing) {
-        // Stop propagation to prevent Accordion from opening/closing
+    // Prevent accordion from toggling if we are editing text
+    if (isEditing) {
         e.stopPropagation();
-        onTagSelect(tag);
+        return;
     }
+    onTagSelect(tag);
   }
 
   return (
     <AccordionItem value={tag.id} className="border-b-0">
-        <Card className="mb-2">
+        <Card className={cn("mb-2 transition-all", isActive && "border-primary ring-1 ring-primary")}>
             <div className="flex w-full items-center justify-between p-3" >
               <div className="flex-1 flex items-center justify-start gap-4 cursor-pointer" onClick={handleTagClick}>
-                  <span className="font-code text-sm font-semibold text-primary">{formatTimestamp(tag.timestamp)}</span>
+                  <span className={cn("font-code text-sm font-semibold", isActive ? "text-primary" : "text-muted-foreground")}>{formatTimestamp(tag.timestamp)}</span>
                   {isEditing ? (
                       <Input
                           type="text"
@@ -67,7 +69,7 @@ function TagListItem({ tag, onUpdateTag, onDeleteTag, onTagSelect }: { tag: Tag,
                   )}
                 </div>
                 <div className="flex items-center gap-1">
-                    <AccordionTrigger className="p-1 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+                    <AccordionTrigger onClick={(e) => { if(isEditing) e.stopPropagation()}} className="p-1 hover:no-underline [&[data-state=open]>svg]:rotate-180">
                         <span className="sr-only">Details</span>
                     </AccordionTrigger>
                     {isEditing ? (
@@ -126,7 +128,7 @@ function TagListItem({ tag, onUpdateTag, onDeleteTag, onTagSelect }: { tag: Tag,
   )
 }
 
-export default function TagList({ tags, onUpdateTag, onDeleteTag, onTagSelect }: TagListProps) {
+export default function TagList({ tags, onUpdateTag, onDeleteTag, onTagSelect, activeTagId }: TagListProps) {
   if (tags.length === 0) {
     return (
       <div className="flex h-full min-h-[150px] flex-col items-center justify-center rounded-md border-2 border-dashed">
@@ -140,7 +142,14 @@ export default function TagList({ tags, onUpdateTag, onDeleteTag, onTagSelect }:
     <ScrollArea className="h-[calc(100vh-250px)] max-h-[500px] w-full pr-4 md:max-h-full">
       <Accordion type="single" collapsible className="w-full space-y-0">
         {tags.map((tag) => (
-          <TagListItem key={tag.id} tag={tag} onUpdateTag={onUpdateTag} onDeleteTag={onDeleteTag} onTagSelect={onTagSelect} />
+          <TagListItem 
+            key={tag.id} 
+            tag={tag} 
+            onUpdateTag={onUpdateTag} 
+            onDeleteTag={onDeleteTag} 
+            onTagSelect={onTagSelect}
+            isActive={tag.id === activeTagId}
+          />
         ))}
       </Accordion>
     </ScrollArea>
