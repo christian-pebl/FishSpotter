@@ -8,7 +8,6 @@ import { useAuth } from "@/context/AuthContext"
 import { UserCircle, LogOut, LayoutDashboard, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { AppLogo } from "@/components/icons"
 
 export default function AppHeader() {
   const { user, logout, loading } = useAuth()
@@ -27,7 +26,6 @@ export default function AppHeader() {
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b px-4 lg:px-6">
       <Link href="/" className="flex items-center gap-2">
-        <AppLogo className="h-8 w-8 text-primary" />
         <h1 className="font-headline text-xl font-bold tracking-tight">Fish Spotter</h1>
       </Link>
       {loading ? (
