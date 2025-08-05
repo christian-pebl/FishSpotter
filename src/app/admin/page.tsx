@@ -31,7 +31,7 @@ interface UserWithTags extends User {
 }
 
 export default function AdminDashboardPage() {
-  const { user, isAdmin, loading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const router = useRouter()
   const { toast } = useToast()
 
@@ -47,25 +47,12 @@ export default function AdminDashboardPage() {
     if (!authLoading) {
       if (!user) {
         router.push('/login');
-      } else if (!isAdmin) {
-        // Non-admins should not see this page and be redirected
-        toast({
-          variant: "destructive",
-          title: "Access Denied",
-          description: "You do not have permission to view this page.",
-        });
-        router.push('/tagger');
       }
     }
-  }, [user, isAdmin, authLoading, router, toast]);
+  }, [user, authLoading, router]);
 
   const fetchAdminData = React.useCallback(async () => {
      try {
-        if (!isAdmin) {
-          setLoadingData(false);
-          return;
-        };
-
         const [fetchedUsers, fetchedVideos] = await Promise.all([
           getAllUsersWithTags(),
           getAllVideos(),
@@ -83,30 +70,21 @@ export default function AdminDashboardPage() {
       } finally {
         setLoadingData(false)
       }
-  }, [isAdmin])
+  }, [])
 
 
   React.useEffect(() => {
-    if (!authLoading && isAdmin) {
+    if (!authLoading && user) {
       setLoadingData(true)
       fetchAdminData()
     }
-  }, [authLoading, isAdmin, fetchAdminData])
+  }, [authLoading, user, fetchAdminData])
 
   const addLog = (videoId: string, log: string) => {
       setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, logs: [...(v.logs || []), `${new Date().toLocaleTimeString()}: ${log}`] } : v));
   };
   
  const handleUpload = (files: FileList) => {
-    if (!isAdmin) {
-        toast({
-            variant: "destructive",
-            title: "Permission Denied",
-            description: "You must be an admin to upload videos.",
-        });
-        return;
-    }
-
     setIsUploadDialogOpen(false);
     
     const newVideos: UploadingVideo[] = Array.from(files).map(file => ({
@@ -220,7 +198,7 @@ export default function AdminDashboardPage() {
     return videos.find(v => v.id === videoId)?.title || "Unknown Video"
   }
   
-  if (authLoading || loadingData || !isAdmin) {
+  if (authLoading || loadingData) {
     return (
       <div className="flex h-screen w-full flex-col bg-background">
         <AppHeader />
@@ -252,7 +230,7 @@ export default function AdminDashboardPage() {
       <main className="flex-1 overflow-y-auto p-4 lg:p-6">
         <div className="mx-auto max-w-7xl">
           <div className="mb-6">
-            <h1 className="font-headline text-3xl font-bold">Admin Dashboard</h1>
+            <h1 className="font-headline text-3xl font-bold">Dashboard</h1>
             <p className="text-muted-foreground">Overview of user contributions and video library.</p>
           </div>
           
@@ -319,7 +297,7 @@ export default function AdminDashboardPage() {
                       <CardTitle>Video Library</CardTitle>
                       <CardDescription>Manage and upload new videos for tagging.</CardDescription>
                   </div>
-                  <Button onClick={() => setIsUploadDialogOpen(true)} disabled={!isAdmin}>
+                  <Button onClick={() => setIsUploadDialogOpen(true)}>
                       <Upload className="mr-2 h-4 w-4" />
                       Upload Videos
                   </Button>

@@ -23,12 +23,10 @@ interface User {
 interface AuthContextType {
   user: User | null
   loading: boolean
-  isAdmin: boolean
   login: (email: string, pass: string) => Promise<User>
   signup: (email: string, pass: string) => Promise<User>
   logout: () => Promise<void>
   forgotPassword: (email: string) => Promise<void>
-  grantAdminAccess: () => void
 }
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined)
@@ -36,7 +34,6 @@ const AuthContext = React.createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = React.useState<User | null>(null)
   const [loading, setLoading] = React.useState(true)
-  const [isAdmin, setIsAdmin] = React.useState(false)
   const router = useRouter();
 
   React.useEffect(() => {
@@ -52,8 +49,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         setUser(null)
       }
-      // Reset admin status on user change
-      setIsAdmin(false); 
       setLoading(false)
     })
 
@@ -116,19 +111,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await signOut(auth);
       setUser(null);
-      setIsAdmin(false);
       router.push("/");
     } catch (error: any) {
       console.error("Logout Error:", error);
       throw new Error("Failed to logout.");
     }
   }
-  
-  const grantAdminAccess = () => {
-    setIsAdmin(true);
-  }
 
-  const value = { user, loading, isAdmin, login, signup, logout, forgotPassword, grantAdminAccess }
+  const value = { user, loading, login, signup, logout, forgotPassword }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
@@ -140,5 +130,3 @@ export function useAuth() {
   }
   return context
 }
-
-    

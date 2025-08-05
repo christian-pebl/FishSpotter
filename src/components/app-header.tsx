@@ -5,7 +5,7 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-import { UserCircle, LogOut, Loader2, ListVideo, ShieldCheck, LayoutDashboard } from "lucide-react"
+import { UserCircle, LogOut, Loader2, ListVideo, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import VideoProgressSheet from "./video-progress-sheet"
@@ -19,7 +19,7 @@ interface AppHeaderProps {
 }
 
 export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoSelect }: AppHeaderProps) {
-  const { user, logout, loading, isAdmin, grantAdminAccess } = useAuth()
+  const { user, logout, loading } = useAuth()
   const router = useRouter()
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
 
@@ -31,11 +31,6 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
       console.error(error)
       // Handle logout error with a toast, perhaps
     }
-  }
-
-  const handleAdminLoginSuccess = () => {
-    grantAdminAccess();
-    router.push("/admin"); // Navigate to admin dashboard
   }
 
   return (
@@ -69,27 +64,16 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Hi, {user.name}!</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {isAdmin ? (
-                  <DropdownMenuItem onClick={() => router.push('/admin')}>
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
-                  </DropdownMenuItem>
-                ) : (
-                   <DropdownMenuItem onClick={() => router.push('/tagger')}>
-                    <ListVideo className="mr-2 h-4 w-4" />
-                    <span>Start Tagging</span>
-                  </DropdownMenuItem>
-                )}
-                
+                <DropdownMenuItem onClick={() => router.push('/tagger')}>
+                  <ListVideo className="mr-2 h-4 w-4" />
+                  <span>Start Tagging</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push('/admin')}>
+                  <LayoutDashboard className="mr-2 h-4 w-4" />
+                  <span>Dashboard</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem disabled>Profile</DropdownMenuItem>
                 <DropdownMenuItem disabled>Settings</DropdownMenuItem>
-                
-                {!isAdmin && (
-                  <DropdownMenuItem onClick={handleAdminLoginSuccess}>
-                    <ShieldCheck className="mr-2 h-4 w-4" />
-                    <span>Admin Log in</span>
-                  </DropdownMenuItem>
-                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
