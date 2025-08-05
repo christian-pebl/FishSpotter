@@ -20,4 +20,5 @@ const nextConfig: NextConfig = {
   },
 };
 
+// Adding a comment to force a cache invalidation for the favicon issue.
 export default nextConfig;

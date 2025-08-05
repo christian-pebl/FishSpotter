@@ -7,6 +7,7 @@ import { AuthProvider } from '@/context/AuthContext';
 export const metadata: Metadata = {
   title: 'Abyssal Annotator',
   description: 'Tag marine species in underwater videos.',
+  icons: [],
 };
 
 export default function RootLayout({

@@ -31,7 +31,7 @@ interface UserWithTags extends User {
 }
 
 export default function AdminDashboardPage() {
-  const { user, isAdmin, loading: authLoading } = useAuth()
+  const { user, isAdmin, loading: authLoading } from useAuth()
   const router = useRouter()
   const { toast } = useToast()
 
@@ -147,7 +147,7 @@ export default function AdminDashboardPage() {
         (error) => {
           console.error('Upload failed:', error);
           const errorMsg = `Upload failed: ${error.code} - ${error.message}`;
-          addLog(videoId, errorMsg);
+          addLog(videoId, `Error: ${errorMsg}`);
           setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v));
           toast({
               variant: "destructive",
