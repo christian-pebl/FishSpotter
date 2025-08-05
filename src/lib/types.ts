@@ -14,6 +14,7 @@ export interface Tag {
   userId: string;
   username: string;
   position: { x: number; y: number }; // Percentage from top-left
+  submitted: boolean;
 }
 
 export interface User {
@@ -21,3 +22,5 @@ export interface User {
   name: string;
   email: string;
 }
+
+    

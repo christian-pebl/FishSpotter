@@ -4,10 +4,11 @@
 import 'dotenv/config'
 import { suggestVideoTag, type SuggestVideoTagInput } from "@/ai/flows/suggest-video-tag"
 import { getAdminStorage } from "@/lib/firebase-admin";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import { db } from "./firebase";
-import type { Video } from "./types";
+import type { Video, Tag } from "./types";
 import { v4 as uuidv4 } from 'uuid';
+import { getAllVideos as getAllVideosFS, getTagsForVideo as getTagsForVideoFS } from './firestore';
 
 export async function getTagSuggestions(currentFrame: string): Promise<string[]> {
   if (!currentFrame) {
@@ -23,7 +24,6 @@ export async function getTagSuggestions(currentFrame: string): Promise<string[]>
     return result.suggestedTags || []
   } catch (error) {
     console.error("Error getting AI tag suggestions:", error)
-    // In a real application, you'd want more robust error handling and logging.
     return []
   }
 }
@@ -63,16 +63,11 @@ export async function uploadVideo(
         expires: '03-09-2491' // Far future expiration
     });
 
-    // For simplicity, we'll generate a placeholder thumbnail.
-    // In a real app, you would generate one from the video.
     const newVideoData: Omit<Video, 'id' | 'duration'> = {
-        title: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
+        title: file.name.replace(/\.[^/.]+$/, ""),
         srcUrl: url,
         thumbnailUrl: 'https://placehold.co/160x90.png', 
     };
-
-    // To get duration, we'd need a library like fluent-ffmpeg, which is complex for this demo.
-    // We'll add it without duration for now. A background function could update it later.
 
     const docRef = await addDoc(collection(db, "videos"), {
       ...newVideoData,
@@ -82,7 +77,7 @@ export async function uploadVideo(
     const newVideo: Video = {
       id: docRef.id,
       ...newVideoData,
-      duration: 0, // Placeholder
+      duration: 0,
     }
 
     return { success: true, video: newVideo };
@@ -92,3 +87,32 @@ export async function uploadVideo(
     return { success: false, error: error.message };
   }
 }
+
+export async function getVideos(): Promise<Video[]> {
+    return getAllVideosFS();
+}
+
+export async function getTags(): Promise<Tag[]> {
+    const tagsCollectionRef = collection(db, "tags");
+    const snapshot = await getDocs(tagsCollectionRef);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Tag));
+}
+
+export async function saveTags(tags: Tag[]): Promise<void> {
+    const batch = writeBatch(db);
+
+    tags.forEach(tag => {
+        // Mark the tag as submitted before saving
+        const tagWithSubmission = { ...tag, submitted: true };
+        
+        // If the tag has a temporary ID (like `tag-${Date.now()}`), we create a new doc.
+        // If it had a real ID from Firestore, we would update it.
+        // For this app's logic, we are always creating new tags.
+        const docRef = doc(collection(db, "tags"));
+        batch.set(docRef, tagWithSubmission);
+    });
+
+    await batch.commit();
+}
+
+    

@@ -2,9 +2,9 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight, Upload, Sparkles, Award, CheckCircle2, PartyPopper } from "lucide-react"
+import { ArrowLeft, ArrowRight, Upload, Sparkles, Award, CheckCircle2, PartyPopper, Loader2 } from "lucide-react"
 
-import { MOCK_VIDEOS, MOCK_TAGS } from "@/lib/data"
+import { getVideos, getTags, saveTags as saveTagsAction } from "@/lib/actions"
 import type { Video, Tag } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -22,18 +22,12 @@ import { useRouter } from "next/navigation"
 const LEVEL_UP_THRESHOLD = 100;
 
 export default function TaggerPage() {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
 
-  React.useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
-
-  const [videos, setVideos] = React.useState<Video[]>(MOCK_VIDEOS)
-  const [allTags, setAllTags] = React.useState<Tag[]>(MOCK_TAGS)
+  const [videos, setVideos] = React.useState<Video[]>([])
+  const [allTags, setAllTags] = React.useState<Tag[]>([])
+  const [dataLoading, setDataLoading] = React.useState(true);
   const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0)
   const [selectedTimestamp, setSelectedTimestamp] = React.useState<number | null>(null)
   const [taggingPosition, setTaggingPosition] = React.useState<{ x: number; y: number } | null>(null)
@@ -48,6 +42,61 @@ export default function TaggerPage() {
 
   const videoPlayerRef = React.useRef<VideoPlayerRef>(null)
   const { toast } = useToast();
+
+  React.useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, authLoading, router]);
+
+  React.useEffect(() => {
+    async function fetchData() {
+      if (user) {
+        setDataLoading(true);
+        try {
+          const [fetchedVideos, fetchedTags] = await Promise.all([
+            getVideos(),
+            getTags()
+          ]);
+          setVideos(fetchedVideos);
+          setAllTags(fetchedTags);
+
+          // Logic to determine which videos are already submitted by the user
+          const userTags = fetchedTags.filter(t => t.userId === user.id);
+          const submittedIds = new Set<string>();
+          const userVideoSubmissions: Record<string, boolean> = {};
+          
+          userTags.forEach(tag => {
+            if (tag.submitted) {
+              userVideoSubmissions[tag.videoId] = true;
+            }
+          });
+
+          fetchedVideos.forEach(video => {
+              if (userVideoSubmissions[video.id]) {
+                  submittedIds.add(video.id);
+              }
+          });
+          
+          setSubmittedVideoIds(submittedIds);
+
+        } catch (error) {
+          console.error("Failed to fetch data:", error);
+          toast({
+            variant: "destructive",
+            title: "Error fetching data",
+            description: "Could not load videos and tags.",
+          });
+        } finally {
+          setDataLoading(false);
+        }
+      }
+    }
+    if (!authLoading && user) {
+        fetchData();
+    }
+  }, [user, authLoading, toast]);
+
 
   const currentVideo = videos[currentVideoIndex]
   const currentVideoTags = allTags.filter(tag => tag.videoId === currentVideo?.id)
@@ -101,7 +150,8 @@ export default function TaggerPage() {
       text: newTagText,
       userId: user.id,
       username: user.name,
-      position: taggingPosition
+      position: taggingPosition,
+      submitted: false,
     }
     setAllTags(prev => [...prev, newTag].sort((a,b) => a.timestamp - b.timestamp));
     
@@ -133,26 +183,46 @@ export default function TaggerPage() {
     setActiveTag(tag);
   }
 
-  const handleSubmitTags = () => {
-    if (isVideoSubmitted || !currentVideo) return;
+  const handleSubmitTags = async () => {
+    if (isVideoSubmitted || !currentVideo || !user) return;
 
-    const pointsEarned = Math.round(currentVideo.duration);
-    const newScore = score + pointsEarned;
-    setScore(newScore);
-    setSubmittedVideoIds(new Set(submittedVideoIds).add(currentVideo.id));
-    handleLevelUpCheck(newScore);
-    toast({
-      title: "Submission Successful!",
-      description: `You earned ${pointsEarned} points for submitting your tags.`,
-    });
+    try {
+        const userTagsForVideo = currentVideoTags.filter(t => t.userId === user.id && !t.submitted);
+        await saveTagsAction(userTagsForVideo);
+        
+        // Mark tags as submitted locally
+        setAllTags(prevTags => prevTags.map(tag => 
+            userTagsForVideo.some(submittedTag => submittedTag.id === tag.id) 
+            ? { ...tag, submitted: true } 
+            : tag
+        ));
+
+        const pointsEarned = Math.round(currentVideo.duration);
+        const newScore = score + pointsEarned;
+        setScore(newScore);
+        setSubmittedVideoIds(new Set(submittedVideoIds).add(currentVideo.id));
+        handleLevelUpCheck(newScore);
+        toast({
+        title: "Submission Successful!",
+        description: `You earned ${pointsEarned} points for submitting your tags.`,
+        });
+
+    } catch (error) {
+        console.error("Error submitting tags: ", error);
+        toast({
+            variant: "destructive",
+            title: "Submission Failed",
+            description: "Could not save your tags. Please try again.",
+        });
+    }
   }
 
   const progressToNextLevel = (score % LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD * 100;
   
-  if (loading || !user) {
+  if (authLoading || !user) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <p>Loading...</p>
+        <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
   }
@@ -167,7 +237,12 @@ export default function TaggerPage() {
         onVideoSelect={handleVideoSelect}
       />
       <main className="flex-1 overflow-y-auto p-4 lg:p-6">
-        {allVideosSubmitted ? (
+        { dataLoading ? (
+            <div className="flex h-full items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin" />
+                <p className="ml-2">Loading videos...</p>
+            </div>
+        ) : allVideosSubmitted ? (
             <div className="mx-auto flex h-full max-w-4xl items-center justify-center">
                 <Card className="w-full text-center">
                     <CardHeader>
@@ -272,3 +347,5 @@ export default function TaggerPage() {
     </div>
   )
 }
+
+    

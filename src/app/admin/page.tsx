@@ -92,10 +92,6 @@ export default function AdminDashboardPage() {
       try {
         const formData = new FormData();
         formData.append('video', video.file);
-
-        // This would be where you'd use a library that supports progress tracking
-        // For now, we simulate progress based on the upload itself completing
-        // A real implementation would involve a more complex setup with web sockets or polling
         
         setUploadingVideos(prev => prev.map(v => v.id === video.id ? { ...v, progress: 50 } : v));
 
@@ -107,7 +103,6 @@ export default function AdminDashboardPage() {
               v.id === video.id ? { ...v, status: 'complete', progress: 100 } : v
             )
           );
-          // Add new video to the list without re-fetching everything
           setVideos(prev => [...prev, result.video!].sort((a,b) => a.title.localeCompare(b.title)));
           toast({
             title: "Upload successful",
@@ -132,12 +127,10 @@ export default function AdminDashboardPage() {
   };
 
   const handleRenameVideo = (id: string, newName: string) => {
-    // In a real app, you'd call a server action here to rename the file/DB record
     console.log(`Renaming ${id} to ${newName}`);
   };
   
   const handleDeleteVideo = (id: string) => {
-    // In a real app, you'd call a server action here to delete the file/DB record
     setUploadingVideos(prev => prev.filter(v => v.id !== id));
   };
 
@@ -281,3 +274,5 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
+
+    

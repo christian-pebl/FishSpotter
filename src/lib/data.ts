@@ -1,5 +1,8 @@
 import type { Video, Tag } from './types';
 
+// This file is now unused but kept for reference.
+// The application now fetches data directly from Firestore.
+
 export const MOCK_VIDEOS: Video[] = [
   {
     id: 'vid-1',
@@ -32,3 +35,5 @@ export const MOCK_VIDEOS: Video[] = [
 ];
 
 export const MOCK_TAGS: Tag[] = [];
+
+    
