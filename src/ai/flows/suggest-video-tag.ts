@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -31,6 +32,7 @@ const prompt = ai.definePrompt({
   name: 'suggestVideoTagPrompt',
   input: {schema: SuggestVideoTagInputSchema},
   output: {schema: SuggestVideoTagOutputSchema},
+  model: 'googleai/gemini-2.0-flash',
   prompt: `You are an expert marine biologist. Given a video frame, suggest relevant tags for the marine species visible in the current frame.
 
 Current Frame: {{media url=currentFrame}}
