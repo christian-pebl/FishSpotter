@@ -44,39 +44,58 @@ export default function AdminDashboardPage() {
 
 
   React.useEffect(() => {
+    console.log("Admin page mounted. Auth loading:", authLoading);
     if (!authLoading) {
       if (!user) {
+        console.log("User not found, redirecting to /login.");
         router.push('/login');
+      } else {
+        console.log("User found:", user.email);
       }
     }
   }, [user, authLoading, router]);
 
   const fetchAdminData = React.useCallback(async () => {
+     console.log("Attempting to fetch admin data...");
      try {
+        console.log("Fetching users and videos...");
         const [fetchedUsers, fetchedVideos] = await Promise.all([
           getAllUsersWithTags(),
           getAllVideos(),
         ])
+        console.log("Successfully fetched users and videos.");
         
         const usersData = fetchedUsers.map(u => ({
           ...u,
           submittedVideoIds: new Set(u.tags.map(t => t.videoId))
         }))
+        console.log("Processed user data with tags.");
 
         setUsersWithTags(usersData)
         setVideos(fetchedVideos.sort((a,b) => a.title.localeCompare(b.title)))
       } catch (error) {
-        console.error("Failed to fetch admin data:", error)
+        console.error("!!! FAILED TO FETCH ADMIN DATA !!!");
+        console.error("Firestore Error Object:", error);
+        toast({
+            variant: "destructive",
+            title: "Permission Error",
+            description: "Could not load dashboard data. Check console for details.",
+        });
       } finally {
+        console.log("Finished fetching data, setting loadingData to false.");
         setLoadingData(false)
       }
-  }, [])
+  }, [toast])
 
 
   React.useEffect(() => {
+    console.log("Auth/user state changed. Auth loading:", authLoading, "User:", !!user);
     if (!authLoading && user) {
       setLoadingData(true)
       fetchAdminData()
+    } else if (!authLoading && !user) {
+        // If not logged in after auth check, don't keep loading forever
+        setLoadingData(false);
     }
   }, [authLoading, user, fetchAdminData])
 
@@ -342,3 +361,5 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
+
+    
