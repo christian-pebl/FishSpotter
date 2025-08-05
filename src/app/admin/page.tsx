@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button"
 import UploadDialog from "@/components/upload-dialog"
 import VideoQueue, { type UploadingVideo } from "@/components/video-queue"
 import VideoPreviewDialog from "@/components/video-preview-dialog"
-import { FileVideo, Eye } from "lucide-react"
+import { FileVideo, Play } from "lucide-react"
 
 
 interface UserWithTags extends User {
@@ -232,9 +232,8 @@ export default function AdminDashboardPage() {
                         <div key={video.id} className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted/50">
                           <FileVideo className="h-6 w-6 text-muted-foreground" />
                           <p className="flex-1 text-sm font-medium leading-none truncate">{video.title}</p>
-                          <Button variant="outline" size="sm" onClick={() => setPreviewVideo(video)}>
-                            <Eye className="mr-2 h-4 w-4" />
-                            View
+                          <Button variant="ghost" size="icon" onClick={() => setPreviewVideo(video)} aria-label="Play video">
+                            <Play className="h-4 w-4" />
                           </Button>
                         </div>
                       ))}
