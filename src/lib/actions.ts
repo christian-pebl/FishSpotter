@@ -42,7 +42,9 @@ export async function uploadFile(
     }
 
     const filePath = `videos/${uuidv4()}-${file.name}`;
+    addLog(videoId, `Generated file path: ${filePath}`);
     const storageRef = ref(storage, filePath);
+    addLog(videoId, "Storage reference created. Starting upload task...");
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     let lastBytesTransferred = 0;
@@ -70,13 +72,13 @@ export async function uploadFile(
             addLog(videoId, 'Upload is paused.');
             break;
           case 'running':
-            // This is too noisy, progress is logged in onProgress
+            // This log is too noisy, progress is logged in onProgress callback
             break;
         }
       },
       (error) => {
         console.error('Upload failed:', error);
-        const errorMsg = `Upload failed: ${error.message}`;
+        const errorMsg = `Upload failed: ${error.code} - ${error.message}`;
         addLog(videoId, errorMsg);
         reject({ success: false, error: errorMsg });
       },
@@ -84,11 +86,11 @@ export async function uploadFile(
         addLog(videoId, "Upload finished. Getting download URL...");
         try {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          addLog(videoId, "Download URL retrieved.");
+          addLog(videoId, "Download URL retrieved successfully.");
           resolve({ success: true, downloadURL });
         } catch (error: any) {
           console.error('Failed to get download URL:', error);
-          const errorMsg = `Failed to get download URL: ${error.message}`;
+          const errorMsg = `Failed to get download URL: ${error.code} - ${error.message}`;
           addLog(videoId, errorMsg);
           reject({ success: false, error: errorMsg });
         }

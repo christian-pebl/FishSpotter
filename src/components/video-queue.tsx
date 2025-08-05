@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { CheckCircle2, Edit, FileVideo, Loader2, Save, Trash2, X, AlertTriangle, FileText, ChevronDown } from "lucide-react"
+import { CheckCircle2, Edit, FileVideo, Loader2, Save, Trash2, X, AlertTriangle, FileText, ChevronDown, ChevronUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -31,6 +31,13 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
   const [isEditing, setIsEditing] = React.useState(false);
   const [isLogOpen, setIsLogOpen] = React.useState(false);
   const [name, setName] = React.useState(video.name);
+  const logContainerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (logContainerRef.current) {
+      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
+    }
+  }, [video.logs]);
 
   const handleSave = () => {
     onRename(video.id, name);
@@ -48,14 +55,16 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
   };
   
   const formatSpeed = (speed: number) => {
-      if (speed === 0) return ""
+      if (speed <= 0) return ""
       if (speed < 1024) return `${speed.toFixed(2)} KB/s`
       return `${(speed / 1024).toFixed(2)} MB/s`
   }
 
   return (
     <Collapsible open={isLogOpen} onOpenChange={setIsLogOpen}>
-    <div className={cn("p-2 rounded-lg hover:bg-muted/50", isLogOpen && "bg-muted/50")}>
+    <div className={cn("p-3 rounded-lg border", 
+        video.status === 'error' ? 'border-destructive/50' : isLogOpen && "bg-muted/50"
+    )}>
         <div className="flex items-center gap-4">
         <FileVideo className="h-6 w-6 text-muted-foreground" />
         <div className="flex-1 space-y-1">
@@ -71,11 +80,11 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
                 <p className="text-sm font-medium leading-none truncate">{video.name}</p>
             )}
             <div className="flex items-center gap-2">
-            <Progress value={video.progress} className={cn("h-1.5 w-full", video.status === 'error' && "bg-destructive/50" )} />
-            <span className="text-xs font-mono text-muted-foreground w-10 text-right">{video.progress.toFixed(0)}%</span>
+                <Progress value={video.progress} className={cn("h-1.5 w-full", video.status === 'error' && "bg-destructive/50" )} />
+                <span className="text-xs font-mono text-muted-foreground w-10 text-right">{video.progress.toFixed(0)}%</span>
             </div>
-            {video.status === 'uploading' && video.speed > 0 && (
-                <p className="text-xs text-muted-foreground">{formatSpeed(video.speed)}</p>
+            {video.status === 'uploading' && (
+                <p className="text-xs text-muted-foreground font-mono">{formatSpeed(video.speed)}</p>
             )}
         </div>
         <div className="flex items-center gap-1">
@@ -85,7 +94,7 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
                     <span className="sr-only">Toggle logs</span>
                 </Button>
             </CollapsibleTrigger>
-
+            
             {isEditing ? (
             <>
                 <Button variant="ghost" size="icon" onClick={handleSave} aria-label="Save video name">
@@ -96,46 +105,48 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
                 </Button>
                 </>
             ) : (
-                (video.status === 'complete' || video.status === 'error') && (
-                    <>
-                    <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} aria-label="Rename video" disabled={video.status !== 'complete'}>
-                        <Edit className="h-4 w-4" />
+                <>
+                <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} aria-label="Rename video" disabled={isEditing || video.status === 'uploading'}>
+                    <Edit className="h-4 w-4" />
+                </Button>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" aria-label="Delete video">
+                        <Trash2 className="h-4 w-4" />
                     </Button>
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" aria-label="Delete video">
-                            <Trash2 className="h-4 w-4" />
-                        </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                            This will remove the video "{video.name}" from the queue. If it has already been uploaded, it will not be deleted from storage.
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => onDelete(video.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                            Delete
-                            </AlertDialogAction>
-                        </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                    </>
-                )
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                        This will remove the video "{video.name}" from the queue. If it has already been uploaded, it will not be deleted from storage.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => onDelete(video.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                        Delete
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+                </>
             )}
-            {video.status === 'uploading' && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
-            {video.status === 'complete' && <CheckCircle2 className="h-4 w-4 text-green-500" />}
-            {video.status === 'error' && <AlertTriangle className="h-4 w-4 text-destructive" />}
+            <div className="w-6 h-6 flex items-center justify-center">
+                {video.status === 'uploading' && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+                {video.status === 'complete' && <CheckCircle2 className="h-4 w-4 text-green-500" />}
+                {video.status === 'error' && <AlertTriangle className="h-4 w-4 text-destructive" />}
+            </div>
         </div>
         </div>
         <CollapsibleContent>
-            <ScrollArea className="h-32 mt-2 rounded-md border bg-background p-2">
-                <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap">
-                    {video.logs.join("\n")}
-                </pre>
-            </ScrollArea>
+            <div className="mt-2 rounded-md border bg-background p-2">
+                 <ScrollArea className="h-32" ref={logContainerRef}>
+                    <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap p-2">
+                        {video.logs.join("\n")}
+                    </pre>
+                 </ScrollArea>
+            </div>
         </CollapsibleContent>
     </div>
     </Collapsible>

@@ -4,7 +4,8 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-import { getAllUsersWithTags, getAllVideos, createVideoDocument } from "@/lib/firestore"
+import { getAllUsersWithTags, getAllVideos } from "@/lib/firestore"
+import { createVideoDocument, uploadFile } from "@/lib/actions"
 import type { User, Tag, Video } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -18,7 +19,6 @@ import UploadDialog from "@/components/upload-dialog"
 import VideoQueue, { type UploadingVideo } from "@/components/video-queue"
 import VideoPreviewDialog from "@/components/video-preview-dialog"
 import { FileVideo, Play } from "lucide-react"
-import { uploadFile } from "@/lib/actions"
 import { useToast } from "@/hooks/use-toast"
 import { v4 as uuidv4 } from "uuid"
 
@@ -95,7 +95,7 @@ export default function AdminDashboardPage() {
       status: 'uploading',
       progress: 0,
       speed: 0,
-      logs: [],
+      logs: [`${new Date().toLocaleTimeString()}: Upload queued.`],
       file: file,
     }));
 
@@ -105,25 +105,24 @@ export default function AdminDashboardPage() {
       if (!video.file) return;
 
       try {
-        addLog(video.id, "Upload queued.");
-        
         const onProgress = (progress: number, speed: number) => {
             setUploadingVideos(prev => prev.map(v => v.id === video.id ? { ...v, progress, speed } : v));
             if (progress < 100) {
-                 addLog(video.id, `Upload in progress... ${progress.toFixed(0)}%`);
+                 // This log is too noisy, we have the progress bar for this
+                 // addLog(video.id, `Upload in progress... ${progress.toFixed(0)}%`);
             }
         };
         
-        addLog(video.id, "Starting upload...");
+        addLog(video.id, "Calling uploadFile action...");
         const result = await uploadFile(video.id, video.file, onProgress, addLog);
 
         if (result.success && result.downloadURL) {
-          addLog(video.id, "Upload complete. Creating video document in database...");
+          addLog(video.id, "Upload action complete. Creating video document in database...");
           
           const videoDoc = await createVideoDocument({
             title: video.file.name.replace(/\.[^/.]+$/, ""),
             srcUrl: result.downloadURL,
-            thumbnailUrl: "https://placehold.co/160x90.png",
+thumbnailUrl: "https://placehold.co/160x90.png",
             duration: 0, // Should be updated later
           });
 
@@ -133,18 +132,18 @@ export default function AdminDashboardPage() {
             )
           );
           
-          addLog(video.id, `Video "${videoDoc.title}" successfully added.`);
+          addLog(video.id, `Video "${videoDoc.title}" successfully added to database.`);
           setVideos(prev => [...prev, videoDoc].sort((a,b) => a.title.localeCompare(b.title)));
           toast({
             title: "Upload successful",
             description: `"${videoDoc.title}" has been added to the library.`,
           });
         } else {
-          throw new Error(result.error || 'Upload failed');
+          throw new Error(result.error || 'Upload failed without specific error message.');
         }
 
       } catch (error: any) {
-        console.error('Upload error:', error);
+        console.error('Upload process error:', error);
         addLog(video.id, `Error: ${error.message}`);
         setUploadingVideos(prev =>
           prev.map(v => (v.id === video.id ? { ...v, status: 'error', progress: 0, speed: 0 } : v))
@@ -152,7 +151,7 @@ export default function AdminDashboardPage() {
         toast({
             variant: "destructive",
             title: "Upload failed",
-            description: `Could not upload "${video.name}". Please try again.`,
+            description: `Could not upload "${video.name}". Check logs for details.`,
         });
       }
     });
