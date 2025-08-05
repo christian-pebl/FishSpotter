@@ -115,7 +115,7 @@ export default function VideoQueue({ videos, onRename, onDelete }: VideoQueuePro
             <div className="flex flex-col items-center justify-center gap-2 text-center text-muted-foreground border-2 border-dashed rounded-lg p-8 h-full">
                 <FileVideo className="h-10 w-10" />
                 <h3 className="font-semibold">No Videos in Queue</h3>
-                <p className="text-sm">Upload videos to start building your library.</p>
+                <p className="text-sm">Upload videos to see the queue here.</p>
             </div>
         )
     }

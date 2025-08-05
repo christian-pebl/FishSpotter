@@ -16,6 +16,9 @@ import { Loader2, User as UserIcon, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import UploadDialog from "@/components/upload-dialog"
 import VideoQueue, { type UploadingVideo } from "@/components/video-queue"
+import VideoPreviewDialog from "@/components/video-preview-dialog"
+import { FileVideo, Eye } from "lucide-react"
+
 
 interface UserWithTags extends User {
   tags: Tag[]
@@ -31,6 +34,7 @@ export default function AdminDashboardPage() {
   const [loadingData, setLoadingData] = React.useState(true)
   const [isUploadDialogOpen, setIsUploadDialogOpen] = React.useState(false)
   const [uploadingVideos, setUploadingVideos] = React.useState<UploadingVideo[]>([]);
+  const [previewVideo, setPreviewVideo] = React.useState<Video | null>(null)
 
 
   React.useEffect(() => {
@@ -136,6 +140,11 @@ export default function AdminDashboardPage() {
         onOpenChange={setIsUploadDialogOpen}
         onUpload={handleUpload}
       />
+      <VideoPreviewDialog
+        video={previewVideo}
+        isOpen={!!previewVideo}
+        onOpenChange={(isOpen) => !isOpen && setPreviewVideo(null)}
+      />
       <AppHeader />
       <main className="flex-1 overflow-y-auto p-4 lg:p-6">
         <div className="mx-auto max-w-7xl">
@@ -205,11 +214,38 @@ export default function AdminDashboardPage() {
                   </Button>
               </CardHeader>
               <CardContent>
-                <VideoQueue 
-                  videos={uploadingVideos}
-                  onRename={handleRenameVideo}
-                  onDelete={handleDeleteVideo}
-                />
+                 {uploadingVideos.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold mb-2">Upload Queue</h3>
+                    <VideoQueue 
+                      videos={uploadingVideos}
+                      onRename={handleRenameVideo}
+                      onDelete={handleDeleteVideo}
+                    />
+                  </div>
+                )}
+                
+                <h3 className="text-lg font-semibold mb-2">Uploaded Videos</h3>
+                 {videos.length > 0 ? (
+                    <div className="space-y-2">
+                      {videos.map(video => (
+                        <div key={video.id} className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted/50">
+                          <FileVideo className="h-6 w-6 text-muted-foreground" />
+                          <p className="flex-1 text-sm font-medium leading-none truncate">{video.title}</p>
+                          <Button variant="outline" size="sm" onClick={() => setPreviewVideo(video)}>
+                            <Eye className="mr-2 h-4 w-4" />
+                            View
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center gap-2 text-center text-muted-foreground border-2 border-dashed rounded-lg p-8 h-full">
+                        <FileVideo className="h-10 w-10" />
+                        <h3 className="font-semibold">No Videos Available</h3>
+                        <p className="text-sm">Upload videos to start building your library.</p>
+                    </div>
+                  )}
               </CardContent>
             </Card>
            </div>
