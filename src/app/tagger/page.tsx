@@ -46,16 +46,20 @@ export default function TaggerPage() {
 
   React.useEffect(() => {
     async function fetchData() {
+      if (!user) {
+        setLoadingData(false); // No user, stop loading
+        return;
+      }
       try {
         setLoadingData(true)
         const [fetchedVideos, fetchedTags] = await Promise.all([getVideos(), getTags()])
         setVideos(fetchedVideos)
         setAllTags(fetchedTags)
         
-        const userTags = fetchedTags.filter(t => t.userId === user?.id)
+        const userTags = fetchedTags.filter(t => t.userId === user.id)
         setLevel(Math.floor(userTags.length / TAGS_PER_LEVEL) + 1)
 
-        const submittedIds = new Set(fetchedTags.filter(t => t.userId === user?.id && t.submitted).map(t => t.videoId));
+        const submittedIds = new Set(fetchedTags.filter(t => t.userId === user.id && t.submitted).map(t => t.videoId));
         setSubmittedVideoIds(submittedIds);
 
       } catch (error) {
@@ -65,10 +69,11 @@ export default function TaggerPage() {
         setLoadingData(false)
       }
     }
-    if (user) {
+    // Fetch data only when auth is done and we have a user
+    if (!authLoading && user) {
       fetchData()
     }
-  }, [user, toast])
+  }, [user, authLoading, toast])
 
   const currentVideo = videos[currentVideoIndex]
   const tagsForCurrentVideo = React.useMemo(() => {
