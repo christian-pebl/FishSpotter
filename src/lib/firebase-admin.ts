@@ -3,27 +3,31 @@ import admin from 'firebase-admin';
 
 // This is a server-only file. 
 
-// Ensure you have the GOOGLE_APPLICATION_CREDENTIALS environment variable set
-// with the path to your service account key file.
-// You can download this from the Firebase console: Project Settings > Service accounts.
+const initializeAdminApp = () => {
+    if (admin.apps.length > 0) {
+        return admin.app();
+    }
+    
+    if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+        throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set. Please add it to your .env file.');
+    }
 
-if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
-    throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set. Please add it to your .env file.');
-}
+    const serviceAccount = JSON.parse(
+        process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
+    );
 
-const serviceAccount = JSON.parse(
-    process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
-);
+    return admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      storageBucket: 'critterpedia-lgrlq.appspot.com',
+    });
+};
 
+export const getAdminDb = () => {
+  initializeAdminApp();
+  return admin.firestore();
+};
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: 'critterpedia-lgrlq.appspot.com',
-  });
-}
-
-const adminDb = admin.firestore();
-const adminStorage = admin.storage();
-
-export { adminDb, adminStorage };
+export const getAdminStorage = () => {
+  initializeAdminApp();
+  return admin.storage();
+};

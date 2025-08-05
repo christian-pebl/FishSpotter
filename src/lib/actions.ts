@@ -1,8 +1,9 @@
 
 "use server"
 
+import 'dotenv/config'
 import { suggestVideoTag, type SuggestVideoTagInput } from "@/ai/flows/suggest-video-tag"
-import { adminStorage } from "@/lib/firebase-admin";
+import { getAdminStorage } from "@/lib/firebase-admin";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "./firebase";
 import type { Video } from "./types";
@@ -39,6 +40,7 @@ export async function uploadVideo(
     const fileName = `${uuidv4()}-${file.name}`;
     const filePath = `videos/${fileName}`;
     
+    const adminStorage = getAdminStorage();
     const bucket = adminStorage.bucket();
     const fileUpload = bucket.file(filePath);
 
