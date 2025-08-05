@@ -23,7 +23,7 @@ import UploadDialog from "@/components/upload-dialog"
 const LEVEL_UP_THRESHOLD = 100;
 
 export default function TaggerPage() {
-  const { user, loading } = useAuth();
+  const { user, loading, isAdmin } = useAuth();
   const router = useRouter();
   const [isUploadDialogOpen, setIsUploadDialogOpen] = React.useState(false);
 
@@ -196,6 +196,12 @@ export default function TaggerPage() {
                     <CardContent className="space-y-2 pb-8">
                         <p className="text-lg text-muted-foreground">You have tagged and submitted all available videos.</p>
                         <p>Thank you for your valuable contribution to marine life research. You're a true Fish Spotter!</p>
+                         {isAdmin && (
+                            <Button onClick={() => setIsUploadDialogOpen(true)} className="mt-4">
+                                <Upload className="mr-2 h-4 w-4" />
+                                Upload More Videos
+                            </Button>
+                        )}
                     </CardContent>
                 </Card>
             </div>
@@ -244,12 +250,14 @@ export default function TaggerPage() {
                         <Card className="flex-1">
                         <CardHeader className="flex-row items-center justify-between">
                             <CardTitle className="font-headline">Annotation Tools</CardTitle>
-                             <div className="flex items-center gap-4">
-                                <Button variant="outline" onClick={() => setIsUploadDialogOpen(true)}>
-                                    <Upload className="mr-2 h-4 w-4" />
-                                    Upload Videos
-                                </Button>
-                            </div>
+                             {isAdmin && (
+                                <div className="flex items-center gap-4">
+                                    <Button variant="outline" onClick={() => setIsUploadDialogOpen(true)}>
+                                        <Upload className="mr-2 h-4 w-4" />
+                                        Upload Videos
+                                    </Button>
+                                </div>
+                            )}
                         </CardHeader>
                         <CardContent>
                             <div className="mb-4 flex items-center justify-end gap-4 rounded-md border p-2">
@@ -286,8 +294,14 @@ export default function TaggerPage() {
                     </div>
                 </div>
             ) : (
-                 <div className="flex h-screen items-center justify-center">
-                    <p>No videos available.</p>
+                 <div className="flex h-full flex-col items-center justify-center gap-4">
+                    <p className="text-lg text-muted-foreground">No videos available for tagging.</p>
+                     {isAdmin && (
+                        <Button onClick={() => setIsUploadDialogOpen(true)}>
+                            <Upload className="mr-2 h-4 w-4" />
+                            Upload Videos
+                        </Button>
+                    )}
                 </div>
             )
         )}
