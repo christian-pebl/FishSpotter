@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { Upload } from "lucide-react"
+import { Upload, FileVideo } from "lucide-react"
 
 interface UploadDialogProps {
   isOpen: boolean
@@ -25,6 +25,7 @@ interface UploadDialogProps {
 export default function UploadDialog({ isOpen, onOpenChange, onUpload }: UploadDialogProps) {
   const [selectedFiles, setSelectedFiles] = React.useState<FileList | null>(null)
   const { toast } = useToast()
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   React.useEffect(() => {
     if (isOpen) {
@@ -44,6 +45,10 @@ export default function UploadDialog({ isOpen, onOpenChange, onUpload }: UploadD
     }
   }
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFiles(e.target.files)
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
@@ -54,22 +59,46 @@ export default function UploadDialog({ isOpen, onOpenChange, onUpload }: UploadD
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="video-files">Video Files</Label>
-            <Input 
-              id="video-files" 
-              type="file" 
-              multiple 
-              accept="video/*"
-              onChange={(e) => setSelectedFiles(e.target.files)}
-            />
-          </div>
+          <Input
+            id="video-files"
+            type="file"
+            multiple
+            accept="video/*"
+            onChange={handleFileSelect}
+            ref={fileInputRef}
+            className="hidden"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            Choose Files
+          </Button>
+
+          {selectedFiles && selectedFiles.length > 0 && (
+            <div className="space-y-2">
+              <Label>Selected files:</Label>
+              <div className="max-h-32 space-y-1 overflow-y-auto rounded-md border p-2">
+                {Array.from(selectedFiles).map((file, index) => (
+                  <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <FileVideo className="h-4 w-4 shrink-0" />
+                    <span className="truncate">{file.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         <DialogFooter>
-            <Button type="button" onClick={handleUploadClick}>
-                <Upload className="mr-2 h-4 w-4" />
-                Upload
-            </Button>
+          <Button
+            type="button"
+            onClick={handleUploadClick}
+            disabled={!selectedFiles || selectedFiles.length === 0}
+          >
+            <Upload className="mr-2 h-4 w-4" />
+            Upload {selectedFiles ? selectedFiles.length : ''} {selectedFiles?.length === 1 ? "video" : "videos"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
