@@ -9,7 +9,6 @@ import { UserCircle, LogOut, Loader2, ListVideo, ShieldCheck, LayoutDashboard } 
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import VideoProgressSheet from "./video-progress-sheet"
-import AdminLoginDialog from "./admin-login-dialog"
 import type { Video, Tag } from "@/lib/types"
 
 interface AppHeaderProps {
@@ -23,7 +22,6 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
   const { user, logout, loading, isAdmin, grantAdminAccess } = useAuth()
   const router = useRouter()
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
-  const [isAdminDialogOpen, setIsAdminDialogOpen] = React.useState(false);
 
   const handleLogout = async () => {
     try {
@@ -42,11 +40,6 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
 
   return (
     <>
-      <AdminLoginDialog
-        isOpen={isAdminDialogOpen}
-        onOpenChange={setIsAdminDialogOpen}
-        onSuccess={handleAdminLoginSuccess}
-      />
       <header className="flex h-16 shrink-0 items-center justify-between border-b px-4 lg:px-6">
         <Link href="/tagger" className="flex items-center gap-2">
           <h1 className="font-headline text-xl font-bold tracking-tight">Abyssal Annotator</h1>
@@ -92,7 +85,7 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 
                 {!isAdmin && (
-                  <DropdownMenuItem onClick={() => setIsAdminDialogOpen(true)}>
+                  <DropdownMenuItem onClick={handleAdminLoginSuccess}>
                     <ShieldCheck className="mr-2 h-4 w-4" />
                     <span>Admin Log in</span>
                   </DropdownMenuItem>
