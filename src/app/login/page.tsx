@@ -42,7 +42,7 @@ export default function LoginPage() {
           title: "Login Successful",
           description: `Welcome back!`,
         })
-        router.push("/")
+        router.push("/tagger")
       } else if (authMode === 'forgotPassword') {
         await forgotPassword(email)
         toast({
