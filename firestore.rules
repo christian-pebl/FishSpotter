@@ -1,25 +1,26 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Videos are public and can be read by anyone.
+    // Allow reading the entire videos collection for anyone,
+    // but only authenticated users can write.
     match /videos/{videoId} {
-      allow read: if true;
-      // Only admin backend processes should write to videos.
-      allow write: if false; 
+      allow list, get: if true;
+      allow write: if request.auth != null;
     }
 
-    // Users can read all user profiles, but only write to their own.
+    // Allow authenticated users to read the users collection.
+    // Users can only write to their own document.
     match /users/{userId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == userId;
+      allow list, get: if request.auth != null;
+      allow write: if request.auth.uid == userId;
     }
-
-    // Tags can be read by any authenticated user.
-    // Users can create, update, and delete their own tags.
+    
+    // Allow authenticated users to read the tags collection.
+    // Users can only create, update, or delete their own tags.
     match /tags/{tagId} {
-      allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow list, get: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && request.resource.data.userId == request.auth.uid;
     }
   }
 }
