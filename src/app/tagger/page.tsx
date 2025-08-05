@@ -1,273 +1,156 @@
-
 "use client"
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-import { getVideos, getTags, saveTags } from "@/lib/actions"
-import type { Video, Tag } from "@/lib/types"
-
-import AppHeader from "@/components/app-header"
-import VideoPlayer, { type VideoPlayerRef } from "@/components/video-player"
-import TagList from "@/components/tag-list"
-import TaggingForm from "@/components/tagging-form"
-import LevelUpAnimation from "@/components/level-up-animation"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
-import { Loader2, ArrowLeft, ArrowRight, Check, Send } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 
-export default function TaggerPage() {
-  const { user, loading: authLoading } = useAuth()
+export default function LoginPage() {
   const router = useRouter()
+  const { login, signup, forgotPassword } = useAuth()
   const { toast } = useToast()
   
-  const [videos, setVideos] = React.useState<Video[]>([])
-  const [tags, setTags] = React.useState<Tag[]>([])
-  const [currentVideoIndex, setCurrentVideoIndex] = React.useState(0)
-  const [loading, setLoading] = React.useState(true)
-
-  const [selectedTimestamp, setSelectedTimestamp] = React.useState<number | null>(null)
-  const [taggingPosition, setTaggingPosition] = React.useState<{x: number, y: number} | null>(null)
-  const [activeTagId, setActiveTagId] = React.useState<string | null>(null)
-
-  const videoPlayerRef = React.useRef<VideoPlayerRef>(null)
+  const [authMode, setAuthMode] = React.useState<'login' | 'signup' | 'forgotPassword'>('login')
+  const [isLoading, setIsLoading] = React.useState(false)
   
-  const [level, setLevel] = React.useState(1)
-  const [showLevelUp, setShowLevelUp] = React.useState(false)
+  const [email, setEmail] = React.useState("")
+  const [password, setPassword] = React.useState("")
 
-  React.useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login')
-    }
-  }, [user, authLoading, router])
-
-  React.useEffect(() => {
-    async function fetchData() {
-      if (user) {
-        try {
-          setLoading(true)
-          const [fetchedVideos, fetchedTags] = await Promise.all([getVideos(), getTags()])
-          setVideos(fetchedVideos)
-          setTags(fetchedTags)
-        } catch (error) {
-          console.error("Failed to fetch data:", error)
-          toast({ variant: "destructive", title: "Failed to load data" })
-        } finally {
-          setLoading(false)
-        }
-      }
-    }
-    fetchData()
-  }, [user, toast])
-
-  const checkLevelUp = (newTagsCount: number) => {
-    const newLevel = Math.floor(newTagsCount / 5) + 1;
-    if (newLevel > level) {
-      setLevel(newLevel);
-      setShowLevelUp(true);
-      setTimeout(() => setShowLevelUp(false), 3000);
-    }
-  };
-
-  const handleTimestampSelect = (time: number, position: {x: number, y: number}) => {
-    setSelectedTimestamp(time)
-    setTaggingPosition(position)
-    setActiveTagId(null)
-  }
-  
-  const handleCancelTag = () => {
-    setSelectedTimestamp(null)
-    setTaggingPosition(null)
-    setActiveTagId(null)
-  }
-  
-  const handleTagAdd = (tagText: string) => {
-    if (selectedTimestamp !== null && taggingPosition && user) {
-      const newTag: Tag = {
-        id: `temp-${Date.now()}`,
-        videoId: videos[currentVideoIndex].id,
-        timestamp: selectedTimestamp,
-        text: tagText,
-        userId: user.id,
-        username: user.name,
-        position: taggingPosition,
-        submitted: false
-      }
-      
-      const newTags = [...tags, newTag];
-      setTags(newTags);
-
-      const userTagsCount = newTags.filter(t => t.userId === user.id).length;
-      checkLevelUp(userTagsCount);
-
-      handleCancelTag()
-    }
-  }
-
-  const handleUpdateTag = (updatedTag: Tag) => {
-    setTags(tags.map(tag => tag.id === updatedTag.id ? updatedTag : tag))
-  }
-
-  const handleDeleteTag = (tagId: string) => {
-    setTags(tags.filter(tag => tag.id !== tagId))
-  }
-  
-  const handleTagSelect = (tag: Tag) => {
-    if (videoPlayerRef.current) {
-        videoPlayerRef.current.seekTo(tag.timestamp);
-    }
-    setActiveTagId(tag.id);
-    setSelectedTimestamp(null);
-    setTaggingPosition(null);
-  }
-
-  const currentVideo = videos[currentVideoIndex]
-  const currentVideoTags = tags.filter(tag => tag.videoId === currentVideo?.id)
-  
-  const userTagsForCurrentVideo = currentVideoTags.filter(tag => tag.userId === user?.id && !tag.submitted);
-  const submittedVideoIds = new Set(tags.filter(t => t.userId === user?.id && t.submitted).map(t => t.videoId));
-
-  const goToNextVideo = () => {
-    setCurrentVideoIndex((prev) => (prev + 1) % videos.length)
-    handleCancelTag()
-  }
-
-  const goToPrevVideo = () => {
-    setCurrentVideoIndex((prev) => (prev - 1 + videos.length) % videos.length)
-    handleCancelTag()
-  }
-
-  const handleSubmitTags = async () => {
-    if (!user) return;
+  const handleAuthAction = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
     try {
-      await saveTags(userTagsForCurrentVideo);
-      
-      // Update local state to mark tags as submitted
-      setTags(tags.map(tag => 
-        userTagsForCurrentVideo.some(subTag => subTag.id === tag.id) 
-        ? { ...tag, submitted: true } 
-        : tag
-      ));
-
+      if (authMode === 'signup') {
+        const user = await signup(email, password)
+        toast({
+          title: "Sign Up Successful",
+          description: `Welcome, ${user.name}! Please log in.`,
+        })
+        setAuthMode('login')
+        setEmail("")
+        setPassword("")
+      } else if (authMode === 'login') {
+        await login(email, password)
+        toast({
+          title: "Login Successful",
+          description: `Welcome back!`,
+        })
+        router.push("/")
+      } else if (authMode === 'forgotPassword') {
+        await forgotPassword(email)
+        toast({
+          title: "Password Reset Email Sent",
+          description: "Please check your inbox for instructions to reset your password.",
+        })
+        setAuthMode('login')
+      }
+    } catch (error: any) {
       toast({
-        title: "Tags Submitted!",
-        description: `Your ${userTagsForCurrentVideo.length} tags for "${currentVideo.title}" have been saved.`,
-      })
-    } catch (error) {
-       toast({
         variant: "destructive",
-        title: "Submission Failed",
-        description: "Could not save your tags. Please try again.",
+        title: authMode === 'signup' ? "Sign Up Failed" : authMode === 'login' ? "Login Failed" : "Request Failed",
+        description: error.message,
       })
+    } finally {
+      setIsLoading(false)
     }
   }
 
-
-  if (authLoading || loading) {
-    return (
-      <div className="flex h-screen w-full flex-col bg-background">
-        <AppHeader />
-        <div className="flex flex-1 items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin" />
-          <p className="ml-2">Loading Tagger...</p>
-        </div>
-      </div>
-    )
+  const getTitle = () => {
+    if (authMode === 'signup') return 'Create Account'
+    if (authMode === 'forgotPassword') return 'Reset Password'
+    return 'Welcome to Abyssal Annotator'
   }
   
-  if (!user) {
-     return null; // Redirecting
+  const getDescription = () => {
+    if (authMode === 'signup') return 'Join our community of marine enthusiasts.'
+    if (authMode === 'forgotPassword') return "Enter your email to receive a reset link."
+    return 'Enter your credentials to start tagging.'
   }
 
-  if (videos.length === 0) {
-    return (
-      <div className="flex h-screen w-full flex-col bg-background">
-        <AppHeader />
-        <div className="flex flex-1 items-center justify-center">
-            <p>No videos available for tagging. An admin needs to upload some.</p>
-        </div>
-      </div>
-    )
+  const getButtonText = () => {
+    if (authMode === 'signup') return 'Sign Up'
+    if (authMode === 'forgotPassword') return 'Send Reset Link'
+    return 'Sign In'
   }
-
-  const activeTag = tags.find(t => t.id === activeTagId) || null;
 
   return (
-    <div className="flex h-screen w-full flex-col bg-background">
-      {showLevelUp && <LevelUpAnimation level={level} />}
-      <AppHeader 
-        videos={videos}
-        allTags={tags}
-        submittedVideoIds={submittedVideoIds}
-        onVideoSelect={setCurrentVideoIndex}
-      />
-
-      <main className="grid flex-1 grid-cols-1 md:grid-cols-3 md:gap-4 lg:grid-cols-4 lg:gap-6 p-4">
-        <div className="md:col-span-2 lg:col-span-3 flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <h2 className="font-headline text-2xl font-bold">{currentVideo.title}</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" onClick={goToPrevVideo}>
-                <ArrowLeft />
-              </Button>
-              <span className="text-sm text-muted-foreground">{currentVideoIndex + 1} / {videos.length}</span>
-              <Button variant="outline" size="icon" onClick={goToNextVideo}>
-                <ArrowRight />
-              </Button>
+    <div 
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4"
+      style={{
+        backgroundImage: `url(/background.png)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <div className="absolute inset-0 bg-white/30 backdrop-blur-sm"></div>
+      
+      <Card className="z-10 w-full max-w-sm border-white/20 bg-white/20 backdrop-blur-lg">
+        <form onSubmit={handleAuthAction}>
+          <CardHeader className="items-center text-center">
+            <CardTitle className="font-headline text-3xl font-bold text-foreground">{getTitle()}</CardTitle>
+            <CardDescription className="text-foreground/80">{getDescription()}</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-foreground/90">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="user@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="border-white/30 bg-white/30 placeholder:text-foreground/60"
+                disabled={isLoading}
+              />
             </div>
-          </div>
-          
-          <div className="relative flex-1 items-center justify-center overflow-hidden rounded-lg border bg-black text-card-foreground shadow-sm">
-             <VideoPlayer
-                ref={videoPlayerRef}
-                videoSrc={currentVideo.srcUrl}
-                onTimestampSelect={handleTimestampSelect}
-                activeTag={activeTag}
-                taggingPosition={taggingPosition}
-                onCancelTag={handleCancelTag}
-            />
-          </div>
-        </div>
+            {authMode !== 'forgotPassword' && (
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-foreground/90">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="border-white/30 bg-white/30 placeholder:text-foreground/60"
+                  disabled={isLoading}
+                />
+              </div>
+            )}
+          </CardContent>
+          <CardFooter className="flex-col gap-4">
+            <Button type="submit" className="w-full" disabled={isLoading || (authMode === 'login' && (!email || !password))}>
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {getButtonText()}
+            </Button>
+            
+            {authMode === 'login' && (
+                 <div className="flex w-full justify-between">
+                     <Button type="button" variant="link" className="text-foreground/80 px-0" onClick={() => setAuthMode('forgotPassword')} disabled={isLoading}>
+                         Forgot Password?
+                     </Button>
+                     <Button type="button" variant="link" className="text-foreground/80 px-0" onClick={() => setAuthMode('signup')} disabled={isLoading}>
+                         Don't have an account? Sign Up
+                     </Button>
+                 </div>
+             )}
 
-        <div className="md:col-span-1 lg:col-span-1 flex flex-col gap-4 mt-4 md:mt-0">
-            <div className="flex items-center justify-between">
-                <h3 className="font-headline text-xl font-bold">Tags</h3>
-                {submittedVideoIds.has(currentVideo.id) ? (
-                    <div className="flex items-center gap-2 text-green-600">
-                        <Check className="h-5 w-5" />
-                        <span className="font-semibold">Submitted</span>
-                    </div>
-                ) : (
-                    <Button 
-                      onClick={handleSubmitTags}
-                      disabled={userTagsForCurrentVideo.length === 0}
-                    >
-                      <Send className="mr-2 h-4 w-4" />
-                      Submit {userTagsForCurrentVideo.length} Tags
-                    </Button>
-                )}
-            </div>
-
-            <div className="flex-1">
-                {selectedTimestamp !== null ? (
-                    <TaggingForm 
-                        selectedTimestamp={selectedTimestamp}
-                        videoPlayerRef={videoPlayerRef}
-                        onTagAdd={handleTagAdd}
-                        onCancel={handleCancelTag}
-                    />
-                ) : (
-                    <TagList 
-                        tags={currentVideoTags} 
-                        onUpdateTag={handleUpdateTag} 
-                        onDeleteTag={handleDeleteTag}
-                        onTagSelect={handleTagSelect}
-                        activeTagId={activeTagId}
-                    />
-                )}
-            </div>
-        </div>
-      </main>
+            {authMode !== 'login' && (
+                 <Button type="button" variant="link" className="text-foreground/80" onClick={() => setAuthMode('login')} disabled={isLoading}>
+                     Back to Sign In
+                 </Button>
+             )}
+          </CardFooter>
+        </form>
+      </Card>
     </div>
   )
 }
