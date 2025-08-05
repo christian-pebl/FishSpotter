@@ -62,22 +62,8 @@ export default function TaggerPage() {
           setAllTags(fetchedTags);
 
           // Logic to determine which videos are already submitted by the user
-          const userTags = fetchedTags.filter(t => t.userId === user.id);
-          const submittedIds = new Set<string>();
-          const userVideoSubmissions: Record<string, boolean> = {};
-          
-          userTags.forEach(tag => {
-            if (tag.submitted) {
-              userVideoSubmissions[tag.videoId] = true;
-            }
-          });
-
-          fetchedVideos.forEach(video => {
-              if (userVideoSubmissions[video.id]) {
-                  submittedIds.add(video.id);
-              }
-          });
-          
+          const userTags = fetchedTags.filter(t => t.userId === user.id && t.submitted);
+          const submittedIds = new Set(userTags.map(t => t.videoId));
           setSubmittedVideoIds(submittedIds);
 
         } catch (error) {
