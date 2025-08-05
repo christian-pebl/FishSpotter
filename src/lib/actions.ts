@@ -1,9 +1,8 @@
 
 "use server"
 
-import 'dotenv/config';
 import { suggestVideoTag, type SuggestVideoTagInput } from "@/ai/flows/suggest-video-tag"
-import { adminDb, adminStorage } from "@/lib/firebase-admin";
+import { adminStorage } from "@/lib/firebase-admin";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "./firebase";
 import type { Video } from "./types";
