@@ -37,7 +37,7 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
 
   const handleAdminLoginSuccess = () => {
     grantAdminAccess();
-    router.push("/admin");
+    router.push("/");
   }
 
   return (
@@ -77,7 +77,7 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
                 <DropdownMenuLabel>Hi, {user.name}!</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {isAdmin && (
-                  <DropdownMenuItem onClick={() => router.push('/admin')}>
+                  <DropdownMenuItem onClick={() => router.push('/')}>
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
                   </DropdownMenuItem>
