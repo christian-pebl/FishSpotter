@@ -65,7 +65,7 @@ export default function LoginPage() {
   const getTitle = () => {
     if (authMode === 'signup') return 'Create Account'
     if (authMode === 'forgotPassword') return 'Reset Password'
-    return 'Welcome to Fish Spotter'
+    return 'Welcome to Abyssal Annotator'
   }
   
   const getDescription = () => {
