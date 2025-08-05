@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight, Upload, Sparkles, Award, CheckCircle2, PartyPopper, LayoutDashboard } from "lucide-react"
+import { ArrowLeft, ArrowRight, Upload, Sparkles, Award, CheckCircle2, PartyPopper } from "lucide-react"
 
 import { MOCK_VIDEOS, MOCK_TAGS } from "@/lib/data"
 import type { Video, Tag } from "@/lib/types"
@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation"
 const LEVEL_UP_THRESHOLD = 100;
 
 export default function TaggerPage() {
-  const { user, loading, isAdmin } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   React.useEffect(() => {
