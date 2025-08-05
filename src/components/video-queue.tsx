@@ -2,18 +2,22 @@
 "use client"
 
 import * as React from "react"
-import { CheckCircle2, Edit, FileVideo, Loader2, Save, Trash2, X, AlertTriangle } from "lucide-react"
+import { CheckCircle2, Edit, FileVideo, Loader2, Save, Trash2, X, AlertTriangle, FileText, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Progress } from "@/components/ui/progress"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { ScrollArea } from "./ui/scroll-area"
 
 export interface UploadingVideo {
   id: string;
   name: string;
   status: 'uploading' | 'complete' | 'error';
   progress: number;
+  speed: number;
+  logs: string[];
   file?: File;
 }
 
@@ -25,6 +29,7 @@ interface VideoQueueProps {
 
 function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRename: (id: string, newName: string) => void; onDelete: (id: string) => void; }) {
   const [isEditing, setIsEditing] = React.useState(false);
+  const [isLogOpen, setIsLogOpen] = React.useState(false);
   const [name, setName] = React.useState(video.name);
 
   const handleSave = () => {
@@ -41,72 +46,99 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
     if (e.key === 'Enter') handleSave();
     if (e.key === 'Escape') handleCancel();
   };
+  
+  const formatSpeed = (speed: number) => {
+      if (speed === 0) return ""
+      if (speed < 1024) return `${speed.toFixed(2)} KB/s`
+      return `${(speed / 1024).toFixed(2)} MB/s`
+  }
 
   return (
-    <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted/50">
-      <FileVideo className="h-6 w-6 text-muted-foreground" />
-      <div className="flex-1 space-y-1">
-        {isEditing ? (
-            <Input 
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="h-8"
-                autoFocus
-            />
-        ) : (
-            <p className="text-sm font-medium leading-none truncate">{video.name}</p>
-        )}
-        <div className="flex items-center gap-2">
-          <Progress value={video.progress} className={cn("h-1.5 w-full", video.status === 'error' && "bg-destructive/50" )} />
-          <span className="text-xs font-mono text-muted-foreground w-10 text-right">{video.progress}%</span>
+    <Collapsible open={isLogOpen} onOpenChange={setIsLogOpen}>
+    <div className={cn("p-2 rounded-lg hover:bg-muted/50", isLogOpen && "bg-muted/50")}>
+        <div className="flex items-center gap-4">
+        <FileVideo className="h-6 w-6 text-muted-foreground" />
+        <div className="flex-1 space-y-1">
+            {isEditing ? (
+                <Input 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="h-8"
+                    autoFocus
+                />
+            ) : (
+                <p className="text-sm font-medium leading-none truncate">{video.name}</p>
+            )}
+            <div className="flex items-center gap-2">
+            <Progress value={video.progress} className={cn("h-1.5 w-full", video.status === 'error' && "bg-destructive/50" )} />
+            <span className="text-xs font-mono text-muted-foreground w-10 text-right">{video.progress.toFixed(0)}%</span>
+            </div>
+            {video.status === 'uploading' && video.speed > 0 && (
+                <p className="text-xs text-muted-foreground">{formatSpeed(video.speed)}</p>
+            )}
         </div>
-      </div>
-       <div className="flex items-center gap-1">
-        {isEditing ? (
-           <>
-            <Button variant="ghost" size="icon" onClick={handleSave} aria-label="Save video name">
-                <Save className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon" onClick={handleCancel} aria-label="Cancel edit">
-                <X className="h-4 w-4" />
-            </Button>
-            </>
-        ) : (
-            (video.status === 'complete' || video.status === 'error') && (
-                <>
-                <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} aria-label="Rename video" disabled={video.status !== 'complete'}>
-                    <Edit className="h-4 w-4" />
+        <div className="flex items-center gap-1">
+            <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="icon">
+                    <FileText className="h-4 w-4" />
+                    <span className="sr-only">Toggle logs</span>
                 </Button>
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" aria-label="Delete video">
-                        <Trash2 className="h-4 w-4" />
-                    </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                        This will remove the video "{video.name}" from the queue. If it has already been uploaded, it will not be deleted from storage.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => onDelete(video.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                        Delete
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+            </CollapsibleTrigger>
+
+            {isEditing ? (
+            <>
+                <Button variant="ghost" size="icon" onClick={handleSave} aria-label="Save video name">
+                    <Save className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="icon" onClick={handleCancel} aria-label="Cancel edit">
+                    <X className="h-4 w-4" />
+                </Button>
                 </>
-            )
-        )}
-        {video.status === 'uploading' && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
-        {video.status === 'complete' && <CheckCircle2 className="h-4 w-4 text-green-500" />}
-        {video.status === 'error' && <AlertTriangle className="h-4 w-4 text-destructive" />}
-      </div>
+            ) : (
+                (video.status === 'complete' || video.status === 'error') && (
+                    <>
+                    <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} aria-label="Rename video" disabled={video.status !== 'complete'}>
+                        <Edit className="h-4 w-4" />
+                    </Button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" aria-label="Delete video">
+                            <Trash2 className="h-4 w-4" />
+                        </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                            This will remove the video "{video.name}" from the queue. If it has already been uploaded, it will not be deleted from storage.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => onDelete(video.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                            Delete
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                    </>
+                )
+            )}
+            {video.status === 'uploading' && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+            {video.status === 'complete' && <CheckCircle2 className="h-4 w-4 text-green-500" />}
+            {video.status === 'error' && <AlertTriangle className="h-4 w-4 text-destructive" />}
+        </div>
+        </div>
+        <CollapsibleContent>
+            <ScrollArea className="h-32 mt-2 rounded-md border bg-background p-2">
+                <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap">
+                    {video.logs.join("\n")}
+                </pre>
+            </ScrollArea>
+        </CollapsibleContent>
     </div>
+    </Collapsible>
   );
 }
 

@@ -4,7 +4,7 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-import { getAllUsersWithTags, getAllVideos } from "@/lib/firestore"
+import { getAllUsersWithTags, getAllVideos, createVideoDocument } from "@/lib/firestore"
 import type { User, Tag, Video } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -18,8 +18,9 @@ import UploadDialog from "@/components/upload-dialog"
 import VideoQueue, { type UploadingVideo } from "@/components/video-queue"
 import VideoPreviewDialog from "@/components/video-preview-dialog"
 import { FileVideo, Play } from "lucide-react"
-import { uploadVideo } from "@/lib/actions"
+import { uploadFile } from "@/lib/actions"
 import { useToast } from "@/hooks/use-toast"
+import { v4 as uuidv4 } from "uuid"
 
 
 interface UserWithTags extends User {
@@ -72,15 +73,21 @@ export default function AdminDashboardPage() {
       fetchAdminData().finally(() => setLoadingData(false))
     }
   }, [isAdmin, fetchAdminData])
+
+  const addLog = (videoId: string, log: string) => {
+      setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, logs: [...(v.logs || []), `${new Date().toLocaleTimeString()}: ${log}`] } : v));
+  };
   
   const handleUpload = (files: FileList) => {
     setIsUploadDialogOpen(false);
     
     const newVideos: UploadingVideo[] = Array.from(files).map(file => ({
-      id: `upload-${file.name}-${Date.now()}`,
+      id: uuidv4(),
       name: file.name,
       status: 'uploading',
       progress: 0,
+      speed: 0,
+      logs: [],
       file: file,
     }));
 
@@ -90,32 +97,49 @@ export default function AdminDashboardPage() {
       if (!video.file) return;
 
       try {
-        const formData = new FormData();
-        formData.append('video', video.file);
+        addLog(video.id, "Upload queued.");
         
-        setUploadingVideos(prev => prev.map(v => v.id === video.id ? { ...v, progress: 50 } : v));
+        const onProgress = (progress: number, speed: number) => {
+            setUploadingVideos(prev => prev.map(v => v.id === video.id ? { ...v, progress, speed } : v));
+            if (progress < 100) {
+                 addLog(video.id, `Upload in progress... ${progress.toFixed(0)}%`);
+            }
+        };
+        
+        addLog(video.id, "Starting upload...");
+        const result = await uploadFile(video.id, video.file, onProgress, addLog);
 
-        const result = await uploadVideo(formData);
-        
-        if (result.success && result.video) {
+        if (result.success && result.downloadURL) {
+          addLog(video.id, "Upload complete. Creating video document in database...");
+          
+          const videoDoc = await createVideoDocument({
+            title: video.file.name.replace(/\.[^/.]+$/, ""),
+            srcUrl: result.downloadURL,
+            thumbnailUrl: "https://placehold.co/160x90.png",
+            duration: 0, // Should be updated later
+          });
+
           setUploadingVideos(prev =>
             prev.map(v =>
-              v.id === video.id ? { ...v, status: 'complete', progress: 100 } : v
+              v.id === video.id ? { ...v, status: 'complete', progress: 100, speed: 0 } : v
             )
           );
-          setVideos(prev => [...prev, result.video!].sort((a,b) => a.title.localeCompare(b.title)));
+          
+          addLog(video.id, `Video "${videoDoc.title}" successfully added.`);
+          setVideos(prev => [...prev, videoDoc].sort((a,b) => a.title.localeCompare(b.title)));
           toast({
             title: "Upload successful",
-            description: `"${result.video.title}" has been added to the library.`,
+            description: `"${videoDoc.title}" has been added to the library.`,
           });
         } else {
           throw new Error(result.error || 'Upload failed');
         }
 
-      } catch (error) {
+      } catch (error: any) {
         console.error('Upload error:', error);
+        addLog(video.id, `Error: ${error.message}`);
         setUploadingVideos(prev =>
-          prev.map(v => (v.id === video.id ? { ...v, status: 'error', progress: 0 } : v))
+          prev.map(v => (v.id === video.id ? { ...v, status: 'error', progress: 0, speed: 0 } : v))
         );
         toast({
             variant: "destructive",
@@ -274,5 +298,3 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
-
-    

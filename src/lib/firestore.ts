@@ -1,5 +1,5 @@
 
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { User, Tag, Video } from "@/lib/types";
 
@@ -37,4 +37,10 @@ export async function getTagsForVideo(videoId: string): Promise<Tag[]> {
     return tagSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Tag));
 }
 
-    
+export async function createVideoDocument(videoData: Omit<Video, 'id'>): Promise<Video> {
+  const docRef = await addDoc(collection(db, "videos"), videoData);
+  return {
+    id: docRef.id,
+    ...videoData
+  };
+}
