@@ -18,7 +18,6 @@ interface User {
   id: string
   name: string
   email: string
-  role: "user" | "admin"
 }
 
 interface AuthContextType {
@@ -84,13 +83,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         id: firebaseUser.uid,
         name,
         email,
-        role: email.toLowerCase().endsWith('@pebl-cic.co.uk') ? 'admin' : 'user' // Simple logic for admin role
       };
 
       await setDoc(doc(db, "users", firebaseUser.uid), {
         name: newUser.name,
         email: newUser.email,
-        role: newUser.role,
       });
 
       // We don't set user state here, onAuthStateChanged will handle it

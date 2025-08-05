@@ -37,16 +37,12 @@ export default function LoginPage() {
         setEmail("")
         setPassword("")
       } else if (authMode === 'login') {
-        const user = await login(email, password)
+        await login(email, password)
         toast({
           title: "Login Successful",
-          description: `Welcome back, ${user.name}!`,
+          description: `Welcome back!`,
         })
-        if (user.role === 'admin') {
-          router.push("/admin")
-        } else {
-          router.push("/")
-        }
+        router.push("/")
       } else if (authMode === 'forgotPassword') {
         await forgotPassword(email)
         toast({
@@ -153,10 +149,6 @@ export default function LoginPage() {
                      Back to Sign In
                  </Button>
              )}
-            
-            <p className={cn("text-xs text-foreground/70", authMode !== 'login' && 'hidden')}>
-              Hint: use an email ending in `@pebl-cic.co.uk` for admin access.
-            </p>
           </CardFooter>
         </form>
       </Card>

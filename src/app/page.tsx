@@ -17,6 +17,7 @@ import LevelUpAnimation from "@/components/level-up-animation"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
+import UploadDialog from "@/components/upload-dialog"
 
 
 const LEVEL_UP_THRESHOLD = 100;
@@ -24,6 +25,7 @@ const LEVEL_UP_THRESHOLD = 100;
 export default function TaggerPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!loading && !user) {
@@ -148,6 +150,16 @@ export default function TaggerPage() {
   }
 
   const progressToNextLevel = (score % LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD * 100;
+  
+  const handleUpload = (videos: FileList) => {
+    // TODO: Implement actual upload logic
+    console.log("Uploading videos:", videos);
+    toast({
+      title: "Upload Successful",
+      description: `${videos.length} video(s) have been added to the queue.`,
+    });
+    setIsUploadDialogOpen(false);
+  };
 
   if (loading || !user) {
     return (
@@ -160,6 +172,11 @@ export default function TaggerPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-background text-foreground">
       {showLevelUp && <LevelUpAnimation level={level} />}
+      <UploadDialog 
+        isOpen={isUploadDialogOpen}
+        onOpenChange={setIsUploadDialogOpen}
+        onUpload={handleUpload}
+      />
       <AppHeader 
         videos={videos}
         allTags={allTags}
@@ -228,12 +245,10 @@ export default function TaggerPage() {
                         <CardHeader className="flex-row items-center justify-between">
                             <CardTitle className="font-headline">Annotation Tools</CardTitle>
                              <div className="flex items-center gap-4">
-                                {user.role === 'admin' && (
-                                <Button variant="outline">
+                                <Button variant="outline" onClick={() => setIsUploadDialogOpen(true)}>
                                     <Upload className="mr-2 h-4 w-4" />
-                                    Admin Upload
+                                    Upload Videos
                                 </Button>
-                                )}
                             </div>
                         </CardHeader>
                         <CardContent>
