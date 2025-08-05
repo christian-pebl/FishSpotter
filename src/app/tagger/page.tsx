@@ -46,10 +46,8 @@ export default function TaggerPage() {
 
   React.useEffect(() => {
     async function fetchData() {
-      if (!user) {
-        setLoadingData(false); // No user, stop loading
-        return;
-      }
+      if (!user) return;
+      
       try {
         setLoadingData(true)
         const [fetchedVideos, fetchedTags] = await Promise.all([getVideos(), getTags()])
@@ -69,7 +67,7 @@ export default function TaggerPage() {
         setLoadingData(false)
       }
     }
-    // Fetch data only when auth is done and we have a user
+    
     if (!authLoading && user) {
       fetchData()
     }
@@ -202,7 +200,7 @@ export default function TaggerPage() {
     return null
   }
   
-  if (!currentVideo) {
+  if (videos.length === 0) {
     return (
         <div className="flex h-screen w-full flex-col bg-background">
         <AppHeader videos={videos} allTags={allTags} submittedVideoIds={submittedVideoIds} onVideoSelect={handleVideoSelect} />
@@ -311,3 +309,5 @@ export default function TaggerPage() {
     </div>
   )
 }
+
+    
