@@ -14,7 +14,7 @@ import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
   const router = useRouter()
-  const { login, signup, forgotPassword } = useAuth()
+  const { login, signup, forgotPassword, user, loading } = useAuth()
   const { toast } = useToast()
   
   const [authMode, setAuthMode] = React.useState<'login' | 'signup' | 'forgotPassword'>('login')
@@ -22,6 +22,13 @@ export default function LoginPage() {
   
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
+
+  React.useEffect(() => {
+    if (!loading && user) {
+      router.replace('/tagger');
+    }
+  }, [user, loading, router]);
+
 
   const handleAuthAction = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -42,7 +49,7 @@ export default function LoginPage() {
           title: "Login Successful",
           description: `Welcome back!`,
         })
-        router.push("/")
+        router.push("/tagger")
       } else if (authMode === 'forgotPassword') {
         await forgotPassword(email)
         toast({
@@ -78,6 +85,14 @@ export default function LoginPage() {
     if (authMode === 'signup') return 'Sign Up'
     if (authMode === 'forgotPassword') return 'Send Reset Link'
     return 'Sign In'
+  }
+  
+  if (loading || user) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
   }
 
   return (
@@ -155,5 +170,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
-    

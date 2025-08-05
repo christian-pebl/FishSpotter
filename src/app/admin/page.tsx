@@ -5,7 +5,7 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
 import { getAllUsersWithTags, getAllVideos } from "@/lib/firestore"
-import { createVideoDocument, uploadFile } from "@/lib/actions"
+import { createVideoDocument } from "@/lib/actions"
 import type { User, Tag, Video } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -21,6 +21,8 @@ import VideoPreviewDialog from "@/components/video-preview-dialog"
 import { FileVideo, Play } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { v4 as uuidv4 } from "uuid"
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { storage } from "@/lib/firebase"
 
 
 interface UserWithTags extends User {
@@ -42,14 +44,21 @@ export default function AdminDashboardPage() {
 
 
   React.useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login')
-    } else if (!authLoading && !isAdmin) {
-      // Non-admins should not see this page
-      router.push('/tagger');
+    if (!authLoading) {
+      if (!user) {
+        router.push('/login');
+      } else if (!isAdmin) {
+        // Non-admins should not see this page and be redirected
+        toast({
+          variant: "destructive",
+          title: "Access Denied",
+          description: "You do not have permission to view this page.",
+        });
+        router.push('/tagger');
+      }
     }
-  }, [user, isAdmin, authLoading, router])
-  
+  }, [user, isAdmin, authLoading, router, toast]);
+
   const fetchAdminData = React.useCallback(async () => {
      try {
         if (!isAdmin) {
@@ -71,14 +80,16 @@ export default function AdminDashboardPage() {
         setVideos(fetchedVideos.sort((a,b) => a.title.localeCompare(b.title)))
       } catch (error) {
         console.error("Failed to fetch admin data:", error)
-      } 
+      } finally {
+        setLoadingData(false)
+      }
   }, [isAdmin])
 
 
   React.useEffect(() => {
     if (!authLoading && isAdmin) {
       setLoadingData(true)
-      fetchAdminData().finally(() => setLoadingData(false))
+      fetchAdminData()
     }
   }, [authLoading, isAdmin, fetchAdminData])
 
@@ -86,7 +97,16 @@ export default function AdminDashboardPage() {
       setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, logs: [...(v.logs || []), `${new Date().toLocaleTimeString()}: ${log}`] } : v));
   };
   
-  const handleUpload = (files: FileList) => {
+ const handleUpload = (files: FileList) => {
+    if (!isAdmin) {
+        toast({
+            variant: "destructive",
+            title: "Permission Denied",
+            description: "You must be an admin to upload videos.",
+        });
+        return;
+    }
+
     setIsUploadDialogOpen(false);
     
     const newVideos: UploadingVideo[] = Array.from(files).map(file => ({
@@ -101,59 +121,90 @@ export default function AdminDashboardPage() {
 
     setUploadingVideos(prev => [...newVideos, ...prev]);
 
-    newVideos.forEach(async (video) => {
+    newVideos.forEach(video => {
       if (!video.file) return;
 
-      try {
-        const onProgress = (progress: number, speed: number) => {
-            setUploadingVideos(prev => prev.map(v => v.id === video.id ? { ...v, progress, speed } : v));
-            if (progress < 100) {
-                 // This log is too noisy, we have the progress bar for this
-                 // addLog(video.id, `Upload in progress... ${progress.toFixed(0)}%`);
-            }
-        };
-        
-        addLog(video.id, "Calling uploadFile action...");
-        const result = await uploadFile(video.id, video.file, onProgress, addLog);
+      const videoId = video.id;
+      const file = video.file;
 
-        if (result.success && result.downloadURL) {
-          addLog(video.id, "Upload action complete. Creating video document in database...");
-          
-          const videoDoc = await createVideoDocument({
-            title: video.file.name.replace(/\.[^/.]+$/, ""),
-            srcUrl: result.downloadURL,
-thumbnailUrl: "https://placehold.co/160x90.png",
-            duration: 0, // Should be updated later
-          });
+      const filePath = `videos/${uuidv4()}-${file.name}`;
+      const storageRef = ref(storage, filePath);
+      
+      addLog(videoId, `Generated file path: ${filePath}`);
+      addLog(videoId, "Storage reference created. Starting upload task...");
+      
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      
+      let lastBytesTransferred = 0;
+      let lastTimestamp = Date.now();
 
-          setUploadingVideos(prev =>
-            prev.map(v =>
-              v.id === video.id ? { ...v, status: 'complete', progress: 100, speed: 0 } : v
-            )
-          );
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const now = Date.now();
+          const timeDiff = (now - lastTimestamp) / 1000;
+          const bytesDiff = snapshot.bytesTransferred - lastBytesTransferred;
+          const speed = timeDiff > 0 ? (bytesDiff / 1024) / timeDiff : 0;
+
+          setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, progress, speed } : v));
           
-          addLog(video.id, `Video "${videoDoc.title}" successfully added to database.`);
-          setVideos(prev => [...prev, videoDoc].sort((a,b) => a.title.localeCompare(b.title)));
+          lastBytesTransferred = snapshot.bytesTransferred;
+          lastTimestamp = now;
+
+          switch (snapshot.state) {
+            case 'paused':
+              addLog(videoId, 'Upload is paused.');
+              break;
+            case 'running':
+              // Log is too noisy, progress bar and speed are sufficient
+              break;
+          }
+        },
+        (error) => {
+          console.error('Upload failed:', error);
+          const errorMsg = `Upload failed: ${error.code} - ${error.message}`;
+          addLog(videoId, `Error: ${errorMsg}`);
+          setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v));
           toast({
-            title: "Upload successful",
-            description: `"${videoDoc.title}" has been added to the library.`,
+              variant: "destructive",
+              title: "Upload failed",
+              description: `Could not upload "${video.name}". Check logs for details.`,
           });
-        } else {
-          throw new Error(result.error || 'Upload failed without specific error message.');
-        }
+        },
+        async () => {
+          addLog(videoId, "Upload finished. Getting download URL...");
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            addLog(videoId, "Download URL retrieved successfully.");
+            
+            addLog(videoId, "Creating video document in database...");
+            const videoDoc = await createVideoDocument({
+              title: file.name.replace(/\.[^/.]+$/, ""),
+              srcUrl: downloadURL,
+              thumbnailUrl: "https://placehold.co/160x90.png",
+              duration: 0, // Should be updated later
+            });
 
-      } catch (error: any) {
-        console.error('Upload process error:', error);
-        addLog(video.id, `Error: ${error.message}`);
-        setUploadingVideos(prev =>
-          prev.map(v => (v.id === video.id ? { ...v, status: 'error', progress: 0, speed: 0 } : v))
-        );
-        toast({
-            variant: "destructive",
-            title: "Upload failed",
-            description: `Could not upload "${video.name}". Check logs for details.`,
-        });
-      }
+            setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'complete', progress: 100, speed: 0 } : v));
+            addLog(videoId, `Video "${videoDoc.title}" successfully added to database.`);
+            setVideos(prev => [...prev, videoDoc].sort((a,b) => a.title.localeCompare(b.title)));
+            toast({
+              title: "Upload successful",
+              description: `"${videoDoc.title}" has been added to the library.`,
+            });
+          } catch (error: any) {
+            console.error('Post-upload process error:', error);
+            const errorMsg = `Error creating database entry: ${error.message}`;
+            addLog(videoId, errorMsg);
+            setUploadingVideos(prev => prev.map(v => (v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v)));
+            toast({
+                variant: "destructive",
+                title: "Upload failed",
+                description: `Video uploaded but failed to save to database. Check logs.`,
+            });
+          }
+        }
+      );
     });
   };
 
@@ -169,7 +220,7 @@ thumbnailUrl: "https://placehold.co/160x90.png",
     return videos.find(v => v.id === videoId)?.title || "Unknown Video"
   }
   
-  if (authLoading || (!isAdmin && !authLoading) || loadingData) {
+  if (authLoading || loadingData || !isAdmin) {
     return (
       <div className="flex h-screen w-full flex-col bg-background">
         <AppHeader />
@@ -214,11 +265,11 @@ thumbnailUrl: "https://placehold.co/160x90.png",
                 </div>
                 </CardHeader>
                 <CardContent>
-                  {!isAdmin ? (
+                  {usersWithTags.length === 0 ? (
                      <div className="flex flex-col items-center justify-center gap-2 text-center text-muted-foreground border-2 border-dashed rounded-lg p-8 h-full">
                         <UserIcon className="h-10 w-10" />
-                        <h3 className="font-semibold">Admin Access Required</h3>
-                        <p className="text-sm">Log in as an admin to view user submissions.</p>
+                        <h3 className="font-semibold">No User Data</h3>
+                        <p className="text-sm">No user submissions have been recorded yet.</p>
                     </div>
                   ) : (
                     <Accordion type="single" collapsible className="w-full">
@@ -303,7 +354,6 @@ thumbnailUrl: "https://placehold.co/160x90.png",
                         <FileVideo className="h-10 w-10" />
                         <h3 className="font-semibold">No Videos Available</h3>
                         <p className="text-sm">Upload videos to start building your library.</p>
-                         {!isAdmin && <p className="text-sm">You must be an admin to upload.</p>}
                     </div>
                   )}
               </CardContent>

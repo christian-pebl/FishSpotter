@@ -35,13 +35,13 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
 
   const handleAdminLoginSuccess = () => {
     grantAdminAccess();
-    router.push("/"); // Navigate to admin dashboard, which is now the root
+    router.push("/admin"); // Navigate to admin dashboard
   }
 
   return (
     <>
       <header className="flex h-16 shrink-0 items-center justify-between border-b px-4 lg:px-6">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/tagger" className="flex items-center gap-2">
           <h1 className="font-headline text-xl font-bold tracking-tight">Abyssal Annotator</h1>
         </Link>
         <div className="flex items-center gap-2">
@@ -70,19 +70,19 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
                 <DropdownMenuLabel>Hi, {user.name}!</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {isAdmin ? (
-                  <DropdownMenuItem onClick={() => router.push('/')}>
+                  <DropdownMenuItem onClick={() => router.push('/admin')}>
                     <LayoutDashboard className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
                   </DropdownMenuItem>
                 ) : (
-                   <DropdownMenuItem onClick={() => router.push('/')}>
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    <span>Dashboard</span>
+                   <DropdownMenuItem onClick={() => router.push('/tagger')}>
+                    <ListVideo className="mr-2 h-4 w-4" />
+                    <span>Start Tagging</span>
                   </DropdownMenuItem>
                 )}
                 
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem disabled>Profile</DropdownMenuItem>
+                <DropdownMenuItem disabled>Settings</DropdownMenuItem>
                 
                 {!isAdmin && (
                   <DropdownMenuItem onClick={handleAdminLoginSuccess}>
@@ -105,5 +105,3 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
     </>
   )
 }
-
-    
