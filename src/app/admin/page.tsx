@@ -22,7 +22,7 @@ import { FileVideo, Play } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { v4 as uuidv4 } from "uuid"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { storage } from "@/lib/firebase"
+import { auth, storage } from "@/lib/firebase"
 
 
 interface UserWithTags extends User {
@@ -116,6 +116,18 @@ export default function AdminDashboardPage() {
       const videoId = video.id;
       const file = video.file;
 
+      console.log("currentUser:", auth.currentUser);
+      if (!auth.currentUser) {
+          addLog(videoId, "Authentication error: User is not signed in.");
+          setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error' } : v));
+          toast({
+              variant: "destructive",
+              title: "Authentication Error",
+              description: "You must be signed in to upload files.",
+          });
+          return; 
+      }
+
       const filePath = `videos/${uuidv4()}-${file.name}`;
       const storageRef = ref(storage, filePath);
       
@@ -150,15 +162,15 @@ export default function AdminDashboardPage() {
           }
         },
         (error) => {
-          console.error('Upload failed with error object:', error);
-          const errorMsg = `Upload failed: ${error.code} - ${error.message}`;
-          addLog(videoId, `Error: ${errorMsg}`);
-          setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v));
-          toast({
-              variant: "destructive",
-              title: "Upload failed",
-              description: `Could not upload "${video.name}". Check logs for details.`,
-          });
+            console.error("🔥 Upload failed:", error.code, error.message);
+            const errorMsg = `Upload failed: ${error.code} - ${error.message}`;
+            addLog(videoId, `Error: ${errorMsg}`);
+            setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v));
+            toast({
+                variant: "destructive",
+                title: "Upload failed",
+                description: `Could not upload "${video.name}". Check logs for details.`,
+            });
         },
         async () => {
           addLog(videoId, "Upload finished. Getting download URL...");
@@ -353,5 +365,3 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
-
-    
