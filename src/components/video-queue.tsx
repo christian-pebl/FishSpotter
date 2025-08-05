@@ -67,7 +67,7 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
     )}>
         <div className="flex items-center gap-4">
         <FileVideo className="h-6 w-6 text-muted-foreground" />
-        <div className="flex-1 space-y-1">
+        <div className="flex-1 space-y-1 overflow-hidden">
             {isEditing ? (
                 <Input 
                     value={name}
@@ -142,7 +142,7 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
         <CollapsibleContent>
             <div className="mt-2 rounded-md border bg-background p-2">
                  <ScrollArea className="h-32" ref={logContainerRef}>
-                    <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap p-2">
+                    <pre className="text-xs font-mono text-muted-foreground whitespace-pre-wrap p-2 break-words">
                         {video.logs.join("\n")}
                     </pre>
                  </ScrollArea>
