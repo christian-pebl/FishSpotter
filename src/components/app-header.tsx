@@ -26,7 +26,7 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
   const handleLogout = async () => {
     try {
       await logout()
-      router.push("/login")
+      router.push("/")
     } catch (error) {
       console.error(error)
       // Handle logout error with a toast, perhaps
@@ -98,7 +98,7 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button onClick={() => router.push('/login')}>Login</Button>
+            <Button onClick={() => router.push('/')}>Login</Button>
           )}
         </div>
       </header>

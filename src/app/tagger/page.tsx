@@ -40,7 +40,7 @@ export default function TaggerPage() {
 
   React.useEffect(() => {
     if (!authLoading && !user) {
-      router.push("/login")
+      router.push("/")
     }
   }, [user, authLoading, router])
 

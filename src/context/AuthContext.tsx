@@ -117,7 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await signOut(auth);
       setUser(null);
       setIsAdmin(false);
-      router.push("/login");
+      router.push("/");
     } catch (error: any) {
       console.error("Logout Error:", error);
       throw new Error("Failed to logout.");
