@@ -12,7 +12,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { formatTimestamp } from "@/lib/utils"
 import AppHeader from "@/components/app-header"
-import { Loader2, User as UserIcon, Video as VideoIcon } from "lucide-react"
+import { Loader2, User as UserIcon, Video as VideoIcon, Upload } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import UploadDialog from "@/components/upload-dialog"
+import { useToast } from "@/hooks/use-toast"
 
 interface UserWithTags extends User {
   tags: Tag[]
@@ -22,10 +25,13 @@ interface UserWithTags extends User {
 export default function AdminDashboardPage() {
   const { user, isAdmin, loading: authLoading } = useAuth()
   const router = useRouter()
+  const { toast } = useToast()
 
   const [usersWithTags, setUsersWithTags] = React.useState<UserWithTags[]>([])
   const [videos, setVideos] = React.useState<Video[]>([])
   const [loadingData, setLoadingData] = React.useState(true)
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = React.useState(false)
+
 
   React.useEffect(() => {
     if (!authLoading && !isAdmin) {
@@ -60,6 +66,16 @@ export default function AdminDashboardPage() {
       fetchData()
     }
   }, [isAdmin])
+  
+  const handleUpload = (videos: FileList) => {
+    // TODO: Implement actual upload logic
+    console.log("Uploading videos:", videos);
+    toast({
+      title: "Upload Successful",
+      description: `${videos.length} video(s) have been added to the queue.`,
+    });
+    setIsUploadDialogOpen(false);
+  };
 
   const getVideoTitleById = (videoId: string) => {
     return videos.find(v => v.id === videoId)?.title || "Unknown Video"
@@ -86,6 +102,11 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background">
+       <UploadDialog 
+        isOpen={isUploadDialogOpen}
+        onOpenChange={setIsUploadDialogOpen}
+        onUpload={handleUpload}
+      />
       <AppHeader />
       <main className="flex-1 overflow-y-auto p-4 lg:p-6">
         <div className="mx-auto max-w-7xl">
@@ -117,9 +138,15 @@ export default function AdminDashboardPage() {
 
 
           <Card>
-            <CardHeader>
-              <CardTitle>User Submissions</CardTitle>
-              <CardDescription>Click on a user to see their submitted tags.</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>User Submissions</CardTitle>
+                <CardDescription>Click on a user to see their submitted tags.</CardDescription>
+              </div>
+               <Button onClick={() => setIsUploadDialogOpen(true)}>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload Videos
+              </Button>
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className="w-full">

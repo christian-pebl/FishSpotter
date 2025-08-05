@@ -17,7 +17,6 @@ import LevelUpAnimation from "@/components/level-up-animation"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/context/AuthContext"
 import { useRouter } from "next/navigation"
-import UploadDialog from "@/components/upload-dialog"
 
 
 const LEVEL_UP_THRESHOLD = 100;
@@ -25,7 +24,6 @@ const LEVEL_UP_THRESHOLD = 100;
 export default function TaggerPage() {
   const { user, loading, isAdmin } = useAuth();
   const router = useRouter();
-  const [isUploadDialogOpen, setIsUploadDialogOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (!loading && !user) {
@@ -151,16 +149,6 @@ export default function TaggerPage() {
 
   const progressToNextLevel = (score % LEVEL_UP_THRESHOLD) / LEVEL_UP_THRESHOLD * 100;
   
-  const handleUpload = (videos: FileList) => {
-    // TODO: Implement actual upload logic
-    console.log("Uploading videos:", videos);
-    toast({
-      title: "Upload Successful",
-      description: `${videos.length} video(s) have been added to the queue.`,
-    });
-    setIsUploadDialogOpen(false);
-  };
-
   if (loading || !user) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -172,11 +160,6 @@ export default function TaggerPage() {
   return (
     <div className="flex h-screen w-full flex-col bg-background text-foreground">
       {showLevelUp && <LevelUpAnimation level={level} />}
-      <UploadDialog 
-        isOpen={isUploadDialogOpen}
-        onOpenChange={setIsUploadDialogOpen}
-        onUpload={handleUpload}
-      />
       <AppHeader 
         videos={videos}
         allTags={allTags}
@@ -196,12 +179,6 @@ export default function TaggerPage() {
                     <CardContent className="space-y-2 pb-8">
                         <p className="text-lg text-muted-foreground">You have tagged and submitted all available videos.</p>
                         <p>Thank you for your valuable contribution to marine life research. You're a true Abyssal Annotator!</p>
-                         {isAdmin && (
-                            <Button onClick={() => setIsUploadDialogOpen(true)} className="mt-4">
-                                <Upload className="mr-2 h-4 w-4" />
-                                Upload More Videos
-                            </Button>
-                        )}
                     </CardContent>
                 </Card>
             </div>
@@ -250,14 +227,6 @@ export default function TaggerPage() {
                         <Card className="flex-1">
                         <CardHeader className="flex-row items-center justify-between">
                             <CardTitle className="font-headline">Annotation Tools</CardTitle>
-                             {isAdmin && (
-                                <div className="flex items-center gap-4">
-                                    <Button variant="outline" onClick={() => setIsUploadDialogOpen(true)}>
-                                        <Upload className="mr-2 h-4 w-4" />
-                                        Upload Videos
-                                    </Button>
-                                </div>
-                            )}
                         </CardHeader>
                         <CardContent>
                             <div className="mb-4 flex items-center justify-end gap-4 rounded-md border p-2">
@@ -296,12 +265,6 @@ export default function TaggerPage() {
             ) : (
                  <div className="flex h-full flex-col items-center justify-center gap-4">
                     <p className="text-lg text-muted-foreground">No videos available for tagging.</p>
-                     {isAdmin && (
-                        <Button onClick={() => setIsUploadDialogOpen(true)}>
-                            <Upload className="mr-2 h-4 w-4" />
-                            Upload Videos
-                        </Button>
-                    )}
                 </div>
             )
         )}
