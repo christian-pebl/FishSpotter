@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowLeft, ArrowRight, Upload, Sparkles, Award, CheckCircle2, PartyPopper } from "lucide-react"
+import { ArrowLeft, ArrowRight, Upload, Sparkles, Award, CheckCircle2, PartyPopper, LayoutDashboard } from "lucide-react"
 
 import { MOCK_VIDEOS, MOCK_TAGS } from "@/lib/data"
 import type { Video, Tag } from "@/lib/types"
@@ -195,7 +195,7 @@ export default function TaggerPage() {
                     </CardHeader>
                     <CardContent className="space-y-2 pb-8">
                         <p className="text-lg text-muted-foreground">You have tagged and submitted all available videos.</p>
-                        <p>Thank you for your valuable contribution to marine life research. You're a true Fish Spotter!</p>
+                        <p>Thank you for your valuable contribution to marine life research. You're a true Abyssal Annotator!</p>
                          {isAdmin && (
                             <Button onClick={() => setIsUploadDialogOpen(true)} className="mt-4">
                                 <Upload className="mr-2 h-4 w-4" />

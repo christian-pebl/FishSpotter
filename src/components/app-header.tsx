@@ -5,7 +5,7 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
-import { UserCircle, LogOut, Loader2, ListVideo, ShieldCheck } from "lucide-react"
+import { UserCircle, LogOut, Loader2, ListVideo, ShieldCheck, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import VideoProgressSheet from "./video-progress-sheet"
@@ -44,7 +44,7 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
       />
       <header className="flex h-16 shrink-0 items-center justify-between border-b px-4 lg:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <h1 className="font-headline text-xl font-bold tracking-tight">Fish Spotter</h1>
+          <h1 className="font-headline text-xl font-bold tracking-tight">Abyssal Annotator</h1>
         </Link>
         <div className="flex items-center gap-2">
           {user && videos && onVideoSelect && (
@@ -71,6 +71,12 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Hi, {user.name}!</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                {isAdmin && (
+                  <DropdownMenuItem onClick={() => router.push('/admin')}>
+                    <LayoutDashboard className="mr-2 h-4 w-4" />
+                    <span>Dashboard</span>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 {!isAdmin && (
