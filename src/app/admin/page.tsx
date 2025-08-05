@@ -44,14 +44,8 @@ export default function AdminDashboardPage() {
 
 
   React.useEffect(() => {
-    console.log("Admin page mounted. Auth loading:", authLoading);
-    if (!authLoading) {
-      if (!user) {
-        console.log("User not found, redirecting to /login.");
+    if (!authLoading && !user) {
         router.push('/login');
-      } else {
-        console.log("User found:", user.email);
-      }
     }
   }, [user, authLoading, router]);
 
@@ -89,12 +83,10 @@ export default function AdminDashboardPage() {
 
 
   React.useEffect(() => {
-    console.log("Auth/user state changed. Auth loading:", authLoading, "User:", !!user);
     if (!authLoading && user) {
       setLoadingData(true)
       fetchAdminData()
     } else if (!authLoading && !user) {
-        // If not logged in after auth check, don't keep loading forever
         setLoadingData(false);
     }
   }, [authLoading, user, fetchAdminData])
@@ -158,7 +150,7 @@ export default function AdminDashboardPage() {
           }
         },
         (error) => {
-          console.error('Upload failed:', error);
+          console.error('Upload failed with error object:', error);
           const errorMsg = `Upload failed: ${error.code} - ${error.message}`;
           addLog(videoId, `Error: ${errorMsg}`);
           setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v));
