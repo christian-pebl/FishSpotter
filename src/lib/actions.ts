@@ -24,10 +24,24 @@ export async function getTagSuggestions(currentFrame: string): Promise<string[]>
     return result.suggestedTags || []
   } catch (error) {
     console.error("Error getting AI tag suggestions:", error)
+    // Don't rethrow, just return empty array
     return []
   }
 }
 
+// This function is now designed to be called from the client-side `handleUpload` function.
+// It creates the database record after the file is already in Storage.
+export async function createVideoDocument(videoData: Omit<Video, 'id'>): Promise<Video> {
+  const docRef = await addDoc(collection(db, "videos"), videoData);
+  return {
+    id: docRef.id,
+    ...videoData
+  };
+}
+
+
+// This server action is no longer used for direct upload, but kept for potential future server-to-server operations.
+// The primary upload logic is now handled on the client in page.tsx for better progress reporting.
 export async function uploadFile(
   videoId: string,
   file: File,
@@ -59,22 +73,12 @@ export async function uploadFile(
         const timeDiff = (now - lastTimestamp) / 1000; // in seconds
         const bytesDiff = snapshot.bytesTransferred - lastBytesTransferred;
         
-        // speed in KB/s
         const speed = timeDiff > 0 ? (bytesDiff / 1024) / timeDiff : 0; 
 
         onProgress(progress, speed);
         
         lastBytesTransferred = snapshot.bytesTransferred;
         lastTimestamp = now;
-
-        switch (snapshot.state) {
-          case 'paused':
-            addLog(videoId, 'Upload is paused.');
-            break;
-          case 'running':
-            // This log is too noisy, progress is logged in onProgress callback
-            break;
-        }
       },
       (error) => {
         console.error('Upload failed:', error);
@@ -99,13 +103,6 @@ export async function uploadFile(
   });
 }
 
-export async function createVideoDocument(videoData: Omit<Video, 'id'>): Promise<Video> {
-  const docRef = await addDoc(collection(db, "videos"), videoData);
-  return {
-    id: docRef.id,
-    ...videoData
-  };
-}
 
 export async function getVideos(): Promise<Video[]> {
     return getAllVideosFS();
