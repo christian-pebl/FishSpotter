@@ -178,7 +178,7 @@ export default function TaggerPage() {
                     </CardHeader>
                     <CardContent className="space-y-2 pb-8">
                         <p className="text-lg text-muted-foreground">You have tagged and submitted all available videos.</p>
-                        <p>Thank you for your valuable contribution to marine life research. You're a true Abyssal Annotator!</p>
+                        <p>Thank you for your valuable contribution to marine life research. You're a true Fish Spotter!</p>
                     </CardContent>
                 </Card>
             </div>

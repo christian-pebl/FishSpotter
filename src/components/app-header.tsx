@@ -49,7 +49,7 @@ export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoS
       />
       <header className="flex h-16 shrink-0 items-center justify-between border-b px-4 lg:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <h1 className="font-headline text-xl font-bold tracking-tight">Abyssal Annotator</h1>
+          <h1 className="font-headline text-xl font-bold tracking-tight">Fish Spotter</h1>
         </Link>
         <div className="flex items-center gap-2">
           {user && videos && onVideoSelect && (
