@@ -18,7 +18,8 @@ export interface UploadingVideo {
   progress: number;
   speed: number;
   logs: string[];
-  file?: File;
+  fileBuffer?: Uint8Array;
+  fileType?: string;
 }
 
 interface VideoQueueProps {

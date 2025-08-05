@@ -1,26 +1,35 @@
+
 rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow any authenticated user to read videos and user info for the dashboard.
+
+    // Helper function to check for admin role
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.hasAny(['admin']);
+    }
+
     match /videos/{videoId} {
+      // Admins can do anything, other authenticated users can only read.
       allow read: if request.auth != null;
-      allow create: if request.auth != null; // Allow creating new videos
+      allow write: if isAdmin();
     }
 
     match /users/{userId} {
-      allow read: if request.auth != null;
-      // Users are created on signup, prevent modification otherwise.
+      // Admins can read all user data, individual users can read their own.
+      allow read: if isAdmin() || request.auth.uid == userId;
+      // Prevent any client-side writes to the user document for now.
       allow write: if false; 
     }
 
-    // Users can create and manage their own tags.
-    // They can read all tags to display on the tag list.
     match /tags/{tagId} {
+      // Any authenticated user can read tags.
       allow read: if request.auth != null;
+      // Users can create their own tags.
       allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
-      // Allow user to update or delete their own tags only if not yet submitted.
-      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid && resource.data.submitted == false;
+      // Users can update/delete their own tags only if they haven't been submitted.
+      // Admins can update/delete any tag.
+      allow update, delete: if (request.auth != null && resource.data.userId == request.auth.uid && resource.data.submitted == false) || isAdmin();
     }
   }
 }

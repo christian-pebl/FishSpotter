@@ -3,9 +3,9 @@
 
 import 'dotenv/config'
 import { suggestVideoTag, type SuggestVideoTagInput } from "@/ai/flows/suggest-video-tag"
-import { addDoc, collection, doc, getDocs, writeBatch } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, query, where, writeBatch, deleteDoc } from "firebase/firestore";
 import { db, storage } from "./firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import type { Video, Tag } from "./types";
 import { v4 as uuidv4 } from 'uuid';
 import { getAllVideos as getAllVideosFS, getTagsForVideo as getTagsForVideoFS } from './firestore';
@@ -29,8 +29,6 @@ export async function getTagSuggestions(currentFrame: string): Promise<string[]>
   }
 }
 
-// This function is now designed to be called from the client-side `handleUpload` function.
-// It creates the database record after the file is already in Storage.
 export async function createVideoDocument(videoData: Omit<Video, 'id'>): Promise<Video> {
   const docRef = await addDoc(collection(db, "videos"), videoData);
   return {
@@ -39,6 +37,36 @@ export async function createVideoDocument(videoData: Omit<Video, 'id'>): Promise
   };
 }
 
+export async function deleteVideo(video: Video): Promise<{ success: boolean; error?: string }> {
+    try {
+        // 1. Delete video file from Firebase Storage
+        const storageRef = ref(storage, video.srcUrl);
+        await deleteObject(storageRef);
+
+        // 2. Delete the video document from Firestore
+        const videoDocRef = doc(db, "videos", video.id);
+        await deleteDoc(videoDocRef);
+
+        // 3. Find and delete all associated tags
+        const tagsCollectionRef = collection(db, "tags");
+        const q = query(tagsCollectionRef, where("videoId", "==", video.id));
+        const tagsSnapshot = await getDocs(q);
+
+        if (!tagsSnapshot.empty) {
+            const batch = writeBatch(db);
+            tagsSnapshot.docs.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            await batch.commit();
+        }
+
+        return { success: true };
+
+    } catch (error: any) {
+        console.error("Error deleting video and associated data:", error);
+        return { success: false, error: error.message };
+    }
+}
 
 // This server action is no longer used for direct upload.
 // The primary upload logic is now handled on the client in page.tsx for better progress reporting.

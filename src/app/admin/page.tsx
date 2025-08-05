@@ -5,7 +5,7 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
 import { getAllUsersWithTags, getAllVideos } from "@/lib/firestore"
-import { createVideoDocument } from "@/lib/actions"
+import { createVideoDocument, deleteVideo } from "@/lib/actions"
 import type { User, Tag, Video } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -13,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { formatTimestamp } from "@/lib/utils"
 import AppHeader from "@/components/app-header"
-import { Loader2, User as UserIcon, Upload } from "lucide-react"
+import { Loader2, User as UserIcon, Upload, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import UploadDialog from "@/components/upload-dialog"
 import VideoQueue, { type UploadingVideo } from "@/components/video-queue"
@@ -23,6 +23,7 @@ import { useToast } from "@/hooks/use-toast"
 import { v4 as uuidv4 } from "uuid"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { auth, storage } from "@/lib/firebase"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 
 interface UserWithTags extends User {
@@ -41,6 +42,7 @@ export default function AdminDashboardPage() {
   const [isUploadDialogOpen, setIsUploadDialogOpen] = React.useState(false)
   const [uploadingVideos, setUploadingVideos] = React.useState<UploadingVideo[]>([]);
   const [previewVideo, setPreviewVideo] = React.useState<Video | null>(null)
+  const [videoToDelete, setVideoToDelete] = React.useState<Video | null>(null);
 
 
   React.useEffect(() => {
@@ -95,26 +97,32 @@ export default function AdminDashboardPage() {
       setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, logs: [...(v.logs || []), `${new Date().toLocaleTimeString()}: ${log}`] } : v));
   };
   
- const handleUpload = (files: FileList) => {
+ const handleUpload = async (files: FileList) => {
     setIsUploadDialogOpen(false);
     
-    const newVideos: UploadingVideo[] = Array.from(files).map(file => ({
-      id: uuidv4(),
-      name: file.name,
-      status: 'uploading',
-      progress: 0,
-      speed: 0,
-      logs: [`${new Date().toLocaleTimeString()}: Upload queued.`],
-      file: file,
-    }));
+    const newVideosPromises = Array.from(files).map(async file => {
+      const buffer = await file.arrayBuffer();
+      return {
+        id: uuidv4(),
+        name: file.name,
+        status: 'uploading',
+        progress: 0,
+        speed: 0,
+        logs: [`${new Date().toLocaleTimeString()}: Upload queued.`],
+        fileBuffer: new Uint8Array(buffer),
+        fileType: file.type,
+      } as UploadingVideo;
+    });
 
+    const newVideos = await Promise.all(newVideosPromises);
     setUploadingVideos(prev => [...newVideos, ...prev]);
 
     newVideos.forEach(video => {
-      if (!video.file) return;
+      if (!video.fileBuffer) return;
 
       const videoId = video.id;
-      const file = video.file;
+      const fileBlob = new Blob([video.fileBuffer], { type: video.fileType });
+
 
       console.log("currentUser:", auth.currentUser);
       if (!auth.currentUser) {
@@ -128,13 +136,13 @@ export default function AdminDashboardPage() {
           return; 
       }
 
-      const filePath = `videos/${uuidv4()}-${file.name}`;
+      const filePath = `videos/${uuidv4()}-${video.name}`;
       const storageRef = ref(storage, filePath);
       
       addLog(videoId, `Generated file path: ${filePath}`);
       addLog(videoId, "Storage reference created. Starting upload task...");
       
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      const uploadTask = uploadBytesResumable(storageRef, fileBlob);
       
       let lastBytesTransferred = 0;
       let lastTimestamp = Date.now();
@@ -180,13 +188,13 @@ export default function AdminDashboardPage() {
             
             addLog(videoId, "Creating video document in database...");
             const videoDoc = await createVideoDocument({
-              title: file.name.replace(/\.[^/.]+$/, ""),
+              title: video.name.replace(/\.[^/.]+$/, ""),
               srcUrl: downloadURL,
               thumbnailUrl: "https://placehold.co/160x90.png",
               duration: 0, // Should be updated later
             });
 
-            setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'complete', progress: 100, speed: 0 } : v));
+            setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'complete', progress: 100, speed: 0, fileBuffer: undefined } : v));
             addLog(videoId, `Video "${videoDoc.title}" successfully added to database.`);
             setVideos(prev => [...prev, videoDoc].sort((a,b) => a.title.localeCompare(b.title)));
             toast({
@@ -213,9 +221,31 @@ export default function AdminDashboardPage() {
     console.log(`Renaming ${id} to ${newName}`);
   };
   
-  const handleDeleteVideo = (id: string) => {
+  const handleDeleteVideoInQueue = (id: string) => {
     setUploadingVideos(prev => prev.filter(v => v.id !== id));
   };
+  
+  const confirmDeleteVideo = async () => {
+        if (!videoToDelete) return;
+
+        const result = await deleteVideo(videoToDelete);
+
+        if (result.success) {
+            setVideos(prev => prev.filter(v => v.id !== videoToDelete.id));
+            toast({
+                title: "Video Deleted",
+                description: `"${videoToDelete.title}" and its tags have been removed.`,
+            });
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Deletion Failed",
+                description: result.error || "An unknown error occurred.",
+            });
+        }
+        setVideoToDelete(null);
+    };
+
 
   const getVideoTitleById = (videoId: string) => {
     return videos.find(v => v.id === videoId)?.title || "Unknown Video"
@@ -249,6 +279,22 @@ export default function AdminDashboardPage() {
         isOpen={!!previewVideo}
         onOpenChange={(isOpen) => !isOpen && setPreviewVideo(null)}
       />
+       <AlertDialog open={!!videoToDelete} onOpenChange={(isOpen) => !isOpen && setVideoToDelete(null)}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This will permanently delete the video "{videoToDelete?.title}" and all its associated tags. This action cannot be undone.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={confirmDeleteVideo}>
+                        Delete
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
       <AppHeader />
       <main className="flex-1 overflow-y-auto p-4 lg:p-6">
         <div className="mx-auto max-w-7xl">
@@ -332,7 +378,7 @@ export default function AdminDashboardPage() {
                     <VideoQueue 
                       videos={uploadingVideos}
                       onRename={handleRenameVideo}
-                      onDelete={handleDeleteVideo}
+                      onDelete={handleDeleteVideoInQueue}
                     />
                   </div>
                 )}
@@ -347,6 +393,9 @@ export default function AdminDashboardPage() {
                           <Button variant="ghost" size="icon" onClick={() => setPreviewVideo(video)} aria-label="Play video">
                             <Play className="h-4 w-4" />
                           </Button>
+                           <Button variant="ghost" size="icon" onClick={() => setVideoToDelete(video)} aria-label="Delete video">
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                            </Button>
                         </div>
                       ))}
                     </div>
