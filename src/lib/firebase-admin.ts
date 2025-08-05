@@ -6,6 +6,11 @@ import admin from 'firebase-admin';
 // Ensure you have the GOOGLE_APPLICATION_CREDENTIALS environment variable set
 // with the path to your service account key file.
 // You can download this from the Firebase console: Project Settings > Service accounts.
+
+if (!process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY environment variable is not set. Please add it to your .env file.');
+}
+
 const serviceAccount = JSON.parse(
     process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
 );
