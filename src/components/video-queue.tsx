@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { CheckCircle2, Edit, FileVideo, Loader2, Save, Trash2, X } from "lucide-react"
+import { CheckCircle2, Edit, FileVideo, Loader2, Save, Trash2, X, AlertTriangle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,6 +14,7 @@ export interface UploadingVideo {
   name: string;
   status: 'uploading' | 'complete' | 'error';
   progress: number;
+  file?: File;
 }
 
 interface VideoQueueProps {
@@ -57,7 +58,7 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
             <p className="text-sm font-medium leading-none truncate">{video.name}</p>
         )}
         <div className="flex items-center gap-2">
-          <Progress value={video.progress} className="h-1.5 w-full" />
+          <Progress value={video.progress} className={cn("h-1.5 w-full", video.status === 'error' && "bg-destructive/50" )} />
           <span className="text-xs font-mono text-muted-foreground w-10 text-right">{video.progress}%</span>
         </div>
       </div>
@@ -72,9 +73,9 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
             </Button>
             </>
         ) : (
-            video.status === 'complete' && (
+            (video.status === 'complete' || video.status === 'error') && (
                 <>
-                <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} aria-label="Rename video">
+                <Button variant="ghost" size="icon" onClick={() => setIsEditing(true)} aria-label="Rename video" disabled={video.status !== 'complete'}>
                     <Edit className="h-4 w-4" />
                 </Button>
                 <AlertDialog>
@@ -87,7 +88,7 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
                     <AlertDialogHeader>
                         <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                        This will delete the video "{video.name}". This action cannot be undone.
+                        This will remove the video "{video.name}" from the queue. If it has already been uploaded, it will not be deleted from storage.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -103,6 +104,7 @@ function QueueItem({ video, onRename, onDelete }: { video: UploadingVideo; onRen
         )}
         {video.status === 'uploading' && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
         {video.status === 'complete' && <CheckCircle2 className="h-4 w-4 text-green-500" />}
+        {video.status === 'error' && <AlertTriangle className="h-4 w-4 text-destructive" />}
       </div>
     </div>
   );

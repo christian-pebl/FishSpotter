@@ -18,6 +18,8 @@ import UploadDialog from "@/components/upload-dialog"
 import VideoQueue, { type UploadingVideo } from "@/components/video-queue"
 import VideoPreviewDialog from "@/components/video-preview-dialog"
 import { FileVideo, Play } from "lucide-react"
+import { uploadVideo } from "@/lib/actions"
+import { useToast } from "@/hooks/use-toast"
 
 
 interface UserWithTags extends User {
@@ -28,6 +30,7 @@ interface UserWithTags extends User {
 export default function AdminDashboardPage() {
   const { user, isAdmin, loading: authLoading } = useAuth()
   const router = useRouter()
+  const { toast } = useToast()
 
   const [usersWithTags, setUsersWithTags] = React.useState<UserWithTags[]>([])
   const [videos, setVideos] = React.useState<Video[]>([])
@@ -42,74 +45,99 @@ export default function AdminDashboardPage() {
       router.push('/')
     }
   }, [user, isAdmin, authLoading, router])
+  
+  const fetchAdminData = React.useCallback(async () => {
+     try {
+        const [fetchedUsers, fetchedVideos] = await Promise.all([
+          getAllUsersWithTags(),
+          getAllVideos(),
+        ])
+        
+        const usersData = fetchedUsers.map(u => ({
+          ...u,
+          submittedVideoIds: new Set(u.tags.map(t => t.videoId))
+        }))
+
+        setUsersWithTags(usersData)
+        setVideos(fetchedVideos.sort((a,b) => a.title.localeCompare(b.title)))
+      } catch (error) {
+        console.error("Failed to fetch admin data:", error)
+      } 
+  }, [])
+
 
   React.useEffect(() => {
     if (isAdmin) {
-      const fetchData = async () => {
-        setLoadingData(true)
-        try {
-          const [fetchedUsers, fetchedVideos] = await Promise.all([
-            getAllUsersWithTags(),
-            getAllVideos(),
-          ])
-          
-          const usersData = fetchedUsers.map(u => ({
-            ...u,
-            submittedVideoIds: new Set(u.tags.map(t => t.videoId))
-          }))
-
-          setUsersWithTags(usersData)
-          setVideos(fetchedVideos)
-        } catch (error) {
-          console.error("Failed to fetch admin data:", error)
-          // Handle error with a toast
-        } finally {
-          setLoadingData(false)
-        }
-      }
-      fetchData()
+      setLoadingData(true)
+      fetchAdminData().finally(() => setLoadingData(false))
     }
-  }, [isAdmin])
+  }, [isAdmin, fetchAdminData])
   
   const handleUpload = (files: FileList) => {
+    setIsUploadDialogOpen(false);
+    
     const newVideos: UploadingVideo[] = Array.from(files).map(file => ({
-      id: `upload-${Date.now()}-${Math.random()}`,
+      id: `upload-${file.name}-${Date.now()}`,
       name: file.name,
       status: 'uploading',
       progress: 0,
+      file: file,
     }));
 
-    setUploadingVideos(prev => [...prev, ...newVideos]);
-    setIsUploadDialogOpen(false);
+    setUploadingVideos(prev => [...newVideos, ...prev]);
 
-    newVideos.forEach(video => {
-      // Simulate upload progress
-      const interval = setInterval(() => {
-        setUploadingVideos(prev =>
-          prev.map(v =>
-            v.id === video.id
-              ? { ...v, progress: Math.min(v.progress + 10, 100) }
-              : v
-          )
-        );
-      }, 200);
+    newVideos.forEach(async (video) => {
+      if (!video.file) return;
 
-      setTimeout(() => {
-        clearInterval(interval);
+      try {
+        const formData = new FormData();
+        formData.append('video', video.file);
+
+        // This would be where you'd use a library that supports progress tracking
+        // For now, we simulate progress based on the upload itself completing
+        // A real implementation would involve a more complex setup with web sockets or polling
+        
+        setUploadingVideos(prev => prev.map(v => v.id === video.id ? { ...v, progress: 50 } : v));
+
+        const result = await uploadVideo(formData);
+        
+        if (result.success && result.video) {
+          setUploadingVideos(prev =>
+            prev.map(v =>
+              v.id === video.id ? { ...v, status: 'complete', progress: 100 } : v
+            )
+          );
+          // Add new video to the list without re-fetching everything
+          setVideos(prev => [...prev, result.video!].sort((a,b) => a.title.localeCompare(b.title)));
+          toast({
+            title: "Upload successful",
+            description: `"${result.video.title}" has been added to the library.`,
+          });
+        } else {
+          throw new Error(result.error || 'Upload failed');
+        }
+
+      } catch (error) {
+        console.error('Upload error:', error);
         setUploadingVideos(prev =>
-          prev.map(v =>
-            v.id === video.id ? { ...v, status: 'complete', progress: 100 } : v
-          )
+          prev.map(v => (v.id === video.id ? { ...v, status: 'error', progress: 0 } : v))
         );
-      }, 2200);
+        toast({
+            variant: "destructive",
+            title: "Upload failed",
+            description: `Could not upload "${video.name}". Please try again.`,
+        });
+      }
     });
   };
 
   const handleRenameVideo = (id: string, newName: string) => {
-    setUploadingVideos(prev => prev.map(v => v.id === id ? { ...v, name: newName } : v));
+    // In a real app, you'd call a server action here to rename the file/DB record
+    console.log(`Renaming ${id} to ${newName}`);
   };
   
   const handleDeleteVideo = (id: string) => {
+    // In a real app, you'd call a server action here to delete the file/DB record
     setUploadingVideos(prev => prev.filter(v => v.id !== id));
   };
 
