@@ -3,7 +3,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/context/AuthContext"
+import { useSupabaseAuth } from "@/context/SupabaseAuthContext"
 import { getAllUsersWithTags, getAllVideos } from "@/lib/firestore"
 import { createVideoDocument, deleteVideo } from "@/lib/actions"
 import type { User, Tag, Video } from "@/lib/types"
@@ -21,8 +21,7 @@ import VideoPreviewDialog from "@/components/video-preview-dialog"
 import { FileVideo, Play } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { v4 as uuidv4 } from "uuid"
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { auth, storage } from "@/lib/firebase"
+import { uploadVideoToSupabase, type UploadProgress } from "@/lib/supabase-upload"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 
@@ -32,7 +31,7 @@ interface UserWithTags extends User {
 }
 
 export default function AdminDashboardPage() {
-  const { user, loading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useSupabaseAuth()
   const router = useRouter()
   const { toast } = useToast()
 
@@ -98,10 +97,12 @@ export default function AdminDashboardPage() {
   };
   
  const handleUpload = async (files: FileList) => {
+    console.log("🚀 handleUpload called with files:", files.length);
     setIsUploadDialogOpen(false);
     
-    const newVideosPromises = Array.from(files).map(async file => {
-      const buffer = await file.arrayBuffer();
+    // Create upload queue entries
+    const newVideos: UploadingVideo[] = Array.from(files).map((file, index) => {
+      console.log(`📁 Processing file ${index + 1}:`, file.name, "Size:", file.size, "Type:", file.type);
       return {
         id: uuidv4(),
         name: file.name,
@@ -109,111 +110,91 @@ export default function AdminDashboardPage() {
         progress: 0,
         speed: 0,
         logs: [`${new Date().toLocaleTimeString()}: Upload queued.`],
-        fileBuffer: new Uint8Array(buffer),
         fileType: file.type,
       } as UploadingVideo;
     });
 
-    const newVideos = await Promise.all(newVideosPromises);
+    console.log("📋 Created upload queue entries:", newVideos.length);
     setUploadingVideos(prev => [...newVideos, ...prev]);
 
-    newVideos.forEach(video => {
-      if (!video.fileBuffer) return;
-
+    // Process each file upload
+    Array.from(files).forEach(async (file, index) => {
+      const video = newVideos[index];
       const videoId = video.id;
-      const fileBlob = new Blob([video.fileBuffer], { type: video.fileType });
-
-
-      console.log("currentUser:", auth.currentUser);
-      if (!auth.currentUser) {
-          addLog(videoId, "Authentication error: User is not signed in.");
-          setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error' } : v));
-          toast({
-              variant: "destructive",
-              title: "Authentication Error",
-              description: "You must be signed in to upload files.",
-          });
-          return; 
-      }
-
-      const filePath = `videos/${uuidv4()}-${video.name}`;
-      const storageRef = ref(storage, filePath);
       
-      addLog(videoId, `Generated file path: ${filePath}`);
-      addLog(videoId, "Storage reference created. Starting upload task...");
-      
-      const uploadTask = uploadBytesResumable(storageRef, fileBlob);
-      
-      let lastBytesTransferred = 0;
-      let lastTimestamp = Date.now();
+      console.log(`🟢 Starting Supabase upload for ${file.name}`);
+      addLog(videoId, "Starting Supabase upload...");
 
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          const now = Date.now();
-          const timeDiff = (now - lastTimestamp) / 1000;
-          const bytesDiff = snapshot.bytesTransferred - lastBytesTransferred;
-          const speed = timeDiff > 0 ? (bytesDiff / 1024) / timeDiff : 0;
+      try {
+        const result = await uploadVideoToSupabase(file, (progressData: UploadProgress) => {
+          // Update progress in real-time
+          setUploadingVideos(prev => prev.map(v => 
+            v.id === videoId 
+              ? { ...v, progress: progressData.progress, speed: progressData.speed }
+              : v
+          ));
+        });
 
-          setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, progress, speed } : v));
+        if (result.success && result.url) {
+          addLog(videoId, "Upload completed successfully!");
+          console.log(`✅ Upload successful for ${file.name}: ${result.url}`);
           
-          lastBytesTransferred = snapshot.bytesTransferred;
-          lastTimestamp = now;
+          // Create video document in database
+          addLog(videoId, "Creating video document in database...");
+          const videoDoc = await createVideoDocument({
+            title: file.name.replace(/\.[^/.]+$/, ""),
+            srcUrl: result.url,
+            thumbnailUrl: "https://placehold.co/160x90.png",
+            duration: 0,
+          });
 
-          switch (snapshot.state) {
-            case 'paused':
-              addLog(videoId, 'Upload is paused.');
-              break;
-            case 'running':
-              // Log is too noisy, progress bar and speed are sufficient
-              break;
-          }
-        },
-        (error) => {
-            console.error("🔥 Upload failed:", error.code, error.message);
-            const errorMsg = `Upload failed: ${error.code} - ${error.message}`;
-            addLog(videoId, `Error: ${errorMsg}`);
-            setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v));
-            toast({
-                variant: "destructive",
-                title: "Upload failed",
-                description: `Could not upload "${video.name}". Check logs for details.`,
-            });
-        },
-        async () => {
-          addLog(videoId, "Upload finished. Getting download URL...");
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            addLog(videoId, "Download URL retrieved successfully.");
-            
-            addLog(videoId, "Creating video document in database...");
-            const videoDoc = await createVideoDocument({
-              title: video.name.replace(/\.[^/.]+$/, ""),
-              srcUrl: downloadURL,
-              thumbnailUrl: "https://placehold.co/160x90.png",
-              duration: 0, // Should be updated later
-            });
+          setUploadingVideos(prev => prev.map(v => 
+            v.id === videoId 
+              ? { ...v, status: 'complete', progress: 100, speed: 0 }
+              : v
+          ));
+          
+          addLog(videoId, `Video "${videoDoc.title}" successfully added to database.`);
+          setVideos(prev => [...prev, videoDoc].sort((a,b) => a.title.localeCompare(b.title)));
+          
+          toast({
+            title: "Upload successful",
+            description: `"${videoDoc.title}" has been added to the library.`,
+          });
 
-            setUploadingVideos(prev => prev.map(v => v.id === videoId ? { ...v, status: 'complete', progress: 100, speed: 0, fileBuffer: undefined } : v));
-            addLog(videoId, `Video "${videoDoc.title}" successfully added to database.`);
-            setVideos(prev => [...prev, videoDoc].sort((a,b) => a.title.localeCompare(b.title)));
-            toast({
-              title: "Upload successful",
-              description: `"${videoDoc.title}" has been added to the library.`,
-            });
-          } catch (error: any) {
-            console.error('Post-upload process error:', error);
-            const errorMsg = `Error creating database entry: ${error.message}`;
-            addLog(videoId, errorMsg);
-            setUploadingVideos(prev => prev.map(v => (v.id === videoId ? { ...v, status: 'error', progress: 0, speed: 0 } : v)));
-            toast({
-                variant: "destructive",
-                title: "Upload failed",
-                description: `Video uploaded but failed to save to database. Check logs.`,
-            });
-          }
+        } else {
+          // Upload failed
+          console.error(`❌ Upload failed for ${file.name}:`, result.error);
+          addLog(videoId, `Upload failed: ${result.error}`);
+          setUploadingVideos(prev => prev.map(v => 
+            v.id === videoId 
+              ? { ...v, status: 'error', progress: 0, speed: 0 }
+              : v
+          ));
+          
+          toast({
+            variant: "destructive",
+            title: "Upload failed",
+            description: `Could not upload "${file.name}". ${result.error}`,
+          });
         }
-      );
+
+      } catch (error: any) {
+        console.error(`🔥 Upload error for ${file.name}:`, error);
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+        addLog(videoId, `Upload error: ${errorMsg}`);
+        setUploadingVideos(prev => prev.map(v => 
+          v.id === videoId 
+            ? { ...v, status: 'error', progress: 0, speed: 0 }
+            : v
+        ));
+        
+        toast({
+          variant: "destructive",
+          title: "Upload failed",
+          description: `Error uploading "${file.name}". Check logs for details.`,
+        });
+      }
     });
   };
 

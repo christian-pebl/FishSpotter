@@ -3,7 +3,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/context/AuthContext"
+import { useSupabaseAuth } from "@/context/SupabaseAuthContext"
 import { getVideos, getTags, saveTags } from "@/lib/actions"
 import type { Video, Tag } from "@/lib/types"
 import AppHeader from "@/components/app-header"
@@ -21,7 +21,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 const TAGS_PER_LEVEL = 10;
 
 export default function TaggerPage() {
-  const { user, loading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useSupabaseAuth()
   const router = useRouter()
   const { toast } = useToast()
   

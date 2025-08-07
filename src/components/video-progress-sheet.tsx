@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescri
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { CheckCircle2, ListVideo, TagIcon } from "lucide-react"
 import type { Video, Tag } from "@/lib/types"
-import { useAuth } from "@/context/AuthContext"
+import { useSupabaseAuth } from "@/context/SupabaseAuthContext"
 
 interface VideoProgressSheetProps {
   videos: Video[];

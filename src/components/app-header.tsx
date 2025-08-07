@@ -4,7 +4,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/context/AuthContext"
+import { useSupabaseAuth } from "@/context/SupabaseAuthContext"
 import { UserCircle, LogOut, Loader2, ListVideo, LayoutDashboard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -19,7 +19,7 @@ interface AppHeaderProps {
 }
 
 export default function AppHeader({ videos, allTags, submittedVideoIds, onVideoSelect }: AppHeaderProps) {
-  const { user, logout, loading } = useAuth()
+  const { user, logout, loading } = useSupabaseAuth()
   const router = useRouter()
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
 

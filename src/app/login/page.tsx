@@ -3,7 +3,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/context/AuthContext"
+import { useSupabaseAuth } from "@/context/SupabaseAuthContext"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -14,7 +14,7 @@ import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
   const router = useRouter()
-  const { login, signup, forgotPassword, user, loading } = useAuth()
+  const { login, signup, forgotPassword, user, loading } = useSupabaseAuth()
   const { toast } = useToast()
   
   const [authMode, setAuthMode] = React.useState<'login' | 'signup' | 'forgotPassword'>('login')

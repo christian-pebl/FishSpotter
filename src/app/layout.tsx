@@ -2,7 +2,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
-import { AuthProvider } from '@/context/AuthContext';
+import { SupabaseAuthProvider } from '@/context/SupabaseAuthContext';
 
 export const metadata: Metadata = {
   title: 'Abyssal Annotator',
@@ -24,10 +24,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <AuthProvider>
+        <SupabaseAuthProvider>
           {children}
           <Toaster />
-        </AuthProvider>
+        </SupabaseAuthProvider>
       </body>
     </html>
   );
