@@ -1,0 +1,117 @@
+{
+  "track_id": 10115,
+  "clip_start_frame": 771,
+  "fps": 23.871773522064945,
+  "original_width": 1080,
+  "original_height": 1920,
+  "bboxes": [
+    {
+      "frame_original": 814,
+      "frame_clip": 43,
+      "x": 78,
+      "y": 751,
+      "w": 225,
+      "h": 255,
+      "x_norm": 0.072222,
+      "y_norm": 0.391146,
+      "w_norm": 0.208333,
+      "h_norm": 0.132812
+    },
+    {
+      "frame_original": 815,
+      "frame_clip": 44,
+      "x": 69,
+      "y": 761,
+      "w": 276,
+      "h": 284,
+      "x_norm": 0.063889,
+      "y_norm": 0.396354,
+      "w_norm": 0.255556,
+      "h_norm": 0.147917
+    },
+    {
+      "frame_original": 816,
+      "frame_clip": 45,
+      "x": 105,
+      "y": 735,
+      "w": 198,
+      "h": 210,
+      "x_norm": 0.097222,
+      "y_norm": 0.382812,
+      "w_norm": 0.183333,
+      "h_norm": 0.109375
+    },
+    {
+      "frame_original": 817,
+      "frame_clip": 46,
+      "x": 91,
+      "y": 723,
+      "w": 213,
+      "h": 216,
+      "x_norm": 0.084259,
+      "y_norm": 0.376563,
+      "w_norm": 0.197222,
+      "h_norm": 0.1125
+    },
+    {
+      "frame_original": 818,
+      "frame_clip": 47,
+      "x": 71,
+      "y": 718,
+      "w": 256,
+      "h": 214,
+      "x_norm": 0.065741,
+      "y_norm": 0.373958,
+      "w_norm": 0.237037,
+      "h_norm": 0.111458
+    },
+    {
+      "frame_original": 819,
+      "frame_clip": 48,
+      "x": 116,
+      "y": 711,
+      "w": 223,
+      "h": 215,
+      "x_norm": 0.107407,
+      "y_norm": 0.370312,
+      "w_norm": 0.206481,
+      "h_norm": 0.111979
+    },
+    {
+      "frame_original": 821,
+      "frame_clip": 50,
+      "x": 0,
+      "y": 726,
+      "w": 378,
+      "h": 213,
+      "x_norm": 0.0,
+      "y_norm": 0.378125,
+      "w_norm": 0.35,
+      "h_norm": 0.110937
+    },
+    {
+      "frame_original": 823,
+      "frame_clip": 52,
+      "x": 111,
+      "y": 743,
+      "w": 231,
+      "h": 177,
+      "x_norm": 0.102778,
+      "y_norm": 0.386979,
+      "w_norm": 0.213889,
+      "h_norm": 0.092188
+    },
+    {
+      "frame_original": 883,
+      "frame_clip": 112,
+      "x": 296,
+      "y": 717,
+      "w": 159,
+      "h": 159,
+      "x_norm": 0.274074,
+      "y_norm": 0.373437,
+      "w_norm": 0.147222,
+      "h_norm": 0.082812
+    }
+  ]
+}

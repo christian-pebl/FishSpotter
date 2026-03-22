@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  displayName  String?  // optional display name for leaderboard
+  createdAt    DateTime @default(now())
+  answers      Answer[]
+}
+
+model Snippet {
+  id           String   @id @default(cuid())
+  externalId   String   @unique // folder name e.g. ALG_SC_11_2024-07-08_...
+  videoUrl     String   // path under /media/snippets/
+  thumbnailUrl String
+  site         String
+  deployment   String
+  depthM      Float?
+  lat          Float?
+  lon          Float?
+  recordingDatetime String?
+  staffAnswer  String   // functional_group from metadata
+  bboxJson     String?  // JSON string of bbox_data.json bboxes
+  createdAt    DateTime @default(now())
+  answers      Answer[]
+}
+
+model Answer {
+  id          String   @id @default(cuid())
+  userId      String
+  snippetId   String
+  chosenOption String  // Fish, Crab, Jellyfish, etc. or "Other"
+  freeText    String?  // when chosenOption is "Other"
+  isCorrect   Boolean  // matches snippet.staffAnswer
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snippet     Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, snippetId])
+}

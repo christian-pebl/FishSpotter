@@ -1,0 +1,21 @@
+{
+  "track_id": "manual_1",
+  "clip_start_frame": 1537,
+  "fps": 23.90534182120122,
+  "original_width": 1080,
+  "original_height": 1920,
+  "bboxes": [
+    {
+      "frame_original": 1561,
+      "frame_clip": 24,
+      "x": 42,
+      "y": 500,
+      "w": 526,
+      "h": 485,
+      "x_norm": 0.038889,
+      "y_norm": 0.260417,
+      "w_norm": 0.487037,
+      "h_norm": 0.252604
+    }
+  ]
+}
