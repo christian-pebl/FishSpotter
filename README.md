@@ -14,28 +14,6 @@ This project is now set up for the free deployment path:
 
 This keeps the Next.js app and Prisma ORM, but moves the database and media off local disk so the app can be deployed cleanly.
 
-## Environment
-
-Copy `.env.example` to `.env` and set:
-
-- `DATABASE_URL` – Supabase Postgres connection string
-- `NEXTAUTH_URL` – local or production app URL
-- `NEXTAUTH_SECRET` – long random string
-- `SUPABASE_URL` – your Supabase project URL
-- `SUPABASE_SERVICE_ROLE_KEY` – service role key for the seed script
-- `SUPABASE_STORAGE_BUCKET` – storage bucket name, defaults to `snippets`
-
-Example:
-
-```bash
-DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[YOUR-PROJECT-REF].supabase.co:5432/postgres"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="generate-a-secure-secret-for-production"
-SUPABASE_URL="https://[YOUR-PROJECT-REF].supabase.co"
-SUPABASE_SERVICE_ROLE_KEY="your-supabase-service-role-key"
-SUPABASE_STORAGE_BUCKET="snippets"
-```
-
 ## Local setup
 
 1. Install dependencies
