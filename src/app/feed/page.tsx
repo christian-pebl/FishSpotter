@@ -12,7 +12,6 @@ export default async function FeedPage() {
       site: true,
       deployment: true,
       staffAnswer: true,
-      bboxJson: true,
     },
   });
 
@@ -23,19 +22,23 @@ export default async function FeedPage() {
     site: snippet.site,
     deployment: snippet.deployment,
     staffAnswer: snippet.staffAnswer,
-    bboxes: snippet.bboxJson ? JSON.parse(snippet.bboxJson) : null,
   }));
 
   return (
     <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-      <div className="px-4 py-2 flex items-center justify-between border-b border-slate-700/50 bg-slate-900/50 shrink-0">
-        <h1 className="text-lg font-bold text-cyan-400">Feed</h1>
+      <div className="shrink-0 border-b border-[color:var(--border)] bg-[color:var(--surface)]/84 px-4 py-3 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--primary)]">PEBL FishSpotter</p>
+            <h1 className="font-brand-heading text-lg text-[color:var(--foreground)]">Recent sightings</h1>
+          </div>
         <Link
           href="/feed/browse"
-          className="text-sm text-slate-300 hover:text-white"
+          className="pebl-button-secondary rounded-full px-4 py-2 text-sm font-medium"
         >
-          Browse all
+          View archive
         </Link>
+        </div>
       </div>
       <FeedPlayer snippets={feedSnippets} />
     </div>

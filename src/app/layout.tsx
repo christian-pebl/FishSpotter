@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
 import { SessionProvider } from "@/components/SessionProvider";
 import { Header } from "@/components/Header";
 import { PwaRegister } from "@/components/PwaRegister";
 import "./globals.css";
 
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "FishSpotter – What’s that creature?",
-  description: "Watch short clips from local waters and guess the creature. Learn and compete with the community.",
+  title: "PEBL FishSpotter",
+  description: "Protecting Ecology Beyond Land through playful marine monitoring, community spotting, and short-form underwater clips.",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/icon.svg",
@@ -21,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased h-screen flex flex-col overflow-hidden">
+      <body className={`${roboto.className} antialiased h-screen flex flex-col overflow-hidden`}>
         <SessionProvider>
           <PwaRegister />
           <Header />

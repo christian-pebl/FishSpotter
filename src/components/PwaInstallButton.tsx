@@ -41,7 +41,7 @@ export function PwaInstallButton() {
         await installPrompt.userChoice.catch(() => null);
         setInstallPrompt(null);
       }}
-      className="text-slate-300 hover:text-white text-sm"
+      className="pebl-button-secondary rounded-full px-3 py-1.5 text-sm font-medium"
     >
       Install app
     </button>

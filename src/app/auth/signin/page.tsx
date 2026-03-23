@@ -41,14 +41,18 @@ function SignInForm() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <main className="flex-1 max-w-sm mx-auto w-full px-4 py-12">
-        <h1 className="text-2xl font-bold mb-6">{isSignUp ? "Create account" : "Sign in"}</h1>
-        <p className="text-slate-400 mb-6 text-sm">
-          Sign in to submit answers and appear on the leaderboard.
-        </p>
+      <main className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
+        <div className="pebl-surface w-full rounded-[28px] p-6 md:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--primary)]">PEBL community access</p>
+          <h1 className="mt-3 font-brand-heading text-3xl text-[color:var(--foreground)]">
+            {isSignUp ? "Create your spotting profile" : "Sign in to continue spotting"}
+          </h1>
+          <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
+            Join the PEBL marine monitoring community to submit identifications, track your streak, and contribute to the shared observation record.
+          </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1">
+            <label htmlFor="email" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
               Email
             </label>
             <input
@@ -57,12 +61,12 @@ function SignInForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white"
+              className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
             />
           </div>
           {isSignUp && (
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-1">
+              <label htmlFor="name" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
                 Display name
               </label>
               <input
@@ -70,13 +74,13 @@ function SignInForm() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="How you'll appear on the leaderboard"
-                className="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white placeholder-slate-500"
+                placeholder="How you will appear in the community"
+                className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] placeholder:text-[color:var(--muted)]"
               />
             </div>
           )}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-1">
+            <label htmlFor="password" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
               Password (optional for demo)
             </label>
             <input
@@ -84,14 +88,14 @@ function SignInForm() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white"
+              className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
             />
           </div>
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="text-sm text-red-600">{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-cyan-500 text-slate-900 font-semibold py-3 rounded-lg hover:bg-cyan-400 disabled:opacity-50"
+            className="pebl-button-primary w-full rounded-full py-3 font-semibold disabled:opacity-50"
           >
             {loading ? "Please wait…" : isSignUp ? "Create account" : "Sign in"}
           </button>
@@ -99,10 +103,11 @@ function SignInForm() {
         <button
           type="button"
           onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
-          className="mt-4 w-full text-slate-400 hover:text-white text-sm"
+          className="mt-4 w-full text-sm text-[color:var(--primary)] hover:text-[color:var(--foreground)]"
         >
           {isSignUp ? "Already have an account? Sign in" : "No account? Sign up"}
         </button>
+        </div>
       </main>
     </div>
   );

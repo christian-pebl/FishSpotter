@@ -20,14 +20,13 @@ export default async function SnippetDetailPage({
     depthM: row.depthM,
     recordingDatetime: row.recordingDatetime,
     staffAnswer: row.staffAnswer,
-    bboxes: row.bboxJson ? JSON.parse(row.bboxJson) : null,
   };
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-4">
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-6">
         <p className="mb-4">
-          <Link href="/feed" className="text-cyan-400 hover:underline">← Feed</Link>
+          <Link href="/feed" className="pebl-button-secondary inline-flex rounded-full px-4 py-2 text-sm font-medium">← Back to live feed</Link>
         </p>
         <SnippetPlayer snippet={snippet} />
       </main>

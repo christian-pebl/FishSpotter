@@ -18,19 +18,22 @@ export default async function FeedBrowsePage() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-6">
-        <h1 className="text-2xl font-bold mb-4">Browse all clips</h1>
-        <p className="text-slate-400 mb-6">
-          Tap a clip to watch and answer: What is this creature?
-        </p>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8">
+        <div className="pebl-surface rounded-[28px] px-6 py-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--primary)]">Observation archive</p>
+          <h1 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">Browse the wider PEBL clip library</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+            Review archived sightings from marine monitoring deployments, open any clip, and add your identification to the community record.
+          </p>
+        </div>
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {snippets.map((s: { id: string; thumbnailUrl: string; site: string; deployment: string }) => (
             <li key={s.id}>
               <Link
                 href={`/feed/${s.id}`}
-                className="block rounded-xl overflow-hidden border border-slate-700/50 bg-slate-800/30 hover:border-cyan-500/50 transition"
+                className="pebl-surface block overflow-hidden rounded-[24px] transition hover:-translate-y-0.5 hover:border-[color:var(--primary)]"
               >
-                <div className="aspect-video relative bg-slate-800">
+                <div className="relative aspect-video bg-[color:var(--surface-muted)]">
                   <Image
                     src={s.thumbnailUrl}
                     alt=""
@@ -39,16 +42,17 @@ export default async function FeedBrowsePage() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
-                <div className="p-3">
-                  <p className="text-sm font-medium truncate">{s.site}</p>
-                  <p className="text-xs text-slate-500">{s.deployment}</p>
+                <div className="space-y-1 p-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">PEBL sighting</p>
+                  <p className="truncate text-base font-semibold text-[color:var(--foreground)]">{s.site}</p>
+                  <p className="text-sm text-[color:var(--muted)]">{s.deployment}</p>
                 </div>
               </Link>
             </li>
           ))}
         </ul>
         {snippets.length === 0 && (
-          <p className="text-slate-500">No clips yet. Run the seed script to load snippets.</p>
+          <p className="text-sm text-[color:var(--muted)]">No clips yet. Run the seed script to load marine monitoring snippets.</p>
         )}
       </main>
     </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { playCorrect, playWrong, playStreak } from "@/lib/sounds";
+import { triggerCorrectConfetti } from "@/lib/confetti";
 
 interface SnippetForQuiz {
   id: string;
@@ -14,6 +15,10 @@ interface StatsItem {
   percent: number;
 }
 
+// Shared across all hook instances so every card agrees on the last known streak.
+// Prevents the streak sound firing on every answer when multiple cards are mounted.
+let sharedBaselineStreak: number | null = null;
+
 export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: string) {
   const { data: session, status } = useSession();
   const [myAnswer, setMyAnswer] = useState<{ chosenOption: string; isCorrect: boolean } | null>(null);
@@ -21,7 +26,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const [submitting, setSubmitting] = useState(false);
   const [selected, setSelected] = useState("");
   const [otherText, setOtherText] = useState("");
-  const previousStreakRef = useRef<number | null>(null);
 
   const loadMyAnswer = useCallback(async () => {
     const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
@@ -40,11 +44,11 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   }, [loadMyAnswer]);
 
   useEffect(() => {
-    if (session?.user) {
+    if (session?.user && sharedBaselineStreak === null) {
       fetch("/api/streak")
         .then((res) => res.json())
         .then((data) => {
-          previousStreakRef.current = data.currentStreak ?? 0;
+          sharedBaselineStreak = data.currentStreak ?? 0;
         })
         .catch(() => {});
     }
@@ -77,14 +81,18 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
       if (data.answer) {
         const isCorrect = data.answer.isCorrect;
         setMyAnswer({ chosenOption: data.answer.chosenOption, isCorrect });
-        if (isCorrect) playCorrect();
-        else playWrong();
+        if (isCorrect) {
+          playCorrect();
+          triggerCorrectConfetti();
+        } else {
+          playWrong();
+        }
         const streakRes = await fetch("/api/streak");
         const streakData = await streakRes.json();
         const newStreak = streakData.currentStreak ?? 0;
-        const prev = previousStreakRef.current ?? 0;
+        const prev = sharedBaselineStreak ?? 0;
         if (newStreak > prev) playStreak();
-        previousStreakRef.current = newStreak;
+        sharedBaselineStreak = newStreak;
         window.dispatchEvent(new CustomEvent("fishspotter:streak"));
         await loadStats();
       }

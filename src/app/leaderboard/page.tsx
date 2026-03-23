@@ -29,26 +29,29 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-6">
-        <h1 className="text-2xl font-bold mb-2">Top spotters</h1>
-        <p className="text-slate-400 mb-6">
-          Points for correct answers and participation. Top spotters may receive local vouchers or PEBL discounts – details TBC.
-        </p>
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8">
+        <section className="pebl-surface rounded-[28px] px-6 py-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--primary)]">Community overview</p>
+          <h1 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">PEBL spotter leaderboard</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+            Reward regular participation, celebrate accurate observations, and highlight the community members helping shape the marine monitoring record.
+          </p>
+        </section>
         <ul className="space-y-2">
           {leaderboard.map((entry: { userId: string; displayName: string; correct: number; total: number; score: number }, i: number) => (
             <li
               key={entry.userId}
-              className="flex items-center gap-4 p-3 rounded-lg bg-slate-800/50 border border-slate-700/50"
+              className="pebl-surface flex items-center gap-4 rounded-[22px] p-4"
             >
-              <span className="text-slate-500 w-8 font-mono">#{i + 1}</span>
-              <span className="font-medium flex-1">{entry.displayName}</span>
-              <span className="text-cyan-400">{entry.score.toFixed(1)} pts</span>
-              <span className="text-slate-500 text-sm">{entry.correct}/{entry.total} correct</span>
+              <span className="w-10 rounded-full bg-[color:var(--surface-muted)] px-2 py-2 text-center font-mono text-sm text-[color:var(--primary)]">#{i + 1}</span>
+              <span className="flex-1 font-medium text-[color:var(--foreground)]">{entry.displayName}</span>
+              <span className="font-semibold text-[color:var(--primary)]">{entry.score.toFixed(1)} pts</span>
+              <span className="text-sm text-[color:var(--muted)]">{entry.correct}/{entry.total} correct</span>
             </li>
           ))}
         </ul>
         {leaderboard.length === 0 && (
-          <p className="text-slate-500">No entries yet. Sign in and submit answers to appear here.</p>
+          <p className="text-sm text-[color:var(--muted)]">No entries yet. Sign in and submit an observation to appear on the PEBL leaderboard.</p>
         )}
       </main>
     </div>

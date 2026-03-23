@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
-import { usePortraitFishPan } from "@/lib/usePortraitFishPan";
 
 const OPTIONS = ["Fish", "Crab", "Jellyfish", "Flatfish", "Gastropod", "Scooter", "Other"];
 
@@ -17,12 +16,10 @@ interface SnippetPlayerProps {
     depthM: number | null;
     recordingDatetime: string | null;
     staffAnswer: string;
-    bboxes: Array<{ frame_clip: number; x_norm: number; y_norm: number; w_norm: number; h_norm: number }> | null;
   };
 }
 
 export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
-  const { videoRef, videoStyle, panEnabled } = usePortraitFishPan(snippet.bboxes);
   const {
     session,
     status,
@@ -40,41 +37,45 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl overflow-hidden border border-slate-700/50 bg-slate-900 aspect-[9/16] max-h-[70vh] mx-auto relative">
+      <div className="pebl-surface overflow-hidden rounded-[28px] p-3">
+        <div className="relative mx-auto aspect-[9/16] max-h-[70vh] overflow-hidden rounded-[22px] bg-[#17252A]">
         <video
-          ref={videoRef}
           src={snippet.videoUrl}
           poster={snippet.thumbnailUrl}
           controls
-          style={videoStyle}
-          className={`w-full h-full ${panEnabled ? "object-cover" : "object-contain"}`}
+          className="w-full h-full object-contain"
           playsInline
         />
+        </div>
       </div>
 
-      <div className="text-sm text-slate-400">
-        <p>{snippet.site}</p>
-        <p>{snippet.deployment}</p>
-        {snippet.depthM != null && <p>Depth: {snippet.depthM}m</p>}
-        {snippet.recordingDatetime && <p>Recorded: {snippet.recordingDatetime}</p>}
+      <div className="pebl-surface rounded-[24px] p-5 text-sm text-[color:var(--muted)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">PEBL observation details</p>
+        <div className="mt-3 grid gap-1 md:grid-cols-2">
+          <p><span className="font-medium text-[color:var(--foreground)]">Site:</span> {snippet.site}</p>
+          <p><span className="font-medium text-[color:var(--foreground)]">Deployment:</span> {snippet.deployment}</p>
+          {snippet.depthM != null && <p><span className="font-medium text-[color:var(--foreground)]">Depth:</span> {snippet.depthM}m</p>}
+          {snippet.recordingDatetime && <p><span className="font-medium text-[color:var(--foreground)]">Recorded:</span> {snippet.recordingDatetime}</p>}
+        </div>
       </div>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-3">What is this creature?</h2>
+      <div className="pebl-surface rounded-[24px] p-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Spotter challenge</p>
+        <h2 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">Which marine group best matches this sighting?</h2>
 
         {!showStats ? (
           <>
-            <div className="flex flex-wrap gap-2 mb-3">
+            <div className="mb-4 mt-4 flex flex-wrap gap-2">
               {OPTIONS.map((opt) => (
                 <motion.button
                   key={opt}
                   type="button"
                   onClick={() => setSelected(opt)}
                   whileTap={{ scale: 0.97 }}
-                  className={`px-4 py-2 rounded-lg border text-sm font-medium transition ${
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                     selected === opt
-                      ? "bg-cyan-500 text-slate-900 border-cyan-500"
-                      : "border-slate-600 text-slate-300 hover:border-slate-500"
+                      ? "pebl-chip pebl-chip-active"
+                      : "pebl-chip"
                   }`}
                 >
                   {opt}
@@ -84,10 +85,10 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
             {selected === "Other" && (
               <input
                 type="text"
-                placeholder="Describe the creature"
+                placeholder="Describe what you noticed"
                 value={otherText}
                 onChange={(e) => setOtherText(e.target.value)}
-                className="w-full max-w-md px-3 py-2 rounded-lg border border-slate-600 bg-slate-800 text-white placeholder-slate-500 mb-3"
+                className="mb-4 w-full max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] placeholder:text-[color:var(--muted)]"
               />
             )}
             <motion.button
@@ -95,15 +96,15 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
               onClick={handleSubmit}
               disabled={!selected || submitting}
               whileTap={!submitting && selected ? { scale: 0.97 } : undefined}
-              className="bg-cyan-500 text-slate-900 font-semibold px-6 py-3 rounded-lg hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="pebl-button-primary rounded-full px-6 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? "Submitting…" : "Submit answer"}
+              {submitting ? "Submitting…" : "Submit observation"}
             </motion.button>
             {status !== "loading" && !session && (
-              <p className="mt-2 text-slate-500 text-sm">
-                <Link href={`/auth/signin?callbackUrl=${encodeURIComponent(`/feed/${snippet.id}`)}`} className="text-cyan-400 underline">
+              <p className="mt-3 text-sm text-[color:var(--muted)]">
+                <Link href={`/auth/signin?callbackUrl=${encodeURIComponent(`/feed/${snippet.id}`)}`} className="text-[color:var(--primary)] underline underline-offset-4">
                   Sign in
-                </Link> to submit and appear on the leaderboard.
+                </Link> to contribute your answer and appear on the community leaderboard.
               </p>
             )}
           </>
@@ -122,9 +123,9 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                   ? { type: "spring", stiffness: 300, damping: 20 }
                   : { duration: 0.4 }
               }
-              className="space-y-4"
+              className="mt-4 space-y-4"
             >
-              <p className="text-cyan-400 font-medium">
+              <p className="font-medium text-[color:var(--primary)]">
                 You said: {myAnswer.chosenOption}{" "}
                 {myAnswer.isCorrect && (
                   <motion.span
@@ -137,22 +138,22 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                 )}
               </p>
               <div>
-                <h3 className="font-medium mb-2">What the community said</h3>
+                <h3 className="mb-2 font-medium text-[color:var(--foreground)]">Community response</h3>
                 <ul className="space-y-1">
                   {stats.stats.map((s) => (
                     <li key={s.option} className="flex items-center gap-2">
                       <span className="w-24">{s.option}</span>
-                      <span className="text-slate-400">{s.percent}%</span>
-                      <div className="flex-1 h-2 bg-slate-700 rounded overflow-hidden max-w-[200px]">
-                        <div className="h-full bg-cyan-500 rounded" style={{ width: `${s.percent}%` }} />
+                      <span className="text-[color:var(--muted)]">{s.percent}%</span>
+                      <div className="max-w-[200px] flex-1 overflow-hidden rounded bg-[color:var(--surface-muted)] h-2">
+                        <div className="h-full rounded bg-[color:var(--accent)]" style={{ width: `${s.percent}%` }} />
                       </div>
                     </li>
                   ))}
                 </ul>
-                <p className="text-slate-500 text-sm mt-2">PEBL label: {stats.staffAnswer}</p>
+                <p className="mt-2 text-sm text-[color:var(--muted)]">PEBL reference label: {stats.staffAnswer}</p>
               </div>
-              <Link href="/feed" className="inline-block text-cyan-400 hover:underline">
-                ← Back to feed
+              <Link href="/feed" className="inline-flex text-[color:var(--primary)] underline underline-offset-4">
+                ← Back to live feed
               </Link>
             </motion.div>
           </AnimatePresence>

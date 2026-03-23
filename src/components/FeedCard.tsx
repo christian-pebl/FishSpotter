@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
-import { usePortraitFishPan } from "@/lib/usePortraitFishPan";
 import type { FeedSnippet } from "./FeedPlayer";
 
 const OPTIONS = ["Fish", "Crab", "Jellyfish", "Flatfish", "Gastropod", "Scooter", "Other"];
@@ -16,7 +15,7 @@ interface FeedCardProps {
 }
 
 export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
-  const { videoRef, videoStyle } = usePortraitFishPan(snippet.bboxes);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const {
     session,
     status,
@@ -52,12 +51,13 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
           playsInline
           loop
           preload={preload ? "auto" : "metadata"}
-          style={videoStyle}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent pt-8 pb-4 px-4">
-          <p className="text-slate-300 text-xs mb-2">{snippet.site} · {snippet.deployment}</p>
-          <h2 className="text-lg font-semibold mb-3">What is this creature?</h2>
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#17252A]/95 via-[#17252A]/78 to-transparent px-4 pb-5 pt-12 text-white">
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">
+            {snippet.site} · {snippet.deployment}
+          </p>
+          <h2 className="font-brand-heading mb-3 text-2xl">Which marine group is in view?</h2>
 
           {!showStats ? (
             <>
@@ -68,10 +68,10 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
                     type="button"
                     onClick={() => setSelected(opt)}
                     whileTap={{ scale: 0.97 }}
-                    className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition ${
+                    className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
                       selected === opt
-                        ? "bg-cyan-500 text-slate-900 border-cyan-500"
-                        : "border-slate-500 text-slate-200 hover:border-slate-400 bg-black/30"
+                        ? "border-[#DEF2F1] bg-[#DEF2F1] text-[#17252A]"
+                        : "border-white/35 bg-[#17252A]/50 text-white hover:border-[#3AAFA9]"
                     }`}
                   >
                     {opt}
@@ -84,7 +84,7 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
                   placeholder="Describe the creature"
                   value={otherText}
                   onChange={(e) => setOtherText(e.target.value)}
-                  className="w-full max-w-md px-3 py-2 rounded-lg border border-slate-500 bg-black/50 text-white placeholder-slate-400 mb-3 text-sm"
+                  className="mb-3 w-full max-w-md rounded-2xl border border-white/30 bg-white/12 px-3 py-2 text-sm text-white placeholder:text-white/60"
                 />
               )}
               <motion.button
@@ -92,15 +92,15 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
                 onClick={handleSubmit}
                 disabled={!selected || submitting}
                 whileTap={!submitting && selected ? { scale: 0.97 } : undefined}
-                className="bg-cyan-500 text-slate-900 font-semibold px-5 py-2 rounded-lg hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="rounded-full bg-[#3AAFA9] px-5 py-2 text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3] disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {submitting ? "Submitting…" : "Submit"}
+                {submitting ? "Submitting…" : "Submit observation"}
               </motion.button>
               {status !== "loading" && !session && (
-                <p className="mt-2 text-slate-400 text-xs">
-                  <Link href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`} className="text-cyan-400 underline">
+                <p className="mt-2 text-xs text-white/75">
+                  <Link href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`} className="text-[#DEF2F1] underline underline-offset-4">
                     Sign in
-                  </Link> to submit and earn streaks.
+                  </Link> to record your answer and keep your PEBL streak alive.
                 </p>
               )}
             </>
@@ -119,9 +119,9 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
                     ? { type: "spring", stiffness: 300, damping: 20 }
                     : { duration: 0.4 }
                 }
-                className="space-y-2"
+                className="space-y-3"
               >
-                <p className="text-cyan-400 font-medium text-sm">
+                <p className="text-sm font-medium text-[#DEF2F1]">
                   You said: {myAnswer!.chosenOption}{" "}
                   {myAnswer!.isCorrect && (
                     <motion.span
@@ -134,22 +134,22 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
                   )}
                 </p>
                 <div className="text-xs">
-                  <p className="font-medium mb-1">Community</p>
+                  <p className="mb-1 font-medium uppercase tracking-[0.14em] text-white/80">Community response</p>
                   <ul className="space-y-0.5">
                     {stats!.stats.slice(0, 4).map((s) => (
                       <li key={s.option} className="flex items-center gap-2">
                         <span className="w-20">{s.option}</span>
-                        <span className="text-slate-400">{s.percent}%</span>
-                        <div className="flex-1 h-1.5 bg-slate-700 rounded overflow-hidden max-w-[120px]">
-                          <div className="h-full bg-cyan-500 rounded" style={{ width: `${s.percent}%` }} />
+                        <span className="text-white/65">{s.percent}%</span>
+                        <div className="max-w-[120px] flex-1 overflow-hidden rounded bg-white/12 h-1.5">
+                          <div className="h-full rounded bg-[#3AAFA9]" style={{ width: `${s.percent}%` }} />
                         </div>
                       </li>
                     ))}
                   </ul>
-                  <p className="text-slate-500 mt-1">PEBL: {stats!.staffAnswer}</p>
+                  <p className="mt-2 text-white/65">PEBL reference: {stats!.staffAnswer}</p>
                 </div>
-                <p className="text-slate-400 text-xs mt-2">
-                  Swipe up for next clip · <Link href="/feed/browse" className="text-cyan-400 underline">Browse all</Link>
+                <p className="mt-2 text-xs text-white/75">
+                  Swipe up for the next sighting · <Link href="/feed/browse" className="text-[#DEF2F1] underline underline-offset-4">Open archive</Link>
                 </p>
               </motion.div>
             </AnimatePresence>

@@ -10,7 +10,6 @@ export interface FeedSnippet {
   site: string;
   deployment: string;
   staffAnswer: string;
-  bboxes: Array<{ frame_clip: number; x_norm: number; y_norm: number; w_norm: number; h_norm: number }> | null;
 }
 
 interface FeedPlayerProps {

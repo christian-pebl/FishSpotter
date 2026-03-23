@@ -3,22 +3,88 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --accent: #22d3ee;
-  --card: #1e293b;
+  --background: #def2f1;
+  --foreground: #17252a;
+  --primary: #2b7a78;
+  --accent: #3aafa9;
+  --surface: #ffffff;
+  --surface-muted: #eef9f8;
+  --border: rgba(23, 37, 42, 0.12);
+  --muted: rgba(23, 37, 42, 0.72);
+  --font-heading: Futura, "Trebuchet MS", Arial, sans-serif;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background:
+    radial-gradient(circle at top, rgba(58, 175, 169, 0.18), transparent 30%),
+    linear-gradient(180deg, #f7fffe 0%, var(--background) 50%, #ccebea 100%);
   min-height: 100vh;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #f0f9ff;
-    --foreground: #0f172a;
-    --card: #e0f2fe;
-  }
+h1,
+h2,
+h3,
+h4,
+.font-brand-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+p,
+input,
+button,
+textarea,
+select {
+  color: inherit;
+}
+
+a {
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+::selection {
+  background: rgba(58, 175, 169, 0.28);
+}
+
+.pebl-surface {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 40px rgba(23, 37, 42, 0.08);
+}
+
+.pebl-chip {
+  border: 1px solid rgba(43, 122, 120, 0.22);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--foreground);
+}
+
+.pebl-chip:hover {
+  border-color: rgba(43, 122, 120, 0.5);
+}
+
+.pebl-chip-active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.pebl-button-primary {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+.pebl-button-primary:hover {
+  background: #2b9d97;
+}
+
+.pebl-button-secondary {
+  border: 1px solid rgba(43, 122, 120, 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--foreground);
+}
+
+.pebl-button-secondary:hover {
+  border-color: rgba(43, 122, 120, 0.5);
+  background: rgba(255, 255, 255, 0.92);
 }
