@@ -28,7 +28,7 @@ model Snippet {
   lat          Float?
   lon          Float?
   recordingDatetime String?
-  staffAnswer  String   // functional_group from metadata
+  staffAnswer  String   // reference label from metadata
   bboxJson     String?  // JSON string of bbox_data.json bboxes
   createdAt    DateTime @default(now())
   answers      Answer[]
@@ -38,8 +38,8 @@ model Answer {
   id          String   @id @default(cuid())
   userId      String
   snippetId   String
-  chosenOption String  // Fish, Crab, Jellyfish, etc. or "Other"
-  freeText    String?  // when chosenOption is "Other"
+  chosenOption String  // typed answer submitted by the user
+  freeText    String?  // legacy free-text field retained for existing data
   isCorrect   Boolean  // matches snippet.staffAnswer
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)

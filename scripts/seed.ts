@@ -20,6 +20,10 @@ interface Metadata {
   video_name: string;
   track_id: number;
   functional_group: string;
+  species?: string;
+  species_name?: string;
+  taxon_name?: string;
+  common_name?: string;
   deployment: string;
   site: string;
   depth_m?: number;
@@ -78,6 +82,15 @@ function getVideoPath(snippetDir: string): string | null {
   if (fs.existsSync(h264)) return h264;
   if (fs.existsSync(plain)) return plain;
   return null;
+}
+
+function getReferenceAnswer(meta: Metadata) {
+  return meta.species_name
+    ?? meta.species
+    ?? meta.taxon_name
+    ?? meta.common_name
+    ?? meta.functional_group
+    ?? "Unknown";
 }
 
 async function main() {
@@ -151,7 +164,7 @@ async function main() {
         lat: meta.latitude ?? null,
         lon: meta.longitude ?? null,
         recordingDatetime: meta.recording_datetime ?? null,
-        staffAnswer: meta.functional_group ?? "Unknown",
+        staffAnswer: getReferenceAnswer(meta),
         bboxJson,
       },
       update: {
@@ -163,7 +176,7 @@ async function main() {
         lat: meta.latitude ?? null,
         lon: meta.longitude ?? null,
         recordingDatetime: meta.recording_datetime ?? null,
-        staffAnswer: meta.functional_group ?? "Unknown",
+        staffAnswer: getReferenceAnswer(meta),
         bboxJson,
       },
     });

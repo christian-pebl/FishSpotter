@@ -15,6 +15,16 @@ interface StatsItem {
   percent: number;
 }
 
+interface Correction {
+  original: string;
+  suggestion: string;
+}
+
+interface SubmitOptions {
+  answerText?: string;
+  skipCorrection?: boolean;
+}
+
 // Shared across all hook instances so every card agrees on the last known streak.
 // Prevents the streak sound firing on every answer when multiple cards are mounted.
 let sharedBaselineStreak: number | null = null;
@@ -24,8 +34,9 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const [myAnswer, setMyAnswer] = useState<{ chosenOption: string; isCorrect: boolean } | null>(null);
   const [stats, setStats] = useState<{ total: number; stats: StatsItem[]; staffAnswer: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [selected, setSelected] = useState("");
-  const [otherText, setOtherText] = useState("");
+  const [answerText, setAnswerTextState] = useState("");
+  const [correction, setCorrection] = useState<Correction | null>(null);
+  const [submitError, setSubmitError] = useState("");
 
   const loadMyAnswer = useCallback(async () => {
     const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
@@ -58,15 +69,21 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     if (myAnswer) loadStats();
   }, [myAnswer, loadStats]);
 
-  const handleSubmit = useCallback(async () => {
+  const setAnswerText = useCallback((value: string) => {
+    setAnswerTextState(value);
+    setCorrection(null);
+    setSubmitError("");
+  }, []);
+
+  const handleSubmit = useCallback(async (options?: SubmitOptions) => {
     if (!session?.user) {
       window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(signInCallbackUrl ?? `/feed/${snippet.id}`)}`;
-      return;
+      return false;
     }
-    if (!selected) return;
-    const option = selected;
-    const freeTextValue = selected === "Other" ? otherText.trim() : undefined;
+    const option = (options?.answerText ?? answerText).trim();
+    if (!option) return false;
     setSubmitting(true);
+    setSubmitError("");
     try {
       const res = await fetch("/api/answers", {
         method: "POST",
@@ -74,13 +91,23 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         body: JSON.stringify({
           snippetId: snippet.id,
           chosenOption: option,
-          freeText: freeTextValue,
+          skipCorrection: options?.skipCorrection ?? false,
         }),
       });
       const data = await res.json();
+      if (!res.ok) {
+        setSubmitError(data.error ?? "Could not submit answer.");
+        return false;
+      }
+      if (data.correction) {
+        setCorrection(data.correction);
+        return false;
+      }
       if (data.answer) {
         const isCorrect = data.answer.isCorrect;
         setMyAnswer({ chosenOption: data.answer.chosenOption, isCorrect });
+        setAnswerTextState(data.answer.chosenOption);
+        setCorrection(null);
         if (isCorrect) {
           playCorrect();
           triggerCorrectConfetti();
@@ -95,11 +122,25 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         sharedBaselineStreak = newStreak;
         window.dispatchEvent(new CustomEvent("fishspotter:streak"));
         await loadStats();
+        return true;
       }
+      return false;
     } finally {
       setSubmitting(false);
     }
-  }, [session?.user, selected, otherText, snippet.id, signInCallbackUrl, loadStats]);
+  }, [session?.user, answerText, snippet.id, signInCallbackUrl, loadStats]);
+
+  const acceptCorrection = useCallback(async () => {
+    if (!correction) return false;
+    setAnswerTextState(correction.suggestion);
+    return handleSubmit({ answerText: correction.suggestion, skipCorrection: true });
+  }, [correction, handleSubmit]);
+
+  const submitOriginal = useCallback(async () => {
+    if (!correction) return false;
+    setAnswerTextState(correction.original);
+    return handleSubmit({ answerText: correction.original, skipCorrection: true });
+  }, [correction, handleSubmit]);
 
   return {
     session,
@@ -107,10 +148,12 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     myAnswer,
     stats,
     submitting,
-    selected,
-    setSelected,
-    otherText,
-    setOtherText,
+    answerText,
+    setAnswerText,
+    correction,
+    acceptCorrection,
+    submitOriginal,
+    submitError,
     handleSubmit,
     loadMyAnswer,
     loadStats,

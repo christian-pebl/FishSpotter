@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FeedCard } from "./FeedCard";
 
@@ -33,6 +33,14 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hintVisible, setHintVisible] = useState(false);
   const [hintIsTouch, setHintIsTouch] = useState(false);
+
+  const scrollToIndex = useCallback((index: number) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const next = el.querySelector<HTMLElement>(`[data-feed-index="${index}"]`);
+    if (!next) return;
+    el.scrollTo({ top: next.offsetTop, behavior: "smooth" });
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -104,6 +112,8 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
               snippet={snippet}
               isActive={activeIndex === index}
               preload={Math.abs(activeIndex - index) <= 1}
+              hasNext={index < snippets.length - 1}
+              onAdvance={() => scrollToIndex(index + 1)}
             />
           </section>
         ))}

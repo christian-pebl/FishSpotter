@@ -4,8 +4,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 
-const OPTIONS = ["Fish", "Crab", "Jellyfish", "Flatfish", "Gastropod", "Scooter", "Other"];
-
 interface SnippetPlayerProps {
   snippet: {
     id: string;
@@ -26,10 +24,12 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
     myAnswer,
     stats,
     submitting,
-    selected,
-    setSelected,
-    otherText,
-    setOtherText,
+    answerText,
+    setAnswerText,
+    correction,
+    acceptCorrection,
+    submitOriginal,
+    submitError,
     handleSubmit,
   } = useCreatureQuiz(snippet, `/feed/${snippet.id}`);
 
@@ -61,44 +61,82 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
 
       <div className="pebl-surface rounded-[24px] p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Spotter challenge</p>
-        <h2 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">Which marine group best matches this sighting?</h2>
+        <h2 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">What species is this?</h2>
 
         {!showStats ? (
           <>
-            <div className="mb-4 mt-4 flex flex-wrap gap-2">
-              {OPTIONS.map((opt) => (
-                <motion.button
-                  key={opt}
-                  type="button"
-                  onClick={() => setSelected(opt)}
-                  whileTap={{ scale: 0.97 }}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                    selected === opt
-                      ? "pebl-chip pebl-chip-active"
-                      : "pebl-chip"
-                  }`}
+            <label
+              htmlFor={`species-answer-${snippet.id}`}
+              className="mb-2 mt-4 block text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]"
+            >
+              Species name
+            </label>
+            <input
+              id={`species-answer-${snippet.id}`}
+              type="text"
+              placeholder="Type species name"
+              value={answerText}
+              onChange={(e) => setAnswerText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  void handleSubmit();
+                }
+              }}
+              autoComplete="off"
+              className="mb-4 w-full max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] outline-none placeholder:text-[color:var(--muted)] focus:border-[color:var(--primary)]"
+              style={{
+                color: "var(--foreground)",
+                WebkitTextFillColor: "var(--foreground)",
+                caretColor: "var(--primary)",
+              }}
+            />
+            <AnimatePresence>
+              {correction && (
+                <motion.div
+                  key="correction"
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  className="mb-4 max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] p-4"
                 >
-                  {opt}
-                </motion.button>
-              ))}
-            </div>
-            {selected === "Other" && (
-              <input
-                type="text"
-                placeholder="Describe what you noticed"
-                value={otherText}
-                onChange={(e) => setOtherText(e.target.value)}
-                className="mb-4 w-full max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] placeholder:text-[color:var(--muted)]"
-              />
+                  <p className="text-sm text-[color:var(--muted)]">
+                    Did you mean: <span className="font-semibold text-[color:var(--foreground)]">{correction.suggestion}</span>?
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <motion.button
+                      type="button"
+                      onClick={acceptCorrection}
+                      whileTap={{ scale: 0.97 }}
+                      className="pebl-button-primary rounded-full px-4 py-2 text-sm font-semibold"
+                    >
+                      Yes, use that
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      onClick={submitOriginal}
+                      whileTap={{ scale: 0.97 }}
+                      className="pebl-button-secondary rounded-full px-4 py-2 text-sm font-semibold"
+                    >
+                      Use my answer
+                    </motion.button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {submitError && (
+              <p className="mb-4 text-sm font-medium text-red-700">{submitError}</p>
             )}
             <motion.button
               type="button"
-              onClick={handleSubmit}
-              disabled={!selected || submitting}
-              whileTap={!submitting && selected ? { scale: 0.97 } : undefined}
+              onClick={() => {
+                void handleSubmit();
+              }}
+              disabled={!answerText.trim() || submitting}
+              whileTap={!submitting && answerText.trim() ? { scale: 0.97 } : undefined}
               className="pebl-button-primary rounded-full px-6 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? "Submitting…" : "Submit observation"}
+              {submitting ? "Submitting…" : "Confirm selection"}
             </motion.button>
             {status !== "loading" && !session && (
               <p className="mt-3 text-sm text-[color:var(--muted)]">
