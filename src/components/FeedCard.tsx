@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { FeedSnippet } from "./FeedPlayer";
 
+const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
 const OPTIONS = ["Fish", "Crab", "Jellyfish", "Flatfish", "Gastropod", "Scooter", "Other"];
 
 interface FeedCardProps {
@@ -38,6 +40,43 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
     }
   }, [isActive]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const bboxes = snippet.bboxes;
+    if (!bboxes || bboxes.length === 0) {
+      video.style.objectPosition = "";
+      return;
+    }
+    let raf = 0;
+    const tick = () => {
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      const cw = video.clientWidth;
+      const ch = video.clientHeight;
+      const dur = video.duration;
+      if (vw && vh && cw && ch && Number.isFinite(dur) && dur > 0) {
+        const t = Math.min(Math.max(video.currentTime, 0), dur);
+        const idx = Math.min(
+          bboxes.length - 1,
+          Math.max(0, Math.floor((t / dur) * bboxes.length))
+        );
+        const bbox = bboxes[idx];
+        const fx = bbox.x_norm + bbox.w_norm / 2;
+        const fy = bbox.y_norm + bbox.h_norm / 2;
+        const s = Math.max(cw / vw, ch / vh);
+        const ovw = vw * s - cw;
+        const ovh = vh * s - ch;
+        const px = ovw > 0 ? clamp01((fx * vw * s - cw / 2) / ovw) : 0.5;
+        const py = ovh > 0 ? clamp01((fy * vh * s - ch / 2) / ovh) : 0.5;
+        video.style.objectPosition = `${(px * 100).toFixed(2)}% ${(py * 100).toFixed(2)}%`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [snippet.bboxes]);
+
   const showStats = myAnswer && stats;
 
   return (
@@ -52,6 +91,7 @@ export function FeedCard({ snippet, isActive, preload }: FeedCardProps) {
           loop
           preload={preload ? "auto" : "metadata"}
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ transition: "object-position 80ms linear" }}
         />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#17252A]/95 via-[#17252A]/78 to-transparent px-4 pb-5 pt-12 text-white">
           <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">

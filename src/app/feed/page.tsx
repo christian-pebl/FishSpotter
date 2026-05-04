@@ -12,6 +12,7 @@ export default async function FeedPage() {
       site: true,
       deployment: true,
       staffAnswer: true,
+      bboxJson: true,
     },
   });
 
@@ -22,6 +23,7 @@ export default async function FeedPage() {
     site: snippet.site,
     deployment: snippet.deployment,
     staffAnswer: snippet.staffAnswer,
+    bboxes: snippet.bboxJson ? JSON.parse(snippet.bboxJson) : null,
   }));
 
   return (
