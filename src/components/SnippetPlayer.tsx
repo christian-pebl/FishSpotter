@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
+import { TaxonRevealPanel } from "./TaxonRevealPanel";
+import { IdGuideButton } from "./id-guide/IdGuideButton";
+import { IdGuideSheet } from "./id-guide/IdGuideSheet";
 
 interface SnippetPlayerProps {
   snippet: {
@@ -14,10 +18,12 @@ interface SnippetPlayerProps {
     depthM: number | null;
     recordingDatetime: string | null;
     staffAnswer: string;
+    labelStatus: "STAFF_LABELLED" | "UNLABELLED";
   };
 }
 
 export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
+  const [guideOpen, setGuideOpen] = useState(false);
   const {
     session,
     status,
@@ -31,6 +37,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
     submitOriginal,
     submitError,
     handleSubmit,
+    editAnswer,
   } = useCreatureQuiz(snippet, `/feed/${snippet.id}`);
 
   const showStats = myAnswer && stats;
@@ -60,7 +67,18 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
       </div>
 
       <div className="pebl-surface rounded-[24px] p-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Spotter challenge</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Spotter challenge</p>
+          {snippet.labelStatus === "UNLABELLED" ? (
+            <span className="rounded-full border border-orange-400/50 bg-orange-400/15 px-2 py-0.5 text-[10px] font-semibold text-orange-600">
+              🟠 Help us ID · +5
+            </span>
+          ) : (
+            <span className="rounded-full border border-[color:var(--primary)]/40 bg-[color:var(--primary)]/10 px-2 py-0.5 text-[10px] font-semibold text-[color:var(--primary)]">
+              🟢 Verified
+            </span>
+          )}
+        </div>
         <h2 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">What species is this?</h2>
 
         {!showStats ? (
@@ -138,6 +156,11 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
             >
               {submitting ? "Submitting…" : "Confirm selection"}
             </motion.button>
+            {!correction && (
+              <div className="mt-3">
+                <IdGuideButton onClick={() => setGuideOpen(true)} />
+              </div>
+            )}
             {status !== "loading" && !session && (
               <p className="mt-3 text-sm text-[color:var(--muted)]">
                 <Link href={`/auth/signin?callbackUrl=${encodeURIComponent(`/feed/${snippet.id}`)}`} className="text-[color:var(--primary)] underline underline-offset-4">
@@ -148,55 +171,28 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
           </>
         ) : (
           <AnimatePresence mode="wait">
-            <motion.div
-              key={myAnswer.isCorrect ? "correct" : "wrong"}
-              initial={myAnswer.isCorrect ? { scale: 0.9, opacity: 0 } : { x: 0 }}
-              animate={
-                myAnswer.isCorrect
-                  ? { scale: 1, opacity: 1 }
-                  : { x: [0, -10, 10, -8, 8, 0] }
-              }
-              transition={
-                myAnswer.isCorrect
-                  ? { type: "spring", stiffness: 300, damping: 20 }
-                  : { duration: 0.4 }
-              }
-              className="mt-4 space-y-4"
-            >
-              <p className="font-medium text-[color:var(--primary)]">
-                You said: {myAnswer.chosenOption}{" "}
-                {myAnswer.isCorrect && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
-                  >
-                    ✓ Correct!
-                  </motion.span>
-                )}
-              </p>
-              <div>
-                <h3 className="mb-2 font-medium text-[color:var(--foreground)]">Community response</h3>
-                <ul className="space-y-1">
-                  {stats.stats.map((s) => (
-                    <li key={s.option} className="flex items-center gap-2">
-                      <span className="w-24">{s.option}</span>
-                      <span className="text-[color:var(--muted)]">{s.percent}%</span>
-                      <div className="max-w-[200px] flex-1 overflow-hidden rounded bg-[color:var(--surface-muted)] h-2">
-                        <div className="h-full rounded bg-[color:var(--accent)]" style={{ width: `${s.percent}%` }} />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-2 text-sm text-[color:var(--muted)]">PEBL reference label: {stats.staffAnswer}</p>
-              </div>
-              <Link href="/feed" className="inline-flex text-[color:var(--primary)] underline underline-offset-4">
-                ← Back to live feed
-              </Link>
-            </motion.div>
+            <div className="mt-4 rounded-2xl bg-[#17252A] p-4 text-white">
+              <TaxonRevealPanel
+                myAnswer={myAnswer}
+                stats={stats}
+                hasNext={false}
+                onAdvance={() => {}}
+                onEdit={editAnswer}
+              />
+            </div>
           </AnimatePresence>
         )}
       </div>
+      <IdGuideSheet
+        open={guideOpen}
+        snippetId={snippet.id}
+        onClose={() => setGuideOpen(false)}
+        onConfirm={(taxonName) => {
+          setGuideOpen(false);
+          setAnswerText(taxonName);
+          void handleSubmit({ answerText: taxonName, skipCorrection: true });
+        }}
+      />
     </div>
   );
 }

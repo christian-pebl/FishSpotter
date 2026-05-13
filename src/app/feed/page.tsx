@@ -12,6 +12,11 @@ export default async function FeedPage() {
       site: true,
       deployment: true,
       staffAnswer: true,
+      depthM: true,
+      lat: true,
+      lon: true,
+      recordingDatetime: true,
+      labelStatus: true,
       bboxJson: true,
     },
   });
@@ -23,6 +28,11 @@ export default async function FeedPage() {
     site: snippet.site,
     deployment: snippet.deployment,
     staffAnswer: snippet.staffAnswer,
+    depthM: snippet.depthM,
+    lat: snippet.lat,
+    lon: snippet.lon,
+    recordingDatetime: snippet.recordingDatetime,
+    labelStatus: snippet.labelStatus,
     bboxes: snippet.bboxJson ? JSON.parse(snippet.bboxJson) : null,
   }));
 

@@ -28,22 +28,101 @@ model Snippet {
   lat          Float?
   lon          Float?
   recordingDatetime String?
-  staffAnswer  String   // reference label from metadata
+  staffAnswer  String   // reference label from metadata (legacy text — replaced by staffTaxon)
   bboxJson     String?  // JSON string of bbox_data.json bboxes
   createdAt    DateTime @default(now())
+
+  staffTaxonId String?
+  staffTaxon   Taxon?       @relation(fields: [staffTaxonId], references: [id])
+  labelStatus  LabelStatus  @default(UNLABELLED)
+
   answers      Answer[]
 }
 
+enum LabelStatus {
+  UNLABELLED
+  STAFF_LABELLED
+}
+
+model Taxon {
+  id                String   @id @default(cuid())
+  name              String   // canonical display: "Common Hermit Crab" or "Crab"
+  scientificName    String?  @unique // "Pagurus bernhardus" — null for functional groups
+  isFunctionalGroup Boolean  @default(false)
+  description       String?  @db.Text
+  funFact           String?  // 1-line, shown on reveal panel
+  heroImageUrl      String?
+  habitatNote       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  snippets   Snippet[]
+  aliases    TaxonAlias[]
+  answers    Answer[]
+  attributes TaxonAttribute[]
+}
+
+/**
+ * Cached OBIS biogeographic checklist for a (deployment, depth band, season) tuple.
+ * Used as a soft prior in the ID-guide matcher: species with high local occurrence
+ * counts get a higher prior score than rare visitors.
+ *
+ * Cached weekly. `occurrencesJson` is `{ "<scientificName>": <count>, ... }`.
+ *
+ * `season` is one of "all" | "winter" | "spring" | "summer" | "autumn".
+ * Phase B v1 only populates "all" (deployment-wide, all year). Seasonal granularity
+ * can be added later without schema changes by inserting more rows.
+ */
+model BiogeographicChecklist {
+  id              String   @id @default(cuid())
+  deployment      String   // "Algapelago"
+  depthBucketMin  Int      // metres, inclusive
+  depthBucketMax  Int      // metres, inclusive
+  season          String   @default("all") // "all" | "winter" | "spring" | "summer" | "autumn"
+  occurrencesJson String   // { "Pagurus bernhardus": 1247, ... }
+  recordCount     Int      @default(0)
+  fetchedAt       DateTime @default(now())
+
+  @@unique([deployment, depthBucketMin, depthBucketMax, season])
+}
+
+model TaxonAttribute {
+  id        String   @id @default(cuid())
+  taxonId   String
+  key       String   // "functionalGroup" | "locomotion" | "screenZone" | "bodyShape" | "colorTag"
+  value     String   // option.value, e.g. "fish" | "crawling" | "seabed" | "hidden-in-shell" | "sandy"
+  source    String   @default("manual") // "manual" | "fishbase" | "worms" | "user"
+  createdAt DateTime @default(now())
+  taxon     Taxon    @relation(fields: [taxonId], references: [id], onDelete: Cascade)
+
+  @@unique([taxonId, key, value])
+  @@index([key, value])
+}
+
+model TaxonAlias {
+  id      String @id @default(cuid())
+  taxonId String
+  alias   String @unique // normalized: lowercased, no diacritics, no leading articles
+  display String // original form for showing back to user
+  source  String // "scientific" | "common" | "vernacular"
+  taxon   Taxon  @relation(fields: [taxonId], references: [id], onDelete: Cascade)
+
+  @@index([taxonId])
+}
+
 model Answer {
-  id          String   @id @default(cuid())
-  userId      String
-  snippetId   String
-  chosenOption String  // typed answer submitted by the user
-  freeText    String?  // legacy free-text field retained for existing data
-  isCorrect   Boolean  // matches snippet.staffAnswer
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  snippet     Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  userId        String
+  snippetId     String
+  chosenOption  String   // typed answer submitted by the user
+  freeText      String?  // legacy free-text field retained for existing data
+  isCorrect     Boolean  // matches snippet.staffAnswer / staffTaxon
+  taxonId       String?
+  pointsAwarded Int      @default(0)
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snippet       Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  taxon         Taxon?   @relation(fields: [taxonId], references: [id])
 
   @@unique([userId, snippetId])
 }

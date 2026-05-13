@@ -1,0 +1,632 @@
+[
+  {
+    "clip": "ALG_2020-01-23_09-00-40_track124_2470-2516_20260506_132342",
+    "video": "ALG_2020-01-23_09-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 102.8,
+    "t_end_sec": 104.7,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_2020-01-23_09-00-40_track124_2471-2508_20260506_131608",
+    "video": "ALG_2020-01-23_09-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 102.8,
+    "t_end_sec": 104.4,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_2020-01-23_09-00-40_track31_675-739_20260506_131118",
+    "video": "ALG_2020-01-23_09-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 28.1,
+    "t_end_sec": 30.8,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_2020-01-23_09-00-40_track58_987-1008_20260506_132217",
+    "video": "ALG_2020-01-23_09-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 41.1,
+    "t_end_sec": 41.9,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_2020-01-29_09-00-40_track60_797-829_20260506_130527",
+    "video": "ALG_2020-01-29_09-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 33.3,
+    "t_end_sec": 34.6,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_2020-01-30_09-00-40_track10002_196-247_20260313_112133",
+    "video": "ALG_2020-01-30_09-00-40",
+    "functional_group": "Flatfish",
+    "t_start_sec": 8.2,
+    "t_end_sec": 10.3,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-08_12-00-41_track10002_142-438_20260312_104745",
+    "video": "ALG_SC_11_2024-07-08_12-00-41",
+    "functional_group": "Gastropod",
+    "t_start_sec": 5.9,
+    "t_end_sec": 18.3,
+    "match_count": 3,
+    "candidates": [
+      {
+        "t": 1,
+        "common": "flounder",
+        "sci": "Platichthys flesus",
+        "genus": "Platichthys",
+        "family": "",
+        "qty": "1",
+        "conf": "3",
+        "notes": "1 flounder"
+      },
+      {
+        "t": 5,
+        "common": "flounder",
+        "sci": "Platichthys flesus",
+        "genus": "Platichthys",
+        "family": "",
+        "qty": "1",
+        "conf": "3",
+        "notes": "same"
+      },
+      {
+        "t": 22,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "1",
+        "conf": "2",
+        "notes": "1 hermit crab"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-08_12-00-41_track10019_18-105_20260312_104615",
+    "video": "ALG_SC_11_2024-07-08_12-00-41",
+    "functional_group": "Flatfish",
+    "t_start_sec": 0.8,
+    "t_end_sec": 4.4,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 1,
+        "common": "flounder",
+        "sci": "Platichthys flesus",
+        "genus": "Platichthys",
+        "family": "",
+        "qty": "1",
+        "conf": "3",
+        "notes": "1 flounder"
+      },
+      {
+        "t": 5,
+        "common": "flounder",
+        "sci": "Platichthys flesus",
+        "genus": "Platichthys",
+        "family": "",
+        "qty": "1",
+        "conf": "3",
+        "notes": "same"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-08_12-00-41_track10040_1177-1256_20260312_105014",
+    "video": "ALG_SC_11_2024-07-08_12-00-41",
+    "functional_group": "Flatfish",
+    "t_start_sec": 49.1,
+    "t_end_sec": 52.4,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 50,
+        "common": "flounder",
+        "sci": "Platichthys flesus",
+        "genus": "Platichthys",
+        "family": "",
+        "qty": "1",
+        "conf": "4",
+        "notes": "1 flounder (6, 9, same as before?)"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-12_15-00-39_track10001_91-506_20260311_125244",
+    "video": "ALG_SC_11_2024-07-12_15-00-39",
+    "functional_group": "Crab",
+    "t_start_sec": 3.8,
+    "t_end_sec": 21.3,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 4,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "1",
+        "conf": "5",
+        "notes": "1 hermit crab"
+      },
+      {
+        "t": 23,
+        "common": "sand goby",
+        "sci": "Pomatoschistus minutus",
+        "genus": "(subspecies",
+        "family": "",
+        "qty": "1",
+        "conf": "3",
+        "notes": "1 sand goby (7)"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-14_15-00-40_track10028_715-808_20260311_124354",
+    "video": "ALG_SC_11_2024-07-14_15-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 29.9,
+    "t_end_sec": 33.8,
+    "match_count": 3,
+    "candidates": [
+      {
+        "t": 27,
+        "common": "whiting",
+        "sci": "Merlangius merlangus",
+        "genus": "Merlangius",
+        "family": "",
+        "qty": "2",
+        "conf": "2",
+        "notes": "2 whiting"
+      },
+      {
+        "t": 28,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "1",
+        "conf": "5",
+        "notes": "1 hermit crab"
+      },
+      {
+        "t": 34,
+        "common": "whiting",
+        "sci": "Merlangius merlangus",
+        "genus": "Merlangius",
+        "family": "",
+        "qty": "2",
+        "conf": "2",
+        "notes": "2 same whiting"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-14_15-00-40_track10084_1987-2072_20260311_124835",
+    "video": "ALG_SC_11_2024-07-14_15-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 83.2,
+    "t_end_sec": 86.8,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 84,
+        "common": "whiting",
+        "sci": "Merlangius merlangus",
+        "genus": "Merlangius",
+        "family": "",
+        "qty": "2",
+        "conf": "2",
+        "notes": "2 same whiting"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-16_15-00-39_track10004_1933-1854_20260311_130805",
+    "video": "ALG_SC_11_2024-07-16_15-00-39",
+    "functional_group": "Crab",
+    "t_start_sec": 80.7,
+    "t_end_sec": 77.4,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 81,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "2",
+        "conf": "5",
+        "notes": "2 same hermit crabs"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-16_15-00-39_track10015_799-1006_20260311_130433",
+    "video": "ALG_SC_11_2024-07-16_15-00-39",
+    "functional_group": "Crab",
+    "t_start_sec": 33.4,
+    "t_end_sec": 42.0,
+    "match_count": 3,
+    "candidates": [
+      {
+        "t": 29,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "4",
+        "conf": "5",
+        "notes": "4 same hermit crabs"
+      },
+      {
+        "t": 35,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "4",
+        "conf": "5",
+        "notes": "4 same hermit crabs"
+      },
+      {
+        "t": 41,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "4",
+        "conf": "5",
+        "notes": "4 same hermit crabs"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-17_15-00-40_track10002_91-211_20260311_131646",
+    "video": "ALG_SC_11_2024-07-17_15-00-40",
+    "functional_group": "Crab",
+    "t_start_sec": 3.8,
+    "t_end_sec": 8.8,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 2,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "2",
+        "conf": "5",
+        "notes": "2 hermit crabs"
+      },
+      {
+        "t": 7,
+        "common": "hermit crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "Pagurus",
+        "family": "Paguridae",
+        "qty": "2",
+        "conf": "5",
+        "notes": "2 same hermit crabs"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-18_12-00-40_track10002_279-525_20260311_131417",
+    "video": "ALG_SC_11_2024-07-18_12-00-40",
+    "functional_group": "Scooter",
+    "t_start_sec": 11.7,
+    "t_end_sec": 22.0,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-19_09-00-39_track10018_572-636_20260311_131951",
+    "video": "ALG_SC_11_2024-07-19_09-00-39",
+    "functional_group": "Fish",
+    "t_start_sec": 24.2,
+    "t_end_sec": 26.9,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 25,
+        "common": "cod",
+        "sci": "Gadus morhua",
+        "genus": "Gadus",
+        "family": "",
+        "qty": "2",
+        "conf": "1",
+        "notes": "2 cod (5, 1)"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-19_09-00-39_track10021_1760-1917_20260311_132449",
+    "video": "ALG_SC_11_2024-07-19_09-00-39",
+    "functional_group": "Flatfish",
+    "t_start_sec": 74.3,
+    "t_end_sec": 80.9,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 77,
+        "common": "flounder",
+        "sci": "Platichthys flesus",
+        "genus": "Platichthys",
+        "family": "",
+        "qty": "1",
+        "conf": "4",
+        "notes": "1 flounder (7-5)"
+      },
+      {
+        "t": 83,
+        "common": "pollack",
+        "sci": "Pollachius pollachius",
+        "genus": "Pollachius",
+        "family": "",
+        "qty": "3",
+        "conf": "2",
+        "notes": "3 pollack (7-9)"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-28_12-00-40_track10053_2230-2346_20260311_133746",
+    "video": "ALG_SC_11_2024-07-28_12-00-40",
+    "functional_group": "Scooter",
+    "t_start_sec": 93.4,
+    "t_end_sec": 98.3,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 98,
+        "common": "sand goby",
+        "sci": "Pomatoschistus minutus",
+        "genus": "(subspecies",
+        "family": "",
+        "qty": "1",
+        "conf": "3",
+        "notes": "1 sand goby (8)"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-30_09-00-39_track10003_69-182_20260311_132740",
+    "video": "ALG_SC_11_2024-07-30_09-00-39",
+    "functional_group": "Scooter",
+    "t_start_sec": 2.9,
+    "t_end_sec": 7.6,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_SC_11_2024-07-30_09-00-39_track10019_671-781_20260311_133408",
+    "video": "ALG_SC_11_2024-07-30_09-00-39",
+    "functional_group": "Scooter",
+    "t_start_sec": 28.0,
+    "t_end_sec": 32.6,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 28,
+        "common": "whiting",
+        "sci": "Merlangius merlangus",
+        "genus": "Merlangius",
+        "family": "",
+        "qty": "1",
+        "conf": "2",
+        "notes": "1 whiting (8,6)"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_14_2024-06-08_12-00-40_track10115_818-871_20260311_135752",
+    "video": "ALG_SC_14_2024-06-08_12-00-40",
+    "functional_group": "Jellyfish",
+    "t_start_sec": 34.3,
+    "t_end_sec": 36.5,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_SC_14_2024-06-08_12-00-40_track44_871-887_20260311_135918",
+    "video": "ALG_SC_14_2024-06-08_12-00-40",
+    "functional_group": "Jellyfish",
+    "t_start_sec": 36.5,
+    "t_end_sec": 37.2,
+    "match_count": 0,
+    "candidates": []
+  },
+  {
+    "clip": "ALG_SC_14_2024-06-10_09-00-39_track3_150-175_20260311_142040",
+    "video": "ALG_SC_14_2024-06-10_09-00-39",
+    "functional_group": "Fish",
+    "t_start_sec": 6.3,
+    "t_end_sec": 7.3,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 6,
+        "common": "Poor Cod",
+        "sci": "Trisopterus minutus",
+        "genus": "",
+        "family": "Trisopterus minutus",
+        "qty": "1.0",
+        "conf": "4.0",
+        "notes": "Poor Cod"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_14_2024-06-11_09-00-40_track182_878-899_20260311_141110",
+    "video": "ALG_SC_14_2024-06-11_09-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 36.7,
+    "t_end_sec": 37.6,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 38,
+        "common": "Poor Cod",
+        "sci": "Trisopterus minutus",
+        "genus": "",
+        "family": "Trisopterus minutus",
+        "qty": "5.0",
+        "conf": "5.0",
+        "notes": "Same as above"
+      },
+      {
+        "t": 42,
+        "common": "Poor Cod",
+        "sci": "Trisopterus minutus",
+        "genus": "",
+        "family": "Trisopterus minutus",
+        "qty": "10.0",
+        "conf": "5.0",
+        "notes": "Same as above"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_14_2024-06-13_15-00-39_track10066_1555-1615_20260311_141809",
+    "video": "ALG_SC_14_2024-06-13_15-00-39",
+    "functional_group": "Jellyfish",
+    "t_start_sec": 65.0,
+    "t_end_sec": 67.6,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 65,
+        "common": "Blue Jellyfish",
+        "sci": "Cyanea lamarckii",
+        "genus": "",
+        "family": "Cyanea lamarckii",
+        "qty": "1.0",
+        "conf": "4.0",
+        "notes": "Blue Jellyfish"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_14_2024-06-13_15-00-39_trackmanual_1_0-1680_20260311_141705",
+    "video": "ALG_SC_14_2024-06-13_15-00-39",
+    "functional_group": "Fish",
+    "t_start_sec": 0.0,
+    "t_end_sec": 70.3,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 19,
+        "common": "Poor Cod",
+        "sci": "Trisopterus minutus",
+        "genus": "",
+        "family": "Trisopterus minutus",
+        "qty": "1.0",
+        "conf": "2.0",
+        "notes": "Not on screen for long enough, poor cod?"
+      },
+      {
+        "t": 65,
+        "common": "Blue Jellyfish",
+        "sci": "Cyanea lamarckii",
+        "genus": "",
+        "family": "Cyanea lamarckii",
+        "qty": "1.0",
+        "conf": "4.0",
+        "notes": "Blue Jellyfish"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_14_2024-07-09_15-00-40_track10141_1333-1596_20260312_102313",
+    "video": "ALG_SC_14_2024-07-09_15-00-40",
+    "functional_group": "Crab",
+    "t_start_sec": 55.6,
+    "t_end_sec": 66.6,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 54,
+        "common": "Common Hermit Crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "",
+        "family": "Pagurus bernhardus",
+        "qty": "1.0",
+        "conf": "5.0",
+        "notes": "Common Hermit Crab"
+      },
+      {
+        "t": 64,
+        "common": "Common Hermit Crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "",
+        "family": "Pagurus bernhardus",
+        "qty": "1.0",
+        "conf": "5.0",
+        "notes": "same as above"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_14_2024-07-11_09-00-40_track10197_1900-1992_20260312_102049",
+    "video": "ALG_SC_14_2024-07-11_09-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 79.4,
+    "t_end_sec": 83.2,
+    "match_count": 1,
+    "candidates": [
+      {
+        "t": 83,
+        "common": "Whiting",
+        "sci": "Merlangius merlangus",
+        "genus": "",
+        "family": "Merlangius merlangus",
+        "qty": "1.0",
+        "conf": "4.0",
+        "notes": "Whiting"
+      }
+    ]
+  },
+  {
+    "clip": "ALG_SC_14_2024-07-17_15-00-40_trackmanual_1_0-1636_20260313_100318",
+    "video": "ALG_SC_14_2024-07-17_15-00-40",
+    "functional_group": "Fish",
+    "t_start_sec": 0.0,
+    "t_end_sec": 68.3,
+    "match_count": 2,
+    "candidates": [
+      {
+        "t": 55,
+        "common": "Common Hermit Crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "",
+        "family": "Pagurus bernhardus",
+        "qty": "1.0",
+        "conf": "4.0",
+        "notes": "Common Hermit Crab"
+      },
+      {
+        "t": 64,
+        "common": "Common Hermit Crab",
+        "sci": "Pagurus bernhardus",
+        "genus": "",
+        "family": "Pagurus bernhardus",
+        "qty": "1.0",
+        "conf": "4.0",
+        "notes": "Common Hermit Crab"
+      }
+    ]
+  }
+]

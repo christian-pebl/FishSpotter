@@ -67,6 +67,11 @@ export function Header() {
           <Link href="/leaderboard" className="hidden md:inline-flex pebl-button-secondary rounded-full px-3 py-1.5 text-sm font-medium">
             Community
           </Link>
+          {session && (
+            <Link href="/me/taxa" className="hidden md:inline-flex pebl-button-secondary rounded-full px-3 py-1.5 text-sm font-medium">
+              My taxa
+            </Link>
+          )}
           <PwaInstallButton />
           <button
             type="button"

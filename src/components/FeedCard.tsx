@@ -1,10 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
+import { TaxonRevealPanel } from "./TaxonRevealPanel";
+import { ClipLocationMap } from "./ClipLocationMap";
+import { IdGuideButton } from "./id-guide/IdGuideButton";
+import { IdGuideSheet } from "./id-guide/IdGuideSheet";
+import { deriveIdGuidePrefill } from "@/lib/id-guide-prefill";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
+
+function formatPlaceContext(snippet: FeedSnippet): string {
+  const parts = [snippet.site];
+  if (snippet.depthM != null) parts.push(`${snippet.depthM}m`);
+  if (snippet.recordingDatetime) {
+    const d = new Date(snippet.recordingDatetime);
+    if (!isNaN(d.getTime())) {
+      parts.push(d.toLocaleDateString("en-GB", { month: "short", year: "numeric" }));
+    }
+  }
+  return parts.join(" · ");
+}
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -106,11 +123,40 @@ interface FeedCardProps {
 }
 
 export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: FeedCardProps) {
+  const [trackingOn, setTrackingOn] = useState<boolean>(true);
+  const [guideOpen, setGuideOpen] = useState(false);
+
+  // Initialise from localStorage and listen for cross-card changes
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = window.localStorage.getItem("fishspotter:trackingOn");
+    if (stored != null) setTrackingOn(stored === "1");
+    const onChange = (e: Event) => {
+      const v = (e as CustomEvent<boolean>).detail;
+      if (typeof v === "boolean") setTrackingOn(v);
+    };
+    window.addEventListener("fishspotter:trackingChanged", onChange);
+    return () => window.removeEventListener("fishspotter:trackingChanged", onChange);
+  }, []);
+
+  const toggleTracking = useCallback(() => {
+    // Side effects (localStorage + event dispatch) MUST live outside the setState updater
+    // otherwise React Strict Mode invokes the updater twice and flips the side effect twice,
+    // landing on the original value. Read latest from storage rather than from `trackingOn`
+    // closure to keep the callback stable.
+    const current = (typeof window !== "undefined" && window.localStorage.getItem("fishspotter:trackingOn")) === "0" ? false : true;
+    const next = !current;
+    setTrackingOn(next);
+    try { window.localStorage.setItem("fishspotter:trackingOn", next ? "1" : "0"); } catch {}
+    window.dispatchEvent(new CustomEvent("fishspotter:trackingChanged", { detail: next }));
+  }, []);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<SVGSVGElement>(null);
   const traceGlowRef = useRef<SVGPolylineElement>(null);
   const traceRef = useRef<SVGPolylineElement>(null);
-  const highlightRef = useRef<SVGRectElement>(null);
+  const dotRef = useRef<SVGCircleElement>(null);
+  const dotHaloRef = useRef<SVGCircleElement>(null);
   const {
     session,
     status,
@@ -124,6 +170,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     submitOriginal,
     submitError,
     handleSubmit,
+    editAnswer,
   } = useCreatureQuiz(snippet, "/feed");
 
   const bboxes = useMemo(
@@ -137,6 +184,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
         .sort((a, b) => a.frame_clip - b.frame_clip),
     [snippet.bboxes]
   );
+
+  /** Smart pre-fill suggestions for the ID Guide, derived from the bbox track. */
+  const idGuidePrefill = useMemo(() => deriveIdGuidePrefill(bboxes), [bboxes]);
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -153,9 +203,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     const overlay = overlayRef.current;
     const traceGlow = traceGlowRef.current;
     const trace = traceRef.current;
-    const highlight = highlightRef.current;
+    const dot = dotRef.current;
+    const halo = dotHaloRef.current;
 
-    if (!isActive || bboxes.length === 0 || !overlay || !traceGlow || !trace || !highlight) {
+    if (!isActive || !trackingOn || bboxes.length === 0 || !overlay || !traceGlow || !trace || !dot || !halo) {
       video.style.objectPosition = "";
       if (overlay) overlay.style.opacity = "0";
       return;
@@ -174,10 +225,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           overlay.setAttribute("viewBox", `0 0 ${rendered.viewWidth} ${rendered.viewHeight}`);
           overlay.style.opacity = "1";
 
-          highlight.setAttribute("x", rendered.x.toFixed(2));
-          highlight.setAttribute("y", rendered.y.toFixed(2));
-          highlight.setAttribute("width", rendered.width.toFixed(2));
-          highlight.setAttribute("height", rendered.height.toFixed(2));
+          dot.setAttribute("cx", rendered.cx.toFixed(2));
+          dot.setAttribute("cy", rendered.cy.toFixed(2));
+          halo.setAttribute("cx", rendered.cx.toFixed(2));
+          halo.setAttribute("cy", rendered.cy.toFixed(2));
 
           const lastPoint = points[points.length - 1];
           if (!lastPoint || Math.hypot(lastPoint.x - rendered.cx, lastPoint.y - rendered.cy) > 2) {
@@ -193,7 +244,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
 
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [bboxes, isActive]);
+  }, [bboxes, isActive, trackingOn]);
 
   const submitAndAdvance = useCallback(async (submit: () => Promise<boolean>) => {
     if (submitting) return;
@@ -225,7 +276,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           className="absolute inset-0 w-full h-full object-cover"
           style={{ transition: "object-position 80ms linear" }}
         />
-        {hasBboxes && (
+        {hasBboxes && trackingOn && (
           <svg
             ref={overlayRef}
             aria-hidden="true"
@@ -235,35 +286,87 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             <polyline
               ref={traceGlowRef}
               fill="none"
-              stroke="rgba(255,255,255,0.32)"
+              stroke="rgba(255,255,255,0.06)"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="12"
+              strokeWidth="6"
             />
             <polyline
               ref={traceRef}
               fill="none"
-              stroke="rgba(255,255,255,0.92)"
+              stroke="rgba(255,255,255,0.22)"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="3"
+              strokeWidth="1.25"
             />
-            <rect
-              ref={highlightRef}
-              fill="none"
-              rx="10"
-              stroke="white"
-              strokeWidth="3"
-              vectorEffect="non-scaling-stroke"
+            <circle
+              ref={dotHaloRef}
+              r="8"
+              fill="rgba(255,255,255,0.08)"
+              stroke="rgba(255,255,255,0.18)"
+              strokeWidth="0.75"
+            />
+            <circle
+              ref={dotRef}
+              r="3"
+              fill="rgba(255,255,255,0.55)"
+              stroke="rgba(255,255,255,0.7)"
+              strokeWidth="0.5"
             />
           </svg>
         )}
       </div>
 
       <aside className="max-h-[46vh] shrink-0 overflow-y-auto border-t border-white/10 bg-[#17252A] px-4 py-4 text-white md:max-h-none md:w-[360px] md:border-l md:border-t-0 md:px-5 md:py-5">
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">
-            {snippet.site} · {snippet.deployment}
-          </p>
+          {snippet.lat != null && snippet.lon != null && isActive && (
+            <ClipLocationMap
+              lat={snippet.lat}
+              lon={snippet.lon}
+              className="mb-3 h-32 w-full"
+            />
+          )}
+          {snippet.lat != null && snippet.lon != null && !isActive && (
+            <div className="mb-3 h-32 w-full rounded-xl bg-[#0e1a1d]" aria-hidden />
+          )}
+          <div className="mb-3 flex items-start justify-between gap-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">
+              {formatPlaceContext(snippet)}
+            </p>
+            {snippet.labelStatus === "UNLABELLED" ? (
+              <span className="shrink-0 rounded-full border border-orange-400/50 bg-orange-400/15 px-2 py-0.5 text-[10px] font-semibold text-orange-300">
+                🟠 Help us ID · +5
+              </span>
+            ) : (
+              <span className="shrink-0 rounded-full border border-[#3AAFA9]/50 bg-[#3AAFA9]/15 px-2 py-0.5 text-[10px] font-semibold text-[#3AAFA9]">
+                🟢 Verified
+              </span>
+            )}
+          </div>
+          {hasBboxes && (
+            <button
+              type="button"
+              onClick={toggleTracking}
+              className="mb-3 flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/85 transition-colors hover:bg-white/[0.08]"
+              aria-pressed={trackingOn}
+              title={trackingOn ? "Hide tracker overlay" : "Show tracker overlay"}
+            >
+              <span className="flex items-center gap-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span>Show tracker</span>
+              </span>
+              <span
+                className={`relative inline-block h-5 w-9 shrink-0 rounded-full transition-colors duration-150 ${trackingOn ? "bg-[#3AAFA9]" : "bg-white/25"}`}
+                aria-hidden
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-150 ${trackingOn ? "translate-x-4" : "translate-x-0"}`}
+                />
+              </span>
+            </button>
+          )}
           <h2 className="font-brand-heading mb-3 text-2xl">What species is this?</h2>
 
           {!showStats ? (
@@ -339,6 +442,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     ? "Confirm and load next video"
                     : "Confirm selection"}
               </motion.button>
+              {!correction && (
+                <div className="mt-3 flex justify-center">
+                  <IdGuideButton onClick={() => setGuideOpen(true)} />
+                </div>
+              )}
               {status !== "loading" && !session && (
                 <p className="mt-2 text-xs text-white/75">
                   <Link href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`} className="text-[#DEF2F1] underline underline-offset-4">
@@ -349,65 +457,28 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             </>
           ) : (
             <AnimatePresence mode="wait">
-              <motion.div
-                key={myAnswer!.isCorrect ? "correct" : "wrong"}
-                initial={myAnswer!.isCorrect ? { scale: 0.9, opacity: 0 } : { x: 0 }}
-                animate={
-                  myAnswer!.isCorrect
-                    ? { scale: 1, opacity: 1 }
-                    : { x: [0, -10, 10, -8, 8, 0] }
-                }
-                transition={
-                  myAnswer!.isCorrect
-                    ? { type: "spring", stiffness: 300, damping: 20 }
-                    : { duration: 0.4 }
-                }
-                className="space-y-3"
-              >
-                <p className="text-sm font-medium text-[#DEF2F1]">
-                  You said: {myAnswer!.chosenOption}{" "}
-                  {myAnswer!.isCorrect && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
-                    >
-                      ✓ Correct!
-                    </motion.span>
-                  )}
-                </p>
-                <div className="text-xs">
-                  <p className="mb-1 font-medium uppercase tracking-[0.14em] text-white/80">Community response</p>
-                  <ul className="space-y-0.5">
-                    {stats!.stats.slice(0, 4).map((s) => (
-                      <li key={s.option} className="flex items-center gap-2">
-                        <span className="w-20">{s.option}</span>
-                        <span className="text-white/65">{s.percent}%</span>
-                        <div className="max-w-[120px] flex-1 overflow-hidden rounded bg-white/12 h-1.5">
-                          <div className="h-full rounded bg-[#3AAFA9]" style={{ width: `${s.percent}%` }} />
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-2 text-white/65">PEBL reference: {stats!.staffAnswer}</p>
-                </div>
-                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-white/75">
-                  {hasNext && (
-                    <motion.button
-                      type="button"
-                      onClick={onAdvance}
-                      whileTap={{ scale: 0.97 }}
-                      className="rounded-full bg-[#3AAFA9] px-4 py-2 text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3]"
-                    >
-                      Load next video
-                    </motion.button>
-                  )}
-                  <Link href="/feed/browse" className="text-[#DEF2F1] underline underline-offset-4">Open archive</Link>
-                </div>
-              </motion.div>
+              <TaxonRevealPanel
+                myAnswer={myAnswer!}
+                stats={stats}
+                hasNext={hasNext}
+                onAdvance={onAdvance}
+                onEdit={editAnswer}
+              />
             </AnimatePresence>
           )}
       </aside>
+      <IdGuideSheet
+        open={guideOpen}
+        snippetId={snippet.id}
+        prefill={idGuidePrefill}
+        onClose={() => setGuideOpen(false)}
+        onConfirm={(taxonName) => {
+          setGuideOpen(false);
+          setAnswerText(taxonName);
+          // Submit immediately with the resolved name; skipCorrection avoids "Did you mean?"
+          void handleSubmit({ answerText: taxonName, skipCorrection: true });
+        }}
+      />
     </article>
   );
 }

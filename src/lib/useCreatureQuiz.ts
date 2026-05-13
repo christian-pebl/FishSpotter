@@ -9,8 +9,33 @@ interface SnippetForQuiz {
   id: string;
 }
 
+export interface TaxonSummary {
+  id: string;
+  name: string;
+  scientificName: string | null;
+  funFact: string | null;
+  description: string | null;
+  heroImageUrl: string | null;
+  habitatNote: string | null;
+  isFunctionalGroup: boolean;
+}
+
+export type AnswerOutcome = "correct" | "wrong" | "contributed" | "unrecognised";
+export type LabelStatus = "STAFF_LABELLED" | "UNLABELLED";
+
+export interface MyAnswer {
+  chosenOption: string;
+  isCorrect: boolean;
+  outcome: AnswerOutcome | null;
+  pointsAwarded: number;
+  resolvedTaxon: TaxonSummary | null;
+  staffTaxon: TaxonSummary | null;
+  labelStatus: LabelStatus | null;
+}
+
 interface StatsItem {
   option: string;
+  taxonId: string | null;
   count: number;
   percent: number;
 }
@@ -25,14 +50,18 @@ interface SubmitOptions {
   skipCorrection?: boolean;
 }
 
-// Shared across all hook instances so every card agrees on the last known streak.
-// Prevents the streak sound firing on every answer when multiple cards are mounted.
 let sharedBaselineStreak: number | null = null;
 
 export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: string) {
   const { data: session, status } = useSession();
-  const [myAnswer, setMyAnswer] = useState<{ chosenOption: string; isCorrect: boolean } | null>(null);
-  const [stats, setStats] = useState<{ total: number; stats: StatsItem[]; staffAnswer: string } | null>(null);
+  const [myAnswer, setMyAnswer] = useState<MyAnswer | null>(null);
+  const [stats, setStats] = useState<{
+    total: number;
+    stats: StatsItem[];
+    staffAnswer: string;
+    labelStatus: LabelStatus;
+    staffTaxon: TaxonSummary | null;
+  } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [answerText, setAnswerTextState] = useState("");
   const [correction, setCorrection] = useState<Correction | null>(null);
@@ -41,7 +70,25 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const loadMyAnswer = useCallback(async () => {
     const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
     const data = await res.json();
-    if (data.answer) setMyAnswer({ chosenOption: data.answer.chosenOption, isCorrect: data.answer.isCorrect });
+    if (data.answer) {
+      const labelStatus: LabelStatus | null = data.answer.labelStatus ?? null;
+      const outcome: AnswerOutcome | null = data.answer.isCorrect
+        ? "correct"
+        : labelStatus === "UNLABELLED"
+          ? "contributed"
+          : labelStatus === "STAFF_LABELLED"
+            ? "wrong"
+            : null;
+      setMyAnswer({
+        chosenOption: data.answer.chosenOption,
+        isCorrect: data.answer.isCorrect,
+        outcome,
+        pointsAwarded: data.answer.pointsAwarded ?? 0,
+        resolvedTaxon: data.answer.resolvedTaxon ?? null,
+        staffTaxon: data.answer.staffTaxon ?? null,
+        labelStatus,
+      });
+    }
   }, [snippet.id]);
 
   const loadStats = useCallback(async () => {
@@ -75,60 +122,80 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     setSubmitError("");
   }, []);
 
-  const handleSubmit = useCallback(async (options?: SubmitOptions) => {
-    if (!session?.user) {
-      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(signInCallbackUrl ?? `/feed/${snippet.id}`)}`;
-      return false;
-    }
-    const option = (options?.answerText ?? answerText).trim();
-    if (!option) return false;
-    setSubmitting(true);
-    setSubmitError("");
-    try {
-      const res = await fetch("/api/answers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          snippetId: snippet.id,
-          chosenOption: option,
-          skipCorrection: options?.skipCorrection ?? false,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setSubmitError(data.error ?? "Could not submit answer.");
+  const handleSubmit = useCallback(
+    async (options?: SubmitOptions) => {
+      if (!session?.user) {
+        window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(
+          signInCallbackUrl ?? `/feed/${snippet.id}`
+        )}`;
         return false;
       }
-      if (data.correction) {
-        setCorrection(data.correction);
-        return false;
-      }
-      if (data.answer) {
-        const isCorrect = data.answer.isCorrect;
-        setMyAnswer({ chosenOption: data.answer.chosenOption, isCorrect });
-        setAnswerTextState(data.answer.chosenOption);
-        setCorrection(null);
-        if (isCorrect) {
-          playCorrect();
-          triggerCorrectConfetti();
-        } else {
-          playWrong();
+      const option = (options?.answerText ?? answerText).trim();
+      if (!option) return false;
+      setSubmitting(true);
+      setSubmitError("");
+      try {
+        const res = await fetch("/api/answers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            snippetId: snippet.id,
+            chosenOption: option,
+            skipCorrection: options?.skipCorrection ?? false,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setSubmitError(data.error ?? "Could not submit answer.");
+          return false;
         }
-        const streakRes = await fetch("/api/streak");
-        const streakData = await streakRes.json();
-        const newStreak = streakData.currentStreak ?? 0;
-        const prev = sharedBaselineStreak ?? 0;
-        if (newStreak > prev) playStreak();
-        sharedBaselineStreak = newStreak;
-        window.dispatchEvent(new CustomEvent("fishspotter:streak"));
-        await loadStats();
-        return true;
+        if (data.correction) {
+          setCorrection(data.correction);
+          return false;
+        }
+        if (data.answer) {
+          const isCorrect = !!data.isCorrect;
+          setMyAnswer({
+            chosenOption: data.answer.chosenOption,
+            isCorrect,
+            outcome: data.outcome ?? null,
+            pointsAwarded: data.pointsAwarded ?? 0,
+            resolvedTaxon: data.resolvedTaxon ?? null,
+            staffTaxon: data.staffTaxon ?? null,
+            labelStatus: data.labelStatus ?? null,
+          });
+          setAnswerTextState(data.answer.chosenOption);
+          setCorrection(null);
+          if (isCorrect) {
+            playCorrect();
+            triggerCorrectConfetti();
+          } else {
+            playWrong();
+          }
+          const streakRes = await fetch("/api/streak");
+          const streakData = await streakRes.json();
+          const newStreak = streakData.currentStreak ?? 0;
+          const prev = sharedBaselineStreak ?? 0;
+          if (newStreak > prev) playStreak();
+          sharedBaselineStreak = newStreak;
+          window.dispatchEvent(new CustomEvent("fishspotter:streak"));
+          await loadStats();
+          return true;
+        }
+        return false;
+      } finally {
+        setSubmitting(false);
       }
-      return false;
-    } finally {
-      setSubmitting(false);
-    }
-  }, [session?.user, answerText, snippet.id, signInCallbackUrl, loadStats]);
+    },
+    [session?.user, answerText, snippet.id, signInCallbackUrl, loadStats]
+  );
+
+  const editAnswer = useCallback(() => {
+    if (myAnswer) setAnswerTextState(myAnswer.chosenOption);
+    setMyAnswer(null);
+    setCorrection(null);
+    setSubmitError("");
+  }, [myAnswer]);
 
   const acceptCorrection = useCallback(async () => {
     if (!correction) return false;
@@ -155,6 +222,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     submitOriginal,
     submitError,
     handleSubmit,
+    editAnswer,
     loadMyAnswer,
     loadStats,
   };

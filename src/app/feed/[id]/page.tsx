@@ -20,6 +20,7 @@ export default async function SnippetDetailPage({
     depthM: row.depthM,
     recordingDatetime: row.recordingDatetime,
     staffAnswer: row.staffAnswer,
+    labelStatus: row.labelStatus,
   };
 
   return (

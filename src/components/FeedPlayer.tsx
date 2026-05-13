@@ -21,6 +21,11 @@ export interface FeedSnippet {
   site: string;
   deployment: string;
   staffAnswer: string;
+  depthM: number | null;
+  lat: number | null;
+  lon: number | null;
+  recordingDatetime: string | null;
+  labelStatus: "STAFF_LABELLED" | "UNLABELLED";
   bboxes: BBoxFrame[] | null;
 }
 

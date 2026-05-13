@@ -11,7 +11,9 @@ export async function GET() {
       videoUrl: true,
       site: true,
       deployment: true,
+      depthM: true,
       recordingDatetime: true,
+      labelStatus: true,
     },
   });
   return NextResponse.json(snippets);

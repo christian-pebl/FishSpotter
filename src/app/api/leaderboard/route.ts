@@ -3,14 +3,15 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   const answers = await prisma.answer.findMany({
-    select: { userId: true, isCorrect: true },
+    select: { userId: true, isCorrect: true, pointsAwarded: true },
   });
 
-  const byUser: Record<string, { correct: number; total: number }> = {};
+  const byUser: Record<string, { correct: number; total: number; points: number }> = {};
   for (const a of answers) {
-    if (!byUser[a.userId]) byUser[a.userId] = { correct: 0, total: 0 };
+    if (!byUser[a.userId]) byUser[a.userId] = { correct: 0, total: 0, points: 0 };
     byUser[a.userId].total += 1;
     if (a.isCorrect) byUser[a.userId].correct += 1;
+    byUser[a.userId].points += a.pointsAwarded ?? 0;
   }
 
   const users = await prisma.user.findMany({
@@ -20,12 +21,12 @@ export async function GET() {
   const userMap = Object.fromEntries(users.map((u) => [u.id, u]));
 
   const leaderboard = Object.entries(byUser)
-    .map(([userId, { correct, total }]) => ({
+    .map(([userId, { correct, total, points }]) => ({
       userId,
       displayName: userMap[userId]?.displayName ?? userMap[userId]?.name ?? userMap[userId]?.email?.split("@")[0] ?? "Anonymous",
       correct,
       total,
-      score: correct * 1 + (total - correct) * 0.5,
+      score: points,
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 50);

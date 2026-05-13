@@ -2,82 +2,15 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { resolveAnswerToTaxon } from "@/lib/taxon-matching";
 
 const MAX_ANSWER_LENGTH = 80;
 
-function normalizeAnswer(value: string) {
-  return value
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\b(a|an|the)\b/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function levenshteinDistance(a: string, b: string) {
-  const previous = Array.from({ length: b.length + 1 }, (_, i) => i);
-  const current = Array.from({ length: b.length + 1 }, () => 0);
-
-  for (let i = 1; i <= a.length; i += 1) {
-    current[0] = i;
-    for (let j = 1; j <= b.length; j += 1) {
-      current[j] = Math.min(
-        previous[j] + 1,
-        current[j - 1] + 1,
-        previous[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
-      );
-    }
-    for (let j = 0; j <= b.length; j += 1) previous[j] = current[j];
-  }
-
-  return previous[b.length];
-}
-
-function tokenOverlapScore(a: string, b: string) {
-  const aTokens = new Set(a.split(" ").filter(Boolean));
-  const bTokens = new Set(b.split(" ").filter(Boolean));
-  if (aTokens.size === 0 || bTokens.size === 0) return 0;
-  let overlap = 0;
-  for (const token of aTokens) {
-    if (bTokens.has(token)) overlap += 1;
-  }
-  return overlap / Math.max(aTokens.size, bTokens.size);
-}
-
-function similarityScore(a: string, b: string) {
-  if (!a || !b) return 0;
-  if (a === b) return 1;
-  const distanceScore = 1 - levenshteinDistance(a, b) / Math.max(a.length, b.length);
-  const overlapScore = tokenOverlapScore(a, b);
-  const shortest = Math.min(a.length, b.length);
-  const containmentScore = shortest >= 4 && (a.includes(b) || b.includes(a)) ? 0.84 : 0;
-  return Math.max(distanceScore, distanceScore * 0.75 + overlapScore * 0.25, containmentScore);
-}
-
-function suggestionThreshold(answerLength: number) {
-  if (answerLength <= 4) return 0.75;
-  if (answerLength <= 8) return 0.72;
-  return 0.68;
-}
-
-function getCorrectionSuggestion(answer: string, candidates: string[]) {
-  const normalizedAnswer = normalizeAnswer(answer);
-  if (normalizedAnswer.length < 3) return null;
-
-  let best: { label: string; score: number } | null = null;
-  for (const label of candidates) {
-    const normalizedLabel = normalizeAnswer(label);
-    if (!normalizedLabel || normalizedLabel === normalizedAnswer) continue;
-    const score = similarityScore(normalizedAnswer, normalizedLabel);
-    if (!best || score > best.score) best = { label, score };
-  }
-
-  if (!best) return null;
-  return best.score >= suggestionThreshold(normalizedAnswer.length) ? best.label : null;
-}
+const POINTS = {
+  CORRECT_VERIFIED: 10,
+  WRONG_VERIFIED: 1,
+  CONTRIBUTED_UNLABELLED: 5,
+} as const;
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -93,10 +26,7 @@ export async function POST(req: Request) {
   };
 
   if (!snippetId || !chosenOption) {
-    return NextResponse.json(
-      { error: "snippetId and chosenOption required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "snippetId and chosenOption required" }, { status: 400 });
   }
 
   const option = chosenOption.trim();
@@ -109,53 +39,107 @@ export async function POST(req: Request) {
 
   const snippet = await prisma.snippet.findUnique({
     where: { id: snippetId },
-    select: { id: true, staffAnswer: true },
+    select: { id: true, staffTaxonId: true, labelStatus: true, staffAnswer: true },
   });
   if (!snippet) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
 
-  const normalizedOption = normalizeAnswer(option);
-  const normalizedStaffAnswer = normalizeAnswer(snippet.staffAnswer);
-  const isCorrect = normalizedStaffAnswer === normalizedOption;
+  // Resolve user's input to a Taxon
+  const resolution = await resolveAnswerToTaxon(option);
 
-  if (!isCorrect && !skipCorrection) {
-    const referenceRows = await prisma.snippet.findMany({
-      select: { staffAnswer: true },
+  // If we have a low-confidence suggestion, offer the correction unless caller skipped it
+  if (resolution.kind === "suggestion" && !skipCorrection) {
+    return NextResponse.json({
+      correction: { original: resolution.original, suggestion: resolution.suggestion },
     });
-    const referenceAnswers = Array.from(new Set(referenceRows.map((row) => row.staffAnswer)));
-    const suggestion = getCorrectionSuggestion(option, referenceAnswers);
+  }
 
-    if (suggestion) {
-      return NextResponse.json({
-        correction: {
-          original: option,
-          suggestion,
-        },
-      });
+  // Determine outcome + points
+  let resolvedTaxonId: string | null = null;
+  let outcome: "correct" | "wrong" | "contributed" | "unrecognised" = "unrecognised";
+  let pointsAwarded = 0;
+
+  if (resolution.kind === "exact") {
+    resolvedTaxonId = resolution.taxonId;
+    if (snippet.labelStatus === "STAFF_LABELLED") {
+      if (resolution.taxonId === snippet.staffTaxonId) {
+        outcome = "correct";
+        pointsAwarded = POINTS.CORRECT_VERIFIED;
+      } else {
+        outcome = "wrong";
+        pointsAwarded = POINTS.WRONG_VERIFIED;
+      }
+    } else {
+      outcome = "contributed";
+      pointsAwarded = POINTS.CONTRIBUTED_UNLABELLED;
+    }
+  } else {
+    // unrecognised — but caller submitted with skipCorrection (no fuzzy match available)
+    // We still record the answer so user gets contribution credit on UNLABELLED clips,
+    // and effort credit (1 pt) on VERIFIED clips. resolvedTaxonId stays null.
+    if (snippet.labelStatus === "STAFF_LABELLED") {
+      outcome = "wrong";
+      pointsAwarded = POINTS.WRONG_VERIFIED;
+    } else {
+      outcome = "contributed";
+      pointsAwarded = POINTS.CONTRIBUTED_UNLABELLED;
     }
   }
 
+  const isCorrect = outcome === "correct";
+
   const answer = await prisma.answer.upsert({
-    where: {
-      userId_snippetId: {
-        userId: session.user.id,
-        snippetId,
-      },
-    },
+    where: { userId_snippetId: { userId: session.user.id, snippetId } },
     create: {
       userId: session.user.id,
       snippetId,
       chosenOption: option,
       freeText: null,
       isCorrect,
+      taxonId: resolvedTaxonId,
+      pointsAwarded,
     },
     update: {
       chosenOption: option,
       freeText: null,
       isCorrect,
+      taxonId: resolvedTaxonId,
+      pointsAwarded,
     },
   });
 
-  return NextResponse.json({ answer, isCorrect });
+  // Fetch staff taxon details for the reveal panel (when STAFF_LABELLED)
+  const staffTaxon = snippet.staffTaxonId
+    ? await prisma.taxon.findUnique({
+        where: { id: snippet.staffTaxonId },
+        select: {
+          id: true, name: true, scientificName: true,
+          funFact: true, description: true, heroImageUrl: true, habitatNote: true,
+          isFunctionalGroup: true,
+        },
+      })
+    : null;
+
+  // Fetch the resolved taxon (what the user said) — may be the same as staff or different
+  const resolvedTaxon = resolvedTaxonId
+    ? await prisma.taxon.findUnique({
+        where: { id: resolvedTaxonId },
+        select: {
+          id: true, name: true, scientificName: true,
+          funFact: true, description: true, heroImageUrl: true, habitatNote: true,
+          isFunctionalGroup: true,
+        },
+      })
+    : null;
+
+  return NextResponse.json({
+    answer,
+    isCorrect,
+    outcome,
+    pointsAwarded,
+    labelStatus: snippet.labelStatus,
+    resolvedTaxon,
+    staffTaxon,
+  });
 }

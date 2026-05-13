@@ -1,34 +1,33 @@
-# dependencies
-node_modules
-.pnp
-.pnp.js
-
-# build
-.next
-out
-build
-dist
-
-# env
-.env
-.env.local
-.env.*.local
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# db
-prisma/*.db
-prisma/*.db-journal
 
 # IDE
-.idea
-.vscode
-*.swp
-*.swo
-
 # OS
+# build
+# db
+# debug
+# dependencies
+# env
+*.swo
+*.swp
 .DS_Store
+.claude/worktrees/
+.env
+.env.*.local
+.env.local
+.idea
+.next
+.pnp
+.pnp.js
+.vscode
 Thumbs.db
+backup Jan 2026/
+build
+dist
+node_modules
+npm-debug.log*
+nul
+out
+prisma/*.db
+prisma/*.db-journal
+test-results/
+yarn-debug.log*
+yarn-error.log*
