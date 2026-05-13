@@ -28,6 +28,8 @@ nul
 out
 prisma/*.db
 prisma/*.db-journal
+restore-database.sql
 test-results/
+tsconfig.tsbuildinfo
 yarn-debug.log*
 yarn-error.log*
