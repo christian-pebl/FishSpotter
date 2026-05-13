@@ -9,6 +9,32 @@
 - Stack: **Next.js 14** (App Router) · React 18 · TypeScript · Tailwind · **Prisma → Supabase Postgres** · NextAuth credentials · Supabase Storage · PWA · Framer Motion
 - Local: `npm run dev` → **http://localhost:3000** (port 3000 is hard-coded into NextAuth callback URLs; don't change without updating `.env.local`)
 
+## Branch + worktree layout (read this first if you're a new session)
+
+```
+This directory (FishSpotter/)
+  Branch: pebl-enhancements
+  State:  all session work committed locally (2 commits past mgtaco's tip)
+  Pushed: NO — local only. Don't push to origin/main without intent;
+          origin/main is what Vercel deploys.
+
+Sibling: ../FishSpotter-mgtaco-baseline/
+  Branch: baseline-mgtaco (separate git worktree off the same repo)
+  State:  mgtaco's tip 121bdab + force-dynamic patch + 6 Jan-2020 clips
+  Pushed: YES → christian-pebl/FishSpotter:main → https://fish-spotter.vercel.app
+
+origin/main (christian-pebl/FishSpotter on GitHub)
+  HEAD:   0358f7e (mgtaco baseline + our two operational patches)
+  Used by: Vercel auto-deploy
+```
+
+**To run things:**
+- Enhanced version (our work): `npm run dev` here → http://localhost:3000
+- Baseline (for side-by-side): `cd ../FishSpotter-mgtaco-baseline && PORT=3001 npm run dev` → http://localhost:3001
+- Production: <https://fish-spotter.vercel.app>
+
+All three share the same Supabase project `aazxphcrexkggbmmceli`.
+
 ## Audience (not Algarve!)
 
 > **All footage is from Bideford Bay, North Devon, UK** — *not* the Algarve, despite the `ALG_…` filename prefix (which is short for **Algapelago**, PEBL's deployment name). The audience is North Devon coastal communities: pot fishermen, sailors, surfers, divers, schools.
@@ -46,8 +72,8 @@
                        │
                        ▼
             ┌──────────────────────────┐
-            │  Supabase Storage        │  ← (currently /public/media/snippets)
-            │   snippets/*.mp4, *.jpg  │
+            │  Supabase Storage        │  ← all 30 clips migrated here
+            │   snippets/*.mp4, *.jpg  │     (public bucket)
             └──────────────────────────┘
 ```
 
