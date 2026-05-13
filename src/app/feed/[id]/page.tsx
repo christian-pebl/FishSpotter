@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { SnippetPlayer } from "@/components/SnippetPlayer";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function SnippetDetailPage({
   params,
 }: {

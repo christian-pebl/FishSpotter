@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { FeedPlayer } from "@/components/FeedPlayer";
 
+export const dynamic = "force-dynamic";
+
 export default async function FeedPage() {
   const snippets = await prisma.snippet.findMany({
     orderBy: { createdAt: "desc" },
