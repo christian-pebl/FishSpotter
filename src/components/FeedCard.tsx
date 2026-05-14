@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
-import { MiniMapStatic } from "./MiniMapStatic";
 import { MapModal } from "./MapModal";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
@@ -111,19 +110,54 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const overlayRef = useRef<SVGSVGElement>(null);
   const trailPathRef = useRef<SVGPathElement>(null);
   const trailGlowPathRef = useRef<SVGPathElement>(null);
-  const dotRef = useRef<SVGCircleElement>(null);
-  const dotGlowRef = useRef<SVGCircleElement>(null);
   const gradRef = useRef<SVGLinearGradientElement>(null);
   const glowGradRef = useRef<SVGLinearGradientElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const correctionAcceptRef = useRef<HTMLButtonElement>(null);
   const [showTracking, setShowTracking] = useState(true);
   const [mapOpen, setMapOpen] = useState(false);
+  const [panelCollapsed, setPanelCollapsed] = useState(false);
+  const [showInputHint, setShowInputHint] = useState(false);
+  const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const hasLocation =
     typeof snippet.lat === "number" &&
     typeof snippet.lon === "number" &&
     Number.isFinite(snippet.lat) &&
     Number.isFinite(snippet.lon);
+
+  // Persist panel-collapsed state across cards in the same session.
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("fishspotter:panelCollapsed") === "1") {
+        setPanelCollapsed(true);
+      }
+    } catch {}
+  }, []);
+  const togglePanel = useCallback((next: boolean) => {
+    setPanelCollapsed(next);
+    try {
+      localStorage.setItem("fishspotter:panelCollapsed", next ? "1" : "0");
+    } catch {}
+  }, []);
+
+  // Track mobile virtual keyboard so the panel rises above it.
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.visualViewport) return;
+    const vv = window.visualViewport;
+    const onResize = () => {
+      const offset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      setKeyboardOffset(offset);
+    };
+    vv.addEventListener("resize", onResize);
+    vv.addEventListener("scroll", onResize);
+    return () => {
+      vv.removeEventListener("resize", onResize);
+      vv.removeEventListener("scroll", onResize);
+    };
+  }, []);
   const reduceMotion = useReducedMotion();
   const {
     session,
@@ -203,8 +237,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     const overlay = overlayRef.current;
     const trailPath = trailPathRef.current;
     const trailGlowPath = trailGlowPathRef.current;
-    const dot = dotRef.current;
-    const dotGlow = dotGlowRef.current;
     const grad = gradRef.current;
     const glowGrad = glowGradRef.current;
     const progress = progressRef.current;
@@ -221,8 +253,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       !overlay ||
       !trailPath ||
       !trailGlowPath ||
-      !dot ||
-      !dotGlow ||
       !showTracking
     ) {
       hideAll();
@@ -387,15 +417,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
         }
       }
 
-      const head = screenPoints[screenPoints.length - 1];
-      if (head) {
-        dot.setAttribute("cx", head.x.toFixed(1));
-        dot.setAttribute("cy", head.y.toFixed(1));
-        dot.setAttribute("opacity", "0.6");
-        dotGlow.setAttribute("cx", head.x.toFixed(1));
-        dotGlow.setAttribute("cy", head.y.toFixed(1));
-        dotGlow.setAttribute("opacity", "0.18");
-      }
     };
 
     // --- Frame-accurate scheduling: prefer requestVideoFrameCallback ---
@@ -439,11 +460,20 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       if (submitting) return;
       const didSubmit = await submit();
       if (didSubmit && hasNext) {
-        window.setTimeout(onAdvance, 250);
+        window.setTimeout(onAdvance, 450);
       }
     },
     [hasNext, onAdvance, submitting]
   );
+
+  // Pulse the panel teal when the user submits a correct answer.
+  useEffect(() => {
+    if (myAnswer?.isCorrect) {
+      setSubmitPulse("correct");
+      const t = window.setTimeout(() => setSubmitPulse("none"), 600);
+      return () => window.clearTimeout(t);
+    }
+  }, [myAnswer?.isCorrect]);
 
   const handleConfirmAndAdvance = useCallback(async () => {
     if (!answerText.trim()) return;
@@ -459,8 +489,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const filterId = `dot-glow-${snippet.id}`;
 
   return (
-    <article className="flex h-full min-h-0 flex-col bg-[#17252A] text-white md:flex-row">
-      <div className="relative min-h-0 flex-1 overflow-hidden bg-black">
+    <article className="relative h-full min-h-0 overflow-hidden bg-black text-white">
+      <div className="absolute inset-0 overflow-hidden bg-black">
         <video
           ref={videoRef}
           {...(preload ? { src: snippet.videoUrl } : {})}
@@ -562,42 +592,19 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-
-              {/* Dot halo */}
-              <circle ref={dotGlowRef} r="10" fill="white" opacity="0" filter={`url(#${filterId})`} />
-
-              {/* Position dot */}
-              <circle ref={dotRef} r="3.5" fill="white" opacity="0" />
             </svg>
 
-            {/* Mobile-only map pin button — beside the tracking toggle */}
-            {hasLocation && (
-              <button
-                type="button"
-                onClick={() => setMapOpen(true)}
-                aria-label="Show location on map"
-                className="absolute bottom-3 right-[88px] z-10 flex min-h-[38px] min-w-[38px] items-center justify-center rounded-full bg-black/45 px-2.5 text-[rgba(222,242,241,0.9)] backdrop-blur-sm transition-colors hover:bg-black/65 md:hidden"
-              >
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-                  <path
-                    d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                  <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
-                </svg>
-              </button>
-            )}
-
-            {/* Tracking toggle button — bottom-right of video panel */}
+            {/* Tracking toggle — bottom-right on desktop; on mobile moves to top-right when panel expanded */}
             <button
               type="button"
               onClick={() => setShowTracking((v) => !v)}
               aria-label={showTracking ? "Hide fish tracking" : "Show fish tracking"}
               aria-pressed={showTracking}
-              className="absolute bottom-3 right-3 z-10 flex min-h-[38px] min-w-[38px] items-center justify-center gap-1.5 rounded-full bg-black/45 px-2.5 backdrop-blur-sm transition-colors hover:bg-black/65"
+              className={`absolute z-30 flex min-h-[38px] min-w-[38px] items-center justify-center gap-1.5 rounded-full bg-black/45 px-2.5 backdrop-blur-sm transition-colors hover:bg-black/65 ${
+                panelCollapsed
+                  ? "bottom-3 right-3"
+                  : "top-3 right-3 md:top-auto md:bottom-3"
+              }`}
               style={{ color: showTracking ? "rgba(222,242,241,0.9)" : "rgba(255,255,255,0.4)" }}
             >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
@@ -619,201 +626,316 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
         )}
       </div>
 
-      <aside className="max-h-[46vh] shrink-0 overflow-y-auto border-t border-white/10 bg-[#17252A] px-4 py-4 text-white md:max-h-none md:w-[360px] md:border-l md:border-t-0 md:px-5 md:py-5">
-        {hasLocation && (
-          <div className="mb-3 hidden md:block">
-            <MiniMapStatic
-              lat={snippet.lat as number}
-              lon={snippet.lon as number}
-              onClick={() => setMapOpen(true)}
-              size={180}
-            />
-          </div>
-        )}
-        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">
-          {snippet.site} · {snippet.deployment}
-        </p>
-        <h2 className="font-brand-heading mb-3 text-2xl">What species is this?</h2>
+      {/* Soft bottom gradient so the floating panel always reads over the video */}
+      {!panelCollapsed && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-gradient-to-t from-black/55 via-black/15 to-transparent"
+        />
+      )}
 
-        {!showStats ? (
-          <>
-            <label
-              htmlFor={`species-answer-${snippet.id}`}
-              className="mb-1 block text-xs font-semibold uppercase tracking-[0.14em] text-white/75"
-            >
-              Species name
-            </label>
-            <input
-              id={`species-answer-${snippet.id}`}
-              type="text"
-              placeholder="Type species name"
-              value={answerText}
-              onChange={(e) => setAnswerText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  void handleConfirmAndAdvance();
-                }
-              }}
-              autoComplete="off"
-              aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
-              aria-invalid={!!submitError}
-              className="mb-3 w-full rounded-2xl border border-white/30 bg-white px-3 py-2.5 text-sm text-[#17252A] outline-none placeholder:text-[#17252A]/55 focus:border-[#DEF2F1]"
-              style={{ color: "#17252A", WebkitTextFillColor: "#17252A", caretColor: "#2B7A78" }}
-            />
-            <AnimatePresence>
-              {correction && (
-                <motion.div
-                  key="correction"
-                  initial={reduceMotion ? false : { opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                  role="dialog"
-                  aria-label="Spelling suggestion"
-                  onKeyDown={(e) => {
-                    if (e.key === "Escape") {
-                      e.stopPropagation();
-                      void submitAndAdvance(submitOriginal);
-                    }
-                  }}
-                  ref={(el) => {
-                    if (el) {
-                      const t = window.setTimeout(() => correctionAcceptRef.current?.focus(), 0);
-                      return () => window.clearTimeout(t);
-                    }
-                  }}
-                  className="mb-3 rounded-2xl border border-white/18 bg-white/10 p-3"
+      {/* Collapsed pill — replaces the panel when minimized */}
+      <AnimatePresence>
+        {panelCollapsed && (
+          <motion.button
+            key="collapsed-pill"
+            type="button"
+            onClick={() => togglePanel(false)}
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
+            transition={{ duration: 0.18 }}
+            className="absolute bottom-3 left-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#17252A]/72 px-3 py-2 text-xs font-semibold text-[#DEF2F1] shadow-lg backdrop-blur-md hover:bg-[#17252A]/85"
+            style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}
+          >
+            Identify
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* Floating glass panel — Claude-style input or stats card */}
+      <AnimatePresence>
+        {!panelCollapsed && (
+          <motion.aside
+            key="panel"
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              boxShadow:
+                submitPulse === "correct"
+                  ? "0 0 0 3px rgba(58,175,169,0.65), 0 8px 30px rgba(0,0,0,0.45)"
+                  : "0 8px 30px rgba(0,0,0,0.45)",
+            }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute inset-x-2 bottom-2 z-20 overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150 md:inset-x-auto md:bottom-4 md:left-1/2 md:w-[min(560px,calc(100%-2rem))] md:-translate-x-1/2"
+            style={{
+              paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))`,
+              transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
+            }}
+          >
+            <div className="px-3 pt-2 md:px-4 md:pt-2.5">
+              {/* Eyebrow: site + pin (opens map) + collapse chevron */}
+              <div className="mb-1.5 flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={() => hasLocation && setMapOpen(true)}
+                  disabled={!hasLocation}
+                  aria-label={hasLocation ? "Show location on map" : undefined}
+                  className="group inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white/85 disabled:cursor-default disabled:hover:text-white/55"
                 >
-                  <p className="text-sm text-white/86">
-                    Did you mean:{" "}
-                    <span className="font-semibold text-[#DEF2F1]">{correction.suggestion}</span>?
-                  </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  {hasLocation && (
+                    <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/85 group-hover:text-[#3AAFA9]">
+                      <path
+                        d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                        strokeLinejoin="round"
+                        fill="none"
+                      />
+                      <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
+                    </svg>
+                  )}
+                  <span>{snippet.site} · {snippet.deployment}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => togglePanel(true)}
+                  aria-label="Hide identification panel"
+                  className="-mr-1 flex h-6 w-6 items-center justify-center rounded-full text-white/45 transition-colors hover:bg-white/10 hover:text-white/85"
+                >
+                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
+
+              {!showStats ? (
+                <>
+                  {/* Correction / error chips above the input */}
+                  <AnimatePresence>
+                    {correction && (
+                      <motion.div
+                        key="correction"
+                        initial={reduceMotion ? false : { opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                        role="dialog"
+                        aria-label="Spelling suggestion"
+                        onKeyDown={(e) => {
+                          if (e.key === "Escape") {
+                            e.stopPropagation();
+                            void submitAndAdvance(submitOriginal);
+                          }
+                        }}
+                        ref={(el) => {
+                          if (el) {
+                            const t = window.setTimeout(() => correctionAcceptRef.current?.focus(), 0);
+                            return () => window.clearTimeout(t);
+                          }
+                        }}
+                        className="mb-2 rounded-xl border border-white/15 bg-white/8 px-2.5 py-2"
+                      >
+                        <p className="text-xs text-white/85">
+                          Did you mean:{" "}
+                          <span className="font-semibold text-[#DEF2F1]">{correction.suggestion}</span>?
+                        </p>
+                        <div className="mt-1.5 flex flex-wrap gap-1.5">
+                          <motion.button
+                            type="button"
+                            ref={correctionAcceptRef}
+                            onClick={() => submitAndAdvance(acceptCorrection)}
+                            whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                            className="rounded-full bg-[#DEF2F1] px-2.5 py-1 text-[11px] font-semibold text-[#17252A]"
+                          >
+                            Yes
+                          </motion.button>
+                          <motion.button
+                            type="button"
+                            onClick={() => submitAndAdvance(submitOriginal)}
+                            whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                            className="rounded-full border border-white/30 px-2.5 py-1 text-[11px] font-semibold text-white hover:border-[#3AAFA9]"
+                          >
+                            Use mine
+                          </motion.button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  {submitError && (
+                    <p
+                      id={`species-error-${snippet.id}`}
+                      role="alert"
+                      className="mb-1.5 text-[11px] font-medium text-red-300"
+                    >
+                      {submitError}
+                    </p>
+                  )}
+
+                  {/* Compact input row */}
+                  <div className="flex items-center gap-2 pb-2">
+                    <input
+                      id={`species-answer-${snippet.id}`}
+                      ref={inputRef}
+                      type="text"
+                      placeholder="What species is this?"
+                      value={answerText}
+                      onChange={(e) => setAnswerText(e.target.value)}
+                      onFocus={() => {
+                        try {
+                          if (localStorage.getItem("fishspotter:inputHintSeen") !== "1") {
+                            setShowInputHint(true);
+                          }
+                        } catch {}
+                      }}
+                      onBlur={() => setShowInputHint(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          if (showInputHint) {
+                            setShowInputHint(false);
+                            try { localStorage.setItem("fishspotter:inputHintSeen", "1"); } catch {}
+                          }
+                          void handleConfirmAndAdvance();
+                        }
+                      }}
+                      autoComplete="off"
+                      aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
+                      aria-invalid={!!submitError}
+                      className="min-h-[36px] min-w-0 flex-1 border-0 bg-transparent px-1 text-sm text-white outline-none placeholder:text-white/40"
+                      style={{ caretColor: "#3AAFA9" }}
+                    />
+                    {hasNext && !answerText.trim() && (
+                      <button
+                        type="button"
+                        onClick={onAdvance}
+                        className="rounded-full px-2 py-1 text-[11px] font-medium uppercase tracking-wider text-white/45 transition-colors hover:text-white/80"
+                      >
+                        Skip
+                      </button>
+                    )}
                     <motion.button
                       type="button"
-                      ref={correctionAcceptRef}
-                      onClick={() => submitAndAdvance(acceptCorrection)}
-                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                      className="rounded-full bg-[#DEF2F1] min-h-[40px] px-3 py-1.5 text-xs font-semibold text-[#17252A]"
+                      onClick={handleConfirmAndAdvance}
+                      disabled={!answerText.trim() || submitting}
+                      aria-busy={submitting}
+                      aria-label="Submit answer"
+                      whileTap={!submitting && answerText.trim() && !reduceMotion ? { scale: 0.93 } : undefined}
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#3AAFA9] text-[#17252A] transition-colors hover:bg-[#59c8c3] disabled:cursor-not-allowed disabled:bg-[#3AAFA9]/30 disabled:text-[#17252A]/60"
                     >
-                      Yes, use that
-                    </motion.button>
-                    <motion.button
-                      type="button"
-                      onClick={() => submitAndAdvance(submitOriginal)}
-                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                      className="rounded-full border border-white/30 min-h-[40px] px-3 py-1.5 text-xs font-semibold text-white hover:border-[#3AAFA9]"
-                    >
-                      Use my answer
+                      {submitting ? (
+                        <svg width="14" height="14" viewBox="0 0 14 14" className="animate-spin" aria-hidden="true">
+                          <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeDasharray="22" strokeDashoffset="16" />
+                        </svg>
+                      ) : (
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
                     </motion.button>
                   </div>
-                </motion.div>
+
+                  <AnimatePresence>
+                    {showInputHint && !answerText.trim() && (
+                      <motion.p
+                        key="hint"
+                        initial={reduceMotion ? false : { opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                        className="pb-1.5 text-[10px] text-white/40"
+                      >
+                        Press ↵ to submit · Skip to pass
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+
+                  {status !== "loading" && !session && !showInputHint && (
+                    <p className="pb-1.5 text-[10px] text-white/45">
+                      <Link
+                        href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`}
+                        className="text-[#DEF2F1] underline underline-offset-2"
+                      >
+                        Sign in
+                      </Link>{" "}
+                      to save your streak
+                    </p>
+                  )}
+                </>
+              ) : (
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={myAnswer!.isCorrect ? "correct" : "wrong"}
+                    initial={
+                      reduceMotion
+                        ? false
+                        : myAnswer!.isCorrect
+                          ? { scale: 0.96, opacity: 0 }
+                          : { x: 0 }
+                    }
+                    animate={
+                      reduceMotion
+                        ? { opacity: 1 }
+                        : myAnswer!.isCorrect
+                          ? { scale: 1, opacity: 1 }
+                          : { x: [0, -8, 8, -6, 6, 0] }
+                    }
+                    transition={
+                      myAnswer!.isCorrect
+                        ? { type: "spring", stiffness: 320, damping: 22 }
+                        : { duration: 0.36 }
+                    }
+                    className="pb-2"
+                  >
+                    <p className="text-sm">
+                      You said{" "}
+                      <span className="font-semibold text-white">{myAnswer!.chosenOption}</span>{" "}
+                      {myAnswer!.isCorrect ? (
+                        <span className="text-[#3AAFA9]">✓</span>
+                      ) : (
+                        <span className="text-red-300/85">· was {stats!.staffAnswer}</span>
+                      )}
+                    </p>
+                    <div className="mt-1.5 space-y-0.5">
+                      {stats!.stats.slice(0, 4).map((s) => (
+                        <div key={s.option} className="flex items-center gap-1.5 text-[11px]">
+                          <span className="w-16 truncate text-white/80">{s.option}</span>
+                          <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
+                            <div className="h-full rounded bg-[#3AAFA9]/70" style={{ width: `${s.percent}%` }} />
+                          </div>
+                          <span className="w-7 text-right tabular-nums text-white/55">{s.percent}%</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-2 flex items-center justify-between gap-2">
+                      <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">
+                        Archive
+                      </Link>
+                      {hasNext && (
+                        <motion.button
+                          type="button"
+                          onClick={onAdvance}
+                          whileTap={reduceMotion ? undefined : { scale: 0.95 }}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-[#3AAFA9] px-3 py-1.5 text-xs font-semibold text-[#17252A] hover:bg-[#59c8c3]"
+                        >
+                          Next
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                            <path d="M2 5h6M6 2.5L8.5 5L6 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </motion.button>
+                      )}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               )}
-            </AnimatePresence>
-            {submitError && (
-              <p
-                id={`species-error-${snippet.id}`}
-                role="alert"
-                className="mb-3 text-xs font-medium text-red-200"
-              >
-                {submitError}
-              </p>
-            )}
-            <motion.button
-              type="button"
-              onClick={handleConfirmAndAdvance}
-              disabled={!answerText.trim() || submitting}
-              aria-busy={submitting}
-              whileTap={!submitting && answerText.trim() && !reduceMotion ? { scale: 0.97 } : undefined}
-              className="w-full inline-flex items-center justify-center min-h-[44px] rounded-full bg-[#3AAFA9] px-4 py-2.5 text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3] disabled:cursor-not-allowed disabled:bg-[#3AAFA9]/70 disabled:text-[#17252A]/70 sm:w-auto"
-            >
-              {submitting ? "Submitting…" : hasNext ? "Confirm and load next video" : "Confirm selection"}
-            </motion.button>
-            {status !== "loading" && !session && (
-              <p className="mt-2 text-xs text-white/75">
-                <Link
-                  href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`}
-                  className="text-[#DEF2F1] underline underline-offset-4"
-                >
-                  Sign in
-                </Link>{" "}
-                to record your answer and keep your PEBL streak alive.
-              </p>
-            )}
-          </>
-        ) : (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={myAnswer!.isCorrect ? "correct" : "wrong"}
-              initial={
-                reduceMotion
-                  ? false
-                  : myAnswer!.isCorrect
-                    ? { scale: 0.9, opacity: 0 }
-                    : { x: 0 }
-              }
-              animate={
-                reduceMotion
-                  ? { opacity: 1 }
-                  : myAnswer!.isCorrect
-                    ? { scale: 1, opacity: 1 }
-                    : { x: [0, -10, 10, -8, 8, 0] }
-              }
-              transition={
-                myAnswer!.isCorrect
-                  ? { type: "spring", stiffness: 300, damping: 20 }
-                  : { duration: 0.4 }
-              }
-              className="space-y-3"
-            >
-              <p className="text-sm font-medium text-[#DEF2F1]">
-                You said: {myAnswer!.chosenOption}{" "}
-                {myAnswer!.isCorrect && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
-                  >
-                    ✓ Correct!
-                  </motion.span>
-                )}
-              </p>
-              <div className="text-xs">
-                <h3 className="mb-1 font-medium uppercase tracking-[0.14em] text-white/80">
-                  Community response
-                </h3>
-                <ul className="space-y-0.5">
-                  {stats!.stats.slice(0, 4).map((s) => (
-                    <li key={s.option} className="flex items-center gap-2">
-                      <span className="w-20">{s.option}</span>
-                      <span className="text-white/65">{s.percent}%</span>
-                      <div className="max-w-[120px] flex-1 overflow-hidden rounded bg-white/12 h-1.5">
-                        <div className="h-full rounded bg-[#3AAFA9]" style={{ width: `${s.percent}%` }} />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-2 text-white/65">PEBL reference: {stats!.staffAnswer}</p>
-              </div>
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-white/75">
-                {hasNext && (
-                  <motion.button
-                    type="button"
-                    onClick={onAdvance}
-                    whileTap={{ scale: 0.97 }}
-                    className="rounded-full bg-[#3AAFA9] px-4 py-2 text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3]"
-                  >
-                    Load next video
-                  </motion.button>
-                )}
-                <Link href="/feed/browse" className="text-[#DEF2F1] underline underline-offset-4">
-                  Open archive
-                </Link>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          </motion.aside>
         )}
-      </aside>
+      </AnimatePresence>
       {hasLocation && (
         <MapModal
           open={mapOpen}
