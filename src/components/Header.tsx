@@ -2,128 +2,84 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
-import { useState, useEffect } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { PwaInstallButton } from "@/components/PwaInstallButton";
+import { useState } from "react";
 import { SettingsMenu } from "@/components/SettingsMenu";
-import { isSoundsEnabled, setSoundsEnabled } from "@/lib/sounds";
+import { SideMenu } from "@/components/SideMenu";
+
+const overlayTextShadow = "0 1px 3px rgba(0,0,0,0.55)";
 
 export function Header() {
-  const { data: session, status } = useSession();
-  const pathname = usePathname();
-  const onFeed = pathname?.startsWith("/feed") ?? false;
-  const [streak, setStreak] = useState<number | null>(null);
-  const [soundsOn, setSoundsOn] = useState(true);
-  const reduceMotion = useReducedMotion();
+  const pathname = usePathname() ?? "/";
+  // Overlay style (transparent, video fills viewport) only on the live feed.
+  // Browse / archive / other pages keep the standard slim solid bar.
+  const onFeed = pathname === "/feed";
+  const showSettings = onFeed;
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setSoundsOn(isSoundsEnabled());
-    const onSoundsChanged = () => setSoundsOn(isSoundsEnabled());
-    window.addEventListener("fishspotter:soundsChanged", onSoundsChanged);
-    return () => window.removeEventListener("fishspotter:soundsChanged", onSoundsChanged);
-  }, []);
-
-  useEffect(() => {
-    if (!session?.user) {
-      setStreak(null);
-      return;
-    }
-    fetch("/api/streak")
-      .then((res) => res.json())
-      .then((data) => setStreak(data.currentStreak ?? 0))
-      .catch(() => setStreak(0));
-  }, [session?.user]);
-
-  useEffect(() => {
-    const onStreakUpdate = () => {
-      if (session?.user) {
-        fetch("/api/streak")
-          .then((res) => res.json())
-          .then((data) => setStreak(data.currentStreak ?? 0))
-          .catch(() => {});
-      }
-    };
-    window.addEventListener("fishspotter:streak", onStreakUpdate);
-    return () => window.removeEventListener("fishspotter:streak", onStreakUpdate);
-  }, [session?.user]);
-
-  const navItemClass =
-    "pebl-button-secondary inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full px-3 py-2 text-sm font-medium";
-  const primaryItemClass =
-    "pebl-button-primary inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full px-4 py-2 text-sm font-semibold";
+  // On /feed: render as a transparent overlay so the video fills the viewport.
+  // Elsewhere: render a slim solid bar.
+  const wrapClass = onFeed
+    ? "pointer-events-none absolute inset-x-0 top-0 z-40"
+    : "relative z-40 border-b border-[color:var(--border)] bg-[color:var(--surface)]/88 backdrop-blur";
 
   return (
-    <header className="border-b border-[color:var(--border)] bg-[color:var(--surface)]/88 px-4 py-2 backdrop-blur">
-      <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
-        <Link
-          href="/"
-          className="shrink-0 inline-flex flex-col gap-0.5 min-h-[44px] justify-center"
-          aria-label="PEBL FishSpotter home"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/branding/PEBL Logo-1.svg"
-            alt=""
-            aria-hidden
-            className="h-7 w-auto md:h-10"
-          />
-          <span className="hidden md:block text-[10px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            FishSpotter
-          </span>
-        </Link>
-        <nav className="flex items-center gap-1.5 md:gap-2" aria-label="Primary">
-          <Link href="/feed" className={`${navItemClass} hidden md:inline-flex`}>
-            Live feed
-          </Link>
-          <Link href="/feed/browse" className={`${navItemClass} hidden md:inline-flex`}>
-            Archive
-          </Link>
-          <Link href="/leaderboard" className={`${navItemClass} hidden md:inline-flex`}>
-            Community
-          </Link>
-          <PwaInstallButton />
+    <>
+      <header
+        className={wrapClass}
+        style={onFeed ? { paddingTop: "max(0.5rem, env(safe-area-inset-top))" } : undefined}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2">
+          {/* Left: back-arrow → opens drawer */}
           <button
             type="button"
-            onClick={() => {
-              setSoundsEnabled(!soundsOn);
-              setSoundsOn(!soundsOn);
-            }}
-            className={navItemClass}
-            aria-label={soundsOn ? "Sound on — tap to mute" : "Sound off — tap to unmute"}
-            aria-pressed={soundsOn}
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full ${
+              onFeed
+                ? "text-white/90 hover:bg-white/10"
+                : "text-[color:var(--foreground)] hover:bg-[color:var(--surface-muted)]"
+            }`}
+            style={onFeed ? { textShadow: overlayTextShadow } : undefined}
           >
-            <span className="hidden md:inline">{soundsOn ? "Sound on" : "Sound off"}</span>
-            <span className="md:hidden" aria-hidden>{soundsOn ? "🔊" : "🔇"}</span>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path
+                d="M11.25 4L6 9l5.25 5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
-          {session && streak !== null && streak > 0 && (
-            <motion.span
-              className="inline-flex items-center gap-1 min-h-[44px] rounded-full border border-[color:var(--primary)]/20 bg-[color:var(--surface-muted)] px-3 py-1.5 text-sm font-medium text-[color:var(--primary)]"
-              role="status"
-              aria-live="polite"
-              aria-label={`Current streak: ${streak} day${streak === 1 ? "" : "s"}`}
-              animate={reduceMotion ? undefined : { scale: [1, 1.12, 1] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            >
-              <span aria-hidden>🔥</span>
-              <span className="hidden sm:inline">{streak} day streak</span>
-              <span className="sm:hidden">{streak}</span>
-            </motion.span>
-          )}
-          {status === "loading" ? (
-            <span className="text-sm text-[color:var(--muted)]">…</span>
-          ) : session ? (
-            <button type="button" onClick={() => signOut()} className={primaryItemClass}>
-              Sign out
-            </button>
+
+          {/* Center: PEBL wordmark */}
+          <Link
+            href="/"
+            aria-label="PEBL FishSpotter home"
+            className="pointer-events-auto inline-flex shrink-0 items-center justify-center"
+            style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/branding/PEBL Logo-1.svg"
+              alt=""
+              aria-hidden
+              className={onFeed ? "h-7 w-auto opacity-50 md:h-8" : "h-7 w-auto md:h-9"}
+            />
+          </Link>
+
+          {/* Right: settings kebab (feed only) or spacer to keep logo centered */}
+          {showSettings ? (
+            <div className="pointer-events-auto">
+              <SettingsMenu />
+            </div>
           ) : (
-            <Link href="/auth/signin" className={primaryItemClass}>
-              Sign in
-            </Link>
+            <span className="inline-block min-h-[44px] min-w-[44px]" aria-hidden />
           )}
-          {onFeed && <SettingsMenu />}
-        </nav>
-      </div>
-    </header>
+        </div>
+      </header>
+      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+    </>
   );
 }

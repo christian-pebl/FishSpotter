@@ -42,7 +42,8 @@ export function SettingsMenu() {
         aria-label="Settings"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className="pebl-button-secondary inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full px-3 py-2"
+        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-white/90 hover:bg-white/10"
+        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.55)" }}
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
           <circle cx="8" cy="3" r="1.5" />

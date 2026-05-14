@@ -9,14 +9,28 @@ export const metadata: Metadata = {
 
 export default async function LeaderboardPage() {
   const answers = await prisma.answer.findMany({
-    select: { userId: true, isCorrect: true },
+    select: { userId: true, isCorrect: true, chosenOption: true },
   });
   const byUser: Record<string, { correct: number; total: number }> = {};
+  const byOption: Record<string, number> = {};
   for (const a of answers) {
     if (!byUser[a.userId]) byUser[a.userId] = { correct: 0, total: 0 };
     byUser[a.userId].total += 1;
     if (a.isCorrect) byUser[a.userId].correct += 1;
+    if (a.chosenOption) {
+      const key = a.chosenOption.trim();
+      if (key) byOption[key] = (byOption[key] ?? 0) + 1;
+    }
   }
+  const totalAnswers = answers.length;
+  const topAnswers = Object.entries(byOption)
+    .map(([option, count]) => ({
+      option,
+      count,
+      percent: totalAnswers > 0 ? Math.round((count / totalAnswers) * 100) : 0,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 12);
   const users = await prisma.user.findMany({
     where: { id: { in: Object.keys(byUser) } },
     select: { id: true, displayName: true, name: true },
@@ -77,6 +91,35 @@ export default async function LeaderboardPage() {
             </table>
           </div>
         )}
+
+        <section className="pebl-surface rounded-[22px] px-6 py-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--primary)]">Community guesses</p>
+          <h2 className="mt-1 font-brand-heading text-2xl font-bold text-[color:var(--foreground)]">Most common species answers</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+            What spotters are naming most often across the live feed. {totalAnswers > 0 ? `${totalAnswers} total observations.` : ""}
+          </p>
+          {topAnswers.length === 0 ? (
+            <p className="mt-4 text-sm text-[color:var(--muted)]">No observations recorded yet.</p>
+          ) : (
+            <ul className="mt-4 space-y-1.5">
+              {topAnswers.map((row, i) => (
+                <li key={row.option} className="flex items-center gap-3 text-sm">
+                  <span className="w-6 text-right font-mono text-xs text-[color:var(--muted)]">#{i + 1}</span>
+                  <span className="w-40 truncate text-[color:var(--foreground)]">{row.option}</span>
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--surface-muted)]">
+                    <div
+                      className="h-full rounded-full bg-[color:var(--primary)]"
+                      style={{ width: `${Math.max(2, row.percent)}%` }}
+                    />
+                  </div>
+                  <span className="w-16 text-right tabular-nums text-xs text-[color:var(--muted)]">
+                    {row.count} · {row.percent}%
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </main>
     </div>
   );

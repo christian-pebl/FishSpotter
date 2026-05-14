@@ -119,6 +119,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
+  const [hasIdentifiedOnce, setHasIdentifiedOnce] = useState(true); // optimistic; corrected on mount
   const [showInputHint, setShowInputHint] = useState(false);
   const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
   const [keyboardOffset, setKeyboardOffset] = useState(0);
@@ -136,6 +137,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       if (localStorage.getItem("fishspotter:panelCollapsed") === "1") {
         setPanelCollapsed(true);
       }
+      setHasIdentifiedOnce(localStorage.getItem("fishspotter:hasIdentified") === "1");
     } catch {}
   }, []);
   const togglePanel = useCallback((next: boolean) => {
@@ -637,17 +639,49 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           <motion.button
             key="collapsed-pill"
             type="button"
-            onClick={() => togglePanel(false)}
-            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
-            transition={{ duration: 0.18 }}
-            className="absolute left-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#17252A]/72 px-3 py-2 text-xs font-semibold text-[#DEF2F1] shadow-lg backdrop-blur-md hover:bg-[#17252A]/85"
+            onClick={() => {
+              togglePanel(false);
+              try {
+                localStorage.setItem("fishspotter:hasIdentified", "1");
+              } catch {}
+            }}
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={
+              reduceMotion
+                ? { opacity: 1 }
+                : hasIdentifiedOnce
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 1, y: 0, scale: [1, 1.04, 1] }
+            }
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            transition={
+              reduceMotion
+                ? { duration: 0.18 }
+                : hasIdentifiedOnce
+                  ? { duration: 0.22, ease: "easeOut" }
+                  : {
+                      opacity: { duration: 0.22 },
+                      y: { duration: 0.22 },
+                      scale: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                    }
+            }
+            aria-label="Name this species"
+            className="absolute left-1/2 z-30 inline-flex min-h-[46px] -translate-x-1/2 items-center gap-2 rounded-full bg-[#3AAFA9] px-5 text-sm font-semibold text-[#17252A] shadow-[0_8px_22px_rgba(0,0,0,0.45),0_0_0_3px_rgba(58,175,169,0.18)] hover:bg-[#59c8c3]"
             style={{ bottom: `calc(0.5rem + env(safe-area-inset-bottom))` }}
           >
-            Identify
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
+              <circle cx="10" cy="7" r="0.9" fill="#17252A" />
+            </svg>
+            Name this species
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M3 7.5L6 4.5L9 7.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </motion.button>
         )}
