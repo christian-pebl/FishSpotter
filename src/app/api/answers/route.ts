@@ -1,9 +1,17 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { assertSameOrigin } from "@/lib/csrf";
 
 const MAX_ANSWER_LENGTH = 80;
+
+const AnswerSchema = z.object({
+  snippetId: z.string().min(1).max(64),
+  chosenOption: z.string().min(1).max(MAX_ANSWER_LENGTH),
+  skipCorrection: z.boolean().optional(),
+});
 
 function normalizeAnswer(value: string) {
   return value
@@ -80,31 +88,26 @@ function getCorrectionSuggestion(answer: string, candidates: string[]) {
 }
 
 export async function POST(req: Request) {
+  if (!assertSameOrigin(req)) {
+    return NextResponse.json({ error: "Bad origin" }, { status: 403 });
+  }
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const { snippetId, chosenOption, skipCorrection } = body as {
-    snippetId?: string;
-    chosenOption?: string;
-    skipCorrection?: boolean;
-  };
-
-  if (!snippetId || !chosenOption) {
-    return NextResponse.json(
-      { error: "snippetId and chosenOption required" },
-      { status: 400 }
-    );
+  let parsed;
+  try {
+    parsed = AnswerSchema.parse(await req.json());
+  } catch {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
+  const { snippetId, chosenOption, skipCorrection } = parsed;
   const option = chosenOption.trim();
-  if (option.length === 0 || option.length > MAX_ANSWER_LENGTH) {
-    return NextResponse.json(
-      { error: `Answer must be between 1 and ${MAX_ANSWER_LENGTH} characters` },
-      { status: 400 }
-    );
+  if (option.length === 0) {
+    return NextResponse.json({ error: "Answer required" }, { status: 400 });
   }
 
   const snippet = await prisma.snippet.findUnique({

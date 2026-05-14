@@ -1,0 +1,75 @@
+{
+  "captured_at": "2026-05-14T07:43:50Z",
+  "viewport": "375x812",
+  "routes": {
+    "/": {
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store, must-revalidate",
+        "content-type": "text/html; charset=utf-8",
+        "x-powered-by": "Next.js",
+        "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding"
+      }
+    },
+    "/feed": {
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store, must-revalidate",
+        "content-type": "text/html; charset=utf-8",
+        "x-powered-by": "Next.js"
+      }
+    },
+    "/leaderboard": {
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store, must-revalidate",
+        "content-type": "text/html; charset=utf-8",
+        "x-powered-by": "Next.js"
+      }
+    },
+    "/api/snippets": {
+      "status": 200,
+      "headers": {
+        "content-type": "application/json"
+      }
+    },
+    "/api/auth/session": {
+      "status": 200,
+      "headers": {
+        "cache-control": "private, no-cache, no-store",
+        "content-type": "application/json",
+        "expires": "0",
+        "pragma": "no-cache"
+      }
+    },
+    "/api/leaderboard": {
+      "status": 200,
+      "headers": {
+        "content-type": "application/json"
+      }
+    }
+  },
+  "missing_security_headers_all_routes": [
+    "Content-Security-Policy",
+    "X-Frame-Options",
+    "X-Content-Type-Options",
+    "Referrer-Policy",
+    "Permissions-Policy",
+    "Strict-Transport-Security"
+  ],
+  "leaked_headers": ["x-powered-by: Next.js"],
+  "api_payload_checks": {
+    "GET /api/snippets": {
+      "keys": ["id","externalId","thumbnailUrl","videoUrl","site","deployment","depthM","recordingDatetime","labelStatus"],
+      "staffAnswer_exposed": false
+    },
+    "GET /api/leaderboard": {
+      "keys_per_entry": ["userId","displayName","correct","total","score"],
+      "email_exposed": false
+    },
+    "POST /api/answers (unauthenticated)": {
+      "status": 401,
+      "body": "{\"error\":\"Unauthorized\"}"
+    }
+  }
+}

@@ -17,14 +17,18 @@ export async function GET() {
 
   const users = await prisma.user.findMany({
     where: { id: { in: Object.keys(byUser) } },
-    select: { id: true, displayName: true, name: true, email: true },
+    select: { id: true, displayName: true, name: true },
   });
-  const userMap = Object.fromEntries(users.map((u) => [u.id, u]));
+  type UserRow = { id: string; displayName: string | null; name: string | null };
+  const userMap = Object.fromEntries(users.map((u: UserRow) => [u.id, u]));
 
   const leaderboard = Object.entries(byUser)
     .map(([userId, { correct, total }]) => ({
       userId,
-      displayName: userMap[userId]?.displayName ?? userMap[userId]?.name ?? userMap[userId]?.email?.split("@")[0] ?? "Anonymous",
+      displayName:
+        userMap[userId]?.displayName ??
+        userMap[userId]?.name ??
+        `User ${userId.slice(0, 6)}`,
       correct,
       total,
       score: correct * 1 + (total - correct) * 0.5,

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { isSoundsEnabled, setSoundsEnabled } from "@/lib/sounds";
 
@@ -11,6 +11,7 @@ export function Header() {
   const { data: session, status } = useSession();
   const [streak, setStreak] = useState<number | null>(null);
   const [soundsOn, setSoundsOn] = useState(true);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     setSoundsOn(isSoundsEnabled());
@@ -43,28 +44,38 @@ export function Header() {
     return () => window.removeEventListener("fishspotter:streak", onStreakUpdate);
   }, [session?.user]);
 
+  const navItemClass =
+    "pebl-button-secondary inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full px-3 py-2 text-sm font-medium";
+  const primaryItemClass =
+    "pebl-button-primary inline-flex items-center justify-center min-h-[44px] min-w-[44px] rounded-full px-4 py-2 text-sm font-semibold";
+
   return (
     <header className="border-b border-[color:var(--border)] bg-[color:var(--surface)]/88 px-4 py-2 backdrop-blur">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
-        <Link href="/" className="shrink-0 flex flex-col gap-0.5">
+        <Link
+          href="/"
+          className="shrink-0 inline-flex flex-col gap-0.5 min-h-[44px] justify-center"
+          aria-label="PEBL FishSpotter home"
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/branding/PEBL Logo-1.svg"
-            alt="PEBL FishSpotter"
+            alt=""
+            aria-hidden
             className="h-7 w-auto md:h-10"
           />
           <span className="hidden md:block text-[10px] uppercase tracking-[0.2em] text-[color:var(--muted)]">
             FishSpotter
           </span>
         </Link>
-        <nav className="flex items-center gap-1.5 md:gap-2">
-          <Link href="/feed" className="hidden md:inline-flex pebl-button-secondary rounded-full px-3 py-1.5 text-sm font-medium">
+        <nav className="flex items-center gap-1.5 md:gap-2" aria-label="Primary">
+          <Link href="/feed" className={`${navItemClass} hidden md:inline-flex`}>
             Live feed
           </Link>
-          <Link href="/feed/browse" className="hidden md:inline-flex pebl-button-secondary rounded-full px-3 py-1.5 text-sm font-medium">
+          <Link href="/feed/browse" className={`${navItemClass} hidden md:inline-flex`}>
             Archive
           </Link>
-          <Link href="/leaderboard" className="hidden md:inline-flex pebl-button-secondary rounded-full px-3 py-1.5 text-sm font-medium">
+          <Link href="/leaderboard" className={`${navItemClass} hidden md:inline-flex`}>
             Community
           </Link>
           <PwaInstallButton />
@@ -74,18 +85,20 @@ export function Header() {
               setSoundsEnabled(!soundsOn);
               setSoundsOn(!soundsOn);
             }}
-            className="pebl-button-secondary rounded-full px-2.5 py-1.5 text-sm font-medium"
-            title={soundsOn ? "Mute sounds" : "Unmute sounds"}
-            aria-label={soundsOn ? "Mute sounds" : "Unmute sounds"}
+            className={navItemClass}
+            aria-label={soundsOn ? "Sound on — tap to mute" : "Sound off — tap to unmute"}
+            aria-pressed={soundsOn}
           >
             <span className="hidden md:inline">{soundsOn ? "Sound on" : "Sound off"}</span>
             <span className="md:hidden" aria-hidden>{soundsOn ? "🔊" : "🔇"}</span>
           </button>
           {session && streak !== null && streak > 0 && (
             <motion.span
-              className="flex items-center gap-1 rounded-full border border-[color:var(--primary)]/20 bg-[color:var(--surface-muted)] px-2.5 py-1.5 text-sm font-medium text-[color:var(--primary)]"
-              title="Current streak"
-              animate={{ scale: [1, 1.12, 1] }}
+              className="inline-flex items-center gap-1 min-h-[44px] rounded-full border border-[color:var(--primary)]/20 bg-[color:var(--surface-muted)] px-3 py-1.5 text-sm font-medium text-[color:var(--primary)]"
+              role="status"
+              aria-live="polite"
+              aria-label={`Current streak: ${streak} day${streak === 1 ? "" : "s"}`}
+              animate={reduceMotion ? undefined : { scale: [1, 1.12, 1] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             >
               <span aria-hidden>🔥</span>
@@ -96,15 +109,11 @@ export function Header() {
           {status === "loading" ? (
             <span className="text-sm text-[color:var(--muted)]">…</span>
           ) : session ? (
-            <button
-              type="button"
-              onClick={() => signOut()}
-              className="pebl-button-primary rounded-full px-3 py-1.5 text-sm font-semibold"
-            >
+            <button type="button" onClick={() => signOut()} className={primaryItemClass}>
               Sign out
             </button>
           ) : (
-            <Link href="/auth/signin" className="pebl-button-primary rounded-full px-3 py-1.5 text-sm font-semibold">
+            <Link href="/auth/signin" className={primaryItemClass}>
               Sign in
             </Link>
           )}

@@ -2,6 +2,7 @@ import confetti from "canvas-confetti";
 
 export function triggerCorrectConfetti(): void {
   if (typeof window === "undefined") return;
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
   // Ocean-themed colors: teals, blues, corals, sandy gold
   const colors = ["#06b6d4", "#0ea5e9", "#f97316", "#fbbf24", "#34d399", "#a78bfa"];

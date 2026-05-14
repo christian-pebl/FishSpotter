@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 
 interface SnippetPlayerProps {
@@ -33,6 +33,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
     handleSubmit,
   } = useCreatureQuiz(snippet, `/feed/${snippet.id}`);
 
+  const reduceMotion = useReducedMotion();
   const showStats = myAnswer && stats;
 
   return (
@@ -84,6 +85,8 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                 }
               }}
               autoComplete="off"
+              aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
+              aria-invalid={!!submitError}
               className="mb-4 w-full max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] outline-none placeholder:text-[color:var(--muted)] focus:border-[color:var(--primary)]"
               style={{
                 color: "var(--foreground)",
@@ -95,9 +98,17 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
               {correction && (
                 <motion.div
                   key="correction"
-                  initial={{ opacity: 0, y: -4 }}
+                  initial={reduceMotion ? false : { opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                  role="dialog"
+                  aria-label="Spelling suggestion"
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      e.stopPropagation();
+                      void submitOriginal();
+                    }
+                  }}
                   className="mb-4 max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] p-4"
                 >
                   <p className="text-sm text-[color:var(--muted)]">
@@ -107,16 +118,17 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                     <motion.button
                       type="button"
                       onClick={acceptCorrection}
-                      whileTap={{ scale: 0.97 }}
-                      className="pebl-button-primary rounded-full px-4 py-2 text-sm font-semibold"
+                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                      autoFocus
+                      className="pebl-button-primary inline-flex items-center justify-center min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold"
                     >
                       Yes, use that
                     </motion.button>
                     <motion.button
                       type="button"
                       onClick={submitOriginal}
-                      whileTap={{ scale: 0.97 }}
-                      className="pebl-button-secondary rounded-full px-4 py-2 text-sm font-semibold"
+                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                      className="pebl-button-secondary inline-flex items-center justify-center min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold"
                     >
                       Use my answer
                     </motion.button>
@@ -125,7 +137,13 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
               )}
             </AnimatePresence>
             {submitError && (
-              <p className="mb-4 text-sm font-medium text-red-700">{submitError}</p>
+              <p
+                id={`species-error-${snippet.id}`}
+                role="alert"
+                className="mb-4 text-sm font-medium text-red-700"
+              >
+                {submitError}
+              </p>
             )}
             <motion.button
               type="button"
@@ -133,8 +151,9 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                 void handleSubmit();
               }}
               disabled={!answerText.trim() || submitting}
-              whileTap={!submitting && answerText.trim() ? { scale: 0.97 } : undefined}
-              className="pebl-button-primary rounded-full px-6 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+              aria-busy={submitting}
+              whileTap={!submitting && answerText.trim() && !reduceMotion ? { scale: 0.97 } : undefined}
+              className="pebl-button-primary inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 font-semibold disabled:cursor-not-allowed disabled:bg-[color:var(--accent)]/70 disabled:text-[color:var(--foreground)]/70"
             >
               {submitting ? "Submitting…" : "Confirm selection"}
             </motion.button>
@@ -150,11 +169,19 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
           <AnimatePresence mode="wait">
             <motion.div
               key={myAnswer.isCorrect ? "correct" : "wrong"}
-              initial={myAnswer.isCorrect ? { scale: 0.9, opacity: 0 } : { x: 0 }}
+              initial={
+                reduceMotion
+                  ? false
+                  : myAnswer.isCorrect
+                    ? { scale: 0.9, opacity: 0 }
+                    : { x: 0 }
+              }
               animate={
-                myAnswer.isCorrect
-                  ? { scale: 1, opacity: 1 }
-                  : { x: [0, -10, 10, -8, 8, 0] }
+                reduceMotion
+                  ? { opacity: 1 }
+                  : myAnswer.isCorrect
+                    ? { scale: 1, opacity: 1 }
+                    : { x: [0, -10, 10, -8, 8, 0] }
               }
               transition={
                 myAnswer.isCorrect

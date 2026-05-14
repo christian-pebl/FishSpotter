@@ -20,9 +20,13 @@ function SignInForm() {
     setError("");
     setLoading(true);
     try {
+      if (password.length < 8) {
+        setError("Password must be at least 8 characters.");
+        return;
+      }
       const res = await signIn("credentials", {
         email,
-        password: password || " ",
+        password,
         name,
         isSignUp: isSignUp ? "true" : "false",
         redirect: false,
@@ -41,7 +45,7 @@ function SignInForm() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <main className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
+      <main id="main" className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
         <div className="pebl-surface w-full rounded-[28px] p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--primary)]">PEBL community access</p>
           <h1 className="mt-3 font-brand-heading text-3xl text-[color:var(--foreground)]">
@@ -53,12 +57,14 @@ function SignInForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
-              Email
+              Email <span aria-hidden className="text-red-600">*</span>
             </label>
             <input
               id="email"
               type="email"
               required
+              aria-required="true"
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
@@ -81,21 +87,30 @@ function SignInForm() {
           )}
           <div>
             <label htmlFor="password" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
-              Password (optional for demo)
+              Password <span aria-hidden className="text-red-600">*</span>
+              <span className="ml-2 text-xs font-normal text-[color:var(--muted)]">(at least 8 characters)</span>
             </label>
             <input
               id="password"
               type="password"
+              required
+              minLength={8}
+              aria-required="true"
+              aria-describedby={error ? "auth-error" : undefined}
+              autoComplete={isSignUp ? "new-password" : "current-password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
             />
           </div>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && (
+            <p id="auth-error" role="alert" className="text-sm text-red-600">{error}</p>
+          )}
           <button
             type="submit"
             disabled={loading}
-            className="pebl-button-primary w-full rounded-full py-3 font-semibold disabled:opacity-50"
+            aria-busy={loading}
+            className="pebl-button-primary inline-flex w-full items-center justify-center min-h-[44px] rounded-full py-3 font-semibold disabled:cursor-not-allowed disabled:bg-[color:var(--accent)]/70 disabled:text-[color:var(--foreground)]/70"
           >
             {loading ? "Please wait…" : isSignUp ? "Create account" : "Sign in"}
           </button>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 
@@ -111,6 +111,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const traceGlowRef = useRef<SVGPolylineElement>(null);
   const traceRef = useRef<SVGPolylineElement>(null);
   const highlightRef = useRef<SVGRectElement>(null);
+  const correctionAcceptRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
   const {
     session,
     status,
@@ -216,13 +218,25 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       <div className="relative min-h-0 flex-1 overflow-hidden bg-black">
         <video
           ref={videoRef}
-          src={snippet.videoUrl}
+          {...(preload ? { src: snippet.videoUrl } : {})}
           poster={snippet.thumbnailUrl}
           muted
           playsInline
           loop
-          preload={preload ? "auto" : "metadata"}
-          className="absolute inset-0 w-full h-full object-cover"
+          preload={isActive ? "auto" : preload ? "metadata" : "none"}
+          tabIndex={isActive ? 0 : -1}
+          aria-label={`Underwater clip from ${snippet.site} ${snippet.deployment}. Press space to play or pause.`}
+          onKeyDown={(e) => {
+            if (!isActive) return;
+            if (e.key === " " || e.key === "k") {
+              e.preventDefault();
+              const v = videoRef.current;
+              if (!v) return;
+              if (v.paused) v.play().catch(() => {});
+              else v.pause();
+            }
+          }}
+          className="absolute inset-0 w-full h-full object-cover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
           style={{ transition: "object-position 80ms linear" }}
         />
         {hasBboxes && (
@@ -287,6 +301,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                   }
                 }}
                 autoComplete="off"
+                aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
+                aria-invalid={!!submitError}
                 className="mb-3 w-full rounded-2xl border border-white/30 bg-white px-3 py-2.5 text-sm text-[#17252A] outline-none placeholder:text-[#17252A]/55 focus:border-[#DEF2F1]"
                 style={{ color: "#17252A", WebkitTextFillColor: "#17252A", caretColor: "#2B7A78" }}
               />
@@ -294,9 +310,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                 {correction && (
                   <motion.div
                     key="correction"
-                    initial={{ opacity: 0, y: -4 }}
+                    initial={reduceMotion ? false : { opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
+                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
+                    role="dialog"
+                    aria-label="Spelling suggestion"
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        e.stopPropagation();
+                        void submitAndAdvance(submitOriginal);
+                      }
+                    }}
+                    ref={(el) => {
+                      if (el) {
+                        const t = window.setTimeout(() => correctionAcceptRef.current?.focus(), 0);
+                        return () => window.clearTimeout(t);
+                      }
+                    }}
                     className="mb-3 rounded-2xl border border-white/18 bg-white/10 p-3"
                   >
                     <p className="text-sm text-white/86">
@@ -305,17 +335,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     <div className="mt-2 flex flex-wrap gap-2">
                       <motion.button
                         type="button"
+                        ref={correctionAcceptRef}
                         onClick={() => submitAndAdvance(acceptCorrection)}
-                        whileTap={{ scale: 0.97 }}
-                        className="rounded-full bg-[#DEF2F1] px-3 py-1.5 text-xs font-semibold text-[#17252A]"
+                        whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                        className="rounded-full bg-[#DEF2F1] min-h-[40px] px-3 py-1.5 text-xs font-semibold text-[#17252A]"
                       >
                         Yes, use that
                       </motion.button>
                       <motion.button
                         type="button"
                         onClick={() => submitAndAdvance(submitOriginal)}
-                        whileTap={{ scale: 0.97 }}
-                        className="rounded-full border border-white/30 px-3 py-1.5 text-xs font-semibold text-white hover:border-[#3AAFA9]"
+                        whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                        className="rounded-full border border-white/30 min-h-[40px] px-3 py-1.5 text-xs font-semibold text-white hover:border-[#3AAFA9]"
                       >
                         Use my answer
                       </motion.button>
@@ -324,14 +355,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                 )}
               </AnimatePresence>
               {submitError && (
-                <p className="mb-3 text-xs font-medium text-red-200">{submitError}</p>
+                <p
+                  id={`species-error-${snippet.id}`}
+                  role="alert"
+                  className="mb-3 text-xs font-medium text-red-200"
+                >
+                  {submitError}
+                </p>
               )}
               <motion.button
                 type="button"
                 onClick={handleConfirmAndAdvance}
                 disabled={!answerText.trim() || submitting}
-                whileTap={!submitting && answerText.trim() ? { scale: 0.97 } : undefined}
-                className="w-full rounded-full bg-[#3AAFA9] px-4 py-2.5 text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                aria-busy={submitting}
+                whileTap={!submitting && answerText.trim() && !reduceMotion ? { scale: 0.97 } : undefined}
+                className="w-full inline-flex items-center justify-center min-h-[44px] rounded-full bg-[#3AAFA9] px-4 py-2.5 text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3] disabled:cursor-not-allowed disabled:bg-[#3AAFA9]/70 disabled:text-[#17252A]/70 sm:w-auto"
               >
                 {submitting
                   ? "Submitting…"
@@ -351,11 +389,19 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             <AnimatePresence mode="wait">
               <motion.div
                 key={myAnswer!.isCorrect ? "correct" : "wrong"}
-                initial={myAnswer!.isCorrect ? { scale: 0.9, opacity: 0 } : { x: 0 }}
+                initial={
+                  reduceMotion
+                    ? false
+                    : myAnswer!.isCorrect
+                      ? { scale: 0.9, opacity: 0 }
+                      : { x: 0 }
+                }
                 animate={
-                  myAnswer!.isCorrect
-                    ? { scale: 1, opacity: 1 }
-                    : { x: [0, -10, 10, -8, 8, 0] }
+                  reduceMotion
+                    ? { opacity: 1 }
+                    : myAnswer!.isCorrect
+                      ? { scale: 1, opacity: 1 }
+                      : { x: [0, -10, 10, -8, 8, 0] }
                 }
                 transition={
                   myAnswer!.isCorrect
@@ -377,7 +423,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                   )}
                 </p>
                 <div className="text-xs">
-                  <p className="mb-1 font-medium uppercase tracking-[0.14em] text-white/80">Community response</p>
+                  <h3 className="mb-1 font-medium uppercase tracking-[0.14em] text-white/80">Community response</h3>
                   <ul className="space-y-0.5">
                     {stats!.stats.slice(0, 4).map((s) => (
                       <li key={s.option} className="flex items-center gap-2">

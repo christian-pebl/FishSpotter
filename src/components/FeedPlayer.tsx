@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FeedCard } from "./FeedCard";
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
@@ -33,14 +33,35 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hintVisible, setHintVisible] = useState(false);
   const [hintIsTouch, setHintIsTouch] = useState(false);
+  const reduceMotion = useReducedMotion();
 
-  const scrollToIndex = useCallback((index: number) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const next = el.querySelector<HTMLElement>(`[data-feed-index="${index}"]`);
-    if (!next) return;
-    el.scrollTo({ top: next.offsetTop, behavior: "smooth" });
-  }, []);
+  const scrollToIndex = useCallback(
+    (index: number) => {
+      const el = containerRef.current;
+      if (!el) return;
+      const clamped = Math.max(0, Math.min(snippets.length - 1, index));
+      const next = el.querySelector<HTMLElement>(`[data-feed-index="${clamped}"]`);
+      if (!next) return;
+      el.scrollTo({ top: next.offsetTop, behavior: reduceMotion ? "auto" : "smooth" });
+    },
+    [reduceMotion, snippets.length]
+  );
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
+      if (e.key === "ArrowDown" || e.key === "PageDown" || e.key === "j") {
+        e.preventDefault();
+        scrollToIndex(activeIndex + 1);
+      } else if (e.key === "ArrowUp" || e.key === "PageUp" || e.key === "k") {
+        e.preventDefault();
+        scrollToIndex(activeIndex - 1);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [activeIndex, scrollToIndex]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -122,22 +143,25 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
         {hintVisible && (
           <motion.div
             key="nav-hint"
-            initial={{ opacity: 0, y: 8 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
             transition={{ duration: 0.35 }}
-            className="pointer-events-none absolute inset-x-0 bottom-3 z-30 flex justify-center"
+            className="pointer-events-none absolute inset-x-0 z-30 flex justify-center"
+            style={{ bottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
           >
             <div className="flex items-center gap-2 rounded-full bg-black/55 px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-white/85 backdrop-blur-sm">
               <motion.span
                 aria-hidden
-                animate={{ y: [0, -3, 0] }}
+                animate={reduceMotion ? undefined : { y: [0, -3, 0] }}
                 transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
                 className="text-sm leading-none"
               >
                 ↑
               </motion.span>
-              <span>{hintIsTouch ? "Swipe up for next" : "Scroll for next"}</span>
+              <span>
+                {hintIsTouch ? "Swipe up for next" : "Use ↑/↓ or scroll for next"}
+              </span>
             </div>
           </motion.div>
         )}

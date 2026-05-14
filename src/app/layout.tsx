@@ -11,13 +11,14 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "PEBL FishSpotter",
+  title: { default: "PEBL FishSpotter", template: "%s · PEBL FishSpotter" },
   description: "Protecting Ecology Beyond Land through playful marine monitoring, community spotting, and short-form underwater clips.",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/icon.svg",
     apple: "/apple-touch-icon.svg",
   },
+  themeColor: "#2b7a78",
 };
 
 export default function RootLayout({
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased h-screen flex flex-col overflow-hidden`}>
+        <a href="#main" className="skip-link">Skip to main content</a>
         <SessionProvider>
           <PwaRegister />
           <Header />

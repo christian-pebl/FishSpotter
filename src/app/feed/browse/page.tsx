@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Archive — PEBL FishSpotter",
+};
 
 export default async function FeedBrowsePage() {
   const snippets = await prisma.snippet.findMany({
@@ -20,10 +25,10 @@ export default async function FeedBrowsePage() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8">
+      <main id="main" className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8">
         <div className="pebl-surface rounded-[28px] px-6 py-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--primary)]">Observation archive</p>
-          <h1 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">Browse the wider PEBL clip library</h1>
+          <p className="pebl-eyebrow text-xs">Observation archive</p>
+          <h1 className="mt-2 font-brand-heading text-3xl font-bold text-[color:var(--foreground)]">Browse the wider PEBL clip library</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
             Review archived sightings from marine monitoring deployments, open any clip, and add your identification to the community record.
           </p>
@@ -33,6 +38,7 @@ export default async function FeedBrowsePage() {
             <li key={s.id}>
               <Link
                 href={`/feed/${s.id}`}
+                aria-label={`Open clip from ${s.site}, ${s.deployment}`}
                 className="pebl-surface block overflow-hidden rounded-[24px] transition hover:-translate-y-0.5 hover:border-[color:var(--primary)]"
               >
                 <div className="relative aspect-video bg-[color:var(--surface-muted)]">
@@ -45,7 +51,7 @@ export default async function FeedBrowsePage() {
                   />
                 </div>
                 <div className="space-y-1 p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">PEBL sighting</p>
+                  <p className="pebl-eyebrow text-[11px]">PEBL sighting</p>
                   <p className="truncate text-base font-semibold text-[color:var(--foreground)]">{s.site}</p>
                   <p className="text-sm text-[color:var(--muted)]">{s.deployment}</p>
                 </div>
