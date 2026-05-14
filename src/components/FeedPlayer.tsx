@@ -22,6 +22,8 @@ export interface FeedSnippet {
   deployment: string;
   staffAnswer: string;
   bboxes: BBoxFrame[] | null;
+  lat: number | null;
+  lon: number | null;
 }
 
 interface FeedPlayerProps {

@@ -17,6 +17,8 @@ type FeedSnippetRow = {
   deployment: string;
   staffAnswer: string;
   bboxJson: string | null;
+  lat: number | null;
+  lon: number | null;
 };
 
 export default async function FeedPage() {
@@ -30,6 +32,8 @@ export default async function FeedPage() {
       deployment: true,
       staffAnswer: true,
       bboxJson: true,
+      lat: true,
+      lon: true,
     },
   });
 
@@ -41,6 +45,8 @@ export default async function FeedPage() {
     deployment: snippet.deployment,
     staffAnswer: snippet.staffAnswer,
     bboxes: snippet.bboxJson ? JSON.parse(snippet.bboxJson) : null,
+    lat: snippet.lat,
+    lon: snippet.lon,
   }));
 
   return (

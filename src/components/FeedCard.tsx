@@ -5,10 +5,20 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
+import { MiniMapStatic } from "./MiniMapStatic";
+import { MapModal } from "./MapModal";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 const TRACE_POINT_LIMIT = 40;
+// Bbox smoothing — lower = smoother trail, slightly more lag.
+const BBOX_SMOOTH_ALPHA = 0.15;
+// Camera follow — fish stays within deadzone, beyond which the view eases.
+const CAM_DEADZONE_X = 0.18;
+const CAM_DEADZONE_Y = 0.18;
+const CAM_FOLLOW = 0.06;
+// Min pixel delta before pushing a new point into the trail buffer.
+const TRAIL_MIN_STEP_PX = 3;
 
 interface Point {
   x: number;
@@ -59,7 +69,14 @@ function getBoxAtProgress(bboxes: BBoxFrame[], progress: number) {
   return interpolateBox(lower, upper, amount);
 }
 
-function getRenderedCenter(video: HTMLVideoElement, bbox: BBoxFrame) {
+// Computes the on-screen pixel center for a bbox given the current camera
+// objectPosition (camX, camY in 0..1). The caller owns smoothing/deadzone.
+function projectBoxToScreen(
+  video: HTMLVideoElement,
+  bbox: BBoxFrame,
+  camX: number,
+  camY: number
+) {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
   const cw = video.clientWidth;
@@ -73,16 +90,11 @@ function getRenderedCenter(video: HTMLVideoElement, bbox: BBoxFrame) {
   const overflowY = Math.max(0, renderedHeight - ch);
   const centerXNorm = bbox.x_norm + bbox.w_norm / 2;
   const centerYNorm = bbox.y_norm + bbox.h_norm / 2;
-  const objectX = overflowX > 0 ? clamp01((centerXNorm * renderedWidth - cw / 2) / overflowX) : 0.5;
-  const objectY = overflowY > 0 ? clamp01((centerYNorm * renderedHeight - ch / 2) / overflowY) : 0.5;
-  const left = -overflowX * objectX;
-  const top = -overflowY * objectY;
+  const left = -overflowX * camX;
+  const top = -overflowY * camY;
   const cx = left + centerXNorm * renderedWidth;
   const cy = top + centerYNorm * renderedHeight;
-
-  video.style.objectPosition = `${(objectX * 100).toFixed(2)}% ${(objectY * 100).toFixed(2)}%`;
-
-  return { cx, cy, viewWidth: cw, viewHeight: ch };
+  return { cx, cy, centerXNorm, centerYNorm, viewWidth: cw, viewHeight: ch };
 }
 
 // Catmull-Rom spline → cubic bezier SVG path for smooth curves through all stored points.
@@ -127,6 +139,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const glowGradRef = useRef<SVGLinearGradientElement>(null);
   const correctionAcceptRef = useRef<HTMLButtonElement>(null);
   const [showTracking, setShowTracking] = useState(true);
+  const [mapOpen, setMapOpen] = useState(false);
+  const hasLocation =
+    typeof snippet.lat === "number" &&
+    typeof snippet.lon === "number" &&
+    Number.isFinite(snippet.lat) &&
+    Number.isFinite(snippet.lon);
   const reduceMotion = useReducedMotion();
   const {
     session,
@@ -232,45 +250,89 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
 
     let raf = 0;
     let points: Point[] = [];
+    let smoothed: Point | null = null;
+    // Camera objectPosition in 0..1 — eased toward the fish, with a deadzone.
+    let camX = 0.5;
+    let camY = 0.5;
+    let lastCamXStr = "";
+    let lastCamYStr = "";
 
     const tick = () => {
       const dur = video.duration;
       if (Number.isFinite(dur) && dur > 0) {
         const t = Math.min(Math.max(video.currentTime, 0), dur);
         const bbox = getBoxAtProgress(bboxes, t / dur);
-        const rendered = bbox ? getRenderedCenter(video, bbox) : null;
 
-        if (rendered) {
-          overlay.setAttribute("viewBox", `0 0 ${rendered.viewWidth} ${rendered.viewHeight}`);
-          overlay.style.opacity = "1";
+        if (bbox) {
+          // Pre-project once with current camera to get the raw target offsets.
+          const probe = projectBoxToScreen(video, bbox, camX, camY);
+          if (probe) {
+            // Deadzone follow on the normalized target.
+            const dx = probe.centerXNorm - camX;
+            const dy = probe.centerYNorm - camY;
+            if (Math.abs(dx) > CAM_DEADZONE_X) {
+              const want = probe.centerXNorm - Math.sign(dx) * CAM_DEADZONE_X;
+              camX = clamp01(camX + (want - camX) * CAM_FOLLOW);
+            }
+            if (Math.abs(dy) > CAM_DEADZONE_Y) {
+              const want = probe.centerYNorm - Math.sign(dy) * CAM_DEADZONE_Y;
+              camY = clamp01(camY + (want - camY) * CAM_FOLLOW);
+            }
 
-          const lastPoint = points[points.length - 1];
-          if (!lastPoint || Math.hypot(lastPoint.x - rendered.cx, lastPoint.y - rendered.cy) > 1) {
-            points = [...points, { x: rendered.cx, y: rendered.cy }].slice(-TRACE_POINT_LIMIT);
-          }
+            // Write objectPosition only when it visibly changes (>=0.1%).
+            const xStr = (camX * 100).toFixed(1);
+            const yStr = (camY * 100).toFixed(1);
+            if (xStr !== lastCamXStr || yStr !== lastCamYStr) {
+              video.style.objectPosition = `${xStr}% ${yStr}%`;
+              lastCamXStr = xStr;
+              lastCamYStr = yStr;
+            }
 
-          const pathD = buildSmoothPath(points);
-          trailPath.setAttribute("d", pathD);
-          trailGlowPath.setAttribute("d", pathD);
+            // Re-project with the updated camera for accurate screen coords.
+            const rendered = projectBoxToScreen(video, bbox, camX, camY);
+            if (rendered) {
+              overlay.setAttribute("viewBox", `0 0 ${rendered.viewWidth} ${rendered.viewHeight}`);
+              overlay.style.opacity = "1";
 
-          // Orient gradient tail→head so the trail fades in toward the fish.
-          if (points.length >= 2 && grad && glowGrad) {
-            const tail = points[0];
-            const head = points[points.length - 1];
-            for (const g of [grad, glowGrad]) {
-              g.setAttribute("x1", tail.x.toFixed(1));
-              g.setAttribute("y1", tail.y.toFixed(1));
-              g.setAttribute("x2", head.x.toFixed(1));
-              g.setAttribute("y2", head.y.toFixed(1));
+              // EMA-smooth the on-screen point so the fairy doesn't jitter.
+              smoothed = smoothed
+                ? {
+                    x: mix(smoothed.x, rendered.cx, BBOX_SMOOTH_ALPHA),
+                    y: mix(smoothed.y, rendered.cy, BBOX_SMOOTH_ALPHA),
+                  }
+                : { x: rendered.cx, y: rendered.cy };
+
+              const lastPoint = points[points.length - 1];
+              if (
+                !lastPoint ||
+                Math.hypot(lastPoint.x - smoothed.x, lastPoint.y - smoothed.y) > TRAIL_MIN_STEP_PX
+              ) {
+                points = [...points, { x: smoothed.x, y: smoothed.y }].slice(-TRACE_POINT_LIMIT);
+              }
+
+              const pathD = buildSmoothPath(points);
+              trailPath.setAttribute("d", pathD);
+              trailGlowPath.setAttribute("d", pathD);
+
+              if (points.length >= 2 && grad && glowGrad) {
+                const tail = points[0];
+                const head = points[points.length - 1];
+                for (const g of [grad, glowGrad]) {
+                  g.setAttribute("x1", tail.x.toFixed(1));
+                  g.setAttribute("y1", tail.y.toFixed(1));
+                  g.setAttribute("x2", head.x.toFixed(1));
+                  g.setAttribute("y2", head.y.toFixed(1));
+                }
+              }
+
+              dot.setAttribute("cx", smoothed.x.toFixed(1));
+              dot.setAttribute("cy", smoothed.y.toFixed(1));
+              dot.setAttribute("opacity", "0.6");
+              dotGlow.setAttribute("cx", smoothed.x.toFixed(1));
+              dotGlow.setAttribute("cy", smoothed.y.toFixed(1));
+              dotGlow.setAttribute("opacity", "0.18");
             }
           }
-
-          dot.setAttribute("cx", rendered.cx.toFixed(1));
-          dot.setAttribute("cy", rendered.cy.toFixed(1));
-          dot.setAttribute("opacity", "0.9");
-          dotGlow.setAttribute("cx", rendered.cx.toFixed(1));
-          dotGlow.setAttribute("cy", rendered.cy.toFixed(1));
-          dotGlow.setAttribute("opacity", "0.35");
         }
       }
       raf = requestAnimationFrame(tick);
@@ -338,7 +400,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             }
           }}
           className="absolute inset-0 w-full h-full object-cover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
-          style={{ transition: "object-position 80ms linear" }}
         />
         {isActive && videoPaused && (
           <button
@@ -368,14 +429,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               <defs>
                 <linearGradient id={gradId} ref={gradRef} gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stopColor="white" stopOpacity="0" />
-                  <stop offset="100%" stopColor="white" stopOpacity="0.82" />
+                  <stop offset="100%" stopColor="white" stopOpacity="0.45" />
                 </linearGradient>
                 <linearGradient id={glowGradId} ref={glowGradRef} gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stopColor="white" stopOpacity="0" />
-                  <stop offset="100%" stopColor="white" stopOpacity="0.28" />
+                  <stop offset="100%" stopColor="white" stopOpacity="0.14" />
                 </linearGradient>
                 <filter id={filterId} x="-100%" y="-100%" width="300%" height="300%">
-                  <feGaussianBlur stdDeviation="5" />
+                  <feGaussianBlur stdDeviation="6" />
                 </filter>
               </defs>
 
@@ -384,7 +445,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                 ref={trailGlowPathRef}
                 fill="none"
                 stroke={`url(#${glowGradId})`}
-                strokeWidth="14"
+                strokeWidth="12"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 filter={`url(#${filterId})`}
@@ -395,17 +456,38 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                 ref={trailPathRef}
                 fill="none"
                 stroke={`url(#${gradId})`}
-                strokeWidth="2"
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
 
               {/* Dot halo */}
-              <circle ref={dotGlowRef} r="11" fill="white" opacity="0" filter={`url(#${filterId})`} />
+              <circle ref={dotGlowRef} r="10" fill="white" opacity="0" filter={`url(#${filterId})`} />
 
               {/* Position dot */}
-              <circle ref={dotRef} r="4.5" fill="white" opacity="0" />
+              <circle ref={dotRef} r="3.5" fill="white" opacity="0" />
             </svg>
+
+            {/* Mobile-only map pin button — beside the tracking toggle */}
+            {hasLocation && (
+              <button
+                type="button"
+                onClick={() => setMapOpen(true)}
+                aria-label="Show location on map"
+                className="absolute bottom-3 right-[88px] z-10 flex min-h-[38px] min-w-[38px] items-center justify-center rounded-full bg-black/45 px-2.5 text-[rgba(222,242,241,0.9)] backdrop-blur-sm transition-colors hover:bg-black/65 md:hidden"
+              >
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                  <path
+                    d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                  <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
+                </svg>
+              </button>
+            )}
 
             {/* Tracking toggle button — bottom-right of video panel */}
             <button
@@ -436,6 +518,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       </div>
 
       <aside className="max-h-[46vh] shrink-0 overflow-y-auto border-t border-white/10 bg-[#17252A] px-4 py-4 text-white md:max-h-none md:w-[360px] md:border-l md:border-t-0 md:px-5 md:py-5">
+        {hasLocation && (
+          <div className="mb-3 hidden md:block">
+            <MiniMapStatic
+              lat={snippet.lat as number}
+              lon={snippet.lon as number}
+              onClick={() => setMapOpen(true)}
+              size={180}
+            />
+          </div>
+        )}
         <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">
           {snippet.site} · {snippet.deployment}
         </p>
@@ -620,6 +712,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           </AnimatePresence>
         )}
       </aside>
+      {hasLocation && (
+        <MapModal
+          open={mapOpen}
+          onClose={() => setMapOpen(false)}
+          lat={snippet.lat as number}
+          lon={snippet.lon as number}
+          site={`${snippet.site} · ${snippet.deployment}`}
+        />
+      )}
     </article>
   );
 }
