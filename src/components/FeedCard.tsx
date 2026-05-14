@@ -19,6 +19,12 @@ const CAM_DEADZONE_Y = 0.18;
 const CAM_FOLLOW = 0.06;
 // Min pixel delta before pushing a new point into the trail buffer.
 const TRAIL_MIN_STEP_PX = 3;
+// Edge cropping — keep the bbox at least this much (% of viewport) from any edge.
+const SAFE_MARGIN = 0.06;
+// Per-frame cap on edge-clamp camera push to avoid jolts (% of overflow).
+const MAX_EDGE_PUSH = 0.04;
+// Reset-fade duration when the video loops, in ms.
+const LOOP_FADE_MS = 180;
 
 interface Point {
   x: number;
@@ -69,34 +75,6 @@ function getBoxAtProgress(bboxes: BBoxFrame[], progress: number) {
   return interpolateBox(lower, upper, amount);
 }
 
-// Computes the on-screen pixel center for a bbox given the current camera
-// objectPosition (camX, camY in 0..1). The caller owns smoothing/deadzone.
-function projectBoxToScreen(
-  video: HTMLVideoElement,
-  bbox: BBoxFrame,
-  camX: number,
-  camY: number
-) {
-  const vw = video.videoWidth;
-  const vh = video.videoHeight;
-  const cw = video.clientWidth;
-  const ch = video.clientHeight;
-  if (!vw || !vh || !cw || !ch) return null;
-
-  const scale = Math.max(cw / vw, ch / vh);
-  const renderedWidth = vw * scale;
-  const renderedHeight = vh * scale;
-  const overflowX = Math.max(0, renderedWidth - cw);
-  const overflowY = Math.max(0, renderedHeight - ch);
-  const centerXNorm = bbox.x_norm + bbox.w_norm / 2;
-  const centerYNorm = bbox.y_norm + bbox.h_norm / 2;
-  const left = -overflowX * camX;
-  const top = -overflowY * camY;
-  const cx = left + centerXNorm * renderedWidth;
-  const cy = top + centerYNorm * renderedHeight;
-  return { cx, cy, centerXNorm, centerYNorm, viewWidth: cw, viewHeight: ch };
-}
-
 // Catmull-Rom spline → cubic bezier SVG path for smooth curves through all stored points.
 function buildSmoothPath(pts: Point[]): string {
   if (pts.length < 2) return "";
@@ -137,6 +115,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const dotGlowRef = useRef<SVGCircleElement>(null);
   const gradRef = useRef<SVGLinearGradientElement>(null);
   const glowGradRef = useRef<SVGLinearGradientElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
   const correctionAcceptRef = useRef<HTMLButtonElement>(null);
   const [showTracking, setShowTracking] = useState(true);
   const [mapOpen, setMapOpen] = useState(false);
@@ -228,10 +207,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     const dotGlow = dotGlowRef.current;
     const grad = gradRef.current;
     const glowGrad = glowGradRef.current;
+    const progress = progressRef.current;
 
     const hideAll = () => {
       video.style.objectPosition = "";
       if (overlay) overlay.style.opacity = "0";
+      if (progress) progress.style.transform = "scaleX(0)";
     };
 
     if (
@@ -248,98 +229,209 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       return;
     }
 
-    let raf = 0;
-    let points: Point[] = [];
-    let smoothed: Point | null = null;
-    // Camera objectPosition in 0..1 — eased toward the fish, with a deadzone.
+    let cancelled = false;
+    // Trail stored in WORLD (normalized) space — re-projected each frame so it
+    // follows the camera correctly during pans.
+    let worldPoints: Point[] = [];
+    let smoothedNorm: Point | null = null;
     let camX = 0.5;
     let camY = 0.5;
     let lastCamXStr = "";
     let lastCamYStr = "";
+    let prevTime = 0;
+    let resetUntil = 0;
+    let lastViewW = 0;
+    let lastViewH = 0;
 
-    const tick = () => {
+    const step = (mediaTime: number) => {
       const dur = video.duration;
-      if (Number.isFinite(dur) && dur > 0) {
-        const t = Math.min(Math.max(video.currentTime, 0), dur);
-        const bbox = getBoxAtProgress(bboxes, t / dur);
+      if (!Number.isFinite(dur) || dur <= 0) return;
+      const t = Math.min(Math.max(mediaTime, 0), dur);
 
-        if (bbox) {
-          // Pre-project once with current camera to get the raw target offsets.
-          const probe = projectBoxToScreen(video, bbox, camX, camY);
-          if (probe) {
-            // Deadzone follow on the normalized target.
-            const dx = probe.centerXNorm - camX;
-            const dy = probe.centerYNorm - camY;
-            if (Math.abs(dx) > CAM_DEADZONE_X) {
-              const want = probe.centerXNorm - Math.sign(dx) * CAM_DEADZONE_X;
-              camX = clamp01(camX + (want - camX) * CAM_FOLLOW);
-            }
-            if (Math.abs(dy) > CAM_DEADZONE_Y) {
-              const want = probe.centerYNorm - Math.sign(dy) * CAM_DEADZONE_Y;
-              camY = clamp01(camY + (want - camY) * CAM_FOLLOW);
-            }
-
-            // Write objectPosition only when it visibly changes (>=0.1%).
-            const xStr = (camX * 100).toFixed(1);
-            const yStr = (camY * 100).toFixed(1);
-            if (xStr !== lastCamXStr || yStr !== lastCamYStr) {
-              video.style.objectPosition = `${xStr}% ${yStr}%`;
-              lastCamXStr = xStr;
-              lastCamYStr = yStr;
-            }
-
-            // Re-project with the updated camera for accurate screen coords.
-            const rendered = projectBoxToScreen(video, bbox, camX, camY);
-            if (rendered) {
-              overlay.setAttribute("viewBox", `0 0 ${rendered.viewWidth} ${rendered.viewHeight}`);
-              overlay.style.opacity = "1";
-
-              // EMA-smooth the on-screen point so the fairy doesn't jitter.
-              smoothed = smoothed
-                ? {
-                    x: mix(smoothed.x, rendered.cx, BBOX_SMOOTH_ALPHA),
-                    y: mix(smoothed.y, rendered.cy, BBOX_SMOOTH_ALPHA),
-                  }
-                : { x: rendered.cx, y: rendered.cy };
-
-              const lastPoint = points[points.length - 1];
-              if (
-                !lastPoint ||
-                Math.hypot(lastPoint.x - smoothed.x, lastPoint.y - smoothed.y) > TRAIL_MIN_STEP_PX
-              ) {
-                points = [...points, { x: smoothed.x, y: smoothed.y }].slice(-TRACE_POINT_LIMIT);
-              }
-
-              const pathD = buildSmoothPath(points);
-              trailPath.setAttribute("d", pathD);
-              trailGlowPath.setAttribute("d", pathD);
-
-              if (points.length >= 2 && grad && glowGrad) {
-                const tail = points[0];
-                const head = points[points.length - 1];
-                for (const g of [grad, glowGrad]) {
-                  g.setAttribute("x1", tail.x.toFixed(1));
-                  g.setAttribute("y1", tail.y.toFixed(1));
-                  g.setAttribute("x2", head.x.toFixed(1));
-                  g.setAttribute("y2", head.y.toFixed(1));
-                }
-              }
-
-              dot.setAttribute("cx", smoothed.x.toFixed(1));
-              dot.setAttribute("cy", smoothed.y.toFixed(1));
-              dot.setAttribute("opacity", "0.6");
-              dotGlow.setAttribute("cx", smoothed.x.toFixed(1));
-              dotGlow.setAttribute("cy", smoothed.y.toFixed(1));
-              dotGlow.setAttribute("opacity", "0.18");
-            }
-          }
+      // --- Loop reset detection ---
+      const looped =
+        (prevTime > dur - 0.15 && t < 0.15) || t < prevTime - 0.5;
+      if (looped) {
+        worldPoints = [];
+        smoothedNorm = null;
+        resetUntil = performance.now() + LOOP_FADE_MS;
+        if (progress) {
+          progress.classList.remove("fs-loop-pulse");
+          // force reflow so the animation restarts
+          void progress.offsetWidth;
+          progress.classList.add("fs-loop-pulse");
         }
       }
-      raf = requestAnimationFrame(tick);
+      prevTime = t;
+
+      if (progress) {
+        progress.style.transform = `scaleX(${(t / dur).toFixed(4)})`;
+      }
+
+      const bbox = getBoxAtProgress(bboxes, t / dur);
+      if (!bbox) return;
+
+      const cw = video.clientWidth;
+      const ch = video.clientHeight;
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      if (!cw || !ch || !vw || !vh) return;
+
+      const scale = Math.max(cw / vw, ch / vh);
+      const renderedWidth = vw * scale;
+      const renderedHeight = vh * scale;
+      const overflowX = Math.max(0, renderedWidth - cw);
+      const overflowY = Math.max(0, renderedHeight - ch);
+
+      const cxNorm = bbox.x_norm + bbox.w_norm / 2;
+      const cyNorm = bbox.y_norm + bbox.h_norm / 2;
+
+      // --- Deadzone follow (normalized) ---
+      const dx = cxNorm - camX;
+      const dy = cyNorm - camY;
+      if (Math.abs(dx) > CAM_DEADZONE_X) {
+        const want = cxNorm - Math.sign(dx) * CAM_DEADZONE_X;
+        camX = clamp01(camX + (want - camX) * CAM_FOLLOW);
+      }
+      if (Math.abs(dy) > CAM_DEADZONE_Y) {
+        const want = cyNorm - Math.sign(dy) * CAM_DEADZONE_Y;
+        camY = clamp01(camY + (want - camY) * CAM_FOLLOW);
+      }
+
+      // --- Edge clamp (pixel-space) so the bbox never crosses the safe margin ---
+      if (overflowX > 0) {
+        const halfW = (bbox.w_norm * renderedWidth) / 2;
+        const safeX = cw * SAFE_MARGIN;
+        const camXMax = (cxNorm * renderedWidth - halfW - safeX) / overflowX;
+        const camXMin = (cxNorm * renderedWidth + halfW - cw + safeX) / overflowX;
+        if (camXMin <= camXMax) {
+          const desired = Math.min(Math.max(camX, camXMin), camXMax);
+          const delta = desired - camX;
+          const limited = Math.sign(delta) * Math.min(Math.abs(delta), MAX_EDGE_PUSH);
+          camX = clamp01(camX + limited);
+        }
+      }
+      if (overflowY > 0) {
+        const halfH = (bbox.h_norm * renderedHeight) / 2;
+        const safeY = ch * SAFE_MARGIN;
+        const camYMax = (cyNorm * renderedHeight - halfH - safeY) / overflowY;
+        const camYMin = (cyNorm * renderedHeight + halfH - ch + safeY) / overflowY;
+        if (camYMin <= camYMax) {
+          const desired = Math.min(Math.max(camY, camYMin), camYMax);
+          const delta = desired - camY;
+          const limited = Math.sign(delta) * Math.min(Math.abs(delta), MAX_EDGE_PUSH);
+          camY = clamp01(camY + limited);
+        }
+      }
+
+      // --- Write objectPosition only on visible change ---
+      const xStr = (camX * 100).toFixed(1);
+      const yStr = (camY * 100).toFixed(1);
+      if (xStr !== lastCamXStr || yStr !== lastCamYStr) {
+        video.style.objectPosition = `${xStr}% ${yStr}%`;
+        lastCamXStr = xStr;
+        lastCamYStr = yStr;
+      }
+
+      // --- ViewBox only when size changes ---
+      if (cw !== lastViewW || ch !== lastViewH) {
+        overlay.setAttribute("viewBox", `0 0 ${cw} ${ch}`);
+        lastViewW = cw;
+        lastViewH = ch;
+      }
+
+      // --- EMA in normalized space so the trail follows correct world position ---
+      smoothedNorm = smoothedNorm
+        ? {
+            x: mix(smoothedNorm.x, cxNorm, BBOX_SMOOTH_ALPHA),
+            y: mix(smoothedNorm.y, cyNorm, BBOX_SMOOTH_ALPHA),
+          }
+        : { x: cxNorm, y: cyNorm };
+
+      // --- Add new normalized trail point (dedup in normalized distance) ---
+      const normStep = TRAIL_MIN_STEP_PX / Math.max(renderedWidth, renderedHeight);
+      const lastWp = worldPoints[worldPoints.length - 1];
+      if (
+        !lastWp ||
+        Math.hypot(lastWp.x - smoothedNorm.x, lastWp.y - smoothedNorm.y) > normStep
+      ) {
+        worldPoints = [
+          ...worldPoints,
+          { x: smoothedNorm.x, y: smoothedNorm.y },
+        ].slice(-TRACE_POINT_LIMIT);
+      }
+
+      // --- Fade overlay during loop reset ---
+      const inReset = performance.now() < resetUntil;
+      overlay.style.opacity = inReset ? "0" : "1";
+      if (inReset) return;
+
+      // --- Project entire trail with CURRENT camera (fixes pan lag) ---
+      const screenPoints: Point[] = worldPoints.map((p) => ({
+        x: -overflowX * camX + p.x * renderedWidth,
+        y: -overflowY * camY + p.y * renderedHeight,
+      }));
+
+      const pathD = buildSmoothPath(screenPoints);
+      trailPath.setAttribute("d", pathD);
+      trailGlowPath.setAttribute("d", pathD);
+
+      if (screenPoints.length >= 2 && grad && glowGrad) {
+        const tail = screenPoints[0];
+        const head = screenPoints[screenPoints.length - 1];
+        for (const g of [grad, glowGrad]) {
+          g.setAttribute("x1", tail.x.toFixed(1));
+          g.setAttribute("y1", tail.y.toFixed(1));
+          g.setAttribute("x2", head.x.toFixed(1));
+          g.setAttribute("y2", head.y.toFixed(1));
+        }
+      }
+
+      const head = screenPoints[screenPoints.length - 1];
+      if (head) {
+        dot.setAttribute("cx", head.x.toFixed(1));
+        dot.setAttribute("cy", head.y.toFixed(1));
+        dot.setAttribute("opacity", "0.6");
+        dotGlow.setAttribute("cx", head.x.toFixed(1));
+        dotGlow.setAttribute("cy", head.y.toFixed(1));
+        dotGlow.setAttribute("opacity", "0.18");
+      }
     };
 
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    // --- Frame-accurate scheduling: prefer requestVideoFrameCallback ---
+    type RVFCMeta = { mediaTime: number };
+    type RVFCCallback = (now: number, metadata: RVFCMeta) => void;
+    type VideoWithRVFC = HTMLVideoElement & {
+      requestVideoFrameCallback?: (cb: RVFCCallback) => number;
+      cancelVideoFrameCallback?: (id: number) => void;
+    };
+    const v = video as VideoWithRVFC;
+    let rafId = 0;
+    let rvfcId = 0;
+
+    if (typeof v.requestVideoFrameCallback === "function") {
+      const onFrame: RVFCCallback = (_now, metadata) => {
+        if (cancelled) return;
+        step(metadata.mediaTime);
+        rvfcId = v.requestVideoFrameCallback!(onFrame);
+      };
+      rvfcId = v.requestVideoFrameCallback(onFrame);
+    } else {
+      const onRaf = () => {
+        if (cancelled) return;
+        step(video.currentTime);
+        rafId = requestAnimationFrame(onRaf);
+      };
+      rafId = requestAnimationFrame(onRaf);
+    }
+
+    return () => {
+      cancelled = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      if (rvfcId && typeof v.cancelVideoFrameCallback === "function") {
+        v.cancelVideoFrameCallback(rvfcId);
+      }
+    };
   }, [bboxes, isActive, showTracking]);
 
   const submitAndAdvance = useCallback(
@@ -401,6 +493,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           }}
           className="absolute inset-0 w-full h-full object-cover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
         />
+        {/* Playback progress bar — pulses on loop so the reset moment is visible */}
+        {hasBboxes && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
+            <div
+              ref={progressRef}
+              className="h-full origin-left bg-[#3AAFA9]/85 shadow-[0_0_6px_rgba(58,175,169,0.6)]"
+              style={{ transform: "scaleX(0)", willChange: "transform" }}
+            />
+          </div>
+        )}
         {isActive && videoPaused && (
           <button
             type="button"
