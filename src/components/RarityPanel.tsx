@@ -1,0 +1,171 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { triggerCorrectConfetti } from "@/lib/confetti";
+
+type ProbabilityResponse =
+  | {
+      status: "OK";
+      source: string;
+      totalRecords: number;
+      species: Array<{ scientificName: string; count: number; probability: number }>;
+      staffAnswerScientific: string | null;
+      fetchedAt: string;
+    }
+  | { status: "INSUFFICIENT_DATA" }
+  | { status: "ERROR"; errorMessage?: string }
+  | { status: "PENDING" };
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+function monthName(recordingDatetime: string | null | undefined): string | null {
+  if (!recordingDatetime) return null;
+  const d = new Date(recordingDatetime);
+  if (Number.isNaN(d.getTime())) return null;
+  return MONTH_NAMES[d.getUTCMonth()];
+}
+
+export function RarityPanel({
+  snippetId,
+  recordingDatetime,
+}: {
+  snippetId: string;
+  recordingDatetime: string | null | undefined;
+}) {
+  const [data, setData] = useState<ProbabilityResponse | null>(null);
+  const [error, setError] = useState(false);
+  const confettiFired = useRef(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    let pollTimer: ReturnType<typeof setTimeout> | null = null;
+    let attempts = 0;
+
+    const load = async () => {
+      try {
+        const res = await fetch(`/api/snippets/${snippetId}/probability`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = (await res.json()) as ProbabilityResponse;
+        if (cancelled) return;
+        setData(json);
+
+        if (json.status === "PENDING" && attempts < 6) {
+          attempts++;
+          pollTimer = setTimeout(load, 2500);
+        }
+      } catch {
+        if (!cancelled) setError(true);
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+      if (pollTimer) clearTimeout(pollTimer);
+    };
+  }, [snippetId]);
+
+  if (error || !data) return null;
+  if (data.status === "ERROR") return null;
+
+  if (data.status === "PENDING") {
+    return (
+      <div className="mt-2 text-[10px] uppercase tracking-wider text-white/35">
+        Computing ecology…
+      </div>
+    );
+  }
+
+  if (data.status === "INSUFFICIENT_DATA") {
+    return (
+      <div className="mt-2 text-[10px] text-white/40">
+        Not enough OBIS data for this location and season.
+      </div>
+    );
+  }
+
+  // OK
+  const month = monthName(recordingDatetime);
+  const top = data.species.slice(0, 3);
+  const staffSci = data.staffAnswerScientific;
+  const staffMatch = staffSci ? data.species.find((s) => s.scientificName === staffSci) : null;
+  const staffProb = staffMatch?.probability ?? null;
+
+  let badge: { label: string; tone: "rare" | "common" } | null = null;
+  if (staffProb != null) {
+    if (staffProb < 0.05) badge = { label: "✦ rare find", tone: "rare" };
+    else if (staffProb > 0.25) badge = { label: "✓ common here", tone: "common" };
+  }
+
+  // Fire confetti once when a rare find is rendered.
+  if (badge?.tone === "rare" && !confettiFired.current) {
+    confettiFired.current = true;
+    if (typeof window !== "undefined") {
+      setTimeout(() => triggerCorrectConfetti(), 60);
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, delay: 0.08 }}
+      className="mt-3 border-t border-white/10 pt-2"
+    >
+      <div className="flex items-baseline justify-between gap-2 pb-1">
+        <span className="text-[10px] uppercase tracking-wider text-white/55">
+          Ecological likelihood
+        </span>
+        <span className="text-[9px] text-white/35">
+          OBIS · ~11 km{month ? ` · ${month}` : ""}
+        </span>
+      </div>
+      <div className="space-y-0.5">
+        {top.map((s) => (
+          <div key={s.scientificName} className="flex items-center gap-1.5 text-[11px]">
+            <span className="w-24 truncate italic text-white/80">{s.scientificName}</span>
+            <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
+              <div
+                className="h-full rounded bg-[#3AAFA9]/55"
+                style={{ width: `${Math.round(s.probability * 100)}%` }}
+              />
+            </div>
+            <span className="w-7 text-right tabular-nums text-white/55">
+              {Math.round(s.probability * 100)}%
+            </span>
+          </div>
+        ))}
+      </div>
+      {staffProb != null && (
+        <div className="mt-1.5 flex items-center justify-between gap-2 text-[11px]">
+          <span className="italic text-white/70 truncate">
+            Your answer: {staffSci}
+          </span>
+          <div className="flex items-center gap-2">
+            <span className="tabular-nums text-white/85">{Math.round(staffProb * 100)}%</span>
+            {badge && (
+              <span
+                className={
+                  badge.tone === "rare"
+                    ? "rounded-full bg-amber-300/20 px-2 py-0.5 text-[10px] font-semibold text-amber-200"
+                    : "rounded-full bg-[#3AAFA9]/20 px-2 py-0.5 text-[10px] font-semibold text-[#3AAFA9]"
+                }
+              >
+                {badge.label}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+      {staffProb == null && (
+        <div className="mt-1 text-[10px] text-white/35">
+          Staff answer not matched to OBIS records here.
+        </div>
+      )}
+    </motion.div>
+  );
+}

@@ -48,3 +48,35 @@ model Answer {
 
   @@unique([userId, snippetId])
 }
+
+enum ProbabilityStatus {
+  OK
+  INSUFFICIENT_DATA
+  ERROR
+}
+
+model SpeciesProbability {
+  id           String            @id @default(cuid())
+  latBucket    Float
+  lonBucket    Float
+  depthBucket  Int               // floor(depthM / 10) * 10, or -1 for null
+  month        Int               // 1..12
+  source       String            // "obis"
+  status       ProbabilityStatus
+  errorMessage String?
+  totalRecords Int               @default(0)
+  speciesJson  String            @default("[]") // [{ scientificName, count, probability }]
+  fetchedAt    DateTime          @default(now())
+  staleAfter   DateTime
+
+  @@unique([latBucket, lonBucket, depthBucket, month])
+}
+
+model SpeciesNameMap {
+  id             String   @id @default(cuid())
+  commonName     String   @unique // normalised lowercase
+  scientificName String?
+  source         String   // e.g. "gbif-match"
+  confidence     String?  // EXACT | FUZZY | HIGHERRANK | NONE
+  resolvedAt     DateTime @default(now())
+}

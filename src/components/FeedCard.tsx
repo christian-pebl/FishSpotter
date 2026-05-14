@@ -7,6 +7,8 @@ import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
 import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
+import { RarityPanel } from "./RarityPanel";
+import { IdGuideTrigger } from "./IdGuideTrigger";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -895,6 +897,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       to save your streak
                     </p>
                   )}
+                  {session && (
+                    <div className="pb-1.5">
+                      <IdGuideTrigger
+                        snippetId={snippet.id}
+                        submitted={false}
+                        staffAnswer={snippet.staffAnswer}
+                        onSuggest={(name) => setAnswerText(name)}
+                      />
+                    </div>
+                  )}
                 </>
               ) : (
                 <AnimatePresence mode="wait">
@@ -940,6 +952,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                           <span className="w-7 text-right tabular-nums text-white/55">{s.percent}%</span>
                         </div>
                       ))}
+                    </div>
+                    <RarityPanel
+                      snippetId={snippet.id}
+                      recordingDatetime={snippet.recordingDatetime}
+                    />
+                    <div className="mt-2">
+                      <IdGuideTrigger
+                        snippetId={snippet.id}
+                        submitted={true}
+                        staffAnswer={stats!.staffAnswer}
+                        onSuggest={() => {}}
+                      />
                     </div>
                     <div className="mt-2 flex items-center justify-between gap-2">
                       <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">

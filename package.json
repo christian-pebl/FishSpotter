@@ -12,6 +12,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.96.0",
     "@prisma/client": "^6.19.2",
     "@supabase/supabase-js": "^2.99.3",
     "@types/bcryptjs": "^2.4.6",

@@ -18,6 +18,8 @@ type FeedSnippetRow = {
   bboxJson: string | null;
   lat: number | null;
   lon: number | null;
+  depthM: number | null;
+  recordingDatetime: string | null;
 };
 
 export default async function FeedPage() {
@@ -33,6 +35,8 @@ export default async function FeedPage() {
       bboxJson: true,
       lat: true,
       lon: true,
+      depthM: true,
+      recordingDatetime: true,
     },
   });
 
@@ -46,6 +50,8 @@ export default async function FeedPage() {
     bboxes: snippet.bboxJson ? JSON.parse(snippet.bboxJson) : null,
     lat: snippet.lat,
     lon: snippet.lon,
+    depthM: snippet.depthM,
+    recordingDatetime: snippet.recordingDatetime,
   }));
 
   return (

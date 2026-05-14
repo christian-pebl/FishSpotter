@@ -24,6 +24,8 @@ export interface FeedSnippet {
   bboxes: BBoxFrame[] | null;
   lat: number | null;
   lon: number | null;
+  depthM: number | null;
+  recordingDatetime: string | null;
 }
 
 interface FeedPlayerProps {
