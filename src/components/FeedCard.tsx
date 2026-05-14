@@ -320,6 +320,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           preload={isActive ? "auto" : preload ? "metadata" : "none"}
           tabIndex={isActive ? 0 : -1}
           aria-label={`Underwater clip from ${snippet.site} ${snippet.deployment}. Press space to play or pause.`}
+          onCanPlay={() => {
+            if (isActive) videoRef.current?.play().catch(() => {});
+          }}
           onError={(e) => {
             const v = e.currentTarget;
             console.error("[FeedCard] video error", v.error?.code, v.error?.message, snippet.videoUrl.slice(-60));
