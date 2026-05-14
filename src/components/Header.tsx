@@ -1,14 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
+import { SettingsMenu } from "@/components/SettingsMenu";
 import { isSoundsEnabled, setSoundsEnabled } from "@/lib/sounds";
 
 export function Header() {
   const { data: session, status } = useSession();
+  const pathname = usePathname();
+  const onFeed = pathname?.startsWith("/feed") ?? false;
   const [streak, setStreak] = useState<number | null>(null);
   const [soundsOn, setSoundsOn] = useState(true);
   const reduceMotion = useReducedMotion();
@@ -117,6 +121,7 @@ export function Header() {
               Sign in
             </Link>
           )}
+          {onFeed && <SettingsMenu />}
         </nav>
       </div>
     </header>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import { SessionProvider } from "@/components/SessionProvider";
 import { Header } from "@/components/Header";
@@ -18,7 +18,14 @@ export const metadata: Metadata = {
     icon: "/icon.svg",
     apple: "/apple-touch-icon.svg",
   },
+};
+
+export const viewport: Viewport = {
   themeColor: "#2b7a78",
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
+  initialScale: 1,
+  width: "device-width",
 };
 
 export default function RootLayout({
@@ -28,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased h-screen flex flex-col overflow-hidden`}>
+      <body className={`${roboto.className} antialiased h-[100dvh] flex flex-col overflow-hidden`}>
         <a href="#main" className="skip-link">Skip to main content</a>
         <SessionProvider>
           <PwaRegister />

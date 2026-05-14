@@ -6,6 +6,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
+import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -114,7 +115,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const glowGradRef = useRef<SVGLinearGradientElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const correctionAcceptRef = useRef<HTMLButtonElement>(null);
-  const [showTracking, setShowTracking] = useState(true);
+  const settings = useVideoSettings();
+  const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
   const [showInputHint, setShowInputHint] = useState(false);
@@ -142,6 +144,28 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       localStorage.setItem("fishspotter:panelCollapsed", next ? "1" : "0");
     } catch {}
   }, []);
+
+  // Apply playback speed when it changes.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.playbackRate = settings.speed;
+  }, [settings.speed, isActive]);
+
+  // Apply sound: muted by default; unmuted only when soundOn is true and the
+  // browser allows it. If play() rejects with NotAllowedError, fall back to muted.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const targetMuted = !settings.soundOn;
+    if (v.muted === targetMuted) return;
+    v.muted = targetMuted;
+    if (isActive && !v.paused) {
+      v.play().catch(() => {
+        v.muted = true;
+      });
+    }
+  }, [settings.soundOn, isActive]);
 
   // Track mobile virtual keyboard so the panel rises above it.
   useEffect(() => {
@@ -522,6 +546,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             }
           }}
           className="absolute inset-0 w-full h-full object-cover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
+          style={{ filter: videoFilterFor(settings) }}
         />
         {/* Playback progress bar — pulses on loop so the reset moment is visible */}
         {hasBboxes && (
@@ -594,34 +619,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               />
             </svg>
 
-            {/* Tracking toggle — bottom-right on desktop; on mobile moves to top-right when panel expanded */}
-            <button
-              type="button"
-              onClick={() => setShowTracking((v) => !v)}
-              aria-label={showTracking ? "Hide fish tracking" : "Show fish tracking"}
-              aria-pressed={showTracking}
-              className={`absolute z-30 flex min-h-[38px] min-w-[38px] items-center justify-center gap-1.5 rounded-full bg-black/45 px-2.5 backdrop-blur-sm transition-colors hover:bg-black/65 ${
-                panelCollapsed
-                  ? "bottom-3 right-3"
-                  : "top-3 right-3 md:top-auto md:bottom-3"
-              }`}
-              style={{ color: showTracking ? "rgba(222,242,241,0.9)" : "rgba(255,255,255,0.4)" }}
-            >
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-                <circle cx="12" cy="7.5" r="2.5" fill="currentColor" />
-                <path
-                  d="M1.5 11 Q4 3.5 8.5 6.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  fill="none"
-                  opacity="0.65"
-                />
-              </svg>
-              <span className="hidden pr-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] sm:inline">
-                {showTracking ? "On" : "Off"}
-              </span>
-            </button>
           </>
         )}
       </div>
@@ -645,8 +642,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
             transition={{ duration: 0.18 }}
-            className="absolute bottom-3 left-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#17252A]/72 px-3 py-2 text-xs font-semibold text-[#DEF2F1] shadow-lg backdrop-blur-md hover:bg-[#17252A]/85"
-            style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}
+            className="absolute left-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-[#17252A]/72 px-3 py-2 text-xs font-semibold text-[#DEF2F1] shadow-lg backdrop-blur-md hover:bg-[#17252A]/85"
+            style={{ bottom: `calc(0.5rem + env(safe-area-inset-bottom))` }}
           >
             Identify
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -672,13 +669,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute inset-x-2 bottom-2 z-20 overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150 md:inset-x-auto md:bottom-4 md:left-1/2 md:w-[min(560px,calc(100%-2rem))] md:-translate-x-1/2"
+            className="absolute inset-x-2 z-20 flex max-h-[calc(100%-3.5rem)] flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150 md:inset-x-auto md:left-1/2 md:w-[min(560px,calc(100%-2rem))] md:-translate-x-1/2"
             style={{
-              paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))`,
-              transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
+              bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
             }}
           >
-            <div className="px-3 pt-2 md:px-4 md:pt-2.5">
+            <div className="overflow-y-auto overscroll-contain px-3 pt-2 pb-2 md:px-4 md:pt-2.5 md:pb-3" style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}>
               {/* Eyebrow: site + pin (opens map) + collapse chevron */}
               <div className="mb-1.5 flex items-center justify-between gap-2">
                 <button
