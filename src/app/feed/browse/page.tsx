@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Archive — PEBL FishSpotter",
+  title: "Archive",
 };
 
 export default async function FeedBrowsePage() {

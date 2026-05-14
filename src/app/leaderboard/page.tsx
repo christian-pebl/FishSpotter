@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Leaderboard — PEBL FishSpotter",
+  title: "Leaderboard",
 };
 
 export default async function LeaderboardPage() {

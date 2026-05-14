@@ -6,7 +6,7 @@ import { FeedPlayer } from "@/components/FeedPlayer";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Live feed — PEBL FishSpotter",
+  title: "Live feed",
 };
 
 type FeedSnippetRow = {
