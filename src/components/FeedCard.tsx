@@ -141,11 +141,19 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   );
 
   useEffect(() => {
-    if (!videoRef.current) return;
+    const v = videoRef.current;
+    if (!v) return;
     if (isActive) {
-      videoRef.current.play().catch(() => {});
+      // play() may race with src load — retry on canplay if it rejects
+      const attempt = v.play();
+      if (attempt !== undefined) {
+        attempt.catch(() => {
+          const onCanPlay = () => { v.play().catch(() => {}); v.removeEventListener("canplay", onCanPlay); };
+          v.addEventListener("canplay", onCanPlay);
+        });
+      }
     } else {
-      videoRef.current.pause();
+      v.pause();
     }
   }, [isActive]);
 
