@@ -156,28 +156,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   );
 
   const [videoPaused, setVideoPaused] = useState(false);
-  const [videoDebug, setVideoDebug] = useState<{
-    rs: number; ns: number; paused: boolean; t: number; err: string;
-  } | null>(null);
-
-  // Poll video state every 600ms when active so user can see what's happening
-  useEffect(() => {
-    if (!isActive) { setVideoDebug(null); return; }
-    const tick = () => {
-      const v = videoRef.current;
-      if (!v) return;
-      setVideoDebug({
-        rs: v.readyState,
-        ns: v.networkState,
-        paused: v.paused,
-        t: Math.round(v.currentTime * 10) / 10,
-        err: v.error ? `MediaErr ${v.error.code}` : "",
-      });
-    };
-    tick();
-    const id = window.setInterval(tick, 600);
-    return () => window.clearInterval(id);
-  }, [isActive]);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -190,17 +168,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     }
 
     let cancelled = false;
-    let lastErr = "";
 
     const tryPlay = () => {
       if (cancelled || !videoRef.current) return;
       videoRef.current.play().then(() => {
-        if (!cancelled) { setVideoPaused(false); lastErr = ""; }
+        if (!cancelled) { setVideoPaused(false); }
       }).catch((err: unknown) => {
         if (cancelled) return;
         const name = err instanceof Error ? err.name : String(err);
-        lastErr = name;
-        setVideoDebug(prev => prev ? { ...prev, err: `play()→${name}` } : null);
         if (name === "NotAllowedError") {
           setVideoPaused(true);
         }
@@ -380,28 +355,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               </svg>
             </div>
           </button>
-        )}
-
-        {/* Debug strip — shows live video state so we can diagnose loading issues */}
-        {isActive && videoDebug && (
-          <div className="absolute bottom-12 left-2 z-20 rounded-lg bg-black/70 px-2 py-1 font-mono text-[10px] leading-5 text-white/90 backdrop-blur-sm pointer-events-none select-none">
-            <div>
-              <span className={videoDebug.rs === 0 ? "text-red-400" : videoDebug.rs >= 3 ? "text-green-400" : "text-yellow-400"}>
-                rs:{videoDebug.rs}
-              </span>
-              {" "}
-              <span className={videoDebug.ns === 3 ? "text-red-400" : videoDebug.ns === 2 ? "text-yellow-400" : "text-green-400"}>
-                ns:{videoDebug.ns}
-              </span>
-              {" "}
-              <span className={videoDebug.paused ? "text-red-400" : "text-green-400"}>
-                {videoDebug.paused ? "paused" : "playing"}
-              </span>
-              {" "}t:{videoDebug.t}s
-            </div>
-            {videoDebug.err && <div className="text-red-300">{videoDebug.err}</div>}
-            <div className="text-white/50 text-[9px]">rs: 0=no data 1=meta 2=cur 3=future 4=full | ns: 0=empty 1=idle 2=loading 3=no-src</div>
-          </div>
         )}
 
         {hasBboxes && (
