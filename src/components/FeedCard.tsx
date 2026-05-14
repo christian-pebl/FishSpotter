@@ -155,24 +155,52 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     [snippet.bboxes]
   );
 
+  const [videoPaused, setVideoPaused] = useState(false);
+
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (isActive) {
-      // play() may race with src load — retry on canplay if it rejects
-      const attempt = v.play();
-      if (attempt !== undefined) {
-        attempt.catch(() => {
-          const onCanPlay = () => {
-            v.play().catch(() => {});
-            v.removeEventListener("canplay", onCanPlay);
-          };
-          v.addEventListener("canplay", onCanPlay);
-        });
-      }
-    } else {
+
+    if (!isActive) {
       v.pause();
+      setVideoPaused(false);
+      return;
     }
+
+    let cancelled = false;
+
+    const tryPlay = () => {
+      if (cancelled || !videoRef.current) return;
+      videoRef.current.play().then(() => {
+        if (!cancelled) setVideoPaused(false);
+      }).catch((err: unknown) => {
+        if (cancelled) return;
+        if (err instanceof Error && err.name === "NotAllowedError") {
+          // Autoplay blocked — show tap-to-play
+          setVideoPaused(true);
+        }
+        // AbortError = another play/load in flight; canplay will retry
+      });
+    };
+
+    // If enough data is buffered, play now. Otherwise wait for canplay.
+    if (v.readyState >= 3) {
+      tryPlay();
+    } else {
+      const onCanPlay = () => {
+        v.removeEventListener("canplay", onCanPlay);
+        tryPlay();
+      };
+      v.addEventListener("canplay", onCanPlay);
+      // Still attempt immediately — browser may queue play internally
+      tryPlay();
+      return () => {
+        cancelled = true;
+        v.removeEventListener("canplay", onCanPlay);
+      };
+    }
+
+    return () => { cancelled = true; };
   }, [isActive]);
 
   useEffect(() => {
@@ -287,15 +315,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           {...(preload ? { src: snippet.videoUrl } : {})}
           poster={snippet.thumbnailUrl}
           muted
-          autoPlay={isActive}
           playsInline
           loop
           preload={isActive ? "auto" : preload ? "metadata" : "none"}
           tabIndex={isActive ? 0 : -1}
           aria-label={`Underwater clip from ${snippet.site} ${snippet.deployment}. Press space to play or pause.`}
-          onLoadedData={() => {
-            if (isActive) videoRef.current?.play().catch(() => {});
-          }}
           onError={(e) => {
             const v = e.currentTarget;
             console.error("[FeedCard] video error", v.error?.code, v.error?.message, snippet.videoUrl.slice(-60));
@@ -306,13 +330,32 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               e.preventDefault();
               const v = videoRef.current;
               if (!v) return;
-              if (v.paused) v.play().catch(() => {});
-              else v.pause();
+              if (v.paused) {
+                v.play().then(() => setVideoPaused(false)).catch(() => {});
+              } else {
+                v.pause();
+              }
             }
           }}
           className="absolute inset-0 w-full h-full object-cover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
           style={{ transition: "object-position 80ms linear" }}
         />
+        {isActive && videoPaused && (
+          <button
+            type="button"
+            aria-label="Tap to play"
+            onClick={() => {
+              videoRef.current?.play().then(() => setVideoPaused(false)).catch(() => {});
+            }}
+            className="absolute inset-0 flex items-center justify-center bg-black/30 z-10"
+          >
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                <polygon points="5,3 19,12 5,21" />
+              </svg>
+            </div>
+          </button>
+        )}
 
         {hasBboxes && (
           <>
