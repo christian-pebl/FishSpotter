@@ -131,9 +131,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const dragControls = useDragControls();
   const articleRef = useRef<HTMLElement>(null);
   // Default panel position: vertically centered on desktop, bottom-snapped on
-  // mobile. matchMedia is the cleanest way to express this without inline
-  // styles fighting Tailwind's responsive classes.
-  const [isDesktop, setIsDesktop] = useState(false);
+  // mobile. Use a lazy initialiser so the first client paint already knows the
+  // right breakpoint — avoids the mobile→desktop flicker on hydration.
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    return window.matchMedia("(min-width: 768px)").matches;
+  });
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(min-width: 768px)");
@@ -749,16 +752,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               type="button"
               onPointerDown={(e) => dragControls.start(e)}
               aria-label="Drag to reposition panel"
-              className="absolute left-1/2 top-1 z-10 flex h-6 w-9 -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full text-white/35 transition-colors hover:bg-white/10 hover:text-white/75 active:cursor-grabbing"
+              className="absolute left-1/2 top-0 z-10 flex h-11 w-11 -translate-x-1/2 cursor-grab touch-none items-center justify-center text-white/35 transition-colors hover:text-white/75 active:cursor-grabbing"
             >
-              <svg width="14" height="6" viewBox="0 0 14 6" fill="currentColor" aria-hidden="true">
-                <circle cx="2" cy="1.5" r="1" />
-                <circle cx="7" cy="1.5" r="1" />
-                <circle cx="12" cy="1.5" r="1" />
-                <circle cx="2" cy="4.5" r="1" />
-                <circle cx="7" cy="4.5" r="1" />
-                <circle cx="12" cy="4.5" r="1" />
-              </svg>
+              <span className="flex h-6 w-9 items-center justify-center rounded-full hover:bg-white/10">
+                <svg width="14" height="6" viewBox="0 0 14 6" fill="currentColor" aria-hidden="true">
+                  <circle cx="2" cy="1.5" r="1" />
+                  <circle cx="7" cy="1.5" r="1" />
+                  <circle cx="12" cy="1.5" r="1" />
+                  <circle cx="2" cy="4.5" r="1" />
+                  <circle cx="7" cy="4.5" r="1" />
+                  <circle cx="12" cy="4.5" r="1" />
+                </svg>
+              </span>
             </button>
             <button
               type="button"
@@ -937,7 +942,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                           type="button"
                           onClick={() => setMapOpen(true)}
                           aria-label="Show where this clip was recorded on a map"
-                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                          className="inline-flex min-h-[36px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
                         >
                           <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/80">
                             <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
@@ -1012,7 +1017,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                           type="button"
                           onClick={() => setMapOpen(true)}
                           aria-label="Show where this clip was recorded on a map"
-                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                          className="inline-flex min-h-[36px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
                         >
                           <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/80">
                             <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />

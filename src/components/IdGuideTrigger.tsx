@@ -82,6 +82,12 @@ export function IdGuideTrigger({
     () => (submitted ? resolveScientificName(staffAnswer) : undefined),
     [submitted, staffAnswer],
   );
+  // Stabilise the object identity so IdGuideSheet's [open, fieldNoteFor]
+  // effect doesn't reset selectedFallback every time FeedCard re-renders.
+  const fieldNoteFor = useMemo(
+    () => ({ commonName: staffAnswer, scientificName }),
+    [staffAnswer, scientificName],
+  );
 
   if (submitted) {
     return (
@@ -98,7 +104,7 @@ export function IdGuideTrigger({
           onClose={() => setOpen(false)}
           snippetId={snippetId}
           onAnswerPicked={() => setOpen(false)}
-          fieldNoteFor={{ commonName: staffAnswer, scientificName }}
+          fieldNoteFor={fieldNoteFor}
           isLoggedIn={isLoggedIn}
         />
       </>

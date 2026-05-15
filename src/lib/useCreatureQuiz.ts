@@ -149,6 +149,9 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     if (!myAnswer) return;
     setAnswerTextState(myAnswer.chosenOption);
     setMyAnswer(null);
+    // Drop the stats card so the UI doesn't briefly show stale community
+    // numbers next to the input — the next submit will reload them.
+    setStats(null);
     setCorrection(null);
     setSubmitError("");
   }, [myAnswer]);

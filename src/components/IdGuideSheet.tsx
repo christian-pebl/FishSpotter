@@ -61,17 +61,23 @@ export function IdGuideSheet({
   useEffect(() => {
     if (!open) return;
     lastFocusedRef.current = (document.activeElement as HTMLElement) ?? null;
-    const dialog = dialogRef.current;
-    if (dialog) {
-      const focusable = dialog.querySelector<HTMLElement>(
-        "input, textarea, button:not([disabled]), [tabindex]:not([tabindex='-1'])",
-      );
-      focusable?.focus();
-    }
     return () => {
       lastFocusedRef.current?.focus?.();
     };
   }, [open]);
+
+  // Move focus into the first focusable on open AND whenever the active mode
+  // changes — otherwise focus would stay on the previous mode's element
+  // after a chat → chips switch.
+  useEffect(() => {
+    if (!open) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const focusable = dialog.querySelector<HTMLElement>(
+      "input, textarea, button:not([disabled]), [tabindex]:not([tabindex='-1'])",
+    );
+    focusable?.focus();
+  }, [open, mode]);
 
   useEffect(() => {
     if (!open) return;
@@ -289,6 +295,7 @@ function CatalogueBrowser({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search by common or scientific name…"
+        aria-label="Search species by common or scientific name"
         className="mb-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#3AAFA9] focus:outline-none"
       />
       {entries.length === 0 ? (

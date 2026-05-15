@@ -254,6 +254,10 @@ export async function POST(req: Request) {
       }));
 
       try {
+        // Track whether the model has produced any user-visible text. If the
+        // tool-call loop exhausts MAX_TOOL_ROUNDS with no text, we send a
+        // fallback message so the user isn't left with just candidate chips.
+        let receivedAnyText = false;
         // Inner loop: allow up to N tool-call rounds per agent turn.
         for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
           const messageStream = client.messages.stream({
@@ -272,7 +276,10 @@ export async function POST(req: Request) {
 
           // Forward token deltas to the client as they arrive.
           messageStream.on("text", (delta) => {
-            if (delta) send({ type: "text", text: delta });
+            if (delta) {
+              send({ type: "text", text: delta });
+              receivedAnyText = true;
+            }
           });
 
           const final = await messageStream.finalMessage();
@@ -318,6 +325,15 @@ export async function POST(req: Request) {
           apiMessages.push({ role: "user", content: toolResults });
         }
 
+        if (!receivedAnyText) {
+          // The tool loop exhausted itself without ever producing prose. Give
+          // the user a clear next-step prompt so the conversation doesn't end
+          // silently after a list of candidate chips appears.
+          send({
+            type: "text",
+            text: "I've narrowed the candidates above. Could you tell me one more thing — colour, markings, or how it was moving?",
+          });
+        }
         send({ type: "done" });
       } catch (err) {
         const message = err instanceof Error ? err.message : "Unknown error";

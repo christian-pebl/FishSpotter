@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "crypto";
 import {
   refreshNameMap,
   refreshProbabilityBuckets,
@@ -17,7 +18,16 @@ function authorised(req: Request): boolean {
   const expected = process.env.CRON_SECRET;
   if (!expected) return false;
   const header = req.headers.get("authorization") ?? "";
-  return header === `Bearer ${expected}`;
+  // Constant-time compare so the bearer token can't be brute-forced by
+  // measuring response latency.
+  const a = Buffer.from(header);
+  const b = Buffer.from(`Bearer ${expected}`);
+  if (a.length !== b.length) return false;
+  try {
+    return timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
 }
 
 export async function GET(req: Request) {
