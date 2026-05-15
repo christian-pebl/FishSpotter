@@ -32,9 +32,12 @@ function monthName(recordingDatetime: string | null | undefined): string | null 
 export function RarityPanel({
   snippetId,
   recordingDatetime,
+  userIsCorrect,
 }: {
   snippetId: string;
   recordingDatetime: string | null | undefined;
+  /** Only celebrate a rare find when the user actually got it right. */
+  userIsCorrect: boolean;
 }) {
   const [data, setData] = useState<ProbabilityResponse | null>(null);
   const [error, setError] = useState(false);
@@ -42,8 +45,6 @@ export function RarityPanel({
 
   useEffect(() => {
     let cancelled = false;
-    let pollTimer: ReturnType<typeof setTimeout> | null = null;
-    let attempts = 0;
 
     const load = async () => {
       try {
@@ -52,11 +53,6 @@ export function RarityPanel({
         const json = (await res.json()) as ProbabilityResponse;
         if (cancelled) return;
         setData(json);
-
-        if (json.status === "PENDING" && attempts < 6) {
-          attempts++;
-          pollTimer = setTimeout(load, 2500);
-        }
       } catch {
         if (!cancelled) setError(true);
       }
@@ -65,9 +61,24 @@ export function RarityPanel({
     load();
     return () => {
       cancelled = true;
-      if (pollTimer) clearTimeout(pollTimer);
     };
   }, [snippetId]);
+
+  // Confetti must run inside an effect, not during render, and only when the
+  // user answered correctly — celebrating a wrong guess on a rare species
+  // would be misleading.
+  useEffect(() => {
+    if (!userIsCorrect || confettiFired.current) return;
+    if (!data || data.status !== "OK") return;
+    const staffSci = data.staffAnswerScientific;
+    if (!staffSci) return;
+    const staffMatch = data.species.find((s) => s.scientificName === staffSci);
+    const staffProb = staffMatch?.probability;
+    if (staffProb == null || staffProb >= 0.05) return;
+    confettiFired.current = true;
+    const t = window.setTimeout(() => triggerCorrectConfetti(), 60);
+    return () => window.clearTimeout(t);
+  }, [data, userIsCorrect]);
 
   if (error || !data) return null;
   if (data.status === "ERROR") return null;
@@ -99,14 +110,6 @@ export function RarityPanel({
   if (staffProb != null) {
     if (staffProb < 0.05) badge = { label: "✦ rare find", tone: "rare" };
     else if (staffProb > 0.25) badge = { label: "✓ common here", tone: "common" };
-  }
-
-  // Fire confetti once when a rare find is rendered.
-  if (badge?.tone === "rare" && !confettiFired.current) {
-    confettiFired.current = true;
-    if (typeof window !== "undefined") {
-      setTimeout(() => triggerCorrectConfetti(), 60);
-    }
   }
 
   return (

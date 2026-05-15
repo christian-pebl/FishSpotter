@@ -956,6 +956,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     <RarityPanel
                       snippetId={snippet.id}
                       recordingDatetime={snippet.recordingDatetime}
+                      userIsCorrect={!!myAnswer?.isCorrect}
                     />
                     <div className="mt-2">
                       <IdGuideTrigger

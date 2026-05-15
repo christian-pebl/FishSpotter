@@ -33,6 +33,7 @@ export function IdGuideChat({
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [expanded, setExpanded] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -135,30 +136,51 @@ export function IdGuideChat({
         {candidates.length > 0 && (
           <div className="mt-3 border-t border-white/10 pt-2">
             <p className="pb-1.5 text-[10px] uppercase tracking-wider text-white/55">
-              Best matches so far
+              Candidates the biologist is narrowing
             </p>
             <div className="space-y-1.5">
-              {candidates.slice(0, 5).map((c) => (
-                <button
-                  key={c.scientificName}
-                  type="button"
-                  onClick={() => onPickCandidate(c.commonName)}
-                  className="block w-full rounded-xl border border-white/10 bg-white/5 px-2.5 py-1.5 text-left text-[12px] hover:border-[#3AAFA9]/60 hover:bg-white/10"
-                >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <span className="text-white/90">{c.commonName}</span>
-                    {c.ecologicalProbability > 0 && (
-                      <span className="text-[10px] text-[#3AAFA9]">
-                        {Math.round(c.ecologicalProbability * 100)}% here
-                      </span>
+              {candidates.slice(0, 5).map((c) => {
+                const isExpanded = expanded === c.scientificName;
+                return (
+                  <div
+                    key={c.scientificName}
+                    className="rounded-xl border border-white/10 bg-white/5"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setExpanded(isExpanded ? null : c.scientificName)}
+                      aria-expanded={isExpanded}
+                      className="block w-full px-2.5 py-1.5 text-left text-[12px] hover:bg-white/10"
+                    >
+                      <div className="flex items-baseline justify-between gap-2">
+                        <span className="text-white/90">{c.commonName}</span>
+                        <span className="text-[10px] text-white/40">
+                          {isExpanded ? "Hide" : "Details"}
+                        </span>
+                      </div>
+                      <div className="text-[10px] italic text-white/50">{c.scientificName}</div>
+                    </button>
+                    {isExpanded && (
+                      <div className="border-t border-white/10 px-2.5 py-2">
+                        <p className="text-[11px] text-white/70">
+                          Matches {c.matchedTraits} of {c.totalTraitsConsidered} traits you've
+                          mentioned.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => onPickCandidate(c.commonName)}
+                          className="mt-2 rounded-full bg-[#3AAFA9] px-3 py-1 text-[11px] font-semibold text-[#17252A] hover:bg-[#59c8c3]"
+                        >
+                          Use this as my answer
+                        </button>
+                      </div>
                     )}
                   </div>
-                  <div className="text-[10px] italic text-white/50">{c.scientificName}</div>
-                </button>
-              ))}
+                );
+              })}
             </div>
             <p className="pt-2 text-[10px] text-white/45">
-              Tap a match to use it as your answer.
+              Tap a row to inspect — you decide whether to use it.
             </p>
           </div>
         )}

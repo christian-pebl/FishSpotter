@@ -256,7 +256,7 @@ export async function POST(req: Request) {
       try {
         // Inner loop: allow up to N tool-call rounds per agent turn.
         for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
-          const resp = await client.messages.create({
+          const messageStream = client.messages.stream({
             model: MODEL,
             max_tokens: 1024,
             system: [
@@ -270,18 +270,21 @@ export async function POST(req: Request) {
             messages: apiMessages,
           });
 
+          // Forward token deltas to the client as they arrive.
+          messageStream.on("text", (delta) => {
+            if (delta) send({ type: "text", text: delta });
+          });
+
+          const final = await messageStream.finalMessage();
+
           const toolUseBlocks: Anthropic.ToolUseBlock[] = [];
-          for (const block of resp.content) {
-            if (block.type === "text" && block.text) {
-              send({ type: "text", text: block.text });
-            } else if (block.type === "tool_use") {
-              toolUseBlocks.push(block);
-            }
+          for (const block of final.content) {
+            if (block.type === "tool_use") toolUseBlocks.push(block);
           }
 
-          apiMessages.push({ role: "assistant", content: resp.content });
+          apiMessages.push({ role: "assistant", content: final.content });
 
-          if (resp.stop_reason !== "tool_use" || toolUseBlocks.length === 0) {
+          if (final.stop_reason !== "tool_use" || toolUseBlocks.length === 0) {
             break;
           }
 
