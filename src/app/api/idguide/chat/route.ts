@@ -6,7 +6,7 @@ import { assertSameOrigin } from "@/lib/csrf";
 import { checkChatRateLimit } from "@/lib/rate-limit";
 import { prisma } from "@/lib/prisma";
 import speciesTraitsData from "@/data/species-traits.json";
-import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
+import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 import { buildSystemPrompt, pickLocalCatalogue, type EcologicalContext } from "@/lib/idguide/prompt";
 import { fetchRecentNearbySightings } from "@/lib/idguide/recent-sightings";
@@ -19,6 +19,8 @@ const FULL_CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6";
 const MAX_TURNS = 8;
+const MAX_USER_MESSAGE_CHARS = 600;
+const MAX_TOOL_ROUNDS = 4;
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
@@ -30,6 +32,13 @@ type ChatRequest = {
   snippetId: string;
   messages: ClientMessage[];
 };
+
+function isValidClientMessage(m: unknown): m is ClientMessage {
+  if (!m || typeof m !== "object") return false;
+  const r = (m as { role?: unknown }).role;
+  const c = (m as { content?: unknown }).content;
+  return (r === "user" || r === "assistant") && typeof c === "string";
+}
 
 const NARROW_TOOL: Anthropic.Tool = {
   name: "narrow_candidates",
@@ -110,8 +119,22 @@ async function loadEcologicalContext(snippetId: string): Promise<{
       },
     });
     if (cached && cached.status === "OK") {
-      const parsed = JSON.parse(cached.speciesJson) as Array<{ scientificName: string; probability: number }>;
-      topSpecies = parsed.slice(0, 10);
+      try {
+        const parsed = JSON.parse(cached.speciesJson);
+        if (Array.isArray(parsed)) {
+          topSpecies = parsed
+            .filter(
+              (s): s is { scientificName: string; probability: number } =>
+                s &&
+                typeof s === "object" &&
+                typeof s.scientificName === "string" &&
+                typeof s.probability === "number",
+            )
+            .slice(0, 10);
+        }
+      } catch {
+        // Bad cache row — fall back to an empty list rather than 500.
+      }
     }
   }
 
@@ -186,14 +209,26 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  if (!body.snippetId || !Array.isArray(body.messages) || body.messages.length === 0) {
+  if (
+    !body ||
+    typeof body.snippetId !== "string" ||
+    !Array.isArray(body.messages) ||
+    body.messages.length === 0 ||
+    !body.messages.every(isValidClientMessage)
+  ) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  const userTurns = body.messages.filter((m) => m.role === "user").length;
-  if (userTurns > MAX_TURNS) {
+  const userMessages = body.messages.filter((m) => m.role === "user");
+  if (userMessages.length > MAX_TURNS) {
     return NextResponse.json(
       { error: "This conversation has reached its turn limit. Start a new chat for a fresh perspective." },
+      { status: 400 }
+    );
+  }
+  if (userMessages.some((m) => m.content.length > MAX_USER_MESSAGE_CHARS)) {
+    return NextResponse.json(
+      { error: `Keep each message under ${MAX_USER_MESSAGE_CHARS} characters.` },
       { status: 400 }
     );
   }
@@ -219,8 +254,8 @@ export async function POST(req: Request) {
       }));
 
       try {
-        // Inner loop: allow up to 3 tool-call rounds per agent turn.
-        for (let round = 0; round < 4; round++) {
+        // Inner loop: allow up to N tool-call rounds per agent turn.
+        for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
           const resp = await client.messages.create({
             model: MODEL,
             max_tokens: 1024,
@@ -259,14 +294,13 @@ export async function POST(req: Request) {
                 content: `Unknown tool: ${tu.name}`,
               };
             }
-            const input = tu.input as {
-              must_have?: TraitSelection;
-              must_not_have?: TraitSelection;
-            };
+            const rawInput = (tu.input ?? {}) as Record<string, unknown>;
+            // narrowCandidates() sanitises must_have / must_not_have internally —
+            // pass the raw input through so unknown keys can't blow up.
             const candidates = narrowCandidates({
               catalogue: ctxBundle.localCatalogue,
-              mustHave: input.must_have,
-              mustNotHave: input.must_not_have,
+              mustHave: rawInput.must_have,
+              mustNotHave: rawInput.must_not_have,
               probabilityByScientific: ctxBundle.prob.probabilityByScientific,
               limit: 8,
             });

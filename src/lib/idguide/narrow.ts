@@ -1,4 +1,16 @@
-import type { SpeciesCatalogue, SpeciesTraits, TraitSelection } from "./traits";
+import {
+  BEHAVIOR,
+  BODY_SHAPE,
+  COLORATION,
+  FEATURES,
+  FIN_SHAPE,
+  HABITAT,
+  MARKINGS,
+  SIZE,
+  type SpeciesCatalogue,
+  type SpeciesTraits,
+  type TraitSelection,
+} from "./traits";
 
 export type Candidate = {
   scientificName: string;
@@ -19,6 +31,17 @@ const TRAIT_KEYS = [
   "habitat",
 ] as const satisfies ReadonlyArray<keyof TraitSelection>;
 
+const ALLOWED_VALUES: Record<(typeof TRAIT_KEYS)[number], ReadonlySet<string>> = {
+  bodyShape: new Set(BODY_SHAPE),
+  size: new Set(SIZE),
+  coloration: new Set(COLORATION),
+  markings: new Set(MARKINGS),
+  finShape: new Set(FIN_SHAPE),
+  features: new Set(FEATURES),
+  behavior: new Set(BEHAVIOR),
+  habitat: new Set(HABITAT),
+};
+
 function speciesValuesFor(traits: SpeciesTraits, key: keyof TraitSelection): string[] {
   if (key === "size") return [traits.size];
   const value = traits[key];
@@ -29,14 +52,33 @@ function hasAnyOverlap(speciesValues: string[], required: readonly string[]): bo
   return required.some((v) => speciesValues.includes(v));
 }
 
+function sanitise(input: unknown): TraitSelection {
+  if (!input || typeof input !== "object" || Array.isArray(input)) return {};
+  const source = input as Record<string, unknown>;
+  const out: TraitSelection = {};
+  for (const key of TRAIT_KEYS) {
+    const raw = source[key];
+    if (!Array.isArray(raw)) continue;
+    const allowed = ALLOWED_VALUES[key];
+    const cleaned = raw.filter((v): v is string => typeof v === "string" && allowed.has(v));
+    if (cleaned.length > 0) {
+      // Cast through unknown to satisfy the per-key value union.
+      (out as Record<string, string[]>)[key] = cleaned;
+    }
+  }
+  return out;
+}
+
 export function narrowCandidates(args: {
   catalogue: SpeciesCatalogue;
-  mustHave?: TraitSelection;
-  mustNotHave?: TraitSelection;
+  mustHave?: unknown;
+  mustNotHave?: unknown;
   probabilityByScientific?: Record<string, number>;
   limit?: number;
 }): Candidate[] {
-  const { catalogue, mustHave = {}, mustNotHave = {}, probabilityByScientific = {} } = args;
+  const { catalogue, probabilityByScientific = {} } = args;
+  const mustHave = sanitise(args.mustHave);
+  const mustNotHave = sanitise(args.mustNotHave);
   const limit = args.limit ?? 12;
 
   const out: Candidate[] = [];
@@ -65,8 +107,9 @@ export function narrowCandidates(args: {
     }
 
     if (excluded) continue;
-    // If any must-have was specified, require >= half of considered traits to match.
-    if (considered > 0 && matched === 0) continue;
+    // Require at least half of considered traits to match — anything weaker
+    // makes a single overlap enough to surface unrelated species.
+    if (considered > 0 && matched * 2 < considered) continue;
 
     out.push({
       scientificName,
