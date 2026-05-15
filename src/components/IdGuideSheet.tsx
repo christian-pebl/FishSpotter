@@ -148,26 +148,30 @@ export function IdGuideSheet({
         </div>
 
         {mode === "chat" && (
-          <IdGuideChat
-            snippetId={snippetId}
-            onPickCandidate={(name) => {
-              onAnswerPicked(name);
-              onClose();
-            }}
-            onFallback={() => setMode("chips")}
-          />
+          <div className="flex min-h-0 flex-1 flex-col">
+            <IdGuideChat
+              snippetId={snippetId}
+              onPickCandidate={(name) => {
+                onAnswerPicked(name);
+                onClose();
+              }}
+              onFallback={() => setMode("chips")}
+            />
+          </div>
         )}
 
         {mode === "chips" && (
-          <IdGuideChipFallback
-            selected={chipSelection}
-            onSelectionChange={setChipSelection}
-            onPickCandidate={(name) => {
-              onAnswerPicked(name);
-              onClose();
-            }}
-            onBackToChat={isLoggedIn ? () => setMode("chat") : undefined}
-          />
+          <div className="flex min-h-0 flex-1 flex-col">
+            <IdGuideChipFallback
+              selected={chipSelection}
+              onSelectionChange={setChipSelection}
+              onPickCandidate={(name) => {
+                onAnswerPicked(name);
+                onClose();
+              }}
+              onBackToChat={isLoggedIn ? () => setMode("chat") : undefined}
+            />
+          </div>
         )}
 
         {mode === "fieldNote" && (

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useDragControls, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
@@ -126,6 +126,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  // framer-motion drag, gated on the visible handle so taps on form
+  // controls don't accidentally initiate a drag.
+  const dragControls = useDragControls();
 
   const hasLocation =
     typeof snippet.lat === "number" &&
@@ -705,46 +708,37 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
+            drag
+            dragControls={dragControls}
+            dragListener={false}
+            dragMomentum={false}
+            dragElastic={0.08}
+            dragConstraints={{ top: -1200, bottom: 0, left: -160, right: 160 }}
             className="absolute left-1/2 z-20 flex max-h-[calc(100%-3.5rem)] w-[min(560px,calc(100%-1rem))] -translate-x-1/2 flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150"
             style={{
               bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
             }}
           >
-            <div className="overflow-y-auto overscroll-contain px-3 pt-2 pb-2 md:px-4 md:pt-2.5 md:pb-3" style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}>
-              {/* Eyebrow: site + pin (opens map) + collapse chevron */}
-              <div className="mb-1.5 flex items-center justify-between gap-2">
-                <button
-                  type="button"
-                  onClick={() => hasLocation && setMapOpen(true)}
-                  disabled={!hasLocation}
-                  aria-label={hasLocation ? "Show location on map" : undefined}
-                  className="group inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white/85 disabled:cursor-default disabled:hover:text-white/55"
-                >
-                  {hasLocation && (
-                    <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/85 group-hover:text-[#3AAFA9]">
-                      <path
-                        d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z"
-                        stroke="currentColor"
-                        strokeWidth="1.4"
-                        strokeLinejoin="round"
-                        fill="none"
-                      />
-                      <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
-                    </svg>
-                  )}
-                  <span>{snippet.site} · {snippet.deployment}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => togglePanel(true)}
-                  aria-label="Hide identification panel"
-                  className="-mr-1 flex h-6 w-6 items-center justify-center rounded-full text-white/45 transition-colors hover:bg-white/10 hover:text-white/85"
-                >
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </div>
+            {/* Drag handle — pointerdown here starts the framer-motion drag. */}
+            <div
+              onPointerDown={(e) => dragControls.start(e)}
+              className="flex shrink-0 cursor-grab touch-none justify-center pt-1.5 pb-1 active:cursor-grabbing"
+              aria-label="Drag to reposition panel"
+              role="presentation"
+            >
+              <div className="h-1 w-9 rounded-full bg-white/20" />
+            </div>
+            <button
+              type="button"
+              onClick={() => togglePanel(true)}
+              aria-label="Hide identification panel"
+              className="absolute right-1.5 top-1 z-10 flex h-7 w-7 items-center justify-center rounded-full text-white/45 transition-colors hover:bg-white/10 hover:text-white/85"
+            >
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className="overflow-y-auto overscroll-contain px-3 pt-1 pb-2 md:px-4 md:pb-3" style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}>
 
               {!showStats ? (
                 <>
@@ -898,7 +892,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     </p>
                   )}
                   {status !== "loading" && (
-                    <div className="pb-1.5">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pb-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}
                         submitted={false}
@@ -906,6 +900,20 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                         onSuggest={(name) => setAnswerText(name)}
                         isLoggedIn={!!session}
                       />
+                      {hasLocation && (
+                        <button
+                          type="button"
+                          onClick={() => setMapOpen(true)}
+                          aria-label="Show where this clip was recorded on a map"
+                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                        >
+                          <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/80">
+                            <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
+                            <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
+                          </svg>
+                          Where is this?
+                        </button>
+                      )}
                     </div>
                   )}
                 </>
@@ -959,7 +967,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       recordingDatetime={snippet.recordingDatetime}
                       userIsCorrect={!!myAnswer?.isCorrect}
                     />
-                    <div className="mt-2">
+                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}
                         submitted={true}
@@ -967,6 +975,20 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                         onSuggest={() => {}}
                         isLoggedIn={!!session}
                       />
+                      {hasLocation && (
+                        <button
+                          type="button"
+                          onClick={() => setMapOpen(true)}
+                          aria-label="Show where this clip was recorded on a map"
+                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                        >
+                          <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/80">
+                            <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
+                            <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
+                          </svg>
+                          Where is this?
+                        </button>
+                      )}
                     </div>
                     <div className="mt-2 flex items-center justify-between gap-2">
                       <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">
