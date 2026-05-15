@@ -70,6 +70,50 @@ Schema summary:
 - `Snippet`: id, externalId (folder name), videoUrl, thumbnailUrl, site, deployment, depthM, lat, lon, recordingDatetime, staffAnswer, bboxJson
 - `Answer`: userId, snippetId, chosenOption, isCorrect
 - `User`: id, email, displayName, name
+- `SpeciesProbability`: cached OBIS species composition per (lat₀.₁°, lon₀.₁°, depth₁₀m, month) bucket
+- `SpeciesNameMap`: cached GBIF resolution of `staffAnswer` → canonical scientific name
+
+## Probability data flow (OBIS + GBIF)
+
+The fish-probability feature reads from two external APIs at backfill time
+**only** — never during user requests. The user-facing API routes read the
+cached rows from Postgres.
+
+### Sources
+
+| API | What we ask | Where it lands |
+|---|---|---|
+| OBIS `api.obis.org/v3` | `/taxon/Chondrichthyes` + `/taxon/Actinopterygii` (resolve AphiaIDs once); `/occurrence` paginated per bucket, multi-year (16y), month ± 1 | `SpeciesProbability` |
+| GBIF `api.gbif.org/v1` | `/species/match?name=<staffAnswer>&verbose=false`, use `canonicalName` to avoid authorship suffix | `SpeciesNameMap` |
+
+### Operational scripts
+
+| Command | Purpose | When |
+|---|---|---|
+| `npm run db:check-apis` | 5 probes: OBIS reachable, AphiaIDs resolve, `/occurrence` schema sane, GBIF canonical name, DB connected | Before any backfill; after every env/deploy change |
+| `npm run db:backfill` | Fill missing/errored buckets + resolve missing common names | After seeding new snippets |
+| `npm run db:backfill -- --stale-only` | Only refresh buckets whose `staleAfter` has passed | Same logic the cron uses; safe to run manually |
+| `npm run db:backfill -- --limit 5` | Cap buckets touched | Spot-check after a code change |
+
+Shared implementation lives in `src/lib/biodiversity/refresh.ts` — both the
+script and the cron endpoint call it.
+
+### Automated refresh
+
+`vercel.json` registers a weekly cron (`0 6 * * 1`, Mondays 06:00 UTC) hitting
+`/api/cron/refresh-probabilities`. Guarded by `Authorization: Bearer ${CRON_SECRET}`.
+Cache TTL is 90 days, so weekly cron keeps every bucket comfortably fresh.
+Capped at 20 buckets per invocation to stay inside Vercel's 60 s budget.
+
+Required env var: **`CRON_SECRET`** — any long random string; set in Vercel
+project settings under the production environment.
+
+### Failure modes
+
+- **OBIS 429 / 5xx** — `refresh.ts` retries 3× with exponential backoff; persistent failure persists an `ERROR` row and continues.
+- **OBIS schema drift** — `check-apis.ts` probe C catches missing `species` / `scientificName` / `id` keys before they corrupt the cache.
+- **GBIF unresolved name** — stored with `scientificName=null`; the probability route falls back to `staffAnswerScientific=null` and the UI hides the staff-answer badge.
+- **Cron auth fail** — returns 401; check `CRON_SECRET` is set in Vercel production env.
 
 ## Current State (May 2026)
 
@@ -91,4 +135,7 @@ SUPABASE_URL=https://aazxphcrexkggbmmceli.supabase.co
 SUPABASE_STORAGE_BUCKET=snippets
 NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
+ANTHROPIC_API_KEY=...             # ID-guide chat (server-side only)
+ANTHROPIC_MODEL=claude-sonnet-4-6 # optional override
+CRON_SECRET=...                   # required in production for /api/cron/*
 ```

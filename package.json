@@ -9,6 +9,8 @@
     "lint": "next lint",
     "db:push": "prisma db push",
     "db:seed": "tsx scripts/seed.ts",
+    "db:check-apis": "tsx --env-file=.env.local scripts/check-apis.ts",
+    "db:backfill": "tsx --env-file=.env.local scripts/backfill-probability.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
