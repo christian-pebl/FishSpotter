@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import speciesTraitsData from "@/data/species-traits.json";
 import { TRAIT_CATEGORIES, type SpeciesCatalogue, type TraitSelection } from "@/lib/idguide/traits";
 import { narrowCandidates } from "@/lib/idguide/narrow";
@@ -23,20 +23,21 @@ function prettyValue(v: string): string {
 }
 
 export function IdGuideChipFallback({
+  selected,
+  onSelectionChange,
   onPickCandidate,
+  onBackToChat,
 }: {
+  selected: TraitSelection;
+  onSelectionChange: (next: TraitSelection) => void;
   onPickCandidate: (commonName: string) => void;
+  onBackToChat?: () => void;
 }) {
-  const [selected, setSelected] = useState<TraitSelection>({});
-
   const toggle = (category: keyof TraitSelection, value: string) => {
-    setSelected((prev) => {
-      const current = (prev[category] as string[] | undefined) ?? [];
-      const has = current.includes(value);
-      const next = has ? current.filter((v) => v !== value) : [...current, value];
-      // Cast back via Record to keep types clean.
-      return { ...prev, [category]: next } as TraitSelection;
-    });
+    const current = (selected[category] as string[] | undefined) ?? [];
+    const has = current.includes(value);
+    const next = has ? current.filter((v) => v !== value) : [...current, value];
+    onSelectionChange({ ...selected, [category]: next } as TraitSelection);
   };
 
   const candidates = useMemo(
@@ -46,8 +47,10 @@ export function IdGuideChipFallback({
         mustHave: selected,
         limit: 8,
       }),
-    [selected]
+    [selected],
   );
+
+  const hasSelections = Object.values(selected).some((v) => Array.isArray(v) && v.length > 0);
 
   return (
     <div className="flex h-full flex-col">
@@ -65,6 +68,7 @@ export function IdGuideChipFallback({
                     key={value}
                     type="button"
                     onClick={() => toggle(cat, value)}
+                    aria-pressed={isOn}
                     className={
                       isOn
                         ? "rounded-full bg-[#3AAFA9] px-2.5 py-1 text-[11px] font-semibold text-[#17252A]"
@@ -78,14 +82,38 @@ export function IdGuideChipFallback({
             </div>
           </div>
         ))}
+        <div className="flex items-center justify-between pt-2 text-[10px] uppercase tracking-wider">
+          {hasSelections ? (
+            <button
+              type="button"
+              onClick={() => onSelectionChange({})}
+              className="text-white/45 hover:text-white/80"
+            >
+              Clear filters
+            </button>
+          ) : (
+            <span />
+          )}
+          {onBackToChat && (
+            <button
+              type="button"
+              onClick={onBackToChat}
+              className="text-[#3AAFA9] hover:text-[#59c8c3]"
+            >
+              Back to biologist chat
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="shrink-0 border-t border-white/10 bg-[#0f1d22]/95 px-4 py-3">
-        <p className="pb-1.5 text-[10px] uppercase tracking-wider text-white/55">
-          Matches
-        </p>
+        <p className="pb-1.5 text-[10px] uppercase tracking-wider text-white/55">Matches</p>
         {candidates.length === 0 ? (
-          <p className="text-xs text-white/45">No species match those traits.</p>
+          <p className="text-xs text-white/45">
+            {hasSelections
+              ? "No species in the catalogue match those traits."
+              : "Pick a few traits above to see matching species."}
+          </p>
         ) : (
           <div className="max-h-40 space-y-1.5 overflow-y-auto">
             {candidates.slice(0, 6).map((c) => (

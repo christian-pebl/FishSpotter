@@ -14,8 +14,7 @@ type ProbabilityResponse =
       fetchedAt: string;
     }
   | { status: "INSUFFICIENT_DATA" }
-  | { status: "ERROR"; errorMessage?: string }
-  | { status: "PENDING" };
+  | { status: "ERROR"; errorMessage?: string };
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -83,18 +82,10 @@ export function RarityPanel({
   if (error || !data) return null;
   if (data.status === "ERROR") return null;
 
-  if (data.status === "PENDING") {
-    return (
-      <div className="mt-2 text-[10px] uppercase tracking-wider text-white/35">
-        Computing ecology…
-      </div>
-    );
-  }
-
   if (data.status === "INSUFFICIENT_DATA") {
     return (
       <div className="mt-2 text-[10px] text-white/40">
-        Not enough OBIS data for this location and season.
+        Not enough OBIS data for this location and season yet.
       </div>
     );
   }

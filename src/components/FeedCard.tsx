@@ -897,13 +897,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       to save your streak
                     </p>
                   )}
-                  {session && (
+                  {status !== "loading" && (
                     <div className="pb-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}
                         submitted={false}
                         staffAnswer={snippet.staffAnswer}
                         onSuggest={(name) => setAnswerText(name)}
+                        isLoggedIn={!!session}
                       />
                     </div>
                   )}
@@ -964,6 +965,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                         submitted={true}
                         staffAnswer={stats!.staffAnswer}
                         onSuggest={() => {}}
+                        isLoggedIn={!!session}
                       />
                     </div>
                     <div className="mt-2 flex items-center justify-between gap-2">

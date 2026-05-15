@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import speciesTraitsData from "@/data/species-traits.json";
-import type { SpeciesCatalogue } from "@/lib/idguide/traits";
+import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import { IdGuideChat } from "./IdGuideChat";
 import { IdGuideChipFallback } from "./IdGuideChipFallback";
 
@@ -16,6 +16,7 @@ export function IdGuideSheet({
   snippetId,
   onAnswerPicked,
   fieldNoteFor,
+  isLoggedIn,
 }: {
   open: boolean;
   onClose: () => void;
@@ -23,14 +24,54 @@ export function IdGuideSheet({
   onAnswerPicked: (commonName: string) => void;
   /** When set, sheet opens in read-only field-note mode for the given staff answer (scientific or common name). */
   fieldNoteFor?: { commonName: string; scientificName?: string };
+  isLoggedIn: boolean;
 }) {
-  const initialMode: Mode = fieldNoteFor ? "fieldNote" : "chat";
+  const initialMode: Mode = fieldNoteFor ? "fieldNote" : isLoggedIn ? "chat" : "chips";
   const [mode, setMode] = useState<Mode>(initialMode);
+  // Lift chip selection so switching chat ↔ chips doesn't reset it.
+  const [chipSelection, setChipSelection] = useState<TraitSelection>({});
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   useEffect(() => {
     if (!open) return;
-    setMode(fieldNoteFor ? "fieldNote" : "chat");
-  }, [open, fieldNoteFor]);
+    setMode(fieldNoteFor ? "fieldNote" : isLoggedIn ? "chat" : "chips");
+  }, [open, fieldNoteFor, isLoggedIn]);
+
+  // Track visualViewport so the sheet rises above the mobile keyboard.
+  useEffect(() => {
+    if (!open || typeof window === "undefined" || !window.visualViewport) return;
+    const vv = window.visualViewport;
+    const onResize = () => {
+      const offset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      setKeyboardOffset(offset);
+    };
+    vv.addEventListener("resize", onResize);
+    vv.addEventListener("scroll", onResize);
+    onResize();
+    return () => {
+      vv.removeEventListener("resize", onResize);
+      vv.removeEventListener("scroll", onResize);
+    };
+  }, [open]);
+
+  // Focus management: remember what had focus, move into the dialog on open,
+  // restore on close.
+  useEffect(() => {
+    if (!open) return;
+    lastFocusedRef.current = (document.activeElement as HTMLElement) ?? null;
+    const dialog = dialogRef.current;
+    if (dialog) {
+      const focusable = dialog.querySelector<HTMLElement>(
+        "input, textarea, button:not([disabled]), [tabindex]:not([tabindex='-1'])",
+      );
+      focusable?.focus();
+    }
+    return () => {
+      lastFocusedRef.current?.focus?.();
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -48,11 +89,10 @@ export function IdGuideSheet({
 
   const fieldNote = useMemo(() => {
     if (!fieldNoteFor) return null;
-    // Try scientific name first, then a common-name search.
     const sci = fieldNoteFor.scientificName;
     if (sci && CATALOGUE[sci]) return { ...CATALOGUE[sci], scientificName: sci };
     const match = Object.entries(CATALOGUE).find(
-      ([, t]) => t.commonName.toLowerCase() === fieldNoteFor.commonName.toLowerCase()
+      ([, t]) => t.commonName.toLowerCase() === fieldNoteFor.commonName.toLowerCase(),
     );
     if (!match) return null;
     return { ...match[1], scientificName: match[0] };
@@ -76,7 +116,12 @@ export function IdGuideSheet({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
         className="relative flex h-[80vh] w-full max-w-lg flex-col overflow-hidden bg-[#0f1d22] shadow-2xl sm:h-[70vh] sm:rounded-2xl"
+        style={{
+          transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
+          transition: "transform 120ms ease-out",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-2.5">
@@ -86,7 +131,7 @@ export function IdGuideSheet({
             </p>
             {mode !== "fieldNote" && (
               <p className="truncate text-[10px] text-white/45">
-                The AI never auto-fills your answer.
+                You always pick your own answer.
               </p>
             )}
           </div>
@@ -115,10 +160,13 @@ export function IdGuideSheet({
 
         {mode === "chips" && (
           <IdGuideChipFallback
+            selected={chipSelection}
+            onSelectionChange={setChipSelection}
             onPickCandidate={(name) => {
               onAnswerPicked(name);
               onClose();
             }}
+            onBackToChat={isLoggedIn ? () => setMode("chat") : undefined}
           />
         )}
 
