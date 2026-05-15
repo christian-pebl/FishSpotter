@@ -65,7 +65,7 @@ export function Header() {
               src="/branding/PEBL Logo-1.svg"
               alt=""
               aria-hidden
-              className={onFeed ? "h-7 w-auto opacity-50 md:h-8" : "h-7 w-auto md:h-9"}
+              className={onFeed ? "h-7 w-auto opacity-30 md:h-8" : "h-7 w-auto md:h-9"}
             />
           </Link>
 
