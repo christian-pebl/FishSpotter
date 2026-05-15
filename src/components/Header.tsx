@@ -19,7 +19,7 @@ export function Header() {
   // On /feed: render as a transparent overlay so the video fills the viewport.
   // Elsewhere: render a slim solid bar.
   const wrapClass = onFeed
-    ? "pointer-events-none absolute inset-x-0 top-0 z-40"
+    ? "pointer-events-none absolute inset-x-0 top-0 z-40 bg-gradient-to-b from-black/40 via-black/15 to-transparent pb-3 backdrop-blur-[2px]"
     : "relative z-40 border-b border-[color:var(--border)] bg-[color:var(--surface)]/88 backdrop-blur";
 
   return (

@@ -705,7 +705,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute inset-x-2 z-20 flex max-h-[calc(100%-3.5rem)] flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150 md:inset-x-auto md:left-1/2 md:w-[min(560px,calc(100%-2rem))] md:-translate-x-1/2"
+            className="absolute left-1/2 z-20 flex max-h-[calc(100%-3.5rem)] w-[min(560px,calc(100%-1rem))] -translate-x-1/2 flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150"
             style={{
               bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
             }}
