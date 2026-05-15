@@ -91,14 +91,45 @@ export function IdGuideSheet({
     if (!fieldNoteFor) return null;
     const sci = fieldNoteFor.scientificName;
     if (sci && CATALOGUE[sci]) return { ...CATALOGUE[sci], scientificName: sci };
-    const normalise = (s: string) => s.toLowerCase().replace(/[-\s]+/g, "");
+    const normalise = (s: string) =>
+      s.toLowerCase().replace(/\([^)]*\)/g, "").replace(/[^a-z0-9]+/g, "");
+    const tokenSort = (s: string) =>
+      s.toLowerCase().replace(/\([^)]*\)/g, "").split(/[^a-z0-9]+/).filter(Boolean).sort().join("");
+    const stripPlural = (s: string) => (s.endsWith("s") && s.length > 3 ? s.slice(0, -1) : s);
+
     const target = normalise(fieldNoteFor.commonName);
-    const match = Object.entries(CATALOGUE).find(
-      ([, t]) => normalise(t.commonName) === target,
-    );
+    // scientific-name match against catalogue key
+    for (const k of Object.keys(CATALOGUE)) {
+      if (normalise(k) === target) return { ...CATALOGUE[k], scientificName: k };
+    }
+    // exact normalised commonName
+    let match = Object.entries(CATALOGUE).find(([, t]) => normalise(t.commonName) === target);
+    if (!match) {
+      const singular = stripPlural(target);
+      match = Object.entries(CATALOGUE).find(([, t]) => stripPlural(normalise(t.commonName)) === singular);
+    }
+    if (!match) {
+      const sortedTarget = tokenSort(fieldNoteFor.commonName);
+      match = Object.entries(CATALOGUE).find(([, t]) => tokenSort(t.commonName) === sortedTarget);
+    }
     if (!match) return null;
     return { ...match[1], scientificName: match[0] };
   }, [fieldNoteFor]);
+
+  // Lifted up so the fieldNote dead-end can switch the user to any catalogue
+  // species. The selectedFallback overrides fieldNoteFor while the sheet is
+  // open, without losing the original query for the title.
+  const [selectedFallback, setSelectedFallback] = useState<string | null>(null);
+  const effectiveFieldNote = useMemo(() => {
+    if (selectedFallback && CATALOGUE[selectedFallback]) {
+      return { ...CATALOGUE[selectedFallback], scientificName: selectedFallback };
+    }
+    return fieldNote;
+  }, [fieldNote, selectedFallback]);
+
+  useEffect(() => {
+    setSelectedFallback(null);
+  }, [open, fieldNoteFor]);
 
   if (!open) return null;
 
@@ -178,32 +209,105 @@ export function IdGuideSheet({
 
         {mode === "fieldNote" && (
           <div className="flex-1 overflow-y-auto px-4 py-4">
-            {fieldNote ? (
+            {effectiveFieldNote ? (
               <>
+                {selectedFallback && fieldNoteFor && (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedFallback(null)}
+                    className="mb-2 inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/55 hover:text-white/85"
+                  >
+                    ← Back to “{fieldNoteFor.commonName}”
+                  </button>
+                )}
                 <p className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-[#3AAFA9]">
-                  {fieldNote.commonName}
+                  {effectiveFieldNote.commonName}
                 </p>
                 <p className="pb-3 text-[12px] italic text-white/55">
-                  {fieldNote.scientificName}
+                  {effectiveFieldNote.scientificName}
                 </p>
-                <p className="pb-4 text-sm leading-relaxed text-white/85">{fieldNote.fieldNote}</p>
+                <p className="pb-4 text-sm leading-relaxed text-white/85">{effectiveFieldNote.fieldNote}</p>
                 <div className="space-y-2 text-[12px] text-white/75">
-                  <TraitRow label="Body shape" values={fieldNote.bodyShape} />
-                  <TraitRow label="Size" values={[fieldNote.size]} />
-                  <TraitRow label="Colour" values={fieldNote.coloration} />
-                  <TraitRow label="Markings" values={fieldNote.markings.filter((m) => m !== "none")} />
-                  <TraitRow label="Fins" values={fieldNote.finShape} />
-                  <TraitRow label="Features" values={fieldNote.features.filter((f) => f !== "none")} />
-                  <TraitRow label="Behaviour" values={fieldNote.behavior} />
-                  <TraitRow label="Habitat" values={fieldNote.habitat} />
+                  <TraitRow label="Body shape" values={effectiveFieldNote.bodyShape} />
+                  <TraitRow label="Size" values={[effectiveFieldNote.size]} />
+                  <TraitRow label="Colour" values={effectiveFieldNote.coloration} />
+                  <TraitRow label="Markings" values={effectiveFieldNote.markings.filter((m) => m !== "none")} />
+                  <TraitRow label="Fins" values={effectiveFieldNote.finShape} />
+                  <TraitRow label="Features" values={effectiveFieldNote.features.filter((f) => f !== "none")} />
+                  <TraitRow label="Behaviour" values={effectiveFieldNote.behavior} />
+                  <TraitRow label="Habitat" values={effectiveFieldNote.habitat} />
                 </div>
               </>
             ) : (
-              <p className="text-sm text-white/55">No field notes yet for this species.</p>
+              <CatalogueBrowser
+                staffAnswer={fieldNoteFor?.commonName ?? null}
+                onPick={(sci) => setSelectedFallback(sci)}
+              />
             )}
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function CatalogueBrowser({
+  staffAnswer,
+  onPick,
+}: {
+  staffAnswer: string | null;
+  onPick: (scientificName: string) => void;
+}) {
+  const [query, setQuery] = useState("");
+  const entries = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const all = Object.entries(CATALOGUE).map(([sci, t]) => ({
+      sci,
+      commonName: t.commonName,
+      fieldNote: t.fieldNote,
+    }));
+    all.sort((a, b) => a.commonName.localeCompare(b.commonName));
+    if (!q) return all;
+    return all.filter(
+      (e) =>
+        e.commonName.toLowerCase().includes(q) ||
+        e.sci.toLowerCase().includes(q),
+    );
+  }, [query]);
+
+  return (
+    <div>
+      <p className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-amber-200">
+        Field notes for “{staffAnswer ?? "this species"}” aren't in the catalogue yet
+      </p>
+      <p className="pb-3 text-[12px] text-white/65">
+        Browse the species the biologist tracks on the Welsh coast — pick one
+        to see how to spot it.
+      </p>
+      <input
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search by common or scientific name…"
+        className="mb-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#3AAFA9] focus:outline-none"
+      />
+      {entries.length === 0 ? (
+        <p className="py-2 text-sm text-white/45">No matches.</p>
+      ) : (
+        <div className="space-y-1.5">
+          {entries.map((e) => (
+            <button
+              key={e.sci}
+              type="button"
+              onClick={() => onPick(e.sci)}
+              className="block w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left text-[12px] hover:border-[#3AAFA9]/60 hover:bg-white/10"
+            >
+              <div className="text-white/90">{e.commonName}</div>
+              <div className="text-[10px] italic text-white/45">{e.sci}</div>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
