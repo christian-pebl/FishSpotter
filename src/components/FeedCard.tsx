@@ -129,6 +129,19 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   // framer-motion drag, gated on the visible handle so taps on form
   // controls don't accidentally initiate a drag.
   const dragControls = useDragControls();
+  const articleRef = useRef<HTMLElement>(null);
+  // Default panel position: vertically centered on desktop, bottom-snapped on
+  // mobile. matchMedia is the cleanest way to express this without inline
+  // styles fighting Tailwind's responsive classes.
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setIsDesktop(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   const hasLocation =
     typeof snippet.lat === "number" &&
@@ -203,6 +216,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     submitOriginal,
     submitError,
     handleSubmit,
+    editAnswer,
   } = useCreatureQuiz(snippet, "/feed");
 
   const bboxes = useMemo(
@@ -520,7 +534,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const filterId = `dot-glow-${snippet.id}`;
 
   return (
-    <article className="relative h-full min-h-0 overflow-hidden bg-black text-white">
+    <article ref={articleRef} className="relative h-full min-h-0 overflow-hidden bg-black text-white">
       <div className="absolute inset-0 overflow-hidden bg-black">
         <video
           ref={videoRef}
@@ -695,6 +709,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       {/* Floating glass panel — Claude-style input or stats card */}
       <AnimatePresence>
         {!panelCollapsed && (
+          <div
+            className="pointer-events-none absolute z-20 w-[min(560px,calc(100%-1rem))]"
+            style={
+              isDesktop
+                ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
+                : {
+                    bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }
+            }
+          >
           <motion.aside
             key="panel"
             initial={reduceMotion ? false : { opacity: 0, y: 16 }}
@@ -713,21 +739,27 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             dragListener={false}
             dragMomentum={false}
             dragElastic={0.08}
-            dragConstraints={{ top: -1200, bottom: 0, left: -160, right: 160 }}
-            className="absolute left-1/2 z-20 flex max-h-[calc(100%-3.5rem)] w-[min(560px,calc(100%-1rem))] -translate-x-1/2 flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150"
-            style={{
-              bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
-            }}
+            dragConstraints={articleRef}
+            className="pointer-events-auto relative flex max-h-[min(80vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150"
           >
-            {/* Drag handle — pointerdown here starts the framer-motion drag. */}
-            <div
+            {/* Drag-only-from-here button. Visible grip so users know it's the
+                drag affordance. dragListener=false on the parent means drag
+                cannot start anywhere else. */}
+            <button
+              type="button"
               onPointerDown={(e) => dragControls.start(e)}
-              className="flex shrink-0 cursor-grab touch-none justify-center pt-1.5 pb-1 active:cursor-grabbing"
               aria-label="Drag to reposition panel"
-              role="presentation"
+              className="absolute left-1/2 top-1 z-10 flex h-6 w-9 -translate-x-1/2 cursor-grab touch-none items-center justify-center rounded-full text-white/35 transition-colors hover:bg-white/10 hover:text-white/75 active:cursor-grabbing"
             >
-              <div className="h-1 w-9 rounded-full bg-white/20" />
-            </div>
+              <svg width="14" height="6" viewBox="0 0 14 6" fill="currentColor" aria-hidden="true">
+                <circle cx="2" cy="1.5" r="1" />
+                <circle cx="7" cy="1.5" r="1" />
+                <circle cx="12" cy="1.5" r="1" />
+                <circle cx="2" cy="4.5" r="1" />
+                <circle cx="7" cy="4.5" r="1" />
+                <circle cx="12" cy="4.5" r="1" />
+              </svg>
+            </button>
             <button
               type="button"
               onClick={() => togglePanel(true)}
@@ -991,9 +1023,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       )}
                     </div>
                     <div className="mt-2 flex items-center justify-between gap-2">
-                      <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">
-                        Archive
-                      </Link>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={editAnswer}
+                          className="text-[10px] uppercase tracking-wider text-white/55 hover:text-white/90"
+                        >
+                          ✎ Edit answer
+                        </button>
+                        <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">
+                          Archive
+                        </Link>
+                      </div>
                       {hasNext && (
                         <motion.button
                           type="button"
@@ -1013,6 +1054,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               )}
             </div>
           </motion.aside>
+          </div>
         )}
       </AnimatePresence>
       {hasLocation && (

@@ -142,6 +142,17 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     return handleSubmit({ answerText: correction.original, skipCorrection: true });
   }, [correction, handleSubmit]);
 
+  // Flip back to the input view so the user can correct their previous answer.
+  // The API route already upserts on (userId, snippetId), so a resubmit
+  // replaces the stored answer without touching createdAt.
+  const editAnswer = useCallback(() => {
+    if (!myAnswer) return;
+    setAnswerTextState(myAnswer.chosenOption);
+    setMyAnswer(null);
+    setCorrection(null);
+    setSubmitError("");
+  }, [myAnswer]);
+
   return {
     session,
     status,
@@ -155,6 +166,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     submitOriginal,
     submitError,
     handleSubmit,
+    editAnswer,
     loadMyAnswer,
     loadStats,
   };

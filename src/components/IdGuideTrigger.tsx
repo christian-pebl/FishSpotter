@@ -1,8 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import speciesTraitsData from "@/data/species-traits.json";
+import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { IdGuideSheet } from "./IdGuideSheet";
+
+const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
+
+// staffAnswer comes from operator metadata and isn't always punctuated the
+// same way as the catalogue commonName (e.g. "lesser spotted catshark" vs
+// "Lesser-spotted catshark"). Compare in a punctuation-insensitive way so
+// the field-note lookup actually resolves.
+function normalise(name: string) {
+  return name.toLowerCase().replace(/[-\s]+/g, "");
+}
+
+function resolveScientificName(commonName: string): string | undefined {
+  const target = normalise(commonName);
+  if (!target) return undefined;
+  for (const [sci, traits] of Object.entries(CATALOGUE)) {
+    if (normalise(traits.commonName) === target) return sci;
+  }
+  return undefined;
+}
 
 export function IdGuideTrigger({
   snippetId,
@@ -22,6 +43,13 @@ export function IdGuideTrigger({
 }) {
   const [open, setOpen] = useState(false);
 
+  // Resolve once per render so IdGuideSheet's lookup hits the scientific-name
+  // path instead of relying on a brittle case-only commonName match.
+  const scientificName = useMemo(
+    () => (submitted ? resolveScientificName(staffAnswer) : undefined),
+    [submitted, staffAnswer],
+  );
+
   if (submitted) {
     return (
       <>
@@ -37,7 +65,7 @@ export function IdGuideTrigger({
           onClose={() => setOpen(false)}
           snippetId={snippetId}
           onAnswerPicked={() => setOpen(false)}
-          fieldNoteFor={{ commonName: staffAnswer }}
+          fieldNoteFor={{ commonName: staffAnswer, scientificName }}
           isLoggedIn={isLoggedIn}
         />
       </>

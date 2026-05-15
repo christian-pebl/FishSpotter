@@ -91,8 +91,10 @@ export function IdGuideSheet({
     if (!fieldNoteFor) return null;
     const sci = fieldNoteFor.scientificName;
     if (sci && CATALOGUE[sci]) return { ...CATALOGUE[sci], scientificName: sci };
+    const normalise = (s: string) => s.toLowerCase().replace(/[-\s]+/g, "");
+    const target = normalise(fieldNoteFor.commonName);
     const match = Object.entries(CATALOGUE).find(
-      ([, t]) => t.commonName.toLowerCase() === fieldNoteFor.commonName.toLowerCase(),
+      ([, t]) => normalise(t.commonName) === target,
     );
     if (!match) return null;
     return { ...match[1], scientificName: match[0] };
