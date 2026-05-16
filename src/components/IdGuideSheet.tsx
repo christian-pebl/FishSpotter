@@ -5,10 +5,11 @@ import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import { IdGuideChat } from "./IdGuideChat";
 import { IdGuideChipFallback } from "./IdGuideChipFallback";
+import { IdGuideWizard } from "./IdGuideWizard";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
-type Mode = "chat" | "chips" | "fieldNote";
+type Mode = "wizard" | "chat" | "chips" | "fieldNote";
 
 export function IdGuideSheet({
   open,
@@ -26,7 +27,9 @@ export function IdGuideSheet({
   fieldNoteFor?: { commonName: string; scientificName?: string };
   isLoggedIn: boolean;
 }) {
-  const initialMode: Mode = fieldNoteFor ? "fieldNote" : isLoggedIn ? "chat" : "chips";
+  // Wizard is now the default entry: it works for everyone (no API needed)
+  // and gives first-time users a clear funnel before chat/chips come in.
+  const initialMode: Mode = fieldNoteFor ? "fieldNote" : "wizard";
   const [mode, setMode] = useState<Mode>(initialMode);
   // Lift chip selection so switching chat ↔ chips doesn't reset it.
   const [chipSelection, setChipSelection] = useState<TraitSelection>({});
@@ -36,7 +39,7 @@ export function IdGuideSheet({
 
   useEffect(() => {
     if (!open) return;
-    setMode(fieldNoteFor ? "fieldNote" : isLoggedIn ? "chat" : "chips");
+    setMode(fieldNoteFor ? "fieldNote" : "wizard");
   }, [open, fieldNoteFor, isLoggedIn]);
 
   // Track visualViewport so the sheet rises above the mobile keyboard.
@@ -143,8 +146,10 @@ export function IdGuideSheet({
     mode === "fieldNote"
       ? `How to spot a ${fieldNoteFor?.commonName ?? ""}`
       : mode === "chips"
-        ? "Identification — manual filter"
-        : "Identification — ask the biologist";
+        ? "Identification — all traits"
+        : mode === "chat"
+          ? "Identification — ask the biologist"
+          : "Identification — guided";
 
   return (
     <div
@@ -186,6 +191,19 @@ export function IdGuideSheet({
           </button>
         </div>
 
+        {mode === "wizard" && (
+          <div className="flex min-h-0 flex-1 flex-col">
+            <IdGuideWizard
+              onPick={(name) => {
+                onAnswerPicked(name);
+                onClose();
+              }}
+              onSwitchToChat={isLoggedIn ? () => setMode("chat") : undefined}
+              onSwitchToChips={() => setMode("chips")}
+            />
+          </div>
+        )}
+
         {mode === "chat" && (
           <div className="flex min-h-0 flex-1 flex-col">
             <IdGuideChat
@@ -208,7 +226,7 @@ export function IdGuideSheet({
                 onAnswerPicked(name);
                 onClose();
               }}
-              onBackToChat={isLoggedIn ? () => setMode("chat") : undefined}
+              onBackToChat={() => setMode("wizard")}
             />
           </div>
         )}

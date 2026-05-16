@@ -100,7 +100,7 @@ export function IdGuideChipFallback({
               onClick={onBackToChat}
               className="text-[#3AAFA9] hover:text-[#59c8c3]"
             >
-              Back to biologist chat
+              Back to guided
             </button>
           )}
         </div>

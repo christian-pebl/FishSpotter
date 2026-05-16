@@ -1,0 +1,320 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import speciesTraitsData from "@/data/species-traits.json";
+import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
+import { narrowCandidates, type Candidate } from "@/lib/idguide/narrow";
+
+const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
+
+type StepKey = "bodyShape" | "size" | "habitat" | "markings" | "behavior";
+
+type StepOption = { value: string; label: string; hint?: string };
+
+type Step = { key: StepKey; question: string; options: StepOption[] };
+
+// Ordered most-discriminating first. Hints use everyday vocabulary so a
+// citizen scientist can answer without knowing fish anatomy.
+const STEPS: Step[] = [
+  {
+    key: "bodyShape",
+    question: "What was the body shape?",
+    options: [
+      { value: "fusiform", label: "Torpedo / streamlined", hint: "Cod, mackerel, bass" },
+      { value: "elongated", label: "Long and slender", hint: "Pollack, sand smelt" },
+      { value: "eel-like", label: "Eel-like", hint: "Conger, butterfish" },
+      { value: "flat-dorsoventral", label: "Flat — lying on bottom", hint: "Plaice, dragonet" },
+      { value: "laterally-compressed", label: "Tall and thin", hint: "Wrasse, bib" },
+    ],
+  },
+  {
+    key: "size",
+    question: "Roughly how big was it?",
+    options: [
+      { value: "small", label: "Small", hint: "under ~10 cm" },
+      { value: "medium", label: "Medium", hint: "~10–50 cm" },
+      { value: "large", label: "Large", hint: "over ~50 cm" },
+    ],
+  },
+  {
+    key: "habitat",
+    question: "Where was it?",
+    options: [
+      { value: "open-water", label: "Open water" },
+      { value: "midwater", label: "Hovering in mid-water" },
+      { value: "sandy-bottom", label: "On a sandy bottom" },
+      { value: "rocky-crevice", label: "In a rocky crevice" },
+      { value: "kelp", label: "In kelp or weed" },
+      { value: "near-surface", label: "Near the surface" },
+    ],
+  },
+  {
+    key: "markings",
+    question: "Any noticeable markings?",
+    options: [
+      { value: "lateral-stripe", label: "Stripe along the side" },
+      { value: "dorsal-spots", label: "Spots on body or fins" },
+      { value: "eye-spot", label: "An eye-spot (ocellus)" },
+      { value: "banded", label: "Vertical bands" },
+      { value: "none", label: "None — plain or uniform" },
+    ],
+  },
+  {
+    key: "behavior",
+    question: "How was it moving?",
+    options: [
+      { value: "schooling", label: "In a school or shoal" },
+      { value: "hovering", label: "Hovering still" },
+      { value: "hiding", label: "Hiding or peeking out" },
+      { value: "fast-swim", label: "Cruising fast" },
+      { value: "on-bottom", label: "Resting on the bottom" },
+    ],
+  },
+];
+
+const EMPTY_SELECTIONS: Record<StepKey, string | null> = {
+  bodyShape: null,
+  size: null,
+  habitat: null,
+  markings: null,
+  behavior: null,
+};
+
+// Reveal once we're past the last step OR narrowed enough that more
+// questions would just churn ordering without changing the answer set.
+const NARROW_ENOUGH = 5;
+
+export function IdGuideWizard({
+  probabilityByScientific = {},
+  onPick,
+  onSwitchToChat,
+  onSwitchToChips,
+}: {
+  probabilityByScientific?: Record<string, number>;
+  onPick: (commonName: string) => void;
+  /** When the user is logged in we offer the chat as a fallback. */
+  onSwitchToChat?: () => void;
+  onSwitchToChips: () => void;
+}) {
+  const [stepIdx, setStepIdx] = useState(0);
+  const [selections, setSelections] = useState(EMPTY_SELECTIONS);
+
+  const mustHave = useMemo<TraitSelection>(() => {
+    const out: Record<string, string[]> = {};
+    for (const [k, v] of Object.entries(selections)) {
+      if (v) out[k] = [v];
+    }
+    return out as TraitSelection;
+  }, [selections]);
+
+  const candidates = useMemo(
+    () =>
+      narrowCandidates({
+        catalogue: CATALOGUE,
+        mustHave,
+        probabilityByScientific,
+        limit: 12,
+      }),
+    [mustHave, probabilityByScientific],
+  );
+
+  const hasAnsweredAny = Object.values(selections).some((v) => v != null);
+  const showFinal =
+    stepIdx >= STEPS.length || (hasAnsweredAny && candidates.length <= NARROW_ENOUGH);
+
+  function answerCurrent(value: string | null) {
+    const key = STEPS[stepIdx].key;
+    setSelections((prev) => ({ ...prev, [key]: value }));
+    setStepIdx((i) => i + 1);
+  }
+
+  function back() {
+    if (stepIdx === 0) return;
+    setStepIdx((i) => i - 1);
+  }
+
+  function restart() {
+    setStepIdx(0);
+    setSelections(EMPTY_SELECTIONS);
+  }
+
+  if (showFinal) {
+    return (
+      <FinalReveal
+        candidates={candidates}
+        onPick={onPick}
+        onRestart={restart}
+        onSwitchToChat={onSwitchToChat}
+        onSwitchToChips={onSwitchToChips}
+      />
+    );
+  }
+
+  const step = STEPS[stepIdx];
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]">
+        <div className="flex items-center justify-between pb-1 text-[10px] uppercase tracking-wider">
+          <span className="text-white/55">
+            Step {stepIdx + 1} of {STEPS.length}
+          </span>
+          <span className="text-white/35">
+            {candidates.length} match{candidates.length === 1 ? "" : "es"} so far
+          </span>
+        </div>
+        <h3 className="pb-3 text-base font-semibold text-white/90">{step.question}</h3>
+        <div className="space-y-2">
+          {step.options.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => answerCurrent(opt.value)}
+              className="block w-full rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-left transition-colors hover:border-[#3AAFA9]/60 hover:bg-white/10"
+            >
+              <span className="block text-sm text-white/90">{opt.label}</span>
+              {opt.hint && (
+                <span className="block pt-0.5 text-[11px] text-white/50">{opt.hint}</span>
+              )}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => answerCurrent(null)}
+            className="block w-full rounded-xl border border-white/10 bg-transparent px-3 py-2.5 text-left text-sm text-white/55 transition-colors hover:border-white/25 hover:text-white/85"
+          >
+            Not sure — skip this question
+          </button>
+        </div>
+      </div>
+      <Footer
+        back={stepIdx > 0 ? back : null}
+        onSwitchToChat={onSwitchToChat}
+        onSwitchToChips={onSwitchToChips}
+      />
+    </div>
+  );
+}
+
+function FinalReveal({
+  candidates,
+  onPick,
+  onRestart,
+  onSwitchToChat,
+  onSwitchToChips,
+}: {
+  candidates: Candidate[];
+  onPick: (commonName: string) => void;
+  onRestart: () => void;
+  onSwitchToChat?: () => void;
+  onSwitchToChips: () => void;
+}) {
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]">
+        {candidates.length === 0 ? (
+          <div>
+            <p className="text-sm text-white/80">
+              No species in our local catalogue match all of those traits.
+            </p>
+            <p className="pt-2 text-[12px] text-white/55">
+              Try starting over and skipping a step you're unsure about — or
+              switch to the manual trait filter for a less strict match.
+            </p>
+          </div>
+        ) : (
+          <>
+            <p className="pb-1 text-[10px] uppercase tracking-wider text-white/55">
+              {candidates.length === 1
+                ? "1 likely match"
+                : `${candidates.length} likely matches`}
+            </p>
+            <p className="pb-3 text-[11px] text-white/45">
+              Pick the one that fits — or read the field note first.
+            </p>
+            <div className="space-y-3">
+              {candidates.map((c) => {
+                const traits = CATALOGUE[c.scientificName];
+                return (
+                  <div
+                    key={c.scientificName}
+                    className="rounded-xl border border-white/12 bg-white/5 p-3"
+                  >
+                    <h4 className="text-sm font-semibold text-white/95">{c.commonName}</h4>
+                    <p className="pb-2 text-[11px] italic text-white/55">
+                      {c.scientificName}
+                    </p>
+                    {traits?.fieldNote && (
+                      <p className="pb-3 text-[12px] leading-relaxed text-white/75">
+                        {traits.fieldNote}
+                      </p>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => onPick(c.commonName)}
+                      className="rounded-full bg-[#3AAFA9] px-3 py-1.5 text-[11px] font-semibold text-[#17252A] hover:bg-[#59c8c3]"
+                    >
+                      Use “{c.commonName}” as my answer
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </div>
+      <Footer
+        back={onRestart}
+        backLabel="↺ Start over"
+        onSwitchToChat={onSwitchToChat}
+        onSwitchToChips={onSwitchToChips}
+      />
+    </div>
+  );
+}
+
+function Footer({
+  back,
+  backLabel = "← Back",
+  onSwitchToChat,
+  onSwitchToChips,
+}: {
+  back: (() => void) | null;
+  backLabel?: string;
+  onSwitchToChat?: () => void;
+  onSwitchToChips: () => void;
+}) {
+  return (
+    <div className="flex shrink-0 items-center justify-between gap-2 border-t border-white/10 px-4 py-3 text-[10px] uppercase tracking-wider">
+      {back ? (
+        <button
+          type="button"
+          onClick={back}
+          className="text-white/55 transition-colors hover:text-white/90"
+        >
+          {backLabel}
+        </button>
+      ) : (
+        <span />
+      )}
+      <div className="flex items-center gap-3">
+        {onSwitchToChat && (
+          <button
+            type="button"
+            onClick={onSwitchToChat}
+            className="text-[#3AAFA9] transition-colors hover:text-[#59c8c3]"
+          >
+            Ask the biologist
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={onSwitchToChips}
+          className="text-white/35 transition-colors hover:text-white/70"
+        >
+          All traits
+        </button>
+      </div>
+    </div>
+  );
+}
