@@ -1,0 +1,83 @@
+# One-click bootstrap for the species-image cache.
+#
+# The Vercel cron at /api/cron/refresh-images will keep the cache fresh on
+# its own once it exists, but two things need to happen for the very first
+# run:
+#   1. The SpeciesImage table must exist in the production database.
+#   2. The cache must be populated at least once (the weekly cron picks up
+#      stale rows after that).
+#
+# This workflow does both. Trigger it manually from the "Actions" tab.
+#
+# Required repo secrets:
+#   - POSTGRES_URL_NON_POOLING   direct connection string (matches the
+#                                local .env.local var; bypasses pgbouncer
+#                                for DDL).
+#   - POSTGRES_PRISMA_URL        pooled connection string used at runtime.
+#   - CRON_SECRET                same value as the Vercel env var.
+
+name: Bootstrap species-image cache
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip-schema-push:
+        description: "Skip prisma db push (set to true after the first run)"
+        required: false
+        default: "false"
+      species:
+        description: "Optional: single species to refresh (e.g. 'Labrus mixtus'). Leave blank for full run."
+        required: false
+        default: ""
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Apply schema (prisma db push)
+        if: ${{ github.event.inputs.skip-schema-push != 'true' }}
+        env:
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+        run: |
+          # `db push` reads `directUrl` (POSTGRES_URL_NON_POOLING) for the
+          # migration connection; runtime queries use the pooled URL. This
+          # change is additive (one new table), so no data loss is possible.
+          npx prisma db push --skip-generate
+
+      - name: Populate cache (single species)
+        if: ${{ github.event.inputs.species != '' }}
+        env:
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+        run: |
+          npx tsx scripts/refresh-images.ts -- --species "${{ github.event.inputs.species }}"
+
+      - name: Populate cache (all species)
+        if: ${{ github.event.inputs.species == '' }}
+        env:
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+        run: |
+          # Local script has no per-invocation cap, unlike the Vercel cron;
+          # 26 species × ~2 buckets × 1.1s throttle ≈ 60-90s.
+          npx tsx scripts/refresh-images.ts
+
+      - name: Summary
+        if: always()
+        env:
+          PGURL: ${{ secrets.POSTGRES_PRISMA_URL }}
+        run: |
+          echo "Workflow finished. To verify, hit"
+          echo "  https://fish-spotter.vercel.app/api/species-images/Labrus%20mixtus"
+          echo "and confirm at least 4 image rows are returned."
