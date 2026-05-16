@@ -32,6 +32,13 @@
 | `prisma/schema.prisma` | DB schema: User, Snippet, Answer |
 | `scripts/seed.ts` | One-time seed: reads local snips folders, uploads to Supabase, inserts DB records |
 | `scripts/transcode-to-h264.ts` | Utility: downloads all mp4v snippets, transcodes to H.264, re-uploads, updates DB URLs |
+| `scripts/refresh-images.ts` | CLI runner for the species-image cache (thin wrapper around `src/lib/biodiversity/refresh-images.ts`) |
+| `src/lib/biodiversity/refresh.ts` | Shared library for the OBIS/GBIF probability + name-map refresh (used by `db:backfill` and the probabilities cron) |
+| `src/lib/biodiversity/refresh-images.ts` | Shared library for the iNat photo refresh (used by `db:refresh-images` and the images cron) |
+| `src/lib/biodiversity/inaturalist.ts` | iNaturalist v1 API client (CC-licensed photo fetch with optional life-stage / sex annotation filters) |
+| `src/components/SpeciesGallery.tsx` | Photo strip + lightbox for candidate cards and field-note view (portaled, focus-trapped, CC-attributed) |
+| `src/data/species-images.json` | Per-species fetch manifest: which life-stage / sex buckets to request, plus optional pinned `overrides` |
+| `.github/workflows/bootstrap-image-cache.yml` | One-click GitHub Actions workflow that runs `prisma db push` + populates the cache; requires `POSTGRES_PRISMA_URL` + `POSTGRES_URL_NON_POOLING` repo secrets |
 | `public/sw.js` | Service worker (network-first; only caches app-shell icons) |
 
 ## Video / Codec Notes (IMPORTANT)
@@ -72,6 +79,7 @@ Schema summary:
 - `User`: id, email, displayName, name
 - `SpeciesProbability`: cached OBIS species composition per (lat₀.₁°, lon₀.₁°, depth₁₀m, month) bucket
 - `SpeciesNameMap`: cached GBIF resolution of `staffAnswer` → canonical scientific name
+- `SpeciesImage`: cached iNaturalist photo rows keyed on (scientificName, sourceUrl); columns for lifeStage / sex / license / attribution / ordering / curated flag. Manual `overrides` from `src/data/species-images.json` are upserted with `curated=true` and never overwritten by the script.
 
 ## Probability data flow (OBIS + GBIF)
 
@@ -98,8 +106,9 @@ cached rows from Postgres.
 | `npm run db:refresh-images` | Refresh SpeciesImage rows for all 26 catalogue species from iNat (priority species get male/female/juvenile/egg buckets per the manifest) | After editing `src/data/species-images.json` |
 | `npm run db:refresh-images -- --species "Labrus mixtus"` | Refresh one species only | Spot-check a manifest tweak |
 
-Shared implementation lives in `src/lib/biodiversity/refresh.ts` — both the
-script and the cron endpoint call it.
+Shared implementations:
+- Probabilities + name-map → `src/lib/biodiversity/refresh.ts` (used by `db:backfill` and the probabilities cron).
+- Species images → `src/lib/biodiversity/refresh-images.ts` (used by `db:refresh-images` and the images cron).
 
 ### Automated refresh
 
@@ -142,6 +151,44 @@ project settings under the production environment.
 - Species quiz with community stats working
 - BBox tracking overlay (Catmull-Rom smooth trail) working
 - Debug strip has been removed (was temporary diagnostic tool)
+- Species image gallery feature deployed in code, **not yet activated in production DB** (see "Resume here" below).
+
+## Resume here — Mon 18 May 2026
+
+Species image gallery shipped across commits `5c38274` → `1958d35` → `0760106` → `2ec503b`. Vercel auto-deployed from main. Code is reviewed (3-agent pass found and fixed 3 P0s + 10 P1s). Build is green.
+
+**Two manual steps remain before users see galleries** (cannot be done from the Claude sandbox — no DB credentials, proxy blocks Supabase/iNat). Pick one of the two paths below:
+
+### Path A — local terminal (fastest, ~2 min)
+```bash
+npx prisma db push           # additive: adds SpeciesImage table
+npm run db:refresh-images    # populates all 26 species, ~90s
+```
+
+### Path B — GitHub Actions (no terminal needed, ~3 min)
+1. Add two repo secrets (one-time): `POSTGRES_PRISMA_URL` and `POSTGRES_URL_NON_POOLING`, values from `.env.local`.
+2. Actions tab → "Bootstrap species-image cache" → Run workflow.
+
+### Verify (~30s after either path)
+```bash
+curl -s https://fish-spotter.vercel.app/api/species-images/Labrus%20mixtus | jq '.images | length'
+# expect ≥4
+```
+Then load the live site, take any quiz, and confirm thumbnail strips appear on candidate-reveal cards and the field-note view.
+
+### Known gotchas to look for in the refresh output
+- `Pleuronectes platessa` larva bucket likely returns 0 (iNat sparsely annotates larval flatfish).
+- `Scyliorhinus canicula` egg-case bucket may or may not return rows — unverified.
+- A handful of `→ no photos` log lines per run is expected; `errors=0` is what matters.
+
+### Deferred to v2 (not blocking activation)
+- Wikimedia Commons fallback for species iNat returns thin/no photos for (mainly larval plaice).
+- Manual `overrides` in `species-images.json` — currently empty; can be populated editorially after seeing what iNat returns.
+- `IntersectionObserver`-staggered fetches on the candidate grid (likely premature — typical narrow returns 3–5 candidates).
+- Retry-on-429 in the iNat client.
+
+### One-time prerequisite still required
+**`CRON_SECRET`** must be set in the Vercel production environment for `/api/cron/refresh-images` (and `/refresh-probabilities`) to authenticate the weekly cron. If the probabilities cron is currently working, this is already done.
 
 ## Env vars (.env.local)
 

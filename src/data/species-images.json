@@ -122,8 +122,8 @@
     }
   },
   "overrides": {
-    "_README": "Add specific photo overrides here. Shape: { scientificName: [{ url, attribution, sourceUrl, license, lifeStage, sex, ordering }, ...] }. These are upserted with curated=true on every script run and never auto-deleted.",
-    "_example": {
+    "_README": "Add specific photo overrides here. Shape: { scientificName: [{ url, attribution, sourceUrl, license, lifeStage, sex, ordering }, ...] }. These are upserted with curated=true on every script run and never auto-deleted. Real overrides go at the top level of this object; any key starting with an underscore is ignored by the script.",
+    "_EXAMPLE_DO_NOT_USE": {
       "Labrus mixtus": [
         {
           "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/EXAMPLE/medium.jpg",
