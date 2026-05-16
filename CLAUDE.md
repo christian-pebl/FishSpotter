@@ -103,10 +103,27 @@ script and the cron endpoint call it.
 
 ### Automated refresh
 
-`vercel.json` registers a weekly cron (`0 6 * * 1`, Mondays 06:00 UTC) hitting
-`/api/cron/refresh-probabilities`. Guarded by `Authorization: Bearer ${CRON_SECRET}`.
-Cache TTL is 90 days, so weekly cron keeps every bucket comfortably fresh.
-Capped at 20 buckets per invocation to stay inside Vercel's 60 s budget.
+`vercel.json` registers two weekly crons. Both guarded by
+`Authorization: Bearer ${CRON_SECRET}`.
+
+| Path | Schedule | What it does |
+|---|---|---|
+| `/api/cron/refresh-probabilities` | `0 6 * * 1` (Mon 06:00 UTC) | Tops up OBIS probability buckets + GBIF name resolution. Cap: 20 buckets/run. |
+| `/api/cron/refresh-images` | `0 6 * * 2` (Tue 06:00 UTC) | Refreshes iNat photo cache for species whose oldest row is >7 days old. Cap: 12 species / 50s budget per run. |
+
+For first-time population of the image cache (the weekly cron only refreshes
+stale rows), trigger a manual run with `?force=1`:
+
+```
+curl -H "Authorization: Bearer $CRON_SECRET" \
+  https://fish-spotter.vercel.app/api/cron/refresh-images?force=1
+```
+
+Each call processes up to 12 species; for the full 26 species, hit the
+endpoint 2-3 times in a row (rows are idempotent upserts).
+
+Probability cache TTL is 90 days, so weekly cron keeps every bucket
+comfortably fresh.
 
 Required env var: **`CRON_SECRET`** — any long random string; set in Vercel
 project settings under the production environment.

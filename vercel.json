@@ -4,6 +4,10 @@
     {
       "path": "/api/cron/refresh-probabilities",
       "schedule": "0 6 * * 1"
+    },
+    {
+      "path": "/api/cron/refresh-images",
+      "schedule": "0 6 * * 2"
     }
   ]
 }
