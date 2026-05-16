@@ -156,7 +156,7 @@ export function IdGuideSheet({
     >
       <div
         ref={dialogRef}
-        className="relative flex h-[80vh] w-full max-w-lg flex-col overflow-hidden bg-[#0f1d22] shadow-2xl sm:h-[70vh] sm:rounded-2xl"
+        className="relative flex h-[92dvh] w-full max-w-2xl flex-col overflow-hidden bg-[#0f1d22] shadow-2xl sm:h-[88vh] sm:rounded-2xl"
         style={{
           transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
           transition: "transform 120ms ease-out",
@@ -214,7 +214,7 @@ export function IdGuideSheet({
         )}
 
         {mode === "fieldNote" && (
-          <div className="flex-1 overflow-y-auto px-4 py-4">
+          <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]">
             {effectiveFieldNote ? (
               <>
                 {selectedFallback && fieldNoteFor && (
