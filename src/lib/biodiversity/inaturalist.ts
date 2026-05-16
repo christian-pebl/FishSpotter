@@ -129,26 +129,39 @@ export async function fetchPhotosForSpecies(args: {
   lifeStage?: keyof typeof LIFE_STAGE_VALUES;
   sex?: keyof typeof SEX_VALUES;
 }): Promise<InatPhoto[]> {
+  // iNat's term_id parameter is single-valued — we can't ask for "adult AND
+  // male" in one call. When the caller wants both, query with sex (rarer,
+  // more discriminating) and post-filter on the lifeStage annotation
+  // returned in each observation. Bump perPage to soak up the rejection
+  // rate from the client-side filter.
+  const wantBoth = !!args.lifeStage && !!args.sex;
+  const perPage = args.perPage ?? 12;
+  const apiPerPage = wantBoth ? Math.min(perPage * 3, 30) : perPage;
+
   const params = new URLSearchParams({
     taxon_name: args.scientificName,
     photo_license: INAT_LICENSE_FILTER,
     quality_grade: "research",
-    per_page: String(args.perPage ?? 12),
-    // Photos with the most identification agreement first.
+    per_page: String(apiPerPage),
     order_by: "votes",
     order: "desc",
   });
-  if (args.lifeStage) {
+  if (args.sex) {
+    params.set("term_id", String(TERM_SEX));
+    params.set("term_value_id", String(SEX_VALUES[args.sex]));
+  } else if (args.lifeStage) {
     params.set("term_id", String(TERM_LIFE_STAGE));
     params.set("term_value_id", String(LIFE_STAGE_VALUES[args.lifeStage]));
   }
-  if (args.sex) {
-    // term_id is single-valued; if both filters are passed, life-stage wins.
-    if (!args.lifeStage) params.set("term_id", String(TERM_SEX));
-    params.set("term_value_id", String(SEX_VALUES[args.sex]));
-  }
+
   const obs = await fetchObservationPage(params);
-  const photos: InatPhoto[] = [];
+  let photos: InatPhoto[] = [];
   for (const o of obs) photos.push(...obsToPhotos(o));
+
+  if (wantBoth) {
+    const wantedStage = args.lifeStage!;
+    photos = photos.filter((p) => p.lifeStage === wantedStage);
+    photos = photos.slice(0, perPage);
+  }
   return photos;
 }

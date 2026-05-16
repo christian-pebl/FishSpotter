@@ -1,9 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { SpeciesImagePayload } from "@/app/api/species-images/[scientificName]/route";
 
 type Status = "idle" | "loading" | "ready" | "empty" | "error";
+
+const LICENSE_DEEDS: Record<string, string> = {
+  "cc0": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "cc-by": "https://creativecommons.org/licenses/by/4.0/",
+  "cc-by-sa": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "cc-by-nc": "https://creativecommons.org/licenses/by-nc/4.0/",
+  "cc-by-nc-sa": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "cc-by-nd": "https://creativecommons.org/licenses/by-nd/4.0/",
+  "cc-by-nc-nd": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+};
+
+function licenseHref(code: string): string | null {
+  return LICENSE_DEEDS[code.toLowerCase()] ?? null;
+}
 
 export function SpeciesGallery({
   scientificName,
@@ -12,16 +27,19 @@ export function SpeciesGallery({
 }: {
   scientificName: string;
   commonName: string;
-  /** "thumb" for inline strip on candidate cards; "large" for the field-note hero. */
   size?: "thumb" | "large";
 }) {
   const [images, setImages] = useState<SpeciesImagePayload[]>([]);
   const [status, setStatus] = useState<Status>("idle");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const thumbRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   useEffect(() => {
     let cancelled = false;
     setStatus("loading");
+    // Reset lightbox state when the species changes so a stale index from a
+    // previous species doesn't open the wrong photo.
+    setLightboxIdx(null);
     fetch(`/api/species-images/${encodeURIComponent(scientificName)}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
       .then((data: { images: SpeciesImagePayload[] }) => {
@@ -37,13 +55,42 @@ export function SpeciesGallery({
     };
   }, [scientificName]);
 
+  const closeLightbox = useCallback(() => {
+    setLightboxIdx((current) => {
+      if (current !== null) thumbRefs.current[current]?.focus();
+      return null;
+    });
+  }, []);
+  const showNext = useCallback(
+    () => setLightboxIdx((i) => (i !== null && i + 1 < images.length ? i + 1 : i)),
+    [images.length],
+  );
+  const showPrev = useCallback(
+    () => setLightboxIdx((i) => (i !== null && i > 0 ? i - 1 : i)),
+    [],
+  );
+
   if (status === "idle" || status === "loading") {
     return (
-      <div className={size === "large" ? "h-32 animate-pulse rounded-xl bg-white/5" : "h-14 animate-pulse rounded-lg bg-white/5"} />
+      <div
+        className={
+          size === "large"
+            ? "h-32 animate-pulse rounded-xl bg-white/5"
+            : "h-14 animate-pulse rounded-lg bg-white/5"
+        }
+      />
     );
   }
-  if (status === "empty" || status === "error") {
-    return null; // Quietly absent — UI shouldn't punish missing media.
+  if (status === "empty") return null;
+  if (status === "error") {
+    if (size === "large") {
+      return (
+        <p className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-white/55">
+          Photos unavailable right now.
+        </p>
+      );
+    }
+    return null;
   }
 
   const tileClass =
@@ -53,56 +100,68 @@ export function SpeciesGallery({
 
   return (
     <>
-      <div
-        className="-mx-1 flex snap-x snap-mandatory gap-1.5 overflow-x-auto overscroll-x-contain px-1 pb-1"
-        aria-label={`Photos of ${commonName}`}
+      <ul
+        role="list"
+        aria-label={`Photos of ${commonName} (${images.length})`}
+        className="-mx-1 flex snap-x snap-mandatory list-none gap-1.5 overflow-x-auto overscroll-x-contain px-1 pb-1"
       >
         {images.map((img, i) => {
-          const label =
-            [img.lifeStage, img.sex].filter(Boolean).join(" / ") || null;
+          const label = [img.lifeStage, img.sex].filter(Boolean).join(" / ") || null;
           return (
-            <button
-              key={img.sourceUrl}
-              type="button"
-              onClick={() => setLightboxIdx(i)}
-              className={`${tileClass} group relative snap-start border border-white/10 transition-transform hover:scale-[1.02]`}
-              aria-label={`Photo of ${commonName}${label ? ` (${label})` : ""}`}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={img.thumbUrl ?? img.url}
-                alt=""
-                aria-hidden
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
-              {label && (
-                <span className="absolute inset-x-0 bottom-0 truncate bg-black/55 px-1 py-0.5 text-center text-[9px] uppercase tracking-wider text-white/90">
-                  {label}
-                </span>
-              )}
-            </button>
+            <li key={`${img.sourceUrl}-${i}`} role="listitem" className="shrink-0">
+              <button
+                ref={(el) => {
+                  thumbRefs.current[i] = el;
+                }}
+                type="button"
+                onClick={() => setLightboxIdx(i)}
+                className={`${tileClass} group relative snap-start border border-white/10 transition-transform hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70`}
+                aria-label={`Open photo of ${commonName}${label ? ` (${label})` : ""}`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={size === "large" ? img.url : img.thumbUrl ?? img.url}
+                  alt=""
+                  aria-hidden
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
+                {label && (
+                  <span className="pointer-events-none absolute inset-x-0 bottom-0 truncate bg-black/80 px-1 py-0.5 text-center text-[9px] uppercase tracking-wider text-white">
+                    {label}
+                  </span>
+                )}
+              </button>
+            </li>
           );
         })}
-      </div>
+      </ul>
 
       {lightboxIdx !== null && images[lightboxIdx] && (
-        <Lightbox
+        <LightboxPortal
           image={images[lightboxIdx]}
           commonName={commonName}
-          onClose={() => setLightboxIdx(null)}
-          onNext={
-            lightboxIdx + 1 < images.length
-              ? () => setLightboxIdx((i) => (i ?? 0) + 1)
-              : null
-          }
-          onPrev={
-            lightboxIdx > 0 ? () => setLightboxIdx((i) => (i ?? 1) - 1) : null
-          }
+          onClose={closeLightbox}
+          onNext={lightboxIdx + 1 < images.length ? showNext : null}
+          onPrev={lightboxIdx > 0 ? showPrev : null}
+          position={`${lightboxIdx + 1} of ${images.length}`}
         />
       )}
     </>
   );
+}
+
+function LightboxPortal(props: React.ComponentProps<typeof Lightbox>) {
+  // Portal to body so a `transform` on an ancestor (e.g. the field-note
+  // sheet's keyboard-offset translate) can't trap our `fixed` overlay
+  // inside its containing block.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted || typeof document === "undefined") return null;
+  return createPortal(<Lightbox {...props} />, document.body);
 }
 
 function Lightbox({
@@ -111,44 +170,95 @@ function Lightbox({
   onClose,
   onNext,
   onPrev,
+  position,
 }: {
   image: SpeciesImagePayload;
   commonName: string;
   onClose: () => void;
   onNext: (() => void) | null;
   onPrev: (() => void) | null;
+  position: string;
 }) {
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  // Track whether the pointer-down started on the backdrop. Closing only on
+  // mouseup-on-backdrop-AFTER-mousedown-on-backdrop prevents a drag that
+  // begins on text (e.g. selecting attribution) and ends on the backdrop
+  // from dismissing the dialog.
+  const pointerDownOnBackdrop = useRef(false);
+
+  useEffect(() => {
+    // Move focus into the dialog on mount so screen readers / keyboard users
+    // are placed inside the overlay rather than on the body.
+    dialogRef.current?.focus();
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      else if (e.key === "ArrowRight" && onNext) onNext();
-      else if (e.key === "ArrowLeft" && onPrev) onPrev();
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+      } else if (e.key === "ArrowRight" && onNext) {
+        e.preventDefault();
+        onNext();
+      } else if (e.key === "ArrowLeft" && onPrev) {
+        e.preventDefault();
+        onPrev();
+      } else if (e.key === "Tab") {
+        // Minimal focus trap: keep focus inside the dialog.
+        const root = dialogRef.current;
+        if (!root) return;
+        const focusables = root.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose, onNext, onPrev]);
 
   const label = [image.lifeStage, image.sex].filter(Boolean).join(" / ");
+  const licenseLink = licenseHref(image.license);
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
-      aria-label={`Photo of ${commonName}`}
-      className="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-black/85 p-4"
-      onClick={onClose}
+      aria-label={`Photo of ${commonName}${label ? ` (${label})` : ""}, ${position}`}
+      tabIndex={-1}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 p-4 outline-none"
+      onMouseDown={(e) => {
+        pointerDownOnBackdrop.current = e.target === e.currentTarget;
+      }}
+      onMouseUp={(e) => {
+        if (pointerDownOnBackdrop.current && e.target === e.currentTarget) {
+          onClose();
+        }
+        pointerDownOnBackdrop.current = false;
+      }}
     >
       <div
         className="relative max-h-[85vh] w-full max-w-3xl"
-        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image.url}
-          alt={`${commonName}${label ? ` (${label})` : ""}`}
+          alt={`${commonName}${label ? `, ${label}` : ""}`}
           className="mx-auto max-h-[75vh] w-auto rounded-xl object-contain"
         />
-        <div className="mt-2 flex flex-wrap items-baseline justify-between gap-2 text-[11px] text-white/70">
+        <div className="mt-2 flex flex-wrap items-baseline justify-between gap-2 text-[11px] text-white/75">
           <div className="flex items-baseline gap-2">
             <span className="font-semibold text-white/90">{commonName}</span>
             {label && (
@@ -156,6 +266,7 @@ function Lightbox({
                 {label}
               </span>
             )}
+            <span className="text-white/40">{position}</span>
           </div>
           <div className="flex items-center gap-3">
             <a
@@ -166,16 +277,27 @@ function Lightbox({
             >
               {image.attribution}
             </a>
-            <span className="text-white/40">{image.license}</span>
+            {licenseLink ? (
+              <a
+                href={licenseLink}
+                target="_blank"
+                rel="noopener noreferrer license"
+                className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] uppercase tracking-wider hover:bg-white/20"
+              >
+                {image.license}
+              </a>
+            ) : (
+              <span className="text-white/40">{image.license}</span>
+            )}
           </div>
         </div>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close photo"
-          className="absolute -top-3 right-2 flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
+          className="absolute -top-2 right-1 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
         >
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </button>
@@ -184,9 +306,9 @@ function Lightbox({
             type="button"
             onClick={onPrev}
             aria-label="Previous photo"
-            className="absolute left-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75"
+            className="absolute left-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
           >
-            ‹
+            <span aria-hidden="true">‹</span>
           </button>
         )}
         {onNext && (
@@ -194,9 +316,9 @@ function Lightbox({
             type="button"
             onClick={onNext}
             aria-label="Next photo"
-            className="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75"
+            className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
           >
-            ›
+            <span aria-hidden="true">›</span>
           </button>
         )}
       </div>
