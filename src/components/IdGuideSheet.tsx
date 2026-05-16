@@ -6,6 +6,7 @@ import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import { IdGuideChat } from "./IdGuideChat";
 import { IdGuideChipFallback } from "./IdGuideChipFallback";
 import { IdGuideWizard } from "./IdGuideWizard";
+import { SpeciesGallery } from "./SpeciesGallery";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
@@ -250,6 +251,13 @@ export function IdGuideSheet({
                 <p className="pb-3 text-[12px] italic text-white/55">
                   {effectiveFieldNote.scientificName}
                 </p>
+                <div className="pb-4">
+                  <SpeciesGallery
+                    scientificName={effectiveFieldNote.scientificName}
+                    commonName={effectiveFieldNote.commonName}
+                    size="large"
+                  />
+                </div>
                 <p className="pb-4 text-sm leading-relaxed text-white/85">{effectiveFieldNote.fieldNote}</p>
                 <div className="space-y-2 text-[12px] text-white/75">
                   <TraitRow label="Body shape" values={effectiveFieldNote.bodyShape} />

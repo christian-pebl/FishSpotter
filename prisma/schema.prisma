@@ -80,3 +80,25 @@ model SpeciesNameMap {
   confidence     String?  // EXACT | FUZZY | HIGHERRANK | NONE
   resolvedAt     DateTime @default(now())
 }
+
+model SpeciesImage {
+  id             String   @id @default(cuid())
+  scientificName String
+  lifeStage      String?  // "adult" | "juvenile" | "larva" | "egg" | null
+  sex            String?  // "male" | "female" | null
+  url            String   // medium-quality direct image URL
+  thumbUrl       String?  // smaller cached URL if the source provides one
+  attribution    String   // formatted "(c) Username, CC BY"
+  sourceUrl      String   // link back to the original observation / file page
+  license        String   // "cc0" | "cc-by" | "cc-by-sa" | "cc-by-nc" | "cc-by-nc-sa" | ...
+  source         String   // "inaturalist" | "wikimedia" | "manual"
+  width          Int?
+  height         Int?
+  ordering       Int      @default(100) // lower = earlier in the gallery
+  curated        Boolean  @default(false) // true when set via manifest, not script
+  createdAt      DateTime @default(now())
+  refreshedAt    DateTime @default(now())
+
+  @@index([scientificName, ordering])
+  @@unique([scientificName, sourceUrl])
+}

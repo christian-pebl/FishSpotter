@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import { narrowCandidates, type Candidate } from "@/lib/idguide/narrow";
+import { SpeciesGallery } from "./SpeciesGallery";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
@@ -244,6 +245,13 @@ function FinalReveal({
                     <p className="pb-2 text-[11px] italic text-white/55">
                       {c.scientificName}
                     </p>
+                    <div className="pb-2">
+                      <SpeciesGallery
+                        scientificName={c.scientificName}
+                        commonName={c.commonName}
+                        size="thumb"
+                      />
+                    </div>
                     {traits?.fieldNote && (
                       <p className="pb-3 text-[12px] leading-relaxed text-white/75">
                         {traits.fieldNote}

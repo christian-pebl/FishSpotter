@@ -84,6 +84,7 @@ cached rows from Postgres.
 | API | What we ask | Where it lands |
 |---|---|---|
 | OBIS `api.obis.org/v3` | `/taxon/Chondrichthyes` + `/taxon/Actinopterygii` (resolve AphiaIDs once); `/occurrence` paginated per bucket, multi-year (16y), month ± 1 | `SpeciesProbability` |
+| iNaturalist `api.inaturalist.org/v1` | `/observations?taxon_name=<sci>&photo_license=cc0,cc-by,cc-by-sa,cc-by-nc&quality_grade=research&order_by=votes`, with optional life-stage / sex annotation filter per species | `SpeciesImage` |
 | GBIF `api.gbif.org/v1` | `/species/match?name=<staffAnswer>&verbose=false`, use `canonicalName` to avoid authorship suffix | `SpeciesNameMap` |
 
 ### Operational scripts
@@ -94,6 +95,8 @@ cached rows from Postgres.
 | `npm run db:backfill` | Fill missing/errored buckets + resolve missing common names | After seeding new snippets |
 | `npm run db:backfill -- --stale-only` | Only refresh buckets whose `staleAfter` has passed | Same logic the cron uses; safe to run manually |
 | `npm run db:backfill -- --limit 5` | Cap buckets touched | Spot-check after a code change |
+| `npm run db:refresh-images` | Refresh SpeciesImage rows for all 26 catalogue species from iNat (priority species get male/female/juvenile/egg buckets per the manifest) | After editing `src/data/species-images.json` |
+| `npm run db:refresh-images -- --species "Labrus mixtus"` | Refresh one species only | Spot-check a manifest tweak |
 
 Shared implementation lives in `src/lib/biodiversity/refresh.ts` — both the
 script and the cron endpoint call it.

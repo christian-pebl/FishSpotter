@@ -11,6 +11,7 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:check-apis": "tsx --env-file=.env.local scripts/check-apis.ts",
     "db:backfill": "tsx --env-file=.env.local scripts/backfill-probability.ts",
+    "db:refresh-images": "tsx --env-file=.env.local scripts/refresh-images.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
