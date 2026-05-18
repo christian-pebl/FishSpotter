@@ -91,6 +91,9 @@ Install behavior depends on the browser:
 - `npm run start` – run production server
 - `npm run db:push` – push Prisma schema to the database
 - `npm run db:seed` – import snippet data and upload media
+- `npm run db:check-apis` – probe OBIS, GBIF, and DB connectivity (run before any backfill)
+- `npm run db:backfill` – fill missing/errored OBIS probability buckets + GBIF name resolution
+- `npm run db:refresh-images` – populate `SpeciesImage` cache from iNaturalist (~90s for 26 species)
 
 ## Stack
 
