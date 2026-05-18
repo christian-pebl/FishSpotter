@@ -151,44 +151,24 @@ project settings under the production environment.
 - Species quiz with community stats working
 - BBox tracking overlay (Catmull-Rom smooth trail) working
 - Debug strip has been removed (was temporary diagnostic tool)
-- Species image gallery feature deployed in code, **not yet activated in production DB** (see "Resume here" below).
+- Species image gallery feature **activated 18 May 2026** — `SpeciesImage` table populated (113 rows across 26 species), `CRON_SECRET` set in Vercel, weekly cron live.
 
-## Resume here — Mon 18 May 2026
+## Activation history — 18 May 2026
 
-Species image gallery shipped across commits `5c38274` → `1958d35` → `0760106` → `2ec503b`. Vercel auto-deployed from main. Code is reviewed (3-agent pass found and fixed 3 P0s + 10 P1s). Build is green.
+Species image gallery shipped across commits `5c38274` → `1958d35` → `0760106` → `2ec503b` → `cf2187c`.
 
-**Two manual steps remain before users see galleries** (cannot be done from the Claude sandbox — no DB credentials, proxy blocks Supabase/iNat). Pick one of the two paths below:
+Activation steps performed on 18 May:
+1. Backed up the 4 stale taxonomy tables + 3 columns being dropped by the schema change (`Taxon`, `TaxonAlias`, `TaxonAttribute`, `BiogeographicChecklist`, `Answer.pointsAwarded`, `Snippet.labelStatus`, `Snippet.staffTaxonId`) → JSON dumps in `backups/` (gitignored). Script: `scripts/backup-pre-drop.ts`.
+2. `npx prisma db push --accept-data-loss` — synced schema, added `SpeciesImage`.
+3. `npm run db:refresh-images` — 26 species processed, **113 rows upserted, 0 errors**, 2 empty buckets (plaice larva, catshark egg case — expected).
+4. `CRON_SECRET` added to Vercel (Production + Preview, sensitive) and redeployed.
+5. Verified live: `https://fish-spotter.vercel.app/api/species-images/Symphodus%20melops` returns 5 photos; DOM contains 5 `<img>` tags with CC-attributed iNat URLs on the candidate-reveal card.
 
-### Path A — local terminal (fastest, ~2 min)
-```bash
-npx prisma db push           # additive: adds SpeciesImage table
-npm run db:refresh-images    # populates all 26 species, ~90s
-```
-
-### Path B — GitHub Actions (no terminal needed, ~3 min)
-1. Add two repo secrets (one-time): `POSTGRES_PRISMA_URL` and `POSTGRES_URL_NON_POOLING`, values from `.env.local`.
-2. Actions tab → "Bootstrap species-image cache" → Run workflow.
-
-### Verify (~30s after either path)
-```bash
-curl -s https://fish-spotter.vercel.app/api/species-images/Labrus%20mixtus | jq '.images | length'
-# expect ≥4
-```
-Then load the live site, take any quiz, and confirm thumbnail strips appear on candidate-reveal cards and the field-note view.
-
-### Known gotchas to look for in the refresh output
-- `Pleuronectes platessa` larva bucket likely returns 0 (iNat sparsely annotates larval flatfish).
-- `Scyliorhinus canicula` egg-case bucket may or may not return rows — unverified.
-- A handful of `→ no photos` log lines per run is expected; `errors=0` is what matters.
-
-### Deferred to v2 (not blocking activation)
-- Wikimedia Commons fallback for species iNat returns thin/no photos for (mainly larval plaice).
-- Manual `overrides` in `species-images.json` — currently empty; can be populated editorially after seeing what iNat returns.
+### Deferred to v2 (not blocking)
+- Wikimedia Commons fallback for species iNat returns thin photos for (mainly larval plaice).
+- Manual `overrides` in `species-images.json` — currently empty; can be populated editorially.
 - `IntersectionObserver`-staggered fetches on the candidate grid (likely premature — typical narrow returns 3–5 candidates).
 - Retry-on-429 in the iNat client.
-
-### One-time prerequisite still required
-**`CRON_SECRET`** must be set in the Vercel production environment for `/api/cron/refresh-images` (and `/refresh-probabilities`) to authenticate the weekly cron. If the probabilities cron is currently working, this is already done.
 
 ## Env vars (.env.local)
 

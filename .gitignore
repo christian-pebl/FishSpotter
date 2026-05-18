@@ -32,3 +32,6 @@ prisma/*.db-journal
 # OS
 .DS_Store
 Thumbs.db
+
+# Local DB backups (raw row dumps; never commit)
+backups/
