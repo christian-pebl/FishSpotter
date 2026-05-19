@@ -32,7 +32,11 @@ let sharedBaselineStreak: number | null = null;
 export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: string) {
   const { data: session, status } = useSession();
   const [myAnswer, setMyAnswer] = useState<{ chosenOption: string; isCorrect: boolean } | null>(null);
-  const [stats, setStats] = useState<{ total: number; stats: StatsItem[]; staffAnswer: string } | null>(null);
+  // staffAnswer is gated server-side until the user has submitted an Answer for
+  // this snippet (S1-T11). loadStats is only invoked after myAnswer is set
+  // (see effect below), so in normal use it is always present at consumption,
+  // but the type is optional to match the API contract.
+  const [stats, setStats] = useState<{ total: number; stats: StatsItem[]; staffAnswer?: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [answerText, setAnswerTextState] = useState("");
   const [correction, setCorrection] = useState<Correction | null>(null);

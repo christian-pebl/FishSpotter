@@ -10,7 +10,9 @@ type ProbabilityResponse =
       source: string;
       totalRecords: number;
       species: Array<{ scientificName: string; count: number; probability: number }>;
-      staffAnswerScientific: string | null;
+      // Omitted server-side until the user has submitted an Answer for this
+      // snippet (S1-T11 answer-gate). Consumers must treat as optional.
+      staffAnswerScientific?: string | null;
       fetchedAt: string;
     }
   | { status: "INSUFFICIENT_DATA" }

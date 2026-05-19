@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -13,6 +15,15 @@ export async function GET(
     select: { id: true, staffAnswer: true },
   });
   if (!snippet) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  const session = await getServerSession(authOptions);
+  const userHasAnswered = !!(
+    session?.user?.id &&
+    (await prisma.answer.findFirst({
+      where: { userId: session.user.id, snippetId: id },
+      select: { id: true },
+    }))
+  );
 
   const answers = await prisma.answer.findMany({
     where: { snippetId: id },
@@ -33,6 +44,6 @@ export async function GET(
   return NextResponse.json({
     total,
     stats,
-    staffAnswer: snippet.staffAnswer,
+    ...(userHasAnswered ? { staffAnswer: snippet.staffAnswer } : {}),
   });
 }
