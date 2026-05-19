@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="flex-1 overflow-y-auto">
-      <main id="main" className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-4 py-8 md:py-12">
+      <main id="main" tabIndex={-1} className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-4 py-8 md:py-12">
         <section className="pebl-surface rounded-hero px-6 py-10 md:px-10 md:py-14" aria-labelledby="hero-heading">
           <p className="pebl-eyebrow mb-3 text-xs">
             Protecting Ecology Beyond Land
