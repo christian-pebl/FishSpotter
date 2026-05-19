@@ -46,8 +46,8 @@ function SignInForm() {
   return (
     <div className="flex-1 overflow-y-auto">
       <main id="main" className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
-        <div className="pebl-surface w-full rounded-[28px] p-6 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--primary)]">PEBL community access</p>
+        <div className="pebl-surface w-full rounded-hero p-6 md:p-8">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">PEBL community access</p>
           <h1 className="mt-3 font-brand-heading text-3xl text-[color:var(--foreground)]">
             {isSignUp ? "Create your spotting profile" : "Sign in to continue spotting"}
           </h1>

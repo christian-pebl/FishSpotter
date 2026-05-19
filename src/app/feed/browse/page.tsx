@@ -26,7 +26,7 @@ export default async function FeedBrowsePage() {
   return (
     <div className="flex-1 overflow-y-auto">
       <main id="main" className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8">
-        <div className="pebl-surface rounded-[28px] px-6 py-6">
+        <div className="pebl-surface rounded-hero px-6 py-6">
           <p className="pebl-eyebrow text-xs">Observation archive</p>
           <h1 className="mt-2 font-brand-heading text-3xl font-bold text-[color:var(--foreground)]">Browse the wider PEBL clip library</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
@@ -39,7 +39,7 @@ export default async function FeedBrowsePage() {
               <Link
                 href={`/feed/${s.id}`}
                 aria-label={`Open clip from ${s.site}, ${s.deployment}`}
-                className="pebl-surface block overflow-hidden rounded-[24px] transition hover:-translate-y-0.5 hover:border-[color:var(--primary)]"
+                className="pebl-surface block overflow-hidden rounded-card transition hover:-translate-y-0.5 hover:border-[color:var(--primary)]"
               >
                 <div className="relative aspect-video bg-[color:var(--surface-muted)]">
                   <Image

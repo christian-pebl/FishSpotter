@@ -577,7 +577,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
             <div
               ref={progressRef}
-              className="h-full origin-left bg-[#3AAFA9]/85 shadow-[0_0_6px_rgba(58,175,169,0.6)]"
+              className="h-full origin-left bg-teal-500/85 shadow-glow"
               style={{ transform: "scaleX(0)", willChange: "transform" }}
             />
           </div>
@@ -688,7 +688,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     }
             }
             aria-label="Name this species"
-            className="absolute left-1/2 z-30 inline-flex min-h-[46px] -translate-x-1/2 items-center gap-2 rounded-full bg-[#3AAFA9] px-5 text-sm font-semibold text-[#17252A] shadow-[0_8px_22px_rgba(0,0,0,0.45),0_0_0_3px_rgba(58,175,169,0.18)] hover:bg-[#59c8c3]"
+            className="absolute left-1/2 z-30 inline-flex min-h-[46px] -translate-x-1/2 items-center gap-2 rounded-full bg-teal-500 px-5 text-sm font-semibold text-navy-900 shadow-panel hover:bg-teal-400"
             style={{ bottom: `calc(0.5rem + env(safe-area-inset-bottom))` }}
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
@@ -743,7 +743,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             dragMomentum={false}
             dragElastic={0.08}
             dragConstraints={articleRef}
-            className="pointer-events-auto relative flex max-h-[min(80vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-[#17252A]/72 backdrop-blur-md backdrop-saturate-150"
+            className="pointer-events-auto relative flex max-h-[min(80vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150"
           >
             {/* Drag-only-from-here button. Visible grip so users know it's the
                 drag affordance. dragListener=false on the parent means drag
@@ -805,7 +805,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       >
                         <p className="text-xs text-white/85">
                           Did you mean:{" "}
-                          <span className="font-semibold text-[#DEF2F1]">{correction.suggestion}</span>?
+                          <span className="font-semibold text-teal-50">{correction.suggestion}</span>?
                         </p>
                         <div className="mt-1.5 flex flex-wrap gap-1.5">
                           <motion.button
@@ -813,7 +813,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                             ref={correctionAcceptRef}
                             onClick={() => submitAndAdvance(acceptCorrection)}
                             whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                            className="rounded-full bg-[#DEF2F1] px-2.5 py-1 text-[11px] font-semibold text-[#17252A]"
+                            className="rounded-full bg-teal-50 px-2.5 py-1 text-[11px] font-semibold text-navy-900"
                           >
                             Yes
                           </motion.button>
@@ -821,7 +821,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                             type="button"
                             onClick={() => submitAndAdvance(submitOriginal)}
                             whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                            className="rounded-full border border-white/30 px-2.5 py-1 text-[11px] font-semibold text-white hover:border-[#3AAFA9]"
+                            className="rounded-full border border-white/30 px-2.5 py-1 text-[11px] font-semibold text-white hover:border-teal-500"
                           >
                             Use mine
                           </motion.button>
@@ -888,7 +888,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       aria-busy={submitting}
                       aria-label="Submit answer"
                       whileTap={!submitting && answerText.trim() && !reduceMotion ? { scale: 0.93 } : undefined}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#3AAFA9] text-[#17252A] transition-colors hover:bg-[#59c8c3] disabled:cursor-not-allowed disabled:bg-[#3AAFA9]/30 disabled:text-[#17252A]/60"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-500 text-navy-900 transition-colors hover:bg-teal-400 disabled:cursor-not-allowed disabled:bg-teal-500/30 disabled:text-navy-900/60"
                     >
                       {submitting ? (
                         <svg width="14" height="14" viewBox="0 0 14 14" className="animate-spin" aria-hidden="true">
@@ -921,7 +921,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     <p className="pb-1.5 text-[10px] text-white/45">
                       <Link
                         href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`}
-                        className="text-[#DEF2F1] underline underline-offset-2"
+                        className="text-teal-50 underline underline-offset-2"
                       >
                         Sign in
                       </Link>{" "}
@@ -944,7 +944,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                           aria-label="Show where this clip was recorded on a map"
                           className="inline-flex min-h-[36px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
                         >
-                          <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/80">
+                          <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-teal-500/80">
                             <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
                             <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
                           </svg>
@@ -983,7 +983,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       You said{" "}
                       <span className="font-semibold text-white">{myAnswer!.chosenOption}</span>{" "}
                       {myAnswer!.isCorrect ? (
-                        <span className="text-[#3AAFA9]">✓</span>
+                        <span className="text-teal-500">✓</span>
                       ) : (
                         <span className="text-red-300/85">· was {stats!.staffAnswer}</span>
                       )}
@@ -993,7 +993,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                         <div key={s.option} className="flex items-center gap-1.5 text-[11px]">
                           <span className="w-16 truncate text-white/80">{s.option}</span>
                           <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
-                            <div className="h-full rounded bg-[#3AAFA9]/70" style={{ width: `${s.percent}%` }} />
+                            <div className="h-full rounded bg-teal-500/70" style={{ width: `${s.percent}%` }} />
                           </div>
                           <span className="w-7 text-right tabular-nums text-white/55">{s.percent}%</span>
                         </div>
@@ -1019,7 +1019,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                           aria-label="Show where this clip was recorded on a map"
                           className="inline-flex min-h-[36px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
                         >
-                          <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-[#3AAFA9]/80">
+                          <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-teal-500/80">
                             <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
                             <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
                           </svg>
@@ -1045,7 +1045,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                           type="button"
                           onClick={onAdvance}
                           whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-                          className="inline-flex items-center gap-1.5 rounded-full bg-[#3AAFA9] px-3 py-1.5 text-xs font-semibold text-[#17252A] hover:bg-[#59c8c3]"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-teal-500 px-3 py-1.5 text-xs font-semibold text-navy-900 hover:bg-teal-400"
                         >
                           Next
                           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">

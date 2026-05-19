@@ -54,8 +54,8 @@ export default async function LeaderboardPage() {
   return (
     <div className="flex-1 overflow-y-auto">
       <main id="main" className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8">
-        <section className="pebl-surface rounded-[28px] px-6 py-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--primary)]">Community overview</p>
+        <section className="pebl-surface rounded-hero px-6 py-6">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">Community overview</p>
           <h1 className="mt-2 font-brand-heading text-3xl font-bold text-[color:var(--foreground)]">PEBL spotter leaderboard</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
             Reward regular participation, celebrate accurate observations, and highlight the community members helping shape the marine monitoring record.
@@ -64,11 +64,11 @@ export default async function LeaderboardPage() {
         {leaderboard.length === 0 ? (
           <p className="text-sm text-[color:var(--muted)]">No entries yet. Sign in and submit an observation to appear on the PEBL leaderboard.</p>
         ) : (
-          <div className="pebl-surface overflow-hidden rounded-[22px]">
+          <div className="pebl-surface overflow-hidden rounded-card">
             <table className="w-full text-left text-sm">
               <caption className="sr-only">Top spotters ranked by score</caption>
               <thead>
-                <tr className="border-b border-[color:var(--border)] text-xs uppercase tracking-[0.16em] text-[color:var(--muted)]">
+                <tr className="border-b border-[color:var(--border)] text-xs uppercase tracking-eyebrow text-[color:var(--muted)]">
                   <th scope="col" className="px-4 py-3 w-12">Rank</th>
                   <th scope="col" className="px-4 py-3">Spotter</th>
                   <th scope="col" className="px-4 py-3 text-right">Score</th>
@@ -92,8 +92,8 @@ export default async function LeaderboardPage() {
           </div>
         )}
 
-        <section className="pebl-surface rounded-[22px] px-6 py-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--primary)]">Community guesses</p>
+        <section className="pebl-surface rounded-card px-6 py-6">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">Community guesses</p>
           <h2 className="mt-1 font-brand-heading text-2xl font-bold text-[color:var(--foreground)]">Most common species answers</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
             What spotters are naming most often across the live feed. {totalAnswers > 0 ? `${totalAnswers} total observations.` : ""}
