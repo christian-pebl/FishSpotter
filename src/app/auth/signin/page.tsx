@@ -45,7 +45,7 @@ function SignInForm() {
 
   return (
     <div className="flex-1 overflow-y-auto">
-      <main id="main" className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
+      <main id="main" tabIndex={-1} className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
         <div className="pebl-surface w-full rounded-hero p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">PEBL community access</p>
           <h1 className="mt-3 font-brand-heading text-3xl text-[color:var(--foreground)]">
@@ -130,7 +130,23 @@ function SignInForm() {
 
 export default function SignInPage() {
   return (
-    <Suspense fallback={<div className="flex-1 max-w-sm mx-auto w-full px-4 py-12 text-slate-400">Loading…</div>}>
+    <Suspense
+      fallback={
+        <div
+          aria-busy="true"
+          aria-label="Loading sign in"
+          className="pebl-surface rounded-hero mx-auto w-full max-w-sm animate-pulse p-6"
+        >
+          <div className="h-3 w-24 rounded-full bg-navy-900/12" />
+          <div className="mt-3 h-7 w-2/3 max-w-md rounded-full bg-navy-900/12" />
+          <div className="mt-6 space-y-3">
+            <div className="h-10 w-full rounded-modal bg-navy-900/12" />
+            <div className="h-10 w-full rounded-modal bg-navy-900/12" />
+            <div className="h-11 w-full rounded-full bg-navy-900/12" />
+          </div>
+        </div>
+      }
+    >
       <SignInForm />
     </Suspense>
   );
