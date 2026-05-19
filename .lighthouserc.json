@@ -1,0 +1,25 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:3000/",
+        "http://localhost:3000/feed",
+        "http://localhost:3000/feed/browse",
+        "http://localhost:3000/leaderboard"
+      ],
+      "startServerCommand": "npm run build && npm run start",
+      "startServerReadyPattern": "Ready",
+      "numberOfRuns": 2,
+      "settings": { "preset": "desktop" }
+    },
+    "assert": {
+      "assertions": {
+        "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
+        "cumulative-layout-shift": ["warn", { "maxNumericValue": 0.1 }],
+        "total-blocking-time": ["warn", { "maxNumericValue": 200 }],
+        "resource-summary:script:size": ["warn", { "maxNumericValue": 350000 }]
+      }
+    },
+    "upload": { "target": "temporary-public-storage" }
+  }
+}
