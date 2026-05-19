@@ -55,7 +55,7 @@ export default async function FeedPage() {
   }));
 
   return (
-    <main id="main" className="flex-1 flex flex-col min-h-0 overflow-hidden">
+    <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
       <FeedPlayer snippets={feedSnippets} />
     </main>
   );
