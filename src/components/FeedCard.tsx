@@ -985,7 +985,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       {myAnswer!.isCorrect ? (
                         <span className="text-[#3AAFA9]">✓</span>
                       ) : (
-                        <span className="text-red-300/85">· was {stats!.staffAnswer}</span>
+                        <span className="text-red-300/85">· was {stats!.staffAnswer ?? snippet.staffAnswer}</span>
                       )}
                     </p>
                     <div className="mt-1.5 space-y-0.5">
@@ -1008,7 +1008,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       <IdGuideTrigger
                         snippetId={snippet.id}
                         submitted={true}
-                        staffAnswer={stats!.staffAnswer}
+                        staffAnswer={stats!.staffAnswer ?? snippet.staffAnswer}
                         onSuggest={() => {}}
                         isLoggedIn={!!session}
                       />

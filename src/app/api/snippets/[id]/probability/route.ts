@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { bucketFor } from "@/lib/biodiversity/buckets";
 import { normaliseCommonName } from "@/lib/biodiversity/gbif-match";
@@ -11,7 +13,7 @@ type ApiResponse =
       source: string;
       totalRecords: number;
       species: Array<{ scientificName: string; count: number; probability: number }>;
-      staffAnswerScientific: string | null;
+      staffAnswerScientific?: string | null;
       fetchedAt: string;
     }
   | { status: "INSUFFICIENT_DATA" | "ERROR"; errorMessage?: string };
@@ -88,16 +90,29 @@ export async function GET(
 
   const species = safeParseSpecies(cached.speciesJson);
 
-  const nameMap = await prisma.speciesNameMap.findUnique({
-    where: { commonName: normaliseCommonName(snippet.staffAnswer) },
-  });
+  const session = await getServerSession(authOptions);
+  const userHasAnswered = !!(
+    session?.user?.id &&
+    (await prisma.answer.findFirst({
+      where: { userId: session.user.id, snippetId: id },
+      select: { id: true },
+    }))
+  );
+
+  const staffAnswerScientific = userHasAnswered
+    ? (
+        await prisma.speciesNameMap.findUnique({
+          where: { commonName: normaliseCommonName(snippet.staffAnswer) },
+        })
+      )?.scientificName ?? null
+    : undefined;
 
   return NextResponse.json({
     status: "OK",
     source: cached.source,
     totalRecords: cached.totalRecords,
     species,
-    staffAnswerScientific: nameMap?.scientificName ?? null,
     fetchedAt: cached.fetchedAt.toISOString(),
+    ...(staffAnswerScientific !== undefined ? { staffAnswerScientific } : {}),
   });
 }
