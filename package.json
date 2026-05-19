@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:tokens": "eslint --max-warnings 0 src/",
     "db:push": "prisma db push",
     "db:seed": "tsx scripts/seed.ts",
     "db:check-apis": "tsx --env-file=.env.local scripts/check-apis.ts",
