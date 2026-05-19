@@ -2,12 +2,20 @@
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 
+// Accept only same-origin relative paths: must start with "/" and not "//"
+// (protocol-relative URLs like //evil.com would otherwise pass through to
+// the browser as cross-origin redirects). Anything else falls back to /feed.
+function safeCallback(raw: string): string {
+  return /^\/(?!\/)/.test(raw) ? raw : "/feed";
+}
+
 function SignInForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/feed";
+  const callbackUrl = safeCallback(searchParams.get("callbackUrl") ?? "/feed");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -35,7 +43,8 @@ function SignInForm() {
         setError(isSignUp ? "Email already in use or invalid." : "Invalid email or sign in failed.");
         return;
       }
-      window.location.href = callbackUrl;
+      router.push(callbackUrl);
+      router.refresh();
     } catch {
       setError("Something went wrong.");
     } finally {
