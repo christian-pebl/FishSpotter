@@ -35,3 +35,15 @@ Thumbs.db
 
 # Local DB backups (raw row dumps; never commit)
 backups/
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# lighthouse-ci
+.lighthouseci/
+
+# storybook
+storybook-static/
