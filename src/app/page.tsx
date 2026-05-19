@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <div className="flex-1 overflow-y-auto">
       <main id="main" className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-4 py-8 md:py-12">
-        <section className="pebl-surface rounded-[28px] px-6 py-10 md:px-10 md:py-14" aria-labelledby="hero-heading">
+        <section className="pebl-surface rounded-hero px-6 py-10 md:px-10 md:py-14" aria-labelledby="hero-heading">
           <p className="pebl-eyebrow mb-3 text-xs">
             Protecting Ecology Beyond Land
           </p>
@@ -32,21 +32,21 @@ export default function HomePage() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-3" aria-label="How it works">
-          <article className="pebl-surface rounded-[24px] p-5">
+          <article className="pebl-surface rounded-card p-5">
             <p className="pebl-eyebrow text-xs">Marine monitoring</p>
             <h2 className="mt-3 text-2xl font-bold text-[color:var(--foreground)]">Short-form sightings</h2>
             <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
               Review real underwater clips from PEBL monitoring deployments and respond quickly from mobile or desktop.
             </p>
           </article>
-          <article className="pebl-surface rounded-[24px] p-5">
+          <article className="pebl-surface rounded-card p-5">
             <p className="pebl-eyebrow text-xs">Community insight</p>
             <h2 className="mt-3 text-2xl font-bold text-[color:var(--foreground)]">Compare answers</h2>
             <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">
               See how your identification compares with community consensus and the PEBL reference label for each sighting.
             </p>
           </article>
-          <article className="pebl-surface rounded-[24px] p-5">
+          <article className="pebl-surface rounded-card p-5">
             <p className="pebl-eyebrow text-xs">Daily engagement</p>
             <h2 className="mt-3 text-2xl font-bold text-[color:var(--foreground)]">Keep the streak alive</h2>
             <p className="mt-2 text-sm leading-6 text-[color:var(--muted)]">

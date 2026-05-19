@@ -38,8 +38,8 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
 
   return (
     <div className="space-y-6">
-      <div className="pebl-surface overflow-hidden rounded-[28px] p-3">
-        <div className="relative mx-auto aspect-[9/16] max-h-[70vh] overflow-hidden rounded-[22px] bg-[#17252A]">
+      <div className="pebl-surface overflow-hidden rounded-hero p-3">
+        <div className="relative mx-auto aspect-[9/16] max-h-[70vh] overflow-hidden rounded-card bg-navy-900">
         <video
           src={snippet.videoUrl}
           poster={snippet.thumbnailUrl}
@@ -50,8 +50,8 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
         </div>
       </div>
 
-      <div className="pebl-surface rounded-[24px] p-5 text-sm text-[color:var(--muted)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">PEBL observation details</p>
+      <div className="pebl-surface rounded-card p-5 text-sm text-[color:var(--muted)]">
+        <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">PEBL observation details</p>
         <div className="mt-3 grid gap-1 md:grid-cols-2">
           <p><span className="font-medium text-[color:var(--foreground)]">Site:</span> {snippet.site}</p>
           <p><span className="font-medium text-[color:var(--foreground)]">Deployment:</span> {snippet.deployment}</p>
@@ -60,15 +60,15 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
         </div>
       </div>
 
-      <div className="pebl-surface rounded-[24px] p-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Spotter challenge</p>
+      <div className="pebl-surface rounded-card p-5">
+        <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">Spotter challenge</p>
         <h2 className="mt-2 font-brand-heading text-3xl text-[color:var(--foreground)]">What species is this?</h2>
 
         {!showStats ? (
           <>
             <label
               htmlFor={`species-answer-${snippet.id}`}
-              className="mb-2 mt-4 block text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]"
+              className="mb-2 mt-4 block text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]"
             >
               Species name
             </label>

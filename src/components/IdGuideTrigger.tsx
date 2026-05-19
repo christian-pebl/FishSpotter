@@ -123,7 +123,7 @@ export function IdGuideTrigger({
         </button>
         <Link
           href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`}
-          className="text-[#3AAFA9] hover:text-[#59c8c3]"
+          className="text-teal-500 hover:text-teal-400"
         >
           Sign in to ask the biologist
         </Link>

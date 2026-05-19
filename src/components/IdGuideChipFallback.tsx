@@ -71,7 +71,7 @@ export function IdGuideChipFallback({
                     aria-pressed={isOn}
                     className={
                       isOn
-                        ? "rounded-full bg-[#3AAFA9] px-2.5 py-1 text-[11px] font-semibold text-[#17252A]"
+                        ? "rounded-full bg-teal-500 px-2.5 py-1 text-[11px] font-semibold text-navy-900"
                         : "rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[11px] text-white/80 hover:border-white/40"
                     }
                   >
@@ -98,7 +98,7 @@ export function IdGuideChipFallback({
             <button
               type="button"
               onClick={onBackToChat}
-              className="text-[#3AAFA9] hover:text-[#59c8c3]"
+              className="text-teal-500 hover:text-teal-400"
             >
               Back to guided
             </button>
@@ -106,7 +106,7 @@ export function IdGuideChipFallback({
         </div>
       </div>
 
-      <div className="shrink-0 border-t border-white/10 bg-[#0f1d22]/95 px-4 py-3">
+      <div className="shrink-0 border-t border-white/10 bg-navy-800/95 px-4 py-3">
         <p className="pb-1.5 text-[10px] uppercase tracking-wider text-white/55">Matches</p>
         {candidates.length === 0 ? (
           <p className="text-xs text-white/45">
@@ -121,7 +121,7 @@ export function IdGuideChipFallback({
                 key={c.scientificName}
                 type="button"
                 onClick={() => onPickCandidate(c.commonName)}
-                className="block w-full rounded-xl border border-white/10 bg-white/5 px-2.5 py-1.5 text-left text-[12px] hover:border-[#3AAFA9]/60 hover:bg-white/10"
+                className="block w-full rounded-xl border border-white/10 bg-white/5 px-2.5 py-1.5 text-left text-[12px] hover:border-teal-500/60 hover:bg-white/10"
               >
                 <div className="flex items-baseline justify-between gap-2">
                   <span className="text-white/90">{c.commonName}</span>

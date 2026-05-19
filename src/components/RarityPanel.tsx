@@ -124,7 +124,7 @@ export function RarityPanel({
             <span className="w-24 truncate italic text-white/80">{s.scientificName}</span>
             <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
               <div
-                className="h-full rounded bg-[#3AAFA9]/55"
+                className="h-full rounded bg-teal-500/55"
                 style={{ width: `${Math.round(s.probability * 100)}%` }}
               />
             </div>
@@ -146,7 +146,7 @@ export function RarityPanel({
                 className={
                   badge.tone === "rare"
                     ? "rounded-full bg-amber-300/20 px-2 py-0.5 text-[10px] font-semibold text-amber-200"
-                    : "rounded-full bg-[#3AAFA9]/20 px-2 py-0.5 text-[10px] font-semibold text-[#3AAFA9]"
+                    : "rounded-full bg-teal-500/20 px-2 py-0.5 text-[10px] font-semibold text-teal-500"
                 }
               >
                 {badge.label}

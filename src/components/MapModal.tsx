@@ -46,12 +46,12 @@ export function MapModal({ open, onClose, lat, lon, site }: MapModalProps) {
       onClick={onClose}
     >
       <div
-        className="relative flex h-full w-full max-w-3xl flex-col overflow-hidden bg-[#0f1d22] shadow-2xl sm:h-[70vh] sm:rounded-2xl"
+        className="relative flex h-full w-full max-w-3xl flex-col overflow-hidden bg-navy-800 shadow-2xl sm:h-[70vh] sm:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
           <div className="min-w-0">
-            <p className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-eyebrow text-teal-50">
               {site}
             </p>
             <p className="truncate text-xs text-white/65">

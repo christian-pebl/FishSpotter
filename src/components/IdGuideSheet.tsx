@@ -162,7 +162,7 @@ export function IdGuideSheet({
     >
       <div
         ref={dialogRef}
-        className="relative flex h-[92dvh] w-full max-w-2xl flex-col overflow-hidden bg-[#0f1d22] shadow-2xl sm:h-[88vh] sm:rounded-2xl"
+        className="relative flex h-[92dvh] w-full max-w-2xl flex-col overflow-hidden bg-navy-800 shadow-2xl sm:h-[88vh] sm:rounded-2xl"
         style={{
           transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
           transition: "transform 120ms ease-out",
@@ -171,7 +171,7 @@ export function IdGuideSheet({
       >
         <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-4 py-2.5">
           <div className="min-w-0">
-            <p className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-[#DEF2F1]">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-eyebrow text-teal-50">
               {title}
             </p>
             {mode !== "fieldNote" && (
@@ -245,7 +245,7 @@ export function IdGuideSheet({
                     ← Back to “{fieldNoteFor.commonName}”
                   </button>
                 )}
-                <p className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-[#3AAFA9]">
+                <p className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-teal-500">
                   {effectiveFieldNote.commonName}
                 </p>
                 <p className="pb-3 text-[12px] italic text-white/55">
@@ -310,7 +310,7 @@ function CatalogueBrowser({
   return (
     <div>
       <p className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-amber-200">
-        Field notes for “{staffAnswer ?? "this species"}” aren't in the catalogue yet
+        Field notes for “{staffAnswer ?? "this species"}” aren&apos;t in the catalogue yet
       </p>
       <p className="pb-3 text-[12px] text-white/65">
         Browse the species the biologist tracks on the Welsh coast — pick one
@@ -322,7 +322,7 @@ function CatalogueBrowser({
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search by common or scientific name…"
         aria-label="Search species by common or scientific name"
-        className="mb-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#3AAFA9] focus:outline-none"
+        className="mb-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-teal-500 focus:outline-none"
       />
       {entries.length === 0 ? (
         <p className="py-2 text-sm text-white/45">No matches.</p>
@@ -333,7 +333,7 @@ function CatalogueBrowser({
               key={e.sci}
               type="button"
               onClick={() => onPick(e.sci)}
-              className="block w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left text-[12px] hover:border-[#3AAFA9]/60 hover:bg-white/10"
+              className="block w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left text-[12px] hover:border-teal-500/60 hover:bg-white/10"
             >
               <div className="text-white/90">{e.commonName}</div>
               <div className="text-[10px] italic text-white/45">{e.sci}</div>

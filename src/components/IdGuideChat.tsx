@@ -168,7 +168,7 @@ export function IdGuideChat({
               key={i}
               className={
                 m.role === "user"
-                  ? "ml-auto max-w-[80%] rounded-2xl bg-[#3AAFA9] px-3 py-2 text-sm text-[#17252A]"
+                  ? "ml-auto max-w-[80%] rounded-2xl bg-teal-500 px-3 py-2 text-sm text-navy-900"
                   : "mr-auto max-w-[85%] rounded-2xl bg-white/10 px-3 py-2 text-sm text-white/90"
               }
             >
@@ -207,13 +207,13 @@ export function IdGuideChat({
                     {isExpanded && (
                       <div className="border-t border-white/10 px-2.5 py-2">
                         <p className="text-[11px] text-white/70">
-                          Matches {c.matchedTraits} of {c.totalTraitsConsidered} traits you've
+                          Matches {c.matchedTraits} of {c.totalTraitsConsidered} traits you&apos;ve
                           mentioned.
                         </p>
                         <button
                           type="button"
                           onClick={() => onPickCandidate(c.commonName)}
-                          className="mt-2 rounded-full bg-[#3AAFA9] px-3 py-1 text-[11px] font-semibold text-[#17252A] hover:bg-[#59c8c3]"
+                          className="mt-2 rounded-full bg-teal-500 px-3 py-1 text-[11px] font-semibold text-navy-900 hover:bg-teal-400"
                         >
                           Use this as my answer
                         </button>
@@ -240,7 +240,7 @@ export function IdGuideChat({
         )}
       </div>
 
-      <div className="shrink-0 border-t border-white/10 bg-[#0f1d22]/95 p-3">
+      <div className="shrink-0 border-t border-white/10 bg-navy-800/95 p-3">
         <div className="flex items-end gap-2">
           <textarea
             ref={inputRef}
@@ -259,7 +259,7 @@ export function IdGuideChat({
             }
             rows={1}
             disabled={streaming || turnsRemaining <= 0}
-            className="max-h-24 flex-1 resize-none rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#3AAFA9] focus:outline-none disabled:opacity-50"
+            className="max-h-24 flex-1 resize-none rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-teal-500 focus:outline-none disabled:opacity-50"
           />
           {streaming ? (
             <button
@@ -274,7 +274,7 @@ export function IdGuideChat({
               type="button"
               onClick={sendMessage}
               disabled={!input.trim() || turnsRemaining <= 0}
-              className="rounded-full bg-[#3AAFA9] px-3 py-2 text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3] disabled:opacity-40"
+              className="rounded-full bg-teal-500 px-3 py-2 text-sm font-semibold text-navy-900 hover:bg-teal-400 disabled:opacity-40"
             >
               Send
             </button>

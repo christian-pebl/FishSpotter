@@ -171,7 +171,7 @@ export function IdGuideWizard({
               key={opt.value}
               type="button"
               onClick={() => answerCurrent(opt.value)}
-              className="block w-full rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-left transition-colors hover:border-[#3AAFA9]/60 hover:bg-white/10"
+              className="block w-full rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-left transition-colors hover:border-teal-500/60 hover:bg-white/10"
             >
               <span className="block text-sm text-white/90">{opt.label}</span>
               {opt.hint && (
@@ -219,7 +219,7 @@ function FinalReveal({
               No species in our local catalogue match all of those traits.
             </p>
             <p className="pt-2 text-[12px] text-white/55">
-              Try starting over and skipping a step you're unsure about — or
+              Try starting over and skipping a step you&apos;re unsure about — or
               switch to the manual trait filter for a less strict match.
             </p>
           </div>
@@ -260,7 +260,7 @@ function FinalReveal({
                     <button
                       type="button"
                       onClick={() => onPick(c.commonName)}
-                      className="rounded-full bg-[#3AAFA9] px-3 py-1.5 text-[11px] font-semibold text-[#17252A] hover:bg-[#59c8c3]"
+                      className="rounded-full bg-teal-500 px-3 py-1.5 text-[11px] font-semibold text-navy-900 hover:bg-teal-400"
                     >
                       Use “{c.commonName}” as my answer
                     </button>
@@ -310,7 +310,7 @@ function Footer({
           <button
             type="button"
             onClick={onSwitchToChat}
-            className="text-[#3AAFA9] transition-colors hover:text-[#59c8c3]"
+            className="text-teal-500 transition-colors hover:text-teal-400"
           >
             Ask the biologist
           </button>

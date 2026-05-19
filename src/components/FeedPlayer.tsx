@@ -154,7 +154,7 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
             className="pointer-events-none absolute inset-x-0 z-30 flex justify-center"
             style={{ bottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
           >
-            <div className="flex items-center gap-2 rounded-full bg-black/55 px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] text-white/85 backdrop-blur-sm">
+            <div className="flex items-center gap-2 rounded-full bg-black/55 px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-eyebrow text-white/85 backdrop-blur-sm">
               <motion.span
                 aria-hidden
                 animate={reduceMotion ? undefined : { y: [0, -3, 0] }}

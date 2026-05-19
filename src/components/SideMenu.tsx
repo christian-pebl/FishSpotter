@@ -123,7 +123,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
             animate={{ x: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { x: "-100%" }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="fixed left-0 top-0 z-50 flex h-[100dvh] w-[min(85vw,320px)] flex-col overflow-y-auto bg-[#17252A] text-white shadow-[8px_0_30px_rgba(0,0,0,0.5)]"
+            className="fixed left-0 top-0 z-50 flex h-[100dvh] w-[min(85vw,320px)] flex-col overflow-y-auto bg-navy-900 text-white shadow-drawer"
             style={{
               paddingTop: `max(0.75rem, env(safe-area-inset-top))`,
               paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
@@ -134,7 +134,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
               <Link href="/" onClick={onClose} className="inline-flex flex-col gap-0.5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/branding/PEBL Logo-1.svg" alt="PEBL" className="h-8 w-auto" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#DEF2F1]/70">
+                <span className="text-[10px] uppercase tracking-eyebrow text-teal-50/70">
                   FishSpotter
                 </span>
               </Link>
@@ -166,7 +166,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                   <p className="truncate text-xs text-white/55">{session.user.email}</p>
                 )}
                 {streak !== null && streak > 0 && (
-                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-[#3AAFA9]">
+                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-teal-500">
                     <span aria-hidden>🔥</span> {streak} day streak
                   </p>
                 )}
@@ -185,17 +185,17 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                         onClick={onClose}
                         className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                           active
-                            ? "bg-[#3AAFA9]/20 text-[#DEF2F1]"
+                            ? "bg-teal-500/20 text-teal-50"
                             : "text-white/80 hover:bg-white/8 hover:text-white"
                         }`}
                         aria-current={active ? "page" : undefined}
                       >
-                        <span className={active ? "text-[#3AAFA9]" : "text-white/55"}>
+                        <span className={active ? "text-teal-500" : "text-white/55"}>
                           {item.icon}
                         </span>
                         <span className="flex-1">{item.label}</span>
                         {active && (
-                          <span className="text-[10px] uppercase tracking-wider text-[#3AAFA9]">
+                          <span className="text-[10px] uppercase tracking-wider text-teal-500">
                             Now
                           </span>
                         )}
@@ -233,7 +233,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                 </span>
                 <span
                   className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                    soundsOn ? "bg-[#3AAFA9]" : "bg-white/15"
+                    soundsOn ? "bg-teal-500" : "bg-white/15"
                   }`}
                 >
                   <span
@@ -258,7 +258,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                     onClose();
                     void signOut();
                   }}
-                  className="w-full rounded-full border border-white/20 px-3 py-2 text-sm font-medium text-white hover:border-[#3AAFA9]"
+                  className="w-full rounded-full border border-white/20 px-3 py-2 text-sm font-medium text-white hover:border-teal-500"
                 >
                   Sign out
                 </button>
@@ -266,12 +266,12 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                 <Link
                   href="/auth/signin"
                   onClick={onClose}
-                  className="block w-full rounded-full bg-[#3AAFA9] px-3 py-2 text-center text-sm font-semibold text-[#17252A] hover:bg-[#59c8c3]"
+                  className="block w-full rounded-full bg-teal-500 px-3 py-2 text-center text-sm font-semibold text-navy-900 hover:bg-teal-400"
                 >
                   Sign in
                 </Link>
               )}
-              <p className="mt-3 text-center text-[10px] uppercase tracking-[0.18em] text-white/30">
+              <p className="mt-3 text-center text-[10px] uppercase tracking-eyebrow text-white/30">
                 PEBL CIC
               </p>
             </div>

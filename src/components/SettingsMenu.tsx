@@ -62,9 +62,9 @@ export function SettingsMenu() {
             transition={{ duration: 0.16, ease: "easeOut" }}
             role="dialog"
             aria-label="Video settings"
-            className="absolute right-0 top-full z-50 mt-2 w-72 origin-top-right rounded-2xl border border-white/12 bg-[#17252A]/92 p-3 text-white shadow-[0_10px_36px_rgba(0,0,0,0.55)] backdrop-blur-md"
+            className="absolute right-0 top-full z-50 mt-2 w-72 origin-top-right rounded-2xl border border-white/12 bg-navy-900/92 p-3 text-white shadow-menu backdrop-blur-md"
           >
-            <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/55">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-eyebrow text-white/55">
               Settings
             </p>
 
@@ -91,7 +91,7 @@ export function SettingsMenu() {
                       onClick={() => setVideoSettings({ speed: s })}
                       className={`flex-1 rounded-lg px-2 py-1.5 text-xs font-semibold transition-colors ${
                         active
-                          ? "bg-[#3AAFA9] text-[#17252A]"
+                          ? "bg-teal-500 text-navy-900"
                           : "bg-white/10 text-white/75 hover:bg-white/18"
                       }`}
                       aria-pressed={active}
@@ -145,7 +145,7 @@ function Toggle({ label, checked, onChange }: ToggleProps) {
       <span className="text-white/85">{label}</span>
       <span
         className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-          checked ? "bg-[#3AAFA9]" : "bg-white/15"
+          checked ? "bg-teal-500" : "bg-white/15"
         }`}
       >
         <span
