@@ -4,8 +4,8 @@ export function triggerCorrectConfetti(): void {
   if (typeof window === "undefined") return;
   if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
-  // Ocean-themed colors: teals, blues, corals, sandy gold
-  const colors = ["#06b6d4", "#0ea5e9", "#f97316", "#fbbf24", "#34d399", "#a78bfa"];
+  // PEBL brand palette — colorblind-safe (no orange). Teal scale + brand whites.
+  const colors = ["#3AAFA9", "#2B7A78", "#DEF2F1", "#FFFFFF", "#1F5F5D"];
 
   const origin = { x: 0.5, y: 0.6 };
 
