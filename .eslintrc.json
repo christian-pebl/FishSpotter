@@ -1,0 +1,12 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "JSXAttribute[name.name='className'] Literal[value=/bg-\\[#[0-9a-fA-F]{3,8}\\]|text-\\[#[0-9a-fA-F]{3,8}\\]|border-\\[#[0-9a-fA-F]{3,8}\\]|ring-\\[#[0-9a-fA-F]{3,8}\\]|rounded-\\[\\d+px\\]|tracking-\\[0\\.\\d+em\\]|shadow-\\[/]",
+        "message": "Use a design token (Tailwind theme key) instead of an arbitrary-value Tailwind class. See tailwind.config.ts. If you genuinely need a new token, add it there first."
+      }
+    ]
+  }
+}
