@@ -13,7 +13,7 @@
   --border: rgba(23, 37, 42, 0.12);
   --muted: rgba(23, 37, 42, 0.72);
   --focus-ring: #2b7a78;
-  --font-heading: Futura, "Trebuchet MS", Arial, sans-serif;
+  --font-heading: Jost, "Helvetica Neue", Arial, sans-serif;
 }
 
 html,
@@ -63,53 +63,57 @@ a {
   background: rgba(58, 175, 169, 0.28);
 }
 
-.pebl-eyebrow {
-  color: var(--primary-strong);
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
+@layer components {
+  .pebl-eyebrow {
+    @apply font-bold uppercase tracking-eyebrow;
+    color: var(--primary-strong);
+  }
 
-.pebl-surface {
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  border: 1px solid var(--border);
-  box-shadow: 0 18px 40px rgba(23, 37, 42, 0.08);
-}
+  .pebl-surface {
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    border: 1px solid var(--border);
+    @apply shadow-card;
+  }
 
-.pebl-chip {
-  border: 1px solid rgba(43, 122, 120, 0.22);
-  background: rgba(255, 255, 255, 0.7);
-  color: var(--foreground);
-}
+  .pebl-chip {
+    border: 1px solid rgba(43, 122, 120, 0.22);
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--foreground);
+  }
 
-.pebl-chip:hover {
-  border-color: rgba(43, 122, 120, 0.5);
-}
+  .pebl-chip:hover {
+    border-color: rgba(43, 122, 120, 0.5);
+  }
 
-.pebl-chip-active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #ffffff;
-}
+  .pebl-chip-active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+  }
 
-.pebl-button-primary {
-  background: var(--accent);
-  color: var(--foreground);
-}
+  .pebl-button-primary {
+    @apply bg-teal-500 text-navy-900 min-h-[44px] rounded-full font-semibold transition-colors;
+  }
+  .pebl-button-primary:hover {
+    @apply bg-teal-800;
+  }
+  .pebl-button-primary:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
 
-.pebl-button-primary:hover {
-  background: #2b9d97;
-}
-
-.pebl-button-secondary {
-  border: 1px solid rgba(43, 122, 120, 0.2);
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--foreground);
-}
-
-.pebl-button-secondary:hover {
-  border-color: rgba(43, 122, 120, 0.5);
-  background: rgba(255, 255, 255, 0.92);
+  .pebl-button-secondary {
+    @apply rounded-full transition-colors;
+    border: 1px solid rgba(43, 122, 120, 0.2);
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--foreground);
+  }
+  .pebl-button-secondary:hover {
+    border-color: rgba(43, 122, 120, 0.5);
+    background: rgba(255, 255, 255, 0.92);
+  }
+  .pebl-button-secondary:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
 }
 
 .skip-link {
