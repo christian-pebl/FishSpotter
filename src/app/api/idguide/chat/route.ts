@@ -8,7 +8,12 @@ import { prisma } from "@/lib/prisma";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { narrowCandidates } from "@/lib/idguide/narrow";
-import { buildSystemPrompt, pickLocalCatalogue, type EcologicalContext } from "@/lib/idguide/prompt";
+import {
+  buildDynamicSystemBlock,
+  buildStableSystemBlock,
+  pickLocalCatalogue,
+  type EcologicalContext,
+} from "@/lib/idguide/prompt";
 import { fetchRecentNearbySightings } from "@/lib/idguide/recent-sightings";
 import { bucketFor } from "@/lib/biodiversity/buckets";
 import { normaliseCommonName } from "@/lib/biodiversity/gbif-match";
@@ -44,6 +49,10 @@ const NARROW_TOOL: Anthropic.Tool = {
   name: "narrow_candidates",
   description:
     "Filter the locally plausible species catalogue by traits the user has described. Returns matching species ranked by trait match and local ecological probability. Use this whenever the user gives a new observable trait — do not reason about the catalogue from memory.",
+  // The tool schema is the second-largest stable chunk of input on every
+  // call. Mark it as cacheable so the prefix (system + tools) is one big
+  // cache hit after the first request in a 5-minute window.
+  cache_control: { type: "ephemeral" },
   input_schema: {
     type: "object",
     properties: {
@@ -238,10 +247,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
 
-  const systemPrompt = buildSystemPrompt({
-    ctx: ctxBundle.ctx,
-    catalogue: ctxBundle.localCatalogue,
-  });
+  // Two-block system prompt for cache effectiveness:
+  //   stable  = persona + hard rules + full catalogue + final reminders
+  //             (identical for every snippet and every user; cache hit rate
+  //              approaches 100% inside the 5-minute ephemeral TTL)
+  //   dynamic = per-snippet site/depth/month + ecological likelihood ordering
+  //             (~150 tokens; never billed at cache-write rate)
+  //
+  // Always cache the FULL catalogue so ad-hoc snippet hops don't bust the
+  // cache. The dynamic block still steers the model toward locally plausible
+  // species via the explicit "Ecological likelihood" line.
+  const stableSystemBlock = buildStableSystemBlock(FULL_CATALOGUE);
+  const dynamicSystemBlock = buildDynamicSystemBlock(ctxBundle.ctx);
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -266,8 +283,12 @@ export async function POST(req: Request) {
             system: [
               {
                 type: "text",
-                text: systemPrompt,
+                text: stableSystemBlock,
                 cache_control: { type: "ephemeral" },
+              },
+              {
+                type: "text",
+                text: dynamicSystemBlock,
               },
             ],
             tools: [NARROW_TOOL],
