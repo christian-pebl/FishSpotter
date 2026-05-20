@@ -42,20 +42,43 @@ function formatTraits(t: SpeciesTraits): string {
   return bits.join("; ");
 }
 
-export function buildSystemPrompt(args: {
-  ctx: EcologicalContext;
-  catalogue: SpeciesCatalogue; // already filtered to locally plausible species
-}): string {
-  const { ctx, catalogue } = args;
+/**
+ * Stable block built from the full species catalogue. This text is identical
+ * for every snippet and every user, so Anthropic's prompt cache hits on it
+ * with very high frequency. Catalogue entries are sorted alphabetically by
+ * scientific name so the bytes are deterministic across builds.
+ *
+ * The per-snippet ecological steering (which species are most likely at this
+ * location and month) lives in the dynamic block — see
+ * buildDynamicSystemBlock().
+ */
+export function buildStableSystemBlock(catalogue: SpeciesCatalogue): string {
+  const ordered = Object.entries(catalogue).sort(([a], [b]) => a.localeCompare(b));
+  const catalogueLines = ordered.map(
+    ([sci, t]) => `- ${sci} (${t.commonName}): ${formatTraits(t)}. Field note: ${t.fieldNote}`,
+  );
 
+  return [
+    PERSONA,
+    "",
+    HARD_RULES,
+    "",
+    "Species catalogue (you may only suggest these):",
+    ...catalogueLines,
+    "",
+    FINAL_REMINDERS,
+  ].join("\n");
+}
+
+/**
+ * Per-snippet block. Conveys location, depth, month, and which catalogue
+ * species are ecologically most plausible at this spot. Sent fresh on every
+ * call; kept short so the bulk of the input stays cacheable.
+ */
+export function buildDynamicSystemBlock(ctx: EcologicalContext): string {
   const locationLine = `Site: ${ctx.site} (${ctx.deployment})${
     ctx.lat != null && ctx.lon != null ? ` ~ ${ctx.lat.toFixed(3)}°, ${ctx.lon.toFixed(3)}°` : ""
   }${ctx.depthM != null ? `, depth ~${ctx.depthM}m` : ""}${ctx.monthName ? `, month ${ctx.monthName}` : ""}`;
-
-  // Order the catalogue by ecological likelihood so the model favours the more
-  // plausible species when ties occur. The probabilities are NEVER surfaced.
-  const probByName = new Map(ctx.topSpecies.map((s) => [s.scientificName, s.probability] as const));
-  const ordered = Object.entries(catalogue).sort(([a], [b]) => (probByName.get(b) ?? 0) - (probByName.get(a) ?? 0));
 
   const ecologyLine = ctx.topSpecies.length
     ? `Ecological likelihood (internal, do NOT quote): ${ctx.topSpecies
@@ -68,44 +91,33 @@ export function buildSystemPrompt(args: {
     ? `Recently observed nearby by PEBL: ${ctx.recentNearby.join(", ")}`
     : "";
 
-  const catalogueLines = ordered.map(
-    ([sci, t]) => `- ${sci} (${t.commonName}): ${formatTraits(t)}. Field note: ${t.fieldNote}`
-  );
-
-  return [
-    PERSONA,
-    "",
-    HARD_RULES,
-    "",
-    "Context for this clip:",
-    locationLine,
-    ecologyLine,
-    recentLine,
-    "",
-    "Locally plausible species catalogue (you may only suggest these):",
-    ...catalogueLines,
-    "",
-    FINAL_REMINDERS,
-  ]
+  return ["Context for this clip:", locationLine, ecologyLine, recentLine]
     .filter((line) => line !== "")
     .join("\n");
 }
 
+/**
+ * Used by callers that want a single-string prompt (e.g. tests, fallback
+ * logging). The chat route builds the two blocks separately so the cacheable
+ * bytes can be marked with cache_control.
+ */
+export function buildSystemPrompt(args: {
+  ctx: EcologicalContext;
+  catalogue: SpeciesCatalogue;
+}): string {
+  return [buildStableSystemBlock(args.catalogue), "", buildDynamicSystemBlock(args.ctx)].join("\n");
+}
+
+/**
+ * Retained as a no-op passthrough so the chat route doesn't fork its
+ * narrowCandidates() input shape. The cached system block already lists the
+ * full catalogue, so narrowing here would create the confusing UX of "the
+ * model lists species Q, but my trait filter never returns Q".
+ */
 export function pickLocalCatalogue(args: {
   catalogue: SpeciesCatalogue;
   topSpecies: Array<{ scientificName: string }>;
   recentNearbyScientific: string[];
 }): SpeciesCatalogue {
-  const wanted = new Set<string>();
-  for (const s of args.topSpecies) wanted.add(s.scientificName);
-  for (const s of args.recentNearbyScientific) wanted.add(s);
-
-  const intersect: SpeciesCatalogue = {};
-  for (const [sci, traits] of Object.entries(args.catalogue)) {
-    if (wanted.has(sci)) intersect[sci] = traits;
-  }
-  // Fall back to the full catalogue when the OBIS slice is too narrow —
-  // otherwise we'd hide species the user might actually be looking at.
-  if (Object.keys(intersect).length >= 6) return intersect;
   return args.catalogue;
 }
