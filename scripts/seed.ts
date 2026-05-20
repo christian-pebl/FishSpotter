@@ -1,20 +1,25 @@
 /**
- * One-time seed: reads Fish Spotter Snips folders, uploads media to Supabase Storage
- * when configured, and inserts snippet records into the database.
+ * One-time seed: reads Fish Spotter Snips folders, uploads media to the
+ * active storage provider (Supabase by default, Cloudflare R2 if
+ * STORAGE_PROVIDER=r2), and inserts snippet records into the database.
+ *
  * Run: npm run db:seed
  */
 import { PrismaClient } from "@prisma/client";
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import * as fs from "fs";
 import * as path from "path";
+import {
+  buildPublicUrl,
+  getActiveProvider,
+  getStorageDriver,
+  uploadThumbnail,
+  uploadVideo,
+} from "./lib/storage";
 
 const prisma = new PrismaClient();
 
 const SNIPS_DIR = path.join(process.cwd(), "Fish Spotter Snips");
 const MEDIA_OUT = path.join(process.cwd(), "public", "media", "snippets");
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const SUPABASE_STORAGE_BUCKET = process.env.SUPABASE_STORAGE_BUCKET ?? "snippets";
 
 interface Metadata {
   video_name: string;
@@ -39,43 +44,6 @@ function ensureDir(dir: string) {
   }
 }
 
-function getSupabaseClient(): SupabaseClient | null {
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    return null;
-  }
-
-  return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-}
-
-function getPublicStorageUrl(objectPath: string) {
-  if (!SUPABASE_URL) {
-    throw new Error("SUPABASE_URL is required to build public storage URLs.");
-  }
-
-  return `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${objectPath}`;
-}
-
-async function uploadToStorage(
-  supabase: SupabaseClient,
-  objectPath: string,
-  filePath: string,
-  contentType: string
-) {
-  const fileBuffer = fs.readFileSync(filePath);
-  const { error } = await supabase.storage.from(SUPABASE_STORAGE_BUCKET).upload(objectPath, fileBuffer, {
-    upsert: true,
-    contentType,
-  });
-
-  if (error) {
-    throw error;
-  }
-
-  return getPublicStorageUrl(objectPath);
-}
-
 function getVideoPath(snippetDir: string): string | null {
   const h264 = path.join(snippetDir, "snippet_h264.mp4");
   const plain = path.join(snippetDir, "snippet.mp4");
@@ -93,11 +61,27 @@ function getReferenceAnswer(meta: Metadata) {
     ?? "Unknown";
 }
 
+function shouldUseLocalFallback(): boolean {
+  // Local fallback only kicks in when storage env vars for the chosen
+  // provider are missing entirely. With a provider configured, we always
+  // upload — even on dev — because the DB row points at a public URL.
+  try {
+    getStorageDriver();
+    return false;
+  } catch {
+    return true;
+  }
+}
+
 async function main() {
-  const supabase = getSupabaseClient();
-  if (!supabase) {
+  const useLocal = shouldUseLocalFallback();
+  if (useLocal) {
     ensureDir(MEDIA_OUT);
-    console.warn("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set. Falling back to local public/media/snippets.");
+    console.warn(
+      "No storage provider configured. Falling back to local public/media/snippets.",
+    );
+  } else {
+    console.log(`Uploading to ${getActiveProvider()} storage.`);
   }
 
   const dirs = fs.readdirSync(SNIPS_DIR, { withFileTypes: true })
@@ -130,26 +114,21 @@ async function main() {
       bboxJson = JSON.stringify(bboxData.bboxes ?? bboxData);
     }
 
-    const videoExt = path.extname(videoPath);
     let videoUrl: string;
     let thumbnailUrl: string;
 
-    if (supabase) {
-      const videoObjectPath = `${folderName}/snippet${videoExt}`;
-      const thumbObjectPath = `${folderName}/thumbnail.jpg`;
-      videoUrl = await uploadToStorage(supabase, videoObjectPath, videoPath, "video/mp4");
-      thumbnailUrl = await uploadToStorage(supabase, thumbObjectPath, thumbPath, "image/jpeg");
-    } else {
+    if (useLocal) {
       const outDir = path.join(MEDIA_OUT, folderName);
       ensureDir(outDir);
-
-      const videoDest = path.join(outDir, `snippet${videoExt}`);
-      const thumbDest = path.join(outDir, "thumbnail.jpg");
-      fs.copyFileSync(videoPath, videoDest);
-      fs.copyFileSync(thumbPath, thumbDest);
-
-      videoUrl = `/media/snippets/${folderName}/snippet${videoExt}`;
+      fs.copyFileSync(videoPath, path.join(outDir, "snippet.mp4"));
+      fs.copyFileSync(thumbPath, path.join(outDir, "thumbnail.jpg"));
+      videoUrl = `/media/snippets/${folderName}/snippet.mp4`;
       thumbnailUrl = `/media/snippets/${folderName}/thumbnail.jpg`;
+    } else {
+      const videoBuffer = fs.readFileSync(videoPath);
+      const thumbBuffer = fs.readFileSync(thumbPath);
+      videoUrl = await uploadVideo(folderName, videoBuffer);
+      thumbnailUrl = await uploadThumbnail(folderName, thumbBuffer);
     }
 
     await prisma.snippet.upsert({
@@ -184,6 +163,8 @@ async function main() {
   }
 
   console.log("Seed complete.");
+  // Reference buildPublicUrl so tree-shake keeps it exported for future callers.
+  void buildPublicUrl;
 }
 
 main()
