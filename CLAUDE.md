@@ -55,6 +55,48 @@ All snippet videos must be **H.264 (avc1)** — Chrome cannot play MPEG-4 Part 2
   ```
 - To re-transcode the DB, run: `npx tsx --env-file=.env.local scripts/transcode-to-h264.ts`
 
+## Storage provider
+
+The Next.js runtime treats `Snippet.videoUrl` and `Snippet.thumbnailUrl` as opaque public URLs — it never imports the storage SDK. Only the seed and migration scripts upload, and they use the abstraction in `scripts/lib/storage.ts` to pick a provider.
+
+Two providers are supported:
+
+| Provider | Egress fees | Storage | Notes |
+|---|---|---|---|
+| `supabase` (default) | $0.09/GB on Pro after 5GB free | $25/mo Pro for >1GB | Where snippets live today. Simple. Egress is the surprise line at scale. |
+| `r2` | **$0 forever** | 10GB free, then $0.015/GB | S3-compatible. Recommended once seed grows past ~5GB egress/mo (≈10 active users at 5min/day). |
+
+Select with `STORAGE_PROVIDER=r2` or `STORAGE_PROVIDER=supabase` (omit env var to default to supabase, no behaviour change).
+
+### Cloudflare R2 setup (one-time)
+
+1. **Provision the bucket.**
+   - Cloudflare dashboard → R2 → Create bucket → name it e.g. `fishspotter-snippets`.
+   - Settings → Public Access → enable. Either use the auto-generated `https://pub-<hash>.r2.dev` URL or attach a custom domain (e.g. `snippets.fish-spotter.com`).
+2. **Create an API token.**
+   - Cloudflare dashboard → R2 → Manage R2 API Tokens → Create API token.
+   - Permission: **Object Read & Write**. Scope to the new bucket.
+   - Copy the Access Key ID and Secret Access Key (shown once).
+3. **Add env vars** to `.env.local` and to Vercel (Production + Preview):
+   ```
+   STORAGE_PROVIDER=r2
+   R2_ACCOUNT_ID=<your Cloudflare account id, top-right of dashboard>
+   R2_ACCESS_KEY_ID=<from step 2>
+   R2_SECRET_ACCESS_KEY=<from step 2>
+   R2_BUCKET_NAME=fishspotter-snippets
+   R2_PUBLIC_URL=https://pub-<hash>.r2.dev    # or your custom domain, no trailing slash
+   ```
+4. **Run the migration** (copies existing snippets from Supabase → R2 and updates DB URLs):
+   ```
+   npm run db:migrate-to-r2 -- --dry-run     # preview what will move
+   npm run db:migrate-to-r2 -- --limit 3     # spot-check on 3 clips first
+   npm run db:migrate-to-r2                  # full migration (idempotent)
+   ```
+5. **Verify**: load any snippet on fish-spotter.vercel.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
+6. **Drop the Supabase objects** only after a few days of production traffic confirm R2 is serving. The Snippet rows now point at R2; the Supabase objects are dead weight but harmless until removed via the Supabase dashboard.
+
+The migration is idempotent: re-running skips any row whose URL already lives under `R2_PUBLIC_URL`. Use `--force` to re-upload anyway.
+
 ## Design Tokens (CSS vars)
 
 | Token | Value | Use |
@@ -186,4 +228,12 @@ SUPABASE_SERVICE_ROLE_KEY=...
 ANTHROPIC_API_KEY=...             # ID-guide chat (server-side only)
 ANTHROPIC_MODEL=claude-sonnet-4-6 # optional override
 CRON_SECRET=...                   # required in production for /api/cron/*
+
+# Storage provider (see "Storage provider" section above)
+STORAGE_PROVIDER=supabase         # "r2" or "supabase" (default)
+R2_ACCOUNT_ID=...                 # only required when STORAGE_PROVIDER=r2
+R2_ACCESS_KEY_ID=...
+R2_SECRET_ACCESS_KEY=...
+R2_BUCKET_NAME=fishspotter-snippets
+R2_PUBLIC_URL=https://pub-<hash>.r2.dev   # or a custom domain
 ```

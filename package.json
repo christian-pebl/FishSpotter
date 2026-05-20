@@ -15,10 +15,11 @@
     "storybook:build": "storybook build",
     "check:codecs": "tsx --env-file=.env.local scripts/check-codecs.ts",
     "db:push": "prisma db push",
-    "db:seed": "tsx scripts/seed.ts",
+    "db:seed": "tsx --env-file=.env.local scripts/seed.ts",
     "db:check-apis": "tsx --env-file=.env.local scripts/check-apis.ts",
     "db:backfill": "tsx --env-file=.env.local scripts/backfill-probability.ts",
     "db:refresh-images": "tsx --env-file=.env.local scripts/refresh-images.ts",
+    "db:migrate-to-r2": "tsx --env-file=.env.local scripts/migrate-to-r2.ts",
     "measure:prompt": "tsx scripts/measure-prompt.ts",
     "postinstall": "prisma generate"
   },
@@ -38,6 +39,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1050.0",
     "@axe-core/playwright": "^4.11.3",
     "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.60.0",
