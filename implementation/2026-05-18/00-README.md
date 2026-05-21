@@ -4,14 +4,31 @@
 **Executor:** Claude Code in-session. Tickets are written compact, but each carries enough file:line context to be picked up cold from a future session.
 **Total:** 6 sprints, **114 tickets**, ~4,100 lines of plan across 7 files.
 
-| Sprint | File | Tickets | Headline |
-|---|---|---|---|
-| 1 | [sprint-1-foundations.md](sprint-1-foundations.md) | 17 | Tokens-in-code, error/not-found shells, two API spoiler-gates, open-redirect lock, full testing infra |
-| 2 | [sprint-2-quiz-pipeline.md](sprint-2-quiz-pipeline.md) | 20 | MCQ migration, inline `SpeciesGallery`, scoring fix, confetti dedupe, watch-first gate |
-| 3 | [sprint-3-onboarding-compliance.md](sprint-3-onboarding-compliance.md) | 18 | Password reset, email verify, T&Cs/privacy, account deletion, Resend, landing, onboarding tour |
-| 4 | [sprint-4-performance.md](sprint-4-performance.md) | 18 | SQL `groupBy` + ISR everywhere, archive filters, leaderboard timeframe, feed virtualisation, web-vitals sampler |
-| 5 | [sprint-5-navigation-polish.md](sprint-5-navigation-polish.md) | 22 | Persistent nav, deep links, externalId routing, full a11y sweep (aria-live, labels, focus trap, contrast) |
-| 6 | [sprint-6-advanced.md](sprint-6-advanced.md) | 19 | Captions decision, digests, profile, share, anti-cheat, OAuth, GDPR export, i18n scaffold |
+| Sprint | File | Tickets | Status | Headline |
+|---|---|---|---|---|
+| 1 | [sprint-1-foundations.md](sprint-1-foundations.md) | 17 | ✅ Complete (2026-05-21) | Tokens-in-code, error/not-found shells, two API spoiler-gates, open-redirect lock, full testing infra |
+| 2 | [sprint-2-quiz-pipeline.md](sprint-2-quiz-pipeline.md) | 20 | Pending | MCQ migration, inline `SpeciesGallery`, scoring fix, confetti dedupe, watch-first gate |
+| 3 | [sprint-3-onboarding-compliance.md](sprint-3-onboarding-compliance.md) | 18 | Pending | Password reset, email verify, T&Cs/privacy, account deletion, Resend, landing, onboarding tour |
+| 4 | [sprint-4-performance.md](sprint-4-performance.md) | 18 | Pending | SQL `groupBy` + ISR everywhere, archive filters, leaderboard timeframe, feed virtualisation, web-vitals sampler |
+| 5 | [sprint-5-navigation-polish.md](sprint-5-navigation-polish.md) | 22 | Pending | Persistent nav, deep links, externalId routing, full a11y sweep (aria-live, labels, focus trap, contrast) |
+| 6 | [sprint-6-advanced.md](sprint-6-advanced.md) | 19 | Pending | Captions decision, digests, profile, share, anti-cheat, OAuth, GDPR export, i18n scaffold |
+
+## Sprint 1 closure (2026-05-21)
+
+All 17 tickets landed on `main` across 4 PRs, plus two cost-optimisation PRs that fell out of the projected-spend review:
+
+| PR | Tickets / scope | Merged commit |
+|---|---|---|
+| #1 Lane A | S1-T01, T02, T03, T04, T05, T06, T07 | `1aff3f6` |
+| #7 Lane B (replaces #2) | S1-T08, T09, T10, T17 | `19de235` |
+| #3 Lane C | S1-T11, T12 | `85c0d65` |
+| #4 Lane D | S1-T13, T14, T15, T16 | `9bbde0b` |
+| #5 idguide caching | Tool-schema cache + system prompt restructure (~$5/mo Claude saving) | `930e1f9` |
+| #6 Storage R2 | Provider abstraction + migration script (kills ~$25/mo Supabase egress when cut over) | `9384d4e` |
+
+Main verified green: `npm run build`, `next lint`, `tsc --noEmit` all clean.
+
+**Residual user actions** (cannot be automated, ~15 min total) — see [RESIDUAL-ACTIONS.md](RESIDUAL-ACTIONS.md).
 
 ---
 
