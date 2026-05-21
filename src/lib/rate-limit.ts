@@ -43,6 +43,16 @@ export function checkChatRateLimit(userId: string): boolean {
   return consume(`chat:${userId}`, CHAT_WINDOW_MS, CHAT_MAX_PER_HOUR);
 }
 
+// S6-T6: anti-cheat rate-limit on answer submission. Caps a single
+// user at 200 submissions per hour — generous for legitimate spotting
+// (one per ~18s) but tight enough to flag bots that rip the feed.
+const ANSWER_WINDOW_MS = 60 * 60 * 1000;
+const ANSWER_MAX_PER_HOUR = 200;
+
+export function checkAnswerRateLimit(userId: string): boolean {
+  return consume(`answer:${userId}`, ANSWER_WINDOW_MS, ANSWER_MAX_PER_HOUR);
+}
+
 if (typeof globalThis !== "undefined") {
   const sweep = () => {
     const now = Date.now();

@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { isCorrectAnswer } from "@/lib/answer-matching";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
+import { checkAnswerRateLimit } from "@/lib/rate-limit";
 import { computeStreakFromAnswers, toDateKey } from "@/lib/streak";
 
 const MAX_ANSWER_LENGTH = 80;
@@ -29,6 +30,16 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // S6-T6: anti-cheat per-user rate limit. 200 answers/hour is well
+  // above human spotting cadence and stops scripted scrape-and-submit
+  // bots from corrupting the leaderboard.
+  if (!checkAnswerRateLimit(session.user.id)) {
+    return NextResponse.json(
+      { error: "Too many answers in a short window. Slow down a bit." },
+      { status: 429 },
+    );
   }
 
   let parsed;

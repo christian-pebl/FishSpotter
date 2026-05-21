@@ -112,6 +112,9 @@ export default function HomePage() {
             <Link href="/terms" className="hover:text-navy-900">
               Terms
             </Link>
+            <Link href="/accessibility" className="hover:text-navy-900">
+              Accessibility
+            </Link>
             <a href="mailto:hello@pebl-cic.co.uk" className="hover:text-navy-900">
               hello@pebl-cic.co.uk
             </a>
