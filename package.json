@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:tokens": "eslint --max-warnings 0 src/",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "lh:ci": "lhci autorun",
@@ -60,6 +62,7 @@
     "storybook": "^8.6.18",
     "tailwindcss": "^3",
     "tsx": "^4.19.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.1.9"
   }
 }
