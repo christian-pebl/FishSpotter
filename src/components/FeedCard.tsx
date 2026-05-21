@@ -9,6 +9,7 @@ import { MapModal } from "./MapModal";
 import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 import { RarityPanel } from "./RarityPanel";
 import { IdGuideTrigger } from "./IdGuideTrigger";
+import { MCQCandidatePicker } from "./MCQCandidatePicker";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -839,40 +840,100 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     </p>
                   )}
 
-                  {/* Compact input row */}
-                  <div className="flex items-center gap-2 pb-2">
-                    <input
-                      id={`species-answer-${snippet.id}`}
-                      ref={inputRef}
-                      type="text"
-                      placeholder="What species is this?"
-                      value={answerText}
-                      onChange={(e) => setAnswerText(e.target.value)}
-                      onFocus={() => {
-                        try {
-                          if (localStorage.getItem("fishspotter:inputHintSeen") !== "1") {
-                            setShowInputHint(true);
-                          }
-                        } catch {}
-                      }}
-                      onBlur={() => setShowInputHint(false)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          if (showInputHint) {
-                            setShowInputHint(false);
-                            try { localStorage.setItem("fishspotter:inputHintSeen", "1"); } catch {}
-                          }
-                          void handleConfirmAndAdvance();
-                        }
-                      }}
-                      autoComplete="off"
-                      aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
-                      aria-invalid={!!submitError}
-                      className="min-h-[36px] min-w-0 flex-1 border-0 bg-transparent px-1 text-sm text-white outline-none placeholder:text-white/40"
-                      style={{ caretColor: "#3AAFA9" }}
-                    />
-                    {hasNext && !answerText.trim() && (
+                  {/* S2-T14: Replace the free-text input with an MCQ
+                       candidate picker. The legacy input is retained
+                       behind the DEGENERATE fallback (S2-T07) — when
+                       OBIS has too few photo-having distractors to
+                       form a viable quiz, the picker renders this
+                       block instead so the user can still answer. */}
+                  <MCQCandidatePicker
+                    snippetId={snippet.id}
+                    isSignedIn={!!session}
+                    submitting={submitting}
+                    onPick={(name) => {
+                      if (!name) {
+                        // Sign-in nudge path inside the picker.
+                        window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(`/feed`)}`;
+                        return;
+                      }
+                      void submitAndAdvance(() =>
+                        handleSubmit({ answerText: name }),
+                      );
+                    }}
+                    freeTextFallback={
+                      <>
+                        <div className="flex items-center gap-2 pb-2">
+                          <input
+                            id={`species-answer-${snippet.id}`}
+                            ref={inputRef}
+                            type="text"
+                            placeholder="What species is this?"
+                            value={answerText}
+                            onChange={(e) => setAnswerText(e.target.value)}
+                            onFocus={() => {
+                              try {
+                                if (localStorage.getItem("fishspotter:inputHintSeen") !== "1") {
+                                  setShowInputHint(true);
+                                }
+                              } catch {}
+                            }}
+                            onBlur={() => setShowInputHint(false)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                if (showInputHint) {
+                                  setShowInputHint(false);
+                                  try { localStorage.setItem("fishspotter:inputHintSeen", "1"); } catch {}
+                                }
+                                void handleConfirmAndAdvance();
+                              }
+                            }}
+                            autoComplete="off"
+                            aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
+                            aria-invalid={!!submitError}
+                            className="min-h-[36px] min-w-0 flex-1 border-0 bg-transparent px-1 text-sm text-white outline-none placeholder:text-white/40"
+                            style={{ caretColor: "#3AAFA9" }}
+                          />
+                          <motion.button
+                            type="button"
+                            onClick={handleConfirmAndAdvance}
+                            disabled={!answerText.trim() || submitting}
+                            aria-busy={submitting}
+                            aria-label="Submit answer"
+                            whileTap={!submitting && answerText.trim() && !reduceMotion ? { scale: 0.93 } : undefined}
+                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-500 text-navy-900 transition-colors hover:bg-teal-400 disabled:cursor-not-allowed disabled:bg-teal-500/30 disabled:text-navy-900/60"
+                          >
+                            {submitting ? (
+                              <svg width="14" height="14" viewBox="0 0 14 14" className="animate-spin" aria-hidden="true">
+                                <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeDasharray="22" strokeDashoffset="16" />
+                              </svg>
+                            ) : (
+                              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            )}
+                          </motion.button>
+                        </div>
+                        <AnimatePresence>
+                          {showInputHint && !answerText.trim() && (
+                            <motion.p
+                              key="hint"
+                              initial={reduceMotion ? false : { opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.15 }}
+                              className="pb-1.5 text-[10px] text-white/40"
+                            >
+                              Press ↵ to submit · Skip to pass
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    }
+                  />
+
+                  {hasNext && (
+                    <div className="flex justify-end pb-1">
                       <button
                         type="button"
                         onClick={onAdvance}
@@ -880,42 +941,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       >
                         Skip
                       </button>
-                    )}
-                    <motion.button
-                      type="button"
-                      onClick={handleConfirmAndAdvance}
-                      disabled={!answerText.trim() || submitting}
-                      aria-busy={submitting}
-                      aria-label="Submit answer"
-                      whileTap={!submitting && answerText.trim() && !reduceMotion ? { scale: 0.93 } : undefined}
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-500 text-navy-900 transition-colors hover:bg-teal-400 disabled:cursor-not-allowed disabled:bg-teal-500/30 disabled:text-navy-900/60"
-                    >
-                      {submitting ? (
-                        <svg width="14" height="14" viewBox="0 0 14 14" className="animate-spin" aria-hidden="true">
-                          <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeDasharray="22" strokeDashoffset="16" />
-                        </svg>
-                      ) : (
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                          <path d="M7 11V3M7 3L3.5 6.5M7 3L10.5 6.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
-                    </motion.button>
-                  </div>
-
-                  <AnimatePresence>
-                    {showInputHint && !answerText.trim() && (
-                      <motion.p
-                        key="hint"
-                        initial={reduceMotion ? false : { opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                        className="pb-1.5 text-[10px] text-white/40"
-                      >
-                        Press ↵ to submit · Skip to pass
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
+                    </div>
+                  )}
 
                   {status !== "loading" && !session && !showInputHint && (
                     <p className="pb-1.5 text-[10px] text-white/45">
