@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { AvatarMenu } from "@/components/AvatarMenu";
 import { SettingsMenu } from "@/components/SettingsMenu";
 import { SideMenu } from "@/components/SideMenu";
 
@@ -69,14 +70,11 @@ export function Header() {
             />
           </Link>
 
-          {/* Right: settings kebab (feed only) or spacer to keep logo centered */}
-          {showSettings ? (
-            <div className="pointer-events-auto">
-              <SettingsMenu />
-            </div>
-          ) : (
-            <span className="inline-block min-h-[44px] min-w-[44px]" aria-hidden />
-          )}
+          {/* Right: settings kebab (feed only) + avatar (everywhere) */}
+          <div className="pointer-events-auto flex items-center gap-1">
+            {showSettings && <SettingsMenu />}
+            <AvatarMenu overlay={onFeed} />
+          </div>
         </div>
       </header>
       <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />

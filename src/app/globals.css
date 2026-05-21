@@ -132,6 +132,61 @@ a {
   top: 0.5rem;
 }
 
+/* Minimal prose styles for the legal pages. The privacy and terms
+ * markdown files render via marked → dangerouslySetInnerHTML inside
+ * a `.legal-prose` block; we don't pull in a heavy typography lib for
+ * two static documents. */
+.legal-prose h1 {
+  font-family: var(--font-heading);
+  font-size: 1.875rem;
+  line-height: 1.15;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.legal-prose h2 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.legal-prose p {
+  margin-bottom: 0.85rem;
+}
+.legal-prose ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+.legal-prose ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+.legal-prose li {
+  margin-bottom: 0.25rem;
+}
+.legal-prose a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.legal-prose strong {
+  font-weight: 600;
+}
+.legal-prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 0.75rem;
+  margin: 0.75rem 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.legal-prose code {
+  background: rgba(43, 122, 120, 0.08);
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

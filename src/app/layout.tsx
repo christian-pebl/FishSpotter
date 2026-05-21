@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Jost, Roboto } from "next/font/google";
 import { SessionProvider } from "@/components/SessionProvider";
 import { Header } from "@/components/Header";
+import { CookieBanner } from "@/components/legal/CookieBanner";
 import { PwaRegister } from "@/components/PwaRegister";
+import { readConsent } from "@/lib/cookies/consent";
 import "./globals.css";
 
 const jost = Jost({
@@ -37,11 +39,12 @@ export const viewport: Viewport = {
   width: "device-width",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const consent = await readConsent();
   return (
     <html lang="en" className={`${jost.variable} ${roboto.variable}`}>
       <body className="font-body antialiased h-[100dvh] flex flex-col overflow-hidden">
@@ -52,6 +55,7 @@ export default function RootLayout({
           <div className="flex-1 flex flex-col min-h-0">
             {children}
           </div>
+          <CookieBanner initiallyDismissed={!!consent} />
         </SessionProvider>
       </body>
     </html>

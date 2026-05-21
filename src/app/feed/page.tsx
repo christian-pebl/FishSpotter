@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { FeedPlayer } from "@/components/FeedPlayer";
+import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 
 export const dynamic = "force-dynamic";
 
@@ -23,22 +26,34 @@ type FeedSnippetRow = {
 };
 
 export default async function FeedPage() {
-  const snippets = await prisma.snippet.findMany({
-    orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
-      videoUrl: true,
-      thumbnailUrl: true,
-      site: true,
-      deployment: true,
-      staffAnswer: true,
-      bboxJson: true,
-      lat: true,
-      lon: true,
-      depthM: true,
-      recordingDatetime: true,
-    },
-  });
+  const [snippets, session] = await Promise.all([
+    prisma.snippet.findMany({
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        videoUrl: true,
+        thumbnailUrl: true,
+        site: true,
+        deployment: true,
+        staffAnswer: true,
+        bboxJson: true,
+        lat: true,
+        lon: true,
+        depthM: true,
+        recordingDatetime: true,
+      },
+    }),
+    getServerSession(authOptions),
+  ]);
+
+  let needsTour = false;
+  if (session?.user?.id) {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { onboardedAt: true },
+    });
+    needsTour = !!user && user.onboardedAt === null;
+  }
 
   const feedSnippets = snippets.map((snippet: FeedSnippetRow) => ({
     id: snippet.id,
@@ -57,6 +72,7 @@ export default async function FeedPage() {
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
       <FeedPlayer snippets={feedSnippets} />
+      <OnboardingTour needsTour={needsTour} />
     </main>
   );
 }
