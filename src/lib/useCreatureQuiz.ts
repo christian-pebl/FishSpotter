@@ -5,6 +5,12 @@ import { useState, useCallback, useEffect } from "react";
 import { playCorrect, playWrong, playStreak } from "@/lib/sounds";
 import { triggerCorrectConfetti } from "@/lib/confetti";
 
+// S2-T04 killed the sharedBaselineStreak module global + the
+// follow-up GET /api/streak after each submit. The streak diff is now
+// returned inline from POST /api/answers, so deciding whether to play
+// the streak sound is a comparison on the server-authoritative result
+// (no race when several cards mount at once).
+
 interface SnippetForQuiz {
   id: string;
 }
@@ -24,10 +30,6 @@ interface SubmitOptions {
   answerText?: string;
   skipCorrection?: boolean;
 }
-
-// Shared across all hook instances so every card agrees on the last known streak.
-// Prevents the streak sound firing on every answer when multiple cards are mounted.
-let sharedBaselineStreak: number | null = null;
 
 export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: string) {
   const { data: session, status } = useSession();
@@ -57,17 +59,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   useEffect(() => {
     loadMyAnswer();
   }, [loadMyAnswer]);
-
-  useEffect(() => {
-    if (session?.user && sharedBaselineStreak === null) {
-      fetch("/api/streak")
-        .then((res) => res.json())
-        .then((data) => {
-          sharedBaselineStreak = data.currentStreak ?? 0;
-        })
-        .catch(() => {});
-    }
-  }, [session?.user]);
 
   useEffect(() => {
     if (myAnswer) loadStats();
@@ -118,12 +109,11 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         } else {
           playWrong();
         }
-        const streakRes = await fetch("/api/streak");
-        const streakData = await streakRes.json();
-        const newStreak = streakData.currentStreak ?? 0;
-        const prev = sharedBaselineStreak ?? 0;
-        if (newStreak > prev) playStreak();
-        sharedBaselineStreak = newStreak;
+        // S2-T04: server returns { previous, current } inline. Streak
+        // sound fires exactly when the streak actually advanced.
+        if (data.streak && data.streak.current > data.streak.previous) {
+          playStreak();
+        }
         window.dispatchEvent(new CustomEvent("fishspotter:streak"));
         await loadStats();
         return true;

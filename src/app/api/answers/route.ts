@@ -6,6 +6,7 @@ import { isCorrectAnswer } from "@/lib/answer-matching";
 import { normalizeAnswer } from "@/lib/normalize-answer";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
+import { computeStreakFromAnswers, toDateKey } from "@/lib/streak";
 
 const MAX_ANSWER_LENGTH = 80;
 
@@ -131,6 +132,17 @@ export async function POST(req: Request) {
     }
   }
 
+  // S2-T04: compute the streak inline so the client doesn't have to make
+  // a follow-up GET /api/streak. Sample the user's existing answers
+  // BEFORE the upsert; after, decide whether the new answer adds a date
+  // and recompute only in that case (most calls during a session won't
+  // change the streak).
+  const beforeAnswers = await prisma.answer.findMany({
+    where: { userId: session.user.id },
+    select: { createdAt: true },
+  });
+  const previousStreak = computeStreakFromAnswers(beforeAnswers);
+
   const answer = await prisma.answer.upsert({
     where: {
       userId_snippetId: {
@@ -152,5 +164,23 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json({ answer, isCorrect });
+  // Did the upsert introduce a date the user hadn't logged before? An
+  // update on an existing answer doesn't move createdAt, so editing a
+  // previous answer cannot bump the streak.
+  const answerDateKey = toDateKey(answer.createdAt);
+  const alreadyHadDate = beforeAnswers.some(
+    (a) => toDateKey(a.createdAt) === answerDateKey,
+  );
+  const currentStreak = alreadyHadDate
+    ? previousStreak
+    : computeStreakFromAnswers([...beforeAnswers, { createdAt: answer.createdAt }]);
+
+  return NextResponse.json({
+    answer,
+    isCorrect,
+    streak: {
+      previous: previousStreak.currentStreak,
+      current: currentStreak.currentStreak,
+    },
+  });
 }
