@@ -105,6 +105,11 @@ model Snippet {
   bboxJson     String?  // JSON string of bbox_data.json bboxes
   createdAt    DateTime @default(now())
   answers      Answer[]
+
+  // S4-06: indexes for archive filter / sort / search.
+  @@index([createdAt])
+  @@index([site])
+  @@index([staffAnswer])
 }
 
 model Answer {
@@ -119,6 +124,13 @@ model Answer {
   snippet     Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
 
   @@unique([userId, snippetId])
+
+  // S4-01: indexes for the leaderboard groupBy + timeframe filter
+  // (S4-03). The covering compound indexes prevent sequential scans
+  // on the Answer table as it grows past ~50k rows.
+  @@index([createdAt])
+  @@index([userId, createdAt])
+  @@index([isCorrect, createdAt])
 }
 
 enum ProbabilityStatus {

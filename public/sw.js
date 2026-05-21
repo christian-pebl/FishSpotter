@@ -1,4 +1,7 @@
-const CACHE_NAME = "fishspotter-shell-v2";
+// S4-17: bump cache version on every meaningful change so old shells
+// drop out cleanly. The `activate` handler below already prunes by
+// name.
+const CACHE_NAME = "fishspotter-shell-v3";
 const APP_SHELL = ["/manifest.webmanifest", "/icon.svg", "/apple-touch-icon.svg"];
 
 self.addEventListener("install", (event) => {

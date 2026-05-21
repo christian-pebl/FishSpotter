@@ -4,6 +4,7 @@ import { SessionProvider } from "@/components/SessionProvider";
 import { Header } from "@/components/Header";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { PwaRegister } from "@/components/PwaRegister";
+import { WebVitalsReporter } from "@/components/WebVitalsReporter";
 import { readConsent } from "@/lib/cookies/consent";
 import "./globals.css";
 
@@ -56,6 +57,7 @@ export default async function RootLayout({
             {children}
           </div>
           <CookieBanner initiallyDismissed={!!consent} />
+          <WebVitalsReporter />
         </SessionProvider>
       </body>
     </html>

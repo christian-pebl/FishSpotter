@@ -1,7 +1,7 @@
 /**
  * Histogram bucketing helper shared by `/api/snippets/[id]/stats` and
  * `/leaderboard`'s "Most common species answers" panel (S2-T02 +
- * S2-T20). Groups raw `chosenOption` surface strings by their
+ * S2-T20 + S4-02). Groups raw `chosenOption` surface strings by their
  * normalised key, picks a canonical display label per bucket, and
  * returns counts ready for percent calculations.
  *
@@ -12,8 +12,8 @@
  *     the histogram always labels the staff-answer row with the
  *     staff string, not whatever surface form the most users typed.
  *   - Otherwise, the most-frequent surface form wins.
- *   - Ties on surface frequency break alphabetically so the output
- *     is deterministic across requests.
+ *   - Ties on surface frequency break via localeCompare (deterministic
+ *     across requests).
  */
 
 import { normalizeAnswer } from "@/lib/normalize-answer";
@@ -27,8 +27,13 @@ export interface HistogramBucket {
   count: number;
 }
 
-export function bucketAnswersByNormalized(
-  answers: AnswerInput[],
+/**
+ * Count-aware variant. Use this when you already have grouped counts
+ * (e.g. from a Prisma `groupBy`) — avoids expanding back to one row
+ * per answer. (S4-02 leaderboard path.)
+ */
+export function bucketCountsByNormalized(
+  rows: Array<{ chosenOption: string; count: number }>,
   preferredCanonical?: string,
 ): HistogramBucket[] {
   const preferredKey = preferredCanonical
@@ -39,9 +44,9 @@ export function bucketAnswersByNormalized(
     { count: number; surfaces: Map<string, number> }
   >();
 
-  for (const a of answers) {
-    if (!a.chosenOption) continue;
-    const surface = a.chosenOption.trim();
+  for (const row of rows) {
+    if (!row.chosenOption || row.count <= 0) continue;
+    const surface = row.chosenOption.trim();
     const key = normalizeAnswer(surface);
     if (!key) continue;
     let bucket = buckets.get(key);
@@ -49,8 +54,11 @@ export function bucketAnswersByNormalized(
       bucket = { count: 0, surfaces: new Map() };
       buckets.set(key, bucket);
     }
-    bucket.count += 1;
-    bucket.surfaces.set(surface, (bucket.surfaces.get(surface) ?? 0) + 1);
+    bucket.count += row.count;
+    bucket.surfaces.set(
+      surface,
+      (bucket.surfaces.get(surface) ?? 0) + row.count,
+    );
   }
 
   const out: HistogramBucket[] = [];
@@ -67,4 +75,18 @@ export function bucketAnswersByNormalized(
     out.push({ option, count: bucket.count });
   }
   return out;
+}
+
+/**
+ * Row-by-row variant — convenient when the input is the raw Answer
+ * rows. Internally maps to bucketCountsByNormalized with count=1.
+ */
+export function bucketAnswersByNormalized(
+  answers: AnswerInput[],
+  preferredCanonical?: string,
+): HistogramBucket[] {
+  return bucketCountsByNormalized(
+    answers.map((a) => ({ chosenOption: a.chosenOption, count: 1 })),
+    preferredCanonical,
+  );
 }
