@@ -124,13 +124,23 @@ function SignInForm() {
             {loading ? "Please wait…" : isSignUp ? "Create account" : "Sign in"}
           </button>
         </form>
-        <button
-          type="button"
-          onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
-          className="mt-4 w-full text-sm text-[color:var(--primary)] hover:text-[color:var(--foreground)]"
-        >
-          {isSignUp ? "Already have an account? Sign in" : "No account? Sign up"}
-        </button>
+        <div className="mt-4 flex items-center justify-between gap-3 text-sm">
+          <button
+            type="button"
+            onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
+            className="text-[color:var(--primary)] hover:text-[color:var(--foreground)]"
+          >
+            {isSignUp ? "Already have an account? Sign in" : "No account? Sign up"}
+          </button>
+          {!isSignUp && (
+            <Link
+              href="/auth/forgot"
+              className="text-[color:var(--muted)] underline hover:text-[color:var(--foreground)]"
+            >
+              Forgot password?
+            </Link>
+          )}
+        </div>
         </div>
       </main>
     </div>

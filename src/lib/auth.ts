@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
+import { sendVerificationEmail } from "@/lib/email/dispatch";
 
 if (!process.env.NEXTAUTH_SECRET) {
   throw new Error("NEXTAUTH_SECRET is required");
@@ -43,7 +44,10 @@ export const authOptions: NextAuthOptions = {
           if (!checkAuthRateLimit(`signup:${ip}`)) return null;
           const rawName = (credentials.name ?? "").trim().slice(0, 32);
           const cleanName = rawName.replace(/[^\p{L}\p{N}\s._-]/gu, "");
-          const fallback = email.split("@")[0].slice(0, 32);
+          // S3-15 fallback: anonymous-feeling name when the user
+          // doesn't pick one. Random suffix is just for uniqueness,
+          // not security; collisions on display names are OK.
+          const fallback = `Spotter-${Math.random().toString(36).slice(2, 8)}`;
           const passwordHash = await bcrypt.hash(credentials.password, BCRYPT_ROUNDS);
           user = await prisma.user.create({
             data: {
@@ -53,6 +57,10 @@ export const authOptions: NextAuthOptions = {
               displayName: cleanName || fallback,
             },
           });
+          // S3-06: fire-and-forget verification email. Failure (Resend
+          // outage, missing API key) doesn't block signup — the user
+          // can resend from /account later.
+          void sendVerificationEmail(user.id, email, user.displayName ?? user.name ?? "Spotter");
           return { id: user.id, name: user.displayName ?? user.name };
         }
 
