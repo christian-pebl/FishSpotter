@@ -64,6 +64,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
   const [soundsOn, setSoundsOn] = useState(true);
   const [streak, setStreak] = useState<number | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setSoundsOn(isSoundsEnabled());
@@ -83,20 +84,45 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
       .catch(() => setStreak(0));
   }, [session?.user]);
 
-  // Body scroll lock + initial focus + Escape close.
+  // Body scroll lock + initial focus + Escape close + focus trap (S5-T11).
   useEffect(() => {
     if (!open) return;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const t = window.setTimeout(() => closeBtnRef.current?.focus(), 30);
+
+    // Remember what had focus before the drawer opened so we can
+    // restore it on close — same pattern SpeciesGallery uses.
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const root = drawerRef.current;
+      if (!root) return;
+      const focusables = root.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])',
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prevOverflow;
       window.clearTimeout(t);
       window.removeEventListener("keydown", onKey);
+      previouslyFocused?.focus?.();
     };
   }, [open, onClose]);
 
@@ -116,6 +142,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
           />
           <motion.aside
             key="drawer"
+            ref={drawerRef}
             role="dialog"
             aria-modal="true"
             aria-label="Main menu"
