@@ -8,6 +8,14 @@
     {
       "path": "/api/cron/refresh-images",
       "schedule": "0 6 * * 2"
+    },
+    {
+      "path": "/api/cron/digest",
+      "schedule": "0 8 * * 1"
+    },
+    {
+      "path": "/api/cron/streak-nudge",
+      "schedule": "0 9 * * *"
     }
   ]
 }

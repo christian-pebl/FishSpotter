@@ -19,7 +19,9 @@ function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false);
+  // Default to sign-up when arriving from the landing CTA
+  // (`/auth/signin?isSignUp=1`). Otherwise default to sign-in.
+  const [isSignUp, setIsSignUp] = useState(searchParams.get("isSignUp") === "1");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -112,6 +114,35 @@ function SignInForm() {
               className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
             />
           </div>
+          {isSignUp && (
+            <ul className="text-xs text-[color:var(--muted)] -mt-2 space-y-0.5" aria-live="polite">
+              <li className={password.length >= 8 ? "text-teal-700" : ""}>
+                {password.length >= 8 ? "✓" : "•"} at least 8 characters
+              </li>
+              <li className={/[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-teal-700" : ""}>
+                {/[a-z]/.test(password) && /[A-Z]/.test(password) ? "✓" : "•"} mixed case (recommended)
+              </li>
+              <li className={/[0-9]/.test(password) ? "text-teal-700" : ""}>
+                {/[0-9]/.test(password) ? "✓" : "•"} includes a number (recommended)
+              </li>
+            </ul>
+          )}
+          {isSignUp && (
+            <label className="flex items-start gap-2 text-xs text-[color:var(--muted)]">
+              <input
+                type="checkbox"
+                required
+                aria-required="true"
+                className="mt-0.5 h-4 w-4 rounded border-navy-900/20"
+              />
+              <span>
+                I agree to the{" "}
+                <Link href="/terms" className="text-teal-700 underline">Terms</Link>{" "}
+                and{" "}
+                <Link href="/privacy" className="text-teal-700 underline">Privacy Policy</Link>.
+              </span>
+            </label>
+          )}
           {error && (
             <p id="auth-error" role="alert" className="text-sm text-red-600">{error}</p>
           )}
