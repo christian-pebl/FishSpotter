@@ -72,14 +72,8 @@ interface StatsItem {
   percent: number;
 }
 
-interface Correction {
-  original: string;
-  suggestion: string;
-}
-
 interface SubmitOptions {
   answerText?: string;
-  skipCorrection?: boolean;
 }
 
 export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: string) {
@@ -92,7 +86,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const [stats, setStats] = useState<{ total: number; stats: StatsItem[]; staffAnswer?: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [answerText, setAnswerTextState] = useState("");
-  const [correction, setCorrection] = useState<Correction | null>(null);
   const [submitError, setSubmitError] = useState("");
 
   // S2-T09: dedupe celebration effects (confetti + correct sound). One
@@ -165,7 +158,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
 
   const setAnswerText = useCallback((value: string) => {
     setAnswerTextState(value);
-    setCorrection(null);
     setSubmitError("");
   }, []);
 
@@ -193,7 +185,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         body: JSON.stringify({
           snippetId: snippet.id,
           chosenOption: option,
-          skipCorrection: options?.skipCorrection ?? false,
         }),
       });
       const data = await res.json();
@@ -201,15 +192,10 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         setSubmitError(data.error ?? "Could not submit answer.");
         return false;
       }
-      if (data.correction) {
-        setCorrection(data.correction);
-        return false;
-      }
       if (data.answer) {
         const isCorrect = data.answer.isCorrect;
         setMyAnswer({ chosenOption: data.answer.chosenOption, isCorrect });
         setAnswerTextState(data.answer.chosenOption);
-        setCorrection(null);
         if (isCorrect) {
           // S2-T09: celebrate once per (user, snippet) per session.
           // Edit-then-resubmit on the same snippet is silent. Rare-find
@@ -238,18 +224,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     }
   }, [session?.user, answerText, snippet.id, signInCallbackUrl, loadStats]);
 
-  const acceptCorrection = useCallback(async () => {
-    if (!correction) return false;
-    setAnswerTextState(correction.suggestion);
-    return handleSubmit({ answerText: correction.suggestion, skipCorrection: true });
-  }, [correction, handleSubmit]);
-
-  const submitOriginal = useCallback(async () => {
-    if (!correction) return false;
-    setAnswerTextState(correction.original);
-    return handleSubmit({ answerText: correction.original, skipCorrection: true });
-  }, [correction, handleSubmit]);
-
   // Flip back to the input view so the user can correct their previous answer.
   // The API route already upserts on (userId, snippetId), so a resubmit
   // replaces the stored answer without touching createdAt.
@@ -260,7 +234,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     // Drop the stats card so the UI doesn't briefly show stale community
     // numbers next to the input — the next submit will reload them.
     setStats(null);
-    setCorrection(null);
     setSubmitError("");
     // S2-T09: refocus the input when the parent provides a focus
     // callback. With the MCQ picker active and no DEGENERATE
@@ -278,9 +251,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     submitting,
     answerText,
     setAnswerText,
-    correction,
-    acceptCorrection,
-    submitOriginal,
     submitError,
     handleSubmit,
     editAnswer,

@@ -118,7 +118,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const gradRef = useRef<SVGLinearGradientElement>(null);
   const glowGradRef = useRef<SVGLinearGradientElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const correctionAcceptRef = useRef<HTMLButtonElement>(null);
   const settings = useVideoSettings();
   const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
@@ -290,9 +289,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     submitting,
     answerText,
     setAnswerText,
-    correction,
-    acceptCorrection,
-    submitOriginal,
     submitError,
     handleSubmit,
     editAnswer,
@@ -871,56 +867,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
 
               {!showStats ? (
                 <>
-                  {/* Correction / error chips above the input */}
-                  <AnimatePresence>
-                    {correction && (
-                      <motion.div
-                        key="correction"
-                        initial={reduceMotion ? false : { opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                        role="dialog"
-                        aria-label="Spelling suggestion"
-                        onKeyDown={(e) => {
-                          if (e.key === "Escape") {
-                            e.stopPropagation();
-                            void submitAndAdvance(submitOriginal);
-                          }
-                        }}
-                        ref={(el) => {
-                          if (el) {
-                            const t = window.setTimeout(() => correctionAcceptRef.current?.focus(), 0);
-                            return () => window.clearTimeout(t);
-                          }
-                        }}
-                        className="mb-2 rounded-xl border border-white/15 bg-white/8 px-2.5 py-2"
-                      >
-                        <p className="text-xs text-white/85">
-                          Did you mean:{" "}
-                          <span className="font-semibold text-teal-50">{correction.suggestion}</span>?
-                        </p>
-                        <div className="mt-1.5 flex flex-wrap gap-1.5">
-                          <motion.button
-                            type="button"
-                            ref={correctionAcceptRef}
-                            onClick={() => submitAndAdvance(acceptCorrection)}
-                            whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                            className="rounded-full bg-teal-50 px-2.5 py-1 text-[11px] font-semibold text-navy-900"
-                          >
-                            Yes
-                          </motion.button>
-                          <motion.button
-                            type="button"
-                            onClick={() => submitAndAdvance(submitOriginal)}
-                            whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                            className="rounded-full border border-white/30 px-2.5 py-1 text-[11px] font-semibold text-white hover:border-teal-500"
-                          >
-                            Use mine
-                          </motion.button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                   {submitError && (
                     <p
                       id={`species-error-${snippet.id}`}
