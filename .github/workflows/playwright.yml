@@ -6,7 +6,25 @@ on:
     branches: [main]
 
 jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    outputs:
+      has-db: ${{ steps.g.outputs.has-db }}
+    steps:
+      - id: g
+        env:
+          DB_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+        run: |
+          if [ -n "$DB_URL" ]; then
+            echo "has-db=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-db=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::POSTGRES_PRISMA_URL not configured — skipping Playwright e2e."
+          fi
+
   e2e:
+    needs: check-secrets
+    if: needs.check-secrets.outputs.has-db == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

@@ -11,7 +11,6 @@
 
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
-import { prisma } from "../src/lib/prisma";
 
 const run = promisify(exec);
 
@@ -23,6 +22,18 @@ async function codec(url: string): Promise<string> {
 }
 
 async function main() {
+  // Graceful skip when DB credentials are missing (e.g. a CI run before the
+  // operator has configured GitHub Actions secrets). Reports skipped rather
+  // than failing so the workflow stays green in the no-secret state.
+  if (!process.env.POSTGRES_PRISMA_URL) {
+    console.log("POSTGRES_PRISMA_URL not set — codec guard skipped.");
+    return;
+  }
+
+  // Lazy-import Prisma so the early-exit path above doesn't initialise it,
+  // which would throw on an empty DB URL even before we get to the check.
+  const { prisma } = await import("../src/lib/prisma");
+
   const snippets = await prisma.snippet.findMany({
     select: { id: true, externalId: true, videoUrl: true },
   });
@@ -42,6 +53,10 @@ async function main() {
     process.exit(1);
   }
   console.log(`All ${snippets.length} clips are H.264.`);
+  await prisma.$disconnect();
 }
 
-main().finally(() => prisma.$disconnect());
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
