@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playStreak } from "@/lib/sounds";
 import { triggerCorrectConfetti } from "@/lib/confetti";
 
@@ -43,6 +43,19 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const [answerText, setAnswerTextState] = useState("");
   const [correction, setCorrection] = useState<Correction | null>(null);
   const [submitError, setSubmitError] = useState("");
+
+  // S2-T09: dedupe celebration effects (confetti + correct sound). One
+  // burst per (user, snippet) per session, regardless of edit-resubmit
+  // or RarityPanel's rare-find tier. RarityPanel's second-fire was
+  // removed in the same ticket.
+  const celebratedSnippetIds = useRef<Set<string>>(new Set());
+  // S2-T09: callback the parent supplies so editAnswer can refocus the
+  // free-text input (DEGENERATE / error fallback only). With the MCQ
+  // picker active, the focus is a no-op when there's no input mounted.
+  const editFocusRef = useRef<(() => void) | null>(null);
+  const setEditFocusCallback = useCallback((fn: (() => void) | null) => {
+    editFocusRef.current = fn;
+  }, []);
 
   const loadMyAnswer = useCallback(async () => {
     const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
@@ -104,8 +117,15 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         setAnswerTextState(data.answer.chosenOption);
         setCorrection(null);
         if (isCorrect) {
-          playCorrect();
-          triggerCorrectConfetti();
+          // S2-T09: celebrate once per (user, snippet) per session.
+          // Edit-then-resubmit on the same snippet is silent. Rare-find
+          // upgrades the visual but doesn't stack a second burst (the
+          // RarityPanel second-fire is gone in the same ticket).
+          if (!celebratedSnippetIds.current.has(snippet.id)) {
+            celebratedSnippetIds.current.add(snippet.id);
+            playCorrect();
+            triggerCorrectConfetti();
+          }
         } else {
           playWrong();
         }
@@ -148,6 +168,12 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     setStats(null);
     setCorrection(null);
     setSubmitError("");
+    // S2-T09: refocus the input when the parent provides a focus
+    // callback. With the MCQ picker active and no DEGENERATE
+    // fallback rendered, editFocusRef is null and this is a no-op.
+    if (editFocusRef.current) {
+      requestAnimationFrame(() => editFocusRef.current?.());
+    }
   }, [myAnswer]);
 
   return {
@@ -166,5 +192,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     editAnswer,
     loadMyAnswer,
     loadStats,
+    setEditFocusCallback,
   };
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { triggerCorrectConfetti } from "@/lib/confetti";
 
 type ProbabilityResponse =
   | {
@@ -47,7 +46,6 @@ export function RarityPanel({
 }) {
   const [data, setData] = useState<ProbabilityResponse | null>(null);
   const [error, setError] = useState(false);
-  const confettiFired = useRef(false);
   const resolveRef = useRef(onResolveStaffScientific);
   useEffect(() => {
     resolveRef.current = onResolveStaffScientific;
@@ -79,21 +77,11 @@ export function RarityPanel({
     };
   }, [snippetId]);
 
-  // Confetti must run inside an effect, not during render, and only when the
-  // user answered correctly — celebrating a wrong guess on a rare species
-  // would be misleading.
-  useEffect(() => {
-    if (!userIsCorrect || confettiFired.current) return;
-    if (!data || data.status !== "OK") return;
-    const staffSci = data.staffAnswerScientific;
-    if (!staffSci) return;
-    const staffMatch = data.species.find((s) => s.scientificName === staffSci);
-    const staffProb = staffMatch?.probability;
-    if (staffProb == null || staffProb >= 0.05) return;
-    confettiFired.current = true;
-    const t = window.setTimeout(() => triggerCorrectConfetti(), 60);
-    return () => window.clearTimeout(t);
-  }, [data, userIsCorrect]);
+  // S2-T09: the rare-find second-fire was removed here — the celebration
+  // (sound + confetti) now belongs to useCreatureQuiz and runs exactly
+  // once per (user, snippet) per session. A future rare-find visual
+  // upgrade can be wired via the same hook so the burst stays a single
+  // event.
 
   if (error || !data) return null;
   if (data.status === "ERROR") return null;
@@ -153,7 +141,7 @@ export function RarityPanel({
       {staffProb != null && (
         <div className="mt-1.5 flex items-center justify-between gap-2 text-[11px]">
           <span className="italic text-white/70 truncate">
-            Your answer: {staffSci}
+            Staff answer: {staffSci}
           </span>
           <div className="flex items-center gap-2">
             <span className="tabular-nums text-white/85">{Math.round(staffProb * 100)}%</span>
