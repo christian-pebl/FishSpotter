@@ -53,6 +53,19 @@ export default async function AccountPage() {
       />
 
       <section className="pebl-surface rounded-card p-6">
+        <p className="pebl-eyebrow">Your data</p>
+        <p className="mt-2 text-sm text-navy-900/72">
+          Download a JSON file with everything we hold on you — account plus every answer. UK GDPR Art. 20.
+        </p>
+        <a
+          href="/api/account/export"
+          className="pebl-button-secondary mt-3 inline-flex items-center justify-center px-4 py-2 text-sm"
+        >
+          Export my data
+        </a>
+      </section>
+
+      <section className="pebl-surface rounded-card p-6">
         <p className="pebl-eyebrow">Legal</p>
         <ul className="mt-3 space-y-1 text-sm">
           <li>
@@ -63,6 +76,11 @@ export default async function AccountPage() {
           <li>
             <Link href="/terms" className="text-teal-700 underline">
               Terms of service
+            </Link>
+          </li>
+          <li>
+            <Link href="/accessibility" className="text-teal-700 underline">
+              Accessibility statement
             </Link>
           </li>
         </ul>

@@ -4,7 +4,7 @@ import path from "node:path";
 
 interface LegalLayoutProps {
   eyebrow: string;
-  file: "privacy-policy.md" | "terms-of-service.md";
+  file: "privacy-policy.md" | "terms-of-service.md" | "accessibility-statement.md";
 }
 
 export async function LegalLayout({ eyebrow, file }: LegalLayoutProps) {
