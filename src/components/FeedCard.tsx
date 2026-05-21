@@ -900,6 +900,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     freeTextFallback={
                       <>
                         <div className="flex items-center gap-2 pb-2">
+                          {/* S5-T10: visually-hidden label so the
+                               input has a programmatic name, not just
+                               a placeholder. */}
+                          <label
+                            htmlFor={`species-answer-${snippet.id}`}
+                            className="sr-only"
+                          >
+                            Species name
+                          </label>
                           <input
                             id={`species-answer-${snippet.id}`}
                             ref={inputRef}
@@ -1043,13 +1052,24 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                     }
                     className="pb-2"
                   >
-                    <p className="text-sm">
+                    {/* S5-T9: aria-live announces the outcome to screen
+                         readers; non-color cue (✓ / ✗ + text) so the
+                         result doesn't rely on colour alone. */}
+                    <p
+                      className="text-sm"
+                      role="status"
+                      aria-live="polite"
+                    >
                       You said{" "}
                       <span className="font-semibold text-white">{myAnswer!.chosenOption}</span>{" "}
                       {myAnswer!.isCorrect ? (
-                        <span className="text-teal-500">✓</span>
+                        <span className="text-teal-500" aria-label="Correct">
+                          ✓ Correct
+                        </span>
                       ) : (
-                        <span className="text-red-300/85">· was {stats!.staffAnswer ?? snippet.staffAnswer}</span>
+                        <span className="text-red-300/85" aria-label="Incorrect">
+                          ✗ was {stats!.staffAnswer ?? snippet.staffAnswer}
+                        </span>
                       )}
                     </p>
                     <div className="mt-1.5 space-y-0.5">

@@ -43,13 +43,15 @@ export function Header() {
             }`}
             style={onFeed ? { textShadow: overlayTextShadow } : undefined}
           >
+            {/* S5-T1: hamburger glyph replaces the misleading chevron-left
+                 (audit §04 F2). Three short horizontal strokes, same
+                 stroke weight as before. */}
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
               <path
-                d="M11.25 4L6 9l5.25 5"
+                d="M3 5h12M3 9h12M3 13h12"
                 stroke="currentColor"
                 strokeWidth="1.8"
                 strokeLinecap="round"
-                strokeLinejoin="round"
               />
             </svg>
           </button>
