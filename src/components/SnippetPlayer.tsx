@@ -26,9 +26,6 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
     submitting,
     answerText,
     setAnswerText,
-    correction,
-    acceptCorrection,
-    submitOriginal,
     submitError,
     handleSubmit,
   } = useCreatureQuiz(snippet, `/feed/${snippet.id}`);
@@ -94,48 +91,9 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                 caretColor: "var(--primary)",
               }}
             />
-            <AnimatePresence>
-              {correction && (
-                <motion.div
-                  key="correction"
-                  initial={reduceMotion ? false : { opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                  role="dialog"
-                  aria-label="Spelling suggestion"
-                  onKeyDown={(e) => {
-                    if (e.key === "Escape") {
-                      e.stopPropagation();
-                      void submitOriginal();
-                    }
-                  }}
-                  className="mb-4 max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] p-4"
-                >
-                  <p className="text-sm text-[color:var(--muted)]">
-                    Did you mean: <span className="font-semibold text-[color:var(--foreground)]">{correction.suggestion}</span>?
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <motion.button
-                      type="button"
-                      onClick={acceptCorrection}
-                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                      autoFocus
-                      className="pebl-button-primary inline-flex items-center justify-center min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold"
-                    >
-                      Yes, use that
-                    </motion.button>
-                    <motion.button
-                      type="button"
-                      onClick={submitOriginal}
-                      whileTap={reduceMotion ? undefined : { scale: 0.97 }}
-                      className="pebl-button-secondary inline-flex items-center justify-center min-h-[44px] rounded-full px-4 py-2 text-sm font-semibold"
-                    >
-                      Use my answer
-                    </motion.button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* S2-T16: correction chip removed. The MCQ picker (S2-T14)
+                replaces spelling ambiguity and the alias matcher
+                (S2-T01) catches synonyms server-side. */}
             {submitError && (
               <p
                 id={`species-error-${snippet.id}`}
