@@ -81,6 +81,23 @@ model SpeciesNameMap {
   resolvedAt     DateTime @default(now())
 }
 
+// Accepted alternative names for each catalogued species. The chat / quiz
+// engine treats the user's answer as correct if it normalises to either the
+// canonical scientific name or any of the listed aliases. Seeded from
+// src/data/species-aliases.json plus auto-resolved scientific names from
+// SpeciesNameMap (see scripts/seed-aliases.ts).
+//
+// Lookup is by NORMALIZED key (lowercase, diacritic-stripped, etc.) so a
+// staffAnswer of "Pollack", "pollack", or "Pollachius pollachius" all resolve
+// to the same row.
+model SpeciesAlias {
+  id            String   @id @default(cuid())
+  canonical     String   @unique // e.g. "Pollachius pollachius" (display form)
+  normalizedKey String   @unique // normalised form of canonical for lookup
+  aliases       String[] // acceptable surface forms; normalised at compare time
+  updatedAt     DateTime @updatedAt
+}
+
 model SpeciesImage {
   id             String   @id @default(cuid())
   scientificName String

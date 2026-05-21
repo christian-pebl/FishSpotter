@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
+import { isCorrectAnswer } from "@/lib/answer-matching";
+import { normalizeAnswer } from "@/lib/normalize-answer";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 
@@ -12,18 +14,6 @@ const AnswerSchema = z.object({
   chosenOption: z.string().min(1).max(MAX_ANSWER_LENGTH),
   skipCorrection: z.boolean().optional(),
 });
-
-function normalizeAnswer(value: string) {
-  return value
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\b(a|an|the)\b/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function levenshteinDistance(a: string, b: string) {
   const previous = Array.from({ length: b.length + 1 }, (_, i) => i);
@@ -118,9 +108,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
 
-  const normalizedOption = normalizeAnswer(option);
-  const normalizedStaffAnswer = normalizeAnswer(snippet.staffAnswer);
-  const isCorrect = normalizedStaffAnswer === normalizedOption;
+  // S2-T01: alias-aware matching. Accepts scientific binomial, common
+  // name, editorial synonyms, and simple singular/plural variants.
+  // Falls back to the direct normalised equality when SpeciesAlias is
+  // empty (i.e. the seed hasn't been run yet on this environment).
+  const isCorrect = await isCorrectAnswer(snippet.staffAnswer, option);
 
   if (!isCorrect && !skipCorrection) {
     const referenceRows = await prisma.snippet.findMany({

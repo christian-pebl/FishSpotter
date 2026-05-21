@@ -1,0 +1,106 @@
+{
+  "Atherina presbyter": {
+    "commonName": "Sand smelt",
+    "aliases": ["sand smelts", "smelt", "Atherina"]
+  },
+  "Callionymus lyra": {
+    "commonName": "Dragonet",
+    "aliases": ["dragonets", "common dragonet", "Callionymus"]
+  },
+  "Chelon labrosus": {
+    "commonName": "Thick-lipped mullet",
+    "aliases": ["thick lipped mullet", "thicklip mullet", "mullet", "thick-lipped grey mullet", "thicklipped mullet"]
+  },
+  "Conger conger": {
+    "commonName": "Conger eel",
+    "aliases": ["conger", "conger eels", "European conger"]
+  },
+  "Ctenolabrus rupestris": {
+    "commonName": "Goldsinny wrasse",
+    "aliases": ["goldsinny", "Ctenolabrus"]
+  },
+  "Dicentrarchus labrax": {
+    "commonName": "European sea bass",
+    "aliases": ["sea bass", "bass", "European bass", "Dicentrarchus"]
+  },
+  "Gadus morhua": {
+    "commonName": "Atlantic cod",
+    "aliases": ["cod", "Atlantic codfish", "codfish", "Gadus"]
+  },
+  "Gobius paganellus": {
+    "commonName": "Rock goby",
+    "aliases": ["rock gobies", "Gobius"]
+  },
+  "Labrus bergylta": {
+    "commonName": "Ballan wrasse",
+    "aliases": ["ballan", "Labrus"]
+  },
+  "Labrus mixtus": {
+    "commonName": "Cuckoo wrasse",
+    "aliases": ["cuckoo"]
+  },
+  "Lipophrys pholis": {
+    "commonName": "Shanny",
+    "aliases": ["shannies", "common blenny", "Lipophrys"]
+  },
+  "Mullus surmuletus": {
+    "commonName": "Red mullet",
+    "aliases": ["red mullets", "striped red mullet", "surmullet", "Mullus"]
+  },
+  "Pholis gunnellus": {
+    "commonName": "Butterfish",
+    "aliases": ["rock gunnel", "gunnel", "Pholis"]
+  },
+  "Pleuronectes platessa": {
+    "commonName": "Plaice",
+    "aliases": ["European plaice", "Pleuronectes"]
+  },
+  "Pollachius pollachius": {
+    "commonName": "Pollack",
+    "aliases": ["pollock", "Atlantic pollack", "Atlantic pollock", "Pollachius"]
+  },
+  "Pollachius virens": {
+    "commonName": "Saithe",
+    "aliases": ["coalfish", "coley", "Boston bluefish", "black pollock"]
+  },
+  "Pomatoschistus minutus": {
+    "commonName": "Sand goby",
+    "aliases": ["sand gobies", "Pomatoschistus"]
+  },
+  "Scomber scombrus": {
+    "commonName": "Atlantic mackerel",
+    "aliases": ["mackerel", "Scomber"]
+  },
+  "Scyliorhinus canicula": {
+    "commonName": "Lesser-spotted catshark",
+    "aliases": ["lesser spotted catshark", "catshark", "lesser-spotted dogfish", "dogfish", "small-spotted catshark", "small spotted catshark", "rough hound", "Scyliorhinus"]
+  },
+  "Spinachia spinachia": {
+    "commonName": "Fifteen-spined stickleback",
+    "aliases": ["fifteen spined stickleback", "15-spined stickleback", "15 spined stickleback", "sea stickleback", "Spinachia"]
+  },
+  "Sprattus sprattus": {
+    "commonName": "Sprat",
+    "aliases": ["sprats", "European sprat", "Sprattus"]
+  },
+  "Symphodus melops": {
+    "commonName": "Corkwing wrasse",
+    "aliases": ["corkwing", "Symphodus"]
+  },
+  "Taurulus bubalis": {
+    "commonName": "Long-spined sea scorpion",
+    "aliases": ["long spined sea scorpion", "sea scorpion", "longspined bullhead", "Taurulus"]
+  },
+  "Trachurus trachurus": {
+    "commonName": "Atlantic horse mackerel",
+    "aliases": ["horse mackerel", "scad", "Trachurus"]
+  },
+  "Trisopterus luscus": {
+    "commonName": "Bib",
+    "aliases": ["pouting", "pout", "whiting pout"]
+  },
+  "Trisopterus minutus": {
+    "commonName": "Poor cod",
+    "aliases": ["poor-cod", "Trisopterus"]
+  }
+}
