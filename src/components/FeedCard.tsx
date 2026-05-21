@@ -226,7 +226,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     submitError,
     handleSubmit,
     editAnswer,
+    setEditFocusCallback,
   } = useCreatureQuiz(snippet, "/feed");
+
+  // S2-T09: tell the hook how to refocus the input on edit. Only used
+  // when the DEGENERATE fallback renders the legacy input — otherwise
+  // the inputRef is null and the callback is a harmless no-op.
+  useEffect(() => {
+    setEditFocusCallback(() => {
+      inputRef.current?.focus();
+    });
+    return () => setEditFocusCallback(null);
+  }, [setEditFocusCallback]);
 
   const bboxes = useMemo(
     () =>
