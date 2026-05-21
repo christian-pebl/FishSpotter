@@ -1177,7 +1177,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                           Archive
                         </Link>
                       </div>
-                      {hasNext && (
+                      {hasNext ? (
                         <motion.button
                           type="button"
                           onClick={onAdvance}
@@ -1189,8 +1189,43 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                             <path d="M2 5h6M6 2.5L8.5 5L6 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </motion.button>
+                      ) : (
+                        /* S2-T15: terminal CTA when there's no next clip. */
+                        <Link
+                          href="/leaderboard"
+                          className="inline-flex items-center gap-1.5 rounded-full bg-teal-500 px-3 py-1.5 text-xs font-semibold text-navy-900 hover:bg-teal-400"
+                        >
+                          See leaderboard
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                            <path d="M2 5h6M6 2.5L8.5 5L6 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </Link>
                       )}
                     </div>
+                    {!hasNext && (
+                      <div className="mt-3 rounded-2xl border border-white/12 bg-white/5 p-3 text-center">
+                        <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-50">
+                          You&apos;ve reached the end of the feed
+                        </p>
+                        <p className="mt-1 text-[11px] text-white/70">
+                          Browse the archive to see what you missed, or start over.
+                        </p>
+                        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+                          <Link
+                            href="/feed/browse"
+                            className="rounded-full border border-white/30 px-3 py-1 text-[11px] font-semibold text-white hover:border-teal-500"
+                          >
+                            Browse archive
+                          </Link>
+                          <Link
+                            href="/feed"
+                            className="rounded-full border border-white/30 px-3 py-1 text-[11px] font-semibold text-white hover:border-teal-500"
+                          >
+                            Start over
+                          </Link>
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
                 </AnimatePresence>
               )}

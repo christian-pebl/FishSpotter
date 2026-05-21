@@ -34,26 +34,44 @@ export function SpeciesGallery({
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const thumbRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
+  // S2-T17: extracted fetch so the retry button can re-run it.
+  // `retryToken` bumps on click; the effect rerun reissues the GET.
+  const [retryToken, setRetryToken] = useState(0);
+  const retry = useCallback(() => setRetryToken((n) => n + 1), []);
+
   useEffect(() => {
     let cancelled = false;
     setStatus("loading");
     // Reset lightbox state when the species changes so a stale index from a
     // previous species doesn't open the wrong photo.
     setLightboxIdx(null);
-    fetch(`/api/species-images/${encodeURIComponent(scientificName)}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-      .then((data: { images: SpeciesImagePayload[] }) => {
-        if (cancelled) return;
-        setImages(data.images);
-        setStatus(data.images.length > 0 ? "ready" : "empty");
-      })
-      .catch(() => {
-        if (!cancelled) setStatus("error");
-      });
+    let autoRetried = false;
+    const run = (): Promise<void> =>
+      fetch(`/api/species-images/${encodeURIComponent(scientificName)}`)
+        .then((r) => {
+          if (r.ok) return r.json();
+          // S2-T17: one auto-retry with 1s backoff for transient 5xx.
+          if (!autoRetried && r.status >= 500 && r.status < 600) {
+            autoRetried = true;
+            return new Promise<void>((resolve) =>
+              setTimeout(resolve, 1000),
+            ).then(run);
+          }
+          return Promise.reject(new Error(`HTTP ${r.status}`));
+        })
+        .then((data?: { images: SpeciesImagePayload[] }) => {
+          if (cancelled || !data) return;
+          setImages(data.images);
+          setStatus(data.images.length > 0 ? "ready" : "empty");
+        })
+        .catch(() => {
+          if (!cancelled) setStatus("error");
+        });
+    void run();
     return () => {
       cancelled = true;
     };
-  }, [scientificName]);
+  }, [scientificName, retryToken]);
 
   const closeLightbox = useCallback(() => {
     setLightboxIdx((current) => {
@@ -81,13 +99,33 @@ export function SpeciesGallery({
       />
     );
   }
-  if (status === "empty") return null;
-  if (status === "error") {
+  if (status === "empty") {
+    // S2-T17: field-note view (size=large) shows placeholder copy
+    // so the gap doesn't look like a layout bug. Inline thumb mode
+    // stays silent — the field-note sheet remains the fallback for
+    // species with no community photos yet.
     if (size === "large") {
       return (
         <p className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-white/55">
-          Photos unavailable right now.
+          Photos coming soon — iNaturalist has no community CC-licensed photos for {commonName} yet.
         </p>
+      );
+    }
+    return null;
+  }
+  if (status === "error") {
+    if (size === "large") {
+      return (
+        <div className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-white/55">
+          <span>Photos unavailable right now.</span>
+          <button
+            type="button"
+            onClick={retry}
+            className="rounded-full border border-white/30 px-2 py-0.5 text-[10px] font-semibold text-white hover:border-teal-500"
+          >
+            Retry
+          </button>
+        </div>
       );
     }
     return null;
@@ -251,6 +289,34 @@ function Lightbox({
         className="relative max-h-[85vh] w-full max-w-3xl"
         onMouseDown={(e) => e.stopPropagation()}
         onMouseUp={(e) => e.stopPropagation()}
+        // S2-T18: touch-swipe navigation. Threshold 60px; vertical
+        // dominant swipe down closes the dialog; horizontal dominant
+        // swipe advances/retreats. Disabled when the user prefers
+        // reduced motion (treat swipe as motion).
+        onTouchStart={(e) => {
+          if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+          const t = e.touches[0];
+          (e.currentTarget as HTMLDivElement).dataset.tsx = String(t.clientX);
+          (e.currentTarget as HTMLDivElement).dataset.tsy = String(t.clientY);
+        }}
+        onTouchEnd={(e) => {
+          const root = e.currentTarget as HTMLDivElement;
+          const sx = Number(root.dataset.tsx ?? "");
+          const sy = Number(root.dataset.tsy ?? "");
+          if (!Number.isFinite(sx) || !Number.isFinite(sy)) return;
+          const t = e.changedTouches[0];
+          const dx = t.clientX - sx;
+          const dy = t.clientY - sy;
+          const THRESH = 60;
+          delete root.dataset.tsx;
+          delete root.dataset.tsy;
+          if (Math.abs(dx) > Math.abs(dy)) {
+            if (dx <= -THRESH && onNext) onNext();
+            else if (dx >= THRESH && onPrev) onPrev();
+          } else if (dy >= THRESH) {
+            onClose();
+          }
+        }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -273,9 +339,22 @@ function Lightbox({
               href={image.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-white"
+              className="inline-flex items-center gap-1 underline hover:text-white"
             >
               {image.attribution}
+              {/* S2-T18: external-link affordance so the link target is obvious. */}
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 12 12"
+                fill="none"
+                aria-hidden="true"
+                className="opacity-60"
+              >
+                <path d="M5 1H11V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M11 1L5 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M9 7v3.5a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </a>
             {licenseLink ? (
               <a
