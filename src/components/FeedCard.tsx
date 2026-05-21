@@ -123,6 +123,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
+  // S2-T11: watch-first gate. The expanded quiz panel only mounts once
+  // the user has either watched the clip through one loop OR manually
+  // tapped the collapsed pill to expand. Encourages observation before
+  // commitment without blocking impatient users.
+  const [hasCompletedFirstLoop, setHasCompletedFirstLoop] = useState(false);
+  const [userHasExpandedManually, setUserHasExpandedManually] = useState(false);
   const [hasIdentifiedOnce, setHasIdentifiedOnce] = useState(true); // optimistic; corrected on mount
   const [showInputHint, setShowInputHint] = useState(false);
   const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
@@ -169,10 +175,74 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   }, []);
   const togglePanel = useCallback((next: boolean) => {
     setPanelCollapsed(next);
+    if (!next) {
+      // Manually expanding the pill counts as an explicit
+      // "I'm ready to identify" signal for the watch-first gate
+      // (S2-T11), so we satisfy the gate without waiting for the
+      // first video loop to finish.
+      setUserHasExpandedManually(true);
+    }
     try {
       localStorage.setItem("fishspotter:panelCollapsed", next ? "1" : "0");
     } catch {}
   }, []);
+
+  // S2-T11: watch the video for a single full loop and flip the gate.
+  // Detect a loop by listening for `ended` (browser auto-loops with the
+  // <video loop> attribute, but ended still fires on each cycle on
+  // some browsers; we additionally watch for currentTime jumping
+  // backwards as a fallback). Once true, the gate stays true for
+  // the lifetime of the card.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (hasCompletedFirstLoop) return;
+    let lastTime = 0;
+    const onLoopMaybe = () => {
+      setHasCompletedFirstLoop(true);
+      v.removeEventListener("ended", onLoopMaybe);
+      v.removeEventListener("timeupdate", onTime);
+    };
+    const onTime = () => {
+      // Time jumping backwards by >0.3s is a loop wrap.
+      if (lastTime - v.currentTime > 0.3) {
+        onLoopMaybe();
+        return;
+      }
+      lastTime = v.currentTime;
+    };
+    v.addEventListener("ended", onLoopMaybe);
+    v.addEventListener("timeupdate", onTime);
+    return () => {
+      v.removeEventListener("ended", onLoopMaybe);
+      v.removeEventListener("timeupdate", onTime);
+    };
+  }, [hasCompletedFirstLoop]);
+
+  // The expanded quiz panel renders only when the gate is satisfied
+  // OR the user has manually expanded the pill. We collapse-by-default
+  // at mount if the gate isn't yet satisfied (and we don't already
+  // have a saved-collapsed preference from a previous card).
+  useEffect(() => {
+    if (panelCollapsed) return;
+    if (hasCompletedFirstLoop || userHasExpandedManually) return;
+    // Defer to the localStorage preference once it's loaded.
+    setPanelCollapsed(true);
+    // We deliberately don't persist this transient collapse to
+    // localStorage — it's the watch-first gate, not a user preference.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Auto-expand the panel exactly once when the gate flips, unless the
+  // user has explicitly collapsed it via the chevron in the meantime.
+  const autoExpandFiredRef = useRef(false);
+  useEffect(() => {
+    if (autoExpandFiredRef.current) return;
+    if (!hasCompletedFirstLoop) return;
+    if (userHasExpandedManually) return;
+    autoExpandFiredRef.current = true;
+    setPanelCollapsed(false);
+  }, [hasCompletedFirstLoop, userHasExpandedManually]);
 
   // Apply playback speed when it changes.
   useEffect(() => {
@@ -712,7 +782,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
               <circle cx="10" cy="7" r="0.9" fill="#17252A" />
             </svg>
-            Name this species
+            {/* S2-T11: copy switches to "Watching…" until the first
+                video loop completes — gentle hint that the panel will
+                open by itself once the user has had a chance to look. */}
+            {hasCompletedFirstLoop || userHasExpandedManually
+              ? "Name this species"
+              : "Watching… tap to identify"}
             <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path
                 d="M3 7.5L6 4.5L9 7.5"
@@ -961,14 +1036,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                   )}
 
                   {status !== "loading" && !session && !showInputHint && (
-                    <p className="pb-1.5 text-[10px] text-white/45">
+                    <p className="pb-1.5 text-xs text-white/70">
                       <Link
-                        href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`}
+                        href={`/auth/signin?callbackUrl=${encodeURIComponent(`/feed/${snippet.id}`)}`}
                         className="text-teal-50 underline underline-offset-2"
                       >
                         Sign in
                       </Link>{" "}
-                      to save your streak
+                      to save your answer and streak.
                     </p>
                   )}
                   {status !== "loading" && (
