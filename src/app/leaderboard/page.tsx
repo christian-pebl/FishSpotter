@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
+import { normalizeAnswer } from "@/lib/normalize-answer";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -28,24 +29,46 @@ export default async function LeaderboardPage() {
     select: { userId: true, isCorrect: true, chosenOption: true },
   });
 
+  // Bucket per-user counts and a "most common answers" histogram. The
+  // histogram groups by normalised key (S2-T02) so "pollack", "Pollack",
+  // and "  pollack " count as one row. The most-frequent surface form
+  // in each bucket wins the display label.
   const byUser: Record<string, { correct: number; total: number }> = {};
-  const byOption: Record<string, number> = {};
+  const optionBuckets = new Map<
+    string,
+    { count: number; surfaces: Map<string, number> }
+  >();
   for (const a of answers) {
     if (!byUser[a.userId]) byUser[a.userId] = { correct: 0, total: 0 };
     byUser[a.userId].total += 1;
     if (a.isCorrect) byUser[a.userId].correct += 1;
     if (a.chosenOption) {
-      const key = a.chosenOption.trim();
-      if (key) byOption[key] = (byOption[key] ?? 0) + 1;
+      const surface = a.chosenOption.trim();
+      const key = normalizeAnswer(surface);
+      if (!key) continue;
+      let bucket = optionBuckets.get(key);
+      if (!bucket) {
+        bucket = { count: 0, surfaces: new Map() };
+        optionBuckets.set(key, bucket);
+      }
+      bucket.count += 1;
+      bucket.surfaces.set(surface, (bucket.surfaces.get(surface) ?? 0) + 1);
     }
   }
   const totalAnswers = answers.length;
-  const topAnswers = Object.entries(byOption)
-    .map(([option, count]) => ({
-      option,
-      count,
-      percent: totalAnswers > 0 ? Math.round((count / totalAnswers) * 100) : 0,
-    }))
+  const topAnswers = Array.from(optionBuckets.values())
+    .map((bucket) => {
+      const sortedSurfaces = Array.from(bucket.surfaces.entries()).sort(
+        (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+      );
+      const option = sortedSurfaces[0]?.[0] ?? "";
+      return {
+        option,
+        count: bucket.count,
+        percent:
+          totalAnswers > 0 ? Math.round((bucket.count / totalAnswers) * 100) : 0,
+      };
+    })
     .sort((a, b) => b.count - a.count)
     .slice(0, 12);
 
