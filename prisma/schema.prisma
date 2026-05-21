@@ -9,13 +9,85 @@ datasource db {
 }
 
 model User {
+  id                  String              @id @default(cuid())
+  email               String              @unique
+  passwordHash        String?
+  name                String?
+  displayName         String?             // optional display name for leaderboard
+  emailVerified       DateTime?           // set when the user clicks the verification link (S3-06/07)
+  onboardedAt         DateTime?           // set when the user dismisses the first-run tour (S3-11)
+  digestOptIn         Boolean             @default(false) // weekly digest (S3-16); PECR Reg. 22 opt-in
+  lastStreakNudgeAt   DateTime?           // one streak-nudge per user per week (S3-17)
+  createdAt           DateTime            @default(now())
+  answers             Answer[]
+  accounts            Account[]
+  sessions            Session[]
+  verificationTokens  VerificationToken[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+// NextAuth-canonical Account / Session shapes. Scaffolded ahead of any
+// OAuth provider (S3-02) so a future ticket can drop GoogleProvider /
+// AppleProvider into the providers array with no migration.
+// PrismaAdapter is wired in src/lib/auth.ts but session strategy stays
+// `jwt` — these tables stay empty until an OAuth provider is added.
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
   id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String?
-  name         String?
-  displayName  String?  // optional display name for leaderboard
-  createdAt    DateTime @default(now())
-  answers      Answer[]
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Email-verification tokens (S3-06). `token` stores SHA-256 of the
+// random secret so a DB leak doesn't hand over active verification
+// links. Plain token only ever lives in the outbound email body.
+model VerificationToken {
+  id         String    @id @default(cuid())
+  userId     String
+  token      String    @unique
+  expiresAt  DateTime  // now + 24h
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Password-reset tokens (S3-04). Same hash-at-rest pattern. Shorter TTL
+// (1h) because the threat model is different — a stale reset link is a
+// privilege-escalation vector, a stale verify link only wastes time.
+model PasswordResetToken {
+  id         String    @id @default(cuid())
+  userId     String
+  token      String    @unique
+  expiresAt  DateTime  // now + 1h
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Snippet {
