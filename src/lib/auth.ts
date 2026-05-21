@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
@@ -11,7 +12,12 @@ if (!process.env.NEXTAUTH_SECRET) {
 const MIN_PASSWORD = 8;
 const BCRYPT_ROUNDS = 12;
 
+// S3-02: PrismaAdapter is wired but session strategy stays `jwt` so the
+// Credentials provider keeps working unchanged. The adapter is dormant
+// for credentials users (no rows in Account / Session); it activates
+// the moment a future ticket drops an OAuth provider into `providers`.
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: "Credentials",
