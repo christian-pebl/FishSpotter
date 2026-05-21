@@ -230,10 +230,28 @@ export async function POST(req: Request) {
 
   const userMessages = body.messages.filter((m) => m.role === "user");
   if (userMessages.length > MAX_TURNS) {
-    return NextResponse.json(
-      { error: "This conversation has reached its turn limit. Start a new chat for a fresh perspective." },
-      { status: 400 }
-    );
+    // S2-T19: soft-handle the cap. Instead of a 400 (which the client
+    // surfaces as an error chip with a disabled input), stream back a
+    // single assistant message inviting the user to open a fresh chat.
+    // The 200 keeps the client's stream-handling code on its happy path.
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        const send = (obj: unknown) => controller.enqueue(encodeSse(obj));
+        send({
+          type: "text",
+          text: "We've covered a lot — open a fresh chat to keep narrowing. Your earlier suggestions stay visible in this one.",
+        });
+        send({ type: "done" });
+        controller.close();
+      },
+    });
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+      },
+    });
   }
   if (userMessages.some((m) => m.content.length > MAX_USER_MESSAGE_CHARS)) {
     return NextResponse.json(
