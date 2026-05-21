@@ -2,11 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = "force-dynamic";
+// S4-02: switch from force-dynamic to ISR. Anonymous requests cache for
+// 60s; signed-in requests are dynamic (Next sees the cookie read from
+// getServerSession and bypasses the cache) — best of both worlds. The
+// page only does 3 queries regardless of Answer table size:
+//   1) groupBy({by: userId}) for the ranking table
+//   2) groupBy({by: chosenOption}) for the histogram
+//   3) findMany Users by id IN (...)
+// This replaces the previous Answer.findMany() scan over all rows.
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Leaderboard",
@@ -25,23 +32,55 @@ export default async function LeaderboardPage() {
   const session = await getServerSession(authOptions);
   const myUserId = session?.user?.id ?? null;
 
-  const answers = await prisma.answer.findMany({
-    select: { userId: true, isCorrect: true, chosenOption: true },
-  });
+  // S4-02: SQL-side aggregation. Three parallel groupBy + count calls
+  // + one findMany of users by id IN (...). Total of 4 queries
+  // regardless of how many answers exist in the database — the
+  // previous Answer.findMany() scan was the dominant cost.
+  const [perUserTotal, perUserCorrect, perOptionAggregates, totalAnswers] =
+    await Promise.all([
+      prisma.answer.groupBy({
+        by: ["userId"],
+        _count: { _all: true },
+      }),
+      prisma.answer.groupBy({
+        by: ["userId"],
+        where: { isCorrect: true },
+        _count: { _all: true },
+      }),
+      prisma.answer.groupBy({
+        by: ["chosenOption"],
+        _count: { _all: true },
+        orderBy: { _count: { chosenOption: "desc" } },
+        take: 60, // wider than the displayed 12 to absorb normalised
+        // bucketing collapse.
+      }),
+      prisma.answer.count(),
+    ]);
 
-  // Per-user counts for the ranking table.
-  const byUser: Record<string, { correct: number; total: number }> = {};
-  for (const a of answers) {
-    if (!byUser[a.userId]) byUser[a.userId] = { correct: 0, total: 0 };
-    byUser[a.userId].total += 1;
-    if (a.isCorrect) byUser[a.userId].correct += 1;
+  type AggregateRow = { userId: string; _count: { _all: number } };
+  const correctByUser: Record<string, number> = {};
+  for (const row of perUserCorrect as AggregateRow[]) {
+    correctByUser[row.userId] = row._count._all;
   }
-  const totalAnswers = answers.length;
+  const byUser: Record<string, { correct: number; total: number }> = {};
+  for (const row of perUserTotal as AggregateRow[]) {
+    byUser[row.userId] = {
+      total: row._count._all,
+      correct: correctByUser[row.userId] ?? 0,
+    };
+  }
 
-  // "Most common species answers" histogram, normalised + bucketed
-  // (S2-T02 / S2-T20). Pure helper in @/lib/answer-histogram.
-  const topAnswers = bucketAnswersByNormalized(
-    answers.filter((a) => a.chosenOption).map((a) => ({ chosenOption: a.chosenOption })),
+  // "Most common species answers" histogram. The DB-side groupBy
+  // returns (chosenOption, count); bucketCountsByNormalized then
+  // collapses case + whitespace + article variants in O(distinct).
+  const { bucketCountsByNormalized } = await import(
+    "@/lib/answer-histogram"
+  );
+  type PerOptionRow = { chosenOption: string; _count: { _all: number } };
+  const topAnswers = bucketCountsByNormalized(
+    (perOptionAggregates as PerOptionRow[])
+      .filter((row) => row.chosenOption)
+      .map((row) => ({ chosenOption: row.chosenOption, count: row._count._all })),
   )
     .map(({ option, count }) => ({
       option,

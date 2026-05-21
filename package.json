@@ -44,6 +44,7 @@
     "react-dom": "^18.3.1",
     "react-email": "^3.0.7",
     "resend": "^4.8.0",
+    "web-vitals": "^5.2.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
