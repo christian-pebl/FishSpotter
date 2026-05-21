@@ -34,15 +34,24 @@ export function RarityPanel({
   snippetId,
   recordingDatetime,
   userIsCorrect,
+  onResolveStaffScientific,
 }: {
   snippetId: string;
   recordingDatetime: string | null | undefined;
   /** Only celebrate a rare find when the user actually got it right. */
   userIsCorrect: boolean;
+  /** Fired once when /probability resolves with a scientific name. S2-T08
+   *  uses this to render an inline SpeciesGallery in the reveal card
+   *  without a second fetch of /probability. */
+  onResolveStaffScientific?: (scientificName: string | null) => void;
 }) {
   const [data, setData] = useState<ProbabilityResponse | null>(null);
   const [error, setError] = useState(false);
   const confettiFired = useRef(false);
+  const resolveRef = useRef(onResolveStaffScientific);
+  useEffect(() => {
+    resolveRef.current = onResolveStaffScientific;
+  }, [onResolveStaffScientific]);
 
   useEffect(() => {
     let cancelled = false;
@@ -54,6 +63,11 @@ export function RarityPanel({
         const json = (await res.json()) as ProbabilityResponse;
         if (cancelled) return;
         setData(json);
+        if (json.status === "OK") {
+          resolveRef.current?.(json.staffAnswerScientific ?? null);
+        } else {
+          resolveRef.current?.(null);
+        }
       } catch {
         if (!cancelled) setError(true);
       }

@@ -10,6 +10,7 @@ import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 import { RarityPanel } from "./RarityPanel";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { MCQCandidatePicker } from "./MCQCandidatePicker";
+import { SpeciesGallery } from "./SpeciesGallery";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -126,6 +127,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
   const [showInputHint, setShowInputHint] = useState(false);
   const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
   const [keyboardOffset, setKeyboardOffset] = useState(0);
+  // Surfaced by RarityPanel once /api/snippets/[id]/probability resolves.
+  // Used by the inline SpeciesGallery in the reveal card (S2-T08) so we
+  // don't fire a second /probability fetch.
+  const [staffScientific, setStaffScientific] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   // framer-motion drag, gated on the visible handle so taps on form
   // controls don't accidentally initiate a drag.
@@ -1030,7 +1035,26 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       snippetId={snippet.id}
                       recordingDatetime={snippet.recordingDatetime}
                       userIsCorrect={!!myAnswer?.isCorrect}
+                      onResolveStaffScientific={setStaffScientific}
                     />
+                    {/* S2-T08 inline gallery — sits between the staff
+                         answer line and the IdGuide trigger row.
+                         SpeciesGallery hides itself silently when the
+                         scientificName has no images (plaice larva,
+                         catshark egg case) so the field-note sheet
+                         remains the fallback for those species. */}
+                    {staffScientific && (
+                      <div className="mt-3">
+                        <SpeciesGallery
+                          scientificName={staffScientific}
+                          commonName={stats!.staffAnswer ?? snippet.staffAnswer}
+                          size="thumb"
+                        />
+                        <p className="mt-1 text-[10px] text-white/35">
+                          Photos: iNaturalist community, CC-licensed
+                        </p>
+                      </div>
+                    )}
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}
