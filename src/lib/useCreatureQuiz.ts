@@ -11,6 +11,57 @@ import { triggerCorrectConfetti } from "@/lib/confetti";
 // the streak sound is a comparison on the server-authoritative result
 // (no race when several cards mount at once).
 
+// S2-T10: shared sessionStorage key for the anonymous-answer carry.
+// Anonymous user picks a candidate (or types one) → we stash the
+// {snippetId, chosenOption} here and bounce them to /auth/signin. On
+// return to /feed, useCreatureQuiz checks if the stash matches the
+// currently-mounted snippet and auto-submits. Cleared after one shot.
+const PENDING_ANSWER_KEY = "fishspotter:pendingAnswer";
+
+interface PendingAnswer {
+  snippetId: string;
+  chosenOption: string;
+}
+
+function readPendingAnswer(): PendingAnswer | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(PENDING_ANSWER_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<PendingAnswer>;
+    if (
+      typeof parsed?.snippetId === "string" &&
+      typeof parsed?.chosenOption === "string"
+    ) {
+      return { snippetId: parsed.snippetId, chosenOption: parsed.chosenOption };
+    }
+  } catch {
+    // Ignore malformed values; we'll just skip the carry.
+  }
+  return null;
+}
+
+function clearPendingAnswer(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.removeItem(PENDING_ANSWER_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+function stashPendingAnswer(snippetId: string, chosenOption: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(
+      PENDING_ANSWER_KEY,
+      JSON.stringify({ snippetId, chosenOption }),
+    );
+  } catch {
+    // ignore — non-essential
+  }
+}
+
 interface SnippetForQuiz {
   id: string;
 }
@@ -77,6 +128,41 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     if (myAnswer) loadStats();
   }, [myAnswer, loadStats]);
 
+  // S2-T10: rehydrate the pending anonymous answer on return from
+  // signin. The carry is consumed exactly once — even if the user
+  // navigates to a different snippet first, we drop the stash so we
+  // don't auto-submit on the wrong card later.
+  const rehydratedRef = useRef(false);
+  useEffect(() => {
+    if (rehydratedRef.current) return;
+    if (!session?.user?.id) return;
+    if (myAnswer) {
+      // Already answered (server has a row) — drop any stale stash
+      // so it doesn't fire later on a different mount.
+      clearPendingAnswer();
+      rehydratedRef.current = true;
+      return;
+    }
+    const pending = readPendingAnswer();
+    if (!pending) {
+      rehydratedRef.current = true;
+      return;
+    }
+    if (pending.snippetId !== snippet.id) {
+      // Mismatch — leave the stash in place. The matching card mount
+      // will consume it.
+      return;
+    }
+    // Consume immediately so a slow submit doesn't race a second mount.
+    clearPendingAnswer();
+    rehydratedRef.current = true;
+    void handleSubmit({ answerText: pending.chosenOption });
+    // handleSubmit is intentionally not a dep — referencing it here
+    // would re-run the effect on every render thanks to useCallback's
+    // identity churn (session changes, answerText changes, etc.).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.id, myAnswer, snippet.id]);
+
   const setAnswerText = useCallback((value: string) => {
     setAnswerTextState(value);
     setCorrection(null);
@@ -85,7 +171,15 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
 
   const handleSubmit = useCallback(async (options?: SubmitOptions) => {
     if (!session?.user) {
-      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(signInCallbackUrl ?? `/feed/${snippet.id}`)}`;
+      // S2-T10: stash the typed/tapped answer so it survives the signin
+      // round-trip. Callback URL forces them back to the same snippet
+      // so the auto-submit on return targets the right card.
+      const pendingOption = (options?.answerText ?? answerText).trim();
+      if (pendingOption) {
+        stashPendingAnswer(snippet.id, pendingOption);
+      }
+      const target = signInCallbackUrl ?? `/feed/${snippet.id}`;
+      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(target)}`;
       return false;
     }
     const option = (options?.answerText ?? answerText).trim();
