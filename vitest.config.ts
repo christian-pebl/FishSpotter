@@ -3,7 +3,10 @@ import path from "node:path";
 
 export default defineConfig({
   test: {
-    include: ["src/**/*.{test,spec}.{ts,tsx}"],
+    include: [
+      "src/**/*.{test,spec}.{ts,tsx}",
+      "scripts/**/__tests__/*.{test,spec}.ts",
+    ],
     // Exclude Playwright e2e specs (they live under tests/).
     exclude: ["tests/**", "node_modules/**", ".next/**"],
     environment: "node",

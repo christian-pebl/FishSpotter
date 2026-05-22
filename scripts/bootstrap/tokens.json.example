@@ -1,0 +1,28 @@
+{
+  "_README": "Copy this file to tokens.json (gitignored) and fill in whatever values you have. Any field left empty / missing causes the corresponding module to skip rather than fail.",
+
+  "_cloudflare": "Fetch from dash.cloudflare.com → My Profile → API Tokens. Need: Account.Cloudflare R2 Storage:Edit + Zone.DNS:Edit on pebl-cic.co.uk if you host DNS there.",
+  "cloudflareApiToken": "",
+  "cloudflareAccountId": "",
+
+  "_r2": "Mint R2 S3-API credentials at dash.cloudflare.com → R2 → Manage R2 API Tokens. The secret is shown ONCE — paste it here right after.",
+  "r2AccessKeyId": "",
+  "r2SecretAccessKey": "",
+  "r2BucketName": "fishspotter-snippets",
+  "r2PublicUrl": "",
+
+  "_vercel": "Fetch from vercel.com → Account → Tokens. Project ID is in the project's General Settings; team ID only if the project is under a Team.",
+  "vercelToken": "",
+  "vercelProjectId": "",
+  "vercelTeamId": "",
+
+  "_resend": "Sign up at resend.com (one-time, ~5 min, email confirmation), then create an API key.",
+  "resendApiKey": "",
+  "resendDomain": "pebl-cic.co.uk",
+
+  "_github": "githubToken optional — gh CLI auth is used by default. Set only if you want the kit to run unattended without gh CLI.",
+  "githubToken": "",
+  "githubRepo": "",
+
+  "publicSiteUrl": "https://fish-spotter.vercel.app"
+}

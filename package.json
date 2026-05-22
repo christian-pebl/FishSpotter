@@ -15,6 +15,7 @@
     "lh:ci": "lhci autorun",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
+    "bootstrap": "tsx scripts/bootstrap/index.ts",
     "check:codecs": "tsx --env-file=.env.local scripts/check-codecs.ts",
     "db:push": "prisma db push",
     "db:seed": "tsx --env-file=.env.local scripts/seed.ts",
