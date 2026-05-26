@@ -23,9 +23,20 @@ import {
 import { doctor } from "./doctor";
 import { generateCronSecret } from "./cron-secret";
 import { generateVapidKeys } from "./vapid";
+import type { DnsRecordSpec } from "./cloudflare-dns";
 import { loadTokens, missingFor, type BootstrapTokens } from "./config";
 import { dim, err, info, ok, step, warn } from "./log";
 import { runDb } from "./db";
+
+function printDnsChecklist(specs: DnsRecordSpec[]): void {
+  for (const s of specs) {
+    const extras: string[] = [];
+    if (s.priority !== undefined) extras.push(`priority ${s.priority}`);
+    if (s.ttl !== undefined) extras.push(`ttl ${s.ttl}`);
+    const suffix = extras.length ? ` (${extras.join(", ")})` : "";
+    dim(`  ${s.type.padEnd(5)} ${s.name}   →   ${s.content}${suffix}`);
+  }
+}
 
 const MODULES = [
   "doctor",
@@ -194,24 +205,35 @@ async function main(): Promise<void> {
   }
 
   if (shouldRun(args.only, "dns")) {
-    step("Cloudflare DNS (Resend domain)");
-    const missing = missingFor(tokens, "cloudflare-dns");
-    if (missing.length) {
-      warn(`Skipping DNS: missing ${missing.join(", ")}.`);
-    } else if (!tokens.resendApiKey) {
-      warn("Skipping DNS: need resendApiKey to fetch the records Resend expects.");
+    step("Resend domain + DNS records");
+    if (!tokens.resendApiKey || !tokens.resendDomain) {
+      warn(`Skipping: missing resendApiKey / resendDomain.`);
     } else {
-      const dns = new CloudflareDnsClient({ apiToken: tokens.cloudflareApiToken! });
-      const zoneId = await dns.findZoneId(tokens.resendDomain!);
-      if (!zoneId) {
-        warn(`${tokens.resendDomain} is not hosted on Cloudflare. DNS records must be added manually.`);
-      } else {
-        const resend = new ResendClient({ apiKey: tokens.resendApiKey });
-        const specs = await resend.ensureDomainAndGetDnsRecords(tokens.resendDomain!);
-        for (const spec of specs) {
-          const r = await dns.upsertRecord(zoneId, spec);
-          ok(`${r.action} ${r.type} ${r.name}`);
+      // 1. Always register the domain with Resend via API so the
+      //    operator has DNS records to apply. Independent of where
+      //    DNS itself lives.
+      const resend = new ResendClient({ apiKey: tokens.resendApiKey });
+      const specs = await resend.ensureDomainAndGetDnsRecords(tokens.resendDomain);
+      ok(`Resend domain ${tokens.resendDomain} registered (${specs.length} DNS records to apply)`);
+
+      // 2. If the DNS zone happens to be on Cloudflare, apply
+      //    the records automatically. Otherwise emit a checklist
+      //    for the operator to paste into the registrar manually.
+      if (tokens.cloudflareApiToken) {
+        const dns = new CloudflareDnsClient({ apiToken: tokens.cloudflareApiToken });
+        const zoneId = await dns.findZoneId(tokens.resendDomain);
+        if (zoneId) {
+          for (const spec of specs) {
+            const r = await dns.upsertRecord(zoneId, spec);
+            ok(`${r.action} ${r.type} ${r.name}`);
+          }
+        } else {
+          warn(`${tokens.resendDomain} is not hosted on Cloudflare — paste these records at your registrar:`);
+          printDnsChecklist(specs);
         }
+      } else {
+        warn(`No cloudflareApiToken — paste these records at your registrar:`);
+        printDnsChecklist(specs);
       }
     }
   }

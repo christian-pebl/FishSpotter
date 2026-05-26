@@ -195,6 +195,8 @@ project settings under the production environment.
 - BBox tracking overlay (Catmull-Rom smooth trail) working
 - Debug strip has been removed (was temporary diagnostic tool)
 - Species image gallery feature **activated 18 May 2026** — `SpeciesImage` table populated (113 rows across 26 species), `CRON_SECRET` set in Vercel, weekly cron live.
+- Bootstrap kit **shipped 22 May 2026** (`26bbf10`) — one-command operator setup for all infra tokens, env vars, DNS, R2, Resend. See `scripts/bootstrap/README.md`.
+- Resend email domain `pebl-cic.co.uk` **registered and DNS live 26 May 2026** — DKIM + SPF records added to Wix DNS; domain status `pending` (sending already enabled). Run `npm run bootstrap -- --doctor` to check verification status.
 
 ## Activation history — 18 May 2026
 

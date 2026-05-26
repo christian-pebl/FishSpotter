@@ -96,12 +96,17 @@ export class ResendClient {
     if (!domain) domain = await this.createDomain(name);
     const detail = await this.getDomain(domain.id);
     const records = detail.records ?? [];
-    return records.map((r) => ({
-      type: r.type,
-      name: r.name,
-      content: r.value,
-      ttl: r.ttl ? Number(r.ttl) : undefined,
-      ...(r.priority !== undefined ? { priority: r.priority } : {}),
-    }));
+    return records.map((r) => {
+      // Resend returns ttl as a string ("Auto" or a numeric string).
+      // Only forward as a number when it parses cleanly.
+      const ttlNum = r.ttl ? Number(r.ttl) : NaN;
+      return {
+        type: r.type,
+        name: r.name,
+        content: r.value,
+        ...(Number.isFinite(ttlNum) ? { ttl: ttlNum } : {}),
+        ...(r.priority !== undefined ? { priority: r.priority } : {}),
+      };
+    });
   }
 }
