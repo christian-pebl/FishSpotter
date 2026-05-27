@@ -8,7 +8,7 @@
 
 | Sprint | File | Tickets | Status | Headline |
 |---|---|---|---|---|
-| Q3-2026-A | [tickets.md](tickets.md) | 10 | Pending | Hygiene + photo-pipeline robustness + scoring phase 2 + progression layer |
+| Q3-2026-A | [tickets.md](tickets.md) | 10 | ✅ 9/10 shipped (27 May, T9 parked) | Hygiene + photo-pipeline robustness + scoring phase 2 + progression layer |
 
 ---
 

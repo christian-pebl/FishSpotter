@@ -4,16 +4,16 @@
 
 | ID | Priority | Effort | Title | Status |
 |---|---|---|---|---|
-| Q3A-T1 | Low | S | Untrack `tsconfig.tsbuildinfo` and gitignore it | Pending |
-| Q3A-T2 | Medium | S | Apply H-key toggle to the IdGuide sheet | Pending |
-| Q3A-T3 | Medium | S | Reconcile pilot set with catalogue: whiting + haddock | Pending |
-| Q3A-T4 | High | M | Photo-quality gate: only `curated=true` photos drive diagnostic-mark rendering | Pending |
-| Q3A-T5 | Medium | M | Wikimedia Commons fallback when iNat returns thin photo sets | Pending |
-| Q3A-T6 | Low | S | Retry-on-429 in the iNat client | Pending |
-| Q3A-T7 | Medium | M | Optimistic move-to-back when a feed card is answered | Pending |
-| Q3A-T8 | Medium | L | S7-T1 phase 2: consensus retro-bonus for no-reference snippets | Pending |
-| Q3A-T9 | Low | XL | Progression layer (bronze/silver/gold, adaptive difficulty) | Pending |
-| Q3A-T10 | Critical | S | Vercel smoke checklist after every feed/idguide/picker push | Pending |
+| Q3A-T1 | Low | S | Untrack `tsconfig.tsbuildinfo` and gitignore it | ✅ Shipped `947fe45` |
+| Q3A-T2 | Medium | S | Apply H-key toggle to the IdGuide sheet | ✅ Shipped `3a716d0` (state-preserve on reopen deferred) |
+| Q3A-T3 | Medium | S | Reconcile pilot set with catalogue: whiting + haddock | ✅ Shipped `8c3d079` (Option A: dropped) |
+| Q3A-T4 | High | M | Photo-quality gate: only `curated=true` photos drive diagnostic-mark rendering | ✅ Shipped `d0968d2` |
+| Q3A-T5 | Medium | M | Wikimedia Commons fallback when iNat returns thin photo sets | ✅ Shipped (in batch ending `2c24fbb`) |
+| Q3A-T6 | Low | S | Retry-on-429 in the iNat client | ✅ Shipped `c4c45a3` |
+| Q3A-T7 | Medium | M | Optimistic move-to-back when a feed card is answered | ✅ Shipped `2c24fbb` |
+| Q3A-T8 | Medium | L | S7-T1 phase 2: consensus retro-bonus for no-reference snippets | ✅ Shipped `ed95732` (prod schema applied) |
+| Q3A-T9 | Low | XL | Progression layer (bronze/silver/gold, adaptive difficulty) | ⏸ Parked (per plan; needs usage data) |
+| Q3A-T10 | Critical | S | Vercel smoke checklist after every feed/idguide/picker push | ✅ Shipped `33cc608` |
 
 ---
 
