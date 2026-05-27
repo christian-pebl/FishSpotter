@@ -7,12 +7,17 @@ const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // Gadoid pilot (per the v1 scope). Sorts to the top of the list so the
 // admin sees the prioritised species first.
+//
+// Q3A-T3: previously included Merlangius merlangus (whiting) and
+// Melanogrammus aeglefinus (haddock), but neither has a trait entry in
+// src/data/species-traits.json, so the page never rendered a row for
+// them (the list iterates the catalogue) and the pilot was effectively
+// 3 species anyway. Dropped from PILOT to match reality. To bring
+// either back, add their trait entries to the catalogue first.
 const PILOT = new Set<string>([
   "Pollachius pollachius",
   "Trisopterus luscus",
-  "Merlangius merlangus",
   "Gadus morhua",
-  "Melanogrammus aeglefinus",
 ]);
 
 export default async function AdminSpeciesListPage() {
