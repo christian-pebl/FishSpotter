@@ -40,7 +40,8 @@ export function AvatarMenu({ overlay = false }: { overlay?: boolean }) {
       <Link
         href="/auth/signin"
         className={
-          "pointer-events-auto inline-flex min-h-[36px] items-center rounded-full px-3 text-xs font-semibold transition-colors " +
+          // Q4-A-8: 36px → 44px to meet WCAG 2.5.5 mobile touch target
+          "pointer-events-auto inline-flex min-h-[44px] items-center rounded-full px-3 text-xs font-semibold transition-colors " +
           (overlay
             ? "text-white/90 hover:bg-white/15"
             : "text-teal-700 hover:bg-teal-50")
