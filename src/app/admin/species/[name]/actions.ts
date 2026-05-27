@@ -53,10 +53,20 @@ export async function createMark(input: CreateMarkInput) {
   // mark assignment via a tampered ID.
   const photo = await prisma.speciesImage.findUnique({
     where: { id: input.speciesImageId },
-    select: { id: true, scientificName: true },
+    select: { id: true, scientificName: true, curated: true },
   });
   if (!photo || photo.scientificName !== scientificName) {
     throw new Error("Photo not found for this species");
+  }
+  // Q3A-T4: diagnostic marks only render on curated reference photos.
+  // Bouncing this at the action layer keeps the editorial bar visible to
+  // admins: if you're about to author a mark on a stock iNat photo,
+  // curate it first (add to src/data/species-images.json overrides) so
+  // the rest of the team knows this is the canonical reference shot.
+  if (!photo.curated) {
+    throw new Error(
+      "Diagnostic marks can only be attached to curated reference photos. Add this photo to src/data/species-images.json overrides (curated: true) first, then re-run db:refresh-images.",
+    );
   }
 
   // New marks land at the end of the order.

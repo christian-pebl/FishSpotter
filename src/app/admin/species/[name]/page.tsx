@@ -29,7 +29,12 @@ export default async function AdminSpeciesEditorPage({
     }),
   ]);
 
-  const photos: AnnotatorPhoto[] = photoRows.map((p) => ({
+  // Q3A-T4: diagnostic marks only attach to curated reference photos.
+  // The annotator should only show curated photos so admins can't even
+  // try to author on a stock iNat shot. Non-curated photos remain
+  // available in the wider SpeciesGallery as supporting context.
+  const curatedRows = photoRows.filter((p) => p.curated);
+  const photos: AnnotatorPhoto[] = curatedRows.map((p) => ({
     id: p.id,
     url: p.url,
     thumbUrl: p.thumbUrl,
@@ -70,13 +75,35 @@ export default async function AdminSpeciesEditorPage({
       </header>
 
       {photos.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-navy-300 bg-white p-6 text-center text-sm text-navy-600">
-          <p className="font-medium text-navy-900">No reference photos cached for this species yet.</p>
-          <p className="pt-1 text-[12px]">
-            Run <code className="rounded bg-navy-100 px-1 py-0.5">npm run db:refresh-images -- --species &quot;{scientificName}&quot;</code> to
-            populate the iNaturalist cache, then come back.
-          </p>
-        </div>
+        photoRows.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-navy-300 bg-white p-6 text-center text-sm text-navy-600">
+            <p className="font-medium text-navy-900">No reference photos cached for this species yet.</p>
+            <p className="pt-1 text-[12px]">
+              Run <code className="rounded bg-navy-100 px-1 py-0.5">npm run db:refresh-images -- --species &quot;{scientificName}&quot;</code> to
+              populate the iNaturalist cache, then come back.
+            </p>
+          </div>
+        ) : (
+          // Q3A-T4: there ARE photos but none are curated, so we won't let
+          // marks be authored. Explain the gate and how to lift it.
+          <div className="rounded-xl border border-dashed border-amber-300 bg-amber-50 p-6 text-sm text-amber-900">
+            <p className="font-medium">No curated reference photo for this species.</p>
+            <p className="pt-1 text-[12px] leading-relaxed">
+              {photoRows.length} iNaturalist photo{photoRows.length === 1 ? " is" : "s are"} cached but
+              none are flagged <code className="rounded bg-amber-100 px-1 py-0.5">curated: true</code>.
+              Diagnostic marks only render on curated photos, so authoring is blocked here until a
+              canonical reference shot is added.
+            </p>
+            <p className="pt-2 text-[12px] leading-relaxed">
+              To unblock: pick a clean single-specimen lateral photo of this species (your own field
+              photo, or a clearly-licensed Wikimedia / iNat shot), add it under the
+              <code className="rounded bg-amber-100 px-1 py-0.5"> overrides </code> block in
+              <code className="rounded bg-amber-100 px-1 py-0.5"> src/data/species-images.json </code>
+              with <code className="rounded bg-amber-100 px-1 py-0.5">curated: true</code>, then run
+              <code className="rounded bg-amber-100 px-1 py-0.5"> npm run db:refresh-images -- --species &quot;{scientificName}&quot;</code>.
+            </p>
+          </div>
+        )
       ) : (
         <SpeciesAnnotator scientificName={scientificName} photos={photos} initialMarks={marks} />
       )}

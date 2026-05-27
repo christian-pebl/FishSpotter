@@ -62,6 +62,12 @@ export async function GET(
     },
   });
 
+  // Q3A-T4: diagnostic marks only render on curated reference photos.
+  // Marks attached to non-curated photos (typically iNat research-grade
+  // shots picked at random) are excluded from the response, so the
+  // wizard's AnnotatedSpeciesPhoto falls through to the thumb-strip +
+  // field-note path. The marks rows stay in DB and reappear if the photo
+  // is later flagged curated, so this is reversible.
   const images: SpeciesImagePayload[] = rows.map((r) => ({
     id: r.id,
     url: r.url,
@@ -74,7 +80,7 @@ export async function GET(
     width: r.width,
     height: r.height,
     source: r.source,
-    marks: r.diagnosticMarks,
+    marks: r.curated ? r.diagnosticMarks : [],
   }));
 
   return NextResponse.json({ images });
