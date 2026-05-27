@@ -50,3 +50,20 @@ backups/
 
 # storybook
 storybook-static/
+
+# Claude Code worktrees + session files
+.claude/
+
+# Supabase CLI temp files
+supabase/.temp/
+
+# Windows null device artifact
+nul
+
+# Local DB backups (large binary dumps)
+backup*/
+*.backup
+*.backup.gz
+
+# TypeScript incremental build info
+tsconfig.tsbuildinfo
