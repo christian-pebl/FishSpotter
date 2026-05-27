@@ -5,6 +5,7 @@ import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import { narrowCandidates, type Candidate } from "@/lib/idguide/narrow";
 import { SpeciesGallery } from "./SpeciesGallery";
+import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
@@ -12,14 +13,22 @@ type StepKey = "bodyShape" | "size" | "habitat" | "markings" | "behavior";
 
 type StepOption = { value: string; label: string; hint?: string };
 
-type Step = { key: StepKey; question: string; options: StepOption[] };
+type Step = { key: StepKey; question: string; whyHint: string; options: StepOption[] };
 
 // Ordered most-discriminating first. Hints use everyday vocabulary so a
 // citizen scientist can answer without knowing fish anatomy.
+//
+// S9-T1 PR3: each step now carries a `whyHint` explaining the marine
+// biologist's rationale for asking that question at that point in the
+// funnel. Surfaced behind a disclosure so it doesn't add visual noise
+// for repeat users, but it's what turns the wizard from a guessing aid
+// into a teaching tool.
 const STEPS: Step[] = [
   {
     key: "bodyShape",
     question: "What was the body shape?",
+    whyHint:
+      "Body shape locks the fish family in under a second. Torpedo vs flat vs eel-like rules out 80% of species before you look at anything else.",
     options: [
       { value: "fusiform", label: "Torpedo / streamlined", hint: "Cod, mackerel, bass" },
       { value: "elongated", label: "Long and slender", hint: "Pollack, sand smelt" },
@@ -31,6 +40,8 @@ const STEPS: Step[] = [
   {
     key: "size",
     question: "Roughly how big was it?",
+    whyHint:
+      "Size eliminates close-shape lookalikes. A 4 cm fry and a 60 cm adult can share a silhouette but belong to entirely different species.",
     options: [
       { value: "small", label: "Small", hint: "under ~10 cm" },
       { value: "medium", label: "Medium", hint: "~10–50 cm" },
@@ -40,6 +51,8 @@ const STEPS: Step[] = [
   {
     key: "habitat",
     question: "Where was it?",
+    whyHint:
+      "Where a fish lives is often as diagnostic as how it looks. Pelagic vs demersal, kelp vs sand, midwater vs hiding — habitat alone splits many lookalikes.",
     options: [
       { value: "open-water", label: "Open water" },
       { value: "midwater", label: "Hovering in mid-water" },
@@ -52,6 +65,8 @@ const STEPS: Step[] = [
   {
     key: "markings",
     question: "Any noticeable markings?",
+    whyHint:
+      "A single mark often settles a species when shape alone leaves you with three candidates. A pectoral spot, an eye-spot, a vertical bar — these are what fisheries scientists actually look for.",
     options: [
       { value: "lateral-stripe", label: "Stripe along the side" },
       { value: "dorsal-spots", label: "Spots on body or fins" },
@@ -63,6 +78,8 @@ const STEPS: Step[] = [
   {
     key: "behavior",
     question: "How was it moving?",
+    whyHint:
+      "Movement is the clincher. Schooling vs solitary, hovering vs cruising, on-bottom vs midwater — behaviour confirms or breaks an ID that body + markings left ambiguous.",
     options: [
       { value: "schooling", label: "In a school or shoal" },
       { value: "hovering", label: "Hovering still" },
@@ -164,7 +181,15 @@ export function IdGuideWizard({
             {candidates.length} match{candidates.length === 1 ? "" : "es"} so far
           </span>
         </div>
-        <h3 className="pb-3 text-base font-semibold text-white/90">{step.question}</h3>
+        <h3 className="pb-1 text-base font-semibold text-white/90">{step.question}</h3>
+        <details className="group pb-3 text-[11px] text-white/55">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-teal-400/85 transition hover:text-teal-300 [&::-webkit-details-marker]:hidden">
+            <span className="text-[10px]">▸</span>
+            <span className="group-open:hidden">Why ask this?</span>
+            <span className="hidden group-open:inline">Hide</span>
+          </summary>
+          <p className="pl-3 pt-1.5 leading-relaxed text-white/65">{step.whyHint}</p>
+        </details>
         <div className="space-y-2">
           {step.options.map((opt) => (
             <button
@@ -245,6 +270,16 @@ function FinalReveal({
                     <p className="pb-2 text-[11px] italic text-white/55">
                       {c.scientificName}
                     </p>
+                    {/* S9-T1 PR3: diagnostic-mark photo (renders null
+                        when no admin-authored marks exist for this
+                        species, so the catalogue's long tail still falls
+                        through to the plain thumb strip below). */}
+                    <div className="pb-2">
+                      <AnnotatedSpeciesPhoto
+                        scientificName={c.scientificName}
+                        commonName={c.commonName}
+                      />
+                    </div>
                     <div className="pb-2">
                       <SpeciesGallery
                         scientificName={c.scientificName}

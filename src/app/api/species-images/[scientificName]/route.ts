@@ -3,7 +3,21 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+// S9-T1 PR3: marks are surfaced inline with the photos so the
+// IdGuideWizard's final reveal can render diagnostic-feature rings
+// without a second round-trip. Existing consumers (SpeciesGallery)
+// ignore the new fields.
+export type SpeciesMarkPayload = {
+  label: string;
+  description: string;
+  overlayX: number;
+  overlayY: number;
+  overlayRadius: number;
+  order: number;
+};
+
 export type SpeciesImagePayload = {
+  id: string;
   url: string;
   thumbUrl: string | null;
   attribution: string;
@@ -14,6 +28,7 @@ export type SpeciesImagePayload = {
   width: number | null;
   height: number | null;
   source: string;
+  marks: SpeciesMarkPayload[];
 };
 
 export async function GET(
@@ -32,9 +47,23 @@ export async function GET(
     where: { scientificName: decoded },
     orderBy: [{ curated: "desc" }, { ordering: "asc" }, { createdAt: "asc" }],
     take: 20,
+    include: {
+      diagnosticMarks: {
+        orderBy: { order: "asc" },
+        select: {
+          label: true,
+          description: true,
+          overlayX: true,
+          overlayY: true,
+          overlayRadius: true,
+          order: true,
+        },
+      },
+    },
   });
 
   const images: SpeciesImagePayload[] = rows.map((r) => ({
+    id: r.id,
     url: r.url,
     thumbUrl: r.thumbUrl,
     attribution: r.attribution,
@@ -45,6 +74,7 @@ export async function GET(
     width: r.width,
     height: r.height,
     source: r.source,
+    marks: r.diagnosticMarks,
   }));
 
   return NextResponse.json({ images });
