@@ -238,3 +238,21 @@ model DiagnosticMark {
   @@index([scientificName, order])
   @@index([speciesImageId])
 }
+
+// Q3A-T8 (S7-T1 phase 2): when 3+ distinct users converge on the same
+// normalised name for a no-reference snippet, a daily cron retro-credits
+// each matching Answer.points with POINTS_CONSENSUS_BONUS (+2). One row
+// per (snippetId, normalisedName) pair; `creditedAnswerIds` tracks which
+// Answer rows have already received the bonus so re-runs are no-ops and
+// late-joiners get retro-credited on subsequent runs.
+model ConsensusEvent {
+  id                String   @id @default(cuid())
+  snippetId         String   // FK target: Snippet.id (no relation field; Snippet doesn't need the back-pointer)
+  normalisedName    String   // normalizeForMatch(chosenOption) value the consensus is on
+  achievedAt        DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  creditedAnswerIds String[] // Answer.id rows already credited the +2 bonus
+
+  @@unique([snippetId, normalisedName])
+  @@index([snippetId])
+}

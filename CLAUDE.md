@@ -152,13 +152,26 @@ correct count. The per-row payout is set by `matchAnswer()` in
 (`answer-matching.test.ts`) so spam-guessing un-referenced clips can't
 out-yield identifying referenced ones.
 
-Phase 2 (consensus retro-bonus, deferred):
-- When K ≥ 3 independent users converge on the same name for a
-  no-reference snippet, a background job will retro-credit each matcher
-  with `POINTS_CONSENSUS_BONUS` (e.g. +2), making the total payout for
-  a consensus-pioneer (1 + 2 = 3) exceed a referenced correct (2).
-- No further schema migration is needed — the column shape already
-  supports any future top-up by mutating `Answer.points` in place.
+Phase 2 (consensus retro-bonus, **shipped 27 May 2026 evening, Q3A-T8**):
+- When `CONSENSUS_THRESHOLD_USERS` (3) or more distinct users converge on
+  the same normalised name for a no-reference snippet, the
+  `consensus-rescore` cron retro-credits each matching `Answer.points`
+  with `POINTS_CONSENSUS_BONUS` (+2). A consensus-pioneer (1 + 2 = 3)
+  thus outranks a referenced correct (2), incentivising the first ID on
+  a no-reference clip.
+- Schema: new `ConsensusEvent` table (one row per `snippetId` x
+  `normalisedName`) tracks `creditedAnswerIds` so re-runs are no-ops and
+  late-joiners get retro-credited on subsequent ticks.
+- Library: `src/lib/consensus.ts`, pure `groupPendingAnswers` +
+  `eligibleGroups` exposed for unit testing (8 tests in
+  `consensus.test.ts`); `rescoreConsensus(prisma)` does the DB work in a
+  transaction per group.
+- Cron: `/api/cron/consensus-rescore` registered in `vercel.json` daily
+  at 07:00 UTC. Guarded by `CRON_SECRET`.
+- Grouping is strict normalised-equal (case + whitespace collapsed) so
+  "Pollack" and "POLLACK" group, but "Pollack" and "Pollock" do not.
+  Alias-aware grouping is a future enhancement (would use the same
+  matcher path as `matchAnswer()`).
 
 Operator note: when a no-reference snippet later gets a reference
 backfilled into `Snippet.staffAnswer`, the existing pending `Answer`

@@ -35,6 +35,14 @@ export interface AliasEntry {
 export const POINTS_CORRECT_REF = 2;
 export const POINTS_PENDING_REF = 1;
 export const POINTS_INCORRECT = 0;
+// Q3A-T8 (S7-T1 phase 2): when CONSENSUS_THRESHOLD_USERS or more distinct
+// users converge on the same normalised name for a no-reference snippet,
+// each matcher's Answer.points gets a one-time +2 bonus (applied by the
+// daily consensus-rescore cron). A pending + consensus answer (1 + 2 = 3)
+// thus outranks a referenced correct (2), which incentivises being the
+// first to ID a no-reference snippet.
+export const POINTS_CONSENSUS_BONUS = 2;
+export const CONSENSUS_THRESHOLD_USERS = 3;
 
 export interface MatchResult {
   /** True if matched the reference; false if didn't; null if no reference exists. */
