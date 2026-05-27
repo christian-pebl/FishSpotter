@@ -9,7 +9,7 @@ import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
-type StepKey = "bodyShape" | "size" | "habitat" | "markings" | "behavior";
+type StepKey = "bodyShape" | "size" | "finShape" | "habitat" | "markings" | "behavior";
 
 type StepOption = { value: string; label: string; hint?: string };
 
@@ -46,6 +46,26 @@ const STEPS: Step[] = [
       { value: "small", label: "Small", hint: "under ~10 cm" },
       { value: "medium", label: "Medium", hint: "~10–50 cm" },
       { value: "large", label: "Large", hint: "over ~50 cm" },
+    ],
+  },
+  {
+    // Stage 2 in the original spec ("Fins and tail"). Asks about the
+    // single most structural fingerprint a fish has — its dorsal layout
+    // and tail shape. Two distinct dorsals is a gadoid signature; one
+    // long dorsal points at wrasse / eels / blennies; a deeply forked
+    // tail is a cruiser, a rounded tail is a bottom-hugger. We expose
+    // the four most discriminating values; `lyre-shaped` and `long-anal`
+    // are in the trait vocabulary but too niche for a citizen-science
+    // wizard step, so the predicate engine still uses them silently.
+    key: "finShape",
+    question: "What did the fins or tail look like?",
+    whyHint:
+      "Fin layout is a structural fingerprint — a fish can't change it. Two distinct dorsal fins is a gadoid signature; one long continuous dorsal points at wrasse, eels or blennies. Tail shape narrows it further: a deeply forked tail belongs to a fast cruiser, a rounded tail to a bottom-hugger.",
+    options: [
+      { value: "split-dorsal", label: "Two or three distinct dorsal fins", hint: "Cod, bib, pollack, bass" },
+      { value: "single-dorsal", label: "One long continuous dorsal fin", hint: "Wrasse, conger, blenny" },
+      { value: "forked-tail", label: "Deeply forked / V-shaped tail", hint: "Cod, mackerel, mullet" },
+      { value: "rounded-tail", label: "Rounded / paddle-shaped tail", hint: "Plaice, dragonet, blenny" },
     ],
   },
   {
@@ -93,6 +113,7 @@ const STEPS: Step[] = [
 const EMPTY_SELECTIONS: Record<StepKey, string | null> = {
   bodyShape: null,
   size: null,
+  finShape: null,
   habitat: null,
   markings: null,
   behavior: null,
