@@ -6,6 +6,65 @@ import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { IdGuideSheet } from "./IdGuideSheet";
 
+// Q4-A-9: monoline SVG icons replacing emoji-as-icons (🐟, 🔍). Emoji
+// glyphs render with the platform's emoji font (Apple Color Emoji,
+// Segoe UI Emoji, etc.) and pull the visual register down to
+// "hackathon weekend". Stroked SVGs in `text-current` inherit the
+// parent's `text-*` colour so they tone-match the surrounding text.
+function FishIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+    >
+      <path
+        d="M2 8c1.2-2.2 3.2-3.5 5.5-3.5C10.5 4.5 13 6 14 8c-1 2-3.5 3.5-6.5 3.5C5.2 11.5 3.2 10.2 2 8z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 8l1.5-1.5v3L14 8z"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+      />
+      <circle cx="5" cy="7.5" r="0.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+function MagnifierIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+    >
+      <circle
+        cx="7"
+        cy="7"
+        r="4.2"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <path
+        d="M10.5 10.5l3 3"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // staffAnswer comes from operator metadata and isn't always punctuated the
@@ -104,9 +163,10 @@ export function IdGuideTrigger({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="text-[10px] uppercase tracking-wider text-white/55 hover:text-white/85"
+          className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-white/55 hover:text-white/85"
         >
-          🐟 How to spot a {staffAnswer} next time
+          <FishIcon />
+          How to spot a {staffAnswer} next time
         </button>
         <IdGuideSheet
           open={open}
@@ -133,9 +193,10 @@ export function IdGuideTrigger({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="text-white/45 hover:text-white/80"
+          className="inline-flex items-center gap-1.5 text-white/45 hover:text-white/80"
         >
-          🔍 Filter by traits
+          <MagnifierIcon />
+          Filter by traits
         </button>
         <Link
           href={`/auth/signin?callbackUrl=${encodeURIComponent("/feed")}`}
@@ -159,9 +220,15 @@ export function IdGuideTrigger({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+        // Q4-A-8 (touch target) + Q4-A-9 (icon swap): Help me identify
+        // is the primary IdGuide entry on a card. The mobile journey
+        // measured it at 111×15px — effectively untappable for a
+        // one-thumb user. Now a proper button with 44px min height and
+        // a teal outline so it reads as an action, not a footnote.
+        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-teal-50 hover:border-teal-400 hover:bg-teal-500/20"
       >
-        🔍 Help me identify
+        <MagnifierIcon />
+        Help me identify
       </button>
       <IdGuideSheet
         open={open}

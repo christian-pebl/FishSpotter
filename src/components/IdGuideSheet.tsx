@@ -98,7 +98,30 @@ export function IdGuideSheet({
         onClose();
         return;
       }
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      // Q4-A-6: Tab focus-trap. Without this, keyboard users tabbing
+      // through the sheet eventually walk into the video + MCQ buttons
+      // underneath — which is a WCAG 2.1.2 failure (no keyboard trap on
+      // modal dialogs). Mirrors the trap pattern in SideMenu.tsx:103-118.
+      if (e.key !== "Tab") return;
+      const root = dialogRef.current;
+      if (!root) return;
+      const focusables = root.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])',
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;

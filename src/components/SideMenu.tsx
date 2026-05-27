@@ -193,8 +193,26 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                   <p className="truncate text-xs text-white/55">{session.user.email}</p>
                 )}
                 {streak !== null && streak > 0 && (
-                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-teal-500">
-                    <span aria-hidden>🔥</span> {streak} day streak
+                  <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-teal-500">
+                    {/* Q4-A-9: 🔥 emoji swapped for monoline flame SVG.
+                        The platform emoji glyph (Apple/Segoe) reads as
+                        Duolingo-grade; a stroked teal SVG matches the
+                        rest of the icon vocabulary used in NAV above. */}
+                    <svg
+                      width="11"
+                      height="13"
+                      viewBox="0 0 12 14"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M6 0.8c0.3 1.7 1 2.7 1.8 3.6 1 1 2 1.9 2 4.1 0 2.5-1.7 4.7-3.8 4.7C3.9 13.2 2 11 2 8.4 2 6.6 3 5.5 3 4c0-0.6-0.2-1-0.4-1.3 0.9 0.1 1.6 0.8 2 1.7 0.3-1.4 0.8-2.6 1.4-3.6z"
+                        stroke="currentColor"
+                        strokeWidth="1.1"
+                        strokeLinejoin="round"
+                      />
+                    </svg>{" "}
+                    {streak} day streak
                   </p>
                 )}
               </div>

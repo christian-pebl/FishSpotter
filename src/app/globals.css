@@ -94,8 +94,11 @@ a {
   .pebl-button-primary {
     @apply bg-teal-500 text-navy-900 min-h-[44px] rounded-full font-semibold transition-colors;
   }
+  /* Q4-A-2: hover was bg-teal-800 (near-black teal) which dropped the
+   * dark-navy text below WCAG AA contrast. teal-600 keeps the button
+   * legible at hover without inverting the colour relationship. */
   .pebl-button-primary:hover {
-    @apply bg-teal-800;
+    @apply bg-teal-600;
   }
   .pebl-button-primary:disabled {
     @apply opacity-50 cursor-not-allowed;

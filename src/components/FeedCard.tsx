@@ -620,22 +620,32 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     };
   }, [bboxes, isActive, showTracking]);
 
+  // Q4-A-10: the design review's #1 finding (signup + daily-driver
+  // journeys, +AI-smell auditor) was that the reveal panel — the best
+  // teaching moment in the app — is invisible because we auto-advance
+  // 450ms after submit. First-time users submit and never find their
+  // result. Fix: do nothing on submit beyond rendering the reveal.
+  // The user reads the reveal in-place, then explicitly taps Next
+  // (which also moves the card to the back via onAnswered). This also
+  // means a walking mobile user can't have the reveal yanked away
+  // before they finish reading it.
   const submitAndAdvance = useCallback(
     async (submit: () => Promise<boolean>) => {
       if (submitting) return;
-      const didSubmit = await submit();
-      if (didSubmit) {
-        // Q3A-T7: tell the parent feed we just answered this card so it
-        // can move it to the back of the queue (mid-session optimistic
-        // reorder; server-side stable shuffle handles cross-session).
-        onAnswered?.();
-        if (hasNext) {
-          window.setTimeout(onAdvance, 450);
-        }
-      }
+      await submit();
+      // No setTimeout. No onAdvance. No onAnswered. The reveal panel
+      // is the destination — not a step. handleAdvanceFromReveal below
+      // owns the transition out.
     },
-    [hasNext, onAdvance, onAnswered, submitting]
+    [submitting]
   );
+
+  // Wrap onAdvance so the explicit Next/Skip tap also notifies the
+  // parent to move-to-back. Stable identity for inline onClick.
+  const handleAdvanceFromReveal = useCallback(() => {
+    onAnswered?.();
+    onAdvance();
+  }, [onAdvance, onAnswered]);
 
   // Pulse the panel teal when the user submits a correct answer.
   useEffect(() => {
@@ -1029,7 +1039,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       <button
                         type="button"
                         onClick={onAdvance}
-                        className="rounded-full px-2 py-1 text-[11px] font-medium uppercase tracking-wider text-white/45 transition-colors hover:text-white/80"
+                        // Q4-A-8: 44px touch target. Skip is the only
+                        // way to bypass a card without submitting, so
+                        // it must be tappable on mobile.
+                        className="inline-flex min-h-[44px] items-center rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 transition-colors hover:bg-white/8 hover:text-white/90"
                       >
                         Skip
                       </button>
@@ -1250,12 +1263,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       {hasNext ? (
                         <motion.button
                           type="button"
-                          onClick={onAdvance}
+                          // Q4-A-10: this is now the canonical advance
+                          // path. Triggers move-to-back via onAnswered
+                          // AND scrolls to the next card via onAdvance.
+                          onClick={handleAdvanceFromReveal}
                           whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-                          className="inline-flex items-center gap-1.5 rounded-full bg-teal-500 px-3 py-1.5 text-xs font-semibold text-navy-900 hover:bg-teal-400"
+                          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-teal-500 px-4 py-2 text-sm font-semibold text-navy-900 hover:bg-teal-400"
                         >
                           Next
-                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                          <svg width="12" height="12" viewBox="0 0 10 10" fill="none" aria-hidden="true">
                             <path d="M2 5h6M6 2.5L8.5 5L6 7.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </motion.button>

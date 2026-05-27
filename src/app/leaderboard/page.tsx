@@ -201,16 +201,52 @@ export default async function LeaderboardPage() {
               <tbody>
                 {leaderboard.map((entry) => {
                   const isMe = entry.userId === myUserId;
+                  // Q4-A-4: differentiate the top-3 rows so the most
+                  // motivating moment in the scoring system reads at a
+                  // glance. Left-border accent + subtle tinted background
+                  // for ranks 1-3. Medal text colour on the rank cell.
+                  const medal =
+                    entry.rank === 1
+                      ? {
+                          row: "bg-amber-50/70 border-l-4 border-amber-400",
+                          rank: "text-amber-700",
+                          label: "Gold",
+                        }
+                      : entry.rank === 2
+                        ? {
+                            row: "bg-zinc-100/70 border-l-4 border-zinc-400",
+                            rank: "text-zinc-600",
+                            label: "Silver",
+                          }
+                        : entry.rank === 3
+                          ? {
+                              row: "bg-orange-50/70 border-l-4 border-orange-400",
+                              rank: "text-orange-700",
+                              label: "Bronze",
+                            }
+                          : null;
                   return (
                     <tr
                       key={entry.userId}
-                      aria-current={isMe ? "true" : undefined}
+                      // P-31 from the review: aria-current="row" is the
+                      // correct value for a table-row, not "true".
+                      aria-current={isMe ? "row" : undefined}
                       className={
                         "border-b border-[color:var(--border)] last:border-b-0" +
+                        (medal ? ` ${medal.row}` : "") +
+                        // Keep the "You" left-border even when stacked with a medal accent.
                         (isMe ? " bg-surface-muted" : "")
                       }
                     >
-                      <td className="px-4 py-3 font-mono text-[color:var(--primary)]">
+                      <td
+                        className={
+                          "px-4 py-3 font-mono " +
+                          (medal ? `font-bold ${medal.rank}` : "text-[color:var(--primary)]")
+                        }
+                      >
+                        {medal && (
+                          <span className="sr-only">{medal.label} medal. </span>
+                        )}
                         #{entry.rank}
                       </td>
                       <td className="px-4 py-3 font-medium text-[color:var(--foreground)]">

@@ -166,11 +166,19 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
           // when a card is moved to the back after submission. Stable
           // key on snippet.id (NOT index) so React preserves the same
           // DOM node and Framer can interpolate position smoothly.
+          // Q4-A-1: off-screen cards must be `inert` so keyboard users
+          // tabbing through the feed don't walk into hidden cards' buttons.
+          // tabIndex=-1 on the <video> alone leaves every Button + Link
+          // inside an inactive card focusable. `inert` removes the whole
+          // subtree from the accessibility tree and disables pointer events.
+          // Spread-pattern because React 18.3 hasn't typed `inert` on JSX
+          // intrinsics yet (React 19 supports it as a boolean prop).
           <motion.section
             key={snippet.id}
             layout={reduceMotion ? false : "position"}
             transition={reduceMotion ? { duration: 0 } : { duration: 0.45, ease: "easeInOut" }}
             data-feed-index={index}
+            {...(activeIndex === index ? {} : { inert: "" })}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
           >
             <FeedCard
