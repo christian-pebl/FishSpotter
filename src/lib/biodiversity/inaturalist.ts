@@ -77,17 +77,71 @@ function annotationLabel(termId: number, valueId: number): string | null {
   return null;
 }
 
+// Retry behaviour for transient iNat failures (Q3A-T6, 27 May 2026).
+// iNat enforces ~60 req/min and 10k/day. A full db:refresh-images run
+// across 26 species with multiple buckets each can bump up against the
+// per-minute ceiling under bursty conditions. Retry on 429 / 503 with
+// exponential backoff so a single rate-limit hit doesn't fail the
+// whole refresh; for other 4xx (404, 400) fail fast since retrying
+// won't help.
+const MAX_RETRIES = 3;
+const BASE_DELAY_MS = 500;
+const MAX_DELAY_MS = 8000;
+
+export function nextRetryDelay(
+  attempt: number,
+  retryAfterHeader: string | null,
+  rng: () => number = Math.random,
+): number {
+  // Honour the server's Retry-After header (seconds or HTTP-date) when
+  // present. iNat sends seconds, but parse defensively.
+  if (retryAfterHeader) {
+    const asSeconds = Number(retryAfterHeader);
+    if (Number.isFinite(asSeconds) && asSeconds > 0) {
+      return Math.min(asSeconds * 1000, MAX_DELAY_MS);
+    }
+    const asDate = Date.parse(retryAfterHeader);
+    if (Number.isFinite(asDate)) {
+      const delta = asDate - Date.now();
+      if (delta > 0) return Math.min(delta, MAX_DELAY_MS);
+    }
+  }
+  // Exponential backoff with 0-25% jitter.
+  const exp = Math.min(BASE_DELAY_MS * 2 ** attempt, MAX_DELAY_MS);
+  const jitter = exp * 0.25 * rng();
+  return exp + jitter;
+}
+
+export function isRetryableStatus(status: number): boolean {
+  return status === 429 || status === 503 || status === 502 || status === 504;
+}
+
+async function fetchWithRetry(url: string): Promise<Response> {
+  let attempt = 0;
+  while (true) {
+    const res = await fetch(url, {
+      headers: {
+        Accept: "application/json",
+        // iNaturalist recommends a User-Agent that identifies the caller so
+        // they can contact us if we misbehave.
+        "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)",
+      },
+    });
+    if (res.ok) return res;
+    // Non-retryable 4xx: fail immediately so a 404 doesn't waste 3 attempts.
+    if (!isRetryableStatus(res.status)) return res;
+    // Out of retries: surface the last response to the caller.
+    if (attempt >= MAX_RETRIES - 1) return res;
+    const delay = nextRetryDelay(attempt, res.headers.get("Retry-After"));
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    attempt++;
+  }
+}
+
 async function fetchObservationPage(params: URLSearchParams): Promise<InatObservation[]> {
   const url = new URL(`${INAT_BASE}/observations`);
   for (const [k, v] of params) url.searchParams.set(k, v);
-  const res = await fetch(url.toString(), {
-    headers: {
-      Accept: "application/json",
-      // iNaturalist recommends a User-Agent that identifies the caller so
-      // they can contact us if we misbehave.
-      "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)",
-    },
-  });
+  const res = await fetchWithRetry(url.toString());
   if (!res.ok) {
     throw new Error(`iNaturalist ${res.status} ${res.statusText}`);
   }
