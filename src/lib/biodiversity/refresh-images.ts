@@ -9,6 +9,7 @@ import { PrismaClient } from "@prisma/client";
 import speciesTraitsData from "@/data/species-traits.json";
 import speciesImagesManifest from "@/data/species-images.json";
 import { fetchPhotosForSpecies, type InatPhoto } from "@/lib/biodiversity/inaturalist";
+import { fetchPhotosFromWikimedia, type WikimediaPhoto } from "@/lib/biodiversity/wikimedia";
 
 type Bucket = {
   lifeStage?: "adult" | "juvenile" | "larva" | "egg" | "subadult" | null;
@@ -39,6 +40,11 @@ const MANIFEST = speciesImagesManifest as unknown as Manifest;
 const CATALOGUE = speciesTraitsData as unknown as Record<string, { commonName: string }>;
 const THROTTLE_MS = 1100;
 const STALE_AFTER_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+// Q3A-T5: when a species has fewer than MIN_PHOTOS rows in DB after the
+// iNat bucket loop, top up via Wikimedia Commons. Threshold is low
+// enough that well-covered species (most of the 26) skip the second
+// network call entirely.
+const MIN_PHOTOS_BEFORE_WIKIMEDIA_TOPUP = 3;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -266,6 +272,73 @@ async function refreshOneSpecies(
     await sleep(THROTTLE_MS);
   }
 
+  // 3. Q3A-T5: Wikimedia Commons top-up. Only fires when iNat returned
+  //    a thin set so well-covered species don't burn a second network
+  //    call. Wikimedia rows are tagged `source = "wikimedia"` and
+  //    `curated = false` (the curated flag is reserved for editorial
+  //    overrides in src/data/species-images.json).
+  const currentCount = await prisma.speciesImage.count({ where: { scientificName } });
+  if (currentCount < MIN_PHOTOS_BEFORE_WIKIMEDIA_TOPUP) {
+    const need = MIN_PHOTOS_BEFORE_WIKIMEDIA_TOPUP - currentCount;
+    log(`  thin coverage (${currentCount} rows); topping up via Wikimedia (need ${need})…`);
+    try {
+      const wm = await fetchPhotosFromWikimedia({
+        scientificName,
+        limit: need + 2, // overshoot a little; the upsert dedupe by sourceUrl absorbs collisions
+      });
+      let added = 0;
+      for (const p of wm) {
+        try {
+          await prisma.speciesImage.upsert({
+            where: { scientificName_sourceUrl: { scientificName, sourceUrl: p.sourceUrl } },
+            create: wikimediaToCreate(scientificName, p, ordering),
+            update: wikimediaToUpdate(p, ordering),
+          });
+          rowsUpserted++;
+          ordering++;
+          added++;
+        } catch (err) {
+          log(`  Wikimedia upsert failed: ${err instanceof Error ? err.message : err}`);
+        }
+      }
+      log(`  Wikimedia → ${added} photo(s)`);
+    } catch (err) {
+      log(`  Wikimedia top-up failed (non-fatal): ${err instanceof Error ? err.message : err}`);
+    }
+  }
+
   log(`  → ${rowsUpserted} upserted, ${emptyBuckets} empty bucket(s)`);
   return { rowsUpserted, emptyBuckets };
+}
+
+function wikimediaToCreate(scientificName: string, p: WikimediaPhoto, ordering: number) {
+  return {
+    scientificName,
+    url: p.url,
+    thumbUrl: p.thumbUrl,
+    attribution: p.attribution,
+    sourceUrl: p.sourceUrl,
+    license: p.license,
+    lifeStage: null,
+    sex: null,
+    width: p.width,
+    height: p.height,
+    ordering,
+    source: "wikimedia",
+    curated: false,
+  };
+}
+
+function wikimediaToUpdate(p: WikimediaPhoto, ordering: number) {
+  return {
+    url: p.url,
+    thumbUrl: p.thumbUrl,
+    attribution: p.attribution,
+    license: p.license,
+    width: p.width,
+    height: p.height,
+    ordering,
+    source: "wikimedia",
+    refreshedAt: new Date(),
+  };
 }
