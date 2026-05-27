@@ -15,11 +15,13 @@ jobs:
         env:
           DB_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
         run: |
-          if [ -n "$DB_URL" ]; then
+          # Q3B-T1: require a real postgres URL so a malformed secret
+          # doesn't crash Prisma init mid-job and spam failure emails.
+          if [ -n "$DB_URL" ] && echo "$DB_URL" | grep -qE '^postgres(ql)?://'; then
             echo "has-db=true" >> "$GITHUB_OUTPUT"
           else
             echo "has-db=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::POSTGRES_PRISMA_URL not configured — skipping Playwright e2e."
+            echo "::notice::POSTGRES_PRISMA_URL missing or not a postgres URL; skipping Playwright e2e."
           fi
 
   e2e:
