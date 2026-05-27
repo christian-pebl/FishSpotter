@@ -1,10 +1,15 @@
 "use client";
 
-import { useCallback, useRef, useEffect, useState } from "react";
+import { useCallback, useMemo, useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FeedCard } from "./FeedCard";
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
+// Q3A-T7: delay the move-to-back reorder until AFTER FeedCard's
+// scroll-to-next animation has settled. submitAndAdvance fires
+// onAdvance at +450ms; we wait ~750ms total so the reorder lands when
+// the user's eyes are already on the next card.
+const MOVE_TO_BACK_DELAY_MS = 750;
 
 export interface BBoxFrame {
   frame_clip: number;
@@ -39,17 +44,45 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
   const [hintVisible, setHintVisible] = useState(false);
   const [hintIsTouch, setHintIsTouch] = useState(false);
   const reduceMotion = useReducedMotion();
+  // Q3A-T7: session-local set of snippet IDs the user answered in this
+  // page lifetime. Used to push them to the back of the feed without
+  // waiting for reload + server-side stable shuffle to do it. Resets on
+  // page navigation, which is fine because the server-side shuffle
+  // already returns answered snippets at the tail.
+  const [recentlyAnswered, setRecentlyAnswered] = useState<Set<string>>(
+    () => new Set(),
+  );
+
+  const orderedSnippets = useMemo(() => {
+    if (recentlyAnswered.size === 0) return snippets;
+    const unanswered = snippets.filter((s) => !recentlyAnswered.has(s.id));
+    const answered = snippets.filter((s) => recentlyAnswered.has(s.id));
+    return [...unanswered, ...answered];
+  }, [snippets, recentlyAnswered]);
+
+  const markAnswered = useCallback((snippetId: string) => {
+    window.setTimeout(() => {
+      setRecentlyAnswered((prev) => {
+        if (prev.has(snippetId)) return prev;
+        const next = new Set(prev);
+        next.add(snippetId);
+        return next;
+      });
+    }, MOVE_TO_BACK_DELAY_MS);
+  }, []);
 
   const scrollToIndex = useCallback(
     (index: number) => {
       const el = containerRef.current;
       if (!el) return;
-      const clamped = Math.max(0, Math.min(snippets.length - 1, index));
-      const next = el.querySelector<HTMLElement>(`[data-feed-index="${clamped}"]`);
+      // Q3A-T7: cap against the rendered (reordered) list length.
+      const total = el.querySelectorAll("[data-feed-index]").length;
+      const clamped = Math.max(0, Math.min(total - 1, index));
+      const next = el.querySelectorAll<HTMLElement>("[data-feed-index]")[clamped];
       if (!next) return;
       el.scrollTo({ top: next.offsetTop, behavior: reduceMotion ? "auto" : "smooth" });
     },
-    [reduceMotion, snippets.length]
+    [reduceMotion],
   );
 
   useEffect(() => {
@@ -128,9 +161,15 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
         ref={containerRef}
         className="absolute inset-0 overflow-y-auto snap-y snap-mandatory"
       >
-        {snippets.map((snippet, index) => (
-          <section
+        {orderedSnippets.map((snippet, index) => (
+          // Q3A-T7: motion.section with `layout` so the reorder animates
+          // when a card is moved to the back after submission. Stable
+          // key on snippet.id (NOT index) so React preserves the same
+          // DOM node and Framer can interpolate position smoothly.
+          <motion.section
             key={snippet.id}
+            layout={reduceMotion ? false : "position"}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.45, ease: "easeInOut" }}
             data-feed-index={index}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
           >
@@ -138,10 +177,11 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
               snippet={snippet}
               isActive={activeIndex === index}
               preload={Math.abs(activeIndex - index) <= 1}
-              hasNext={index < snippets.length - 1}
+              hasNext={index < orderedSnippets.length - 1}
               onAdvance={() => scrollToIndex(index + 1)}
+              onAnswered={() => markAnswered(snippet.id)}
             />
-          </section>
+          </motion.section>
         ))}
       </div>
       <AnimatePresence>

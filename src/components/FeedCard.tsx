@@ -108,9 +108,12 @@ interface FeedCardProps {
   preload: boolean;
   hasNext: boolean;
   onAdvance: () => void;
+  /** Q3A-T7: fired after a successful submit so the parent feed can
+   *  optimistically move this card to the back of the queue. */
+  onAnswered?: () => void;
 }
 
-export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: FeedCardProps) {
+export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAnswered }: FeedCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<SVGSVGElement>(null);
   const trailPathRef = useRef<SVGPathElement>(null);
@@ -621,11 +624,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     async (submit: () => Promise<boolean>) => {
       if (submitting) return;
       const didSubmit = await submit();
-      if (didSubmit && hasNext) {
-        window.setTimeout(onAdvance, 450);
+      if (didSubmit) {
+        // Q3A-T7: tell the parent feed we just answered this card so it
+        // can move it to the back of the queue (mid-session optimistic
+        // reorder; server-side stable shuffle handles cross-session).
+        onAnswered?.();
+        if (hasNext) {
+          window.setTimeout(onAdvance, 450);
+        }
       }
     },
-    [hasNext, onAdvance, submitting]
+    [hasNext, onAdvance, onAnswered, submitting]
   );
 
   // Pulse the panel teal when the user submits a correct answer.
