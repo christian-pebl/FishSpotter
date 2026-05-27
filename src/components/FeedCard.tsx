@@ -199,6 +199,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
       if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) {
         return;
       }
+      // Q3A-T2: if the IdGuide sheet is open, H means "close the sheet"
+      // (handled by IdGuideSheet's own keydown). Don't ALSO toggle the
+      // candidate panel underneath, or the user gets two changes per
+      // keystroke.
+      if (document.body.dataset.idGuideOpen === "1") return;
       e.preventDefault();
       setPanelCollapsed((prev) => {
         const next = !prev;

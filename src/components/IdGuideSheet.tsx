@@ -86,14 +86,33 @@ export function IdGuideSheet({
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
+      // Q3A-T2: H is the "minimize / peek at video" shortcut. Same input
+      // guard as the FeedCard handler so typing "h" in the chat textarea
+      // doesn't close the sheet.
+      if (e.key === "h" || e.key === "H") {
+        const t = e.target as HTMLElement | null;
+        if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) {
+          return;
+        }
+        e.preventDefault();
+        onClose();
+        return;
+      }
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Q3A-T2: flag the open state on document.body so the feed-level H
+    // handler in FeedCard can skip firing while the sheet is open
+    // (otherwise both handlers run on the same window event and the
+    // candidate panel would toggle every time the user closes the sheet
+    // with H).
+    document.body.dataset.idGuideOpen = "1";
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
+      delete document.body.dataset.idGuideOpen;
     };
   }, [open, onClose]);
 
