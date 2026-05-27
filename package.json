@@ -24,6 +24,7 @@
     "db:refresh-images": "tsx --env-file=.env.local scripts/refresh-images.ts",
     "db:migrate-to-r2": "tsx --env-file=.env.local scripts/migrate-to-r2.ts",
     "db:seed-aliases": "tsx --env-file=.env.local scripts/seed-aliases.ts",
+    "db:seed-gadoid-marks": "tsx --env-file=.env.local scripts/seed-gadoid-marks.ts",
     "measure:prompt": "tsx scripts/measure-prompt.ts",
     "postinstall": "prisma generate"
   },
