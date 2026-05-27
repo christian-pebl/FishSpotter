@@ -200,7 +200,41 @@ model SpeciesImage {
   curated        Boolean  @default(false) // true when set via manifest, not script
   createdAt      DateTime @default(now())
   refreshedAt    DateTime @default(now())
+  diagnosticMarks DiagnosticMark[]
 
   @@index([scientificName, ordering])
   @@unique([scientificName, sourceUrl])
+}
+
+// Admin-authored diagnostic features for the "Help me identify" wizard.
+// Each row is one "look-for-this" pointer on a reference photo:
+// e.g. for Trisopterus luscus (bib), a mark labelled "Chin barbel"
+// circling the underside of the jaw. The wizard renders these as labelled
+// rings overlaid on the chosen photo in the final reveal.
+//
+// Authoring happens at /admin/species/[scientificName] (admins only,
+// gated on @pebl-cic.co.uk email suffix). The data is intentionally
+// DB-backed rather than JSON so experts can edit without a code deploy.
+//
+// Coordinates are normalised to the photo's intrinsic dimensions
+// (0..1 on each axis) so the overlay survives resizing / cropping.
+// A species is treated as "published" by the wizard once it has >=1
+// mark, so no separate status flag is needed.
+model DiagnosticMark {
+  id             String   @id @default(cuid())
+  scientificName String   // matches SpeciesImage.scientificName + species-traits.json keys
+  speciesImageId String   // the photo this mark annotates
+  order          Int      @default(0)   // display order, low first
+  label          String   // short title, e.g. "Chin barbel"
+  description    String   // one-sentence explanation
+  overlayX       Float    // 0..1, normalised x of the ring centre
+  overlayY       Float    // 0..1, normalised y of the ring centre
+  overlayRadius  Float    // 0..1, normalised radius (as fraction of min(width,height))
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  createdBy      String?  // email of the admin who authored it (audit trail)
+  speciesImage   SpeciesImage @relation(fields: [speciesImageId], references: [id], onDelete: Cascade)
+
+  @@index([scientificName, order])
+  @@index([speciesImageId])
 }
