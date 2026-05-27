@@ -2,12 +2,25 @@ import { describe, expect, it } from "vitest";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters, scoreSpotter } from "./leaderboard";
 
 describe("scoreSpotter", () => {
-  it("scores by correct count only (the previous formula rewarded wrong answers)", () => {
+  it("falls back to correct count when points isn't provided (legacy callers)", () => {
     // 100 random answers with 50% accuracy under the OLD formula would have
-    // scored 50 + 50 * 0.5 = 75. Under the new formula it's 50.
-    expect(scoreSpotter({ correct: 50, total: 100 })).toBe(50);
-    expect(scoreSpotter({ correct: 0, total: 100 })).toBe(0);
-    expect(scoreSpotter({ correct: 12, total: 12 })).toBe(12);
+    // scored 50 + 50 * 0.5 = 75. The S2-T03 formula scored 50. The S7-T1
+    // formula scores by Answer.points sum — but when callers don't pass
+    // points, we keep the S2-T03 semantics for back-compat.
+    expect(scoreSpotter({ userId: "u", correct: 50, total: 100 })).toBe(50);
+    expect(scoreSpotter({ userId: "u", correct: 0, total: 100 })).toBe(0);
+    expect(scoreSpotter({ userId: "u", correct: 12, total: 12 })).toBe(12);
+  });
+
+  it("uses sum-of-points when provided (S7-T1)", () => {
+    // 5 correct (10 pts) + 3 pending (3 pts) + 2 wrong (0 pts) = 13.
+    expect(
+      scoreSpotter({ userId: "u", correct: 5, total: 10, points: 13 }),
+    ).toBe(13);
+    // Points takes precedence even when it'd equal correct count.
+    expect(
+      scoreSpotter({ userId: "u", correct: 10, total: 10, points: 20 }),
+    ).toBe(20);
   });
 });
 
@@ -69,5 +82,29 @@ describe("rankSpotters", () => {
     expect(ranked).toHaveLength(1);
     expect(ranked[0].score).toBe(50);
     expect(ranked[0].rank).toBe(1);
+  });
+
+  it("ranks by points sum when supplied — a user with pending answers beats a user with the same correct count and no pending (S7-T1)", () => {
+    // Spotter A: 10 correct, 0 pending → 20 pts
+    // Spotter B: 10 correct, 5 pending → 25 pts (beats A)
+    const ranked = rankSpotters([
+      { userId: "A", correct: 10, total: 10, points: 20 },
+      { userId: "B", correct: 10, total: 15, points: 25 },
+    ]);
+    expect(ranked.map((r) => r.userId)).toEqual(["B", "A"]);
+    expect(ranked[0].score).toBe(25);
+    expect(ranked[1].score).toBe(20);
+  });
+
+  it("a user with one pending + one correct beats a user with two pending (S7-T1)", () => {
+    // Spotter A: 1 correct + 1 pending = 3 pts, total 2 → ineligible (min 10).
+    // Bump them both above the threshold with extras:
+    // A: 1 correct (2) + 9 pending (9) = 11
+    // B: 0 correct (0) + 10 pending (10) = 10
+    const ranked = rankSpotters([
+      { userId: "A", correct: 1, total: 10, points: 11 },
+      { userId: "B", correct: 0, total: 10, points: 10 },
+    ]);
+    expect(ranked.map((r) => r.userId)).toEqual(["A", "B"]);
   });
 });

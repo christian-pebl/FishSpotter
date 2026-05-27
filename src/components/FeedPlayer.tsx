@@ -20,7 +20,8 @@ export interface FeedSnippet {
   thumbnailUrl: string;
   site: string;
   deployment: string;
-  staffAnswer: string;
+  /** Reference identification. Null when the snippet has no reference yet (S7-T1). */
+  staffAnswer: string | null;
   bboxes: BBoxFrame[] | null;
   lat: number | null;
   lon: number | null;

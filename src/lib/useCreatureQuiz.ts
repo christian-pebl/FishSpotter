@@ -78,12 +78,27 @@ interface SubmitOptions {
 
 export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: string) {
   const { data: session, status } = useSession();
-  const [myAnswer, setMyAnswer] = useState<{ chosenOption: string; isCorrect: boolean } | null>(null);
+  // S7-T1: isCorrect is null when the snippet has no reference identification
+  // yet — the user earns a flat participation bonus regardless of their guess.
+  // points is the per-row score the server awarded (2 correct, 1 pending,
+  // 0 incorrect — see lib/answer-matching POINTS_*).
+  const [myAnswer, setMyAnswer] = useState<{
+    chosenOption: string;
+    isCorrect: boolean | null;
+    points: number;
+  } | null>(null);
   // staffAnswer is gated server-side until the user has submitted an Answer for
   // this snippet (S1-T11). loadStats is only invoked after myAnswer is set
   // (see effect below), so in normal use it is always present at consumption,
   // but the type is optional to match the API contract.
-  const [stats, setStats] = useState<{ total: number; stats: StatsItem[]; staffAnswer?: string } | null>(null);
+  // S7-T1: staffAnswer may be null when the snippet has no reference yet;
+  // hasReference is a convenience flag the server includes alongside.
+  const [stats, setStats] = useState<{
+    total: number;
+    stats: StatsItem[];
+    staffAnswer?: string | null;
+    hasReference?: boolean;
+  } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [answerText, setAnswerTextState] = useState("");
   const [submitError, setSubmitError] = useState("");
@@ -104,7 +119,12 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const loadMyAnswer = useCallback(async () => {
     const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
     const data = await res.json();
-    if (data.answer) setMyAnswer({ chosenOption: data.answer.chosenOption, isCorrect: data.answer.isCorrect });
+    if (data.answer)
+      setMyAnswer({
+        chosenOption: data.answer.chosenOption,
+        isCorrect: data.answer.isCorrect ?? null,
+        points: data.answer.points ?? 0,
+      });
   }, [snippet.id]);
 
   const loadStats = useCallback(async () => {
@@ -193,10 +213,15 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         return false;
       }
       if (data.answer) {
-        const isCorrect = data.answer.isCorrect;
-        setMyAnswer({ chosenOption: data.answer.chosenOption, isCorrect });
+        const isCorrect: boolean | null = data.answer.isCorrect ?? null;
+        const points: number = data.answer.points ?? 0;
+        setMyAnswer({
+          chosenOption: data.answer.chosenOption,
+          isCorrect,
+          points,
+        });
         setAnswerTextState(data.answer.chosenOption);
-        if (isCorrect) {
+        if (isCorrect === true) {
           // S2-T09: celebrate once per (user, snippet) per session.
           // Edit-then-resubmit on the same snippet is silent. Rare-find
           // upgrades the visual but doesn't stack a second burst (the
@@ -206,9 +231,13 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
             playCorrect();
             triggerCorrectConfetti();
           }
-        } else {
+        } else if (isCorrect === false) {
           playWrong();
         }
+        // S7-T1: when isCorrect is null (no reference yet) the submission
+        // is a "pending bonus" — no celebration audio (it isn't a verified
+        // correct answer) and no wrong buzz (the user didn't actually
+        // miss). The +1 chip on the reveal carries the signal.
         // S2-T04: server returns { previous, current } inline. Streak
         // sound fires exactly when the streak actually advanced.
         if (data.streak && data.streak.current > data.streak.previous) {

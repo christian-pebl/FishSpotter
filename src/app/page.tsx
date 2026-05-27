@@ -63,10 +63,10 @@ export default function HomePage() {
           <article className="pebl-surface rounded-card p-5">
             <p className="pebl-eyebrow text-xs">2 · Compare</p>
             <h2 className="mt-3 text-2xl font-bold text-navy-900">
-              Compare with the PEBL staff answer
+              Compare with the reference ID (when available)
             </h2>
             <p className="mt-2 text-sm leading-6 text-navy-900/72">
-              See the PEBL reference identification, how the wider community guessed, and an ecological-likelihood breakdown for the site and season.
+              See the reference identification where one exists, how the wider community guessed, and an ecological-likelihood breakdown for the site and season. Clips without a reference are worth more.
             </p>
           </article>
           <article className="pebl-surface rounded-card p-5">

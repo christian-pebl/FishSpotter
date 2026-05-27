@@ -3,16 +3,22 @@
  *
  * Kept separate from the route component so unit tests don't have to spin up
  * Next.js / Prisma. The route is responsible for:
- *   1. Loading raw Answer rows from the DB
- *   2. Reducing into per-user totals (a pre-step for `rankSpotters` below)
- *   3. Stitching display names from the User table
+ *   1. Loading per-user aggregates from the DB (count + sum(points) + correct count)
+ *   2. Stitching display names from the User table
  *
- * The two pieces this module owns:
- *   - `scoreSpotter`: score formula. Pure correct count. The previous
- *     formula (`correct + (total - correct) * 0.5`) rewarded wrong answers
- *     with 0.5 points each — see audit §05 F-LB-02 (P0).
- *   - `rankSpotters`: applies the minimum-answer eligibility gate, sorts
- *     descending, assigns shared ranks for ties (1, 2, 2, 4 style).
+ * Scoring model (S7-T1):
+ *   - correct match against a reference  = POINTS_CORRECT_REF (2)
+ *   - submission on a reference-less clip = POINTS_PENDING_REF (1)
+ *   - unmatched guess                     = POINTS_INCORRECT (0)
+ *
+ * Score on the leaderboard = sum of `Answer.points` per user. The
+ * previous correct-count formula (S2-T03) was a special case where
+ * pending didn't exist; correct=1, incorrect=0. The new model preserves
+ * the *ordering* over the historical answer set when backfilled with
+ * the same per-row values, just at a different scale.
+ *
+ * See audit §05 F-LB-02 (P0) for why the wrong-points-for-wrong-answers
+ * formula was retired in S2-T03.
  */
 
 export const MIN_ANSWERS_FOR_RANKING = 10;
@@ -21,6 +27,12 @@ export interface SpotterCounts {
   userId: string;
   correct: number;
   total: number;
+  /**
+   * Sum of `Answer.points` for this user. When omitted (legacy callers
+   * predating S7-T1), falls back to `correct` for backwards compatibility
+   * with the previous correct-count score model.
+   */
+  points?: number;
 }
 
 export interface RankedSpotter extends SpotterCounts {
@@ -28,8 +40,8 @@ export interface RankedSpotter extends SpotterCounts {
   rank: number;
 }
 
-export function scoreSpotter(counts: { correct: number; total: number }): number {
-  return counts.correct;
+export function scoreSpotter(counts: SpotterCounts): number {
+  return counts.points ?? counts.correct;
 }
 
 export function rankSpotters(

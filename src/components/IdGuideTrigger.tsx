@@ -67,7 +67,12 @@ export function IdGuideTrigger({
 }: {
   snippetId: string;
   submitted: boolean;
-  staffAnswer: string;
+  /**
+   * Reference identification for the snippet. Null when the snippet
+   * has no reference yet (S7-T1) — in that case the "How to spot a X
+   * next time" hint is suppressed because there's no species to teach.
+   */
+  staffAnswer: string | null;
   /** Called when the user picks a candidate from the guide. Should write the value into the quiz input. */
   onSuggest: (commonName: string) => void;
   /** When false, the chat path is replaced with a sign-in nudge — the manual
@@ -79,17 +84,21 @@ export function IdGuideTrigger({
   // Resolve once per render so IdGuideSheet's lookup hits the scientific-name
   // path instead of relying on a brittle case-only commonName match.
   const scientificName = useMemo(
-    () => (submitted ? resolveScientificName(staffAnswer) : undefined),
+    () =>
+      submitted && staffAnswer
+        ? resolveScientificName(staffAnswer)
+        : undefined,
     [submitted, staffAnswer],
   );
   // Stabilise the object identity so IdGuideSheet's [open, fieldNoteFor]
   // effect doesn't reset selectedFallback every time FeedCard re-renders.
   const fieldNoteFor = useMemo(
-    () => ({ commonName: staffAnswer, scientificName }),
+    () =>
+      staffAnswer ? { commonName: staffAnswer, scientificName } : null,
     [staffAnswer, scientificName],
   );
 
-  if (submitted) {
+  if (submitted && staffAnswer) {
     return (
       <>
         <button
@@ -104,11 +113,18 @@ export function IdGuideTrigger({
           onClose={() => setOpen(false)}
           snippetId={snippetId}
           onAnswerPicked={() => setOpen(false)}
-          fieldNoteFor={fieldNoteFor}
+          fieldNoteFor={fieldNoteFor ?? undefined}
           isLoggedIn={isLoggedIn}
         />
       </>
     );
+  }
+
+  // S7-T1: submitted but no reference yet — no field-note shortcut. The
+  // user can still open the guide via "Help me identify" if not yet
+  // submitted; once submitted on a no-reference snippet we render nothing.
+  if (submitted) {
+    return null;
   }
 
   if (!isLoggedIn) {

@@ -24,6 +24,7 @@ type LeaderRow = {
   displayName: string;
   correct: number;
   total: number;
+  points: number;
   score: number;
   rank: number;
 };
@@ -32,41 +33,64 @@ export default async function LeaderboardPage() {
   const session = await getServerSession(authOptions);
   const myUserId = session?.user?.id ?? null;
 
-  // S4-02: SQL-side aggregation. Three parallel groupBy + count calls
-  // + one findMany of users by id IN (...). Total of 4 queries
+  // S4-02 + S7-T1: SQL-side aggregation. Four parallel groupBy / count
+  // calls + one findMany of users by id IN (...). Total of 5 queries
   // regardless of how many answers exist in the database — the
   // previous Answer.findMany() scan was the dominant cost.
-  const [perUserTotal, perUserCorrect, perOptionAggregates, totalAnswers] =
-    await Promise.all([
-      prisma.answer.groupBy({
-        by: ["userId"],
-        _count: { _all: true },
-      }),
-      prisma.answer.groupBy({
-        by: ["userId"],
-        where: { isCorrect: true },
-        _count: { _all: true },
-      }),
-      prisma.answer.groupBy({
-        by: ["chosenOption"],
-        _count: { _all: true },
-        orderBy: { _count: { chosenOption: "desc" } },
-        take: 60, // wider than the displayed 12 to absorb normalised
-        // bucketing collapse.
-      }),
-      prisma.answer.count(),
-    ]);
+  //
+  // perUserPoints sums Answer.points per user (S7-T1 scoring model).
+  // perUserCorrect is kept separately because the table still shows a
+  // "Correct" column (X/Y) — points and correct are no longer the same
+  // number now that pending answers are worth 1 point each.
+  const [
+    perUserTotal,
+    perUserCorrect,
+    perUserPoints,
+    perOptionAggregates,
+    totalAnswers,
+  ] = await Promise.all([
+    prisma.answer.groupBy({
+      by: ["userId"],
+      _count: { _all: true },
+    }),
+    prisma.answer.groupBy({
+      by: ["userId"],
+      where: { isCorrect: true },
+      _count: { _all: true },
+    }),
+    prisma.answer.groupBy({
+      by: ["userId"],
+      _sum: { points: true },
+    }),
+    prisma.answer.groupBy({
+      by: ["chosenOption"],
+      _count: { _all: true },
+      orderBy: { _count: { chosenOption: "desc" } },
+      take: 60, // wider than the displayed 12 to absorb normalised
+      // bucketing collapse.
+    }),
+    prisma.answer.count(),
+  ]);
 
-  type AggregateRow = { userId: string; _count: { _all: number } };
+  type CountRow = { userId: string; _count: { _all: number } };
+  type SumRow = { userId: string; _sum: { points: number | null } };
   const correctByUser: Record<string, number> = {};
-  for (const row of perUserCorrect as AggregateRow[]) {
+  for (const row of perUserCorrect as CountRow[]) {
     correctByUser[row.userId] = row._count._all;
   }
-  const byUser: Record<string, { correct: number; total: number }> = {};
-  for (const row of perUserTotal as AggregateRow[]) {
+  const pointsByUser: Record<string, number> = {};
+  for (const row of perUserPoints as SumRow[]) {
+    pointsByUser[row.userId] = row._sum.points ?? 0;
+  }
+  const byUser: Record<
+    string,
+    { correct: number; total: number; points: number }
+  > = {};
+  for (const row of perUserTotal as CountRow[]) {
     byUser[row.userId] = {
       total: row._count._all,
       correct: correctByUser[row.userId] ?? 0,
+      points: pointsByUser[row.userId] ?? 0,
     };
   }
 
@@ -100,16 +124,21 @@ export default async function LeaderboardPage() {
 
   // Pure scoring + shared-rank tie handling lives in @/lib/leaderboard so
   // it's unit-testable without spinning up Prisma. See audit §05 F-LB-02
-  // (P0 scoring formula) and F-LB-06 (tie handling).
+  // (P0 scoring formula) and F-LB-06 (tie handling). S7-T1: score is now
+  // the sum of Answer.points, not just the correct count.
   const rankedRaw = rankSpotters(
-    Object.entries(byUser).map(([userId, { correct, total }]) => ({
+    Object.entries(byUser).map(([userId, { correct, total, points }]) => ({
       userId,
       correct,
       total,
+      points,
     })),
   );
   const ranked: LeaderRow[] = rankedRaw.map((r) => ({
     ...r,
+    // points is required on LeaderRow but optional on RankedSpotter (for
+    // legacy callers). The DB query above always populates it, so coerce.
+    points: r.points ?? 0,
     displayName:
       userMap[r.userId]?.displayName ??
       userMap[r.userId]?.name ??
@@ -145,7 +174,7 @@ export default async function LeaderboardPage() {
             Reward regular participation, celebrate accurate observations, and highlight the community members helping shape the marine monitoring record.
           </p>
           <p className="mt-3 max-w-2xl text-xs leading-5 text-[color:var(--muted)]">
-            Score = correct identifications. Each clip counts once per spotter. Minimum {MIN_ANSWERS_FOR_RANKING} answers to enter the ranking.
+            Score = 2 points per correct ID against a reference, 1 point for a submission on a clip without a reference yet, 0 for an unmatched guess. Each clip counts once per spotter. Minimum {MIN_ANSWERS_FOR_RANKING} answers to enter the ranking.
           </p>
         </section>
 
@@ -212,7 +241,7 @@ export default async function LeaderboardPage() {
               Your rank: <span className="font-mono text-[color:var(--primary)]">#{myEntry.rank}</span>
             </div>
             <div className="text-[color:var(--muted)]">
-              {myEntry.score} correct · {myEntry.correct}/{myEntry.total}
+              {myEntry.score} points · {myEntry.correct}/{myEntry.total} correct
             </div>
           </div>
         )}

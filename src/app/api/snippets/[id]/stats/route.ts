@@ -32,7 +32,13 @@ export async function GET(
   });
 
   const total = answers.length;
-  const stats = bucketAnswersByNormalized(answers, snippet.staffAnswer)
+  // S7-T1: staffAnswer may be null when the snippet has no reference ID
+  // yet. Pass undefined to the histogram so it doesn't try to favour a
+  // canonical that doesn't exist.
+  const stats = bucketAnswersByNormalized(
+    answers,
+    snippet.staffAnswer ?? undefined,
+  )
     .map(({ option, count }) => ({
       option,
       count,
@@ -40,9 +46,17 @@ export async function GET(
     }))
     .sort((a, b) => b.count - a.count);
 
+  // After the user has answered, return staffAnswer (which may be null)
+  // so the client can distinguish "no reference yet" from "haven't loaded
+  // staff answer yet". hasReference is a convenience flag.
   return NextResponse.json({
     total,
     stats,
-    ...(userHasAnswered ? { staffAnswer: snippet.staffAnswer } : {}),
+    ...(userHasAnswered
+      ? {
+          staffAnswer: snippet.staffAnswer,
+          hasReference: snippet.staffAnswer !== null,
+        }
+      : {}),
   });
 }

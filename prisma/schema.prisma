@@ -101,7 +101,7 @@ model Snippet {
   lat          Float?
   lon          Float?
   recordingDatetime String?
-  staffAnswer  String   // reference label from metadata
+  staffAnswer  String?  // reference label from metadata; null = no reference yet (S7-T1)
   bboxJson     String?  // JSON string of bbox_data.json bboxes
   createdAt    DateTime @default(now())
   answers      Answer[]
@@ -118,7 +118,8 @@ model Answer {
   snippetId   String
   chosenOption String  // typed answer submitted by the user
   freeText    String?  // legacy free-text field retained for existing data
-  isCorrect   Boolean  // matches snippet.staffAnswer
+  isCorrect   Boolean? // matches snippet.staffAnswer; null = snippet has no reference yet (S7-T1)
+  points      Int      @default(0) // scoring: correct=2, pending=1, incorrect=0; sumed for leaderboard (S7-T1)
   createdAt   DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   snippet     Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)

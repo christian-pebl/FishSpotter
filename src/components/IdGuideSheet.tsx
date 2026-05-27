@@ -160,9 +160,14 @@ export function IdGuideSheet({
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-0 sm:items-center sm:p-6"
       onClick={onClose}
     >
+      {/* S7-T3: the field-note / wizard / chat content is the user's main
+           tool for picking the right species — give it room. Desktop
+           expands to 96vw (capped at max-w-7xl / 1280px so paragraph line
+           lengths stay readable on ultrawide). Mobile stays a
+           bottom-anchored full-height sheet. */}
       <div
         ref={dialogRef}
-        className="relative flex h-[92dvh] w-full max-w-2xl flex-col overflow-hidden bg-navy-800 shadow-2xl sm:h-[88vh] sm:rounded-2xl"
+        className="relative flex h-[96dvh] w-full max-w-7xl flex-col overflow-hidden bg-navy-800 shadow-2xl sm:h-[94vh] sm:w-[96vw] sm:rounded-2xl"
         style={{
           transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
           transition: "transform 120ms ease-out",
@@ -233,7 +238,7 @@ export function IdGuideSheet({
         )}
 
         {mode === "fieldNote" && (
-          <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-gutter:stable]">
+          <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-8 sm:py-6 [scrollbar-gutter:stable]">
             {effectiveFieldNote ? (
               <>
                 {selectedFallback && fieldNoteFor && (
@@ -251,23 +256,32 @@ export function IdGuideSheet({
                 <p className="pb-3 text-[12px] italic text-white/55">
                   {effectiveFieldNote.scientificName}
                 </p>
-                <div className="pb-4">
-                  <SpeciesGallery
-                    scientificName={effectiveFieldNote.scientificName}
-                    commonName={effectiveFieldNote.commonName}
-                    size="large"
-                  />
-                </div>
-                <p className="pb-4 text-sm leading-relaxed text-white/85">{effectiveFieldNote.fieldNote}</p>
-                <div className="space-y-2 text-[12px] text-white/75">
-                  <TraitRow label="Body shape" values={effectiveFieldNote.bodyShape} />
-                  <TraitRow label="Size" values={[effectiveFieldNote.size]} />
-                  <TraitRow label="Colour" values={effectiveFieldNote.coloration} />
-                  <TraitRow label="Markings" values={effectiveFieldNote.markings.filter((m) => m !== "none")} />
-                  <TraitRow label="Fins" values={effectiveFieldNote.finShape} />
-                  <TraitRow label="Features" values={effectiveFieldNote.features.filter((f) => f !== "none")} />
-                  <TraitRow label="Behaviour" values={effectiveFieldNote.behavior} />
-                  <TraitRow label="Habitat" values={effectiveFieldNote.habitat} />
+                {/* S7-T3: two-column layout on desktop so the extra
+                     width is actually used — gallery left, prose +
+                     traits right. Mobile stacks naturally. */}
+                <div className="grid gap-6 sm:grid-cols-[minmax(0,460px)_1fr] sm:gap-8">
+                  <div>
+                    <SpeciesGallery
+                      scientificName={effectiveFieldNote.scientificName}
+                      commonName={effectiveFieldNote.commonName}
+                      size="large"
+                    />
+                  </div>
+                  <div className="max-w-prose space-y-4">
+                    <p className="text-sm leading-relaxed text-white/85">
+                      {effectiveFieldNote.fieldNote}
+                    </p>
+                    <div className="space-y-2 text-[12px] text-white/75">
+                      <TraitRow label="Body shape" values={effectiveFieldNote.bodyShape} />
+                      <TraitRow label="Size" values={[effectiveFieldNote.size]} />
+                      <TraitRow label="Colour" values={effectiveFieldNote.coloration} />
+                      <TraitRow label="Markings" values={effectiveFieldNote.markings.filter((m) => m !== "none")} />
+                      <TraitRow label="Fins" values={effectiveFieldNote.finShape} />
+                      <TraitRow label="Features" values={effectiveFieldNote.features.filter((f) => f !== "none")} />
+                      <TraitRow label="Behaviour" values={effectiveFieldNote.behavior} />
+                      <TraitRow label="Habitat" values={effectiveFieldNote.habitat} />
+                    </div>
+                  </div>
                 </div>
               </>
             ) : (

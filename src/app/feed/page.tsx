@@ -17,7 +17,7 @@ type FeedSnippetRow = {
   thumbnailUrl: string;
   site: string;
   deployment: string;
-  staffAnswer: string;
+  staffAnswer: string | null;
   bboxJson: string | null;
   lat: number | null;
   lon: number | null;

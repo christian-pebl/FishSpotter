@@ -13,7 +13,8 @@ interface SnippetPlayerProps {
     deployment: string;
     depthM: number | null;
     recordingDatetime: string | null;
-    staffAnswer: string;
+    /** Reference identification. Null when the snippet has no reference yet (S7-T1). */
+    staffAnswer: string | null;
   };
 }
 
@@ -126,37 +127,59 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
         ) : (
           <AnimatePresence mode="wait">
             <motion.div
-              key={myAnswer.isCorrect ? "correct" : "wrong"}
+              key={
+                myAnswer.isCorrect === null
+                  ? "pending"
+                  : myAnswer.isCorrect
+                    ? "correct"
+                    : "wrong"
+              }
               initial={
                 reduceMotion
                   ? false
-                  : myAnswer.isCorrect
-                    ? { scale: 0.9, opacity: 0 }
-                    : { x: 0 }
+                  : myAnswer.isCorrect === false
+                    ? { x: 0 }
+                    : { scale: 0.9, opacity: 0 }
               }
               animate={
                 reduceMotion
                   ? { opacity: 1 }
-                  : myAnswer.isCorrect
-                    ? { scale: 1, opacity: 1 }
-                    : { x: [0, -10, 10, -8, 8, 0] }
+                  : myAnswer.isCorrect === false
+                    ? { x: [0, -10, 10, -8, 8, 0] }
+                    : { scale: 1, opacity: 1 }
               }
               transition={
-                myAnswer.isCorrect
-                  ? { type: "spring", stiffness: 300, damping: 20 }
-                  : { duration: 0.4 }
+                myAnswer.isCorrect === false
+                  ? { duration: 0.4 }
+                  : { type: "spring", stiffness: 300, damping: 20 }
               }
               className="mt-4 space-y-4"
             >
-              <p className="font-medium text-[color:var(--primary)]">
-                You said: {myAnswer.chosenOption}{" "}
-                {myAnswer.isCorrect && (
+              <p className="font-medium text-[color:var(--primary)] flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span>You said: {myAnswer.chosenOption}</span>
+                {myAnswer.isCorrect === true && (
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
+                    className="inline-flex items-center gap-1 rounded-full bg-emerald-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-emerald-950"
                   >
-                    ✓ Correct!
+                    ✓ Correct · +2
+                  </motion.span>
+                )}
+                {myAnswer.isCorrect === false && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-rose-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-rose-950">
+                    ✗ Wrong
+                  </span>
+                )}
+                {myAnswer.isCorrect === null && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
+                    className="inline-flex items-center gap-1 rounded-full bg-amber-300 px-2 py-0.5 text-[11px] font-bold tracking-wide text-amber-950"
+                  >
+                    ★ +1 Bonus
                   </motion.span>
                 )}
               </p>
@@ -173,7 +196,14 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                     </li>
                   ))}
                 </ul>
-                <p className="mt-2 text-sm text-[color:var(--muted)]">PEBL reference label: {stats.staffAnswer}</p>
+                {/* S7-T1: staffAnswer is null when the snippet has no reference yet. */}
+                {stats.staffAnswer ? (
+                  <p className="mt-2 text-sm text-[color:var(--muted)]">Reference: {stats.staffAnswer}</p>
+                ) : (
+                  <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-300 px-2 py-0.5 text-[11px] font-bold tracking-wide text-amber-950">
+                    ★ +1 Bonus · reference pending
+                  </p>
+                )}
               </div>
               <Link href="/feed" className="inline-flex text-[color:var(--primary)] underline underline-offset-4">
                 ← Back to live feed

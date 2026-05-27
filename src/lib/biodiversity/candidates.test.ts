@@ -205,6 +205,79 @@ describe("selectCandidates — DEGENERATE fallback", () => {
   });
 });
 
+describe("selectCandidates — NO_REFERENCE path (S7-T1)", () => {
+  it("draws all candidates from OBIS when staffAnswer is null", () => {
+    const result = selectCandidates({
+      probability: OBIS_TOP_10,
+      staffAnswer: null,
+      staffScientific: null,
+      imageIndex: imageIndex(OBIS_TOP_10.map((p) => p.scientificName)),
+      seed: "snippet-noref",
+    });
+    expect(result.fallback).toBe("NO_REFERENCE");
+    expect(result.candidates).toHaveLength(4);
+    // Every candidate must come from the OBIS list — no "staff" slot.
+    const obisNames = new Set(OBIS_TOP_10.map((p) => p.scientificName));
+    for (const c of result.candidates) {
+      expect(obisNames.has(c.scientificName)).toBe(true);
+    }
+  });
+
+  it("falls back to the catalogue when staffAnswer is null AND OBIS is empty", () => {
+    const result = selectCandidates({
+      probability: null,
+      staffAnswer: null,
+      staffScientific: null,
+      // Seed a few catalogue species with images so the pool is large
+      // enough.
+      imageIndex: imageIndex([
+        "Pollachius pollachius",
+        "Labrus mixtus",
+        "Labrus bergylta",
+        "Ctenolabrus rupestris",
+        "Symphodus melops",
+      ]),
+      seed: "snippet-noref-noobis",
+    });
+    expect(result.fallback).toBe("NO_REFERENCE");
+    expect(result.candidates.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("never reserves a 'right answer' slot — every candidate is drawn from the pool", () => {
+    // Run several seeds and verify no candidate has commonName matching
+    // a sentinel "STAFF_ANSWER" string that doesn't exist in the pool.
+    for (const seed of ["a", "b", "c"]) {
+      const result = selectCandidates({
+        probability: OBIS_TOP_10,
+        staffAnswer: null,
+        staffScientific: null,
+        imageIndex: imageIndex(OBIS_TOP_10.map((p) => p.scientificName)),
+        seed,
+      });
+      expect(result.fallback).toBe("NO_REFERENCE");
+      const obisNames = new Set(OBIS_TOP_10.map((p) => p.scientificName));
+      expect(
+        result.candidates.every((c) => obisNames.has(c.scientificName)),
+      ).toBe(true);
+    }
+  });
+
+  it("is deterministic given the same seed (NO_REFERENCE)", () => {
+    const args = {
+      probability: OBIS_TOP_10,
+      staffAnswer: null,
+      staffScientific: null,
+      imageIndex: imageIndex(OBIS_TOP_10.map((p) => p.scientificName)),
+      seed: "snippet-noref-det",
+    };
+    const r1 = selectCandidates(args);
+    const r2 = selectCandidates(args);
+    expect(r2.candidates.map((c) => c.scientificName)).toEqual(
+      r1.candidates.map((c) => c.scientificName),
+    );
+  });
+});
+
 describe("selectCandidates — invariants", () => {
   it("never returns duplicates", () => {
     for (const seed of ["a", "b", "c", "d", "e"]) {

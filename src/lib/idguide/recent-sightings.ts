@@ -23,6 +23,9 @@ export async function fetchRecentNearbySightings(
   const seen = new Set<string>();
   const out: string[] = [];
   for (const s of snippets) {
+    // S7-T1: skip snippets without a reference identification — they
+    // contribute nothing to a "recent nearby species" suggestion list.
+    if (!s.staffAnswer) continue;
     const v = s.staffAnswer.trim();
     if (!v || seen.has(v)) continue;
     seen.add(v);

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
-import { isCorrectAnswer } from "@/lib/answer-matching";
+import { matchAnswer } from "@/lib/answer-matching";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAnswerRateLimit } from "@/lib/rate-limit";
@@ -63,11 +63,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
 
-  // S2-T01: alias-aware matching. Accepts scientific binomial, common
-  // name, editorial synonyms, and simple singular/plural variants.
-  // Falls back to the direct normalised equality when SpeciesAlias is
-  // empty (i.e. the seed hasn't been run yet on this environment).
-  const isCorrect = await isCorrectAnswer(snippet.staffAnswer, option);
+  // S2-T01 + S7-T1: alias-aware matching with nullable staffAnswer.
+  // When the snippet has no reference identification yet, returns
+  // { isCorrect: null, points: POINTS_PENDING_REF } — the user still
+  // earns a flat participation bonus. Phase 2 (S7-T2) will retro-credit
+  // additional points once community consensus forms.
+  const { isCorrect, points } = await matchAnswer(snippet.staffAnswer, option);
 
   // S2-T04: compute the streak inline so the client doesn't have to make
   // a follow-up GET /api/streak. Sample the user's existing answers
@@ -93,11 +94,13 @@ export async function POST(req: Request) {
       chosenOption: option,
       freeText: null,
       isCorrect,
+      points,
     },
     update: {
       chosenOption: option,
       freeText: null,
       isCorrect,
+      points,
     },
   });
 
@@ -115,6 +118,7 @@ export async function POST(req: Request) {
   return NextResponse.json({
     answer,
     isCorrect,
+    points,
     streak: {
       previous: previousStreak.currentStreak,
       current: currentStreak.currentStreak,

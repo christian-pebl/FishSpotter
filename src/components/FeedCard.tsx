@@ -1030,46 +1030,87 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
               ) : (
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={myAnswer!.isCorrect ? "correct" : "wrong"}
+                    key={
+                      myAnswer!.isCorrect === null
+                        ? "pending"
+                        : myAnswer!.isCorrect
+                          ? "correct"
+                          : "wrong"
+                    }
                     initial={
                       reduceMotion
                         ? false
-                        : myAnswer!.isCorrect
-                          ? { scale: 0.96, opacity: 0 }
-                          : { x: 0 }
+                        : myAnswer!.isCorrect === false
+                          ? { x: 0 }
+                          : { scale: 0.96, opacity: 0 }
                     }
                     animate={
                       reduceMotion
                         ? { opacity: 1 }
-                        : myAnswer!.isCorrect
-                          ? { scale: 1, opacity: 1 }
-                          : { x: [0, -8, 8, -6, 6, 0] }
+                        : myAnswer!.isCorrect === false
+                          ? { x: [0, -8, 8, -6, 6, 0] }
+                          : { scale: 1, opacity: 1 }
                     }
                     transition={
-                      myAnswer!.isCorrect
-                        ? { type: "spring", stiffness: 320, damping: 22 }
-                        : { duration: 0.36 }
+                      myAnswer!.isCorrect === false
+                        ? { duration: 0.36 }
+                        : { type: "spring", stiffness: 320, damping: 22 }
                     }
                     className="pb-2"
                   >
                     {/* S5-T9: aria-live announces the outcome to screen
-                         readers; non-color cue (✓ / ✗ + text) so the
-                         result doesn't rely on colour alone. */}
+                         readers; non-color cue (✓ / ✗ / + icons) so the
+                         result doesn't rely on colour alone. S7-T2 contrast
+                         pass: verdict pills are solid-bg + dark text so
+                         they read against any underwater video background. */}
                     <p
-                      className="text-sm"
+                      className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm"
                       role="status"
                       aria-live="polite"
                     >
-                      You said{" "}
-                      <span className="font-semibold text-white">{myAnswer!.chosenOption}</span>{" "}
-                      {myAnswer!.isCorrect ? (
-                        <span className="text-teal-500" aria-label="Correct">
-                          ✓ Correct
+                      <span className="text-white/85">You said</span>
+                      <span className="font-semibold text-white">
+                        {myAnswer!.chosenOption}
+                      </span>
+                      {myAnswer!.isCorrect === true && (
+                        <span
+                          className="inline-flex items-center gap-1 rounded-full bg-emerald-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-emerald-950 shadow-sm"
+                          aria-label="Correct, plus 2 points"
+                        >
+                          ✓ Correct · +2
                         </span>
-                      ) : (
-                        <span className="text-red-300/85" aria-label="Incorrect">
-                          ✗ was {stats!.staffAnswer ?? snippet.staffAnswer}
-                        </span>
+                      )}
+                      {myAnswer!.isCorrect === false && (
+                        <>
+                          <span
+                            className="inline-flex items-center gap-1 rounded-full bg-rose-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-rose-950 shadow-sm"
+                            aria-label="Incorrect"
+                          >
+                            ✗ Wrong
+                          </span>
+                          {(stats!.staffAnswer ?? snippet.staffAnswer) && (
+                            <span className="text-white/80">
+                              ·{" "}
+                              <span className="text-white/55">reference:</span>{" "}
+                              <span className="font-semibold text-white">
+                                {stats!.staffAnswer ?? snippet.staffAnswer}
+                              </span>
+                            </span>
+                          )}
+                        </>
+                      )}
+                      {myAnswer!.isCorrect === null && (
+                        <>
+                          <span
+                            className="inline-flex items-center gap-1 rounded-full bg-amber-300 px-2 py-0.5 text-[11px] font-bold tracking-wide text-amber-950 shadow-sm"
+                            aria-label="Bonus, plus 1 point. Reference identification pending."
+                          >
+                            ★ +1 Bonus
+                          </span>
+                          <span className="text-white/65">
+                            · reference pending — your ID helps build the dataset
+                          </span>
+                        </>
                       )}
                     </p>
                     <div className="mt-1.5 space-y-0.5">
@@ -1083,35 +1124,52 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                         </div>
                       ))}
                     </div>
-                    <RarityPanel
-                      snippetId={snippet.id}
-                      recordingDatetime={snippet.recordingDatetime}
-                      userIsCorrect={!!myAnswer?.isCorrect}
-                      onResolveStaffScientific={setStaffScientific}
-                    />
-                    {/* S2-T08 inline gallery — sits between the staff
-                         answer line and the IdGuide trigger row.
-                         SpeciesGallery hides itself silently when the
-                         scientificName has no images (plaice larva,
-                         catshark egg case) so the field-note sheet
-                         remains the fallback for those species. */}
-                    {staffScientific && (
-                      <div className="mt-3">
-                        <SpeciesGallery
-                          scientificName={staffScientific}
-                          commonName={stats!.staffAnswer ?? snippet.staffAnswer}
-                          size="thumb"
-                        />
-                        <p className="mt-1 text-[10px] text-white/35">
-                          Photos: iNaturalist community, CC-licensed
-                        </p>
-                      </div>
-                    )}
+                    {/* S7-T1: ecological-likelihood + species-gallery
+                         panels only make sense when a reference ID
+                         exists — they assess the user's guess against
+                         the staff answer. On no-reference clips we
+                         skip the whole pane and let the +1 bonus chip
+                         carry the messaging. */}
+                    {(() => {
+                      const referenceAnswer =
+                        stats!.staffAnswer ?? snippet.staffAnswer ?? null;
+                      if (referenceAnswer === null) return null;
+                      return (
+                        <>
+                          <RarityPanel
+                            snippetId={snippet.id}
+                            recordingDatetime={snippet.recordingDatetime}
+                            userIsCorrect={myAnswer?.isCorrect === true}
+                            onResolveStaffScientific={setStaffScientific}
+                          />
+                          {/* S2-T08 inline gallery — sits between the staff
+                               answer line and the IdGuide trigger row.
+                               SpeciesGallery hides itself silently when the
+                               scientificName has no images (plaice larva,
+                               catshark egg case) so the field-note sheet
+                               remains the fallback for those species. */}
+                          {staffScientific && (
+                            <div className="mt-3">
+                              <SpeciesGallery
+                                scientificName={staffScientific}
+                                commonName={referenceAnswer}
+                                size="thumb"
+                              />
+                              <p className="mt-1 text-[10px] text-white/35">
+                                Photos: iNaturalist community, CC-licensed
+                              </p>
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}
                         submitted={true}
-                        staffAnswer={stats!.staffAnswer ?? snippet.staffAnswer}
+                        staffAnswer={
+                          stats!.staffAnswer ?? snippet.staffAnswer ?? null
+                        }
                         onSuggest={() => {}}
                         isLoggedIn={!!session}
                       />

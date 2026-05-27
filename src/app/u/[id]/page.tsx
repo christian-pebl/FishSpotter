@@ -110,17 +110,26 @@ export default async function ProfilePage({
                   </Link>
                   <p className="truncate text-xs text-navy-900/55">
                     {a.chosenOption}
-                    {!a.isCorrect && ` (was ${a.snippet.staffAnswer})`}
+                    {a.isCorrect === false && a.snippet.staffAnswer &&
+                      ` (was ${a.snippet.staffAnswer})`}
+                    {a.isCorrect === null && " (reference pending — bonus awarded)"}
                   </p>
                 </div>
                 <span
                   className={
-                    a.isCorrect
+                    a.isCorrect === true
                       ? "rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-teal-700"
-                      : "rounded-full bg-danger/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-danger"
+                      : a.isCorrect === false
+                        ? "rounded-full bg-danger/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-danger"
+                        : "rounded-full bg-amber-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-amber-900"
+                  }
+                  title={
+                    a.isCorrect === null
+                      ? "Bonus: no reference identification yet"
+                      : undefined
                   }
                 >
-                  {a.isCorrect ? "✓" : "✗"}
+                  {a.isCorrect === true ? "✓" : a.isCorrect === false ? "✗" : "★"}
                 </span>
               </li>
             ))}

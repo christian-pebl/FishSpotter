@@ -141,7 +141,7 @@ export function RarityPanel({
       {staffProb != null && (
         <div className="mt-1.5 flex items-center justify-between gap-2 text-[11px]">
           <span className="italic text-white/70 truncate">
-            Staff answer: {staffSci}
+            Reference: {staffSci}
           </span>
           <div className="flex items-center gap-2">
             <span className="tabular-nums text-white/85">{Math.round(staffProb * 100)}%</span>
@@ -161,7 +161,7 @@ export function RarityPanel({
       )}
       {staffProb == null && (
         <div className="mt-1 text-[10px] text-white/35">
-          Staff answer not matched to OBIS records here.
+          Reference not matched to OBIS records here.
         </div>
       )}
     </motion.div>

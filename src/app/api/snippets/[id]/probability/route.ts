@@ -99,12 +99,16 @@ export async function GET(
     }))
   );
 
+  // S7-T1: when the snippet has no reference identification, return
+  // null explicitly so the client knows there's nothing to assess.
   const staffAnswerScientific = userHasAnswered
-    ? (
-        await prisma.speciesNameMap.findUnique({
-          where: { commonName: normaliseCommonName(snippet.staffAnswer) },
-        })
-      )?.scientificName ?? null
+    ? snippet.staffAnswer
+      ? (
+          await prisma.speciesNameMap.findUnique({
+            where: { commonName: normaliseCommonName(snippet.staffAnswer) },
+          })
+        )?.scientificName ?? null
+      : null
     : undefined;
 
   return NextResponse.json({

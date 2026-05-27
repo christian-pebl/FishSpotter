@@ -117,12 +117,50 @@ Run scripts with: `npx tsx --env-file=.env.local scripts/<script>.ts`
 Seed: `npm run db:seed`
 
 Schema summary:
-- `Snippet`: id, externalId (folder name), videoUrl, thumbnailUrl, site, deployment, depthM, lat, lon, recordingDatetime, staffAnswer, bboxJson
-- `Answer`: userId, snippetId, chosenOption, isCorrect
+- `Snippet`: id, externalId (folder name), videoUrl, thumbnailUrl, site, deployment, depthM, lat, lon, recordingDatetime, **`staffAnswer: String?`** (nullable since S7-T1 — null means "no reference identification yet"), bboxJson
+- `Answer`: userId, snippetId, chosenOption, **`isCorrect: Boolean?`** (null when the snippet has no reference yet), **`points: Int`** (S7-T1; 2 = correct match against reference, 1 = pending bonus on a no-reference snippet, 0 = unmatched guess)
 - `User`: id, email, displayName, name
 - `SpeciesProbability`: cached OBIS species composition per (lat₀.₁°, lon₀.₁°, depth₁₀m, month) bucket
-- `SpeciesNameMap`: cached GBIF resolution of `staffAnswer` → canonical scientific name
+- `SpeciesNameMap`: cached GBIF resolution of `staffAnswer` → canonical scientific name (only resolved when `staffAnswer` is non-null)
 - `SpeciesImage`: cached iNaturalist photo rows keyed on (scientificName, sourceUrl); columns for lifeStage / sex / license / attribution / ordering / curated flag. Manual `overrides` from `src/data/species-images.json` are upserted with `curated=true` and never overwritten by the script.
+
+## Scoring model (S7-T1, 27 May 2026)
+
+The leaderboard ranks spotters by sum of `Answer.points`, not by raw
+correct count. The per-row payout is set by `matchAnswer()` in
+`src/lib/answer-matching.ts`:
+
+| Verdict | `isCorrect` | `points` | When |
+|---|---|---|---|
+| Correct against reference | `true` | `POINTS_CORRECT_REF = 2` | Snippet has a `staffAnswer` and the user's pick matches it (alias-aware) |
+| Pending (bonus) | `null` | `POINTS_PENDING_REF = 1` | Snippet has no reference yet — the user's submission is treated as a community hypothesis and earns a flat participation bonus |
+| Incorrect | `false` | `POINTS_INCORRECT = 0` | Snippet has a reference but the user's pick didn't match |
+
+`POINTS_PENDING_REF < POINTS_CORRECT_REF` is enforced by a test
+(`answer-matching.test.ts`) so spam-guessing un-referenced clips can't
+out-yield identifying referenced ones.
+
+Phase 2 (consensus retro-bonus, deferred):
+- When K ≥ 3 independent users converge on the same name for a
+  no-reference snippet, a background job will retro-credit each matcher
+  with `POINTS_CONSENSUS_BONUS` (e.g. +2), making the total payout for
+  a consensus-pioneer (1 + 2 = 3) exceed a referenced correct (2).
+- No further schema migration is needed — the column shape already
+  supports any future top-up by mutating `Answer.points` in place.
+
+Operator note: when a no-reference snippet later gets a reference
+backfilled into `Snippet.staffAnswer`, the existing pending `Answer`
+rows DO NOT auto-rescore. A retro-scoring SQL would look like:
+
+```sql
+UPDATE "Answer" a
+SET "isCorrect" = lower(a."chosenOption") = lower($1),
+    "points"    = CASE WHEN lower(a."chosenOption") = lower($1) THEN 2 ELSE 0 END
+WHERE a."snippetId" = $2 AND a."isCorrect" IS NULL;
+```
+
+(Use the matcher's alias-aware logic in code, not raw `lower()`, for a
+production retro-score.)
 
 ## Probability data flow (OBIS + GBIF)
 
@@ -197,6 +235,9 @@ project settings under the production environment.
 - Species image gallery feature **activated 18 May 2026** — `SpeciesImage` table populated (113 rows across 26 species), `CRON_SECRET` set in Vercel, weekly cron live.
 - Bootstrap kit **shipped 22 May 2026** (`26bbf10`) — one-command operator setup for all infra tokens, env vars, DNS, R2, Resend. See `scripts/bootstrap/README.md`.
 - Resend email domain `pebl-cic.co.uk` **registered and DNS live 26 May 2026** — DKIM + SPF records added to Wix DNS; domain status `pending` (sending already enabled). Run `npm run bootstrap -- --doctor` to check verification status.
+- **S3-01 schema drift fixed 27 May 2026** — `prisma db push` applied the auth-lifecycle columns + tables (`User.emailVerified`, `Account`, `Session`, `VerificationToken`, `PasswordResetToken`) that had been merged in code but never pushed to prod. Backfilled existing users with `emailVerified = createdAt`. Forgot-password + the rest of the S3 flows are now functional in prod.
+- **S7-T1 shipped 27 May 2026** — nullable references + points-based scoring + contrast pass. See "Scoring model" section above. UI copy across the onboarding tour, landing page, reveal panel, and rarity panel retired the "PEBL staff" branding in favour of "reference ID (when available)" — references can come from PEBL, academic partners, fisheries bodies, or be temporarily absent. The reveal pills (Correct/Wrong/Pending) are solid-bg + dark text so they read against any video background.
+- **S7-T3 (IdGuide sheet expansion, 27 May 2026)** — the "How to spot a X next time" / wizard / chat sheet now opens at `96vw × 94vh` (capped at `max-w-7xl` / 1280px) instead of the previous `max-w-2xl × 88vh`. Two-column desktop layout on the field-note view (gallery left, prose + traits right) so the extra real estate gets used; mobile layout unchanged.
 
 ## Activation history — 18 May 2026
 

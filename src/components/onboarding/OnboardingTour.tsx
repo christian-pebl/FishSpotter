@@ -11,8 +11,8 @@ const STEPS = [
   },
   {
     eyebrow: "2 · Compare",
-    title: "Compare with the PEBL staff answer",
-    body: "After you pick, we reveal the PEBL reference identification, how the wider community guessed, and which species OBIS expects at this location and season.",
+    title: "Compare with the reference ID (when available)",
+    body: "After you pick, we reveal the reference identification where one exists, how the wider community guessed, and which species OBIS expects at this site and season. Clips without a reference are worth more — your ID helps build the dataset.",
   },
   {
     eyebrow: "3 · Streak",

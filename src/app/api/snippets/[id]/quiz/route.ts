@@ -83,11 +83,14 @@ export async function GET(
 
   // Resolve the staff scientific name. May be null when GBIF lookup
   // hasn't run or failed — the candidate selector handles that path
-  // by falling back to the catalogue.
-  const nameMap = await prisma.speciesNameMap.findUnique({
-    where: { commonName: normaliseCommonName(snippet.staffAnswer) },
-    select: { scientificName: true },
-  });
+  // by falling back to the catalogue. S7-T1: also null when the snippet
+  // has no reference identification yet (snippet.staffAnswer === null).
+  const nameMap = snippet.staffAnswer
+    ? await prisma.speciesNameMap.findUnique({
+        where: { commonName: normaliseCommonName(snippet.staffAnswer) },
+        select: { scientificName: true },
+      })
+    : null;
   const staffScientific = nameMap?.scientificName ?? null;
 
   // OBIS probability lookup for the bucket. Null is fine — selector

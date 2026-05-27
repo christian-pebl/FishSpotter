@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { isCorrectWithAliases, type AliasEntry } from "./answer-matching";
+import {
+  isCorrectWithAliases,
+  matchWithAliases,
+  POINTS_CORRECT_REF,
+  POINTS_PENDING_REF,
+  POINTS_INCORRECT,
+  type AliasEntry,
+} from "./answer-matching";
 
 const ALIASES: AliasEntry[] = [
   {
@@ -91,5 +98,47 @@ describe("isCorrectWithAliases", () => {
     expect(
       isCorrectWithAliases("Pollack", "the Pollachius pollachius", ALIASES),
     ).toBe(true);
+  });
+});
+
+describe("matchWithAliases (S7-T1 — points + nullable staff answer)", () => {
+  it("awards POINTS_CORRECT_REF for a direct correct match", () => {
+    expect(matchWithAliases("Pollack", "pollack", ALIASES)).toEqual({
+      isCorrect: true,
+      points: POINTS_CORRECT_REF,
+    });
+  });
+
+  it("awards POINTS_CORRECT_REF for an alias-resolved match", () => {
+    expect(
+      matchWithAliases("Pollachius pollachius", "Pollack", ALIASES),
+    ).toEqual({
+      isCorrect: true,
+      points: POINTS_CORRECT_REF,
+    });
+  });
+
+  it("awards POINTS_INCORRECT for an unmatched guess", () => {
+    expect(matchWithAliases("Pollack", "cod", ALIASES)).toEqual({
+      isCorrect: false,
+      points: POINTS_INCORRECT,
+    });
+  });
+
+  it("returns { isCorrect: null, points: POINTS_PENDING_REF } when staffAnswer is null", () => {
+    // The pending payout is independent of what the user guessed — no
+    // reference label exists to compare against.
+    expect(matchWithAliases(null, "Pollack", ALIASES)).toEqual({
+      isCorrect: null,
+      points: POINTS_PENDING_REF,
+    });
+    expect(matchWithAliases(null, "literally anything", ALIASES)).toEqual({
+      isCorrect: null,
+      points: POINTS_PENDING_REF,
+    });
+  });
+
+  it("enforces pending < correct so un-referenced clips can't be farmed at a better rate", () => {
+    expect(POINTS_PENDING_REF).toBeLessThan(POINTS_CORRECT_REF);
   });
 });
