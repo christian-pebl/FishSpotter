@@ -26,6 +26,7 @@
 
 import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
+import { hashStringToSeed, mulberry32, shuffle } from "@/lib/shuffle";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
@@ -68,39 +69,8 @@ export interface SelectionResult {
   fallback: SelectionFallback;
 }
 
-/* --------------------------- deterministic PRNG --------------------------- */
-
-function hashStringToSeed(s: string): number {
-  // Adapted FNV-1a — stable across Node and modern browsers.
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) {
-    h = (h ^ s.charCodeAt(i)) >>> 0;
-    h = Math.imul(h, 16777619) >>> 0;
-  }
-  return h >>> 0;
-}
-
-function mulberry32(seed: number): () => number {
-  let state = seed >>> 0;
-  return () => {
-    state = (state + 0x6d2b79f5) >>> 0;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-function shuffle<T>(items: T[], rng: () => number): T[] {
-  const arr = items.slice();
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
 /* --------------------------- helpers --------------------------- */
+// PRNG + shuffle live in @/lib/shuffle (S8-T1 — shared with feed-ordering).
 
 function commonNameForScientific(scientific: string): string {
   const entry = CATALOGUE[scientific];
