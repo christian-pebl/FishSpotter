@@ -77,8 +77,35 @@ export function MCQCandidatePicker({
           fallback: SelectionFallback;
         }>;
       })
-      .then((data) => {
+      .then(async (data) => {
         if (cancelled || !data) return;
+
+        // Preload all candidate thumbnails before flipping to "ready" so
+        // users never see the picker render with half-loaded images
+        // (or empty tiles that fill in moments later). We wait for every
+        // image to either resolve or error, capped at 1500ms so a single
+        // dead URL can't stall the picker forever.
+        const urls = data.candidates
+          .map((c) => c.thumbUrl)
+          .filter((u): u is string => !!u);
+        if (urls.length > 0) {
+          await Promise.race([
+            Promise.all(
+              urls.map(
+                (src) =>
+                  new Promise<void>((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve();
+                    img.onerror = () => resolve();
+                    img.src = src;
+                  }),
+              ),
+            ),
+            new Promise<void>((resolve) => setTimeout(resolve, 1500)),
+          ]);
+        }
+        if (cancelled) return;
+
         setCandidates(data.candidates);
         setFallback(data.fallback);
         setStatus("ready");
@@ -166,11 +193,24 @@ export function MCQCandidatePicker({
               <img
                 src={candidate.thumbUrl}
                 alt=""
-                loading="lazy"
+                loading="eager"
+                decoding="async"
                 className="aspect-square w-full object-cover transition-opacity group-hover:opacity-90"
               />
             ) : (
-              <div className="aspect-square w-full bg-white/10" aria-hidden="true" />
+              // No cached SpeciesImage row for this species (typically the
+              // staff candidate — distractors are pre-filtered server-side).
+              // Show a fish silhouette so the tile reads as intentional rather
+              // than a broken-image void.
+              <div
+                className="flex aspect-square w-full items-center justify-center bg-white/10 text-white/35"
+                aria-hidden="true"
+              >
+                <svg width="44" height="44" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
+                  <circle cx="10" cy="7" r="0.9" fill="#17252A" />
+                </svg>
+              </div>
             )}
             <span className="px-2 py-1.5 text-center text-[11px] font-semibold leading-tight text-white">
               {candidate.commonName}

@@ -186,6 +186,32 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
     } catch {}
   }, []);
 
+  // Keyboard shortcut: press H while the active card is in view to
+  // toggle the identification panel — gives users a fast way to flip
+  // between looking at the video (for shape, markings, behaviour) and
+  // the candidate picker without hunting for the minimize button.
+  // Skip when focus is in a text input so typing "h" still works.
+  useEffect(() => {
+    if (!isActive) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "h" && e.key !== "H") return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) {
+        return;
+      }
+      e.preventDefault();
+      setPanelCollapsed((prev) => {
+        const next = !prev;
+        try {
+          localStorage.setItem("fishspotter:panelCollapsed", next ? "1" : "0");
+        } catch {}
+        return next;
+      });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isActive]);
+
   // S2-T11: watch the video for a single full loop and flip the gate.
   // Detect a loop by listening for `ended` (browser auto-loops with the
   // <video loop> attribute, but ended still fires on each cycle on
@@ -730,11 +756,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
         )}
       </div>
 
-      {/* Soft bottom gradient so the floating panel always reads over the video */}
-      {!panelCollapsed && (
+      {/* Soft bottom gradient so the floating panel always reads over the video.
+          Desktop centres the panel mid-screen so the bottom gradient just
+          obscures the seabed — only render it on mobile, and keep it
+          subtler so species near the lower edge stay visible. */}
+      {!panelCollapsed && !isDesktop && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-gradient-to-t from-black/55 via-black/15 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-black/40 via-black/10 to-transparent"
         />
       )}
 
@@ -770,7 +799,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
                       scale: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
                     }
             }
-            aria-label="Name this species"
+            aria-label="Name this species (press H)"
+            title="Press H to toggle"
             className="absolute left-1/2 z-30 inline-flex min-h-[46px] -translate-x-1/2 items-center gap-2 rounded-full bg-teal-500 px-5 text-sm font-semibold text-navy-900 shadow-panel hover:bg-teal-400"
             style={{ bottom: `calc(0.5rem + env(safe-area-inset-bottom))` }}
           >
@@ -856,12 +886,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance }: Fee
             <button
               type="button"
               onClick={() => togglePanel(true)}
-              aria-label="Hide identification panel"
-              className="absolute right-1.5 top-1 z-10 flex h-7 w-7 items-center justify-center rounded-full text-white/45 transition-colors hover:bg-white/10 hover:text-white/85"
+              aria-label="Minimize panel to see video (press H)"
+              title="Minimize — press H to toggle"
+              className="absolute right-1.5 top-1 z-10 inline-flex h-8 items-center gap-1 rounded-full bg-white/5 px-2 text-[10px] font-medium uppercase tracking-wider text-white/70 transition-colors hover:bg-white/15 hover:text-white"
             >
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2.5 6h7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
               </svg>
+              <span className="hidden sm:inline">Hide</span>
             </button>
             <div className="overflow-y-auto overscroll-contain px-3 pt-1 pb-2 md:px-4 md:pb-3" style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}>
 
