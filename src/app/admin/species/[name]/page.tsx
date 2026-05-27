@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
+import { SpeciesAnnotator, type AnnotatorPhoto, type AnnotatorMark } from "./SpeciesAnnotator";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
@@ -15,6 +17,38 @@ export default async function AdminSpeciesEditorPage({
   const traits = CATALOGUE[scientificName];
   if (!traits) notFound();
 
+  const [photoRows, markRows] = await Promise.all([
+    prisma.speciesImage.findMany({
+      where: { scientificName },
+      orderBy: [{ curated: "desc" }, { ordering: "asc" }, { createdAt: "asc" }],
+      take: 12,
+    }),
+    prisma.diagnosticMark.findMany({
+      where: { scientificName },
+      orderBy: { order: "asc" },
+    }),
+  ]);
+
+  const photos: AnnotatorPhoto[] = photoRows.map((p) => ({
+    id: p.id,
+    url: p.url,
+    thumbUrl: p.thumbUrl,
+    attribution: p.attribution,
+    width: p.width,
+    height: p.height,
+  }));
+
+  const marks: AnnotatorMark[] = markRows.map((m) => ({
+    id: m.id,
+    speciesImageId: m.speciesImageId,
+    order: m.order,
+    label: m.label,
+    description: m.description,
+    overlayX: m.overlayX,
+    overlayY: m.overlayY,
+    overlayRadius: m.overlayRadius,
+  }));
+
   return (
     <div className="space-y-5">
       <div className="text-[12px] text-navy-600">
@@ -22,21 +56,38 @@ export default async function AdminSpeciesEditorPage({
           ← All species
         </Link>
       </div>
-      <header>
-        <h1 className="font-brand text-h2 text-navy-900">{traits.commonName}</h1>
-        <p className="pt-1 text-sm italic text-navy-600">{scientificName}</p>
+      <header className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="font-brand text-h2 text-navy-900">{traits.commonName}</h1>
+          <p className="pt-1 text-sm italic text-navy-600">{scientificName}</p>
+        </div>
+        <div className="text-right text-[11px] text-navy-600">
+          <div>
+            {marks.length} {marks.length === 1 ? "mark" : "marks"} authored
+          </div>
+          <div>{photos.length} reference photos available</div>
+        </div>
       </header>
-      <div className="rounded-xl border border-dashed border-navy-300 bg-white p-6 text-center text-sm text-navy-600">
-        <p className="font-medium text-navy-900">Diagnostic-mark editor coming in PR2.</p>
-        <p className="pt-1 text-[12px]">
-          This page will let you pick a reference photo, click to add labelled rings (the chin barbel, the pectoral
-          blotch, etc.) and edit the field note that surfaces in the wizard&apos;s final reveal.
-        </p>
-      </div>
+
+      {photos.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-navy-300 bg-white p-6 text-center text-sm text-navy-600">
+          <p className="font-medium text-navy-900">No reference photos cached for this species yet.</p>
+          <p className="pt-1 text-[12px]">
+            Run <code className="rounded bg-navy-100 px-1 py-0.5">npm run db:refresh-images -- --species &quot;{scientificName}&quot;</code> to
+            populate the iNaturalist cache, then come back.
+          </p>
+        </div>
+      ) : (
+        <SpeciesAnnotator scientificName={scientificName} photos={photos} initialMarks={marks} />
+      )}
+
       <details className="rounded-lg border border-navy-200 bg-white p-4 text-[12px] text-navy-700">
-        <summary className="cursor-pointer font-medium text-navy-900">Current trait data (read-only)</summary>
-        <pre className="overflow-x-auto pt-2 text-[11px] leading-relaxed">
-          {JSON.stringify(traits, null, 2)}
+        <summary className="cursor-pointer font-medium text-navy-900">Current field note + traits (read-only)</summary>
+        <p className="pt-2 pb-3 text-[12px] leading-relaxed">
+          <span className="font-medium">Field note:</span> {traits.fieldNote}
+        </p>
+        <pre className="overflow-x-auto text-[11px] leading-relaxed">
+          {JSON.stringify({ ...traits, fieldNote: undefined }, null, 2)}
         </pre>
       </details>
     </div>
