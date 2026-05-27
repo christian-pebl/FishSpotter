@@ -100,8 +100,12 @@ Install behavior depends on the browser:
 - **Next.js 14** (App Router), **React 18**, **TypeScript**
 - **Tailwind CSS**
 - **Prisma** + **Supabase Postgres**
-- **Supabase Storage**
+- **Supabase Storage** (or **Cloudflare R2** — see `CLAUDE.md` for the migration path)
 - **NextAuth.js** credentials auth
 - **PWA manifest + service worker**
 
-No admin panel or clip uploader is included yet; snippet content still comes from the seed/import flow.
+## Admin tools
+
+`/admin` is gated to users whose email ends in `@pebl-cic.co.uk`. Today it hosts the **species diagnostic-mark editor** (`/admin/species`): a click-to-add / drag-to-move photo annotator for authoring the labelled rings that appear on reference photos in the "Help me identify" wizard's final reveal. See `CLAUDE.md` for schema details and the editorial workflow.
+
+Clip uploads still come from the seed/import flow (`npm run db:seed`); there's no in-app uploader.
