@@ -2,10 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { z } from "zod";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 
-export const revalidate = 60; // S4-09 ISR
+// P-18: answered-pill requires session — dynamic when signed in,
+// ISR-cached for anonymous. Next.js bypasses the ISR cache when it
+// detects a session cookie read inside getServerSession, so signed-in
+// requests are always fresh. Anonymous requests still get 60s ISR.
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Archive",
@@ -60,6 +66,9 @@ export default async function FeedBrowsePage({
         ? { site: "asc" }
         : { createdAt: "desc" };
 
+  const session = await getServerSession(authOptions);
+  const myUserId = session?.user?.id ?? null;
+
   const [snippets, totalCount, distinctSites] = await Promise.all([
     prisma.snippet.findMany({
       where,
@@ -84,6 +93,19 @@ export default async function FeedBrowsePage({
       take: 50,
     }),
   ]);
+
+  // P-18: build a Set of snippet IDs the current user has answered so
+  // the card grid can show an "Answered" badge. One extra query only
+  // when signed in; anonymous users see no badges (no session, no cost).
+  const answeredSnippetIds = new Set<string>();
+  if (myUserId && snippets.length > 0) {
+    const snippetIds = snippets.map((s: SnippetRow) => s.id);
+    const answers = await prisma.answer.findMany({
+      where: { userId: myUserId, snippetId: { in: snippetIds } },
+      select: { snippetId: true },
+    });
+    for (const a of answers) answeredSnippetIds.add(a.snippetId);
+  }
 
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
 
@@ -110,7 +132,7 @@ export default async function FeedBrowsePage({
           <h1 className="mt-2 font-brand-heading text-3xl font-bold text-navy-900">
             Browse the wider PEBL clip library
           </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-navy-900/72">
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-navy-900">
             Review archived sightings from marine monitoring deployments, open any clip, and add your identification to the community record.
           </p>
         </div>
@@ -198,13 +220,29 @@ export default async function FeedBrowsePage({
                     className="object-cover"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
+                  {/* P-18: answered-state badge. Only shown when signed in
+                      (myUserId truthy). Answered clips get a teal pill so
+                      spotters can quickly see what's still open. */}
+                  {myUserId && (
+                    <span
+                      className={
+                        "absolute right-2 top-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider " +
+                        (answeredSnippetIds.has(s.id)
+                          ? "bg-teal-500/90 text-navy-900"
+                          : "bg-black/45 text-white/80 backdrop-blur-sm")
+                      }
+                    >
+                      {answeredSnippetIds.has(s.id) ? "✓ Answered" : "Open"}
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-1 p-4">
                   <p className="pebl-eyebrow text-[11px]">PEBL sighting</p>
                   <p className="truncate text-base font-semibold text-navy-900">
                     {s.site}
                   </p>
-                  <p className="text-sm text-navy-900/72">{s.deployment}</p>
+                  {/* P-15: /72 opacity → full foreground for contrast */}
+                  <p className="text-sm text-navy-900">{s.deployment}</p>
                   {s.recordingDatetime && (
                     <p className="text-xs text-navy-900/55">
                       {new Date(s.recordingDatetime).toLocaleDateString()}

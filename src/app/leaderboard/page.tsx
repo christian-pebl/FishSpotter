@@ -228,9 +228,10 @@ export default async function LeaderboardPage() {
                   return (
                     <tr
                       key={entry.userId}
-                      // P-31 from the review: aria-current="row" is the
-                      // correct value for a table-row, not "true".
-                      aria-current={isMe ? "row" : undefined}
+                      // P-31: "row" is the correct ARIA value for a selected
+                      // table-row. React's built-in aria-current type definition
+                      // doesn't include "row" yet, so we cast to satisfy TS.
+                      aria-current={isMe ? ("row" as "page") : undefined}
                       className={
                         "border-b border-[color:var(--border)] last:border-b-0" +
                         (medal ? ` ${medal.row}` : "") +

@@ -6,10 +6,11 @@ import { FeedCard } from "./FeedCard";
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // Q3A-T7: delay the move-to-back reorder until AFTER FeedCard's
-// scroll-to-next animation has settled. submitAndAdvance fires
-// onAdvance at +450ms; we wait ~750ms total so the reorder lands when
-// the user's eyes are already on the next card.
-const MOVE_TO_BACK_DELAY_MS = 750;
+// scroll-to-next animation has settled. Since A-10 removed the 450ms
+// auto-advance, onAdvance now fires on explicit Next-tap. The card
+// scroll takes ~300ms (P-8 tightened layout transition), so 500ms
+// total gives enough clearance without feeling sluggish.
+const MOVE_TO_BACK_DELAY_MS = 500;
 
 export interface BBoxFrame {
   frame_clip: number;
@@ -176,9 +177,9 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
           <motion.section
             key={snippet.id}
             layout={reduceMotion ? false : "position"}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.45, ease: "easeInOut" }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeInOut" }}
             data-feed-index={index}
-            {...(activeIndex === index ? {} : { inert: "" })}
+            {...(activeIndex === index ? {} : ({ inert: "" } as unknown as { inert?: boolean }))}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
           >
             <FeedCard

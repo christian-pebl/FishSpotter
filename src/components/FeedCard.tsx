@@ -160,6 +160,22 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     return () => mq.removeEventListener("change", apply);
   }, []);
 
+  // P-2: at lg (1024px) the panel shifts to the right side of the video,
+  // giving the left ~65% of the viewport for unobstructed viewing. Below lg
+  // it stays centred (isDesktop path) or bottom-anchored (mobile path).
+  const [isLg, setIsLg] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    return window.matchMedia("(min-width: 1024px)").matches;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const apply = () => setIsLg(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
   const hasLocation =
     typeof snippet.lat === "number" &&
     typeof snippet.lon === "number" &&
@@ -855,15 +871,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       <AnimatePresence>
         {!panelCollapsed && (
           <div
-            className="pointer-events-none absolute z-20 w-[min(560px,calc(100%-1rem))]"
+            className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(420px,calc(40%-1rem))]"
             style={
-              isDesktop
-                ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
-                : {
-                    bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                  }
+              isLg
+                ? { top: "50%", right: "1.25rem", left: "auto", transform: "translateY(-50%)" }
+                : isDesktop
+                  ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
+                  : {
+                      bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                    }
             }
           >
           <motion.aside
@@ -885,7 +903,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             dragMomentum={false}
             dragElastic={0.08}
             dragConstraints={articleRef}
-            className="pointer-events-auto relative flex max-h-[min(80vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150"
+            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150 md:max-h-[min(80vh,calc(100%-3.5rem))]"
           >
             {/* Drag-only-from-here button. Visible grip so users know it's the
                 drag affordance. dragListener=false on the parent means drag
