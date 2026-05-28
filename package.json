@@ -26,6 +26,8 @@
     "db:seed-aliases": "tsx --env-file=.env.local scripts/seed-aliases.ts",
     "db:seed-gadoid-marks": "tsx --env-file=.env.local scripts/seed-gadoid-marks.ts",
     "db:migrate-curated-flag": "tsx --env-file=.env.local scripts/migrate-curated-flag.ts",
+    "db:audit-references": "tsx --env-file=.env.local scripts/audit-reference-ids.ts",
+    "db:confusion-matrix": "tsx --env-file=.env.local scripts/confusion-matrix.ts",
     "measure:prompt": "tsx scripts/measure-prompt.ts",
     "postinstall": "prisma generate"
   },
