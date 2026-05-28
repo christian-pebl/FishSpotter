@@ -77,16 +77,30 @@ export function AnnotatedSpeciesPhoto({
           className="absolute inset-0 h-full w-full object-cover"
           draggable={false}
         />
+        {/* P-6: viewBox matches image dimensions + xMidYMid meet so the
+            SVG coordinate space aligns exactly with the displayed image.
+            "none" caused rings to render as ellipses on non-square photos
+            because x and y axes were scaled independently. */}
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full"
-          viewBox="0 0 1000 1000"
-          preserveAspectRatio="none"
+          viewBox={`0 0 ${image.width ?? 1000} ${image.height ?? 1000}`}
+          preserveAspectRatio="xMidYMid meet"
           aria-hidden="true"
         >
           {marks.map((m, idx) => {
-            const cx = m.overlayX * 1000;
-            const cy = m.overlayY * 1000;
-            const r = m.overlayRadius * 1000;
+            const W = image.width ?? 1000;
+            const H = image.height ?? 1000;
+            const S = Math.min(W, H); // scale reference — same as the admin annotator
+            const cx = m.overlayX * W;
+            const cy = m.overlayY * H;
+            const r = m.overlayRadius * S;
+            // Badge sizes scale with the image so they look the same on
+            // 800×600 and 1920×1080 source images.
+            const badgeR = S * 0.025;
+            const ringStroke = S * 0.006;
+            const badgeStroke = S * 0.004;
+            const fontSize = S * 0.028;
+            const textOffsetY = fontSize * 0.35;
             return (
               <g key={`${idx}-${m.label}`}>
                 <circle
@@ -95,23 +109,23 @@ export function AnnotatedSpeciesPhoto({
                   r={r}
                   fill="rgba(20, 184, 166, 0.18)"
                   stroke="#5eead4"
-                  strokeWidth={6}
+                  strokeWidth={ringStroke}
                 />
                 {/* Numbered badge at the ring's upper-right so it doesn't
                     obscure the feature itself. */}
                 <circle
                   cx={cx + r * 0.707}
                   cy={cy - r * 0.707}
-                  r={22}
+                  r={badgeR}
                   fill="#0f766e"
                   stroke="#ffffff"
-                  strokeWidth={4}
+                  strokeWidth={badgeStroke}
                 />
                 <text
                   x={cx + r * 0.707}
-                  y={cy - r * 0.707 + 9}
+                  y={cy - r * 0.707 + textOffsetY}
                   textAnchor="middle"
-                  fontSize={26}
+                  fontSize={fontSize}
                   fontWeight={700}
                   fill="#ffffff"
                 >
