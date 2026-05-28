@@ -7,7 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 
-// P-18: answered-pill requires session — dynamic when signed in,
+// P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
 // detects a session cookie read inside getServerSession, so signed-in
 // requests are always fresh. Anonymous requests still get 60s ISR.

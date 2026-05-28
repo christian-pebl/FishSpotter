@@ -70,7 +70,7 @@ function classify(
 
   const norm = normalizeAnswer(staffAnswer);
   if (norm === "" || INDETERMINATE.has(norm)) {
-    return { action: "nullify", reason: "indeterminate label : no species information" };
+    return { action: "nullify", reason: "indeterminate label, no species information" };
   }
 
   const sci = resolved?.scientificName ?? null;
@@ -167,14 +167,14 @@ async function main() {
     {} as Record<Action, { labels: number; snippets: number }>,
   );
 
-  console.log(`\nReference-ID audit : ${totalSnippets} snippet(s), ${rows.length} distinct label(s)\n`);
+  console.log(`\nReference-ID audit: ${totalSnippets} snippet(s), ${rows.length} distinct label(s)\n`);
   console.log(
     "ACTION    n   LABEL".padEnd(46) +
       "RESOLVED / REASON",
   );
   console.log("-".repeat(96));
   for (const r of rows) {
-    const label = r.staffAnswer === null ? "(null : no reference)" : r.staffAnswer;
+    const label = r.staffAnswer === null ? "(null, no reference)" : r.staffAnswer;
     const left = `${r.action.toUpperCase().padEnd(9)} ${String(r.count).padStart(2)}  ${label}`;
     console.log(`${left.padEnd(46)}${r.reason}`);
   }

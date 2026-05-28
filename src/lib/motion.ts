@@ -1,5 +1,5 @@
 /**
- * Q4-D1 — canonical Framer Motion timing tokens for PEBL FishSpotter.
+ * Q4-D1 : canonical Framer Motion timing tokens for PEBL FishSpotter.
  *
  * Before this, every component hand-tuned its own transition durations
  * (0.15, 0.16, 0.18, 0.2, 0.22, 0.3, 0.35 ...). The values clustered
@@ -15,9 +15,9 @@
  * `motion` import. Renamed to DURATION/EASE to remove that footgun.
  *
  * Tiers:
- *   micro    — quick fades / hint reveals (was 0.15–0.18)
- *   standard — panel + menu enter/exit (was 0.2–0.22)
- *   layout   — reorder / position interpolation (was 0.3–0.35)
+ *   micro    : quick fades / hint reveals (was 0.15-0.18)
+ *   standard : panel + menu enter/exit (was 0.2-0.22)
+ *   layout   : reorder / position interpolation (was 0.3-0.35)
  */
 export const DURATION = {
   micro: 0.18,

@@ -11,7 +11,7 @@ type AnnotatedImage = {
 };
 
 /**
- * S9-T1 PR3 — diagnostic-mark renderer for the IdGuideWizard reveal.
+ * S9-T1 PR3 : diagnostic-mark renderer for the IdGuideWizard reveal.
  *
  * Picks the species' first photo that carries authored marks (curated
  * order from the API already prioritises those photos via the gallery
@@ -21,7 +21,7 @@ type AnnotatedImage = {
  * map "what to look for" to "where on the fish".
  *
  * If the species has no marks (or photos are unavailable), the parent
- * component should fall back to the plain SpeciesGallery — this
+ * component should fall back to the plain SpeciesGallery : this
  * component returns null in that case.
  */
 export function AnnotatedSpeciesPhoto({
@@ -90,7 +90,7 @@ export function AnnotatedSpeciesPhoto({
           {marks.map((m, idx) => {
             const W = image.width ?? 1000;
             const H = image.height ?? 1000;
-            const S = Math.min(W, H); // scale reference — same as the admin annotator
+            const S = Math.min(W, H); // scale reference : same as the admin annotator
             const cx = m.overlayX * W;
             const cy = m.overlayY * H;
             const r = m.overlayRadius * S;

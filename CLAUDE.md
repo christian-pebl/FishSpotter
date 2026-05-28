@@ -142,13 +142,13 @@ Q4-A/C/D sprints. Follow these when touching any UI:
   infinite-repeat pulses, non-standard springs) may stay inline.
 - **Named design tokens must be used at call-sites.** If `rounded-card`,
   `shadow-menu`, or a named type-scale token exists in `tailwind.config.ts`,
-  use it — don't substitute `rounded-2xl`, `shadow-2xl`, or `text-sm`.
+  use it; don't substitute `rounded-2xl`, `shadow-2xl`, or `text-sm`.
 - **Auth/empty pages need editorial content in unused viewport.** Never ship a
-  `max-w-md` card centred on a blank background — add a contextual still, a
+  `max-w-md` card centred on a blank background; add a contextual still, a
   field-note quote, or a species silhouette to show what the user is signing
   up for.
 - **All interactive elements ≥ 44×44px on mobile.** Applies to pills, text
-  links, icon buttons, and collapse affordances — not just primary CTAs. Check
+  links, icon buttons, and collapse affordances, not just primary CTAs. Check
   at 390px width before committing any feed or sheet change.
 - **Off-screen overlay content must be `inert`.** Any component that renders
   multiple items where only one is "active" (feed cards, carousel slides,
@@ -157,7 +157,7 @@ Q4-A/C/D sprints. Follow these when touching any UI:
   `inert` spread as a string (`{ inert: "" }`) cast for Framer compatibility.
 - **Reveal / result feedback must be immediate.** Any action where a user
   submits and expects a score must show the result *in place* before
-  navigating away — never rely on the user finding it in a different scroll
+  navigating away; never rely on the user finding it in a different scroll
   position or page.
 
 ### Design-system conventions (deferred consolidations)
@@ -167,23 +167,23 @@ Three other clean-ups were intentionally *not* swept (the global churn /
 visual-regression risk outranged the value), but the canonical choices below
 are the standard for new and touched code, so the drift narrows over time:
 
-- **Border radius — use `rounded-card` for surfaces, `rounded-modal` for
+- **Border radius: use `rounded-card` for surfaces, `rounded-modal` for
   inputs / small notices, `rounded-full` for pills.** Do NOT introduce
   `rounded-2xl` (it duplicates `rounded-modal`'s 16px) or `rounded-lg`. The
   legacy `rounded-hero` (28px) is being retired in favour of `rounded-card`
   (24px); migrate it opportunistically when you edit a file, don't sweep all
   call-sites in one go.
-- **Type scale — the named tokens (`display`/`h1`/`h2`/`h3`/`eyebrow`) are
+- **Type scale: the named tokens (`display`/`h1`/`h2`/`h3`/`eyebrow`) are
   for headings only.** There is deliberately no token for small body/label
   text yet, so `text-xs` / `text-[11px]` / `text-[10px]` are the accepted
   utilities there. If a small-text token is ever needed, add it centrally in
   `tailwind.config.ts` rather than scattering more ad-hoc sizes.
-- **Colour source of truth — use the Tailwind aliases (`teal-600`,
+- **Colour source of truth: use the Tailwind aliases (`teal-600`,
   `navy-900`, `correct`, ...) in `className`.** Reserve the `:root` CSS vars
   (`--foreground`, `--primary`, `--muted`, ...) for the few places that need
   `[color:var(--x)]` (theming hooks, the `pebl-*` component classes). `--primary`
   and `teal-600` are the same hex; don't add new parallel definitions of a
-  colour — extend the Tailwind palette and reference it.
+  colour; extend the Tailwind palette and reference it.
 
 ## Database
 

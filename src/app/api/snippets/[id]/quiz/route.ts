@@ -135,7 +135,7 @@ export async function GET(
   // Q4-B2: optional curated-photo gate for MCQ candidate thumbnails.
   // iNat "research grade" sorts by community species-ID agreement, not by
   // photo composition, so the first cached photo can be a textbook diagram
-  // or a hand holding a fish — fine for OBIS, wrong for an ID quiz tile.
+  // or a hand holding a fish: fine for OBIS, wrong for an ID quiz tile.
   // When MCQ_CURATED_PHOTOS_ONLY=1, only photos flagged `curated` (set via
   // the species-images.json manifest, vetted by a human) feed the picker;
   // candidates with no curated photo fall through to the silhouette

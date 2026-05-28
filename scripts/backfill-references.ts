@@ -15,7 +15,7 @@
  *
  * What it does, per affected snippet:
  *   - NULLIFY: set Snippet.staffAnswer = null. Every Answer for that snippet
- *     becomes isCorrect = null, points = 1 (POINTS_PENDING_REF) — the
+ *     becomes isCorrect = null, points = 1 (POINTS_PENDING_REF) : the
  *     no-reference pending path. (Consensus retro-bonus may later add +2.)
  *   - BACKFILL: set Snippet.staffAnswer = <binomial>. Every Answer is
  *     re-matched alias-aware against the new reference: matched -> isCorrect
@@ -65,7 +65,7 @@ interface AliasEntry {
   aliases: string[];
 }
 
-/** Pure matcher — mirrors matchWithAliases in src/lib/answer-matching.ts. */
+/** Pure matcher : mirrors matchWithAliases in src/lib/answer-matching.ts. */
 function match(
   staffAnswer: string | null,
   userOption: string,
@@ -159,7 +159,7 @@ async function main() {
   }
 
   const totalAnswers = plans.reduce((n, p) => n + p.answerUpdates.length, 0);
-  console.log(`\n${apply ? "APPLYING" : "DRY-RUN"} — ${plans.length} snippet(s), ${totalAnswers} answer(s) to re-score\n`);
+  console.log(`\n${apply ? "APPLYING" : "DRY-RUN"}: ${plans.length} snippet(s), ${totalAnswers} answer(s) to re-score\n`);
   for (const p of plans) {
     console.log(
       `  [${p.kind}] ${p.externalId}: "${p.from}" -> ${p.to === null ? "NULL" : `"${p.to}"`}  ` +

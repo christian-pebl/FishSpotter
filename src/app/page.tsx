@@ -19,7 +19,7 @@ export default function HomePage() {
             className="font-brand-heading max-w-3xl text-4xl font-bold leading-tight text-navy-900 md:text-5xl"
           >
             {/* P-10: Punchy, action-led headline. Previous version led with
-                the product name — users need to know what they *do*, not
+                the product name; users need to know what they *do*, not
                 what we call it. */}
             Identify species from real underwater footage and help build a shared marine observation record.
           </h1>
@@ -43,7 +43,7 @@ export default function HomePage() {
             </Link>
           </div>
           {/* P-9: "Explore archive" demoted from a primary button to a
-              text link — it's a secondary action for people who already
+              text link; it's a secondary action for people who already
               know what they want, not an entry point for new visitors. */}
           <p className="mt-4 text-xs text-navy-900/55">
             Free, no card required.{" "}
@@ -66,7 +66,7 @@ export default function HomePage() {
               Spot the species in 5 seconds
             </h2>
             <p className="mt-2 text-sm leading-6 text-navy-900">
-              Each clip is a short underwater snippet. Pick the species from a small set of likely candidates — local marine life curated by PEBL ecologists.
+              Each clip is a short underwater snippet. Pick the species from a small set of likely candidates: local marine life curated by PEBL ecologists.
             </p>
           </article>
           <article className="pebl-surface rounded-card p-5">
@@ -96,7 +96,7 @@ export default function HomePage() {
             Plant Ecology Beyond Land (PEBL) CIC
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-navy-900">
-            PEBL is a Community Interest Company (no. 12082722, England and Wales) building accessible ecological data tools for coastal and seabed environments. FishSpotter is part of our marine monitoring programme — a citizen-science layer over real survey footage from PEBL deployments.
+            PEBL is a Community Interest Company (no. 12082722, England and Wales) building accessible ecological data tools for coastal and seabed environments. FishSpotter is part of our marine monitoring programme: a citizen-science layer over real survey footage from PEBL deployments.
           </p>
           <Link
             href="https://pebl-cic.co.uk"

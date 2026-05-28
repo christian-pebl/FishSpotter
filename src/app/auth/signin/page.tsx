@@ -48,7 +48,7 @@ function SignInForm() {
         redirect: false,
       });
       if (res?.error) {
-        // P-12: actionable error copy — tells the user what to do next,
+        // P-12: actionable error copy, tells the user what to do next,
         // not just that something went wrong.
         setError(
           isSignUp
@@ -76,7 +76,7 @@ function SignInForm() {
           </h1>
           {arrivedFromProtected ? (
             <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
-              Sign in to continue — your progress is waiting.
+              Sign in to continue. Your progress is waiting.
             </p>
           ) : (
             <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
