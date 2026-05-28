@@ -121,6 +121,43 @@ The migration is idempotent: re-running skips any row whose URL already lives un
 
 Custom CSS classes: `pebl-surface`, `pebl-eyebrow`, `pebl-button-secondary`
 
+## UI / Design rules (to avoid regressions)
+
+Distilled from the 14-agent design review (27 May 2026) and enforced by the
+Q4-A/C/D sprints. Follow these when touching any UI:
+
+- **Never use emoji as UI icons.** Replace any 🐟, 🔥, 🔍, ✨, 🚀 in JSX with
+  stroked SVGs in `text-teal-500`. Emoji are platform-specific and read as
+  "hackathon", not "marine science product."
+- **Verdict / semantic colour states must use design tokens, not Tailwind
+  stock utilities.** `emerald-400`, `rose-400`, `amber-300` are not in the PEBL
+  palette. Use the `correct` / `incorrect` / `pending` tokens in
+  `tailwind.config.ts` (each has a `DEFAULT` bg + an `ink` text shade). Add a
+  named token before reaching for any new semantic state.
+- **Motion timing comes from `src/lib/motion.ts`.** Use `DURATION` /
+  `EASE` / `TRANSITION` / `spring` for generic enter/exit/layout transitions
+  rather than inlining `{ duration: 0.2 }`. Bespoke motion (shake keyframes,
+  infinite-repeat pulses, non-standard springs) may stay inline.
+- **Named design tokens must be used at call-sites.** If `rounded-card`,
+  `shadow-menu`, or a named type-scale token exists in `tailwind.config.ts`,
+  use it — don't substitute `rounded-2xl`, `shadow-2xl`, or `text-sm`.
+- **Auth/empty pages need editorial content in unused viewport.** Never ship a
+  `max-w-md` card centred on a blank background — add a contextual still, a
+  field-note quote, or a species silhouette to show what the user is signing
+  up for.
+- **All interactive elements ≥ 44×44px on mobile.** Applies to pills, text
+  links, icon buttons, and collapse affordances — not just primary CTAs. Check
+  at 390px width before committing any feed or sheet change.
+- **Off-screen overlay content must be `inert`.** Any component that renders
+  multiple items where only one is "active" (feed cards, carousel slides,
+  off-screen drawers) must set `inert` on inactive items. `tabIndex=-1` alone
+  does not remove items from the accessibility tree. Note: React 18.3 needs
+  `inert` spread as a string (`{ inert: "" }`) cast for Framer compatibility.
+- **Reveal / result feedback must be immediate.** Any action where a user
+  submits and expects a score must show the result *in place* before
+  navigating away — never rely on the user finding it in a different scroll
+  position or page.
+
 ## Database
 
 Run scripts with: `npx tsx --env-file=.env.local scripts/<script>.ts`
