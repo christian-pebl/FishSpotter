@@ -158,6 +158,31 @@ Q4-A/C/D sprints. Follow these when touching any UI:
   navigating away — never rely on the user finding it in a different scroll
   position or page.
 
+### Design-system conventions (deferred consolidations)
+
+Q4-D consolidated motion (`src/lib/motion.ts`) and verdict colours (Q4-D2).
+Three other clean-ups were intentionally *not* swept (the global churn /
+visual-regression risk outranged the value), but the canonical choices below
+are the standard for new and touched code, so the drift narrows over time:
+
+- **Border radius — use `rounded-card` for surfaces, `rounded-modal` for
+  inputs / small notices, `rounded-full` for pills.** Do NOT introduce
+  `rounded-2xl` (it duplicates `rounded-modal`'s 16px) or `rounded-lg`. The
+  legacy `rounded-hero` (28px) is being retired in favour of `rounded-card`
+  (24px); migrate it opportunistically when you edit a file, don't sweep all
+  call-sites in one go.
+- **Type scale — the named tokens (`display`/`h1`/`h2`/`h3`/`eyebrow`) are
+  for headings only.** There is deliberately no token for small body/label
+  text yet, so `text-xs` / `text-[11px]` / `text-[10px]` are the accepted
+  utilities there. If a small-text token is ever needed, add it centrally in
+  `tailwind.config.ts` rather than scattering more ad-hoc sizes.
+- **Colour source of truth — use the Tailwind aliases (`teal-600`,
+  `navy-900`, `correct`, ...) in `className`.** Reserve the `:root` CSS vars
+  (`--foreground`, `--primary`, `--muted`, ...) for the few places that need
+  `[color:var(--x)]` (theming hooks, the `pebl-*` component classes). `--primary`
+  and `teal-600` are the same hex; don't add new parallel definitions of a
+  colour — extend the Tailwind palette and reference it.
+
 ## Database
 
 Run scripts with: `npx tsx --env-file=.env.local scripts/<script>.ts`
