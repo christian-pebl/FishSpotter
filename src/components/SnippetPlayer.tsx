@@ -162,13 +162,13 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
-                    className="inline-flex items-center gap-1 rounded-full bg-emerald-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-emerald-950"
+                    className="inline-flex items-center gap-1 rounded-full bg-correct px-2 py-0.5 text-[11px] font-bold tracking-wide text-correct-ink"
                   >
                     ✓ Correct · +2
                   </motion.span>
                 )}
                 {myAnswer.isCorrect === false && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-rose-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-rose-950">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink">
                     ✗ Wrong
                   </span>
                 )}
@@ -177,7 +177,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
-                    className="inline-flex items-center gap-1 rounded-full bg-amber-300 px-2 py-0.5 text-[11px] font-bold tracking-wide text-amber-950"
+                    className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink"
                   >
                     ★ +1 Bonus
                   </motion.span>
@@ -200,7 +200,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                 {stats.staffAnswer ? (
                   <p className="mt-2 text-sm text-[color:var(--muted)]">Reference: {stats.staffAnswer}</p>
                 ) : (
-                  <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-300 px-2 py-0.5 text-[11px] font-bold tracking-wide text-amber-950">
+                  <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink">
                     ★ +1 Bonus · reference pending
                   </p>
                 )}

@@ -36,6 +36,22 @@ export default {
           DEFAULT: "#d97706",
           onDark: "#fbd38d",
         },
+        // Q4-D2: verdict-pill tokens for the reveal Correct/Wrong/Pending
+        // pills (solid bg + dark "ink" text). Values mirror the emerald-400
+        // / rose-400 / amber-300 + *-950 pairs they replace, now named by
+        // meaning so the pill colours can't drift apart across components.
+        correct: {
+          DEFAULT: "#34d399", // emerald-400
+          ink: "#022c22", // emerald-950
+        },
+        incorrect: {
+          DEFAULT: "#fb7185", // rose-400
+          ink: "#4c0519", // rose-950
+        },
+        pending: {
+          DEFAULT: "#fcd34d", // amber-300
+          ink: "#451a03", // amber-950
+        },
       },
       borderRadius: {
         card: "24px",

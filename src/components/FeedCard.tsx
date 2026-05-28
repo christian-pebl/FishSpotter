@@ -1152,7 +1152,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       </span>
                       {myAnswer!.isCorrect === true && (
                         <span
-                          className="inline-flex items-center gap-1 rounded-full bg-emerald-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-emerald-950 shadow-sm"
+                          className="inline-flex items-center gap-1 rounded-full bg-correct px-2 py-0.5 text-[11px] font-bold tracking-wide text-correct-ink shadow-sm"
                           aria-label="Correct, plus 2 points"
                         >
                           ✓ Correct · +2
@@ -1161,7 +1161,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       {myAnswer!.isCorrect === false && (
                         <>
                           <span
-                            className="inline-flex items-center gap-1 rounded-full bg-rose-400 px-2 py-0.5 text-[11px] font-bold tracking-wide text-rose-950 shadow-sm"
+                            className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
                             aria-label="Incorrect"
                           >
                             ✗ Wrong
@@ -1180,7 +1180,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       {myAnswer!.isCorrect === null && (
                         <>
                           <span
-                            className="inline-flex items-center gap-1 rounded-full bg-amber-300 px-2 py-0.5 text-[11px] font-bold tracking-wide text-amber-950 shadow-sm"
+                            className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
                             aria-label="Bonus, plus 1 point. Reference identification pending."
                           >
                             ★ +1 Bonus
