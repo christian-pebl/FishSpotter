@@ -1025,7 +1025,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-500 text-navy-900 transition-colors hover:bg-teal-400 disabled:cursor-not-allowed disabled:bg-teal-500/30 disabled:text-navy-900/60"
                           >
                             {submitting ? (
-                              <svg width="14" height="14" viewBox="0 0 14 14" className="animate-spin" aria-hidden="true">
+                              <svg width="14" height="14" viewBox="0 0 14 14" className={reduceMotion ? undefined : "animate-spin"} aria-hidden="true">
                                 <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeDasharray="22" strokeDashoffset="16" />
                               </svg>
                             ) : (

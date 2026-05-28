@@ -46,7 +46,7 @@ export function MapModal({ open, onClose, lat, lon, site }: MapModalProps) {
       onClick={onClose}
     >
       <div
-        className="relative flex h-full w-full max-w-3xl flex-col overflow-hidden bg-navy-800 shadow-2xl sm:h-[70vh] sm:rounded-2xl"
+        className="relative flex h-full w-full max-w-3xl flex-col overflow-hidden bg-navy-800 shadow-menu sm:h-[70vh] sm:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">

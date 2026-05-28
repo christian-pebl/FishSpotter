@@ -168,7 +168,7 @@ export default async function LeaderboardPage() {
             Community overview
           </p>
           <h1 className="mt-2 font-brand-heading text-3xl font-bold text-[color:var(--foreground)]">
-            PEBL spotter leaderboard
+            Spotter leaderboard
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
             Reward regular participation, celebrate accurate observations, and highlight the community members helping shape the marine monitoring record.
@@ -320,7 +320,7 @@ export default async function LeaderboardPage() {
 
         <section className="pebl-surface rounded-card px-6 py-6">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">
-            Community guesses
+            Most-named species
           </p>
           <h2 className="mt-1 font-brand-heading text-2xl font-bold text-[color:var(--foreground)]">
             Most common species answers

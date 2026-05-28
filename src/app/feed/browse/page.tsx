@@ -237,12 +237,10 @@ export default async function FeedBrowsePage({
                   )}
                 </div>
                 <div className="space-y-1 p-4">
-                  <p className="pebl-eyebrow text-[11px]">PEBL sighting</p>
+                  <p className="pebl-eyebrow truncate text-[11px]">{s.deployment}</p>
                   <p className="truncate text-base font-semibold text-navy-900">
                     {s.site}
                   </p>
-                  {/* P-15: /72 opacity → full foreground for contrast */}
-                  <p className="text-sm text-navy-900">{s.deployment}</p>
                   {s.recordingDatetime && (
                     <p className="text-xs text-navy-900/55">
                       {new Date(s.recordingDatetime).toLocaleDateString()}
