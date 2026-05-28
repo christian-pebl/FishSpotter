@@ -396,4 +396,12 @@ R2_ACCESS_KEY_ID=...
 R2_SECRET_ACCESS_KEY=...
 R2_BUCKET_NAME=fishspotter-snippets
 R2_PUBLIC_URL=https://pub-<hash>.r2.dev   # or a custom domain
+
+# Q4-B2 MCQ candidate-photo gate (optional, default off)
+MCQ_CURATED_PHOTOS_ONLY=1         # when "1", MCQ candidate thumbnails only use
+                                  # SpeciesImage rows with curated=true; species
+                                  # with no curated photo fall back to a fish
+                                  # silhouette. Leave unset until the top MCQ
+                                  # species each have a curated photo, else most
+                                  # tiles silhouette (only pollack is curated today).
 ```

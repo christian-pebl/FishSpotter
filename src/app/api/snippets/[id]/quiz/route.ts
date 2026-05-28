@@ -132,8 +132,24 @@ export async function GET(
     candidateScientificNames.add(sci);
   }
 
+  // Q4-B2: optional curated-photo gate for MCQ candidate thumbnails.
+  // iNat "research grade" sorts by community species-ID agreement, not by
+  // photo composition, so the first cached photo can be a textbook diagram
+  // or a hand holding a fish — fine for OBIS, wrong for an ID quiz tile.
+  // When MCQ_CURATED_PHOTOS_ONLY=1, only photos flagged `curated` (set via
+  // the species-images.json manifest, vetted by a human) feed the picker;
+  // candidates with no curated photo fall through to the silhouette
+  // placeholder the picker already renders for a missing thumbUrl.
+  //
+  // Shipped OFF by default: today only the pollack pilot photo is curated,
+  // so enabling it now would silhouette ~25/26 candidates. Flip the env var
+  // (no deploy needed) once the top MCQ species each have a curated photo.
+  const curatedOnly = process.env.MCQ_CURATED_PHOTOS_ONLY === "1";
   const imageRows = await prisma.speciesImage.findMany({
-    where: { scientificName: { in: Array.from(candidateScientificNames) } },
+    where: {
+      scientificName: { in: Array.from(candidateScientificNames) },
+      ...(curatedOnly ? { curated: true } : {}),
+    },
     select: { scientificName: true, thumbUrl: true, url: true, attribution: true, ordering: true },
     orderBy: [{ scientificName: "asc" }, { ordering: "asc" }],
   });
