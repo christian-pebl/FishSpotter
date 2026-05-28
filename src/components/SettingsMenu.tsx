@@ -7,6 +7,7 @@ import {
   useVideoSettings,
   type VideoSpeed,
 } from "@/lib/videoSettings";
+import { DURATION, EASE, TRANSITION } from "@/lib/motion";
 
 const SPEEDS: VideoSpeed[] = [0.5, 1, 1.5];
 
@@ -59,7 +60,7 @@ export function SettingsMenu() {
             initial={reduceMotion ? false : { opacity: 0, y: -6, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.97 }}
-            transition={{ duration: 0.16, ease: "easeOut" }}
+            transition={{ duration: DURATION.micro, ease: EASE.enter }}
             role="dialog"
             aria-label="Video settings"
             className="absolute right-0 top-full z-50 mt-2 w-72 origin-top-right rounded-2xl border border-white/12 bg-navy-900/92 p-3 text-white shadow-menu backdrop-blur-md"
@@ -204,7 +205,7 @@ function SliderRow({ label, value, expanded, onToggle, onChange }: SliderRowProp
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.18 }}
+            transition={TRANSITION.micro}
             className="overflow-hidden px-1.5"
           >
             <input

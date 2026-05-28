@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { DURATION } from "@/lib/motion";
 
 type ProbabilityResponse =
   | {
@@ -111,7 +112,7 @@ export function RarityPanel({
     <motion.div
       initial={{ opacity: 0, y: 4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2, delay: 0.08 }}
+      transition={{ duration: DURATION.standard, delay: 0.08 }}
       className="mt-3 border-t border-white/10 pt-2"
     >
       <div className="flex items-baseline justify-between gap-2 pb-1">

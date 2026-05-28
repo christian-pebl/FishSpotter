@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
 import { isSoundsEnabled, setSoundsEnabled } from "@/lib/sounds";
+import { TRANSITION } from "@/lib/motion";
 
 interface SideMenuProps {
   open: boolean;
@@ -135,7 +136,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-            transition={{ duration: 0.18 }}
+            transition={TRANSITION.micro}
             onClick={onClose}
             className="fixed inset-0 z-50 bg-black/65 backdrop-blur-sm"
             aria-hidden
@@ -149,7 +150,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
             initial={reduceMotion ? false : { x: "-100%" }}
             animate={{ x: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { x: "-100%" }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
+            transition={TRANSITION.standard}
             className="fixed left-0 top-0 z-50 flex h-[100dvh] w-[min(85vw,320px)] flex-col overflow-y-auto bg-navy-900 text-white shadow-drawer"
             style={{
               paddingTop: `max(0.75rem, env(safe-area-inset-top))`,

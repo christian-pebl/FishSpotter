@@ -11,6 +11,7 @@ import { RarityPanel } from "./RarityPanel";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { MCQCandidatePicker } from "./MCQCandidatePicker";
 import { SpeciesGallery } from "./SpeciesGallery";
+import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -830,13 +831,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
             transition={
               reduceMotion
-                ? { duration: 0.18 }
+                ? TRANSITION.micro
                 : hasIdentifiedOnce
-                  ? { duration: 0.22, ease: "easeOut" }
+                  ? TRANSITION.standard
                   : {
-                      opacity: { duration: 0.22 },
-                      y: { duration: 0.22 },
-                      scale: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+                      opacity: { duration: DURATION.standard },
+                      y: { duration: DURATION.standard },
+                      scale: { duration: 2.4, repeat: Infinity, ease: EASE.layout },
                     }
             }
             aria-label="Name this species (press H)"
@@ -896,7 +897,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   : "0 8px 30px rgba(0,0,0,0.45)",
             }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            transition={TRANSITION.standard}
             drag
             dragControls={dragControls}
             dragListener={false}
@@ -1041,7 +1042,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                               initial={reduceMotion ? false : { opacity: 0 }}
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
-                              transition={{ duration: 0.15 }}
+                              transition={TRANSITION.micro}
                               className="pb-1.5 text-[10px] text-white/40"
                             >
                               Press ↵ to submit · Skip to pass
@@ -1131,7 +1132,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     transition={
                       myAnswer!.isCorrect === false
                         ? { duration: 0.36 }
-                        : { type: "spring", stiffness: 320, damping: 22 }
+                        : spring.cheer
                     }
                     className="pb-2"
                   >

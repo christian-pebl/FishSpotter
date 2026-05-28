@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FeedCard } from "./FeedCard";
+import { TRANSITION } from "@/lib/motion";
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // Q3A-T7: delay the move-to-back reorder until AFTER FeedCard's
@@ -177,7 +178,7 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
           <motion.section
             key={snippet.id}
             layout={reduceMotion ? false : "position"}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeInOut" }}
+            transition={reduceMotion ? { duration: 0 } : TRANSITION.layout}
             data-feed-index={index}
             {...(activeIndex === index ? {} : ({ inert: "" } as unknown as { inert?: boolean }))}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
