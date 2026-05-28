@@ -22,6 +22,12 @@ function SignInForm() {
   // Default to sign-up when arriving from the landing CTA
   // (`/auth/signin?isSignUp=1`). Otherwise default to sign-in.
   const [isSignUp, setIsSignUp] = useState(searchParams.get("isSignUp") === "1");
+
+  // P-19: surface a contextual line when the user was redirected here
+  // rather than navigating intentionally (e.g. tried to access /feed
+  // while signed out). callbackUrl != /feed means they were mid-journey.
+  const arrivedFromProtected =
+    callbackUrl !== "/feed" && searchParams.get("isSignUp") !== "1";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +48,13 @@ function SignInForm() {
         redirect: false,
       });
       if (res?.error) {
-        setError(isSignUp ? "Email already in use or invalid." : "Invalid email or sign in failed.");
+        // P-12: actionable error copy — tells the user what to do next,
+        // not just that something went wrong.
+        setError(
+          isSignUp
+            ? "That email is already registered. Try signing in instead, or use a different address."
+            : "Wrong email or password. Check your details and try again.",
+        );
         return;
       }
       router.push(callbackUrl);
@@ -62,9 +74,15 @@ function SignInForm() {
           <h1 className="mt-3 font-brand-heading text-3xl text-[color:var(--foreground)]">
             {isSignUp ? "Create your spotting profile" : "Sign in to continue spotting"}
           </h1>
-          <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
-            Join the PEBL marine monitoring community to submit identifications, track your streak, and contribute to the shared observation record.
-          </p>
+          {arrivedFromProtected ? (
+            <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
+              Sign in to continue — your progress is waiting.
+            </p>
+          ) : (
+            <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
+              Join the PEBL marine monitoring community to submit identifications, track your streak, and contribute to the shared observation record.
+            </p>
+          )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">

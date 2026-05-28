@@ -43,10 +43,11 @@ export default function ForgotPasswordPage() {
     >
       <div className="pebl-surface rounded-hero p-6 md:p-8">
         <p className="pebl-eyebrow">Reset password</p>
-        <h1 className="mt-3 font-brand text-h1 text-navy-900">
+        {/* P-14: match sign-in page font + contrast tokens */}
+        <h1 className="mt-3 font-brand-heading text-3xl text-[color:var(--foreground)]">
           Forgot your password?
         </h1>
-        <p className="mt-3 text-sm text-navy-900/72">
+        <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
           Enter your account email and we&apos;ll send you a link to set a new one.
         </p>
 
@@ -72,7 +73,7 @@ export default function ForgotPasswordPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-modal border border-navy-900/15 bg-white px-3 py-2 text-sm"
+                className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
               />
             </div>
             {error && (
@@ -83,11 +84,11 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="pebl-button-primary w-full px-5 py-3 text-sm"
+              className="pebl-button-primary inline-flex w-full min-h-[44px] items-center justify-center rounded-full px-5 py-3 text-sm font-semibold disabled:opacity-60"
             >
               {status === "submitting" ? "Sending…" : "Send reset link"}
             </button>
-            <Link href="/auth/signin" className="block text-center text-xs text-navy-900/72 underline">
+            <Link href="/auth/signin" className="block text-center text-xs text-[color:var(--muted)] underline hover:text-[color:var(--foreground)]">
               Back to sign in
             </Link>
           </form>

@@ -64,11 +64,14 @@ export function Header() {
             style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
+            {/* P-22: opacity-30 made the wordmark invisible against video
+                — raised to 70 so it's a legible anchor point, still
+                subordinate to the video content. */}
             <img
               src="/branding/PEBL Logo-1.svg"
               alt=""
               aria-hidden
-              className={onFeed ? "h-7 w-auto opacity-30 md:h-8" : "h-7 w-auto md:h-9"}
+              className={onFeed ? "h-7 w-auto opacity-70 md:h-8" : "h-7 w-auto md:h-9"}
             />
           </Link>
 

@@ -16,15 +16,19 @@ export default function HomePage() {
           <p className="pebl-eyebrow mb-3 text-xs">Protecting Ecology Beyond Land</p>
           <h1
             id="hero-heading"
-            className="font-brand-heading max-w-3xl text-4xl font-bold leading-tight text-navy-900 md:text-6xl"
+            className="font-brand-heading max-w-3xl text-4xl font-bold leading-tight text-navy-900 md:text-5xl"
           >
-            PEBL FishSpotter turns marine monitoring into a shared, playable observation feed.
+            {/* P-10: Punchy, action-led headline. Previous version led with
+                the product name — users need to know what they *do*, not
+                what we call it. */}
+            Identify species from real underwater footage and help build a shared marine observation record.
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-navy-900/72 md:text-lg">
-            Explore short underwater sightings, identify the creature in view, compare your answer with the wider community,
-            and build a daily streak that supports coastal and seabed observation.
+          <p className="mt-5 max-w-2xl text-base leading-7 text-navy-900 md:text-lg">
+            {/* P-11: /72 opacity made body text fail WCAG AA against the
+                surface-muted background on some screens. Full navy. */}
+            Short clips from real PEBL deployments. Pick the species, see the reference ID, compare with the community, and earn points for consecutive days.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/feed"
               className="pebl-button-primary inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-sm font-semibold"
@@ -37,15 +41,20 @@ export default function HomePage() {
             >
               Create your spotter profile
             </Link>
-            <Link
-              href="/feed/browse"
-              className="pebl-button-secondary inline-flex items-center justify-center min-h-[44px] rounded-full px-6 py-3 text-sm font-medium"
-            >
-              Explore archive
-            </Link>
           </div>
+          {/* P-9: "Explore archive" demoted from a primary button to a
+              text link — it's a secondary action for people who already
+              know what they want, not an entry point for new visitors. */}
           <p className="mt-4 text-xs text-navy-900/55">
-            Free, no card required. Submit answers and join the leaderboard.
+            Free, no card required.{" "}
+            <Link href="/feed/browse" className="underline hover:text-navy-900">
+              Browse the archive
+            </Link>
+            {" "}or{" "}
+            <Link href="/leaderboard" className="underline hover:text-navy-900">
+              view the leaderboard
+            </Link>
+            .
           </p>
         </section>
 
@@ -56,7 +65,7 @@ export default function HomePage() {
             <h2 className="mt-3 text-2xl font-bold text-navy-900">
               Spot the species in 5 seconds
             </h2>
-            <p className="mt-2 text-sm leading-6 text-navy-900/72">
+            <p className="mt-2 text-sm leading-6 text-navy-900">
               Each clip is a short underwater snippet. Pick the species from a small set of likely candidates — local marine life curated by PEBL ecologists.
             </p>
           </article>
@@ -65,7 +74,7 @@ export default function HomePage() {
             <h2 className="mt-3 text-2xl font-bold text-navy-900">
               Compare with the reference ID (when available)
             </h2>
-            <p className="mt-2 text-sm leading-6 text-navy-900/72">
+            <p className="mt-2 text-sm leading-6 text-navy-900">
               See the reference identification where one exists, how the wider community guessed, and an ecological-likelihood breakdown for the site and season. Clips without a reference are worth more.
             </p>
           </article>
@@ -74,7 +83,7 @@ export default function HomePage() {
             <h2 className="mt-3 text-2xl font-bold text-navy-900">
               Build a streak
             </h2>
-            <p className="mt-2 text-sm leading-6 text-navy-900/72">
+            <p className="mt-2 text-sm leading-6 text-navy-900">
               Identify clips on consecutive days to grow a streak. Get on the leaderboard once you&apos;ve submitted 10 identifications.
             </p>
           </article>
@@ -86,7 +95,7 @@ export default function HomePage() {
           <h2 id="about-pebl" className="mt-2 text-2xl font-bold text-navy-900">
             Plant Ecology Beyond Land (PEBL) CIC
           </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-navy-900/72">
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-navy-900">
             PEBL is a Community Interest Company (no. 12082722, England and Wales) building accessible ecological data tools for coastal and seabed environments. FishSpotter is part of our marine monitoring programme — a citizen-science layer over real survey footage from PEBL deployments.
           </p>
           <Link
