@@ -685,6 +685,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   }, [answerText, handleSubmit, submitAndAdvance]);
 
   const showStats = myAnswer && stats;
+  // UX-4 reveal verdict tiers (Workstream E scored-by-rung). A "partial" is the
+  // right shape class but wrong species (points > 0, isCorrect false). Only a
+  // true miss (0 points) gets the error shake; partial reads as encouraging.
+  const revealPartial =
+    !!myAnswer && myAnswer.isCorrect === false && myAnswer.points > 0;
+  const revealWrong =
+    !!myAnswer && myAnswer.isCorrect === false && myAnswer.points === 0;
   const hasBboxes = bboxes.length > 0;
 
   // Stable per-snippet IDs for SVG defs (multiple FeedCards live in the DOM simultaneously).
@@ -1150,27 +1157,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         ? "pending"
                         : myAnswer!.isCorrect
                           ? "correct"
-                          : "wrong"
+                          : revealPartial
+                            ? "partial"
+                            : "wrong"
                     }
                     initial={
-                      reduceMotion
-                        ? false
-                        : myAnswer!.isCorrect === false
-                          ? { x: 0 }
-                          : { scale: 0.96, opacity: 0 }
+                      reduceMotion ? false : revealWrong ? { x: 0 } : { scale: 0.96, opacity: 0 }
                     }
                     animate={
                       reduceMotion
                         ? { opacity: 1 }
-                        : myAnswer!.isCorrect === false
+                        : revealWrong
                           ? { x: [0, -8, 8, -6, 6, 0] }
                           : { scale: 1, opacity: 1 }
                     }
-                    transition={
-                      myAnswer!.isCorrect === false
-                        ? { duration: 0.36 }
-                        : spring.cheer
-                    }
+                    transition={revealWrong ? { duration: 0.36 } : spring.cheer}
                     className="pb-2"
                   >
                     {/* S5-T9: aria-live announces the outcome to screen
@@ -1197,12 +1198,24 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       )}
                       {myAnswer!.isCorrect === false && (
                         <>
-                          <span
-                            className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
-                            aria-label="Incorrect"
-                          >
-                            ✗ Wrong
-                          </span>
+                          {revealPartial ? (
+                            <>
+                              <span
+                                className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
+                                aria-label="Close, right shape class, plus 1 point"
+                              >
+                                ≈ Close · +1
+                              </span>
+                              <span className="text-white/65">· right shape class</span>
+                            </>
+                          ) : (
+                            <span
+                              className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
+                              aria-label="Incorrect"
+                            >
+                              ✗ Wrong
+                            </span>
+                          )}
                           {(stats!.staffAnswer ?? snippet.staffAnswer) && (
                             <span className="text-white/80">
                               ·{" "}

@@ -231,7 +231,10 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
             playCorrect();
             triggerCorrectConfetti();
           }
-        } else if (isCorrect === false) {
+        } else if (isCorrect === false && points === 0) {
+          // Only a true miss buzzes. A shape-class partial credit (points > 0,
+          // "Spot It" Workstream E) is encouraging, not an error, so it stays
+          // silent — the reveal's "Close · +1" pill carries the signal.
           playWrong();
         }
         // S7-T1: when isCorrect is null (no reference yet) the submission
