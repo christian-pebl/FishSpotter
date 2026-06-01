@@ -72,8 +72,36 @@ export const HABITAT = [
 ] as const;
 export type Habitat = (typeof HABITAT)[number];
 
+// Top-level "Spot It" gate. Used as a HARD FILTER (wrong class excluded, not
+// down-weighted) by narrow.ts — see Workstream B. Hermit Crab is folded into
+// "crab".
+export const SHAPE_CLASS = [
+  "crab",
+  "fish",
+  "flatfish",
+  "scooter",
+  "jellyfish",
+  "starfish",
+  "gastropod",
+  "squid",
+] as const;
+export type ShapeClass = (typeof SHAPE_CLASS)[number];
+
+// Movement is a NORMAL scored trait, not a funnel level. Surfaced by the
+// adaptive picker only when it discriminates the remaining candidates.
+export const MOVEMENT = [
+  "stationary",
+  "fits-and-starts",
+  "undulating",
+  "water-column",
+  "drifting",
+  "crawl",
+] as const;
+export type Movement = (typeof MOVEMENT)[number];
+
 export type SpeciesTraits = {
   commonName: string;
+  shapeClass: ShapeClass;
   bodyShape: BodyShape[];
   size: SizeClass;
   coloration: Coloration[];
@@ -82,12 +110,14 @@ export type SpeciesTraits = {
   features: Feature[];
   behavior: Behavior[];
   habitat: Habitat[];
+  movement: Movement[];
   fieldNote: string;
 };
 
 export type SpeciesCatalogue = Record<string /* scientificName */, SpeciesTraits>;
 
 export type TraitSelection = {
+  shapeClass?: ShapeClass[];
   bodyShape?: BodyShape[];
   size?: SizeClass[];
   coloration?: Coloration[];
@@ -96,6 +126,7 @@ export type TraitSelection = {
   features?: Feature[];
   behavior?: Behavior[];
   habitat?: Habitat[];
+  movement?: Movement[];
 };
 
 export const TRAIT_CATEGORIES = {
