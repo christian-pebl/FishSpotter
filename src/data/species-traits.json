@@ -2,393 +2,1147 @@
   "Pollachius pollachius": {
     "commonName": "Pollack",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform", "elongated"],
+    "bodyShape": [
+      "fusiform",
+      "elongated"
+    ],
     "size": "large",
-    "coloration": ["uniform", "mottled"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
-    "features": ["none"],
-    "behavior": ["hovering", "schooling"],
-    "habitat": ["midwater", "kelp", "rocky-crevice"],
-    "movement": ["water-column"],
+    "coloration": [
+      "uniform",
+      "mottled"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "hovering",
+      "schooling"
+    ],
+    "habitat": [
+      "midwater",
+      "kelp",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Mid-water hovering predator with a strongly KINKED lateral line over the pectoral fin, a pronounced under-shot lower jaw, and no chin barbel."
   },
   "Pollachius virens": {
     "commonName": "Saithe",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform", "elongated"],
+    "bodyShape": [
+      "fusiform",
+      "elongated"
+    ],
     "size": "large",
-    "coloration": ["uniform"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
-    "features": ["none"],
-    "behavior": ["schooling", "fast-swim"],
-    "habitat": ["midwater", "open-water"],
-    "movement": ["water-column"],
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "schooling",
+      "fast-swim"
+    ],
+    "habitat": [
+      "midwater",
+      "open-water"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Pollack's cousin — dark greenish back, silvery sides, and a near-STRAIGHT pale lateral line (not kinked). Faster, more schooling than pollack; jaw is level rather than under-shot."
   },
   "Trisopterus luscus": {
     "commonName": "Bib",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform", "laterally-compressed"],
+    "bodyShape": [
+      "fusiform",
+      "laterally-compressed"
+    ],
     "size": "medium",
-    "coloration": ["banded", "mottled"],
-    "markings": ["fin-spots"],
-    "finShape": ["forked-tail", "split-dorsal"],
-    "features": ["barbels"],
-    "behavior": ["schooling", "hovering"],
-    "habitat": ["rocky-crevice", "midwater"],
-    "movement": ["water-column"],
+    "coloration": [
+      "banded",
+      "mottled"
+    ],
+    "markings": [
+      "fin-spots"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "barbels"
+    ],
+    "behavior": [
+      "schooling",
+      "hovering"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "midwater"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Coppery deep-bodied cod relative with 4-5 dark vertical bands, a single chin barbel, and a dark blotch at the base of each pectoral fin; dense shoals near wrecks and ledges."
   },
   "Labrus bergylta": {
     "commonName": "Ballan wrasse",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform", "laterally-compressed"],
+    "bodyShape": [
+      "fusiform",
+      "laterally-compressed"
+    ],
     "size": "large",
-    "coloration": ["mottled", "spotted"],
-    "markings": ["dorsal-spots", "fin-spots"],
-    "finShape": ["rounded-tail", "single-dorsal", "long-anal"],
-    "features": ["fleshy-lips"],
-    "behavior": ["solitary", "hovering"],
-    "habitat": ["rocky-crevice", "kelp"],
-    "movement": ["water-column", "fits-and-starts"],
+    "coloration": [
+      "mottled",
+      "spotted"
+    ],
+    "markings": [
+      "dorsal-spots",
+      "fin-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "single-dorsal",
+      "long-anal"
+    ],
+    "features": [
+      "fleshy-lips"
+    ],
+    "behavior": [
+      "solitary",
+      "hovering"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "kelp"
+    ],
+    "movement": [
+      "water-column",
+      "fits-and-starts"
+    ],
     "fieldNote": "Stocky wrasse with thick lips and a long spiny dorsal fin; colours vary from green to red-brown with pale spots."
   },
   "Labrus mixtus": {
     "commonName": "Cuckoo wrasse",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "medium",
-    "coloration": ["iridescent", "spotted"],
-    "markings": ["dorsal-spots"],
-    "finShape": ["rounded-tail", "single-dorsal", "long-anal"],
-    "features": ["fleshy-lips"],
-    "behavior": ["solitary"],
-    "habitat": ["rocky-crevice"],
-    "movement": ["water-column"],
+    "coloration": [
+      "iridescent",
+      "spotted"
+    ],
+    "markings": [
+      "dorsal-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "single-dorsal",
+      "long-anal"
+    ],
+    "features": [
+      "fleshy-lips"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Two looks: males blaze electric blue with wavy stripes along a yellow-orange body; females and juveniles are pink-orange with three distinctive black saddle blotches along the back near the tail."
   },
   "Symphodus melops": {
     "commonName": "Corkwing wrasse",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform", "laterally-compressed"],
+    "bodyShape": [
+      "fusiform",
+      "laterally-compressed"
+    ],
     "size": "small",
-    "coloration": ["mottled", "striped-vertical"],
-    "markings": ["eye-spot"],
-    "finShape": ["rounded-tail", "single-dorsal"],
-    "features": ["fleshy-lips"],
-    "behavior": ["solitary"],
-    "habitat": ["kelp", "rocky-crevice"],
-    "movement": ["water-column", "fits-and-starts"],
+    "coloration": [
+      "mottled",
+      "striped-vertical"
+    ],
+    "markings": [
+      "eye-spot"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "single-dorsal"
+    ],
+    "features": [
+      "fleshy-lips"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "kelp",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "water-column",
+      "fits-and-starts"
+    ],
     "fieldNote": "Small wrasse with a comma-shaped dark eye-spot on the tail base and a curved line behind the eye."
   },
   "Ctenolabrus rupestris": {
     "commonName": "Goldsinny wrasse",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["uniform"],
-    "markings": ["eye-spot", "fin-spots"],
-    "finShape": ["rounded-tail", "single-dorsal"],
-    "features": ["none"],
-    "behavior": ["solitary", "hiding"],
-    "habitat": ["rocky-crevice", "kelp"],
-    "movement": ["fits-and-starts", "water-column"],
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "eye-spot",
+      "fin-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "single-dorsal"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "kelp"
+    ],
+    "movement": [
+      "fits-and-starts",
+      "water-column"
+    ],
     "fieldNote": "Slim orange-brown wrasse with TWO diagnostic black spots: one high on the tail base, the other at the front of the dorsal fin. Smallest of the common Welsh wrasses."
   },
   "Conger conger": {
     "commonName": "Conger eel",
     "shapeClass": "fish",
-    "bodyShape": ["eel-like", "elongated"],
+    "bodyShape": [
+      "eel-like",
+      "elongated"
+    ],
     "size": "large",
-    "coloration": ["uniform"],
-    "markings": ["none"],
-    "finShape": ["long-anal"],
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "long-anal"
+    ],
     "features": [],
-    "behavior": ["hiding", "solitary"],
-    "habitat": ["rocky-crevice"],
-    "movement": ["undulating", "stationary"],
+    "behavior": [
+      "hiding",
+      "solitary"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "undulating",
+      "stationary"
+    ],
     "fieldNote": "Massive grey-brown eel with continuous dorsal-tail-anal fin; usually only the head visible peering from a crevice."
   },
   "Pholis gunnellus": {
     "commonName": "Butterfish",
     "shapeClass": "fish",
-    "bodyShape": ["elongated", "laterally-compressed"],
+    "bodyShape": [
+      "elongated",
+      "laterally-compressed"
+    ],
     "size": "small",
-    "coloration": ["mottled"],
-    "markings": ["dorsal-spots"],
-    "finShape": ["long-anal", "single-dorsal"],
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "dorsal-spots"
+    ],
+    "finShape": [
+      "long-anal",
+      "single-dorsal"
+    ],
     "features": [],
-    "behavior": ["hiding"],
-    "habitat": ["rocky-crevice", "sandy-bottom"],
-    "movement": ["undulating", "stationary"],
+    "behavior": [
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "undulating",
+      "stationary"
+    ],
     "fieldNote": "Slippery ribbon-like fish with a row of dark-and-pale ocelli along the dorsal fin."
   },
   "Gobiusculus flavescens": {
     "commonName": "Two-spotted goby",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["uniform", "spotted"],
-    "markings": ["eye-spot", "fin-spots"],
-    "finShape": ["rounded-tail", "split-dorsal"],
-    "features": ["sucker-mouth"],
-    "behavior": ["hovering", "schooling"],
-    "habitat": ["kelp", "midwater"],
-    "movement": ["water-column"],
+    "coloration": [
+      "uniform",
+      "spotted"
+    ],
+    "markings": [
+      "eye-spot",
+      "fin-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "sucker-mouth"
+    ],
+    "behavior": [
+      "hovering",
+      "schooling"
+    ],
+    "habitat": [
+      "kelp",
+      "midwater"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Small orange-brown goby with TWO diagnostic black spots: one at the tail base, one behind the pectoral fin. Unlike other gobies it hovers in loose midwater groups near kelp and seaweed — not glued to the bottom."
   },
   "Pomatoschistus microps": {
     "commonName": "Common goby",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["uniform", "spotted"],
-    "markings": ["fin-spots"],
-    "finShape": ["rounded-tail", "split-dorsal"],
-    "features": ["sucker-mouth"],
-    "behavior": ["on-bottom"],
-    "habitat": ["sandy-bottom"],
-    "movement": ["fits-and-starts", "stationary"],
+    "coloration": [
+      "uniform",
+      "spotted"
+    ],
+    "markings": [
+      "fin-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "sucker-mouth"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts",
+      "stationary"
+    ],
     "fieldNote": "Very similar to sand goby but with a shorter, rounder head and a more strongly marked first dorsal. Found in estuaries and tidal creeks rather than open sandy sea bed."
   },
   "Gobius paganellus": {
     "commonName": "Rock goby",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["mottled", "banded"],
-    "markings": ["none"],
-    "finShape": ["rounded-tail", "split-dorsal"],
-    "features": ["sucker-mouth"],
-    "behavior": ["on-bottom", "hiding"],
-    "habitat": ["rocky-crevice"],
-    "movement": ["fits-and-starts", "stationary"],
+    "coloration": [
+      "mottled",
+      "banded"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "sucker-mouth"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "fits-and-starts",
+      "stationary"
+    ],
     "fieldNote": "Squat little goby with pelvic fins fused into a sucker; pale orange band at the top of the first dorsal."
   },
   "Pomatoschistus minutus": {
     "commonName": "Sand goby",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["uniform", "spotted"],
-    "markings": ["fin-spots"],
-    "finShape": ["rounded-tail", "split-dorsal"],
-    "features": ["sucker-mouth"],
-    "behavior": ["on-bottom"],
-    "habitat": ["sandy-bottom"],
-    "movement": ["fits-and-starts", "stationary"],
+    "coloration": [
+      "uniform",
+      "spotted"
+    ],
+    "markings": [
+      "fin-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "sucker-mouth"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts",
+      "stationary"
+    ],
     "fieldNote": "Pale, near-translucent goby with rows of fine spots; vanishes against sand."
   },
   "Callionymus lyra": {
     "commonName": "Dragonet",
     "shapeClass": "scooter",
-    "bodyShape": ["flat-dorsoventral", "elongated"],
+    "bodyShape": [
+      "flat-dorsoventral",
+      "elongated"
+    ],
     "size": "small",
-    "coloration": ["mottled", "iridescent"],
-    "markings": ["fin-spots"],
-    "finShape": ["lyre-shaped", "split-dorsal"],
-    "features": ["frilly-fins"],
-    "behavior": ["on-bottom"],
-    "habitat": ["sandy-bottom"],
-    "movement": ["fits-and-starts", "stationary"],
+    "coloration": [
+      "mottled",
+      "iridescent"
+    ],
+    "markings": [
+      "fin-spots"
+    ],
+    "finShape": [
+      "lyre-shaped",
+      "split-dorsal"
+    ],
+    "features": [
+      "frilly-fins"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts",
+      "stationary"
+    ],
     "fieldNote": "Flat-headed sand-dweller; males flare a tall first dorsal and lyre-shaped tail in display."
   },
   "Pleuronectes platessa": {
     "commonName": "Plaice",
     "shapeClass": "flatfish",
-    "bodyShape": ["flat-dorsoventral"],
+    "bodyShape": [
+      "flat-dorsoventral"
+    ],
     "size": "medium",
-    "coloration": ["spotted"],
-    "markings": ["dorsal-spots"],
-    "finShape": ["rounded-tail"],
+    "coloration": [
+      "spotted"
+    ],
+    "markings": [
+      "dorsal-spots"
+    ],
+    "finShape": [
+      "rounded-tail"
+    ],
     "features": [],
-    "behavior": ["on-bottom"],
-    "habitat": ["sandy-bottom"],
-    "movement": ["stationary", "fits-and-starts"],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "stationary",
+      "fits-and-starts"
+    ],
     "fieldNote": "Right-eyed flatfish with bright orange spots scattered across a brown back."
   },
   "Scyliorhinus canicula": {
     "commonName": "Lesser-spotted catshark",
     "shapeClass": "fish",
-    "bodyShape": ["elongated", "fusiform"],
+    "bodyShape": [
+      "elongated",
+      "fusiform"
+    ],
     "size": "medium",
-    "coloration": ["spotted", "mottled"],
-    "markings": ["dorsal-spots", "fin-spots"],
-    "finShape": ["rounded-tail", "split-dorsal"],
-    "features": ["none"],
-    "behavior": ["on-bottom", "hiding"],
-    "habitat": ["sandy-bottom", "rocky-crevice"],
-    "movement": ["stationary", "undulating"],
+    "coloration": [
+      "spotted",
+      "mottled"
+    ],
+    "markings": [
+      "dorsal-spots",
+      "fin-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "sandy-bottom",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "stationary",
+      "undulating"
+    ],
     "fieldNote": "Slim sandy-coloured shark covered in small dark spots all over body and fins; two dorsal fins set far back. Often curled on the bottom or wedged into crevices."
   },
   "Mullus surmuletus": {
     "commonName": "Red mullet",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "medium",
-    "coloration": ["striped-horizontal", "iridescent"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
-    "features": ["barbels"],
-    "behavior": ["on-bottom", "schooling"],
-    "habitat": ["sandy-bottom"],
-    "movement": ["fits-and-starts", "water-column"],
+    "coloration": [
+      "striped-horizontal",
+      "iridescent"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "barbels"
+    ],
+    "behavior": [
+      "on-bottom",
+      "schooling"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts",
+      "water-column"
+    ],
     "fieldNote": "Pink-red body with two long chin barbels swept under the snout; flicks the barbels through sand to feed."
   },
   "Trisopterus minutus": {
     "commonName": "Poor cod",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["uniform"],
-    "markings": ["none"],
-    "finShape": ["split-dorsal", "forked-tail"],
-    "features": ["barbels"],
-    "behavior": ["schooling", "hovering"],
-    "habitat": ["midwater", "rocky-crevice"],
-    "movement": ["water-column"],
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "split-dorsal",
+      "forked-tail"
+    ],
+    "features": [
+      "barbels"
+    ],
+    "behavior": [
+      "schooling",
+      "hovering"
+    ],
+    "habitat": [
+      "midwater",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Small bib-shaped cod relative with a single chin barbel and big eyes; loose shoals in clear water."
   },
   "Gadus morhua": {
     "commonName": "Atlantic cod",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "large",
-    "coloration": ["mottled", "spotted"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
-    "features": ["barbels"],
-    "behavior": ["solitary"],
-    "habitat": ["midwater", "sandy-bottom"],
-    "movement": ["water-column"],
+    "coloration": [
+      "mottled",
+      "spotted"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "barbels"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "midwater",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Heavy-bodied cod with three dorsal and two anal fins, a chin barbel, and a curved pale lateral line."
   },
   "Chelon labrosus": {
     "commonName": "Thick-lipped mullet",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform", "elongated"],
+    "bodyShape": [
+      "fusiform",
+      "elongated"
+    ],
     "size": "large",
-    "coloration": ["uniform", "striped-horizontal"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
-    "features": ["fleshy-lips"],
-    "behavior": ["schooling", "near-surface"],
-    "habitat": ["near-surface", "sandy-bottom"],
-    "movement": ["water-column"],
+    "coloration": [
+      "uniform",
+      "striped-horizontal"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "fleshy-lips"
+    ],
+    "behavior": [
+      "schooling",
+      "near-surface"
+    ],
+    "habitat": [
+      "near-surface",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Silver streamlined mullet with very thick upper lip; cruises near the surface in tight schools."
   },
   "Dicentrarchus labrax": {
     "commonName": "European sea bass",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "large",
-    "coloration": ["uniform"],
-    "markings": ["none"],
-    "finShape": ["forked-tail", "split-dorsal"],
-    "features": ["dorsal-spines"],
-    "behavior": ["fast-swim", "schooling"],
-    "habitat": ["midwater", "open-water"],
-    "movement": ["water-column"],
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "dorsal-spines"
+    ],
+    "behavior": [
+      "fast-swim",
+      "schooling"
+    ],
+    "habitat": [
+      "midwater",
+      "open-water"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Sleek silver bass with sharp spiny first dorsal; powerful and fast, often in small packs hunting baitfish."
   },
   "Trachurus trachurus": {
     "commonName": "Atlantic horse mackerel",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "medium",
-    "coloration": ["uniform", "iridescent"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
+    "coloration": [
+      "uniform",
+      "iridescent"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
     "features": [],
-    "behavior": ["schooling", "fast-swim"],
-    "habitat": ["midwater", "open-water"],
-    "movement": ["water-column"],
+    "behavior": [
+      "schooling",
+      "fast-swim"
+    ],
+    "habitat": [
+      "midwater",
+      "open-water"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Iridescent silver body with a strongly arched lateral line of bony scutes; tight dense schools."
   },
   "Scomber scombrus": {
     "commonName": "Atlantic mackerel",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "medium",
-    "coloration": ["striped-vertical", "iridescent"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
+    "coloration": [
+      "striped-vertical",
+      "iridescent"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
     "features": [],
-    "behavior": ["schooling", "fast-swim"],
-    "habitat": ["midwater", "near-surface", "open-water"],
-    "movement": ["water-column"],
+    "behavior": [
+      "schooling",
+      "fast-swim"
+    ],
+    "habitat": [
+      "midwater",
+      "near-surface",
+      "open-water"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Steel-blue back with wavy black vertical bars; pencil-shaped body and a row of finlets before the tail."
   },
   "Sprattus sprattus": {
     "commonName": "Sprat",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["uniform", "iridescent"],
-    "markings": ["none"],
-    "finShape": ["forked-tail", "single-dorsal"],
+    "coloration": [
+      "uniform",
+      "iridescent"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "forked-tail",
+      "single-dorsal"
+    ],
     "features": [],
-    "behavior": ["schooling"],
-    "habitat": ["midwater", "open-water"],
-    "movement": ["water-column"],
+    "behavior": [
+      "schooling"
+    ],
+    "habitat": [
+      "midwater",
+      "open-water"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Tiny silver baitfish in vast shimmering bait balls; sharp belly keel."
   },
   "Atherina presbyter": {
     "commonName": "Sand smelt",
     "shapeClass": "fish",
-    "bodyShape": ["elongated"],
+    "bodyShape": [
+      "elongated"
+    ],
     "size": "small",
-    "coloration": ["uniform", "iridescent"],
-    "markings": ["lateral-stripe"],
-    "finShape": ["forked-tail", "split-dorsal"],
+    "coloration": [
+      "uniform",
+      "iridescent"
+    ],
+    "markings": [
+      "lateral-stripe"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
     "features": [],
-    "behavior": ["schooling", "near-surface"],
-    "habitat": ["near-surface", "sandy-bottom"],
-    "movement": ["water-column"],
+    "behavior": [
+      "schooling",
+      "near-surface"
+    ],
+    "habitat": [
+      "near-surface",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "water-column"
+    ],
     "fieldNote": "Slender semi-transparent fish with a silver lateral stripe; loose shoals near the surface."
   },
   "Taurulus bubalis": {
     "commonName": "Long-spined sea scorpion",
     "shapeClass": "fish",
-    "bodyShape": ["fusiform"],
+    "bodyShape": [
+      "fusiform"
+    ],
     "size": "small",
-    "coloration": ["mottled"],
-    "markings": ["none"],
-    "finShape": ["rounded-tail", "single-dorsal"],
-    "features": ["dorsal-spines", "frilly-fins"],
-    "behavior": ["on-bottom", "hiding"],
-    "habitat": ["rocky-crevice", "kelp"],
-    "movement": ["stationary", "fits-and-starts"],
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "single-dorsal"
+    ],
+    "features": [
+      "dorsal-spines",
+      "frilly-fins"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "kelp"
+    ],
+    "movement": [
+      "stationary",
+      "fits-and-starts"
+    ],
     "fieldNote": "Heavily armoured ambush predator with long head spines and a wide gape; matches the rock perfectly."
   },
   "Lipophrys pholis": {
     "commonName": "Shanny",
     "shapeClass": "fish",
-    "bodyShape": ["laterally-compressed", "elongated"],
+    "bodyShape": [
+      "laterally-compressed",
+      "elongated"
+    ],
     "size": "small",
-    "coloration": ["mottled"],
-    "markings": ["none"],
-    "finShape": ["rounded-tail", "single-dorsal", "long-anal"],
-    "features": ["none"],
-    "behavior": ["hiding", "on-bottom"],
-    "habitat": ["rocky-crevice"],
-    "movement": ["fits-and-starts", "stationary"],
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "single-dorsal",
+      "long-anal"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "hiding",
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "fits-and-starts",
+      "stationary"
+    ],
     "fieldNote": "Tubby blenny with a continuous spiny dorsal and a long anal fin; no head tentacles (unlike tompot blenny). Pops in and out of crevices and rockpool gullies."
   },
   "Spinachia spinachia": {
     "commonName": "Fifteen-spined stickleback",
     "shapeClass": "fish",
-    "bodyShape": ["elongated"],
+    "bodyShape": [
+      "elongated"
+    ],
     "size": "small",
-    "coloration": ["uniform"],
-    "markings": ["none"],
-    "finShape": ["rounded-tail"],
-    "features": ["dorsal-spines"],
-    "behavior": ["solitary", "hovering"],
-    "habitat": ["kelp"],
-    "movement": ["water-column", "stationary"],
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "rounded-tail"
+    ],
+    "features": [
+      "dorsal-spines"
+    ],
+    "behavior": [
+      "solitary",
+      "hovering"
+    ],
+    "habitat": [
+      "kelp"
+    ],
+    "movement": [
+      "water-column",
+      "stationary"
+    ],
     "fieldNote": "Pencil-thin fish with a row of tiny spines along the back and a slender tail wrist."
+  },
+  "Carcinus maenas": {
+    "commonName": "Shore Crab",
+    "shapeClass": "crab",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "carapaceTexture": [
+      "smooth"
+    ],
+    "crabFeatures": [
+      "marginal-teeth"
+    ],
+    "fieldNote": "Britain's commonest crab. Count FIVE sharp teeth along each side of the carapace behind the eyes, with three blunt bumps between the eyes. Green to mottled brown; the walking legs are pointed and never flattened into paddles."
+  },
+  "Cancer pagurus": {
+    "commonName": "Edible Crab",
+    "shapeClass": "crab",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "carapaceTexture": [
+      "pie-crust"
+    ],
+    "crabFeatures": [
+      "dark-claw-tips"
+    ],
+    "fieldNote": "The pasty crab: a broad oval carapace with a pale crimped PIE-CRUST edge, brick-brown to reddish, and big black-tipped pincers. By far the largest crab you are likely to see on the seabed here."
+  },
+  "Necora puber": {
+    "commonName": "Velvet Swimming Crab",
+    "shapeClass": "crab",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "mottled",
+      "iridescent"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "kelp"
+    ],
+    "movement": [
+      "crawl",
+      "water-column"
+    ],
+    "carapaceTexture": [
+      "furry"
+    ],
+    "crabFeatures": [
+      "swimming-paddle",
+      "red-eyes"
+    ],
+    "fieldNote": "Unmistakable RED eyes and a fine velvety fur over the carapace. The last pair of legs end in flattened swimming paddles, and bright blue lines run along the legs and claws. Notoriously feisty when cornered."
+  },
+  "Liocarcinus depurator": {
+    "commonName": "Harbour Crab",
+    "shapeClass": "crab",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "burrowing"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl",
+      "water-column"
+    ],
+    "carapaceTexture": [
+      "smooth"
+    ],
+    "crabFeatures": [
+      "swimming-paddle"
+    ],
+    "fieldNote": "A sandy-bottom swimming crab: the last leg pair is flattened into a paddle (often deep violet beneath) and the carapace carries two faint arcs of small white dots. Reddish leg tips; smoother and plainer than the velvet swimmer."
+  },
+  "Hyas araneus": {
+    "commonName": "Great Spider Crab",
+    "shapeClass": "crab",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "kelp",
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "carapaceTexture": [
+      "warty"
+    ],
+    "crabFeatures": [
+      "long-legs"
+    ],
+    "fieldNote": "Triangular, knobbly carapace narrowing to a point at the head, carried on long spindly legs. Often decorated with scraps of seaweed and sponge for camouflage, so judge it on leg length and shape rather than colour."
+  },
+  "Pagurus bernhardus": {
+    "commonName": "Hermit Crab",
+    "shapeClass": "crab",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "uniform",
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "crabFeatures": [
+      "lives-in-shell"
+    ],
+    "fieldNote": "Not a true crab: a soft-bodied crustacean living INSIDE an empty snail shell, usually a whelk or periwinkle. You only see its legs and unequal claws poking out, the right claw much larger. The shell itself is the give-away."
   }
 }

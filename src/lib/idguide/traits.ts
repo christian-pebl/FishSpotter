@@ -99,6 +99,31 @@ export const MOVEMENT = [
 ] as const;
 export type Movement = (typeof MOVEMENT)[number];
 
+// Crab-specific vocabulary. The fish traits above (bodyShape / finShape /
+// features / markings) carry no signal for crustaceans, so the crab branch
+// discriminates on carapace surface + a small bag of crab give-aways. Both are
+// scored as normal array traits (added to TRAIT_KEYS in narrow.ts) but live as
+// OPTIONAL fields on SpeciesTraits so the 28 fish entries stay untouched.
+export const CARAPACE_TEXTURE = [
+  "smooth",
+  "warty",
+  "pie-crust",
+  "furry",
+  "corrugated",
+] as const;
+export type CarapaceTexture = (typeof CARAPACE_TEXTURE)[number];
+
+export const CRAB_FEATURES = [
+  "swimming-paddle", // flattened rear-leg paddle (Necora, Liocarcinus)
+  "marginal-teeth", // sharp teeth along the carapace edge (Carcinus)
+  "long-legs", // spindly spider-crab legs (Hyas)
+  "lives-in-shell", // hermit crab, body inside a gastropod shell
+  "red-eyes", // velvet swimming crab
+  "dark-claw-tips", // black-tipped pincers (Cancer)
+  "none",
+] as const;
+export type CrabFeature = (typeof CRAB_FEATURES)[number];
+
 export type SpeciesTraits = {
   commonName: string;
   shapeClass: ShapeClass;
@@ -111,6 +136,9 @@ export type SpeciesTraits = {
   behavior: Behavior[];
   habitat: Habitat[];
   movement: Movement[];
+  // Crab-only (optional): present on crustacean entries, absent on fish.
+  carapaceTexture?: CarapaceTexture[];
+  crabFeatures?: CrabFeature[];
   fieldNote: string;
 };
 
@@ -127,6 +155,8 @@ export type TraitSelection = {
   behavior?: Behavior[];
   habitat?: Habitat[];
   movement?: Movement[];
+  carapaceTexture?: CarapaceTexture[];
+  crabFeatures?: CrabFeature[];
 };
 
 export const TRAIT_CATEGORIES = {
