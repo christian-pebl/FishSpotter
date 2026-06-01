@@ -6,7 +6,9 @@ import {
   FIN_SHAPE,
   HABITAT,
   MARKINGS,
+  MOVEMENT,
   SIZE,
+  type ShapeClass,
   type SpeciesCatalogue,
   type SpeciesTraits,
   type TraitSelection,
@@ -20,7 +22,10 @@ export type Candidate = {
   ecologicalProbability: number; // 0..1, 0 if unknown
 };
 
-const TRAIT_KEYS = [
+// Scored traits. shapeClass is deliberately NOT here: it is a hard filter
+// (see narrowCandidates), not a weighted trait. movement is a normal scored
+// trait, surfaced by the adaptive picker only when it discriminates.
+export const TRAIT_KEYS = [
   "bodyShape",
   "size",
   "coloration",
@@ -29,9 +34,12 @@ const TRAIT_KEYS = [
   "features",
   "behavior",
   "habitat",
+  "movement",
 ] as const satisfies ReadonlyArray<keyof TraitSelection>;
 
-const ALLOWED_VALUES: Record<(typeof TRAIT_KEYS)[number], ReadonlySet<string>> = {
+export type TraitKey = (typeof TRAIT_KEYS)[number];
+
+const ALLOWED_VALUES: Record<TraitKey, ReadonlySet<string>> = {
   bodyShape: new Set(BODY_SHAPE),
   size: new Set(SIZE),
   coloration: new Set(COLORATION),
@@ -40,9 +48,10 @@ const ALLOWED_VALUES: Record<(typeof TRAIT_KEYS)[number], ReadonlySet<string>> =
   features: new Set(FEATURES),
   behavior: new Set(BEHAVIOR),
   habitat: new Set(HABITAT),
+  movement: new Set(MOVEMENT),
 };
 
-function speciesValuesFor(traits: SpeciesTraits, key: keyof TraitSelection): string[] {
+export function speciesValuesFor(traits: SpeciesTraits, key: TraitKey): string[] {
   if (key === "size") return [traits.size];
   const value = traits[key];
   return Array.isArray(value) ? value : [];
@@ -71,12 +80,13 @@ function sanitise(input: unknown): TraitSelection {
 
 export function narrowCandidates(args: {
   catalogue: SpeciesCatalogue;
+  shapeClass?: ShapeClass;
   mustHave?: unknown;
   mustNotHave?: unknown;
   probabilityByScientific?: Record<string, number>;
   limit?: number;
 }): Candidate[] {
-  const { catalogue, probabilityByScientific = {} } = args;
+  const { catalogue, shapeClass, probabilityByScientific = {} } = args;
   const mustHave = sanitise(args.mustHave);
   const mustNotHave = sanitise(args.mustNotHave);
   const limit = args.limit ?? 12;
@@ -84,6 +94,10 @@ export function narrowCandidates(args: {
   const out: Candidate[] = [];
 
   for (const [scientificName, traits] of Object.entries(catalogue)) {
+    // Shape class is a HARD gate: a wrong-class species is excluded outright,
+    // before any trait scoring (not merely down-weighted).
+    if (shapeClass && traits.shapeClass !== shapeClass) continue;
+
     let matched = 0;
     let considered = 0;
     let excluded = false;
