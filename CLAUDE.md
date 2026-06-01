@@ -45,7 +45,10 @@
 | `src/components/AnnotatedSpeciesPhoto.tsx` | S9-T1: renders a reference photo with numbered SVG rings + legend for admin-authored diagnostic marks (used in the IdGuideWizard's final reveal). Returns null for species without authored marks, so the existing thumb-strip + field-note path keeps working as fallback. |
 | `src/components/IdGuideWizard.tsx` | 5-step trait funnel (body shape → size → habitat → markings → behaviour). Each step now has a "Why ask this?" disclosure surfacing the marine biologist's rationale (S9-T1). FinalReveal renders AnnotatedSpeciesPhoto above the existing gallery + field note. |
 | `src/data/species-images.json` | Per-species fetch manifest: which life-stage / sex buckets to request, plus optional pinned `overrides` |
-| `src/data/species-traits.json` | Trait catalogue for the IdGuideWizard (body shape, size, markings, behaviour, habitat, plus the prose `fieldNote`). Read at request time by the wizard's narrowing engine in `src/lib/idguide/narrow.ts`. |
+| `src/data/species-traits.json` | Trait catalogue for the IdGuideWizard (body shape, size, markings, behaviour, habitat, plus the prose `fieldNote`). Read at request time by the wizard's narrowing engine in `src/lib/idguide/narrow.ts`. **28 species as of 1 Jun 2026** (two-spotted + common goby added). The "Spot It" plan will add `shapeClass` + `movement` fields and expand beyond fish — see `implementation/2026-06-01/`. |
+| `decision-tree/index.html` (+ `public/decision-tree.html`) | Standalone decision-tree visual built 1 Jun 2026: 8 shape classes -> sub-class -> species with the single best diagnostic per species. The **authoring/teaching artifact** for the Spot It flow, NOT the runtime. View at `http://localhost:3000/decision-tree.html` (served from `public/`). |
+| `decision-tree/id-guides/*.pdf` | 6 free UK marine ID guides downloaded 1 Jun (EA fish key, Merryweather crabs, Cefas cephalopods, Sussex IFCA, ZSL estuarine, Devon WT rocky shore). Source content for catalogue expansion. |
+| `implementation/2026-06-01/*.md` | **Spot It visual ID flow plan** (3 docs + handoff). Start at `implementation-plan.md` for the build; `session-handoff.md` to pick up cold. |
 | `src/lib/admin.ts` | S9-T1 admin gate: `isAdminEmail()` checks for the `@pebl-cic.co.uk` suffix; `requireAdminSession()` does the lookup and redirects non-admins to `/`. Used by the `/admin` layout + the diagnostic-mark server actions. |
 | `src/app/admin/layout.tsx` | Single gate + top nav for everything under `/admin`. Carries `robots: noindex` so admin pages never get indexed. |
 | `src/app/admin/species/page.tsx` | S9-T1 species catalogue list — pilot gadoids pinned at the top with a "Pilot" badge, mark-count per species via `groupBy`, status pill (Not started / In progress / Published). |
@@ -313,6 +316,40 @@ project settings under the production environment.
 - **OBIS schema drift** — `check-apis.ts` probe C catches missing `species` / `scientificName` / `id` keys before they corrupt the cache.
 - **GBIF unresolved name** — stored with `scientificName=null`; the probability route falls back to `staffAnswerScientific=null` and the UI hides the staff-answer badge.
 - **Cron auth fail** — returns 401; check `CRON_SECRET` is set in Vercel production env.
+
+## "Spot It" — visual ID flow (PLANNED, 1 June 2026)
+
+A shape-class-first, scored-by-rung identification game layered over the feed
+clips, fed from British marine ID guides. **Designed, not yet built.** Full plan
+in `implementation/2026-06-01/` — read `session-handoff.md` first, then
+`implementation-plan.md`.
+
+- **The model (revised from a naive 5-level funnel):** a hard **Shape-class
+  gate** (Crab / Fish / Flatfish / Scooter / Jellyfish / Starfish / Gastropod /
+  Squid) + one shallow **sub-split** + an **adaptive bag of weighted traits**,
+  with **Context as a silent prior** the app already computes from snippet
+  metadata (`SpeciesProbability`/OBIS). Movement is a scored trait, not a level.
+- **It is an evolution, not a rewrite.** Runtime = `IdGuideWizard` + `narrow.ts`
+  + `MCQCandidatePicker` + `AnnotatedSpeciesPhoto` + `DiagnosticMark` +
+  `SpeciesProbability`. New code = shape as a hard filter, an information-gain
+  next-question picker (`src/lib/idguide/next-trait.ts`, planned), and
+  scored-by-rung in `answer-matching.ts`.
+- **The four rungs:** (1) shape gate silhouette grid; (2) visual sub-split;
+  (3) adaptive trait prompts (auto-stop at `NARROW_ENOUGH=3`); (4) reveal with
+  diagnostic-mark rings + commit. A persistent shrinking candidate strip is the
+  engagement engine. "Not sure" at every rung; "skip to guess" jumps to the MCQ.
+- **Approved decisions:** guided flow sits ALONGSIDE the MCQ (button entry);
+  scored-by-rung (coarse shape match = partial credit); PhyloPic silhouettes +
+  annotated-photo trait diagrams (no commissioned art); prototype the gate first.
+- **Scored-by-rung reframes the parked nullify audit:** "Fish / Crab /
+  Jellyfish" become valid coarse references, not junk to nullify.
+- **Scoring (locked 1 Jun):** two tiers. Species match = 2
+  (`POINTS_CORRECT_REF`, unchanged), correct shape-class = 1 (new
+  `POINTS_SHAPE_CLASS`), wrong shape = 0. No sub-class tier: `Answer.points` is
+  an Int so nothing fits between 1 and 2, and bumping species to 3 would ripple
+  through the consensus invariant (pioneer bonus). This unblocks Workstream E.
+- **Long pole:** catalogue content (Workstream C) — editorial, needs marine-
+  biologist sign-off; the gate is hollow until each shape class has >= 3 species.
 
 ## Current State (May 2026)
 

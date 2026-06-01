@@ -107,6 +107,30 @@
     "habitat": ["rocky-crevice", "sandy-bottom"],
     "fieldNote": "Slippery ribbon-like fish with a row of dark-and-pale ocelli along the dorsal fin."
   },
+  "Gobiusculus flavescens": {
+    "commonName": "Two-spotted goby",
+    "bodyShape": ["fusiform"],
+    "size": "small",
+    "coloration": ["uniform", "spotted"],
+    "markings": ["eye-spot", "fin-spots"],
+    "finShape": ["rounded-tail", "split-dorsal"],
+    "features": ["sucker-mouth"],
+    "behavior": ["hovering", "schooling"],
+    "habitat": ["kelp", "midwater"],
+    "fieldNote": "Small orange-brown goby with TWO diagnostic black spots: one at the tail base, one behind the pectoral fin. Unlike other gobies it hovers in loose midwater groups near kelp and seaweed — not glued to the bottom."
+  },
+  "Pomatoschistus microps": {
+    "commonName": "Common goby",
+    "bodyShape": ["fusiform"],
+    "size": "small",
+    "coloration": ["uniform", "spotted"],
+    "markings": ["fin-spots"],
+    "finShape": ["rounded-tail", "split-dorsal"],
+    "features": ["sucker-mouth"],
+    "behavior": ["on-bottom"],
+    "habitat": ["sandy-bottom"],
+    "fieldNote": "Very similar to sand goby but with a shorter, rounder head and a more strongly marked first dorsal. Found in estuaries and tidal creeks rather than open sandy sea bed."
+  },
   "Gobius paganellus": {
     "commonName": "Rock goby",
     "bodyShape": ["fusiform"],
