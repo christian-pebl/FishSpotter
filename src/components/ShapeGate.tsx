@@ -139,7 +139,9 @@ export function ShapeGate({
   const candidateCounts = useMemo(() => {
     const out: Partial<Record<ShapeClass, number>> = {};
     for (const sc of SHAPE_CLASS) {
-      out[sc] = narrowCandidates({ catalogue: CATALOGUE, shapeClass: sc }).length;
+      // limit: 100 so the tile badge shows the TRUE count — narrowCandidates
+      // defaults to 12, which undercounted the 26-species fish tile as "12".
+      out[sc] = narrowCandidates({ catalogue: CATALOGUE, shapeClass: sc, limit: 100 }).length;
     }
     return out;
   }, []);

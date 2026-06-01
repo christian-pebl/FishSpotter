@@ -23,13 +23,43 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { narrowCandidates, type TraitKey } from "@/lib/idguide/narrow";
+import { narrowCandidates, speciesValuesFor, type Candidate, type TraitKey } from "@/lib/idguide/narrow";
 import { nextBestTrait } from "@/lib/idguide/next-trait";
 import { traitQuestion } from "@/lib/idflow/trait-questions";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { ShapeClass, SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
+
+// UX-3: branch-specific Rung 2 sub-split — a single visual, multi-option first
+// cut shown BEFORE the adaptive yes/no questions, but only when it actually
+// divides the candidates. Per the UX plan it is "0-1 steps" and "many branches
+// have zero sub-splits": flatfish has one species and crab is small enough for
+// the adaptive loop, so only fish (the 12-species branch) gets one for now. The
+// body-form labels mirror the existing IdGuideWizard for consistency.
+type SubSplit = { key: TraitKey; prompt: string; options: { value: string; label: string }[] };
+const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
+  fish: {
+    key: "bodyShape",
+    prompt: "What was the overall body shape?",
+    options: [
+      { value: "fusiform", label: "Torpedo / streamlined" },
+      { value: "laterally-compressed", label: "Tall and thin" },
+      { value: "elongated", label: "Long and slender" },
+      { value: "eel-like", label: "Eel-like" },
+      { value: "flat-dorsoventral", label: "Flat, on the bottom" },
+    ],
+  },
+};
+
+// Distinct values a trait takes across the candidate set — used to decide
+// whether a sub-split (or any option) would actually discriminate.
+function candidatesHaveValue(candidates: Candidate[], key: TraitKey, value: string): boolean {
+  return candidates.some((c) => {
+    const traits = CATALOGUE[c.scientificName];
+    return traits ? speciesValuesFor(traits, key).includes(value) : false;
+  });
+}
 
 // Match the IdGuideWizard's stop point (P-26): 3 is where a learner can
 // actually compare the remaining candidates side by side, so we stop asking.
@@ -85,7 +115,10 @@ export function CandidateStrip({
   }, [shapeClass]);
 
   const candidates = useMemo(
-    () => narrowCandidates({ catalogue: CATALOGUE, shapeClass, mustHave, mustNotHave, limit: 24 }),
+    // Limit well above the catalogue size: the shrinking count IS the feature,
+    // so it must be the true match count, never capped (narrowCandidates
+    // defaults to 12, which would silently undercount the fish branch).
+    () => narrowCandidates({ catalogue: CATALOGUE, shapeClass, mustHave, mustNotHave, limit: 100 }),
     [shapeClass, mustHave, mustNotHave],
   );
 
@@ -96,6 +129,20 @@ export function CandidateStrip({
     const traits = candidates.map((c) => CATALOGUE[c.scientificName]).filter(Boolean);
     return nextBestTrait(traits, askedKeys);
   }, [candidates, askedKeys]);
+
+  // UX-3: the Rung 2 sub-split for this shape class, if one is configured and
+  // not yet answered. Only the options actually present in the candidate set
+  // are offered, and it is shown only when >= 2 of them remain (otherwise it
+  // can't discriminate, per the UX plan).
+  const subSplit = useMemo(() => {
+    const config = SUB_SPLITS[shapeClass];
+    if (!config || askedKeys.includes(config.key)) return null;
+    if (candidates.length <= NARROW_ENOUGH) return null;
+    const options = config.options.filter((o) =>
+      candidatesHaveValue(candidates, config.key, o.value),
+    );
+    return options.length >= 2 ? { key: config.key, prompt: config.prompt, options } : null;
+  }, [shapeClass, askedKeys, candidates]);
 
   const answeredAny = askedKeys.length > 0;
 
@@ -111,6 +158,14 @@ export function CandidateStrip({
     if (verdict === "yes") setMustHave((s) => addValue(s, key, value));
     else if (verdict === "no") setMustNotHave((s) => addValue(s, key, value));
     setAskedKeys((k) => [...k, key]);
+  }
+
+  // Sub-split answer: pick a body-form (constrain) or skip (just mark asked so
+  // the adaptive loop takes over without re-asking the sub-split trait).
+  function answerSubSplit(value: string | null) {
+    if (!subSplit) return;
+    if (value) setMustHave((s) => addValue(s, subSplit.key, value));
+    setAskedKeys((k) => [...k, subSplit.key]);
   }
 
   function startOver() {
@@ -147,9 +202,38 @@ export function CandidateStrip({
         </div>
       </div>
 
-      {/* UX-2: adaptive question. Only while the set is still too big to eyeball
-          and a discriminating trait remains. */}
-      {nextTrait && (
+      {/* UX-3: Rung 2 sub-split. A single visual multi-option cut, shown before
+          the adaptive yes/no questions when it discriminates. */}
+      {subSplit && (
+        <div className="mb-2 rounded-modal border border-teal-500/25 bg-teal-500/5 px-3 py-2.5">
+          <p className="pb-2 text-[12px] font-medium leading-snug text-white/90">
+            {subSplit.prompt}
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {subSplit.options.map((o) => (
+              <button
+                key={o.value}
+                type="button"
+                onClick={() => answerSubSplit(o.value)}
+                className="flex min-h-[40px] items-center rounded-full border border-teal-400/50 bg-teal-500/10 px-3 text-[12px] font-medium text-teal-50 transition-colors hover:border-teal-400 hover:bg-teal-500/25"
+              >
+                {o.label}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => answerSubSplit(null)}
+              className="flex min-h-[40px] items-center rounded-full px-3 text-[10px] uppercase tracking-wider text-white/40 transition-colors hover:text-white/75"
+            >
+              Not sure
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* UX-2: adaptive question. Only after any sub-split, while the set is
+          still too big to eyeball and a discriminating trait remains. */}
+      {!subSplit && nextTrait && (
         <div className="mb-2 rounded-modal border border-teal-500/25 bg-teal-500/5 px-3 py-2.5">
           <p className="pb-2 text-[12px] font-medium leading-snug text-white/90">
             {traitQuestion(nextTrait.key, nextTrait.value)}
@@ -182,7 +266,7 @@ export function CandidateStrip({
 
       {candidates.length > 0 && (
         <>
-          {!nextTrait && (
+          {!subSplit && !nextTrait && (
             <p className="mb-1.5 text-[10px] uppercase tracking-wider text-white/45">
               Which looks like yours?
             </p>
