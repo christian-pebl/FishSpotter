@@ -73,7 +73,7 @@ const SHAPE_NOUN: Record<ShapeClass, string> = {
   scooter: "scooter",
   jellyfish: "jellyfish",
   starfish: "starfish",
-  gastropod: "gastropod",
+  gastropod: "snail",
   squid: "squid",
 };
 
@@ -187,7 +187,7 @@ export function CandidateStrip({
             <button
               type="button"
               onClick={startOver}
-              className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+              className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
             >
               Start over
             </button>
@@ -195,7 +195,7 @@ export function CandidateStrip({
           <button
             type="button"
             onClick={onChangeShape}
-            className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+            className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
           >
             Change shape
           </button>
@@ -215,7 +215,7 @@ export function CandidateStrip({
                 key={o.value}
                 type="button"
                 onClick={() => answerSubSplit(o.value)}
-                className="flex min-h-[40px] items-center rounded-full border border-teal-400/50 bg-teal-500/10 px-3 text-[12px] font-medium text-teal-50 transition-colors hover:border-teal-400 hover:bg-teal-500/25"
+                className="flex min-h-[44px] items-center rounded-full border border-teal-400/50 bg-teal-500/10 px-3 text-[12px] font-medium text-teal-50 transition-colors hover:border-teal-400 hover:bg-teal-500/25"
               >
                 {o.label}
               </button>
@@ -223,7 +223,7 @@ export function CandidateStrip({
             <button
               type="button"
               onClick={() => answerSubSplit(null)}
-              className="flex min-h-[40px] items-center rounded-full px-3 text-[10px] uppercase tracking-wider text-white/40 transition-colors hover:text-white/75"
+              className="flex min-h-[44px] items-center rounded-full px-3 text-[10px] uppercase tracking-wider text-white/40 transition-colors hover:text-white/75"
             >
               Not sure
             </button>
@@ -242,21 +242,21 @@ export function CandidateStrip({
             <button
               type="button"
               onClick={() => answer("yes")}
-              className="flex min-h-[40px] flex-1 items-center justify-center rounded-full border border-teal-400/60 bg-teal-500/15 px-3 text-[12px] font-semibold uppercase tracking-wider text-teal-50 transition-colors hover:bg-teal-500/30"
+              className="flex min-h-[44px] flex-1 items-center justify-center rounded-full border border-teal-400/60 bg-teal-500/15 px-3 text-[12px] font-semibold uppercase tracking-wider text-teal-50 transition-colors hover:bg-teal-500/30"
             >
               Yes
             </button>
             <button
               type="button"
               onClick={() => answer("no")}
-              className="flex min-h-[40px] flex-1 items-center justify-center rounded-full border border-white/20 bg-white/5 px-3 text-[12px] font-semibold uppercase tracking-wider text-white/80 transition-colors hover:border-white/40 hover:bg-white/10"
+              className="flex min-h-[44px] flex-1 items-center justify-center rounded-full border border-white/20 bg-white/5 px-3 text-[12px] font-semibold uppercase tracking-wider text-white/80 transition-colors hover:border-white/40 hover:bg-white/10"
             >
               No
             </button>
             <button
               type="button"
               onClick={() => answer("skip")}
-              className="flex min-h-[40px] items-center justify-center rounded-full px-3 text-[10px] uppercase tracking-wider text-white/40 transition-colors hover:text-white/75"
+              className="flex min-h-[44px] items-center justify-center rounded-full px-3 text-[10px] uppercase tracking-wider text-white/40 transition-colors hover:text-white/75"
             >
               Not sure
             </button>

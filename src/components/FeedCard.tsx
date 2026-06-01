@@ -1106,7 +1106,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4"/>
                           <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
                         </svg>
-                        {selectedShape ? `Shape: ${selectedShape}` : "Spot It"}
+                        Spot It
                       </button>
                       <IdGuideTrigger
                         snippetId={snippet.id}
@@ -1358,7 +1358,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       )}
                     </div>
                     {!hasNext && (
-                      <div className="mt-3 rounded-2xl border border-white/12 bg-white/5 p-3 text-center">
+                      <div className="mt-3 rounded-card border border-white/12 bg-white/5 p-3 text-center">
                         <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-50">
                           You&apos;ve reached the end of the feed
                         </p>

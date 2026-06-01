@@ -1,5 +1,36 @@
 import { describe, expect, it } from "vitest";
 import { traitQuestion } from "./trait-questions";
+import {
+  BEHAVIOR,
+  BODY_SHAPE,
+  CARAPACE_TEXTURE,
+  COLORATION,
+  CRAB_FEATURES,
+  FEATURES,
+  FIN_SHAPE,
+  HABITAT,
+  MARKINGS,
+  MOVEMENT,
+  SIZE,
+} from "@/lib/idguide/traits";
+import type { TraitKey } from "@/lib/idguide/narrow";
+
+// Every value the info-gain picker could surface, keyed exactly as
+// traitQuestion expects. If a new trait value lands without curated copy, the
+// coverage test below fails instead of shipping `Does it look "none"?` to users.
+const ALL_VALUES: Record<TraitKey, readonly string[]> = {
+  bodyShape: BODY_SHAPE,
+  size: SIZE,
+  coloration: COLORATION,
+  markings: MARKINGS,
+  finShape: FIN_SHAPE,
+  features: FEATURES,
+  behavior: BEHAVIOR,
+  habitat: HABITAT,
+  movement: MOVEMENT,
+  carapaceTexture: CARAPACE_TEXTURE,
+  crabFeatures: CRAB_FEATURES,
+};
 
 describe("traitQuestion", () => {
   it("returns curated copy for a known crab (key, value)", () => {
@@ -13,10 +44,27 @@ describe("traitQuestion", () => {
     expect(traitQuestion("habitat", "kelp").endsWith("?")).toBe(true);
   });
 
-  it("falls back to a de-kebabed prompt for an uncurated value", () => {
-    // A value with no curated entry still produces an answerable question.
+  it("has curated copy for EVERY catalogue trait value (no fallback in production)", () => {
+    const uncovered: string[] = [];
+    for (const key of Object.keys(ALL_VALUES) as TraitKey[]) {
+      for (const value of ALL_VALUES[key]) {
+        const q = traitQuestion(key, value);
+        // The fallback is `Does it look <de-kebabed>?` — a curated entry never
+        // matches that shape AND always ends in "?". Treat a fallback hit as a gap.
+        if (q === `Does it look ${value.replace(/-/g, " ")}?`) uncovered.push(`${key}=${value}`);
+      }
+    }
+    expect(uncovered).toEqual([]);
+  });
+
+  it("covers the 'none' values that fire in production (features + crabFeatures)", () => {
+    expect(traitQuestion("features", "none")).toMatch(/plain-headed/i);
+    expect(traitQuestion("crabFeatures", "none")).toMatch(/plain crab/i);
+  });
+
+  it("falls back to a quote-free de-kebabed prompt for a genuinely unknown value", () => {
     expect(traitQuestion("coloration", "some-future-value")).toBe(
-      'Does it look "some future value"?',
+      "Does it look some future value?",
     );
   });
 });

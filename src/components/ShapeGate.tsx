@@ -117,7 +117,7 @@ const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "scooter",    label: "Scooter",    Icon: SilScooter },
   { key: "jellyfish",  label: "Jellyfish",  Icon: SilJellyfish },
   { key: "starfish",   label: "Starfish",   Icon: SilStarfish },
-  { key: "gastropod",  label: "Gastropod",  Icon: SilGastropod },
+  { key: "gastropod",  label: "Snail / slug", Icon: SilGastropod },
   { key: "squid",      label: "Squid",      Icon: SilSquid },
 ];
 
@@ -165,7 +165,7 @@ export function ShapeGate({
           type="button"
           onClick={onClose}
           aria-label="Close shape selector"
-          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full text-white/50 hover:text-white/90"
+          className="absolute right-2 top-2 flex h-11 w-11 items-center justify-center rounded-full text-white/50 hover:text-white/90"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
@@ -203,11 +203,11 @@ export function ShapeGate({
                   <span className="h-8 w-8">
                     <Icon />
                   </span>
-                  <span className="text-[9px] font-semibold uppercase tracking-wider text-white/70">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-white/70">
                     {label}
                   </span>
                   {count > 0 && (
-                    <span className="absolute right-1.5 top-1.5 rounded-full bg-teal-600/80 px-1 text-[8px] font-bold text-white">
+                    <span className="absolute right-1.5 top-1.5 rounded-full bg-teal-600/80 px-1 text-[10px] font-bold text-white">
                       {count}
                     </span>
                   )}
@@ -221,14 +221,14 @@ export function ShapeGate({
             <button
               type="button"
               onClick={() => onSelectShape(null)}
-              className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+              className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
             >
               Not sure
             </button>
             <button
               type="button"
               onClick={onSkip}
-              className="text-[10px] uppercase tracking-wider text-teal-400/80 hover:text-teal-300"
+              className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-teal-400/80 hover:text-teal-300"
             >
               Skip to ID guide →
             </button>

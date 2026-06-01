@@ -23,6 +23,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "lives-in-shell": "Is it living inside an empty snail shell?",
     "red-eyes": "Does it have bright red eyes?",
     "dark-claw-tips": "Are the pincer tips black?",
+    none: "Is it a plain crab — no swimming paddle, long spider legs, shell home or red eyes?",
   },
   carapaceTexture: {
     smooth: "Is the shell smooth?",
@@ -94,6 +95,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "fleshy-lips": "Does it have thick, fleshy lips?",
     "sucker-mouth": "Does it have a sucker-like mouth?",
     "frilly-fins": "Does it have frilly or feathery fins?",
+    none: "Is it plain-headed — no barbel, spines, fleshy lips or frilly fins?",
   },
 };
 
@@ -102,5 +104,14 @@ function deKebab(value: string): string {
 }
 
 export function traitQuestion(key: TraitKey, value: string): string {
-  return QUESTIONS[key]?.[value] ?? `Does it look "${deKebab(value)}"?`;
+  const curated = QUESTIONS[key]?.[value];
+  if (curated) return curated;
+  // Every catalogue trait value should have curated copy above; a miss means a
+  // new value was added without a question. Warn in dev, and keep the fallback
+  // quote-free so it never reads as a raw enum token to the user.
+  if (process.env.NODE_ENV !== "production") {
+    // eslint-disable-next-line no-console
+    console.warn(`[trait-questions] no curated question for ${key}="${value}"; using fallback`);
+  }
+  return `Does it look ${deKebab(value)}?`;
 }
