@@ -95,7 +95,9 @@ export function CandidateStrip({
   onPick,
   onChangeShape,
 }: {
-  shapeClass: ShapeClass;
+  /** null = the user tapped "Not sure" at the gate: narrow the whole catalogue
+   *  (the weighted best-guess set) instead of dead-ending — the murky-safe path. */
+  shapeClass: ShapeClass | null;
   submitting: boolean;
   /** Commit a guess by common name (same path as the MCQ picker). */
   onPick: (commonName: string) => void;
@@ -118,7 +120,14 @@ export function CandidateStrip({
     // Limit well above the catalogue size: the shrinking count IS the feature,
     // so it must be the true match count, never capped (narrowCandidates
     // defaults to 12, which would silently undercount the fish branch).
-    () => narrowCandidates({ catalogue: CATALOGUE, shapeClass, mustHave, mustNotHave, limit: 100 }),
+    () =>
+      narrowCandidates({
+        catalogue: CATALOGUE,
+        shapeClass: shapeClass ?? undefined,
+        mustHave,
+        mustNotHave,
+        limit: 100,
+      }),
     [shapeClass, mustHave, mustNotHave],
   );
 
@@ -135,7 +144,7 @@ export function CandidateStrip({
   // are offered, and it is shown only when >= 2 of them remain (otherwise it
   // can't discriminate, per the UX plan).
   const subSplit = useMemo(() => {
-    const config = SUB_SPLITS[shapeClass];
+    const config = shapeClass ? SUB_SPLITS[shapeClass] : undefined;
     if (!config || askedKeys.includes(config.key)) return null;
     if (candidates.length <= NARROW_ENOUGH) return null;
     const options = config.options.filter((o) =>
@@ -150,7 +159,11 @@ export function CandidateStrip({
   // already disables those tiles, but guard anyway so we never show "0".
   if (candidates.length === 0 && !answeredAny) return null;
 
-  const noun = SHAPE_NOUN[shapeClass];
+  // "species" is invariant (no plural-s) and is the label for the unfiltered
+  // "Not sure" path where there is no single shape class.
+  const countLabel = shapeClass
+    ? pluralise(candidates.length, SHAPE_NOUN[shapeClass])
+    : "species";
 
   function answer(verdict: "yes" | "no" | "skip") {
     if (!nextTrait) return;
@@ -180,7 +193,7 @@ export function CandidateStrip({
         <p className="text-[10px] font-semibold uppercase tracking-wider text-teal-300/90">
           {candidates.length === 0
             ? "No matches — try start over"
-            : `${candidates.length} ${pluralise(candidates.length, noun)} left`}
+            : `${candidates.length} ${countLabel} left`}
         </p>
         <div className="flex shrink-0 items-center gap-3">
           {answeredAny && (

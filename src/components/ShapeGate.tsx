@@ -5,8 +5,9 @@
  *
  * An 8-tile silhouette grid shown as a bottom sheet over the looping clip.
  * Tapping a tile sets shapeClass and shows the live candidate count from
- * narrowCandidates(). "Skip to ID guide" opens the existing wizard.
- * "Not sure" clears the filter.
+ * narrowCandidates(). "Skip to guess" closes the gate to the MCQ fast path.
+ * "Not sure" activates the strip with no shape filter (narrows the whole
+ * catalogue) rather than dead-ending — the murky-safe path.
  *
  * Assets: placeholder inline SVGs in brand teal — swap for PhyloPic art in
  * Workstream D / UX-5.
@@ -230,7 +231,7 @@ export function ShapeGate({
               onClick={onSkip}
               className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-teal-400/80 hover:text-teal-300"
             >
-              Skip to ID guide →
+              Skip to guess →
             </button>
           </div>
         </div>

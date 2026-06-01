@@ -132,6 +132,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // UX-0: "Spot It" shape-class gate.
   const [shapeGateOpen, setShapeGateOpen] = useState(false);
   const [selectedShape, setSelectedShape] = useState<ShapeClass | null>(null);
+  // The Spot It strip shows once the user engages the gate, including via
+  // "Not sure" (selectedShape stays null -> the strip narrows the whole
+  // catalogue). Distinct from selectedShape so "Not sure" never dead-ends.
+  const [spotItActive, setSpotItActive] = useState(false);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
   // the user has either watched the clip through one loop OR manually
   // tapped the collapsed pill to expand. Encourages observation before
@@ -1136,7 +1140,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       set a shape class; lists the narrowed catalogue species as
                       tappable chips. Tapping commits via the same submit path as
                       the MCQ (onPick), so the unauth signin-carry is honoured. */}
-                  {selectedShape && (
+                  {spotItActive && (
                     <CandidateStrip
                       shapeClass={selectedShape}
                       submitting={submitting}
@@ -1400,13 +1404,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       )}
 
       {/* UX-0: Shape-class gate overlay. Sits above z-20 panel at z-30.
-          onSelectShape saves the class for later wiring (UX-1 candidate
-          strip) and closes the gate. onSkip closes the gate so the user
-          can fall through to the existing ID guide. */}
+          onSelectShape activates the candidate strip — with a shape, or null
+          ("Not sure" → strip narrows the whole catalogue, never dead-ends).
+          onSkip closes the gate to the MCQ fast path ("skip to guess").
+          onClose just dismisses, preserving any in-progress narrow. */}
       {shapeGateOpen && (
         <ShapeGate
           onSelectShape={(shape) => {
             setSelectedShape(shape);
+            setSpotItActive(true);
             setShapeGateOpen(false);
           }}
           onSkip={() => setShapeGateOpen(false)}
