@@ -12,6 +12,7 @@ import { IdGuideTrigger } from "./IdGuideTrigger";
 import { MCQCandidatePicker } from "./MCQCandidatePicker";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { ShapeGate } from "./ShapeGate";
+import { CandidateStrip } from "./idflow/CandidateStrip";
 import type { ShapeClass } from "@/lib/idguide/traits";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 
@@ -1122,6 +1123,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </button>
                       )}
                     </div>
+                  )}
+
+                  {/* UX-1: shrinking candidate strip. Appears once the gate has
+                      set a shape class; lists the narrowed catalogue species as
+                      tappable chips. Tapping commits via the same submit path as
+                      the MCQ (onPick), so the unauth signin-carry is honoured. */}
+                  {selectedShape && (
+                    <CandidateStrip
+                      shapeClass={selectedShape}
+                      submitting={submitting}
+                      onPick={(name) =>
+                        void submitAndAdvance(() =>
+                          handleSubmit({ answerText: name }),
+                        )
+                      }
+                      onChangeShape={() => setShapeGateOpen(true)}
+                    />
                   )}
                 </>
               ) : (
