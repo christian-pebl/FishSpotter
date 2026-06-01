@@ -13,8 +13,8 @@
  * Workstream D / UX-5.
  */
 
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
 import speciesTraitsData from "@/data/species-traits.json";
@@ -136,6 +136,51 @@ export function ShapeGate({
   onClose: () => void;
 }) {
   const [hovered, setHovered] = useState<ShapeClass | null>(null);
+  const reduceMotion = useReducedMotion();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Modal a11y (UX review P1): the gate declared role=dialog/aria-modal but had
+  // no focus trap, Escape, or focus restore. Mirror the IdGuideSheet/SideMenu
+  // pattern — store focus, move into the dialog, Escape closes, Tab is trapped,
+  // restore on unmount. The gate mounts/unmounts with shapeGateOpen, so this
+  // runs once per open.
+  useEffect(() => {
+    const lastFocused = document.activeElement as HTMLElement | null;
+    const dialog = dialogRef.current;
+    dialog
+      ?.querySelector<HTMLElement>("button:not([disabled]), [tabindex]:not([tabindex='-1'])")
+      ?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !dialog) return;
+      const focusables = dialog.querySelectorAll<HTMLElement>(
+        "button:not([disabled]), [tabindex]:not([tabindex='-1'])",
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+      lastFocused?.focus?.();
+    };
+  }, [onClose]);
 
   const candidateCounts = useMemo(() => {
     const out: Partial<Record<ShapeClass, number>> = {};
@@ -147,20 +192,22 @@ export function ShapeGate({
     return out;
   }, []);
 
+  // No AnimatePresence wrapper: the parent mounts/unmounts ShapeGate via
+  // {shapeGateOpen && ...}, so an exit animation never plays anyway. A plain
+  // motion.div also keeps the dialog ref off an AnimatePresence child (which
+  // warns "ref is not a prop" in React 18).
   return (
-    <AnimatePresence>
-      <motion.div
-        key="shape-gate-overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: DURATION.micro, ease: EASE.enter }}
-        className="absolute inset-0 z-30 flex flex-col justify-end"
-        style={{ background: "linear-gradient(to top, rgba(23,37,42,0.96) 60%, rgba(23,37,42,0.55) 100%)" }}
-        role="dialog"
-        aria-modal="true"
-        aria-label="What shape is it?"
-      >
+    <motion.div
+      ref={dialogRef}
+      initial={reduceMotion ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: DURATION.micro, ease: EASE.enter }}
+      className="absolute inset-0 z-30 flex flex-col justify-end"
+      style={{ background: "linear-gradient(to top, rgba(23,37,42,0.96) 60%, rgba(23,37,42,0.55) 100%)" }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="What shape is it?"
+    >
         {/* Close / back affordance */}
         <button
           type="button"
@@ -236,6 +283,5 @@ export function ShapeGate({
           </div>
         </div>
       </motion.div>
-    </AnimatePresence>
   );
 }

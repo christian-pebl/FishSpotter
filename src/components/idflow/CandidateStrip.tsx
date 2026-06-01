@@ -22,7 +22,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { narrowCandidates, speciesValuesFor, type Candidate, type TraitKey } from "@/lib/idguide/narrow";
 import { nextBestTrait } from "@/lib/idguide/next-trait";
 import { traitQuestion } from "@/lib/idflow/trait-questions";
@@ -104,6 +104,7 @@ export function CandidateStrip({
   /** Reopen the shape gate so the user can pick a different class. */
   onChangeShape: () => void;
 }) {
+  const reduceMotion = useReducedMotion();
   // Rung 3 state: accumulated yes/no trait answers + which traits we've asked.
   const [mustHave, setMustHave] = useState<TraitSelection>({});
   const [mustNotHave, setMustNotHave] = useState<TraitSelection>({});
@@ -289,13 +290,19 @@ export function CandidateStrip({
             role="list"
             aria-label={`${candidates.length} candidate species`}
           >
+            {/* UX review flagged the static strip (the plan's "dopamine
+                engine") as a P1/P2 — but a framer AnimatePresence exit inside
+                this horizontal overflow-x-auto flex strip left removed chips
+                stuck in the DOM (3 in render state, 6 mounted). A broken
+                animation is worse than none, so the shrink animation is
+                deferred to a follow-up; chips re-render plainly for now. */}
             {candidates.map((c) => (
               <motion.button
                 key={c.scientificName}
                 type="button"
                 role="listitem"
                 disabled={submitting}
-                whileTap={!submitting ? { scale: 0.96 } : undefined}
+                whileTap={!submitting && !reduceMotion ? { scale: 0.96 } : undefined}
                 onClick={() => onPick(c.commonName)}
                 aria-label={`Pick ${c.commonName}`}
                 className="flex min-h-[44px] shrink-0 items-center whitespace-nowrap rounded-full border border-white/15 bg-white/5 px-3.5 text-[12px] font-medium text-white transition-colors hover:border-teal-400 hover:bg-teal-500/20 hover:text-teal-50 disabled:opacity-60"
