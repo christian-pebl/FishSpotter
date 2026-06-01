@@ -11,6 +11,8 @@ import { RarityPanel } from "./RarityPanel";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { MCQCandidatePicker } from "./MCQCandidatePicker";
 import { SpeciesGallery } from "./SpeciesGallery";
+import { ShapeGate } from "./ShapeGate";
+import type { ShapeClass } from "@/lib/idguide/traits";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
@@ -126,6 +128,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
+  // UX-0: "Spot It" shape-class gate.
+  const [shapeGateOpen, setShapeGateOpen] = useState(false);
+  const [selectedShape, setSelectedShape] = useState<ShapeClass | null>(null);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
   // the user has either watched the clip through one loop OR manually
   // tapped the collapsed pill to expand. Encourages observation before
@@ -1081,6 +1086,20 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   )}
                   {status !== "loading" && (
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pb-1.5">
+                      {/* UX-0: "Spot It" gate entry — opens the shape-class
+                          silhouette grid. Sits alongside (not replacing) the
+                          existing "Help me identify" wizard trigger. */}
+                      <button
+                        type="button"
+                        onClick={() => setShapeGateOpen(true)}
+                        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-teal-50 hover:border-teal-400 hover:bg-teal-500/20"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4"/>
+                          <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                        </svg>
+                        {selectedShape ? `Shape: ${selectedShape}` : "Spot It"}
+                      </button>
                       <IdGuideTrigger
                         snippetId={snippet.id}
                         submitted={false}
@@ -1346,6 +1365,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           lat={snippet.lat as number}
           lon={snippet.lon as number}
           site={`${snippet.site} · ${snippet.deployment}`}
+        />
+      )}
+
+      {/* UX-0: Shape-class gate overlay. Sits above z-20 panel at z-30.
+          onSelectShape saves the class for later wiring (UX-1 candidate
+          strip) and closes the gate. onSkip closes the gate so the user
+          can fall through to the existing ID guide. */}
+      {shapeGateOpen && (
+        <ShapeGate
+          onSelectShape={(shape) => {
+            setSelectedShape(shape);
+            setShapeGateOpen(false);
+          }}
+          onSkip={() => setShapeGateOpen(false)}
+          onClose={() => setShapeGateOpen(false)}
         />
       )}
     </article>
