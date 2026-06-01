@@ -5,9 +5,13 @@ the **"Spot It" visual ID flow**: a shape-class-first, scored-by-rung
 identification game layered over the feed clips, plus the plan to feed it from
 British marine ID guides.
 
-No production code shipped. Two files in `src/data/species-traits.json` were
-added (two gobies). Everything else is planning docs + a standalone decision-tree
-prototype. Git: nothing committed this session unless you choose to.
+**Progress (1 June, build session):** Workstreams **A and B are now shipped**
+on branch `spot-it-visual-id` (commits: planning `e575bca`, A `1173734`,
+B `f1e73c8`; not pushed). A = `shapeClass` + `movement` schema + 28-species
+backfill. B = shapeClass hard filter + movement scored + info-gain
+`nextBestTrait` picker, all unit-tested (179 tests green). `movement` values
+are a first pass pending marine-bio spot-check. Remaining: C (catalogue
+content), D (assets), E (scoring by rung), F (UX build, starting at UX-0).
 
 ---
 
@@ -57,11 +61,12 @@ shape-class rung for now. Workstream E is unblocked.
 
 ## Recommended execution order (from implementation-plan.md)
 
-1. **A** — schema foundation (add `SHAPE_CLASS` + `MOVEMENT` to
-   `src/lib/idguide/traits.ts`, backfill 28 species). Unblocks all.
-2. **B step 1** (shape hard filter in `narrow.ts`) + **D placeholders** ->
-   **UX-0** gate prototype over a clip.
-3. **C: Crab** content + **B step 3** (info-gain `nextBestTrait`) in parallel.
+1. ~~**A** — schema foundation.~~ DONE (`1173734`).
+2. ~~**B** — engine (shape hard filter, movement scored, info-gain
+   `nextBestTrait`).~~ DONE (`f1e73c8`). NEXT recommended: **D placeholders ->
+   UX-0** gate prototype over a clip.
+3. **C: Crab** content (makes the gate non-hollow off-fish) — editorial, needs
+   marine-bio sign-off.
 4. **UX-1** (candidate strip + skip-to-guess), **UX-2** (adaptive Rung 3).
 5. **E** (scored-by-rung) once Crab is in -> **UX-4** (reveal + score).
 6. **C: inverts** + **D: PhyloPic** -> **UX-3, UX-5**.
