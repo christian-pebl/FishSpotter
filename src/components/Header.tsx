@@ -63,10 +63,10 @@ export function Header() {
             className="pointer-events-auto inline-flex shrink-0 items-center justify-center"
             style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             {/* P-22: opacity-30 made the wordmark invisible against video,
                 raised to 70 so it's a legible anchor point, still
                 subordinate to the video content. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/branding/PEBL Logo-1.svg"
               alt=""

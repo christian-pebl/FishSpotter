@@ -274,3 +274,100 @@ a {
   outline: 2px solid #def2f1;
   outline-offset: 2px;
 }
+
+/* =====================================================================
+ * Landing page: underwater motion primitives.
+ * All of these are plain CSS animations, so the global
+ * prefers-reduced-motion block above neutralises them automatically
+ * (it forces animation-duration to ~0 for everything). JS-driven motion
+ * in the landing client components guards on matchMedia separately.
+ * ===================================================================== */
+
+/* Silhouettes drifting left-to-right across the hero water column.
+ * --fs-rot tilts each one slightly so the school doesn't look
+ * mechanically uniform. The source silhouettes already face right, i.e.
+ * head-first into the travel direction, so no horizontal mirroring. */
+@keyframes fs-drift {
+  from {
+    transform: translate3d(-22vw, 0, 0) rotate(var(--fs-rot, 0deg));
+  }
+  to {
+    transform: translate3d(122vw, 0, 0) rotate(var(--fs-rot, 0deg));
+  }
+}
+.fs-drift {
+  animation: fs-drift linear infinite;
+  will-change: transform;
+}
+
+/* Bubbles rising and fading. */
+@keyframes fs-bubble {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(-180px) scale(1);
+    opacity: 0;
+  }
+}
+.fs-bubble {
+  animation: fs-bubble ease-in infinite;
+  will-change: transform, opacity;
+}
+
+/* Slow shimmer on the god-ray light shafts. */
+@keyframes fs-shaft {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+.fs-shaft {
+  animation: fs-shaft ease-in-out infinite;
+}
+
+/* Seamless species marquee (track holds two copies, scrolls -50%). */
+@keyframes fs-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.fs-marquee-track {
+  animation: fs-marquee linear infinite;
+  will-change: transform;
+}
+.fs-marquee:hover .fs-marquee-track,
+.fs-marquee:focus-within .fs-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Gentle bob on the hero preview frame. */
+@keyframes fs-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.fs-float {
+  animation: fs-float 7s ease-in-out infinite;
+}
+
+/* Off-screen pause: toggled by JS (useInView) on the marquee / backdrop
+ * roots so always-on animations stop consuming CPU when scrolled away. */
+.fs-paused,
+.fs-paused * {
+  animation-play-state: paused !important;
+}

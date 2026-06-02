@@ -17,7 +17,10 @@ export default {
           500: "#3AAFA9", // accent / on-dark button bg
           600: "#2B7A78", // primary / on-light text
           700: "#1F5F5D", // primary-strong / eyebrow
-          800: "#2b9d97", // hover-on-light
+          // Brighter teal for hover states. Named, not numbered: #2b9d97 sits
+          // between teal-500 and teal-600 in luminance, so "800" was a footgun
+          // (an 800 lighter than 600). Use hover:text-teal-hover / hover:bg-teal-hover.
+          hover: "#2b9d97",
         },
         // PEBL navy scale. 900 is the brand foreground; 800 is the immersive modal surface.
         navy: {
@@ -63,6 +66,7 @@ export default {
         card: "0 18px 40px rgba(23,37,42,0.08)",
         chip: "0 1px 2px rgba(23,37,42,0.06)",
         glow: "0 0 6px rgba(58,175,169,0.6)",
+        "glow-strong": "0 0 18px rgba(58,175,169,0.7)",
         menu: "0 10px 36px rgba(0,0,0,0.55)",
         drawer: "8px 0 30px rgba(0,0,0,0.5)",
       },
