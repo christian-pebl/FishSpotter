@@ -202,7 +202,7 @@ export function ShapeGate({
       initial={reduceMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={reduceMotion ? { duration: 0 } : { duration: DURATION.micro, ease: EASE.enter }}
-      className="absolute inset-0 z-30 flex flex-col justify-end"
+      className="absolute inset-0 z-30 flex flex-col justify-end md:items-center md:justify-center"
       style={{ background: "linear-gradient(to top, rgba(23,37,42,0.96) 60%, rgba(23,37,42,0.55) 100%)" }}
       role="dialog"
       aria-modal="true"
@@ -220,7 +220,10 @@ export function ShapeGate({
           </svg>
         </button>
 
-        <div className="px-4 pb-4 pt-2" style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}>
+        <div
+          className="px-4 pb-4 pt-2 md:mb-0 md:w-full md:max-w-lg md:rounded-card md:border md:border-white/10 md:bg-navy-900/85 md:px-5 md:py-5 md:shadow-menu"
+          style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}
+        >
           <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-widest text-white/50">
             What shape is it, roughly?
           </p>
@@ -276,9 +279,12 @@ export function ShapeGate({
             <button
               type="button"
               onClick={onSkip}
-              className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-teal-400/80 hover:text-teal-300"
+              className="inline-flex min-h-[44px] items-center gap-1 px-2 -mx-2 text-[10px] uppercase tracking-wider text-teal-400/80 hover:text-teal-300"
             >
-              Skip to guess →
+              Skip to guess
+              <svg viewBox="0 0 14 14" className="h-3 w-3" fill="none" aria-hidden="true">
+                <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </button>
           </div>
         </div>

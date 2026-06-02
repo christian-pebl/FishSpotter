@@ -1197,7 +1197,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           className="inline-flex items-center gap-1 rounded-full bg-correct px-2 py-0.5 text-[11px] font-bold tracking-wide text-correct-ink shadow-sm"
                           aria-label="Correct, plus 2 points"
                         >
-                          ✓ Correct · +2
+                          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                            <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          Correct · +2
                         </span>
                       )}
                       {myAnswer!.isCorrect === false && (
@@ -1208,7 +1211,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                                 className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
                                 aria-label="Close, right shape class, plus 1 point"
                               >
-                                ≈ Close · +1
+                                <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                                  <path d="M2 4.5q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                  <path d="M2 8q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                </svg>
+                                Close · +1
                               </span>
                               <span className="text-white/65">· right shape class</span>
                             </>
@@ -1217,7 +1224,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                               className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
                               aria-label="Incorrect"
                             >
-                              ✗ Wrong
+                              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                              </svg>
+                              Wrong
                             </span>
                           )}
                           {(stats!.staffAnswer ?? snippet.staffAnswer) && (
@@ -1237,7 +1247,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                             className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
                             aria-label="Bonus, plus 1 point. Reference identification pending."
                           >
-                            ★ +1 Bonus
+                            <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                              <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                            </svg>
+                            +1 Bonus
                           </span>
                           <span className="text-white/65">
                             · reference pending — your ID helps build the dataset
@@ -1325,9 +1338,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         <button
                           type="button"
                           onClick={editAnswer}
-                          className="text-[10px] uppercase tracking-wider text-white/55 hover:text-white/90"
+                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/55 hover:text-white/90"
                         >
-                          ✎ Edit answer
+                          <svg viewBox="0 0 14 14" className="h-3 w-3 text-teal-500/80" fill="none" aria-hidden="true">
+                            <path d="M9.3 2.4l2.3 2.3-6.4 6.4-2.8.5.5-2.8z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                          </svg>
+                          Edit answer
                         </button>
                         <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">
                           Archive

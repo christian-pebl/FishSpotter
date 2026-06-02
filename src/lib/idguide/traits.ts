@@ -124,6 +124,45 @@ export const CRAB_FEATURES = [
 ] as const;
 export type CrabFeature = (typeof CRAB_FEATURES)[number];
 
+// Invertebrate vocabulary (Workstream C). Like the crab traits above, the fish
+// traits carry no signal here, so each invert gate-class gets one small "form"
+// enum that does the within-tile splitting. All are OPTIONAL on SpeciesTraits.
+
+// Cephalopod body plan (Squid tile — octopus folded in per the 1 Jun decision).
+export const CEPHALOPOD_FORM = [
+  "cuttlefish", // broad flattened mantle, fin skirt the full body length
+  "squid", // torpedo mantle, triangular fins at the rear
+  "bobtail", // tiny rounded mantle, small ear-like fins, sits on sand
+  "octopus", // bulbous head, eight arms, no fins
+] as const;
+export type CephalopodForm = (typeof CEPHALOPOD_FORM)[number];
+
+// Echinoderm arm plan (Starfish tile).
+export const ARM_FORM = [
+  "short-stubby", // cushion star — short fat arms, pentagon outline
+  "long-spiny", // spiny starfish — long arms with rows of spines
+  "long-smooth", // common starfish — long tapering arms, no obvious spines
+  "thin-whippy", // brittlestar — small disc, long thread-like arms
+] as const;
+export type ArmForm = (typeof ARM_FORM)[number];
+
+// Gastropod shell plan (Snail / slug tile).
+export const SHELL_SHAPE = [
+  "flat-cone", // limpet — low cone clamped to rock
+  "pointed-cone", // top shells, dog whelk — tall pointed spire
+  "rounded-squat", // periwinkle, flat top shell — squat rounded whorl
+  "no-shell", // sea slug / nudibranch — naked body (future entries)
+] as const;
+export type ShellShape = (typeof SHELL_SHAPE)[number];
+
+// Jellyfish bell plan (Jellyfish tile).
+export const BELL_FORM = [
+  "saucer", // domed saucer bell with short marginal tentacles (moon, compass, blue)
+  "frilly-arms", // solid bell + frilly mouth-arms, no long tentacles (barrel)
+  "trailing-mass", // bell trailing a dense mass of long tentacles (lion's mane)
+] as const;
+export type BellForm = (typeof BELL_FORM)[number];
+
 export type SpeciesTraits = {
   commonName: string;
   shapeClass: ShapeClass;
@@ -139,6 +178,11 @@ export type SpeciesTraits = {
   // Crab-only (optional): present on crustacean entries, absent on fish.
   carapaceTexture?: CarapaceTexture[];
   crabFeatures?: CrabFeature[];
+  // Invertebrate-only (optional): one "form" enum per non-crab invert tile.
+  cephalopodForm?: CephalopodForm[];
+  armForm?: ArmForm[];
+  shellShape?: ShellShape[];
+  bellForm?: BellForm[];
   fieldNote: string;
 };
 
@@ -157,6 +201,10 @@ export type TraitSelection = {
   movement?: Movement[];
   carapaceTexture?: CarapaceTexture[];
   crabFeatures?: CrabFeature[];
+  cephalopodForm?: CephalopodForm[];
+  armForm?: ArmForm[];
+  shellShape?: ShellShape[];
+  bellForm?: BellForm[];
 };
 
 export const TRAIT_CATEGORIES = {

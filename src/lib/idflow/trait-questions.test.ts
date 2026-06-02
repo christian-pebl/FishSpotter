@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { traitQuestion } from "./trait-questions";
 import {
+  ARM_FORM,
   BEHAVIOR,
+  BELL_FORM,
   BODY_SHAPE,
   CARAPACE_TEXTURE,
+  CEPHALOPOD_FORM,
   COLORATION,
   CRAB_FEATURES,
   FEATURES,
@@ -11,6 +14,7 @@ import {
   HABITAT,
   MARKINGS,
   MOVEMENT,
+  SHELL_SHAPE,
   SIZE,
 } from "@/lib/idguide/traits";
 import type { TraitKey } from "@/lib/idguide/narrow";
@@ -30,6 +34,10 @@ const ALL_VALUES: Record<TraitKey, readonly string[]> = {
   movement: MOVEMENT,
   carapaceTexture: CARAPACE_TEXTURE,
   crabFeatures: CRAB_FEATURES,
+  cephalopodForm: CEPHALOPOD_FORM,
+  armForm: ARM_FORM,
+  shellShape: SHELL_SHAPE,
+  bellForm: BELL_FORM,
 };
 
 describe("traitQuestion", () => {

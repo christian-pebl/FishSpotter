@@ -1144,5 +1144,611 @@
       "lives-in-shell"
     ],
     "fieldNote": "Not a true crab: a soft-bodied crustacean living INSIDE an empty snail shell, usually a whelk or periwinkle. You only see its legs and unequal claws poking out, the right claw much larger. The shell itself is the give-away."
+  },
+  "Sepia officinalis": {
+    "commonName": "Common Cuttlefish",
+    "shapeClass": "squid",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "mottled",
+      "banded"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "hovering",
+      "on-bottom",
+      "solitary"
+    ],
+    "habitat": [
+      "sandy-bottom",
+      "midwater"
+    ],
+    "movement": [
+      "water-column",
+      "stationary"
+    ],
+    "cephalopodForm": [
+      "cuttlefish"
+    ],
+    "fieldNote": "Broad flattened oval body with a fin skirt running the whole way round, a W-shaped pupil and ten arms (two long, retractable). Hovers over sand and can flash zebra-stripe patterns in a blink. The largest UK cuttlefish, mainly the Channel and south."
+  },
+  "Loligo forbesii": {
+    "commonName": "Veined Squid",
+    "shapeClass": "squid",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "mottled",
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "schooling",
+      "fast-swim"
+    ],
+    "habitat": [
+      "midwater",
+      "open-water"
+    ],
+    "movement": [
+      "water-column",
+      "fast-swim"
+    ],
+    "cephalopodForm": [
+      "squid"
+    ],
+    "fieldNote": "Slender torpedo body with two triangular fins at the tail that together run about 70% of the mantle length. Reddish with fine veined speckles. Schools in midwater; the main UK fishery squid."
+  },
+  "Loligo vulgaris": {
+    "commonName": "European Squid",
+    "shapeClass": "squid",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "mottled",
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "schooling",
+      "fast-swim"
+    ],
+    "habitat": [
+      "midwater",
+      "open-water"
+    ],
+    "movement": [
+      "water-column",
+      "fast-swim"
+    ],
+    "cephalopodForm": [
+      "squid"
+    ],
+    "fieldNote": "Very like the veined squid but the rear fins are shorter, a bit over half the mantle length rather than two-thirds. Torpedo-bodied, reddish, schools in midwater over the shelf."
+  },
+  "Sepiola atlantica": {
+    "commonName": "Atlantic Bobtail",
+    "shapeClass": "squid",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "spotted",
+      "iridescent"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "burrowing",
+      "on-bottom",
+      "hovering"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "water-column",
+      "stationary"
+    ],
+    "cephalopodForm": [
+      "bobtail"
+    ],
+    "fieldNote": "Tiny (about 2 cm), with a short rounded body and small ear-like fins near the head. Buries in sand by day leaving only the eyes showing; skin flecked with iridescent specks. A seabed cameo, not a true squid."
+  },
+  "Eledone cirrhosa": {
+    "commonName": "Curled Octopus",
+    "shapeClass": "squid",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "mottled",
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "hiding",
+      "on-bottom",
+      "solitary"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl",
+      "water-column"
+    ],
+    "cephalopodForm": [
+      "octopus"
+    ],
+    "fieldNote": "Soft bulbous head, eight arms and no fins. A SINGLE row of suckers runs down each arm (the give-away vs the common octopus). Orange-brown, rough warty skin; tucks into crevices. The commoner octopus in UK waters."
+  },
+  "Octopus vulgaris": {
+    "commonName": "Common Octopus",
+    "shapeClass": "squid",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "mottled",
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "hiding",
+      "on-bottom",
+      "solitary"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl",
+      "water-column"
+    ],
+    "cephalopodForm": [
+      "octopus"
+    ],
+    "fieldNote": "Bulbous head, eight arms, no fins, with TWO rows of suckers down each arm (vs the single row of the curled octopus). Changes colour and texture fast; dens in rock holes with a litter of shells outside. More southern in the UK."
+  },
+  "Asterina gibbosa": {
+    "commonName": "Cushion Star",
+    "shapeClass": "starfish",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "mottled",
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl",
+      "stationary"
+    ],
+    "armForm": [
+      "short-stubby"
+    ],
+    "fieldNote": "Small, with five short fat arms that give a cushiony pentagon outline rather than a pointed star. Greenish-grey to orange; found under stones on the lower shore."
+  },
+  "Marthasterias glacialis": {
+    "commonName": "Spiny Starfish",
+    "shapeClass": "starfish",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "uniform",
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "armForm": [
+      "long-spiny"
+    ],
+    "fieldNote": "Large, with five long tapering arms carrying three rows of conspicuous white spines, each spine ringed at the base with blue. Pale grey-green. Can reach 70 cm across."
+  },
+  "Asterias rubens": {
+    "commonName": "Common Starfish",
+    "shapeClass": "starfish",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "armForm": [
+      "long-smooth"
+    ],
+    "fieldNote": "The classic five-armed orange star. Arms taper to a point and the surface is knobbly with a pale line of low spines down each arm, but no big spike rows. Abundant subtidally, often on mussel beds."
+  },
+  "Ophiothrix fragilis": {
+    "commonName": "Common Brittlestar",
+    "shapeClass": "starfish",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl",
+      "fits-and-starts"
+    ],
+    "armForm": [
+      "thin-whippy"
+    ],
+    "fieldNote": "A small round central disc with five long thread-thin spiny arms that writhe and snap off easily. Highly variable colour; often carpets the seabed in dense beds."
+  },
+  "Patella vulgata": {
+    "commonName": "Common Limpet",
+    "shapeClass": "gastropod",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "crawl",
+      "stationary"
+    ],
+    "shellShape": [
+      "flat-cone"
+    ],
+    "fieldNote": "A plain ribbed cone clamped tight to bare rock, with no spire and no pattern. Grazes algae and returns to the same scar at low tide."
+  },
+  "Nucella lapillus": {
+    "commonName": "Dog Whelk",
+    "shapeClass": "gastropod",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "uniform",
+      "banded"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "shellShape": [
+      "pointed-cone"
+    ],
+    "fieldNote": "A thick short-spired shell with spiral ridges and an oval opening drawn out into a short canal. White, grey or banded brown. Drills holes in barnacles and mussels to feed."
+  },
+  "Calliostoma zizyphinum": {
+    "commonName": "Painted Top Shell",
+    "shapeClass": "gastropod",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "spotted",
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "kelp"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "shellShape": [
+      "pointed-cone"
+    ],
+    "fieldNote": "A sharply conical glossy shell with straight sides and a flat base, like a smooth spinning top. Pinkish-yellow flecked with purple-red. Does not have an open navel underneath."
+  },
+  "Steromphala umbilicalis": {
+    "commonName": "Flat Top Shell",
+    "shapeClass": "gastropod",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "banded"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "shellShape": [
+      "rounded-squat"
+    ],
+    "fieldNote": "A squat rounded top streaked with purple zigzags, flatter than the painted top shell. The give-away is a distinct open navel (umbilicus) hole at the centre of the underside."
+  },
+  "Aurelia aurita": {
+    "commonName": "Moon Jellyfish",
+    "shapeClass": "jellyfish",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary",
+      "hovering"
+    ],
+    "habitat": [
+      "open-water",
+      "near-surface",
+      "midwater"
+    ],
+    "movement": [
+      "drifting",
+      "water-column"
+    ],
+    "bellForm": [
+      "saucer"
+    ],
+    "fieldNote": "A clear saucer bell with four pale horseshoe rings (the gonads) in the centre and only a short fringe of fine tentacles. The commonest UK jelly; sting is harmless to people."
+  },
+  "Chrysaora hysoscella": {
+    "commonName": "Compass Jellyfish",
+    "shapeClass": "jellyfish",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "banded"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "open-water",
+      "near-surface"
+    ],
+    "movement": [
+      "drifting",
+      "water-column"
+    ],
+    "bellForm": [
+      "saucer"
+    ],
+    "fieldNote": "A whitish saucer bell marked with 16 brown V-shapes radiating from a central spot, like a compass rose, plus long frilly arms and 24 thin tentacles. Stings."
+  },
+  "Cyanea capillata": {
+    "commonName": "Lion's Mane Jellyfish",
+    "shapeClass": "jellyfish",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "open-water",
+      "near-surface",
+      "midwater"
+    ],
+    "movement": [
+      "drifting",
+      "water-column"
+    ],
+    "bellForm": [
+      "trailing-mass"
+    ],
+    "fieldNote": "A large reddish-brown bell trailing a dense mane of hundreds of long fine tentacles. The UK's biggest jelly and a painful stinger, commonest in the north."
+  },
+  "Rhizostoma pulmo": {
+    "commonName": "Barrel Jellyfish",
+    "shapeClass": "jellyfish",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "open-water",
+      "near-surface",
+      "midwater"
+    ],
+    "movement": [
+      "drifting",
+      "water-column"
+    ],
+    "bellForm": [
+      "frilly-arms"
+    ],
+    "fieldNote": "A huge solid mushroom-shaped bell with a violet fringe and eight thick frilly cauliflower-like arms beneath, but NO long trailing tentacles. The dustbin-lid jelly; mostly harmless."
+  },
+  "Cyanea lamarckii": {
+    "commonName": "Blue Jellyfish",
+    "shapeClass": "jellyfish",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "open-water",
+      "near-surface"
+    ],
+    "movement": [
+      "drifting",
+      "water-column"
+    ],
+    "bellForm": [
+      "saucer"
+    ],
+    "fieldNote": "Like a small lion's mane but vivid blue to purple, the colour deepening towards the centre of the bell, with a mass of fine tentacles beneath. Mild sting."
   }
 }

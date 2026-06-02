@@ -1,7 +1,10 @@
 import {
+  ARM_FORM,
   BEHAVIOR,
+  BELL_FORM,
   BODY_SHAPE,
   CARAPACE_TEXTURE,
+  CEPHALOPOD_FORM,
   COLORATION,
   CRAB_FEATURES,
   FEATURES,
@@ -9,6 +12,7 @@ import {
   HABITAT,
   MARKINGS,
   MOVEMENT,
+  SHELL_SHAPE,
   SIZE,
   type ShapeClass,
   type SpeciesCatalogue,
@@ -39,6 +43,10 @@ export const TRAIT_KEYS = [
   "movement",
   "carapaceTexture",
   "crabFeatures",
+  "cephalopodForm",
+  "armForm",
+  "shellShape",
+  "bellForm",
 ] as const satisfies ReadonlyArray<keyof TraitSelection>;
 
 export type TraitKey = (typeof TRAIT_KEYS)[number];
@@ -55,6 +63,10 @@ const ALLOWED_VALUES: Record<TraitKey, ReadonlySet<string>> = {
   movement: new Set(MOVEMENT),
   carapaceTexture: new Set(CARAPACE_TEXTURE),
   crabFeatures: new Set(CRAB_FEATURES),
+  cephalopodForm: new Set(CEPHALOPOD_FORM),
+  armForm: new Set(ARM_FORM),
+  shellShape: new Set(SHELL_SHAPE),
+  bellForm: new Set(BELL_FORM),
 };
 
 export function speciesValuesFor(traits: SpeciesTraits, key: TraitKey): string[] {

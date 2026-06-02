@@ -28,15 +28,17 @@ import { nextBestTrait } from "@/lib/idguide/next-trait";
 import { traitQuestion } from "@/lib/idflow/trait-questions";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { ShapeClass, SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
+import { TRANSITION } from "@/lib/motion";
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // UX-3: branch-specific Rung 2 sub-split — a single visual, multi-option first
 // cut shown BEFORE the adaptive yes/no questions, but only when it actually
 // divides the candidates. Per the UX plan it is "0-1 steps" and "many branches
-// have zero sub-splits": flatfish has one species and crab is small enough for
-// the adaptive loop, so only fish (the 12-species branch) gets one for now. The
-// body-form labels mirror the existing IdGuideWizard for consistency.
+// have zero sub-splits": flatfish/scooter have one species each, so they get
+// none; fish (26 species) splits on body shape, and each invert tile splits on
+// its own "form" trait (cephalopod / arm / shell / bell). The labels mirror the
+// existing IdGuideWizard phrasing for consistency.
 type SubSplit = { key: TraitKey; prompt: string; options: { value: string; label: string }[] };
 const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
   fish: {
@@ -48,6 +50,45 @@ const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
       { value: "elongated", label: "Long and slender" },
       { value: "eel-like", label: "Eel-like" },
       { value: "flat-dorsoventral", label: "Flat, on the bottom" },
+    ],
+  },
+  squid: {
+    key: "cephalopodForm",
+    prompt: "What was the overall body plan?",
+    options: [
+      { value: "cuttlefish", label: "Broad body, fin all round" },
+      { value: "squid", label: "Torpedo, fins at the tail" },
+      { value: "bobtail", label: "Tiny, ear-like fins" },
+      { value: "octopus", label: "Eight arms, no fins" },
+    ],
+  },
+  starfish: {
+    key: "armForm",
+    prompt: "What were the arms like?",
+    options: [
+      { value: "short-stubby", label: "Five short fat arms" },
+      { value: "long-spiny", label: "Long arms, rows of spines" },
+      { value: "long-smooth", label: "Long arms, no spines" },
+      { value: "thin-whippy", label: "Thread-thin whippy arms" },
+    ],
+  },
+  gastropod: {
+    key: "shellShape",
+    prompt: "What was the shell like?",
+    options: [
+      { value: "flat-cone", label: "Low cone on the rock" },
+      { value: "pointed-cone", label: "Tall pointed spire" },
+      { value: "rounded-squat", label: "Squat rounded whorl" },
+      { value: "no-shell", label: "No shell (slug-like)" },
+    ],
+  },
+  jellyfish: {
+    key: "bellForm",
+    prompt: "What was the bell like?",
+    options: [
+      { value: "saucer", label: "Saucer, short tentacles" },
+      { value: "frilly-arms", label: "Solid bell, frilly arms" },
+      { value: "trailing-mass", label: "Long trailing tentacles" },
     ],
   },
 };
@@ -216,6 +257,16 @@ export function CandidateStrip({
         </div>
       </div>
 
+      {/* P2: scoring reassurance. The scored-by-rung model awards a point for
+          the right shape class even when the species guess is wrong, so a
+          tentative pick is never wasted. Surfaced subtly to lower commit
+          anxiety. */}
+      {candidates.length > 0 && (
+        <p className="mb-1.5 text-[10px] leading-snug text-white/35">
+          Not certain? A pick that&apos;s the right shape class still earns a point.
+        </p>
+      )}
+
       {/* UX-3: Rung 2 sub-split. A single visual multi-option cut, shown before
           the adaptive yes/no questions when it discriminates. */}
       {subSplit && (
@@ -285,22 +336,27 @@ export function CandidateStrip({
               Which looks like yours?
             </p>
           )}
+          <div className="relative -mx-1">
           <div
-            className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            className="flex gap-1.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             role="list"
             aria-label={`${candidates.length} candidate species`}
           >
-            {/* UX review flagged the static strip (the plan's "dopamine
-                engine") as a P1/P2 — but a framer AnimatePresence exit inside
-                this horizontal overflow-x-auto flex strip left removed chips
-                stuck in the DOM (3 in render state, 6 mounted). A broken
-                animation is worse than none, so the shrink animation is
-                deferred to a follow-up; chips re-render plainly for now. */}
+            {/* The shrinking strip is the plan's "dopamine engine". An earlier
+                attempt used a framer AnimatePresence EXIT, which left removed
+                chips stuck in this horizontal overflow-x-auto flex (3 in render
+                state, 6 mounted). The safe path is layout-only: dropped chips
+                simply unmount (React removes them, no exit), and the survivors
+                carry `layout` so they slide left to close the gap — most of the
+                "tightening" payoff, zero stuck-node risk. Guarded by
+                reduceMotion. */}
             {candidates.map((c) => (
               <motion.button
                 key={c.scientificName}
                 type="button"
                 role="listitem"
+                layout={!reduceMotion}
+                transition={reduceMotion ? undefined : { layout: TRANSITION.layout }}
                 disabled={submitting}
                 whileTap={!submitting && !reduceMotion ? { scale: 0.96 } : undefined}
                 onClick={() => onPick(c.commonName)}
@@ -310,6 +366,16 @@ export function CandidateStrip({
                 {c.commonName}
               </motion.button>
             ))}
+          </div>
+          {/* P2: scroll scent. The row hides its scrollbar and can hold up to
+              ~26 chips, so a right-edge fade hints there's more off-screen.
+              Only when the set is big enough to plausibly overflow. */}
+          {candidates.length > 6 && (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-navy-900/80 to-transparent"
+            />
+          )}
           </div>
         </>
       )}
