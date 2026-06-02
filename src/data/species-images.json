@@ -1,124 +1,272 @@
 {
   "_README": "Per-species image strategy used by scripts/refresh-images.ts. For each species we specify a list of {lifeStage, sex, count} buckets. The script will query iNaturalist with the corresponding filters, take the top N photos per bucket, and persist into SpeciesImage. To pin a specific photo (e.g. the one we KNOW is the best juvenile catshark image), add it to `overrides` as a SpeciesImage row — those are upserted with curated=true and never overwritten by the script.",
-  "_defaultBuckets": [{ "lifeStage": null, "sex": null, "count": 4 }],
+  "_defaultBuckets": [
+    {
+      "lifeStage": null,
+      "sex": null,
+      "count": 4
+    }
+  ],
   "species": {
     "Pollachius pollachius": {
       "_note": "Juveniles look very different (golden lateral stripe in kelp); show both.",
       "buckets": [
-        { "lifeStage": "adult", "count": 3 },
-        { "lifeStage": "juvenile", "count": 2 }
+        {
+          "lifeStage": "adult",
+          "count": 3
+        },
+        {
+          "lifeStage": "juvenile",
+          "count": 2
+        }
       ]
     },
     "Pollachius virens": {
-      "buckets": [{ "lifeStage": "adult", "count": 4 }]
+      "buckets": [
+        {
+          "lifeStage": "adult",
+          "count": 4
+        }
+      ]
     },
     "Trisopterus luscus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Trisopterus minutus": {
-      "buckets": [{ "count": 3 }]
+      "buckets": [
+        {
+          "count": 3
+        }
+      ]
     },
     "Labrus bergylta": {
       "_note": "Plain green/brown vs red-with-white-spots morph; juveniles emerald-green.",
       "buckets": [
-        { "lifeStage": "adult", "count": 3 },
-        { "lifeStage": "juvenile", "count": 2 }
+        {
+          "lifeStage": "adult",
+          "count": 3
+        },
+        {
+          "lifeStage": "juvenile",
+          "count": 2
+        }
       ]
     },
     "Labrus mixtus": {
       "_note": "Sexual dimorphism is extreme: ♂ blue/orange, ♀ pink with 3 dorsal blotches.",
       "buckets": [
-        { "lifeStage": "adult", "sex": "male", "count": 2 },
-        { "lifeStage": "adult", "sex": "female", "count": 2 },
-        { "count": 2 }
+        {
+          "lifeStage": "adult",
+          "sex": "male",
+          "count": 2
+        },
+        {
+          "lifeStage": "adult",
+          "sex": "female",
+          "count": 2
+        },
+        {
+          "count": 2
+        }
       ]
     },
     "Symphodus melops": {
       "_note": "Breeding ♂ vivid; ♀ cryptic brown.",
       "buckets": [
-        { "lifeStage": "adult", "sex": "male", "count": 2 },
-        { "lifeStage": "adult", "sex": "female", "count": 2 },
-        { "count": 2 }
+        {
+          "lifeStage": "adult",
+          "sex": "male",
+          "count": 2
+        },
+        {
+          "lifeStage": "adult",
+          "sex": "female",
+          "count": 2
+        },
+        {
+          "count": 2
+        }
       ]
     },
     "Ctenolabrus rupestris": {
-      "buckets": [{ "lifeStage": "adult", "count": 3 }, { "count": 2 }]
+      "buckets": [
+        {
+          "lifeStage": "adult",
+          "count": 3
+        },
+        {
+          "count": 2
+        }
+      ]
     },
     "Conger conger": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Pholis gunnellus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Gobius paganellus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Pomatoschistus minutus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Callionymus lyra": {
       "_note": "♂ elongated dorsal ray + blue stripes; ♀ cryptic brown saddles.",
       "buckets": [
-        { "lifeStage": "adult", "sex": "male", "count": 2 },
-        { "lifeStage": "adult", "sex": "female", "count": 2 },
-        { "count": 2 }
+        {
+          "lifeStage": "adult",
+          "sex": "male",
+          "count": 2
+        },
+        {
+          "lifeStage": "adult",
+          "sex": "female",
+          "count": 2
+        },
+        {
+          "count": 2
+        }
       ]
     },
     "Pleuronectes platessa": {
       "_note": "Add larva/post-settlement if iNat has it; flatfish pre-eye-migration is unrecognisable.",
       "buckets": [
-        { "lifeStage": "adult", "count": 3 },
-        { "lifeStage": "juvenile", "count": 2 },
-        { "lifeStage": "larva", "count": 1 }
+        {
+          "lifeStage": "adult",
+          "count": 3
+        },
+        {
+          "lifeStage": "juvenile",
+          "count": 2
+        },
+        {
+          "lifeStage": "larva",
+          "count": 1
+        }
       ]
     },
     "Scyliorhinus canicula": {
       "_note": "Egg case is itself an ID target — annotated as 'egg' on iNat.",
       "buckets": [
-        { "lifeStage": "adult", "count": 3 },
-        { "lifeStage": "egg", "count": 2 }
+        {
+          "lifeStage": "adult",
+          "count": 3
+        },
+        {
+          "lifeStage": "egg",
+          "count": 2
+        }
       ]
     },
     "Mullus surmuletus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Gadus morhua": {
       "_note": "Juveniles reddish-brown camouflage in kelp; adults mottled olive/silver.",
       "buckets": [
-        { "lifeStage": "adult", "count": 3 },
-        { "lifeStage": "juvenile", "count": 2 }
+        {
+          "lifeStage": "adult",
+          "count": 3
+        },
+        {
+          "lifeStage": "juvenile",
+          "count": 2
+        }
       ]
     },
     "Chelon labrosus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Dicentrarchus labrax": {
       "_note": "Juveniles have distinct black spots; adults plain silver.",
       "buckets": [
-        { "lifeStage": "adult", "count": 3 },
-        { "lifeStage": "juvenile", "count": 2 }
+        {
+          "lifeStage": "adult",
+          "count": 3
+        },
+        {
+          "lifeStage": "juvenile",
+          "count": 2
+        }
       ]
     },
     "Trachurus trachurus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Scomber scombrus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Sprattus sprattus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Atherina presbyter": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Taurulus bubalis": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Lipophrys pholis": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Spinachia spinachia": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     }
   },
   "overrides": {
@@ -139,57 +287,49 @@
     ],
     "Chrysaora hysoscella": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/147878617/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/147878617/square.jpeg",
-        "attribution": "(c) scush, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/89541182",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/350915708/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Christophe Quintin, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/199030975",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 1183,
-        "height": 2048,
         "ordering": 1
       }
     ],
     "Cyanea capillata": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/162788397/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/162788397/square.jpeg",
-        "attribution": "(c) belzebub, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/97842642",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/533074096/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Stepan Markin, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/296008611",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1536,
         "ordering": 1
       }
     ],
     "Rhizostoma octopus": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/588219983/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/588219983/square.jpg",
-        "attribution": "(c) gorgonopsia, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/324932796",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/516082202/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Cathy Hollingdale, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/287035614",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 1536,
-        "height": 2048,
         "ordering": 1
       }
     ],
     "Cyanea lamarckii": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/81163271/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/81163271/square.jpeg",
-        "attribution": "(c) Manja, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/51094208",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/634673185/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Nathan Jackson, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/348032033",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1364,
         "ordering": 1
       }
     ],
@@ -209,15 +349,13 @@
     ],
     "Carcinus maenas": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/14174609/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/14174609/square.jpg",
-        "attribution": "(c) Poul Erik Rasmussen, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/10247967",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/164795017/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Benoît Segerer, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/98919574",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1365,
         "ordering": 1
       }
     ],
@@ -293,99 +431,85 @@
     ],
     "Sepia officinalis": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/453958903/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/453958903/square.jpg",
-        "attribution": "(c) Falk Viczian Solarboot-Projekte gGmbH, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/253522038",
-        "license": "cc-by-nc",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/48352484/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) GBIF, CC BY via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/30927192",
+        "license": "cc-by",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1152,
         "ordering": 1
       }
     ],
     "Loligo forbesii": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/519776767/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/519776767/square.jpg",
-        "attribution": "(c) Cathy Hollingdale, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/289003834",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/532577319/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Ana Santos, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/295816201",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 1920,
-        "height": 1080,
         "ordering": 1
       }
     ],
     "Loligo vulgaris": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/206075077/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/206075077/square.jpeg",
-        "attribution": "(c) Ana Santos, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/121757465",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/376094283/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) giancarlo_torre, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/212820288",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1569,
         "ordering": 1
       }
     ],
     "Sepiola atlantica": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/508324552/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/508324552/square.jpg",
-        "attribution": "(c) unorthodox_sketch, some rights reserved (CC BY-NC)",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/508324521/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) unorthodox_sketch, CC BY-NC via iNaturalist",
         "sourceUrl": "https://www.inaturalist.org/observations/282915767",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1530,
         "ordering": 1
       }
     ],
     "Eledone cirrhosa": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/328494946/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/328494946/square.jpg",
-        "attribution": "(c) hippocampuskuda, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/187791384",
-        "license": "cc-by-nc",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/428757911/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Vsevolod Rudyi, CC BY via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/240644032",
+        "license": "cc-by",
         "lifeStage": "adult",
         "sex": null,
-        "width": 1536,
-        "height": 2048,
         "ordering": 1
       }
     ],
     "Octopus vulgaris": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/185851859/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/185851859/square.jpg",
-        "attribution": "(c) Juliana Lemos, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/110195205",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/215505229/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) jjulio2000, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/126973646",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1364,
         "ordering": 1
       }
     ],
     "Asterina gibbosa": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/422347731/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/422347731/square.jpg",
-        "attribution": "(c) MARIA SYNATIKA, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/237325709",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/425447535/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) MARIA SYNATIKA, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/238927913",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1368,
         "ordering": 1
       }
     ],
@@ -419,29 +543,25 @@
     ],
     "Ophiothrix fragilis": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/393977518/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/393977518/square.jpeg",
-        "attribution": "(c) Chris Isaacs, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/222410557",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/606910745/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Nathan Jackson, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/334229165",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1536,
         "ordering": 1
       }
     ],
     "Patella vulgata": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/469063122/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/469063122/square.jpeg",
-        "attribution": "(c) Marie Lou Legrand, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/261125117",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/502633914/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Christophe Quintin, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/279881524",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1510,
         "ordering": 1
       }
     ],
@@ -461,15 +581,13 @@
     ],
     "Calliostoma zizyphinum": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/159850863/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/159850863/square.jpg",
-        "attribution": "(c) Christine Morrow, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/96235358",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/289703286/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Frédéric ANDRE, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/167247441",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2000,
-        "height": 1500,
         "ordering": 1
       }
     ],
@@ -503,29 +621,25 @@
     ],
     "Trisopterus luscus": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/458238965/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/458238965/square.jpeg",
-        "attribution": "(c) eli_eli_oh, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/255674112",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/398792216/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Francois Libert, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/224967912",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 1542,
-        "height": 2048,
         "ordering": 1
       }
     ],
     "Trisopterus minutus": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/227964990/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/227964990/square.jpeg",
-        "attribution": "(c) JaRo Guiding, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/133802022",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/172596109/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Sylvain Le Bris, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/103160966",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 1365,
-        "height": 2048,
         "ordering": 1
       }
     ],
@@ -559,29 +673,25 @@
     ],
     "Labrus mixtus": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/438233143/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/438233143/square.jpeg",
-        "attribution": "(c) Soleil L. K. Johansson, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/245568411",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/122379066/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Alex, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/74846314",
         "license": "cc-by-nc",
         "lifeStage": "adult",
-        "sex": "male",
-        "width": 2048,
-        "height": 1169,
+        "sex": null,
         "ordering": 1
       }
     ],
     "Symphodus melops": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/102619490/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/102619490/square.jpg",
-        "attribution": "(c) Xavier Rufray, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/63891382",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/14767563/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) whodden, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/10592882",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1403,
         "ordering": 1
       }
     ],
@@ -601,15 +711,13 @@
     ],
     "Gobiusculus flavescens": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/532209223/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/532209223/square.jpg",
-        "attribution": "(c) Anna Renman, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/295621345",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/10965336/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) João Pedro Silva, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/8267284",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 1716,
-        "height": 2048,
         "ordering": 1
       }
     ],
@@ -629,29 +737,25 @@
     ],
     "Gobius paganellus": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/634891242/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/634891242/square.jpg",
-        "attribution": "(c) donnymidas, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/348145838",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/432301103/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) IHUNTA, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/242494613",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1152,
         "ordering": 1
       }
     ],
     "Pomatoschistus minutus": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/102668861/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/102668861/square.jpeg",
-        "attribution": "(c) Klaus Kevin Kristensen, some rights reserved (CC BY)",
-        "sourceUrl": "https://www.inaturalist.org/observations/63918708",
-        "license": "cc-by",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/420044845/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Frédéric ANDRE, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/236142389",
+        "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1540,
         "ordering": 1
       }
     ],
@@ -671,43 +775,37 @@
     ],
     "Lipophrys pholis": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/21859399/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/21859399/square.jpeg",
-        "attribution": "(c) Stefan, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/14654155",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/300356277/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Michiel Vos, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/172979964",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1536,
         "ordering": 1
       }
     ],
     "Taurulus bubalis": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/591928153/medium.jpg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/591928153/square.jpg",
-        "attribution": "(c) ice33, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/326793769",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/26091736/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) chrisrickard69, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/17210924",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1536,
         "ordering": 1
       }
     ],
     "Trachurus trachurus": [
       {
-        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/434211595/medium.jpeg",
-        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/434211595/square.jpeg",
-        "attribution": "(c) IHUNTA, some rights reserved (CC BY-NC)",
-        "sourceUrl": "https://www.inaturalist.org/observations/243503722",
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/96233085/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) whodden, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/60196271",
         "license": "cc-by-nc",
         "lifeStage": "adult",
         "sex": null,
-        "width": 2048,
-        "height": 1638,
         "ordering": 1
       }
     ],
@@ -793,6 +891,54 @@
           "ordering": 5
         }
       ]
-    }
+    },
+    "Callionymus lyra": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/425898332/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Bianca Bahlert, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/239159555",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 1
+      }
+    ],
+    "Scyliorhinus canicula": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/265483574/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Luis P. B., CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/153693962",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 1
+      }
+    ],
+    "Mullus surmuletus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/3426676/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) João Pedro Silva, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/2980793",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 1
+      }
+    ],
+    "Spinachia spinachia": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/228458607/medium.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Sylvain Le Bris, CC BY-NC via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/134068894",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 1
+      }
+    ]
   }
 }
