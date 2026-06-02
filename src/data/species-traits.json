@@ -1750,5 +1750,38 @@
       "saucer"
     ],
     "fieldNote": "Like a small lion's mane but vivid blue to purple, the colour deepening towards the centre of the bell, with a mass of fine tentacles beneath. Mild sting."
+  },
+  "Pelagia noctiluca": {
+    "commonName": "Mauve Stinger",
+    "shapeClass": "jellyfish",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "uniform",
+      "spotted"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "open-water",
+      "near-surface",
+      "midwater"
+    ],
+    "movement": [
+      "drifting",
+      "water-column"
+    ],
+    "bellForm": [
+      "saucer"
+    ],
+    "fieldNote": "A mauve-to-purple mushroom bell densely covered in stinging warts, with eight long slender marginal tentacles and four frilly oral arms. Fully oceanic (no seabed stage), glows blue at night, and swarms; a painful stinger increasingly common in UK and Irish waters."
   }
 }
