@@ -450,6 +450,178 @@ const INVERT_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+
+  // ---- STARFISH tile (echinoderms) ----
+  {
+    scientificName: "Asterina gibbosa",
+    commonName: "Cushion Star",
+    _photo: "iNat (c) MARIA SYNATIKA CC-BY-NC, obs 237325709 - cushion star on rock.",
+    marks: [
+      {
+        label: "Five short stubby arms",
+        description: "Five short, fat arms rather than long points - giving a plump, cushiony feel.",
+        overlayX: 0.32,
+        overlayY: 0.42,
+        overlayRadius: 0.13,
+      },
+      {
+        label: "Pentagon outline",
+        description: "The whole animal is a small (to 5 cm) greenish, knobbly pentagon, not a pointed star. Found under stones on the lower shore.",
+        overlayX: 0.47,
+        overlayY: 0.5,
+        overlayRadius: 0.2,
+      },
+    ],
+  },
+  {
+    scientificName: "Marthasterias glacialis",
+    commonName: "Spiny Starfish",
+    _photo: "iNat (c) faluke CC-BY-NC, obs 138316126 - orange spiny starfish.",
+    marks: [
+      {
+        label: "Long arms, rows of spines",
+        description: "Five long, tapering arms carrying three rows of conspicuous spines (each spine ringed blue at its base). Can reach 70 cm across.",
+        overlayX: 0.3,
+        overlayY: 0.55,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Conspicuous spines",
+        description: "The prominent, evenly-spaced white spines separate it from the smoother common starfish.",
+        overlayX: 0.48,
+        overlayY: 0.45,
+        overlayRadius: 0.14,
+      },
+    ],
+  },
+  {
+    scientificName: "Asterias rubens",
+    commonName: "Common Starfish",
+    _photo: "iNat (c) Darren Obbard CC-BY, obs 151512394 - classic orange five-armed star.",
+    marks: [
+      {
+        label: "Five tapering arms",
+        description: "The classic orange star: five stout arms tapering to points. Turns up almost anywhere, often near mussel beds.",
+        overlayX: 0.45,
+        overlayY: 0.48,
+        overlayRadius: 0.22,
+      },
+      {
+        label: "Pale spine line down each arm",
+        description: "A single pale line of low, knobbly spines runs down the middle of each arm - no big spike rows like the spiny starfish.",
+        overlayX: 0.3,
+        overlayY: 0.4,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
+  {
+    scientificName: "Ophiothrix fragilis",
+    commonName: "Common Brittlestar",
+    _photo: "iNat (c) Chris Isaacs CC-BY-NC, obs 222410557 - brittlestars in a dense bed.",
+    marks: [
+      {
+        label: "Long thin spiny arms",
+        description: "Five long, thread-thin arms fringed with fine spines - far more delicate than a true starfish's arms, and they snap off at a touch.",
+        overlayX: 0.4,
+        overlayY: 0.4,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Small disc, dense beds",
+        description: "A small round central disc sits at the centre of the arms. Hugely variable in colour; often carpets the seabed in writhing beds like this.",
+        overlayX: 0.5,
+        overlayY: 0.46,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+
+  // ---- SNAIL / SLUG tile (gastropods) ----
+  {
+    scientificName: "Patella vulgata",
+    commonName: "Common Limpet",
+    _photo: "iNat (c) Marie Lou Legrand CC-BY-NC, obs 261125117 - limpet on rock, top-down.",
+    marks: [
+      {
+        label: "Radiating ridges",
+        description: "A low cone of grey shell with ridges radiating from the peak. Steeper-coned high on the shore, flatter lower down.",
+        overlayX: 0.42,
+        overlayY: 0.45,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Clamped to bare rock",
+        description: "No spire and no pattern - just a plain cone clamped tight to the rock, grazing algae and homing to the same scar.",
+        overlayX: 0.42,
+        overlayY: 0.46,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Nucella lapillus",
+    commonName: "Dog Whelk",
+    _photo: "iNat (c) julievanroestel CC-BY-NC, obs 41289736 - cluster of dog whelks, colour variation.",
+    marks: [
+      {
+        label: "Short pointed spire",
+        description: "A thick, short-spired shell with spiral ridges and an oval mouth drawn out into a little spout. Drills holes in barnacles and mussels.",
+        overlayX: 0.5,
+        overlayY: 0.26,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Colour varies with diet",
+        description: "White, grey, banded brown or even orange - the colour follows what it has been eating, so a cluster looks like a mixed bag.",
+        overlayX: 0.52,
+        overlayY: 0.55,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
+  {
+    scientificName: "Calliostoma zizyphinum",
+    commonName: "Painted Top Shell",
+    _photo: "iNat (c) Christine Morrow CC-BY-NC, obs 96235358 - conical top shell.",
+    marks: [
+      {
+        label: "Sharp cone, straight sides",
+        description: "A glossy, sharply conical shell with straight sides and a flat base, like a smooth spinning top. Pinkish flecks over 10-12 whorls.",
+        overlayX: 0.45,
+        overlayY: 0.45,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Pointed apex, no navel",
+        description: "Comes to a fine point at the top, and (unlike the flat top shell) has no open navel hole on the underside.",
+        overlayX: 0.42,
+        overlayY: 0.28,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Steromphala umbilicalis",
+    commonName: "Flat Top Shell",
+    _photo: "iNat (c) Sophie Crocker CC-BY-NC, obs 300191612 - underside showing the navel hole.",
+    marks: [
+      {
+        label: "Squat rounded whorl",
+        description: "A squat, bluntly conical shell with purple zigzag streaks - flatter and rounder than the pointed painted top shell.",
+        overlayX: 0.45,
+        overlayY: 0.48,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Open navel hole underneath",
+        description: "The giveaway: a distinct open navel (umbilicus) hole at the centre of the underside. The painted top shell has none.",
+        overlayX: 0.32,
+        overlayY: 0.52,
+        overlayRadius: 0.08,
+      },
+    ],
+  },
 ];
 
 async function main() {

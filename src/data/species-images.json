@@ -375,6 +375,118 @@
         "ordering": 1
       }
     ],
+    "Asterina gibbosa": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/422347731/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/422347731/square.jpg",
+        "attribution": "(c) MARIA SYNATIKA, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/237325709",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1368,
+        "ordering": 1
+      }
+    ],
+    "Marthasterias glacialis": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/236385575/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/236385575/square.jpg",
+        "attribution": "(c) faluke, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/138316126",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 800,
+        "height": 773,
+        "ordering": 1
+      }
+    ],
+    "Asterias rubens": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/261432691/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/261432691/square.jpeg",
+        "attribution": "(c) Darren Obbard, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/observations/151512394",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
+    "Ophiothrix fragilis": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/393977518/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/393977518/square.jpeg",
+        "attribution": "(c) Chris Isaacs, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/222410557",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1536,
+        "ordering": 1
+      }
+    ],
+    "Patella vulgata": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/469063122/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/469063122/square.jpeg",
+        "attribution": "(c) Marie Lou Legrand, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/261125117",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1510,
+        "ordering": 1
+      }
+    ],
+    "Nucella lapillus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/65489594/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/65489594/square.jpg",
+        "attribution": "(c) julievanroestel, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/41289736",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1536,
+        "ordering": 1
+      }
+    ],
+    "Calliostoma zizyphinum": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/159850863/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/159850863/square.jpg",
+        "attribution": "(c) Christine Morrow, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/96235358",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2000,
+        "height": 1500,
+        "ordering": 1
+      }
+    ],
+    "Steromphala umbilicalis": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/540860219/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/540860219/square.jpg",
+        "attribution": "(c) Sophie Crocker, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/300191612",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1536,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
     "_EXAMPLE_DO_NOT_USE": {
       "Labrus mixtus": [
         {
