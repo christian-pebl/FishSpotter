@@ -28,7 +28,15 @@
 - **F-RADIUS-DRIFT (feed):** `FeedCard` floating panel `rounded-2xl` → `rounded-card`; MCQ candidate + skeleton tiles `rounded-2xl` → `rounded-modal`.
 - Confirmed the `src/components/landing/*` components (`HeroPreview`, `StatsBand`, `SpeciesMarquee`) are **live, not orphaned** (they render on `/`).
 
-**Still open:** the remaining systemic P2s (full glyph/radius/touch-target sweeps, type-token + editorial-auth-page work) and the P3 polish.
+**Follow-on P2 sweeps shipped (later 2 Jun, separate commits):**
+- **F-TOUCH-TARGETS** (non-admin): AvatarMenu trigger + menu rows, SideMenu close + nav links + sound toggle, browse pagination, IdGuideChat candidate row / use-answer button / composer textarea all bumped to >=44px.
+- **F-TYPE-TOKENS**: leaderboard + signin page H1 -> `text-h1`, leaderboard section H2 -> `text-h2`.
+- **F-EMPTY-AUTH-STATES** (terminal pages): new shared `src/components/MarineFrame.tsx` wraps the 404 / error / sighting-not-found pages with the animated marine pattern, matching the `/auth` treatment.
+- **F-PROFILE-METRICS**: profile now shows a **Score** tile (sum of `Answer.points`, reconciling with the leaderboard) and computes **Accuracy over resolved answers only** (excludes pending no-reference clips that were silently dragging it down).
+- **F-FEEDPLAYER-EMPTY**: empty-feed state re-skinned from off-palette `slate`/`cyan` + operator copy to a brand `pebl-surface` card with a user-facing headline + styled CTA.
+- **Opportunistic radius**: as each of the above files was touched, its `rounded-hero`/`2xl`/`lg`/`xl` was migrated to `rounded-card`/`rounded-modal` (the documented opportunistic path, not a banned big-bang sweep).
+
+**Still open:** the dedicated glyph-icon module + remaining decorative nav arrows (some in `admin/*`, deferred to avoid colliding with the parallel fish-marks work), the full `rounded-hero` retirement across the remaining (mostly admin) call-sites, admin-only items (F-ADMIN-SAVE-FEEDBACK), and the P3 polish. A radius config-level `rounded-hero` deletion should wait until the last call-sites are migrated.
 
 ---
 

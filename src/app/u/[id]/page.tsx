@@ -38,7 +38,14 @@ export default async function ProfilePage({
   });
   if (!user) notFound();
 
-  const [totalAnswers, correctAnswers, recentAnswers, allAnswerDates] =
+  const [
+    totalAnswers,
+    correctAnswers,
+    recentAnswers,
+    allAnswerDates,
+    pointsAgg,
+    resolvedAnswers,
+  ] =
     await Promise.all([
       prisma.answer.count({ where: { userId: id } }),
       prisma.answer.count({ where: { userId: id, isCorrect: true } }),
@@ -58,12 +65,19 @@ export default async function ProfilePage({
         where: { userId: id },
         select: { createdAt: true },
       }),
+      prisma.answer.aggregate({ where: { userId: id }, _sum: { points: true } }),
+      prisma.answer.count({ where: { userId: id, isCorrect: { not: null } } }),
     ]);
 
   const streak = computeStreakFromAnswers(allAnswerDates).currentStreak;
   const displayName = user.displayName ?? user.name ?? "Spotter";
+  // Score mirrors the leaderboard (sum of Answer.points) so the two pages
+  // reconcile. Accuracy is over RESOLVED answers only (isCorrect not null):
+  // pending answers on no-reference clips earn a bonus and must not count as
+  // wrong, which would silently drag the percentage down.
+  const score = pointsAgg._sum.points ?? 0;
   const accuracy =
-    totalAnswers > 0 ? Math.round((correctAnswers / totalAnswers) * 100) : 0;
+    resolvedAnswers > 0 ? Math.round((correctAnswers / resolvedAnswers) * 100) : 0;
 
   return (
     <main
@@ -71,16 +85,20 @@ export default async function ProfilePage({
       tabIndex={-1}
       className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-10"
     >
-      <section className="pebl-surface rounded-hero p-6 md:p-8">
+      <section className="pebl-surface rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">Spotter profile</p>
         <h1 className="mt-2 font-brand text-h1 text-navy-900">{displayName}</h1>
         <p className="mt-1 text-xs text-navy-900/55">
           Joined {user.createdAt.toLocaleDateString()}
         </p>
-        <dl className="mt-4 grid grid-cols-3 gap-3 text-center">
+        <dl className="mt-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Identifications</dt>
             <dd className="mt-1 text-2xl font-bold text-navy-900">{totalAnswers}</dd>
+          </div>
+          <div className="rounded-card border border-navy-900/12 p-3">
+            <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Score</dt>
+            <dd className="mt-1 text-2xl font-bold text-navy-900">{score}</dd>
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Accuracy</dt>
