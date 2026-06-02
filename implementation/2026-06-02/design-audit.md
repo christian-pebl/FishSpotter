@@ -35,10 +35,14 @@
 - **F-PROFILE-METRICS**: profile now shows a **Score** tile (sum of `Answer.points`, reconciling with the leaderboard) and computes **Accuracy over resolved answers only** (excludes pending no-reference clips that were silently dragging it down).
 - **F-FEEDPLAYER-EMPTY**: empty-feed state re-skinned from off-palette `slate`/`cyan` + operator copy to a brand `pebl-surface` card with a user-facing headline + styled CTA.
 - **Opportunistic radius**: as each of the above files was touched, its `rounded-hero`/`2xl`/`lg`/`xl` was migrated to `rounded-card`/`rounded-modal` (the documented opportunistic path, not a banned big-bang sweep).
+- **`rounded-hero` fully retired**: all 13 remaining non-admin call-sites migrated to `rounded-card` and the token deleted from `tailwind.config.ts`.
+- **F-GLYPH-ICONS (icon-button cases)**: SpeciesGallery lightbox `‹ ›` and the admin breadcrumb / row arrows swapped to stroked SVGs. (Remaining decorative arrows are render-safe typographic ones in body text.)
+- **F-ADMIN-SAVE-FEEDBACK**: the SpeciesAnnotator now surfaces a dismissible `danger` banner when any mark save (create/update/delete/reorder) fails, instead of silently console-erroring while the optimistic UI desynced. Admin radius (`rounded-xl/lg` -> `rounded-card/modal`) done in the same pass.
 
-**`rounded-hero` fully retired (2 Jun):** all 13 remaining non-admin call-sites migrated to `rounded-card` and the token deleted from `tailwind.config.ts`, so it can't be reintroduced.
-
-**Still open:** the dedicated glyph-icon module + remaining decorative nav arrows (some in `admin/*`), the remaining `rounded-2xl`/`lg`/`xl` drift (bulk sits in `admin/*`, migrated opportunistically to avoid colliding with the parallel fish-marks work), admin-only items (F-ADMIN-SAVE-FEEDBACK), and the P3 polish.
+**Still open:**
+- **NEW finding (admin colour bug):** the `/admin/*` pages reference Tailwind shades that are **not defined** in the config (`navy-50/100/200/300/400/600/700`), so admin text and borders render with default/inherited colour rather than the intended navy tints. Needs either extending the `navy` scale in `tailwind.config.ts` or mapping these to the existing `navy-900/<alpha>` utilities. A self-contained admin colour pass.
+- Render-safe typographic arrows in body text (`← Back`, pagination) — deprioritised; standard Unicode, no emoji-font problem.
+- P3 polish (sheet-title hierarchy, body-leading consistency).
 
 ---
 
