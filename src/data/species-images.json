@@ -291,6 +291,90 @@
         "ordering": 1
       }
     ],
+    "Sepia officinalis": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/453958903/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/453958903/square.jpg",
+        "attribution": "(c) Falk Viczian Solarboot-Projekte gGmbH, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/253522038",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1152,
+        "ordering": 1
+      }
+    ],
+    "Loligo forbesii": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/519776767/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/519776767/square.jpg",
+        "attribution": "(c) Cathy Hollingdale, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/289003834",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1920,
+        "height": 1080,
+        "ordering": 1
+      }
+    ],
+    "Loligo vulgaris": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/206075077/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/206075077/square.jpeg",
+        "attribution": "(c) Ana Santos, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/121757465",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1569,
+        "ordering": 1
+      }
+    ],
+    "Sepiola atlantica": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/508324552/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/508324552/square.jpg",
+        "attribution": "(c) unorthodox_sketch, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/282915767",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1530,
+        "ordering": 1
+      }
+    ],
+    "Eledone cirrhosa": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/328494946/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/328494946/square.jpg",
+        "attribution": "(c) hippocampuskuda, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/187791384",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1536,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
+    "Octopus vulgaris": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/185851859/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/185851859/square.jpg",
+        "attribution": "(c) Juliana Lemos, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/110195205",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1364,
+        "ordering": 1
+      }
+    ],
     "_EXAMPLE_DO_NOT_USE": {
       "Labrus mixtus": [
         {

@@ -315,6 +315,141 @@ const INVERT_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+
+  // ---- SQUID tile (cephalopods) ----
+  {
+    scientificName: "Sepia officinalis",
+    commonName: "Common Cuttlefish",
+    _photo: "iNat (c) Falk Viczian CC-BY-NC, obs 253522038 (Greece) - classic cuttlefish profile, W-pupil.",
+    marks: [
+      {
+        label: "W-shaped pupil",
+        description: "The eye has a distinctive wavy, W-shaped pupil - a cuttlefish signature you won't see on a fish.",
+        overlayX: 0.56,
+        overlayY: 0.4,
+        overlayRadius: 0.08,
+      },
+      {
+        label: "Fin runs the whole body",
+        description: "A narrow fin skirts the entire length of the broad, flattened body on both sides (a squid's fins sit only at the tail).",
+        overlayX: 0.28,
+        overlayY: 0.8,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Broad mottled body",
+        description: "Broad, flattened oval body, mottled brown and able to flash zebra patterns. Our largest cuttlefish; the white cuttlebone often washes up.",
+        overlayX: 0.28,
+        overlayY: 0.42,
+        overlayRadius: 0.16,
+      },
+    ],
+  },
+  {
+    scientificName: "Loligo forbesii",
+    commonName: "Veined Squid",
+    _photo: "iNat (c) Cathy Hollingdale CC-BY-NC, obs 289003834 - torpedo squid in midwater.",
+    marks: [
+      {
+        label: "Torpedo body",
+        description: "A slender, streamlined torpedo body - the classic squid shape, schooling in midwater. The main squid of UK fisheries.",
+        overlayX: 0.5,
+        overlayY: 0.38,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Long rear fins",
+        description: "Two triangular fins at the tail run about 70% of the body length (longer than the European squid's, which reach only about half).",
+        overlayX: 0.62,
+        overlayY: 0.4,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Loligo vulgaris",
+    commonName: "European Squid",
+    _photo: "iNat (c) Ana Santos CC-BY-NC, obs 121757465 - clean profile squid.",
+    marks: [
+      {
+        label: "Triangular tail fins",
+        description: "Two triangular fins at the tail, together reaching a bit over half the body length (shorter than the veined squid's ~70%).",
+        overlayX: 0.22,
+        overlayY: 0.42,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Big eye + ten arms",
+        description: "A large eye and ten arms (two of them long, retractable catching tentacles). Reddish, fast, schooling over the open shelf.",
+        overlayX: 0.76,
+        overlayY: 0.44,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
+  {
+    scientificName: "Sepiola atlantica",
+    commonName: "Atlantic Bobtail",
+    _photo: "iNat (c) unorthodox_sketch CC-BY-NC, obs 282915767 - close-up, ear fins + specks.",
+    marks: [
+      {
+        label: "Small ear-like fins",
+        description: "Two small, rounded ear-like fins near the head (not running down the body) mark out the little bobtail.",
+        overlayX: 0.28,
+        overlayY: 0.28,
+        overlayRadius: 0.12,
+      },
+      {
+        label: "Stubby body, iridescent specks",
+        description: "A tiny (about 2 cm), stubby rounded body flecked with iridescent specks. Buries in clean sand by day with only the eyes showing.",
+        overlayX: 0.55,
+        overlayY: 0.45,
+        overlayRadius: 0.2,
+      },
+    ],
+  },
+  {
+    scientificName: "Eledone cirrhosa",
+    commonName: "Curled Octopus",
+    _photo: "iNat (c) hippocampuskuda CC-BY-NC, obs 187791384 - orange octopus on mussel bed.",
+    marks: [
+      {
+        label: "Eight arms, no fins",
+        description: "Soft, bulbous body and eight long arms, no fins. Orange-brown; our commonest octopus, on rocky and shelly bottoms.",
+        overlayX: 0.3,
+        overlayY: 0.72,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Single row of suckers",
+        description: "A SINGLE row of suckers runs down each arm - the key difference from the common octopus, which has two rows.",
+        overlayX: 0.24,
+        overlayY: 0.68,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Octopus vulgaris",
+    commonName: "Common Octopus",
+    _photo: "iNat (c) Juliana Lemos CC-BY-NC, obs 110195205 - octopus in its den, suckers visible.",
+    marks: [
+      {
+        label: "Bulbous, warty body",
+        description: "A large bulbous head and eight arms with warty, mottled skin that changes colour in a blink. Dens in rock holes; mostly southern and western in the UK.",
+        overlayX: 0.5,
+        overlayY: 0.38,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Two rows of suckers",
+        description: "TWO rows of suckers run down each arm (vs the single row of the curled octopus) - the clincher between the two.",
+        overlayX: 0.62,
+        overlayY: 0.72,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
 ];
 
 async function main() {
