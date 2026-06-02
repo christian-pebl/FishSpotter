@@ -54,6 +54,132 @@ const INVERT_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+  {
+    scientificName: "Chrysaora hysoscella",
+    commonName: "Compass Jellyfish",
+    _photo: "iNat (c) scush CC-BY-NC, obs 89541182 - single bell top-down-ish, tentacles below.",
+    marks: [
+      {
+        label: "Radiating compass marks",
+        description:
+          "Dark brown V-shapes radiate from the centre of the bell like the points of a compass - the single best tell for this species.",
+        overlayX: 0.42,
+        overlayY: 0.4,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Dark central ring",
+        description: "A small dark ring sits at the very top of the bell, where all the V-marks meet.",
+        overlayX: 0.43,
+        overlayY: 0.3,
+        overlayRadius: 0.07,
+      },
+      {
+        label: "Long trailing tentacles",
+        description: "Twenty-four long, fine tentacles trail from the bell margin, plus four frilly mouth-arms. It stings.",
+        overlayX: 0.4,
+        overlayY: 0.7,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
+  {
+    scientificName: "Cyanea capillata",
+    commonName: "Lion's Mane Jellyfish",
+    _photo: "iNat (c) belzebub CC-BY-NC, obs 97842642 - stranded specimen, reddish-brown bell + tentacle mass.",
+    marks: [
+      {
+        label: "Reddish-brown bell",
+        description:
+          "A broad, domed bell in warm reddish-brown - the UK's largest jelly. Cooler-coloured blue jelly (C. lamarckii) is the smaller lookalike.",
+        overlayX: 0.52,
+        overlayY: 0.4,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Dense mane of tentacles",
+        description:
+          "Hundreds of long, fine tentacles hang in a thick 'mane' beneath the bell (vs the short fringe of a moon jelly). Painful sting.",
+        overlayX: 0.45,
+        overlayY: 0.62,
+        overlayRadius: 0.16,
+      },
+    ],
+  },
+  {
+    scientificName: "Rhizostoma octopus",
+    commonName: "Barrel Jellyfish",
+    _photo: "iNat (c) gorgonopsia CC-BY-NC, obs 324932796 - held specimen, solid bell + frilly arms.",
+    marks: [
+      {
+        label: "Solid domed bell",
+        description:
+          "A thick, firm, dome-shaped bell (the 'dustbin-lid' jelly) with a violet rim - much more solid than the floppy saucer jellies.",
+        overlayX: 0.42,
+        overlayY: 0.4,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Eight frilly arms, no tentacles",
+        description:
+          "Eight thick, cauliflower-frilly mouth-arms hang below, and there are NO long trailing tentacles. Mostly harmless.",
+        overlayX: 0.45,
+        overlayY: 0.66,
+        overlayRadius: 0.18,
+      },
+    ],
+  },
+  {
+    scientificName: "Cyanea lamarckii",
+    commonName: "Blue Jellyfish",
+    _photo: "iNat (c) Manja CC-BY-NC, obs 51094208 - top-down, vivid purple radiating bell.",
+    marks: [
+      {
+        label: "Blue-purple bell",
+        description:
+          "Vivid blue to purple, the colour deepening towards the centre of the bell. Like a small lion's mane but cool-coloured, not reddish-brown.",
+        overlayX: 0.45,
+        overlayY: 0.45,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Radiating canals",
+        description: "Dark lines radiate from the centre, with a mass of fine trailing tentacles beneath. Mild sting.",
+        overlayX: 0.45,
+        overlayY: 0.43,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Pelagia noctiluca",
+    commonName: "Mauve Stinger",
+    _photo: "iNat (c) Melissa Carlson CC-BY-NC, obs 228592978 - open-water swimmer, warty bell + long tentacles.",
+    marks: [
+      {
+        label: "Warty stinging bell",
+        description:
+          "The mauve-purple bell is peppered all over with dark stinging warts - unique among the common UK jellies. Glows blue at night.",
+        overlayX: 0.45,
+        overlayY: 0.18,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Frilly oral arms",
+        description: "Four long, frilly mouth-arms hang from the centre, between the bell and the tentacles.",
+        overlayX: 0.45,
+        overlayY: 0.4,
+        overlayRadius: 0.12,
+      },
+      {
+        label: "Long trailing tentacles",
+        description: "Eight long, slender tentacles trail well below the bell. A notable stinger; fully oceanic, arrives in swarms.",
+        overlayX: 0.45,
+        overlayY: 0.66,
+        overlayRadius: 0.16,
+      },
+    ],
+  },
 ];
 
 async function main() {

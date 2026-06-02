@@ -137,6 +137,76 @@
         "ordering": 1
       }
     ],
+    "Chrysaora hysoscella": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/147878617/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/147878617/square.jpeg",
+        "attribution": "(c) scush, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/89541182",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1183,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
+    "Cyanea capillata": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/162788397/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/162788397/square.jpeg",
+        "attribution": "(c) belzebub, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/97842642",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1536,
+        "ordering": 1
+      }
+    ],
+    "Rhizostoma octopus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/588219983/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/588219983/square.jpg",
+        "attribution": "(c) gorgonopsia, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/324932796",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1536,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
+    "Cyanea lamarckii": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/81163271/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/81163271/square.jpeg",
+        "attribution": "(c) Manja, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/51094208",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1364,
+        "ordering": 1
+      }
+    ],
+    "Pelagia noctiluca": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/405666497/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/405666497/square.jpeg",
+        "attribution": "(c) Melissa Carlson, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/228592978",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1536,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
     "_EXAMPLE_DO_NOT_USE": {
       "Labrus mixtus": [
         {
