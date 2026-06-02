@@ -36,7 +36,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
 
   return (
     <div className="space-y-6">
-      <div className="pebl-surface overflow-hidden rounded-hero p-3">
+      <div className="pebl-surface overflow-hidden rounded-card p-3">
         <div className="relative mx-auto aspect-[9/16] max-h-[70vh] overflow-hidden rounded-card bg-navy-900">
         <video
           src={snippet.videoUrl}

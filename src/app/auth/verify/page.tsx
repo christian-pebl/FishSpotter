@@ -15,7 +15,7 @@ export default async function VerifyEmailPage({
       tabIndex={-1}
       className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-12"
     >
-      <div className="pebl-surface rounded-hero p-6 md:p-8 text-center">
+      <div className="pebl-surface rounded-card p-6 md:p-8 text-center">
         <p className="pebl-eyebrow">Email verification</p>
         {token ? (
           <VerifyClient token={token} />

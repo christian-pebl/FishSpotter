@@ -7,7 +7,7 @@ export default function BrowseLoading() {
       aria-busy="true"
       aria-label="Loading archive"
     >
-      <div className="pebl-surface rounded-hero p-6 animate-pulse motion-reduce:animate-none">
+      <div className="pebl-surface rounded-card p-6 animate-pulse motion-reduce:animate-none">
         <div className="h-3 w-24 rounded-full bg-navy-900/12" />
         <div className="mt-3 h-7 w-3/4 max-w-md rounded-full bg-navy-900/12" />
         <div className="mt-2 h-3 w-2/3 max-w-sm rounded-full bg-navy-900/12" />

@@ -182,9 +182,11 @@ are the standard for new and touched code, so the drift narrows over time:
 - **Border radius: use `rounded-card` for surfaces, `rounded-modal` for
   inputs / small notices, `rounded-full` for pills.** Do NOT introduce
   `rounded-2xl` (it duplicates `rounded-modal`'s 16px) or `rounded-lg`. The
-  legacy `rounded-hero` (28px) is being retired in favour of `rounded-card`
-  (24px); migrate it opportunistically when you edit a file, don't sweep all
-  call-sites in one go.
+  legacy `rounded-hero` (28px) was **fully retired and removed from
+  `tailwind.config.ts` on 2 Jun 2026** (all call-sites migrated to
+  `rounded-card`); do not reintroduce it. Remaining `rounded-2xl`/`lg`/`xl`
+  drift is migrated opportunistically when a file is edited (the bulk left
+  sits in `admin/*`).
 - **Type scale: the named tokens (`display`/`h1`/`h2`/`h3`/`eyebrow`) are
   for headings only.** There is deliberately no token for small body/label
   text yet, so `text-xs` / `text-[11px]` / `text-[10px]` are the accepted

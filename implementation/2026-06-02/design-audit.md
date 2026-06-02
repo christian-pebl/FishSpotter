@@ -36,7 +36,9 @@
 - **F-FEEDPLAYER-EMPTY**: empty-feed state re-skinned from off-palette `slate`/`cyan` + operator copy to a brand `pebl-surface` card with a user-facing headline + styled CTA.
 - **Opportunistic radius**: as each of the above files was touched, its `rounded-hero`/`2xl`/`lg`/`xl` was migrated to `rounded-card`/`rounded-modal` (the documented opportunistic path, not a banned big-bang sweep).
 
-**Still open:** the dedicated glyph-icon module + remaining decorative nav arrows (some in `admin/*`, deferred to avoid colliding with the parallel fish-marks work), the full `rounded-hero` retirement across the remaining (mostly admin) call-sites, admin-only items (F-ADMIN-SAVE-FEEDBACK), and the P3 polish. A radius config-level `rounded-hero` deletion should wait until the last call-sites are migrated.
+**`rounded-hero` fully retired (2 Jun):** all 13 remaining non-admin call-sites migrated to `rounded-card` and the token deleted from `tailwind.config.ts`, so it can't be reintroduced.
+
+**Still open:** the dedicated glyph-icon module + remaining decorative nav arrows (some in `admin/*`), the remaining `rounded-2xl`/`lg`/`xl` drift (bulk sits in `admin/*`, migrated opportunistically to avoid colliding with the parallel fish-marks work), admin-only items (F-ADMIN-SAVE-FEEDBACK), and the P3 polish.
 
 ---
 

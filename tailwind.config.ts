@@ -58,7 +58,6 @@ export default {
       },
       borderRadius: {
         card: "24px",
-        hero: "28px",
         modal: "16px",
       },
       boxShadow: {

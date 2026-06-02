@@ -34,7 +34,7 @@ export default async function AccountPage() {
       tabIndex={-1}
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-4 px-4 py-10"
     >
-      <section className="pebl-surface rounded-hero p-6 md:p-8">
+      <section className="pebl-surface rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">Your account</p>
         <h1 className="mt-3 font-brand text-h1 text-navy-900">
           Account settings

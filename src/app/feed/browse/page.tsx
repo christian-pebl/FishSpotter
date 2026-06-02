@@ -127,7 +127,7 @@ export default async function FeedBrowsePage({
         tabIndex={-1}
         className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8"
       >
-        <div className="pebl-surface rounded-hero px-6 py-6">
+        <div className="pebl-surface rounded-card px-6 py-6">
           <p className="pebl-eyebrow text-xs">Observation archive</p>
           <h1 className="mt-2 font-brand-heading text-3xl font-bold text-navy-900">
             Browse the wider PEBL clip library
