@@ -281,11 +281,14 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.max(1, page - 1))}
               aria-disabled={page === 1}
               className={
-                "pebl-button-secondary inline-flex min-h-[44px] items-center px-3 text-xs " +
+                "pebl-button-secondary inline-flex min-h-[44px] items-center gap-1.5 px-3 text-xs " +
                 (page === 1 ? "pointer-events-none opacity-50" : "")
               }
             >
-              ← Previous
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M9.5 6h-6M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Previous
             </Link>
             <span className="text-xs text-navy-900/55">
               Page {page} of {totalPages}
@@ -294,11 +297,14 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.min(totalPages, page + 1))}
               aria-disabled={page === totalPages}
               className={
-                "pebl-button-secondary inline-flex min-h-[44px] items-center px-3 text-xs " +
+                "pebl-button-secondary inline-flex min-h-[44px] items-center gap-1.5 px-3 text-xs " +
                 (page === totalPages ? "pointer-events-none opacity-50" : "")
               }
             >
-              Next →
+              Next
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2.5 6h6M6 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </Link>
           </nav>
         )}

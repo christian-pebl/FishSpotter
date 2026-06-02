@@ -170,7 +170,7 @@ export default async function LeaderboardPage() {
           <h1 className="mt-2 font-brand-heading text-h1 text-navy-900">
             Spotter leaderboard
           </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-navy-900/72">
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-navy-900/72">
             Reward regular participation, celebrate accurate observations, and highlight the community members helping shape the marine monitoring record.
           </p>
           <p className="mt-3 max-w-2xl text-xs leading-5 text-navy-900/72">
@@ -288,7 +288,7 @@ export default async function LeaderboardPage() {
             <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
               Your progress
             </p>
-            <p className="mt-2 text-sm leading-6 text-navy-900">
+            <p className="mt-2 text-sm leading-7 text-navy-900">
               {myCounts!.correct} correct out of {myCounts!.total} so far.{" "}
               <strong>{answersToQualify}</strong> more {answersToQualify === 1 ? "answer" : "answers"} to qualify for the leaderboard.
             </p>
@@ -306,7 +306,7 @@ export default async function LeaderboardPage() {
             <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
               Get started
             </p>
-            <p className="mt-2 text-sm leading-6 text-navy-900">
+            <p className="mt-2 text-sm leading-7 text-navy-900">
               You haven&apos;t submitted any identifications yet. Submit {MIN_ANSWERS_FOR_RANKING} to enter the ranking.
             </p>
             <Link
@@ -325,7 +325,7 @@ export default async function LeaderboardPage() {
           <h2 className="mt-1 font-brand-heading text-h2 text-navy-900">
             Most common species answers
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-navy-900/72">
+          <p className="mt-2 max-w-2xl text-sm leading-7 text-navy-900/72">
             What spotters are naming most often across the live feed. {totalAnswers > 0 ? `${totalAnswers} total observations.` : ""}
           </p>
           {topAnswers.length === 0 ? (

@@ -225,8 +225,11 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                   </p>
                 )}
               </div>
-              <Link href="/feed" className="inline-flex text-[color:var(--primary)] underline underline-offset-4">
-                ← Back to live feed
+              <Link href="/feed" className="inline-flex items-center gap-1 text-teal-600 underline underline-offset-4">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M9.5 6h-6M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Back to live feed
               </Link>
             </motion.div>
           </AnimatePresence>

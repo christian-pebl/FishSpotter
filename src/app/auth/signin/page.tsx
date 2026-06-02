@@ -75,11 +75,11 @@ function SignInForm() {
             {isSignUp ? "Create your spotting profile" : "Sign in to continue spotting"}
           </h1>
           {arrivedFromProtected ? (
-            <p className="mb-6 mt-3 text-sm leading-6 text-navy-900/72">
+            <p className="mb-6 mt-3 text-sm leading-7 text-navy-900/72">
               Sign in to continue. Your progress is waiting.
             </p>
           ) : (
-            <p className="mb-6 mt-3 text-sm leading-6 text-navy-900/72">
+            <p className="mb-6 mt-3 text-sm leading-7 text-navy-900/72">
               Join the PEBL marine monitoring community to submit identifications, track your streak, and contribute to the shared observation record.
             </p>
           )}

@@ -36,7 +36,12 @@ export default async function SnippetDetailPage({
     <div className="flex-1 overflow-y-auto">
       <main id="main" tabIndex={-1} className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-6">
         <p className="mb-4">
-          <Link href="/feed" className="pebl-button-secondary inline-flex items-center justify-center min-h-[44px] rounded-full px-4 py-2 text-sm font-medium">← Back to live feed</Link>
+          <Link href="/feed" className="pebl-button-secondary inline-flex items-center justify-center gap-1.5 min-h-[44px] rounded-full px-4 py-2 text-sm font-medium">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M9.5 6h-6M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Back to live feed
+          </Link>
         </p>
         <SnippetPlayer snippet={snippet} />
       </main>

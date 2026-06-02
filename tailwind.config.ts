@@ -24,6 +24,18 @@ export default {
         },
         // PEBL navy scale. 900 is the brand foreground; 800 is the immersive modal surface.
         navy: {
+          // Light->dark navy ramp tuned to the brand foreground (#17252A) and
+          // its translucent equivalents (navy-900/<alpha>). Added 2 Jun 2026:
+          // the /admin pages referenced 50-700 but only 800/900 existed, so
+          // admin text + borders had been rendering with default colour.
+          50: "#F2F4F4",
+          100: "#E6E9EA",
+          200: "#D2D8D9",
+          300: "#B3BCBD",
+          400: "#8B9698",
+          500: "#6B7779",
+          600: "#4F5C5F", // muted body text on light, ~ navy-900/72
+          700: "#36464A",
           800: "#0F1D22", // modal
           900: "#17252A", // foreground / dark surface
         },
