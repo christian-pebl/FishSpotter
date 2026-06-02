@@ -255,6 +255,204 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+
+  // ---- Gobies, blenny, butterfish, sculpin ----
+  {
+    scientificName: "Gobiusculus flavescens",
+    commonName: "Two-spotted Goby",
+    _photo: "iNat (c) Anna Renman CC-BY-NC, obs 295621345 - single fish, head lower-right, tail upper-left.",
+    marks: [
+      {
+        label: "Dark spot behind pectoral fin",
+        description: "The first of the two namesake dark spots sits just behind the pectoral fin.",
+        overlayX: 0.5,
+        overlayY: 0.55,
+        overlayRadius: 0.07,
+      },
+      {
+        label: "Dark spot at the tail base",
+        description: "The second spot sits at the tail base. Two spots + orange-brown with blue speckles = two-spotted goby.",
+        overlayX: 0.25,
+        overlayY: 0.32,
+        overlayRadius: 0.07,
+      },
+      {
+        label: "Hovers in midwater shoals",
+        description: "Unlike other gobies it does not perch on the bottom - it hovers in loose midwater groups over kelp and weed.",
+        overlayX: 0.45,
+        overlayY: 0.45,
+        overlayRadius: 0.14,
+      },
+    ],
+  },
+  {
+    scientificName: "Pomatoschistus microps",
+    commonName: "Common Goby",
+    _photo: "iNat (c) Klaus Kevin Kristensen CC-BY, obs 62920685 - goby on the bottom, head left.",
+    marks: [
+      {
+        label: "Small mottled sandy goby",
+        description: "A tiny (to ~6 cm) sandy-mottled goby. Very like the sand goby; common goby favours brackish estuaries and pools.",
+        overlayX: 0.45,
+        overlayY: 0.5,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Pelvic-fin sucker",
+        description: "Like all gobies, the pelvic fins are fused into a little sucker disc it uses to perch on the bottom.",
+        overlayX: 0.3,
+        overlayY: 0.62,
+        overlayRadius: 0.06,
+      },
+      {
+        label: "Perched, rounded head",
+        description: "Rests propped on the bottom with a blunt rounded head and large eyes set high.",
+        overlayX: 0.3,
+        overlayY: 0.48,
+        overlayRadius: 0.08,
+      },
+    ],
+  },
+  {
+    scientificName: "Gobius paganellus",
+    commonName: "Rock Goby",
+    _photo: "iNat (c) donnymidas CC-BY-NC, obs 348145838 (Wembury UK) - dorsal fin raised, head left.",
+    marks: [
+      {
+        label: "Pale band on first dorsal fin",
+        description: "A pale orange/yellow band runs along the top edge of the first dorsal fin - the rock goby's tell.",
+        overlayX: 0.45,
+        overlayY: 0.3,
+        overlayRadius: 0.1,
+      },
+      {
+        label: "Robust dark body",
+        description: "A chunky, dark, mottled goby (to ~12 cm), much bigger and darker than the little sand/common gobies. Rocky shores.",
+        overlayX: 0.45,
+        overlayY: 0.52,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Blunt head, thick lips",
+        description: "A broad blunt head with thick lips, eyes set high.",
+        overlayX: 0.25,
+        overlayY: 0.48,
+        overlayRadius: 0.08,
+      },
+    ],
+  },
+  {
+    scientificName: "Pomatoschistus minutus",
+    commonName: "Sand Goby",
+    _photo: "iNat (c) Klaus Kevin Kristensen CC-BY, obs 63918708 - pale goby on the bottom, head right.",
+    marks: [
+      {
+        label: "Pale sandy body",
+        description: "Almost translucent, pale sandy-mottled - matches clean sand. Slightly larger and paler than the common goby.",
+        overlayX: 0.42,
+        overlayY: 0.48,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Pelvic-fin sucker",
+        description: "Perches on the sand on the fused pelvic-fin sucker shared by all gobies.",
+        overlayX: 0.42,
+        overlayY: 0.6,
+        overlayRadius: 0.07,
+      },
+      {
+        label: "Rows of small saddles",
+        description: "Faint rows of small dark saddles/spots along the back; a row of spots on the first dorsal in males.",
+        overlayX: 0.45,
+        overlayY: 0.4,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Pholis gunnellus",
+    commonName: "Butterfish",
+    _photo: "iNat (c) nicolasperrott CC-BY-NC, obs 159932101 - whole fish on white, head left.",
+    marks: [
+      {
+        label: "Row of dark eye-spots",
+        description: "A line of white-ringed black eye-spots runs along the base of the dorsal fin - the unmistakable butterfish mark.",
+        overlayX: 0.45,
+        overlayY: 0.55,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Long ribbon body",
+        description: "A long, flattened, ribbon-like body, slippery to hold (hence butterfish/gunnel). Drapes over rocks.",
+        overlayX: 0.55,
+        overlayY: 0.65,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Tiny pointed head",
+        description: "A small, blunt head on the slender ribbon - not eel-like teeth, just a gentle weed-grazer.",
+        overlayX: 0.12,
+        overlayY: 0.4,
+        overlayRadius: 0.06,
+      },
+    ],
+  },
+  {
+    scientificName: "Lipophrys pholis",
+    commonName: "Shanny",
+    _photo: "iNat (c) Stefan CC-BY-NC, obs 14654155 - head-on portrait.",
+    marks: [
+      {
+        label: "No head tentacles",
+        description: "The crown is smooth - NO branched tentacles above the eyes (that rules in the shanny vs the tompot blenny).",
+        overlayX: 0.48,
+        overlayY: 0.3,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Thick lips, big high-set eyes",
+        description: "A blunt, scaleless head with thick lips and large eyes set high and forward - a true blenny.",
+        overlayX: 0.48,
+        overlayY: 0.5,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Mottled green-brown body",
+        description: "A smooth, scaleless, mottled green-brown body that wedges into crevices and rock pools.",
+        overlayX: 0.22,
+        overlayY: 0.55,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
+  {
+    scientificName: "Taurulus bubalis",
+    commonName: "Long-spined Sea Scorpion",
+    _photo: "iNat (c) ice33 CC-BY-NC, obs 326793769 - small fish on a grey bag.",
+    marks: [
+      {
+        label: "Long cheek spine",
+        description: "A long spine on the cheek (preopercular) reaches back past the gill opening - the tell vs the short-spined sea scorpion.",
+        overlayX: 0.38,
+        overlayY: 0.45,
+        overlayRadius: 0.08,
+      },
+      {
+        label: "Big spiny head, fan pectorals",
+        description: "A broad, spiny, knobbly head and large fan-like pectoral fins; a stout, tapering body.",
+        overlayX: 0.48,
+        overlayY: 0.42,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Mottled camouflage",
+        description: "Highly variable blotchy camouflage (green, brown, reddish), sitting motionless among weed and rock.",
+        overlayX: 0.55,
+        overlayY: 0.5,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
 ];
 
 async function main() {
