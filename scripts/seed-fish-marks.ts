@@ -453,6 +453,176 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+
+  // ---- Pelagic / schooling fish ----
+  {
+    scientificName: "Trachurus trachurus",
+    commonName: "Atlantic Horse Mackerel",
+    _photo: "iNat (c) IHUNTA CC-BY-NC, obs 243503722 - single fish in hand, head right.",
+    marks: [
+      {
+        label: "Bony scute ridge",
+        description: "A row of hard, bony, keel-like scutes runs along the full length of the lateral line — unmistakable once you know to look.",
+        overlayX: 0.5,
+        overlayY: 0.45,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Two separate dorsal fins",
+        description: "First dorsal is short and spiny; second is long and soft — two clearly separate fins unlike mackerel's continuous one.",
+        overlayX: 0.42,
+        overlayY: 0.28,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Large eye, blunt snout",
+        description: "A notably large eye and blunt rounded head; metallic silver flanks without mackerel's wavy green bars.",
+        overlayX: 0.74,
+        overlayY: 0.42,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Scomber scombrus",
+    commonName: "Atlantic Mackerel",
+    _photo: "iNat (c) TCullinane CC-BY-NC, obs 124927131 - school, wavy back-bars clearly visible.",
+    marks: [
+      {
+        label: "Wavy green-blue bars",
+        description: "Bold, wavy, tiger-stripe bars across a metallic blue-green back — the most eye-catching fish in UK waters.",
+        overlayX: 0.45,
+        overlayY: 0.3,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Streamlined forked tail",
+        description: "A deeply forked tail and slim, torpedo-shaped body built for sustained fast swimming.",
+        overlayX: 0.12,
+        overlayY: 0.46,
+        overlayRadius: 0.1,
+      },
+      {
+        label: "Silver-white belly",
+        description: "A plain silver-white belly with no bars (the bars only run down the back) — sharp contrast with the coloured back.",
+        overlayX: 0.45,
+        overlayY: 0.6,
+        overlayRadius: 0.14,
+      },
+    ],
+  },
+  {
+    scientificName: "Sprattus sprattus",
+    commonName: "Sprat",
+    _photo: "iNat (c) Andy Jordan CC-BY, obs 224436028 (Cornwall UK) - single fish in hand.",
+    marks: [
+      {
+        label: "Keel of spiny scutes on belly",
+        description: "A row of small, sharp scutes runs along the belly keel — run your finger along it and you feel them. The most reliable sprat tell.",
+        overlayX: 0.5,
+        overlayY: 0.62,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "No dark spot behind gill",
+        description: "Unlike the herring, the sprat has no dark spot at the shoulder. A small (to ~15 cm), slim, bright-silver baitfish.",
+        overlayX: 0.68,
+        overlayY: 0.46,
+        overlayRadius: 0.08,
+      },
+      {
+        label: "Single small dorsal fin",
+        description: "One short dorsal fin positioned over the middle of the back, not forward of the pelvic fins as in the similar herring.",
+        overlayX: 0.44,
+        overlayY: 0.32,
+        overlayRadius: 0.08,
+      },
+    ],
+  },
+  {
+    scientificName: "Atherina presbyter",
+    commonName: "Sand Smelt",
+    _photo: "iNat (c) SJHandley CC-BY-NC, obs 306702172 (River Wey UK) - single fish in hand.",
+    marks: [
+      {
+        label: "Bright silver lateral stripe",
+        description: "A very bright, solid silver stripe runs the whole length of the flank — the sand smelt's most conspicuous feature.",
+        overlayX: 0.44,
+        overlayY: 0.48,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Translucent greenish body",
+        description: "A slender, semi-transparent body with a greenish tinge above the silver stripe; a small (to ~15 cm), near-surface schooler.",
+        overlayX: 0.44,
+        overlayY: 0.38,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Two small dorsal fins",
+        description: "Two small, separate dorsal fins — the first is tiny and spiny; both are set well back on the body.",
+        overlayX: 0.35,
+        overlayY: 0.3,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Dicentrarchus labrax",
+    commonName: "European Sea Bass",
+    _photo: "iNat (c) Fotis Samaras CC-BY-NC, obs 321234436 (Greece) - two fish in seagrass, lateral view.",
+    marks: [
+      {
+        label: "Two separate dorsal fins",
+        description: "A spiny first dorsal fin and a longer soft second dorsal fin, clearly separated — a perch-family hallmark.",
+        overlayX: 0.38,
+        overlayY: 0.28,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Silver-grey flanks, dark back",
+        description: "Plain silver-grey flanks scaling up to a darker back; no bars or obvious markings in adults.",
+        overlayX: 0.42,
+        overlayY: 0.48,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Spiny gill cover",
+        description: "Two flat spines on the rear edge of the gill cover (preopercle) — a prick-check confirms it quickly.",
+        overlayX: 0.6,
+        overlayY: 0.42,
+        overlayRadius: 0.08,
+      },
+    ],
+  },
+  {
+    scientificName: "Chelon labrosus",
+    commonName: "Thick-lipped Grey Mullet",
+    _photo: "iNat (c) Jason CC-BY-NC, obs 168443017 (Malta) - in-situ, thick-lipped profile.",
+    marks: [
+      {
+        label: "Thick upper lip",
+        description: "The upper lip is very thick (nearly as deep as the eye diameter) and warty-looking — the give-away vs thin-lipped and golden-grey mullet.",
+        overlayX: 0.62,
+        overlayY: 0.52,
+        overlayRadius: 0.07,
+      },
+      {
+        label: "Grey, striped flanks",
+        description: "Plain grey-silver body with faint horizontal dark streaks along each scale row; a robust, deep-bodied mullet.",
+        overlayX: 0.38,
+        overlayY: 0.48,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Two separated dorsal fins",
+        description: "A short spiny first dorsal followed by a longer soft second fin, well separated as in all grey mullet.",
+        overlayX: 0.35,
+        overlayY: 0.3,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
 ];
 
 async function main() {

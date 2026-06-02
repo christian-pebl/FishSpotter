@@ -697,6 +697,90 @@
         "ordering": 1
       }
     ],
+    "Trachurus trachurus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/434211595/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/434211595/square.jpeg",
+        "attribution": "(c) IHUNTA, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/243503722",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1638,
+        "ordering": 1
+      }
+    ],
+    "Scomber scombrus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/211801905/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/211801905/square.jpg",
+        "attribution": "(c) TCullinane, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/124927131",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1641,
+        "ordering": 1
+      }
+    ],
+    "Sprattus sprattus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/397779588/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/397779588/square.jpg",
+        "attribution": "(c) Andy Jordan, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/observations/224436028",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1536,
+        "ordering": 1
+      }
+    ],
+    "Atherina presbyter": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/553122959/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/553122959/square.jpg",
+        "attribution": "(c) SJHandley, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/306702172",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1365,
+        "ordering": 1
+      }
+    ],
+    "Dicentrarchus labrax": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/580923497/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/580923497/square.jpg",
+        "attribution": "(c) Fotis Samaras, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/321234436",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 2048,
+        "height": 1536,
+        "ordering": 1
+      }
+    ],
+    "Chelon labrosus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/291922759/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/291922759/square.jpg",
+        "attribution": "(c) Jason, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/168443017",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1392,
+        "height": 1218,
+        "ordering": 1
+      }
+    ],
     "_EXAMPLE_DO_NOT_USE": {
       "Labrus mixtus": [
         {
