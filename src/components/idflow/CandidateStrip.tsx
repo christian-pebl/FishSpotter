@@ -111,7 +111,7 @@ const SHAPE_NOUN: Record<ShapeClass, string> = {
   crab: "crab",
   fish: "fish",
   flatfish: "flatfish",
-  scooter: "scooter",
+  scooter: "dragonet",
   jellyfish: "jellyfish",
   starfish: "starfish",
   gastropod: "snail",
@@ -135,6 +135,7 @@ export function CandidateStrip({
   submitting,
   onPick,
   onChangeShape,
+  onSkipToMCQ,
 }: {
   /** null = the user tapped "Not sure" at the gate: narrow the whole catalogue
    *  (the weighted best-guess set) instead of dead-ending — the murky-safe path. */
@@ -144,6 +145,8 @@ export function CandidateStrip({
   onPick: (commonName: string) => void;
   /** Reopen the shape gate so the user can pick a different class. */
   onChangeShape: () => void;
+  /** Bail out to the MCQ when narrowing reaches zero candidates after answering. */
+  onSkipToMCQ?: () => void;
 }) {
   const reduceMotion = useReducedMotion();
   // Rung 3 state: accumulated yes/no trait answers + which traits we've asked.
@@ -238,6 +241,15 @@ export function CandidateStrip({
             : `${candidates.length} ${countLabel} left`}
         </p>
         <div className="flex shrink-0 items-center gap-3">
+          {answeredAny && candidates.length === 0 && onSkipToMCQ && (
+            <button
+              type="button"
+              onClick={onSkipToMCQ}
+              className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-teal-400/80 hover:text-teal-300"
+            >
+              Switch to ID guide
+            </button>
+          )}
           {answeredAny && (
             <button
               type="button"

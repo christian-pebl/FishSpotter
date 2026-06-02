@@ -1153,6 +1153,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         )
                       }
                       onChangeShape={() => setShapeGateOpen(true)}
+                      onSkipToMCQ={() => setSpotItActive(false)}
                     />
                   )}
                 </>

@@ -123,7 +123,7 @@ const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "fish",       label: "Fish",       Icon: SilFish },
   { key: "flatfish",   label: "Flatfish",   Icon: SilFlatfish },
   { key: "crab",       label: "Crab",       Icon: SilCrab },
-  { key: "scooter",    label: "Scooter",    Icon: SilScooter },
+  { key: "scooter",    label: "Dragonet",   Icon: SilScooter },
   { key: "jellyfish",  label: "Jellyfish",  Icon: SilJellyfish },
   { key: "starfish",   label: "Starfish",   Icon: SilStarfish },
   { key: "gastropod",  label: "Snail / slug", Icon: SilGastropod },

@@ -63,6 +63,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "striped-vertical": "Does it have stripes running top-to-bottom?",
     banded: "Does it have bold bands across the body?",
     iridescent: "Does it have shiny, iridescent blue markings?",
+    none: "Is it plain and unremarkable, with no obvious pattern, spots or stripes?",
   },
   habitat: {
     "open-water": "Is it out in open water?",
@@ -88,6 +89,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "water-column": "Is it swimming up in the water?",
     drifting: "Is it drifting passively with the current?",
     crawl: "Is it crawling along the bottom?",
+    "fast-swim": "Is it swimming fast?",
   },
   bodyShape: {
     fusiform: "Is the body torpedo-shaped and streamlined?",
