@@ -10,10 +10,9 @@
  * catalogue) rather than dead-ending — the murky-safe path.
  *
  * Assets (UX-5): real PhyloPic silhouettes (CC0 / Public Domain, fetched by
- * scripts/fetch-silhouettes.cjs into public/silhouettes/ + an inline map at
- * src/data/silhouettes.generated.ts; credits in silhouette-credits.json). The
- * hand-drawn inline SVGs below remain as a fallback for any class the fetch
- * can't resolve.
+ * scripts/fetch-silhouettes.cjs into public/silhouettes/; credits in
+ * src/data/silhouette-credits.json). The hand-drawn inline SVGs below remain
+ * as a fallback for any class the fetch can't resolve.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
