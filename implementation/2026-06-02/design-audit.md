@@ -39,10 +39,12 @@
 - **F-GLYPH-ICONS (icon-button cases)**: SpeciesGallery lightbox `‹ ›` and the admin breadcrumb / row arrows swapped to stroked SVGs. (Remaining decorative arrows are render-safe typographic ones in body text.)
 - **F-ADMIN-SAVE-FEEDBACK**: the SpeciesAnnotator now surfaces a dismissible `danger` banner when any mark save (create/update/delete/reorder) fails, instead of silently console-erroring while the optimistic UI desynced. Admin radius (`rounded-xl/lg` -> `rounded-card/modal`) done in the same pass.
 
-**Still open:**
-- **NEW finding (admin colour bug):** the `/admin/*` pages reference Tailwind shades that are **not defined** in the config (`navy-50/100/200/300/400/600/700`), so admin text and borders render with default/inherited colour rather than the intended navy tints. Needs either extending the `navy` scale in `tailwind.config.ts` or mapping these to the existing `navy-900/<alpha>` utilities. A self-contained admin colour pass.
-- Render-safe typographic arrows in body text (`← Back`, pagination) — deprioritised; standard Unicode, no emoji-font problem.
-- P3 polish (sheet-title hierarchy, body-leading consistency).
+**Final close-out (2 Jun):**
+- **Admin colour bug (fixed):** added the missing `navy-50..700` ramp to `tailwind.config.ts` (only `800/900` existed), tuned to the brand foreground and its `navy-900/<alpha>` equivalents. Every `/admin` text + border now renders the intended navy, with zero admin-file edits.
+- **Glyph (closed):** the remaining `← Back` / pagination arrows in browse, `feed/[id]`, `SnippetPlayer` and `IdGuideSheet` swapped to stroked SVG chevrons.
+- **P3 (closed):** IdGuide wizard question promoted to the `text-h3` token; `text-sm` body prose normalised to `leading-7` on leaderboard + signin.
+
+**Status: the audit backlog is closed.** Every confirmed finding has been shipped or explicitly resolved. Any future drift is covered by the standing conventions in `CLAUDE.md`.
 
 ---
 
