@@ -180,6 +180,141 @@ const INVERT_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+
+  // ---- CRAB tile ----
+  {
+    scientificName: "Carcinus maenas",
+    commonName: "Shore Crab",
+    _photo: "iNat (c) Poul Erik Rasmussen CC-BY-NC, obs 10247967 - green crab in situ, claws raised.",
+    marks: [
+      {
+        label: "Five teeth each side",
+        description:
+          "Count five sharp teeth along each side of the shell, behind the eyes (plus three blunt bumps between the eyes). The classic shore-crab tell.",
+        overlayX: 0.5,
+        overlayY: 0.42,
+        overlayRadius: 0.12,
+      },
+      {
+        label: "Pointed walking legs",
+        description:
+          "The legs end in simple points, never flattened into swimming paddles - that rules out the velvet and harbour crabs.",
+        overlayX: 0.66,
+        overlayY: 0.66,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
+  {
+    scientificName: "Cancer pagurus",
+    commonName: "Edible Crab",
+    _photo: "iNat (c) selmahakonsen CC-BY-NC, obs 103138094 - pale carapace, pie-crust edge clear.",
+    marks: [
+      {
+        label: "Pie-crust shell edge",
+        description:
+          "The front margin of the broad oval shell is crimped like the edge of a pie - unmistakable once you've seen it.",
+        overlayX: 0.5,
+        overlayY: 0.38,
+        overlayRadius: 0.22,
+      },
+      {
+        label: "Broad oval shell",
+        description:
+          "A wide, smooth oval shell (reddish-brown in life) with big black-tipped pincers. The biggest crab you'll meet on the shore.",
+        overlayX: 0.5,
+        overlayY: 0.54,
+        overlayRadius: 0.2,
+      },
+    ],
+  },
+  {
+    scientificName: "Necora puber",
+    commonName: "Velvet Swimming Crab",
+    _photo: "iNat (c) João Pedro Silva CC-BY-NC, obs 8504554 - face close-up, red eyes + velvet.",
+    marks: [
+      {
+        label: "Bright red eyes",
+        description: "Vivid red eyes are the instant giveaway - no other common UK crab has them.",
+        overlayX: 0.82,
+        overlayY: 0.4,
+        overlayRadius: 0.12,
+      },
+      {
+        label: "Velvety carapace",
+        description: "The shell is coated in fine velvety fur, dull brown. The last legs (not shown here) are flattened swimming paddles.",
+        overlayX: 0.45,
+        overlayY: 0.18,
+        overlayRadius: 0.16,
+      },
+    ],
+  },
+  {
+    scientificName: "Liocarcinus depurator",
+    commonName: "Harbour Crab",
+    _photo: "iNat (c) kathinkadalseg CC-BY-NC, obs 143420977 - clean dorsal, paddles visible.",
+    marks: [
+      {
+        label: "Flattened swimming paddles",
+        description:
+          "The last pair of legs end in flat, paddle-shaped segments (tips often tinged violet) for swimming - shared with the velvet crab, absent in the shore crab.",
+        overlayX: 0.32,
+        overlayY: 0.74,
+        overlayRadius: 0.1,
+      },
+      {
+        label: "Five side teeth",
+        description: "Five teeth down each side of the shell behind the eyes; reddish overall. A small swimming crab of muddy sand.",
+        overlayX: 0.45,
+        overlayY: 0.4,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Hyas araneus",
+    commonName: "Great Spider Crab",
+    _photo: "iNat (c) Tse Chung Yi CC-BY-NC, obs 22709550 - held, long legs + teardrop carapace.",
+    marks: [
+      {
+        label: "Long spindly legs",
+        description: "Long, thin, spider-like legs - far longer relative to the body than any of the true crabs here.",
+        overlayX: 0.3,
+        overlayY: 0.45,
+        overlayRadius: 0.13,
+      },
+      {
+        label: "Teardrop shell, pointed snout",
+        description:
+          "The shell is teardrop-shaped, narrowing to a forked point at the front, and is often coated in seaweed and hydroids.",
+        overlayX: 0.48,
+        overlayY: 0.42,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Pagurus bernhardus",
+    commonName: "Hermit Crab",
+    _photo: "iNat (c) Bianca Bahlert CC-BY-NC, obs 192944870 - hermit peeking from a shell.",
+    marks: [
+      {
+        label: "Lives in a borrowed shell",
+        description:
+          "Not a true crab: a soft-bodied animal living inside an empty snail shell (a periwinkle when small, a whelk when bigger). The shell is the giveaway.",
+        overlayX: 0.35,
+        overlayY: 0.45,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Legs and claws poke out",
+        description: "Only the legs and unequal claws show, the right claw the larger - used to block the shell entrance when threatened.",
+        overlayX: 0.58,
+        overlayY: 0.62,
+        overlayRadius: 0.14,
+      },
+    ],
+  },
 ];
 
 async function main() {
