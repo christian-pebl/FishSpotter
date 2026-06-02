@@ -9,8 +9,11 @@
  * "Not sure" activates the strip with no shape filter (narrows the whole
  * catalogue) rather than dead-ending — the murky-safe path.
  *
- * Assets: placeholder inline SVGs in brand teal — swap for PhyloPic art in
- * Workstream D / UX-5.
+ * Assets (UX-5): real PhyloPic silhouettes (CC0 / Public Domain, fetched by
+ * scripts/fetch-silhouettes.cjs into public/silhouettes/ + an inline map at
+ * src/data/silhouettes.generated.ts; credits in silhouette-credits.json). The
+ * hand-drawn inline SVGs below remain as a fallback for any class the fetch
+ * can't resolve.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -20,13 +23,19 @@ import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { DURATION, EASE } from "@/lib/motion";
+import silhouetteCredits from "@/data/silhouette-credits.json";
+
+// Which classes have a real PhyloPic asset in public/silhouettes/ (the rest
+// fall back to the hand-drawn inline SVG below).
+const HAS_SILHOUETTE = new Set(Object.keys(silhouetteCredits));
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // ---------------------------------------------------------------------------
-// Placeholder silhouettes — one inline SVG per shape class.
+// Fallback silhouettes — one inline SVG per shape class.
 // All are single-path stroked art in `currentColor` so they inherit the
-// parent's text-teal-500 class. Replace with PhyloPic SVGs in UX-5.
+// parent's text-teal-500 class. Used only when SILHOUETTES has no PhyloPic
+// asset for a class (see the UX-5 note above).
 // ---------------------------------------------------------------------------
 
 function SilFish() {
@@ -251,8 +260,29 @@ export function ShapeGate({
                         : "border-white/15 bg-white/5 text-teal-500 hover:border-teal-400 hover:bg-teal-500/20 hover:text-teal-300",
                   ].join(" ")}
                 >
-                  <span className="h-8 w-8">
-                    <Icon />
+                  <span className="flex h-8 w-8 items-center justify-center">
+                    {HAS_SILHOUETTE.has(key) ? (
+                      // UX-5: real PhyloPic silhouette (CC0/PD) served as a
+                      // static file and tinted via CSS mask + bg-current, so it
+                      // inherits the tile's teal and hover-recolors with zero
+                      // JS-bundle cost. Credits in silhouette-credits.json.
+                      <span
+                        aria-hidden="true"
+                        className="block h-full w-full bg-current"
+                        style={{
+                          maskImage: `url(/silhouettes/${key}.svg)`,
+                          WebkitMaskImage: `url(/silhouettes/${key}.svg)`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                      />
+                    ) : (
+                      <Icon />
+                    )}
                   </span>
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-white/70">
                     {label}
