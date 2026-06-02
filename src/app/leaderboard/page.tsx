@@ -163,23 +163,23 @@ export default async function LeaderboardPage() {
         tabIndex={-1}
         className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8"
       >
-        <section className="pebl-surface rounded-card px-6 py-6">
-          <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+        <section className="pebl-surface rounded-hero px-6 py-6">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">
             Community overview
           </p>
-          <h1 className="mt-2 font-brand-heading text-h1 text-navy-900">
+          <h1 className="mt-2 font-brand-heading text-3xl font-bold text-[color:var(--foreground)]">
             Spotter leaderboard
           </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-navy-900/72">
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
             Reward regular participation, celebrate accurate observations, and highlight the community members helping shape the marine monitoring record.
           </p>
-          <p className="mt-3 max-w-2xl text-xs leading-5 text-navy-900/72">
+          <p className="mt-3 max-w-2xl text-xs leading-5 text-[color:var(--muted)]">
             Score = 2 points per correct ID against a reference, 1 point for a submission on a clip without a reference yet, 0 for an unmatched guess. Each clip counts once per spotter. Minimum {MIN_ANSWERS_FOR_RANKING} answers to enter the ranking.
           </p>
         </section>
 
         {leaderboard.length === 0 ? (
-          <p className="text-sm text-navy-900/72">
+          <p className="text-sm text-[color:var(--muted)]">
             No spotters have hit the {MIN_ANSWERS_FOR_RANKING}-answer threshold yet. Sign in and start identifying clips to be the first.
           </p>
         ) : (
@@ -189,7 +189,7 @@ export default async function LeaderboardPage() {
                 Top spotters ranked by correct identifications. Minimum {MIN_ANSWERS_FOR_RANKING} answers to qualify.
               </caption>
               <thead>
-                <tr className="border-b border-navy-900/12 text-xs uppercase tracking-eyebrow text-navy-900/72">
+                <tr className="border-b border-[color:var(--border)] text-xs uppercase tracking-eyebrow text-[color:var(--muted)]">
                   <th scope="col" className="px-4 py-3 w-12">Rank</th>
                   <th scope="col" className="px-4 py-3">Spotter</th>
                   <th scope="col" className="px-4 py-3 text-right">Score</th>
@@ -211,18 +211,33 @@ export default async function LeaderboardPage() {
                           row: "bg-amber-50/70 border-l-4 border-amber-400",
                           rank: "text-amber-700",
                           label: "Gold",
+                          icon: (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+                              <path d="M6 1l1.2 3.7H11L8 6.9l1.1 3.6L6 8.4l-3.1 2.1L4 6.9 1 4.7h3.8z"/>
+                            </svg>
+                          ),
                         }
                       : entry.rank === 2
                         ? {
                             row: "bg-zinc-100/70 border-l-4 border-zinc-400",
                             rank: "text-zinc-600",
                             label: "Silver",
+                            icon: (
+                              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                                <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.8"/>
+                              </svg>
+                            ),
                           }
                         : entry.rank === 3
                           ? {
                               row: "bg-orange-50/70 border-l-4 border-orange-400",
                               rank: "text-orange-700",
                               label: "Bronze",
+                              icon: (
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true">
+                                  <path d="M6 2l4.5 8H1.5z"/>
+                                </svg>
+                              ),
                             }
                           : null;
                   return (
@@ -233,7 +248,7 @@ export default async function LeaderboardPage() {
                       // doesn't include "row" yet, so we cast to satisfy TS.
                       aria-current={isMe ? ("row" as "page") : undefined}
                       className={
-                        "border-b border-navy-900/12 last:border-b-0" +
+                        "border-b border-[color:var(--border)] last:border-b-0" +
                         (medal ? ` ${medal.row}` : "") +
                         // Keep the "You" left-border even when stacked with a medal accent.
                         (isMe ? " bg-surface-muted" : "")
@@ -242,15 +257,18 @@ export default async function LeaderboardPage() {
                       <td
                         className={
                           "px-4 py-3 font-mono " +
-                          (medal ? `font-bold ${medal.rank}` : "text-teal-600")
+                          (medal ? `font-bold ${medal.rank}` : "text-[color:var(--primary)]")
                         }
                       >
                         {medal && (
-                          <span className="sr-only">{medal.label} medal. </span>
+                          <>
+                            {medal.icon}
+                            <span className="sr-only">{medal.label} medal. </span>
+                          </>
                         )}
                         #{entry.rank}
                       </td>
-                      <td className="px-4 py-3 font-medium text-navy-900">
+                      <td className="px-4 py-3 font-medium text-[color:var(--foreground)]">
                         {entry.displayName}
                         {isMe && (
                           <span className="ml-2 inline-block rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-teal-700">
@@ -258,10 +276,10 @@ export default async function LeaderboardPage() {
                           </span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-right font-semibold text-teal-600">
+                      <td className="px-4 py-3 text-right font-semibold text-[color:var(--primary)]">
                         {entry.score}
                       </td>
-                      <td className="px-4 py-3 text-right text-navy-900/72 hidden sm:table-cell">
+                      <td className="px-4 py-3 text-right text-[color:var(--muted)] hidden sm:table-cell">
                         {entry.correct}/{entry.total}
                       </td>
                     </tr>
@@ -274,10 +292,10 @@ export default async function LeaderboardPage() {
 
         {myEntry && !myEntryVisible && (
           <div className="pebl-surface rounded-card flex items-center justify-between gap-4 px-4 py-3 text-sm">
-            <div className="font-medium text-navy-900">
-              Your rank: <span className="font-mono text-teal-600">#{myEntry.rank}</span>
+            <div className="font-medium text-[color:var(--foreground)]">
+              Your rank: <span className="font-mono text-[color:var(--primary)]">#{myEntry.rank}</span>
             </div>
-            <div className="text-navy-900/72">
+            <div className="text-[color:var(--muted)]">
               {myEntry.score} points · {myEntry.correct}/{myEntry.total} correct
             </div>
           </div>
@@ -285,10 +303,10 @@ export default async function LeaderboardPage() {
 
         {ineligible && (
           <div className="pebl-surface rounded-card px-6 py-5">
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">
               Your progress
             </p>
-            <p className="mt-2 text-sm leading-7 text-navy-900">
+            <p className="mt-2 text-sm leading-6 text-[color:var(--foreground)]">
               {myCounts!.correct} correct out of {myCounts!.total} so far.{" "}
               <strong>{answersToQualify}</strong> more {answersToQualify === 1 ? "answer" : "answers"} to qualify for the leaderboard.
             </p>
@@ -303,10 +321,10 @@ export default async function LeaderboardPage() {
 
         {noAnswersYet && (
           <div className="pebl-surface rounded-card px-6 py-5">
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">
               Get started
             </p>
-            <p className="mt-2 text-sm leading-7 text-navy-900">
+            <p className="mt-2 text-sm leading-6 text-[color:var(--foreground)]">
               You haven&apos;t submitted any identifications yet. Submit {MIN_ANSWERS_FOR_RANKING} to enter the ranking.
             </p>
             <Link
@@ -319,30 +337,30 @@ export default async function LeaderboardPage() {
         )}
 
         <section className="pebl-surface rounded-card px-6 py-6">
-          <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">
             Most-named species
           </p>
-          <h2 className="mt-1 font-brand-heading text-h2 text-navy-900">
+          <h2 className="mt-1 font-brand-heading text-2xl font-bold text-[color:var(--foreground)]">
             Most common species answers
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-7 text-navy-900/72">
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
             What spotters are naming most often across the live feed. {totalAnswers > 0 ? `${totalAnswers} total observations.` : ""}
           </p>
           {topAnswers.length === 0 ? (
-            <p className="mt-4 text-sm text-navy-900/72">No observations recorded yet.</p>
+            <p className="mt-4 text-sm text-[color:var(--muted)]">No observations recorded yet.</p>
           ) : (
             <ul className="mt-4 space-y-1.5">
               {topAnswers.map((row, i) => (
                 <li key={row.option} className="flex items-center gap-3 text-sm">
-                  <span className="w-6 text-right font-mono text-xs text-navy-900/72">#{i + 1}</span>
-                  <span className="w-40 truncate text-navy-900">{row.option}</span>
+                  <span className="w-6 text-right font-mono text-xs text-[color:var(--muted)]">#{i + 1}</span>
+                  <span className="w-40 truncate text-[color:var(--foreground)]">{row.option}</span>
                   <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--surface-muted)]">
                     <div
-                      className="h-full rounded-full bg-teal-600"
+                      className="h-full rounded-full bg-[color:var(--primary)]"
                       style={{ width: `${Math.max(2, row.percent)}%` }}
                     />
                   </div>
-                  <span className="w-16 text-right tabular-nums text-xs text-navy-900/72">
+                  <span className="w-16 text-right tabular-nums text-xs text-[color:var(--muted)]">
                     {row.count} · {row.percent}%
                   </span>
                 </li>
