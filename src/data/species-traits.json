@@ -67,7 +67,7 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Pollack's cousin — dark greenish back, silvery sides, and a near-STRAIGHT pale lateral line (not kinked). Faster, more schooling than pollack; jaw is level rather than under-shot."
+    "fieldNote": "Pollack's cousin: dark greenish back, silvery sides, and a near-STRAIGHT pale lateral line (not kinked). Faster, more schooling than pollack; jaw is level rather than under-shot."
   },
   "Trisopterus luscus": {
     "commonName": "Bib",
@@ -341,7 +341,7 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Small orange-brown goby with TWO diagnostic black spots: one at the tail base, one behind the pectoral fin. Unlike other gobies it hovers in loose midwater groups near kelp and seaweed — not glued to the bottom."
+    "fieldNote": "Small orange-brown goby with TWO diagnostic black spots: one at the tail base, one behind the pectoral fin. Unlike other gobies it hovers in loose midwater groups near kelp and seaweed, not glued to the bottom."
   },
   "Pomatoschistus microps": {
     "commonName": "Common goby",
@@ -973,7 +973,7 @@
     "crabFeatures": [
       "marginal-teeth"
     ],
-    "fieldNote": "Britain's commonest crab. Count FIVE sharp teeth along each side of the carapace behind the eyes, with three blunt bumps between the eyes. Green to mottled brown; the walking legs are pointed and never flattened into paddles."
+    "fieldNote": "Britain's commonest crab, on every kind of shore. The shell is broadest near the front with five sharp teeth down each side behind the eyes and three little bumps between them. Green to mottled brown; the back legs are pointed, never flattened into paddles."
   },
   "Cancer pagurus": {
     "commonName": "Edible Crab",
@@ -1007,7 +1007,7 @@
     "crabFeatures": [
       "dark-claw-tips"
     ],
-    "fieldNote": "The pasty crab: a broad oval carapace with a pale crimped PIE-CRUST edge, brick-brown to reddish, and big black-tipped pincers. By far the largest crab you are likely to see on the seabed here."
+    "fieldNote": "Unmistakable once you've seen one: a broad reddish-brown shell with a crimped 'pie-crust' edge and big black-tipped pincers. Small ones hide under stones on the lower shore, while the dinner-plate-sized adults live in deeper water."
   },
   "Necora puber": {
     "commonName": "Velvet Swimming Crab",
@@ -1043,7 +1043,7 @@
       "swimming-paddle",
       "red-eyes"
     ],
-    "fieldNote": "Unmistakable RED eyes and a fine velvety fur over the carapace. The last pair of legs end in flattened swimming paddles, and bright blue lines run along the legs and claws. Notoriously feisty when cornered."
+    "fieldNote": "Feisty and quick to raise its claws. The shell is covered in fine velvety fur, the back legs end in flattened swimming paddles, and the eyes are a startling red. Brownish, on sheltered rocky shores."
   },
   "Liocarcinus depurator": {
     "commonName": "Harbour Crab",
@@ -1077,7 +1077,7 @@
     "crabFeatures": [
       "swimming-paddle"
     ],
-    "fieldNote": "A sandy-bottom swimming crab: the last leg pair is flattened into a paddle (often deep violet beneath) and the carapace carries two faint arcs of small white dots. Reddish leg tips; smoother and plainer than the velvet swimmer."
+    "fieldNote": "A small swimming crab of muddy sand. Reddish overall with five teeth down each side of the shell; the give-away is the flattened, paddle-shaped back legs, their tips tinged violet."
   },
   "Hyas araneus": {
     "commonName": "Great Spider Crab",
@@ -1112,7 +1112,7 @@
     "crabFeatures": [
       "long-legs"
     ],
-    "fieldNote": "Triangular, knobbly carapace narrowing to a point at the head, carried on long spindly legs. Often decorated with scraps of seaweed and sponge for camouflage, so judge it on leg length and shape rather than colour."
+    "fieldNote": "A bulky spider crab with a teardrop-shaped shell and a forked, pointed snout. Often so coated in seaweed, hydroids and tubeworms that its outline is hard to make out. Long-legged and reddish brown."
   },
   "Pagurus bernhardus": {
     "commonName": "Hermit Crab",
@@ -1143,7 +1143,7 @@
     "crabFeatures": [
       "lives-in-shell"
     ],
-    "fieldNote": "Not a true crab: a soft-bodied crustacean living INSIDE an empty snail shell, usually a whelk or periwinkle. You only see its legs and unequal claws poking out, the right claw much larger. The shell itself is the give-away."
+    "fieldNote": "Not a true crab but a soft-bodied animal living inside a borrowed snail shell (a periwinkle when small, a whelk when bigger). You only see its legs and unequal claws (the right one larger) poking out; the shell itself is the give-away."
   },
   "Sepia officinalis": {
     "commonName": "Common Cuttlefish",
@@ -1177,7 +1177,7 @@
     "cephalopodForm": [
       "cuttlefish"
     ],
-    "fieldNote": "Broad flattened oval body with a fin skirt running the whole way round, a W-shaped pupil and ten arms (two long, retractable). Hovers over sand and can flash zebra-stripe patterns in a blink. The largest UK cuttlefish, mainly the Channel and south."
+    "fieldNote": "A broad, flattened oval body fringed all the way round by a rippling fin, with a W-shaped pupil and ten arms (two long and retractable). Hovers over sand and can flash zebra stripes in an instant. Our largest cuttlefish; its white 'cuttlebone' often washes up."
   },
   "Loligo forbesii": {
     "commonName": "Veined Squid",
@@ -1210,7 +1210,7 @@
     "cephalopodForm": [
       "squid"
     ],
-    "fieldNote": "Slender torpedo body with two triangular fins at the tail that together run about 70% of the mantle length. Reddish with fine veined speckles. Schools in midwater; the main UK fishery squid."
+    "fieldNote": "A slender, torpedo-shaped squid with two triangular fins running well down towards the tail. Reddish with fine veined speckles, schooling in midwater. The main squid of UK fisheries."
   },
   "Loligo vulgaris": {
     "commonName": "European Squid",
@@ -1243,7 +1243,7 @@
     "cephalopodForm": [
       "squid"
     ],
-    "fieldNote": "Very like the veined squid but the rear fins are shorter, a bit over half the mantle length rather than two-thirds. Torpedo-bodied, reddish, schools in midwater over the shelf."
+    "fieldNote": "Very like the veined squid but with shorter rear fins (a little over half the body length). A fast, torpedo-bodied schooler of open shelf water, reddish and quick to flush pale."
   },
   "Sepiola atlantica": {
     "commonName": "Atlantic Bobtail",
@@ -1276,7 +1276,7 @@
     "cephalopodForm": [
       "bobtail"
     ],
-    "fieldNote": "Tiny (about 2 cm), with a short rounded body and small ear-like fins near the head. Buries in sand by day leaving only the eyes showing; skin flecked with iridescent specks. A seabed cameo, not a true squid."
+    "fieldNote": "A thumbnail-sized cephalopod (also called the Little Cuttlefish) with a stubby rounded body and small ear-like fins. Buries in clean sand by day with just its eyes showing, and is flecked with iridescent specks."
   },
   "Eledone cirrhosa": {
     "commonName": "Curled Octopus",
@@ -1310,7 +1310,7 @@
     "cephalopodForm": [
       "octopus"
     ],
-    "fieldNote": "Soft bulbous head, eight arms and no fins. A SINGLE row of suckers runs down each arm (the give-away vs the common octopus). Orange-brown, rough warty skin; tucks into crevices. The commoner octopus in UK waters."
+    "fieldNote": "Our commonest octopus: a smooth, sac-like body and eight long arms that curl at the tips, each arm with a SINGLE row of suckers (the key difference from the common octopus). Orange-brown, tucked into rocky crevices."
   },
   "Octopus vulgaris": {
     "commonName": "Common Octopus",
@@ -1344,7 +1344,7 @@
     "cephalopodForm": [
       "octopus"
     ],
-    "fieldNote": "Bulbous head, eight arms, no fins, with TWO rows of suckers down each arm (vs the single row of the curled octopus). Changes colour and texture fast; dens in rock holes with a litter of shells outside. More southern in the UK."
+    "fieldNote": "Bulbous-headed with eight arms and warty skin, changing colour and texture in a blink. Each arm carries TWO rows of suckers (vs the single row of the curled octopus). Dens in rock holes; mostly a southern and western visitor."
   },
   "Asterina gibbosa": {
     "commonName": "Cushion Star",
@@ -1377,7 +1377,7 @@
     "armForm": [
       "short-stubby"
     ],
-    "fieldNote": "Small, with five short fat arms that give a cushiony pentagon outline rather than a pointed star. Greenish-grey to orange; found under stones on the lower shore."
+    "fieldNote": "A small, fat-armed star shaped almost like a five-pointed cushion. Slightly puffy and fleshy, greenish-grey to orange, found tucked under stones on the lower shore."
   },
   "Marthasterias glacialis": {
     "commonName": "Spiny Starfish",
@@ -1408,7 +1408,7 @@
     "armForm": [
       "long-spiny"
     ],
-    "fieldNote": "Large, with five long tapering arms carrying three rows of conspicuous white spines, each spine ringed at the base with blue. Pale grey-green. Can reach 70 cm across."
+    "fieldNote": "Big and unmistakable: five long tapering arms lined with three rows of white spines, each spine ringed with blue at its base. Pale grey-green, on rocky shores; large ones can span a forearm."
   },
   "Asterias rubens": {
     "commonName": "Common Starfish",
@@ -1438,7 +1438,7 @@
     "armForm": [
       "long-smooth"
     ],
-    "fieldNote": "The classic five-armed orange star. Arms taper to a point and the surface is knobbly with a pale line of low spines down each arm, but no big spike rows. Abundant subtidally, often on mussel beds."
+    "fieldNote": "The classic orange five-armed star. The arms taper to a point and carry a knobbly central line of pale spines but no big spikes. Turns up almost anywhere, often near mussel beds."
   },
   "Ophiothrix fragilis": {
     "commonName": "Common Brittlestar",
@@ -1470,7 +1470,7 @@
     "armForm": [
       "thin-whippy"
     ],
-    "fieldNote": "A small round central disc with five long thread-thin spiny arms that writhe and snap off easily. Highly variable colour; often carpets the seabed in dense beds."
+    "fieldNote": "A small spiny disc trailing five long, thread-thin arms that writhe and snap off at a touch. Colour is hugely variable; often carpets the seabed in dense beds and hides under stones."
   },
   "Patella vulgata": {
     "commonName": "Common Limpet",
@@ -1500,7 +1500,7 @@
     "shellShape": [
       "flat-cone"
     ],
-    "fieldNote": "A plain ribbed cone clamped tight to bare rock, with no spire and no pattern. Grazes algae and returns to the same scar at low tide."
+    "fieldNote": "A plain ridged cone clamped tight to bare rock, with no spire and no pattern. Each one grazes its own patch of algae and homes back to the same scar as the tide drops."
   },
   "Nucella lapillus": {
     "commonName": "Dog Whelk",
@@ -1530,7 +1530,7 @@
     "shellShape": [
       "pointed-cone"
     ],
-    "fieldNote": "A thick short-spired shell with spiral ridges and an oval opening drawn out into a short canal. White, grey or banded brown. Drills holes in barnacles and mussels to feed."
+    "fieldNote": "A thick, short-spired shell with spiral ridges and an oval mouth drawn out into a little spout. White, grey or banded brown (the colour follows its diet). Drills neat holes through barnacles and mussels."
   },
   "Calliostoma zizyphinum": {
     "commonName": "Painted Top Shell",
@@ -1561,7 +1561,7 @@
     "shellShape": [
       "pointed-cone"
     ],
-    "fieldNote": "A sharply conical glossy shell with straight sides and a flat base, like a smooth spinning top. Pinkish-yellow flecked with purple-red. Does not have an open navel underneath."
+    "fieldNote": "A glossy, sharply conical shell with straight sides and a flat base, like a smooth spinning top. Marbled pink and white over 10 to 12 finely ribbed whorls, with no open navel beneath."
   },
   "Steromphala umbilicalis": {
     "commonName": "Flat Top Shell",
@@ -1590,7 +1590,7 @@
     "shellShape": [
       "rounded-squat"
     ],
-    "fieldNote": "A squat rounded top streaked with purple zigzags, flatter than the painted top shell. The give-away is a distinct open navel (umbilicus) hole at the centre of the underside."
+    "fieldNote": "A squat, bluntly conical top shell, greenish with widely spaced reddish-purple bands. Flatter than the pointed top shells, with a tell-tale open 'navel' hole at the centre of the underside."
   },
   "Aurelia aurita": {
     "commonName": "Moon Jellyfish",
@@ -1623,7 +1623,7 @@
     "bellForm": [
       "saucer"
     ],
-    "fieldNote": "A clear saucer bell with four pale horseshoe rings (the gonads) in the centre and only a short fringe of fine tentacles. The commonest UK jelly; sting is harmless to people."
+    "fieldNote": "Our commonest jellyfish and harmless to touch. A flat, translucent bluish bell with four pale horseshoe rings (the gonads) showing through the top, and only a short fringe of fine tentacles beneath."
   },
   "Chrysaora hysoscella": {
     "commonName": "Compass Jellyfish",
@@ -1654,7 +1654,7 @@
     "bellForm": [
       "saucer"
     ],
-    "fieldNote": "A whitish saucer bell marked with 16 brown V-shapes radiating from a central spot, like a compass rose, plus long frilly arms and 24 thin tentacles. Stings."
+    "fieldNote": "A flattish pale bell marked with dark brown V-shapes radiating from the centre like the points of a compass. Trails long thin tentacles and four frilly arms. It stings, so look but don't touch."
   },
   "Cyanea capillata": {
     "commonName": "Lion's Mane Jellyfish",
@@ -1686,7 +1686,7 @@
     "bellForm": [
       "trailing-mass"
     ],
-    "fieldNote": "A large reddish-brown bell trailing a dense mane of hundreds of long fine tentacles. The UK's biggest jelly and a painful stinger, commonest in the north."
+    "fieldNote": "Our biggest jellyfish: a broad reddish-brown bell trailing a dense mane of dozens of long, fine tentacles. Delivers a painful sting and is most common in northern waters in summer."
   },
   "Rhizostoma pulmo": {
     "commonName": "Barrel Jellyfish",
@@ -1718,7 +1718,7 @@
     "bellForm": [
       "frilly-arms"
     ],
-    "fieldNote": "A huge solid mushroom-shaped bell with a violet fringe and eight thick frilly cauliflower-like arms beneath, but NO long trailing tentacles. The dustbin-lid jelly; mostly harmless."
+    "fieldNote": "A huge, solid, dome-shaped bell (the 'dustbin-lid' jelly) with NO long trailing tentacles. Underneath hang eight thick, frilly cauliflower-like arms. Mostly harmless despite its size."
   },
   "Cyanea lamarckii": {
     "commonName": "Blue Jellyfish",
@@ -1749,7 +1749,7 @@
     "bellForm": [
       "saucer"
     ],
-    "fieldNote": "Like a small lion's mane but vivid blue to purple, the colour deepening towards the centre of the bell, with a mass of fine tentacles beneath. Mild sting."
+    "fieldNote": "Like a smaller lion's mane but a translucent purplish-blue, the colour deepening towards the top of the bell. Many slender trailing tentacles beneath; a mild stinger of inshore waters."
   },
   "Pelagia noctiluca": {
     "commonName": "Mauve Stinger",
@@ -1782,6 +1782,6 @@
     "bellForm": [
       "saucer"
     ],
-    "fieldNote": "A mauve-to-purple mushroom bell densely covered in stinging warts, with eight long slender marginal tentacles and four frilly oral arms. Fully oceanic (no seabed stage), glows blue at night, and swarms; a painful stinger increasingly common in UK and Irish waters."
+    "fieldNote": "A small mauve-to-purple bell densely peppered with stinging warts, trailing eight long tentacles and four frilly arms. Glows blue in the dark and arrives in swarms; a notable stinger, increasingly seen in UK waters."
   }
 }
