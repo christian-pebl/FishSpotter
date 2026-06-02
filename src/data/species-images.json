@@ -487,6 +487,62 @@
         "ordering": 1
       }
     ],
+    "Pollachius virens": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/253895997/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/253895997/square.jpeg",
+        "attribution": "(c) Patrick, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/147539728",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1600,
+        "height": 1200,
+        "ordering": 1
+      }
+    ],
+    "Trisopterus luscus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/458238965/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/458238965/square.jpeg",
+        "attribution": "(c) eli_eli_oh, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/255674112",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1542,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
+    "Trisopterus minutus": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/227964990/medium.jpeg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/227964990/square.jpeg",
+        "attribution": "(c) JaRo Guiding, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/133802022",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1365,
+        "height": 2048,
+        "ordering": 1
+      }
+    ],
+    "Gadus morhua": [
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/175105925/medium.jpg",
+        "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/175105925/square.jpg",
+        "attribution": "(c) Sam R, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/104496451",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 1136,
+        "height": 900,
+        "ordering": 1
+      }
+    ],
     "_EXAMPLE_DO_NOT_USE": {
       "Labrus mixtus": [
         {
