@@ -66,7 +66,7 @@ export function AvatarMenu({ overlay = false }: { overlay?: boolean }) {
         }}
         aria-label="Open account menu"
         aria-expanded={open}
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-teal-500 text-[11px] font-bold text-navy-900 shadow-sm"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-teal-500 text-[11px] font-bold text-navy-900 shadow-sm"
       >
         {initials(displayName, user.email)}
       </button>
@@ -77,7 +77,7 @@ export function AvatarMenu({ overlay = false }: { overlay?: boolean }) {
           <div
             role="menu"
             aria-label="Account menu"
-            className="absolute right-0 top-full z-40 mt-2 w-64 origin-top-right rounded-2xl border border-navy-900/12 bg-white p-3 shadow-menu"
+            className="absolute right-0 top-full z-40 mt-2 w-64 origin-top-right rounded-card border border-navy-900/12 bg-white p-3 shadow-menu"
           >
             <div className="px-2 pb-2">
               <p className="truncate text-sm font-semibold text-navy-900">
@@ -93,14 +93,14 @@ export function AvatarMenu({ overlay = false }: { overlay?: boolean }) {
             <Link
               href="/account"
               onClick={() => setOpen(false)}
-              className="block rounded-modal px-2 py-2 text-sm text-navy-900 hover:bg-teal-50"
+              className="flex min-h-[44px] items-center rounded-modal px-2 text-sm text-navy-900 hover:bg-teal-50"
             >
               Account settings
             </Link>
             <Link
               href="/leaderboard"
               onClick={() => setOpen(false)}
-              className="block rounded-modal px-2 py-2 text-sm text-navy-900 hover:bg-teal-50"
+              className="flex min-h-[44px] items-center rounded-modal px-2 text-sm text-navy-900 hover:bg-teal-50"
             >
               Leaderboard
             </Link>
@@ -109,7 +109,7 @@ export function AvatarMenu({ overlay = false }: { overlay?: boolean }) {
               <button
                 type="button"
                 onClick={() => setConfirming(true)}
-                className="w-full rounded-modal px-2 py-2 text-left text-sm text-navy-900 hover:bg-teal-50"
+                className="flex min-h-[44px] w-full items-center rounded-modal px-2 text-left text-sm text-navy-900 hover:bg-teal-50"
               >
                 Sign out…
               </button>

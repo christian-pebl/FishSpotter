@@ -623,6 +623,176 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+
+  // ---- Elongate / flat / cartilaginous / other ----
+  {
+    scientificName: "Conger conger",
+    commonName: "Conger Eel",
+    _photo: "iNat (c) eduardmarques CC-BY-NC, obs 135377285 (Girona, Spain) - whole eel over cobbles, head right.",
+    marks: [
+      {
+        label: "Long scaleless grey body",
+        description: "A heavy, scaleless, grey-brown eel body (the true eel is yellow-brown and freshwater). Hides in wreck and rock holes by day.",
+        overlayX: 0.4,
+        overlayY: 0.42,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Dorsal fin starts forward",
+        description: "The long dorsal fin begins just behind the pectoral fin and runs to the tail — much further forward than in the common eel.",
+        overlayX: 0.45,
+        overlayY: 0.3,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Big head, wide gape",
+        description: "A large head with a wide mouth and stout jaws; it does have pectoral fins (a moray has none).",
+        overlayX: 0.72,
+        overlayY: 0.5,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Callionymus lyra",
+    commonName: "Dragonet",
+    _photo: "iNat (c) Emil B CC-BY-NC, obs 47986092 - vivid male on sand, head left.",
+    marks: [
+      {
+        label: "Flat-bottomed, sits on sand",
+        description: "A flattened body that lies pressed to the sand, with eyes set high on top of the head — a scooter, not a free-swimmer.",
+        overlayX: 0.45,
+        overlayY: 0.6,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Blue stripes & spots (male)",
+        description: "Breeding males are spectacularly marked with electric-blue lines and orange-yellow spots over the head and fins.",
+        overlayX: 0.35,
+        overlayY: 0.5,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Tall first dorsal (male)",
+        description: "Males raise a tall, sail-like first dorsal fin with an elongated front ray; females are plain brown with low fins.",
+        overlayX: 0.55,
+        overlayY: 0.38,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Pleuronectes platessa",
+    commonName: "Plaice",
+    _photo: "iNat (c) JaRo Guiding CC-BY-NC, obs 131729521 - fish held flat, upper side up.",
+    marks: [
+      {
+        label: "Bright orange spots",
+        description: "Scattered bright orange-red spots over a smooth brown upper side — the plaice's signature, separating it from dab and flounder.",
+        overlayX: 0.45,
+        overlayY: 0.5,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Both eyes on one side",
+        description: "A flatfish: both eyes sit on the right (upper) side. The underside it lies on is plain white.",
+        overlayX: 0.3,
+        overlayY: 0.38,
+        overlayRadius: 0.1,
+      },
+      {
+        label: "Bony ridge behind eyes",
+        description: "A short row of 4-7 bony knobs runs from behind the eyes — smooth skin otherwise.",
+        overlayX: 0.38,
+        overlayY: 0.42,
+        overlayRadius: 0.07,
+      },
+    ],
+  },
+  {
+    scientificName: "Scyliorhinus canicula",
+    commonName: "Lesser-spotted Catshark",
+    _photo: "iNat (c) Jacques Turner-Moss CC-BY-NC, obs 190243927 - whole shark coiled on shingle.",
+    marks: [
+      {
+        label: "Many small dark spots",
+        description: "Densely peppered with small dark brown spots over a sandy-buff body — a small (to ~75 cm) shark, not a fish.",
+        overlayX: 0.5,
+        overlayY: 0.5,
+        overlayRadius: 0.22,
+      },
+      {
+        label: "Two dorsal fins set far back",
+        description: "Both dorsal fins are set well back towards the tail, a shark-shape giveaway; the body is rough like sandpaper.",
+        overlayX: 0.6,
+        overlayY: 0.32,
+        overlayRadius: 0.12,
+      },
+      {
+        label: "Nostril flaps to the mouth",
+        description: "Joined nasal flaps reach the mouth (catshark feature). Lays spiral-tendrilled 'mermaid's purse' egg cases on weed.",
+        overlayX: 0.28,
+        overlayY: 0.4,
+        overlayRadius: 0.08,
+      },
+    ],
+  },
+  {
+    scientificName: "Mullus surmuletus",
+    commonName: "Red Mullet",
+    _photo: "iNat (c) Frédéric ANDRE CC-BY-NC, obs 186608494 - in-situ on sand, head left.",
+    marks: [
+      {
+        label: "Two long chin barbels",
+        description: "A pair of long sensory barbels under the chin, used to probe the sand for food — the red mullet's standout feature.",
+        overlayX: 0.2,
+        overlayY: 0.6,
+        overlayRadius: 0.12,
+      },
+      {
+        label: "Reddish, with stripes/blotches",
+        description: "Pink-red flanks marked with reddish-brown stripes and blotches; can flush brighter red. A steeply-sloped forehead.",
+        overlayX: 0.5,
+        overlayY: 0.45,
+        overlayRadius: 0.18,
+      },
+      {
+        label: "Two separate dorsal fins",
+        description: "Two well-separated dorsal fins on a deep-bellied body that grubs along sandy and gravelly bottoms.",
+        overlayX: 0.55,
+        overlayY: 0.3,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Spinachia spinachia",
+    commonName: "Fifteen-spined Stickleback",
+    _photo: "iNat (c) Vsevolod Rudyi CC-BY, obs 238264343 - slender fish among weed, head right.",
+    marks: [
+      {
+        label: "Extremely long, thin body",
+        description: "An exceptionally slender, elongated body tapering to a long pointed snout — quite unlike any other small UK fish.",
+        overlayX: 0.45,
+        overlayY: 0.45,
+        overlayRadius: 0.2,
+      },
+      {
+        label: "Long pointed snout",
+        description: "A long, fine, tweezer-like snout for picking tiny crustaceans out of weed.",
+        overlayX: 0.78,
+        overlayY: 0.62,
+        overlayRadius: 0.08,
+      },
+      {
+        label: "Row of short spines before dorsal",
+        description: "A row of about fifteen tiny separate spines runs along the back in front of the dorsal fin (hence the name); a slim tail.",
+        overlayX: 0.4,
+        overlayY: 0.32,
+        overlayRadius: 0.12,
+      },
+    ],
+  },
 ];
 
 async function main() {

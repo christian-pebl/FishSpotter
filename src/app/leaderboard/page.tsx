@@ -163,11 +163,11 @@ export default async function LeaderboardPage() {
         tabIndex={-1}
         className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8"
       >
-        <section className="pebl-surface rounded-hero px-6 py-6">
+        <section className="pebl-surface rounded-card px-6 py-6">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
             Community overview
           </p>
-          <h1 className="mt-2 font-brand-heading text-3xl font-bold text-navy-900">
+          <h1 className="mt-2 font-brand-heading text-h1 text-navy-900">
             Spotter leaderboard
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-navy-900/72">
@@ -322,7 +322,7 @@ export default async function LeaderboardPage() {
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
             Most-named species
           </p>
-          <h2 className="mt-1 font-brand-heading text-2xl font-bold text-navy-900">
+          <h2 className="mt-1 font-brand-heading text-h2 text-navy-900">
             Most common species answers
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-navy-900/72">

@@ -69,9 +69,9 @@ function SignInForm() {
   return (
     <div className="flex-1 overflow-y-auto">
       <main id="main" tabIndex={-1} className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
-        <div className="pebl-surface w-full rounded-hero p-6 md:p-8">
+        <div className="pebl-surface w-full rounded-card p-6 md:p-8">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">PEBL community access</p>
-          <h1 className="mt-3 font-brand-heading text-3xl text-navy-900">
+          <h1 className="mt-3 font-brand-heading text-h1 text-navy-900">
             {isSignUp ? "Create your spotting profile" : "Sign in to continue spotting"}
           </h1>
           {arrivedFromProtected ? (
@@ -96,7 +96,7 @@ function SignInForm() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-2xl border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
+              className="w-full rounded-modal border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
             />
           </div>
           {isSignUp && (
@@ -110,7 +110,7 @@ function SignInForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="How you will appear in the community"
-                className="w-full rounded-2xl border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900 placeholder:text-navy-900/72"
+                className="w-full rounded-modal border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900 placeholder:text-navy-900/72"
               />
             </div>
           )}
@@ -129,7 +129,7 @@ function SignInForm() {
               autoComplete={isSignUp ? "new-password" : "current-password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-2xl border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
+              className="w-full rounded-modal border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
             />
           </div>
           {isSignUp && (
@@ -203,7 +203,7 @@ export default function SignInPage() {
         <div
           aria-busy="true"
           aria-label="Loading sign in"
-          className="pebl-surface rounded-hero mx-auto w-full max-w-sm animate-pulse motion-reduce:animate-none p-6"
+          className="pebl-surface rounded-card mx-auto w-full max-w-md animate-pulse motion-reduce:animate-none p-6"
         >
           <div className="h-3 w-24 rounded-full bg-navy-900/12" />
           <div className="mt-3 h-7 w-2/3 max-w-md rounded-full bg-navy-900/12" />

@@ -281,7 +281,7 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.max(1, page - 1))}
               aria-disabled={page === 1}
               className={
-                "pebl-button-secondary px-3 py-1.5 text-xs " +
+                "pebl-button-secondary inline-flex min-h-[44px] items-center px-3 text-xs " +
                 (page === 1 ? "pointer-events-none opacity-50" : "")
               }
             >
@@ -294,7 +294,7 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.min(totalPages, page + 1))}
               aria-disabled={page === totalPages}
               className={
-                "pebl-button-secondary px-3 py-1.5 text-xs " +
+                "pebl-button-secondary inline-flex min-h-[44px] items-center px-3 text-xs " +
                 (page === totalPages ? "pointer-events-none opacity-50" : "")
               }
             >
