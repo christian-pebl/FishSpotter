@@ -6,16 +6,21 @@
  * SpeciesNameMap resolution cache, and proposes a per-label action so
  * Christian can decide what to backfill / nullify before any data change:
  *
- *   keep     : already a usable species-level reference (resolves to a
- *              two-word binomial with EXACT/FUZZY confidence).
- *   backfill : identifiable but coarse (resolves only to a higher rank,
- *              or is a recognisable common name that didn't resolve).
- *              Needs a human to supply the species-level binomial.
- *   nullify  : truly indeterminate ("Fish", "Crab", "Unknown" ...).
- *              Should become a no-reference snippet so the +1 pending /
- *              consensus path applies instead of scoring against junk.
- *   none     : staffAnswer is already null (no reference yet).
- *   review   : doesn't fit a bucket cleanly; eyeball it.
+ *   keep       : already a usable species-level reference (resolves to a
+ *                two-word binomial with EXACT/FUZZY confidence).
+ *   keep-coarse: a shape-class word the matcher scores as a coarse reference
+ *                ("Fish", "Crab", "Jellyfish" ... i.e. a SHAPE_CLASS value).
+ *                Scored-by-rung (Workstream E) awards +1 for a correct-shape
+ *                guess against these, so they are NO LONGER nullify candidates.
+ *                Optionally backfill to a species later to unlock the full +2.
+ *   backfill   : identifiable but coarse (resolves only to a higher rank,
+ *                or is a recognisable common name that didn't resolve).
+ *                Needs a human to supply the species-level binomial.
+ *   nullify    : truly indeterminate with NO shape class ("Unknown",
+ *                "Shrimp", "Various" ...). Should become a no-reference
+ *                snippet so the +1 pending / consensus path applies.
+ *   none       : staffAnswer is already null (no reference yet).
+ *   review     : doesn't fit a bucket cleanly; eyeball it.
  *
  * Run: npm run db:audit-references            (human table)
  *      npm run db:audit-references -- --json   (machine-readable dump)
@@ -27,17 +32,24 @@
 
 import { PrismaClient } from "@prisma/client";
 import { normalizeAnswer } from "../src/lib/normalize-answer";
+import { SHAPE_CLASS } from "../src/lib/idguide/traits";
 
 const prisma = new PrismaClient();
 
-// Labels that carry no species information : these should become
-// no-reference snippets rather than be scored against.
-const INDETERMINATE = new Set([
-  "fish",
-  "crab",
+// Shape-class words the matcher scores as a valid COARSE reference. These are
+// exactly the SHAPE_CLASS enum values that buildShapeClassByForm() maps to
+// themselves in answer-matching.ts, so a guess of the right shape earns
+// POINTS_SHAPE_CLASS (+1) against them. Under scored-by-rung these are NOT
+// nullify candidates — they are kept as coarse references. Keep this in sync
+// with the enum (importing it guarantees that).
+const SHAPE_CLASS_WORDS = new Set(SHAPE_CLASS.map((s) => normalizeAnswer(s)));
+
+// Labels that carry NO shape class either : truly indeterminate, or a coarse
+// group with no gate tile (shrimp/prawn). These should become no-reference
+// snippets rather than be scored against.
+const TRULY_INDETERMINATE = new Set([
   "shrimp",
   "prawn",
-  "jellyfish",
   "unknown",
   "unidentified",
   "unidentifiable",
@@ -49,7 +61,7 @@ const INDETERMINATE = new Set([
   "n a",
 ]);
 
-type Action = "keep" | "backfill" | "nullify" | "none" | "review";
+type Action = "keep" | "keep-coarse" | "backfill" | "nullify" | "none" | "review";
 
 interface LabelRow {
   staffAnswer: string | null;
@@ -69,8 +81,14 @@ function classify(
   }
 
   const norm = normalizeAnswer(staffAnswer);
-  if (norm === "" || INDETERMINATE.has(norm)) {
-    return { action: "nullify", reason: "indeterminate label, no species information" };
+  if (SHAPE_CLASS_WORDS.has(norm)) {
+    return {
+      action: "keep-coarse",
+      reason: `shape-class reference ("${norm}") — scores +1 for a correct-shape guess; optionally backfill to a species for +2`,
+    };
+  }
+  if (norm === "" || TRULY_INDETERMINATE.has(norm)) {
+    return { action: "nullify", reason: "indeterminate label, no shape class — make it a no-reference snippet" };
   }
 
   const sci = resolved?.scientificName ?? null;
@@ -169,25 +187,26 @@ async function main() {
 
   console.log(`\nReference-ID audit: ${totalSnippets} snippet(s), ${rows.length} distinct label(s)\n`);
   console.log(
-    "ACTION    n   LABEL".padEnd(46) +
+    "ACTION      n   LABEL".padEnd(50) +
       "RESOLVED / REASON",
   );
-  console.log("-".repeat(96));
+  console.log("-".repeat(98));
   for (const r of rows) {
     const label = r.staffAnswer === null ? "(null, no reference)" : r.staffAnswer;
-    const left = `${r.action.toUpperCase().padEnd(9)} ${String(r.count).padStart(2)}  ${label}`;
-    console.log(`${left.padEnd(46)}${r.reason}`);
+    const left = `${r.action.toUpperCase().padEnd(11)} ${String(r.count).padStart(2)}  ${label}`;
+    console.log(`${left.padEnd(50)}${r.reason}`);
   }
 
   console.log("\nSummary by proposed action (labels / snippets):");
-  for (const action of ["keep", "backfill", "nullify", "review", "none"] as Action[]) {
+  for (const action of ["keep", "keep-coarse", "backfill", "nullify", "review", "none"] as Action[]) {
     const a = byAction[action];
-    if (a) console.log(`  ${action.padEnd(9)} ${a.labels} label(s)  /  ${a.snippets} snippet(s)`);
+    if (a) console.log(`  ${action.padEnd(11)} ${a.labels} label(s)  /  ${a.snippets} snippet(s)`);
   }
   console.log(
-    "\nNext: review the `backfill` and `nullify` rows. Approved backfills get a\n" +
-      "species-level binomial; approved nullifies set staffAnswer = NULL and the\n" +
-      "existing Answer rows are retro-scored (see CLAUDE.md > Scoring model).\n",
+    "\nNext: `keep` and `keep-coarse` need no action (coarse refs already score\n" +
+      "+1 by shape under scored-by-rung). Review the `backfill` rows (supply a\n" +
+      "species binomial to unlock +2) and `nullify` rows (set staffAnswer = NULL,\n" +
+      "then retro-score the existing Answer rows — see CLAUDE.md > Scoring model).\n",
   );
 }
 
