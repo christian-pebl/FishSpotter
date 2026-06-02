@@ -262,7 +262,7 @@ export function CandidateStrip({
           tentative pick is never wasted. Surfaced subtly to lower commit
           anxiety. */}
       {candidates.length > 0 && (
-        <p className="mb-1.5 text-[10px] leading-snug text-white/35">
+        <p className="mb-1.5 text-[10px] leading-snug text-white/60">
           Not certain? A pick that&apos;s the right shape class still earns a point.
         </p>
       )}

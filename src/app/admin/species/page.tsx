@@ -95,7 +95,7 @@ export default async function AdminSpeciesListPage() {
                 <td className="px-4 py-2.5 text-right">
                   <Link
                     href={`/admin/species/${encodeURIComponent(row.scientificName)}`}
-                    className="text-[12px] font-medium text-teal-700 hover:text-teal-800"
+                    className="text-[12px] font-medium text-teal-700 hover:text-teal-hover"
                   >
                     {row.markCount === 0 ? "Author" : "Edit"} →
                   </Link>
@@ -112,15 +112,15 @@ export default async function AdminSpeciesListPage() {
 function StatusPill({ count }: { count: number }) {
   if (count === 0) {
     return (
-      <span className="rounded-full bg-navy-100 px-2 py-0.5 text-[11px] text-navy-600">Not started</span>
+      <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[11px] text-navy-900/72">Not started</span>
     );
   }
   if (count < 3) {
     return (
-      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] text-amber-800">In progress</span>
+      <span className="rounded-full bg-pending px-2 py-0.5 text-[11px] text-pending-ink">In progress</span>
     );
   }
   return (
-    <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] text-emerald-800">Published</span>
+    <span className="rounded-full bg-correct px-2 py-0.5 text-[11px] text-correct-ink">Published</span>
   );
 }

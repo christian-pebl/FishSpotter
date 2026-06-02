@@ -220,12 +220,13 @@ export function IdGuideTrigger({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        // Q4-A-8 (touch target) + Q4-A-9 (icon swap): Help me identify
-        // is the primary IdGuide entry on a card. The mobile journey
-        // measured it at 111×15px — effectively untappable for a
-        // one-thumb user. Now a proper button with 44px min height and
-        // a teal outline so it reads as an action, not a footnote.
-        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-teal-50 hover:border-teal-400 hover:bg-teal-500/20"
+        // Q4-A-8 (touch target): keep the 44px min height so this stays
+        // tappable one-thumb. F-PRESUBMIT-CTAS: demoted from the bordered
+        // teal pill (which was byte-identical to the "Spot It" gate button
+        // beside it, giving two co-equal guided-ID entries with no clear
+        // primary) to a quieter ghost style. "Spot It" is now the single
+        // prominent guided entry; this reads as the secondary assist.
+        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-white/70 hover:bg-white/8 hover:text-white"
       >
         <MagnifierIcon />
         Help me identify

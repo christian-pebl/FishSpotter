@@ -1,0 +1,162 @@
+{
+  "shark": {
+    "taxon": "Carcharhiniformes",
+    "imageUuid": "76d77c63-d04e-4667-846d-0e80db46c654",
+    "contributor": "Birgit Lang",
+    "attribution": "Birgit Lang",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/76d77c63-d04e-4667-846d-0e80db46c654"
+  },
+  "ray": {
+    "taxon": "Rajidae",
+    "imageUuid": "bbafe1b5-972c-4f61-9931-ce233847be37",
+    "contributor": "Nathan Hermann",
+    "attribution": "Nathan Hermann",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/bbafe1b5-972c-4f61-9931-ce233847be37"
+  },
+  "eel": {
+    "taxon": "Anguilliformes",
+    "imageUuid": "72dcce7c-2ec4-4a95-95e3-591c51b0145f",
+    "contributor": "Richard Harris",
+    "attribution": "Richard J. Harris",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://www.phylopic.org/images/72dcce7c-2ec4-4a95-95e3-591c51b0145f"
+  },
+  "seahorse": {
+    "taxon": "Hippocampus",
+    "imageUuid": "1ce0d9a9-c644-4cc6-b4b3-02e2e7aa2266",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Kelly",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://www.phylopic.org/images/1ce0d9a9-c644-4cc6-b4b3-02e2e7aa2266"
+  },
+  "shrimp": {
+    "taxon": "Caridea",
+    "imageUuid": "a8dc4f0a-5b17-4ed4-bc4a-8af69db73c16",
+    "contributor": "MBARI and FathomVerse",
+    "attribution": "Kurtis Wothe and Giovanna Sainz",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/a8dc4f0a-5b17-4ed4-bc4a-8af69db73c16"
+  },
+  "lobster": {
+    "taxon": "Nephropidae",
+    "imageUuid": "7575f4ec-8a2b-40eb-9e15-b5d8553499e8",
+    "contributor": "Guillaume Dera",
+    "attribution": "Guillaume Dera",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/7575f4ec-8a2b-40eb-9e15-b5d8553499e8"
+  },
+  "octopus": {
+    "taxon": "Octopoda",
+    "imageUuid": "7b27816b-a7fa-43fc-97e7-ba7ab0527d81",
+    "contributor": "Noah Schlottman",
+    "attribution": "Noah Schlottman, photo from Casey Dunn",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://www.phylopic.org/images/7b27816b-a7fa-43fc-97e7-ba7ab0527d81"
+  },
+  "cuttlefish": {
+    "taxon": "Sepiida",
+    "imageUuid": "6cbff80e-9537-4130-8397-ebbf77464ea4",
+    "contributor": "T. Michael Keesey",
+    "attribution": "David Sim (photograph) and T. Michael Keesey (vectorization)",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "source": "https://www.phylopic.org/images/6cbff80e-9537-4130-8397-ebbf77464ea4"
+  },
+  "urchin": {
+    "taxon": "Echinoidea",
+    "imageUuid": "e5da6b25-f72b-43b5-ba79-3b8b9933116f",
+    "contributor": "Guillaume Dera",
+    "attribution": "Guillaume Dera",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/e5da6b25-f72b-43b5-ba79-3b8b9933116f"
+  },
+  "anemone": {
+    "taxon": "Actiniaria",
+    "imageUuid": "b46a16df-5946-4049-9876-ab774b419966",
+    "contributor": "Harold Eyster",
+    "attribution": "Harold N Eyster",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "source": "https://www.phylopic.org/images/b46a16df-5946-4049-9876-ab774b419966"
+  },
+  "mussel": {
+    "taxon": "Mytilidae",
+    "imageUuid": "15454610-1e41-47e2-9ffa-2d79d91062aa",
+    "contributor": "louis.ranjard",
+    "attribution": "Louis Ranjard",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "source": "https://www.phylopic.org/images/15454610-1e41-47e2-9ffa-2d79d91062aa"
+  },
+  "scallop": {
+    "taxon": "Pectinidae",
+    "imageUuid": "3bef2513-b326-4273-b772-0e535042a612",
+    "contributor": "Katie Collins",
+    "attribution": "Katie S. Collins",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/3bef2513-b326-4273-b772-0e535042a612"
+  },
+  "nudibranch": {
+    "taxon": "Nudibranchia",
+    "imageUuid": "a52a3f75-9f2d-4b20-832f-49e9d884b114",
+    "contributor": "Kate Otter",
+    "attribution": "Kate Otter",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/a52a3f75-9f2d-4b20-832f-49e9d884b114"
+  },
+  "turtle": {
+    "taxon": "Cheloniidae",
+    "imageUuid": "c23f793b-36fb-41fb-86b0-2b9eedf2593f",
+    "contributor": "T. Michael Keesey",
+    "attribution": "(after McCulloch 1908)",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://www.phylopic.org/images/c23f793b-36fb-41fb-86b0-2b9eedf2593f"
+  },
+  "dolphin": {
+    "taxon": "Delphinidae",
+    "imageUuid": "c49dbee0-39d5-4181-97be-1930a05ad315",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Chris huh",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://www.phylopic.org/images/c49dbee0-39d5-4181-97be-1930a05ad315"
+  },
+  "seal": {
+    "taxon": "Phocidae",
+    "imageUuid": "64c27f60-ffbf-4ee8-ae1e-726042c477ff",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Jakovche",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://www.phylopic.org/images/64c27f60-ffbf-4ee8-ae1e-726042c477ff"
+  },
+  "worm": {
+    "taxon": "Polychaeta",
+    "imageUuid": "2dee030d-9f6d-4bab-87c4-c46869839b30",
+    "contributor": "Scott Hartman",
+    "attribution": "Scott Hartman",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/2dee030d-9f6d-4bab-87c4-c46869839b30"
+  },
+  "barnacle": {
+    "taxon": "Balanidae",
+    "imageUuid": "feaab8ab-b887-4875-801c-5c94c4b5da4b",
+    "contributor": "James Bernot",
+    "attribution": "Jimmy Bernot",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/feaab8ab-b887-4875-801c-5c94c4b5da4b"
+  },
+  "prawn": {
+    "taxon": "Dendrobranchiata",
+    "imageUuid": "afbc3136-8e5d-4417-a8b1-b7e50c09d56b",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Almandine (vectorized by T. Michael Keesey)",
+    "license": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://www.phylopic.org/images/afbc3136-8e5d-4417-a8b1-b7e50c09d56b"
+  },
+  "lugworm": {
+    "taxon": "Arenicola",
+    "imageUuid": "6a565dfd-4e81-4df5-8db3-157d69d3280d",
+    "contributor": "T. Michael Keesey",
+    "attribution": "Auguste Le Roux and T. Michael Keesey",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://www.phylopic.org/images/6a565dfd-4e81-4df5-8db3-157d69d3280d"
+  }
+}

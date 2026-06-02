@@ -7,14 +7,14 @@ export default function LeaderboardLoading() {
       aria-busy="true"
       aria-label="Loading leaderboard"
     >
-      <div className="pebl-surface rounded-hero p-6 animate-pulse">
+      <div className="pebl-surface rounded-hero p-6 animate-pulse motion-reduce:animate-none">
         <div className="h-3 w-24 rounded-full bg-navy-900/12" />
         <div className="mt-3 h-7 w-2/3 max-w-md rounded-full bg-navy-900/12" />
         <div className="mt-2 h-3 w-1/2 max-w-sm rounded-full bg-navy-900/12" />
       </div>
       <div className="pebl-surface rounded-card mt-6 divide-y divide-navy-900/12 overflow-hidden">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="flex items-center gap-4 p-4 animate-pulse">
+          <div key={i} className="flex items-center gap-4 p-4 animate-pulse motion-reduce:animate-none">
             <div className="h-8 w-8 rounded-full bg-navy-900/12" />
             <div className="flex-1">
               <div className="h-3 w-1/3 rounded-full bg-navy-900/12" />

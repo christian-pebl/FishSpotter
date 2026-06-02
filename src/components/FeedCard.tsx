@@ -921,7 +921,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             dragMomentum={false}
             dragElastic={0.08}
             dragConstraints={articleRef}
-            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150 md:max-h-[min(80vh,calc(100%-3.5rem))]"
+            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-card border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150 md:max-h-[min(80vh,calc(100%-3.5rem))]"
           >
             {/* Drag-only-from-here button. Visible grip so users know it's the
                 drag affordance. dragListener=false on the parent means drag
@@ -1124,7 +1124,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           type="button"
                           onClick={() => setMapOpen(true)}
                           aria-label="Show where this clip was recorded on a map"
-                          className="inline-flex min-h-[36px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                          // F-PRESUBMIT-CTAS: ml-auto pushes this utility action
+                          // to the far end of the row, separating it from the
+                          // ID actions (Spot It / Help me identify). 44px target.
+                          className="ml-auto inline-flex min-h-[44px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
                         >
                           <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-teal-500/80">
                             <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
@@ -1300,7 +1303,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                                 commonName={referenceAnswer}
                                 size="thumb"
                               />
-                              <p className="mt-1 text-[10px] text-white/35">
+                              <p className="mt-1 text-[10px] text-white/60">
                                 Photos: iNaturalist community, CC-licensed
                               </p>
                             </div>

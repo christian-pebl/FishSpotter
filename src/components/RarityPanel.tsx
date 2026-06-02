@@ -104,8 +104,8 @@ export function RarityPanel({
 
   let badge: { label: string; tone: "rare" | "common" } | null = null;
   if (staffProb != null) {
-    if (staffProb < 0.05) badge = { label: "✦ rare find", tone: "rare" };
-    else if (staffProb > 0.25) badge = { label: "✓ common here", tone: "common" };
+    if (staffProb < 0.05) badge = { label: "rare find", tone: "rare" };
+    else if (staffProb > 0.25) badge = { label: "common here", tone: "common" };
   }
 
   return (
@@ -119,7 +119,7 @@ export function RarityPanel({
         <span className="text-[10px] uppercase tracking-wider text-white/55">
           Ecological likelihood
         </span>
-        <span className="text-[9px] text-white/35">
+        <span className="text-[9px] text-white/60">
           OBIS · ~11 km{month ? ` · ${month}` : ""}
         </span>
       </div>
@@ -150,10 +150,20 @@ export function RarityPanel({
               <span
                 className={
                   badge.tone === "rare"
-                    ? "rounded-full bg-amber-300/20 px-2 py-0.5 text-[10px] font-semibold text-amber-200"
-                    : "rounded-full bg-teal-500/20 px-2 py-0.5 text-[10px] font-semibold text-teal-500"
+                    ? "inline-flex items-center gap-1 rounded-full bg-amber-300/20 px-2 py-0.5 text-[10px] font-semibold text-amber-200"
+                    : "inline-flex items-center gap-1 rounded-full bg-teal-500/20 px-2 py-0.5 text-[10px] font-semibold text-teal-500"
                 }
+                aria-label={badge.label}
               >
+                {badge.tone === "rare" ? (
+                  <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                    <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                    <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
                 {badge.label}
               </span>
             )}
@@ -161,7 +171,7 @@ export function RarityPanel({
         </div>
       )}
       {staffProb == null && (
-        <div className="mt-1 text-[10px] text-white/35">
+        <div className="mt-1 text-[10px] text-white/60">
           Reference not matched to OBIS records here.
         </div>
       )}

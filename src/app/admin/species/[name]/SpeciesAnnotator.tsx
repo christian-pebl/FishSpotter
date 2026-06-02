@@ -396,7 +396,9 @@ export function SpeciesAnnotator({
                           className="rounded px-1 hover:bg-navy-100 disabled:opacity-30"
                           aria-label="Move up"
                         >
-                          ↑
+                          <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
+                            <path d="M3 7.5L6 4.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
                         </button>
                         <button
                           type="button"
@@ -408,7 +410,9 @@ export function SpeciesAnnotator({
                           className="rounded px-1 hover:bg-navy-100 disabled:opacity-30"
                           aria-label="Move down"
                         >
-                          ↓
+                          <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
+                            <path d="M3 4.5L6 7.5l3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
                         </button>
                       </span>
                     </button>
@@ -453,8 +457,11 @@ export function SpeciesAnnotator({
                 <button
                   type="button"
                   onClick={() => handleDelete(selectedMark)}
-                  className="text-[11px] text-rose-600 hover:text-rose-700"
+                  className="inline-flex items-center gap-1 text-[11px] text-danger hover:opacity-80"
                 >
+                  <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
+                    <path d="M2.5 3.5h7M5 3.5V2.5h2v1M3.5 3.5l.5 6h4l.5-6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                   Delete mark
                 </button>
                 <button

@@ -300,9 +300,9 @@ export function IdGuideChat({
 function ThinkingDots() {
   return (
     <span className="inline-flex items-center gap-1 text-white/60">
-      <span className="animate-pulse">●</span>
-      <span className="animate-pulse [animation-delay:120ms]">●</span>
-      <span className="animate-pulse [animation-delay:240ms]">●</span>
+      <span className="animate-pulse motion-reduce:animate-none">●</span>
+      <span className="animate-pulse motion-reduce:animate-none [animation-delay:120ms]">●</span>
+      <span className="animate-pulse motion-reduce:animate-none [animation-delay:240ms]">●</span>
     </span>
   );
 }

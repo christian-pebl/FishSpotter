@@ -93,8 +93,8 @@ export function SpeciesGallery({
       <div
         className={
           size === "large"
-            ? "h-32 animate-pulse rounded-xl bg-white/5"
-            : "h-14 animate-pulse rounded-lg bg-white/5"
+            ? "h-32 animate-pulse motion-reduce:animate-none rounded-xl bg-white/5"
+            : "h-14 animate-pulse motion-reduce:animate-none rounded-lg bg-white/5"
         }
       />
     );

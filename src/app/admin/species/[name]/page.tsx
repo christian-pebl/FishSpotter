@@ -57,7 +57,7 @@ export default async function AdminSpeciesEditorPage({
   return (
     <div className="space-y-5">
       <div className="text-[12px] text-navy-600">
-        <Link href="/admin/species" className="text-teal-700 hover:text-teal-800">
+        <Link href="/admin/species" className="text-teal-700 hover:text-teal-hover">
           ← All species
         </Link>
       </div>

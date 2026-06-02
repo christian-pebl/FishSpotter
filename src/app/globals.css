@@ -371,3 +371,27 @@ a {
 .fs-paused * {
   animation-play-state: paused !important;
 }
+
+/* Gentle wave-like sway for the decorative marine pattern (MarinePattern).
+ * Transform-only so it is GPU-composited and cheap; the host is oversized
+ * (-inset-6) so the drift never reveals a tile edge. The global
+ * prefers-reduced-motion block above neutralises it for users who opt out. */
+@keyframes fs-pattern-sway {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(11px, -7px, 0);
+  }
+  50% {
+    transform: translate3d(3px, -13px, 0);
+  }
+  75% {
+    transform: translate3d(-9px, -5px, 0);
+  }
+}
+.fs-pattern-sway {
+  animation: fs-pattern-sway 16s ease-in-out infinite;
+  will-change: transform;
+}

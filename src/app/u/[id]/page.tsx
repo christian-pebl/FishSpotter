@@ -121,7 +121,14 @@ export default async function ProfilePage({
                       ? "rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-teal-700"
                       : a.isCorrect === false
                         ? "rounded-full bg-danger/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-danger"
-                        : "rounded-full bg-amber-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-amber-900"
+                        : "rounded-full bg-pending px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-pending-ink"
+                  }
+                  aria-label={
+                    a.isCorrect === true
+                      ? "Correct"
+                      : a.isCorrect === false
+                        ? "Incorrect"
+                        : "Bonus, reference pending"
                   }
                   title={
                     a.isCorrect === null
@@ -129,7 +136,19 @@ export default async function ProfilePage({
                       : undefined
                   }
                 >
-                  {a.isCorrect === true ? "✓" : a.isCorrect === false ? "✗" : "★"}
+                  {a.isCorrect === true ? (
+                    <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                      <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : a.isCorrect === false ? (
+                    <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                      <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                      <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                    </svg>
+                  )}
                 </span>
               </li>
             ))}

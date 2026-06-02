@@ -405,7 +405,7 @@ function Footer({
         <button
           type="button"
           onClick={onSwitchToChips}
-          className="text-white/35 transition-colors hover:text-white/70"
+          className="text-white/70 transition-colors hover:text-white"
         >
           All traits
         </button>

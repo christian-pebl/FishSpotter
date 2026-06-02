@@ -70,22 +70,22 @@ function SignInForm() {
     <div className="flex-1 overflow-y-auto">
       <main id="main" tabIndex={-1} className="mx-auto flex w-full max-w-md flex-1 px-4 py-12">
         <div className="pebl-surface w-full rounded-hero p-6 md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-eyebrow text-[color:var(--primary)]">PEBL community access</p>
-          <h1 className="mt-3 font-brand-heading text-3xl text-[color:var(--foreground)]">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">PEBL community access</p>
+          <h1 className="mt-3 font-brand-heading text-3xl text-navy-900">
             {isSignUp ? "Create your spotting profile" : "Sign in to continue spotting"}
           </h1>
           {arrivedFromProtected ? (
-            <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
+            <p className="mb-6 mt-3 text-sm leading-6 text-navy-900/72">
               Sign in to continue. Your progress is waiting.
             </p>
           ) : (
-            <p className="mb-6 mt-3 text-sm leading-6 text-[color:var(--muted)]">
+            <p className="mb-6 mt-3 text-sm leading-6 text-navy-900/72">
               Join the PEBL marine monitoring community to submit identifications, track your streak, and contribute to the shared observation record.
             </p>
           )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
+            <label htmlFor="email" className="mb-1 block text-sm font-medium text-navy-900">
               Email <span aria-hidden className="text-red-600">*</span>
             </label>
             <input
@@ -96,12 +96,12 @@ function SignInForm() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
+              className="w-full rounded-2xl border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
             />
           </div>
           {isSignUp && (
             <div>
-              <label htmlFor="name" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
+              <label htmlFor="name" className="mb-1 block text-sm font-medium text-navy-900">
                 Display name
               </label>
               <input
@@ -110,14 +110,14 @@ function SignInForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="How you will appear in the community"
-                className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] placeholder:text-[color:var(--muted)]"
+                className="w-full rounded-2xl border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900 placeholder:text-navy-900/72"
               />
             </div>
           )}
           <div>
-            <label htmlFor="password" className="mb-1 block text-sm font-medium text-[color:var(--foreground)]">
+            <label htmlFor="password" className="mb-1 block text-sm font-medium text-navy-900">
               Password <span aria-hidden className="text-red-600">*</span>
-              <span className="ml-2 text-xs font-normal text-[color:var(--muted)]">(at least 8 characters)</span>
+              <span className="ml-2 text-xs font-normal text-navy-900/72">(at least 8 characters)</span>
             </label>
             <input
               id="password"
@@ -129,11 +129,11 @@ function SignInForm() {
               autoComplete={isSignUp ? "new-password" : "current-password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)]"
+              className="w-full rounded-2xl border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
             />
           </div>
           {isSignUp && (
-            <ul className="text-xs text-[color:var(--muted)] -mt-2 space-y-0.5" aria-live="polite">
+            <ul className="text-xs text-navy-900/72 -mt-2 space-y-0.5" aria-live="polite">
               <li className={password.length >= 8 ? "text-teal-700" : ""}>
                 {password.length >= 8 ? "✓" : "•"} at least 8 characters
               </li>
@@ -146,7 +146,7 @@ function SignInForm() {
             </ul>
           )}
           {isSignUp && (
-            <label className="flex items-start gap-2 text-xs text-[color:var(--muted)]">
+            <label className="flex items-start gap-2 text-xs text-navy-900/72">
               <input
                 type="checkbox"
                 required
@@ -168,7 +168,7 @@ function SignInForm() {
             type="submit"
             disabled={loading}
             aria-busy={loading}
-            className="pebl-button-primary inline-flex w-full items-center justify-center min-h-[44px] rounded-full py-3 font-semibold disabled:cursor-not-allowed disabled:bg-[color:var(--accent)]/70 disabled:text-[color:var(--foreground)]/70"
+            className="pebl-button-primary inline-flex w-full items-center justify-center min-h-[44px] rounded-full py-3 font-semibold disabled:cursor-not-allowed disabled:bg-[color:var(--accent)]/70 disabled:text-navy-900/70"
           >
             {loading ? "Please wait…" : isSignUp ? "Create account" : "Sign in"}
           </button>
@@ -177,14 +177,14 @@ function SignInForm() {
           <button
             type="button"
             onClick={() => { setIsSignUp(!isSignUp); setError(""); }}
-            className="text-[color:var(--primary)] hover:text-[color:var(--foreground)]"
+            className="text-teal-600 hover:text-navy-900"
           >
             {isSignUp ? "Already have an account? Sign in" : "No account? Sign up"}
           </button>
           {!isSignUp && (
             <Link
               href="/auth/forgot"
-              className="text-[color:var(--muted)] underline hover:text-[color:var(--foreground)]"
+              className="text-navy-900/72 underline hover:text-navy-900"
             >
               Forgot password?
             </Link>
@@ -203,7 +203,7 @@ export default function SignInPage() {
         <div
           aria-busy="true"
           aria-label="Loading sign in"
-          className="pebl-surface rounded-hero mx-auto w-full max-w-sm animate-pulse p-6"
+          className="pebl-surface rounded-hero mx-auto w-full max-w-sm animate-pulse motion-reduce:animate-none p-6"
         >
           <div className="h-3 w-24 rounded-full bg-navy-900/12" />
           <div className="mt-3 h-7 w-2/3 max-w-md rounded-full bg-navy-900/12" />

@@ -34,7 +34,7 @@ export default function GlobalError({
           </p>
           <button
             onClick={reset}
-            className="mt-6 inline-flex min-h-[44px] items-center justify-center rounded-full bg-teal-500 px-5 font-semibold text-navy-900 transition-colors hover:bg-teal-800"
+            className="mt-6 inline-flex min-h-[44px] items-center justify-center rounded-full bg-teal-500 px-5 font-semibold text-navy-900 transition-colors hover:bg-teal-hover"
           >
             Reload
           </button>
