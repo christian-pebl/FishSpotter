@@ -209,7 +209,7 @@ export function IdGuideSheet({
            bottom-anchored full-height sheet. */}
       <div
         ref={dialogRef}
-        className="relative flex h-[96dvh] w-full max-w-7xl flex-col overflow-hidden bg-navy-800 shadow-menu sm:h-[94vh] sm:w-[96vw] sm:rounded-2xl"
+        className="relative flex h-[96dvh] w-full max-w-7xl flex-col overflow-hidden bg-navy-800 shadow-menu sm:h-[94vh] sm:w-[96vw] sm:rounded-modal"
         style={{
           transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
           transition: "transform 120ms ease-out",

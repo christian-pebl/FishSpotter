@@ -219,7 +219,8 @@ export function SpeciesAnnotator({
     const swapIdx = idx + dir;
     if (idx < 0 || swapIdx < 0 || swapIdx >= visibleMarks.length) return;
     const other = visibleMarks[swapIdx];
-    // Optimistically swap order locally.
+    // Optimistically swap order locally; capture snapshot for rollback.
+    const snapshot = marks.slice();
     setMarks((prev) =>
       prev.map((m) => {
         if (m.id === mark.id) return { ...m, order: other.order };
@@ -233,6 +234,7 @@ export function SpeciesAnnotator({
         await swapMarkOrder(mark.id, other.id);
       } catch (err) {
         console.error("swapMarkOrder failed", err);
+        setMarks(snapshot);
         setSaveError(SAVE_ERROR_MSG);
       }
     });

@@ -221,9 +221,9 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
                 aria-hidden
                 animate={reduceMotion ? undefined : { y: [0, -3, 0] }}
                 transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                className="text-sm leading-none"
+                className="leading-none"
               >
-                ↑
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><polyline points="2,9 7,4 12,9" /></svg>
               </motion.span>
               <span>
                 {hintIsTouch ? "Swipe up for next" : "Use ↑/↓ or scroll for next"}

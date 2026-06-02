@@ -15,12 +15,8 @@ type StreamEvent =
   | { type: "error"; message: string };
 
 const MAX_USER_TURNS = 8;
-// TODO(region): "Welsh coast" is hardcoded to the current deployment
-// region. When the snippet library expands beyond Welsh waters, derive
-// the region from the active deployments (or drop the geography clause)
-// rather than asserting it in the seed greeting + persona prompt.
 const SEED_GREETING =
-  "Hi, I help spot fish from PEBL clips on the Welsh coast. Tell me what stands out: shape, colour, markings, how it's moving, or where it is. I'll narrow it down with you.";
+  "Hi, I help identify marine life from PEBL underwater clips. Tell me what stands out: shape, colour, markings, how it's moving, or where on the seabed it is. I'll narrow it down with you.";
 
 export function IdGuideChat({
   snippetId,
@@ -172,8 +168,8 @@ export function IdGuideChat({
               key={i}
               className={
                 m.role === "user"
-                  ? "ml-auto max-w-[80%] rounded-2xl bg-teal-500 px-3 py-2 text-sm text-navy-900"
-                  : "mr-auto max-w-[85%] rounded-2xl bg-white/10 px-3 py-2 text-sm text-white/90"
+                  ? "ml-auto max-w-[80%] rounded-modal bg-teal-500 px-3 py-2 text-sm text-navy-900"
+                  : "mr-auto max-w-[85%] rounded-modal bg-white/10 px-3 py-2 text-sm text-white/90"
               }
             >
               {m.content || (isStreamingBubble ? <ThinkingDots /> : null)}

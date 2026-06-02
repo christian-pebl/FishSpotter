@@ -85,7 +85,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
               autoComplete="off"
               aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
               aria-invalid={!!submitError}
-              className="mb-4 w-full max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] outline-none placeholder:text-[color:var(--muted)] focus:border-[color:var(--primary)]"
+              className="mb-4 w-full max-w-md rounded-modal border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] outline-none placeholder:text-[color:var(--muted)] focus:border-[color:var(--primary)]"
               style={{
                 color: "var(--foreground)",
                 WebkitTextFillColor: "var(--foreground)",
