@@ -141,6 +141,120 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
     ],
   },
+
+  // ---- Wrasses ----
+  {
+    scientificName: "Labrus bergylta",
+    commonName: "Ballan Wrasse",
+    _photo: "iNat (c) Oscar Wainwright CC-BY-NC, obs 213042263 - fish in net, head left.",
+    marks: [
+      {
+        label: "Thick fleshy lips",
+        description: "Big, rubbery lips for picking shellfish off the rock - a wrasse hallmark, strongest in the chunky ballan.",
+        overlayX: 0.22,
+        overlayY: 0.48,
+        overlayRadius: 0.06,
+      },
+      {
+        label: "Single long dorsal fin",
+        description: "One continuous dorsal fin runs almost the whole back (spiny at the front, soft behind) - not split like a bass or gadoid.",
+        overlayX: 0.55,
+        overlayY: 0.3,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Stout mottled body",
+        description: "A deep, robust green-to-brown body, often pale-spotted and highly variable. Our largest wrasse.",
+        overlayX: 0.6,
+        overlayY: 0.55,
+        overlayRadius: 0.16,
+      },
+    ],
+  },
+  {
+    scientificName: "Labrus mixtus",
+    commonName: "Cuckoo Wrasse",
+    _photo: "iNat (c) Soleil L. K. Johansson CC-BY-NC, obs 245568411 - vivid MALE, head left.",
+    marks: [
+      {
+        label: "Electric blue head & stripes",
+        description: "The breeding male is unmistakable: brilliant blue head and wavy blue stripes streaking back over an orange body.",
+        overlayX: 0.25,
+        overlayY: 0.45,
+        overlayRadius: 0.14,
+      },
+      {
+        label: "Orange flanks",
+        description: "Bright orange flanks under the blue lines (males). A slim, pointed-headed wrasse.",
+        overlayX: 0.55,
+        overlayY: 0.55,
+        overlayRadius: 0.16,
+      },
+      {
+        label: "Females look different",
+        description: "Females are pinkish-orange with three dark blotches across the rear of the back - no blue. Worth knowing both.",
+        overlayX: 0.7,
+        overlayY: 0.28,
+        overlayRadius: 0.1,
+      },
+    ],
+  },
+  {
+    scientificName: "Symphodus melops",
+    commonName: "Corkwing Wrasse",
+    _photo: "iNat (c) Xavier Rufray CC-BY-NC, obs 63891382 - fish in weed, head right.",
+    marks: [
+      {
+        label: "Blue-green lines on the face",
+        description: "A maze of blue-green wavy lines over the cheek and gill cover, vivid on breeding males.",
+        overlayX: 0.64,
+        overlayY: 0.42,
+        overlayRadius: 0.1,
+      },
+      {
+        label: "Dark spot on the tail base",
+        description: "A small dark spot in the centre of the tail base - present in both sexes; the most reliable corkwing tell.",
+        overlayX: 0.12,
+        overlayY: 0.44,
+        overlayRadius: 0.07,
+      },
+      {
+        label: "Comma behind the eye",
+        description: "A short dark comma-shaped mark just behind the eye (clearest on males).",
+        overlayX: 0.58,
+        overlayY: 0.36,
+        overlayRadius: 0.05,
+      },
+    ],
+  },
+  {
+    scientificName: "Ctenolabrus rupestris",
+    commonName: "Goldsinny Wrasse",
+    _photo: "iNat (c) franciscodocampo CC-BY, obs 72524462 - fish on rock, head right.",
+    marks: [
+      {
+        label: "Dark spot on upper tail base",
+        description: "A bold black spot at the TOP of the tail base - the goldsinny's signature mark.",
+        overlayX: 0.12,
+        overlayY: 0.3,
+        overlayRadius: 0.07,
+      },
+      {
+        label: "Dark spot at front of dorsal",
+        description: "A second dark blotch at the very front of the dorsal fin. The two black spots together clinch it.",
+        overlayX: 0.55,
+        overlayY: 0.22,
+        overlayRadius: 0.06,
+      },
+      {
+        label: "Small reddish-brown body",
+        description: "Our smallest common wrasse (to ~15 cm), slender and reddish-brown, hugging rocky crevices.",
+        overlayX: 0.45,
+        overlayY: 0.46,
+        overlayRadius: 0.16,
+      },
+    ],
+  },
 ];
 
 async function main() {
