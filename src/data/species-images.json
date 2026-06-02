@@ -123,6 +123,20 @@
   },
   "overrides": {
     "_README": "Add specific photo overrides here. Shape: { scientificName: [{ url, attribution, sourceUrl, license, lifeStage, sex, ordering }, ...] }. These are upserted with curated=true on every script run and never auto-deleted. Real overrides go at the top level of this object; any key starting with an underscore is ignored by the script.",
+    "Aurelia aurita": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Aurelia_aurita_%28Cnidaria%29_Luc_Viatour.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Aurelia_aurita_%28Cnidaria%29_Luc_Viatour.jpg/960px-Aurelia_aurita_%28Cnidaria%29_Luc_Viatour.jpg",
+        "attribution": "Luc Viatour, CC BY-SA 3.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aurelia_aurita_(Cnidaria)_Luc_Viatour.jpg",
+        "license": "cc-by-sa",
+        "lifeStage": "adult",
+        "sex": null,
+        "width": 3419,
+        "height": 2279,
+        "ordering": 1
+      }
+    ],
     "_EXAMPLE_DO_NOT_USE": {
       "Labrus mixtus": [
         {
