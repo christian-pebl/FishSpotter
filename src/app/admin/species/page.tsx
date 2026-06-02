@@ -54,7 +54,7 @@ export default async function AdminSpeciesListPage() {
             should look for. Pilot species (gadoids) are highlighted.
           </p>
         </div>
-        <div className="rounded-lg border border-navy-200 bg-white px-3 py-2 text-right text-[11px] text-navy-600">
+        <div className="rounded-modal border border-navy-200 bg-white px-3 py-2 text-right text-[11px] text-navy-600">
           <div className="font-semibold text-navy-900">
             {pilotDone}/{pilotTotal} pilot species authored
           </div>
@@ -62,7 +62,7 @@ export default async function AdminSpeciesListPage() {
         </div>
       </header>
 
-      <div className="overflow-hidden rounded-xl border border-navy-200 bg-white">
+      <div className="overflow-hidden rounded-card border border-navy-200 bg-white">
         <table className="w-full text-left text-sm">
           <thead className="bg-navy-50 text-[11px] uppercase tracking-wider text-navy-600">
             <tr>
@@ -95,9 +95,12 @@ export default async function AdminSpeciesListPage() {
                 <td className="px-4 py-2.5 text-right">
                   <Link
                     href={`/admin/species/${encodeURIComponent(row.scientificName)}`}
-                    className="text-[12px] font-medium text-teal-700 hover:text-teal-hover"
+                    className="inline-flex items-center gap-1 text-[12px] font-medium text-teal-700 hover:text-teal-hover"
                   >
-                    {row.markCount === 0 ? "Author" : "Edit"} →
+                    {row.markCount === 0 ? "Author" : "Edit"}
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M2.5 6h6M6 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </Link>
                 </td>
               </tr>

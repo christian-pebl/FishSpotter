@@ -27,6 +27,12 @@ const DEFAULT_RADIUS = 0.06;
 const MIN_RADIUS = 0.01;
 const MAX_RADIUS = 0.5;
 
+// F-ADMIN-SAVE-FEEDBACK: server-action failures previously only console.error'd
+// while the optimistic on-screen state persisted, so a failed save looked
+// successful and silently desynced from the DB. We now surface this.
+const SAVE_ERROR_MSG =
+  "Couldn't save that change. Reload the page to re-sync with the database before continuing.";
+
 type DragState =
   | null
   | { kind: "move"; markId: string; pointerId: number; dxFrac: number; dyFrac: number }
@@ -56,6 +62,7 @@ export function SpeciesAnnotator({
   const [dragState, setDragState] = useState<DragState>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isSaving, startSavingTransition] = useTransition();
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const activePhoto = useMemo(
     () => photos.find((p) => p.id === photoId) ?? photos[0],
@@ -89,6 +96,7 @@ export function SpeciesAnnotator({
     if (!frac) return;
     if (!photoId) return;
     startSavingTransition(async () => {
+      setSaveError(null);
       try {
         const created = await createMark({
           scientificName,
@@ -103,6 +111,7 @@ export function SpeciesAnnotator({
         setSelectedId(created.id);
       } catch (err) {
         console.error("createMark failed", err);
+        setSaveError(SAVE_ERROR_MSG);
       }
     });
   }
@@ -163,6 +172,7 @@ export function SpeciesAnnotator({
     setDragState(null);
     if (!mark) return;
     startSavingTransition(async () => {
+      setSaveError(null);
       try {
         await updateMark({
           id: mark.id,
@@ -172,16 +182,19 @@ export function SpeciesAnnotator({
         });
       } catch (err) {
         console.error("updateMark failed", err);
+        setSaveError(SAVE_ERROR_MSG);
       }
     });
   }
 
   function handleLabelBlur(mark: AnnotatorMark) {
     startSavingTransition(async () => {
+      setSaveError(null);
       try {
         await updateMark({ id: mark.id, label: mark.label, description: mark.description });
       } catch (err) {
         console.error("updateMark failed", err);
+        setSaveError(SAVE_ERROR_MSG);
       }
     });
   }
@@ -189,12 +202,14 @@ export function SpeciesAnnotator({
   function handleDelete(mark: AnnotatorMark) {
     if (!confirm(`Delete mark "${mark.label}"?`)) return;
     startSavingTransition(async () => {
+      setSaveError(null);
       try {
         await deleteMark(mark.id);
         setMarks((prev) => prev.filter((m) => m.id !== mark.id));
         if (selectedId === mark.id) setSelectedId(null);
       } catch (err) {
         console.error("deleteMark failed", err);
+        setSaveError(SAVE_ERROR_MSG);
       }
     });
   }
@@ -213,10 +228,12 @@ export function SpeciesAnnotator({
       }),
     );
     startSavingTransition(async () => {
+      setSaveError(null);
       try {
         await swapMarkOrder(mark.id, other.id);
       } catch (err) {
         console.error("swapMarkOrder failed", err);
+        setSaveError(SAVE_ERROR_MSG);
       }
     });
   }
@@ -231,6 +248,21 @@ export function SpeciesAnnotator({
 
   return (
     <div className="space-y-4">
+      {saveError && (
+        <div
+          role="alert"
+          className="flex items-start justify-between gap-3 rounded-modal border border-danger/30 bg-danger/10 px-3 py-2 text-[12px] text-danger"
+        >
+          <span>{saveError}</span>
+          <button
+            type="button"
+            onClick={() => setSaveError(null)}
+            className="shrink-0 font-semibold underline hover:opacity-80"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
       {photos.length > 1 && (
         <div className="flex flex-wrap gap-2">
           {photos.map((p) => {
@@ -271,7 +303,7 @@ export function SpeciesAnnotator({
           <div
             ref={wrapperRef}
             onPointerDown={handlePhotoPointerDown}
-            className="relative w-full select-none overflow-hidden rounded-xl border border-navy-300 bg-navy-100"
+            className="relative w-full select-none overflow-hidden rounded-modal border border-navy-300 bg-navy-100"
             style={{
               aspectRatio:
                 activePhoto?.width && activePhoto?.height
@@ -363,7 +395,7 @@ export function SpeciesAnnotator({
             Marks on this photo ({visibleMarks.length})
           </h2>
           {visibleMarks.length === 0 ? (
-            <p className="rounded-lg border border-dashed border-navy-300 bg-white p-3 text-[12px] text-navy-500">
+            <p className="rounded-modal border border-dashed border-navy-300 bg-white p-3 text-[12px] text-navy-500">
               No marks yet. Click on the photo to add the first one.
             </p>
           ) : (
@@ -373,7 +405,7 @@ export function SpeciesAnnotator({
                 return (
                   <li
                     key={m.id}
-                    className={`rounded-lg border p-2 text-[12px] transition ${
+                    className={`rounded-modal border p-2 text-[12px] transition ${
                       isSel ? "border-teal-500 bg-teal-50" : "border-navy-200 bg-white hover:border-navy-400"
                     }`}
                   >
@@ -423,7 +455,7 @@ export function SpeciesAnnotator({
           )}
 
           {selectedMark && (
-            <div className="space-y-2 rounded-lg border border-teal-300 bg-white p-3">
+            <div className="space-y-2 rounded-modal border border-teal-300 bg-white p-3">
               <h3 className="text-[11px] font-semibold uppercase tracking-wider text-navy-600">
                 Edit mark #{visibleMarks.findIndex((m) => m.id === selectedMark.id) + 1}
               </h3>
