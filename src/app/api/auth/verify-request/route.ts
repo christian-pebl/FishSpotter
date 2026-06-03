@@ -4,7 +4,7 @@
  * Authenticated. If the calling user's email isn't yet verified,
  * mints a fresh token, marks any prior outstanding tokens consumed
  * (kept as audit trail), sends the email. Rate-limited to 3/hour
- * per user so we don't burn the Resend free-tier on a stuck loop.
+ * per user so we don't burn the SendGrid free-tier on a stuck loop.
  */
 
 import { NextResponse } from "next/server";

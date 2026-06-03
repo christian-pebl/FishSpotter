@@ -97,8 +97,8 @@ export const authOptions: NextAuthOptions = {
               leaderboardOptIn: !isMinor,
             },
           });
-          // S3-06: fire-and-forget verification email. Failure (Resend
-          // outage, missing API key) doesn't block signup — the user
+          // S3-06: fire-and-forget verification email. Failure (email
+          // provider outage, missing API key) doesn't block signup — the user
           // can resend from /account later.
           void sendVerificationEmail(user.id, email, user.displayName ?? user.name ?? "Spotter");
           return { id: user.id, name: user.displayName ?? user.name };
