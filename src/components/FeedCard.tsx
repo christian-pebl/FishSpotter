@@ -136,6 +136,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // "Not sure" (selectedShape stays null -> the strip narrows the whole
   // catalogue). Distinct from selectedShape so "Not sure" never dead-ends.
   const [spotItActive, setSpotItActive] = useState(false);
+  // (3 Jun) Guided-first identify flow. The default path is the step-by-step
+  // "Spot It" shape gate; the MCQ tile grid is no longer shown first — it only
+  // renders as a "skip to guess" fallback once the user opts into it.
+  const [guessMode, setGuessMode] = useState(false);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
   // the user has either watched the clip through one loop OR manually
   // tapped the collapsed pill to expand. Encourages observation before
@@ -829,6 +833,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             type="button"
             onClick={() => {
               togglePanel(false);
+              // (3 Jun) Lead with the step-by-step shape flow, not the MCQ
+              // tiles. Opening the panel pre-submit launches the Spot It gate
+              // unless the user has already chosen to guess from a list.
+              if (!myAnswer && !guessMode && !spotItActive) setShapeGateOpen(true);
               try {
                 localStorage.setItem("fishspotter:hasIdentified", "1");
               } catch {}
@@ -965,12 +973,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     </p>
                   )}
 
-                  {/* S2-T14: Replace the free-text input with an MCQ
-                       candidate picker. The legacy input is retained
-                       behind the DEGENERATE fallback (S2-T07) — when
-                       OBIS has too few photo-having distractors to
-                       form a viable quiz, the picker renders this
-                       block instead so the user can still answer. */}
+                  {/* S2-T14 / (3 Jun): the MCQ candidate picker is now the
+                       "skip to guess" fallback, gated behind guessMode — it is
+                       no longer the first thing shown. The default identify path
+                       is the step-by-step Spot It shape flow. The legacy free-text
+                       input is still retained inside it via the DEGENERATE fallback. */}
+                  {guessMode && (
                   <MCQCandidatePicker
                     snippetId={snippet.id}
                     isSignedIn={!!session}
@@ -1065,6 +1073,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       </>
                     }
                   />
+                  )}
 
                   {hasNext && (
                     <div className="flex justify-end pb-1">
@@ -1108,6 +1117,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </svg>
                         Spot It
                       </button>
+                      {/* (3 Jun) The MCQ tile grid is now opt-in. This quiet link
+                          lets a user who'd rather just pick from a list reveal it
+                          without going through the shape gate first. */}
+                      {!guessMode && (
+                        <button
+                          type="button"
+                          onClick={() => setGuessMode(true)}
+                          className="inline-flex min-h-[44px] items-center py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 hover:text-white/90"
+                        >
+                          Pick from a list
+                        </button>
+                      )}
                       {/* (3 Jun fix) Single guided-ID entry is "Spot It" (above).
                           The older pre-submit "Help me identify" wizard trigger was
                           removed here — having both opened two concurrent guided
@@ -1148,7 +1169,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         )
                       }
                       onChangeShape={() => setShapeGateOpen(true)}
-                      onSkipToMCQ={() => setSpotItActive(false)}
+                      onSkipToMCQ={() => {
+                        setSpotItActive(false);
+                        setGuessMode(true);
+                      }}
                     />
                   )}
                 </>
@@ -1430,7 +1454,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             setSpotItActive(true);
             setShapeGateOpen(false);
           }}
-          onSkip={() => setShapeGateOpen(false)}
+          onSkip={() => {
+            // "Skip to guess" — reveal the MCQ tile grid as the fallback.
+            setShapeGateOpen(false);
+            setGuessMode(true);
+          }}
           onClose={() => setShapeGateOpen(false)}
         />
       )}
