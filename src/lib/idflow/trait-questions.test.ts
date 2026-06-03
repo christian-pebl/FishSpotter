@@ -4,6 +4,7 @@ import {
   ARM_FORM,
   BEHAVIOR,
   BELL_FORM,
+  BODY_DEPTH,
   BODY_SHAPE,
   CARAPACE_TEXTURE,
   CEPHALOPOD_FORM,
@@ -13,6 +14,7 @@ import {
   FEATURES,
   FIN_SHAPE,
   HABITAT,
+  LATERAL_LINE,
   MARKINGS,
   MOVEMENT,
   SHELL_SHAPE,
@@ -25,6 +27,8 @@ import type { TraitKey } from "@/lib/idguide/narrow";
 // coverage test below fails instead of shipping `Does it look "none"?` to users.
 const ALL_VALUES: Record<TraitKey, readonly string[]> = {
   bodyShape: BODY_SHAPE,
+  bodyDepth: BODY_DEPTH,
+  lateralLine: LATERAL_LINE,
   size: SIZE,
   coloration: COLORATION,
   markings: MARKINGS,

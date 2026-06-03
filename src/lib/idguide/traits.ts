@@ -4,12 +4,33 @@ export const BODY_SHAPE = [
   "laterally-compressed",
   "flat-dorsoventral",
   "eel-like",
-  "snake-like",
 ] as const;
+// NB `snake-like` was retired on 3 Jun 2026: it was a duplicate silhouette of
+// `eel-like` (no species used it) and would have shown two near-identical Rung-2
+// tiles. `eel-like` is the canonical long-continuous-fin silhouette.
 export type BodyShape = (typeof BODY_SHAPE)[number];
 
 export const SIZE = ["small", "medium", "large"] as const; // <10cm, 10-50cm, >50cm
 export type SizeClass = (typeof SIZE)[number];
+
+// Body depth — the Rung-3 splitter for the over-stuffed fusiform pool (added
+// 3 Jun 2026). Deep-bodied fish (bib, ballan/corkwing wrasse) vs slim torpedoes
+// (pollack, saithe, mackerel) is a question a beginner can answer from the
+// silhouette alone, and it is the single most discriminating cut once shape
+// class + body shape are fixed. Optional array trait on SpeciesTraits.
+export const BODY_DEPTH = ["deep", "medium", "slender"] as const;
+export type BodyDepth = (typeof BODY_DEPTH)[number];
+
+// Lateral-line form — a classic field mark, especially for gadoids (pale and
+// straight in saithe, dark and curved in pollack) and for the dab (lateral line
+// arched sharply over the pectoral fin). Optional array trait.
+export const LATERAL_LINE = [
+  "pale-straight",
+  "dark-curved",
+  "arched-over-pectoral",
+  "indistinct",
+] as const;
+export type LateralLine = (typeof LATERAL_LINE)[number];
 
 export const COLORATION = [
   "uniform",
@@ -27,6 +48,7 @@ export const MARKINGS = [
   "lateral-stripe",
   "dorsal-spots",
   "fin-spots",
+  "caudal-spot", // dark spot on the tail base (corkwing, goldsinny, two-spotted goby)
   "none",
 ] as const;
 export type Marking = (typeof MARKINGS)[number];
@@ -38,6 +60,7 @@ export const FIN_SHAPE = [
   "single-dorsal",
   "split-dorsal",
   "long-anal",
+  "finlets", // small separate finlets behind the dorsal/anal (mackerel, Scombridae)
 ] as const;
 export type FinShape = (typeof FIN_SHAPE)[number];
 
@@ -46,6 +69,8 @@ export const FEATURES = [
   "dorsal-spines",
   "fleshy-lips",
   "sucker-mouth",
+  "pelvic-sucker", // fused pelvic-disc sucker on the belly — the gobiid give-away
+  "lateral-scutes", // bony plates along the lateral line (horse mackerel, Carangidae)
   "frilly-fins",
   "none",
 ] as const;
@@ -193,6 +218,10 @@ export type SpeciesTraits = {
   behavior: Behavior[];
   habitat: Habitat[];
   movement: Movement[];
+  // Fish Rung-3 splitters (optional): present on fish entries that need them to
+  // separate within an over-stuffed body-shape bucket, absent elsewhere.
+  bodyDepth?: BodyDepth[];
+  lateralLine?: LateralLine[];
   // Crab-only (optional): present on crustacean entries, absent on fish.
   carapaceTexture?: CarapaceTexture[];
   crabFeatures?: CrabFeature[];
@@ -218,6 +247,8 @@ export type TraitSelection = {
   behavior?: Behavior[];
   habitat?: Habitat[];
   movement?: Movement[];
+  bodyDepth?: BodyDepth[];
+  lateralLine?: LateralLine[];
   carapaceTexture?: CarapaceTexture[];
   crabFeatures?: CrabFeature[];
   crabForm?: CrabForm[];

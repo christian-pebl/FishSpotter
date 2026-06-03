@@ -18,6 +18,9 @@
  *   # rank every cached SpeciesImage row for a species, recommend the best
  *   npm run images:assess -- --species "Labrus mixtus"
  *
+ *   # ALSO pull fresh iNaturalist candidates and see if any beats the cache
+ *   npm run images:assess -- --species "Gadus morhua" --fetch 20
+ *
  *   # sweep the whole catalogue (bounded; --limit caps species)
  *   npm run images:assess -- --all --limit 10
  *
@@ -26,6 +29,7 @@
  */
 import { PrismaClient } from "@prisma/client";
 import { assessImageQuality, type ImageQuality } from "../src/lib/biodiversity/gemini-vision";
+import { fetchPhotosForSpecies } from "../src/lib/biodiversity/inaturalist";
 import speciesTraitsData from "../src/data/species-traits.json";
 
 const prisma = new PrismaClient();
@@ -44,6 +48,8 @@ function parseArgs() {
   let all = false;
   let json = false;
   let limit: number | undefined;
+  let fetchFresh = false;
+  let fetchN = 12;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--species" && argv[i + 1]) species = argv[++i];
@@ -51,11 +57,41 @@ function parseArgs() {
     else if (a === "--all") all = true;
     else if (a === "--json") json = true;
     else if (a === "--limit" && argv[i + 1]) limit = Number(argv[++i]);
+    else if (a === "--fetch") {
+      fetchFresh = true;
+      // optional numeric arg: --fetch 20
+      if (argv[i + 1] && /^\d+$/.test(argv[i + 1])) fetchN = Number(argv[++i]);
+    }
   }
-  return { species, url, all, json, limit };
+  return { species, url, all, json, limit, fetchFresh, fetchN };
 }
 
 const REC_RANK: Record<string, number> = { ideal: 0, usable: 1, poor: 2, reject: 3 };
+
+// Running token usage across the whole run, for cost tracking. Printed to
+// stderr at the end so --json stdout stays pure JSON.
+const usage = { count: 0, input: 0, output: 0, thinking: 0, total: 0 };
+
+type AssessReturn = Awaited<ReturnType<typeof assessImageQuality>>;
+/** Accumulate token usage from a successful assessment, then pass it through. */
+function track(r: AssessReturn): AssessReturn {
+  if (r.ok) {
+    usage.count++;
+    usage.input += r.usage.input;
+    usage.output += r.usage.output;
+    usage.thinking += r.usage.thinking;
+    usage.total += r.usage.total;
+  }
+  return r;
+}
+
+function printUsage() {
+  console.error(
+    `\n[usage] ${usage.count} assessments | input ${usage.input.toLocaleString()} ` +
+      `+ output ${usage.output.toLocaleString()} (thinking ${usage.thinking.toLocaleString()}) ` +
+      `= ${usage.total.toLocaleString()} tokens`,
+  );
+}
 
 function fmtRow(q: ImageQuality): string {
   const flags: string[] = [];
@@ -72,42 +108,129 @@ function fmtRow(q: ImageQuality): string {
   );
 }
 
-async function assessSpecies(sci: string, json: boolean) {
+/** One assessed photo, whether from the DB cache or a fresh iNat pull. */
+type Cand = {
+  url: string;
+  attribution: string;
+  sourceUrl: string;
+  license: string;
+  source: string;
+  curated: boolean;
+  cached: boolean; // already a SpeciesImage row vs freshly fetched
+  q: ImageQuality | null;
+  error?: string;
+};
+
+function printCand(c: Cand) {
+  const origin = c.cached ? `[${c.curated ? "CURATED" : "cached"}]` : "[FRESH]";
+  if (c.q) {
+    console.log(`\n${origin} ${c.source} ${c.license}  ${c.url}`);
+    console.log(fmtRow(c.q));
+  } else {
+    console.log(`\n${origin} ${c.url}\n  ERROR: ${c.error}`);
+  }
+}
+
+/** Paste-ready overrides block for species-images.json (upserted curated). */
+function overrideBlock(sci: string, c: Cand): string {
+  const entry = {
+    url: c.url,
+    attribution: c.attribution,
+    sourceUrl: c.sourceUrl,
+    license: c.license,
+  };
+  return (
+    `      Add to src/data/species-images.json "overrides":\n` +
+    `        ${JSON.stringify({ [sci]: [entry] })}`
+  );
+}
+
+async function assessSpecies(
+  sci: string,
+  json: boolean,
+  opts: { fetchFresh?: boolean; fetchN?: number } = {},
+): Promise<Cand[]> {
   const rows = await prisma.speciesImage.findMany({
     where: { scientificName: sci },
     orderBy: { ordering: "asc" },
   });
-  if (rows.length === 0) {
-    console.log(`\n${sci}: no cached SpeciesImage rows (run db:refresh-images first).`);
+
+  if (rows.length === 0 && !opts.fetchFresh) {
+    if (!json) console.log(`\n${sci}: no cached photos (run db:refresh-images, or add --fetch).`);
     return [];
   }
 
-  if (!json) console.log(`\n=== ${commonNameFor(sci) ?? sci} (${sci}) — ${rows.length} cached photos ===`);
+  if (!json) {
+    console.log(
+      `\n=== ${commonNameFor(sci) ?? sci} (${sci}) — ${rows.length} cached` +
+        `${opts.fetchFresh ? ` + up to ${opts.fetchN} fresh from iNaturalist` : ""} ===`,
+    );
+  }
 
-  const results: Array<{ row: (typeof rows)[number]; q: ImageQuality | null; error?: string }> = [];
+  const cands: Cand[] = [];
+
+  // 1. Cached SpeciesImage rows.
   for (const row of rows) {
-    const r = await assessImageQuality({
-      scientificName: sci,
-      commonName: commonNameFor(sci),
-      imageUrl: row.url,
-    });
-    if (r.ok) {
-      results.push({ row, q: r.quality });
-      if (!json) {
-        console.log(
-          `\n[${row.curated ? "CURATED" : "auto"}] ${row.source} ${row.license}  ${row.url}`,
-        );
-        console.log(fmtRow(r.quality));
-      }
-    } else {
-      results.push({ row, q: null, error: r.error });
-      if (!json) console.log(`\n${row.url}\n  ERROR: ${r.error}`);
+    const r = track(
+      await assessImageQuality({
+        scientificName: sci,
+        commonName: commonNameFor(sci),
+        imageUrl: row.url,
+      }),
+    );
+    const c: Cand = {
+      url: row.url,
+      attribution: row.attribution,
+      sourceUrl: row.sourceUrl,
+      license: row.license,
+      source: row.source,
+      curated: row.curated,
+      cached: true,
+      q: r.ok ? r.quality : null,
+      error: r.ok ? undefined : r.error,
+    };
+    cands.push(c);
+    if (!json) printCand(c);
+  }
+
+  // 2. Fresh iNaturalist candidates (--fetch) — the "can we do better?" pass.
+  if (opts.fetchFresh) {
+    const cachedSources = new Set(rows.map((r) => r.sourceUrl));
+    let fresh: Awaited<ReturnType<typeof fetchPhotosForSpecies>> = [];
+    try {
+      fresh = await fetchPhotosForSpecies({ scientificName: sci, perPage: opts.fetchN ?? 12 });
+    } catch (e) {
+      if (!json) console.log(`  (iNat fetch failed: ${(e as Error).message})`);
+    }
+    const seen = new Set<string>();
+    for (const p of fresh) {
+      if (cachedSources.has(p.sourceUrl) || seen.has(p.sourceUrl)) continue; // skip dupes
+      seen.add(p.sourceUrl);
+      const r = track(
+        await assessImageQuality({
+          scientificName: sci,
+          commonName: commonNameFor(sci),
+          imageUrl: p.mediumUrl,
+        }),
+      );
+      const c: Cand = {
+        url: p.mediumUrl,
+        attribution: p.attribution,
+        sourceUrl: p.sourceUrl,
+        license: p.license,
+        source: "inaturalist-fresh",
+        curated: false,
+        cached: false,
+        q: r.ok ? r.quality : null,
+        error: r.ok ? undefined : r.error,
+      };
+      cands.push(c);
+      if (!json) printCand(c);
     }
   }
 
-  // Best candidate = highest teachingScore among non-rejects, recommendation
-  // as tiebreaker.
-  const ranked = [...results]
+  // Best = lowest recommendation rank, then highest teachingScore.
+  const ranked = [...cands]
     .filter((x) => x.q)
     .sort((a, b) => {
       const ra = REC_RANK[a.q!.recommendation] - REC_RANK[b.q!.recommendation];
@@ -115,33 +238,28 @@ async function assessSpecies(sci: string, json: boolean) {
       return b.q!.teachingScore - a.q!.teachingScore;
     });
 
-  if (!json && ranked.length > 0) {
-    const best = ranked[0];
-    const curatedAlready = best.row.curated;
-    console.log(
-      `\n  >>> Best for teaching: score ${best.q!.teachingScore} (${best.q!.recommendation})` +
-        `${curatedAlready ? " — already curated" : " — pin this as a curated override"}`,
-    );
-    if (!curatedAlready && best.q!.recommendation !== "reject") {
+  if (!json) {
+    if (ranked.length === 0) {
+      console.log(`\n  (no usable assessment — all photos errored or none found)`);
+    } else {
+      const best = ranked[0];
+      const tag = best.cached
+        ? best.curated
+          ? "already curated"
+          : "cached, not yet curated"
+        : "FRESH from iNat (not yet in the DB)";
       console.log(
-        `      src/data/species-images.json overrides["${sci}"]:\n` +
-          `        { "url": "${best.row.url}", "curated": true }`,
+        `\n  >>> Best for teaching: score ${best.q!.teachingScore} (${best.q!.recommendation}) — ${tag}`,
       );
-    }
-    if (best.q!.recommendation === "reject") {
-      console.log(`      WARNING: even the best photo is a reject — curate a new photo manually.`);
+      if (best.q!.recommendation === "reject") {
+        console.log(`      WARNING: even the best is a reject — source a photo manually.`);
+      } else if (!(best.cached && best.curated)) {
+        console.log(overrideBlock(sci, best));
+      }
     }
   }
 
-  return results.map((x) => ({
-    scientificName: sci,
-    url: x.row.url,
-    source: x.row.source,
-    license: x.row.license,
-    curated: x.row.curated,
-    quality: x.q,
-    error: x.error ?? null,
-  }));
+  return cands;
 }
 
 async function main() {
@@ -153,16 +271,19 @@ async function main() {
       console.error("--url requires --species so Gemini knows the target species.");
       process.exit(1);
     }
-    const r = await assessImageQuality({
-      scientificName: args.species,
-      commonName: commonNameFor(args.species),
-      imageUrl: args.url,
-    });
+    const r = track(
+      await assessImageQuality({
+        scientificName: args.species,
+        commonName: commonNameFor(args.species),
+        imageUrl: args.url,
+      }),
+    );
     if (args.json) console.log(JSON.stringify(r, null, 2));
     else if (r.ok) {
       console.log(`\n${args.species}  ${args.url}  (model ${r.model})`);
       console.log(fmtRow(r.quality));
     } else console.log(`ERROR (${r.model}): ${r.error}`);
+    printUsage();
     return;
   }
 
@@ -175,16 +296,34 @@ async function main() {
     speciesList = [args.species];
   } else {
     console.error(
-      "Usage: --url <u> --species <s> | --species <s> | --all [--limit N]  (add --json for a dump)",
+      "Usage: --url <u> --species <s> | --species <s> [--fetch [N]] | --all [--limit N] [--fetch [N]]  (add --json for a dump)",
     );
     process.exit(1);
   }
 
+  const fetchOpts = args.fetchFresh
+    ? { fetchFresh: true, fetchN: args.fetchN }
+    : {};
   const out: unknown[] = [];
   for (const sci of speciesList) {
-    out.push(...(await assessSpecies(sci, args.json)));
+    const cands = await assessSpecies(sci, args.json, fetchOpts);
+    out.push(
+      ...cands.map((c) => ({
+        scientificName: sci,
+        url: c.url,
+        attribution: c.attribution,
+        sourceUrl: c.sourceUrl,
+        source: c.source,
+        license: c.license,
+        curated: c.curated,
+        cached: c.cached,
+        quality: c.q,
+        error: c.error ?? null,
+      })),
+    );
   }
   if (args.json) console.log(JSON.stringify(out, null, 2));
+  printUsage();
 }
 
 main()

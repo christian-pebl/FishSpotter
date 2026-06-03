@@ -2,6 +2,7 @@ import {
   ARM_FORM,
   BEHAVIOR,
   BELL_FORM,
+  BODY_DEPTH,
   BODY_SHAPE,
   CARAPACE_TEXTURE,
   CEPHALOPOD_FORM,
@@ -11,6 +12,7 @@ import {
   FEATURES,
   FIN_SHAPE,
   HABITAT,
+  LATERAL_LINE,
   MARKINGS,
   MOVEMENT,
   SHELL_SHAPE,
@@ -34,6 +36,8 @@ export type Candidate = {
 // trait, surfaced by the adaptive picker only when it discriminates.
 export const TRAIT_KEYS = [
   "bodyShape",
+  "bodyDepth",
+  "lateralLine",
   "size",
   "coloration",
   "markings",
@@ -55,6 +59,8 @@ export type TraitKey = (typeof TRAIT_KEYS)[number];
 
 const ALLOWED_VALUES: Record<TraitKey, ReadonlySet<string>> = {
   bodyShape: new Set(BODY_SHAPE),
+  bodyDepth: new Set(BODY_DEPTH),
+  lateralLine: new Set(LATERAL_LINE),
   size: new Set(SIZE),
   coloration: new Set(COLORATION),
   markings: new Set(MARKINGS),

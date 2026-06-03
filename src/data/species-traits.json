@@ -33,7 +33,13 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Mid-water hovering predator with a strongly KINKED lateral line over the pectoral fin, a pronounced under-shot lower jaw, and no chin barbel."
+    "fieldNote": "Mid-water hovering predator with a strongly KINKED lateral line over the pectoral fin, a pronounced under-shot lower jaw, and no chin barbel.",
+    "bodyDepth": [
+      "slender"
+    ],
+    "lateralLine": [
+      "dark-curved"
+    ]
   },
   "Pollachius virens": {
     "commonName": "Saithe",
@@ -67,13 +73,18 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Pollack's cousin: dark greenish back, silvery sides, and a near-STRAIGHT pale lateral line (not kinked). Faster, more schooling than pollack; jaw is level rather than under-shot."
+    "fieldNote": "Pollack's cousin: dark greenish back, silvery sides, and a near-STRAIGHT pale lateral line (not kinked). Faster, more schooling than pollack; jaw is level rather than under-shot.",
+    "bodyDepth": [
+      "slender"
+    ],
+    "lateralLine": [
+      "pale-straight"
+    ]
   },
   "Trisopterus luscus": {
     "commonName": "Bib",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform",
       "laterally-compressed"
     ],
     "size": "medium",
@@ -102,13 +113,15 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Coppery deep-bodied cod relative with 4-5 dark vertical bands, a single chin barbel, and a dark blotch at the base of each pectoral fin; dense shoals near wrecks and ledges."
+    "fieldNote": "Coppery deep-bodied cod relative with 4-5 dark vertical bands, a single chin barbel, and a dark blotch at the base of each pectoral fin; dense shoals near wrecks and ledges.",
+    "bodyDepth": [
+      "deep"
+    ]
   },
   "Labrus bergylta": {
     "commonName": "Ballan wrasse",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform",
       "laterally-compressed"
     ],
     "size": "large",
@@ -140,13 +153,17 @@
       "water-column",
       "fits-and-starts"
     ],
-    "fieldNote": "Stocky wrasse with thick lips and a long spiny dorsal fin; colours vary from green to red-brown with pale spots."
+    "fieldNote": "Stocky wrasse with thick lips and a long spiny dorsal fin; colours vary from green to red-brown with pale spots.",
+    "bodyDepth": [
+      "deep"
+    ]
   },
   "Labrus mixtus": {
     "commonName": "Cuckoo wrasse",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform"
+      "fusiform",
+      "laterally-compressed"
     ],
     "size": "medium",
     "coloration": [
@@ -173,13 +190,15 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Two looks: males blaze electric blue with wavy stripes along a yellow-orange body; females and juveniles are pink-orange with three distinctive black saddle blotches along the back near the tail."
+    "fieldNote": "Two looks: males blaze electric blue with wavy stripes along a yellow-orange body; females and juveniles are pink-orange with three distinctive black saddle blotches along the back near the tail.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Symphodus melops": {
     "commonName": "Corkwing wrasse",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform",
       "laterally-compressed"
     ],
     "size": "small",
@@ -188,7 +207,8 @@
       "striped-vertical"
     ],
     "markings": [
-      "eye-spot"
+      "eye-spot",
+      "caudal-spot"
     ],
     "finShape": [
       "rounded-tail",
@@ -208,7 +228,10 @@
       "water-column",
       "fits-and-starts"
     ],
-    "fieldNote": "Small wrasse with a comma-shaped dark eye-spot on the tail base and a curved line behind the eye."
+    "fieldNote": "Small wrasse with a comma-shaped dark eye-spot on the tail base and a curved line behind the eye.",
+    "bodyDepth": [
+      "deep"
+    ]
   },
   "Ctenolabrus rupestris": {
     "commonName": "Goldsinny wrasse",
@@ -222,7 +245,8 @@
     ],
     "markings": [
       "eye-spot",
-      "fin-spots"
+      "fin-spots",
+      "caudal-spot"
     ],
     "finShape": [
       "rounded-tail",
@@ -243,14 +267,16 @@
       "fits-and-starts",
       "water-column"
     ],
-    "fieldNote": "Slim orange-brown wrasse with TWO diagnostic black spots: one high on the tail base, the other at the front of the dorsal fin. Smallest of the common Welsh wrasses."
+    "fieldNote": "Slim orange-brown wrasse with TWO diagnostic black spots: one high on the tail base, the other at the front of the dorsal fin. Smallest of the common Welsh wrasses.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Conger conger": {
     "commonName": "Conger eel",
     "shapeClass": "fish",
     "bodyShape": [
-      "eel-like",
-      "elongated"
+      "eel-like"
     ],
     "size": "large",
     "coloration": [
@@ -280,7 +306,7 @@
     "commonName": "Butterfish",
     "shapeClass": "fish",
     "bodyShape": [
-      "elongated",
+      "eel-like",
       "laterally-compressed"
     ],
     "size": "small",
@@ -321,14 +347,16 @@
     ],
     "markings": [
       "eye-spot",
-      "fin-spots"
+      "fin-spots",
+      "caudal-spot"
     ],
     "finShape": [
       "rounded-tail",
       "split-dorsal"
     ],
     "features": [
-      "sucker-mouth"
+      "sucker-mouth",
+      "pelvic-sucker"
     ],
     "behavior": [
       "hovering",
@@ -341,12 +369,16 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Small orange-brown goby with TWO diagnostic black spots: one at the tail base, one behind the pectoral fin. Unlike other gobies it hovers in loose midwater groups near kelp and seaweed, not glued to the bottom."
+    "fieldNote": "Small orange-brown goby with TWO diagnostic black spots: one at the tail base, one behind the pectoral fin. Unlike other gobies it hovers in loose midwater groups near kelp and seaweed, not glued to the bottom.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Pomatoschistus microps": {
     "commonName": "Common goby",
     "shapeClass": "fish",
     "bodyShape": [
+      "elongated",
       "fusiform"
     ],
     "size": "small",
@@ -362,7 +394,8 @@
       "split-dorsal"
     ],
     "features": [
-      "sucker-mouth"
+      "sucker-mouth",
+      "pelvic-sucker"
     ],
     "behavior": [
       "on-bottom"
@@ -374,12 +407,16 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "Very similar to sand goby but with a shorter, rounder head and a more strongly marked first dorsal. Found in estuaries and tidal creeks rather than open sandy sea bed."
+    "fieldNote": "Very similar to sand goby but with a shorter, rounder head and a more strongly marked first dorsal. Found in estuaries and tidal creeks rather than open sandy sea bed.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Gobius paganellus": {
     "commonName": "Rock goby",
     "shapeClass": "fish",
     "bodyShape": [
+      "elongated",
       "fusiform"
     ],
     "size": "small",
@@ -395,7 +432,8 @@
       "split-dorsal"
     ],
     "features": [
-      "sucker-mouth"
+      "sucker-mouth",
+      "pelvic-sucker"
     ],
     "behavior": [
       "on-bottom",
@@ -408,12 +446,16 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "Squat little goby with pelvic fins fused into a sucker; pale orange band at the top of the first dorsal."
+    "fieldNote": "Squat little goby with pelvic fins fused into a sucker; pale orange band at the top of the first dorsal.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Pomatoschistus minutus": {
     "commonName": "Sand goby",
     "shapeClass": "fish",
     "bodyShape": [
+      "elongated",
       "fusiform"
     ],
     "size": "small",
@@ -429,7 +471,8 @@
       "split-dorsal"
     ],
     "features": [
-      "sucker-mouth"
+      "sucker-mouth",
+      "pelvic-sucker"
     ],
     "behavior": [
       "on-bottom"
@@ -441,14 +484,16 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "Pale, near-translucent goby with rows of fine spots; vanishes against sand."
+    "fieldNote": "Pale, near-translucent goby with rows of fine spots; vanishes against sand.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Callionymus lyra": {
     "commonName": "Dragonet",
     "shapeClass": "fish",
     "bodyShape": [
-      "flat-dorsoventral",
-      "elongated"
+      "flat-dorsoventral"
     ],
     "size": "small",
     "coloration": [
@@ -480,14 +525,31 @@
   "Callionymus maculatus": {
     "commonName": "Spotted dragonet",
     "shapeClass": "fish",
-    "bodyShape": ["flat-dorsoventral", "elongated"],
+    "bodyShape": [
+      "flat-dorsoventral"
+    ],
     "size": "small",
-    "coloration": ["mottled", "spotted"],
-    "markings": ["fin-spots", "dorsal-spots"],
-    "finShape": ["rounded-tail", "split-dorsal"],
-    "features": ["frilly-fins"],
-    "behavior": ["on-bottom"],
-    "habitat": ["sandy-bottom"],
+    "coloration": [
+      "mottled",
+      "spotted"
+    ],
+    "markings": [
+      "fin-spots",
+      "dorsal-spots"
+    ],
+    "finShape": [
+      "rounded-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "frilly-fins"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
     "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m."
   },
   "Pleuronectes platessa": {
@@ -522,15 +584,33 @@
   "Limanda limanda": {
     "commonName": "Dab",
     "shapeClass": "flatfish",
-    "bodyShape": ["flat-dorsoventral"],
+    "bodyShape": [
+      "flat-dorsoventral"
+    ],
     "size": "medium",
-    "coloration": ["uniform", "mottled"],
-    "markings": ["none"],
-    "finShape": ["rounded-tail"],
-    "features": ["none"],
-    "behavior": ["on-bottom"],
-    "habitat": ["sandy-bottom"],
-    "fieldNote": "Right-eyed flatfish on sandy bottoms, sandpapery rough scales (the only common UK flatfish with this texture) and a distinctly concave arch in the lateral line above the pectoral fin. No orange spots — plainer than plaice."
+    "coloration": [
+      "uniform",
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "rounded-tail"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "fieldNote": "Right-eyed flatfish on sandy bottoms, sandpapery rough scales (the only common UK flatfish with this texture) and a distinctly concave arch in the lateral line above the pectoral fin. No orange spots — plainer than plaice.",
+    "lateralLine": [
+      "arched-over-pectoral"
+    ]
   },
   "Platichthys flesus": {
     "commonName": "Flounder",
@@ -580,7 +660,10 @@
       "stationary",
       "undulating"
     ],
-    "fieldNote": "Slim sandy-coloured shark covered in small dark spots all over body and fins; two dorsal fins set far back. Often curled on the bottom or wedged into crevices."
+    "fieldNote": "Slim sandy-coloured shark covered in small dark spots all over body and fins; two dorsal fins set far back. Often curled on the bottom or wedged into crevices.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Mullus surmuletus": {
     "commonName": "Red mullet",
@@ -614,13 +697,17 @@
       "fits-and-starts",
       "water-column"
     ],
-    "fieldNote": "Pink-red body with two long chin barbels swept under the snout; flicks the barbels through sand to feed."
+    "fieldNote": "Pink-red body with two long chin barbels swept under the snout; flicks the barbels through sand to feed.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Trisopterus minutus": {
     "commonName": "Poor cod",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform"
+      "fusiform",
+      "laterally-compressed"
     ],
     "size": "small",
     "coloration": [
@@ -647,7 +734,10 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Small bib-shaped cod relative with a single chin barbel and big eyes; loose shoals in clear water."
+    "fieldNote": "Small bib-shaped cod relative with a single chin barbel and big eyes; loose shoals in clear water.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Gadus morhua": {
     "commonName": "Atlantic cod",
@@ -680,7 +770,13 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Heavy-bodied cod with three dorsal and two anal fins, a chin barbel, and a curved pale lateral line."
+    "fieldNote": "Heavy-bodied cod with three dorsal and two anal fins, a chin barbel, and a curved pale lateral line.",
+    "bodyDepth": [
+      "medium"
+    ],
+    "lateralLine": [
+      "arched-over-pectoral"
+    ]
   },
   "Chelon labrosus": {
     "commonName": "Thick-lipped mullet",
@@ -715,7 +811,10 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Silver streamlined mullet with very thick upper lip; cruises near the surface in tight schools."
+    "fieldNote": "Silver streamlined mullet with very thick upper lip; cruises near the surface in tight schools.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Dicentrarchus labrax": {
     "commonName": "European sea bass",
@@ -748,7 +847,10 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Sleek silver bass with sharp spiny first dorsal; powerful and fast, often in small packs hunting baitfish."
+    "fieldNote": "Sleek silver bass with sharp spiny first dorsal; powerful and fast, often in small packs hunting baitfish.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Trachurus trachurus": {
     "commonName": "Atlantic horse mackerel",
@@ -768,7 +870,9 @@
       "forked-tail",
       "split-dorsal"
     ],
-    "features": [],
+    "features": [
+      "lateral-scutes"
+    ],
     "behavior": [
       "schooling",
       "fast-swim"
@@ -780,7 +884,10 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Iridescent silver body with a strongly arched lateral line of bony scutes; tight dense schools."
+    "fieldNote": "Iridescent silver body with a strongly arched lateral line of bony scutes; tight dense schools.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Scomber scombrus": {
     "commonName": "Atlantic mackerel",
@@ -798,7 +905,8 @@
     ],
     "finShape": [
       "forked-tail",
-      "split-dorsal"
+      "split-dorsal",
+      "finlets"
     ],
     "features": [],
     "behavior": [
@@ -813,13 +921,16 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Steel-blue back with wavy black vertical bars; pencil-shaped body and a row of finlets before the tail."
+    "fieldNote": "Steel-blue back with wavy black vertical bars; pencil-shaped body and a row of finlets before the tail.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Sprattus sprattus": {
     "commonName": "Sprat",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform"
+      "laterally-compressed"
     ],
     "size": "small",
     "coloration": [
@@ -844,7 +955,10 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Tiny silver baitfish in vast shimmering bait balls; sharp belly keel."
+    "fieldNote": "Tiny silver baitfish in vast shimmering bait balls; sharp belly keel.",
+    "bodyDepth": [
+      "deep"
+    ]
   },
   "Atherina presbyter": {
     "commonName": "Sand smelt",
@@ -876,7 +990,10 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Slender semi-transparent fish with a silver lateral stripe; loose shoals near the surface."
+    "fieldNote": "Slender semi-transparent fish with a silver lateral stripe; loose shoals near the surface.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Taurulus bubalis": {
     "commonName": "Long-spined sea scorpion",
@@ -911,14 +1028,17 @@
       "stationary",
       "fits-and-starts"
     ],
-    "fieldNote": "Heavily armoured ambush predator with long head spines and a wide gape; matches the rock perfectly."
+    "fieldNote": "Heavily armoured ambush predator with long head spines and a wide gape; matches the rock perfectly.",
+    "bodyDepth": [
+      "medium"
+    ]
   },
   "Lipophrys pholis": {
     "commonName": "Shanny",
     "shapeClass": "fish",
     "bodyShape": [
-      "laterally-compressed",
-      "elongated"
+      "elongated",
+      "laterally-compressed"
     ],
     "size": "small",
     "coloration": [
@@ -978,7 +1098,10 @@
       "water-column",
       "stationary"
     ],
-    "fieldNote": "Pencil-thin fish with a row of tiny spines along the back and a slender tail wrist."
+    "fieldNote": "Pencil-thin fish with a row of tiny spines along the back and a slender tail wrist.",
+    "bodyDepth": [
+      "slender"
+    ]
   },
   "Carcinus maenas": {
     "commonName": "Shore Crab",
