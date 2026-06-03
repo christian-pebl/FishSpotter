@@ -244,7 +244,7 @@ export default async function HomePage() {
             Plant Ecology Beyond Land (PEBL) CIC
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-navy-900">
-            PEBL is a Community Interest Company (no. 12082722, England and Wales) building accessible ecological data tools for coastal and seabed environments. FishSpotter is part of our marine monitoring programme: a citizen-science layer over real survey footage from PEBL deployments.
+            PEBL is a Community Interest Company (no. 12076622, England and Wales) building accessible ecological data tools for coastal and seabed environments. FishSpotter is part of our marine monitoring programme: a citizen-science layer over real survey footage from PEBL deployments.
           </p>
           <Link
             href="https://pebl-cic.co.uk"
@@ -260,7 +260,7 @@ export default async function HomePage() {
       <footer className="border-t border-navy-900/8 px-4 py-4">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-3 text-xs text-navy-900/70">
           <p>
-            © {new Date().getFullYear()} Plant Ecology Beyond Land (PEBL) CIC · Company no. 12082722
+            © {new Date().getFullYear()} Plant Ecology Beyond Land (PEBL) CIC · Company no. 12076622
           </p>
           <nav className="flex flex-wrap items-center gap-x-4">
             <Link href="/privacy" className="inline-flex min-h-[44px] items-center hover:text-navy-900">

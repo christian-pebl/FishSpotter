@@ -4,7 +4,7 @@
 
 ## Who we are
 
-FishSpotter is operated by **Plant Ecology Beyond Land (PEBL) CIC**, a Community Interest Company registered in England and Wales (company number **12082722**). Our registered office is **PO Box SA29JA, 29 Glan Yr Afon Road, Sketty, Swansea, United Kingdom, SA2 9JA**. Our registered contact email is [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) and our website is [pebl-cic.co.uk](https://pebl-cic.co.uk).
+FishSpotter is operated by **Plant Ecology Beyond Land (PEBL) CIC**, a Community Interest Company registered in England and Wales (company number **12076622**). Our registered office is **PO Box SA29JA, 29 Glan Yr Afon Road, Sketty, Swansea, United Kingdom, SA2 9JA**. Our registered contact email is [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) and our website is [pebl-cic.co.uk](https://pebl-cic.co.uk).
 
 We are the data controller for the personal data described in this policy. We process data in accordance with the UK General Data Protection Regulation (UK GDPR) and the Privacy and Electronic Communications Regulations 2003 (PECR).
 

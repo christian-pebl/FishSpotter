@@ -4,7 +4,7 @@
 
 ## About FishSpotter
 
-FishSpotter is operated by **Plant Ecology Beyond Land (PEBL) CIC**, a Community Interest Company registered in England and Wales (company number **12082722**). Our mission is to make ocean data accessible and to support UK marine biodiversity monitoring through citizen science. The service is available at [fish-spotter.vercel.app](https://fish-spotter.vercel.app).
+FishSpotter is operated by **Plant Ecology Beyond Land (PEBL) CIC**, a Community Interest Company registered in England and Wales (company number **12076622**). Our mission is to make ocean data accessible and to support UK marine biodiversity monitoring through citizen science. The service is available at [fish-spotter.vercel.app](https://fish-spotter.vercel.app).
 
 Contact: [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk)
 
@@ -92,4 +92,4 @@ These terms are governed by the law of **England and Wales**. Any dispute arisin
 
 ## Contact
 
-[hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) — Plant Ecology Beyond Land (PEBL) CIC, company number 12082722, England and Wales.
+[hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) — Plant Ecology Beyond Land (PEBL) CIC, company number 12076622, England and Wales.

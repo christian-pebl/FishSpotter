@@ -29,7 +29,7 @@ This sprint plans the engineering work for compliance, **not** the legal copy it
 - **UK GDPR Art. 17 (right to erasure):** in scope. `DELETE /api/account` cascades `Answer` rows (already `onDelete: Cascade` on the schema) and revokes the session.
 - **UK GDPR Art. 7 (consent):** weekly digest is opt-in (unticked by default), with a one-click unsubscribe link in every digest email (PECR Reg. 22 requirement for unsolicited marketing).
 - **PECR Reg. 6 (cookies):** the auth JWT is strictly necessary and does not require consent, but PECR still requires the user be informed. Cookie banner discloses this and links to the privacy policy. If analytics is added in a later sprint, the banner needs to gate non-essential cookies; the component should be built with that pluggability in mind.
-- **CIC-specific trust signals:** privacy and T&Cs pages must include the CIC name (Plant Ecology Beyond Land (PEBL) CIC), company number (12082722), registered email (`hello@pebl-cic.co.uk`), and a link to `pebl-cic.co.uk`. Already documented in the root CLAUDE.md "Company Details" section.
+- **CIC-specific trust signals:** privacy and T&Cs pages must include the CIC name (Plant Ecology Beyond Land (PEBL) CIC), company number (12076622), registered email (`hello@pebl-cic.co.uk`), and a link to `pebl-cic.co.uk`. Already documented in the root CLAUDE.md "Company Details" section.
 
 **Engineering deliverable:** policy *page scaffolding* with PEBL-branded layout, slots for legal copy, version field, and "last updated" timestamp. The actual policy text is a writing task for Christian / PEBL legal counsel.
 
@@ -459,7 +459,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 **Target:**
 - Both pages share a `LegalLayout` shell: PEBL header, branded title, `last_updated` date, version tag (`v1.0 — 2026-05-...`), section TOC sidebar on desktop, prose body.
 - Source content lives in `src/data/legal/*.md` so legal updates can be done by editing markdown without touching React.
-- Both pages link to each other in the footer and include CIC details (company number 12082722, registered email `hello@pebl-cic.co.uk`, link to `pebl-cic.co.uk`).
+- Both pages link to each other in the footer and include CIC details (company number 12076622, registered email `hello@pebl-cic.co.uk`, link to `pebl-cic.co.uk`).
 - The privacy policy file ships with **placeholder section headers** that match UK ICO's "Privacy notice checklist": identity, contact, data collected, lawful basis, retention, third parties (Resend, Vercel, Supabase, iNaturalist, OBIS, GBIF), rights, complaints (ICO contact). Legal copy itself: **Christian / PEBL legal to write**. Engineering deliverable here is the scaffolding and the placeholder.
 - Terms of service file similarly: placeholders for acceptable use, account termination, liability, governing law (England and Wales).
 
@@ -534,7 +534,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 - **Hero:** Keep existing copy. Add a tertiary CTA "Create your spotter profile" → `/auth/signin?isSignUp=1` next to "Start spotting".
 - **Sample clip:** 8-12s muted autoplay loop of an iconic snippet (Christian to nominate — e.g. one of the wrasse or thornback ray clips), shown inline below the hero. Demonstrates the product without requiring a sign-up. Falls back to a poster image if autoplay is blocked.
 - **How it works:** 3 cards: (1) "Spot the species in 5s" (the typed-answer mechanic), (2) "Compare with PEBL staff" (the staff-answer reveal — explains the documented mismatch in audit Theme D between brief and implementation, so users understand what they're comparing against), (3) "Build a streak" (daily-return mechanic).
-- **About PEBL:** Trust panel with CIC number (12082722), tagline ("Protecting Ecology Beyond Land"), 2-3 sentences on the mission, link to `pebl-cic.co.uk`.
+- **About PEBL:** Trust panel with CIC number (12076622), tagline ("Protecting Ecology Beyond Land"), 2-3 sentences on the mission, link to `pebl-cic.co.uk`.
 - **Footer:** Privacy, Terms, About PEBL, hello@ contact, copyright year. Lands sitewide via `app/layout.tsx`.
 - **Sign-up CTA copy:** explicit about account requirement — "Submit answers and join the leaderboard. Free, no card required." (Avoid GDPR-redundant phrases like "we never share your data" — that lives in the privacy policy.)
 
