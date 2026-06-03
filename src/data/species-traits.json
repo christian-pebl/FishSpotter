@@ -479,6 +479,7 @@
   },
   "Callionymus maculatus": {
     "commonName": "Spotted dragonet",
+    "shapeClass": "scooter",
     "bodyShape": ["flat-dorsoventral", "elongated"],
     "size": "small",
     "coloration": ["mottled", "spotted"],
@@ -520,6 +521,7 @@
   },
   "Limanda limanda": {
     "commonName": "Dab",
+    "shapeClass": "flatfish",
     "bodyShape": ["flat-dorsoventral"],
     "size": "medium",
     "coloration": ["uniform", "mottled"],
@@ -532,6 +534,7 @@
   },
   "Platichthys flesus": {
     "commonName": "Flounder",
+    "shapeClass": "flatfish",
     "bodyShape": ["flat-dorsoventral"],
     "size": "medium",
     "coloration": ["mottled", "spotted"],
