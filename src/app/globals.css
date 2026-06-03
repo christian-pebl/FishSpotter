@@ -395,3 +395,41 @@ a {
   animation: fs-pattern-sway 16s ease-in-out infinite;
   will-change: transform;
 }
+
+/* "Show where on screen" radar ping (FeedCard). Concentric rings expand from
+ * the tracking-trace head to draw the eye to where the creature is. Each ring
+ * uses the same keyframe with a staggered delay. The global
+ * prefers-reduced-motion block neutralises the animation for opted-out users. */
+@keyframes fs-radar {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.8);
+    opacity: 0;
+  }
+}
+.fs-radar-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  border: 2px solid #5eead4; /* teal-300 */
+  box-shadow: 0 0 8px rgba(94, 234, 212, 0.5);
+  animation: fs-radar 1.5s ease-out infinite;
+  will-change: transform, opacity;
+}
+.fs-radar-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 9999px;
+  background: #5eead4;
+  box-shadow: 0 0 10px rgba(94, 234, 212, 0.9);
+}

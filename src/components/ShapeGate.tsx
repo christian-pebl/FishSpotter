@@ -216,16 +216,20 @@ export function ShapeGate({
       aria-modal="true"
       aria-label="What shape is it?"
     >
-        {/* Close / back affordance */}
+        {/* (3 Jun) Clear "Hide" affordance — dismisses the gate and returns to
+            watching the looping clip. */}
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close shape selector"
-          className="absolute right-2 top-2 flex h-11 w-11 items-center justify-center rounded-full text-white/50 hover:text-white/90"
+          aria-label="Hide and go back to the video"
+          title="Back to the video"
+          className="absolute right-2 top-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3.5 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
         >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M7 11l-3.5-4L7 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
+          Hide
         </button>
 
         <div
