@@ -70,7 +70,7 @@ We use the following first-party cookies:
 |--------|------|----------|---------|---------|
 | **NextAuth session** | Strictly necessary | Until sign-out or after a period of inactivity | A signed, HTTP-only token that keeps you authenticated | Exempt from consent under PECR Reg. 6(1) |
 | **fs.anon_seed** | Functional / preferences | ~12 months | Stable, personalised feed ordering for anonymous visitors (deterministic shuffle that stays consistent across page loads) | Covered by the consent banner |
-| **Consent preference** [CONFIRM cookie name] | Strictly necessary | ~12 months | Records your cookie-consent choice so we do not ask again on every visit | Exempt from consent under PECR Reg. 6(1) |
+| **`pebl_consent`** | Strictly necessary | ~12 months | Records your cookie-consent choice so we do not ask you again on every visit | Exempt from consent under PECR Reg. 6(1) |
 
 The **fs.anon_seed** cookie is a functional cookie, not strictly necessary, so it is covered by the consent banner shown on your first visit; we only set it where consent permits. You can withdraw your consent for functional cookies at any time by clearing your cookies or by using the cookie controls on the site.
 
