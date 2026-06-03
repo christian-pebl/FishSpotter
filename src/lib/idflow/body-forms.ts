@@ -25,9 +25,10 @@ export type SubSplit = {
   options: { value: string; label: string }[];
 };
 
-// Branch-specific first cut. flatfish/scooter have one species each so they get
-// no sub-split (and so no Rung-2 gate); fish splits on body shape, each invert
-// class on its own "form" trait.
+// Branch-specific first cut. flatfish has one species so it gets no sub-split
+// (and so no Rung-2 gate); fish splits on body shape (which also isolates the
+// flat-dorsoventral dragonets folded in from the retired scooter class), each
+// invert class on its own "form" trait.
 export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
   crab: {
     key: "crabForm",

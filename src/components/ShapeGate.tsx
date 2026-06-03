@@ -70,17 +70,6 @@ function SilCrab() {
   );
 }
 
-function SilScooter() {
-  return (
-    <svg viewBox="0 0 52 32" fill="none" aria-hidden="true" className="w-full h-full">
-      <ellipse cx="24" cy="20" rx="20" ry="8" stroke="currentColor" strokeWidth="2"/>
-      <path d="M12 20L8 10M24 20L24 8M36 20L40 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M16 9l16 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <circle cx="16" cy="21" r="1.5" fill="currentColor"/>
-    </svg>
-  );
-}
-
 function SilJellyfish() {
   return (
     <svg viewBox="0 0 40 44" fill="none" aria-hidden="true" className="w-full h-full">
@@ -122,7 +111,6 @@ const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "fish",       label: "Fish",       Icon: SilFish },
   { key: "flatfish",   label: "Flatfish",   Icon: SilFlatfish },
   { key: "crab",       label: "Crab",       Icon: SilCrab },
-  { key: "scooter",    label: "Dragonet",   Icon: SilScooter },
   { key: "jellyfish",  label: "Jellyfish",  Icon: SilJellyfish },
   { key: "starfish",   label: "Starfish",   Icon: SilStarfish },
   { key: "gastropod",  label: "Snail / slug", Icon: SilGastropod },

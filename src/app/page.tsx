@@ -76,7 +76,7 @@ export default async function HomePage() {
   const answer = featured?.staffAnswer ? displayName(featured.staffAnswer) : "Pollack";
 
   // Shape-aware distractors: prefer same shape-class as the answer so the
-  // faux quiz looks realistic (no Scooter offered against a Pollack).
+  // faux quiz looks realistic (no Crab offered against a Pollack).
   const answerShape =
     (featured?.staffAnswer && SHAPE_BY_NAME.get(featured.staffAnswer)) ||
     SHAPE_BY_NAME.get(answer) ||
