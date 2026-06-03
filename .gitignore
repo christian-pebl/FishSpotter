@@ -71,3 +71,7 @@ tsconfig.tsbuildinfo
 # Spot It reference guide PDFs (48MB of free UK marine ID guides; source
 # material for catalogue authoring, re-downloadable, not versioned)
 decision-tree/id-guides/
+
+# Gemini image-quality sweep outputs (local only)
+assess-*.json
+assess-*.log

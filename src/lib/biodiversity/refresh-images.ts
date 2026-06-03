@@ -8,6 +8,7 @@
 import { PrismaClient } from "@prisma/client";
 import speciesTraitsData from "@/data/species-traits.json";
 import speciesImagesManifest from "@/data/species-images.json";
+import photoBlocklist from "@/data/photo-blocklist.json";
 import { fetchPhotosForSpecies, type InatPhoto } from "@/lib/biodiversity/inaturalist";
 import { fetchPhotosFromWikimedia, type WikimediaPhoto } from "@/lib/biodiversity/wikimedia";
 
@@ -37,6 +38,13 @@ type OverrideRow = {
 };
 
 const MANIFEST = speciesImagesManifest as unknown as Manifest;
+
+// sourceUrls Gemini flagged as drawing / dead / wrong-subject. Never cache
+// them, so the weekly refresh can't re-add junk the purge removed. Editorial
+// overrides intentionally bypass this (a human pin wins).
+const BLOCKED_SOURCES = new Set(
+  Object.keys((photoBlocklist as { blocked: Record<string, unknown> }).blocked),
+);
 const CATALOGUE = speciesTraitsData as unknown as Record<string, { commonName: string }>;
 const THROTTLE_MS = 1100;
 const STALE_AFTER_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -257,6 +265,8 @@ async function refreshOneSpecies(
     for (const p of selected) {
       // Don't clobber a curated override of the same observation.
       if (overrideSourceUrls.has(p.sourceUrl)) continue;
+      // Skip Gemini-flagged junk (drawing / dead / wrong-subject).
+      if (BLOCKED_SOURCES.has(p.sourceUrl)) continue;
       try {
         await prisma.speciesImage.upsert({
           where: { scientificName_sourceUrl: { scientificName, sourceUrl: p.sourceUrl } },
@@ -296,6 +306,7 @@ async function refreshOneSpecies(
       });
       let added = 0;
       for (const p of wm) {
+        if (BLOCKED_SOURCES.has(p.sourceUrl)) continue; // Gemini-flagged junk
         try {
           await prisma.speciesImage.upsert({
             where: { scientificName_sourceUrl: { scientificName, sourceUrl: p.sourceUrl } },

@@ -27,6 +27,7 @@ import {
   type TileSpec,
   type Crumb,
 } from "@/components/idflow/TileGate";
+import { SpeciesGuidePopup } from "@/components/idflow/SpeciesGuidePopup";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { ShapeClass, SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import silhouetteCredits from "@/data/silhouette-credits.json";
@@ -93,6 +94,14 @@ export function CandidateGate({
     [shapeClass, seed?.key, seed?.value],
   );
 
+  // The species whose guide popup is open (tap a tile -> preview -> confirm).
+  // null = grid view. Tapping a tile no longer commits instantly; the popup's
+  // "This is my pick" does.
+  const [preview, setPreview] = useState<{
+    scientificName: string;
+    commonName: string;
+  } | null>(null);
+
   // Lead photo per candidate (thumb), fetched once the gate is up. Small set.
   const [photos, setPhotos] = useState<Record<string, string | null>>({});
   const sciKey = candidates.map((c) => c.scientificName).join(",");
@@ -154,21 +163,35 @@ export function CandidateGate({
   });
 
   return (
-    <TileGate
-      ariaLabel="Which species is it?"
-      title={candidates.length > 0 ? "Which one is it? Tap to pick" : "No matches"}
-      tiles={tiles}
-      columns={3}
-      scrollable
-      onSelect={(sci) => {
-        const c = candidates.find((x) => x.scientificName === sci);
-        if (c && !submitting) onPick(c.commonName);
-      }}
-      onClose={onClose}
-      onBack={onBack}
-      breadcrumb={breadcrumb}
-      emptyMessage="No matches left — go back a step or pick from a list."
-      skip={onSkipToMCQ ? { label: "Pick from a list", onClick: onSkipToMCQ } : undefined}
-    />
+    <>
+      <TileGate
+        ariaLabel="Which species is it?"
+        title={candidates.length > 0 ? "Which one is it? Tap to compare" : "No matches"}
+        tiles={tiles}
+        columns={3}
+        scrollable
+        suspendKeyboard={!!preview}
+        onSelect={(sci) => {
+          const c = candidates.find((x) => x.scientificName === sci);
+          // Tap opens the guide popup (gallery + diagnostic marks + field note)
+          // so the user can compare before committing; the popup commits.
+          if (c && !submitting) setPreview({ scientificName: c.scientificName, commonName: c.commonName });
+        }}
+        onClose={onClose}
+        onBack={onBack}
+        breadcrumb={breadcrumb}
+        emptyMessage="No matches left — go back a step or pick from a list."
+        skip={onSkipToMCQ ? { label: "Pick from a list", onClick: onSkipToMCQ } : undefined}
+      />
+      {preview && (
+        <SpeciesGuidePopup
+          scientificName={preview.scientificName}
+          commonName={preview.commonName}
+          submitting={submitting}
+          onConfirm={() => onPick(preview.commonName)}
+          onClose={() => setPreview(null)}
+        />
+      )}
+    </>
   );
 }
