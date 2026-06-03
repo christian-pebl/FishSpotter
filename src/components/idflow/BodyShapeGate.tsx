@@ -15,7 +15,7 @@
  */
 
 import { useState } from "react";
-import { TileGate, MaskSilhouette, type TileSpec } from "@/components/idflow/TileGate";
+import { TileGate, MaskSilhouette, type TileSpec, type Crumb } from "@/components/idflow/TileGate";
 import { BodyFormExamples } from "@/components/idflow/BodyFormExamples";
 import { bodyFormConfigFor, type BodyFormOption } from "@/lib/idflow/body-forms";
 import type { ShapeClass } from "@/lib/idguide/traits";
@@ -50,6 +50,8 @@ export function BodyShapeGate({
   onSelectForm,
   onSkip,
   onClose,
+  onBack,
+  breadcrumb,
 }: {
   shapeClass: ShapeClass;
   /** Pick a body form (value) or skip it (null). The trait key is passed back
@@ -58,6 +60,10 @@ export function BodyShapeGate({
   /** "Skip to guess" — jump to the MCQ fallback. */
   onSkip: () => void;
   onClose: () => void;
+  /** Back to Rung 1 (the shape gate). */
+  onBack?: () => void;
+  /** Prior picks, for the breadcrumb. */
+  breadcrumb?: Crumb[];
 }) {
   const [examplesFor, setExamplesFor] = useState<BodyFormOption | null>(null);
   const config = bodyFormConfigFor(shapeClass);
@@ -101,6 +107,8 @@ export function BodyShapeGate({
         columns={Math.min(config.options.length, 4)}
         onSelect={(value) => onSelectForm(config.key, value)}
         onClose={onClose}
+        onBack={onBack}
+        breadcrumb={breadcrumb}
         notSure={{ label: "Not sure", onClick: () => onSelectForm(config.key, null) }}
         skip={{ label: "Skip to guess", onClick: onSkip }}
         suspendKeyboard={!!examplesFor}
