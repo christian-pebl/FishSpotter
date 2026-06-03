@@ -77,7 +77,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     schooling: "Is it in a school or shoal?",
     solitary: "Is it on its own?",
     hovering: "Is it hovering still?",
-    hiding: "Is it hiding or peeking out?",
+    hiding: "Is it tucked into a hole or crevice, with only part of its body showing?",
     burrowing: "Is it burrowing into the bottom?",
     "fast-swim": "Is it swimming fast?",
     "on-bottom": "Is it resting on the bottom?",
