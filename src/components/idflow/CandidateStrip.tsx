@@ -29,6 +29,11 @@ import { traitQuestion } from "@/lib/idflow/trait-questions";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { ShapeClass, SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import { TRANSITION } from "@/lib/motion";
+import bodyformCredits from "@/data/bodyform-silhouette-credits.json";
+
+// Keys present in the credits file = a real PhyloPic SVG exists in
+// public/silhouettes/forms/<value>.svg for this form option.
+const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
@@ -279,32 +284,69 @@ export function CandidateStrip({
         </p>
       )}
 
-      {/* UX-3: Rung 2 sub-split. A single visual multi-option cut, shown before
-          the adaptive yes/no questions when it discriminates. */}
+      {/* UX-3: Rung 2 sub-split. A single visual multi-option cut shown before
+          the adaptive yes/no questions when it discriminates. Options render as
+          silhouette tiles (same mask-image tint technique as ShapeGate) when a
+          PhyloPic SVG exists in public/silhouettes/forms/, otherwise fall back
+          to the labelled pill so un-fetched forms degrade gracefully. */}
       {subSplit && (
         <div className="mb-2 rounded-modal border border-teal-500/25 bg-teal-500/5 px-3 py-2.5">
           <p className="pb-2 text-[12px] font-medium leading-snug text-white/90">
             {subSplit.prompt}
           </p>
-          <div className="flex flex-wrap gap-1.5">
-            {subSplit.options.map((o) => (
-              <button
-                key={o.value}
-                type="button"
-                onClick={() => answerSubSplit(o.value)}
-                className="flex min-h-[44px] items-center rounded-full border border-teal-400/50 bg-teal-500/10 px-3 text-[12px] font-medium text-teal-50 transition-colors hover:border-teal-400 hover:bg-teal-500/25"
-              >
-                {o.label}
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={() => answerSubSplit(null)}
-              className="flex min-h-[44px] items-center rounded-full px-3 text-[10px] uppercase tracking-wider text-white/40 transition-colors hover:text-white/75"
-            >
-              Not sure
-            </button>
+          <div
+            className="grid gap-2"
+            style={{ gridTemplateColumns: `repeat(${Math.min(subSplit.options.length, 4)}, minmax(0, 1fr))` }}
+          >
+            {subSplit.options.map((o) =>
+              HAS_FORM_SILHOUETTE.has(o.value) ? (
+                /* Silhouette tile — mirrors ShapeGate's tile pattern */
+                <button
+                  key={o.value}
+                  type="button"
+                  onClick={() => answerSubSplit(o.value)}
+                  className="relative flex min-h-[72px] flex-col items-center justify-center gap-1.5 rounded-modal border border-white/15 bg-white/5 p-2 text-teal-500 transition-colors hover:border-teal-400 hover:bg-teal-500/20 hover:text-teal-300"
+                >
+                  <span className="flex h-8 w-8 items-center justify-center">
+                    <span
+                      aria-hidden="true"
+                      className="block h-full w-full bg-current"
+                      style={{
+                        maskImage: `url(/silhouettes/forms/${o.value}.svg)`,
+                        WebkitMaskImage: `url(/silhouettes/forms/${o.value}.svg)`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                    />
+                  </span>
+                  <span className="text-center text-[10px] font-semibold uppercase leading-tight tracking-wider text-white/70">
+                    {o.label}
+                  </span>
+                </button>
+              ) : (
+                /* Text pill fallback for any form without a fetched asset */
+                <button
+                  key={o.value}
+                  type="button"
+                  onClick={() => answerSubSplit(o.value)}
+                  className="flex min-h-[44px] items-center justify-center rounded-modal border border-teal-400/50 bg-teal-500/10 px-3 text-[12px] font-medium text-teal-50 transition-colors hover:border-teal-400 hover:bg-teal-500/25"
+                >
+                  {o.label}
+                </button>
+              )
+            )}
           </div>
+          <button
+            type="button"
+            onClick={() => answerSubSplit(null)}
+            className="mt-2 inline-flex min-h-[44px] items-center px-1 -mx-1 text-[10px] uppercase tracking-wider text-white/40 transition-colors hover:text-white/75"
+          >
+            Not sure
+          </button>
         </div>
       )}
 

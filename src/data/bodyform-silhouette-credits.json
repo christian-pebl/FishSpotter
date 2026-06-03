@@ -1,0 +1,128 @@
+{
+  "fusiform": {
+    "taxon": "Scomber",
+    "imageUuid": "5ac54f3b-2422-4d31-9920-ec90c16d4fd5",
+    "attribution": "Robbie N. Cada (vectorized by T. Michael Keesey), via PhyloPic",
+    "license": "Public Domain Mark 1.0",
+    "source": "https://www.phylopic.org/images/5ac54f3b-2422-4d31-9920-ec90c16d4fd5"
+  },
+  "laterally-compressed": {
+    "taxon": "Abramis brama",
+    "imageUuid": "fc97b67e-627d-4430-9a5a-2cf661640bc7",
+    "attribution": "Ando, via PhyloPic",
+    "license": "Public Domain Mark 1.0",
+    "source": "https://www.phylopic.org/images/fc97b67e-627d-4430-9a5a-2cf661640bc7"
+  },
+  "elongated": {
+    "taxon": "Ammodytes",
+    "imageUuid": "31124fe7-c960-40dd-943b-dbecd53650db",
+    "attribution": "T. Michael Keesey, via PhyloPic",
+    "license": "Public Domain Mark 1.0",
+    "source": "https://www.phylopic.org/images/31124fe7-c960-40dd-943b-dbecd53650db"
+  },
+  "eel-like": {
+    "taxon": "Anguilla rostrata",
+    "imageUuid": "629e1135-d0c5-4f02-bb13-8cbf63e48692",
+    "attribution": "Steven Traver, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/629e1135-d0c5-4f02-bb13-8cbf63e48692"
+  },
+  "cuttlefish": {
+    "taxon": "Sepia orbignyana",
+    "imageUuid": "00f831ef-01ad-4327-8506-7e0b92c1839b",
+    "attribution": "Guillaume Dera, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/00f831ef-01ad-4327-8506-7e0b92c1839b"
+  },
+  "squid": {
+    "taxon": "Loligo vulgaris",
+    "imageUuid": "22a8e316-7f4d-4270-b6af-b5ef9e84c2c2",
+    "attribution": "Cagri Cevrim, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/22a8e316-7f4d-4270-b6af-b5ef9e84c2c2"
+  },
+  "bobtail": {
+    "taxon": "Euprymna scolopes",
+    "imageUuid": "2e11cbff-6287-4df5-8118-6a3ea055f936",
+    "attribution": "Darrin Schultz, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/2e11cbff-6287-4df5-8118-6a3ea055f936"
+  },
+  "octopus": {
+    "taxon": "Octopus sp.",
+    "imageUuid": "f060bcc7-5725-46f7-8276-14553af3707f",
+    "attribution": "Margot Michaud, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/f060bcc7-5725-46f7-8276-14553af3707f"
+  },
+  "short-stubby": {
+    "taxon": "Asteriidae",
+    "imageUuid": "19f846e4-62f6-4081-9e52-b933792c5bcd",
+    "attribution": "Mario Quevedo, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/19f846e4-62f6-4081-9e52-b933792c5bcd"
+  },
+  "long-spiny": {
+    "taxon": "Odontaster validus",
+    "imageUuid": "37d1d45b-66c7-4240-a81c-bad76f27443d",
+    "attribution": "Guillaume Dera, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/37d1d45b-66c7-4240-a81c-bad76f27443d"
+  },
+  "long-smooth": {
+    "taxon": "Tethyaster subinermis",
+    "imageUuid": "7e27ce06-1f4f-45d8-a359-dcba8fc54b9b",
+    "attribution": "Birgit Lang, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/7e27ce06-1f4f-45d8-a359-dcba8fc54b9b"
+  },
+  "thin-whippy": {
+    "taxon": "Ophiura albida",
+    "imageUuid": "99c957a2-99b1-4a30-9b25-355a6fb55509",
+    "attribution": "Guillaume Dera, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/99c957a2-99b1-4a30-9b25-355a6fb55509"
+  },
+  "flat-cone": {
+    "taxon": "Lottia",
+    "imageUuid": "20ab4f5b-a0ab-401b-812e-718e303f7fc3",
+    "attribution": "Taro Maeda, via PhyloPic",
+    "license": "CC-BY-SA 3.0",
+    "source": "https://www.phylopic.org/images/20ab4f5b-a0ab-401b-812e-718e303f7fc3"
+  },
+  "pointed-cone": {
+    "taxon": "Trochidae",
+    "imageUuid": "af3b0a39-4ba9-4134-800e-d181a7288689",
+    "attribution": "Tauana Cunha, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/af3b0a39-4ba9-4134-800e-d181a7288689"
+  },
+  "rounded-squat": {
+    "taxon": "Tegula fasciata",
+    "imageUuid": "9c17f9fa-11bd-4d99-9e14-80eca4a12108",
+    "attribution": "Tauana Cunha, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/9c17f9fa-11bd-4d99-9e14-80eca4a12108"
+  },
+  "saucer": {
+    "taxon": "Aurelia",
+    "imageUuid": "f0494167-77f6-46eb-841d-c4cefb683bbd",
+    "attribution": "Lodewijk van Walraven, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/f0494167-77f6-46eb-841d-c4cefb683bbd"
+  },
+  "frilly-arms": {
+    "taxon": "Rhopilema esculentum",
+    "imageUuid": "99632006-ff40-49a2-bca3-4a9aae003abf",
+    "attribution": "SecretJellyMan, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/99632006-ff40-49a2-bca3-4a9aae003abf"
+  },
+  "trailing-mass": {
+    "taxon": "Cyanea capillata",
+    "imageUuid": "f2fb5773-f8ff-45b0-9c6c-cc5aef3c93d5",
+    "attribution": "Guillaume Dera, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/f2fb5773-f8ff-45b0-9c6c-cc5aef3c93d5"
+  }
+}
