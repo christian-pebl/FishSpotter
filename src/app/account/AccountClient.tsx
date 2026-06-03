@@ -9,6 +9,7 @@ interface Props {
   emailVerified: boolean;
   displayName: string;
   digestOptIn: boolean;
+  leaderboardOptIn: boolean;
   createdAt: string;
 }
 
@@ -17,12 +18,14 @@ export function AccountClient({
   emailVerified,
   displayName: initialDisplayName,
   digestOptIn: initialDigest,
+  leaderboardOptIn: initialLeaderboardOptIn,
   createdAt,
 }: Props) {
   const router = useRouter();
   const [displayName, setDisplayName] = useState(initialDisplayName);
   const [savedName, setSavedName] = useState(initialDisplayName);
   const [digestOptIn, setDigestOptIn] = useState(initialDigest);
+  const [leaderboardOptIn, setLeaderboardOptIn] = useState(initialLeaderboardOptIn);
   const [verificationSendStatus, setVerificationSendStatus] = useState<"idle" | "sending" | "sent" | "rate-limited">("idle");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [emailConfirm, setEmailConfirm] = useState("");
@@ -54,6 +57,15 @@ export function AccountClient({
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ digestOptIn: next }),
+    });
+  };
+
+  const toggleLeaderboardOptIn = async (next: boolean) => {
+    setLeaderboardOptIn(next);
+    await fetch("/api/account/leaderboard-visibility", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ leaderboardOptIn: next }),
     });
   };
 
@@ -174,6 +186,27 @@ export function AccountClient({
             <span className="block text-xs text-navy-900/55">
               A Monday-morning summary of your week and any new clips. Streak
               nudges sit under this same opt-in.
+            </span>
+          </span>
+        </label>
+      </section>
+
+      <section className="pebl-surface rounded-card p-6">
+        <p className="pebl-eyebrow">Privacy</p>
+        <label className="mt-3 flex items-start gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={leaderboardOptIn}
+            onChange={(e) => toggleLeaderboardOptIn(e.target.checked)}
+            className="mt-1 h-4 w-4 rounded border-navy-900/20"
+          />
+          <span>
+            <span className="block font-medium text-navy-900">
+              Show me on the public leaderboard
+            </span>
+            <span className="block text-xs text-navy-900/55">
+              When off, your score is private — only you can see your own rank.
+              Accounts declared as under 18 start with this off by default.
             </span>
           </span>
         </label>

@@ -21,6 +21,7 @@ export default async function AccountPage() {
       name: true,
       emailVerified: true,
       digestOptIn: true,
+      leaderboardOptIn: true,
       createdAt: true,
     },
   });
@@ -49,6 +50,7 @@ export default async function AccountPage() {
         emailVerified={!!user.emailVerified}
         displayName={user.displayName ?? user.name ?? ""}
         digestOptIn={user.digestOptIn}
+        leaderboardOptIn={user.leaderboardOptIn}
         createdAt={user.createdAt.toISOString()}
       />
 

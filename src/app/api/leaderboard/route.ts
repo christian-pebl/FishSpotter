@@ -26,10 +26,24 @@ export async function GET() {
 
   const users = await prisma.user.findMany({
     where: { id: { in: Object.keys(byUser) } },
-    select: { id: true, displayName: true, name: true },
+    select: { id: true, displayName: true, name: true, leaderboardOptIn: true },
   });
-  type UserRow = { id: string; displayName: string | null; name: string | null };
+  type UserRow = {
+    id: string;
+    displayName: string | null;
+    name: string | null;
+    leaderboardOptIn: boolean;
+  };
   const userMap = Object.fromEntries(users.map((u: UserRow) => [u.id, u]));
+
+  // ICO Children's Code: this public JSON endpoint has no session, so it
+  // excludes every user who opted out of the public leaderboard (default
+  // for declared 13-17 minors).
+  for (const userId of Object.keys(byUser)) {
+    if (userMap[userId]?.leaderboardOptIn === false) {
+      delete byUser[userId];
+    }
+  }
 
   const leaderboard = Object.entries(byUser)
     .map(([userId, { correct, total, points }]) => ({

@@ -54,6 +54,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
         name: { label: "Name", type: "text" },
         isSignUp: { label: "Sign up", type: "text" },
+        ageBracket: { label: "Age band", type: "text" },
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials.password) return null;
@@ -68,7 +69,11 @@ export const authOptions: NextAuthOptions = {
 
         if (credentials.isSignUp === "true") {
           if (user) return null;
+          // ICO Children's Code: block under-13 signups outright. The
+          // self-declared band is the only age data we ever store.
+          if (credentials.ageBracket === "under_13") return null;
           if (!checkAuthRateLimit(`signup:${ip}`)) return null;
+          const isMinor = credentials.ageBracket === "13_17";
           const rawName = (credentials.name ?? "").trim().slice(0, 32);
           const cleanName = rawName.replace(/[^\p{L}\p{N}\s._-]/gu, "");
           // S3-15 fallback: anonymous-feeling name when the user
@@ -82,6 +87,14 @@ export const authOptions: NextAuthOptions = {
               passwordHash,
               name: cleanName || fallback,
               displayName: cleanName || fallback,
+              // Store only the coarse band; never a date of birth.
+              ageBracket:
+                credentials.ageBracket === "13_17" ||
+                credentials.ageBracket === "18_plus"
+                  ? credentials.ageBracket
+                  : null,
+              // Declared minors default OFF the public leaderboard.
+              leaderboardOptIn: !isMinor,
             },
           });
           // S3-06: fire-and-forget verification email. Failure (Resend

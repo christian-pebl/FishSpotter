@@ -19,6 +19,8 @@ function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  // ICO Children's Code: self-declared age band at signup. "" = not chosen.
+  const [ageBracket, setAgeBracket] = useState("");
   // Default to sign-up when arriving from the landing CTA
   // (`/auth/signin?isSignUp=1`). Otherwise default to sign-in.
   const [isSignUp, setIsSignUp] = useState(searchParams.get("isSignUp") === "1");
@@ -40,11 +42,24 @@ function SignInForm() {
         setError("Password must be at least 8 characters.");
         return;
       }
+      if (isSignUp) {
+        if (!ageBracket) {
+          setError("Please tell us your age band.");
+          return;
+        }
+        if (ageBracket === "under_13") {
+          setError(
+            "You need to be at least 13 to create a FishSpotter account.",
+          );
+          return;
+        }
+      }
       const res = await signIn("credentials", {
         email,
         password,
         name,
         isSignUp: isSignUp ? "true" : "false",
+        ageBracket,
         redirect: false,
       });
       if (res?.error) {
@@ -144,6 +159,31 @@ function SignInForm() {
                 {/[0-9]/.test(password) ? "✓" : "•"} includes a number (recommended)
               </li>
             </ul>
+          )}
+          {isSignUp && (
+            <div>
+              <label htmlFor="ageBracket" className="mb-1 block text-sm font-medium text-navy-900">
+                Your age <span aria-hidden className="text-red-600">*</span>
+              </label>
+              <select
+                id="ageBracket"
+                required
+                aria-required="true"
+                value={ageBracket}
+                onChange={(e) => setAgeBracket(e.target.value)}
+                className="w-full rounded-modal border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
+              >
+                <option value="" disabled>
+                  Select your age
+                </option>
+                <option value="under_13">Under 13</option>
+                <option value="13_17">13 to 17</option>
+                <option value="18_plus">18 or over</option>
+              </select>
+              <p className="mt-1 text-xs text-navy-900/72">
+                If you are under 18, a parent or guardian must agree to the Terms on your behalf. Under-18 accounts are kept off the public leaderboard by default, you can change this later in your account settings.
+              </p>
+            </div>
           )}
           {isSignUp && (
             <label className="flex items-start gap-2 text-xs text-navy-900/72">

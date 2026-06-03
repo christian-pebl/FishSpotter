@@ -117,10 +117,27 @@ export default async function LeaderboardPage() {
 
   const users = await prisma.user.findMany({
     where: { id: { in: Object.keys(byUser) } },
-    select: { id: true, displayName: true, name: true },
+    select: { id: true, displayName: true, name: true, leaderboardOptIn: true },
   });
-  type UserRow = { id: string; displayName: string | null; name: string | null };
+  type UserRow = {
+    id: string;
+    displayName: string | null;
+    name: string | null;
+    leaderboardOptIn: boolean;
+  };
   const userMap = Object.fromEntries(users.map((u: UserRow) => [u.id, u]));
+
+  // ICO Children's Code: users who have opted out of the public leaderboard
+  // (default for declared 13-17 minors) are excluded from the ranking other
+  // people see. The viewer always sees THEIR OWN row so their personal rank
+  // card / "You" highlight keeps working. Ranks recompute over the filtered
+  // set so they stay contiguous.
+  for (const userId of Object.keys(byUser)) {
+    if (userId === myUserId) continue;
+    if (userMap[userId]?.leaderboardOptIn === false) {
+      delete byUser[userId];
+    }
+  }
 
   // Pure scoring + shared-rank tie handling lives in @/lib/leaderboard so
   // it's unit-testable without spinning up Prisma. See audit §05 F-LB-02
