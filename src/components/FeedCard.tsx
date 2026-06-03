@@ -140,6 +140,26 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // "Spot It" shape gate; the MCQ tile grid is no longer shown first — it only
   // renders as a "skip to guess" fallback once the user opts into it.
   const [guessMode, setGuessMode] = useState(false);
+  // (3 Jun) "Show where on screen" radar ping — concentric rings that track the
+  // bbox trail head so the user can find the creature in the clip. tracePosRef
+  // is updated each frame by the trail render loop; the ping element follows it.
+  const [showPing, setShowPing] = useState(false);
+  const [pingKey, setPingKey] = useState(0);
+  const tracePosRef = useRef<{ x: number; y: number } | null>(null);
+  const pingElRef = useRef<HTMLDivElement>(null);
+  const pingActiveRef = useRef(false);
+  const pingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Mirror showPing into a ref so the rAF trail loop can move the ping element
+  // without being re-subscribed on every toggle.
+  useEffect(() => {
+    pingActiveRef.current = showPing;
+  }, [showPing]);
+  const triggerPing = useCallback(() => {
+    if (pingTimerRef.current) clearTimeout(pingTimerRef.current);
+    setPingKey((k) => k + 1);
+    setShowPing(true);
+    pingTimerRef.current = setTimeout(() => setShowPing(false), 3500);
+  }, []);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
   // the user has either watched the clip through one loop OR manually
   // tapped the collapsed pill to expand. Encourages observation before
@@ -594,6 +614,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         y: -overflowY * camY + p.y * renderedHeight,
       }));
 
+      // (3 Jun) Track the trail head so the "Show where on screen" ping can
+      // follow the creature; move the ping element when it's active.
+      const traceHead = screenPoints[screenPoints.length - 1];
+      if (traceHead) {
+        tracePosRef.current = traceHead;
+        if (pingActiveRef.current && pingElRef.current) {
+          pingElRef.current.style.left = `${traceHead.x}px`;
+          pingElRef.current.style.top = `${traceHead.y}px`;
+        }
+      }
+
       const pathD = buildSmoothPath(screenPoints);
       trailPath.setAttribute("d", pathD);
       trailGlowPath.setAttribute("d", pathD);
@@ -816,6 +847,26 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
           </>
         )}
+
+        {/* (3 Jun) "Show where on screen" radar ping — concentric rings that
+            follow the tracking-trace head (updated each frame by the trail loop). */}
+        {showPing && hasBboxes && (
+          <div
+            key={pingKey}
+            ref={pingElRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute z-20"
+            style={{
+              left: tracePosRef.current ? `${tracePosRef.current.x}px` : "50%",
+              top: tracePosRef.current ? `${tracePosRef.current.y}px` : "50%",
+            }}
+          >
+            <span className="fs-radar-ring" />
+            <span className="fs-radar-ring" style={{ animationDelay: "0.5s" }} />
+            <span className="fs-radar-ring" style={{ animationDelay: "1s" }} />
+            <span className="fs-radar-dot" />
+          </div>
+        )}
       </div>
 
       {/* Soft bottom gradient so the floating panel always reads over the video.
@@ -832,63 +883,59 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {/* Collapsed pill — replaces the panel when minimized */}
       <AnimatePresence>
         {panelCollapsed && (
-          <motion.button
-            key="collapsed-pill"
-            type="button"
-            onClick={() => {
-              togglePanel(false);
-              // (3 Jun) Lead with the step-by-step shape flow, not the MCQ
-              // tiles. Opening the panel pre-submit launches the Spot It gate
-              // unless the user has already chosen to guess from a list.
-              if (!myAnswer && !guessMode && !spotItActive) setShapeGateOpen(true);
-              try {
-                localStorage.setItem("fishspotter:hasIdentified", "1");
-              } catch {}
-            }}
+          <motion.div
+            key="identify-bar"
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={
-              reduceMotion
-                ? { opacity: 1 }
-                : hasIdentifiedOnce
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 1, y: 0, scale: [1, 1.04, 1] }
-            }
+            animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
-            transition={
-              reduceMotion
-                ? TRANSITION.micro
-                : hasIdentifiedOnce
-                  ? TRANSITION.standard
-                  : {
-                      opacity: { duration: DURATION.standard },
-                      y: { duration: DURATION.standard },
-                      scale: { duration: 2.4, repeat: Infinity, ease: EASE.layout },
-                    }
-            }
-            aria-label="Name this species (press H)"
-            title="Press H to toggle"
-            className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-center justify-center gap-2 border-t border-navy-900/15 bg-teal-500 px-5 text-sm font-semibold text-navy-900 hover:bg-teal-400"
+            transition={TRANSITION.standard}
+            // (3 Jun) Dark-themed docked bar matching the shape gate. Two
+            // actions: open the step-by-step flow, and radar-ping the creature.
+            className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-stretch border-t border-white/10 bg-navy-900/95 backdrop-blur"
           >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-              <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
-              <circle cx="10" cy="7" r="0.9" fill="#17252A" />
-            </svg>
-            {/* S2-T11: copy switches to "Watching…" until the first
-                video loop completes — gentle hint that the panel will
-                open by itself once the user has had a chance to look. */}
-            {hasCompletedFirstLoop || userHasExpandedManually
-              ? "Name this species"
-              : "Watching… tap to identify"}
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path
-                d="M3 7.5L6 4.5L9 7.5"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </motion.button>
+            <button
+              type="button"
+              onClick={() => {
+                togglePanel(false);
+                // Lead with the step-by-step shape flow, not the MCQ tiles.
+                if (!myAnswer && !guessMode && !spotItActive) setShapeGateOpen(true);
+                try {
+                  localStorage.setItem("fishspotter:hasIdentified", "1");
+                } catch {}
+              }}
+              aria-label="Name this species (press H)"
+              title="Press H to toggle"
+              className="flex flex-1 items-center justify-center gap-2 px-5 text-sm font-semibold text-teal-50 transition-colors hover:bg-white/5"
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" className="text-teal-300">
+                <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
+                <circle cx="10" cy="7" r="0.9" fill="#17252A" />
+              </svg>
+              {hasCompletedFirstLoop || userHasExpandedManually
+                ? "Name this species"
+                : "Watching… tap to identify"}
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="text-teal-300">
+                <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            {/* Radar-ping the creature's current location on the clip. */}
+            {hasBboxes && (
+              <button
+                type="button"
+                onClick={triggerPing}
+                aria-label="Show where the creature is on screen"
+                title="Show where on screen"
+                className="flex shrink-0 items-center justify-center gap-1.5 border-l border-white/10 px-4 text-[11px] font-semibold uppercase tracking-wider text-teal-300 transition-colors hover:bg-white/5"
+              >
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="2" fill="currentColor" />
+                  <circle cx="8" cy="8" r="5" stroke="currentColor" strokeWidth="1.3" opacity="0.7" />
+                  <circle cx="8" cy="8" r="7.2" stroke="currentColor" strokeWidth="1.1" opacity="0.4" />
+                </svg>
+                <span className="hidden sm:inline">Show on screen</span>
+              </button>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
 
