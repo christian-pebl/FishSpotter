@@ -293,16 +293,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Auto-expand the panel exactly once when the gate flips, unless the
-  // user has explicitly collapsed it via the chevron in the meantime.
-  const autoExpandFiredRef = useRef(false);
-  useEffect(() => {
-    if (autoExpandFiredRef.current) return;
-    if (!hasCompletedFirstLoop) return;
-    if (userHasExpandedManually) return;
-    autoExpandFiredRef.current = true;
-    setPanelCollapsed(false);
-  }, [hasCompletedFirstLoop, userHasExpandedManually]);
+  // (3 Jun fix) The identify panel no longer auto-expands after the first
+  // video loop. The clip loops indefinitely and the panel opens ONLY on an
+  // explicit user action — tapping the collapsed "tap to identify" pill or
+  // the H shortcut — so watching is never interrupted by a popup. The
+  // first-loop signal is still tracked (it softens the pill hint text), it
+  // just no longer forces the panel open.
 
   // Apply playback speed when it changes.
   useEffect(() => {
@@ -1112,13 +1108,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </svg>
                         Spot It
                       </button>
-                      <IdGuideTrigger
-                        snippetId={snippet.id}
-                        submitted={false}
-                        staffAnswer={snippet.staffAnswer}
-                        onSuggest={(name) => setAnswerText(name)}
-                        isLoggedIn={!!session}
-                      />
+                      {/* (3 Jun fix) Single guided-ID entry is "Spot It" (above).
+                          The older pre-submit "Help me identify" wizard trigger was
+                          removed here — having both opened two concurrent guided
+                          flows (ShapeGate + IdGuideSheet) that could stack. The
+                          trait funnel / field-note teaching still lives in the
+                          post-submit reveal trigger below (submitted={true}). */}
                       {hasLocation && (
                         <button
                           type="button"
