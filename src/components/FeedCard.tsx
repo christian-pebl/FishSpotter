@@ -889,9 +889,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         />
       )}
 
-      {/* Collapsed pill — replaces the panel when minimized */}
+      {/* Collapsed pill — replaces the panel when minimized. Also hidden while a
+          gate is open so the gate is the only box on screen. */}
       <AnimatePresence>
-        {panelCollapsed && (
+        {panelCollapsed && !shapeGateOpen && !bodyGateOpen && (
           <motion.div
             key="identify-bar"
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -948,9 +949,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         )}
       </AnimatePresence>
 
-      {/* Floating glass panel — Claude-style input or stats card */}
+      {/* Floating glass panel — Claude-style input or stats card. Hidden while a
+          gate (shape or body) is open so only the gate box shows, not two. */}
       <AnimatePresence>
-        {!panelCollapsed && (
+        {!panelCollapsed && !shapeGateOpen && !bodyGateOpen && (
           <div
             className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(420px,calc(40%-1rem))]"
             style={
