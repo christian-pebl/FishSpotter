@@ -705,7 +705,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
   return (
     <article ref={articleRef} className="relative h-full min-h-0 overflow-hidden bg-black text-white">
-      <div className="absolute inset-0 overflow-hidden bg-black">
+      {/* (3 Jun) Video sits ABOVE a thin 56px docked bar so the clip is never
+          overlapped by the identify entry while watching. All video overlays
+          (bbox trail, progress, paused, fade) live in this container, so they
+          inset together and stay aligned. */}
+      <div className="absolute inset-x-0 top-0 bottom-14 overflow-hidden bg-black">
         <video
           ref={videoRef}
           {...(preload ? { src: snippet.videoUrl } : {})}
@@ -863,8 +867,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             }
             aria-label="Name this species (press H)"
             title="Press H to toggle"
-            className="absolute left-1/2 z-30 inline-flex min-h-[46px] -translate-x-1/2 items-center gap-2 rounded-full bg-teal-500 px-5 text-sm font-semibold text-navy-900 shadow-panel hover:bg-teal-400"
-            style={{ bottom: `calc(0.5rem + env(safe-area-inset-bottom))` }}
+            className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-center justify-center gap-2 bg-teal-500 px-5 text-sm font-semibold text-navy-900 shadow-[0_-4px_20px_rgba(0,0,0,0.45)] hover:bg-teal-400"
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
@@ -900,7 +903,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 : isDesktop
                   ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
                   : {
-                      bottom: `calc(${keyboardOffset}px + max(0.5rem, env(safe-area-inset-bottom)))`,
+                      // +3.5rem clears the docked 56px "Name this species" bar.
+                      bottom: `calc(${keyboardOffset}px + 3.5rem + max(0.5rem, env(safe-area-inset-bottom)))`,
                       left: "50%",
                       transform: "translateX(-50%)",
                     }
