@@ -1,5 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import AppleProvider from "next-auth/providers/apple";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -17,9 +19,34 @@ const BCRYPT_ROUNDS = 12;
 // Credentials provider keeps working unchanged. The adapter is dormant
 // for credentials users (no rows in Account / Session); it activates
 // the moment a future ticket drops an OAuth provider into `providers`.
+// Build optional OAuth providers — only added when credentials are present so
+// the app boots cleanly in dev/CI without them configured.
+const oauthProviders: NextAuthOptions["providers"] = [
+  ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+    ? [
+        GoogleProvider({
+          clientId: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        }),
+      ]
+    : []),
+  ...(process.env.APPLE_CLIENT_ID &&
+  process.env.APPLE_CLIENT_SECRET &&
+  process.env.APPLE_TEAM_ID &&
+  process.env.APPLE_PRIVATE_KEY
+    ? [
+        AppleProvider({
+          clientId: process.env.APPLE_CLIENT_ID,
+          clientSecret: process.env.APPLE_CLIENT_SECRET,
+        }),
+      ]
+    : []),
+];
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
+    ...oauthProviders,
     CredentialsProvider({
       name: "Credentials",
       credentials: {
