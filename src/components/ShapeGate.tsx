@@ -16,7 +16,7 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useDragControls } from "framer-motion";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
 import speciesTraitsData from "@/data/species-traits.json";
@@ -146,6 +146,10 @@ export function ShapeGate({
   const [hovered, setHovered] = useState<ShapeClass | null>(null);
   const reduceMotion = useReducedMotion();
   const dialogRef = useRef<HTMLDivElement>(null);
+  // (3 Jun) The gate is now a draggable floating card (not a full-screen cover)
+  // so the clip keeps playing/visible behind it and the user can move it.
+  const dragControls = useDragControls();
+  const constraintsRef = useRef<HTMLDivElement>(null);
 
   // Modal a11y (UX review P1): the gate declared role=dialog/aria-modal but had
   // no focus trap, Escape, or focus restore. Mirror the IdGuideSheet/SideMenu
@@ -205,17 +209,42 @@ export function ShapeGate({
   // motion.div also keeps the dialog ref off an AnimatePresence child (which
   // warns "ref is not a prop" in React 18).
   return (
-    <motion.div
-      ref={dialogRef}
-      initial={reduceMotion ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={reduceMotion ? { duration: 0 } : { duration: DURATION.micro, ease: EASE.enter }}
-      className="absolute inset-0 z-30 flex flex-col justify-end md:items-center md:justify-center"
-      style={{ background: "linear-gradient(to top, rgba(23,37,42,0.96) 60%, rgba(23,37,42,0.55) 100%)" }}
-      role="dialog"
-      aria-modal="true"
-      aria-label="What shape is it?"
-    >
+    // Full-card constraints region — no backdrop, pointer-events pass through so
+    // the clip keeps playing and stays interactive (play/pause) around the card.
+    <div ref={constraintsRef} className="pointer-events-none absolute inset-0 z-30">
+      {/* Positioning wrapper centres the card; the card itself drags via a
+          framer transform, so centring and drag don't fight each other. */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 w-[min(32rem,calc(100%-1.5rem))] -translate-x-1/2 -translate-y-1/2">
+      <motion.div
+        ref={dialogRef}
+        drag
+        dragControls={dragControls}
+        dragListener={false}
+        dragMomentum={false}
+        dragElastic={0.05}
+        dragConstraints={constraintsRef}
+        initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: DURATION.standard, ease: EASE.enter }}
+        className="pointer-events-auto relative rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
+        style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}
+        role="dialog"
+        aria-modal="false"
+        aria-label="What shape is it?"
+      >
+        {/* Drag handle — drag only starts here (dragListener=false), so the
+            tiles stay tappable. */}
+        <button
+          type="button"
+          onPointerDown={(e) => dragControls.start(e)}
+          aria-label="Drag to move this box"
+          className="absolute left-1/2 top-0 flex h-7 w-12 -translate-x-1/2 cursor-grab touch-none items-center justify-center text-white/35 hover:text-white/70 active:cursor-grabbing"
+        >
+          <svg width="16" height="6" viewBox="0 0 16 6" fill="currentColor" aria-hidden="true">
+            <circle cx="3" cy="1.5" r="1" /><circle cx="8" cy="1.5" r="1" /><circle cx="13" cy="1.5" r="1" />
+            <circle cx="3" cy="4.5" r="1" /><circle cx="8" cy="4.5" r="1" /><circle cx="13" cy="4.5" r="1" />
+          </svg>
+        </button>
         {/* (3 Jun) Clear "Hide" affordance — dismisses the gate and returns to
             watching the looping clip. */}
         <button
@@ -223,7 +252,7 @@ export function ShapeGate({
           onClick={onClose}
           aria-label="Hide and go back to the video"
           title="Back to the video"
-          className="absolute right-2 top-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3.5 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
+          className="absolute right-2 top-1 inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
         >
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
@@ -232,10 +261,7 @@ export function ShapeGate({
           Hide
         </button>
 
-        <div
-          className="px-4 pb-4 pt-2 md:mb-0 md:w-full md:max-w-lg md:rounded-card md:border md:border-white/10 md:bg-navy-900/85 md:px-5 md:py-5 md:shadow-menu"
-          style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}
-        >
+        <div>
           <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-widest text-white/50">
             What shape is it, roughly?
           </p>
@@ -322,5 +348,7 @@ export function ShapeGate({
           </div>
         </div>
       </motion.div>
+      </div>
+    </div>
   );
 }
