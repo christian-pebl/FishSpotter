@@ -124,6 +124,17 @@ export const CRAB_FEATURES = [
 ] as const;
 export type CrabFeature = (typeof CRAB_FEATURES)[number];
 
+// Crab body outline — the Rung-2 sub-split for the Crab tile (mirrors the
+// invert "form" enums below). One value per crab so a single silhouette tap
+// narrows the six crabs to one or two before the photo grid.
+export const CRAB_FORM = [
+  "broad-carapace", // true crab — wide oval/hexagonal carapace, short legs (Cancer, Carcinus)
+  "swimming", // portunid — broad carapace, flattened paddle on the rear legs (Necora, Liocarcinus)
+  "spider", // spider crab — triangular carapace, long spindly legs (Hyas)
+  "hermit", // hermit crab — soft body inside a coiled gastropod shell (Pagurus)
+] as const;
+export type CrabForm = (typeof CRAB_FORM)[number];
+
 // Invertebrate vocabulary (Workstream C). Like the crab traits above, the fish
 // traits carry no signal here, so each invert gate-class gets one small "form"
 // enum that does the within-tile splitting. All are OPTIONAL on SpeciesTraits.
@@ -178,6 +189,7 @@ export type SpeciesTraits = {
   // Crab-only (optional): present on crustacean entries, absent on fish.
   carapaceTexture?: CarapaceTexture[];
   crabFeatures?: CrabFeature[];
+  crabForm?: CrabForm[];
   // Invertebrate-only (optional): one "form" enum per non-crab invert tile.
   cephalopodForm?: CephalopodForm[];
   armForm?: ArmForm[];
@@ -201,6 +213,7 @@ export type TraitSelection = {
   movement?: Movement[];
   carapaceTexture?: CarapaceTexture[];
   crabFeatures?: CrabFeature[];
+  crabForm?: CrabForm[];
   cephalopodForm?: CephalopodForm[];
   armForm?: ArmForm[];
   shellShape?: ShellShape[];

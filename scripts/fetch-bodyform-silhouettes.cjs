@@ -17,6 +17,39 @@ const ACCEPT = { Accept: "application/vnd.phylopic.v2+json" };
 // File names match the trait values used in CandidateStrip SUB_SPLITS so
 // the component can construct the URL as /silhouettes/forms/<value>.svg.
 const TARGETS = [
+  // crab crabForm --------------------------------------------------------
+  {
+    file: "broad-carapace",
+    uuid: "422060a1-0c7f-4428-b645-bdd26d815482",
+    taxon: "Cancer bellianus (Cancridae)",
+    license: "Public Domain Mark 1.0",
+    attribution: "Jebulon (vectorized by T. Michael Keesey), via PhyloPic",
+    source: "https://www.phylopic.org/images/422060a1-0c7f-4428-b645-bdd26d815482",
+  },
+  {
+    file: "swimming",
+    uuid: "7197c71a-0653-4e82-bcbb-b156c150826a",
+    taxon: "Callinectes sapidus (Portunidae)",
+    license: "CC0 1.0",
+    attribution: "Public Domain (CC0 1.0), via PhyloPic",
+    source: "https://www.phylopic.org/images/7197c71a-0653-4e82-bcbb-b156c150826a",
+  },
+  {
+    file: "spider",
+    uuid: "e29b80f3-df87-46f9-ad82-be4b6c212121",
+    taxon: "Macrocheira kaempferi (Majoidea)",
+    license: "CC-BY-SA 3.0",
+    attribution: "Michael Wolf (photo), Hans Hillewaert (editing), T. Michael Keesey (vectorization), via PhyloPic",
+    source: "https://www.phylopic.org/images/e29b80f3-df87-46f9-ad82-be4b6c212121",
+  },
+  {
+    file: "hermit",
+    uuid: "d2064615-2851-40c8-b99c-f7e5669958ee",
+    taxon: "Paguridae",
+    license: "CC0 1.0",
+    attribution: "Kurtis Wothe, via PhyloPic",
+    source: "https://www.phylopic.org/images/d2064615-2851-40c8-b99c-f7e5669958ee",
+  },
   // fish bodyShape -------------------------------------------------------
   {
     file: "fusiform",

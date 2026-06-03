@@ -25,6 +25,12 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "dark-claw-tips": "Are the pincer tips black?",
     none: "Is it a plain crab — no swimming paddle, long spider legs, shell home or red eyes?",
   },
+  crabForm: {
+    "broad-carapace": "Is it a broad oval crab with a wide shell and short legs?",
+    swimming: "Does the last pair of legs end in flattened swimming paddles?",
+    spider: "Is it a spider crab — triangular shell with long spindly legs?",
+    hermit: "Is it a hermit crab, living inside an empty snail shell?",
+  },
   carapaceTexture: {
     smooth: "Is the shell smooth?",
     warty: "Is the shell knobbly or warty?",

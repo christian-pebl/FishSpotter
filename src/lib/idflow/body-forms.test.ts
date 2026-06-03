@@ -41,8 +41,8 @@ describe("body-forms (Rung 2 data)", () => {
     }
   });
 
-  it("classes without a sub-split (crab, flatfish, scooter) get no Rung-2 gate", () => {
-    for (const cls of ["crab", "flatfish", "scooter"] as ShapeClass[]) {
+  it("single-species classes (flatfish, scooter) get no Rung-2 gate", () => {
+    for (const cls of ["flatfish", "scooter"] as ShapeClass[]) {
       expect(bodyFormConfigFor(cls), `${cls} should be null`).toBeNull();
     }
   });

@@ -229,6 +229,12 @@ async function refreshOneSpecies(
   }
 
   // 2. Fetch per bucket.
+  // Guard: never let a bucket photo overwrite a curated override that points at
+  // the SAME observation. iNat photo URLs share the observation as their
+  // sourceUrl, and the upsert is keyed on (scientificName, sourceUrl), so a
+  // bucket fetch that surfaces the override's own observation would otherwise
+  // replace the hand-picked frame with that observation's representative photo.
+  const overrideSourceUrls = new Set(overrides.map((o) => o.sourceUrl));
   const buckets = bucketsFor(scientificName);
   let ordering = 10;
 
@@ -249,6 +255,8 @@ async function refreshOneSpecies(
     const take = bucket.count ?? 4;
     const selected = photos.slice(0, take);
     for (const p of selected) {
+      // Don't clobber a curated override of the same observation.
+      if (overrideSourceUrls.has(p.sourceUrl)) continue;
       try {
         await prisma.speciesImage.upsert({
           where: { scientificName_sourceUrl: { scientificName, sourceUrl: p.sourceUrl } },
