@@ -16,7 +16,13 @@
  * Each tile is a select button. The visual is either a small centered `icon`
  * (silhouette rungs) or a full-width square `media` node (Rung-3 photos), with
  * the `label` below and an optional count `badge`. An optional `extra` node
- * renders beneath the button (Rung 2 uses it for the "Examples" button).
+ * renders beneath the button (legacy grid use).
+ *
+ * `variant="list"` (Rung 2) lays tiles out as full-width rows with a 2x
+ * silhouette and a per-row chevron that drops an inline `renderExpanded` panel
+ * (the body-form examples) directly below that row. Single-open accordion: only
+ * one row's panel is mounted at a time, so we never fire N photo fetches at
+ * once. `variant="grid"` (default, Rung 1 + Rung 3) is unchanged.
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -56,8 +62,12 @@ export type TileSpec = {
   /** Full-width square media (Rung-3 photos / silhouette fallback). Takes
    * precedence over `icon`. */
   media?: React.ReactNode;
-  /** Optional node under the select button (Rung 2: the "Examples" button). */
+  /** Optional node under the select button (legacy grid use). */
   extra?: React.ReactNode;
+  /** List variant only: lazily-rendered panel shown inline below the row when
+   * its chevron is expanded. Only the open row calls this, so its content
+   * (e.g. a SpeciesGallery) mounts on demand. Presence adds the chevron. */
+  renderExpanded?: () => React.ReactNode;
   ariaLabel?: string;
 };
 
@@ -68,6 +78,7 @@ export function TileGate({
   title,
   tiles,
   columns = 4,
+  variant = "grid",
   onSelect,
   onClose,
   onBack,
@@ -82,6 +93,8 @@ export function TileGate({
   title: string;
   tiles: TileSpec[];
   columns?: number;
+  /** "grid" (default, Rung 1 + Rung 3) or "list" (Rung 2 accordion). */
+  variant?: "grid" | "list";
   onSelect: (key: string) => void;
   onClose: () => void;
   /** Optional "Back" to the previous rung (top-left). Omit on Rung 1. */
@@ -99,6 +112,12 @@ export function TileGate({
   suspendKeyboard?: boolean;
 }) {
   const [hovered, setHovered] = useState<string | null>(null);
+  // List variant: which row's examples panel is open (single-open accordion).
+  const [expandedKey, setExpandedKey] = useState<string | null>(null);
+  // Mirror into a ref so the keydown handler can read the latest value without
+  // re-subscribing the focus-grab effect on every expand/collapse.
+  const expandedKeyRef = useRef<string | null>(null);
+  expandedKeyRef.current = expandedKey;
   const reduceMotion = useReducedMotion();
   const dialogRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
@@ -120,7 +139,16 @@ export function TileGate({
 
     const onKey = (e: KeyboardEvent) => {
       if (suspendKeyboard) return;
+      // A true modal (the inline gallery's photo lightbox sets
+      // aria-modal="true") is open on top — yield all keys to it. The gate is
+      // aria-modal="false", so it never matches itself.
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
       if (e.key === "Escape") {
+        // Collapse an open examples panel first; only then close the gate.
+        if (expandedKeyRef.current !== null) {
+          setExpandedKey(null);
+          return;
+        }
         onClose();
         return;
       }
@@ -197,6 +225,92 @@ export function TileGate({
               )}
             </button>
             {tile.extra}
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  // List variant (Rung 2): full-width rows, 2x silhouette, per-row chevron that
+  // drops an inline examples panel. Row body selects the form; the chevron is a
+  // separate control so browsing examples never commits a guess.
+  const list = (
+    <div className="flex flex-col gap-2">
+      {tiles.map((tile) => {
+        const isEmpty = !!tile.disabled;
+        const isExpanded = expandedKey === tile.key;
+        const canExpand = !!tile.renderExpanded;
+        return (
+          <div
+            key={tile.key}
+            className={[
+              "overflow-hidden rounded-modal border transition-colors",
+              isExpanded
+                ? "border-teal-400/60 bg-teal-500/10"
+                : "border-white/15 bg-white/5",
+            ].join(" ")}
+          >
+            <div className="flex items-stretch">
+              <button
+                type="button"
+                disabled={isEmpty}
+                onClick={() => onSelect(tile.key)}
+                onMouseEnter={() => setHovered(tile.key)}
+                onMouseLeave={() => setHovered(null)}
+                aria-label={tile.ariaLabel ?? tile.label}
+                className={[
+                  "flex flex-1 items-center gap-3 p-2.5 text-left transition-colors",
+                  isEmpty
+                    ? "cursor-not-allowed opacity-35"
+                    : hovered === tile.key
+                      ? "text-teal-300"
+                      : "text-teal-500 hover:text-teal-300",
+                ].join(" ")}
+              >
+                <span className="flex h-16 w-16 shrink-0 items-center justify-center">
+                  {tile.icon}
+                </span>
+                <span className="flex min-w-0 flex-col gap-0.5">
+                  <span className="text-[13px] font-semibold uppercase leading-tight tracking-wider text-white/85">
+                    {tile.label}
+                  </span>
+                  {!!tile.badge && tile.badge > 0 && (
+                    <span className="text-[11px] font-medium text-white/45">
+                      {tile.badge} species
+                    </span>
+                  )}
+                </span>
+              </button>
+              {canExpand && (
+                <button
+                  type="button"
+                  onClick={() => setExpandedKey(isExpanded ? null : tile.key)}
+                  aria-expanded={isExpanded}
+                  aria-label={
+                    isExpanded
+                      ? `Hide examples of ${tile.label}`
+                      : `Show examples of ${tile.label}`
+                  }
+                  className="flex w-12 shrink-0 items-center justify-center self-stretch border-l border-white/10 text-white/50 transition-colors hover:bg-white/10 hover:text-teal-200"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                    className={["transition-transform", isExpanded ? "rotate-180" : ""].join(" ")}
+                  >
+                    <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+            </div>
+            {canExpand && isExpanded && (
+              <div className="max-h-[40vh] overflow-y-auto border-t border-white/10 px-3 py-3 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
+                {tile.renderExpanded!()}
+              </div>
+            )}
           </div>
         );
       })}
@@ -306,6 +420,8 @@ export function TileGate({
 
             {tiles.length === 0 && emptyMessage ? (
               <p className="px-2 py-6 text-center text-sm text-white/60">{emptyMessage}</p>
+            ) : variant === "list" ? (
+              list
             ) : scrollable ? (
               <div className="-mx-1 max-h-[46vh] overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
                 {grid}
