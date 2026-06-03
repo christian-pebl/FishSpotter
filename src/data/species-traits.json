@@ -143,6 +143,18 @@
     "habitat": ["sandy-bottom"],
     "fieldNote": "Flat-headed sand-dweller; males flare a tall first dorsal and lyre-shaped tail in display."
   },
+  "Callionymus maculatus": {
+    "commonName": "Spotted dragonet",
+    "bodyShape": ["flat-dorsoventral", "elongated"],
+    "size": "small",
+    "coloration": ["mottled", "spotted"],
+    "markings": ["fin-spots", "dorsal-spots"],
+    "finShape": ["rounded-tail", "split-dorsal"],
+    "features": ["frilly-fins"],
+    "behavior": ["on-bottom"],
+    "habitat": ["sandy-bottom"],
+    "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m."
+  },
   "Pleuronectes platessa": {
     "commonName": "Plaice",
     "bodyShape": ["flat-dorsoventral"],
@@ -154,6 +166,30 @@
     "behavior": ["on-bottom"],
     "habitat": ["sandy-bottom"],
     "fieldNote": "Right-eyed flatfish with bright orange spots scattered across a brown back."
+  },
+  "Limanda limanda": {
+    "commonName": "Dab",
+    "bodyShape": ["flat-dorsoventral"],
+    "size": "medium",
+    "coloration": ["uniform", "mottled"],
+    "markings": ["none"],
+    "finShape": ["rounded-tail"],
+    "features": ["none"],
+    "behavior": ["on-bottom"],
+    "habitat": ["sandy-bottom"],
+    "fieldNote": "Right-eyed flatfish on sandy bottoms, sandpapery rough scales (the only common UK flatfish with this texture) and a distinctly concave arch in the lateral line above the pectoral fin. No orange spots — plainer than plaice."
+  },
+  "Platichthys flesus": {
+    "commonName": "Flounder",
+    "bodyShape": ["flat-dorsoventral"],
+    "size": "medium",
+    "coloration": ["mottled", "spotted"],
+    "markings": ["none"],
+    "finShape": ["rounded-tail"],
+    "features": ["none"],
+    "behavior": ["on-bottom"],
+    "habitat": ["sandy-bottom"],
+    "fieldNote": "A dull brown flatfish of estuaries and tidal rivers, tolerating fresh water — unusual for a flatfish. Rough bony tubercles run along the bases of the dorsal and anal fins and along the lateral line; any orange spots are pale and scattered, unlike the vivid orange of plaice."
   },
   "Scyliorhinus canicula": {
     "commonName": "Lesser-spotted catshark",
