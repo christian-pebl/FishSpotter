@@ -11,6 +11,7 @@ import { RarityPanel } from "./RarityPanel";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { MCQCandidatePicker } from "./MCQCandidatePicker";
 import { SpeciesGallery } from "./SpeciesGallery";
+import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 import { ShapeGate } from "./ShapeGate";
 import { CandidateStrip } from "./idflow/CandidateStrip";
 import type { ShapeClass } from "@/lib/idguide/traits";
@@ -1369,6 +1370,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                                remains the fallback for those species. */}
                           {staffScientific && (
                             <div className="mt-3">
+                              {/* UX-4: diagnostic-mark rings on the reference photo.
+                                  Returns null when no marks are authored yet, so
+                                  SpeciesGallery below remains the fallback. */}
+                              <AnnotatedSpeciesPhoto
+                                scientificName={staffScientific}
+                                commonName={referenceAnswer}
+                              />
                               <SpeciesGallery
                                 scientificName={staffScientific}
                                 commonName={referenceAnswer}
