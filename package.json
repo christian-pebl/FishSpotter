@@ -32,6 +32,7 @@
     "db:retro-score": "tsx --env-file=.env.local scripts/retro-score-answers.ts",
     "images:assess": "tsx --env-file=.env.local scripts/assess-image-quality.ts",
     "db:purge-bad-photos": "tsx --env-file=.env.local scripts/purge-bad-photos.ts",
+    "db:backfill-image-dims": "tsx --env-file=.env.local scripts/backfill-image-dims.ts",
     "measure:prompt": "tsx scripts/measure-prompt.ts",
     "postinstall": "prisma generate"
   },

@@ -96,11 +96,28 @@ export function AnnotatedSpeciesPhoto({
             const r = m.overlayRadius * S;
             // Badge sizes scale with the image so they look the same on
             // 800×600 and 1920×1080 source images.
-            const badgeR = S * 0.025;
-            const ringStroke = S * 0.006;
+            const badgeR = S * 0.024;
+            const ringStroke = S * 0.004; // thinner ring
             const badgeStroke = S * 0.004;
-            const fontSize = S * 0.028;
+            const fontSize = S * 0.026;
             const textOffsetY = fontSize * 0.35;
+            // Badge sits just OUTSIDE the ring on a diagonal so the number
+            // never covers the feature. Prefer upper-right, but fall back to
+            // the first diagonal (UR, UL, LR, LL) that keeps the badge fully in
+            // frame, so a ring near an edge can't clip its badge off-screen.
+            const badgeDist = r + badgeR + S * 0.012;
+            const diag = badgeDist * 0.707;
+            const corners: Array<[number, number]> = [
+              [cx + diag, cy - diag],
+              [cx - diag, cy - diag],
+              [cx + diag, cy + diag],
+              [cx - diag, cy + diag],
+            ];
+            const [bx, by] =
+              corners.find(
+                ([tx, ty]) =>
+                  tx - badgeR >= 0 && tx + badgeR <= W && ty - badgeR >= 0 && ty + badgeR <= H,
+              ) ?? corners[0];
             return (
               <g key={`${idx}-${m.label}`}>
                 <circle
@@ -111,19 +128,19 @@ export function AnnotatedSpeciesPhoto({
                   stroke="#5eead4"
                   strokeWidth={ringStroke}
                 />
-                {/* Numbered badge at the ring's upper-right so it doesn't
-                    obscure the feature itself. */}
+                {/* Numbered badge just outside the ring's upper-right so it
+                    never obscures the feature inside the circle. */}
                 <circle
-                  cx={cx + r * 0.707}
-                  cy={cy - r * 0.707}
+                  cx={bx}
+                  cy={by}
                   r={badgeR}
                   fill="#0f766e"
                   stroke="#ffffff"
                   strokeWidth={badgeStroke}
                 />
                 <text
-                  x={cx + r * 0.707}
-                  y={cy - r * 0.707 + textOffsetY}
+                  x={bx}
+                  y={by + textOffsetY}
                   textAnchor="middle"
                   fontSize={fontSize}
                   fontWeight={700}
