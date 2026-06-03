@@ -445,7 +445,7 @@
   },
   "Callionymus lyra": {
     "commonName": "Dragonet",
-    "shapeClass": "scooter",
+    "shapeClass": "fish",
     "bodyShape": [
       "flat-dorsoventral",
       "elongated"
@@ -479,7 +479,7 @@
   },
   "Callionymus maculatus": {
     "commonName": "Spotted dragonet",
-    "shapeClass": "scooter",
+    "shapeClass": "fish",
     "bodyShape": ["flat-dorsoventral", "elongated"],
     "size": "small",
     "coloration": ["mottled", "spotted"],

@@ -23,14 +23,6 @@
     "license": "https://creativecommons.org/publicdomain/mark/1.0/",
     "source": "https://www.phylopic.org/images/c80c9f0a-4370-404c-8716-38a684d52239"
   },
-  "scooter": {
-    "taxon": "Callionymidae",
-    "imageUuid": "aff05279-3b7e-46a8-957a-21c39c25a9c5",
-    "contributor": "Tree of Life App",
-    "attribution": "Tree of Life App",
-    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "source": "https://www.phylopic.org/images/aff05279-3b7e-46a8-957a-21c39c25a9c5"
-  },
   "jellyfish": {
     "taxon": "Scyphozoa",
     "imageUuid": "6f25228d-34f6-4a84-b52d-ce03d3fcd152",

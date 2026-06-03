@@ -62,7 +62,6 @@ const SHAPE_NOUN: Record<ShapeClass, string> = {
   crab: "crab",
   fish: "fish",
   flatfish: "flatfish",
-  scooter: "dragonet",
   jellyfish: "jellyfish",
   starfish: "starfish",
   gastropod: "snail",

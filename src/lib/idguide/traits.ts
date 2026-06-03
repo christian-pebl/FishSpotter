@@ -79,12 +79,19 @@ export const SHAPE_CLASS = [
   "crab",
   "fish",
   "flatfish",
-  "scooter",
   "jellyfish",
   "starfish",
   "gastropod",
   "squid",
 ] as const;
+// NB the `scooter` class (dragonets only) was retired on 3 Jun 2026 and folded
+// into `fish`: a downward-looking seabed camera + naive-user testing (Gemini
+// vision pass) showed beginners reliably group dragonets with bottom-dwelling
+// gobies and tap "Fish", so a hard separate gate made dragonets unreachable for
+// no discriminating gain. The dragonets carry `bodyShape: flat-dorsoventral`,
+// so the fish Rung-2 sub-split ("Flat, on the bottom") still isolates them from
+// the round-bodied gobies. Distinct from the `flatfish` class (asymmetric,
+// eyes-migrated).
 export type ShapeClass = (typeof SHAPE_CLASS)[number];
 
 // Movement is a NORMAL scored trait, not a funnel level. Surfaced by the
