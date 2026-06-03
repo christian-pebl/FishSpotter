@@ -29,6 +29,16 @@ export type SubSplit = {
 // no sub-split (and so no Rung-2 gate); fish splits on body shape, each invert
 // class on its own "form" trait.
 export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
+  crab: {
+    key: "crabForm",
+    prompt: "What was the body shape?",
+    options: [
+      { value: "broad-carapace", label: "Broad oval crab" },
+      { value: "swimming", label: "Paddle back legs (swimmer)" },
+      { value: "spider", label: "Triangular, long legs (spider)" },
+      { value: "hermit", label: "In a shell (hermit)" },
+    ],
+  },
   fish: {
     key: "bodyShape",
     prompt: "What was the overall body shape?",

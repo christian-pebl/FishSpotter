@@ -1,4 +1,32 @@
 {
+  "broad-carapace": {
+    "taxon": "Cancer bellianus (Cancridae)",
+    "imageUuid": "422060a1-0c7f-4428-b645-bdd26d815482",
+    "attribution": "Jebulon (vectorized by T. Michael Keesey), via PhyloPic",
+    "license": "Public Domain Mark 1.0",
+    "source": "https://www.phylopic.org/images/422060a1-0c7f-4428-b645-bdd26d815482"
+  },
+  "swimming": {
+    "taxon": "Callinectes sapidus (Portunidae)",
+    "imageUuid": "7197c71a-0653-4e82-bcbb-b156c150826a",
+    "attribution": "Public Domain (CC0 1.0), via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/7197c71a-0653-4e82-bcbb-b156c150826a"
+  },
+  "spider": {
+    "taxon": "Macrocheira kaempferi (Majoidea)",
+    "imageUuid": "e29b80f3-df87-46f9-ad82-be4b6c212121",
+    "attribution": "Michael Wolf (photo), Hans Hillewaert (editing), T. Michael Keesey (vectorization), via PhyloPic",
+    "license": "CC-BY-SA 3.0",
+    "source": "https://www.phylopic.org/images/e29b80f3-df87-46f9-ad82-be4b6c212121"
+  },
+  "hermit": {
+    "taxon": "Paguridae",
+    "imageUuid": "d2064615-2851-40c8-b99c-f7e5669958ee",
+    "attribution": "Kurtis Wothe, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/d2064615-2851-40c8-b99c-f7e5669958ee"
+  },
   "fusiform": {
     "taxon": "Scomber",
     "imageUuid": "5ac54f3b-2422-4d31-9920-ec90c16d4fd5",

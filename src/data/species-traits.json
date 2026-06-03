@@ -1012,6 +1012,9 @@
     "crabFeatures": [
       "marginal-teeth"
     ],
+    "crabForm": [
+      "broad-carapace"
+    ],
     "fieldNote": "Britain's commonest crab, on every kind of shore. The shell is broadest near the front with five sharp teeth down each side behind the eyes and three little bumps between them. Green to mottled brown; the back legs are pointed, never flattened into paddles."
   },
   "Cancer pagurus": {
@@ -1045,6 +1048,9 @@
     ],
     "crabFeatures": [
       "dark-claw-tips"
+    ],
+    "crabForm": [
+      "broad-carapace"
     ],
     "fieldNote": "Unmistakable once you've seen one: a broad reddish-brown shell with a crimped 'pie-crust' edge and big black-tipped pincers. Small ones hide under stones on the lower shore, while the dinner-plate-sized adults live in deeper water."
   },
@@ -1082,6 +1088,9 @@
       "swimming-paddle",
       "red-eyes"
     ],
+    "crabForm": [
+      "swimming"
+    ],
     "fieldNote": "Feisty and quick to raise its claws. The shell is covered in fine velvety fur, the back legs end in flattened swimming paddles, and the eyes are a startling red. Brownish, on sheltered rocky shores."
   },
   "Liocarcinus depurator": {
@@ -1115,6 +1124,9 @@
     ],
     "crabFeatures": [
       "swimming-paddle"
+    ],
+    "crabForm": [
+      "swimming"
     ],
     "fieldNote": "A small swimming crab of muddy sand. Reddish overall with five teeth down each side of the shell; the give-away is the flattened, paddle-shaped back legs, their tips tinged violet."
   },
@@ -1151,6 +1163,9 @@
     "crabFeatures": [
       "long-legs"
     ],
+    "crabForm": [
+      "spider"
+    ],
     "fieldNote": "A bulky spider crab with a teardrop-shaped shell and a forked, pointed snout. Often so coated in seaweed, hydroids and tubeworms that its outline is hard to make out. Long-legged and reddish brown."
   },
   "Pagurus bernhardus": {
@@ -1181,6 +1196,9 @@
     ],
     "crabFeatures": [
       "lives-in-shell"
+    ],
+    "crabForm": [
+      "hermit"
     ],
     "fieldNote": "Not a true crab but a soft-bodied animal living inside a borrowed snail shell (a periwinkle when small, a whelk when bigger). You only see its legs and unequal claws (the right one larger) poking out; the shell itself is the give-away."
   },
