@@ -149,6 +149,9 @@
         }
       ]
     },
+    "Callionymus maculatus": {
+      "buckets": [{ "count": 4 }]
+    },
     "Pleuronectes platessa": {
       "_note": "Add larva/post-settlement if iNat has it; flatfish pre-eye-migration is unrecognisable.",
       "buckets": [
@@ -165,6 +168,12 @@
           "count": 1
         }
       ]
+    },
+    "Limanda limanda": {
+      "buckets": [{ "count": 4 }]
+    },
+    "Platichthys flesus": {
+      "buckets": [{ "count": 4 }]
     },
     "Scyliorhinus canicula": {
       "_note": "Egg case is itself an ID target — annotated as 'egg' on iNat.",
