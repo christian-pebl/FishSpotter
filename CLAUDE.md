@@ -39,6 +39,8 @@
 | `scripts/adjust-gadoid-marks.ts` | One-off (kept in tree for reference) that applies the 27 May marine-biologist review: mirrors pollack coords for the right-facing iNat photo, and deletes the bib + cod seed marks because their iNat photos (mixed school, dead beach-cast) are unsuitable for teaching. Only touches rows tagged `createdBy = seed-script@pebl-cic.co.uk` so admin edits are safe. |
 | `scripts/audit-reference-ids.ts` | Q4-B1 diagnostic (read-only). Groups `Snippet.staffAnswer` by normalised label, joins SpeciesNameMap resolution, and proposes a per-label action: `keep` (species-level binomial), `backfill` (identifiable but coarse, needs a human binomial), `nullify` (indeterminate like "Fish"/"Crab" -> should become a no-reference snippet), `none` (already null). Run `npm run db:audit-references` (add `-- --json` for a machine dump). Never writes; the approved backfill/nullify + retro-score is a separate step. |
 | `scripts/confusion-matrix.ts` | Q4-B3 diagnostic (read-only). Ranks `(reference, guessed-as)` pairs from incorrect Answers (`isCorrect=false`), grouped by the live matcher's normalise key, plus a most-confused-reference rollup. This is the authoring brief for mark expansion (where the wizard most needs a discriminating mark). Run `npm run db:confusion-matrix` (`-- --limit N`, `-- --json`). Note: junk references like "Fish"/"Crab" dominate until they're nullified via the audit above. |
+| `src/lib/biodiversity/gemini-vision.ts` | **Gemini vision client (image quality tool).** Claude orchestrates; Gemini 2.5 Flash (override `GEMINI_MODEL`) does the actual vision. `assessImageQuality()` downloads a photo, sends it inline to Gemini with a strict JSON `responseSchema`, and returns a teaching-suitability assessment (subjectType, individualCount, condition, view, nonPhotographic, focus/lighting/framing/occlusion/diagnostic-feature scores 0..100, teachingScore + ideal/usable/poor/reject + a one-line note). Never throws on expected failures (returns `{ok:false,error}`); retries 429/503/500. Reads `GEMINI_API_KEY` from `.env.local` (gitignored, never commit). This is the escape hatch for the photo-curation gap: iNat "research grade" = community ID agreement, not photo composition. **Use this tool whenever a task needs accurate image analysis.** |
+| `scripts/assess-image-quality.ts` | CLI for the image quality tool. `npm run images:assess -- --species "Labrus mixtus"` ranks every cached `SpeciesImage` row for a species and recommends which to pin as a `curated` override; `--url <u> --species <s>` scores one ad-hoc image (no DB); `--all [--limit N]` sweeps the catalogue; `--json` for a machine dump. Read-only (never writes the DB). |
 | `src/lib/biodiversity/refresh.ts` | Shared library for the OBIS/GBIF probability + name-map refresh (used by `db:backfill` and the probabilities cron) |
 | `src/lib/biodiversity/refresh-images.ts` | Shared library for the iNat photo refresh (used by `db:refresh-images` and the images cron) |
 | `src/lib/biodiversity/inaturalist.ts` | iNaturalist v1 API client (CC-licensed photo fetch with optional life-stage / sex annotation filters) |
@@ -121,6 +123,18 @@ Select with `STORAGE_PROVIDER=r2` or `STORAGE_PROVIDER=supabase` (omit env var t
 6. **Drop the Supabase objects** only after a few days of production traffic confirm R2 is serving. The Snippet rows now point at R2; the Supabase objects are dead weight but harmless until removed via the Supabase dashboard.
 
 The migration is idempotent: re-running skips any row whose URL already lives under `R2_PUBLIC_URL`. Use `--force` to re-upload anyway.
+
+## Image analysis (Gemini vision tool)
+
+**When a task needs accurate image analysis, use this tool — Claude is the
+orchestrator, Gemini does the vision** (it is the stronger image model). Built 3
+Jun 2026.
+
+- **Lib:** `src/lib/biodiversity/gemini-vision.ts` — `assessImageQuality({ scientificName, commonName?, imageUrl | imageBase64 })`. Downloads the image, posts it inline to the Gemini `generateContent` REST API with `temperature: 0` and a strict JSON `responseSchema`, returns a typed `ImageQuality`. Generic enough to repurpose: change `buildPrompt` + `RESPONSE_SCHEMA` for other vision tasks (counting, OCR, feature extraction).
+- **CLI:** `npm run images:assess` (`scripts/assess-image-quality.ts`). Read-only. Modes: `--url <u> --species <s>` (one ad-hoc image, no DB), `--species <s>` (rank all cached `SpeciesImage` rows + recommend the best to pin as `curated`), `--all [--limit N]` (catalogue sweep), `--json`.
+- **Auth:** `GEMINI_API_KEY` in `.env.local` (gitignored — never commit, never write to memory/CLAUDE.md). Model via `GEMINI_MODEL` (default `gemini-2.5-flash`).
+- **Why it exists:** the photo-curation gap. iNat "research grade" means the community agrees on the *species*, not that the photo is a clean single living lateral specimen good for *teaching*. This tool reads the pixels (mixed school? dead beach-cast? engraving? wrong subject like the Aurelia-aurita-photo-of-a-person case?) and scores teaching suitability, so curation isn't a manual eyeball pass.
+- **Workflow it slots into:** `db:refresh-images` (populate cache) → `images:assess --species` (find the best photo) → pin it as a `curated` override in `species-images.json` → `db:refresh-images --species` → seed/author diagnostic marks.
 
 ## Design Tokens (CSS vars)
 
