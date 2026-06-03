@@ -867,7 +867,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             }
             aria-label="Name this species (press H)"
             title="Press H to toggle"
-            className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-center justify-center gap-2 bg-teal-500 px-5 text-sm font-semibold text-navy-900 shadow-[0_-4px_20px_rgba(0,0,0,0.45)] hover:bg-teal-400"
+            className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-center justify-center gap-2 border-t border-navy-900/15 bg-teal-500 px-5 text-sm font-semibold text-navy-900 hover:bg-teal-400"
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
