@@ -15,13 +15,12 @@
  * as a fallback for any class the fetch can't resolve.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion, useDragControls } from "framer-motion";
+import { useMemo } from "react";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
-import { DURATION, EASE } from "@/lib/motion";
+import { TileGate, MaskSilhouette, type TileSpec } from "@/components/idflow/TileGate";
 import silhouetteCredits from "@/data/silhouette-credits.json";
 
 // Which classes have a real PhyloPic asset in public/silhouettes/ (the rest
@@ -143,57 +142,6 @@ export function ShapeGate({
   onSkip: () => void;
   onClose: () => void;
 }) {
-  const [hovered, setHovered] = useState<ShapeClass | null>(null);
-  const reduceMotion = useReducedMotion();
-  const dialogRef = useRef<HTMLDivElement>(null);
-  // (3 Jun) The gate is now a draggable floating card (not a full-screen cover)
-  // so the clip keeps playing/visible behind it and the user can move it.
-  const dragControls = useDragControls();
-  const constraintsRef = useRef<HTMLDivElement>(null);
-
-  // Modal a11y (UX review P1): the gate declared role=dialog/aria-modal but had
-  // no focus trap, Escape, or focus restore. Mirror the IdGuideSheet/SideMenu
-  // pattern — store focus, move into the dialog, Escape closes, Tab is trapped,
-  // restore on unmount. The gate mounts/unmounts with shapeGateOpen, so this
-  // runs once per open.
-  useEffect(() => {
-    const lastFocused = document.activeElement as HTMLElement | null;
-    const dialog = dialogRef.current;
-    dialog
-      ?.querySelector<HTMLElement>("button:not([disabled]), [tabindex]:not([tabindex='-1'])")
-      ?.focus();
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-        return;
-      }
-      if (e.key !== "Tab" || !dialog) return;
-      const focusables = dialog.querySelectorAll<HTMLElement>(
-        "button:not([disabled]), [tabindex]:not([tabindex='-1'])",
-      );
-      if (focusables.length === 0) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    window.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-      lastFocused?.focus?.();
-    };
-  }, [onClose]);
-
   const candidateCounts = useMemo(() => {
     const out: Partial<Record<ShapeClass, number>> = {};
     for (const sc of SHAPE_CLASS) {
@@ -204,151 +152,33 @@ export function ShapeGate({
     return out;
   }, []);
 
-  // No AnimatePresence wrapper: the parent mounts/unmounts ShapeGate via
-  // {shapeGateOpen && ...}, so an exit animation never plays anyway. A plain
-  // motion.div also keeps the dialog ref off an AnimatePresence child (which
-  // warns "ref is not a prop" in React 18).
+  const tiles: TileSpec[] = TILES.map(({ key, label, Icon }) => {
+    const count = candidateCounts[key] ?? 0;
+    return {
+      key,
+      label,
+      badge: count,
+      disabled: count === 0,
+      ariaLabel: `${label}${count > 0 ? `, ${count} species` : ", none in catalogue yet"}`,
+      icon: HAS_SILHOUETTE.has(key) ? (
+        // UX-5: real PhyloPic silhouette (CC0/PD), tinted via mask + bg-current.
+        <MaskSilhouette src={`/silhouettes/${key}.svg`} />
+      ) : (
+        <Icon />
+      ),
+    };
+  });
+
   return (
-    // Full-card constraints region — no backdrop, pointer-events pass through so
-    // the clip keeps playing and stays interactive (play/pause) around the card.
-    <div ref={constraintsRef} className="pointer-events-none absolute inset-0 z-30">
-      {/* Positioning wrapper centres the card; the card itself drags via a
-          framer transform, so centring and drag don't fight each other. */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 w-[min(32rem,calc(100%-1.5rem))] -translate-x-1/2 -translate-y-1/2">
-      <motion.div
-        ref={dialogRef}
-        drag
-        dragControls={dragControls}
-        dragListener={false}
-        dragMomentum={false}
-        dragElastic={0.05}
-        dragConstraints={constraintsRef}
-        initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={reduceMotion ? { duration: 0 } : { duration: DURATION.standard, ease: EASE.enter }}
-        className="pointer-events-auto relative rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
-        style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}
-        role="dialog"
-        aria-modal="false"
-        aria-label="What shape is it?"
-      >
-        {/* Drag handle — drag only starts here (dragListener=false), so the
-            tiles stay tappable. */}
-        <button
-          type="button"
-          onPointerDown={(e) => dragControls.start(e)}
-          aria-label="Drag to move this box"
-          className="absolute left-1/2 top-0 flex h-7 w-12 -translate-x-1/2 cursor-grab touch-none items-center justify-center text-white/35 hover:text-white/70 active:cursor-grabbing"
-        >
-          <svg width="16" height="6" viewBox="0 0 16 6" fill="currentColor" aria-hidden="true">
-            <circle cx="3" cy="1.5" r="1" /><circle cx="8" cy="1.5" r="1" /><circle cx="13" cy="1.5" r="1" />
-            <circle cx="3" cy="4.5" r="1" /><circle cx="8" cy="4.5" r="1" /><circle cx="13" cy="4.5" r="1" />
-          </svg>
-        </button>
-        {/* (3 Jun) Clear "Hide" affordance — dismisses the gate and returns to
-            watching the looping clip. */}
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Hide and go back to the video"
-          title="Back to the video"
-          className="absolute right-2 top-1 inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
-        >
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-            <path d="M7 11l-3.5-4L7 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          Hide
-        </button>
-
-        <div>
-          <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-widest text-white/50">
-            What shape is it, roughly?
-          </p>
-
-          {/* 4 × 2 silhouette grid */}
-          <div className="grid grid-cols-4 gap-2">
-            {TILES.map(({ key, label, Icon }) => {
-              const count = candidateCounts[key] ?? 0;
-              const isEmpty = count === 0;
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  disabled={isEmpty}
-                  onClick={() => onSelectShape(key)}
-                  onMouseEnter={() => setHovered(key)}
-                  onMouseLeave={() => setHovered(null)}
-                  aria-label={`${label}${count > 0 ? `, ${count} species` : ", none in catalogue yet"}`}
-                  className={[
-                    "relative flex min-h-[72px] flex-col items-center justify-center gap-1.5 rounded-modal border p-2 transition-colors",
-                    isEmpty
-                      ? "cursor-not-allowed border-white/10 opacity-35"
-                      : hovered === key
-                        ? "border-teal-400 bg-teal-500/20 text-teal-300"
-                        : "border-white/15 bg-white/5 text-teal-500 hover:border-teal-400 hover:bg-teal-500/20 hover:text-teal-300",
-                  ].join(" ")}
-                >
-                  <span className="flex h-8 w-8 items-center justify-center">
-                    {HAS_SILHOUETTE.has(key) ? (
-                      // UX-5: real PhyloPic silhouette (CC0/PD) served as a
-                      // static file and tinted via CSS mask + bg-current, so it
-                      // inherits the tile's teal and hover-recolors with zero
-                      // JS-bundle cost. Credits in silhouette-credits.json.
-                      <span
-                        aria-hidden="true"
-                        className="block h-full w-full bg-current"
-                        style={{
-                          maskImage: `url(/silhouettes/${key}.svg)`,
-                          WebkitMaskImage: `url(/silhouettes/${key}.svg)`,
-                          maskRepeat: "no-repeat",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskPosition: "center",
-                          WebkitMaskPosition: "center",
-                          maskSize: "contain",
-                          WebkitMaskSize: "contain",
-                        }}
-                      />
-                    ) : (
-                      <Icon />
-                    )}
-                  </span>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-white/70">
-                    {label}
-                  </span>
-                  {count > 0 && (
-                    <span className="absolute right-1.5 top-1.5 rounded-full bg-teal-600/80 px-1 text-[10px] font-bold text-white">
-                      {count}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Not sure + skip row */}
-          <div className="mt-3 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => onSelectShape(null)}
-              className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
-            >
-              Not sure
-            </button>
-            <button
-              type="button"
-              onClick={onSkip}
-              className="inline-flex min-h-[44px] items-center gap-1 px-2 -mx-2 text-[10px] uppercase tracking-wider text-teal-400/80 hover:text-teal-300"
-            >
-              Skip to guess
-              <svg viewBox="0 0 14 14" className="h-3 w-3" fill="none" aria-hidden="true">
-                <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </motion.div>
-      </div>
-    </div>
+    <TileGate
+      ariaLabel="What shape is it?"
+      title="What shape is it, roughly?"
+      tiles={tiles}
+      columns={4}
+      onSelect={(key) => onSelectShape(key as ShapeClass)}
+      onClose={onClose}
+      notSure={{ label: "Not sure", onClick: () => onSelectShape(null) }}
+      skip={{ label: "Skip to guess", onClick: onSkip }}
+    />
   );
 }

@@ -26,6 +26,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { narrowCandidates, speciesValuesFor, type Candidate, type TraitKey } from "@/lib/idguide/narrow";
 import { nextBestTrait } from "@/lib/idguide/next-trait";
 import { traitQuestion } from "@/lib/idflow/trait-questions";
+import { SUB_SPLITS } from "@/lib/idflow/body-forms";
 import speciesTraitsData from "@/data/species-traits.json";
 import type { ShapeClass, SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
 import { TRANSITION } from "@/lib/motion";
@@ -37,66 +38,11 @@ const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 
 const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
-// UX-3: branch-specific Rung 2 sub-split — a single visual, multi-option first
-// cut shown BEFORE the adaptive yes/no questions, but only when it actually
-// divides the candidates. Per the UX plan it is "0-1 steps" and "many branches
-// have zero sub-splits": flatfish/scooter have one species each, so they get
-// none; fish (26 species) splits on body shape, and each invert tile splits on
-// its own "form" trait (cephalopod / arm / shell / bell). The labels mirror the
-// existing IdGuideWizard phrasing for consistency.
-type SubSplit = { key: TraitKey; prompt: string; options: { value: string; label: string }[] };
-const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
-  fish: {
-    key: "bodyShape",
-    prompt: "What was the overall body shape?",
-    options: [
-      { value: "fusiform", label: "Torpedo / streamlined" },
-      { value: "laterally-compressed", label: "Tall and thin" },
-      { value: "elongated", label: "Long and slender" },
-      { value: "eel-like", label: "Eel-like" },
-      { value: "flat-dorsoventral", label: "Flat, on the bottom" },
-    ],
-  },
-  squid: {
-    key: "cephalopodForm",
-    prompt: "What was the overall body plan?",
-    options: [
-      { value: "cuttlefish", label: "Broad body, fin all round" },
-      { value: "squid", label: "Torpedo, fins at the tail" },
-      { value: "bobtail", label: "Tiny, ear-like fins" },
-      { value: "octopus", label: "Eight arms, no fins" },
-    ],
-  },
-  starfish: {
-    key: "armForm",
-    prompt: "What were the arms like?",
-    options: [
-      { value: "short-stubby", label: "Five short fat arms" },
-      { value: "long-spiny", label: "Long arms, rows of spines" },
-      { value: "long-smooth", label: "Long arms, no spines" },
-      { value: "thin-whippy", label: "Thread-thin whippy arms" },
-    ],
-  },
-  gastropod: {
-    key: "shellShape",
-    prompt: "What was the shell like?",
-    options: [
-      { value: "flat-cone", label: "Low cone on the rock" },
-      { value: "pointed-cone", label: "Tall pointed spire" },
-      { value: "rounded-squat", label: "Squat rounded whorl" },
-      { value: "no-shell", label: "No shell (slug-like)" },
-    ],
-  },
-  jellyfish: {
-    key: "bellForm",
-    prompt: "What was the bell like?",
-    options: [
-      { value: "saucer", label: "Saucer, short tentacles" },
-      { value: "frilly-arms", label: "Solid bell, frilly arms" },
-      { value: "trailing-mass", label: "Long trailing tentacles" },
-    ],
-  },
-};
+// UX-3: branch-specific Rung 2 sub-split now lives in @/lib/idflow/body-forms
+// (SUB_SPLITS), shared with the Rung-2 BodyShapeGate. When the gate has owned
+// Rung 2 it passes a `seed` (below), which pre-marks the sub-split key as asked,
+// so the inline sub-split here is suppressed and only the gate-less paths
+// (e.g. crab, or "Not sure") fall back to rendering it inline.
 
 // Distinct values a trait takes across the candidate set — used to decide
 // whether a sub-split (or any option) would actually discriminate.
@@ -141,6 +87,7 @@ export function CandidateStrip({
   onPick,
   onChangeShape,
   onSkipToMCQ,
+  seed,
 }: {
   /** null = the user tapped "Not sure" at the gate: narrow the whole catalogue
    *  (the weighted best-guess set) instead of dead-ending — the murky-safe path. */
@@ -152,6 +99,10 @@ export function CandidateStrip({
   onChangeShape: () => void;
   /** Bail out to the MCQ when narrowing reaches zero candidates after answering. */
   onSkipToMCQ?: () => void;
+  /** Rung-2 result handed down from the BodyShapeGate: the sub-split trait key
+   *  and the chosen form value (null = the user skipped the form). Seeds the
+   *  narrowing and marks the key asked so the inline sub-split is not re-shown. */
+  seed?: { key: TraitKey; value: string | null };
 }) {
   const reduceMotion = useReducedMotion();
   // Rung 3 state: accumulated yes/no trait answers + which traits we've asked.
@@ -159,12 +110,23 @@ export function CandidateStrip({
   const [mustNotHave, setMustNotHave] = useState<TraitSelection>({});
   const [askedKeys, setAskedKeys] = useState<TraitKey[]>([]);
 
-  // Reset the trait loop whenever the gate changes the shape class.
+  // Reset (and seed) the trait loop whenever the shape class — or the Rung-2
+  // seed — changes. seedSig is a primitive so this doesn't re-run (and wipe the
+  // user's in-progress answers) on every render from the object identity churn.
+  const seedSig = seed ? `${seed.key}:${seed.value ?? ""}` : "";
   useEffect(() => {
-    setMustHave({});
-    setMustNotHave({});
-    setAskedKeys([]);
-  }, [shapeClass]);
+    if (seed) {
+      setMustHave(seed.value ? ({ [seed.key]: [seed.value] } as TraitSelection) : {});
+      setMustNotHave({});
+      setAskedKeys([seed.key]);
+    } else {
+      setMustHave({});
+      setMustNotHave({});
+      setAskedKeys([]);
+    }
+    // seedSig captures `seed`; depending on the object itself would thrash.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shapeClass, seedSig]);
 
   const candidates = useMemo(
     // Limit well above the catalogue size: the shrinking count IS the feature,

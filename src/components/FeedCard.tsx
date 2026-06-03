@@ -13,7 +13,10 @@ import { MCQCandidatePicker } from "./MCQCandidatePicker";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 import { ShapeGate } from "./ShapeGate";
+import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateStrip } from "./idflow/CandidateStrip";
+import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
+import type { TraitKey } from "@/lib/idguide/narrow";
 import type { ShapeClass } from "@/lib/idguide/traits";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 
@@ -133,6 +136,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // UX-0: "Spot It" shape-class gate.
   const [shapeGateOpen, setShapeGateOpen] = useState(false);
   const [selectedShape, setSelectedShape] = useState<ShapeClass | null>(null);
+  // (3 Jun) Rung 2: the body-shape gate, shown between the shape gate and the
+  // strip for classes that have a discriminating sub-split. formSeed carries the
+  // chosen form down into the strip's narrowing.
+  const [bodyGateOpen, setBodyGateOpen] = useState(false);
+  const [formSeed, setFormSeed] = useState<{ key: TraitKey; value: string | null } | null>(null);
   // The Spot It strip shows once the user engages the gate, including via
   // "Not sure" (selectedShape stays null -> the strip narrows the whole
   // catalogue). Distinct from selectedShape so "Not sure" never dead-ends.
@@ -899,7 +907,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               onClick={() => {
                 togglePanel(false);
                 // Lead with the step-by-step shape flow, not the MCQ tiles.
-                if (!myAnswer && !guessMode && !spotItActive) setShapeGateOpen(true);
+                if (!myAnswer && !guessMode && !spotItActive && !bodyGateOpen) setShapeGateOpen(true);
                 try {
                   localStorage.setItem("fishspotter:hasIdentified", "1");
                 } catch {}
@@ -1225,6 +1233,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         setSpotItActive(false);
                         setGuessMode(true);
                       }}
+                      seed={formSeed ?? undefined}
                     />
                   )}
                 </>
@@ -1510,8 +1519,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         <ShapeGate
           onSelectShape={(shape) => {
             setSelectedShape(shape);
-            setSpotItActive(true);
+            setFormSeed(null);
             setShapeGateOpen(false);
+            // Rung 2: if this class has a discriminating body-shape sub-split,
+            // show the body gate next; otherwise go straight to the strip.
+            if (shape && bodyFormConfigFor(shape)) {
+              setBodyGateOpen(true);
+            } else {
+              setSpotItActive(true);
+            }
           }}
           onSkip={() => {
             // "Skip to guess" — reveal the MCQ tile grid as the fallback.
@@ -1519,6 +1535,24 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             setGuessMode(true);
           }}
           onClose={() => setShapeGateOpen(false)}
+        />
+      )}
+
+      {/* Rung 2: body-shape gate. Same draggable dark card as Rung 1; the clip
+          keeps playing behind it. Picking a form seeds the strip's narrowing. */}
+      {bodyGateOpen && selectedShape && (
+        <BodyShapeGate
+          shapeClass={selectedShape}
+          onSelectForm={(key, value) => {
+            setFormSeed({ key, value });
+            setBodyGateOpen(false);
+            setSpotItActive(true);
+          }}
+          onSkip={() => {
+            setBodyGateOpen(false);
+            setGuessMode(true);
+          }}
+          onClose={() => setBodyGateOpen(false)}
         />
       )}
     </article>
