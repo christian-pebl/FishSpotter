@@ -129,6 +129,11 @@ const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "squid",      label: "Squid",      Icon: SilSquid },
 ];
 
+/** ShapeClass → its gate label, for breadcrumbs in later rungs. */
+export const SHAPE_CLASS_LABEL = Object.fromEntries(
+  TILES.map((t) => [t.key, t.label]),
+) as Record<ShapeClass, string>;
+
 // ---------------------------------------------------------------------------
 
 export function ShapeGate({

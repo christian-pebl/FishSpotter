@@ -12,9 +12,9 @@ import { IdGuideTrigger } from "./IdGuideTrigger";
 import { MCQCandidatePicker } from "./MCQCandidatePicker";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
-import { ShapeGate } from "./ShapeGate";
+import { ShapeGate, SHAPE_CLASS_LABEL } from "./ShapeGate";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
-import { CandidateStrip } from "./idflow/CandidateStrip";
+import { CandidateGate } from "./idflow/CandidateGate";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
 import type { TraitKey } from "@/lib/idguide/narrow";
 import type { ShapeClass } from "@/lib/idguide/traits";
@@ -149,6 +149,30 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // "Spot It" shape gate; the MCQ tile grid is no longer shown first — it only
   // renders as a "skip to guess" fallback once the user opts into it.
   const [guessMode, setGuessMode] = useState(false);
+  // (3 Jun) Breadcrumb labels + whether Rung 2 applies, for the gates' Back /
+  // breadcrumb nav. Cheap to derive; memoised so playback re-renders don't churn it.
+  const rungNav = useMemo(() => {
+    const rung2Applies = selectedShape ? !!bodyFormConfigFor(selectedShape) : false;
+    const shapeLabel = selectedShape ? SHAPE_CLASS_LABEL[selectedShape] : "Any shape";
+    const formLabel =
+      formSeed?.value && selectedShape
+        ? bodyFormConfigFor(selectedShape)?.options.find((o) => o.value === formSeed.value)?.label ?? null
+        : null;
+    return { rung2Applies, shapeLabel, formLabel };
+  }, [selectedShape, formSeed]);
+  // Jump back to a given rung, resetting downstream picks so they're re-made.
+  const goToRung1 = useCallback(() => {
+    setSpotItActive(false);
+    setBodyGateOpen(false);
+    setFormSeed(null);
+    setShapeGateOpen(true);
+  }, []);
+  const goToRung2 = useCallback(() => {
+    setSpotItActive(false);
+    setShapeGateOpen(false);
+    setFormSeed(null);
+    setBodyGateOpen(true);
+  }, []);
   // (3 Jun) "Show where on screen" radar ping — concentric rings that track the
   // bbox trail head so the user can find the creature in the clip. tracePosRef
   // is updated each frame by the trail render loop; the ping element follows it.
@@ -892,7 +916,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {/* Collapsed pill — replaces the panel when minimized. Also hidden while a
           gate is open so the gate is the only box on screen. */}
       <AnimatePresence>
-        {panelCollapsed && !shapeGateOpen && !bodyGateOpen && (
+        {panelCollapsed && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
           <motion.div
             key="identify-bar"
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -952,7 +976,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {/* Floating glass panel — Claude-style input or stats card. Hidden while a
           gate (shape or body) is open so only the gate box shows, not two. */}
       <AnimatePresence>
-        {!panelCollapsed && !shapeGateOpen && !bodyGateOpen && (
+        {!panelCollapsed && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
           <div
             className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(420px,calc(40%-1rem))]"
             style={
@@ -1217,27 +1241,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     </div>
                   )}
 
-                  {/* UX-1: shrinking candidate strip. Appears once the gate has
-                      set a shape class; lists the narrowed catalogue species as
-                      tappable chips. Tapping commits via the same submit path as
-                      the MCQ (onPick), so the unauth signin-carry is honoured. */}
-                  {spotItActive && (
-                    <CandidateStrip
-                      shapeClass={selectedShape}
-                      submitting={submitting}
-                      onPick={(name) =>
-                        void submitAndAdvance(() =>
-                          handleSubmit({ answerText: name }),
-                        )
-                      }
-                      onChangeShape={() => setShapeGateOpen(true)}
-                      onSkipToMCQ={() => {
-                        setSpotItActive(false);
-                        setGuessMode(true);
-                      }}
-                      seed={formSeed ?? undefined}
-                    />
-                  )}
+                  {/* UX-1 (3 Jun): Rung 3 moved out of the panel into its own
+                      draggable gate (CandidateGate), rendered at the article
+                      level below — so the panel is hidden while it's open. */}
                 </>
               ) : (
                 <AnimatePresence mode="wait">
@@ -1541,7 +1547,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       )}
 
       {/* Rung 2: body-shape gate. Same draggable dark card as Rung 1; the clip
-          keeps playing behind it. Picking a form seeds the strip's narrowing. */}
+          keeps playing behind it. Picking a form seeds Rung 3's narrowing. */}
       {bodyGateOpen && selectedShape && (
         <BodyShapeGate
           shapeClass={selectedShape}
@@ -1555,6 +1561,34 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             setGuessMode(true);
           }}
           onClose={() => setBodyGateOpen(false)}
+          onBack={goToRung1}
+          breadcrumb={[{ label: rungNav.shapeLabel, onClick: goToRung1 }]}
+        />
+      )}
+
+      {/* Rung 3: the final pick, a draggable gate of candidate photos. Replaces
+          the old in-panel strip; the panel is hidden while this is open. Gated on
+          !myAnswer so it closes to the reveal once a guess is committed. */}
+      {spotItActive && !myAnswer && (
+        <CandidateGate
+          shapeClass={selectedShape}
+          seed={formSeed ?? undefined}
+          submitting={submitting}
+          onPick={(name) =>
+            void submitAndAdvance(() => handleSubmit({ answerText: name }))
+          }
+          onClose={() => setSpotItActive(false)}
+          onBack={rungNav.rung2Applies ? goToRung2 : goToRung1}
+          breadcrumb={[
+            { label: rungNav.shapeLabel, onClick: goToRung1 },
+            ...(rungNav.rung2Applies
+              ? [{ label: rungNav.formLabel ?? "Any shape", onClick: goToRung2 }]
+              : []),
+          ]}
+          onSkipToMCQ={() => {
+            setSpotItActive(false);
+            setGuessMode(true);
+          }}
         />
       )}
     </article>
