@@ -63,7 +63,7 @@ export function SettingsMenu() {
             transition={{ duration: DURATION.micro, ease: EASE.enter }}
             role="dialog"
             aria-label="Video settings"
-            className="absolute right-0 top-full z-50 mt-2 w-72 origin-top-right rounded-2xl border border-white/12 bg-navy-900/92 p-3 text-white shadow-menu backdrop-blur-md"
+            className="absolute right-0 top-full z-50 mt-2 w-72 origin-top-right rounded-modal border border-white/12 bg-navy-900/92 p-3 text-white shadow-menu backdrop-blur-md"
           >
             <p className="mb-2 text-[10px] font-semibold uppercase tracking-eyebrow text-white/55">
               Settings

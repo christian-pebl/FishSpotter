@@ -145,7 +145,7 @@ export function MCQCandidatePicker({
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
-            className="aspect-square animate-pulse rounded-2xl bg-white/8"
+            className="aspect-square animate-pulse motion-reduce:animate-none rounded-modal bg-white/8"
             aria-hidden="true"
           />
         ))}
@@ -186,7 +186,7 @@ export function MCQCandidatePicker({
             whileTap={!submitting ? { scale: 0.96 } : undefined}
             onClick={() => onPick(candidate.commonName)}
             aria-label={`Pick ${candidate.commonName}`}
-            className="group flex flex-col items-stretch overflow-hidden rounded-2xl border border-white/12 bg-white/5 transition-colors hover:border-teal-500/70 hover:bg-white/10 disabled:opacity-60"
+            className="group flex flex-col items-stretch overflow-hidden rounded-modal border border-white/12 bg-white/5 transition-colors hover:border-teal-500/70 hover:bg-white/10 disabled:opacity-60"
           >
             {candidate.thumbUrl ? (
               // eslint-disable-next-line @next/next/no-img-element -- iNat hosts can change ID per refresh; <Image> would force us to allowlist every origin in next.config.

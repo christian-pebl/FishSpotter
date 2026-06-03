@@ -105,6 +105,21 @@ export function isAcceptedLicense(licenseSlug: string | undefined, usageTerms: s
   return false;
 }
 
+// The Commons name search matches on file title + description text, so it
+// happily returns historical engravings, museum plates, lithographs and
+// non-web raster formats whose caption mentions the binomial (e.g. Haeckel
+// and Iconographia Zoologica plates, or a `.tif` scan). Those are useless as
+// "what you'd see underwater" reference photos, so drop them. NB this cannot
+// catch a wrong-SUBJECT modern photo whose filename coincidentally contains
+// the binomial (e.g. a person named "Aurelia Aurita") — only a human eye does
+// — which is why teaching content (DiagnosticMark) is gated to curated photos.
+const NON_PHOTO_EXTENSIONS = /\.(tif|tiff|svg|pdf|djvu|gif)$/i;
+const NON_PHOTO_TITLE = /haeckel|iconographia|lithograph|engraving|\bplate\b|\bprint\b|drawing|illustration|woodcut|\b1[5-9]\d\d\b/i;
+
+export function looksNonPhotographic(title: string | undefined, url: string | undefined): boolean {
+  return NON_PHOTO_EXTENSIONS.test(url ?? "") || NON_PHOTO_TITLE.test(title ?? "");
+}
+
 function normaliseLicense(licenseSlug: string | undefined): string {
   const slug = (licenseSlug ?? "").toLowerCase().trim();
   if (slug.startsWith("cc-by-nc-")) return "cc-by-nc";
@@ -159,6 +174,7 @@ export async function fetchPhotosFromWikimedia(args: {
   for (const page of pages) {
     const info = page.imageinfo?.[0];
     if (!info?.url) continue;
+    if (looksNonPhotographic(page.title, info.url)) continue;
     const licenseSlug = info.extmetadata?.License?.value;
     const usageTerms = info.extmetadata?.UsageTerms?.value;
     if (!isAcceptedLicense(licenseSlug, usageTerms)) continue;

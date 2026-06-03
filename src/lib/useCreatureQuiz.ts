@@ -18,9 +18,12 @@ import { triggerCorrectConfetti } from "@/lib/confetti";
 // currently-mounted snippet and auto-submits. Cleared after one shot.
 const PENDING_ANSWER_KEY = "fishspotter:pendingAnswer";
 
+const PENDING_ANSWER_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+
 interface PendingAnswer {
   snippetId: string;
   chosenOption: string;
+  timestamp?: number;
 }
 
 function readPendingAnswer(): PendingAnswer | null {
@@ -33,7 +36,15 @@ function readPendingAnswer(): PendingAnswer | null {
       typeof parsed?.snippetId === "string" &&
       typeof parsed?.chosenOption === "string"
     ) {
-      return { snippetId: parsed.snippetId, chosenOption: parsed.chosenOption };
+      // Drop stale entries (older than 24 h).
+      if (
+        typeof parsed.timestamp === "number" &&
+        Date.now() - parsed.timestamp > PENDING_ANSWER_MAX_AGE_MS
+      ) {
+        window.sessionStorage.removeItem(PENDING_ANSWER_KEY);
+        return null;
+      }
+      return { snippetId: parsed.snippetId, chosenOption: parsed.chosenOption, timestamp: parsed.timestamp };
     }
   } catch {
     // Ignore malformed values; we'll just skip the carry.
@@ -55,7 +66,7 @@ function stashPendingAnswer(snippetId: string, chosenOption: string): void {
   try {
     window.sessionStorage.setItem(
       PENDING_ANSWER_KEY,
-      JSON.stringify({ snippetId, chosenOption }),
+      JSON.stringify({ snippetId, chosenOption, timestamp: Date.now() }),
     );
   } catch {
     // ignore — non-essential
@@ -231,7 +242,10 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
             playCorrect();
             triggerCorrectConfetti();
           }
-        } else if (isCorrect === false) {
+        } else if (isCorrect === false && points === 0) {
+          // Only a true miss buzzes. A shape-class partial credit (points > 0,
+          // "Spot It" Workstream E) is encouraging, not an error, so it stays
+          // silent — the reveal's "Close · +1" pill carries the signal.
           playWrong();
         }
         // S7-T1: when isCorrect is null (no reference yet) the submission

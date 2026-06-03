@@ -26,7 +26,7 @@ export default async function ResetPasswordPage({
       tabIndex={-1}
       className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-12"
     >
-      <div className="pebl-surface rounded-hero p-6 md:p-8">
+      <div className="pebl-surface rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">Set a new password</p>
         {expired ? (
           <>

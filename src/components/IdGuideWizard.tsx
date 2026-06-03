@@ -229,7 +229,7 @@ export function IdGuideWizard({
             {candidates.length} match{candidates.length === 1 ? "" : "es"} so far
           </span>
         </div>
-        <h3 className="pb-1 text-base font-semibold text-white/90">{step.question}</h3>
+        <h3 className="pb-1 text-h3 text-white/90">{step.question}</h3>
         <WhyHint hint={step.whyHint} />
         <div className="space-y-2">
           {step.options.map((opt) => (
@@ -405,7 +405,7 @@ function Footer({
         <button
           type="button"
           onClick={onSwitchToChips}
-          className="text-white/35 transition-colors hover:text-white/70"
+          className="text-white/70 transition-colors hover:text-white"
         >
           All traits
         </button>

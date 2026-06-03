@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { MarineFrame } from "@/components/MarineFrame";
 
 export default function Error({
   error,
@@ -15,12 +16,13 @@ export default function Error({
   }, [error]);
 
   return (
-    <main
-      id="main"
-      tabIndex={-1}
-      className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-12"
-    >
-      <div className="pebl-surface rounded-hero p-6 md:p-8 text-center">
+    <MarineFrame>
+      <main
+        id="main"
+        tabIndex={-1}
+        className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-12"
+      >
+        <div className="pebl-surface rounded-card p-6 md:p-8 text-center">
         <p className="pebl-eyebrow">Something went wrong</p>
         <h1 className="mt-3 font-brand text-h1 text-navy-900">
           We hit a snag loading this page.
@@ -42,6 +44,7 @@ export default function Error({
           </Link>
         </div>
       </div>
-    </main>
+      </main>
+    </MarineFrame>
   );
 }

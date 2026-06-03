@@ -36,7 +36,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
 
   return (
     <div className="space-y-6">
-      <div className="pebl-surface overflow-hidden rounded-hero p-3">
+      <div className="pebl-surface overflow-hidden rounded-card p-3">
         <div className="relative mx-auto aspect-[9/16] max-h-[70vh] overflow-hidden rounded-card bg-navy-900">
         <video
           src={snippet.videoUrl}
@@ -85,7 +85,7 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
               autoComplete="off"
               aria-describedby={submitError ? `species-error-${snippet.id}` : undefined}
               aria-invalid={!!submitError}
-              className="mb-4 w-full max-w-md rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] outline-none placeholder:text-[color:var(--muted)] focus:border-[color:var(--primary)]"
+              className="mb-4 w-full max-w-md rounded-modal border border-[color:var(--border)] bg-[color:var(--surface-muted)] px-4 py-3 text-[color:var(--foreground)] outline-none placeholder:text-[color:var(--muted)] focus:border-[color:var(--primary)]"
               style={{
                 color: "var(--foreground)",
                 WebkitTextFillColor: "var(--foreground)",
@@ -163,13 +163,23 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
                     className="inline-flex items-center gap-1 rounded-full bg-correct px-2 py-0.5 text-[11px] font-bold tracking-wide text-correct-ink"
+                    aria-label="Correct, plus 2 points"
                   >
-                    ✓ Correct · +2
+                    <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                      <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Correct · +2
                   </motion.span>
                 )}
                 {myAnswer.isCorrect === false && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink">
-                    ✗ Wrong
+                  <span
+                    className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink"
+                    aria-label="Wrong"
+                  >
+                    <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                      <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    Wrong
                   </span>
                 )}
                 {myAnswer.isCorrect === null && (
@@ -178,8 +188,12 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
                     className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink"
+                    aria-label="Bonus, plus 1 point"
                   >
-                    ★ +1 Bonus
+                    <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                      <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                    </svg>
+                    +1 Bonus
                   </motion.span>
                 )}
               </p>
@@ -200,13 +214,22 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
                 {stats.staffAnswer ? (
                   <p className="mt-2 text-sm text-[color:var(--muted)]">Reference: {stats.staffAnswer}</p>
                 ) : (
-                  <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink">
-                    ★ +1 Bonus · reference pending
+                  <p
+                    className="mt-2 inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink"
+                    aria-label="Bonus, plus 1 point. Reference identification pending."
+                  >
+                    <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                      <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                    </svg>
+                    +1 Bonus · reference pending
                   </p>
                 )}
               </div>
-              <Link href="/feed" className="inline-flex text-[color:var(--primary)] underline underline-offset-4">
-                ← Back to live feed
+              <Link href="/feed" className="inline-flex items-center gap-1 text-teal-600 underline underline-offset-4">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M9.5 6h-6M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Back to live feed
               </Link>
             </motion.div>
           </AnimatePresence>

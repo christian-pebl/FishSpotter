@@ -15,12 +15,8 @@ type StreamEvent =
   | { type: "error"; message: string };
 
 const MAX_USER_TURNS = 8;
-// TODO(region): "Welsh coast" is hardcoded to the current deployment
-// region. When the snippet library expands beyond Welsh waters, derive
-// the region from the active deployments (or drop the geography clause)
-// rather than asserting it in the seed greeting + persona prompt.
 const SEED_GREETING =
-  "Hi, I help spot fish from PEBL clips on the Welsh coast. Tell me what stands out: shape, colour, markings, how it's moving, or where it is. I'll narrow it down with you.";
+  "Hi, I help identify marine life from PEBL underwater clips. Tell me what stands out: shape, colour, markings, how it's moving, or where on the seabed it is. I'll narrow it down with you.";
 
 export function IdGuideChat({
   snippetId,
@@ -172,8 +168,8 @@ export function IdGuideChat({
               key={i}
               className={
                 m.role === "user"
-                  ? "ml-auto max-w-[80%] rounded-2xl bg-teal-500 px-3 py-2 text-sm text-navy-900"
-                  : "mr-auto max-w-[85%] rounded-2xl bg-white/10 px-3 py-2 text-sm text-white/90"
+                  ? "ml-auto max-w-[80%] rounded-modal bg-teal-500 px-3 py-2 text-sm text-navy-900"
+                  : "mr-auto max-w-[85%] rounded-modal bg-white/10 px-3 py-2 text-sm text-white/90"
               }
             >
               {m.content || (isStreamingBubble ? <ThinkingDots /> : null)}
@@ -192,13 +188,13 @@ export function IdGuideChat({
                 return (
                   <div
                     key={c.scientificName}
-                    className="rounded-xl border border-white/10 bg-white/5"
+                    className="rounded-modal border border-white/10 bg-white/5"
                   >
                     <button
                       type="button"
                       onClick={() => setExpanded(isExpanded ? null : c.scientificName)}
                       aria-expanded={isExpanded}
-                      className="block w-full px-2.5 py-1.5 text-left text-[12px] hover:bg-white/10"
+                      className="flex min-h-[44px] w-full flex-col justify-center px-2.5 py-1.5 text-left text-[12px] hover:bg-white/10"
                     >
                       <div className="flex items-baseline justify-between gap-2">
                         <span className="text-white/90">{c.commonName}</span>
@@ -217,7 +213,7 @@ export function IdGuideChat({
                         <button
                           type="button"
                           onClick={() => onPickCandidate(c.commonName)}
-                          className="mt-2 rounded-full bg-teal-500 px-3 py-1 text-[11px] font-semibold text-navy-900 hover:bg-teal-400"
+                          className="mt-2 inline-flex min-h-[44px] items-center rounded-full bg-teal-500 px-3 text-[11px] font-semibold text-navy-900 hover:bg-teal-400"
                         >
                           Use this as my answer
                         </button>
@@ -234,7 +230,7 @@ export function IdGuideChat({
         )}
 
         {error && (
-          <div className="rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs text-red-200">
+          <div className="rounded-modal border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs text-red-200">
             {error}.{" "}
             <button onClick={onFallback} className="underline hover:text-red-100">
               Switch to manual filter
@@ -263,7 +259,7 @@ export function IdGuideChat({
             }
             rows={1}
             disabled={streaming || turnsRemaining <= 0}
-            className="max-h-24 flex-1 resize-none rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-teal-500 focus:outline-none disabled:opacity-50"
+            className="max-h-24 min-h-[44px] flex-1 resize-none rounded-modal border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-teal-500 focus:outline-none disabled:opacity-50"
           />
           {streaming ? (
             <button
@@ -300,9 +296,9 @@ export function IdGuideChat({
 function ThinkingDots() {
   return (
     <span className="inline-flex items-center gap-1 text-white/60">
-      <span className="animate-pulse">●</span>
-      <span className="animate-pulse [animation-delay:120ms]">●</span>
-      <span className="animate-pulse [animation-delay:240ms]">●</span>
+      <span className="animate-pulse motion-reduce:animate-none">●</span>
+      <span className="animate-pulse motion-reduce:animate-none [animation-delay:120ms]">●</span>
+      <span className="animate-pulse motion-reduce:animate-none [animation-delay:240ms]">●</span>
     </span>
   );
 }

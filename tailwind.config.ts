@@ -17,10 +17,25 @@ export default {
           500: "#3AAFA9", // accent / on-dark button bg
           600: "#2B7A78", // primary / on-light text
           700: "#1F5F5D", // primary-strong / eyebrow
-          800: "#2b9d97", // hover-on-light
+          // Brighter teal for hover states. Named, not numbered: #2b9d97 sits
+          // between teal-500 and teal-600 in luminance, so "800" was a footgun
+          // (an 800 lighter than 600). Use hover:text-teal-hover / hover:bg-teal-hover.
+          hover: "#2b9d97",
         },
         // PEBL navy scale. 900 is the brand foreground; 800 is the immersive modal surface.
         navy: {
+          // Light->dark navy ramp tuned to the brand foreground (#17252A) and
+          // its translucent equivalents (navy-900/<alpha>). Added 2 Jun 2026:
+          // the /admin pages referenced 50-700 but only 800/900 existed, so
+          // admin text + borders had been rendering with default colour.
+          50: "#F2F4F4",
+          100: "#E6E9EA",
+          200: "#D2D8D9",
+          300: "#B3BCBD",
+          400: "#8B9698",
+          500: "#6B7779",
+          600: "#4F5C5F", // muted body text on light, ~ navy-900/72
+          700: "#36464A",
           800: "#0F1D22", // modal
           900: "#17252A", // foreground / dark surface
         },
@@ -55,7 +70,6 @@ export default {
       },
       borderRadius: {
         card: "24px",
-        hero: "28px",
         modal: "16px",
       },
       boxShadow: {
@@ -63,6 +77,7 @@ export default {
         card: "0 18px 40px rgba(23,37,42,0.08)",
         chip: "0 1px 2px rgba(23,37,42,0.06)",
         glow: "0 0 6px rgba(58,175,169,0.6)",
+        "glow-strong": "0 0 18px rgba(58,175,169,0.7)",
         menu: "0 10px 36px rgba(0,0,0,0.55)",
         drawer: "8px 0 30px rgba(0,0,0,0.5)",
       },

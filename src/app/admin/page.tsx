@@ -13,7 +13,7 @@ export default function AdminHomePage() {
         <li>
           <Link
             href="/admin/species"
-            className="block rounded-xl border border-navy-200 bg-white p-4 transition hover:border-teal-500 hover:bg-teal-50"
+            className="block rounded-card border border-navy-200 bg-white p-4 transition hover:border-teal-500 hover:bg-teal-50"
           >
             <h2 className="text-sm font-semibold text-navy-900">Species catalogue</h2>
             <p className="pt-1 text-[12px] text-navy-600">

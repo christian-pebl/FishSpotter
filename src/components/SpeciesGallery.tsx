@@ -93,8 +93,8 @@ export function SpeciesGallery({
       <div
         className={
           size === "large"
-            ? "h-32 animate-pulse rounded-xl bg-white/5"
-            : "h-14 animate-pulse rounded-lg bg-white/5"
+            ? "h-32 animate-pulse motion-reduce:animate-none rounded-xl bg-white/5"
+            : "h-14 animate-pulse motion-reduce:animate-none rounded-lg bg-white/5"
         }
       />
     );
@@ -387,7 +387,9 @@ function Lightbox({
             aria-label="Previous photo"
             className="absolute left-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
           >
-            <span aria-hidden="true">‹</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M10 3.5L5.5 8l4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
         )}
         {onNext && (
@@ -397,7 +399,9 @@ function Lightbox({
             aria-label="Next photo"
             className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
           >
-            <span aria-hidden="true">›</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 3.5L10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
         )}
       </div>

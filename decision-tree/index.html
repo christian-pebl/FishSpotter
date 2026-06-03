@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Species ID Decision Tree</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0a1518;
+    --panel:     #0f1e20;
+    --teal:      #3AAFA9;
+    --darkteal:  #2B7A78;
+    --navy:      #17252A;
+    --light:     #DEF2F1;
+    --line:      #1e3538;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--light);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 24px 28px 80px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  header { margin-bottom: 8px; }
+  h1 {
+    color: var(--teal);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .intro {
+    color: #8ab4c9;
+    font-size: 12px;
+    margin: 8px 0 4px;
+    max-width: 880px;
+  }
+  .intro b { color: var(--teal); }
+
+  /* Flow of levels banner */
+  .levels {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 14px 0 26px;
+    padding: 10px 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .levels .lv {
+    font-size: 11px;
+    color: var(--light);
+    background: var(--navy);
+    border: 1px solid var(--darkteal);
+    border-radius: 5px;
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+  .levels .arr { color: var(--darkteal); font-size: 14px; }
+  .levels .lv small { color: #6a8a88; }
+
+  /* ── Shape class block ── */
+  .shape-block {
+    margin-bottom: 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #0c1a1d;
+  }
+
+  .shape-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--darkteal);
+    cursor: pointer;
+    user-select: none;
+  }
+  .shape-head:hover { background: #34928c; }
+  .shape-head .name {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .shape-head .count {
+    color: #cdeeea;
+    font-size: 11px;
+    margin-left: auto;
+  }
+  .shape-head .chev {
+    color: #cdeeea;
+    font-size: 12px;
+    transition: transform 0.15s;
+  }
+  .shape-block.collapsed .chev { transform: rotate(-90deg); }
+  .shape-block.collapsed .shape-body { display: none; }
+
+  .shape-body { padding: 16px 20px 20px; }
+
+  /* ── Sub-class group ── */
+  .subclass {
+    margin-bottom: 18px;
+  }
+  .subclass:last-child { margin-bottom: 0; }
+
+  .subclass-title {
+    display: inline-block;
+    color: var(--light);
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--navy);
+    border: 1px solid var(--darkteal);
+    border-left: 3px solid var(--teal);
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+  }
+  .subclass-title small { color: #6a8a88; font-weight: 400; }
+
+  /* condition pill (e.g. Right-eyed / Shelled) */
+  .condition {
+    color: #b0d8d5;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 4px 0 10px 12px;
+    padding-left: 10px;
+    border-left: 2px solid var(--darkteal);
+  }
+
+  /* ── Species grid ── */
+  .species-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    margin-left: 12px;
+  }
+
+  .species {
+    background: #0d3330;
+    border: 1px solid var(--teal);
+    border-radius: 7px;
+    padding: 9px 12px;
+  }
+  .species .sp-name {
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  .species .sp-diag {
+    color: #cdeeea;
+    font-size: 11.5px;
+    line-height: 1.35;
+  }
+
+  .species.note {
+    background: #161620;
+    border: 1px dashed #3a3a4a;
+  }
+  .species.note .sp-name { color: #8a8aa0; }
+  .species.note .sp-diag { color: #7a7a90; font-style: italic; }
+
+  /* context strip inside a branch */
+  .ctx {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin: 0 0 12px 12px;
+  }
+  .ctx .pill {
+    background: #1a2028;
+    border: 1px solid #3a4a5c;
+    border-radius: 20px;
+    padding: 3px 11px;
+    font-size: 11px;
+    color: #8ab4c9;
+  }
+
+  .worked-tag {
+    font-size: 10px;
+    color: #0a1518;
+    background: var(--teal);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .controls {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--panel);
+    border-top: 1px solid var(--line);
+    padding: 10px 28px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 11px;
+    color: #6a8a88;
+  }
+  .controls button {
+    background: var(--navy);
+    color: var(--light);
+    border: 1px solid var(--darkteal);
+    border-radius: 5px;
+    padding: 5px 12px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .controls button:hover { background: var(--darkteal); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Species ID — Decision Tree</h1>
+  <p class="intro">
+    Read top-down. You assign a <b>Shape Class</b> in the first second (no marine-biology knowledge needed),
+    then narrow by sub-class, and within every branch you also filter by
+    <b>Context</b> and <b>Movement</b> before resolving to species.
+  </p>
+</header>
+
+<div class="levels">
+  <span class="lv">1 · Shape Class<br><small>instant, visual</small></span>
+  <span class="arr">→</span>
+  <span class="lv">2 · Sub-class<br><small>body ratio / fins / form</small></span>
+  <span class="arr">→</span>
+  <span class="lv">3 · Context<br><small>location · depth · season · substrate</small></span>
+  <span class="arr">→</span>
+  <span class="lv">4 · Movement<br><small>still · crawl · undulate · drift · water-column</small></span>
+  <span class="arr">→</span>
+  <span class="lv">5 · Species<br><small>final visual diagnostic</small></span>
+</div>
+
+<div id="tree"></div>
+
+<div class="controls">
+  <button onclick="setAll(false)">Expand all</button>
+  <button onclick="setAll(true)">Collapse all</button>
+  <span>Click any shape-class header to fold / unfold it.</span>
+</div>
+
+<script>
+// ── Data ───────────────────────────────────────────────
+const TREE = [
+  {
+    shape: "Crab", worked: true,
+    groups: [
+      { title: "Shell on back?", note: "first split",
+        condition: "Yes — shell carried on back",
+        species: [{ n: "Hermit Crab", d: "soft abdomen tucked in a borrowed spiral shell; larger right pincer seals the shell mouth" }] },
+      { title: "Shell on back?", note: "no shell — continue",
+        condition: "No shell → Body ratio sub-class",
+        species: [] },
+      { title: "Body ratio sub-class", note: "leg : body length",
+        condition: "Legs longer than body + round body",
+        species: [{ n: "Spider Crab", d: "spiny domed shell, often weed-decorated" }] },
+      { title: "Body ratio sub-class", note: "legs ≤ body — continue",
+        showContext: true, showMovement: true,
+        species: [
+          { n: "Shore / Green Crab", d: "5 spines + 3 lobes between the eyes; green, variable" },
+          { n: "Velvet Swimming", d: "bright red eyes, velvet hairs, paddle hind legs" },
+          { n: "Edible / Brown", d: "pie-crust shell edge, black-tipped claws" },
+          { n: "Masked Crab", d: "long fused antennae forming a breathing tube" },
+          { n: "Porcelain Crab", d: "tiny, downy, very broad flat claws" }
+        ] }
+    ]
+  },
+  {
+    shape: "Fish",
+    groups: [
+      { title: "Gadoids", note: "barbel + lateral-line shape",
+        species: [
+          { n: "Pollack", d: "no barbel, KINKED lateral line, jutting lower jaw" },
+          { n: "Saithe", d: "no barbel, STRAIGHT pale lateral line" },
+          { n: "Cod", d: "prominent barbel, mottled, 3 dorsal fins" },
+          { n: "Whiting", d: "tiny/no barbel, dark spot at pectoral base" },
+          { n: "Bib / Pouting", d: "long barbel, deep coppery body, dark bands" },
+          { n: "Poor Cod", d: "single barbel, big eyes, small" }
+        ] },
+      { title: "Wrasse", note: "fleshy lips, 1 dorsal, rounded tail",
+        species: [
+          { n: "Ballan", d: "thick lips, stocky, green-brown mottled" },
+          { n: "Cuckoo", d: "male: blue stripes; female: 3 dark saddles near tail" },
+          { n: "Corkwing", d: "comma-shaped dark eye-spot on tail base" },
+          { n: "Goldsinny", d: "two black spots: tail base + front of dorsal" }
+        ] },
+      { title: "Pelagic schoolers",
+        species: [
+          { n: "Mackerel", d: "wavy black bars, finlets before tail" },
+          { n: "Horse Mackerel", d: "bony scutes along arched lateral line" },
+          { n: "Sea Bass", d: "spiny first dorsal, sleek silver" },
+          { n: "Sprat / Sand Smelt", d: "tiny silver baitfish in bait balls" },
+          { n: "Grey Mullet", d: "thick lips, cruises near surface" }
+        ] },
+      { title: "Eel-like",
+        species: [
+          { n: "Conger Eel", d: "grey, continuous dorsal-tail-anal fin; head in crevice" },
+          { n: "Butterfish", d: "ribbon body, row of dark-pale ocelli on dorsal" }
+        ] },
+      { title: "Gobies", note: "pelvic fins fused into sucker disc — ID the goby first, then species",
+        species: [
+          { n: "Rock Goby", d: "pale orange/yellow band along top of first dorsal; rocky/kelp substrate" },
+          { n: "Sand Goby", d: "near-translucent, rows of fine spots; vanishes on sand" },
+          { n: "Two-spotted Goby", d: "black spot on tail base + black spot behind pectoral; hovers midwater near kelp in small groups" },
+          { n: "Common Goby", d: "very similar to sand goby but shorter, rounder head; estuarine/tidal creeks" }
+        ] },
+      { title: "Cryptic / bottom-dweller",
+        species: [
+          { n: "Shanny / Blenny", d: "tubby, continuous dorsal, no head tentacles" },
+          { n: "Sea Scorpion", d: "head spines, wide gape, matches the rock" },
+          { n: "Catshark", d: "small dark spots all over, 2 rear-set dorsals" }
+        ] }
+    ]
+  },
+  {
+    shape: "Flatfish",
+    groups: [
+      { title: "Eyed side", note: "which side carries the eyes?",
+        condition: "Right-eyed",
+        species: [
+          { n: "Plaice", d: "bright orange spots + bony knobs behind head" },
+          { n: "Flounder", d: "rough tubercles along lateral line + fin bases" },
+          { n: "Dab", d: "sandpaper skin, lateral line strongly curved over pectoral" },
+          { n: "Dover Sole", d: "oval, rounded head, small terminal mouth" }
+        ] },
+      { title: "Eyed side", note: "left side",
+        condition: "Left-eyed",
+        species: [
+          { n: "Turbot", d: "near-circular, scaleless, bony tubercles" },
+          { n: "Brill", d: "more oval, scaled, no tubercles" }
+        ] }
+    ]
+  },
+  {
+    shape: "Scooter",
+    groups: [
+      { title: "Triangular flat head + jutting lower jaw",
+        species: [
+          { n: "Dragonet", d: "tall sail-like first dorsal (males), scaleless, sits on sand" }
+        ] }
+    ]
+  },
+  {
+    shape: "Jellyfish",
+    groups: [
+      { title: "True jelly vs hydrozoan",
+        species: [
+          { n: "Moon", d: "4 purple rings (gonads) visible in the bell" },
+          { n: "Compass", d: "brown V-marks radiating from the centre" },
+          { n: "Lion's Mane", d: "shaggy red-brown, dense mass of tentacles" },
+          { n: "Barrel", d: "huge solid bell, 8 thick frilly arms" },
+          { n: "Blue / Mauve Stinger", d: "blue-purple bell / small warty luminescent" },
+          { n: "Man o'war · By-the-wind-sailor", d: "hydrozoans: gas float + sail, not true jellies", note: true }
+        ] }
+    ]
+  },
+  {
+    shape: "Starfish",
+    groups: [
+      { title: "Arm / body form",
+        species: [
+          { n: "Common Starfish", d: "5 arms, orange, pale spiny ridge" },
+          { n: "Spiny Starfish", d: "5 arms, blue-grey, white-tipped spines" },
+          { n: "Bloody Henry", d: "5 short arms, deep red, smooth" },
+          { n: "Brittle Star", d: "thin whippy arms, small central disc" },
+          { n: "Sea Urchin", d: "globe of spines (edible = red, green urchin)" },
+          { n: "Sea Cucumber", d: "soft sausage, ejects sticky white threads" }
+        ] }
+    ]
+  },
+  {
+    shape: "Gastropod",
+    groups: [
+      { title: "Shell present?", condition: "Shelled",
+        species: [
+          { n: "Common Whelk", d: "large ridged spiral shell" },
+          { n: "Dog Whelk", d: "small, on barnacled rocks" },
+          { n: "Topshell", d: "conical shell, pearly interior" },
+          { n: "Limpet", d: "conical cap, clings hard to rock" }
+        ] },
+      { title: "Shell present?", condition: "No shell (sea slug / nudibranch)",
+        species: [
+          { n: "Sea Lemon", d: "yellow oval, warty surface" },
+          { n: "Violet Sea Slug", d: "purple body, frilly cerata" },
+          { n: "Frond Aeolis", d: "branched cerata along the back" }
+        ] }
+    ]
+  },
+  {
+    shape: "Squid",
+    groups: [
+      { title: "Body plan",
+        species: [
+          { n: "Squid", d: "torpedo body, fins at rear, 2 long tentacles + 8 arms, fast" },
+          { n: "Cuttlefish", d: "broad body, fringing fin all round, internal cuttlebone, W-pupil" },
+          { n: "Octopus", d: "8 arms, no fins, soft sac-like body" }
+        ] }
+    ]
+  }
+];
+
+// ── Render ──────────────────────────────────────────────
+function speciesCount(block) {
+  return block.groups.reduce((n, g) => n + g.species.filter(s => !s.note).length, 0);
+}
+
+function render() {
+  const root = document.getElementById('tree');
+  root.innerHTML = TREE.map(block => {
+    const groupsHtml = block.groups.map(g => {
+      const ctx = g.showContext ? `
+        <div class="ctx">
+          <span class="pill">📍 Location</span>
+          <span class="pill">🌊 Depth</span>
+          <span class="pill">📅 Season</span>
+          <span class="pill">🪨 Substrate</span>
+        </div>` : '';
+      const mv = g.showMovement ? `
+        <div class="ctx">
+          <span class="pill">Movement: stationary</span>
+          <span class="pill">slow crawl</span>
+          <span class="pill">legs feeding in place</span>
+        </div>` : '';
+      const cond = g.condition ? `<div class="condition">${g.condition}</div>` : '';
+      const sp = g.species.map(s => `
+        <div class="species${s.note ? ' note' : ''}">
+          <div class="sp-name">${s.n}</div>
+          <div class="sp-diag">${s.d}</div>
+        </div>`).join('');
+      const note = g.note ? ` <small>— ${g.note}</small>` : '';
+      return `
+        <div class="subclass">
+          <div class="subclass-title">${g.title}${note}</div>
+          ${cond}
+          ${ctx}${mv}
+          <div class="species-grid">${sp}</div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="shape-block">
+        <div class="shape-head" onclick="this.parentElement.classList.toggle('collapsed')">
+          <span class="chev">▼</span>
+          <span class="name">${block.shape}</span>
+          ${block.worked ? '<span class="worked-tag">WORKED EXAMPLE</span>' : ''}
+          <span class="count">${speciesCount(block)} species</span>
+        </div>
+        <div class="shape-body">${groupsHtml}</div>
+      </div>`;
+  }).join('');
+}
+
+function setAll(collapsed) {
+  document.querySelectorAll('.shape-block').forEach(b =>
+    b.classList.toggle('collapsed', collapsed));
+}
+
+render();
+</script>
+</body>
+</html>

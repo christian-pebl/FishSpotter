@@ -209,7 +209,7 @@ export function IdGuideSheet({
            bottom-anchored full-height sheet. */}
       <div
         ref={dialogRef}
-        className="relative flex h-[96dvh] w-full max-w-7xl flex-col overflow-hidden bg-navy-800 shadow-menu sm:h-[94vh] sm:w-[96vw] sm:rounded-2xl"
+        className="relative flex h-[96dvh] w-full max-w-7xl flex-col overflow-hidden bg-navy-800 shadow-menu sm:h-[94vh] sm:w-[96vw] sm:rounded-modal"
         style={{
           transform: keyboardOffset > 0 ? `translateY(-${keyboardOffset}px)` : undefined,
           transition: "transform 120ms ease-out",
@@ -289,7 +289,10 @@ export function IdGuideSheet({
                     onClick={() => setSelectedFallback(null)}
                     className="mb-2 inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/55 hover:text-white/85"
                   >
-                    ← Back to “{fieldNoteFor.commonName}”
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M9.5 6h-6M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Back to “{fieldNoteFor.commonName}”
                   </button>
                 )}
                 <p className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-teal-500">

@@ -127,7 +127,7 @@ export default async function FeedBrowsePage({
         tabIndex={-1}
         className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8"
       >
-        <div className="pebl-surface rounded-hero px-6 py-6">
+        <div className="pebl-surface rounded-card px-6 py-6">
           <p className="pebl-eyebrow text-xs">Observation archive</p>
           <h1 className="mt-2 font-brand-heading text-3xl font-bold text-navy-900">
             Browse the wider PEBL clip library
@@ -229,10 +229,19 @@ export default async function FeedBrowsePage({
                         "absolute right-2 top-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider " +
                         (answeredSnippetIds.has(s.id)
                           ? "bg-teal-500/90 text-navy-900"
-                          : "bg-black/45 text-white/80 backdrop-blur-sm")
+                          : "bg-black/60 text-white backdrop-blur-sm")
                       }
                     >
-                      {answeredSnippetIds.has(s.id) ? "✓ Answered" : "Open"}
+                      {answeredSnippetIds.has(s.id) ? (
+                        <>
+                          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                            <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          Answered
+                        </>
+                      ) : (
+                        "Open"
+                      )}
                     </span>
                   )}
                 </div>
@@ -272,11 +281,14 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.max(1, page - 1))}
               aria-disabled={page === 1}
               className={
-                "pebl-button-secondary px-3 py-1.5 text-xs " +
+                "pebl-button-secondary inline-flex min-h-[44px] items-center gap-1.5 px-3 text-xs " +
                 (page === 1 ? "pointer-events-none opacity-50" : "")
               }
             >
-              ← Previous
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M9.5 6h-6M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Previous
             </Link>
             <span className="text-xs text-navy-900/55">
               Page {page} of {totalPages}
@@ -285,11 +297,14 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.min(totalPages, page + 1))}
               aria-disabled={page === totalPages}
               className={
-                "pebl-button-secondary px-3 py-1.5 text-xs " +
+                "pebl-button-secondary inline-flex min-h-[44px] items-center gap-1.5 px-3 text-xs " +
                 (page === totalPages ? "pointer-events-none opacity-50" : "")
               }
             >
-              Next →
+              Next
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2.5 6h6M6 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </Link>
           </nav>
         )}

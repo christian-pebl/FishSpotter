@@ -3,10 +3,10 @@
  *
  * Returns 200 with the same `{ ok: true }` body regardless of whether
  * the email exists — standard email-enumeration mitigation. Real users
- * receive a Resend email with a one-time, hash-at-rest token (1h TTL).
- * If RESEND_API_KEY isn't configured, the token is still persisted; an
+ * receive an email with a one-time, hash-at-rest token (1h TTL).
+ * If SENDGRID_API_KEY isn't configured, the token is still persisted; an
  * operator can read the DB row to construct the URL during the
- * transitional period before DNS / Resend setup is complete.
+ * transitional period before email (SendGrid) setup is complete.
  */
 
 import { NextResponse } from "next/server";

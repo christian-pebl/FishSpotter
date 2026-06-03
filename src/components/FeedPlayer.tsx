@@ -147,12 +147,23 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
 
   if (snippets.length === 0) {
     return (
-      <div className="flex-1 flex items-center justify-center text-slate-500">
-        No clips yet. Run the seed script or{" "}
-        <a href="/feed/browse" className="text-cyan-400 underline">
-          browse all
-        </a>
-        .
+      <div className="flex flex-1 items-center justify-center p-6">
+        <div className="pebl-surface max-w-sm rounded-card p-6 text-center">
+          <p className="pebl-eyebrow">Empty feed</p>
+          <h2 className="mt-2 font-brand-heading text-h3 text-navy-900">
+            No clips here yet
+          </h2>
+          <p className="mt-2 text-sm text-navy-900/72">
+            New underwater snippets are added as deployments come in. Browse the
+            archive in the meantime.
+          </p>
+          <a
+            href="/feed/browse"
+            className="pebl-button-primary mt-4 inline-flex min-h-[44px] items-center px-5 text-sm"
+          >
+            Browse the archive
+          </a>
+        </div>
       </div>
     );
   }
@@ -210,9 +221,9 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
                 aria-hidden
                 animate={reduceMotion ? undefined : { y: [0, -3, 0] }}
                 transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-                className="text-sm leading-none"
+                className="leading-none"
               >
-                ↑
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><polyline points="2,9 7,4 12,9" /></svg>
               </motion.span>
               <span>
                 {hintIsTouch ? "Swipe up for next" : "Use ↑/↓ or scroll for next"}

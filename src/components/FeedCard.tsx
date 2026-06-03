@@ -11,6 +11,9 @@ import { RarityPanel } from "./RarityPanel";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { MCQCandidatePicker } from "./MCQCandidatePicker";
 import { SpeciesGallery } from "./SpeciesGallery";
+import { ShapeGate } from "./ShapeGate";
+import { CandidateStrip } from "./idflow/CandidateStrip";
+import type { ShapeClass } from "@/lib/idguide/traits";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
@@ -126,6 +129,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
+  // UX-0: "Spot It" shape-class gate.
+  const [shapeGateOpen, setShapeGateOpen] = useState(false);
+  const [selectedShape, setSelectedShape] = useState<ShapeClass | null>(null);
+  // The Spot It strip shows once the user engages the gate, including via
+  // "Not sure" (selectedShape stays null -> the strip narrows the whole
+  // catalogue). Distinct from selectedShape so "Not sure" never dead-ends.
+  const [spotItActive, setSpotItActive] = useState(false);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
   // the user has either watched the clip through one loop OR manually
   // tapped the collapsed pill to expand. Encourages observation before
@@ -679,6 +689,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   }, [answerText, handleSubmit, submitAndAdvance]);
 
   const showStats = myAnswer && stats;
+  // UX-4 reveal verdict tiers (Workstream E scored-by-rung). A "partial" is the
+  // right shape class but wrong species (points > 0, isCorrect false). Only a
+  // true miss (0 points) gets the error shake; partial reads as encouraging.
+  const revealPartial =
+    !!myAnswer && myAnswer.isCorrect === false && myAnswer.points > 0;
+  const revealWrong =
+    !!myAnswer && myAnswer.isCorrect === false && myAnswer.points === 0;
   const hasBboxes = bboxes.length > 0;
 
   // Stable per-snippet IDs for SVG defs (multiple FeedCards live in the DOM simultaneously).
@@ -904,7 +921,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             dragMomentum={false}
             dragElastic={0.08}
             dragConstraints={articleRef}
-            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-2xl border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150 md:max-h-[min(80vh,calc(100%-3.5rem))]"
+            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-card border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150 md:max-h-[min(80vh,calc(100%-3.5rem))]"
           >
             {/* Drag-only-from-here button. Visible grip so users know it's the
                 drag affordance. dragListener=false on the parent means drag
@@ -1081,6 +1098,20 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   )}
                   {status !== "loading" && (
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pb-1.5">
+                      {/* UX-0: "Spot It" gate entry — opens the shape-class
+                          silhouette grid. Sits alongside (not replacing) the
+                          existing "Help me identify" wizard trigger. */}
+                      <button
+                        type="button"
+                        onClick={() => setShapeGateOpen(true)}
+                        className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-teal-50 hover:border-teal-400 hover:bg-teal-500/20"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4"/>
+                          <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                        </svg>
+                        Spot It
+                      </button>
                       <IdGuideTrigger
                         snippetId={snippet.id}
                         submitted={false}
@@ -1093,7 +1124,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           type="button"
                           onClick={() => setMapOpen(true)}
                           aria-label="Show where this clip was recorded on a map"
-                          className="inline-flex min-h-[36px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                          // F-PRESUBMIT-CTAS: ml-auto pushes this utility action
+                          // to the far end of the row, separating it from the
+                          // ID actions (Spot It / Help me identify). 44px target.
+                          className="ml-auto inline-flex min-h-[44px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
                         >
                           <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-teal-500/80">
                             <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
@@ -1104,6 +1138,24 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       )}
                     </div>
                   )}
+
+                  {/* UX-1: shrinking candidate strip. Appears once the gate has
+                      set a shape class; lists the narrowed catalogue species as
+                      tappable chips. Tapping commits via the same submit path as
+                      the MCQ (onPick), so the unauth signin-carry is honoured. */}
+                  {spotItActive && (
+                    <CandidateStrip
+                      shapeClass={selectedShape}
+                      submitting={submitting}
+                      onPick={(name) =>
+                        void submitAndAdvance(() =>
+                          handleSubmit({ answerText: name }),
+                        )
+                      }
+                      onChangeShape={() => setShapeGateOpen(true)}
+                      onSkipToMCQ={() => setSpotItActive(false)}
+                    />
+                  )}
                 </>
               ) : (
                 <AnimatePresence mode="wait">
@@ -1113,27 +1165,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         ? "pending"
                         : myAnswer!.isCorrect
                           ? "correct"
-                          : "wrong"
+                          : revealPartial
+                            ? "partial"
+                            : "wrong"
                     }
                     initial={
-                      reduceMotion
-                        ? false
-                        : myAnswer!.isCorrect === false
-                          ? { x: 0 }
-                          : { scale: 0.96, opacity: 0 }
+                      reduceMotion ? false : revealWrong ? { x: 0 } : { scale: 0.96, opacity: 0 }
                     }
                     animate={
                       reduceMotion
                         ? { opacity: 1 }
-                        : myAnswer!.isCorrect === false
+                        : revealWrong
                           ? { x: [0, -8, 8, -6, 6, 0] }
                           : { scale: 1, opacity: 1 }
                     }
-                    transition={
-                      myAnswer!.isCorrect === false
-                        ? { duration: 0.36 }
-                        : spring.cheer
-                    }
+                    transition={revealWrong ? { duration: 0.36 } : spring.cheer}
                     className="pb-2"
                   >
                     {/* S5-T9: aria-live announces the outcome to screen
@@ -1155,17 +1201,39 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           className="inline-flex items-center gap-1 rounded-full bg-correct px-2 py-0.5 text-[11px] font-bold tracking-wide text-correct-ink shadow-sm"
                           aria-label="Correct, plus 2 points"
                         >
-                          ✓ Correct · +2
+                          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                            <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          Correct · +2
                         </span>
                       )}
                       {myAnswer!.isCorrect === false && (
                         <>
-                          <span
-                            className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
-                            aria-label="Incorrect"
-                          >
-                            ✗ Wrong
-                          </span>
+                          {revealPartial ? (
+                            <>
+                              <span
+                                className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
+                                aria-label="Close, right shape class, plus 1 point"
+                              >
+                                <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                                  <path d="M2 4.5q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                  <path d="M2 8q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                </svg>
+                                Close · +1
+                              </span>
+                              <span className="text-white/65">· right shape class</span>
+                            </>
+                          ) : (
+                            <span
+                              className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
+                              aria-label="Incorrect"
+                            >
+                              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                              </svg>
+                              Wrong
+                            </span>
+                          )}
                           {(stats!.staffAnswer ?? snippet.staffAnswer) && (
                             <span className="text-white/80">
                               ·{" "}
@@ -1183,7 +1251,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                             className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
                             aria-label="Bonus, plus 1 point. Reference identification pending."
                           >
-                            ★ +1 Bonus
+                            <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                              <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                            </svg>
+                            +1 Bonus
                           </span>
                           <span className="text-white/65">
                             · reference pending — your ID helps build the dataset
@@ -1233,7 +1304,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                                 commonName={referenceAnswer}
                                 size="thumb"
                               />
-                              <p className="mt-1 text-[10px] text-white/35">
+                              <p className="mt-1 text-[10px] text-white/60">
                                 Photos: iNaturalist community, CC-licensed
                               </p>
                             </div>
@@ -1271,9 +1342,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         <button
                           type="button"
                           onClick={editAnswer}
-                          className="text-[10px] uppercase tracking-wider text-white/55 hover:text-white/90"
+                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/55 hover:text-white/90"
                         >
-                          ✎ Edit answer
+                          <svg viewBox="0 0 14 14" className="h-3 w-3 text-teal-500/80" fill="none" aria-hidden="true">
+                            <path d="M9.3 2.4l2.3 2.3-6.4 6.4-2.8.5.5-2.8z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                          </svg>
+                          Edit answer
                         </button>
                         <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">
                           Archive
@@ -1308,7 +1382,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       )}
                     </div>
                     {!hasNext && (
-                      <div className="mt-3 rounded-2xl border border-white/12 bg-white/5 p-3 text-center">
+                      <div className="mt-3 rounded-card border border-white/12 bg-white/5 p-3 text-center">
                         <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-50">
                           You&apos;ve reached the end of the feed
                         </p>
@@ -1346,6 +1420,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           lat={snippet.lat as number}
           lon={snippet.lon as number}
           site={`${snippet.site} · ${snippet.deployment}`}
+        />
+      )}
+
+      {/* UX-0: Shape-class gate overlay. Sits above z-20 panel at z-30.
+          onSelectShape activates the candidate strip — with a shape, or null
+          ("Not sure" → strip narrows the whole catalogue, never dead-ends).
+          onSkip closes the gate to the MCQ fast path ("skip to guess").
+          onClose just dismisses, preserving any in-progress narrow. */}
+      {shapeGateOpen && (
+        <ShapeGate
+          onSelectShape={(shape) => {
+            setSelectedShape(shape);
+            setSpotItActive(true);
+            setShapeGateOpen(false);
+          }}
+          onSkip={() => setShapeGateOpen(false)}
+          onClose={() => setShapeGateOpen(false)}
         />
       )}
     </article>

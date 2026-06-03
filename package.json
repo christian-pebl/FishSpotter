@@ -29,6 +29,7 @@
     "db:audit-references": "tsx --env-file=.env.local scripts/audit-reference-ids.ts",
     "db:confusion-matrix": "tsx --env-file=.env.local scripts/confusion-matrix.ts",
     "db:backfill-references": "tsx --env-file=.env.local scripts/backfill-references.ts",
+    "db:retro-score": "tsx --env-file=.env.local scripts/retro-score-answers.ts",
     "measure:prompt": "tsx scripts/measure-prompt.ts",
     "postinstall": "prisma generate"
   },

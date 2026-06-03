@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { useRef } from "react";
+import { useModalFocus } from "@/lib/useModalFocus";
 
 const MapModalInner = dynamic(() => import("./MapModalInner"), {
   ssr: false,
@@ -21,19 +22,12 @@ interface MapModalProps {
 }
 
 export function MapModal({ open, onClose, lat, lon, site }: MapModalProps) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [open, onClose]);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // Focus trap + restore + Escape + scroll lock (F-MODAL-FOCUS). The map
+  // opens over the active feed card, so without a trap keyboard users could
+  // tab onto the live feed / MCQ controls underneath (WCAG 2.1.2). Shared
+  // hook lifted from IdGuideSheet's proven implementation.
+  useModalFocus(open, dialogRef, onClose);
 
   if (!open) return null;
 
@@ -46,7 +40,8 @@ export function MapModal({ open, onClose, lat, lon, site }: MapModalProps) {
       onClick={onClose}
     >
       <div
-        className="relative flex h-full w-full max-w-3xl flex-col overflow-hidden bg-navy-800 shadow-menu sm:h-[70vh] sm:rounded-2xl"
+        ref={dialogRef}
+        className="relative flex h-full w-full max-w-3xl flex-col overflow-hidden bg-navy-800 shadow-menu sm:h-[70vh] sm:rounded-card"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
@@ -62,7 +57,7 @@ export function MapModal({ open, onClose, lat, lon, site }: MapModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Close map"
-            className="ml-3 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white/85 hover:bg-white/20"
+            className="ml-3 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/10 text-white/85 hover:bg-white/20"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />

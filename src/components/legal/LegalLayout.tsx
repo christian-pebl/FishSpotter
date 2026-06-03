@@ -17,7 +17,7 @@ export async function LegalLayout({ eyebrow, file }: LegalLayoutProps) {
       tabIndex={-1}
       className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-10"
     >
-      <div className="pebl-surface rounded-hero p-6 md:p-10">
+      <div className="pebl-surface rounded-card p-6 md:p-10">
         <p className="pebl-eyebrow">{eyebrow}</p>
         <article
           className="legal-prose mt-4 text-sm leading-7 text-navy-900"

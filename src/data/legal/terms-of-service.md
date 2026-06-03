@@ -1,59 +1,95 @@
 # Terms of Service
 
-**Last updated:** 2026-05-21 · **Version:** v0.1 (engineering draft — pending legal review)
-
-> ⚠️ This document is a scaffolding placeholder. PEBL CIC legal counsel will finalise the wording before public launch.
+**Last updated: 3 June 2026**
 
 ## About FishSpotter
 
-FishSpotter is operated by Plant Ecology Beyond Land (PEBL) CIC (company no. **12082722**, England and Wales). It is a citizen-science tool that lets you watch short underwater video clips and identify the species in them.
+FishSpotter is operated by **Plant Ecology Beyond Land (PEBL) CIC**, a Community Interest Company registered in England and Wales (company number **12076622**). Our mission is to make ocean data accessible and to support UK marine biodiversity monitoring through citizen science. The service is available at [fish-spotter.vercel.app](https://fish-spotter.vercel.app).
 
-## Who can use it
+Contact: [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk)
 
-You can use FishSpotter if you are 13 or older. If you're under 18, please check with a parent or guardian.
+---
 
-## Your account
+## Who can use FishSpotter
 
-- You're responsible for the password on your account.
-- You agree to give us a real email address (we verify it).
-- You won't pretend to be someone else, scrape the catalogue, or otherwise abuse the service.
+You must be at least **13 years old** to create an account. If you are under 18, a parent or guardian must review and agree to these terms on your behalf — by allowing you to use FishSpotter, they accept these terms for you.
 
-## Your contributions
+We may default certain features (such as appearing on the public leaderboard under your display name) to a more private setting for users who tell us they are under 18.
 
-When you submit an identification:
+By creating an account, you confirm that the information you provide is accurate and that you will keep your login credentials secure.
 
-- The answer is associated with your account and used in the community-stats panel.
-- We may aggregate answers in anonymised form for ecological research outputs.
-- PEBL CIC does not claim ownership of your identifications; you grant us a permission to use the aggregated, anonymised version for community-benefit research.
+---
 
 ## Acceptable use
 
-You may not:
+You agree to use FishSpotter only for its intended purpose: watching underwater video clips and submitting species identifications for citizen-science and educational purposes.
 
-- attempt to break, scrape, or overload the service;
-- use it to harass other users (there is currently no user-to-user interaction surface, but this anticipates one);
-- submit deliberately misleading identifications at volume.
+You must not:
 
-We reserve the right to suspend or remove accounts that breach these terms.
+- Attempt to circumvent, overload, reverse-engineer, or scrape the service or its underlying infrastructure.
+- Submit identifications in bad faith or at volume with the intent to manipulate community statistics.
+- Impersonate another person or misrepresent your affiliation.
+- Use the service in any way that violates applicable law, including the Computer Misuse Act 1990.
 
-## Account termination
+We reserve the right to suspend or permanently remove accounts that breach these terms. Where practical, we will notify you before doing so.
 
-You may delete your account at any time from the account page. We may suspend or remove accounts that breach these terms, after a reasonable notification where possible.
+---
+
+## Your contributions
+
+When you submit a species identification:
+
+- The answer is associated with your account and used to calculate your score, streak, and leaderboard rank.
+- You grant PEBL CIC a **non-exclusive, royalty-free, perpetual licence** to use your quiz answers in aggregated and anonymised form for ecological research, publications, and reports that further our community-benefit mission.
+- You retain all other rights in any content you provide.
+- We do not claim ownership of your identifications.
+
+Anonymised community identification data may be shared with academic partners, government bodies, or published in ecological research outputs. Individual answers are never attributed to you in any public output.
+
+If you ask us to erase your account, we will delete your identifications and personal data within 30 days. Any contribution that has already been incorporated into an anonymised, aggregated research dataset before your request cannot be individually withdrawn, because it no longer identifies you; the perpetual licence in this section applies only to that anonymised, aggregated form. This matches the retention terms in our Privacy Policy.
+
+---
+
+## Video clips and species data
+
+The underwater video snippets are survey footage collected by PEBL CIC and remain our property. Species photographs shown in the app are sourced from iNaturalist, Wikimedia Commons, and GBIF under Creative Commons licences; attribution is displayed alongside each image. You may not download, redistribute, or use these materials outside the app without checking the terms of the originating licence.
+
+---
 
 ## Disclaimers
 
-The species-identification suggestions and ecological context are provided for educational and recreational purposes. They are not authoritative scientific identifications. Always defer to expert judgement for research-grade outputs.
+FishSpotter is provided for educational and recreational citizen-science purposes. Species identification suggestions generated by the community and the app's identification guide are not authoritative scientific determinations. Do not rely on them for regulatory, commercial, or research-grade purposes without independent expert verification.
 
-We provide the service "as is", without warranty of fitness for any particular purpose.
+We will provide FishSpotter with reasonable care and skill, as required by the Consumer Rights Act 2015. We do not guarantee that the service will always be available or uninterrupted — it may occasionally be offline for maintenance or for reasons beyond our control. Because FishSpotter is a free citizen-science tool, the species identifications it surfaces are community suggestions, not guaranteed-accurate scientific determinations (see Disclaimers above).
 
-## Liability
+---
 
-To the extent permitted by English law, PEBL CIC is not liable for indirect or consequential losses arising from use of the service.
+## Limitation of liability
+
+Nothing in these terms limits or excludes our liability for death or personal injury caused by our negligence, or for fraud or fraudulent misrepresentation. These protections can never be excluded, and nothing below affects them.
+
+Subject to that, and to your statutory rights under the Consumer Rights Act 2015:
+
+- Our liability to you is limited to losses that are a reasonably foreseeable result of our breach of these terms or of our failure to use reasonable care and skill.
+- Because FishSpotter is provided free of charge, we are not liable for any business losses, loss of profit, or any indirect or consequential loss.
+- To the extent we may lawfully limit it, our total aggregate liability for all other claims arising from your use of FishSpotter is capped at £100. This cap does not apply to, and is always subject to, the non-excludable liabilities described in the first paragraph of this section.
+
+---
+
+## Changes to the service
+
+As a Community Interest Company operating a non-commercial mission-driven platform, we may change, suspend, or discontinue the service at any time. Where we make material changes to these terms, we will update the "Last updated" date and, where appropriate, notify registered users by email before the changes take effect.
+
+If you do not agree to revised terms, you may close your account by emailing [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) before the changes take effect, and we will delete your account and personal data. Continuing to use FishSpotter after the effective date means you accept the revised terms.
+
+---
 
 ## Governing law
 
-These terms are governed by the law of England and Wales. Disputes are subject to the exclusive jurisdiction of the courts of England and Wales.
+These terms are governed by the law of **England and Wales**. Any dispute arising from them is subject to the exclusive jurisdiction of the courts of England and Wales.
+
+---
 
 ## Contact
 
-[hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk)
+[hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) — Plant Ecology Beyond Land (PEBL) CIC, company number 12076622, England and Wales.

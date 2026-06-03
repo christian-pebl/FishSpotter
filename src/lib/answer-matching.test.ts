@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  buildShapeClassByForm,
+  CATALOGUE_ALIASES,
   isCorrectWithAliases,
   matchWithAliases,
   POINTS_CORRECT_REF,
   POINTS_PENDING_REF,
   POINTS_INCORRECT,
+  POINTS_SHAPE_CLASS,
   type AliasEntry,
 } from "./answer-matching";
 
@@ -140,5 +143,74 @@ describe("matchWithAliases (S7-T1 — points + nullable staff answer)", () => {
 
   it("enforces pending < correct so un-referenced clips can't be farmed at a better rate", () => {
     expect(POINTS_PENDING_REF).toBeLessThan(POINTS_CORRECT_REF);
+  });
+});
+
+describe("matchWithAliases — shape-class partial credit (Workstream E)", () => {
+  // Mirror production: catalogue species links + editorial aliases, plus the
+  // derived shape-class map.
+  const aliases = [...CATALOGUE_ALIASES, ...ALIASES];
+  const shapeMap = buildShapeClassByForm(aliases);
+
+  it("awards POINTS_SHAPE_CLASS for a wrong species in the right shape class", () => {
+    // Reference is the Edible Crab; user picked a different crab. Wrong species,
+    // right shape → partial credit, isCorrect still false.
+    expect(
+      matchWithAliases("Cancer pagurus", "Shore Crab", aliases, shapeMap),
+    ).toEqual({ isCorrect: false, points: POINTS_SHAPE_CLASS });
+  });
+
+  it("still awards full credit for the correct species (binomial ref, common-name guess)", () => {
+    // The catalogue link resolves Cancer pagurus ↔ Edible Crab without a DB alias.
+    expect(
+      matchWithAliases("Cancer pagurus", "Edible Crab", aliases, shapeMap),
+    ).toEqual({ isCorrect: true, points: POINTS_CORRECT_REF });
+  });
+
+  it("awards 0 when the shape class is wrong (crab reference, fish guess)", () => {
+    expect(
+      matchWithAliases("Cancer pagurus", "Pollack", aliases, shapeMap),
+    ).toEqual({ isCorrect: false, points: POINTS_INCORRECT });
+  });
+
+  it("treats a coarse shape-word reference as a valid shape-class ref", () => {
+    // Nullify-audit reframe: a snippet referenced only as "Crab" gives shape
+    // credit to any crab guess.
+    expect(
+      matchWithAliases("Crab", "Velvet Swimming Crab", aliases, shapeMap),
+    ).toEqual({ isCorrect: false, points: POINTS_SHAPE_CLASS });
+  });
+
+  it("falls back to species-only scoring when no shape map is supplied", () => {
+    // The alias unit tests call the 3-arg form; behaviour must be unchanged.
+    expect(matchWithAliases("Cancer pagurus", "Shore Crab", ALIASES)).toEqual({
+      isCorrect: false,
+      points: POINTS_INCORRECT,
+    });
+  });
+
+  it("preserves the scoring order: species > shape-class > wrong", () => {
+    expect(POINTS_CORRECT_REF).toBeGreaterThan(POINTS_SHAPE_CLASS);
+    expect(POINTS_SHAPE_CLASS).toBeGreaterThan(POINTS_INCORRECT);
+  });
+});
+
+describe("buildShapeClassByForm", () => {
+  const map = buildShapeClassByForm(ALIASES);
+
+  it("resolves catalogue common names and scientific names to shape class", () => {
+    expect(map.get("shore crab")).toBe("crab");
+    expect(map.get("cancer pagurus")).toBe("crab");
+    expect(map.get("pollachius pollachius")).toBe("fish");
+  });
+
+  it("resolves aliases via their catalogue-known forms", () => {
+    // "pollock" is an alias of Pollachius pollachius (a fish in the catalogue).
+    expect(map.get("pollock")).toBe("fish");
+  });
+
+  it("maps the coarse shape words to themselves", () => {
+    expect(map.get("crab")).toBe("crab");
+    expect(map.get("fish")).toBe("fish");
   });
 });

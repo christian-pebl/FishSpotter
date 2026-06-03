@@ -63,7 +63,7 @@ export function OnboardingTour({ needsTour }: Props) {
       aria-label="Welcome tour"
       className="fixed inset-0 z-[80] flex items-center justify-center bg-black/55 p-4"
     >
-      <div className="pebl-surface w-full max-w-md rounded-hero p-6 md:p-8">
+      <div className="pebl-surface w-full max-w-md rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">{slide.eyebrow}</p>
         <h2 className="mt-3 font-brand text-h2 text-navy-900">{slide.title}</h2>
         <p className="mt-3 text-sm leading-6 text-navy-900/72">{slide.body}</p>

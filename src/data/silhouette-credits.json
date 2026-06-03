@@ -1,0 +1,66 @@
+{
+  "fish": {
+    "taxon": "Actinopterygii",
+    "imageUuid": "7360374f-8860-44c5-b74b-af53ca1a8af4",
+    "contributor": "T. Michael Keesey",
+    "attribution": "R. H. Traquair",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://www.phylopic.org/images/7360374f-8860-44c5-b74b-af53ca1a8af4"
+  },
+  "flatfish": {
+    "taxon": "Pleuronectiformes",
+    "imageUuid": "e0cd6df8-23c0-4973-aa3a-8ec042a4cea2",
+    "contributor": "Cee Nell",
+    "attribution": "Cee Nell",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/e0cd6df8-23c0-4973-aa3a-8ec042a4cea2"
+  },
+  "crab": {
+    "taxon": "Brachyura",
+    "imageUuid": "c80c9f0a-4370-404c-8716-38a684d52239",
+    "contributor": "T. Michael Keesey",
+    "attribution": "H. Filhol (vectorized by T. Michael Keesey)",
+    "license": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://www.phylopic.org/images/c80c9f0a-4370-404c-8716-38a684d52239"
+  },
+  "scooter": {
+    "taxon": "Callionymidae",
+    "imageUuid": "aff05279-3b7e-46a8-957a-21c39c25a9c5",
+    "contributor": "Tree of Life App",
+    "attribution": "Tree of Life App",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/aff05279-3b7e-46a8-957a-21c39c25a9c5"
+  },
+  "jellyfish": {
+    "taxon": "Scyphozoa",
+    "imageUuid": "6f25228d-34f6-4a84-b52d-ce03d3fcd152",
+    "contributor": "Guillaume Dera",
+    "attribution": "Guillaume Dera",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/6f25228d-34f6-4a84-b52d-ce03d3fcd152"
+  },
+  "starfish": {
+    "taxon": "Asteroidea",
+    "imageUuid": "7e27ce06-1f4f-45d8-a359-dcba8fc54b9b",
+    "contributor": "Birgit Lang",
+    "attribution": "Birgit Lang",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/7e27ce06-1f4f-45d8-a359-dcba8fc54b9b"
+  },
+  "gastropod": {
+    "taxon": "Gastropoda",
+    "imageUuid": "06f288ac-a5dc-4404-bba7-02f2d9098b08",
+    "contributor": "Tauana Cunha",
+    "attribution": "Tauana J. Cunha",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/06f288ac-a5dc-4404-bba7-02f2d9098b08"
+  },
+  "squid": {
+    "taxon": "Teuthida",
+    "imageUuid": "dccda11b-cb69-441f-bbce-b1fef6dbb62c",
+    "contributor": "Margot Michaud",
+    "attribution": "Margot Michaud",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://www.phylopic.org/images/dccda11b-cb69-441f-bbce-b1fef6dbb62c"
+  }
+}

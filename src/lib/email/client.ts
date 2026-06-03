@@ -1,22 +1,22 @@
 /**
- * Resend client wrapper (S3-03). Reads RESEND_API_KEY at first use;
- * returns null when the env var isn't set so the rest of the app can
- * degrade gracefully (token rows still get written, sign-up still
- * succeeds, the user just doesn't receive an email until the operator
- * lands the API key in production env).
+ * Email provider key accessor (S3-03).
+ *
+ * Provider: SendGrid (switched from Resend after the Wix DNS pivot —
+ * Resend required a subdomain MX record that Wix's DNS editor can't add,
+ * whereas SendGrid authenticates the domain with CNAME records Wix can
+ * add). Sending is done via SendGrid's v3 REST API in ./send.ts, so no
+ * SDK dependency is needed; this module just resolves + caches the key.
+ *
+ * Reads SENDGRID_API_KEY at first use. Returns null when unset so the
+ * caller can no-op gracefully (token rows still persist; the missing
+ * email is a deploy-config issue, not a code defect).
  */
 
-import { Resend } from "resend";
+let cached: string | null | undefined;
 
-let cached: Resend | null | undefined;
-
-export function getResend(): Resend | null {
+export function getSendgridApiKey(): string | null {
   if (cached !== undefined) return cached;
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    cached = null;
-    return null;
-  }
-  cached = new Resend(apiKey);
+  const apiKey = process.env.SENDGRID_API_KEY;
+  cached = apiKey && apiKey.length > 0 ? apiKey : null;
   return cached;
 }

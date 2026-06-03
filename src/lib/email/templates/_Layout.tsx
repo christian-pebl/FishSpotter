@@ -59,7 +59,7 @@ export function EmailLayout({
           </Section>
           <Hr style={{ border: "none", height: 24 }} />
           <Text style={{ margin: 0, fontSize: 11, color: MUTED, textAlign: "center" }}>
-            Plant Ecology Beyond Land (PEBL) CIC · Company no. 12082722 ·
+            Plant Ecology Beyond Land (PEBL) CIC · Company no. 12076622 ·
             <br />
             <a
               href="https://pebl-cic.co.uk"

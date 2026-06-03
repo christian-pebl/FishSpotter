@@ -171,7 +171,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                 ref={closeBtnRef}
                 onClick={onClose}
                 aria-label="Close menu"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/18"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 hover:bg-white/18"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path
@@ -229,7 +229,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                       <Link
                         href={item.href}
                         onClick={onClose}
-                        className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                        className={`flex min-h-[44px] items-center gap-3 rounded-modal px-3 py-2.5 text-sm transition-colors ${
                           active
                             ? "bg-teal-500/20 text-teal-50"
                             : "text-white/80 hover:bg-white/8 hover:text-white"
@@ -262,7 +262,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
                   setSoundsEnabled(!soundsOn);
                   setSoundsOn(!soundsOn);
                 }}
-                className="flex w-full items-center justify-between rounded-lg py-2 text-sm hover:opacity-90"
+                className="flex min-h-[44px] w-full items-center justify-between rounded-modal px-1.5 py-2 text-sm hover:opacity-90"
               >
                 <span className="flex items-center gap-3">
                   <span className="text-white/55">

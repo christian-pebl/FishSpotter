@@ -17,6 +17,13 @@ model User {
   emailVerified       DateTime?           // set when the user clicks the verification link (S3-06/07)
   onboardedAt         DateTime?           // set when the user dismisses the first-run tour (S3-11)
   digestOptIn         Boolean             @default(false) // weekly digest (S3-16); PECR Reg. 22 opt-in
+  // ICO Children's Code (UK Age Appropriate Design Code): self-declared age
+  // band at signup. We store a coarse BAND, not date of birth, to minimise
+  // personal data. Null for pre-existing users (declared at signup only).
+  ageBracket          String?             // "13_17" | "18_plus" — null for pre-existing users
+  // Declared minors (13-17) default to OFF the public leaderboard; any user
+  // can change this later in account settings.
+  leaderboardOptIn    Boolean             @default(true)
   lastStreakNudgeAt   DateTime?           // one streak-nudge per user per week (S3-17)
   createdAt           DateTime            @default(now())
   answers             Answer[]

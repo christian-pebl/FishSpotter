@@ -19,7 +19,7 @@ export default function GlobalError({
         <main
           id="main"
           tabIndex={-1}
-          className="w-full max-w-md rounded-hero border border-navy-900/12 bg-white p-6 md:p-8 text-center shadow-card"
+          className="w-full max-w-md rounded-card border border-navy-900/12 bg-white p-6 md:p-8 text-center shadow-card"
         >
           <p className="font-bold uppercase tracking-eyebrow text-teal-700 text-xs">
             Critical error
@@ -34,7 +34,7 @@ export default function GlobalError({
           </p>
           <button
             onClick={reset}
-            className="mt-6 inline-flex min-h-[44px] items-center justify-center rounded-full bg-teal-500 px-5 font-semibold text-navy-900 transition-colors hover:bg-teal-800"
+            className="mt-6 inline-flex min-h-[44px] items-center justify-center rounded-full bg-teal-500 px-5 font-semibold text-navy-900 transition-colors hover:bg-teal-hover"
           >
             Reload
           </button>
