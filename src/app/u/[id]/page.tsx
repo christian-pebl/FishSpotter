@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { computeStreakFromAnswers } from "@/lib/streak";
 import { prisma } from "@/lib/prisma";
+import { MarineBackdrop } from "@/components/MarineBackdrop";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +81,7 @@ export default async function ProfilePage({
     resolvedAnswers > 0 ? Math.round((correctAnswers / resolvedAnswers) * 100) : 0;
 
   return (
+    <MarineBackdrop>
     <main
       id="main"
       tabIndex={-1}
@@ -174,5 +176,6 @@ export default async function ProfilePage({
         )}
       </section>
     </main>
+    </MarineBackdrop>
   );
 }

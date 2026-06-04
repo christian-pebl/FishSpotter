@@ -1,6 +1,7 @@
 import { marked } from "marked";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { MarineBackdrop } from "@/components/MarineBackdrop";
 
 interface LegalLayoutProps {
   eyebrow: string;
@@ -12,6 +13,7 @@ export async function LegalLayout({ eyebrow, file }: LegalLayoutProps) {
   const md = await fs.readFile(filePath, "utf8");
   const html = await marked.parse(md, { async: true, gfm: true });
   return (
+    <MarineBackdrop>
     <main
       id="main"
       tabIndex={-1}
@@ -28,5 +30,6 @@ export async function LegalLayout({ eyebrow, file }: LegalLayoutProps) {
         />
       </div>
     </main>
+    </MarineBackdrop>
   );
 }
