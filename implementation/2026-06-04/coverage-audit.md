@@ -24,13 +24,18 @@ All additions are CC0/CC-BY/CC-BY-SA/CC-BY-NC, URL-verified, agent-ID-checked; l
 The two baitfish are the only true ceilings — see `permission-email-drafts.md` (sprat → Arne
 Kuilman / Erling Svensen). Mackerel has no licensable live shot at all.
 
-## Gap 2 — no diagnostic marks (the guide gap) — SEPARATE, NOT yet addressed
-15 species have 0 diagnostic-mark rings (the wizard shows photos + field note but no labelled
-"look here" guide). Mostly fish:
-Atlantic mackerel, Sprat, Saithe, Spotted dragonet, Sand smelt, Dab, Atlantic cod, Ballan wrasse,
-Corkwing wrasse, Goldsinny wrasse, Two-spotted goby, Plaice, Flounder, Red mullet, Long-spined
-sea scorpion.
+## Gap 2 — no diagnostic marks (the guide gap) — RESOLVED 4 Jun 2026
+This section was already stale when written: a parallel session's
+`scripts/place-diagnostic-marks.ts author --apply` run had created 3 marks each for all 15
+(Atlantic mackerel, Sprat, Saithe, Spotted dragonet, Sand smelt, Dab, Atlantic cod, Ballan
+wrasse, Corkwing wrasse, Goldsinny wrasse, Two-spotted goby, Plaice, Flounder, Red mullet,
+Long-spined sea scorpion). The marks existed but were poorly PLACED (the Gemini box_2d placer
+graded only 2/15 aligned; 13/15 had rings over open water or the wrong body end).
 
-This is a content-authoring job (curate a clean lead photo → author 2-3 marks → Gemini-verify
-placement, the pipeline proven on the other ~42 species). Flagged for a future pass; not part of
-the image-sourcing task.
+**Fix (supervisor + 15 parallel agents):** rendered each species' current marks with the exact
+`AnnotatedSpeciesPhoto` geometry, fanned out one agent per species to re-place the rings from the
+photo (independent Claude-vision pass), applied all 45 coords centrally, re-rendered, and
+supervisor-eyeballed all 15. Caught + hand-fixed one orientation flip (Saithe jaw → head). All 45
+marks now on-feature; DB live on prod. Review artifact:
+`mark-renders/_CONTACT-SHEET.png`. Coords + per-mark agent reasoning in
+`mark-corrections.json`; current/before placements in `placement-log.json`.
