@@ -6,6 +6,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { PwaInstallButton } from "@/components/PwaInstallButton";
+import { VideoSettingsPanel } from "@/components/VideoSettingsPanel";
 import { isSoundsEnabled, setSoundsEnabled } from "@/lib/sounds";
 import { TRANSITION } from "@/lib/motion";
 
@@ -293,21 +294,38 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
               </div>
             </div>
 
+            {/* Live video controls (moved here from the feed top bar). */}
+            <div className="border-t border-white/10 px-4 py-3">
+              <p className="mb-1 text-[10px] font-semibold uppercase tracking-eyebrow text-white/55">
+                Live video
+              </p>
+              <VideoSettingsPanel />
+            </div>
+
             {/* Account actions */}
             <div className="mt-auto border-t border-white/10 px-4 py-3 text-sm">
               {status === "loading" ? (
                 <span className="text-white/55">…</span>
               ) : session ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    onClose();
-                    void signOut();
-                  }}
-                  className="w-full rounded-full border border-white/20 px-3 py-2 text-sm font-medium text-white hover:border-teal-500"
-                >
-                  Sign out
-                </button>
+                <>
+                  <Link
+                    href="/account"
+                    onClick={onClose}
+                    className="mb-2 flex min-h-[44px] w-full items-center justify-center rounded-full border border-white/20 px-3 text-sm font-medium text-white hover:border-teal-500"
+                  >
+                    Account settings
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      void signOut();
+                    }}
+                    className="w-full rounded-full border border-white/20 px-3 py-2 text-sm font-medium text-white hover:border-teal-500"
+                  >
+                    Sign out
+                  </button>
+                </>
               ) : (
                 <Link
                   href="/auth/signin"

@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { AvatarMenu } from "@/components/AvatarMenu";
-import { SettingsMenu } from "@/components/SettingsMenu";
 import { SideMenu } from "@/components/SideMenu";
 
 const overlayTextShadow = "0 1px 3px rgba(0,0,0,0.55)";
@@ -14,24 +12,24 @@ export function Header() {
   // Overlay style (transparent, video fills viewport) only on the live feed.
   // Browse / archive / other pages keep the standard slim solid bar.
   const onFeed = pathname === "/feed";
-  const showSettings = onFeed;
   const [menuOpen, setMenuOpen] = useState(false);
 
   // On /feed: render as a transparent overlay so the video fills the viewport.
-  // Elsewhere: render a slim solid bar.
+  // The top scrim is kept short + light so it never darkens the selection card
+  // floating below it. Elsewhere: a slim solid bar.
   const wrapClass = onFeed
-    ? "pointer-events-none absolute inset-x-0 top-0 z-40 bg-gradient-to-b from-black/40 via-black/15 to-transparent pb-3 backdrop-blur-[2px]"
+    ? "pointer-events-none absolute inset-x-0 top-0 z-40 bg-gradient-to-b from-black/30 to-transparent pb-1 backdrop-blur-[1px]"
     : "relative z-40 border-b border-[color:var(--border)] bg-[color:var(--surface)]/88 backdrop-blur";
 
   return (
     <>
       <header
         className={wrapClass}
-        style={onFeed ? { paddingTop: "max(0.5rem, env(safe-area-inset-top))" } : undefined}
+        style={onFeed ? { paddingTop: "max(0.4rem, env(safe-area-inset-top))" } : undefined}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2">
-          {/* Left: menu button + a small PEBL logo that links out to the site. */}
-          <div className="flex items-center gap-1">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-1.5">
+          {/* Left: the one menu button. Settings + account/sign-in now live
+              inside the side menu (opened from here), not in the top bar. */}
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -44,9 +42,6 @@ export function Header() {
             }`}
             style={onFeed ? { textShadow: overlayTextShadow } : undefined}
           >
-            {/* S5-T1: hamburger glyph replaces the misleading chevron-left
-                 (audit §04 F2). Three short horizontal strokes, same
-                 stroke weight as before. */}
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
               <path
                 d="M3 5h12M3 9h12M3 13h12"
@@ -57,9 +52,7 @@ export function Header() {
             </svg>
           </button>
 
-          {/* PEBL logo, sized to match the menu button. Logo = app home
-              (convention). The outbound link to the PEBL website lives in the
-              side-menu footer instead. */}
+          {/* Right: a faint PEBL logo (links home). */}
           <Link
             href="/"
             aria-label="FishSpotter home"
@@ -68,22 +61,14 @@ export function Header() {
             }`}
             style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
           >
-            {/* 50% opacity + ~half size, matching the menu button beside it. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/branding/PEBL Logo-1.svg"
               alt=""
               aria-hidden
-              className="h-5 w-auto opacity-50"
+              className="h-5 w-auto opacity-30"
             />
           </Link>
-          </div>
-
-          {/* Right: settings kebab (feed only) + avatar (everywhere) */}
-          <div className="pointer-events-auto flex items-center gap-1">
-            {showSettings && <SettingsMenu />}
-            <AvatarMenu overlay={onFeed} />
-          </div>
         </div>
       </header>
       <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />

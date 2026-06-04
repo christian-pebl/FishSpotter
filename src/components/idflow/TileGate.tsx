@@ -385,57 +385,58 @@ export function TileGate({
             </svg>
           </button>
 
-          {/* Back to the previous rung (top-left). Omitted on Rung 1. */}
-          {onBack && (
-            <button
-              type="button"
-              onClick={onBack}
-              aria-label="Back to the previous step"
-              title="Back a step"
-              className="absolute left-2 top-1 inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
-            >
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M11 7H3M7 11L3 7l4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Back
-            </button>
-          )}
+          {/* Header row: back (arrow only), the title, then minimise + close.
+              A flex row so the controls never overlap the title (they used to
+              be absolute-positioned over a centred title). */}
+          <div className="mb-2 flex items-center gap-2">
+            {onBack ? (
+              <button
+                type="button"
+                onClick={onBack}
+                aria-label="Back to the previous step"
+                title="Back a step"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+              >
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M11 7H3M7 11L3 7l4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            ) : (
+              <span className="h-10 w-10 shrink-0" aria-hidden="true" />
+            )}
 
-          {/* Top-right controls: Hide → the dock bubble, and Close → the true
-              dismiss. The dock bubble no longer carries its own ✕ (it was
-              corner-offset near the screen edge and too small to hit on a
-              phone), so closing the selector now lives here on the card. */}
-          <div className="absolute right-2 top-1 flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setMinimized(true)}
-              aria-label="Hide to a bubble and watch the clip"
-              title="Hide to a bubble"
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
-            >
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                <path d="M7 11l-3.5-4L7 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Hide
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close the selector"
-              title="Close"
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
-            >
-              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
-            </button>
+            <p className="min-w-0 flex-1 truncate text-center text-[11px] font-semibold uppercase tracking-widest text-white/55">
+              {title}
+            </p>
+
+            <div className="flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setMinimized(true)}
+                aria-label="Minimise to a bubble and watch the clip"
+                title="Minimise"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M4 12h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  <path d="M8 3v5.5M5.5 6.5L8 9l2.5-2.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close the selector"
+                title="Close"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+              >
+                <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div>
-            <p className="mb-1 text-center text-[11px] font-semibold uppercase tracking-widest text-white/50">
-              {title}
-            </p>
 
             {/* Breadcrumb of prior picks — each can jump back to its rung. */}
             {breadcrumb && breadcrumb.length > 0 && (
