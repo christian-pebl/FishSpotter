@@ -89,7 +89,7 @@ export function RarityPanel({
 
   if (data.status === "INSUFFICIENT_DATA") {
     return (
-      <div className="mt-2 text-[10px] text-white/40">
+      <div className="mt-2 text-[10px] text-white/70">
         Not enough OBIS data for this location and season yet.
       </div>
     );
@@ -116,10 +116,10 @@ export function RarityPanel({
       className="mt-3 border-t border-white/10 pt-2"
     >
       <div className="flex items-baseline justify-between gap-2 pb-1">
-        <span className="text-[10px] uppercase tracking-wider text-white/55">
+        <span className="text-[10px] uppercase tracking-wider text-white/70">
           Ecological likelihood
         </span>
-        <span className="text-[9px] text-white/60">
+        <span className="text-[9px] text-white/70">
           OBIS · ~11 km{month ? ` · ${month}` : ""}
         </span>
       </div>
@@ -133,7 +133,7 @@ export function RarityPanel({
                 style={{ width: `${Math.round(s.probability * 100)}%` }}
               />
             </div>
-            <span className="w-7 text-right tabular-nums text-white/55">
+            <span className="w-7 text-right tabular-nums text-white/70">
               {Math.round(s.probability * 100)}%
             </span>
           </div>
@@ -171,7 +171,7 @@ export function RarityPanel({
         </div>
       )}
       {staffProb == null && (
-        <div className="mt-1 text-[10px] text-white/60">
+        <div className="mt-1 text-[10px] text-white/70">
           Reference not matched to OBIS records here.
         </div>
       )}

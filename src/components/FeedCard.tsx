@@ -1071,7 +1071,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             // saturate boost. The old bg-navy-900/72 + backdrop-saturate-150 let
             // the underwater video bleed through and amplified its hue, so the
             // reveal read as a vivid green card instead of the dark gate design.
-            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-card border border-white/12 bg-navy-900/95 backdrop-blur md:max-h-[min(80vh,calc(100%-3.5rem))]"
+            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-card border border-white/12 bg-navy-900 backdrop-blur md:max-h-[min(80vh,calc(100%-3.5rem))]"
           >
             {/* Drag-only-from-here button. Visible grip so users know it's the
                 drag affordance. dragListener=false on the parent means drag
@@ -1413,7 +1413,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
                             <div className="h-full rounded bg-teal-500/70" style={{ width: `${s.percent}%` }} />
                           </div>
-                          <span className="w-7 text-right tabular-nums text-white/55">{s.percent}%</span>
+                          <span className="w-7 text-right tabular-nums text-white/75">{s.percent}%</span>
                         </div>
                       ))}
                     </div>

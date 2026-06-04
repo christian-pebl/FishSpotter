@@ -287,7 +287,7 @@ export function TileGate({
                     {tile.label}
                   </span>
                   {!!tile.badge && tile.badge > 0 && (
-                    <span className="text-[11px] font-medium text-white/45">
+                    <span className="text-[11px] font-medium text-white/70">
                       {tile.badge} species
                     </span>
                   )}
@@ -438,7 +438,7 @@ export function TileGate({
                         {c.label}
                       </button>
                     ) : (
-                      <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/45">
+                      <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/70">
                         {c.label}
                       </span>
                     )}
@@ -465,7 +465,7 @@ export function TileGate({
                   <button
                     type="button"
                     onClick={notSure.onClick}
-                    className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                    className="inline-flex min-h-[44px] items-center px-2 -mx-2 text-[10px] uppercase tracking-wider text-white/70 hover:text-white/80"
                   >
                     {notSure.label}
                   </button>
