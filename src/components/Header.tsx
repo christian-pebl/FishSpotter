@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AvatarMenu } from "@/components/AvatarMenu";
@@ -30,7 +29,8 @@ export function Header() {
         style={onFeed ? { paddingTop: "max(0.5rem, env(safe-area-inset-top))" } : undefined}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2">
-          {/* Left: back-arrow → opens drawer */}
+          {/* Left: menu button + a small PEBL logo that links out to the site. */}
+          <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -56,24 +56,33 @@ export function Header() {
             </svg>
           </button>
 
-          {/* Center: PEBL wordmark */}
-          <Link
-            href="/"
-            aria-label="PEBL FishSpotter home"
-            className="pointer-events-auto inline-flex shrink-0 items-center justify-center"
+          {/* PEBL logo, sized to match the menu button. Links out to the
+              company website (with a confirm) rather than the app home. */}
+          <a
+            href="https://www.pebl-cic.co.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              if (!window.confirm("Visit the PEBL website at pebl-cic.co.uk?")) {
+                e.preventDefault();
+              }
+            }}
+            aria-label="Visit the PEBL website at pebl-cic.co.uk"
+            className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full ${
+              onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
+            }`}
             style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
           >
-            {/* P-22: opacity-30 made the wordmark invisible against video,
-                raised to 70 so it's a legible anchor point, still
-                subordinate to the video content. */}
+            {/* 50% opacity + ~half size, matching the menu button beside it. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/branding/PEBL Logo-1.svg"
               alt=""
               aria-hidden
-              className={onFeed ? "h-7 w-auto opacity-70 md:h-8" : "h-7 w-auto md:h-9"}
+              className="h-5 w-auto opacity-50"
             />
-          </Link>
+          </a>
+          </div>
 
           {/* Right: settings kebab (feed only) + avatar (everywhere) */}
           <div className="pointer-events-auto flex items-center gap-1">
