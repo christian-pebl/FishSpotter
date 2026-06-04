@@ -26,7 +26,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion, useDragControls } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useDragControls } from "framer-motion";
 import { DURATION, EASE } from "@/lib/motion";
 
 /** A teal-tinted silhouette from a static SVG, via CSS mask + bg-current (zero
@@ -88,6 +88,7 @@ export function TileGate({
   scrollable = false,
   emptyMessage,
   suspendKeyboard = false,
+  bubbleLabel = "Reopen the selector",
 }: {
   ariaLabel: string;
   title: string;
@@ -110,8 +111,15 @@ export function TileGate({
   /** When true (an Examples popup is open on top), the gate yields keyboard
    * control so it can't fight the popup's focus trap, and goes inert. */
   suspendKeyboard?: boolean;
+  /** Accessible label for the minimized dock bubble (per-rung wording). */
+  bubbleLabel?: string;
 }) {
   const [hovered, setHovered] = useState<string | null>(null);
+  // Minimized to the bottom-centre dock bubble (Mac-style). The gate stays
+  // mounted (rung + selection state preserved); only the card collapses, so the
+  // user can flick between the selector and the clip behind it. Hide minimizes;
+  // the bubble's ✕ does the true dismiss (onClose).
+  const [minimized, setMinimized] = useState(false);
   // List variant: which row's examples panel is open (single-open accordion).
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   // Mirror into a ref so the keydown handler can read the latest value without
@@ -124,6 +132,10 @@ export function TileGate({
   const constraintsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // While minimized the card is gone and only the bubble (a single button) is
+    // up, so we release the focus trap + scroll lock and let the clip behind be
+    // fully interactive. Restoring re-runs this effect and re-engages both.
+    if (minimized) return;
     const lastFocused = document.activeElement as HTMLElement | null;
     const dialog = dialogRef.current;
     const prevOverflow = document.body.style.overflow;
@@ -174,7 +186,7 @@ export function TileGate({
       document.body.style.overflow = prevOverflow;
       lastFocused?.focus?.();
     };
-  }, [onClose, suspendKeyboard]);
+  }, [onClose, suspendKeyboard, minimized]);
 
   // React 18.3 needs `inert` spread as a string for Framer compatibility.
   const inertProps = suspendKeyboard
@@ -198,7 +210,7 @@ export function TileGate({
               onMouseLeave={() => setHovered(null)}
               aria-label={tile.ariaLabel ?? tile.label}
               className={[
-                "relative flex min-h-[72px] flex-col items-center justify-center gap-1.5 rounded-modal border p-2 transition-colors",
+                "relative flex min-h-[128px] flex-col items-center justify-center gap-2 rounded-modal border p-2.5 transition-colors",
                 isEmpty
                   ? "cursor-not-allowed border-white/10 opacity-35"
                   : hovered === tile.key
@@ -211,11 +223,11 @@ export function TileGate({
                   {tile.media}
                 </span>
               ) : (
-                <span className="flex h-8 w-8 items-center justify-center">
+                <span className="flex h-16 w-16 items-center justify-center">
                   {tile.icon}
                 </span>
               )}
-              <span className="text-center text-[10px] font-semibold uppercase leading-tight tracking-wider text-white/70">
+              <span className="text-center text-[11px] font-semibold uppercase leading-tight tracking-wider text-white/70">
                 {tile.label}
               </span>
               {!!tile.badge && tile.badge > 0 && (
@@ -267,7 +279,7 @@ export function TileGate({
                       : "text-teal-500 hover:text-teal-300",
                 ].join(" ")}
               >
-                <span className="flex h-16 w-16 shrink-0 items-center justify-center">
+                <span className="flex h-20 w-20 shrink-0 items-center justify-center">
                   {tile.icon}
                 </span>
                 <span className="flex min-w-0 flex-col gap-0.5">
@@ -318,8 +330,11 @@ export function TileGate({
   );
 
   return (
+    <>
     <div ref={constraintsRef} className="pointer-events-none absolute inset-0 z-30">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 w-[min(32rem,calc(100%-1.5rem))] -translate-x-1/2 -translate-y-1/2">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 w-[min(38rem,calc(100%-1.5rem))] -translate-x-1/2 -translate-y-1/2">
+        <AnimatePresence>
+        {!minimized && (
         <motion.div
           ref={dialogRef}
           drag
@@ -330,13 +345,27 @@ export function TileGate({
           dragConstraints={constraintsRef}
           initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
+          exit={
+            reduceMotion
+              ? { opacity: 0, transition: { duration: 0 } }
+              : {
+                  // Genie-style collapse down toward the dock bubble.
+                  opacity: 0,
+                  scale: 0.1,
+                  y: 280,
+                  transition: { duration: 0.26, ease: "easeIn" },
+                }
+          }
           transition={
             reduceMotion
               ? { duration: 0 }
               : { duration: DURATION.standard, ease: EASE.enter }
           }
           className="pointer-events-auto relative rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
-          style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}
+          style={{
+            paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
+            transformOrigin: "bottom center",
+          }}
           role="dialog"
           aria-modal="false"
           aria-label={ariaLabel}
@@ -371,12 +400,12 @@ export function TileGate({
             </button>
           )}
 
-          {/* Hide back to the video (top-right). */}
+          {/* Hide → minimize to the dock bubble (clip stays interactive). */}
           <button
             type="button"
-            onClick={onClose}
-            aria-label="Hide and go back to the video"
-            title="Back to the video"
+            onClick={() => setMinimized(true)}
+            aria-label="Hide to a bubble and watch the clip"
+            title="Hide to a bubble"
             className="absolute right-2 top-1 inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
           >
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -459,7 +488,62 @@ export function TileGate({
             )}
           </div>
         </motion.div>
+        )}
+        </AnimatePresence>
       </div>
     </div>
+
+      {/* Dock bubble — the minimized state. Tap to restore the card in place;
+          the ✕ badge does the true dismiss (onClose). */}
+      <AnimatePresence>
+        {minimized && (
+          <div
+            className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center"
+            style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}
+          >
+            <motion.div
+              className="pointer-events-auto relative"
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.3, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.3, y: 40 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.24, ease: EASE.enter }}
+            >
+              <button
+                type="button"
+                onClick={() => setMinimized(false)}
+                aria-label={bubbleLabel}
+                title={bubbleLabel}
+                className="flex h-14 w-14 items-center justify-center rounded-full border border-teal-300/40 bg-navy-900/95 text-teal-300 shadow-menu backdrop-blur transition-colors hover:border-teal-300 hover:bg-teal-500/25 hover:text-teal-200"
+              >
+                {/* Magnifier-over-target "Spot It" glyph + an up-cue. */}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" />
+                  <path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M10.5 13V8M8 10.5l2.5-2.5L13 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {/* 44px transparent tap target; the visible badge is the inner
+                  span (keeps the ✕ small without shrinking the hit area). */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                }}
+                aria-label="Close the selector"
+                title="Close"
+                className="group absolute -right-5 -top-5 flex h-11 w-11 items-center justify-center"
+              >
+                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-navy-900 text-white/70 shadow-menu transition-colors group-hover:bg-white/15 group-hover:text-white">
+                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                </span>
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

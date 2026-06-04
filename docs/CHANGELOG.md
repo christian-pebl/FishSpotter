@@ -78,3 +78,9 @@ Activation steps performed on 18 May:
 - `IntersectionObserver`-staggered fetches on the candidate grid (likely premature — typical narrow returns 3–5 candidates).
 - Retry-on-429 in the iNat client.
 
+## Guide-hero audit + auto-placement fix (4 Jun 2026)
+
+- **Audit (`implementation/2026-06-04/species-image-audit.md`):** validated all 42 annotated guide-hero photos (curated photo + `DiagnosticMark` rings, rendered by `AnnotatedSpeciesPhoto.tsx`) with Gemini 3.5 Flash, scoring a composite of each hero rendered with the live ring geometry. Found only 8/42 well-aligned, 15 species with no hero at all, and 3 on unusable (dead/captive) photos. Root cause: the ring coordinates seeded by `seed-fish-marks.ts` / `seed-invert-marks.ts` were hand-estimated drafts, never tuned.
+- **Tooling:** extracted the overlay/compositing/validation into `scripts/lib/mark-overlay.ts`; built `scripts/place-diagnostic-marks.ts` — Gemini localises each feature via its native `box_2d` detection format (converted to a centred ring), then a verify-and-correct loop re-prompts any ring graded off-target. Modes: `relocate` (re-place existing marks; skips already-aligned) and `author` (create from `scripts/data/p2-mark-drafts.ts`). Dry-run default; `--apply` writes; marks tagged `createdBy=gemini-place@pebl-cic.co.uk` (drafts). `scripts/render-hero.ts` renders a hero composite to PNG for human ground-truthing.
+- **Results (`implementation/2026-06-04/species-image-fix-report.md`):** guide-heroes 42 -> **57/57** (gap closed); heroes graded keep 8 -> **16**; photo-replacement needed 3 -> **0** (Dragonet + Edible Crab swapped to IDEAL photos, old ones blocklisted); **32 species improved**, 2 regressions reverted to baseline. All marks remain drafts pending expert sign-off. 24 species still have >=1 off ring or redundant marks (many-mark fish, multi-specimen or murky photos, duplicate labels) and are listed for a manual `/admin/species/[name]` pass in the fix report.
+

@@ -1,6 +1,18 @@
 {
   "_README": "sourceUrls of photos that must never be cached as SpeciesImage rows: Gemini 3.5 Flash (npm run images:assess) flagged them as drawings, dead/beach-cast specimens, or wrong-subject. refresh-images.ts skips any iNat/Wikimedia candidate whose sourceUrl is a key here (editorial overrides bypass it). Generated 3 Jun 2026 from the catalogue sweep.",
   "blocked": {
+    "https://commons.wikimedia.org/wiki/File:Callionymus.lyra_male_Sweden.jpg": {
+      "reason": "dead",
+      "scientificName": "Callionymus lyra"
+    },
+    "https://commons.wikimedia.org/wiki/File:Callionymus_lyra_dorsal_fin_male.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Callionymus lyra"
+    },
+    "https://www.inaturalist.org/observations/53236001": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
     "http://conabio.inaturalist.org/observations/4441001": {
       "reason": "wrong-subject",
       "scientificName": "Conger conger"

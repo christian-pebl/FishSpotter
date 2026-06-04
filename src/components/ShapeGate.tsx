@@ -166,9 +166,10 @@ export function ShapeGate({
       ariaLabel="What shape is it?"
       title="What shape is it, roughly?"
       tiles={tiles}
-      columns={4}
+      columns={3}
       onSelect={(key) => onSelectShape(key as ShapeClass)}
       onClose={onClose}
+      bubbleLabel="Reopen the shape selector"
       notSure={{ label: "Not sure", onClick: () => onSelectShape(null) }}
       skip={{ label: "Skip to guess", onClick: onSkip }}
     />

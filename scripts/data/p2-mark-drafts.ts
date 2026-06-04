@@ -1,0 +1,284 @@
+/**
+ * P2 diagnostic-mark drafts: editorial feature lists (label + description ONLY,
+ * no coordinates) for the 15 catalogue species that had NO guide-hero in the
+ * 2026-06-04 audit. scripts/place-diagnostic-marks.ts (author mode) places the
+ * ring coordinates with Gemini; this file is just the "what to look for" text.
+ *
+ * Voice + length match scripts/seed-fish-marks.ts. Twelve of these reuse the
+ * (sound) draft TEXT that already sat in seed-fish-marks.ts but never inserted
+ * (the species was skipped for lacking a curated photo at the time); three
+ * (Callionymus maculatus, Limanda limanda, Platichthys flesus) are newly
+ * authored here, grounded in the species' fieldNote in species-traits.json and
+ * the UK guides in decision-tree/id-guides/.
+ *
+ * All marks are DRAFTS pending marine-biologist sign-off.
+ */
+
+export type Feature = { label: string; description: string };
+
+export const P2_MARK_DRAFTS: Record<string, Feature[]> = {
+  // ---- Gadoids ----
+  "Pollachius virens": [
+    {
+      label: "Straight lateral line",
+      description:
+        "The pale line down the flank is nearly straight, with no sharp upward kink over the pectoral fin (that kink is pollack's tell).",
+    },
+    {
+      label: "Level jaw",
+      description:
+        "Upper and lower jaws are about equal (pollack's lower jaw juts out). Barbel tiny or absent.",
+    },
+    {
+      label: "Dark greenish back",
+      description:
+        "A dark green-brown back over silvery sides, schooling. Also called coalfish or coley.",
+    },
+  ],
+  "Gadus morhua": [
+    {
+      label: "Long chin barbel",
+      description:
+        "A long single whisker under the chin, distinctly longer than bib's; the most reliable cod feature.",
+    },
+    {
+      label: "Pale lateral line",
+      description:
+        "A distinct off-white stripe curves along the flank, easiest to see against the mottled back. No sharp kink.",
+    },
+    {
+      label: "Mottled olive-brown back",
+      description:
+        "Peppered, mottled camouflage on a green-brown base; cleaner-coloured pollack and saithe lack this speckling.",
+    },
+  ],
+
+  // ---- Wrasses ----
+  "Labrus bergylta": [
+    {
+      label: "Thick fleshy lips",
+      description:
+        "Big, rubbery lips for picking shellfish off the rock, a wrasse hallmark, strongest in the chunky ballan.",
+    },
+    {
+      label: "Single long dorsal fin",
+      description:
+        "One continuous dorsal fin runs almost the whole back (spiny at the front, soft behind), not split like a bass or gadoid.",
+    },
+    {
+      label: "Stout mottled body",
+      description:
+        "A deep, robust green-to-brown body, often pale-spotted and highly variable. Our largest wrasse.",
+    },
+  ],
+  "Symphodus melops": [
+    {
+      label: "Blue-green lines on the face",
+      description:
+        "A maze of blue-green wavy lines over the cheek and gill cover, vivid on breeding males.",
+    },
+    {
+      label: "Dark spot on the tail base",
+      description:
+        "A small dark spot in the centre of the tail base, present in both sexes; the most reliable corkwing tell.",
+    },
+    {
+      label: "Comma behind the eye",
+      description: "A short dark comma-shaped mark just behind the eye (clearest on males).",
+    },
+  ],
+  "Ctenolabrus rupestris": [
+    {
+      label: "Dark spot on upper tail base",
+      description:
+        "A bold black spot at the TOP of the tail base, the goldsinny's signature mark.",
+    },
+    {
+      label: "Dark spot at front of dorsal",
+      description:
+        "A second dark blotch at the very front of the dorsal fin. The two black spots together clinch it.",
+    },
+    {
+      label: "Small reddish-brown body",
+      description:
+        "Our smallest common wrasse (to ~15 cm), slender and reddish-brown, hugging rocky crevices.",
+    },
+  ],
+
+  // ---- Gobies / sculpin ----
+  "Gobiusculus flavescens": [
+    {
+      label: "Dark spot behind pectoral fin",
+      description: "The first of the two namesake dark spots sits just behind the pectoral fin.",
+    },
+    {
+      label: "Dark spot at the tail base",
+      description:
+        "The second spot sits at the tail base. Two spots plus orange-brown with blue speckles equals two-spotted goby.",
+    },
+    {
+      label: "Hovers in midwater shoals",
+      description:
+        "Unlike other gobies it does not perch on the bottom; it hovers in loose midwater groups over kelp and weed.",
+    },
+  ],
+  "Taurulus bubalis": [
+    {
+      label: "Long cheek spine",
+      description:
+        "A long spine on the cheek (preopercular) reaches back past the gill opening, the tell vs the short-spined sea scorpion.",
+    },
+    {
+      label: "Big spiny head, fan pectorals",
+      description:
+        "A broad, spiny, knobbly head and large fan-like pectoral fins; a stout, tapering body.",
+    },
+    {
+      label: "Mottled camouflage",
+      description:
+        "Highly variable blotchy camouflage (green, brown, reddish), sitting motionless among weed and rock.",
+    },
+  ],
+
+  // ---- Pelagic / schooling ----
+  "Scomber scombrus": [
+    {
+      label: "Wavy green-blue bars",
+      description:
+        "Bold, wavy, tiger-stripe bars across a metallic blue-green back, the most eye-catching fish in UK waters.",
+    },
+    {
+      label: "Streamlined forked tail",
+      description:
+        "A deeply forked tail and slim, torpedo-shaped body built for sustained fast swimming.",
+    },
+    {
+      label: "Silver-white belly",
+      description:
+        "A plain silver-white belly with no bars (the bars only run down the back), sharp contrast with the coloured back.",
+    },
+  ],
+  "Sprattus sprattus": [
+    {
+      label: "Keel of spiny scutes on belly",
+      description:
+        "A row of small, sharp scutes runs along the belly keel. Run a finger along it and you feel them. The most reliable sprat tell.",
+    },
+    {
+      label: "No dark spot behind gill",
+      description:
+        "Unlike the herring, the sprat has no dark spot at the shoulder. A small (to ~15 cm), slim, bright-silver baitfish.",
+    },
+    {
+      label: "Single small dorsal fin",
+      description:
+        "One short dorsal fin over the middle of the back, not forward of the pelvic fins as in the similar herring.",
+    },
+  ],
+  "Atherina presbyter": [
+    {
+      label: "Bright silver lateral stripe",
+      description:
+        "A very bright, solid silver stripe runs the whole length of the flank, the sand smelt's most conspicuous feature.",
+    },
+    {
+      label: "Translucent greenish body",
+      description:
+        "A slender, semi-transparent body with a greenish tinge above the silver stripe; a small (to ~15 cm), near-surface schooler.",
+    },
+    {
+      label: "Two small dorsal fins",
+      description:
+        "Two small, separate dorsal fins; the first is tiny and spiny; both are set well back on the body.",
+    },
+  ],
+  "Mullus surmuletus": [
+    {
+      label: "Two long chin barbels",
+      description:
+        "A pair of long sensory barbels under the chin, used to probe the sand for food, the red mullet's standout feature.",
+    },
+    {
+      label: "Reddish, with stripes/blotches",
+      description:
+        "Pink-red flanks marked with reddish-brown stripes and blotches; can flush brighter red. A steeply-sloped forehead.",
+    },
+    {
+      label: "Two separate dorsal fins",
+      description:
+        "Two well-separated dorsal fins on a deep-bellied body that grubs along sandy and gravelly bottoms.",
+    },
+  ],
+
+  // ---- Flatfish ----
+  "Pleuronectes platessa": [
+    {
+      label: "Bright orange spots",
+      description:
+        "Scattered bright orange-red spots over a smooth brown upper side, the plaice's signature, separating it from dab and flounder.",
+    },
+    {
+      label: "Both eyes on one side",
+      description:
+        "A flatfish: both eyes sit on the right (upper) side. The underside it lies on is plain white.",
+    },
+    {
+      label: "Bony ridge behind eyes",
+      description: "A short row of 4-7 bony knobs runs from behind the eyes; smooth skin otherwise.",
+    },
+  ],
+  // Newly authored (no prior seed draft), grounded in fieldNote + UK guides.
+  "Limanda limanda": [
+    {
+      label: "Curved lateral line over pectoral",
+      description:
+        "A distinct concave arch in the lateral line just above the pectoral fin, the dab's single most reliable tell against plaice and flounder.",
+    },
+    {
+      label: "Rough sandpaper skin",
+      description:
+        "The scales feel rough and sandpapery to the touch; the only common UK flatfish with this texture.",
+    },
+    {
+      label: "Plain sandy-brown, right-eyed",
+      description:
+        "Both eyes on the right (upper) side; a plain sandy-brown back with no bright orange spots, plainer than plaice.",
+    },
+  ],
+  "Platichthys flesus": [
+    {
+      label: "Bony tubercles along the fin bases",
+      description:
+        "A rough run of small bony knobs along the bases of the dorsal and anal fins and the lateral line, rough to the touch unlike the smooth plaice.",
+    },
+    {
+      label: "Pale, scattered spots",
+      description:
+        "Any orange spots are pale and scattered, never the vivid, well-defined orange of a plaice.",
+    },
+    {
+      label: "Dull brown estuary flatfish",
+      description:
+        "A dull greenish-brown right-eyed flatfish; the one UK flatfish that runs up into brackish estuaries and tidal rivers.",
+    },
+  ],
+
+  // ---- Dragonet ----
+  "Callionymus maculatus": [
+    {
+      label: "Flat-headed, sits on sand",
+      description:
+        "A small flat-headed dragonet that lies pressed to sandy-muddy bottoms with eyes set high on top of the head. Smaller than the common dragonet.",
+    },
+    {
+      label: "Cream-and-brown spotty camouflage",
+      description:
+        "Finely spotted and reticulated (net-patterned) in cream and brown for camouflage on sand, hence the spotted dragonet.",
+    },
+    {
+      label: "Modest first dorsal (male)",
+      description:
+        "The male raises a first dorsal fin in display, but it is lower and less filamentous than the tall sail of the common dragonet.",
+    },
+  ],
+};
