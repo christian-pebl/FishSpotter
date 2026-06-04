@@ -150,7 +150,11 @@
       ]
     },
     "Callionymus maculatus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Pleuronectes platessa": {
       "_note": "Add larva/post-settlement if iNat has it; flatfish pre-eye-migration is unrecognisable.",
@@ -170,10 +174,18 @@
       ]
     },
     "Limanda limanda": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Platichthys flesus": {
-      "buckets": [{ "count": 4 }]
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
     },
     "Scyliorhinus canicula": {
       "_note": "Egg case is itself an ID target — annotated as 'egg' on iNat.",
@@ -328,6 +340,36 @@
         "lifeStage": "adult",
         "sex": null,
         "ordering": 1
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/416296728/large.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Jennie Pistevos, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/observations/234194781",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 5
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/666979072/large.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) sam_aeostomeae, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/365318738",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 6
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Rhizostoma_pulmo_in_controluce.jpg",
+        "thumbUrl": null,
+        "attribution": "Andrea Bonifazi, CC BY-SA 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rhizostoma_pulmo_in_controluce.jpg",
+        "license": "cc-by-sa",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 7
       }
     ],
     "Cyanea lamarckii": [
@@ -452,6 +494,26 @@
         "lifeStage": "adult",
         "sex": null,
         "ordering": 1
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/597683273/large.jpg",
+        "thumbUrl": null,
+        "attribution": "Gordon Shepherd (CC0)",
+        "sourceUrl": "https://www.inaturalist.org/observations/329695383",
+        "license": "cc0",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 5
+      },
+      {
+        "url": "https://www.artsobservasjoner.no/MediaLibrary/2023/4/6300d281-1a76-49da-8401-74e976c5c67b_image.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Snorre Bakke, CC BY 4.0",
+        "sourceUrl": "https://www.gbif.org/occurrence/4079895549",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 6
       }
     ],
     "Loligo vulgaris": [
@@ -614,6 +676,36 @@
         "width": 3028,
         "height": 2002,
         "ordering": 1
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/12/Seelachs%2C_K%C3%B6hler_%28Pollachius_virens%29.jpg",
+        "thumbUrl": null,
+        "attribution": "Wilhelm Thomas Fiege, CC BY-SA 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Seelachs,_K%C3%B6hler_(Pollachius_virens).jpg",
+        "license": "cc-by-sa",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 5
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/571118540/large.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) le0p0ld_d, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/observations/316119537",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 6
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Pollachius_virens_%28S1156%29_0008_%2841480534114%29.jpg",
+        "thumbUrl": null,
+        "attribution": "Smithsonian Environmental Research Center, CC BY 2.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pollachius_virens_(S1156)_0008_(41480534114).jpg",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 7
       }
     ],
     "Trisopterus luscus": [
@@ -638,6 +730,26 @@
         "lifeStage": "adult",
         "sex": null,
         "ordering": 1
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/262805605/original.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) Brenton Prigge, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/152252018",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 5
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/540186697/original.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) phil_newman, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/299827173",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 6
       }
     ],
     "Gadus morhua": [
@@ -858,6 +970,26 @@
         "width": 2048,
         "height": 1367,
         "ordering": 1
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Ecomare_-_koornaarvis_%28koornaarvis-zeelab-4716-sd%29.jpg",
+        "thumbUrl": null,
+        "attribution": "Sytske Dijksen / Ecomare, CC BY-SA 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ecomare_-_koornaarvis_(koornaarvis-zeelab-4716-sd).jpg",
+        "license": "cc-by-sa",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 5
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/117651405/large.jpeg",
+        "thumbUrl": null,
+        "attribution": "(c) franciscodocampo, some rights reserved (CC BY)",
+        "sourceUrl": "https://www.inaturalist.org/observations/72187498",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 6
       }
     ],
     "Dicentrarchus labrax": [
@@ -898,6 +1030,36 @@
         "width": 1500,
         "height": 874,
         "ordering": 1
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Conger_conger.001_-_Aquarium_Finisterrae.jpg",
+        "thumbUrl": null,
+        "attribution": "Fernando Losada Rodriguez, CC BY-SA 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Conger_conger.001_-_Aquarium_Finisterrae.jpg",
+        "license": "cc-by-sa",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 5
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/609923060/original.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Ben Rumsby, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/335711375",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 6
+      },
+      {
+        "url": "https://live.staticflickr.com/3911/14371046064_1227577157_b.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Dimitris Siskopoulos, CC BY 2.0",
+        "sourceUrl": "https://www.flickr.com/photos/62001345@N00/14371046064",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 7
       }
     ],
     "Callionymus lyra": [
@@ -996,6 +1158,26 @@
         "width": 2048,
         "height": 1536,
         "ordering": 1
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/15/Dragonnet_tachet%C3%A9_%28Callionymus_maculatus%29_%28Ifremer_00634-74596%29.jpg",
+        "thumbUrl": null,
+        "attribution": "Isabelle Cheret / Ifremer, CC BY 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dragonnet_tachet%C3%A9_(Callionymus_maculatus)_(Ifremer_00634-74596).jpg",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 5
+      },
+      {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/518243029/original.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) Linus Wetterstrom, some rights reserved (CC BY-NC)",
+        "sourceUrl": "https://www.inaturalist.org/observations/288191083",
+        "license": "cc-by-nc",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 6
       }
     ],
     "Limanda limanda": [
