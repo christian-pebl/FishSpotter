@@ -224,7 +224,7 @@ export function TileGate({
               ].join(" ")}
             >
               {tile.media ? (
-                <span className="block aspect-square w-full overflow-hidden rounded-[12px] bg-white/5">
+                <span className="block aspect-square w-full overflow-hidden rounded-modal bg-white/5">
                   {tile.media}
                 </span>
               ) : (

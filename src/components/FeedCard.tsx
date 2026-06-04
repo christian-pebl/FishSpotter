@@ -973,7 +973,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {/* Collapsed pill — replaces the panel when minimized. Also hidden while a
           gate is open so the gate is the only box on screen. */}
       <AnimatePresence>
-        {panelCollapsed && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
+        {panelCollapsed && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
           <motion.div
             key="identify-bar"
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -1037,17 +1037,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           <div
             className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(560px,calc(100%-2rem))]"
             style={
-              // Reveal panel stays centred on every breakpoint, matching the
-              // Spot It rung gates. (It used to right-dock on lg, which read as
-              // off-centre next to the centred gates.)
-              isLg || isDesktop
-                ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
-                : {
-                      // +3.5rem clears the docked 56px "Name this species" bar.
-                      bottom: `calc(${keyboardOffset}px + 3.5rem + max(0.5rem, env(safe-area-inset-bottom)))`,
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                    }
+              // Reveal result is screen-centred on EVERY breakpoint, so it sits
+              // in exactly the same place as the Spot It rung selection tiles
+              // (TileGate centres at top-1/2). Post-answer there is no text
+              // input, so no keyboard offset / bottom-dock is needed.
+              { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
             }
           >
           <motion.aside
