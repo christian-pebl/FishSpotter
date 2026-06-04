@@ -385,9 +385,14 @@ in `implementation/2026-06-01/` — read `session-handoff.md` first, then
   next-question picker (`src/lib/idguide/next-trait.ts`, planned), and
   scored-by-rung in `answer-matching.ts`.
 - **The four rungs:** (1) shape gate silhouette grid; (2) visual sub-split;
-  (3) adaptive trait prompts (auto-stop at `NARROW_ENOUGH=3`); (4) reveal with
-  diagnostic-mark rings + commit. A persistent shrinking candidate strip is the
-  engagement engine. "Not sure" at every rung; "skip to guess" jumps to the MCQ.
+  (3) **as shipped, a photo-tile candidate grid** (`CandidateGate.tsx`, capped at
+  24 tiles, ordered by likelihood) — tap a tile to compare, then commit; (4)
+  reveal with diagnostic-mark rings + commit. **NB:** the adaptive yes/no
+  "narrowing engine" (`CandidateStrip.tsx` + `trait-questions.ts`) from the
+  original spec is **NOT currently wired into the runtime** — it is orphaned
+  (imported nowhere) pending a decision to revive (one information-gain cut
+  before rendering >~8 tiles) or remove it. Each rung offers "Not sure"
+  (re-narrow / step back) and "Pick from a list" (jump to the MCQ).
 - **Approved decisions:** guided flow sits ALONGSIDE the MCQ (button entry);
   scored-by-rung (coarse shape match = partial credit); PhyloPic silhouettes +
   annotated-photo trait diagrams (no commissioned art); prototype the gate first.

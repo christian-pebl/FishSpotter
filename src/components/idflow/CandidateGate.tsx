@@ -181,6 +181,10 @@ export function CandidateGate({
         breadcrumb={breadcrumb}
         bubbleLabel="Reopen the species picker"
         emptyMessage="No matches left — go back a step or pick from a list."
+        // An explicit "none of these match" exit at the decision point (the
+        // grid can hold up to 24 near-lookalikes). "None look right" steps back
+        // to re-narrow; "Pick from a list" jumps to the full MCQ.
+        notSure={onBack ? { label: "None look right", onClick: onBack } : undefined}
         skip={onSkipToMCQ ? { label: "Pick from a list", onClick: onSkipToMCQ } : undefined}
       />
       {preview && (
