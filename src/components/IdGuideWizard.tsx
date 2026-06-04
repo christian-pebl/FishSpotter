@@ -60,7 +60,7 @@ const STEPS: Step[] = [
     key: "finShape",
     question: "What did the fins or tail look like?",
     whyHint:
-      "Fin layout is a structural fingerprint: a fish cannot change it. Two distinct dorsal fins is a gadoid signature; one long continuous dorsal points at wrasse, eels or blennies. Tail shape narrows it further: a deeply forked tail belongs to a fast cruiser, a rounded tail to a bottom-hugger.",
+      "Fin layout is a structural fingerprint: a fish cannot change it. Two or three separate dorsal fins point to the cod family (gadoids, like cod, bib and pollack); one long continuous dorsal points at wrasse, eels or blennies. Tail shape narrows it further: a deeply forked tail belongs to a fast cruiser, a rounded tail to a bottom-hugger.",
     options: [
       { value: "split-dorsal", label: "Two or three distinct dorsal fins", hint: "Cod, bib, pollack, bass" },
       { value: "single-dorsal", label: "One long continuous dorsal fin", hint: "Wrasse, conger, blenny" },
@@ -90,7 +90,7 @@ const STEPS: Step[] = [
     options: [
       { value: "lateral-stripe", label: "Stripe along the side" },
       { value: "dorsal-spots", label: "Spots on body or fins" },
-      { value: "eye-spot", label: "An eye-spot (ocellus)" },
+      { value: "eye-spot", label: "An eye-spot (a dark eye-like ring)" },
       { value: "banded", label: "Vertical bands" },
       { value: "none", label: "None, plain or uniform" },
     ],
@@ -137,7 +137,9 @@ function WhyHint({ hint }: { hint: string }) {
       {remainder && (
         <details className="group mt-1">
           <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-teal-400/70 transition hover:text-teal-300 [&::-webkit-details-marker]:hidden">
-            <span className="text-[10px]">&#9658;</span>
+            <svg width="9" height="9" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="transition-transform group-open:rotate-90">
+              <path d="M4 2.5L8 6l-4 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
             <span className="group-open:hidden text-[10px] uppercase tracking-wider">More</span>
             <span className="hidden group-open:inline text-[10px] uppercase tracking-wider">Less</span>
           </summary>

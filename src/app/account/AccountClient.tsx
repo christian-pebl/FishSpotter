@@ -119,9 +119,14 @@ export function AccountClient({
                 disabled={verificationSendStatus === "sending"}
                 className="mt-2 rounded-full border border-navy-900/20 px-3 py-1 text-xs font-semibold hover:border-teal-500"
               >
-                {verificationSendStatus === "sent"
-                  ? "Email sent ✓"
-                  : verificationSendStatus === "rate-limited"
+                {verificationSendStatus === "sent" ? (
+                  <span className="inline-flex items-center gap-1">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Email sent
+                  </span>
+                ) : verificationSendStatus === "rate-limited"
                     ? "Try again later"
                     : verificationSendStatus === "sending"
                       ? "Sending…"
@@ -157,11 +162,18 @@ export function AccountClient({
               disabled={saveStatus === "saving" || displayName === savedName || displayName.trim().length === 0}
               className="pebl-button-primary px-4 py-2 text-xs"
             >
-              {saveStatus === "saving"
-                ? "Saving…"
-                : saveStatus === "saved"
-                  ? "Saved ✓"
-                  : "Save"}
+              {saveStatus === "saving" ? (
+                "Saving…"
+              ) : saveStatus === "saved" ? (
+                <span className="inline-flex items-center gap-1">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Saved
+                </span>
+              ) : (
+                "Save"
+              )}
             </button>
           </div>
           <p className="mt-1 text-xs text-navy-900/55">

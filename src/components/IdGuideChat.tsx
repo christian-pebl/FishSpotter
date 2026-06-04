@@ -295,10 +295,10 @@ export function IdGuideChat({
 
 function ThinkingDots() {
   return (
-    <span className="inline-flex items-center gap-1 text-white/60">
-      <span className="animate-pulse motion-reduce:animate-none">●</span>
-      <span className="animate-pulse motion-reduce:animate-none [animation-delay:120ms]">●</span>
-      <span className="animate-pulse motion-reduce:animate-none [animation-delay:240ms]">●</span>
+    <span className="inline-flex items-center gap-1 text-white/60" role="status" aria-label="Thinking">
+      <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse motion-reduce:animate-none" />
+      <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse motion-reduce:animate-none [animation-delay:120ms]" />
+      <span className="h-1.5 w-1.5 rounded-full bg-current animate-pulse motion-reduce:animate-none [animation-delay:240ms]" />
     </span>
   );
 }

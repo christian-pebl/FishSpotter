@@ -12,6 +12,24 @@ function safeCallback(raw: string): string {
   return /^\/(?!\/)/.test(raw) ? raw : "/feed";
 }
 
+// Password-requirement marker: SVG tick when met, a small dot when not.
+// Replaces the old Unicode glyphs; carries an sr-only met/not-met status so
+// the cue is not colour-only.
+function PwReqMark({ met }: { met: boolean }) {
+  return (
+    <>
+      {met ? (
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="shrink-0">
+          <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ) : (
+        <span aria-hidden="true" className="inline-block h-1 w-1 shrink-0 rounded-full bg-current opacity-50" />
+      )}
+      <span className="sr-only">{met ? "Met: " : "Not met: "}</span>
+    </>
+  );
+}
+
 function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -149,14 +167,14 @@ function SignInForm() {
           </div>
           {isSignUp && (
             <ul className="text-xs text-navy-900/72 -mt-2 space-y-0.5" aria-live="polite">
-              <li className={password.length >= 8 ? "text-teal-700" : ""}>
-                {password.length >= 8 ? "✓" : "•"} at least 8 characters
+              <li className={`flex items-center gap-1.5 ${password.length >= 8 ? "text-teal-700" : ""}`}>
+                <PwReqMark met={password.length >= 8} /> at least 8 characters
               </li>
-              <li className={/[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-teal-700" : ""}>
-                {/[a-z]/.test(password) && /[A-Z]/.test(password) ? "✓" : "•"} mixed case (recommended)
+              <li className={`flex items-center gap-1.5 ${/[a-z]/.test(password) && /[A-Z]/.test(password) ? "text-teal-700" : ""}`}>
+                <PwReqMark met={/[a-z]/.test(password) && /[A-Z]/.test(password)} /> mixed case (recommended)
               </li>
-              <li className={/[0-9]/.test(password) ? "text-teal-700" : ""}>
-                {/[0-9]/.test(password) ? "✓" : "•"} includes a number (recommended)
+              <li className={`flex items-center gap-1.5 ${/[0-9]/.test(password) ? "text-teal-700" : ""}`}>
+                <PwReqMark met={/[0-9]/.test(password)} /> includes a number (recommended)
               </li>
             </ul>
           )}
