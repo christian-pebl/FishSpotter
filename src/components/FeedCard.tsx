@@ -815,6 +815,32 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           </button>
         )}
 
+        {/* Tap the clip itself to start identifying. A transparent catcher over
+            the playing video opens the Spot It flow — only in the idle "watching"
+            state (not paused, not answered, no gate/strip/guess already open), and
+            at z-10 so the panel (z-20) and docked bar (z-30) still take their own
+            taps. Mutually exclusive with the tap-to-play overlay above. */}
+        {isActive &&
+          !videoPaused &&
+          !myAnswer &&
+          !shapeGateOpen &&
+          !bodyGateOpen &&
+          !spotItActive &&
+          !guessMode && (
+            <button
+              type="button"
+              aria-label="Identify this species"
+              onClick={() => {
+                togglePanel(false);
+                dispatch({ type: "openShapeGate" });
+                try {
+                  localStorage.setItem("fishspotter:hasIdentified", "1");
+                } catch {}
+              }}
+              className="absolute inset-0 z-10 cursor-pointer"
+            />
+          )}
+
         {hasBboxes && (
           <>
             <svg
