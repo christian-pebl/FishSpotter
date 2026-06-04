@@ -1478,7 +1478,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           type="button"
                           onClick={() => setMapOpen(true)}
                           aria-label="Show where this clip was recorded on a map"
-                          className="inline-flex min-h-[36px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80"
+                          className="inline-flex min-h-[44px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/70 hover:text-white/90"
                         >
                           <svg width="11" height="11" viewBox="0 0 15 15" fill="none" aria-hidden="true" className="text-teal-500/80">
                             <path d="M7.5 1.5C5 1.5 3 3.4 3 5.9c0 3.4 4.5 7.6 4.5 7.6s4.5-4.2 4.5-7.6c0-2.5-2-4.4-4.5-4.4z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
@@ -1488,19 +1488,28 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </button>
                       )}
                     </div>
-                    <div className="mt-2 flex items-center justify-between gap-2">
+                    <div
+                      className={`mt-2 flex items-center justify-between gap-2 ${
+                        hasNext
+                          ? // T15: pin the advance row to the bottom of the
+                            // reveal scroll so "Next" is always reachable on
+                            // mobile without discovering an internal scroll.
+                            "sticky bottom-0 z-10 -mx-3 border-t border-white/10 bg-navy-900 px-3 py-2 md:-mx-4 md:px-4"
+                          : ""
+                      }`}
+                    >
                       <div className="flex items-center gap-3">
                         <button
                           type="button"
                           onClick={editAnswer}
-                          className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white/55 hover:text-white/90"
+                          className="inline-flex min-h-[44px] items-center gap-1 text-[10px] uppercase tracking-wider text-white/70 hover:text-white/90"
                         >
                           <svg viewBox="0 0 14 14" className="h-3 w-3 text-teal-500/80" fill="none" aria-hidden="true">
                             <path d="M9.3 2.4l2.3 2.3-6.4 6.4-2.8.5.5-2.8z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
                           </svg>
                           Edit answer
                         </button>
-                        <Link href="/feed/browse" className="text-[10px] uppercase tracking-wider text-white/45 hover:text-white/80">
+                        <Link href="/feed/browse" className="inline-flex min-h-[44px] items-center text-[10px] uppercase tracking-wider text-white/70 hover:text-white/90">
                           Archive
                         </Link>
                       </div>
