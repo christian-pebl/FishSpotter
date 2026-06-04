@@ -1098,7 +1098,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               onClick={() => togglePanel(true)}
               aria-label="Minimize panel to see video (press H)"
               title="Minimize — press H to toggle"
-              className="absolute right-1.5 top-1 z-10 inline-flex h-8 items-center gap-1 rounded-full bg-white/5 px-2 text-[10px] font-medium uppercase tracking-wider text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+              className="absolute right-1.5 top-1 z-10 inline-flex h-8 items-center gap-1 rounded-full bg-white/5 px-2 text-[10px] font-medium uppercase tracking-wider text-white/70 transition-colors hover:bg-white/15 hover:text-white before:absolute before:-inset-x-2 before:-inset-y-1.5 before:content-['']"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2.5 6h7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />

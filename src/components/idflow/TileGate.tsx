@@ -391,7 +391,7 @@ export function TileGate({
               onClick={onBack}
               aria-label="Back to the previous step"
               title="Back a step"
-              className="absolute left-2 top-1 inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
+              className="absolute left-2 top-1 inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
             >
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M11 7H3M7 11L3 7l4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -406,7 +406,7 @@ export function TileGate({
             onClick={() => setMinimized(true)}
             aria-label="Hide to a bubble and watch the clip"
             title="Hide to a bubble"
-            className="absolute right-2 top-1 inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
+            className="absolute right-2 top-1 inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
           >
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
