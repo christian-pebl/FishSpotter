@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
 import { prisma } from "@/lib/prisma";
+import { MarineBackdrop } from "@/components/MarineBackdrop";
 
 // S4-02: switch from force-dynamic to ISR. Anonymous requests cache for
 // 60s; signed-in requests are dynamic (Next sees the cookie read from
@@ -174,6 +175,7 @@ export default async function LeaderboardPage() {
     ineligible && myCounts ? MIN_ANSWERS_FOR_RANKING - myCounts.total : 0;
 
   return (
+    <MarineBackdrop>
     <div className="flex-1 overflow-y-auto">
       <main
         id="main"
@@ -387,5 +389,6 @@ export default async function LeaderboardPage() {
         </section>
       </main>
     </div>
+    </MarineBackdrop>
   );
 }

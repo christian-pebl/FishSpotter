@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AccountClient } from "./AccountClient";
+import { MarineBackdrop } from "@/components/MarineBackdrop";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,7 @@ export default async function AccountPage() {
   }
 
   return (
+    <MarineBackdrop>
     <main
       id="main"
       tabIndex={-1}
@@ -88,5 +90,6 @@ export default async function AccountPage() {
         </ul>
       </section>
     </main>
+    </MarineBackdrop>
   );
 }
