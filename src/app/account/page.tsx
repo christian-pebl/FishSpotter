@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AccountClient } from "./AccountClient";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
+import { BackToFeed } from "@/components/BackToFeed";
 
 export const dynamic = "force-dynamic";
 
@@ -37,6 +38,7 @@ export default async function AccountPage() {
       tabIndex={-1}
       className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-4 px-4 py-10"
     >
+      <BackToFeed />
       <section className="pebl-surface rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">Your account</p>
         <h1 className="mt-3 font-brand text-h1 text-navy-900">

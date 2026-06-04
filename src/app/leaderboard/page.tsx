@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
+import { BackToFeed } from "@/components/BackToFeed";
 
 // S4-02: switch from force-dynamic to ISR. Anonymous requests cache for
 // 60s; signed-in requests are dynamic (Next sees the cookie read from
@@ -182,6 +183,7 @@ export default async function LeaderboardPage() {
         tabIndex={-1}
         className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8"
       >
+        <BackToFeed />
         <section className="pebl-surface rounded-card px-6 py-6">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
             Community overview

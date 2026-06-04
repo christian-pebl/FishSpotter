@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { computeStreakFromAnswers } from "@/lib/streak";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
+import { BackToFeed } from "@/components/BackToFeed";
 
 export const dynamic = "force-dynamic";
 
@@ -87,6 +88,7 @@ export default async function ProfilePage({
       tabIndex={-1}
       className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-10 min-h-0 overflow-y-auto"
     >
+      <BackToFeed />
       <section className="pebl-surface rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">Spotter profile</p>
         <h1 className="mt-2 font-brand text-h1 text-navy-900">{displayName}</h1>
