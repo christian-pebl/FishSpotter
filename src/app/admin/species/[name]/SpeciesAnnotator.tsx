@@ -248,6 +248,36 @@ export function SpeciesAnnotator({
     setMarks((prev) => prev.map((m) => (m.id === mark.id ? { ...m, [field]: value } : m)));
   }
 
+  // Keyboard / no-drag placement (WCAG 2.1.1 + 2.5.7): set ring geometry from
+  // the number inputs instead of requiring a pointer drag. Updates local state;
+  // the matching onBlur persists via savePosition().
+  function updateLocalMarkNumber(
+    mark: AnnotatorMark,
+    field: "overlayX" | "overlayY" | "overlayRadius",
+    value: number,
+  ) {
+    setMarks((prev) => prev.map((m) => (m.id === mark.id ? { ...m, [field]: value } : m)));
+  }
+
+  function savePosition(markId: string) {
+    const mark = marks.find((m) => m.id === markId);
+    if (!mark) return;
+    startSavingTransition(async () => {
+      setSaveError(null);
+      try {
+        await updateMark({
+          id: mark.id,
+          overlayX: mark.overlayX,
+          overlayY: mark.overlayY,
+          overlayRadius: mark.overlayRadius,
+        });
+      } catch (err) {
+        console.error("updateMark failed", err);
+        setSaveError(SAVE_ERROR_MSG);
+      }
+    });
+  }
+
   return (
     <div className="space-y-4">
       {saveError && (
@@ -327,6 +357,7 @@ export function SpeciesAnnotator({
               className="absolute inset-0 h-full w-full"
               viewBox="0 0 1000 1000"
               preserveAspectRatio="none"
+              aria-hidden="true"
               onPointerMove={handleDragMove}
               onPointerUp={handleDragEnd}
               onPointerCancel={handleDragEnd}
@@ -346,6 +377,7 @@ export function SpeciesAnnotator({
                       fill="rgba(58, 175, 169, 0.18)"
                       stroke={selected ? "#0ea5a5" : "#3aafa9"}
                       strokeWidth={selected ? 6 : 4}
+                      strokeDasharray={selected ? "16 10" : undefined}
                       data-markhit="1"
                       onPointerDown={(e) => startMove(e, m)}
                       style={{ cursor: "move" }}
@@ -368,7 +400,7 @@ export function SpeciesAnnotator({
                       <circle
                         cx={cx + r * 0.707}
                         cy={cy - r * 0.707}
-                        r={12}
+                        r={16}
                         fill="#0ea5a5"
                         stroke="#ffffff"
                         strokeWidth={3}
@@ -384,7 +416,8 @@ export function SpeciesAnnotator({
           </div>
           <p className="text-[11px] text-navy-500">
             Click the photo to add a mark. Click an existing ring to select it; drag the ring body to move, drag the
-            corner handle to resize. Edits save automatically.
+            corner handle to resize. Or select a mark and use the X / Y / Size fields below (arrow keys) to place it
+            without dragging. Edits save automatically.
             {isSaving && <span className="ml-2 text-teal-600">Saving…</span>}
           </p>
           {activePhoto?.attribution && (
@@ -411,45 +444,41 @@ export function SpeciesAnnotator({
                       isSel ? "border-teal-500 bg-teal-50" : "border-navy-200 bg-white hover:border-navy-400"
                     }`}
                   >
-                    <button
-                      type="button"
-                      onClick={() => setSelectedId(m.id)}
-                      className="flex w-full items-start justify-between text-left"
-                    >
-                      <span className="font-medium text-navy-900">
+                    {/* T18: select-button and reorder-buttons are siblings now
+                        (a button cannot legally contain other buttons). */}
+                    <div className="flex w-full items-center justify-between gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedId(m.id)}
+                        className="flex min-h-[44px] flex-1 items-center text-left font-medium text-navy-900"
+                      >
                         {idx + 1}. {m.label || <em className="text-navy-400">(no label)</em>}
-                      </span>
-                      <span className="flex gap-0.5 text-navy-400">
+                      </button>
+                      <span className="flex shrink-0 gap-0.5 text-navy-400">
                         <button
                           type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleReorder(m, -1);
-                          }}
+                          onClick={() => handleReorder(m, -1)}
                           disabled={idx === 0}
-                          className="rounded px-1 hover:bg-navy-100 disabled:opacity-30"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded hover:bg-navy-100 disabled:opacity-30"
                           aria-label="Move up"
                         >
-                          <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
+                          <svg viewBox="0 0 12 12" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
                             <path d="M3 7.5L6 4.5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </button>
                         <button
                           type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleReorder(m, 1);
-                          }}
+                          onClick={() => handleReorder(m, 1)}
                           disabled={idx === visibleMarks.length - 1}
-                          className="rounded px-1 hover:bg-navy-100 disabled:opacity-30"
+                          className="inline-flex h-9 w-9 items-center justify-center rounded hover:bg-navy-100 disabled:opacity-30"
                           aria-label="Move down"
                         >
-                          <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
+                          <svg viewBox="0 0 12 12" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
                             <path d="M3 4.5L6 7.5l3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </button>
                       </span>
-                    </button>
+                    </div>
                   </li>
                 );
               })}
@@ -487,6 +516,56 @@ export function SpeciesAnnotator({
                   {selectedMark.description.length}/280
                 </span>
               </label>
+              {/* T3: keyboard / no-drag placement. Native number inputs nudge
+                  with the arrow keys, so a mark can be positioned and sized
+                  without a pointer drag (WCAG 2.1.1 + 2.5.7). */}
+              <div className="grid grid-cols-3 gap-2">
+                <label className="block">
+                  <span className="text-[11px] font-medium text-navy-700">X %</span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={Math.round(selectedMark.overlayX * 100)}
+                    onChange={(e) => updateLocalMarkNumber(selectedMark, "overlayX", clamp01(Number(e.target.value) / 100))}
+                    onBlur={() => savePosition(selectedMark.id)}
+                    className="mt-0.5 block w-full rounded border border-navy-300 px-2 py-1 text-sm focus:border-teal-500 focus:outline-none"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-[11px] font-medium text-navy-700">Y %</span>
+                  <input
+                    type="number"
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={Math.round(selectedMark.overlayY * 100)}
+                    onChange={(e) => updateLocalMarkNumber(selectedMark, "overlayY", clamp01(Number(e.target.value) / 100))}
+                    onBlur={() => savePosition(selectedMark.id)}
+                    className="mt-0.5 block w-full rounded border border-navy-300 px-2 py-1 text-sm focus:border-teal-500 focus:outline-none"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-[11px] font-medium text-navy-700">Size %</span>
+                  <input
+                    type="number"
+                    min={1}
+                    max={50}
+                    step={1}
+                    value={Math.round(selectedMark.overlayRadius * 100)}
+                    onChange={(e) => updateLocalMarkNumber(selectedMark, "overlayRadius", clampRadius(Number(e.target.value) / 100))}
+                    onBlur={() => savePosition(selectedMark.id)}
+                    className="mt-0.5 block w-full rounded border border-navy-300 px-2 py-1 text-sm focus:border-teal-500 focus:outline-none"
+                  />
+                </label>
+              </div>
+              <p className="sr-only" aria-live="polite">
+                Mark {visibleMarks.findIndex((m) => m.id === selectedMark.id) + 1} at{" "}
+                {Math.round(selectedMark.overlayX * 100)} percent across,{" "}
+                {Math.round(selectedMark.overlayY * 100)} percent down, radius{" "}
+                {Math.round(selectedMark.overlayRadius * 100)} percent.
+              </p>
               <div className="flex items-center justify-between pt-1">
                 <button
                   type="button"
