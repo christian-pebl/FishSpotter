@@ -161,7 +161,7 @@ Core: `Snippet` (the clip + nullable `staffAnswer` reference), `Answer`
 > blob, and the in-repo JSON — joined *by convention, not by foreign key*. There
 > is no canonical `Species` table. A typo creates a silent orphan. A `Species`
 > table (FK'd from the above) is the recommended next structural investment as
-> the catalogue grows; it would make "add a species" a single insert.
+> the catalogue grows; it would make "add a species" a single insert. A full safe migration plan is in docs/runbooks/migrate-to-species-table.md.
 
 ---
 
