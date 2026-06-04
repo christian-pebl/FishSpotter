@@ -9,7 +9,7 @@ import { MapModal } from "./MapModal";
 import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 import { RarityPanel } from "./RarityPanel";
 import { IdGuideTrigger } from "./IdGuideTrigger";
-import { MCQCandidatePicker } from "./MCQCandidatePicker";
+import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 import { ShapeGate, SHAPE_CLASS_LABEL } from "./ShapeGate";
@@ -1049,22 +1049,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                        no longer the first thing shown. The default identify path
                        is the step-by-step Spot It shape flow. The legacy free-text
                        input is still retained inside it via the DEGENERATE fallback. */}
+                  {/* "Skip to guess" / "Pick from a list": a type-to-search box
+                       with live, catalogue-grounded suggestions (SpeciesSuggestions
+                       below) — replaces the old OBIS MCQ photo grid. */}
                   {guessMode && (
-                  <MCQCandidatePicker
-                    snippetId={snippet.id}
-                    isSignedIn={!!session}
-                    submitting={submitting}
-                    onPick={(name) => {
-                      if (!name) {
-                        // Sign-in nudge path inside the picker.
-                        window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(`/feed`)}`;
-                        return;
-                      }
-                      void submitAndAdvance(() =>
-                        handleSubmit({ answerText: name }),
-                      );
-                    }}
-                    freeTextFallback={
                       <>
                         <div className="flex items-center gap-2 pb-2">
                           {/* S5-T10: visually-hidden label so the
@@ -1141,9 +1129,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                             </motion.p>
                           )}
                         </AnimatePresence>
+                        <SpeciesSuggestions
+                          query={answerText}
+                          submitting={submitting}
+                          onSelect={(name) => {
+                            if (!name.trim()) return;
+                            void submitAndAdvance(() =>
+                              handleSubmit({ answerText: name }),
+                            );
+                          }}
+                        />
                       </>
-                    }
-                  />
                   )}
 
                   {hasNext && (
