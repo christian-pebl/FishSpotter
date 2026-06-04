@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { motion, AnimatePresence, useDragControls, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
@@ -16,8 +16,7 @@ import { ShapeGate, SHAPE_CLASS_LABEL } from "./ShapeGate";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
-import type { TraitKey } from "@/lib/idguide/narrow";
-import type { ShapeClass } from "@/lib/idguide/traits";
+import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
@@ -133,22 +132,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
-  // UX-0: "Spot It" shape-class gate.
-  const [shapeGateOpen, setShapeGateOpen] = useState(false);
-  const [selectedShape, setSelectedShape] = useState<ShapeClass | null>(null);
-  // (3 Jun) Rung 2: the body-shape gate, shown between the shape gate and the
-  // strip for classes that have a discriminating sub-split. formSeed carries the
-  // chosen form down into the strip's narrowing.
-  const [bodyGateOpen, setBodyGateOpen] = useState(false);
-  const [formSeed, setFormSeed] = useState<{ key: TraitKey; value: string | null } | null>(null);
-  // The Spot It strip shows once the user engages the gate, including via
-  // "Not sure" (selectedShape stays null -> the strip narrows the whole
-  // catalogue). Distinct from selectedShape so "Not sure" never dead-ends.
-  const [spotItActive, setSpotItActive] = useState(false);
-  // (3 Jun) Guided-first identify flow. The default path is the step-by-step
-  // "Spot It" shape gate; the MCQ tile grid is no longer shown first — it only
-  // renders as a "skip to guess" fallback once the user opts into it.
-  const [guessMode, setGuessMode] = useState(false);
+  // UX-0: the "Spot It" rung flow — shape gate (Rung 1) → body-shape gate
+  // (Rung 2) → candidate gate (Rung 3), with the MCQ tile grid as the
+  // "skip to guess" fast path. Transitions live in the tested pure reducer
+  // (src/lib/idflow/flow.ts); the booleans are destructured back out so every
+  // JSX guard + gate prop below is unchanged. selectedShape null = the user
+  // chose "Not sure" (Rung 3 narrows the whole catalogue), so it never dead-ends.
+  const [flow, dispatch] = useReducer(flowReducer, initialFlowState);
+  const { shapeGateOpen, bodyGateOpen, spotItActive, guessMode, selectedShape, formSeed } = flow;
   // (3 Jun) Breadcrumb labels + whether Rung 2 applies, for the gates' Back /
   // breadcrumb nav. Cheap to derive; memoised so playback re-renders don't churn it.
   const rungNav = useMemo(() => {
@@ -161,18 +152,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     return { rung2Applies, shapeLabel, formLabel };
   }, [selectedShape, formSeed]);
   // Jump back to a given rung, resetting downstream picks so they're re-made.
-  const goToRung1 = useCallback(() => {
-    setSpotItActive(false);
-    setBodyGateOpen(false);
-    setFormSeed(null);
-    setShapeGateOpen(true);
-  }, []);
-  const goToRung2 = useCallback(() => {
-    setSpotItActive(false);
-    setShapeGateOpen(false);
-    setFormSeed(null);
-    setBodyGateOpen(true);
-  }, []);
+  const goToRung1 = useCallback(() => dispatch({ type: "goToRung1" }), []);
+  const goToRung2 = useCallback(() => dispatch({ type: "goToRung2" }), []);
   // (3 Jun) "Show where on screen" radar ping — concentric rings that track the
   // bbox trail head so the user can find the creature in the clip. tracePosRef
   // is updated each frame by the trail render loop; the ping element follows it.
@@ -932,7 +913,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               onClick={() => {
                 togglePanel(false);
                 // Lead with the step-by-step shape flow, not the MCQ tiles.
-                if (!myAnswer && !guessMode && !spotItActive && !bodyGateOpen) setShapeGateOpen(true);
+                if (!myAnswer && !guessMode && !spotItActive && !bodyGateOpen) dispatch({ type: "openShapeGate" });
                 try {
                   localStorage.setItem("fishspotter:hasIdentified", "1");
                 } catch {}
@@ -1194,7 +1175,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           existing "Help me identify" wizard trigger. */}
                       <button
                         type="button"
-                        onClick={() => setShapeGateOpen(true)}
+                        onClick={() => dispatch({ type: "openShapeGate" })}
                         className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-teal-50 hover:border-teal-400 hover:bg-teal-500/20"
                       >
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -1209,7 +1190,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       {!guessMode && (
                         <button
                           type="button"
-                          onClick={() => setGuessMode(true)}
+                          onClick={() => dispatch({ type: "enterMcq" })}
                           className="inline-flex min-h-[44px] items-center py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 hover:text-white/90"
                         >
                           Pick from a list
@@ -1526,23 +1507,19 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {shapeGateOpen && (
         <ShapeGate
           onSelectShape={(shape) => {
-            setSelectedShape(shape);
-            setFormSeed(null);
-            setShapeGateOpen(false);
             // Rung 2: if this class has a discriminating body-shape sub-split,
             // show the body gate next; otherwise go straight to the strip.
-            if (shape && bodyFormConfigFor(shape)) {
-              setBodyGateOpen(true);
-            } else {
-              setSpotItActive(true);
-            }
+            dispatch({
+              type: "selectShape",
+              shape,
+              hasSubSplit: !!(shape && bodyFormConfigFor(shape)),
+            });
           }}
           onSkip={() => {
             // "Skip to guess" — reveal the MCQ tile grid as the fallback.
-            setShapeGateOpen(false);
-            setGuessMode(true);
+            dispatch({ type: "skipToMcq" });
           }}
-          onClose={() => setShapeGateOpen(false)}
+          onClose={() => dispatch({ type: "closeShapeGate" })}
         />
       )}
 
@@ -1552,15 +1529,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         <BodyShapeGate
           shapeClass={selectedShape}
           onSelectForm={(key, value) => {
-            setFormSeed({ key, value });
-            setBodyGateOpen(false);
-            setSpotItActive(true);
+            dispatch({ type: "selectForm", seed: { key, value } });
           }}
           onSkip={() => {
-            setBodyGateOpen(false);
-            setGuessMode(true);
+            dispatch({ type: "skipToMcq" });
           }}
-          onClose={() => setBodyGateOpen(false)}
+          onClose={() => dispatch({ type: "closeBodyGate" })}
           onBack={goToRung1}
           breadcrumb={[{ label: rungNav.shapeLabel, onClick: goToRung1 }]}
         />
@@ -1577,7 +1551,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onPick={(name) =>
             void submitAndAdvance(() => handleSubmit({ answerText: name }))
           }
-          onClose={() => setSpotItActive(false)}
+          onClose={() => dispatch({ type: "closeCandidates" })}
           onBack={rungNav.rung2Applies ? goToRung2 : goToRung1}
           breadcrumb={[
             { label: rungNav.shapeLabel, onClick: goToRung1 },
@@ -1586,8 +1560,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               : []),
           ]}
           onSkipToMCQ={() => {
-            setSpotItActive(false);
-            setGuessMode(true);
+            dispatch({ type: "skipToMcq" });
           }}
         />
       )}
