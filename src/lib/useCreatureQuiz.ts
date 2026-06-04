@@ -202,7 +202,11 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         stashPendingAnswer(snippet.id, pendingOption);
       }
       const target = signInCallbackUrl ?? `/feed/${snippet.id}`;
-      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(target)}`;
+      // A first-time spotter who just submitted an ID almost never has an
+      // account yet, so default the bounce to the sign-UP form (the page has a
+      // toggle for returning users who signed out). Avoids landing newcomers on
+      // a password sign-in for an account that does not exist.
+      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(target)}&isSignUp=1`;
       return false;
     }
     const option = (options?.answerText ?? answerText).trim();

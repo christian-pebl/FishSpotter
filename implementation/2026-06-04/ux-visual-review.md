@@ -58,7 +58,8 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 - Evidence: `OnboardingTour.tsx:59-65`; `useModalFocus.ts` (the contract); `SpeciesMarquee.tsx:56-65`; `globals.css:349-351` (pause on hover/focus only).
 - Fix: apply `useModalFocus` + `inert` to OnboardingTour (mirror MapModal); add a visible ≥44px pause/play toggle to the marquee, or start it paused.
 
-### T5 · Anon mid-ID bounce lands on sign-IN; no post-signup verification prompt — `M` · new
+### T5 · Anon mid-ID bounce lands on sign-IN; no post-signup verification prompt — `M` · new · 🟡 PARTIAL 2026-06-04
+**Fixed 2026-06-04:** the mid-ID bounce (`useCreatureQuiz.ts:205`) now appends `&isSignUp=1`, so a brand-new spotter lands on the sign-up form (the page has a toggle for returning users who signed out). **Residual:** the post-signup "check your inbox" verification banner is still not shown.
 **L5/L9 · /auth/signin, useCreatureQuiz, /feed.** A brand-new anon user who submits their first ID is bounced to `/auth/signin` **with no `isSignUp=1`**, so they see a password sign-in form for an account they do not have. Separately, the verification email is fire-and-forget and the user is pushed straight to `/feed` with **no "check your inbox" prompt**, while both re-engagement crons silently exclude unverified users. (Note: the landing "Start spotting" → `/feed` is intentional anon-first design and should **not** be rerouted to a sign-up wall.)
 - Evidence: `useCreatureQuiz.ts:205` + `FeedCard.tsx:1238` (bounce, no `isSignUp`); `signin/page.tsx:26,222`; `auth.ts:103` (fire-and-forget) + `signin/page.tsx:75`; `cron/digest/route.ts:44` + `streak-nudge/route.ts:43` (exclude unverified).
 - Fix: append `&isSignUp=1` to the mid-ID bounce; after sign-up show a dismissible feed banner "We have emailed you a link to verify your account" with a resend affordance (the route exists). Do not hard-gate `/feed`.
