@@ -187,32 +187,38 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 ---
 
-## Prioritised fix order
+## Prioritised fix order + implementation status (all worked through 2026-06-04)
 
-| # | Theme | Sev | Effort | Why |
-|---|---|---|---|---|
-| ✅ | T1 Legal pages clip on iOS Safari | ~~Blocker~~ P1 | S | **DONE 2026-06-04** — added `min-h-0 overflow-y-auto` to `LegalLayout` main. Residual: apply same to `/u/[id]` profile. |
-| 🟡 | T2 Sub-44px touch targets | P1 | M | **MOSTLY DONE 2026-06-04** — shared-class min-h + FeedCard Hide hit-area + idflow gates. Residual: wizard inline disclosure/skip. |
-| 3 | T5 Anon bounce + verification prompt | P1 | M | Hits every new user; sign-up redirect is S, verification banner unblocks crons. |
-| 4 | T4 Onboarding focus + marquee pause | P1 | M | a11y contracts the app already ships; first-run modal + Level-A 2.2.2 marquee miss. |
-| 5 | T6 Rung-3 "None look right" + dead engine | P1 | M | Flow/overload on the headline feature + 380 lines of revivable dead code + stale CLAUDE.md. |
-| 6 | T3 Admin annotator keyboard/drag | P1 | L | WCAG 2.1.1+2.5.7 fail; internal tool with partial sidebar path, so lower blast radius. |
-| 7 | T7 Token/glyph drift | P2 | M | Finishes the 2 Jun sweep across 5 surfaces; mechanical. |
-| 8 | T8 Low-opacity white text | P2 | S | Low-vision readability on dark panels; small lift to `white/70`. |
-| 9 | T15 Reveal Next below mobile scroll | P2 | M | Friction on the core advance action. |
-| 10 | T13 Legal-copy accuracy + wayfinding | P2 | M | Wrong company number + overclaimed statement on a CIC serving under-18s. |
-| 11 | T12 Verify-link dead-ends | P2 | M | Recovery gap for signed-out users. |
-| 12 | T16 Chat safety deflection | P2 | S | ICO hardening on an open LLM channel; cheap prompt addition. |
-| 13 | T11 Header logo off-site | P2 | S | Convention papercut; point logo to `/`. |
-| 14 | T9 Banned `rounded-xl` | P2 | S | Token consistency; mechanical. |
-| 15 | T17 Wizard jargon/reading age | P2 | M | Plain English; prioritise "ocellus"/"gadoid". |
-| 16 | T18 Annotator small targets + button-in-button | P2 | S | Bundle with T3. |
-| 17 | T14 Tour colour-only progress | P2 | S | Trivial step-of-N + non-colour pip. |
-| 18 | T10 Hamburger-only nav | P2 | L | Long-standing P17; schedule as a deliberate nav project. |
-| 19 | T19 Hero faux-quiz cue | P3 | S | Cheap demo cue. |
-| 20 | T20 Hero H1 density | P3 | S | Editorial split. |
-| 21 | T21 Popup redundant controls | P3 | S | Merge "Keep looking" into Back. |
+**Verification after the fix pass:** `tsc --noEmit` clean, `lint:tokens` clean, `eslint` clean, **260/260 unit tests pass**. Every commit used explicit path staging (never `-A`) to avoid the concurrent session's working tree.
+
+| Theme | Sev | Status | What landed |
+|---|---|---|---|
+| T1 Legal pages clip (iOS Safari) | ~~Blocker~~ P1 | ✅ Done | `min-h-0 overflow-y-auto` on `LegalLayout` main; live-verified. Sibling `/u/[id]` profile fixed too. |
+| T2 Sub-44px touch targets | P1 | 🟢 Mostly | `pebl-button-secondary` min-h+centring; FeedCard "Hide" hit-area; idflow gates + popup 40→44; reveal links. Residual: wizard inline "More/Less" disclosure. |
+| T5 Anon bounce + verification | P1 | ✅ Done | mid-ID bounce → `&isSignUp=1`; dismissible "check your inbox" `VerificationBanner` on the feed. |
+| T4 Onboarding focus + marquee pause | P1 | ✅ Done | `useModalFocus` on OnboardingTour; 44px pause/play toggle on SpeciesMarquee. |
+| T6 Rung-3 "None look right" + dead engine | P1 | 🟢 Mostly | CandidateGate "None look right" exit added; CLAUDE.md corrected. Orphan strip left for a revive/remove product call. |
+| T3 Admin annotator keyboard | P1 | ✅ Done | X/Y/Size number inputs (arrow-key placement), aria-hidden SVG, aria-live status, dashed selection cue. |
+| T7 Token/glyph drift | P2 | 🟢 Mostly | All dingbats/glyphs → SVG/CSS (chat dots, account, password meter, wizard ▶). Stock-palette tints (chat-error red, rarity amber, medals) kept — they carry non-colour cues (brand-only, not a11y). |
+| T8 Low-opacity white text | P2 | ✅ Done | TileGate/RarityPanel/FeedCard small text → `white/70+`; reveal panel fully opaque. |
+| T15 Reveal Next below mobile scroll | P2 | ✅ Done | Advance row pinned as a sticky footer when a next clip exists. |
+| T13 Legal copy + wayfinding | P2 | ✅ Done | Company-number finding was a FALSE POSITIVE (no change). Added "Back to FishSpotter" link. Draft-banner left to owner. |
+| T12 Verify-link dead-ends | P2 | ✅ Done | Recovery links on the expired + error branches. |
+| T16 Chat safety deflection | P2 | ✅ Done | HARD_RULE 8: on-task, assume children, deflect off-topic/unsafe/personal, no PII. |
+| T11 Header logo off-site | P2 | ✅ Done | Logo → app home `/` (Next Link); off-site link already in the drawer. |
+| T9 Banned `rounded-xl` | P2 | ✅ Done | → `rounded-modal` across the idflow surfaces. |
+| T17 Wizard jargon | P2 | ✅ Done | Dropped "(ocellus)"; "gadoid signature" → plain "cod family (gadoids…)". |
+| T18 Annotator button-in-button + targets | P2 | ✅ Done | Nested buttons restructured to siblings; targets padded; resize handle enlarged. |
+| T14 Tour colour-only progress | P2 | ✅ Done | sr-only "Step X of N" + non-colour active-pip size cue. |
+| T10 Hamburger-only nav | P2 | 🟢 Interim | "Back to feed" on leaderboard/account/profile. Persistent bottom tab bar = deferred deliberate project. |
+| T19 Hero faux-quiz cue | P3 | ✅ Done | "Demo" chip + full-card link (real entry point). |
+| T20 Hero H1 density | P3 | ✅ Done | Trimmed to a punchy hook. |
+| T21 Popup redundant controls | P3 | ✅ Done | Collapsed to one primary + header back. |
+
+**Explicitly deferred (need an owner decision, not a code fix):** T2/T6 residuals (wizard inline disclosure; revive-or-remove the orphan narrowing engine), T7 palette-token additions (rarity/medal tokens), T10 bottom tab bar, and the accessibility-statement "v0.1 draft" banner wording.
+
+**Still recommended:** the live breakpoint pass at 390/768/1440 + an instrument-measured contrast sweep, to confirm the layout themes the source-read review reasoned about (T1 was already live-confirmed + corrected).
 
 ---
 
-*Generated by a 20-finder multi-agent review with 2 adversarial verifiers per finding, reconciled against the 27 May / 1 Jun / 2 Jun logs. Pinned to `aab20a7`. Source-read; a live breakpoint + contrast pass is recommended to confirm T1/T8 empirically. No source files were modified by this review.*
+*Generated by a 20-finder multi-agent review with 2 adversarial verifiers per finding, reconciled against the 27 May / 1 Jun / 2 Jun logs. Review pinned to `aab20a7`; fixes applied 2026-06-04 on `spot-it-visual-id` and verified (tsc + 260 tests + eslint + token-lint all green).*
