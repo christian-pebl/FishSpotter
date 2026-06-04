@@ -25,13 +25,33 @@
       "reason": "wrong-subject",
       "scientificName": "Marthasterias glacialis"
     },
+    "https://commons.wikimedia.org/wiki/File:1866ca_2c_Newfoundland_unused_Yv21_Mi16x_SG25.jpg": {
+      "reason": "drawing",
+      "scientificName": "Gadus morhua"
+    },
+    "https://commons.wikimedia.org/wiki/File:2019-12-21_Mandonguilles_d%27abadejo_a_Massalfassar_02.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Pollachius pollachius"
+    },
     "https://commons.wikimedia.org/wiki/File:ARISE_DNA_sampling_Sepiola_atlantica.jpg": {
       "reason": "preserved",
       "scientificName": "Sepiola atlantica"
     },
+    "https://commons.wikimedia.org/wiki/File:A_dab..jpg": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
     "https://commons.wikimedia.org/wiki/File:A_history_of_Scandinavian_fishes_(9661342299).jpg": {
       "reason": "drawing",
       "scientificName": "Gadus morhua"
+    },
+    "https://commons.wikimedia.org/wiki/File:A_history_of_Scandinavian_fishes_(9661343387).jpg": {
+      "reason": "drawing",
+      "scientificName": "Trisopterus luscus"
+    },
+    "https://commons.wikimedia.org/wiki/File:A_history_of_Scandinavian_fishes_(9661345695).jpg": {
+      "reason": "drawing",
+      "scientificName": "Pollachius pollachius"
     },
     "https://commons.wikimedia.org/wiki/File:A_history_of_Scandinavian_fishes_(9664558178).jpg": {
       "reason": "drawing",
@@ -53,6 +73,18 @@
       "reason": "drawing+dead",
       "scientificName": "Taurulus bubalis"
     },
+    "https://commons.wikimedia.org/wiki/File:A_large_pouting.JPG": {
+      "reason": "preserved",
+      "scientificName": "Trisopterus luscus"
+    },
+    "https://commons.wikimedia.org/wiki/File:A_poorcod.jpg": {
+      "reason": "dead",
+      "scientificName": "Trisopterus minutus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Acanthochondria_limandae_on_Limanda_limanda.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Limanda limanda"
+    },
     "https://commons.wikimedia.org/wiki/File:Adolphe_Millot_mollusques_calmar_de_forbes.jpg": {
       "reason": "drawing",
       "scientificName": "Loligo forbesii"
@@ -65,9 +97,37 @@
       "reason": "drawing",
       "scientificName": "Gadus morhua"
     },
+    "https://commons.wikimedia.org/wiki/File:Aurelia_Aurita_20071019_Fnac_1.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://commons.wikimedia.org/wiki/File:Aurelia_Aurita_20071019_Fnac_2.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://commons.wikimedia.org/wiki/File:Aurelia_aurita_-_5.jpg": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://commons.wikimedia.org/wiki/File:Bec_de_calmar_Loligo_vulgaris_beak_01.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Bec_de_calmar_Loligo_vulgaris_beak_02.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://commons.wikimedia.org/wiki/File:Bec_de_calmar_Loligo_vulgaris_beak_03.jpg": {
       "reason": "wrong-subject",
       "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Berezhany_Ukr_(79).JPG": {
+      "reason": "dead",
+      "scientificName": "Sprattus sprattus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Big_pouting_Holland_on_a_white_background.jpg": {
+      "reason": "dead",
+      "scientificName": "Trisopterus luscus"
     },
     "https://commons.wikimedia.org/wiki/File:Brockhaus_and_Efron_Encyclopedic_Dictionary_b1_282-0.jpg": {
       "reason": "drawing",
@@ -81,6 +141,14 @@
       "reason": "dead",
       "scientificName": "Calliostoma zizyphinum"
     },
+    "https://commons.wikimedia.org/wiki/File:Campagne_IBTS_2010_-_Pr%C3%A9l%C3%A8vement_d%27otolithes_d%27une_plie_(Pleuronectes_platessa)_(Ifremer_00782-89372_-_49413).jpg": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://commons.wikimedia.org/wiki/File:Carcinus_maenas.jpg": {
+      "reason": "preserved",
+      "scientificName": "Carcinus maenas"
+    },
     "https://commons.wikimedia.org/wiki/File:Chrysaora_hysoscella_map.png": {
       "reason": "drawing+wrong-subject",
       "scientificName": "Chrysaora hysoscella"
@@ -89,17 +157,53 @@
       "reason": "drawing",
       "scientificName": "Sprattus sprattus"
     },
+    "https://commons.wikimedia.org/wiki/File:Conger_oceanicus.jpg": {
+      "reason": "preserved",
+      "scientificName": "Conger conger"
+    },
+    "https://commons.wikimedia.org/wiki/File:Congue_ary_sirhar.jpg": {
+      "reason": "dead",
+      "scientificName": "Conger conger"
+    },
+    "https://commons.wikimedia.org/wiki/File:Cuvier-76-Muge-tetragonure-Ath%C3%A9rine.jpg": {
+      "reason": "drawing",
+      "scientificName": "Atherina presbyter"
+    },
     "https://commons.wikimedia.org/wiki/File:Cyanea_lamarckii_139000487.jpg": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://commons.wikimedia.org/wiki/File:D._Marcus_Elieser_Bloch%27s,_aus%C3%BCbenden_Arztes_zu_Berlin_..._%C3%96konomische_Naturgeschichte_der_Fische_Deutschlands_(Tafel_54)_(6032447975).jpg": {
+      "reason": "drawing",
+      "scientificName": "Scomber scombrus"
     },
     "https://commons.wikimedia.org/wiki/File:D._Marcus_Elieser_Bloch%27s,_aus%C3%BCbenden_Arztes_zu_Berlin_..._%C3%96konomische_Naturgeschichte_der_Fische_Deutschlands_(Tafel_63)_(6032451045).jpg": {
       "reason": "drawing",
       "scientificName": "Gadus morhua"
     },
+    "https://commons.wikimedia.org/wiki/File:D._Marcus_Elieser_Bloch%27s,_aus%C3%BCbenden_Arztes_zu_Berlin_..._%C3%96konomische_Naturgeschichte_der_Fische_Deutschlands_(Tafel_68)_(6032452577).jpg": {
+      "reason": "drawing",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://commons.wikimedia.org/wiki/File:D._Marcus_Elieser_Bloch%27s,_aus%C3%BCbenden_Arztes_zu_Berlin_..._Oeconomische_Naturgeschichte_der_Fische_Deutschlands_(20877235495).jpg": {
+      "reason": "drawing",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Der_naturen_bloeme_-_Jacob_van_Maerlant_-_KB_KA_16_-_118r.jpg": {
+      "reason": "drawing",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Der_naturen_bloeme_-_Jacob_van_Maerlant_-_KB_KA_16_-_118v.jpg": {
+      "reason": "drawing",
+      "scientificName": "Nucella lapillus"
+    },
     "https://commons.wikimedia.org/wiki/File:Dragonnet_tachet%C3%A9_(Callionymus_maculatus)_(Ifremer_00634-74596).jpg": {
       "reason": "dead",
       "scientificName": "Callionymus maculatus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Ecomare_-_blauwe_haarkwal_(blauwe-haarkwal-3047-ogb).jpg": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
     },
     "https://commons.wikimedia.org/wiki/File:Eledone_cirrhosa.jpg": {
       "reason": "drawing",
@@ -117,13 +221,65 @@
       "reason": "drawing",
       "scientificName": "Gobiusculus flavescens"
     },
+    "https://commons.wikimedia.org/wiki/File:FMIB_46198_Rock_Goby-_Figure,_shewing_the_ventral_fin.jpeg": {
+      "reason": "drawing",
+      "scientificName": "Gobius paganellus"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_46260_Dab.jpeg": {
+      "reason": "drawing",
+      "scientificName": "Limanda limanda"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_46316_Sprat.jpeg": {
+      "reason": "drawing",
+      "scientificName": "Sprattus sprattus"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_46986_Rhyzostoma_cuvierii_(Per).jpeg": {
+      "reason": "drawing",
+      "scientificName": "Rhizostoma octopus"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_48884_Whiting_Pollack.jpeg": {
+      "reason": "drawing",
+      "scientificName": "Pollachius virens"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_52690_Hyas_araneus.jpeg": {
+      "reason": "preserved",
+      "scientificName": "Hyas araneus"
+    },
     "https://commons.wikimedia.org/wiki/File:Fish1844.jpg": {
       "reason": "wrong-subject",
       "scientificName": "Hyas araneus"
     },
+    "https://commons.wikimedia.org/wiki/File:Fisheries_capture_of_Sprattus_sprattus.png": {
+      "reason": "drawing",
+      "scientificName": "Sprattus sprattus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Flounder_dab_turbot_megrim_and_common_sole.jpg": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://commons.wikimedia.org/wiki/File:Four_pieces_of_fish_round_goby_common_sole_flounder_and_seabass_you_can_catch_in_Holland.jpg": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Fresh_line_caught_mackerel.jpg": {
+      "reason": "dead",
+      "scientificName": "Scomber scombrus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Frontal_histological_sections_of_Zoea_IV_(larval_stage_of_the_European_shore_crab_Carcinus_maenas).png": {
+      "reason": "preserved",
+      "scientificName": "Carcinus maenas"
+    },
     "https://commons.wikimedia.org/wiki/File:Gadus_morhua_Gervais.jpg": {
       "reason": "drawing",
       "scientificName": "Gadus morhua"
+    },
+    "https://commons.wikimedia.org/wiki/File:Glugea_stephani.jpg": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://commons.wikimedia.org/wiki/File:Gro%C3%9Fer_Taschenkrebs.png": {
+      "reason": "drawing",
+      "scientificName": "Cancer pagurus"
     },
     "https://commons.wikimedia.org/wiki/File:Histoire_naturelle_des_poissons_(Pl._78)_(7949967258).jpg": {
       "reason": "drawing",
@@ -149,9 +305,33 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://commons.wikimedia.org/wiki/File:Jellyfish_-_geograph.org.uk_-_185481.jpg": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://commons.wikimedia.org/wiki/File:La_P%C3%AAche_et_les_poissons_(6266715455).jpg": {
+      "reason": "drawing",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://commons.wikimedia.org/wiki/File:La_P%C3%AAche_et_les_poissons_(6267234780).jpg": {
+      "reason": "drawing",
+      "scientificName": "Conger conger"
+    },
+    "https://commons.wikimedia.org/wiki/File:La_P%C3%AAche_et_les_poissons_(6267237222).jpg": {
+      "reason": "drawing",
+      "scientificName": "Scomber scombrus"
+    },
     "https://commons.wikimedia.org/wiki/File:La_P%C3%AAche_et_les_poissons_(6267237546).jpg": {
       "reason": "drawing",
       "scientificName": "Gadus morhua"
+    },
+    "https://commons.wikimedia.org/wiki/File:Lernaeenicus_sprattae.jpg": {
+      "reason": "dead",
+      "scientificName": "Sprattus sprattus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Limanda_limanda.jpg": {
+      "reason": "preserved",
+      "scientificName": "Limanda limanda"
     },
     "https://commons.wikimedia.org/wiki/File:Lipophrys_pholis.jpg": {
       "reason": "drawing",
@@ -173,9 +353,29 @@
       "reason": "dead",
       "scientificName": "Loligo vulgaris"
     },
+    "https://commons.wikimedia.org/wiki/File:Loligo_vulgaris1.jpg": {
+      "reason": "drawing",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://commons.wikimedia.org/wiki/File:Loligo_vulgaris2.jpg": {
       "reason": "drawing",
       "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Loligo_vulgaris_embryo.jpg": {
+      "reason": "drawing",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Mackerel,_dab,_sole_and_sea_bass.jpg": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://commons.wikimedia.org/wiki/File:Nucella_lapillus_(YPM_IZ_032551).jpeg": {
+      "reason": "preserved",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Nucella_lapillus_Nordische_Purpurschnecke.jpg": {
+      "reason": "preserved",
+      "scientificName": "Nucella lapillus"
     },
     "https://commons.wikimedia.org/wiki/File:Ophiuroidea_(10.5852-ejt.2021.766.1483)_Figure_3.png": {
       "reason": "preserved",
@@ -197,9 +397,53 @@
       "reason": "wrong-subject",
       "scientificName": "Trachurus trachurus"
     },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_petit_tacaud_(Trisopterus_minutus_capelanus)_(Ifremer_00680-79178_-_32025).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Trisopterus minutus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_petit_tacaud_(Trisopterus_minutus_capelanus)_(Ifremer_00680-79178_-_32035).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Trisopterus minutus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_petit_tacaud_(Trisopterus_minutus_capelanus)_(Ifremer_00680-79178_-_32036).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Trisopterus minutus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_plie_(Pleuronectes_platessa)_(Ifremer_00784-89644_-_49923).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_plie_(Pleuronectes_platessa)_(Ifremer_00784-89644_-_49925).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_plie_(Pleuronectes_platessa)_(Ifremer_00784-89644_-_49940).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_plie_(Pleuronectes_platessa)_(Ifremer_00784-89644_-_49946).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Pleuronectes platessa"
+    },
     "https://commons.wikimedia.org/wiki/File:Platichthys_flesus_1.jpg": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Pleuronectes_platessa.jpg": {
+      "reason": "preserved",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://commons.wikimedia.org/wiki/File:Pollachius_pollachius_NO.JPG": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://commons.wikimedia.org/wiki/File:Pollachius_virens,_Troms%C3%B8_2007.jpg": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Pollachius_virens.jpg": {
+      "reason": "drawing",
+      "scientificName": "Pollachius virens"
     },
     "https://commons.wikimedia.org/wiki/File:Pollachius_virens.png": {
       "reason": "drawing",
@@ -209,6 +453,18 @@
       "reason": "drawing",
       "scientificName": "Pollachius virens"
     },
+    "https://commons.wikimedia.org/wiki/File:Pout_(PSF).png": {
+      "reason": "drawing",
+      "scientificName": "Trisopterus luscus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Rhizostoma_octopus_120924wa_01.jpg": {
+      "reason": "dead",
+      "scientificName": "Rhizostoma octopus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Rhizostoma_octopus_120924wa_02.jpg": {
+      "reason": "dead",
+      "scientificName": "Rhizostoma octopus"
+    },
     "https://commons.wikimedia.org/wiki/File:Rock_Gunnel.gif": {
       "reason": "drawing",
       "scientificName": "Pholis gunnellus"
@@ -217,13 +473,53 @@
       "reason": "drawing",
       "scientificName": "Platichthys flesus"
     },
+    "https://commons.wikimedia.org/wiki/File:Round_goby_and_flounder_fishes_of_Holland.jpg": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Salt_water_fish_with_Arabic_text.jpg": {
+      "reason": "drawing",
+      "scientificName": "Scomber scombrus"
+    },
     "https://commons.wikimedia.org/wiki/File:Scomber_scombrus.jpg": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://commons.wikimedia.org/wiki/File:Scyliorhinus_canicula_115223715.jpg": {
+      "reason": "dead",
+      "scientificName": "Scyliorhinus canicula"
+    },
+    "https://commons.wikimedia.org/wiki/File:Scyliorhinus_canicula_115223742.jpg": {
+      "reason": "dead",
+      "scientificName": "Scyliorhinus canicula"
+    },
+    "https://commons.wikimedia.org/wiki/File:Scyliorhinus_canicula_174830034.jpg": {
+      "reason": "dead",
+      "scientificName": "Scyliorhinus canicula"
+    },
+    "https://commons.wikimedia.org/wiki/File:Scyliorhinus_canicula_35829338.jpg": {
+      "reason": "dead",
+      "scientificName": "Scyliorhinus canicula"
+    },
+    "https://commons.wikimedia.org/wiki/File:Scyliorhinus_canicula_35829346.jpg": {
+      "reason": "dead",
+      "scientificName": "Scyliorhinus canicula"
+    },
+    "https://commons.wikimedia.org/wiki/File:Sei_p%C3%A5_10_kg,_107_cm.jpg": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Specimen_at_Natural_History_Museum,_Gothenburg_30.jpg": {
+      "reason": "preserved",
+      "scientificName": "Hyas araneus"
+    },
     "https://commons.wikimedia.org/wiki/File:Specimen_at_Natural_History_Museum,_Gothenburg_58_(cropped).jpg": {
       "reason": "preserved",
       "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://commons.wikimedia.org/wiki/File:Specimen_at_Natural_History_Museum,_Gothenburg_61_(cropped)_01.jpg": {
+      "reason": "preserved",
+      "scientificName": "Nucella lapillus"
     },
     "https://commons.wikimedia.org/wiki/File:Spinachia_spinachia.JPG": {
       "reason": "preserved",
@@ -233,17 +529,53 @@
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://commons.wikimedia.org/wiki/File:Sprattus_sprattus1.jpg": {
+      "reason": "drawing",
+      "scientificName": "Sprattus sprattus"
+    },
     "https://commons.wikimedia.org/wiki/File:Sprattus_sprattus_Gervais.jpg": {
       "reason": "drawing",
       "scientificName": "Sprattus sprattus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Stephanostomum_baccatum_on_Limanda_limanda_2.jpg": {
+      "reason": "preserved",
+      "scientificName": "Limanda limanda"
     },
     "https://commons.wikimedia.org/wiki/File:Taurulus_bubalis.jpg": {
       "reason": "dead",
       "scientificName": "Taurulus bubalis"
     },
+    "https://commons.wikimedia.org/wiki/File:Three_kinds_of_fish_caught_common_sole_flounder_and_round_goby_in_Holland.jpg": {
+      "reason": "drawing",
+      "scientificName": "Platichthys flesus"
+    },
     "https://commons.wikimedia.org/wiki/File:Trachurus_trachurus_Russia.jpg": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Trisopterus_luscus.jpg": {
+      "reason": "drawing",
+      "scientificName": "Trisopterus luscus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Trisopterus_minutus.jpg": {
+      "reason": "drawing",
+      "scientificName": "Trisopterus minutus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Trisopterus_minutus_Gervais.jpg": {
+      "reason": "drawing",
+      "scientificName": "Trisopterus minutus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Vier_soorten_vissen_die_je_kan_vangen_in_de_Nieuwe_waterweg_in_Nederland.jpg": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Wurzelmundqualle_im_Sp%C3%BClsaum.JPG": {
+      "reason": "dead",
+      "scientificName": "Rhizostoma octopus"
+    },
+    "https://commons.wikimedia.org/wiki/File:You_can_eat_flounders.jpg": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/100358114": {
       "reason": "dead",
@@ -309,6 +641,10 @@
       "reason": "dead",
       "scientificName": "Platichthys flesus"
     },
+    "https://www.inaturalist.org/observations/107176950": {
+      "reason": "dead",
+      "scientificName": "Trachurus trachurus"
+    },
     "https://www.inaturalist.org/observations/108180929": {
       "reason": "preserved",
       "scientificName": "Cancer pagurus"
@@ -324,6 +660,10 @@
     "https://www.inaturalist.org/observations/109598642": {
       "reason": "dead",
       "scientificName": "Symphodus melops"
+    },
+    "https://www.inaturalist.org/observations/110066127": {
+      "reason": "dead",
+      "scientificName": "Sprattus sprattus"
     },
     "https://www.inaturalist.org/observations/11173976": {
       "reason": "wrong-subject",
@@ -364,6 +704,10 @@
     "https://www.inaturalist.org/observations/120447392": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
+    },
+    "https://www.inaturalist.org/observations/121819117": {
+      "reason": "dead",
+      "scientificName": "Trachurus trachurus"
     },
     "https://www.inaturalist.org/observations/122019166": {
       "reason": "dead",
@@ -465,6 +809,10 @@
       "reason": "preserved",
       "scientificName": "Gobiusculus flavescens"
     },
+    "https://www.inaturalist.org/observations/138157010": {
+      "reason": "dead",
+      "scientificName": "Trachurus trachurus"
+    },
     "https://www.inaturalist.org/observations/138571983": {
       "reason": "wrong-subject",
       "scientificName": "Conger conger"
@@ -553,9 +901,21 @@
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
     },
+    "https://www.inaturalist.org/observations/153922246": {
+      "reason": "wrong-subject",
+      "scientificName": "Trachurus trachurus"
+    },
+    "https://www.inaturalist.org/observations/154809738": {
+      "reason": "wrong-subject",
+      "scientificName": "Taurulus bubalis"
+    },
     "https://www.inaturalist.org/observations/15558359": {
       "reason": "dead",
       "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/156019764": {
+      "reason": "wrong-subject",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/15954694": {
       "reason": "dead",
@@ -573,9 +933,17 @@
       "reason": "wrong-subject",
       "scientificName": "Chrysaora hysoscella"
     },
+    "https://www.inaturalist.org/observations/161942758": {
+      "reason": "wrong-subject",
+      "scientificName": "Taurulus bubalis"
+    },
     "https://www.inaturalist.org/observations/162196871": {
       "reason": "dead",
       "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/163279987": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
     },
     "https://www.inaturalist.org/observations/168152029": {
       "reason": "dead",
@@ -608,6 +976,10 @@
     "https://www.inaturalist.org/observations/170611612": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
+    },
+    "https://www.inaturalist.org/observations/170673943": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
     },
     "https://www.inaturalist.org/observations/170675005": {
       "reason": "wrong-subject",
@@ -681,6 +1053,10 @@
       "reason": "dead",
       "scientificName": "Labrus mixtus"
     },
+    "https://www.inaturalist.org/observations/184186831": {
+      "reason": "preserved",
+      "scientificName": "Callionymus lyra"
+    },
     "https://www.inaturalist.org/observations/185003722": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
@@ -736,6 +1112,10 @@
     "https://www.inaturalist.org/observations/194446955": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/195184821": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
     },
     "https://www.inaturalist.org/observations/195349859": {
       "reason": "dead",
@@ -840,6 +1220,10 @@
     "https://www.inaturalist.org/observations/207935526": {
       "reason": "wrong-subject+dead",
       "scientificName": "Trisopterus minutus"
+    },
+    "https://www.inaturalist.org/observations/208145679": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
     },
     "https://www.inaturalist.org/observations/213236425": {
       "reason": "dead",
@@ -1009,6 +1393,10 @@
       "reason": "dead",
       "scientificName": "Marthasterias glacialis"
     },
+    "https://www.inaturalist.org/observations/236026766": {
+      "reason": "preserved",
+      "scientificName": "Symphodus melops"
+    },
     "https://www.inaturalist.org/observations/236061490": {
       "reason": "dead",
       "scientificName": "Gobiusculus flavescens"
@@ -1137,6 +1525,10 @@
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
     },
+    "https://www.inaturalist.org/observations/254871802": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/255530333": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
@@ -1193,6 +1585,18 @@
       "reason": "dead",
       "scientificName": "Cancer pagurus"
     },
+    "https://www.inaturalist.org/observations/258591224": {
+      "reason": "dead",
+      "scientificName": "Steromphala umbilicalis"
+    },
+    "https://www.inaturalist.org/observations/258649401": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/259347797": {
+      "reason": "dead",
+      "scientificName": "Trachurus trachurus"
+    },
     "https://www.inaturalist.org/observations/260213216": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
@@ -1213,6 +1617,14 @@
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/262832492": {
+      "reason": "dead",
+      "scientificName": "Trachurus trachurus"
+    },
+    "https://www.inaturalist.org/observations/263606881": {
+      "reason": "dead",
+      "scientificName": "Trachurus trachurus"
+    },
     "https://www.inaturalist.org/observations/263622288": {
       "reason": "dead",
       "scientificName": "Labrus bergylta"
@@ -1220,6 +1632,10 @@
     "https://www.inaturalist.org/observations/263650416": {
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
+    },
+    "https://www.inaturalist.org/observations/263657647": {
+      "reason": "dead",
+      "scientificName": "Gobiusculus flavescens"
     },
     "https://www.inaturalist.org/observations/264082452": {
       "reason": "dead",
@@ -1272,6 +1688,10 @@
     "https://www.inaturalist.org/observations/274671340": {
       "reason": "dead",
       "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/275185736": {
+      "reason": "dead",
+      "scientificName": "Trachurus trachurus"
     },
     "https://www.inaturalist.org/observations/27777517": {
       "reason": "dead",
@@ -1437,6 +1857,10 @@
       "reason": "dead",
       "scientificName": "Gadus morhua"
     },
+    "https://www.inaturalist.org/observations/321373604": {
+      "reason": "wrong-subject",
+      "scientificName": "Sprattus sprattus"
+    },
     "https://www.inaturalist.org/observations/321373613": {
       "reason": "wrong-subject",
       "scientificName": "Sprattus sprattus"
@@ -1501,6 +1925,10 @@
       "reason": "dead",
       "scientificName": "Atherina presbyter"
     },
+    "https://www.inaturalist.org/observations/336591250": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
     "https://www.inaturalist.org/observations/337846605": {
       "reason": "dead",
       "scientificName": "Necora puber"
@@ -1556,6 +1984,10 @@
     "https://www.inaturalist.org/observations/354750136": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/362327917": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
     },
     "https://www.inaturalist.org/observations/36459529": {
       "reason": "dead",
@@ -1749,6 +2181,10 @@
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
     },
+    "https://www.inaturalist.org/observations/66142875": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
     "https://www.inaturalist.org/observations/66215408": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
@@ -1756,6 +2192,10 @@
     "https://www.inaturalist.org/observations/66628399": {
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/66629627": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
     },
     "https://www.inaturalist.org/observations/66918641": {
       "reason": "dead",
@@ -1781,6 +2221,10 @@
       "reason": "wrong-subject",
       "scientificName": "Carcinus maenas"
     },
+    "https://www.inaturalist.org/observations/69318463": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
     "https://www.inaturalist.org/observations/69777970": {
       "reason": "dead",
       "scientificName": "Aurelia aurita"
@@ -1788,6 +2232,10 @@
     "https://www.inaturalist.org/observations/69860897": {
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/70315217": {
+      "reason": "wrong-subject",
+      "scientificName": "Trachurus trachurus"
     },
     "https://www.inaturalist.org/observations/70414246": {
       "reason": "dead",
@@ -1868,6 +2316,10 @@
     "https://www.inaturalist.org/observations/85935123": {
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/86311799": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
     },
     "https://www.inaturalist.org/observations/86955407": {
       "reason": "dead",

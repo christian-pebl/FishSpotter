@@ -47,6 +47,8 @@ export type InatPhoto = {
   height: number | null;
   lifeStage: string | null;
   sex: string | null;
+  observedOn: string | null; // ISO date (or year) the observation was made
+  placeGuess: string | null; // human-readable location string
 };
 
 // iNat photo URLs are versioned by size — the API returns the `square`
@@ -58,6 +60,9 @@ function rewriteSize(url: string, size: "medium" | "large" | "square"): string {
 type InatObservation = {
   id: number;
   uri: string;
+  observed_on?: string | null;
+  observed_on_details?: { date?: string } | null;
+  place_guess?: string | null;
   photos?: Array<{
     url: string;
     license_code: string | null;
@@ -161,6 +166,8 @@ function obsToPhotos(obs: InatObservation): InatPhoto[] {
     if (a.controlled_attribute_id === TERM_LIFE_STAGE && !lifeStage) lifeStage = lbl;
     if (a.controlled_attribute_id === TERM_SEX && !sex) sex = lbl;
   }
+  const observedOn = obs.observed_on_details?.date ?? obs.observed_on ?? null;
+  const placeGuess = obs.place_guess ?? null;
   return obs.photos
     .filter((p) => !!p.url && !!p.license_code)
     .map((p) => ({
@@ -174,7 +181,35 @@ function obsToPhotos(obs: InatObservation): InatPhoto[] {
       height: p.original_dimensions?.height ?? null,
       lifeStage,
       sex,
+      observedOn,
+      placeGuess,
     }));
+}
+
+/**
+ * Batch-fetch observation metadata (date + place) by numeric id. Used to
+ * backfill observedOn / placeGuess onto SpeciesImage rows cached before those
+ * columns existed. iNat accepts a comma-joined `id` list; cap each call at 30.
+ */
+export async function fetchObservationMeta(
+  ids: number[],
+): Promise<Map<number, { observedOn: string | null; placeGuess: string | null }>> {
+  const out = new Map<number, { observedOn: string | null; placeGuess: string | null }>();
+  for (let i = 0; i < ids.length; i += 30) {
+    const chunk = ids.slice(i, i + 30);
+    const params = new URLSearchParams({
+      id: chunk.join(","),
+      per_page: "30",
+    });
+    const obs = await fetchObservationPage(params);
+    for (const o of obs) {
+      out.set(o.id, {
+        observedOn: o.observed_on_details?.date ?? o.observed_on ?? null,
+        placeGuess: o.place_guess ?? null,
+      });
+    }
+  }
+  return out;
 }
 
 export async function fetchPhotosForSpecies(args: {

@@ -133,6 +133,8 @@ type Cand = {
   height: number | null;
   lifeStage: string | null;
   sex: string | null;
+  observedOn: string | null;
+  placeGuess: string | null;
   q?: ImageQuality;
   err?: string;
 };
@@ -151,6 +153,8 @@ function inatToCand(p: InatPhoto): Cand {
     height: p.height,
     lifeStage: p.lifeStage,
     sex: p.sex,
+    observedOn: p.observedOn,
+    placeGuess: p.placeGuess,
   };
 }
 
@@ -166,6 +170,8 @@ function wmToCand(p: WikimediaPhoto): Cand {
     height: p.height,
     lifeStage: null,
     sex: null,
+    observedOn: null,
+    placeGuess: null,
   };
 }
 
@@ -194,14 +200,23 @@ function isReject(q: ImageQuality): { reject: boolean; reason: string } {
   return { reject: false, reason: "" };
 }
 
+// Composite "how well does this teach the species" score: overall teaching
+// suitability blended 50/50 with how legible the diagnostic features are, so a
+// photo that genuinely SHOWS the key traits beats a merely pretty one for the
+// limited gallery slots. (User ask, 4 Jun: images must "show off the key
+// traits of the species".)
+function traitScore(q: ImageQuality): number {
+  return q.teachingScore * 0.5 + q.diagnosticFeaturesVisible * 0.5;
+}
+
 function rankCands(a: Cand, b: Cand): number {
   const ra = REC_RANK[a.q!.recommendation] - REC_RANK[b.q!.recommendation];
   if (ra !== 0) return ra;
-  // Prefer single specimens, then lateral views, then raw score.
+  // Prefer single specimens, then the trait-visibility-weighted score.
   const sa = a.q!.subjectType === "single-specimen" ? 0 : 1;
   const sb = b.q!.subjectType === "single-specimen" ? 0 : 1;
   if (sa !== sb) return sa - sb;
-  return b.q!.teachingScore - a.q!.teachingScore;
+  return traitScore(b.q!) - traitScore(a.q!);
 }
 
 type SpeciesReport = {
@@ -265,6 +280,8 @@ async function buildOne(
         height: r.height,
         lifeStage: r.lifeStage,
         sex: r.sex,
+        observedOn: r.observedOn,
+        placeGuess: r.placeGuess,
       });
     }
   }
@@ -363,6 +380,8 @@ async function buildOne(
         sex: c.sex,
         width: c.width,
         height: c.height,
+        observedOn: c.observedOn,
+        placeGuess: c.placeGuess,
         ordering: ordering++,
         source: c.source,
         curated: false,
@@ -374,6 +393,8 @@ async function buildOne(
         license: c.license,
         width: c.width,
         height: c.height,
+        observedOn: c.observedOn,
+        placeGuess: c.placeGuess,
         ordering: ordering++,
         source: c.source,
         refreshedAt: new Date(),
