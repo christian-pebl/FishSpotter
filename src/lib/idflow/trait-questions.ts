@@ -107,6 +107,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "laterally-compressed": "Is the body tall and flattened side-to-side?",
     "flat-dorsoventral": "Is the body flattened top-to-bottom, lying flat?",
     "eel-like": "Is the body eel-like?",
+    "bottom-scooter": "Does it rest on the bottom and dart in fits and starts (goby or dragonet)?",
   },
   bodyDepth: {
     deep: "Is it a deep-bodied, tall fish (clearly taller than a torpedo)?",

@@ -378,6 +378,7 @@
     "commonName": "Common goby",
     "shapeClass": "fish",
     "bodyShape": [
+      "bottom-scooter",
       "elongated",
       "fusiform"
     ],
@@ -416,6 +417,7 @@
     "commonName": "Rock goby",
     "shapeClass": "fish",
     "bodyShape": [
+      "bottom-scooter",
       "elongated",
       "fusiform"
     ],
@@ -455,6 +457,7 @@
     "commonName": "Sand goby",
     "shapeClass": "fish",
     "bodyShape": [
+      "bottom-scooter",
       "elongated",
       "fusiform"
     ],
@@ -493,7 +496,7 @@
     "commonName": "Dragonet",
     "shapeClass": "fish",
     "bodyShape": [
-      "flat-dorsoventral"
+      "bottom-scooter"
     ],
     "size": "small",
     "coloration": [
@@ -526,7 +529,7 @@
     "commonName": "Spotted dragonet",
     "shapeClass": "fish",
     "bodyShape": [
-      "flat-dorsoventral"
+      "bottom-scooter"
     ],
     "size": "small",
     "coloration": [

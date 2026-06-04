@@ -4,10 +4,17 @@ export const BODY_SHAPE = [
   "laterally-compressed",
   "flat-dorsoventral",
   "eel-like",
+  "bottom-scooter",
 ] as const;
 // NB `snake-like` was retired on 3 Jun 2026: it was a duplicate silhouette of
 // `eel-like` (no species used it) and would have shown two near-identical Rung-2
 // tiles. `eel-like` is the canonical long-continuous-fin silhouette.
+// `bottom-scooter` (added 4 Jun 2026) is the fish "Bottom scooters" Rung-2
+// bucket: bottom-resting fish that perch then dart in fits and starts —
+// dragonets and the round-bodied gobies. It is an ecology/posture grouping, not
+// a strict cross-section, so it (deliberately) overlaps with the gobies'
+// `elongated`/`fusiform` tags. Distinct from `flat-dorsoventral`, which stays
+// the asymmetric eyes-migrated flatfish (plaice/dab/flounder).
 export type BodyShape = (typeof BODY_SHAPE)[number];
 
 export const SIZE = ["small", "medium", "large"] as const; // <10cm, 10-50cm, >50cm
@@ -113,10 +120,11 @@ export const SHAPE_CLASS = [
 // into `fish`: a downward-looking seabed camera + naive-user testing (Gemini
 // vision pass) showed beginners reliably group dragonets with bottom-dwelling
 // gobies and tap "Fish", so a hard separate gate made dragonets unreachable for
-// no discriminating gain. The dragonets carry `bodyShape: flat-dorsoventral`,
-// so the fish Rung-2 sub-split ("Flat, on the bottom") still isolates them from
-// the round-bodied gobies. Distinct from the `flatfish` class (asymmetric,
-// eyes-migrated).
+// no discriminating gain. The dragonets carry `bodyShape: bottom-scooter`, the
+// fish Rung-2 sub-split "Bottom scooters" (4 Jun 2026) — which now groups them
+// WITH the bottom-dwelling gobies rather than splitting them off, since
+// beginners group all the perch-and-dart seabed fish together. Distinct from
+// the `flatfish` class (asymmetric, eyes-migrated).
 export type ShapeClass = (typeof SHAPE_CLASS)[number];
 
 // Movement is a NORMAL scored trait, not a funnel level. Surfaced by the

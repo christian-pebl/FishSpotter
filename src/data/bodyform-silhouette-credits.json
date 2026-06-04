@@ -55,6 +55,13 @@
     "license": "CC0 1.0",
     "source": "https://www.phylopic.org/images/629e1135-d0c5-4f02-bb13-8cbf63e48692"
   },
+  "bottom-scooter": {
+    "taxon": "Gobiidae / Callionymidae (bottom-resting fish)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
   "cuttlefish": {
     "taxon": "Sepia orbignyana",
     "imageUuid": "00f831ef-01ad-4327-8506-7e0b92c1839b",

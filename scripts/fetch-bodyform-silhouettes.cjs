@@ -235,7 +235,19 @@ async function main() {
   const outDir = path.join(process.cwd(), "public", "silhouettes", "forms");
   fs.mkdirSync(outDir, { recursive: true });
 
-  const credits = {};
+  // Preserve any hand-authored (non-PhyloPic) credits — entries with no
+  // imageUuid are original PEBL silhouettes (e.g. bottom-scooter) and their SVGs
+  // are not re-fetched here, so re-running this script must not drop them.
+  const creditsPath = path.join(process.cwd(), "src", "data", "bodyform-silhouette-credits.json");
+  let credits = {};
+  try {
+    const existing = JSON.parse(fs.readFileSync(creditsPath, "utf8"));
+    for (const [k, v] of Object.entries(existing)) {
+      if (v && v.imageUuid == null) credits[k] = v;
+    }
+  } catch {
+    // first run — no existing credits file
+  }
   let ok = 0;
 
   for (const t of TARGETS) {
@@ -262,10 +274,7 @@ async function main() {
     ok++;
   }
 
-  fs.writeFileSync(
-    path.join(process.cwd(), "src", "data", "bodyform-silhouette-credits.json"),
-    JSON.stringify(credits, null, 2) + "\n",
-  );
+  fs.writeFileSync(creditsPath, JSON.stringify(credits, null, 2) + "\n");
 
   console.log(`\nWrote ${ok}/${TARGETS.length} silhouettes + credits.`);
 }

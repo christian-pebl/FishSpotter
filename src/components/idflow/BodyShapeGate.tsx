@@ -14,7 +14,8 @@
  * public/silhouettes/forms/<value>.svg (tinted via mask-image, same as Rung 1).
  * Christian is authoring bespoke replacement art in parallel; dropping an SVG
  * over the same filename swaps it in with no code change. Forms without an asset
- * (flat-dorsoventral, no-shell) show a neutral placeholder.
+ * (no-shell) show a neutral placeholder; bottom-scooter uses an original PEBL
+ * silhouette (no PhyloPic UUID) registered in bodyform-silhouette-credits.json.
  */
 
 import { TileGate, MaskSilhouette, type TileSpec, type Crumb } from "@/components/idflow/TileGate";
