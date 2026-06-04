@@ -207,6 +207,12 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
       </div>
       <AnimatePresence>
         {hintVisible && (
+          // Float ABOVE FeedCard's docked "Watching… tap to identify" bar.
+          // That bar is absolute bottom-0 h-14 (3.5rem) and is present on the
+          // first card during the exact window this onboarding hint shows (the
+          // watch-first auto-collapse), so a bottom-0.75rem hint landed right
+          // on top of it. Clear the bar (3.5rem) + a gap so the two bottom
+          // overlays stack instead of colliding.
           <motion.div
             key="nav-hint"
             initial={reduceMotion ? false : { opacity: 0, y: 8 }}
@@ -214,7 +220,7 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
             transition={{ duration: 0.35 }}
             className="pointer-events-none absolute inset-x-0 z-30 flex justify-center"
-            style={{ bottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+            style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 4.25rem)" }}
           >
             <div className="flex items-center gap-2 rounded-full bg-black/55 px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-eyebrow text-white/85 backdrop-blur-sm">
               <motion.span

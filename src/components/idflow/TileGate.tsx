@@ -117,8 +117,9 @@ export function TileGate({
   const [hovered, setHovered] = useState<string | null>(null);
   // Minimized to the bottom-centre dock bubble (Mac-style). The gate stays
   // mounted (rung + selection state preserved); only the card collapses, so the
-  // user can flick between the selector and the clip behind it. Hide minimizes;
-  // the bubble's ✕ does the true dismiss (onClose).
+  // user can flick between the selector and the clip behind it. Hide minimizes
+  // to the bubble; the true dismiss (onClose) lives on the restored card's
+  // Close button (the bubble itself only restores — no corner ✕ to mis-tap).
   const [minimized, setMinimized] = useState(false);
   // List variant: which row's examples panel is open (single-open accordion).
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
@@ -400,20 +401,36 @@ export function TileGate({
             </button>
           )}
 
-          {/* Hide → minimize to the dock bubble (clip stays interactive). */}
-          <button
-            type="button"
-            onClick={() => setMinimized(true)}
-            aria-label="Hide to a bubble and watch the clip"
-            title="Hide to a bubble"
-            className="absolute right-2 top-1 inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
-          >
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              <path d="M7 11l-3.5-4L7 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Hide
-          </button>
+          {/* Top-right controls: Hide → the dock bubble, and Close → the true
+              dismiss. The dock bubble no longer carries its own ✕ (it was
+              corner-offset near the screen edge and too small to hit on a
+              phone), so closing the selector now lives here on the card. */}
+          <div className="absolute right-2 top-1 flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setMinimized(true)}
+              aria-label="Hide to a bubble and watch the clip"
+              title="Hide to a bubble"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
+            >
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 7h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                <path d="M7 11l-3.5-4L7 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Hide
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close the selector"
+              title="Close"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+            >
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
 
           <div>
             <p className="mb-1 text-center text-[11px] font-semibold uppercase tracking-widest text-white/50">
@@ -493,8 +510,8 @@ export function TileGate({
       </div>
     </div>
 
-      {/* Dock bubble — the minimized state. Tap to restore the card in place;
-          the ✕ badge does the true dismiss (onClose). */}
+      {/* Dock bubble — the minimized state. Tap to restore the card in place
+          (dismiss lives on the restored card's Close button, not here). */}
       <AnimatePresence>
         {minimized && (
           <div
@@ -522,24 +539,10 @@ export function TileGate({
                   <path d="M10.5 13V8M8 10.5l2.5-2.5L13 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
-              {/* 44px transparent tap target; the visible badge is the inner
-                  span (keeps the ✕ small without shrinking the hit area). */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClose();
-                }}
-                aria-label="Close the selector"
-                title="Close"
-                className="group absolute -right-5 -top-5 flex h-11 w-11 items-center justify-center"
-              >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-navy-900 text-white/70 shadow-menu transition-colors group-hover:bg-white/15 group-hover:text-white">
-                  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                  </svg>
-                </span>
-              </button>
+              {/* The dismiss ✕ used to live here as a corner badge, but it was
+                  too small and too close to the screen edge to hit reliably on a
+                  phone. Closing now happens on the restored card (tap the bubble
+                  to bring it back, then use Close). The bubble only restores. */}
             </motion.div>
           </div>
         )}
