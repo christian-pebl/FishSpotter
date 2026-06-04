@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useInView } from "@/lib/useInView";
 
 /**
@@ -47,6 +48,10 @@ export type MarqueeSpecies = {
 
 export function SpeciesMarquee({ species }: { species: MarqueeSpecies[] }) {
   const [ref, inView] = useInView<HTMLDivElement>();
+  // WCAG 2.2.2 (Level A): auto-scrolling content needs an explicit, always-
+  // reachable pause control — hover/focus alone excludes touch and keyboard
+  // users and ignores anyone who simply wants it to stop.
+  const [paused, setPaused] = useState(false);
   if (species.length === 0) return null;
   // Duplicate for the seamless -50% loop.
   const loop = [...species, ...species];
@@ -54,10 +59,28 @@ export function SpeciesMarquee({ species }: { species: MarqueeSpecies[] }) {
   const duration = `${Math.max(28, species.length * 4)}s`;
 
   return (
-    <div ref={ref} className={`fs-marquee relative overflow-hidden ${inView ? "" : "fs-paused"}`}>
+    <div ref={ref} className={`fs-marquee relative overflow-hidden ${inView && !paused ? "" : "fs-paused"}`}>
       {/* Edge fades so cards melt into the page rather than hard-cropping. */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-teal-50 to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-teal-50 to-transparent" />
+      <button
+        type="button"
+        onClick={() => setPaused((p) => !p)}
+        aria-pressed={paused}
+        aria-label={paused ? "Resume the scrolling species strip" : "Pause the scrolling species strip"}
+        className="absolute right-2 top-2 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full bg-navy-900/70 text-white backdrop-blur transition-colors hover:bg-navy-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+      >
+        {paused ? (
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M5 3.5l8 4.5-8 4.5z" />
+          </svg>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <rect x="3.5" y="3" width="3" height="10" rx="1" />
+            <rect x="9.5" y="3" width="3" height="10" rx="1" />
+          </svg>
+        )}
+      </button>
 
       <ul
         className="fs-marquee-track flex w-max gap-3"

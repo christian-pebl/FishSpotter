@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useModalFocus } from "@/lib/useModalFocus";
 
 const STEPS = [
   {
@@ -36,13 +37,14 @@ export function OnboardingTour({ needsTour }: Props) {
   const { data: session } = useSession();
   const [open, setOpen] = useState(needsTour && !!session?.user);
   const [step, setStep] = useState(0);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!needsTour || !session?.user) return;
     setOpen(true);
   }, [needsTour, session?.user]);
 
-  const close = async () => {
+  const close = useCallback(async () => {
     setOpen(false);
     try {
       await fetch("/api/account/onboarding", { method: "POST" });
@@ -50,7 +52,12 @@ export function OnboardingTour({ needsTour }: Props) {
       // No-op — refreshing the page on a future session sees the
       // same `needsTour=true` and re-prompts.
     }
-  };
+  }, []);
+
+  // WCAG 2.1.2: trap focus inside the dialog, restore to the opener on close,
+  // Escape-to-close, lock body scroll. (Was declared aria-modal with none of
+  // these — a keyboard user could Tab onto the live feed behind it.)
+  useModalFocus(open, dialogRef, close);
 
   if (!open) return null;
   const slide = STEPS[step];
@@ -58,12 +65,16 @@ export function OnboardingTour({ needsTour }: Props) {
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-label="Welcome tour"
       className="fixed inset-0 z-[80] flex items-center justify-center bg-black/55 p-4"
     >
       <div className="pebl-surface w-full max-w-md rounded-card p-6 md:p-8">
+        <p className="sr-only" aria-live="polite">
+          Step {step + 1} of {STEPS.length}
+        </p>
         <p className="pebl-eyebrow">{slide.eyebrow}</p>
         <h2 className="mt-3 font-brand text-h2 text-navy-900">{slide.title}</h2>
         <p className="mt-3 text-sm leading-6 text-navy-900/72">{slide.body}</p>
@@ -73,8 +84,8 @@ export function OnboardingTour({ needsTour }: Props) {
               <span
                 key={i}
                 className={
-                  "h-1.5 w-6 rounded-full " +
-                  (i === step ? "bg-teal-500" : "bg-navy-900/15")
+                  "h-1.5 rounded-full transition-all " +
+                  (i === step ? "w-6 bg-teal-500" : "w-2.5 bg-navy-900/15")
                 }
               />
             ))}
