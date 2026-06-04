@@ -15,6 +15,7 @@
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** — how the subsystems fit together (request path, data pipeline, the catalogue, the rung flow). Read this first when picking up cold.
 - **[docs/runbooks/add-a-species.md](docs/runbooks/add-a-species.md)** — the step-by-step for onboarding a new species.
 - **[docs/runbooks/add-a-rung-or-trait.md](docs/runbooks/add-a-rung-or-trait.md)** — adding a trait value or extending the "Spot It" funnel.
+- **[docs/runbooks/migrate-to-species-table.md](docs/runbooks/migrate-to-species-table.md)** — planned canonical Species table migration (prod DB; not yet run).
 - **[docs/CHANGELOG.md](docs/CHANGELOG.md)** — dated shipping history (moved out of this file).
 
 ## Stack
