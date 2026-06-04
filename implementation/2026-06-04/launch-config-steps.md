@@ -2,8 +2,8 @@
 
 Decided 4 Jun 2026. Two intertwined workstreams: register the domain, then
 authenticate transactional email on it. The "cleaner approach": SendGrid is
-authenticated on **fishspotter.org** in **Cloudflare DNS** (FROM =
-`noreply@fishspotter.org`), not on pebl-cic.co.uk at Wix.
+authenticated on **fishspotter.app** in **Cloudflare DNS** (FROM =
+`noreply@fishspotter.app`), not on pebl-cic.co.uk at Wix.
 
 Email **code is already done and deployed** (commit `9b0c0b3`): SendGrid v3 via
 fetch, no SDK dependency. `sendEmail()` no-ops gracefully while `SENDGRID_API_KEY`
@@ -13,22 +13,23 @@ DNS + env vars.
 ## Decisions locked
 - **Name:** keep FishSpotter (no rebrand). SeaSpotter rejected (live WWF-affiliated
   app at seaspotter.nz).
-- **Canonical URL:** `fishspotter.org`. Redirects: `fishspotter.app`,
-  `fish-spotter.com`. Free alias: `spot.pebl-cic.co.uk` (CNAME at Wix).
+- **Canonical URL:** `fishspotter.app` (chosen for memorability + forced HTTPS).
+  Optional redirects: `fishspotter.org`, `fish-spotter.com`. Free alias:
+  `spot.pebl-cic.co.uk` (CNAME at Wix).
 - **Registrar:** Cloudflare Registrar (at-cost, no renewal-trap upsells).
-- **Email FROM:** `noreply@fishspotter.org`, name `FishSpotter`.
-- **Cost:** ~£32-38/yr domains, £0 upfront. Minimal = fishspotter.org only (~£12/yr).
+- **Email FROM:** `noreply@fishspotter.app`, name `FishSpotter`.
+- **Cost:** ~£32-38/yr domains, £0 upfront. Minimal = fishspotter.app only (~£12/yr).
 
 ## Order of operations
-1. Register `fishspotter.org` at Cloudflare (brings DNS into Cloudflare).
-2. (Optional, anytime) register `fishspotter.app` + `fish-spotter.com`, set 301s.
-3. Attach `fishspotter.org` to the Vercel project (Settings -> Domains); paste
+1. Register `fishspotter.app` at Cloudflare (brings DNS into Cloudflare).
+2. (Optional, anytime) register `fishspotter.org` + `fish-spotter.com`, set 301s.
+3. Attach `fishspotter.app` to the Vercel project (Settings -> Domains); paste
    Vercel's records into Cloudflare DNS. Set the redirect domains to 301 ->
-   fishspotter.org.
-4. SendGrid: create account -> Authenticate Your Domain for fishspotter.org ->
+   fishspotter.app.
+4. SendGrid: create account -> Authenticate Your Domain for fishspotter.app ->
    add its 3 CNAMEs in Cloudflare (**Proxy = DNS only / grey cloud**) -> Verify.
 5. SendGrid: create a restricted Mail-Send API key.
-6. Set `SENDGRID_API_KEY`, `EMAIL_FROM_ADDRESS=noreply@fishspotter.org`,
+6. Set `SENDGRID_API_KEY`, `EMAIL_FROM_ADDRESS=noreply@fishspotter.app`,
    `EMAIL_FROM_NAME=FishSpotter` in `.env.local` and Vercel (Production + Preview).
 7. Send a test email to confirm delivery.
 
