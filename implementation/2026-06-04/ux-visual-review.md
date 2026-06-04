@@ -4,9 +4,9 @@
 **Method:** Exhaustive multi-agent review (20 finders across 14 surfaces + 6 cross-cutting lenses; 2 adversarial verifiers per finding; completeness critic + top-ups; synthesis). 336 agents, ~14M tokens across two passes.
 **Pinned to commit:** `aab20a7`.
 **Lenses:** L1 simplicity, L2 layout integrity, L3 spacing, L4 readability, L5 flow, L6 accessibility (WCAG 2.2 AA + ICO), L7 brand/token, L8 motion, L9 microcopy. **Personas:** P1 novice, P2 daily-driver, P3 anon, P4 keyboard, P5 screen-reader, P6 low-vision/colourblind, P7 motor, P8 motion-sensitive, P9 13-17 teen, P10 one-handed mobile.
-**Result:** 41 verified findings, deduped to 21 themes (1 Blocker, 5 P1, 12 P2, 3 P3).
+**Result:** 41 verified findings, deduped to 21 themes. Originally scored 1 Blocker / 5 P1 / 12 P2 / 3 P3; **a live verification pass (2026-06-04) downgraded the sole "Blocker" (T1) to P1 and fixed it**, so the standing count is **0 Blocker / 6 P1 (1 fixed) / 12 P2 / 3 P3**.
 
-> **Important coverage caveat (read first):** this was a **source-read review**. The live-screenshot pass was abandoned because the concurrent agent run saturated CPU and the dev server could not render in time. So reflow / overlap / contrast claims rest on **code structure + content length + opacity math**, not rendered screenshots. A short **live confirmation pass at 390 / 768 / 1440 + a contrast-tool sweep** is recommended to empirically confirm T1 (legal reflow) and T8 (dark-panel contrast). Everything else is grounded in exact `file:line` evidence.
+> **Important coverage caveat (read first):** the find/verify pass was a **source-read review** (the bulk live-screenshot pass was abandoned because the concurrent agent run saturated CPU). So most reflow / overlap / contrast claims rest on **code structure + content length + opacity math**, not rendered screenshots. A **targeted live pass at 390px on 2026-06-04 corrected T1**: the legal content actually scrolls in Chromium, so it is not the universal Blocker the source-read agents inferred (it is an iOS-Safari-specific clip, now fixed). A fuller **live pass at 390 / 768 / 1440 + a contrast-tool sweep** is still recommended to confirm T8 (dark-panel contrast) and the remaining layout themes empirically. Everything else is grounded in exact `file:line` evidence.
 
 ---
 
@@ -14,9 +14,9 @@
 
 FishSpotter's **core spotting loop is well-built and largely intuitive**: the feed, the reveal-in-place verdict, the shape-gate ID flow, and the reduced-motion architecture are genuinely strong, and the **worst defects from prior reviews remain fixed** (reveal visibility, off-screen-card `inert`, modal focus traps on MapModal/IdGuideSheet, the landing CTA hierarchy, the verdict tokens, the motion-constant + vestibular work). It is mostly simple and readable on the primary surfaces.
 
-But it is **not uniformly suitable for all abilities**, and two structural problems break the "everything reachable" bar:
+But it is **not uniformly suitable for all abilities**. After live verification, there is **no universal Blocker**, but two themes still matter most:
 
-- The **single Blocker** is that the statutory **legal / accessibility pages have no scroll container** inside an `overflow-hidden` body, so privacy/terms/accessibility content is clipped and unreachable on mobile and at 200% zoom (WCAG 1.4.10).
+- The **suspected Blocker (T1) was corrected and fixed.** The statutory legal / accessibility `<main>` had no bounded scroll container (no `min-h-0`/`overflow-y-auto`) inside the `overflow-hidden` body. On Chromium the html element absorbs the overflow so the page scrolls, but on **iOS Safari** (where `body overflow-hidden` suppresses html scroll) this clips statutory content. Now fixed by making `main` own a bounded scroll container; note `/u/[id]` profile shares the identical latent structure.
 - The **biggest systemic theme is touch-target debt**: sub-44px controls recur across at least seven surfaces, **flagged in three prior reviews and still open** (including the literal 27 May "Hide" pill).
 
 Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-only, WCAG 2.1.1 + 2.5.7); **token/glyph drift the 2 Jun sweep missed** (Unicode dingbats + stock palettes on five surfaces); **low-opacity white text below AA** on dark panels; and **onboarding + the landing marquee miss focus/pause contracts the codebase already ships elsewhere**. Flow gaps (anon mid-ID bounce lands on sign-in not sign-up, no post-signup verification prompt, hamburger-only nav, a dead Spot-It "narrowing engine") round it out.
@@ -30,12 +30,12 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 ---
 
-## BLOCKER
+## P1 (was Blocker — corrected + fixed by live pass)
 
-### T1 · Legal / accessibility long-form pages are clipped (no scroll container) — `S` · new
-**Lenses L2/L6/L5 · /terms, /privacy, /accessibility.** `LegalLayout` renders `<main>` with no `overflow-y-auto` inside a body that is `h-[100dvh] overflow-hidden`, and `MarineBackdrop` is `display:contents` so it adds no scroll box. Any legal doc taller than the viewport is cut off with no scrollbar. The privacy policy (125 lines, multiple tables) and terms (95 lines) far exceed a 390×844 viewport, so **statutorily-required content is unreachable on mobile** and worse at 200% zoom. Every other long page (leaderboard, browse, feed) provides its own `flex-1 overflow-y-auto`; the legal routes are the sole exception. WCAG 1.4.10 reflow failure.
-- Evidence: `LegalLayout.tsx:17-21` (no `overflow-y-auto`); `app/layout.tsx:51` (body `h-[100dvh] overflow-hidden`) + `:56`; `leaderboard/page.tsx:179` (the pattern they omit); `data/legal/privacy-policy.md` (125 lines).
-- Fix: wrap the `LegalLayout` scrollable element in `flex-1 overflow-y-auto` exactly as leaderboard does, keeping `id=main`/`tabIndex=-1` on it so the skip-link lands. Verify the full policy is reachable at 390×844 and 200% zoom.
+### T1 · Legal / accessibility long-form pages clip on iOS Safari (no bounded scroll container) — `S` · new · ✅ FIXED 2026-06-04
+**Lenses L2/L6/L5 · /terms, /privacy, /accessibility.** `LegalLayout` rendered `<main>` as a `flex-1 flex flex-col` child with **neither `min-h-0` nor `overflow-y-auto`** inside the `h-[100dvh] overflow-hidden` body. **Live correction (390px, Chromium):** the content (`scrollHeight 8998px` in an `881px` viewport) is in fact *reachable* — the html element absorbs the overflow and `window.scrollTo` reaches `scrollY 8178` with the last element visible. So the source-read "unreachable on all mobile" inference was **overstated**: this is not a universal Blocker. **However**, on iOS Safari `body overflow-hidden` does suppress html-level scroll, and `main` has no internal scroller, so statutory content genuinely clips there. Profile (`/u/[id]:85-89`) shares the identical structure (same latent risk). Reclassified P1 (statutory content, mobile-Safari-specific) rather than Blocker.
+- Evidence: `LegalLayout.tsx:17-21` (no `min-h-0`/`overflow-y-auto`); `app/layout.tsx:51` (body `h-[100dvh] overflow-hidden`) + `:56` (children wrapper is correctly `flex-1 min-h-0`); live DOM probe 2026-06-04.
+- **Fix applied:** added `min-h-0 overflow-y-auto` to the `LegalLayout` `<main>` so it owns a bounded scroll container (robust on iOS Safari, and the `#main` skip-link target is now the scroller). Verified live: `main` overflow-y `auto`, `clientH 783`, `scrollH 8998`, reaches bottom within `main`. **Follow-up (not yet done):** apply the same one-liner to `/u/[id]` profile, which shares the structure.
 
 ---
 
@@ -188,7 +188,7 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 | # | Theme | Sev | Effort | Why |
 |---|---|---|---|---|
-| 1 | T1 Legal pages clipped | Blocker | S | Statutory content unreachable on mobile/zoom (1.4.10); one-line leaderboard-pattern fix. |
+| ✅ | T1 Legal pages clip on iOS Safari | ~~Blocker~~ P1 | S | **DONE 2026-06-04** — added `min-h-0 overflow-y-auto` to `LegalLayout` main. Residual: apply same to `/u/[id]` profile. |
 | 2 | T2 Sub-44px touch targets | P1 | M | 7 surfaces, flagged 3× (incl. literal B12); one shared-class change clears most. |
 | 3 | T5 Anon bounce + verification prompt | P1 | M | Hits every new user; sign-up redirect is S, verification banner unblocks crons. |
 | 4 | T4 Onboarding focus + marquee pause | P1 | M | a11y contracts the app already ships; first-run modal + Level-A 2.2.2 marquee miss. |
