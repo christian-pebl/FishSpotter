@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { FeedPlayer } from "@/components/FeedPlayer";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
+import { VerificationBanner } from "@/components/VerificationBanner";
 import { orderFeed } from "@/lib/feed-ordering";
 
 export const dynamic = "force-dynamic";
@@ -80,12 +81,16 @@ export default async function FeedPage() {
   const orderedSnippets = orderFeed(snippets, answeredIds, seed);
 
   let needsTour = false;
+  let unverified = false;
   if (session?.user?.id) {
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { onboardedAt: true },
+      select: { onboardedAt: true, emailVerified: true },
     });
     needsTour = !!user && user.onboardedAt === null;
+    // T5: nudge brand-new users to verify (they land here straight after signup
+    // with no "check your inbox" confirmation).
+    unverified = !!user && !user.emailVerified;
   }
 
   const feedSnippets = orderedSnippets.map((snippet: FeedSnippetRow) => ({
@@ -106,6 +111,7 @@ export default async function FeedPage() {
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
       <FeedPlayer snippets={feedSnippets} />
       <OnboardingTour needsTour={needsTour} />
+      <VerificationBanner unverified={unverified} />
     </main>
   );
 }
