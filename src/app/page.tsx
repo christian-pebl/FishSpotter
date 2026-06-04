@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { UnderwaterBackdrop } from "@/components/landing/UnderwaterBackdrop";
 import { HeroPreview } from "@/components/landing/HeroPreview";
 import { StatsBand } from "@/components/landing/StatsBand";
@@ -9,9 +9,7 @@ import { SpeciesMarquee, type MarqueeSpecies } from "@/components/landing/Specie
 
 export const dynamic = "force-dynamic";
 
-type Trait = { commonName?: string; shapeClass?: string };
-type Traits = Record<string, Trait>;
-const TRAITS = speciesTraitsData as Traits;
+const TRAITS = CATALOGUE;
 
 // Labels can be a binomial (a traits key) or already a common name; map to
 // a human-friendly display string either way.

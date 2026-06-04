@@ -1,14 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import speciesTraitsData from "@/data/species-traits.json";
-import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import type { TraitSelection } from "@/lib/idguide/traits";
 import { IdGuideChat } from "./IdGuideChat";
 import { IdGuideChipFallback } from "./IdGuideChipFallback";
 import { IdGuideWizard } from "./IdGuideWizard";
 import { SpeciesGallery } from "./SpeciesGallery";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 type Mode = "wizard" | "chat" | "chips" | "fieldNote";
 

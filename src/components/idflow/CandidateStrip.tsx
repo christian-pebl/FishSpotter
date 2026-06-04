@@ -27,8 +27,8 @@ import { narrowCandidates, speciesValuesFor, type Candidate, type TraitKey } fro
 import { nextBestTrait } from "@/lib/idguide/next-trait";
 import { traitQuestion } from "@/lib/idflow/trait-questions";
 import { SUB_SPLITS } from "@/lib/idflow/body-forms";
-import speciesTraitsData from "@/data/species-traits.json";
-import type { ShapeClass, SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import type { ShapeClass, TraitSelection } from "@/lib/idguide/traits";
 import { TRANSITION } from "@/lib/motion";
 import bodyformCredits from "@/data/bodyform-silhouette-credits.json";
 
@@ -36,7 +36,6 @@ import bodyformCredits from "@/data/bodyform-silhouette-credits.json";
 // public/silhouettes/forms/<value>.svg for this form option.
 const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // UX-3: branch-specific Rung 2 sub-split now lives in @/lib/idflow/body-forms
 // (SUB_SPLITS), shared with the Rung-2 BodyShapeGate. When the gate has owned

@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkChatRateLimit } from "@/lib/rate-limit";
 import { prisma } from "@/lib/prisma";
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE as FULL_CATALOGUE } from "@/lib/idguide/catalogue";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 import {
@@ -20,7 +20,6 @@ import { normaliseCommonName } from "@/lib/biodiversity/gbif-match";
 
 export const dynamic = "force-dynamic";
 
-const FULL_CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6";
 const MAX_TURNS = 8;

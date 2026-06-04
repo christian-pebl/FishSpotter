@@ -14,10 +14,9 @@ import {
   type Candidate,
   type TraitKey,
 } from "@/lib/idguide/narrow";
-import speciesTraitsData from "@/data/species-traits.json";
-import type { ShapeClass, SpeciesCatalogue } from "@/lib/idguide/traits";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import type { ShapeClass } from "@/lib/idguide/traits";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 export type SubSplit = {
   key: TraitKey;

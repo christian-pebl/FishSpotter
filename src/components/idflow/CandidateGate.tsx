@@ -28,12 +28,11 @@ import {
   type Crumb,
 } from "@/components/idflow/TileGate";
 import { SpeciesGuidePopup } from "@/components/idflow/SpeciesGuidePopup";
-import speciesTraitsData from "@/data/species-traits.json";
-import type { ShapeClass, SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import type { ShapeClass, TraitSelection } from "@/lib/idguide/traits";
 import silhouetteCredits from "@/data/silhouette-credits.json";
 import bodyformCredits from "@/data/bodyform-silhouette-credits.json";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 const HAS_SILHOUETTE = new Set(Object.keys(silhouetteCredits));
 const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 

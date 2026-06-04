@@ -20,14 +20,8 @@
  */
 
 import { normalizeAnswer, normalizeForMatch } from "@/lib/normalize-answer";
-import speciesTraitsData from "@/data/species-traits.json";
-import {
-  SHAPE_CLASS,
-  type ShapeClass,
-  type SpeciesCatalogue,
-} from "@/lib/idguide/traits";
-
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
 
 export interface AliasEntry {
   canonical: string;
@@ -218,7 +212,7 @@ export function isCorrectWithAliases(
 /**
  * Module-scope 5-minute TTL cache so a snippet quiz session doesn't hit
  * Prisma for every submission. Cache is keyed by nothing (single-shot
- * snapshot of the whole alias table — only 26 rows).
+ * snapshot of the whole alias table — it is small).
  */
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let cache: { data: AliasEntry[]; expiresAt: number } | null = null;

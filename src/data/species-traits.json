@@ -550,6 +550,10 @@
     "habitat": [
       "sandy-bottom"
     ],
+    "movement": [
+      "fits-and-starts",
+      "stationary"
+    ],
     "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m."
   },
   "Pleuronectes platessa": {
@@ -607,6 +611,10 @@
     "habitat": [
       "sandy-bottom"
     ],
+    "movement": [
+      "stationary",
+      "fits-and-starts"
+    ],
     "fieldNote": "Right-eyed flatfish on sandy bottoms, sandpapery rough scales (the only common UK flatfish with this texture) and a distinctly concave arch in the lateral line above the pectoral fin. No orange spots — plainer than plaice.",
     "lateralLine": [
       "arched-over-pectoral"
@@ -623,6 +631,7 @@
     "features": ["none"],
     "behavior": ["on-bottom"],
     "habitat": ["sandy-bottom"],
+    "movement": ["stationary", "fits-and-starts"],
     "fieldNote": "A dull brown flatfish of estuaries and tidal rivers, tolerating fresh water — unusual for a flatfish. Rough bony tubercles run along the bases of the dorsal and anal fins and along the lateral line; any orange spots are pale and scattered, unlike the vivid orange of plaice."
   },
   "Scyliorhinus canicula": {
@@ -801,8 +810,7 @@
       "fleshy-lips"
     ],
     "behavior": [
-      "schooling",
-      "near-surface"
+      "schooling"
     ],
     "habitat": [
       "near-surface",
@@ -980,8 +988,7 @@
     ],
     "features": [],
     "behavior": [
-      "schooling",
-      "near-surface"
+      "schooling"
     ],
     "habitat": [
       "near-surface",
@@ -1384,8 +1391,7 @@
       "open-water"
     ],
     "movement": [
-      "water-column",
-      "fast-swim"
+      "water-column"
     ],
     "cephalopodForm": [
       "squid"
@@ -1417,8 +1423,7 @@
       "open-water"
     ],
     "movement": [
-      "water-column",
-      "fast-swim"
+      "water-column"
     ],
     "cephalopodForm": [
       "squid"

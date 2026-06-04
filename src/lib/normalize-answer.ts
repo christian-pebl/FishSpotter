@@ -39,7 +39,7 @@ export function normalizeAnswer(value: string): string {
  *   - it isn't "us" (e.g. "Pollachius") so binomials survive.
  *
  * Deliberately simple: this is a pattern-match for plural forms in the
- * 26-species catalogue, not an English-language singulariser.
+ * species catalogue, not an English-language singulariser.
  */
 export function singulariseToken(token: string): string {
   if (token.length <= 3) return token;

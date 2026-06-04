@@ -6,7 +6,7 @@
  * budget and grinds through every species.
  */
 import { PrismaClient } from "@prisma/client";
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import speciesImagesManifest from "@/data/species-images.json";
 import photoBlocklist from "@/data/photo-blocklist.json";
 import { fetchPhotosForSpecies, type InatPhoto } from "@/lib/biodiversity/inaturalist";
@@ -45,12 +45,11 @@ const MANIFEST = speciesImagesManifest as unknown as Manifest;
 const BLOCKED_SOURCES = new Set(
   Object.keys((photoBlocklist as { blocked: Record<string, unknown> }).blocked),
 );
-const CATALOGUE = speciesTraitsData as unknown as Record<string, { commonName: string }>;
 const THROTTLE_MS = 1100;
 const STALE_AFTER_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 // Q3A-T5: when a species has fewer than MIN_PHOTOS rows in DB after the
 // iNat bucket loop, top up via Wikimedia Commons. Threshold is low
-// enough that well-covered species (most of the 26) skip the second
+// enough that well-covered species (most of the catalogue) skip the second
 // network call entirely.
 const MIN_PHOTOS_BEFORE_WIKIMEDIA_TOPUP = 3;
 
@@ -131,7 +130,7 @@ export async function refreshSpeciesImages(opts: {
     : Object.keys(CATALOGUE).filter((k) => !k.startsWith("_"));
 
   // Stale filter: a species needs work if it has zero rows OR if any row is
-  // older than STALE_AFTER_MS. Cheap query for the ~26 species we have.
+  // older than STALE_AFTER_MS. Cheap query for the catalogue species we have.
   const targets: string[] = [];
   if (opts.staleOnly) {
     const cutoff = new Date(Date.now() - STALE_AFTER_MS);

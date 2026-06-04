@@ -26,6 +26,7 @@ import { authOptions } from "@/lib/auth";
 import { selectCandidates } from "@/lib/biodiversity/candidates";
 import { bucketFor } from "@/lib/biodiversity/buckets";
 import { normaliseCommonName } from "@/lib/biodiversity/gbif-match";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -127,8 +128,7 @@ export async function GET(
   if (probability) for (const p of probability) candidateScientificNames.add(p.scientificName);
   if (staffScientific) candidateScientificNames.add(staffScientific);
   // Also load images for the full catalogue in case CATALOGUE fallback fires.
-  const { default: catalogue } = await import("@/data/species-traits.json");
-  for (const sci of Object.keys(catalogue as Record<string, unknown>)) {
+  for (const sci of Object.keys(CATALOGUE)) {
     candidateScientificNames.add(sci);
   }
 

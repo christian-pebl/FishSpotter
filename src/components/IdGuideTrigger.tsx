@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { IdGuideSheet } from "./IdGuideSheet";
 
@@ -65,7 +65,6 @@ function MagnifierIcon({ className }: { className?: string }) {
   );
 }
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // staffAnswer comes from operator metadata and isn't always punctuated the
 // same way as the catalogue commonName ("lesser spotted catshark" vs
