@@ -15,6 +15,7 @@ import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 import { ShapeGate, SHAPE_CLASS_LABEL } from "./ShapeGate";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
+import { RevealResult } from "./idflow/RevealResult";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
 import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
@@ -1034,13 +1035,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       <AnimatePresence>
         {!panelCollapsed && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
           <div
-            className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(420px,calc(40%-1rem))]"
+            className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(560px,calc(100%-2rem))]"
             style={
-              isLg
-                ? { top: "50%", right: "1.25rem", left: "auto", transform: "translateY(-50%)" }
-                : isDesktop
-                  ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
-                  : {
+              // Reveal panel stays centred on every breakpoint, matching the
+              // Spot It rung gates. (It used to right-dock on lg, which read as
+              // off-centre next to the centred gates.)
+              isLg || isDesktop
+                ? { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
+                : {
                       // +3.5rem clears the docked 56px "Name this species" bar.
                       bottom: `calc(${keyboardOffset}px + 3.5rem + max(0.5rem, env(safe-area-inset-bottom)))`,
                       left: "50%",
@@ -1326,97 +1328,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     transition={revealWrong ? { duration: 0.36 } : spring.cheer}
                     className="pb-2"
                   >
-                    {/* S5-T9: aria-live announces the outcome to screen
-                         readers; non-color cue (✓ / ✗ / + icons) so the
-                         result doesn't rely on colour alone. S7-T2 contrast
-                         pass: verdict pills are solid-bg + dark text so
-                         they read against any underwater video background. */}
-                    <p
-                      className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm"
-                      role="status"
-                      aria-live="polite"
-                    >
-                      <span className="text-white/85">You said</span>
-                      <span className="font-semibold text-white">
-                        {myAnswer!.chosenOption}
-                      </span>
-                      {myAnswer!.isCorrect === true && (
-                        <span
-                          className="inline-flex items-center gap-1 rounded-full bg-correct px-2 py-0.5 text-[11px] font-bold tracking-wide text-correct-ink shadow-sm"
-                          aria-label="Correct, plus 2 points"
-                        >
-                          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                            <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                          Correct · +2
-                        </span>
-                      )}
-                      {myAnswer!.isCorrect === false && (
-                        <>
-                          {revealPartial ? (
-                            <>
-                              <span
-                                className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
-                                aria-label="Close, right shape class, plus 1 point"
-                              >
-                                <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                                  <path d="M2 4.5q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                  <path d="M2 8q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                                </svg>
-                                Close · +1
-                              </span>
-                              <span className="text-white/65">· right shape class</span>
-                            </>
-                          ) : (
-                            <span
-                              className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
-                              aria-label="Incorrect"
-                            >
-                              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                              </svg>
-                              Wrong
-                            </span>
-                          )}
-                          {(stats!.staffAnswer ?? snippet.staffAnswer) && (
-                            <span className="text-white/80">
-                              ·{" "}
-                              <span className="text-white/55">reference:</span>{" "}
-                              <span className="font-semibold text-white">
-                                {stats!.staffAnswer ?? snippet.staffAnswer}
-                              </span>
-                            </span>
-                          )}
-                        </>
-                      )}
-                      {myAnswer!.isCorrect === null && (
-                        <>
-                          <span
-                            className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
-                            aria-label="Bonus, plus 1 point. Reference identification pending."
-                          >
-                            <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                              <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-                            </svg>
-                            +1 Bonus
-                          </span>
-                          <span className="text-white/65">
-                            · reference pending — your ID helps build the dataset
-                          </span>
-                        </>
-                      )}
-                    </p>
-                    <div className="mt-1.5 space-y-0.5">
-                      {stats!.stats.slice(0, 4).map((s) => (
-                        <div key={s.option} className="flex items-center gap-1.5 text-[11px]">
-                          <span className="w-16 truncate text-white/80">{s.option}</span>
-                          <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
-                            <div className="h-full rounded bg-teal-500/70" style={{ width: `${s.percent}%` }} />
-                          </div>
-                          <span className="w-7 text-right tabular-nums text-white/55">{s.percent}%</span>
-                        </div>
-                      ))}
-                    </div>
+                    <RevealResult
+                      chosenOption={myAnswer!.chosenOption}
+                      isCorrect={myAnswer!.isCorrect}
+                      revealPartial={revealPartial}
+                      staffAnswer={stats!.staffAnswer ?? snippet.staffAnswer ?? null}
+                      staffScientific={staffScientific}
+                      stats={stats!.stats}
+                      total={stats!.total}
+                      reduceMotion={!!reduceMotion}
+                    />
                     {/* S7-T1: ecological-likelihood + species-gallery
                          panels only make sense when a reference ID
                          exists — they assess the user's guess against
