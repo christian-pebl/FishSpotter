@@ -41,7 +41,9 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 ## P1
 
-### T2 · Recurring sub-44px touch targets across 7 surfaces — `M` · still-open (3rd review)
+### T2 · Recurring sub-44px touch targets across 7 surfaces — `M` · still-open (3rd review) · 🟡 MOSTLY FIXED 2026-06-04
+**Fixed 2026-06-04:** `pebl-button-secondary` now bakes in `min-h-[44px]` + inline-flex centring (clears the onboarding Skip, cookie "Read policy", and all secondary buttons at once); the FeedCard "Hide" pill (B12) got a transparent `before:-inset` 44px hit area; idflow TileGate Back/Hide and SpeciesGuidePopup "Back" went `min-h-[40px]`→`44px`. **Residual:** the IdGuideWizard inline "More/Less" disclosure + skip targets (inline-flow, bundle with the T7 glyph at `:140`).
+
 **L6/L2 · OnboardingTour, FeedCard reveal, idflow TileGate, IdGuideWizard, CookieBanner, SpeciesGuidePopup.** The 44px minimum (project rule + WCAG 2.5.8) is missed on many secondary/escape/chrome controls. `pebl-button-secondary` has **no `min-h` baked in** (unlike primary), so the tour Skip and cookie button land at ~28px. The feed "Hide" pill is 32px (**this exact control was 27 May's B12, still unfixed**); reveal "Edit answer"/"Archive"/"Where is this?" links are ≤36px; idflow gate Back/Hide are 40px; the wizard skip, More/Less disclosure, and footer links are ≤36px.
 - Evidence: `globals.css:107-119` (secondary, no `min-h`) vs `:95` (primary has it); `OnboardingTour.tsx:86`; `CookieBanner.tsx:56-61`; `FeedCard.tsx:1101` (Hide `h-8`), `:1481`, `:1493/:1503`; `TileGate.tsx:394,409`; `IdGuideWizard.tsx:139,251,388`.
 - Fix: add `min-h-[44px]` to `pebl-button-secondary` (fixes tour + cookie at once); raise FeedCard Hide to `h-11`; bump idflow/wizard chrome using the transparent-44px-hit-area pattern already shipped at `TileGate.tsx:527-535`.
@@ -189,7 +191,7 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 | # | Theme | Sev | Effort | Why |
 |---|---|---|---|---|
 | ✅ | T1 Legal pages clip on iOS Safari | ~~Blocker~~ P1 | S | **DONE 2026-06-04** — added `min-h-0 overflow-y-auto` to `LegalLayout` main. Residual: apply same to `/u/[id]` profile. |
-| 2 | T2 Sub-44px touch targets | P1 | M | 7 surfaces, flagged 3× (incl. literal B12); one shared-class change clears most. |
+| 🟡 | T2 Sub-44px touch targets | P1 | M | **MOSTLY DONE 2026-06-04** — shared-class min-h + FeedCard Hide hit-area + idflow gates. Residual: wizard inline disclosure/skip. |
 | 3 | T5 Anon bounce + verification prompt | P1 | M | Hits every new user; sign-up redirect is S, verification banner unblocks crons. |
 | 4 | T4 Onboarding focus + marquee pause | P1 | M | a11y contracts the app already ships; first-run modal + Level-A 2.2.2 marquee miss. |
 | 5 | T6 Rung-3 "None look right" + dead engine | P1 | M | Flow/overload on the headline feature + 380 lines of revivable dead code + stale CLAUDE.md. |
