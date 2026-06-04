@@ -63,6 +63,12 @@ export function VerifyClient({ token }: { token: string }) {
         >
           Go to account
         </Link>
+        <Link
+          href="/auth/signin?callbackUrl=/account"
+          className="mt-3 block text-xs text-teal-700 underline hover:text-navy-900"
+        >
+          Sign in to request a fresh link
+        </Link>
       </>
     );
   }
@@ -72,8 +78,15 @@ export function VerifyClient({ token }: { token: string }) {
         Something went wrong.
       </h1>
       <p className="mt-3 text-sm text-navy-900/72">
-        Couldn&apos;t verify your email right now. Please try again later.
+        Couldn&apos;t verify your email right now. The link may have already
+        been used. Sign in to check your status or request a fresh link.
       </p>
+      <Link
+        href="/auth/signin?callbackUrl=/account"
+        className="pebl-button-primary mt-6 inline-flex items-center justify-center px-5 py-3 text-sm"
+      >
+        Back to sign in
+      </Link>
     </>
   );
 }
