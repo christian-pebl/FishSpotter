@@ -120,6 +120,7 @@ export function IdGuideTrigger({
   snippetId,
   submitted,
   staffAnswer,
+  staffScientific,
   onSuggest,
   isLoggedIn,
 }: {
@@ -131,6 +132,12 @@ export function IdGuideTrigger({
    * next time" hint is suppressed because there's no species to teach.
    */
   staffAnswer: string | null;
+  /**
+   * The reference's resolved scientific name (GBIF, via the reveal). Preferred
+   * over the catalogue-only commonName match so the guide also works for
+   * species the trait catalogue does not (yet) contain, e.g. common whiting.
+   */
+  staffScientific?: string | null;
   /** Called when the user picks a candidate from the guide. Should write the value into the quiz input. */
   onSuggest: (commonName: string) => void;
   /** When false, the chat path is replaced with a sign-in nudge — the manual
@@ -139,14 +146,15 @@ export function IdGuideTrigger({
 }) {
   const [open, setOpen] = useState(false);
 
-  // Resolve once per render so IdGuideSheet's lookup hits the scientific-name
-  // path instead of relying on a brittle case-only commonName match.
+  // Prefer the GBIF-resolved scientific name from the reveal; fall back to the
+  // catalogue commonName match. This is what lets the field-note / annotated
+  // view open for species that aren't in the trait catalogue.
   const scientificName = useMemo(
     () =>
       submitted && staffAnswer
-        ? resolveScientificName(staffAnswer)
+        ? (staffScientific ?? resolveScientificName(staffAnswer)) || undefined
         : undefined,
-    [submitted, staffAnswer],
+    [submitted, staffAnswer, staffScientific],
   );
   // Stabilise the object identity so IdGuideSheet's [open, fieldNoteFor]
   // effect doesn't reset selectedFallback every time FeedCard re-renders.

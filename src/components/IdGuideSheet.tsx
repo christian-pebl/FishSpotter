@@ -7,6 +7,7 @@ import { IdGuideChat } from "./IdGuideChat";
 import { IdGuideChipFallback } from "./IdGuideChipFallback";
 import { IdGuideWizard } from "./IdGuideWizard";
 import { SpeciesGallery } from "./SpeciesGallery";
+import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 
 
 type Mode = "wizard" | "chat" | "chips" | "fieldNote";
@@ -304,7 +305,15 @@ export function IdGuideSheet({
                      width is actually used — gallery left, prose +
                      traits right. Mobile stacks naturally. */}
                 <div className="grid gap-6 sm:grid-cols-[minmax(0,460px)_1fr] sm:gap-8">
-                  <div>
+                  <div className="space-y-4">
+                    {/* Diagnostic guide first: the annotated photo with the
+                        numbered circle labels (what the "How to spot a X next
+                        time" button is for). Self-hides if the species has no
+                        authored marks, leaving just the gallery below. */}
+                    <AnnotatedSpeciesPhoto
+                      scientificName={effectiveFieldNote.scientificName}
+                      commonName={effectiveFieldNote.commonName}
+                    />
                     <SpeciesGallery
                       scientificName={effectiveFieldNote.scientificName}
                       commonName={effectiveFieldNote.commonName}
@@ -326,6 +335,30 @@ export function IdGuideSheet({
                       <TraitRow label="Habitat" values={effectiveFieldNote.habitat} />
                     </div>
                   </div>
+                </div>
+              </>
+            ) : fieldNoteFor?.scientificName ? (
+              // Species not in the trait catalogue (e.g. common whiting) but we
+              // have its scientific name from the reveal: still show its
+              // annotated diagnostic photo + gallery rather than dropping the
+              // user into a generic catalogue search.
+              <>
+                <p className="pb-1 text-[11px] font-semibold uppercase tracking-wider text-teal-500">
+                  {fieldNoteFor.commonName}
+                </p>
+                <p className="pb-3 text-[12px] italic text-white/55">
+                  {fieldNoteFor.scientificName}
+                </p>
+                <div className="mx-auto max-w-[460px] space-y-4">
+                  <AnnotatedSpeciesPhoto
+                    scientificName={fieldNoteFor.scientificName}
+                    commonName={fieldNoteFor.commonName}
+                  />
+                  <SpeciesGallery
+                    scientificName={fieldNoteFor.scientificName}
+                    commonName={fieldNoteFor.commonName}
+                    size="large"
+                  />
                 </div>
               </>
             ) : (

@@ -1385,6 +1385,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         staffAnswer={
                           stats!.staffAnswer ?? snippet.staffAnswer ?? null
                         }
+                        staffScientific={staffScientific}
                         onSuggest={() => {}}
                         isLoggedIn={!!session}
                       />
