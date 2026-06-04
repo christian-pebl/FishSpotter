@@ -421,9 +421,10 @@ export function TileGate({
                 title="Minimise"
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
               >
+                {/* Window-style minimise bar (sits next to the × close, so the
+                    two read as standard minimise / close controls). */}
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M4 12h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                  <path d="M8 3v5.5M5.5 6.5L8 9l2.5-2.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M4 11h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </button>
               <button
