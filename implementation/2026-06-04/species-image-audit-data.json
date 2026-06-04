@@ -19,42 +19,42 @@
         "label": "Five tapering arms",
         "description": "The classic orange star: five stout arms tapering to points. Turns up almost anywhere, often near mussel beds.",
         "overlayX": 0.471,
-        "overlayY": 0.484,
+        "overlayY": 0.483,
         "overlayRadius": 0.26
       },
       {
         "order": 1,
         "label": "Pale spine line down each arm",
         "description": "A single pale line of low, knobbly spines runs down the middle of each arm - no big spike rows like the spiny starfish.",
-        "overlayX": 0.3785,
-        "overlayY": 0.353,
-        "overlayRadius": 0.0999
+        "overlayX": 0.5725,
+        "overlayY": 0.385,
+        "overlayRadius": 0.06525
       }
     ],
     "validation": {
       "imageOk": true,
       "overallClarity": 85,
-      "overallAligned": false,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Five tapering arms",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 80,
-          "note": "The circle is extremely large and encompasses the entire starfish rather than highlighting the overall body shape cleanly."
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The large circle perfectly encompasses the entire starfish showing its five tapering arms."
         },
         {
           "number": 2,
           "label": "Pale spine line down each arm",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 90,
-          "note": "The circle is well placed on one of the arms, clearly showing the pale line of spines running down the center."
+          "clarity": 80,
+          "note": "The circle is well-placed over the upper-right arm, clearly showing the pale line of knobbly spines."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The photo is excellent and clearly shows the diagnostic features of the Common Starfish. Circle 1 should be resized or repositioned to more elegantly highlight the five tapering arms without swallowing the entire subject."
+      "recommendation": "keep",
+      "summary": "The annotations are well-placed and clearly highlight the diagnostic features of the Common Starfish. No changes are needed."
     }
   },
   {
@@ -134,30 +134,30 @@
         "order": 0,
         "label": "Bright silver lateral stripe",
         "description": "A very bright, solid silver stripe runs the whole length of the flank, the sand smelt's most conspicuous feature.",
-        "overlayX": 0.52,
-        "overlayY": 0.58,
-        "overlayRadius": 0.2
+        "overlayX": 0.59,
+        "overlayY": 0.55,
+        "overlayRadius": 0.26
       },
       {
         "order": 1,
         "label": "Translucent greenish body",
         "description": "A slender, semi-transparent body with a greenish tinge above the silver stripe; a small (to ~15 cm), near-surface schooler.",
-        "overlayX": 0.4,
-        "overlayY": 0.55,
-        "overlayRadius": 0.13
+        "overlayX": 0.5725,
+        "overlayY": 0.575,
+        "overlayRadius": 0.26
       },
       {
         "order": 2,
         "label": "Two small dorsal fins",
         "description": "Two small, separate dorsal fins; the first is tiny and spiny; both are set well back on the body.",
-        "overlayX": 0.62,
-        "overlayY": 0.47,
-        "overlayRadius": 0.085
+        "overlayX": 0.475,
+        "overlayY": 0.4825,
+        "overlayRadius": 0.08083832335329341
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 40,
       "overallAligned": false,
       "perMark": [
         {
@@ -165,28 +165,28 @@
           "label": "Bright silver lateral stripe",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is placed too far back and is too small, but it does clip the silver stripe."
+          "clarity": 60,
+          "note": "The circle is extremely large and encompasses almost the entire rear half of the fish and background instead of focusing on the stripe."
         },
         {
           "number": 2,
           "label": "Translucent greenish body",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is extremely large and covers the entire front half of the fish, including the silver stripe and belly."
+          "clarity": 50,
+          "note": "The circle is far too large, capturing the entire back half of the fish and the sandy seabed."
         },
         {
           "number": 3,
           "label": "Two small dorsal fins",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed off the fish entirely, floating in the background above the tail region."
+          "featurePresentAtRing": true,
+          "alignment": "near",
+          "clarity": 30,
+          "note": "The circle is placed over the first dorsal fin but is too large, and the second dorsal fin is not highlighted."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circles are poorly sized and misaligned. Circle 1 should be centered on the bright silver stripe, Circle 2 should be smaller and focused on the translucent greenish back, and Circle 3 must be moved onto the actual dorsal fins."
+      "summary": "The current circles are far too large and overlap heavily, obscuring the specific features. They need to be resized and precisely targeted on the lateral stripe, the upper translucent body, and the two separate dorsal fins."
     }
   },
   {
@@ -281,61 +281,61 @@
     "marks": [
       {
         "order": 0,
-        "label": "Tall first dorsal (male)",
-        "description": "Breeding males raise a very tall, sail-like first dorsal fin (females and resting fish keep it folded flat).",
-        "overlayX": 0.3045,
-        "overlayY": 0.414,
-        "overlayRadius": 0.0333596214511041
-      },
-      {
-        "order": 0,
-        "label": "Flat-bottomed, sits on sand",
-        "description": "A flattened body that lies pressed to the sand, with eyes set high on top of the head — a scooter, not a free-swimmer.",
-        "overlayX": 0.534,
-        "overlayY": 0.474,
-        "overlayRadius": 0.26
+        "label": "Flat body on the sand",
+        "description": "A flattened body that lies pressed to the sand; a scooter, not a free-swimmer.",
+        "overlayX": 0.45,
+        "overlayY": 0.52,
+        "overlayRadius": 0.24
       },
       {
         "order": 1,
-        "label": "Blue stripes & spots (male)",
-        "description": "Electric-blue wavy stripes and spots across the head and body of the male; females are plain mottled brown.",
-        "overlayX": 0.365,
-        "overlayY": 0.5385,
-        "overlayRadius": 0.1206624605678233
+        "label": "Eyes high on the head",
+        "description": "Bulging eyes set high on top of the broad, flat head, looking upward.",
+        "overlayX": 0.305,
+        "overlayY": 0.41,
+        "overlayRadius": 0.05
+      },
+      {
+        "order": 2,
+        "label": "Blue spots and lines (male)",
+        "description": "Electric-blue spots and wavy lines mark the head and body of the breeding male.",
+        "overlayX": 0.27,
+        "overlayY": 0.5,
+        "overlayRadius": 0.085
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 65,
+      "overallClarity": 45,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
-          "label": "Tall first dorsal (male)",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The first dorsal fin is folded flat and barely visible, not tall or sail-like in this specimen."
+          "label": "Flat body on the sand",
+          "featurePresentAtRing": true,
+          "alignment": "near",
+          "clarity": 50,
+          "note": "The circle is excessively large and covers a lot of empty sand below the fish."
         },
         {
           "number": 2,
-          "label": "Flat-bottomed, sits on sand",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 75,
-          "note": "The circle is excessively large and centered mostly on the empty sand behind the fish."
+          "label": "Eyes high on the head",
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 10,
+          "note": "The circle is placed above the head on empty water and sand, completely missing the eye."
         },
         {
           "number": 3,
-          "label": "Blue stripes & spots (male)",
+          "label": "Blue spots and lines (male)",
           "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 90,
-          "note": "The circle perfectly highlights the bright blue and yellow patterns on the cheek and gill cover."
+          "alignment": "near",
+          "clarity": 80,
+          "note": "The circle is placed on the snout, missing the most vibrant blue spots and lines on the cheek and flank."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The first dorsal fin is folded down so mark 1 cannot show a tall fin, but the other features are visible. Shrink and center mark 2 on the flat body resting on the sand, and adjust mark 1 to point to the eyes on top of the head instead."
+      "summary": "The circles are poorly aligned, with circle 2 completely missing the eye and circle 1 being far too large. Reposition circle 1 to tightly frame the flat body, move circle 2 onto the prominent eye, and shift circle 3 slightly back to cover the bright blue facial markings."
     }
   },
   {
@@ -357,59 +357,59 @@
         "order": 0,
         "label": "Flat-headed, sits on sand",
         "description": "A small flat-headed dragonet that lies pressed to sandy-muddy bottoms with eyes set high on top of the head. Smaller than the common dragonet.",
-        "overlayX": 0.74,
-        "overlayY": 0.5,
-        "overlayRadius": 0.1
+        "overlayX": 0.728,
+        "overlayY": 0.556,
+        "overlayRadius": 0.156
       },
       {
         "order": 1,
         "label": "Cream-and-brown spotty camouflage",
         "description": "Finely spotted and reticulated (net-patterned) in cream and brown for camouflage on sand, hence the spotted dragonet.",
-        "overlayX": 0.45,
-        "overlayY": 0.55,
-        "overlayRadius": 0.24
+        "overlayX": 0.681,
+        "overlayY": 0.616,
+        "overlayRadius": 0.0804
       },
       {
         "order": 2,
         "label": "Modest first dorsal (male)",
         "description": "The male raises a first dorsal fin in display, but it is lower and less filamentous than the tall sail of the common dragonet.",
-        "overlayX": 0.55,
-        "overlayY": 0.38,
-        "overlayRadius": 0.09
+        "overlayX": 0.346,
+        "overlayY": 0.377,
+        "overlayRadius": 0.1
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
-      "overallAligned": false,
+      "overallClarity": 75,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Flat-headed, sits on sand",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 75,
-          "note": "The circle correctly highlights the flat head and high-set eyes of the dragonet."
+          "clarity": 80,
+          "note": "The circle correctly encompasses the flat head and high-set eyes of the dragonet."
         },
         {
           "number": 2,
           "label": "Cream-and-brown spotty camouflage",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed over the dorsal fin area instead of the spotted body pattern."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 85,
+          "note": "The circle is well-placed on the cheek showing the characteristic spotted and reticulated pattern."
         },
         {
           "number": 3,
           "label": "Modest first dorsal (male)",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 20,
-          "note": "The circle is placed on a huge area covering the mid-body and pectoral fin rather than the first dorsal fin."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 70,
+          "note": "The first dorsal fin is visible inside the circle, though it is partially folded and blends slightly with the background."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The circles for marks 2 and 3 are swapped and misaligned. Circle 2 should be moved to the spotted body flank, and Circle 3 should be resized and moved to the first dorsal fin."
+      "recommendation": "keep",
+      "summary": "The annotations are well-placed and clearly highlight the key diagnostic features of the spotted dragonet."
     }
   },
   {
@@ -482,7 +482,7 @@
       "wikimedia": 2
     },
     "hasAnnotatedHero": true,
-    "markCount": 4,
+    "markCount": 3,
     "heroImageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/71/Cancer_pagurus.jpg",
     "heroImageDims": null,
     "marks": [
@@ -490,33 +490,25 @@
         "order": 0,
         "label": "Pie-crust shell edge",
         "description": "The front margin of the broad oval shell is crimped like the edge of a pie - unmistakable once you've seen it.",
-        "overlayX": 0.261,
-        "overlayY": 0.4505,
-        "overlayRadius": 0.16695
-      },
-      {
-        "order": 1,
-        "label": "Pie-crust shell edge",
-        "description": "The front edge of the broad reddish shell is crimped like the crust of a pie - the classic edible (brown) crab mark.",
-        "overlayX": 0.733,
-        "overlayY": 0.448,
-        "overlayRadius": 0.1647
+        "overlayX": 0.4,
+        "overlayY": 0.31,
+        "overlayRadius": 0.11
       },
       {
         "order": 1,
         "label": "Broad oval shell",
         "description": "A wide, smooth oval shell (reddish-brown in life) with big black-tipped pincers. The biggest crab you'll meet on the shore.",
-        "overlayX": 0.494,
-        "overlayY": 0.44,
-        "overlayRadius": 0.26
+        "overlayX": 0.492,
+        "overlayY": 0.4395,
+        "overlayRadius": 0.25
       },
       {
         "order": 2,
         "label": "Black-tipped claws",
         "description": "Both heavy pincers end in black tips.",
-        "overlayX": 0.2955,
-        "overlayY": 0.8425,
-        "overlayRadius": 0.1085096720532319
+        "overlayX": 0.305,
+        "overlayY": 0.8,
+        "overlayRadius": 0.09
       }
     ],
     "validation": {
@@ -527,38 +519,30 @@
         {
           "number": 1,
           "label": "Pie-crust shell edge",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is extremely large and covers the left side of the carapace rather than focusing on the crimped edge."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 10,
+          "note": "The circle is placed on the smooth central carapace instead of the crimped outer margin."
         },
         {
           "number": 2,
-          "label": "Pie-crust shell edge",
+          "label": "Broad oval shell",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is oversized and covers the right side of the carapace instead of highlighting the crimped margin."
+          "clarity": 80,
+          "note": "The circle is very large and covers most of the shell, but it is off-center and cuts off the right side."
         },
         {
           "number": 3,
-          "label": "Broad oval shell",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 85,
-          "note": "The large central circle correctly encompasses the broad oval carapace of the crab."
-        },
-        {
-          "number": 4,
           "label": "Black-tipped claws",
           "featurePresentAtRing": true,
           "alignment": "on",
           "clarity": 90,
-          "note": "The circle is well placed on the black tip of the left claw."
+          "note": "The circle is well-placed on the black tip of the left claw."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circles for the pie-crust shell edge (1 and 2) are far too large and overlap heavily with the main carapace circle. They should be resized and shifted to target the crimped outer margins of the shell."
+      "summary": "The circles for the shell features are misaligned. Circle 1 needs to be moved to the crimped outer edge of the carapace, and Circle 2 should be centered to encompass the entire broad oval shell."
     }
   },
   {
@@ -639,30 +623,30 @@
         "order": 0,
         "label": "Thick upper lip",
         "description": "The upper lip is very thick (nearly as deep as the eye diameter) and warty-looking — the give-away vs thin-lipped and golden-grey mullet.",
-        "overlayX": 0.818,
-        "overlayY": 0.6565,
-        "overlayRadius": 0.04365
+        "overlayX": 0.819,
+        "overlayY": 0.657,
+        "overlayRadius": 0.05
       },
       {
         "order": 1,
         "label": "Grey, striped flanks",
         "description": "Plain grey-silver body with faint horizontal dark streaks along each scale row; a robust, deep-bodied mullet.",
-        "overlayX": 0.452,
-        "overlayY": 0.526,
-        "overlayRadius": 0.26
+        "overlayX": 0.5,
+        "overlayY": 0.56,
+        "overlayRadius": 0.17
       },
       {
         "order": 2,
         "label": "Two separated dorsal fins",
         "description": "A short spiny first dorsal followed by a longer soft second fin, well separated as in all grey mullet.",
-        "overlayX": 0.4815,
-        "overlayY": 0.397,
-        "overlayRadius": 0.26
+        "overlayX": 0.56,
+        "overlayY": 0.4,
+        "overlayRadius": 0.13
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 65,
+      "overallClarity": 75,
       "overallAligned": false,
       "perMark": [
         {
@@ -670,7 +654,7 @@
           "label": "Thick upper lip",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 75,
+          "clarity": 80,
           "note": "The circle is well placed on the thick, pale upper lip."
         },
         {
@@ -678,8 +662,8 @@
           "label": "Grey, striped flanks",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 80,
-          "note": "The circle is far too large, though it does encompass the striped flanks."
+          "clarity": 85,
+          "note": "The circle is too low and shifted forward, missing the main striped flank area."
         },
         {
           "number": 3,
@@ -687,11 +671,11 @@
           "featurePresentAtRing": false,
           "alignment": "off",
           "clarity": 10,
-          "note": "The circle is massive and centered on the empty water above the fish, missing the dorsal fins entirely."
+          "note": "The circle is placed on the upper back and background, missing the actual dorsal fins."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The thick lip is correctly marked, but the circles for the flanks and dorsal fins are far too large and misaligned. Shrink circle 2 to focus on the mid-body stripes, and reposition a smaller circle 3 to target the dorsal fins."
+      "summary": "The photo itself is excellent, but circles 2 and 3 need to be repositioned. Move circle 2 slightly higher and backward to cover the striped flanks, and adjust circle 3 to highlight the separated dorsal fins."
     }
   },
   {
@@ -789,30 +773,30 @@
         "order": 0,
         "label": "Long scaleless grey body",
         "description": "A heavy, scaleless, grey-brown eel body (the true eel is yellow-brown and freshwater). Hides in wreck and rock holes by day.",
-        "overlayX": 0.38,
-        "overlayY": 0.415,
+        "overlayX": 0.343,
+        "overlayY": 0.398,
         "overlayRadius": 0.26
       },
       {
         "order": 1,
         "label": "Dorsal fin starts forward",
         "description": "The long dorsal fin begins just behind the pectoral fin and runs to the tail — much further forward than in the common eel.",
-        "overlayX": 0.571,
-        "overlayY": 0.453,
-        "overlayRadius": 0.07268041237113403
+        "overlayX": 0.568,
+        "overlayY": 0.439,
+        "overlayRadius": 0.07731958762886598
       },
       {
         "order": 2,
         "label": "Big head, wide gape",
         "description": "A large head with a wide mouth and stout jaws; it does have pectoral fins (a moray has none).",
-        "overlayX": 0.608,
-        "overlayY": 0.465,
-        "overlayRadius": 0.1298969072164949
+        "overlayX": 0.573,
+        "overlayY": 0.452,
+        "overlayRadius": 0.07577319587628867
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 75,
+      "overallClarity": 65,
       "overallAligned": false,
       "perMark": [
         {
@@ -820,28 +804,28 @@
           "label": "Long scaleless grey body",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 85,
-          "note": "The large circle correctly encompasses a major portion of the long, grey, scaleless body."
+          "clarity": 80,
+          "note": "The large circle correctly encompasses a major portion of the long grey body."
         },
         {
           "number": 2,
           "label": "Dorsal fin starts forward",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is placed too far back on the body and is too small to clearly highlight the start of the dorsal fin near the pectoral fin."
+          "clarity": 50,
+          "note": "The circle is placed near the pectoral fin area but is too large and overlaps with circle 3."
         },
         {
           "number": 3,
           "label": "Big head, wide gape",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is too large and encompasses the entire front half of the eel rather than focusing specifically on the head and mouth."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 10,
+          "note": "The circle is placed on the mid-body instead of the actual head and mouth further to the right."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The photo is excellent and shows the entire eel clearly. However, circle 2 needs to be moved forward to target the start of the dorsal fin, and circle 3 should be shrunk to focus specifically on the head and mouth."
+      "summary": "The circles for the dorsal fin start and the head are misaligned and overlapping. Move circle 3 to the actual head of the eel on the right, and shrink and adjust circle 2 to target the start of the dorsal fin just behind the pectoral fin."
     }
   },
   {
@@ -863,59 +847,59 @@
         "order": 0,
         "label": "Dark spot on upper tail base",
         "description": "A bold black spot at the TOP of the tail base, the goldsinny's signature mark.",
-        "overlayX": 0.585,
-        "overlayY": 0.405,
-        "overlayRadius": 0.05
+        "overlayX": 0.695,
+        "overlayY": 0.626,
+        "overlayRadius": 0.04119718309859155
       },
       {
         "order": 1,
         "label": "Dark spot at front of dorsal",
         "description": "A second dark blotch at the very front of the dorsal fin. The two black spots together clinch it.",
-        "overlayX": 0.34,
-        "overlayY": 0.36,
-        "overlayRadius": 0.055
+        "overlayX": 0.416,
+        "overlayY": 0.4595,
+        "overlayRadius": 0.0301056338028169
       },
       {
         "order": 2,
         "label": "Small reddish-brown body",
         "description": "Our smallest common wrasse (to ~15 cm), slender and reddish-brown, hugging rocky crevices.",
-        "overlayX": 0.4,
-        "overlayY": 0.5,
-        "overlayRadius": 0.24
+        "overlayX": 0.5085,
+        "overlayY": 0.6015,
+        "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 40,
-      "overallAligned": false,
+      "overallClarity": 85,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Dark spot on upper tail base",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed on the rocky background above the fish, completely missing the very obvious black tail spot."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The circle is perfectly centered on the prominent black spot at the upper base of the tail."
         },
         {
           "number": 2,
           "label": "Dark spot at front of dorsal",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed on the rocky background above the head of the fish."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 80,
+          "note": "The circle correctly highlights the dark spot at the anterior edge of the dorsal fin."
         },
         {
           "number": 3,
           "label": "Small reddish-brown body",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 80,
-          "note": "The circle is extremely large and covers the front half of the fish, but is offset too high into the rocks."
+          "alignment": "on",
+          "clarity": 85,
+          "note": "The large circle encompasses the main body of the fish, showing its reddish-brown coloration and slender shape."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The photo itself is excellent and clearly shows all diagnostic features, but the circles are completely misaligned. Reposition circle 1 onto the prominent black tail spot, circle 2 onto the front of the dorsal fin, and resize circle 3 to neatly encompass the fish's body."
+      "recommendation": "keep",
+      "summary": "The annotations are highly accurate and clearly highlight all three diagnostic features of the Goldsinny wrasse. No changes are needed."
     }
   },
   {
@@ -1013,38 +997,38 @@
         "order": 0,
         "label": "Blue-purple bell",
         "description": "Vivid blue to purple, the colour deepening towards the centre of the bell. Like a small lion's mane but cool-coloured, not reddish-brown.",
-        "overlayX": 0.448,
-        "overlayY": 0.49,
-        "overlayRadius": 0.26
+        "overlayX": 0.469,
+        "overlayY": 0.496,
+        "overlayRadius": 0.2052
       },
       {
         "order": 1,
         "label": "Radiating canals",
         "description": "Dark lines radiate from the centre, with a mass of fine trailing tentacles beneath. Mild sting.",
-        "overlayX": 0.4565,
-        "overlayY": 0.491,
-        "overlayRadius": 0.2466
+        "overlayX": 0.461,
+        "overlayY": 0.484,
+        "overlayRadius": 0.234
       },
       {
         "order": 1,
         "label": "Blue-tinted bell",
         "description": "A domed bell with a distinctive blue-violet tint and radial markings.",
-        "overlayX": 0.4775,
-        "overlayY": 0.485,
-        "overlayRadius": 0.2331
+        "overlayX": 0.448,
+        "overlayY": 0.491,
+        "overlayRadius": 0.26
       },
       {
         "order": 2,
         "label": "Fine trailing tentacles",
         "description": "A fringe of many fine tentacles; smaller and bluer than the orange lion's mane.",
         "overlayX": 0.522,
-        "overlayY": 0.501,
+        "overlayY": 0.502,
         "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 30,
+      "overallClarity": 40,
       "overallAligned": false,
       "perMark": [
         {
@@ -1052,36 +1036,36 @@
           "label": "Blue-purple bell",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is extremely large and covers almost the entire body of the jellyfish rather than focusing on the bell."
+          "clarity": 85,
+          "note": "The circle is extremely oversized and encompasses almost the entire bell rather than focusing on the central coloration."
         },
         {
           "number": 2,
           "label": "Radiating canals",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 40,
-          "note": "The circle is oversized and overlaps with other marks, obscuring the specific radiating lines."
+          "clarity": 60,
+          "note": "The circle is too large and overlaps with other marks, obscuring the specific radiating lines."
         },
         {
           "number": 3,
           "label": "Blue-tinted bell",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 50,
-          "note": "This circle is also massive and nearly identical in placement to the other bell marks."
+          "clarity": 80,
+          "note": "The circle is massive and covers the entire body of the jellyfish instead of highlighting the bell dome specifically."
         },
         {
           "number": 4,
           "label": "Fine trailing tentacles",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is too large and encompasses the bell as well as the tentacles."
+          "clarity": 75,
+          "note": "The circle is huge and encompasses the entire bell and background rather than targeting the fine tentacles on the periphery."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "All four circles are extremely oversized and stacked on top of each other, covering the entire jellyfish. They need to be resized and repositioned to target their specific diagnostic features."
+      "summary": "The circles are extremely oversized and layered on top of each other, making it impossible to distinguish the individual features. They need to be resized to be much smaller and repositioned to target their specific anatomical features."
     }
   },
   {
@@ -1095,57 +1079,33 @@
       "manual": 2
     },
     "hasAnnotatedHero": true,
-    "markCount": 6,
+    "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/567465162/medium.jpg",
     "heroImageDims": "500x334",
     "marks": [
       {
         "order": 0,
         "label": "Two separate dorsal fins",
-        "description": "A spiny first dorsal fin and a longer soft second dorsal fin, clearly separated — a perch-family hallmark.",
-        "overlayX": 0.325,
-        "overlayY": 0.2705,
-        "overlayRadius": 0.1482035928143713
+        "description": "A spiny first dorsal fin and a clearly separate soft second dorsal, a perch-family hallmark.",
+        "overlayX": 0.4,
+        "overlayY": 0.255,
+        "overlayRadius": 0.11
       },
       {
         "order": 1,
-        "label": "Silver-grey flanks, dark back",
-        "description": "Plain silver-grey flanks scaling up to a darker back; no bars or obvious markings in adults.",
-        "overlayX": 0.37,
-        "overlayY": 0.455,
-        "overlayRadius": 0.26
-      },
-      {
-        "order": 1,
-        "label": "Two dorsal fins (front spiny)",
-        "description": "Two separate dorsal fins; the front one is spiny. Clean silver body with no spots.",
-        "overlayX": 0.265,
-        "overlayY": 0.2615,
-        "overlayRadius": 0.06736526946107785
+        "label": "Spiny gill-cover edge",
+        "description": "Two flat spines on the rear edge of the gill cover (preopercle); a quick prick-check confirms a bass.",
+        "overlayX": 0.72,
+        "overlayY": 0.43,
+        "overlayRadius": 0.085
       },
       {
         "order": 2,
-        "label": "Spiny gill cover",
-        "description": "Two flat spines on the rear edge of the gill cover (preopercle) — a prick-check confirms it quickly.",
-        "overlayX": 0.5585,
-        "overlayY": 0.535,
-        "overlayRadius": 0.09
-      },
-      {
-        "order": 2,
-        "label": "Spiny gill cover",
-        "description": "A sharp spine on the rear edge of the gill cover (operculum) - mind it when handling.",
-        "overlayX": 0.563,
-        "overlayY": 0.5345,
-        "overlayRadius": 0.08324999999999999
-      },
-      {
-        "order": 3,
-        "label": "Pointed head, large mouth",
-        "description": "Pointed head with a large terminal mouth (vs the blunt, thick-lipped grey mullet).",
-        "overlayX": 0.656,
-        "overlayY": 0.502,
-        "overlayRadius": 0.2047904191616767
+        "label": "Plain silver flanks, dark back",
+        "description": "Clean silver-grey flanks with no bars or spots in adults, scaling up to a darker back.",
+        "overlayX": 0.48,
+        "overlayY": 0.52,
+        "overlayRadius": 0.19
       }
     ],
     "validation": {
@@ -1159,51 +1119,27 @@
           "featurePresentAtRing": false,
           "alignment": "off",
           "clarity": 10,
-          "note": "The circle is extremely large and centered on the mid-body rather than the dorsal fins."
+          "note": "The circle is placed too far forward and high, mostly capturing the background instead of the dorsal fins."
         },
         {
           "number": 2,
-          "label": "Silver-grey flanks, dark back",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is too large, but it does encompass the silver flanks and darker back."
+          "label": "Spiny gill-cover edge",
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 5,
+          "note": "The circle is placed on the forehead and snout area rather than the rear edge of the gill cover."
         },
         {
           "number": 3,
-          "label": "Two dorsal fins (front spiny)",
+          "label": "Plain silver flanks, dark back",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 40,
-          "note": "The circle is placed too far back, mostly highlighting the second dorsal fin and caudal peduncle."
-        },
-        {
-          "number": 4,
-          "label": "Spiny gill cover",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 50,
-          "note": "The circle is correctly centered on the preopercle, though the spines themselves are hard to resolve."
-        },
-        {
-          "number": 5,
-          "label": "Spiny gill cover",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 50,
-          "note": "The circle is well-placed on the operculum edge, but the fine spine is difficult to see in this lighting."
-        },
-        {
-          "number": 6,
-          "label": "Pointed head, large mouth",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 65,
-          "note": "The circle is excessively large, though it does contain the head and mouth."
+          "clarity": 75,
+          "note": "The circle is very large and covers the flank, but it is shifted too far forward over the pectoral fin and gill cover."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "Several circles are far too large or misaligned, particularly circle 1 and circle 3 which fail to target the dorsal fins properly. Resizing and shifting the markers to focus tightly on their respective anatomical features will greatly improve clarity."
+      "summary": "All three markers are misaligned. Move circle 1 back to cover the dorsal fins, shift circle 2 back to the rear edge of the operculum, and center circle 3 on the mid-flank."
     }
   },
   {
@@ -1268,59 +1204,59 @@
         "order": 0,
         "label": "Long chin barbel",
         "description": "A long single whisker under the chin, distinctly longer than bib's; the most reliable cod feature.",
-        "overlayX": 0.745,
-        "overlayY": 0.52,
-        "overlayRadius": 0.05
+        "overlayX": 0.731,
+        "overlayY": 0.56,
+        "overlayRadius": 0.03
       },
       {
         "order": 1,
         "label": "Pale lateral line",
         "description": "A distinct off-white stripe curves along the flank, easiest to see against the mottled back. No sharp kink.",
-        "overlayX": 0.5,
-        "overlayY": 0.48,
-        "overlayRadius": 0.2
+        "overlayX": 0.37,
+        "overlayY": 0.4575,
+        "overlayRadius": 0.156
       },
       {
         "order": 2,
         "label": "Mottled olive-brown back",
         "description": "Peppered, mottled camouflage on a green-brown base; cleaner-coloured pollack and saithe lack this speckling.",
-        "overlayX": 0.5,
-        "overlayY": 0.44,
-        "overlayRadius": 0.22
+        "overlayX": 0.375,
+        "overlayY": 0.422,
+        "overlayRadius": 0.156
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 75,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
           "label": "Long chin barbel",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed in front of the snout on the dark background, completely missing the chin barbel."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 80,
+          "note": "The circle is well placed on the chin barbel, which is clearly visible against the dark background."
         },
         {
           "number": 2,
           "label": "Pale lateral line",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is far too large, encompassing almost the entire body of the fish rather than highlighting the lateral line."
+          "clarity": 60,
+          "note": "The circle is extremely large and encompasses almost the entire rear half of the fish rather than highlighting the line itself."
         },
         {
           "number": 3,
           "label": "Mottled olive-brown back",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is oversized and overlaps with circle 2, failing to isolate the dorsal patterning."
+          "clarity": 70,
+          "note": "The circle is oversized and overlaps heavily with circle 2, making it confusing for a beginner."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circles are poorly sized and placed, with circle 1 missing the chin entirely and circles 2 and 3 being far too large. Shrink and reposition the circles to target the specific anatomical features on this juvenile cod."
+      "summary": "The photo itself is a good reference, but circles 2 and 3 are far too large and overlap. They need to be resized and targeted more precisely on the lateral line and the mottled back pattern respectively."
     }
   },
   {
@@ -1335,115 +1271,67 @@
       "inaturalist": 3
     },
     "hasAnnotatedHero": true,
-    "markCount": 6,
+    "markCount": 3,
     "heroImageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/49/Gobius_paganellus.jpg",
     "heroImageDims": "610x408",
     "marks": [
       {
         "order": 0,
-        "label": "Pale band on first dorsal fin",
-        "description": "A pale orange/yellow band runs along the top edge of the first dorsal fin - the rock goby's tell.",
-        "overlayX": 0.6345,
-        "overlayY": 0.424,
-        "overlayRadius": 0.113702205882353
-      },
-      {
-        "order": 1,
-        "label": "Robust dark body",
-        "description": "A chunky, dark, mottled goby (to ~12 cm), much bigger and darker than the little sand/common gobies. Rocky shores.",
-        "overlayX": 0.4765,
-        "overlayY": 0.578,
-        "overlayRadius": 0.26
-      },
-      {
-        "order": 1,
-        "label": "Pale-edged first dorsal",
-        "description": "A pale or orange band along the top edge of the front dorsal fin - the rock goby's clearest mark.",
-        "overlayX": 0.6345,
+        "label": "Pale band on the first dorsal",
+        "description": "A pale orange or yellow band along the top edge of the first dorsal fin; the rock goby's tell.",
+        "overlayX": 0.635,
         "overlayY": 0.4675,
-        "overlayRadius": 0.1163933823529412
+        "overlayRadius": 0.1
+      },
+      {
+        "order": 1,
+        "label": "Robust dark mottled body",
+        "description": "A chunky, dark, mottled goby (to ~12 cm), much bigger and darker than the little sand and common gobies.",
+        "overlayX": 0.4785,
+        "overlayY": 0.582,
+        "overlayRadius": 0.26
       },
       {
         "order": 2,
         "label": "Blunt head, thick lips",
-        "description": "A broad blunt head with thick lips, eyes set high.",
-        "overlayX": 0.767,
-        "overlayY": 0.719,
-        "overlayRadius": 0.1453235294117647
-      },
-      {
-        "order": 2,
-        "label": "Two dorsal fins",
-        "description": "Two separate dorsal fins along the back (a goby trait); body stocky and mottled dark.",
-        "overlayX": 0.6345,
-        "overlayY": 0.444,
-        "overlayRadius": 0.1224
-      },
-      {
-        "order": 3,
-        "label": "Blunt head, belly sucker",
-        "description": "Stocky blunt head; the pelvic fins are fused into a round sucker on the belly (shared by all gobies).",
-        "overlayX": 0.767,
-        "overlayY": 0.7185,
-        "overlayRadius": 0.14625
+        "description": "A broad blunt head with thick lips and eyes set high.",
+        "overlayX": 0.79,
+        "overlayY": 0.748,
+        "overlayRadius": 0.1
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 85,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
-          "label": "Pale band on first dorsal fin",
-          "featurePresentAtRing": false,
+          "label": "Pale band on the first dorsal",
+          "featurePresentAtRing": true,
           "alignment": "off",
-          "clarity": 10,
-          "note": "The large circle is centered on the mid-body and substrate rather than the first dorsal fin."
+          "clarity": 90,
+          "note": "The circle is placed on the body and second dorsal fin, completely missing the pale band on the first dorsal fin."
         },
         {
           "number": 2,
-          "label": "Robust dark body",
+          "label": "Robust dark mottled body",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is placed over the dorsal fins instead of the main body trunk."
+          "clarity": 85,
+          "note": "The circle is placed on the first dorsal fin instead of the main body."
         },
         {
           "number": 3,
-          "label": "Pale-edged first dorsal",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 75,
-          "note": "The circle correctly highlights the pale upper edge of the first dorsal fin."
-        },
-        {
-          "number": 4,
           "label": "Blunt head, thick lips",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 80,
-          "note": "The circle is well placed over the blunt head and eye of the goby."
-        },
-        {
-          "number": 5,
-          "label": "Two dorsal fins",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is stacked directly on top of mark 3, only showing the first dorsal fin clearly."
-        },
-        {
-          "number": 6,
-          "label": "Blunt head, belly sucker",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed on the head, but the pelvic sucker is underneath the body and not visible."
+          "clarity": 90,
+          "note": "The circle is perfectly centered on the blunt head, eye, and thick lips."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "Several circles are misaligned or stacked directly on top of each other. Reposition circle 1 to the first dorsal fin, circle 2 to the main body, and remove or adjust circle 6 since the belly sucker is hidden from this angle."
+      "summary": "The circles for marks 1 and 2 are swapped or misaligned. Move circle 1 to target the pale band on the first dorsal fin, and move circle 2 to target the main mottled body."
     }
   },
   {
@@ -1465,59 +1353,59 @@
         "order": 0,
         "label": "Dark spot behind pectoral fin",
         "description": "The first of the two namesake dark spots sits just behind the pectoral fin.",
-        "overlayX": 0.4,
-        "overlayY": 0.5,
-        "overlayRadius": 0.05
+        "overlayX": 0.3745,
+        "overlayY": 0.561,
+        "overlayRadius": 0.03581081081081081
       },
       {
         "order": 1,
         "label": "Dark spot at the tail base",
         "description": "The second spot sits at the tail base. Two spots plus orange-brown with blue speckles equals two-spotted goby.",
-        "overlayX": 0.8,
-        "overlayY": 0.56,
-        "overlayRadius": 0.05
+        "overlayX": 0.8175,
+        "overlayY": 0.604,
+        "overlayRadius": 0.036
       },
       {
         "order": 2,
         "label": "Hovers in midwater shoals",
         "description": "Unlike other gobies it does not perch on the bottom; it hovers in loose midwater groups over kelp and weed.",
-        "overlayX": 0.42,
-        "overlayY": 0.55,
-        "overlayRadius": 0.24
+        "overlayX": 0.5105,
+        "overlayY": 0.548,
+        "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 75,
-      "overallAligned": false,
+      "overallClarity": 85,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Dark spot behind pectoral fin",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed too high on the back, completely missing the dark spot which is visible lower down behind the pectoral fin."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The dark spot behind the pectoral fin is clearly visible and perfectly centered."
         },
         {
           "number": 2,
           "label": "Dark spot at the tail base",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 80,
-          "note": "The circle is slightly offset to the upper left of the dark spot at the tail base."
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The second dark spot at the base of the caudal fin is clearly visible and well targeted."
         },
         {
           "number": 3,
           "label": "Hovers in midwater shoals",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 85,
-          "note": "The large circle correctly encompasses the fish hovering in the water column above the seabed."
+          "clarity": 75,
+          "note": "The large circle correctly encompasses the fish hovering in the water column above the substrate."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "Move circle 1 down to align directly over the dark spot behind the pectoral fin, and slightly adjust circle 2 to center it on the tail spot."
+      "recommendation": "keep",
+      "summary": "The photo and all three markers are excellent. The key diagnostic spots and the hovering behavior are clearly demonstrated and well aligned."
     }
   },
   {
@@ -1532,41 +1420,33 @@
       "manual": 1
     },
     "hasAnnotatedHero": true,
-    "markCount": 4,
+    "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/199155354/medium.jpg",
     "heroImageDims": "375x500",
     "marks": [
       {
         "order": 0,
-        "label": "Long spindly legs",
-        "description": "Long, thin, spider-like legs - far longer relative to the body than any of the true crabs here.",
-        "overlayX": 0.481,
-        "overlayY": 0.212,
-        "overlayRadius": 0.1773
+        "label": "Pear-shaped carapace",
+        "description": "A triangular, pear-shaped carapace narrowing to the front and broadest towards the rear.",
+        "overlayX": 0.473,
+        "overlayY": 0.4945,
+        "overlayRadius": 0.1758
       },
       {
         "order": 1,
-        "label": "Teardrop shell, pointed snout",
-        "description": "The shell is teardrop-shaped, narrowing to a forked point at the front, and is often coated in seaweed and hydroids.",
-        "overlayX": 0.4775,
-        "overlayY": 0.4925,
-        "overlayRadius": 0.1698
-      },
-      {
-        "order": 1,
-        "label": "Triangular pear-shaped shell",
-        "description": "The shell narrows to a point at the front, giving a triangular, pear-shaped outline.",
-        "overlayX": 0.478,
-        "overlayY": 0.493,
-        "overlayRadius": 0.186
+        "label": "Two rostral horns",
+        "description": "Two short horns (the rostrum) project forward between the eyes at the front of the carapace.",
+        "overlayX": 0.641,
+        "overlayY": 0.571,
+        "overlayRadius": 0.05640000000000001
       },
       {
         "order": 2,
         "label": "Long spindly legs",
-        "description": "Long, thin spider-like legs, often draped in weed or debris as camouflage.",
-        "overlayX": 0.4805,
-        "overlayY": 0.2115,
-        "overlayRadius": 0.1626
+        "description": "Long, thin, spider-like walking legs, often disguised with attached weed and debris.",
+        "overlayX": 0.441,
+        "overlayY": 0.529,
+        "overlayRadius": 0.26
       }
     ],
     "validation": {
@@ -1576,39 +1456,31 @@
       "perMark": [
         {
           "number": 1,
-          "label": "Long spindly legs",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle for mark 1 is completely missing from the image."
+          "label": "Pear-shaped carapace",
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 50,
+          "note": "The carapace is highlighted by the large circle, but it is heavily covered in algae and debris, making the pear shape difficult to distinguish."
         },
         {
           "number": 2,
-          "label": "Teardrop shell, pointed snout",
+          "label": "Two rostral horns",
           "featurePresentAtRing": false,
           "alignment": "off",
-          "clarity": 0,
-          "note": "The circle for mark 2 is completely missing from the image."
+          "clarity": 10,
+          "note": "The circle is placed near the rear or side of the carapace instead of the front rostrum between the eyes."
         },
         {
           "number": 3,
-          "label": "Triangular pear-shaped shell",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 60,
-          "note": "The circle is centered on the carapace, but the shell shape is heavily obscured by algae and debris."
-        },
-        {
-          "number": 4,
           "label": "Long spindly legs",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 70,
-          "note": "The circle correctly highlights several of the long, spindly legs extending from the body."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 20,
+          "note": "The circle is placed on the main body carapace rather than highlighting the long walking legs extending outwards."
         }
       ],
-      "recommendation": "re-author-marks",
-      "summary": "Marks 1 and 2 are missing from the image entirely. The remaining marks should be re-authored to include all four diagnostic features, or a clearer photo should be used where the carapace shape is less obscured by camouflage."
+      "recommendation": "reposition-circles",
+      "summary": "The circles are misaligned, with circle 2 placed on the rear of the body and circle 3 placed on the carapace instead of the legs. Reposition circle 2 to the front rostrum and circle 3 to one of the long, spindly walking legs."
     }
   },
   {
@@ -1630,59 +1502,59 @@
         "order": 0,
         "label": "Thick fleshy lips",
         "description": "Big, rubbery lips for picking shellfish off the rock, a wrasse hallmark, strongest in the chunky ballan.",
-        "overlayX": 0.78,
-        "overlayY": 0.46,
-        "overlayRadius": 0.06
+        "overlayX": 0.659,
+        "overlayY": 0.5225,
+        "overlayRadius": 0.03
       },
       {
         "order": 1,
         "label": "Single long dorsal fin",
         "description": "One continuous dorsal fin runs almost the whole back (spiny at the front, soft behind), not split like a bass or gadoid.",
-        "overlayX": 0.42,
-        "overlayY": 0.38,
-        "overlayRadius": 0.16
+        "overlayX": 0.306,
+        "overlayY": 0.468,
+        "overlayRadius": 0.1416
       },
       {
         "order": 2,
         "label": "Stout mottled body",
         "description": "A deep, robust green-to-brown body, often pale-spotted and highly variable. Our largest wrasse.",
-        "overlayX": 0.45,
-        "overlayY": 0.55,
-        "overlayRadius": 0.24
+        "overlayX": 0.3385,
+        "overlayY": 0.567,
+        "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 75,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
           "label": "Thick fleshy lips",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed far to the right of the fish on the rocky background."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 85,
+          "note": "The circle is well placed on the prominent, thick lips of the wrasse."
         },
         {
           "number": 2,
           "label": "Single long dorsal fin",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is too large and shifted too high, capturing mostly the rocky overhang."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 10,
+          "note": "The circle is placed on the mid-body and background rock, completely missing the dorsal fin."
         },
         {
           "number": 3,
           "label": "Stout mottled body",
           "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 85,
-          "note": "The circle is well centered on the beautifully patterned, robust body of the wrasse."
+          "alignment": "near",
+          "clarity": 80,
+          "note": "The circle is extremely large and offset, capturing the body but also a lot of empty background."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circles are misaligned, with mark 1 completely off the fish and mark 2 shifted too high. Reposition mark 1 to the lips and shrink/lower mark 2 to target the dorsal fin."
+      "summary": "The photo is excellent, but the circles for marks 2 and 3 are misaligned. Circle 2 needs to be moved up to target the dorsal fin, and circle 3 should be resized and centered on the mottled body."
     }
   },
   {
@@ -1705,17 +1577,17 @@
         "order": 0,
         "label": "Electric blue head & stripes",
         "description": "The breeding male is unmistakable: brilliant blue head and wavy blue stripes streaking back over an orange body.",
-        "overlayX": 0.5,
-        "overlayY": 0.4315,
-        "overlayRadius": 0.26
+        "overlayX": 0.629,
+        "overlayY": 0.445,
+        "overlayRadius": 0.1508450704225352
       },
       {
         "order": 1,
         "label": "Orange flanks",
         "description": "Bright orange flanks under the blue lines (males). A slim, pointed-headed wrasse.",
-        "overlayX": 0.445,
-        "overlayY": 0.466,
-        "overlayRadius": 0.1711267605633803
+        "overlayX": 0.429,
+        "overlayY": 0.436,
+        "overlayRadius": 0.2040845070422535
       }
     ],
     "validation": {
@@ -1727,9 +1599,9 @@
           "number": 1,
           "label": "Electric blue head & stripes",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 85,
-          "note": "The circle is far too large, encompassing almost the entire fish and background instead of focusing on the head."
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The circle perfectly frames the brilliant blue head and facial patterns of the male."
         },
         {
           "number": 2,
@@ -1737,11 +1609,11 @@
           "featurePresentAtRing": true,
           "alignment": "near",
           "clarity": 80,
-          "note": "The circle is oversized and shifted too far forward, capturing more of the blue midsection than the orange flanks."
+          "note": "The circle is far too large and centered on the mid-body, capturing mostly blue stripes rather than focusing on the orange flanks."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The photo beautifully showcases a male Cuckoo wrasse, but the annotation circles are far too large and overlap excessively. Shrink and reposition circle 1 to target the blue head, and shrink circle 2 to focus specifically on the orange flanks."
+      "summary": "The circle for mark 2 is oversized and misaligned. Shrink and shift circle 2 to target the bright orange lower flank of the fish."
     }
   },
   {
@@ -1763,59 +1635,59 @@
         "order": 0,
         "label": "Curved lateral line over pectoral",
         "description": "A distinct concave arch in the lateral line just above the pectoral fin, the dab's single most reliable tell against plaice and flounder.",
-        "overlayX": 0.4,
-        "overlayY": 0.46,
-        "overlayRadius": 0.07
+        "overlayX": 0.769,
+        "overlayY": 0.47,
+        "overlayRadius": 0.0855
       },
       {
         "order": 1,
         "label": "Rough sandpaper skin",
         "description": "The scales feel rough and sandpapery to the touch; the only common UK flatfish with this texture.",
-        "overlayX": 0.42,
-        "overlayY": 0.45,
-        "overlayRadius": 0.2
+        "overlayX": 0.5375,
+        "overlayY": 0.4375,
+        "overlayRadius": 0.26
       },
       {
         "order": 2,
         "label": "Plain sandy-brown, right-eyed",
         "description": "Both eyes on the right (upper) side; a plain sandy-brown back with no bright orange spots, plainer than plaice.",
-        "overlayX": 0.34,
-        "overlayY": 0.44,
-        "overlayRadius": 0.08
+        "overlayX": 0.5025,
+        "overlayY": 0.434,
+        "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 40,
-      "overallAligned": false,
+      "overallClarity": 85,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Curved lateral line over pectoral",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed far too back on the body, completely missing the pectoral fin and the curved lateral line above it."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The distinctive semicircular curve of the lateral line above the pectoral fin is clearly visible inside the circle."
         },
         {
           "number": 2,
           "label": "Rough sandpaper skin",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 30,
-          "note": "The circle is on the edge of the dorsal fin rather than the main body skin, and texture is difficult to appreciate visually."
+          "alignment": "on",
+          "clarity": 75,
+          "note": "The large circle covers the main body showing the rough, ctenoid scale texture typical of a dab."
         },
         {
           "number": 3,
           "label": "Plain sandy-brown, right-eyed",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is placed on the rear half of the body, missing the eyes entirely, though it does show the sandy coloration."
+          "alignment": "on",
+          "clarity": 85,
+          "note": "The large circle correctly highlights the overall plain sandy-brown coloration and right-eyed orientation."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The circles are misaligned and clustered near the tail. Move circle 1 forward to the curved lateral line above the pectoral fin, move circle 3 to highlight the eyes and head region, and adjust circle 2 to clearly target the main body scales."
+      "recommendation": "keep",
+      "summary": "The annotations are well placed and clearly highlight the key diagnostic features of the dab. The curved lateral line is especially distinct and well targeted."
     }
   },
   {
@@ -1837,38 +1709,38 @@
         "order": 0,
         "label": "Flattened swimming paddles",
         "description": "The last pair of legs end in flat, paddle-shaped segments (tips often tinged violet) for swimming - shared with the velvet crab, absent in the shore crab.",
-        "overlayX": 0.8065,
-        "overlayY": 0.334,
-        "overlayRadius": 0.045
+        "overlayX": 0.286,
+        "overlayY": 0.4245,
+        "overlayRadius": 0.054
       },
       {
         "order": 1,
         "label": "Five side teeth",
         "description": "Five teeth down each side of the shell behind the eyes; reddish overall. A small swimming crab of muddy sand.",
-        "overlayX": 0.3795,
-        "overlayY": 0.518,
-        "overlayRadius": 0.0474
+        "overlayX": 0.405,
+        "overlayY": 0.4995,
+        "overlayRadius": 0.036
       },
       {
         "order": 1,
         "label": "Paddle back legs",
         "description": "The last pair of legs are flattened into swimming paddles - it is a swimming crab.",
-        "overlayX": 0.286,
-        "overlayY": 0.429,
-        "overlayRadius": 0.054
+        "overlayX": 0.807,
+        "overlayY": 0.3355,
+        "overlayRadius": 0.04455
       },
       {
         "order": 2,
         "label": "Broad reddish shell",
         "description": "A broad reddish-orange shell with the eyes set at the front.",
-        "overlayX": 0.514,
-        "overlayY": 0.526,
-        "overlayRadius": 0.2088
+        "overlayX": 0.521,
+        "overlayY": 0.525,
+        "overlayRadius": 0.1488
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 85,
+      "overallClarity": 45,
       "overallAligned": false,
       "perMark": [
         {
@@ -1876,36 +1748,36 @@
           "label": "Flattened swimming paddles",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 90,
-          "note": "Clearly shows the flattened, violet-tinged swimming paddle on the left side of the image."
+          "clarity": 85,
+          "note": "The circle correctly highlights the flattened, violet-tinged swimming paddle on the left side."
         },
         {
           "number": 2,
           "label": "Five side teeth",
           "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 80,
-          "note": "The circle is well-placed on the anterolateral teeth along the side of the carapace."
+          "alignment": "near",
+          "clarity": 50,
+          "note": "The circle is placed near the side teeth but is too small and slightly off-center to clearly show all five teeth."
         },
         {
           "number": 3,
           "label": "Paddle back legs",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 90,
-          "note": "Clearly highlights the other flattened swimming paddle on the right side of the image."
+          "clarity": 85,
+          "note": "The circle correctly highlights the flattened swimming paddle on the right side."
         },
         {
           "number": 4,
           "label": "Broad reddish shell",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is extremely large and includes a lot of the sandy background above the crab."
+          "clarity": 60,
+          "note": "The circle is extremely large and centered too far forward, capturing the face and substrate rather than focusing on the carapace."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The annotations are mostly accurate, but circle 4 is far too large and captures too much of the surrounding gravel. Shrink and center circle 4 more tightly on the reddish carapace."
+      "summary": "The swimming paddles are well-marked, but the other circles need adjustment. Reposition circle 2 to clearly target the lateral teeth, and resize and shift circle 4 to focus specifically on the broad reddish carapace."
     }
   },
   {
@@ -1928,59 +1800,59 @@
         "order": 0,
         "label": "No head tentacles",
         "description": "The crown is smooth - NO branched tentacles above the eyes (that rules in the shanny vs the tompot blenny).",
-        "overlayX": 0.179,
-        "overlayY": 0.349,
-        "overlayRadius": 0.078
+        "overlayX": 0.1225,
+        "overlayY": 0.399,
+        "overlayRadius": 0.03
       },
       {
         "order": 1,
         "label": "Thick lips, big high-set eyes",
         "description": "A blunt, scaleless head with thick lips and large eyes set high and forward - a true blenny.",
-        "overlayX": 0.102,
-        "overlayY": 0.484,
-        "overlayRadius": 0.08639999999999999
+        "overlayX": 0.1035,
+        "overlayY": 0.487,
+        "overlayRadius": 0.0837
       },
       {
         "order": 2,
         "label": "Mottled green-brown body",
         "description": "A smooth, scaleless, mottled green-brown body that wedges into crevices and rock pools.",
-        "overlayX": 0.44,
-        "overlayY": 0.47,
-        "overlayRadius": 0.26
+        "overlayX": 0.4395,
+        "overlayY": 0.512,
+        "overlayRadius": 0.2358
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 75,
-      "overallAligned": false,
+      "overallClarity": 85,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "No head tentacles",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 85,
-          "note": "The circle correctly highlights the smooth crown above the eye, showing the absence of tentacles."
+          "clarity": 80,
+          "note": "The circle correctly highlights the smooth area above the eye where tentacles would be on other blennies."
         },
         {
           "number": 2,
           "label": "Thick lips, big high-set eyes",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed on the cheek and gill cover, completely missing the eye and lips."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The circle perfectly encompasses the blunt face, high-set eye, and thick lips."
         },
         {
           "number": 3,
           "label": "Mottled green-brown body",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 80,
-          "note": "The circle is very large and centered on the pectoral fin rather than the main mottled body flank."
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The large circle clearly captures the mottled green and brown coloration of the body."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "Move circle 2 up and forward to cover the eye and thick lips. Reduce the size of circle 3 and shift it slightly to focus on the mottled pattern of the body flank."
+      "recommendation": "keep",
+      "summary": "The annotations are highly accurate and clearly highlight the key diagnostic features of the shanny. No changes are needed."
     }
   },
   {
@@ -2118,17 +1990,17 @@
         "order": 0,
         "label": "Long arms, rows of spines",
         "description": "Five long, tapering arms carrying three rows of conspicuous spines (each spine ringed blue at its base). Can reach 70 cm across.",
-        "overlayX": 0.505,
-        "overlayY": 0.522,
+        "overlayX": 0.502,
+        "overlayY": 0.521,
         "overlayRadius": 0.26
       },
       {
         "order": 1,
         "label": "Conspicuous spines",
         "description": "The prominent, evenly-spaced white spines separate it from the smoother common starfish.",
-        "overlayX": 0.193,
-        "overlayY": 0.3755,
-        "overlayRadius": 0.06055900621118013
+        "overlayX": 0.1395,
+        "overlayY": 0.393,
+        "overlayRadius": 0.03
       }
     ],
     "validation": {
@@ -2141,7 +2013,7 @@
           "label": "Long arms, rows of spines",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 35,
+          "clarity": 30,
           "note": "The circle is extremely large and centered on the underside of the starfish, showing tube feet rather than the dorsal rows of spines."
         },
         {
@@ -2149,12 +2021,12 @@
           "label": "Conspicuous spines",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 85,
-          "note": "The circle correctly highlights the prominent spines on the side of the arm."
+          "clarity": 75,
+          "note": "The small circle correctly highlights a prominent spine on the edge of the arm."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The starfish is upside down, showing its oral side with tube feet instead of its dorsal side. Circle 1 should be resized and moved to focus on the dorsal spines visible on the upper arm edges, or the photo should be replaced with one showing the dorsal side clearly."
+      "summary": "The starfish is upside down, showing its oral side with tube feet instead of its dorsal spines. Circle 1 is far too large and should be resized and moved to focus on the dorsal surface if a better photo is used, or repositioned to show the overall arm structure."
     }
   },
   {
@@ -2176,59 +2048,59 @@
         "order": 0,
         "label": "Two long chin barbels",
         "description": "A pair of long sensory barbels under the chin, used to probe the sand for food, the red mullet's standout feature.",
-        "overlayX": 0.8,
-        "overlayY": 0.74,
-        "overlayRadius": 0.11
+        "overlayX": 0.88,
+        "overlayY": 0.693,
+        "overlayRadius": 0.1
       },
       {
         "order": 1,
         "label": "Reddish, with stripes/blotches",
         "description": "Pink-red flanks marked with reddish-brown stripes and blotches; can flush brighter red. A steeply-sloped forehead.",
-        "overlayX": 0.5,
-        "overlayY": 0.5,
-        "overlayRadius": 0.24
+        "overlayX": 0.6225,
+        "overlayY": 0.4815,
+        "overlayRadius": 0.26
       },
       {
         "order": 2,
         "label": "Two separate dorsal fins",
         "description": "Two well-separated dorsal fins on a deep-bellied body that grubs along sandy and gravelly bottoms.",
-        "overlayX": 0.45,
-        "overlayY": 0.3,
-        "overlayRadius": 0.14
+        "overlayX": 0.387,
+        "overlayY": 0.27,
+        "overlayRadius": 0.2519461077844312
       }
     ],
     "validation": {
       "imageOk": true,
       "overallClarity": 65,
-      "overallAligned": false,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Two long chin barbels",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is placed too low on the sand, barely catching the tips of the barbels."
+          "alignment": "on",
+          "clarity": 75,
+          "note": "The long white barbels are clearly visible and well targeted by the circle."
         },
         {
           "number": 2,
           "label": "Reddish, with stripes/blotches",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 75,
-          "note": "The circle is well centered on the striped flank and reddish body coloration."
+          "clarity": 70,
+          "note": "The circle covers the head and front body, showing the reddish stripes and steep forehead."
         },
         {
           "number": 3,
           "label": "Two separate dorsal fins",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 50,
-          "note": "The circle only highlights the first dorsal fin, missing the second separate fin."
+          "clarity": 55,
+          "note": "The circle is too large and offset, capturing mostly empty background above the fish."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "Move circle 1 up to center on the chin barbels, and expand or shift circle 3 to clearly encompass both separate dorsal fins."
+      "summary": "The image shows the species features well, but circle 3 is too large and needs to be resized and centered directly over the two dorsal fins."
     }
   },
   {
@@ -2242,83 +2114,67 @@
       "inaturalist": 8
     },
     "hasAnnotatedHero": true,
-    "markCount": 4,
+    "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/439118717/medium.jpeg",
     "heroImageDims": "500x375",
     "marks": [
       {
         "order": 0,
-        "label": "Bright red eyes",
-        "description": "Vivid red eyes are the instant giveaway - no other common UK crab has them.",
-        "overlayX": 0.597,
-        "overlayY": 0.39,
-        "overlayRadius": 0.03
+        "label": "Red eyes",
+        "description": "Striking red eyes, a quick giveaway against the dark body.",
+        "overlayX": 0.5,
+        "overlayY": 0.38,
+        "overlayRadius": 0.1
       },
       {
         "order": 1,
         "label": "Velvety carapace",
-        "description": "The shell is coated in fine velvety fur, dull brown. The last legs (not shown here) are flattened swimming paddles.",
-        "overlayX": 0.51,
-        "overlayY": 0.446,
-        "overlayRadius": 0.2208
-      },
-      {
-        "order": 1,
-        "label": "Red eyes",
-        "description": "Bright red eyes - unmistakable on this otherwise drab crab.",
-        "overlayX": 0.5965,
-        "overlayY": 0.389,
-        "overlayRadius": 0.0306
+        "description": "The carapace is covered in fine short hairs giving it a matte, velvet-brown look.",
+        "overlayX": 0.511,
+        "overlayY": 0.4525,
+        "overlayRadius": 0.2196
       },
       {
         "order": 2,
-        "label": "Velvety furred shell",
-        "description": "The shell is covered in fine velvety fur; the last pair of legs are flattened into blue-lined swimming paddles.",
-        "overlayX": 0.5095,
-        "overlayY": 0.452,
-        "overlayRadius": 0.207
+        "label": "Paddle-shaped rear legs",
+        "description": "The last pair of legs are flattened into swimming paddles, marking it a swimming crab.",
+        "overlayX": 0.246,
+        "overlayY": 0.873,
+        "overlayRadius": 0.1
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 50,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
-          "label": "Bright red eyes",
+          "label": "Red eyes",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is extremely large and covers the entire face of the crab rather than focusing on the red eyes."
+          "clarity": 60,
+          "note": "The circle is far too large and encompasses the entire face instead of focusing on the red eyes."
         },
         {
           "number": 2,
           "label": "Velvety carapace",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 40,
-          "note": "The circle is too large and overlaps with the eye region instead of focusing on the carapace texture."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 30,
+          "note": "The circle is placed in the empty water column above the crab."
         },
         {
           "number": 3,
-          "label": "Red eyes",
+          "label": "Paddle-shaped rear legs",
           "featurePresentAtRing": false,
           "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed in the empty water column above the crab's carapace."
-        },
-        {
-          "number": 4,
-          "label": "Velvety furred shell",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed in the dark water column completely off the crab."
+          "clarity": 30,
+          "note": "The circle is positioned over the front claw rather than the rear swimming leg."
         }
       ],
-      "recommendation": "re-author-marks",
-      "summary": "The current markers are highly redundant and poorly placed, with two circles floating in the empty water column and the others being far too large. The markers should be consolidated and resized to target one red eye and the velvety carapace texture specifically."
+      "recommendation": "reposition-circles",
+      "summary": "All three markers are misaligned. Shrink circle 1 to target the red eyes, move circle 2 onto the main carapace, and shift circle 3 to the actual rear paddle leg."
     }
   },
   {
@@ -2333,41 +2189,33 @@
       "inaturalist": 7
     },
     "hasAnnotatedHero": true,
-    "markCount": 4,
+    "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/162237580/medium.jpg",
     "heroImageDims": "375x500",
     "marks": [
       {
         "order": 0,
         "label": "Pointed spire",
-        "description": "A short, sharply pointed spire at the top of a thick, solid shell.",
+        "description": "A short, pointed spire of whorls at the top of the thick shell.",
         "overlayX": 0.54,
-        "overlayY": 0.4195,
-        "overlayRadius": 0.0822
-      },
-      {
-        "order": 0,
-        "label": "Short pointed spire",
-        "description": "A thick, short-spired shell with spiral ridges and an oval mouth drawn out into a little spout. Drills holes in barnacles and mussels.",
-        "overlayX": 0.54,
-        "overlayY": 0.415,
+        "overlayY": 0.418,
         "overlayRadius": 0.0804
       },
       {
         "order": 1,
-        "label": "Colour varies with diet",
-        "description": "The thick body whorl is often boldly banded; colour varies (white to brown/black) with the prey it eats.",
+        "label": "Thick ridged shell",
+        "description": "A solid, thick shell with low spiral ridges; colour varies (white, yellow or banded).",
         "overlayX": 0.5675,
-        "overlayY": 0.5765,
-        "overlayRadius": 0.14265
+        "overlayY": 0.5215,
+        "overlayRadius": 0.2034
       },
       {
-        "order": 1,
-        "label": "Colour varies with diet",
-        "description": "White, grey, banded brown or even orange - the colour follows what it has been eating, so a cluster looks like a mixed bag.",
-        "overlayX": 0.567,
-        "overlayY": 0.576,
-        "overlayRadius": 0.156
+        "order": 2,
+        "label": "Oval notched aperture",
+        "description": "A wide oval opening (aperture) with a short siphonal notch at its base.",
+        "overlayX": 0.609,
+        "overlayY": 0.66,
+        "overlayRadius": 0.0585
       }
     ],
     "validation": {
@@ -2376,24 +2224,32 @@
       "overallAligned": false,
       "perMark": [
         {
-          "number": 2,
-          "label": "Short pointed spire",
+          "number": 1,
+          "label": "Pointed spire",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 40,
-          "note": "The circle is shifted too far to the left, capturing mostly the blurry background instead of centering on the spire."
+          "alignment": "on",
+          "clarity": 70,
+          "note": "The circle correctly highlights the pointed spire at the top of the shell."
         },
         {
-          "number": 4,
-          "label": "Colour varies with diet",
+          "number": 2,
+          "label": "Thick ridged shell",
           "featurePresentAtRing": true,
           "alignment": "near",
           "clarity": 60,
-          "note": "The circle is shifted too far to the left, overlapping the rock background rather than centering on the banded shell pattern."
+          "note": "The circle is far too large, encompassing almost the entire shell and surrounding rock."
+        },
+        {
+          "number": 3,
+          "label": "Oval notched aperture",
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 10,
+          "note": "The aperture is completely hidden because the snail is facing away, attached to the rock."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The circles are shifted too far to the left, capturing mostly the background. Reposition circle 2 to center on the pointed spire and circle 4 to center on the banded shell pattern."
+      "recommendation": "replace-photo",
+      "summary": "The snail is positioned face-down on the rock, making it impossible to see the oval notched aperture. A new photo showing the underside of the shell is required to properly display all diagnostic features."
     }
   },
   {
@@ -2574,17 +2430,17 @@
         "order": 0,
         "label": "Radiating ridges",
         "description": "A low cone of grey shell with ridges radiating from the peak. Steeper-coned high on the shore, flatter lower down.",
-        "overlayX": 0.5055,
-        "overlayY": 0.5415,
-        "overlayRadius": 0.123
+        "overlayX": 0.506,
+        "overlayY": 0.54,
+        "overlayRadius": 0.1308
       },
       {
         "order": 1,
         "label": "Clamped to bare rock",
         "description": "No spire and no pattern - just a plain cone clamped tight to the rock, grazing algae and homing to the same scar.",
         "overlayX": 0.506,
-        "overlayY": 0.541,
-        "overlayRadius": 0.132
+        "overlayY": 0.5405,
+        "overlayRadius": 0.1326
       }
     ],
     "validation": {
@@ -2606,11 +2462,11 @@
           "featurePresentAtRing": true,
           "alignment": "on",
           "clarity": 90,
-          "note": "The circle perfectly highlights the limpet clamped tightly to its home scar on the bare rock."
+          "note": "The circle perfectly highlights the conical shell clamped tightly to the bare rock surface."
         }
       ],
       "recommendation": "re-author-marks",
-      "summary": "The image clearly shows the limpet clamped to the rock, but mark 1 is missing entirely. Add a new circle pointing to the radiating ridges on the shell to complete the annotations."
+      "summary": "The image clearly shows a common limpet clamped to the rock, but mark 1 is missing. Add a new circle pointing to the radiating ridges on the shell to complete the annotations."
     }
   },
   {
@@ -2697,115 +2553,67 @@
       "inaturalist": 4
     },
     "hasAnnotatedHero": true,
-    "markCount": 6,
+    "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/263661268/medium.jpeg",
     "heroImageDims": "500x333",
     "marks": [
       {
         "order": 0,
-        "label": "Row of dark eye-spots",
-        "description": "A line of white-ringed black eye-spots runs along the base of the dorsal fin - the unmistakable butterfish mark.",
-        "overlayX": 0.338,
-        "overlayY": 0.403,
-        "overlayRadius": 0.2162162162162162
+        "label": "Row of black eye-spots",
+        "description": "A line of white-ringed black ocelli runs along the base of the long dorsal fin; the unmistakable butterfish mark.",
+        "overlayX": 0.4635,
+        "overlayY": 0.2395,
+        "overlayRadius": 0.04797297297297297
       },
       {
         "order": 1,
         "label": "Long ribbon body",
-        "description": "A long, flattened, ribbon-like body, slippery to hold (hence butterfish/gunnel). Drapes over rocks.",
+        "description": "A long, flattened, ribbon-like body, slippery to hold, that drapes over rocks.",
         "overlayX": 0.394,
-        "overlayY": 0.602,
+        "overlayY": 0.593,
         "overlayRadius": 0.26
       },
       {
-        "order": 1,
-        "label": "Dorsal eye-spot row",
-        "description": "A row of dark, white-ringed eye-spots along the base of the long dorsal fin - unmistakable.",
-        "overlayX": 0.3365,
-        "overlayY": 0.393,
-        "overlayRadius": 0.2141891891891892
-      },
-      {
         "order": 2,
-        "label": "Tiny pointed head",
-        "description": "A small, blunt head on the slender ribbon - not eel-like teeth, just a gentle weed-grazer.",
-        "overlayX": 0.717,
-        "overlayY": 0.4015,
-        "overlayRadius": 0.09729729729729729
-      },
-      {
-        "order": 2,
-        "label": "Long ribbon body",
-        "description": "A long, strongly side-flattened ribbon body with one continuous low dorsal fin running its length.",
-        "overlayX": 0.3935,
-        "overlayY": 0.5985,
-        "overlayRadius": 0.26
-      },
-      {
-        "order": 3,
         "label": "Small blunt head",
-        "description": "Small blunt head; the fish is slippery and eel-like, hence the name butterfish (or gunnel).",
-        "overlayX": 0.714,
-        "overlayY": 0.401,
-        "overlayRadius": 0.1
+        "description": "A tiny, blunt head on the slender ribbon; a gentle weed-grazer with no eel-like teeth.",
+        "overlayX": 0.716,
+        "overlayY": 0.404,
+        "overlayRadius": 0.09864864864864865
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
-      "overallAligned": false,
+      "overallClarity": 85,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
-          "label": "Row of dark eye-spots",
+          "label": "Row of black eye-spots",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 80,
-          "note": "The circle is extremely large and off-center, though it does encompass one prominent eye-spot."
+          "alignment": "on",
+          "clarity": 90,
+          "note": "The circle perfectly frames one of the prominent white-ringed black ocelli along the dorsal fin."
         },
         {
           "number": 2,
           "label": "Long ribbon body",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is oversized and mostly covers the sandy substrate rather than focusing on the body."
+          "alignment": "on",
+          "clarity": 80,
+          "note": "The large circle captures the curved, ribbon-like body shape as it drapes over the substrate."
         },
         {
           "number": 3,
-          "label": "Dorsal eye-spot row",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 85,
-          "note": "The marker is placed on the edge of the dorsal fin near an eye-spot but is too small and slightly offset."
-        },
-        {
-          "number": 4,
-          "label": "Tiny pointed head",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The marker is missing entirely from the image."
-        },
-        {
-          "number": 5,
-          "label": "Long ribbon body",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 75,
-          "note": "The marker is placed near the pectoral fin area rather than highlighting the main ribbon body."
-        },
-        {
-          "number": 6,
           "label": "Small blunt head",
           "featurePresentAtRing": true,
           "alignment": "on",
           "clarity": 90,
-          "note": "The circle is well-placed directly over the head of the fish."
+          "note": "The circle is well-centered on the small, blunt head of the fish."
         }
       ],
-      "recommendation": "re-author-marks",
-      "summary": "Several markers are missing, duplicated, or poorly sized. The entire set of annotations needs to be re-authored to cleanly target the head, body, and dorsal eye-spots without overlapping giant circles."
+      "recommendation": "keep",
+      "summary": "The annotations are highly accurate and clearly highlight the key diagnostic features of the butterfish. No changes are needed."
     }
   },
   {
@@ -2828,17 +2636,17 @@
         "order": 0,
         "label": "Bony tubercles along the fin bases",
         "description": "A rough run of small bony knobs along the bases of the dorsal and anal fins and the lateral line, rough to the touch unlike the smooth plaice.",
-        "overlayX": 0.3755,
-        "overlayY": 0.18,
-        "overlayRadius": 0.1014
+        "overlayX": 0.374,
+        "overlayY": 0.461,
+        "overlayRadius": 0.26
       },
       {
         "order": 1,
         "label": "Pale, scattered spots",
         "description": "Any orange spots are pale and scattered, never the vivid, well-defined orange of a plaice.",
-        "overlayX": 0.407,
-        "overlayY": 0.299,
-        "overlayRadius": 0.03
+        "overlayX": 0.405,
+        "overlayY": 0.46,
+        "overlayRadius": 0.234
       },
       {
         "order": 2,
@@ -2851,36 +2659,36 @@
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 30,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
           "label": "Bony tubercles along the fin bases",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 40,
-          "note": "The circle is placed over the dorsal fin base but the tiny rough tubercles are very difficult to resolve in this lighting."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 10,
+          "note": "The circle is extremely large and covers the entire body of the fish rather than targeting the fin bases."
         },
         {
           "number": 2,
           "label": "Pale, scattered spots",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The small circle is placed on a dark mottled patch rather than any distinct pale or faint orange spots."
+          "featurePresentAtRing": true,
+          "alignment": "near",
+          "clarity": 40,
+          "note": "The circle is too large and covers the whole body, making it hard to focus on the faint spots."
         },
         {
           "number": 3,
           "label": "Dull brown estuary flatfish",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 60,
-          "note": "The massive circle covers most of the body but is off-center, leaving the head and tail outside the mark."
+          "clarity": 50,
+          "note": "The circle covers the entire fish body, which shows the overall color, but it is far too large."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circles are poorly sized and misaligned. Circle 3 should be resized to encompass the entire fish to represent the overall body shape and color, while Circle 2 needs to be moved to a region with visible pale spots."
+      "summary": "All three circles are stacked on top of each other as massive rings covering the entire body of the fish. They need to be resized and repositioned to target their specific diagnostic features."
     }
   },
   {
@@ -2903,59 +2711,59 @@
         "order": 0,
         "label": "Bright orange spots",
         "description": "Scattered bright orange-red spots over a smooth brown upper side, the plaice's signature, separating it from dab and flounder.",
-        "overlayX": 0.512,
-        "overlayY": 0.542,
-        "overlayRadius": 0.24
+        "overlayX": 0.575,
+        "overlayY": 0.546,
+        "overlayRadius": 0.03
       },
       {
         "order": 1,
         "label": "Both eyes on one side",
         "description": "A flatfish: both eyes sit on the right (upper) side. The underside it lies on is plain white.",
-        "overlayX": 0.776,
-        "overlayY": 0.358,
-        "overlayRadius": 0.0414
+        "overlayX": 0.784,
+        "overlayY": 0.348,
+        "overlayRadius": 0.05040000000000001
       },
       {
         "order": 2,
         "label": "Bony ridge behind eyes",
         "description": "A short row of 4-7 bony knobs runs from behind the eyes; smooth skin otherwise.",
-        "overlayX": 0.72,
-        "overlayY": 0.389,
-        "overlayRadius": 0.03
+        "overlayX": 0.697,
+        "overlayY": 0.417,
+        "overlayRadius": 0.05160000000000001
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 65,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
           "label": "Bright orange spots",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 30,
-          "note": "The circle is placed near the head instead of the body where the orange spots are clearly visible."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 75,
+          "note": "The circle is centered perfectly on one of the distinct orange spots."
         },
         {
           "number": 2,
           "label": "Both eyes on one side",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 25,
-          "note": "The circle is placed off the fish entirely, floating in the background near the snout."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 70,
+          "note": "The circle correctly highlights the eyes on the upper side of the head."
         },
         {
           "number": 3,
           "label": "Bony ridge behind eyes",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 40,
-          "note": "The circle is close to the eyes but does not clearly highlight the bony ridge structure."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 30,
+          "note": "The circle is placed too low on the gill cover instead of behind the eyes."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The large unnumbered circle covers the orange spots but is not labeled. Reposition circle 1 to the body spots, circle 2 to the eyes, and adjust circle 3 to target the ridge behind the eyes."
+      "summary": "Move circle 3 slightly higher to target the area directly behind the eyes where the bony ridge is located."
     }
   },
   {
@@ -2977,59 +2785,59 @@
         "order": 0,
         "label": "Kinked lateral line",
         "description": "The dark line down the flank bends sharply upward over the pectoral fin — pollack's most reliable single ID against bib and cod.",
-        "overlayX": 0.5485,
-        "overlayY": 0.528,
-        "overlayRadius": 0.1182
+        "overlayX": 0.555,
+        "overlayY": 0.525,
+        "overlayRadius": 0.09
       },
       {
         "order": 1,
         "label": "Projecting lower jaw",
         "description": "Lower jaw juts out beyond the upper, giving a slight under-bite silhouette. Cod and bib have an even or upper-jawed bite.",
-        "overlayX": 0.743,
-        "overlayY": 0.6485,
-        "overlayRadius": 0.03
+        "overlayX": 0.7425,
+        "overlayY": 0.645,
+        "overlayRadius": 0.039
       },
       {
         "order": 2,
         "label": "No chin barbel",
         "description": "Smooth chin — no whisker. This rules out cod and bib at a glance; both gadoids have a clear chin barbel.",
-        "overlayX": 0.743,
-        "overlayY": 0.6675,
-        "overlayRadius": 0.03
+        "overlayX": 0.725,
+        "overlayY": 0.6625,
+        "overlayRadius": 0.054
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 65,
+      "overallClarity": 45,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
           "label": "Kinked lateral line",
           "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 70,
-          "note": "The circle correctly encompasses the upward curve of the lateral line above the pectoral fin."
+          "alignment": "near",
+          "clarity": 50,
+          "note": "The circle is placed too high and is too large, but the faint upward curve of the lateral line is visible near the bottom edge of the ring."
         },
         {
           "number": 2,
           "label": "Projecting lower jaw",
           "featurePresentAtRing": false,
           "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed on the lower chin area rather than the tip of the snout and lower jaw."
+          "clarity": 10,
+          "note": "The circle is placed on the gill cover and throat area instead of the snout and jaw."
         },
         {
           "number": 3,
           "label": "No chin barbel",
           "featurePresentAtRing": false,
           "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed too high, floating in the water column just in front of the snout."
+          "clarity": 10,
+          "note": "The circle is placed on the eye and upper snout instead of the chin."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The lateral line circle is well placed, but the circles for the jaw and chin barbel are misaligned and need to be moved to the correct anatomical positions on the fish's head."
+      "summary": "The circles are misaligned, with circle 2 placed on the gill cover and circle 3 placed on the eye. Reposition circle 2 to the projecting lower jaw and circle 3 to the smooth chin."
     }
   },
   {
@@ -3051,8 +2859,8 @@
         "order": 0,
         "label": "Straight lateral line",
         "description": "The pale line down the flank is nearly straight, with no sharp upward kink over the pectoral fin (that kink is pollack's tell).",
-        "overlayX": 0.625,
-        "overlayY": 0.437,
+        "overlayX": 0.6675,
+        "overlayY": 0.4305,
         "overlayRadius": 0.26
       },
       {
@@ -3060,16 +2868,16 @@
         "label": "Level jaw",
         "description": "Upper and lower jaws are about equal (pollack's lower jaw juts out). Barbel tiny or absent.",
         "overlayX": 0.1865,
-        "overlayY": 0.554,
-        "overlayRadius": 0.05104645354645354
+        "overlayY": 0.555,
+        "overlayRadius": 0.05240769230769231
       },
       {
         "order": 2,
         "label": "Dark greenish back",
         "description": "A dark green-brown back over silvery sides, schooling. Also called coalfish or coley.",
-        "overlayX": 0.556,
-        "overlayY": 0.4575,
-        "overlayRadius": 0.26
+        "overlayX": 0.5975,
+        "overlayY": 0.36,
+        "overlayRadius": 0.2552322677322678
       }
     ],
     "validation": {
@@ -3083,7 +2891,7 @@
           "featurePresentAtRing": true,
           "alignment": "near",
           "clarity": 90,
-          "note": "The circle is extremely large and encompasses almost the entire body of the fish rather than focusing on the lateral line."
+          "note": "The pale straight lateral line is clearly visible, but the circle is excessively large and overlaps other features."
         },
         {
           "number": 2,
@@ -3091,7 +2899,7 @@
           "featurePresentAtRing": true,
           "alignment": "on",
           "clarity": 85,
-          "note": "The circle is well placed over the mouth and snout showing the level jaw structure."
+          "note": "The circle is well-placed on the mouth showing the level jaws and lack of a prominent barbel."
         },
         {
           "number": 3,
@@ -3099,11 +2907,11 @@
           "featurePresentAtRing": true,
           "alignment": "near",
           "clarity": 80,
-          "note": "The circle is far too large and overlaps heavily with circle 1 instead of targeting just the dorsal region."
+          "note": "The dark greenish-brown back is visible, but the circle is far too large and encompasses almost the entire body."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The photo is excellent and clearly shows the diagnostic features of the saithe. However, circles 1 and 3 are far too large and need to be resized and repositioned to target their specific features more precisely."
+      "summary": "The photo is excellent and clearly shows the diagnostic features of the saithe. However, circles 1 and 3 are far too large and overlap significantly; they should be resized and focused more tightly on the lateral line and the dorsal coloration respectively."
     }
   },
   {
@@ -3189,7 +2997,7 @@
       "inaturalist": 8
     },
     "hasAnnotatedHero": true,
-    "markCount": 3,
+    "markCount": 2,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/102668861/medium.jpeg",
     "heroImageDims": "2048x1540",
     "marks": [
@@ -3197,30 +3005,22 @@
         "order": 0,
         "label": "Pale sandy body",
         "description": "Almost translucent, pale sandy-mottled - matches clean sand. Slightly larger and paler than the common goby.",
-        "overlayX": 0.481,
-        "overlayY": 0.5845,
+        "overlayX": 0.4905,
+        "overlayY": 0.5425,
         "overlayRadius": 0.26
       },
       {
         "order": 1,
-        "label": "Pelvic-fin sucker",
-        "description": "Perches on the sand on the fused pelvic-fin sucker shared by all gobies.",
-        "overlayX": 0.58,
-        "overlayY": 0.586,
-        "overlayRadius": 0.03
-      },
-      {
-        "order": 2,
         "label": "Rows of small saddles",
         "description": "Faint rows of small dark saddles/spots along the back; a row of spots on the first dorsal in males.",
-        "overlayX": 0.564,
-        "overlayY": 0.426,
-        "overlayRadius": 0.08856382978723405
+        "overlayX": 0.584,
+        "overlayY": 0.433,
+        "overlayRadius": 0.1
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 45,
+      "overallClarity": 65,
       "overallAligned": false,
       "perMark": [
         {
@@ -3228,28 +3028,20 @@
           "label": "Pale sandy body",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is extremely large and encompasses almost the entire fish and background rather than highlighting the body coloration specifically."
+          "clarity": 70,
+          "note": "The circle is extremely large and covers almost the entire fish, which is unnecessary and confusing."
         },
         {
           "number": 2,
-          "label": "Pelvic-fin sucker",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed on the pectoral fin instead of the fused pelvic-fin sucker underneath the body."
-        },
-        {
-          "number": 3,
           "label": "Rows of small saddles",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is positioned too high, floating partially off the back of the fish into the water column."
+          "clarity": 50,
+          "note": "The circle is placed too far forward on the shoulder area rather than highlighting the saddles along the back."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circles are poorly sized and misaligned. Circle 1 needs to be shrunk to focus on the sandy skin texture, Circle 2 must be moved to the pelvic fin area, and Circle 3 should be lowered to sit directly on the dorsal saddles."
+      "summary": "The circles are poorly sized and positioned. Circle 1 should be reduced in size to focus on a representative patch of the sandy body, and Circle 2 should be moved further back along the dorsal ridge to highlight the saddle markings."
     }
   },
   {
@@ -3315,11 +3107,11 @@
     "scientificName": "Scomber scombrus",
     "commonName": "Atlantic mackerel",
     "shapeClass": "fish",
-    "totalPhotos": 2,
-    "curatedPhotos": 1,
+    "totalPhotos": 3,
+    "curatedPhotos": 2,
     "sources": {
       "inaturalist": 1,
-      "manual": 1
+      "manual": 2
     },
     "hasAnnotatedHero": true,
     "markCount": 3,
@@ -3330,8 +3122,8 @@
         "order": 0,
         "label": "Wavy green-blue bars",
         "description": "Bold, wavy, tiger-stripe bars across a metallic blue-green back, the most eye-catching fish in UK waters.",
-        "overlayX": 0.5075,
-        "overlayY": 0.458,
+        "overlayX": 0.5125,
+        "overlayY": 0.4585,
         "overlayRadius": 0.26
       },
       {
@@ -3340,15 +3132,15 @@
         "description": "A deeply forked tail and slim, torpedo-shaped body built for sustained fast swimming.",
         "overlayX": 0.1065,
         "overlayY": 0.538,
-        "overlayRadius": 0.1116
+        "overlayRadius": 0.1
       },
       {
         "order": 2,
         "label": "Silver-white belly",
         "description": "A plain silver-white belly with no bars (the bars only run down the back), sharp contrast with the coloured back.",
-        "overlayX": 0.463,
-        "overlayY": 0.541,
-        "overlayRadius": 0.26
+        "overlayX": 0.5125,
+        "overlayY": 0.5315,
+        "overlayRadius": 0.2490280911552347
       }
     ],
     "validation": {
@@ -3361,15 +3153,15 @@
           "label": "Wavy green-blue bars",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 85,
-          "note": "The circle is far too large, encompassing almost the entire body of the fish instead of focusing on the dorsal bars."
+          "clarity": 70,
+          "note": "The circle is far too large and encompasses almost the entire body of the fish instead of focusing on the dorsal bars."
         },
         {
           "number": 2,
           "label": "Streamlined forked tail",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 95,
+          "clarity": 90,
           "note": "The circle is well placed and clearly highlights the deeply forked tail."
         },
         {
@@ -3377,12 +3169,12 @@
           "label": "Silver-white belly",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 70,
-          "note": "The circle is oversized and overlaps heavily with circle 1, making it confusing for a beginner."
+          "clarity": 60,
+          "note": "The circle is extremely oversized and overlaps with the dorsal bars instead of targeting only the lower belly."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The photo itself is excellent, but circles 1 and 3 are far too large and overlap excessively. Shrink and reposition circle 1 to target only the dorsal tiger stripes, and shrink circle 3 to target only the lower silver-white belly."
+      "summary": "The photo itself is excellent, but circles 1 and 3 are far too large and overlap heavily. They need to be resized and shifted to target the dorsal bars and the lower belly respectively."
     }
   },
   {
@@ -3465,14 +3257,14 @@
         "label": "W-shaped pupil",
         "description": "The eye has a distinctive wavy, W-shaped pupil - a cuttlefish signature you won't see on a fish.",
         "overlayX": 0.543,
-        "overlayY": 0.597,
+        "overlayY": 0.5975,
         "overlayRadius": 0.042
       },
       {
         "order": 1,
         "label": "Fin runs the whole body",
         "description": "A narrow fin skirts the entire length of the broad, flattened body on both sides (a squid's fins sit only at the tail).",
-        "overlayX": 0.316,
+        "overlayX": 0.315,
         "overlayY": 0.711,
         "overlayRadius": 0.26
       },
@@ -3480,15 +3272,15 @@
         "order": 2,
         "label": "Broad mottled body",
         "description": "Broad, flattened oval body, mottled brown and able to flash zebra patterns. Our largest cuttlefish; the white cuttlebone often washes up.",
-        "overlayX": 0.374,
-        "overlayY": 0.613,
+        "overlayX": 0.336,
+        "overlayY": 0.612,
         "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 75,
-      "overallAligned": false,
+      "overallClarity": 80,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
@@ -3496,27 +3288,27 @@
           "featurePresentAtRing": true,
           "alignment": "on",
           "clarity": 85,
-          "note": "The circle is perfectly centered on the distinctive W-shaped eye."
+          "note": "The distinctive W-shaped pupil is clearly visible and perfectly targeted by the circle."
         },
         {
           "number": 2,
           "label": "Fin runs the whole body",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is extremely large and overlaps the entire body instead of highlighting the narrow outer fin."
+          "alignment": "on",
+          "clarity": 75,
+          "note": "The circle correctly highlights the narrow, dotted fin running along the side of the body."
         },
         {
           "number": 3,
           "label": "Broad mottled body",
           "featurePresentAtRing": true,
-          "alignment": "near",
+          "alignment": "on",
           "clarity": 80,
-          "note": "The circle is oversized and shifted too far down, extending off the animal into the sandy background."
+          "note": "The large circle encompasses the broad, mottled mantle of the cuttlefish."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The eye mark is well-placed, but circles 2 and 3 are far too large and overlap excessively. Shrink and reposition circle 2 to target the narrow outer fin edge, and adjust circle 3 to focus cleanly on the broad mottled mantle."
+      "recommendation": "keep",
+      "summary": "All three markers are accurately placed and clearly show the diagnostic features of the Common Cuttlefish. No changes are needed."
     }
   },
   {
@@ -3597,39 +3389,39 @@
         "order": 0,
         "label": "Extremely long, thin body",
         "description": "An exceptionally slender, elongated body tapering to a long pointed snout — quite unlike any other small UK fish.",
-        "overlayX": 0.504,
-        "overlayY": 0.4955,
-        "overlayRadius": 0.26
+        "overlayX": 0.52,
+        "overlayY": 0.52,
+        "overlayRadius": 0.2
       },
       {
         "order": 1,
         "label": "Long pointed snout",
         "description": "A long, fine, tweezer-like snout for picking tiny crustaceans out of weed.",
-        "overlayX": 0.863,
-        "overlayY": 0.706,
-        "overlayRadius": 0.07061170212765958
+        "overlayX": 0.88,
+        "overlayY": 0.72,
+        "overlayRadius": 0.07
       },
       {
         "order": 2,
         "label": "Row of short spines before dorsal",
         "description": "A row of about fifteen tiny separate spines runs along the back in front of the dorsal fin (hence the name); a slim tail.",
-        "overlayX": 0.58,
-        "overlayY": 0.525,
-        "overlayRadius": 0.1196808510638298
+        "overlayX": 0.68,
+        "overlayY": 0.59,
+        "overlayRadius": 0.11
       }
     ],
     "validation": {
       "imageOk": true,
       "overallClarity": 75,
-      "overallAligned": false,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Extremely long, thin body",
           "featurePresentAtRing": true,
-          "alignment": "near",
+          "alignment": "on",
           "clarity": 80,
-          "note": "The circle is extremely large and encompasses most of the body, but it is off-center and could be sized better to show the overall silhouette."
+          "note": "The large circle correctly encompasses the main body section showing its slender, elongated shape."
         },
         {
           "number": 2,
@@ -3642,59 +3434,59 @@
         {
           "number": 3,
           "label": "Row of short spines before dorsal",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is placed on the mid-body and does not clearly show the tiny dorsal spines, which are very difficult to resolve in this lighting."
+          "featurePresentAtRing": true,
+          "alignment": "near",
+          "clarity": 40,
+          "note": "The circle is placed on the back where the spines are located, but the tiny spines themselves are very difficult to resolve in this lighting."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The snout is well-marked, but circle 1 is unnecessarily large and circle 3 is placed too far back on the body where the spines are not visible. Adjust circle 1 to frame the entire body shape and move circle 3 forward along the back where the spines should be."
+      "recommendation": "keep",
+      "summary": "The circles are well-placed to show the key features of the species. Although the tiny dorsal spines in circle 3 are hard to see clearly due to the resolution and lighting, the overall body shape and snout are highly visible."
     }
   },
   {
     "scientificName": "Sprattus sprattus",
     "commonName": "Sprat",
     "shapeClass": "fish",
-    "totalPhotos": 3,
-    "curatedPhotos": 2,
+    "totalPhotos": 4,
+    "curatedPhotos": 3,
     "sources": {
       "inaturalist": 1,
-      "manual": 2
+      "manual": 3
     },
     "hasAnnotatedHero": true,
     "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/397779588/medium.jpg",
-    "heroImageDims": "500x375",
+    "heroImageDims": null,
     "marks": [
       {
         "order": 0,
         "label": "Keel of spiny scutes on belly",
         "description": "A row of small, sharp scutes runs along the belly keel. Run a finger along it and you feel them. The most reliable sprat tell.",
-        "overlayX": 0.458,
-        "overlayY": 0.566,
+        "overlayX": 0.513,
+        "overlayY": 0.5665,
         "overlayRadius": 0.26
       },
       {
         "order": 1,
         "label": "No dark spot behind gill",
         "description": "Unlike the herring, the sprat has no dark spot at the shoulder. A small (to ~15 cm), slim, bright-silver baitfish.",
-        "overlayX": 0.271,
-        "overlayY": 0.451,
-        "overlayRadius": 0.0801
+        "overlayX": 0.266,
+        "overlayY": 0.45,
+        "overlayRadius": 0.07919999999999999
       },
       {
         "order": 2,
         "label": "Single small dorsal fin",
         "description": "One short dorsal fin over the middle of the back, not forward of the pelvic fins as in the similar herring.",
-        "overlayX": 0.5,
-        "overlayY": 0.43,
-        "overlayRadius": 0.09
+        "overlayX": 0.533,
+        "overlayY": 0.434,
+        "overlayRadius": 0.0612
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 65,
+      "overallClarity": 45,
       "overallAligned": false,
       "perMark": [
         {
@@ -3702,8 +3494,8 @@
           "label": "Keel of spiny scutes on belly",
           "featurePresentAtRing": true,
           "alignment": "near",
-          "clarity": 40,
-          "note": "The circle is extremely large and encompasses most of the fish body and background rather than focusing on the belly keel."
+          "clarity": 30,
+          "note": "The circle is extremely large and encompasses almost the entire body and background instead of focusing on the belly keel."
         },
         {
           "number": 2,
@@ -3711,19 +3503,19 @@
           "featurePresentAtRing": true,
           "alignment": "on",
           "clarity": 85,
-          "note": "The circle is well placed over the shoulder area behind the gill cover, showing a clean silver surface."
+          "note": "The circle is well placed over the operculum and shoulder area showing the absence of a dark spot."
         },
         {
           "number": 3,
           "label": "Single small dorsal fin",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 80,
-          "note": "The circle correctly highlights the small dorsal fin on the back of the fish."
+          "clarity": 70,
+          "note": "The small circle is correctly centered on the dorsal fin on the back."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circle for mark 1 is far too large and needs to be resized and shifted to target only the spiny belly keel. Marks 2 and 3 are well placed."
+      "summary": "The circle for mark 1 is far too large and needs to be resized and shifted to target only the ventral edge of the belly. Marks 2 and 3 are well placed."
     }
   },
   {
@@ -3737,83 +3529,51 @@
       "manual": 1
     },
     "hasAnnotatedHero": true,
-    "markCount": 4,
+    "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/393785471/medium.jpeg",
     "heroImageDims": "500x333",
     "marks": [
       {
         "order": 0,
-        "label": "Squat rounded whorl",
-        "description": "A squat, bluntly conical shell with purple zigzag streaks - flatter and rounder than the pointed painted top shell.",
-        "overlayX": 0.438,
-        "overlayY": 0.547,
-        "overlayRadius": 0.1026
-      },
-      {
-        "order": 1,
-        "label": "Open navel hole underneath",
-        "description": "The giveaway: a distinct open navel (umbilicus) hole at the centre of the underside. The painted top shell has none.",
-        "overlayX": 0,
-        "overlayY": 0,
-        "overlayRadius": 0.03
-      },
-      {
-        "order": 1,
-        "label": "Squat rounded shell",
-        "description": "A low, rounded top-shell whorl, not a tall pointed spire.",
-        "overlayX": 0.438,
+        "label": "Flat-topped low cone",
+        "description": "A low, flat-topped conical shell, broader than it is tall, not a tall pointed cone.",
+        "overlayX": 0.4375,
         "overlayY": 0.548,
-        "overlayRadius": 0.1081081081081081
+        "overlayRadius": 0.1087837837837838
+      },
+      {
+        "order": 1,
+        "label": "Reddish-purple zigzag streaks",
+        "description": "Diagonal reddish-purple zigzag streaks over a greyish shell (clearest when unworn).",
+        "overlayX": 0.4335,
+        "overlayY": 0.548,
+        "overlayRadius": 0.09540000000000001
       },
       {
         "order": 2,
-        "label": "Reddish-purple streaks",
-        "description": "Diagonal reddish-purple streaks over a grey-green shell; an open navel-hole (umbilicus) sits at the base.",
-        "overlayX": 0.383,
-        "overlayY": 0.4845,
-        "overlayRadius": 0.04185000000000001
+        "label": "Rounded whorls and suture",
+        "description": "Gently rounded whorls separated by a shallow groove (suture) spiralling up to the apex.",
+        "overlayX": 0.438,
+        "overlayY": 0.546,
+        "overlayRadius": 0.1013513513513514
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 40,
+      "overallClarity": 35,
       "overallAligned": false,
       "perMark": [
         {
-          "number": 1,
-          "label": "Squat rounded whorl",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle for mark 1 is completely missing from the image."
-        },
-        {
-          "number": 2,
-          "label": "Open navel hole underneath",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed in the far top-left corner on the background rock, and the underside of the shell is not visible anyway."
-        },
-        {
           "number": 3,
-          "label": "Squat rounded shell",
+          "label": "Rounded whorls and suture",
           "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 75,
-          "note": "The large circle correctly encompasses the low, rounded shell of the top shell."
-        },
-        {
-          "number": 4,
-          "label": "Reddish-purple streaks",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 70,
-          "note": "The circle is well-placed on the dark diagonal streaks of the shell, though they appear more greenish-black than reddish-purple here."
+          "alignment": "near",
+          "clarity": 40,
+          "note": "The circle covers the entire shell rather than focusing on the suture lines, and marks 1 and 2 are completely missing."
         }
       ],
       "recommendation": "re-author-marks",
-      "summary": "Mark 1 is missing entirely and mark 2 is misaligned in the top-left corner on background rock. Additionally, the diagnostic open navel hole is on the underside and cannot be seen in this top-down view, so mark 2 should be removed or the photo replaced with one showing the underside."
+      "summary": "The photo shows the shell but only has a single oversized circle for mark 3. All three diagnostic marks need to be properly placed and sized to show the flat-topped shape, zigzag patterns, and whorl sutures."
     }
   },
   {
@@ -3835,59 +3595,59 @@
         "order": 0,
         "label": "Blue-green lines on the face",
         "description": "A maze of blue-green wavy lines over the cheek and gill cover, vivid on breeding males.",
-        "overlayX": 0.232,
-        "overlayY": 0.522,
-        "overlayRadius": 0.1108108108108108
+        "overlayX": 0.239,
+        "overlayY": 0.524,
+        "overlayRadius": 0.1148648648648649
       },
       {
         "order": 1,
         "label": "Dark spot on the tail base",
         "description": "A small dark spot in the centre of the tail base, present in both sexes; the most reliable corkwing tell.",
-        "overlayX": 0.805,
-        "overlayY": 0.474,
-        "overlayRadius": 0.03
+        "overlayX": 0.804,
+        "overlayY": 0.475,
+        "overlayRadius": 0.03108108108108108
       },
       {
         "order": 2,
         "label": "Comma behind the eye",
         "description": "A short dark comma-shaped mark just behind the eye (clearest on males).",
-        "overlayX": 0.258,
-        "overlayY": 0.4685,
-        "overlayRadius": 0.03378378378378379
+        "overlayX": 0.2325,
+        "overlayY": 0.487,
+        "overlayRadius": 0.03060000000000001
       }
     ],
     "validation": {
       "imageOk": true,
       "overallClarity": 85,
-      "overallAligned": false,
+      "overallAligned": true,
       "perMark": [
         {
           "number": 1,
           "label": "Blue-green lines on the face",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 90,
-          "note": "The circle perfectly encompasses the vivid blue-green lines on the cheek and gill cover."
+          "clarity": 85,
+          "note": "The large circle correctly encompasses the blue-green wavy lines on the cheek and gill cover."
         },
         {
           "number": 2,
           "label": "Dark spot on the tail base",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 95,
+          "clarity": 90,
           "note": "The circle is perfectly centered on the distinct dark spot at the base of the tail."
         },
         {
           "number": 3,
           "label": "Comma behind the eye",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 0,
-          "note": "The circle is placed too high and far back, completely missing the comma mark behind the eye."
+          "featurePresentAtRing": true,
+          "alignment": "on",
+          "clarity": 80,
+          "note": "The small circle is accurately placed over the dark comma-shaped mark just behind the eye."
         }
       ],
-      "recommendation": "reposition-circles",
-      "summary": "The photo is excellent and clearly shows all features, but circle 3 is misaligned. Reposition circle 3 to target the dark comma-shaped mark located directly behind the eye."
+      "recommendation": "keep",
+      "summary": "The photo is of excellent quality and all three diagnostic features are clearly visible and perfectly aligned with the circles."
     }
   },
   {
@@ -3909,59 +3669,59 @@
         "order": 0,
         "label": "Long cheek spine",
         "description": "A long spine on the cheek (preopercular) reaches back past the gill opening, the tell vs the short-spined sea scorpion.",
-        "overlayX": 0.361,
-        "overlayY": 0.403,
-        "overlayRadius": 0.0711
+        "overlayX": 0.356,
+        "overlayY": 0.4995,
+        "overlayRadius": 0.05181818181818183
       },
       {
         "order": 1,
         "label": "Big spiny head, fan pectorals",
         "description": "A broad, spiny, knobbly head and large fan-like pectoral fins; a stout, tapering body.",
-        "overlayX": 0.352,
-        "overlayY": 0.34,
+        "overlayX": 0.343,
+        "overlayY": 0.435,
         "overlayRadius": 0.26
       },
       {
         "order": 2,
         "label": "Mottled camouflage",
         "description": "Highly variable blotchy camouflage (green, brown, reddish), sitting motionless among weed and rock.",
-        "overlayX": 0.369,
-        "overlayY": 0.339,
+        "overlayX": 0.497,
+        "overlayY": 0.563,
         "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 40,
+      "overallClarity": 45,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
           "label": "Long cheek spine",
           "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 30,
-          "note": "The circle is placed on the cheek area but is too small to clearly highlight the long spine extending past the gill cover."
+          "alignment": "on",
+          "clarity": 60,
+          "note": "The small circle correctly targets the long preopercular spine, though it is somewhat hard to distinguish from the background."
         },
         {
           "number": 2,
           "label": "Big spiny head, fan pectorals",
           "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 70,
-          "note": "The large circle correctly encompasses the spiny head and the base of the pectoral fins."
+          "alignment": "near",
+          "clarity": 50,
+          "note": "The circle is extremely large and covers both the head and the pectoral fin, making it too broad to be helpful."
         },
         {
           "number": 3,
           "label": "Mottled camouflage",
-          "featurePresentAtRing": false,
-          "alignment": "off",
-          "clarity": 10,
-          "note": "The circle is extremely large and centered off the body, mostly highlighting the background rather than the mottled skin pattern."
+          "featurePresentAtRing": true,
+          "alignment": "near",
+          "clarity": 40,
+          "note": "The circle is huge and overlaps heavily with the other marks, obscuring the fish rather than highlighting its camouflage pattern."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The circles are poorly sized and aligned, with circle 3 almost entirely off the fish. Reposition circle 1 to clearly target the long preopercular spine and resize circle 3 to focus on the mottled skin pattern on the body."
+      "summary": "The circles for marks 2 and 3 are far too large and overlap excessively, cluttering the image. They should be resized and repositioned to clearly target the head, pectoral fin, and body camouflage separately."
     }
   },
   {
@@ -3976,57 +3736,33 @@
       "wikimedia": 1
     },
     "hasAnnotatedHero": true,
-    "markCount": 6,
+    "markCount": 3,
     "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/96233085/medium.jpg",
     "heroImageDims": "500x333",
     "marks": [
       {
         "order": 0,
-        "label": "Bony scute ridge",
-        "description": "A row of hard, bony, keel-like scutes runs along the full length of the lateral line — unmistakable once you know to look.",
-        "overlayX": 0.464,
-        "overlayY": 0.56,
+        "label": "Bony scute lateral line",
+        "description": "A row of hard, bony, keel-like scutes runs the full length of the lateral line; unmistakable once you know to look.",
+        "overlayX": 0.429,
+        "overlayY": 0.558,
         "overlayRadius": 0.26
       },
       {
         "order": 1,
         "label": "Two separate dorsal fins",
-        "description": "First dorsal is short and spiny; second is long and soft — two clearly separate fins unlike mackerel's continuous one.",
-        "overlayX": 0.51,
-        "overlayY": 0.4575,
-        "overlayRadius": 0.1351351351351351
-      },
-      {
-        "order": 1,
-        "label": "Lateral-line scutes",
-        "description": "A row of bony plates (scutes) along the lateral line - the key give-away of horse mackerel (a scad, family Carangidae).",
-        "overlayX": 0.464,
-        "overlayY": 0.56,
-        "overlayRadius": 0.26
+        "description": "A short spiny first dorsal and a long soft second dorsal, clearly separate, unlike mackerel's continuous fin.",
+        "overlayX": 0.523,
+        "overlayY": 0.469,
+        "overlayRadius": 0.1283783783783784
       },
       {
         "order": 2,
         "label": "Large eye, blunt snout",
-        "description": "A notably large eye and blunt rounded head; metallic silver flanks without mackerel's wavy green bars.",
-        "overlayX": 0.797,
+        "description": "A notably large eye and blunt rounded head; metallic silver flanks without mackerel's wavy bars.",
+        "overlayX": 0.801,
         "overlayY": 0.6155,
-        "overlayRadius": 0.1662162162162162
-      },
-      {
-        "order": 2,
-        "label": "Large eye",
-        "description": "A noticeably large eye for the head - one of the first things you notice.",
-        "overlayX": 0.809,
-        "overlayY": 0.607,
-        "overlayRadius": 0.06081081081081081
-      },
-      {
-        "order": 3,
-        "label": "Forked tail, slim body",
-        "description": "A slim, faintly striped silver body ending in a deeply forked tail.",
-        "overlayX": 0.1225,
-        "overlayY": 0.505,
-        "overlayRadius": 0.1182432432432432
+        "overlayRadius": 0.1
       }
     ],
     "validation": {
@@ -4036,11 +3772,11 @@
       "perMark": [
         {
           "number": 1,
-          "label": "Bony scute ridge",
+          "label": "Bony scute lateral line",
           "featurePresentAtRing": true,
           "alignment": "near",
           "clarity": 85,
-          "note": "The circle is extremely large and covers almost the entire body of the fish rather than focusing on the ridge."
+          "note": "The circle is extremely large and encompasses almost the entire body of the fish rather than focusing on the lateral line."
         },
         {
           "number": 2,
@@ -4048,43 +3784,19 @@
           "featurePresentAtRing": true,
           "alignment": "near",
           "clarity": 60,
-          "note": "The circle is placed too low and is too large, capturing the back of the fish rather than focusing on the dorsal fins."
+          "note": "The circle is placed too low on the body and is too large, though the first dorsal fin is partially captured."
         },
         {
           "number": 3,
-          "label": "Lateral-line scutes",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 90,
-          "note": "The circle is tiny and placed far above the fish in the empty black background."
-        },
-        {
-          "number": 4,
           "label": "Large eye, blunt snout",
           "featurePresentAtRing": true,
           "alignment": "on",
-          "clarity": 85,
-          "note": "The circle is well-centered on the head, showing both the large eye and the blunt snout clearly."
-        },
-        {
-          "number": 5,
-          "label": "Large eye",
-          "featurePresentAtRing": true,
-          "alignment": "on",
-          "clarity": 95,
-          "note": "The circle is perfectly centered on the large eye of the fish."
-        },
-        {
-          "number": 6,
-          "label": "Forked tail, slim body",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 50,
-          "note": "The circle is shifted too far to the left, mostly capturing empty water and only the tip of the tail."
+          "clarity": 90,
+          "note": "The circle is well-placed and clearly highlights the large eye and blunt head shape."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "Several circles are misaligned or poorly sized. Circle 3 is floating in the background, circle 1 is far too large, and circle 6 needs to be shifted right to properly cover the tail."
+      "summary": "The photo itself is excellent, but circles 1 and 2 are far too large and poorly targeted. Shrink and reposition circle 1 to focus tightly on the scutes along the lateral line, and move circle 2 up to target the dorsal fins."
     }
   },
   {
@@ -4182,47 +3894,47 @@
         "order": 0,
         "label": "Chin barbel",
         "description": "A short whisker under the chin, like bib's. Poor cod is the smaller, slimmer of the two.",
-        "overlayX": 0.892,
-        "overlayY": 0.664,
+        "overlayX": 0.866,
+        "overlayY": 0.6685,
         "overlayRadius": 0.03
       },
       {
         "order": 1,
         "label": "Large eye",
         "description": "A noticeably large eye for the size of the head - poor cod is a small (to ~15 cm), big-eyed gadoid.",
-        "overlayX": 0.883,
-        "overlayY": 0.62,
-        "overlayRadius": 0.04211229946524064
+        "overlayX": 0.884,
+        "overlayY": 0.6185,
+        "overlayRadius": 0.04572192513368984
       },
       {
         "order": 2,
         "label": "Slimmer body than bib",
         "description": "Coppery but more slender and tapering than the deep-bodied bib; three dorsal fins.",
         "overlayX": 0.51,
-        "overlayY": 0.524,
+        "overlayY": 0.525,
         "overlayRadius": 0.26
       }
     ],
     "validation": {
       "imageOk": true,
-      "overallClarity": 75,
+      "overallClarity": 45,
       "overallAligned": false,
       "perMark": [
         {
           "number": 1,
           "label": "Chin barbel",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 60,
-          "note": "The circle is placed slightly too high, overlapping the eye instead of centering on the chin barbel below."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 10,
+          "note": "The circle is placed directly over the eye instead of the chin barbel."
         },
         {
           "number": 2,
           "label": "Large eye",
-          "featurePresentAtRing": true,
-          "alignment": "near",
-          "clarity": 85,
-          "note": "The circle is placed too low on the chin area rather than centering on the large eye."
+          "featurePresentAtRing": false,
+          "alignment": "off",
+          "clarity": 15,
+          "note": "The circle is placed below the chin on the substrate instead of the eye."
         },
         {
           "number": 3,
@@ -4230,11 +3942,11 @@
           "featurePresentAtRing": true,
           "alignment": "on",
           "clarity": 80,
-          "note": "The large circle correctly encompasses the slender, tapering body shape of the fish."
+          "note": "The large circle correctly encompasses the slender, coppery body shape."
         }
       ],
       "recommendation": "reposition-circles",
-      "summary": "The labels for 1 and 2 are swapped or misaligned. Swap the positions of circle 1 and circle 2 so that circle 2 aligns with the eye and circle 1 aligns with the chin barbel."
+      "summary": "The circles for the chin barbel and the large eye are swapped and misaligned. Swap and adjust the positions of circles 1 and 2 to correctly target the eye and the chin barbel."
     }
   }
 ]
