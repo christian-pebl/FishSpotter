@@ -27,6 +27,8 @@ export type SpeciesImagePayload = {
   sex: string | null;
   width: number | null;
   height: number | null;
+  observedOn: string | null;
+  placeGuess: string | null;
   source: string;
   marks: SpeciesMarkPayload[];
 };
@@ -79,6 +81,8 @@ export async function GET(
     sex: r.sex,
     width: r.width,
     height: r.height,
+    observedOn: r.observedOn,
+    placeGuess: r.placeGuess,
     source: r.source,
     marks: r.curated ? r.diagnosticMarks : [],
   }));

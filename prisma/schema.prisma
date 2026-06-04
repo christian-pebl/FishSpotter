@@ -203,6 +203,8 @@ model SpeciesImage {
   source         String   // "inaturalist" | "wikimedia" | "manual"
   width          Int?
   height         Int?
+  observedOn     String?  // date (or year) the source photo was observed, if known
+  placeGuess     String?  // human-readable location of the source observation, if known
   ordering       Int      @default(100) // lower = earlier in the gallery
   curated        Boolean  @default(false) // true when set via manifest, not script
   createdAt      DateTime @default(now())

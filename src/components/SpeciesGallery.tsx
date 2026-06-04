@@ -20,6 +20,13 @@ function licenseHref(code: string): string | null {
   return LICENSE_DEEDS[code.toLowerCase()] ?? null;
 }
 
+/** "View on iNaturalist" / "View on Wikimedia" / "View source" from the URL. */
+function sourceLabel(sourceUrl: string): string {
+  if (/inaturalist\.org/i.test(sourceUrl)) return "View on iNaturalist";
+  if (/wikimedia\.org|wikipedia\.org/i.test(sourceUrl)) return "View on Wikimedia";
+  return "View source";
+}
+
 export function SpeciesGallery({
   scientificName,
   commonName,
@@ -32,6 +39,7 @@ export function SpeciesGallery({
   const [images, setImages] = useState<SpeciesImagePayload[]>([]);
   const [status, setStatus] = useState<Status>("idle");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const [info, setInfo] = useState<{ idx: number; rect: DOMRect } | null>(null);
   const thumbRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   // S2-T17: extracted fetch so the retry button can re-run it.
@@ -135,6 +143,7 @@ export function SpeciesGallery({
     size === "large"
       ? "h-32 w-32 shrink-0 overflow-hidden rounded-xl"
       : "h-14 w-14 shrink-0 overflow-hidden rounded-lg";
+  const infoBtnSize = size === "large" ? "h-7 w-7" : "h-5 w-5";
 
   return (
     <>
@@ -147,34 +156,65 @@ export function SpeciesGallery({
           const label = [img.lifeStage, img.sex].filter(Boolean).join(" / ") || null;
           return (
             <li key={`${img.sourceUrl}-${i}`} role="listitem" className="shrink-0">
-              <button
-                ref={(el) => {
-                  thumbRefs.current[i] = el;
-                }}
-                type="button"
-                onClick={() => setLightboxIdx(i)}
-                className={`${tileClass} group relative snap-start border border-white/10 transition-transform hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70`}
-                aria-label={`Open photo of ${commonName}${label ? ` (${label})` : ""}`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={size === "large" ? img.url : img.thumbUrl ?? img.url}
-                  alt=""
-                  aria-hidden
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover"
-                />
+              <div className={`${tileClass} group relative snap-start border border-white/10`}>
+                <button
+                  ref={(el) => {
+                    thumbRefs.current[i] = el;
+                  }}
+                  type="button"
+                  onClick={() => setLightboxIdx(i)}
+                  className="absolute inset-0 transition-transform hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  aria-label={`Open photo of ${commonName}${label ? ` (${label})` : ""}`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={size === "large" ? img.url : img.thumbUrl ?? img.url}
+                    alt=""
+                    aria-hidden
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                </button>
+                {/* 'i' — photo provenance (source, reference, location, year). */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    // Capture the rect synchronously — reading e.currentTarget
+                    // inside the updater crashes when React replays the reducer
+                    // (the synthetic event's currentTarget is null by then).
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setInfo((cur) => (cur?.idx === i ? null : { idx: i, rect }));
+                  }}
+                  aria-label={`Photo credit and source for ${commonName}`}
+                  aria-expanded={info?.idx === i}
+                  className={`${infoBtnSize} absolute right-1 top-1 z-10 flex items-center justify-center rounded-full bg-black/65 text-white/90 backdrop-blur-sm transition hover:bg-black/85 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80`}
+                >
+                  <svg width={size === "large" ? 14 : 11} height={size === "large" ? 14 : 11} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4" />
+                    <path d="M8 7v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                    <circle cx="8" cy="4.6" r="0.95" fill="currentColor" />
+                  </svg>
+                </button>
                 {label && (
                   <span className="pointer-events-none absolute inset-x-0 bottom-0 truncate bg-black/80 px-1 py-0.5 text-center text-[9px] uppercase tracking-wider text-white">
                     {label}
                   </span>
                 )}
-              </button>
+              </div>
             </li>
           );
         })}
       </ul>
+
+      {info !== null && images[info.idx] && (
+        <InfoPopover
+          image={images[info.idx]}
+          commonName={commonName}
+          anchorRect={info.rect}
+          onClose={() => setInfo(null)}
+        />
+      )}
 
       {lightboxIdx !== null && images[lightboxIdx] && (
         <LightboxPortal
@@ -187,6 +227,116 @@ export function SpeciesGallery({
         />
       )}
     </>
+  );
+}
+
+/**
+ * Photo-provenance popover anchored to an image's 'i' button. Portaled to body
+ * (the gallery strip clips overflow), fixed-positioned under the icon and
+ * clamped to the viewport. Surfaces the source, reference (author + license),
+ * location and year when iNaturalist/Wikimedia supply them.
+ */
+function InfoPopover({
+  image,
+  commonName,
+  anchorRect,
+  onClose,
+}: {
+  image: SpeciesImagePayload;
+  commonName: string;
+  anchorRect: DOMRect;
+  onClose: () => void;
+}) {
+  const [mounted, setMounted] = useState(false);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    cardRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [onClose]);
+
+  if (!mounted || typeof document === "undefined") return null;
+
+  const WIDTH = 248;
+  const vw = window.innerWidth;
+  // Right-align the card to the icon, clamp to a 8px viewport gutter.
+  const left = Math.max(8, Math.min(anchorRect.right - WIDTH, vw - WIDTH - 8));
+  const top = anchorRect.bottom + 6;
+  const licenseLink = licenseHref(image.license);
+  const label = [image.lifeStage, image.sex].filter(Boolean).join(" / ");
+
+  return createPortal(
+    <div className="fixed inset-0 z-[110]" onMouseDown={onClose}>
+      <div
+        ref={cardRef}
+        role="dialog"
+        aria-label={`Photo source for ${commonName}`}
+        tabIndex={-1}
+        onMouseDown={(e) => e.stopPropagation()}
+        style={{ left, top, width: WIDTH }}
+        className="absolute rounded-modal border border-white/15 bg-navy-900/95 p-3 text-[11px] leading-relaxed text-white/85 shadow-menu outline-none backdrop-blur-sm"
+      >
+        <dl className="space-y-1.5">
+          <div>
+            <dt className="text-[9px] font-semibold uppercase tracking-wider text-teal-300/80">Reference</dt>
+            <dd className="text-white/90">{image.attribution}</dd>
+          </div>
+          {image.placeGuess && (
+            <div>
+              <dt className="text-[9px] font-semibold uppercase tracking-wider text-teal-300/80">Location</dt>
+              <dd>{image.placeGuess}</dd>
+            </div>
+          )}
+          {image.observedOn && (
+            <div>
+              <dt className="text-[9px] font-semibold uppercase tracking-wider text-teal-300/80">Observed</dt>
+              <dd>{image.observedOn}</dd>
+            </div>
+          )}
+          {label && (
+            <div>
+              <dt className="text-[9px] font-semibold uppercase tracking-wider text-teal-300/80">Subject</dt>
+              <dd className="uppercase">{label}</dd>
+            </div>
+          )}
+        </dl>
+        <div className="mt-2 flex items-center justify-between gap-2 border-t border-white/10 pt-2">
+          <a
+            href={image.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 font-semibold text-white underline hover:text-teal-300"
+          >
+            {sourceLabel(image.sourceUrl)}
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="opacity-70">
+              <path d="M5 1H11V7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M11 1L5 7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M9 7v3.5a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+          {licenseLink ? (
+            <a
+              href={licenseLink}
+              target="_blank"
+              rel="noopener noreferrer license"
+              className="shrink-0 rounded-full bg-white/10 px-2 py-0.5 text-[10px] uppercase tracking-wider hover:bg-white/20"
+            >
+              {image.license}
+            </a>
+          ) : (
+            <span className="shrink-0 text-[10px] uppercase tracking-wider text-white/50">{image.license}</span>
+          )}
+        </div>
+      </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -369,6 +519,11 @@ function Lightbox({
               <span className="text-white/40">{image.license}</span>
             )}
           </div>
+          {(image.placeGuess || image.observedOn) && (
+            <p className="basis-full text-[10px] text-white/55">
+              {[image.placeGuess, image.observedOn].filter(Boolean).join(" · ")}
+            </p>
+          )}
         </div>
         <button
           type="button"
