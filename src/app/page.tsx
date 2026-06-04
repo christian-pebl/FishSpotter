@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
-import { UnderwaterBackdrop } from "@/components/landing/UnderwaterBackdrop";
+import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { HeroPreview } from "@/components/landing/HeroPreview";
 import { StatsBand } from "@/components/landing/StatsBand";
 import { StepCards } from "@/components/landing/StepCards";
@@ -110,6 +110,7 @@ export default async function HomePage() {
   }
 
   return (
+    <MarineBackdrop>
     <div className="flex-1 overflow-y-auto">
       <main
         id="main"
@@ -118,11 +119,9 @@ export default async function HomePage() {
       >
         {/* Hero */}
         <section
-          className="pebl-surface relative overflow-hidden rounded-card px-6 py-10 md:px-10 md:py-14"
+          className="relative py-10 md:py-14"
           aria-labelledby="hero-heading"
         >
-          <UnderwaterBackdrop />
-
           <div className={`relative grid items-center gap-10 ${featured ? "md:grid-cols-[1.1fr_0.9fr]" : ""}`}>
             <div>
               <h1
@@ -273,5 +272,6 @@ export default async function HomePage() {
         </div>
       </footer>
     </div>
+    </MarineBackdrop>
   );
 }

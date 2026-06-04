@@ -409,6 +409,25 @@ a {
   will-change: mask-position;
 }
 
+/* Per-drifter gentle float (DriftingSilhouettes): each silhouette eases out to
+ * its OWN random (--fs-dx,--fs-dy) offset and back, keeping its tilt + optional
+ * mirror. Direction + duration vary per element (set inline), so the field
+ * never moves as one. Neutralised by the global prefers-reduced-motion block. */
+@keyframes fs-drifter {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--fs-rot, 0deg)) scaleX(var(--fs-mir, 1));
+  }
+  50% {
+    transform: translate3d(var(--fs-dx, 0px), var(--fs-dy, 0px), 0) rotate(var(--fs-rot, 0deg))
+      scaleX(var(--fs-mir, 1));
+  }
+}
+.fs-drifter {
+  animation: fs-drifter 120s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* "Show where on screen" radar ping (FeedCard). Concentric rings expand from
  * the tracking-trace head to draw the eye to where the creature is. Each ring
  * uses the same keyframe with a staggered delay. The global

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { MarinePattern } from "@/components/MarinePattern";
+import { DriftingSilhouettes } from "@/components/DriftingSilhouettes";
 
 /**
  * Page-level decorative backdrop. Tiles the marine-silhouette pattern behind a
@@ -29,7 +29,7 @@ export function MarineBackdrop({ children }: { children: ReactNode }) {
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       >
-        <MarinePattern animated className="text-teal-600/[0.10]" />
+        <DriftingSilhouettes className="text-teal-600/[0.12]" />
       </div>
       {children}
     </div>

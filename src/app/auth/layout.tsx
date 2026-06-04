@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { MarinePattern } from "@/components/MarinePattern";
+import { DriftingSilhouettes } from "@/components/DriftingSilhouettes";
 
 /**
  * Shared chrome for every /auth route (signin, forgot, reset, verify).
@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     // [&_.pebl-surface]:bg-white/80 drops the auth card from 88% to 80% white
     // so the marine water shows faintly through it (frosted-glass feel).
     <div className="relative isolate flex min-h-0 flex-1 flex-col overflow-hidden [&_.pebl-surface]:bg-white/80">
-      <MarinePattern animated className="-z-10 text-teal-600/[0.10]" />
+      <DriftingSilhouettes className="-z-10 text-teal-600/[0.12]" />
       {children}
     </div>
   );
