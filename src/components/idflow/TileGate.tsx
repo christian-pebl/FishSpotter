@@ -475,7 +475,7 @@ export function TileGate({
             ) : variant === "list" ? (
               list
             ) : scrollable ? (
-              <div className="-mx-1 max-h-[46vh] overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
+              <div className="-mx-1 max-h-[38vh] overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
                 {grid}
               </div>
             ) : (
