@@ -142,7 +142,7 @@ export function CandidateGate({
         <img
           src={photo}
           alt=""
-          loading="eager"
+          loading="lazy"
           decoding="async"
           className="h-full w-full object-cover"
         />
@@ -167,7 +167,7 @@ export function CandidateGate({
         ariaLabel="Which species is it?"
         title={candidates.length > 0 ? "Which one is it? Tap to compare" : "No matches"}
         tiles={tiles}
-        columns={3}
+        columns={2}
         scrollable
         suspendKeyboard={!!preview}
         onSelect={(sci) => {

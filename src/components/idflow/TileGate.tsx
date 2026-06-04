@@ -196,11 +196,14 @@ export function TileGate({
 
   const grid = (
     <div
-      className="grid gap-2"
+      className="grid gap-1.5"
       style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
     >
       {tiles.map((tile) => {
         const isEmpty = !!tile.disabled;
+        // Photo tiles get a thin frame so the image fills the tile; silhouette
+        // tiles keep a little breathing room for the centred icon + label.
+        const hasMedia = !!tile.media;
         return (
           <div key={tile.key} className="flex flex-col gap-1">
             <button
@@ -211,7 +214,8 @@ export function TileGate({
               onMouseLeave={() => setHovered(null)}
               aria-label={tile.ariaLabel ?? tile.label}
               className={[
-                "relative flex min-h-[128px] flex-col items-center justify-center gap-2 rounded-modal border p-2.5 transition-colors",
+                "relative flex flex-col items-center justify-center rounded-modal border transition-colors",
+                hasMedia ? "gap-1 p-1" : "min-h-[128px] gap-2 p-2.5",
                 isEmpty
                   ? "cursor-not-allowed border-white/10 opacity-35"
                   : hovered === tile.key
@@ -220,7 +224,7 @@ export function TileGate({
               ].join(" ")}
             >
               {tile.media ? (
-                <span className="block aspect-square w-full overflow-hidden rounded-modal bg-white/5">
+                <span className="block aspect-square w-full overflow-hidden rounded-[12px] bg-white/5">
                   {tile.media}
                 </span>
               ) : (
