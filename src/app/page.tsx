@@ -125,7 +125,6 @@ export default async function HomePage() {
 
           <div className={`relative grid items-center gap-10 ${featured ? "md:grid-cols-[1.1fr_0.9fr]" : ""}`}>
             <div>
-              <p className="pebl-eyebrow mb-3 text-xs">Protecting Ecology Beyond Land</p>
               <h1
                 id="hero-heading"
                 className="font-brand-heading max-w-2xl text-4xl font-bold leading-tight text-navy-900 md:text-5xl"
