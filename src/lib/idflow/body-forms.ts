@@ -25,9 +25,11 @@ export type SubSplit = {
 };
 
 // Branch-specific first cut. flatfish has one species so it gets no sub-split
-// (and so no Rung-2 gate); fish splits on body shape (which also isolates the
-// flat-dorsoventral dragonets folded in from the retired scooter class), each
-// invert class on its own "form" trait.
+// (and so no Rung-2 gate); fish splits on body shape — the "Bottom scooters"
+// option (bottom-scooter) groups the dragonets WITH the bottom-dwelling gobies
+// (perch-and-dart seabed fish), replacing the old flat-dorsoventral "Flat, on
+// the bottom" cut which split them apart. Each invert class splits on its own
+// "form" trait.
 export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
   crab: {
     key: "crabForm",
@@ -47,7 +49,7 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
       { value: "laterally-compressed", label: "Tall and thin" },
       { value: "elongated", label: "Long and slender" },
       { value: "eel-like", label: "Eel-like" },
-      { value: "flat-dorsoventral", label: "Flat, on the bottom" },
+      { value: "bottom-scooter", label: "Bottom scooters" },
     ],
   },
   squid: {
