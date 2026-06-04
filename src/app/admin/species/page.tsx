@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // Gadoid pilot (per the v1 scope). Sorts to the top of the list so the
 // admin sees the prioritised species first.

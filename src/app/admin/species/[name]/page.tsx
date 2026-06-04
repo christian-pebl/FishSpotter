@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { SpeciesAnnotator, type AnnotatorPhoto, type AnnotatorMark } from "./SpeciesAnnotator";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 export default async function AdminSpeciesEditorPage({
   params,

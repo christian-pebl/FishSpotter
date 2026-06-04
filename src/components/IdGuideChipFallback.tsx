@@ -1,11 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import speciesTraitsData from "@/data/species-traits.json";
-import { TRAIT_CATEGORIES, type SpeciesCatalogue, type TraitSelection } from "@/lib/idguide/traits";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { TRAIT_CATEGORIES, type TraitSelection } from "@/lib/idguide/traits";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 const CATEGORY_LABELS: Record<keyof typeof TRAIT_CATEGORIES, string> = {
   bodyShape: "Body shape",

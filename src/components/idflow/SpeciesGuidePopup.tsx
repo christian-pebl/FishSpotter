@@ -24,10 +24,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnnotatedSpeciesPhoto } from "@/components/AnnotatedSpeciesPhoto";
 import { SpeciesGallery } from "@/components/SpeciesGallery";
-import speciesTraitsData from "@/data/species-traits.json";
-import type { SpeciesCatalogue } from "@/lib/idguide/traits";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // SpeciesGallery's lightbox renders role="dialog" with an aria-label that
 // starts with "Photo of". If one is open, this popup must ignore Escape so a

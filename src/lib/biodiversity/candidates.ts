@@ -11,7 +11,7 @@
  * Four fallbacks:
  *   - "OBIS"         — full path, distractors come from OBIS top species
  *   - "CATALOGUE"    — OBIS missing or staff scientific name unresolved;
- *                      distractors come from the 26-species catalogue
+ *                      distractors come from the species catalogue
  *   - "NO_REFERENCE" — staff answer is null; all candidates drawn from
  *                      OBIS (preferred) or catalogue. No "right answer"
  *                      slot is reserved — every option is a community
@@ -24,11 +24,10 @@
  * tests exercise this module directly without spinning Prisma up.
  */
 
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { hashStringToSeed, mulberry32, shuffle } from "@/lib/shuffle";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 export interface QuizCandidate {
   scientificName: string;

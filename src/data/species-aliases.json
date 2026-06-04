@@ -102,5 +102,129 @@
   "Trisopterus minutus": {
     "commonName": "Poor cod",
     "aliases": ["poor-cod", "Trisopterus"]
+  },
+  "Gobiusculus flavescens": {
+    "commonName": "Two-spotted goby",
+    "aliases": ["two spotted goby", "two-spot goby", "Gobiusculus"]
+  },
+  "Pomatoschistus microps": {
+    "commonName": "Common goby",
+    "aliases": ["common gobies", "Pomatoschistus"]
+  },
+  "Callionymus maculatus": {
+    "commonName": "Spotted dragonet",
+    "aliases": ["spotted dragonets"]
+  },
+  "Limanda limanda": {
+    "commonName": "Dab",
+    "aliases": ["common dab", "Limanda"]
+  },
+  "Platichthys flesus": {
+    "commonName": "Flounder",
+    "aliases": ["European flounder", "fluke", "Platichthys"]
+  },
+  "Carcinus maenas": {
+    "commonName": "Shore Crab",
+    "aliases": ["green crab", "common shore crab", "Carcinus"]
+  },
+  "Cancer pagurus": {
+    "commonName": "Edible Crab",
+    "aliases": ["brown crab", "Cancer"]
+  },
+  "Necora puber": {
+    "commonName": "Velvet Swimming Crab",
+    "aliases": ["velvet crab", "devil crab", "Necora"]
+  },
+  "Liocarcinus depurator": {
+    "commonName": "Harbour Crab",
+    "aliases": ["blue-leg swimming crab", "Liocarcinus"]
+  },
+  "Hyas araneus": {
+    "commonName": "Great Spider Crab",
+    "aliases": ["spider crab", "Hyas"]
+  },
+  "Pagurus bernhardus": {
+    "commonName": "Hermit Crab",
+    "aliases": ["common hermit crab", "Pagurus"]
+  },
+  "Sepia officinalis": {
+    "commonName": "Common Cuttlefish",
+    "aliases": ["cuttlefish", "Sepia"]
+  },
+  "Loligo forbesii": {
+    "commonName": "Veined Squid",
+    "aliases": ["long-finned squid", "Forbes squid"]
+  },
+  "Loligo vulgaris": {
+    "commonName": "European Squid",
+    "aliases": ["European common squid", "common squid"]
+  },
+  "Sepiola atlantica": {
+    "commonName": "Atlantic Bobtail",
+    "aliases": ["bobtail squid", "little cuttlefish", "Sepiola"]
+  },
+  "Eledone cirrhosa": {
+    "commonName": "Curled Octopus",
+    "aliases": ["lesser octopus", "horned octopus", "Eledone"]
+  },
+  "Octopus vulgaris": {
+    "commonName": "Common Octopus",
+    "aliases": ["common octopuses", "Octopus"]
+  },
+  "Asterina gibbosa": {
+    "commonName": "Cushion Star",
+    "aliases": ["starlet cushion star", "Asterina"]
+  },
+  "Marthasterias glacialis": {
+    "commonName": "Spiny Starfish",
+    "aliases": ["spiny starfishes", "Marthasterias"]
+  },
+  "Asterias rubens": {
+    "commonName": "Common Starfish",
+    "aliases": ["common sea star", "Asterias"]
+  },
+  "Ophiothrix fragilis": {
+    "commonName": "Common Brittlestar",
+    "aliases": ["brittle star", "brittlestar", "Ophiothrix"]
+  },
+  "Patella vulgata": {
+    "commonName": "Common Limpet",
+    "aliases": ["limpet", "Patella"]
+  },
+  "Nucella lapillus": {
+    "commonName": "Dog Whelk",
+    "aliases": ["dogwhelk", "Nucella"]
+  },
+  "Calliostoma zizyphinum": {
+    "commonName": "Painted Top Shell",
+    "aliases": ["painted topshell", "Calliostoma"]
+  },
+  "Steromphala umbilicalis": {
+    "commonName": "Flat Top Shell",
+    "aliases": ["flat topshell", "purple topshell", "Gibbula umbilicalis", "Steromphala"]
+  },
+  "Aurelia aurita": {
+    "commonName": "Moon Jellyfish",
+    "aliases": ["moon jelly", "common jellyfish", "Aurelia"]
+  },
+  "Chrysaora hysoscella": {
+    "commonName": "Compass Jellyfish",
+    "aliases": ["compass jelly", "Chrysaora"]
+  },
+  "Cyanea capillata": {
+    "commonName": "Lion's Mane Jellyfish",
+    "aliases": ["lion's mane", "lions mane jellyfish", "lion's mane jelly"]
+  },
+  "Rhizostoma octopus": {
+    "commonName": "Barrel Jellyfish",
+    "aliases": ["barrel jelly", "dustbin-lid jellyfish", "root-mouth jellyfish", "Rhizostoma"]
+  },
+  "Cyanea lamarckii": {
+    "commonName": "Blue Jellyfish",
+    "aliases": ["blue jelly", "bluefire jellyfish"]
+  },
+  "Pelagia noctiluca": {
+    "commonName": "Mauve Stinger",
+    "aliases": ["mauve stinger jellyfish", "purple jellyfish", "Pelagia"]
   }
 }

@@ -4,7 +4,7 @@
  * Docs: https://api.inaturalist.org/v1/docs
  *
  * Rate limit: ~60 req/min recommended, 10k/day. We're well below both for
- * a backfill of ~26 species, but throttle anyway to be polite.
+ * a backfill of the catalogue species, but throttle anyway to be polite.
  */
 
 const INAT_BASE = "https://api.inaturalist.org/v1";
@@ -84,7 +84,7 @@ function annotationLabel(termId: number, valueId: number): string | null {
 
 // Retry behaviour for transient iNat failures (Q3A-T6, 27 May 2026).
 // iNat enforces ~60 req/min and 10k/day. A full db:refresh-images run
-// across 26 species with multiple buckets each can bump up against the
+// across the catalogue species with multiple buckets each can bump up against the
 // per-minute ceiling under bursty conditions. Retry on 429 / 503 with
 // exponential backoff so a single rate-limit hit doesn't fail the
 // whole refresh; for other 4xx (404, 400) fail fast since retrying

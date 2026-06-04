@@ -1,13 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import speciesTraitsData from "@/data/species-traits.json";
-import type { SpeciesCatalogue, TraitSelection } from "@/lib/idguide/traits";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import type { TraitSelection } from "@/lib/idguide/traits";
 import { narrowCandidates, type Candidate } from "@/lib/idguide/narrow";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 type StepKey = "bodyShape" | "size" | "finShape" | "habitat" | "markings" | "behavior";
 

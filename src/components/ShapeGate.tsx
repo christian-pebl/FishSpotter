@@ -18,7 +18,7 @@
 import { useMemo } from "react";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
-import speciesTraitsData from "@/data/species-traits.json";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import type { SpeciesCatalogue } from "@/lib/idguide/traits";
 import { TileGate, MaskSilhouette, type TileSpec } from "@/components/idflow/TileGate";
 import silhouetteCredits from "@/data/silhouette-credits.json";
@@ -27,7 +27,6 @@ import silhouetteCredits from "@/data/silhouette-credits.json";
 // fall back to the hand-drawn inline SVG below).
 const HAS_SILHOUETTE = new Set(Object.keys(silhouetteCredits));
 
-const CATALOGUE = speciesTraitsData as unknown as SpeciesCatalogue;
 
 // ---------------------------------------------------------------------------
 // Fallback silhouettes — one inline SVG per shape class.
@@ -139,7 +138,7 @@ export function ShapeGate({
     const out: Partial<Record<ShapeClass, number>> = {};
     for (const sc of SHAPE_CLASS) {
       // limit: 100 so the tile badge shows the TRUE count — narrowCandidates
-      // defaults to 12, which undercounted the 26-species fish tile as "12".
+      // defaults to 12, which undercounted the fish tile as "12".
       out[sc] = narrowCandidates({ catalogue: CATALOGUE, shapeClass: sc, limit: 100 }).length;
     }
     return out;

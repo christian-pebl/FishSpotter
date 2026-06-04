@@ -1,6 +1,11 @@
 import type { TraitKey } from "@/lib/idguide/narrow";
 
 /**
+ * ORPHANED (as of 3 Jun 2026): the question copy for the adaptive Rung-3 engine.
+ * Live only through the dead `CandidateStrip.tsx` (see the banner in
+ * `next-trait.ts`). Paired with `next-trait.ts`; reconnect both together if
+ * reviving adaptive narrowing. See docs/runbooks/add-a-rung-or-trait.md.
+ *
  * UX-2: human phrasing for the adaptive Rung 3 questions.
  *
  * The information-gain picker (`nextBestTrait`) returns a raw (trait, value)
@@ -95,7 +100,6 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "water-column": "Is it swimming up in the water?",
     drifting: "Is it drifting passively with the current?",
     crawl: "Is it crawling along the bottom?",
-    "fast-swim": "Is it swimming fast?",
   },
   bodyShape: {
     fusiform: "Is the body torpedo-shaped and streamlined?",
