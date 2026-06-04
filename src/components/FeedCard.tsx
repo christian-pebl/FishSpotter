@@ -183,6 +183,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const [hasIdentifiedOnce, setHasIdentifiedOnce] = useState(true); // optimistic; corrected on mount
   const [showInputHint, setShowInputHint] = useState(false);
   const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
+  // One-time discoverability nudge for "tap the clip to identify".
+  const [showTapHint, setShowTapHint] = useState(false);
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   // Surfaced by RarityPanel once /api/snippets/[id]/probability resolves.
   // Used by the inline SpeciesGallery in the reveal card (S2-T08) so we
@@ -208,6 +210,25 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     mq.addEventListener("change", apply);
     return () => mq.removeEventListener("change", apply);
   }, []);
+
+  // One-time "tap the clip to identify" nudge: shown the first time an active
+  // card idles, auto-dismissed after 5s, and never shown again once seen or once
+  // the user has identified anything.
+  useEffect(() => {
+    if (!isActive) return;
+    try {
+      if (localStorage.getItem("fishspotter:tapHintSeen") === "1") return;
+      if (localStorage.getItem("fishspotter:hasIdentified") === "1") return;
+    } catch {}
+    setShowTapHint(true);
+    const t = window.setTimeout(() => {
+      setShowTapHint(false);
+      try {
+        localStorage.setItem("fishspotter:tapHintSeen", "1");
+      } catch {}
+    }, 5000);
+    return () => window.clearTimeout(t);
+  }, [isActive]);
 
   // P-2: at lg (1024px) the panel shifts to the right side of the video,
   // giving the left ~65% of the viewport for unobstructed viewing. Below lg
@@ -831,14 +852,42 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               type="button"
               aria-label="Identify this species"
               onClick={() => {
+                setShowTapHint(false);
                 togglePanel(false);
                 dispatch({ type: "openShapeGate" });
                 try {
                   localStorage.setItem("fishspotter:hasIdentified", "1");
+                  localStorage.setItem("fishspotter:tapHintSeen", "1");
                 } catch {}
               }}
               className="absolute inset-0 z-10 cursor-pointer"
             />
+          )}
+
+        {/* One-time discoverability nudge for the tap-to-identify catcher above.
+            pointer-events-none so the tap still reaches the catcher. */}
+        {showTapHint &&
+          isActive &&
+          !videoPaused &&
+          !myAnswer &&
+          !shapeGateOpen &&
+          !bodyGateOpen &&
+          !spotItActive &&
+          !guessMode && (
+            <motion.div
+              aria-hidden="true"
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={TRANSITION.standard}
+              className="pointer-events-none absolute left-1/2 top-[34%] z-30 -translate-x-1/2"
+            >
+              <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-navy-900/85 px-3.5 py-2 text-[12px] font-semibold text-white shadow-menu backdrop-blur">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
+                  <path d="M6 7V3.6a1.3 1.3 0 0 1 2.6 0V7.4l1.3-.3a1.3 1.3 0 0 1 1.6 1.4l-.3 2.5a2 2 0 0 1-2 1.7H7.6a2 2 0 0 1-1.8-1.1L4.3 8.8A1.2 1.2 0 0 1 6 7.2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                </svg>
+                Tap the clip to identify
+              </span>
+            </motion.div>
           )}
 
         {hasBboxes && (
