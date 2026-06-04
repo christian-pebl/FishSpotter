@@ -75,3 +75,8 @@ decision-tree/id-guides/
 # Gemini image-quality sweep outputs (local only)
 assess-*.json
 assess-*.log
+
+# Local scratch (preview tmp, PR-body drafts, ad-hoc render output)
+.pc-tmp/
+.pc-*.txt
+audit-species-images.json
