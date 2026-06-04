@@ -380,7 +380,7 @@ function CatalogueBrowser({
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search by common or scientific name…"
         aria-label="Search species by common or scientific name"
-        className="mb-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-teal-500 focus:outline-none"
+        className="mb-2 w-full rounded-modal border border-white/15 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-teal-500 focus:outline-none"
       />
       {entries.length === 0 ? (
         <p className="py-2 text-sm text-white/45">No matches.</p>
@@ -391,7 +391,7 @@ function CatalogueBrowser({
               key={e.sci}
               type="button"
               onClick={() => onPick(e.sci)}
-              className="block w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left text-[12px] hover:border-teal-500/60 hover:bg-white/10"
+              className="block w-full rounded-modal border border-white/10 bg-white/5 px-3 py-2 text-left text-[12px] hover:border-teal-500/60 hover:bg-white/10"
             >
               <div className="text-white/90">{e.commonName}</div>
               <div className="text-[10px] italic text-white/45">{e.sci}</div>

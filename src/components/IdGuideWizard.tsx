@@ -239,7 +239,7 @@ export function IdGuideWizard({
               key={opt.value}
               type="button"
               onClick={() => answerCurrent(opt.value)}
-              className="block w-full rounded-xl border border-white/15 bg-white/5 px-3 py-3 text-left transition-colors hover:border-teal-500/60 hover:bg-white/10"
+              className="block w-full rounded-modal border border-white/15 bg-white/5 px-3 py-3 text-left transition-colors hover:border-teal-500/60 hover:bg-white/10"
             >
               <span className="block text-sm text-white/90">{opt.label}</span>
               {opt.hint && (
@@ -250,7 +250,7 @@ export function IdGuideWizard({
           <button
             type="button"
             onClick={() => answerCurrent(null)}
-            className="block w-full rounded-xl border border-white/10 bg-transparent px-3 py-2.5 text-left text-sm text-white/55 transition-colors hover:border-white/25 hover:text-white/85"
+            className="block w-full rounded-modal border border-white/10 bg-transparent px-3 py-2.5 text-left text-sm text-white/55 transition-colors hover:border-white/25 hover:text-white/85"
           >
             Not sure, skip this question
           </button>
@@ -312,7 +312,7 @@ function FinalReveal({
                   <details
                     key={c.scientificName}
                     open={isTop}
-                    className="rounded-xl border border-white/12 bg-white/5"
+                    className="rounded-modal border border-white/12 bg-white/5"
                   >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2.5 [&::-webkit-details-marker]:hidden">
                       <div className="min-w-0">

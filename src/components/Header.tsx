@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { AvatarMenu } from "@/components/AvatarMenu";
@@ -56,18 +57,12 @@ export function Header() {
             </svg>
           </button>
 
-          {/* PEBL logo, sized to match the menu button. Links out to the
-              company website (with a confirm) rather than the app home. */}
-          <a
-            href="https://www.pebl-cic.co.uk"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => {
-              if (!window.confirm("Visit the PEBL website at pebl-cic.co.uk?")) {
-                e.preventDefault();
-              }
-            }}
-            aria-label="Visit the PEBL website at pebl-cic.co.uk"
+          {/* PEBL logo, sized to match the menu button. Logo = app home
+              (convention). The outbound link to the PEBL website lives in the
+              side-menu footer instead. */}
+          <Link
+            href="/"
+            aria-label="FishSpotter home"
             className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full ${
               onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
             }`}
@@ -81,7 +76,7 @@ export function Header() {
               aria-hidden
               className="h-5 w-auto opacity-50"
             />
-          </a>
+          </Link>
           </div>
 
           {/* Right: settings kebab (feed only) + avatar (everywhere) */}

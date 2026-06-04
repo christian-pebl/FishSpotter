@@ -120,7 +120,7 @@ export function IdGuideChipFallback({
                 key={c.scientificName}
                 type="button"
                 onClick={() => onPickCandidate(c.commonName)}
-                className="block w-full rounded-xl border border-white/10 bg-white/5 px-2.5 py-1.5 text-left text-[12px] hover:border-teal-500/60 hover:bg-white/10"
+                className="block w-full rounded-modal border border-white/10 bg-white/5 px-2.5 py-1.5 text-left text-[12px] hover:border-teal-500/60 hover:bg-white/10"
               >
                 <div className="flex items-baseline justify-between gap-2">
                   <span className="text-white/90">{c.commonName}</span>
