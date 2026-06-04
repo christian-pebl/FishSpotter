@@ -102,6 +102,7 @@ export function BodyShapeGate({
       onClose={onClose}
       onBack={onBack}
       breadcrumb={breadcrumb}
+      bubbleLabel="Reopen the body-shape selector"
       notSure={{ label: "Not sure", onClick: () => onSelectForm(config.key, null) }}
       skip={{ label: "Skip to guess", onClick: onSkip }}
     />

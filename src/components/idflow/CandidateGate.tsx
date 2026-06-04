@@ -179,6 +179,7 @@ export function CandidateGate({
         onClose={onClose}
         onBack={onBack}
         breadcrumb={breadcrumb}
+        bubbleLabel="Reopen the species picker"
         emptyMessage="No matches left — go back a step or pick from a list."
         skip={onSkipToMCQ ? { label: "Pick from a list", onClick: onSkipToMCQ } : undefined}
       />
