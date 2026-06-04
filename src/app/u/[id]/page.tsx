@@ -85,7 +85,7 @@ export default async function ProfilePage({
     <main
       id="main"
       tabIndex={-1}
-      className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-10"
+      className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-10 min-h-0 overflow-y-auto"
     >
       <section className="pebl-surface rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">Spotter profile</p>

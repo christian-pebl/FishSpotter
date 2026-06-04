@@ -167,6 +167,9 @@ export function SpeciesGuidePopup({
         </div>
 
         <div className="border-t border-white/10 px-4 py-3">
+          {/* T21: single primary action. Dismissal is the header "Back to the
+              list" (+ backdrop / Escape), so the old redundant "Keep looking"
+              third affordance is removed. */}
           <button
             type="button"
             disabled={submitting}
@@ -174,13 +177,6 @@ export function SpeciesGuidePopup({
             className="pebl-button-primary w-full px-4 py-2.5 text-sm font-semibold disabled:opacity-60"
           >
             {submitting ? "Saving…" : `This is my pick: ${commonName}`}
-          </button>
-          <button
-            type="button"
-            onClick={onClose}
-            className="mt-2 w-full rounded-full px-4 py-2 text-[12px] font-medium text-white/55 hover:text-white"
-          >
-            Keep looking
           </button>
         </div>
       </div>

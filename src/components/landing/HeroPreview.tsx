@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -150,6 +151,9 @@ export function HeroPreview({ videoUrl, poster, answer, distractors, site }: Pro
             <span className="text-[11px] font-semibold uppercase tracking-eyebrow text-white/90">
               Spot the species
             </span>
+            <span className="rounded-full bg-white/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-eyebrow text-white/80">
+              Demo
+            </span>
           </div>
 
           {/* Bottom: faux candidate chips. */}
@@ -189,6 +193,14 @@ export function HeroPreview({ videoUrl, poster, answer, distractors, site }: Pro
               })}
             </div>
           </div>
+
+          {/* The preview plays itself, so it reads as tappable. Make that real:
+              a full-card link starts the actual feed (T19). */}
+          <Link
+            href="/feed"
+            aria-label="Start spotting"
+            className="absolute inset-0 z-20 rounded-card focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal-300"
+          />
         </div>
       </div>
     </div>
