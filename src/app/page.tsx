@@ -131,9 +131,6 @@ export default async function HomePage() {
               >
                 Spot the species in real underwater footage.
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-7 text-navy-900 md:text-lg">
-                Short clips from real PEBL deployments. Pick the species, see the reference ID, compare with the community, and help build a shared marine record, earning points for consecutive days.
-              </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
                   href="/feed"

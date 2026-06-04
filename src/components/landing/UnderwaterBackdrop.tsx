@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useInView } from "@/lib/useInView";
+import { MarinePattern } from "@/components/MarinePattern";
 
 /**
  * Decorative underwater environment for the landing hero: drifting
@@ -61,6 +62,10 @@ export function UnderwaterBackdrop() {
     >
       {/* Depth gradient: bright at the surface, deepening into teal. */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/0 via-teal-50/30 to-teal-600/15" />
+
+      {/* Dense drifting silhouette field — matches the other non-live pages
+          and flows top-right -> bottom-left. */}
+      <MarinePattern animated className="text-teal-700/[0.10]" />
 
       {/* God-ray light shafts. */}
       <div

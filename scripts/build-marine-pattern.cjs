@@ -33,8 +33,8 @@ const OUT_FILE = path.join(OUT_DIR, "marine-pattern.svg");
 // the field even while wide position + size scatter stops it reading as a
 // mechanical lattice. Icons stay near-upright (gentle tilt + mirror only).
 const TILE = 600; // tile size in px
-const GRID = 8; // cells per axis -> GRID*GRID instances per tile
-const BASE = 48; // base icon box (px) before per-instance scale
+const GRID = 13; // cells per axis -> GRID*GRID instances per tile (denser field)
+const BASE = 46; // base icon box (px) before per-instance scale
 const JITTER = 0.42; // wide positional scatter (fraction of a cell)
 const SCALE_MIN = 0.6; // wide size range -> strong small/large variation
 const SCALE_MAX = 1.45;

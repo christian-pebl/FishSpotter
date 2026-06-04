@@ -376,24 +376,37 @@ a {
  * Transform-only so it is GPU-composited and cheap; the host is oversized
  * (-inset-6) so the drift never reveals a tile edge. The global
  * prefers-reduced-motion block above neutralises it for users who opt out. */
+/* Decorative marine-pattern current: a slow, wave-like drift flowing from the
+ * top-right toward the bottom-left. Animates mask-position (not transform) so a
+ * repeating tile loops seamlessly without ever revealing an edge. One full tile
+ * (600px, matches MarinePattern TILE_PX) per cycle; the off-axis wobble at the
+ * quarter points gives it a wave rather than a straight slide. Neutralised for
+ * prefers-reduced-motion by the global block below. */
 @keyframes fs-pattern-sway {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
+  0% {
+    -webkit-mask-position: 0px 0px;
+    mask-position: 0px 0px;
   }
   25% {
-    transform: translate3d(11px, -7px, 0);
+    -webkit-mask-position: -105px 195px;
+    mask-position: -105px 195px;
   }
   50% {
-    transform: translate3d(3px, -13px, 0);
+    -webkit-mask-position: -345px 255px;
+    mask-position: -345px 255px;
   }
   75% {
-    transform: translate3d(-9px, -5px, 0);
+    -webkit-mask-position: -405px 495px;
+    mask-position: -405px 495px;
+  }
+  100% {
+    -webkit-mask-position: -600px 600px;
+    mask-position: -600px 600px;
   }
 }
 .fs-pattern-sway {
-  animation: fs-pattern-sway 16s ease-in-out infinite;
-  will-change: transform;
+  animation: fs-pattern-sway 42s linear infinite;
+  will-change: mask-position;
 }
 
 /* "Show where on screen" radar ping (FeedCard). Concentric rings expand from
