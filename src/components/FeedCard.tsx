@@ -1011,7 +1011,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             dragMomentum={false}
             dragElastic={0.08}
             dragConstraints={articleRef}
-            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-card border border-white/12 bg-navy-900/72 backdrop-blur-md backdrop-saturate-150 md:max-h-[min(80vh,calc(100%-3.5rem))]"
+            // Matches the Spot It rung cards (TileGate): opaque navy, no
+            // saturate boost. The old bg-navy-900/72 + backdrop-saturate-150 let
+            // the underwater video bleed through and amplified its hue, so the
+            // reveal read as a vivid green card instead of the dark gate design.
+            className="pointer-events-auto relative flex max-h-[min(50vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-card border border-white/12 bg-navy-900/95 backdrop-blur md:max-h-[min(80vh,calc(100%-3.5rem))]"
           >
             {/* Drag-only-from-here button. Visible grip so users know it's the
                 drag affordance. dragListener=false on the parent means drag
