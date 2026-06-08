@@ -59,7 +59,7 @@ export default async function HomePage() {
     prisma.speciesImage.findMany({
       orderBy: [{ curated: "desc" }, { ordering: "asc" }],
       take: 90,
-      select: { scientificName: true, url: true, thumbUrl: true, attribution: true },
+      select: { scientificName: true, url: true, thumbUrl: true, webpThumbUrl: true, attribution: true },
     }),
   ]);
 
@@ -102,7 +102,8 @@ export default async function HomePage() {
     if (seen.has(row.scientificName)) continue;
     seen.add(row.scientificName);
     marquee.push({
-      url: row.thumbUrl ?? row.url,
+      // Route C: prefer the PEBL-hosted WebP thumb, then the cached origin thumb.
+      url: row.webpThumbUrl ?? row.thumbUrl ?? row.url,
       name: displayName(row.scientificName),
       attribution: row.attribution,
     });

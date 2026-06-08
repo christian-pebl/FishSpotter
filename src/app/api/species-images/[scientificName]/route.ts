@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = "force-dynamic";
+// The SpeciesImage cache is refreshed weekly by the images cron, and the
+// response is identical for every user (no auth/cookie input), so it is safe
+// to serve from the CDN edge. This is the single biggest photo-load lever:
+// CandidateGate fires this endpoint once per candidate (up to 24 in parallel),
+// and without a cache every tile is an uncached Postgres round-trip on every
+// grid render. s-maxage caches at the edge; stale-while-revalidate keeps it
+// warm for a week while a fresh copy is fetched in the background.
+const CACHE_CONTROL =
+  "public, s-maxage=86400, stale-while-revalidate=604800";
 
 // S9-T1 PR3: marks are surfaced inline with the photos so the
 // IdGuideWizard's final reveal can render diagnostic-feature rings
@@ -34,7 +42,7 @@ export type SpeciesImagePayload = {
 };
 
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ scientificName: string }> },
 ): Promise<NextResponse<{ images: SpeciesImagePayload[] } | { error: string }>> {
   const { scientificName } = await params;
@@ -45,10 +53,21 @@ export async function GET(
     return NextResponse.json({ error: "Invalid scientific name" }, { status: 400 });
   }
 
+  // `?limit=N` caps the row count (clamped 1..20). CandidateGate only needs the
+  // single lead thumbnail per candidate, so it calls `?limit=1` to fetch one
+  // row instead of 20, 24 times over. Full consumers (the reveal gallery /
+  // AnnotatedSpeciesPhoto) omit it and get the complete set.
+  const sp = new URL(req.url).searchParams;
+  const limitParamRaw = Number(sp.get("limit"));
+  const take =
+    Number.isFinite(limitParamRaw) && limitParamRaw > 0
+      ? Math.min(Math.floor(limitParamRaw), 20)
+      : 20;
+
   const rows = await prisma.speciesImage.findMany({
     where: { scientificName: decoded },
     orderBy: [{ curated: "desc" }, { ordering: "asc" }, { createdAt: "asc" }],
-    take: 20,
+    take,
     include: {
       diagnosticMarks: {
         orderBy: { order: "asc" },
@@ -72,8 +91,11 @@ export async function GET(
   // is later flagged curated, so this is reversible.
   const images: SpeciesImagePayload[] = rows.map((r) => ({
     id: r.id,
-    url: r.url,
-    thumbUrl: r.thumbUrl,
+    // Route C: prefer the PEBL-hosted WebP derivative (smaller, served from our
+    // own edge), falling back to the iNat/Wikimedia origin when a row hasn't
+    // been transcoded yet. Transparent to every consumer of this endpoint.
+    url: r.webpUrl ?? r.url,
+    thumbUrl: r.webpThumbUrl ?? r.thumbUrl,
     attribution: r.attribution,
     sourceUrl: r.sourceUrl,
     license: r.license,
@@ -87,5 +109,8 @@ export async function GET(
     marks: r.curated ? r.diagnosticMarks : [],
   }));
 
-  return NextResponse.json({ images });
+  return NextResponse.json(
+    { images },
+    { headers: { "Cache-Control": CACHE_CONTROL } },
+  );
 }

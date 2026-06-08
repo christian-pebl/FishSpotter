@@ -40,6 +40,10 @@ export interface StorageDriver {
   provider: StorageProvider;
   upload(externalId: string, kind: StorageKind, body: Buffer, contentType: string): Promise<string>;
   buildPublicUrl(externalId: string, kind: StorageKind): string;
+  // Lower-level put at an arbitrary key (used for species-image WebP
+  // derivatives, which aren't snippet-scoped). Returns the public URL.
+  uploadObject(key: string, body: Buffer, contentType: string): Promise<string>;
+  publicUrlForKey(key: string): string;
 }
 
 /* -------------------------------------------------------------------------- *
@@ -64,16 +68,21 @@ function createSupabaseDriver(): StorageDriver {
   return {
     provider: "supabase",
     async upload(externalId, kind, body, contentType) {
-      const key = objectKey(externalId, kind);
+      return this.uploadObject(objectKey(externalId, kind), body, contentType);
+    },
+    buildPublicUrl(externalId, kind) {
+      return this.publicUrlForKey(objectKey(externalId, kind));
+    },
+    async uploadObject(key, body, contentType) {
       const { error } = await client.storage.from(bucket).upload(key, body, {
         upsert: true,
         contentType,
       });
       if (error) throw error;
-      return this.buildPublicUrl(externalId, kind);
+      return this.publicUrlForKey(key);
     },
-    buildPublicUrl(externalId, kind) {
-      return `${url}/storage/v1/object/public/${bucket}/${objectKey(externalId, kind)}`;
+    publicUrlForKey(key) {
+      return `${url}/storage/v1/object/public/${bucket}/${key}`;
     },
   };
 }
@@ -108,23 +117,28 @@ function createR2Driver(): StorageDriver {
   return {
     provider: "r2",
     async upload(externalId, kind, body, contentType) {
-      const key = objectKey(externalId, kind);
+      return this.uploadObject(objectKey(externalId, kind), body, contentType);
+    },
+    buildPublicUrl(externalId, kind) {
+      return this.publicUrlForKey(objectKey(externalId, kind));
+    },
+    async uploadObject(key, body, contentType) {
       await client.send(
         new PutObjectCommand({
           Bucket: bucket,
           Key: key,
           Body: body,
           ContentType: contentType,
-          // 30-day browser cache. Object content is immutable per externalId
-          // (we never overwrite — re-encodes get a new externalId), so this
-          // is safe.
+          // 30-day browser cache. Object content is immutable per key (we never
+          // overwrite — snippet re-encodes get a new externalId, and species
+          // WebP derivatives are keyed by a content hash), so this is safe.
           CacheControl: "public, max-age=2592000, immutable",
         }),
       );
-      return this.buildPublicUrl(externalId, kind);
+      return this.publicUrlForKey(key);
     },
-    buildPublicUrl(externalId, kind) {
-      return `${normalisedPublicUrl}/${objectKey(externalId, kind)}`;
+    publicUrlForKey(key) {
+      return `${normalisedPublicUrl}/${key}`;
     },
   };
 }
@@ -171,4 +185,34 @@ export async function uploadThumbnail(
 
 export function buildPublicUrl(externalId: string, kind: StorageKind): string {
   return getStorageDriver().buildPublicUrl(externalId, kind);
+}
+
+/* -------------------------------------------------------------------------- *
+ * Species-image WebP derivatives (Route C)
+ * -------------------------------------------------------------------------- */
+
+export type SpeciesImageSize = "thumb" | "medium";
+
+/**
+ * Object key for a species-image WebP derivative. Keyed by a stable content
+ * hash of the source URL (passed in by the caller) rather than the DB row id,
+ * so re-transcoding the same source photo overwrites the same object instead
+ * of orphaning the old one. Lives under a `species/` prefix to keep it cleanly
+ * separable from the snippet objects in the same bucket.
+ */
+export function speciesImageKey(hash: string, size: SpeciesImageSize): string {
+  return `species/${hash}/${size}.webp`;
+}
+
+/** Upload one WebP derivative and return its public URL. */
+export async function uploadSpeciesImage(
+  hash: string,
+  size: SpeciesImageSize,
+  body: Buffer,
+): Promise<string> {
+  return getStorageDriver().uploadObject(
+    speciesImageKey(hash, size),
+    body,
+    "image/webp",
+  );
 }

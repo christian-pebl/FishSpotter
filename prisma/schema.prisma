@@ -195,8 +195,16 @@ model SpeciesImage {
   scientificName String
   lifeStage      String?  // "adult" | "juvenile" | "larva" | "egg" | null
   sex            String?  // "male" | "female" | null
-  url            String   // medium-quality direct image URL
+  url            String   // medium-quality direct image URL (iNat/Wikimedia origin)
   thumbUrl       String?  // smaller cached URL if the source provides one
+  // Route C: PEBL-hosted WebP derivatives (R2/Supabase via scripts/lib/storage.ts),
+  // transcoded from `url` by the transcode batch (scripts/backfill-webp-images.ts +
+  // /api/cron/transcode-images). Nullable = "not yet transcoded". Consumers prefer
+  // these over url/thumbUrl and fall back to the origin when null, so the feature
+  // degrades gracefully if a transcode fails or hasn't run. ~30-50% smaller than the
+  // source JPEG and served from our own edge (no transatlantic iNat-S3 hop).
+  webpUrl        String?  // medium WebP (<=500px), our host
+  webpThumbUrl   String?  // thumb WebP (<=240px), our host
   attribution    String   // formatted "(c) Username, CC BY"
   sourceUrl      String   // link back to the original observation / file page
   license        String   // "cc0" | "cc-by" | "cc-by-sa" | "cc-by-nc" | "cc-by-nc-sa" | ...

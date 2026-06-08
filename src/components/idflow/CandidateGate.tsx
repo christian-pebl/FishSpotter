@@ -101,20 +101,24 @@ export function CandidateGate({
     commonName: string;
   } | null>(null);
 
-  // Lead photo per candidate (thumb), fetched once the gate is up. Small set.
+  // Lead photo per candidate, fetched once the gate is up. Small set. These
+  // tiles render at ~330px CSS (≈660px on 2× screens), so we use the 500px
+  // `url` (medium) rather than the 240px `thumbUrl` — the thumb visibly
+  // upscales/blurs at this size. Route C makes `url` cheap to serve here: it's
+  // an ~89KB WebP once transcoded, vs the ~340KB source JPEG.
   const [photos, setPhotos] = useState<Record<string, string | null>>({});
   const sciKey = candidates.map((c) => c.scientificName).join(",");
   useEffect(() => {
     let cancelled = false;
     Promise.all(
       candidates.map((c) =>
-        fetch(`/api/species-images/${encodeURIComponent(c.scientificName)}`)
+        fetch(`/api/species-images/${encodeURIComponent(c.scientificName)}?limit=1`)
           .then((r) => (r.ok ? r.json() : null))
           .then(
             (d) =>
               [
                 c.scientificName,
-                d?.images?.[0]?.thumbUrl ?? d?.images?.[0]?.url ?? null,
+                d?.images?.[0]?.url ?? d?.images?.[0]?.thumbUrl ?? null,
               ] as const,
           )
           .catch(() => [c.scientificName, null] as const),

@@ -98,7 +98,10 @@ export function SpeciesMarquee({ species }: { species: MarqueeSpecies[] }) {
               <img
                 src={s.url}
                 alt={s.name}
-                loading="lazy"
+                // The first few cards are on-screen the moment the landing page
+                // renders, so lazy-loading them just delays the first paint.
+                // Eager-load the leading cards; the rest scroll in and stay lazy.
+                loading={i < 3 ? "eager" : "lazy"}
                 decoding="async"
                 className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
               />

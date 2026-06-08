@@ -36,6 +36,7 @@
     "images:assess": "tsx --env-file=.env.local scripts/assess-image-quality.ts",
     "db:purge-bad-photos": "tsx --env-file=.env.local scripts/purge-bad-photos.ts",
     "db:backfill-image-dims": "tsx --env-file=.env.local scripts/backfill-image-dims.ts",
+    "db:backfill-webp": "tsx --env-file=.env.local scripts/backfill-webp-images.ts",
     "measure:prompt": "tsx scripts/measure-prompt.ts",
     "postinstall": "prisma generate"
   },

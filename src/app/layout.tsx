@@ -48,6 +48,26 @@ export default async function RootLayout({
   const consent = await readConsent();
   return (
     <html lang="en" className={`${jost.variable} ${roboto.variable}`}>
+      <head>
+        {/*
+          Species reference photos load as plain <img> straight from the
+          iNaturalist / Wikimedia hosts (next/image can't optimize them because
+          the per-photo origin id changes on each cron refresh). Preconnecting
+          warms the TLS/DNS handshake to the two hosts that serve the bulk of
+          our cached photos, shaving the round-trip off the first image paint.
+          No crossOrigin: plain <img> requests are not CORS, so the hint must
+          match the anonymous connection or it won't be reused.
+        */}
+        {/*
+          R2 first: once Route C has transcoded a species photo, its WebP is
+          served from our own bucket, so this is the host the galleries/marquee
+          hit. The iNat hosts remain the fallback for not-yet-transcoded rows.
+        */}
+        <link rel="preconnect" href="https://pub-b0fda9a751144df59165871565716de4.r2.dev" />
+        <link rel="preconnect" href="https://inaturalist-open-data.s3.amazonaws.com" />
+        <link rel="preconnect" href="https://www.inaturalist.org" />
+        <link rel="dns-prefetch" href="https://upload.wikimedia.org" />
+      </head>
       <body className="font-body antialiased h-[100dvh] flex flex-col overflow-hidden">
         <a href="#main" className="skip-link">Skip to main content</a>
         <SessionProvider>
