@@ -52,7 +52,7 @@ def icon(name):
         s.append(f'<polyline points="12,-56 22,-68 32,-56" {L}/>')
 
     elif name == "bum":
-        # one clear bottom (two cheeks + cleft) being washed
+        # clear bottom (cheeks + cleft) wiped with a flannel + suds + water
         s.append(f'<path d="M 0 -20 '
                  f'C -11 -23 -30 -16 -34 2 '
                  f'C -38 20 -25 34 -12 31 '
@@ -61,37 +61,40 @@ def icon(name):
                  f'C 25 34 38 20 34 2 '
                  f'C 30 -16 11 -23 0 -20 Z" fill="#FFE2C2" stroke="{INK}" stroke-width="{SW}"/>')
         s.append(f'<path d="M 0 -20 C 5 -7 5 7 0 19" {L}/>')          # cleft
-        # sponge above
-        s.append(f'<rect x="-19" y="-46" width="40" height="18" rx="8" fill="#FFE08A" stroke="{INK}" stroke-width="{SW}"/>')
-        for bx, by in [(-9, -39), (2, -36), (11, -41)]:
-            s.append(f'<circle cx="{bx}" cy="{by}" r="2.6" fill="{INK}"/>')
-        # soap bubbles
-        s.append(f'<circle cx="27" cy="-40" r="7" fill="#fff" stroke="{INK}" stroke-width="4"/>')
-        s.append(f'<circle cx="-27" cy="-30" r="6" fill="#fff" stroke="{INK}" stroke-width="4"/>')
-        # water drips
-        s.append(f'<path d="M -16 33 q 6 9 0 16 q -6 -7 0 -16 Z" fill="#9BD8FF" stroke="{INK}" stroke-width="3"/>')
-        s.append(f'<path d="M 16 33 q 6 9 0 16 q -6 -7 0 -16 Z" fill="#9BD8FF" stroke="{INK}" stroke-width="3"/>')
+        # blue check flannel wiping the lower-right cheek
+        s.append(f'<g transform="rotate(-22 22 22)">'
+                 f'<rect x="9" y="12" width="28" height="22" rx="7" fill="#BFE3FF" stroke="{INK}" stroke-width="5"/>'
+                 f'<line x1="9" y1="20" x2="37" y2="20" stroke="#fff" stroke-width="3"/>'
+                 f'<line x1="9" y1="27" x2="37" y2="27" stroke="#fff" stroke-width="3"/>'
+                 f'<line x1="19" y1="12" x2="19" y2="34" stroke="#fff" stroke-width="3"/>'
+                 f'<line x1="27" y1="12" x2="27" y2="34" stroke="#fff" stroke-width="3"/></g>')
+        # soap suds
+        s.append(f'<circle cx="-27" cy="-22" r="7" fill="#fff" stroke="{INK}" stroke-width="4"/>')
+        s.append(f'<circle cx="-34" cy="-32" r="4.5" fill="#fff" stroke="{INK}" stroke-width="4"/>')
+        s.append(f'<circle cx="22" cy="-28" r="5" fill="#fff" stroke="{INK}" stroke-width="4"/>')
+        # water drip
+        s.append(f'<path d="M -20 32 q 6 9 0 16 q -6 -7 0 -16 Z" fill="#9BD8FF" stroke="{INK}" stroke-width="3"/>')
 
     elif name == "face":
-        # face being washed at the MOUTH with a flannel (not hair)
-        s.append(f'<circle cx="0" cy="2" r="32" fill="#FFE2C2" stroke="{INK}" stroke-width="{SW}"/>')
-        s.append(f'<circle cx="-13" cy="-8" r="3.8" fill="{INK}"/>')
-        s.append(f'<circle cx="13" cy="-8" r="3.8" fill="{INK}"/>')
-        s.append(f'<path d="M -8 -20 q 8 -5 16 0" {L}/>')             # left brow
-        s.append(f'<circle cx="-22" cy="2" r="5" fill="#FFB3A7"/>')
-        s.append(f'<circle cx="22" cy="2" r="5" fill="#FFB3A7"/>')
-        # flannel / washcloth over the lower face + mouth
-        s.append(f'<g transform="rotate(-10 0 18)">'
-                 f'<rect x="-24" y="6" width="48" height="26" rx="8" fill="#BFE3FF" stroke="{INK}" stroke-width="{SW}"/>'
-                 f'<line x1="-24" y1="15" x2="24" y2="15" stroke="#fff" stroke-width="3"/>'
-                 f'<line x1="-24" y1="24" x2="24" y2="24" stroke="#fff" stroke-width="3"/>'
-                 f'<line x1="-8" y1="6" x2="-8" y2="32" stroke="#fff" stroke-width="3"/>'
-                 f'<line x1="8" y1="6" x2="8" y2="32" stroke="#fff" stroke-width="3"/></g>')
-        # bubbles + drips
-        s.append(f'<circle cx="-29" cy="16" r="6" fill="#fff" stroke="{INK}" stroke-width="4"/>')
-        s.append(f'<circle cx="29" cy="14" r="6" fill="#fff" stroke="{INK}" stroke-width="4"/>')
-        s.append(f'<path d="M -35 -6 q 6 8 0 15 q -6 -7 0 -15 Z" fill="#9BD8FF" stroke="{INK}" stroke-width="3"/>')
-        s.append(f'<path d="M 35 -8 q 6 8 0 15 q -6 -7 0 -15 Z" fill="#9BD8FF" stroke="{INK}" stroke-width="3"/>')
+        # happy face (eyes + smile visible) washed with a flannel on the cheek
+        s.append(f'<circle cx="0" cy="0" r="33" fill="#FFE2C2" stroke="{INK}" stroke-width="{SW}"/>')
+        s.append(f'<path d="M -19 -9 q 6 7 12 0" {L}/>')             # closed happy eye
+        s.append(f'<path d="M 7 -9 q 6 7 12 0" {L}/>')               # closed happy eye
+        s.append(f'<circle cx="-22" cy="8" r="5" fill="#FFB3A7"/>')
+        s.append(f'<circle cx="22" cy="8" r="5" fill="#FFB3A7"/>')
+        s.append(f'<path d="M -9 13 q 9 8 18 0" {L}/>')              # smile
+        # blue check flannel on the right cheek
+        s.append(f'<g transform="rotate(-15 23 4)">'
+                 f'<rect x="11" y="-10" width="26" height="24" rx="7" fill="#BFE3FF" stroke="{INK}" stroke-width="5"/>'
+                 f'<line x1="11" y1="-2" x2="37" y2="-2" stroke="#fff" stroke-width="3"/>'
+                 f'<line x1="11" y1="6" x2="37" y2="6" stroke="#fff" stroke-width="3"/>'
+                 f'<line x1="20" y1="-10" x2="20" y2="14" stroke="#fff" stroke-width="3"/>'
+                 f'<line x1="28" y1="-10" x2="28" y2="14" stroke="#fff" stroke-width="3"/></g>')
+        # soap suds + water
+        s.append(f'<circle cx="-26" cy="-23" r="7" fill="#fff" stroke="{INK}" stroke-width="4"/>')
+        s.append(f'<circle cx="-34" cy="-33" r="4.5" fill="#fff" stroke="{INK}" stroke-width="4"/>')
+        s.append(f'<path d="M -24 30 q 6 9 0 16 q -6 -7 0 -16 Z" fill="#9BD8FF" stroke="{INK}" stroke-width="3"/>')
+        s.append(f'<path d="M 4 33 q 6 9 0 16 q -6 -7 0 -16 Z" fill="#9BD8FF" stroke="{INK}" stroke-width="3"/>')
 
     elif name == "teeth":
         # big tooth + clear toothbrush with bristles + paste + sparkle
@@ -126,17 +129,22 @@ def icon(name):
         s.append(f'<path d="M -18 6 a 8 8 0 1 0 6 12 a 6.5 6.5 0 1 1 -6 -12 Z" fill="#FDFFB6" stroke="{INK}" stroke-width="2.5"/>')
 
     elif name == "books":
-        # a neat stack of two books + a bookmark
-        # bottom book
-        s.append(f'<rect x="-42" y="8" width="84" height="22" rx="4" fill="#FF9AA2" stroke="{INK}" stroke-width="{SW}"/>')
-        s.append(f'<rect x="34" y="11" width="8" height="16" rx="2" fill="#fff" stroke="{INK}" stroke-width="3"/>')   # pages block
-        s.append(f'<line x1="-30" y1="16" x2="22" y2="16" stroke="{INK}" stroke-width="3" opacity="0.5"/>')
-        # top book, offset
-        s.append(f'<rect x="-36" y="-16" width="78" height="22" rx="4" fill="#9BF6FF" stroke="{INK}" stroke-width="{SW}"/>')
-        s.append(f'<rect x="34" y="-13" width="8" height="16" rx="2" fill="#fff" stroke="{INK}" stroke-width="3"/>')   # pages block
-        s.append(f'<line x1="-24" y1="-8" x2="24" y2="-8" stroke="{INK}" stroke-width="3" opacity="0.5"/>')
-        # bookmark hanging from the top book
-        s.append(f'<path d="M 14 -16 l 0 18 l -5 -5 l -5 5 l 0 -18 Z" fill="#FFE08A" stroke="{INK}" stroke-width="3"/>')
+        # two upright books side by side (spine + cover + white page edge + titles)
+        # left book: spine on the left, pages (white) on the right
+        s.append(f'<g transform="rotate(-5 -18 30)">'
+                 f'<rect x="-38" y="-26" width="32" height="56" rx="4" fill="#FF9AA2" stroke="{INK}" stroke-width="{SW}"/>'
+                 f'<line x1="-31" y1="-22" x2="-31" y2="26" stroke="{INK}" stroke-width="3"/>'   # spine groove
+                 f'<rect x="-12" y="-22" width="6" height="48" rx="2" fill="#fff" stroke="{INK}" stroke-width="3"/>'  # page edge
+                 f'<line x1="-26" y1="-8" x2="-16" y2="-8" {L}/>'
+                 f'<line x1="-26" y1="3" x2="-16" y2="3" {L}/></g>')
+        # right book (taller, in front) with a bookmark
+        s.append(f'<g transform="rotate(5 14 30)">'
+                 f'<rect x="2" y="-32" width="32" height="62" rx="4" fill="#9BF6FF" stroke="{INK}" stroke-width="{SW}"/>'
+                 f'<line x1="9" y1="-28" x2="9" y2="26" stroke="{INK}" stroke-width="3"/>'        # spine groove
+                 f'<rect x="28" y="-28" width="6" height="54" rx="2" fill="#fff" stroke="{INK}" stroke-width="3"/>'  # page edge
+                 f'<line x1="14" y1="-14" x2="24" y2="-14" {L}/>'
+                 f'<line x1="14" y1="-3" x2="24" y2="-3" {L}/>'
+                 f'<path d="M 20 -32 l 0 18 l -4 -4 l -4 4 l 0 -18 Z" fill="#FFE08A" stroke="{INK}" stroke-width="3"/></g>')
 
     elif name == "bed":
         # bed (headboard, mattress, pillow, blanket) + a big clear open book
