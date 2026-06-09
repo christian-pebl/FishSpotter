@@ -18,7 +18,15 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// Prefer the direct (non-pooling) connection. It's the right one for DDL
+// (matches `prisma db push`), and it's always a plain postgres:// URL —
+// whereas POSTGRES_PRISMA_URL can be a Prisma Accelerate `prisma://` URL
+// (e.g. via Vercel's integration), which the query engine can't validate
+// for raw SQL. Falls back to the default datasource when not set.
+const directUrl = process.env.POSTGRES_URL_NON_POOLING;
+const prisma = new PrismaClient(
+  directUrl ? { datasources: { db: { url: directUrl } } } : undefined,
+);
 
 type RlsRow = { table: string; rls: boolean };
 
