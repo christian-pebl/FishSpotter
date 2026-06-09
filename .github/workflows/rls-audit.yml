@@ -1,0 +1,46 @@
+# RLS regression guard.
+#
+# Every table in the `public` schema must have row-level security enabled (see
+# prisma/rls.sql + CLAUDE.md "Row-Level Security"). The app uses Prisma (owner
+# role, bypasses RLS), so RLS-with-no-policy blocks the public Supabase
+# PostgREST path without affecting the app. The regression vector is a NEW
+# table created by `prisma db push` landing with RLS off — `db push` doesn't
+# manage RLS.
+#
+# This runs the read-only `--check` audit on a schedule (and on demand). It
+# never writes; it fails the run if ANY public table has RLS disabled, so a
+# regression surfaces as a failed Action within a week rather than silently.
+#
+# Required repo secrets (same as the bootstrap workflow):
+#   - POSTGRES_PRISMA_URL        pooled connection string
+#   - POSTGRES_URL_NON_POOLING   direct connection string
+
+name: RLS audit
+
+on:
+  schedule:
+    - cron: "0 5 * * 1" # Mondays 05:00 UTC, ahead of the data crons
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci # postinstall runs `prisma generate`
+
+      - name: Audit RLS on all public tables (read-only)
+        env:
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+        # Call tsx directly (not the `db:enable-rls` npm script, which hardcodes
+        # --env-file=.env.local that doesn't exist in CI). --check is read-only
+        # and exits non-zero if any public table is unprotected.
+        run: npx tsx scripts/enable-rls.ts --check
