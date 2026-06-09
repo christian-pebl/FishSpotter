@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="794" height="1123" viewBox="0 0 794 1123" font-family="DejaVu Sans">
+<rect x="0" y="0" width="794" height="1123" fill="#FFFFFF"/>
+<text x="397.0" y="78" text-anchor="middle" font-size="42" font-weight="bold" fill="#3A3A4A">My Bedtime Routine</text>
+<text x="397.0" y="116" text-anchor="middle" font-size="21" fill="#7a7a88">Follow the steps 1 to 8 around the wheel</text>
+<path d="M 108 52 a 20 20 0 1 0 14 30 a 16 16 0 1 1 -14 -30 Z" fill="#FFE08A" stroke="#3A3A4A" stroke-width="3"/>
+<path d="M 690 46 l 4 10 l 10 4 l -10 4 l -4 10 l -4 -10 l -10 -4 l 10 -4 Z" fill="#FFE08A" stroke="#3A3A4A" stroke-width="2"/>
+<circle cx="397" cy="610" r="364" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<path d="M 397.00 610.00 L 397.00 252.00 A 358.00 358.00 0 0 1 650.14 356.86 Z" fill="#FFD6A5" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(479.20,411.55) scale(1.05)"><path d="M -42 38 L -42 18 L -14 18 L -14 -6 L 14 -6 L 14 -30 L 42 -30" fill="none" stroke="#3A3A4A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-42,38 42,38" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="34" y1="-12" x2="34" y2="-42" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="24,-32 34,-44 44,-32" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<circle cx="517.56" cy="318.94" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="517.56" y="325.94" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">1</text>
+<path d="M 397.00 610.00 L 650.14 356.86 A 358.00 358.00 0 0 1 755.00 610.00 Z" fill="#FDFFB6" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(595.45,527.80) scale(1.05)"><circle cx="-13" cy="6" r="17" fill="#FFE2C2" stroke="#3A3A4A" stroke-width="5"/>
+<circle cx="13" cy="6" r="17" fill="#FFE2C2" stroke="#3A3A4A" stroke-width="5"/>
+<circle cx="-30" cy="-26" r="7" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<circle cx="-8" cy="-36" r="9" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<circle cx="18" cy="-28" r="6" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<circle cx="33" cy="-38" r="5" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<path d="M 30 18 q 6 8 0 14 q -6 -6 0 -14 Z" fill="#9BD8FF" stroke="#3A3A4A" stroke-width="3"/>
+<path d="M -34 22 q 5 7 0 12 q -5 -5 0 -12 Z" fill="#9BD8FF" stroke="#3A3A4A" stroke-width="3"/></g>
+<circle cx="688.06" cy="489.44" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="688.06" y="496.44" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">2</text>
+<path d="M 397.00 610.00 L 755.00 610.00 A 358.00 358.00 0 0 1 650.14 863.14 Z" fill="#CAFFBF" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(595.45,692.20) scale(1.05)"><circle cx="0" cy="2" r="30" fill="#FFE2C2" stroke="#3A3A4A" stroke-width="5"/>
+<circle cx="-11" cy="-4" r="3.5" fill="#3A3A4A"/>
+<circle cx="11" cy="-4" r="3.5" fill="#3A3A4A"/>
+<path d="M -11 12 q 11 10 22 0" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="-18" cy="-30" r="9" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<circle cx="2" cy="-38" r="11" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<circle cx="20" cy="-30" r="8" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<path d="M 34 6 q 6 8 0 14 q -6 -6 0 -14 Z" fill="#9BD8FF" stroke="#3A3A4A" stroke-width="3"/></g>
+<circle cx="688.06" cy="730.56" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="688.06" y="737.56" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">3</text>
+<path d="M 397.00 610.00 L 650.14 863.14 A 358.00 358.00 0 0 1 397.00 968.00 Z" fill="#9BF6FF" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(479.20,808.45) scale(1.05)"><path d="M -30 -22 q 0 -16 16 -16 q 14 0 14 8 q 0 -8 14 -8 q 16 0 16 16 q 0 22 -10 38 q -5 8 -8 -6 q -3 -14 -12 -14 q -9 0 -12 14 q -3 14 -8 6 q -10 -16 -10 -38 Z" fill="#fff" stroke="#3A3A4A" stroke-width="5"/>
+<line x1="-40" y1="44" x2="6" y2="-2" stroke="#3A3A4A" stroke-width="7" stroke-linecap="round"/>
+<rect x="2" y="-16" width="18" height="14" rx="3" transform="rotate(-45 11 -9)" fill="#A0C4FF" stroke="#3A3A4A" stroke-width="4"/>
+<path d="M 30 -36 l 3 8 l 8 3 l -8 3 l -3 8 l -3 -8 l -8 -3 l 8 -3 Z" fill="#FFE08A" stroke="#3A3A4A" stroke-width="2"/></g>
+<circle cx="517.56" cy="901.06" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="517.56" y="908.06" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">4</text>
+<path d="M 397.00 610.00 L 397.00 968.00 A 358.00 358.00 0 0 1 143.86 863.14 Z" fill="#A0C4FF" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(314.80,808.45) scale(1.05)"><path d="M -22 -32 q 22 14 44 0 l 14 14 l -12 12 l -8 -6 l 0 44 l -32 0 l 0 -44 l -8 6 l -12 -12 Z" fill="#A0C4FF" stroke="#3A3A4A" stroke-width="5"/>
+<path d="M -10 -30 q 10 9 20 0" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="0" cy="0" r="3" fill="#3A3A4A"/>
+<circle cx="0" cy="16" r="3" fill="#3A3A4A"/>
+<path d="M -10 26 l 2 5 l 5 2 l -5 2 l -2 5 l -2 -5 l -5 -2 l 5 -2 Z" fill="#FDFFB6" stroke="#3A3A4A" stroke-width="1.5"/></g>
+<circle cx="276.44" cy="901.06" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="276.44" y="908.06" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">5</text>
+<path d="M 397.00 610.00 L 143.86 863.14 A 358.00 358.00 0 0 1 39.00 610.00 Z" fill="#BDB2FF" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(198.55,692.20) scale(1.05)"><rect x="-40" y="-6" width="34" height="44" rx="4" fill="#FF9AA2" stroke="#3A3A4A" stroke-width="5"/>
+<line x1="-33" y1="2" x2="-13" y2="2" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="-33" y1="14" x2="-13" y2="14" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="8" y="-14" width="34" height="44" rx="4" fill="#9BF6FF" stroke="#3A3A4A" stroke-width="5"/>
+<line x1="15" y1="-6" x2="35" y2="-6" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="15" y1="6" x2="35" y2="6" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<circle cx="105.94" cy="730.56" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="105.94" y="737.56" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">6</text>
+<path d="M 397.00 610.00 L 39.00 610.00 A 358.00 358.00 0 0 1 143.86 356.86 Z" fill="#FFC6FF" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(198.55,527.80) scale(1.05)"><path d="M -44 28 l 0 -16 q 0 -8 8 -8 l 60 0 q 10 0 10 12 l 0 12" fill="#FFDCEB" stroke="#3A3A4A" stroke-width="5"/>
+<line x1="-44" y1="28" x2="-44" y2="40" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="42" y1="28" x2="42" y2="40" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="-44" y1="28" x2="42" y2="28" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="-38" y="-2" width="22" height="14" rx="4" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<path d="M 0 22 q 12 -8 24 -2 l 0 -18 q -12 -6 -24 2 q -12 -8 -24 -2 l 0 18 q 12 -6 24 2 Z" fill="#fff" stroke="#3A3A4A" stroke-width="4"/>
+<line x1="0" y1="4" x2="0" y2="22" stroke="#3A3A4A" stroke-width="3"/></g>
+<circle cx="105.94" cy="489.44" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="105.94" y="496.44" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">7</text>
+<path d="M 397.00 610.00 L 143.86 356.86 A 358.00 358.00 0 0 1 397.00 252.00 Z" fill="#FFADAD" stroke="#3A3A4A" stroke-width="3"/>
+<g transform="translate(314.80,411.55) scale(1.05)"><circle cx="-4" cy="6" r="30" fill="#FFE2C2" stroke="#3A3A4A" stroke-width="5"/>
+<path d="M -18 2 q 6 7 12 0" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 2 2 q 6 7 12 0" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M -10 20 q 6 5 12 0" fill="none" stroke="#3A3A4A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="20" y="-18" font-family="DejaVu Sans" font-weight="bold" font-size="20" fill="#3A3A4A">z</text>
+<text x="30" y="-30" font-family="DejaVu Sans" font-weight="bold" font-size="26" fill="#3A3A4A">z</text>
+<text x="42" y="-44" font-family="DejaVu Sans" font-weight="bold" font-size="32" fill="#3A3A4A">Z</text></g>
+<circle cx="276.44" cy="318.94" r="17" fill="#fff" stroke="#3A3A4A" stroke-width="3"/>
+<text x="276.44" y="325.94" text-anchor="middle" font-size="22" font-weight="bold" fill="#3A3A4A">8</text>
+<circle cx="397" cy="610" r="62" fill="#3A3A4A" stroke="#3A3A4A" stroke-width="3"/>
+<path d="M 391 584 a 26 26 0 1 0 18 40 a 21 21 0 1 1 -18 -40 Z" fill="#FFE08A"/>
+<circle cx="419" cy="600" r="3" fill="#fff"/>
+<circle cx="411" cy="632" r="2.5" fill="#fff"/>
+<circle cx="371" cy="628" r="2.5" fill="#fff"/>
+<text x="397.0" y="1077" text-anchor="middle" font-size="20" fill="#7a7a88">Follow the wheel around — one step at a time. Sweet dreams!</text>
+</svg>
