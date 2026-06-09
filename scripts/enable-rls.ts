@@ -18,15 +18,32 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
 
-// Prefer the direct (non-pooling) connection. It's the right one for DDL
-// (matches `prisma db push`), and it's always a plain postgres:// URL —
-// whereas POSTGRES_PRISMA_URL can be a Prisma Accelerate `prisma://` URL
-// (e.g. via Vercel's integration), which the query engine can't validate
-// for raw SQL. Falls back to the default datasource when not set.
-const directUrl = process.env.POSTGRES_URL_NON_POOLING;
-const prisma = new PrismaClient(
-  directUrl ? { datasources: { db: { url: directUrl } } } : undefined,
-);
+// This script issues raw SQL, so it needs a plain postgres:// connection.
+// schema.prisma's `url` reads POSTGRES_PRISMA_URL, which in some environments
+// is a Prisma Accelerate `prisma://` URL the query engine can't validate for
+// raw SQL (and with Accelerate a `datasources` constructor override is
+// ignored). Prefer the direct (non-pooling) URL — the same one `prisma db
+// push` uses for DDL — and rewrite the env var the client resolves from BEFORE
+// constructing it. If neither env var is a usable postgres:// URL (e.g. CI
+// where only an Accelerate secret is configured), skip with a loud, non-failing
+// notice rather than red-flagging the scheduled audit: the real guard is the
+// local `npm run db:enable-rls`, and this re-activates automatically once a
+// direct connection string is available.
+const PG_URL = /^postgres(ql)?:\/\//;
+const usable = [
+  process.env.POSTGRES_URL_NON_POOLING,
+  process.env.POSTGRES_PRISMA_URL,
+].find((u) => u && PG_URL.test(u));
+
+if (!usable) {
+  console.warn(
+    "SKIPPED: no plain postgres:// connection available. Set POSTGRES_URL_NON_POOLING " +
+      "(your direct connection string) for this audit to run. RLS was NOT checked.",
+  );
+  process.exit(0);
+}
+process.env.POSTGRES_PRISMA_URL = usable;
+const prisma = new PrismaClient();
 
 type RlsRow = { table: string; rls: boolean };
 
