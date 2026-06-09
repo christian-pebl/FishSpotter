@@ -18,6 +18,7 @@
     "bootstrap": "tsx scripts/bootstrap/index.ts",
     "check:codecs": "tsx --env-file=.env.local scripts/check-codecs.ts",
     "db:push": "prisma db push",
+    "db:enable-rls": "tsx --env-file=.env.local scripts/enable-rls.ts",
     "db:seed": "tsx --env-file=.env.local scripts/seed.ts",
     "db:check-apis": "tsx --env-file=.env.local scripts/check-apis.ts",
     "db:backfill": "tsx --env-file=.env.local scripts/backfill-probability.ts",

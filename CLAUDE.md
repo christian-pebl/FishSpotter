@@ -244,6 +244,25 @@ Run scripts with: `npx tsx --env-file=.env.local scripts/<script>.ts`
 
 Seed: `npm run db:seed`
 
+### Row-Level Security (RLS) — load-bearing security invariant
+
+**Every table in the `public` schema MUST have RLS enabled.** The app reaches
+the DB only through Prisma, which connects as the table-owner role and bypasses
+RLS — so RLS-with-no-policy is the correct steady state (it blocks the Supabase
+PostgREST path without affecting the app). The Supabase **anon key is public**
+(it ships in the browser bundle), so any `public` table with RLS *off* is
+directly readable by anyone via `/rest/v1/<Table>` — which previously exposed
+`User` emails + password hashes and would have exposed `Account` OAuth tokens.
+
+- Canonical statement: `prisma/rls.sql` (a dynamic, idempotent loop that enables
+  RLS on all current **and future** public tables — `prisma db push` does not
+  manage RLS, so a freshly recreated table lands with RLS off until this runs).
+- Apply + verify: **`npm run db:enable-rls`**. Add `-- --check` for a read-only
+  audit that exits non-zero if any public table is unprotected (CI-friendly).
+- After any `prisma db push` that creates a table, re-run `npm run db:enable-rls`.
+  Do NOT add anon/authenticated policies unless a feature genuinely needs the
+  client-side Supabase SDK to read a table (none do today).
+
 Schema summary:
 - `Snippet`: id, externalId (folder name), videoUrl, thumbnailUrl, site, deployment, depthM, lat, lon, recordingDatetime, **`staffAnswer: String?`** (nullable since S7-T1 — null means "no reference identification yet"), bboxJson
 - `Answer`: userId, snippetId, chosenOption, **`isCorrect: Boolean?`** (null when the snippet has no reference yet), **`points: Int`** (S7-T1; 2 = correct match against reference, 1 = pending bonus on a no-reference snippet, 0 = unmatched guess)
