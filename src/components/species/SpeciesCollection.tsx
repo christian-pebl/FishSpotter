@@ -88,6 +88,15 @@ export async function SpeciesCollection({ userId }: { userId: string }) {
         })}
       </div>
 
+      {/* How collecting works — and an honest note that some clips the PEBL team
+          can only identify to group level, so they score but never unlock a
+          species (no species-level reference exists for them). */}
+      <p className="mt-3 text-[11px] leading-relaxed text-navy-900/55">
+        Correctly name a species to add it to your collection. Some clips can only
+        be identified to a group (e.g. &ldquo;a crab&rdquo;) even by the PEBL team:
+        those still earn points, but don&rsquo;t unlock a species.
+      </p>
+
       {/* grid */}
       <ul className="mt-4 grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:grid-cols-5">
         {species.map((s) =>
