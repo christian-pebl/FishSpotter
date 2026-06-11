@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { DURATION } from "@/lib/motion";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 
 type ProbabilityResponse =
   | {
@@ -124,20 +125,30 @@ export function RarityPanel({
         </span>
       </div>
       <div className="space-y-0.5">
-        {top.map((s) => (
-          <div key={s.scientificName} className="flex items-center gap-1.5 text-[11px]">
-            <span className="w-24 truncate italic text-white/80">{s.scientificName}</span>
-            <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
-              <div
-                className="h-full rounded bg-teal-500/55"
-                style={{ width: `${Math.round(s.probability * 100)}%` }}
-              />
+        {top.map((s) => {
+          const common = CATALOGUE[s.scientificName]?.commonName;
+          return (
+            <div key={s.scientificName} className="flex items-center gap-1.5 text-[11px]">
+              <div className="flex w-28 shrink-0 flex-col leading-tight">
+                <span className={common ? "truncate text-white/85" : "truncate italic text-white/80"}>
+                  {common ?? s.scientificName}
+                </span>
+                {common && (
+                  <span className="truncate text-[9px] italic text-white/45">{s.scientificName}</span>
+                )}
+              </div>
+              <div className="h-1 flex-1 overflow-hidden rounded bg-white/10">
+                <div
+                  className="h-full rounded bg-teal-500/55"
+                  style={{ width: `${Math.round(s.probability * 100)}%` }}
+                />
+              </div>
+              <span className="w-7 text-right tabular-nums text-white/70">
+                {Math.round(s.probability * 100)}%
+              </span>
             </div>
-            <span className="w-7 text-right tabular-nums text-white/70">
-              {Math.round(s.probability * 100)}%
-            </span>
-          </div>
-        ))}
+          );
+        })}
       </div>
       {staffProb != null && (
         <div className="mt-1.5 flex items-center justify-between gap-2 text-[11px]">
@@ -168,11 +179,6 @@ export function RarityPanel({
               </span>
             )}
           </div>
-        </div>
-      )}
-      {staffProb == null && (
-        <div className="mt-1 text-[10px] text-white/70">
-          Reference not matched to OBIS records here.
         </div>
       )}
     </motion.div>
