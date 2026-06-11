@@ -191,6 +191,83 @@ type GeminiResponse = {
 };
 
 /**
+ * Generic structured-generation call against Gemini. Caller supplies the
+ * `parts` (text + any inline_data) and a `responseSchema`; gets back the raw
+ * JSON text + token usage, or { ok:false, error }. Encapsulates the key check,
+ * generationConfig, URL, and the 429/503/500 retry loop so every Gemini task
+ * (image quality, UI critique, future vision tasks) shares one client.
+ */
+export async function geminiGenerate(args: {
+  parts: Array<Record<string, unknown>>;
+  schema: object;
+  model?: string;
+  apiKey?: string;
+  thinkingBudget?: number;
+}): Promise<
+  | { ok: true; text: string; usage: TokenUsage; model: string }
+  | { ok: false; error: string; model: string }
+> {
+  const model = args.model ?? process.env.GEMINI_MODEL ?? DEFAULT_MODEL;
+  const apiKey = args.apiKey ?? process.env.GEMINI_API_KEY;
+  if (!apiKey) return { ok: false, error: "GEMINI_API_KEY not set (add it to .env.local)", model };
+
+  const body = {
+    contents: [{ role: "user", parts: args.parts }],
+    generationConfig: {
+      temperature: 0,
+      responseMimeType: "application/json",
+      responseSchema: args.schema,
+      thinkingConfig: { thinkingBudget: args.thinkingBudget ?? 0 },
+    },
+  };
+  const url = `${GEMINI_BASE}/models/${model}:generateContent?key=${apiKey}`;
+
+  let attempt = 0;
+  while (true) {
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    } catch (e) {
+      if (attempt >= MAX_RETRIES - 1) return { ok: false, error: `network: ${(e as Error).message}`, model };
+      await new Promise((r) => setTimeout(r, nextDelay(attempt, null)));
+      attempt++;
+      continue;
+    }
+
+    if (res.status === 429 || res.status === 503 || res.status === 500) {
+      if (attempt >= MAX_RETRIES - 1) return { ok: false, error: `gemini ${res.status} after retries`, model };
+      await new Promise((r) => setTimeout(r, nextDelay(attempt, res.headers.get("Retry-After"))));
+      attempt++;
+      continue;
+    }
+
+    let json: GeminiResponse;
+    try {
+      json = (await res.json()) as GeminiResponse;
+    } catch {
+      return { ok: false, error: `gemini ${res.status}: unparseable body`, model };
+    }
+    if (!res.ok) return { ok: false, error: `gemini ${res.status}: ${json.error?.message ?? "unknown"}`, model };
+
+    const text = json.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
+    if (!text.trim()) return { ok: false, error: "empty model response", model };
+
+    const u = json.usageMetadata;
+    const usage: TokenUsage = {
+      input: u?.promptTokenCount ?? 0,
+      output: u?.candidatesTokenCount ?? 0,
+      thinking: u?.thoughtsTokenCount ?? 0,
+      total: u?.totalTokenCount ?? 0,
+    };
+    return { ok: true, text, usage, model };
+  }
+}
+
+/**
  * Assess a single image (by URL or already-decoded base64) for teaching
  * suitability. Never throws for an expected failure (bad key, fetch error,
  * model error) — returns { ok: false, error } so batch callers can continue.
@@ -223,83 +300,24 @@ export async function assessImageQuality(args: {
     return { ok: false, error: `download failed: ${(e as Error).message}`, model };
   }
 
-  const body = {
-    contents: [
-      {
-        role: "user",
-        parts: [
-          { text: buildPrompt(args.scientificName, args.commonName) },
-          { inline_data: { mime_type: image.mimeType, data: image.base64 } },
-        ],
-      },
+  // This is a scored-rubric triage, not open-ended reasoning — thinkingBudget 0
+  // cut output tokens ~8x in testing (847 -> 0) with no quality loss.
+  const result = await geminiGenerate({
+    parts: [
+      { text: buildPrompt(args.scientificName, args.commonName) },
+      { inline_data: { mime_type: image.mimeType, data: image.base64 } },
     ],
-    generationConfig: {
-      temperature: 0,
-      responseMimeType: "application/json",
-      responseSchema: RESPONSE_SCHEMA,
-      // This is a scored-rubric triage, not open-ended reasoning. Disabling
-      // thinking cut output tokens ~8x in testing (847 -> 0) with no quality
-      // loss, and speeds the sweep up. Flash accepts a 0 budget.
-      thinkingConfig: { thinkingBudget: 0 },
-    },
-  };
+    schema: RESPONSE_SCHEMA,
+    model: args.model,
+    apiKey: args.apiKey,
+    thinkingBudget: 0,
+  });
+  if (!result.ok) return { ok: false, error: result.error, model: result.model };
 
-  const url = `${GEMINI_BASE}/models/${model}:generateContent?key=${apiKey}`;
-
-  let attempt = 0;
-  while (true) {
-    let res: Response;
-    try {
-      res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-    } catch (e) {
-      if (attempt >= MAX_RETRIES - 1) {
-        return { ok: false, error: `network: ${(e as Error).message}`, model };
-      }
-      await new Promise((r) => setTimeout(r, nextDelay(attempt, null)));
-      attempt++;
-      continue;
-    }
-
-    if (res.status === 429 || res.status === 503 || res.status === 500) {
-      if (attempt >= MAX_RETRIES - 1) {
-        return { ok: false, error: `gemini ${res.status} after retries`, model };
-      }
-      await new Promise((r) => setTimeout(r, nextDelay(attempt, res.headers.get("Retry-After"))));
-      attempt++;
-      continue;
-    }
-
-    let json: GeminiResponse;
-    try {
-      json = (await res.json()) as GeminiResponse;
-    } catch {
-      return { ok: false, error: `gemini ${res.status}: unparseable body`, model };
-    }
-
-    if (!res.ok) {
-      return { ok: false, error: `gemini ${res.status}: ${json.error?.message ?? "unknown"}`, model };
-    }
-
-    const text = json.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
-    if (!text.trim()) return { ok: false, error: "empty model response", model };
-
-    const u = json.usageMetadata;
-    const usage: TokenUsage = {
-      input: u?.promptTokenCount ?? 0,
-      output: u?.candidatesTokenCount ?? 0,
-      thinking: u?.thoughtsTokenCount ?? 0,
-      total: u?.totalTokenCount ?? 0,
-    };
-
-    try {
-      const quality = JSON.parse(text) as ImageQuality;
-      return { ok: true, quality, model, usage };
-    } catch {
-      return { ok: false, error: `non-JSON model output: ${text.slice(0, 200)}`, model };
-    }
+  try {
+    const quality = JSON.parse(result.text) as ImageQuality;
+    return { ok: true, quality, model: result.model, usage: result.usage };
+  } catch {
+    return { ok: false, error: `non-JSON model output: ${result.text.slice(0, 200)}`, model: result.model };
   }
 }
