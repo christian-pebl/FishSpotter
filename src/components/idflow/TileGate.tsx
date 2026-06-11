@@ -234,12 +234,12 @@ export function TileGate({
               aria-label={tile.ariaLabel ?? tile.label}
               animate={
                 committing === tile.key && !reduceMotion
-                  ? { scale: [1, 0.94, 1.04, 1] }
+                  ? { scale: [1, 0.95, 1] }
                   : { scale: 1 }
               }
               transition={
                 committing === tile.key && !reduceMotion
-                  ? { duration: 0.2, ease: EASE.enter, times: [0, 0.35, 0.7, 1] }
+                  ? { duration: 0.16, ease: EASE.enter, times: [0, 0.45, 1] }
                   : { duration: 0 }
               }
               className={[
@@ -291,24 +291,36 @@ export function TileGate({
             key={tile.key}
             className={[
               "overflow-hidden rounded-modal border transition-colors",
-              isExpanded
-                ? "border-teal-400/60 bg-teal-500/10"
-                : "border-white/15 bg-white/5",
+              committing === tile.key
+                ? "border-teal-400 bg-teal-500/15"
+                : isExpanded
+                  ? "border-teal-400/60 bg-teal-500/10"
+                  : "border-white/15 bg-white/5",
             ].join(" ")}
           >
             <div className="flex items-stretch">
-              <button
+              <motion.button
                 type="button"
                 disabled={isEmpty}
-                onClick={() => onSelect(tile.key)}
+                onClick={() => commitSelect(tile.key)}
                 onMouseEnter={() => setHovered(tile.key)}
                 onMouseLeave={() => setHovered(null)}
                 aria-label={tile.ariaLabel ?? tile.label}
+                animate={
+                  committing === tile.key && !reduceMotion
+                    ? { scale: [1, 0.97, 1] }
+                    : { scale: 1 }
+                }
+                transition={
+                  committing === tile.key && !reduceMotion
+                    ? { duration: 0.16, ease: EASE.enter, times: [0, 0.45, 1] }
+                    : { duration: 0 }
+                }
                 className={[
                   "flex flex-1 items-center gap-3 p-2.5 text-left transition-colors",
                   isEmpty
                     ? "cursor-not-allowed opacity-35"
-                    : hovered === tile.key
+                    : committing === tile.key || hovered === tile.key
                       ? "text-teal-300"
                       : "text-teal-500 hover:text-teal-300",
                 ].join(" ")}
@@ -326,7 +338,7 @@ export function TileGate({
                     </span>
                   )}
                 </span>
-              </button>
+              </motion.button>
               {canExpand && (
                 <button
                   type="button"
