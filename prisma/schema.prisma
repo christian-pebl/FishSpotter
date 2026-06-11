@@ -288,3 +288,21 @@ model UnlockedSpecies {
   @@unique([userId, scientificName])
   @@index([userId])
 }
+
+// Read-through caches for the species profile's OBIS-derived sections, so a
+// profile render doesn't re-hit OBIS (a cold render is ~15s). Keyed by the
+// catalogue binomial; refreshed when staleAfter passes (see species-cache.ts).
+// summaryJson/gridJson may be null = "checked, OBIS had no usable data".
+model SpeciesDepthCache {
+  scientificName String   @id
+  summaryJson    String? // serialized DepthSummary | null
+  fetchedAt      DateTime @default(now())
+  staleAfter     DateTime
+}
+
+model SpeciesDistributionCache {
+  scientificName String   @id
+  gridJson       String? // serialized DistributionGrid | null
+  fetchedAt      DateTime @default(now())
+  staleAfter     DateTime
+}

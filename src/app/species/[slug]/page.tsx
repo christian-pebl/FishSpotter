@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { resolveSpeciesSlug } from "@/lib/species-slug";
-import { fetchDepthSummary, type DepthSummary } from "@/lib/biodiversity/depth";
-import { fetchDistribution, type DistributionGrid } from "@/lib/biodiversity/distribution";
+import { getCachedDepth, getCachedDistribution } from "@/lib/biodiversity/species-cache";
 import { AnnotatedSpeciesPhoto } from "@/components/AnnotatedSpeciesPhoto";
 import { SpeciesGallery } from "@/components/SpeciesGallery";
 import { DistributionMap } from "@/components/species/DistributionMap";
@@ -63,8 +62,8 @@ export default async function SpeciesProfilePage({
   // it" section), and the OBIS depth + distribution (ISR-cached, fail-soft).
   const [markCount, depth, distribution] = await Promise.all([
     prisma.diagnosticMark.count({ where: { scientificName } }),
-    fetchDepthSummary(scientificName).catch(() => null) as Promise<DepthSummary | null>,
-    fetchDistribution(scientificName).catch(() => null) as Promise<DistributionGrid | null>,
+    getCachedDepth(scientificName),
+    getCachedDistribution(scientificName),
   ]);
 
   const depthValue = depth ? `${depth.label} (median ${Math.round(depth.medianM)} m)` : "Not recorded";
