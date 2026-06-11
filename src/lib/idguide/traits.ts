@@ -1,7 +1,12 @@
 export const BODY_SHAPE = [
   "elongated",
+  // `fusiform` is the merged "normal fish silhouette" bucket: torpedoes AND
+  // deep-bodied fish. The old `laterally-compressed` ("Tall and thin") value
+  // was retired on 10 Jun 2026 — field testers found the torpedo-vs-tall cut
+  // too fine-scale (millimetres) for a Rung-2 gate, so both now sit in one
+  // tile and the `bodyDepth` Rung-3 splitter (deep/medium/slender) separates
+  // them when it actually matters.
   "fusiform",
-  "laterally-compressed",
   "flat-dorsoventral",
   "eel-like",
   "bottom-scooter",

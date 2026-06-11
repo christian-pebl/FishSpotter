@@ -810,6 +810,38 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           className="absolute inset-0 w-full h-full object-cover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
           style={{ filter: videoFilterFor(settings) }}
         />
+        {/* Depth + location + date chip (Anjali feedback: surface where/how deep
+            the clip was filmed). Read-only HUD; pointer-events-none so it never
+            blocks the tap-to-identify catcher. Sits top-left, clear of the
+            centred play affordance and the bbox trail. */}
+        {(snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
+          <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full bg-black/55 px-3 py-1.5 text-[11px] font-medium text-white/90 backdrop-blur-sm">
+            {snippet.depthM != null && (
+              <span className="inline-flex items-center gap-1">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                </svg>
+                {Math.round(snippet.depthM)} m
+              </span>
+            )}
+            {snippet.site && (
+              <span className="inline-flex items-center gap-1">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                  <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+                </svg>
+                {snippet.site}
+              </span>
+            )}
+            {(() => {
+              const d = snippet.recordingDatetime ? new Date(snippet.recordingDatetime) : null;
+              return d && !Number.isNaN(d.getTime()) ? (
+                <span>{d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })}</span>
+              ) : null;
+            })()}
+          </div>
+        )}
         {/* Playback progress bar — pulses on loop so the reset moment is visible */}
         {hasBboxes && (
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
@@ -1253,20 +1285,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4"/>
                           <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
                         </svg>
-                        Spot It
+                        Identify
                       </button>
-                      {/* (3 Jun) The MCQ tile grid is now opt-in. This quiet link
-                          lets a user who'd rather just pick from a list reveal it
-                          without going through the shape gate first. */}
-                      {!guessMode && (
-                        <button
-                          type="button"
-                          onClick={() => dispatch({ type: "enterMcq" })}
-                          className="inline-flex min-h-[44px] items-center py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 hover:text-white/90"
-                        >
-                          Pick from a list
-                        </button>
-                      )}
+                      {/* (10 Jun) WS-E: removed the standalone "Pick from a list"
+                          entry. Field testers found the menu inconsistent — it
+                          opened as photo tiles via Identify but as a type-in list
+                          via this button. "Identify" (shape gate -> photo tiles)
+                          is now the single, consistent entry. The type-in is still
+                          reachable as a secondary fallback INSIDE the tile flow
+                          (CandidateGate's "Pick from a list" -> MCQ), and the MCQ
+                          degrades to free-text only when OBIS returns <2 candidates. */}
                       {/* (3 Jun fix) Single guided-ID entry is "Spot It" (above).
                           The older pre-submit "Help me identify" wizard trigger was
                           removed here — having both opened two concurrent guided

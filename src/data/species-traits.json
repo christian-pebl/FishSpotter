@@ -85,7 +85,7 @@
     "commonName": "Bib",
     "shapeClass": "fish",
     "bodyShape": [
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "medium",
     "coloration": [
@@ -122,7 +122,7 @@
     "commonName": "Ballan wrasse",
     "shapeClass": "fish",
     "bodyShape": [
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "large",
     "coloration": [
@@ -162,8 +162,7 @@
     "commonName": "Cuckoo wrasse",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform",
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "medium",
     "coloration": [
@@ -199,7 +198,7 @@
     "commonName": "Corkwing wrasse",
     "shapeClass": "fish",
     "bodyShape": [
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "small",
     "coloration": [
@@ -307,7 +306,7 @@
     "shapeClass": "fish",
     "bodyShape": [
       "eel-like",
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "small",
     "coloration": [
@@ -378,9 +377,7 @@
     "commonName": "Common goby",
     "shapeClass": "fish",
     "bodyShape": [
-      "bottom-scooter",
-      "elongated",
-      "fusiform"
+      "bottom-scooter"
     ],
     "size": "small",
     "coloration": [
@@ -417,9 +414,7 @@
     "commonName": "Rock goby",
     "shapeClass": "fish",
     "bodyShape": [
-      "bottom-scooter",
-      "elongated",
-      "fusiform"
+      "bottom-scooter"
     ],
     "size": "small",
     "coloration": [
@@ -457,9 +452,7 @@
     "commonName": "Sand goby",
     "shapeClass": "fish",
     "bodyShape": [
-      "bottom-scooter",
-      "elongated",
-      "fusiform"
+      "bottom-scooter"
     ],
     "size": "small",
     "coloration": [
@@ -626,15 +619,33 @@
   "Platichthys flesus": {
     "commonName": "Flounder",
     "shapeClass": "flatfish",
-    "bodyShape": ["flat-dorsoventral"],
+    "bodyShape": [
+      "flat-dorsoventral"
+    ],
     "size": "medium",
-    "coloration": ["mottled", "spotted"],
-    "markings": ["none"],
-    "finShape": ["rounded-tail"],
-    "features": ["none"],
-    "behavior": ["on-bottom"],
-    "habitat": ["sandy-bottom"],
-    "movement": ["stationary", "fits-and-starts"],
+    "coloration": [
+      "mottled",
+      "spotted"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "rounded-tail"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "stationary",
+      "fits-and-starts"
+    ],
     "fieldNote": "A dull brown flatfish of estuaries and tidal rivers, tolerating fresh water — unusual for a flatfish. Rough bony tubercles run along the bases of the dorsal and anal fins and along the lateral line; any orange spots are pale and scattered, unlike the vivid orange of plaice."
   },
   "Scyliorhinus canicula": {
@@ -718,8 +729,7 @@
     "commonName": "Poor cod",
     "shapeClass": "fish",
     "bodyShape": [
-      "fusiform",
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "small",
     "coloration": [
@@ -941,7 +951,7 @@
     "commonName": "Sprat",
     "shapeClass": "fish",
     "bodyShape": [
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "small",
     "coloration": [
@@ -1048,7 +1058,7 @@
     "shapeClass": "fish",
     "bodyShape": [
       "elongated",
-      "laterally-compressed"
+      "fusiform"
     ],
     "size": "small",
     "coloration": [

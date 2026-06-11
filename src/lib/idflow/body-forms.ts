@@ -45,8 +45,7 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
     key: "bodyShape",
     prompt: "What was the overall body shape?",
     options: [
-      { value: "fusiform", label: "Torpedo / streamlined" },
-      { value: "laterally-compressed", label: "Tall and thin" },
+      { value: "fusiform", label: "Torpedo or deep-bodied" },
       { value: "elongated", label: "Long and slender" },
       { value: "eel-like", label: "Eel-like" },
       { value: "bottom-scooter", label: "Bottom scooters" },

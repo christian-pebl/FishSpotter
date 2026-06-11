@@ -16,8 +16,10 @@ const DEFAULTS: VideoSettings = {
   soundOn: false,
   trace: true,
   speed: 1,
-  brightness: 0,
-  contrast: 0,
+  // Murky underwater footage reads better with a gentle default lift; users can
+  // still dial it back to 0 (or up) in the settings menu (persisted per-device).
+  brightness: 1,
+  contrast: 1,
 };
 
 const STORAGE_KEY = "fishspotter:videoSettings";

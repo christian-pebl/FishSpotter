@@ -192,7 +192,7 @@ export default async function LeaderboardPage() {
             Spotter leaderboard
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-navy-900/72">
-            Reward regular participation, celebrate accurate observations, and highlight the community members helping shape the marine monitoring record.
+            Every clip you identify earns points and climbs the board. Keep a streak going, sharpen your eye against the reference IDs, and see how you stack up against fellow spotters.
           </p>
           <p className="mt-3 max-w-2xl text-xs leading-5 text-navy-900/72">
             Score = 2 points per correct ID against a reference, 1 point for a submission on a clip without a reference yet, 0 for an unmatched guess. Each clip counts once per spotter. Minimum {MIN_ANSWERS_FOR_RANKING} answers to enter the ranking.

@@ -29,12 +29,11 @@ const STEPS: Step[] = [
     whyHint:
       "Body shape locks the fish family in under a second. Torpedo vs flat vs eel-like rules out 80% of species before you look at anything else.",
     options: [
-      { value: "fusiform", label: "Torpedo / streamlined", hint: "Cod, mackerel, bass" },
+      { value: "fusiform", label: "Torpedo or deep-bodied", hint: "Cod, bass, wrasse, bib" },
       { value: "elongated", label: "Long and slender", hint: "Pollack, sand smelt" },
       { value: "eel-like", label: "Eel-like", hint: "Conger, butterfish" },
       { value: "flat-dorsoventral", label: "Flat, lying on bottom", hint: "Plaice, flounder" },
       { value: "bottom-scooter", label: "Bottom scooters", hint: "Goby, dragonet" },
-      { value: "laterally-compressed", label: "Tall and thin", hint: "Wrasse, bib" },
     ],
   },
   {

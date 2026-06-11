@@ -102,9 +102,8 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     crawl: "Is it crawling along the bottom?",
   },
   bodyShape: {
-    fusiform: "Is the body torpedo-shaped and streamlined?",
+    fusiform: "Is it a normal fish silhouette — torpedo or deep-bodied (not eel, flat, or bottom-hugging)?",
     elongated: "Is the body long and slender?",
-    "laterally-compressed": "Is the body tall and flattened side-to-side?",
     "flat-dorsoventral": "Is the body flattened top-to-bottom, lying flat?",
     "eel-like": "Is the body eel-like?",
     "bottom-scooter": "Does it rest on the bottom and dart in fits and starts (goby or dragonet)?",
