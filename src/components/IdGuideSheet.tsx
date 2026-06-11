@@ -8,6 +8,8 @@ import { IdGuideChipFallback } from "./IdGuideChipFallback";
 import { IdGuideWizard } from "./IdGuideWizard";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
+import { GroupGuide } from "./idflow/GroupGuide";
+import { resolveShapeClassRef } from "@/lib/idguide/shape-class-ref";
 
 
 type Mode = "wizard" | "chat" | "chips" | "fieldNote";
@@ -183,6 +185,11 @@ export function IdGuideSheet({
     setSelectedFallback(null);
   }, [open, fieldNoteFor]);
 
+  // Coarse group reference (e.g. "Flatfish") -> show the group guide rather than
+  // a single-species card or the catalogue-search dead-end. Species resolution
+  // (effectiveFieldNote) takes precedence, so a real species name still wins.
+  const groupClass = resolveShapeClassRef(fieldNoteFor?.commonName);
+
   if (!open) return null;
 
   const title =
@@ -337,6 +344,14 @@ export function IdGuideSheet({
                   </div>
                 </div>
               </>
+            ) : groupClass ? (
+              // Coarse group reference ("Flatfish", "Fish", ...): teach the
+              // group + drill into its member species, instead of the search dump.
+              <GroupGuide
+                shapeClass={groupClass}
+                snippetId={snippetId}
+                onPickSpecies={(sci) => setSelectedFallback(sci)}
+              />
             ) : fieldNoteFor?.scientificName ? (
               // Species not in the trait catalogue (e.g. common whiting) but we
               // have its scientific name from the reveal: still show its
