@@ -815,10 +815,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             blocks the tap-to-identify catcher. Sits top-left, clear of the
             centred play affordance and the bbox trail. */}
         {(snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
-          <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full bg-black/55 px-3 py-1.5 text-[11px] font-medium text-white/90 backdrop-blur-sm">
+          <div
+            className="pointer-events-none absolute left-3 z-10 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/10 bg-navy-900/85 px-3 py-1.5 text-[11px] font-medium text-white shadow-menu"
+            style={{ top: "calc(env(safe-area-inset-top, 0px) + 3.5rem)" }}
+          >
             {snippet.depthM != null && (
               <span className="inline-flex items-center gap-1">
-                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
                   <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                 </svg>
@@ -827,7 +830,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             )}
             {snippet.site && (
               <span className="inline-flex items-center gap-1">
-                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
                   <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
                   <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
                 </svg>
@@ -837,7 +840,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             {(() => {
               const d = snippet.recordingDatetime ? new Date(snippet.recordingDatetime) : null;
               return d && !Number.isNaN(d.getTime()) ? (
-                <span>{d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })}</span>
+                <span className="inline-flex items-center gap-1">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
+                    <rect x="2.5" y="3" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
+                    <path d="M2.5 6.5h11M6 1.5v3M10 1.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                  </svg>
+                  {d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
+                </span>
               ) : null;
             })()}
           </div>

@@ -18,7 +18,7 @@ export function Header() {
   // The top scrim is kept short + light so it never darkens the selection card
   // floating below it. Elsewhere: a slim solid bar.
   const wrapClass = onFeed
-    ? "pointer-events-none absolute inset-x-0 top-0 z-40 bg-gradient-to-b from-black/30 to-transparent pb-1 backdrop-blur-[1px]"
+    ? "pointer-events-none absolute inset-x-0 top-0 z-40 bg-gradient-to-b from-black/15 to-transparent pb-1"
     : "relative z-40 border-b border-[color:var(--border)] bg-[color:var(--surface)]/88 backdrop-blur";
 
   return (
