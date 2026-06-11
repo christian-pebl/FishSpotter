@@ -20,7 +20,11 @@ import type { PrismaClient } from "@prisma/client";
 import {
   CONSENSUS_THRESHOLD_USERS,
   POINTS_CONSENSUS_BONUS,
+  CATALOGUE_ALIASES,
+  loadAliases,
+  scientificFromLocalName,
 } from "@/lib/answer-matching";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { normalizeForMatch } from "@/lib/normalize-answer";
 
 export type ConsensusRescoreResult = {
@@ -32,6 +36,8 @@ export type ConsensusRescoreResult = {
   updatedEvents: number;
   /** Total Answer rows credited the +2 bonus in this run. */
   answersCredited: number;
+  /** UnlockedSpecies rows added this run (consensus filled a pokedex). */
+  speciesUnlocked: number;
 };
 
 type AnswerRow = {
@@ -150,7 +156,12 @@ export async function rescoreConsensus(
     newEvents: 0,
     updatedEvents: 0,
     answersCredited: 0,
+    speciesUnlocked: 0,
   };
+
+  // For retro-unlocking the pokedex when a consensus resolves to a catalogue
+  // species (the community-consensus-first fill path). Built once.
+  const aliases = [...CATALOGUE_ALIASES, ...(await loadAliases())];
 
   for (const group of eligible) {
     const existing = await prisma.consensusEvent.findUnique({
@@ -197,6 +208,18 @@ export async function rescoreConsensus(
     if (existing) result.updatedEvents++;
     else result.newEvents++;
     result.answersCredited += toCredit.length;
+
+    // Retro-unlock: if this consensus resolves to a catalogue species, every
+    // matcher collects it (idempotent via the unique index). Coarse consensuses
+    // ("Fish") resolve to null and unlock nothing, by design.
+    const sci = scientificFromLocalName(group.answers[0].chosenOption, aliases);
+    if (sci && CATALOGUE[sci]) {
+      const { count } = await prisma.unlockedSpecies.createMany({
+        data: group.answers.map((a) => ({ userId: a.userId, scientificName: sci })),
+        skipDuplicates: true,
+      });
+      result.speciesUnlocked += count;
+    }
   }
 
   return result;
