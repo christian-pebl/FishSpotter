@@ -54,6 +54,23 @@ export function SpeciesGuidePopup({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // Typical-depth band (Anjali: "most commonly found at this depth"). Cached
+  // server-side, so this is a fast read; absent for species OBIS has no data on.
+  const [depthLabel, setDepthLabel] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    setDepthLabel(null);
+    fetch(`/api/species/depth?name=${encodeURIComponent(scientificName)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body: { depth?: { label?: string } | null } | null) => {
+        if (!cancelled && body?.depth?.label) setDepthLabel(body.depth.label);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [scientificName]);
+
   // Focus in, scroll lock, guarded Escape + Tab trap.
   const close = useCallback(() => {
     if (lightboxIsOpen()) return; // the lightbox owns this Escape
@@ -123,6 +140,15 @@ export function SpeciesGuidePopup({
           <div className="min-w-0">
             <h2 className="text-h3 font-semibold leading-tight text-white">{commonName}</h2>
             <p className="truncate text-[11px] italic text-white/50">{scientificName}</p>
+            {depthLabel && (
+              <p className="mt-1 inline-flex items-center gap-1 text-[11px] text-teal-200/90">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                </svg>
+                Usually seen ~{depthLabel}
+              </p>
+            )}
           </div>
           <button
             type="button"
