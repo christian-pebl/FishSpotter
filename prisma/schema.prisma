@@ -9,24 +9,25 @@ datasource db {
 }
 
 model User {
-  id                  String              @id @default(cuid())
-  email               String              @unique
+  id                  String               @id @default(cuid())
+  email               String               @unique
   passwordHash        String?
   name                String?
-  displayName         String?             // optional display name for leaderboard
-  emailVerified       DateTime?           // set when the user clicks the verification link (S3-06/07)
-  onboardedAt         DateTime?           // set when the user dismisses the first-run tour (S3-11)
-  digestOptIn         Boolean             @default(false) // weekly digest (S3-16); PECR Reg. 22 opt-in
+  displayName         String? // optional display name for leaderboard
+  emailVerified       DateTime? // set when the user clicks the verification link (S3-06/07)
+  onboardedAt         DateTime? // set when the user dismisses the first-run tour (S3-11)
+  digestOptIn         Boolean              @default(false) // weekly digest (S3-16); PECR Reg. 22 opt-in
   // ICO Children's Code (UK Age Appropriate Design Code): self-declared age
   // band at signup. We store a coarse BAND, not date of birth, to minimise
   // personal data. Null for pre-existing users (declared at signup only).
-  ageBracket          String?             // "13_17" | "18_plus" — null for pre-existing users
+  ageBracket          String? // "13_17" | "18_plus" — null for pre-existing users
   // Declared minors (13-17) default to OFF the public leaderboard; any user
   // can change this later in account settings.
-  leaderboardOptIn    Boolean             @default(true)
-  lastStreakNudgeAt   DateTime?           // one streak-nudge per user per week (S3-17)
-  createdAt           DateTime            @default(now())
+  leaderboardOptIn    Boolean              @default(true)
+  lastStreakNudgeAt   DateTime? // one streak-nudge per user per week (S3-17)
+  createdAt           DateTime             @default(now())
   answers             Answer[]
+  unlockedSpecies     UnlockedSpecies[]
   accounts            Account[]
   sessions            Session[]
   verificationTokens  VerificationToken[]
@@ -74,7 +75,7 @@ model VerificationToken {
   id         String    @id @default(cuid())
   userId     String
   token      String    @unique
-  expiresAt  DateTime  // now + 24h
+  expiresAt  DateTime // now + 24h
   consumedAt DateTime?
   createdAt  DateTime  @default(now())
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -89,7 +90,7 @@ model PasswordResetToken {
   id         String    @id @default(cuid())
   userId     String
   token      String    @unique
-  expiresAt  DateTime  // now + 1h
+  expiresAt  DateTime // now + 1h
   consumedAt DateTime?
   createdAt  DateTime  @default(now())
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -98,20 +99,20 @@ model PasswordResetToken {
 }
 
 model Snippet {
-  id           String   @id @default(cuid())
-  externalId   String   @unique // folder name e.g. ALG_SC_11_2024-07-08_...
-  videoUrl     String   // path under /media/snippets/
-  thumbnailUrl String
-  site         String
-  deployment   String
-  depthM      Float?
-  lat          Float?
-  lon          Float?
+  id                String   @id @default(cuid())
+  externalId        String   @unique // folder name e.g. ALG_SC_11_2024-07-08_...
+  videoUrl          String // path under /media/snippets/
+  thumbnailUrl      String
+  site              String
+  deployment        String
+  depthM            Float?
+  lat               Float?
+  lon               Float?
   recordingDatetime String?
-  staffAnswer  String?  // reference label from metadata; null = no reference yet (S7-T1)
-  bboxJson     String?  // JSON string of bbox_data.json bboxes
-  createdAt    DateTime @default(now())
-  answers      Answer[]
+  staffAnswer       String? // reference label from metadata; null = no reference yet (S7-T1)
+  bboxJson          String? // JSON string of bbox_data.json bboxes
+  createdAt         DateTime @default(now())
+  answers           Answer[]
 
   // S4-06: indexes for archive filter / sort / search.
   @@index([createdAt])
@@ -120,19 +121,18 @@ model Snippet {
 }
 
 model Answer {
-  id          String   @id @default(cuid())
-  userId      String
-  snippetId   String
-  chosenOption String  // typed answer submitted by the user
-  freeText    String?  // legacy free-text field retained for existing data
-  isCorrect   Boolean? // matches snippet.staffAnswer; null = snippet has no reference yet (S7-T1)
-  points      Int      @default(0) // scoring: correct=2, pending=1, incorrect=0; sumed for leaderboard (S7-T1)
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  snippet     Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  userId       String
+  snippetId    String
+  chosenOption String // typed answer submitted by the user
+  freeText     String? // legacy free-text field retained for existing data
+  isCorrect    Boolean? // matches snippet.staffAnswer; null = snippet has no reference yet (S7-T1)
+  points       Int      @default(0) // scoring: correct=2, pending=1, incorrect=0; sumed for leaderboard (S7-T1)
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snippet      Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
 
   @@unique([userId, snippetId])
-
   // S4-01: indexes for the leaderboard groupBy + timeframe filter
   // (S4-03). The covering compound indexes prevent sequential scans
   // on the Answer table as it grows past ~50k rows.
@@ -151,9 +151,9 @@ model SpeciesProbability {
   id           String            @id @default(cuid())
   latBucket    Float
   lonBucket    Float
-  depthBucket  Int               // floor(depthM / 10) * 10, or -1 for null
-  month        Int               // 1..12
-  source       String            // "obis"
+  depthBucket  Int // floor(depthM / 10) * 10, or -1 for null
+  month        Int // 1..12
+  source       String // "obis"
   status       ProbabilityStatus
   errorMessage String?
   totalRecords Int               @default(0)
@@ -168,8 +168,8 @@ model SpeciesNameMap {
   id             String   @id @default(cuid())
   commonName     String   @unique // normalised lowercase
   scientificName String?
-  source         String   // e.g. "gbif-match"
-  confidence     String?  // EXACT | FUZZY | HIGHERRANK | NONE
+  source         String // e.g. "gbif-match"
+  confidence     String? // EXACT | FUZZY | HIGHERRANK | NONE
   resolvedAt     DateTime @default(now())
 }
 
@@ -191,36 +191,36 @@ model SpeciesAlias {
 }
 
 model SpeciesImage {
-  id             String   @id @default(cuid())
-  scientificName String
-  lifeStage      String?  // "adult" | "juvenile" | "larva" | "egg" | null
-  sex            String?  // "male" | "female" | null
-  url            String   // medium-quality direct image URL (iNat/Wikimedia origin)
-  thumbUrl       String?  // smaller cached URL if the source provides one
+  id              String           @id @default(cuid())
+  scientificName  String
+  lifeStage       String? // "adult" | "juvenile" | "larva" | "egg" | null
+  sex             String? // "male" | "female" | null
+  url             String // medium-quality direct image URL (iNat/Wikimedia origin)
+  thumbUrl        String? // smaller cached URL if the source provides one
   // Route C: PEBL-hosted WebP derivatives (R2/Supabase via scripts/lib/storage.ts),
   // transcoded from `url` by the transcode batch (scripts/backfill-webp-images.ts +
   // /api/cron/transcode-images). Nullable = "not yet transcoded". Consumers prefer
   // these over url/thumbUrl and fall back to the origin when null, so the feature
   // degrades gracefully if a transcode fails or hasn't run. ~30-50% smaller than the
   // source JPEG and served from our own edge (no transatlantic iNat-S3 hop).
-  webpUrl        String?  // medium WebP (<=500px), our host
-  webpThumbUrl   String?  // thumb WebP (<=240px), our host
-  attribution    String   // formatted "(c) Username, CC BY"
-  sourceUrl      String   // link back to the original observation / file page
-  license        String   // "cc0" | "cc-by" | "cc-by-sa" | "cc-by-nc" | "cc-by-nc-sa" | ...
-  source         String   // "inaturalist" | "wikimedia" | "manual"
-  width          Int?
-  height         Int?
-  observedOn     String?  // date (or year) the source photo was observed, if known
-  placeGuess     String?  // human-readable location of the source observation, if known
-  ordering       Int      @default(100) // lower = earlier in the gallery
-  curated        Boolean  @default(false) // true when set via manifest, not script
-  createdAt      DateTime @default(now())
-  refreshedAt    DateTime @default(now())
+  webpUrl         String? // medium WebP (<=500px), our host
+  webpThumbUrl    String? // thumb WebP (<=240px), our host
+  attribution     String // formatted "(c) Username, CC BY"
+  sourceUrl       String // link back to the original observation / file page
+  license         String // "cc0" | "cc-by" | "cc-by-sa" | "cc-by-nc" | "cc-by-nc-sa" | ...
+  source          String // "inaturalist" | "wikimedia" | "manual"
+  width           Int?
+  height          Int?
+  observedOn      String? // date (or year) the source photo was observed, if known
+  placeGuess      String? // human-readable location of the source observation, if known
+  ordering        Int              @default(100) // lower = earlier in the gallery
+  curated         Boolean          @default(false) // true when set via manifest, not script
+  createdAt       DateTime         @default(now())
+  refreshedAt     DateTime         @default(now())
   diagnosticMarks DiagnosticMark[]
 
-  @@index([scientificName, ordering])
   @@unique([scientificName, sourceUrl])
+  @@index([scientificName, ordering])
 }
 
 // Admin-authored diagnostic features for the "Help me identify" wizard.
@@ -238,18 +238,18 @@ model SpeciesImage {
 // A species is treated as "published" by the wizard once it has >=1
 // mark, so no separate status flag is needed.
 model DiagnosticMark {
-  id             String   @id @default(cuid())
-  scientificName String   // matches SpeciesImage.scientificName + species-traits.json keys
-  speciesImageId String   // the photo this mark annotates
-  order          Int      @default(0)   // display order, low first
-  label          String   // short title, e.g. "Chin barbel"
-  description    String   // one-sentence explanation
-  overlayX       Float    // 0..1, normalised x of the ring centre
-  overlayY       Float    // 0..1, normalised y of the ring centre
-  overlayRadius  Float    // 0..1, normalised radius (as fraction of min(width,height))
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  createdBy      String?  // email of the admin who authored it (audit trail)
+  id             String       @id @default(cuid())
+  scientificName String // matches SpeciesImage.scientificName + species-traits.json keys
+  speciesImageId String // the photo this mark annotates
+  order          Int          @default(0) // display order, low first
+  label          String // short title, e.g. "Chin barbel"
+  description    String // one-sentence explanation
+  overlayX       Float // 0..1, normalised x of the ring centre
+  overlayY       Float // 0..1, normalised y of the ring centre
+  overlayRadius  Float // 0..1, normalised radius (as fraction of min(width,height))
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  createdBy      String? // email of the admin who authored it (audit trail)
   speciesImage   SpeciesImage @relation(fields: [speciesImageId], references: [id], onDelete: Cascade)
 
   @@index([scientificName, order])
@@ -264,12 +264,27 @@ model DiagnosticMark {
 // late-joiners get retro-credited on subsequent runs.
 model ConsensusEvent {
   id                String   @id @default(cuid())
-  snippetId         String   // FK target: Snippet.id (no relation field; Snippet doesn't need the back-pointer)
-  normalisedName    String   // normalizeForMatch(chosenOption) value the consensus is on
+  snippetId         String // FK target: Snippet.id (no relation field; Snippet doesn't need the back-pointer)
+  normalisedName    String // normalizeForMatch(chosenOption) value the consensus is on
   achievedAt        DateTime @default(now())
   updatedAt         DateTime @updatedAt
   creditedAnswerIds String[] // Answer.id rows already credited the +2 bonus
 
   @@unique([snippetId, normalisedName])
   @@index([snippetId])
+}
+
+// Pokedex: one row per species a user has correctly identified at least once.
+// A correct Answer (isCorrect = true) whose reference resolves to a catalogue
+// species upserts a row here (see src/app/api/answers/route.ts). The collection
+// grid greys out species without a row. firstUnlockedAt powers "newest catch".
+model UnlockedSpecies {
+  id              String   @id @default(cuid())
+  userId          String
+  scientificName  String // catalogue binomial (key into species-traits.json)
+  firstUnlockedAt DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, scientificName])
+  @@index([userId])
 }

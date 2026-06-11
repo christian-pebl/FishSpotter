@@ -2,7 +2,13 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
-import { matchAnswer } from "@/lib/answer-matching";
+import {
+  matchAnswer,
+  CATALOGUE_ALIASES,
+  loadAliases,
+  scientificFromLocalName,
+} from "@/lib/answer-matching";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAnswerRateLimit } from "@/lib/rate-limit";
@@ -103,6 +109,26 @@ export async function POST(req: Request) {
       points,
     },
   });
+
+  // Pokedex: a correct ID adds the reference species to the user's collection.
+  // The reference (staffAnswer) must resolve to a catalogue species; coarse
+  // references ("Fish") resolve to null and unlock nothing. A failure here must
+  // never fail the answer submission, so it is isolated in try/catch.
+  if (isCorrect === true && snippet.staffAnswer) {
+    try {
+      const aliases = [...CATALOGUE_ALIASES, ...(await loadAliases())];
+      const sci = scientificFromLocalName(snippet.staffAnswer, aliases);
+      if (sci && CATALOGUE[sci]) {
+        await prisma.unlockedSpecies.upsert({
+          where: { userId_scientificName: { userId: session.user.id, scientificName: sci } },
+          create: { userId: session.user.id, scientificName: sci },
+          update: {},
+        });
+      }
+    } catch (err) {
+      console.error("[answers] pokedex unlock failed", err);
+    }
+  }
 
   // Did the upsert introduce a date the user hadn't logged before? An
   // update on an existing answer doesn't move createdAt, so editing a

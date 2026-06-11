@@ -5,6 +5,7 @@ import { computeStreakFromAnswers } from "@/lib/streak";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
+import { SpeciesCollection } from "@/components/species/SpeciesCollection";
 
 export const dynamic = "force-dynamic";
 
@@ -115,6 +116,8 @@ export default async function ProfilePage({
         </dl>
       </section>
 
+      <SpeciesCollection userId={id} />
+
       <section className="pebl-surface rounded-card p-6">
         <p className="pebl-eyebrow">Recent identifications</p>
         {recentAnswers.length === 0 ? (
@@ -138,6 +141,7 @@ export default async function ProfilePage({
                   </p>
                 </div>
                 <span
+                  role="img"
                   className={
                     a.isCorrect === true
                       ? "rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-teal-700"
