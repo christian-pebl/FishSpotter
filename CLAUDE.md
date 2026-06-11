@@ -40,6 +40,7 @@
 | `prisma/schema.prisma` | DB schema: User, Snippet, Answer |
 | `scripts/seed.ts` | One-time seed: reads local snips folders, uploads to Supabase, inserts DB records |
 | `scripts/transcode-to-h264.ts` | Utility: downloads all mp4v snippets, transcodes to H.264, re-uploads, updates DB URLs |
+| `scripts/reupload-snippets-hq.ts` | Re-uploads the high-quality re-cut clips (from `DesktopML/reexport_snippets_hq.py`, default `--from` the local export dir or pass `--from "<G: Fish Spotter Snips>"`) to the active storage provider and cache-busts the DB `videoUrl`/`thumbnailUrl` with a `?v=` bump. Idempotent: skips rows already on the active provider's host (`--all` to force). `--dry-run` / `--limit N`. Used for the 10 Jun 2026 quality re-cut; also the tool to re-consolidate onto R2 once R2 creds are present. |
 | `scripts/refresh-images.ts` | CLI runner for the species-image cache (thin wrapper around `src/lib/biodiversity/refresh-images.ts`) |
 | `scripts/backup-pre-drop.ts` | Pre-migration safety net: dumps tables/columns about to be dropped by a `prisma db push --accept-data-loss` to `./backups/` as JSON. Edit the table list before running. |
 | `scripts/seed-fish-marks.ts` | Bulk fish DiagnosticMark seeder (2 Jun 2026). Covers **21 fish species** across 4 batches: gadoids (Saithe, Bib/Pouting, Poor Cod, Atlantic Cod), wrasses (Ballan, Cuckoo, Corkwing, Goldsinny), gobies/benthic (Two-spotted Goby, Common Goby, Rock Goby, Sand Goby, Butterfish, Shanny, Long-spined Sea Scorpion), and pelagic/schooling (Horse Mackerel, Atlantic Mackerel, Sprat, Sand Smelt, Sea Bass, Thick-lipped Grey Mullet). Idempotent — skips species that already have marks. Requires a curated `SpeciesImage` row per species (add to `species-images.json` overrides + run `db:refresh-images --species` first). Run via `npx tsx --env-file=.env.local scripts/seed-fish-marks.ts`. |
@@ -106,6 +107,27 @@ All snippet videos must be **H.264 (avc1)** — Chrome cannot play MPEG-4 Part 2
   ```
 - To re-transcode the DB, run: `npx tsx --env-file=.env.local scripts/transcode-to-h264.ts`
 
+### Quality re-cut (10 Jun 2026) — fixed at the TRDesk4 export
+
+The real legibility bottleneck was NOT FishSpotter: the TRDesk4 export
+(`track_review_app.py`, `SnippetExporter`) wrote clips with OpenCV's `mp4v`
+encoder (MPEG-4 Part 2 Simple Profile, weak, no rate control), and the codec
+guard above then re-encoded *that* to H.264 — two lossy passes through a poor
+intermediate, dropping ~1.8-3.0 Mbps source footage to a mushy ~1.5 Mbps.
+
+- **Export fixed** in TRDesk4: `SnippetExporter.run` now pipes frames to
+  `ffmpeg libx264 -crf 16 -preset slow` (single H.264 encode, `+faststart`,
+  q95 thumbnail; mp4v fallback only if ffmpeg is absent). Same cv2 frame loop,
+  so `bbox_data.json` overlay stays frame-aligned.
+- **All 30 live clips re-cut** straight from source via
+  `DesktopML/reexport_snippets_hq.py` (re-cuts the exact `clip_start..clip_end`
+  range; frame counts verified against metadata) and re-uploaded with
+  `scripts/reupload-snippets-hq.ts`. New clips are H.264 High / yuv420p at
+  3.4-8 Mbps (faithful to source; source bitrate is the hard ceiling, not the
+  encoder anymore).
+- Canonical `Fish Spotter Snips` folder on G: was re-exported too, so the
+  source-of-record matches what's live.
+
 ## Storage provider
 
 The Next.js runtime treats `Snippet.videoUrl` and `Snippet.thumbnailUrl` as opaque public URLs — it never imports the storage SDK. Only the seed and migration scripts upload, and they use the abstraction in `scripts/lib/storage.ts` to pick a provider.
@@ -118,6 +140,15 @@ Two providers are supported:
 | `r2` | **$0 forever** | 10GB free, then $0.015/GB | S3-compatible. Recommended once seed grows past ~5GB egress/mo (≈10 active users at 5min/day). |
 
 Select with `STORAGE_PROVIDER=r2` or `STORAGE_PROVIDER=supabase` (omit env var to default to supabase, no behaviour change).
+
+**Current state (10 Jun 2026):** the clips were migrated to R2 earlier, but the
+quality re-cut (see Video / Codec Notes) was shipped from a machine without R2
+creds, so **all 30 snippet rows now point back at Supabase Storage** (HQ). Vercel
+still has `STORAGE_PROVIDER=r2`, so any *new* seed/upload lands on R2 — i.e.
+storage is currently split (30 video rows on Supabase, the old R2 objects are
+now orphaned). To re-consolidate onto R2: put the R2_* creds in `.env.local` and
+run `npx tsx --env-file=.env.local scripts/reupload-snippets-hq.ts --from "<G: Fish Spotter Snips>"`
+with `STORAGE_PROVIDER=r2` (the script is idempotent and cache-busts the DB URLs).
 
 ### Cloudflare R2 setup (one-time)
 
