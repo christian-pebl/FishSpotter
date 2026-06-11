@@ -146,6 +146,36 @@ export const CATALOGUE_ALIASES: AliasEntry[] = Object.entries(CATALOGUE).map(
 );
 
 /**
+ * Resolve a (possibly common/vernacular) name to a catalogue scientific name
+ * using local alias data, or null if it isn't a species the catalogue covers.
+ *
+ * This is the local-first counterpart to the GBIF name match. GBIF's
+ * `species/match` only resolves *scientific* names — it returns NONE for
+ * vernaculars ("common whiting", "juvenile cod") — so common-name staff answers
+ * never resolved through it. The catalogue already pairs every scientific name
+ * with its common name(s), and `species-aliases.json` adds editorial synonyms,
+ * so for any species the product actually covers we can resolve offline and
+ * exactly, reserving GBIF for names outside the catalogue.
+ *
+ * Returns the alias entry's `canonical`, which for both CATALOGUE_ALIASES and
+ * the species-aliases table is the scientific binomial. Coarse shape words
+ * ("crab") are deliberately NOT alias canonicals, so they return null here
+ * rather than being forced onto a species.
+ */
+export function scientificFromLocalName(
+  name: string,
+  aliases: AliasEntry[],
+): string | null {
+  const key = normalizeForMatch(name);
+  if (!key) return null;
+  for (const entry of aliases) {
+    if (normalizeForMatch(entry.canonical) === key) return entry.canonical;
+    if (entry.aliases.some((a) => normalizeForMatch(a) === key)) return entry.canonical;
+  }
+  return null;
+}
+
+/**
  * Builds the normalised-form → shape class lookup used for partial credit.
  *
  * Sources, in precedence order (earlier wins, so a species name is never

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { fetchTopSpeciesForBucket } from "./obis";
 import { bucketFor, type BucketKey } from "./buckets";
 import { normaliseCommonName, resolveCommonName } from "./gbif-match";
+import { CATALOGUE_ALIASES, loadAliases, scientificFromLocalName } from "@/lib/answer-matching";
 
 const CACHE_TTL_DAYS = 90;
 const DEFAULT_THROTTLE_MS = 1100;
@@ -261,17 +262,45 @@ export async function refreshNameMap(opts: {
 
   log(`${distinct.size} distinct staff answers to resolve`);
 
+  // Local-first resolution: the catalogue + alias table already map every
+  // species the product covers to its scientific name, so resolve those
+  // offline and exactly. GBIF's species/match only handles scientific names
+  // (it returns NONE for vernaculars like "juvenile cod"), so it's reserved
+  // as the fallback for names outside the catalogue.
+  const aliasSet = [...CATALOGUE_ALIASES, ...(await loadAliases())];
+
   let attempted = 0;
   let resolved = 0;
   let unresolved = 0;
   let i = 0;
   for (const commonName of distinct) {
     i++;
+    const local = scientificFromLocalName(commonName, aliasSet);
     const existing = await prisma.speciesNameMap.findUnique({ where: { commonName } });
     if (existing) {
+      // Heal a previously-unresolved row if the catalogue can now resolve it
+      // (e.g. after a new alias was seeded). No network call.
+      if (!existing.scientificName && local) {
+        await prisma.speciesNameMap.update({
+          where: { commonName },
+          data: { scientificName: local, source: "catalogue", confidence: "LOCAL" },
+        });
+        resolved++;
+        log(`[${i}/${distinct.size}] "${commonName}" → ${local} (catalogue, healed)`);
+        continue;
+      }
       log(`[${i}/${distinct.size}] "${commonName}" → cached (${existing.scientificName ?? "unresolved"})`);
       if (existing.scientificName) resolved++;
       else unresolved++;
+      continue;
+    }
+    // New name: try the catalogue before spending a GBIF call.
+    if (local) {
+      await prisma.speciesNameMap.create({
+        data: { commonName, scientificName: local, source: "catalogue", confidence: "LOCAL" },
+      });
+      resolved++;
+      log(`[${i}/${distinct.size}] "${commonName}" → ${local} (catalogue)`);
       continue;
     }
     attempted++;

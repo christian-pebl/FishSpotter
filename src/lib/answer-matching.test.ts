@@ -4,6 +4,7 @@ import {
   CATALOGUE_ALIASES,
   isCorrectWithAliases,
   matchWithAliases,
+  scientificFromLocalName,
   POINTS_CORRECT_REF,
   POINTS_PENDING_REF,
   POINTS_INCORRECT,
@@ -212,5 +213,26 @@ describe("buildShapeClassByForm", () => {
   it("maps the coarse shape words to themselves", () => {
     expect(map.get("crab")).toBe("crab");
     expect(map.get("fish")).toBe("fish");
+  });
+});
+
+describe("scientificFromLocalName", () => {
+  it("resolves a common-name alias to the canonical scientific name", () => {
+    expect(scientificFromLocalName("Pollack", ALIASES)).toBe("Pollachius pollachius");
+    expect(scientificFromLocalName("dogfish", ALIASES)).toBe("Scyliorhinus canicula");
+  });
+
+  it("resolves the canonical itself", () => {
+    expect(scientificFromLocalName("Pollachius pollachius", ALIASES)).toBe("Pollachius pollachius");
+  });
+
+  it("is case- and whitespace-insensitive", () => {
+    expect(scientificFromLocalName("  CUCKOO  ", ALIASES)).toBe("Labrus mixtus");
+  });
+
+  it("returns null for names outside the catalogue (incl. coarse words)", () => {
+    expect(scientificFromLocalName("common whiting", ALIASES)).toBeNull();
+    expect(scientificFromLocalName("crab", ALIASES)).toBeNull();
+    expect(scientificFromLocalName("", ALIASES)).toBeNull();
   });
 });
