@@ -167,7 +167,7 @@ export function AnnotatedSpeciesPhoto({
         ))}
       </ol>
       {image.attribution && (
-        <p className="text-[10px] text-white/40">{image.attribution}</p>
+        <p className="text-[10px] text-white/55">{image.attribution}</p>
       )}
     </div>
   );
