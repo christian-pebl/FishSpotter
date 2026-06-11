@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
+import { consensusSummary } from "@/lib/consensus";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -48,7 +49,11 @@ export async function GET(
 
   // After the user has answered, return staffAnswer (which may be null)
   // so the client can distinguish "no reference yet" from "haven't loaded
-  // staff answer yet". hasReference is a convenience flag.
+  // staff answer yet". hasReference is a convenience flag. For no-reference
+  // (community) clips we also return the live consensus state so the reveal can
+  // show "the community is converging on Y" instead of correct/incorrect.
+  // Gated on userHasAnswered so a spotter never sees the crowd's lean before
+  // committing their own guess.
   return NextResponse.json({
     total,
     stats,
@@ -56,6 +61,9 @@ export async function GET(
       ? {
           staffAnswer: snippet.staffAnswer,
           hasReference: snippet.staffAnswer !== null,
+          ...(snippet.staffAnswer === null
+            ? { consensus: consensusSummary(stats, total) }
+            : {}),
         }
       : {}),
   });

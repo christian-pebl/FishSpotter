@@ -89,6 +89,41 @@ export function eligibleGroups(groups: ConsensusGroup[]): ConsensusGroup[] {
   return groups.filter((g) => g.userIds.size >= CONSENSUS_THRESHOLD_USERS);
 }
 
+export type ConsensusSummary = {
+  /** distinct spotters needed to reach consensus */
+  threshold: number;
+  /** distinct spotters who have called this clip so far */
+  spotters: number;
+  /** the option the most spotters agree on, or null if no answers yet */
+  leader: { option: string; users: number } | null;
+  /** has the leading option reached the threshold of distinct spotters? */
+  reached: boolean;
+};
+
+/**
+ * Live consensus state for ONE no-reference snippet, for the reveal UI
+ * ("the community is converging on Y, N of M spotters"). Pure.
+ *
+ * `stats` is the per-option answer histogram for the snippet, sorted
+ * densest-first. Answer carries `@@unique([userId, snippetId])`, so one row per
+ * user per snippet means each option's answer count IS its distinct-spotter
+ * count, and `total` answers == distinct spotters on the clip.
+ */
+export function consensusSummary(
+  stats: Array<{ option: string; count: number }>,
+  totalSpotters: number,
+  threshold: number = CONSENSUS_THRESHOLD_USERS,
+): ConsensusSummary {
+  const top = stats[0];
+  const leader = top ? { option: top.option, users: top.count } : null;
+  return {
+    threshold,
+    spotters: totalSpotters,
+    leader,
+    reached: !!leader && leader.users >= threshold,
+  };
+}
+
 /**
  * Run the rescore against the DB. Idempotent: re-running with no new
  * matchers is a no-op.

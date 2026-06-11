@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { eligibleGroups, groupPendingAnswers } from "./consensus";
+import { consensusSummary, eligibleGroups, groupPendingAnswers } from "./consensus";
 import { CONSENSUS_THRESHOLD_USERS } from "./answer-matching";
 
 function ans(
@@ -95,5 +95,38 @@ describe("eligibleGroups", () => {
     ]);
     expect(eligibleGroups(groups)).toEqual([]);
     expect(groups[0].userIds.size).toBe(2);
+  });
+});
+
+describe("consensusSummary", () => {
+  it("picks the densest option as the leader", () => {
+    const s = consensusSummary(
+      [
+        { option: "Pollack", count: 4 },
+        { option: "Saithe", count: 1 },
+      ],
+      5,
+    );
+    expect(s.leader).toEqual({ option: "Pollack", users: 4 });
+    expect(s.spotters).toBe(5);
+    expect(s.threshold).toBe(CONSENSUS_THRESHOLD_USERS);
+  });
+
+  it("reports reached only at or above the threshold", () => {
+    expect(consensusSummary([{ option: "Cod", count: CONSENSUS_THRESHOLD_USERS }], CONSENSUS_THRESHOLD_USERS).reached).toBe(true);
+    expect(consensusSummary([{ option: "Cod", count: CONSENSUS_THRESHOLD_USERS - 1 }], CONSENSUS_THRESHOLD_USERS - 1).reached).toBe(false);
+  });
+
+  it("handles a clip with no answers yet", () => {
+    const s = consensusSummary([], 0);
+    expect(s.leader).toBeNull();
+    expect(s.reached).toBe(false);
+    expect(s.spotters).toBe(0);
+  });
+
+  it("honours an explicit threshold override", () => {
+    const s = consensusSummary([{ option: "Bib", count: 2 }], 2, 2);
+    expect(s.reached).toBe(true);
+    expect(s.threshold).toBe(2);
   });
 });
