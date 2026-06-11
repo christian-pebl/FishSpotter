@@ -81,3 +81,6 @@ assess-*.log
 .pc-*.txt
 audit-species-images.json
 implementation/2026-06-04/orientation-audit.json
+
+# UI/visual-loop screenshot artifacts (regenerable)
+implementation/**/shots/
