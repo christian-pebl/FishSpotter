@@ -1590,6 +1590,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSkipToMCQ={() => {
             dispatch({ type: "skipToMcq" });
           }}
+          coarse={
+            selectedShape
+              ? (() => {
+                  // Submit the coarse shape class ("Fish") for shape-class credit
+                  // when the user can't get to species. label captured so the
+                  // closure stays type-safe (selectedShape is narrowed here).
+                  const label = SHAPE_CLASS_LABEL[selectedShape];
+                  return {
+                    label: `It's just a ${label}`,
+                    onClick: () =>
+                      void submitAndAdvance(() => handleSubmit({ answerText: label })),
+                  };
+                })()
+              : undefined
+          }
         />
       )}
     </article>

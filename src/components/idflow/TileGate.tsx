@@ -85,6 +85,7 @@ export function TileGate({
   breadcrumb,
   notSure,
   skip,
+  coarse,
   scrollable = false,
   emptyMessage,
   suspendKeyboard = false,
@@ -104,6 +105,10 @@ export function TileGate({
   breadcrumb?: Crumb[];
   notSure?: { label: string; onClick: () => void };
   skip?: { label: string; onClick: () => void };
+  /** A primary "submit the coarse shape class" action ("It's just a Fish"),
+   *  rendered as a full-width button above the notSure/skip row. Lets a user
+   *  who can't get to species commit the shape class for partial credit. */
+  coarse?: { label: string; onClick: () => void };
   /** Wrap the grid in a max-height scroll region (Rung-3 photo grids). */
   scrollable?: boolean;
   /** Shown instead of the grid when there are no tiles. */
@@ -128,6 +133,20 @@ export function TileGate({
   const expandedKeyRef = useRef<string | null>(null);
   expandedKeyRef.current = expandedKey;
   const reduceMotion = useReducedMotion();
+  // Tile lock-in (Spot It rungs): on commit, the tapped tile does a quick
+  // press-and-settle + teal confirm before the gate advances, so a pick reads as
+  // registered rather than the grid vanishing under the finger. reduceMotion
+  // commits instantly (no delay, no scale) so motion-averse users lose nothing.
+  const [committing, setCommitting] = useState<string | null>(null);
+  const commitSelect = (key: string) => {
+    if (committing) return; // lock out double-taps mid-confirm
+    if (reduceMotion) {
+      onSelect(key);
+      return;
+    }
+    setCommitting(key);
+    window.setTimeout(() => onSelect(key), 170);
+  };
   const dialogRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
   const constraintsRef = useRef<HTMLDivElement>(null);
@@ -206,19 +225,29 @@ export function TileGate({
         const hasMedia = !!tile.media;
         return (
           <div key={tile.key} className="flex flex-col gap-1">
-            <button
+            <motion.button
               type="button"
               disabled={isEmpty}
-              onClick={() => onSelect(tile.key)}
+              onClick={() => commitSelect(tile.key)}
               onMouseEnter={() => setHovered(tile.key)}
               onMouseLeave={() => setHovered(null)}
               aria-label={tile.ariaLabel ?? tile.label}
+              animate={
+                committing === tile.key && !reduceMotion
+                  ? { scale: [1, 0.94, 1.04, 1] }
+                  : { scale: 1 }
+              }
+              transition={
+                committing === tile.key && !reduceMotion
+                  ? { duration: 0.2, ease: EASE.enter, times: [0, 0.35, 0.7, 1] }
+                  : { duration: 0 }
+              }
               className={[
                 "relative flex flex-col items-center justify-center rounded-modal border transition-colors",
                 hasMedia ? "gap-1 p-1" : "min-h-[128px] gap-2 p-2.5",
                 isEmpty
                   ? "cursor-not-allowed border-white/10 opacity-35"
-                  : hovered === tile.key
+                  : committing === tile.key || hovered === tile.key
                     ? "border-teal-400 bg-teal-500/20 text-teal-300"
                     : "border-white/15 bg-white/5 text-teal-500 hover:border-teal-400 hover:bg-teal-500/20 hover:text-teal-300",
               ].join(" ")}
@@ -240,7 +269,7 @@ export function TileGate({
                   {tile.badge}
                 </span>
               )}
-            </button>
+            </motion.button>
             {tile.extra}
           </div>
         );
@@ -480,6 +509,20 @@ export function TileGate({
               </div>
             ) : (
               grid
+            )}
+
+            {coarse && (
+              <button
+                type="button"
+                onClick={coarse.onClick}
+                className="mt-3 inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-teal-100 hover:border-teal-400 hover:bg-teal-500/20"
+              >
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+                  <path d="M8 11V7M8 5h.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                  <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4" />
+                </svg>
+                {coarse.label}
+              </button>
             )}
 
             {(notSure || skip) && (

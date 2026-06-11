@@ -68,6 +68,7 @@ export function CandidateGate({
   onBack,
   breadcrumb,
   onSkipToMCQ,
+  coarse,
 }: {
   /** null = "Not sure" at the shape gate: narrow the whole (weighted) catalogue. */
   shapeClass: ShapeClass | null;
@@ -79,6 +80,9 @@ export function CandidateGate({
   onBack?: () => void;
   breadcrumb?: Crumb[];
   onSkipToMCQ?: () => void;
+  /** "It's just a {Fish}" — commit the coarse shape class (FeedCard supplies it
+   *  only when a shape was chosen, i.e. not the "Not sure" whole-catalogue path). */
+  coarse?: { label: string; onClick: () => void };
 }) {
   const candidates = useMemo(
     () =>
@@ -190,6 +194,7 @@ export function CandidateGate({
         // to re-narrow; "Pick from a list" jumps to the full MCQ.
         notSure={onBack ? { label: "None look right", onClick: onBack } : undefined}
         skip={onSkipToMCQ ? { label: "Pick from a list", onClick: onSkipToMCQ } : undefined}
+        coarse={coarse}
       />
       {preview && (
         <SpeciesGuidePopup
