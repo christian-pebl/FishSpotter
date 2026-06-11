@@ -41,7 +41,7 @@ export default async function SpeciesIndexPage() {
   const total = Object.keys(CATALOGUE).length;
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 pb-16 pt-4">
+    <main id="main" tabIndex={-1} className="mx-auto w-full max-w-3xl px-4 pb-16 pt-4">
       <Link
         href="/feed"
         className="inline-flex min-h-[44px] items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted hover:text-teal-600"
@@ -82,7 +82,7 @@ export default async function SpeciesIndexPage() {
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 truncate text-[11px] font-medium text-navy-900" title={s.common}>
+                  <p className="mt-1 line-clamp-2 text-[11px] font-medium leading-tight text-navy-900" title={s.common}>
                     {s.common}
                   </p>
                 </Link>

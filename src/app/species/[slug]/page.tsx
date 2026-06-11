@@ -69,7 +69,7 @@ export default async function SpeciesProfilePage({
   const depthValue = depth ? `${depth.label} (median ${Math.round(depth.medianM)} m)` : "Not recorded";
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 pb-16 pt-4">
+    <main id="main" tabIndex={-1} className="mx-auto w-full max-w-2xl px-4 pb-16 pt-4">
       <Link
         href="/feed"
         className="inline-flex min-h-[44px] items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted hover:text-teal-600"

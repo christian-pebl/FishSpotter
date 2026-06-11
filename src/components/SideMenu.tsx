@@ -48,6 +48,17 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    href: "/species",
+    label: "Species guide",
+    match: (p) => p.startsWith("/species"),
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M8 3.5C6.5 2.6 4.3 2.6 2.7 3.1V12c1.6-.5 3.8-.5 5.3.4 1.5-.9 3.7-.9 5.3-.4V3.1C11.7 2.6 9.5 2.6 8 3.5z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+        <path d="M8 3.5v8.9" stroke="currentColor" strokeWidth="1.4" />
+      </svg>
+    ),
+  },
+  {
     href: "/leaderboard",
     label: "Leaderboard",
     match: (p) => p.startsWith("/leaderboard"),
