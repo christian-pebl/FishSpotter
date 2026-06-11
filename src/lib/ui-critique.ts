@@ -70,8 +70,9 @@ const UI_SCHEMA = {
 } as const;
 
 // The PEBL design system, embedded so Gemini grades against OUR rules, not
-// generic taste. Mirrors CLAUDE.md brand + UI rules.
-const DESIGN_SYSTEM = [
+// generic taste. Mirrors CLAUDE.md brand + UI rules. Exported so the motion
+// critique (src/lib/motion-critique.ts) grades against the same brand bar.
+export const DESIGN_SYSTEM = [
   "PEBL DESIGN SYSTEM (grade against THIS, not generic taste):",
   "- Palette ONLY: teal #3AAFA9, dark-teal #2B7A78, navy #17252A, light-teal #DEF2F1, white #FFFFFF. Off-palette colours are a brand violation.",
   "- Surfaces use a soft card radius (rounded, ~16-20px), pills are fully rounded. Sharp corners on cards are wrong.",
