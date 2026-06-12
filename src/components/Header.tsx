@@ -14,11 +14,11 @@ export function Header() {
   const onFeed = pathname === "/feed";
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // On /feed: render as a transparent overlay so the video fills the viewport.
-  // The top scrim is kept short + light so it never darkens the selection card
-  // floating below it. Elsewhere: a slim solid bar.
+  // On /feed: render as a fully transparent overlay so the video fills the
+  // viewport with no scrim or blur over the top of the clip. The menu button and
+  // logo stay legible via their own text / drop shadows. Elsewhere: slim solid bar.
   const wrapClass = onFeed
-    ? "pointer-events-none absolute inset-x-0 top-0 z-40 bg-gradient-to-b from-black/15 to-transparent pb-1"
+    ? "pointer-events-none absolute inset-x-0 top-0 z-40 pb-1"
     : "relative z-40 border-b border-[color:var(--border)] bg-[color:var(--surface)]/88 backdrop-blur";
 
   return (
