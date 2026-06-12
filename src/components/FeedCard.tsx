@@ -816,7 +816,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             centred play affordance and the bbox trail. */}
         {(snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
           <div
-            className="pointer-events-none absolute left-3 z-10 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/10 bg-navy-900/85 px-3 py-1.5 text-[11px] font-medium text-white shadow-menu"
+            className="pointer-events-none absolute left-3 z-10 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/15 bg-navy-900 px-3 py-1.5 text-[11px] font-medium text-white"
             style={{ top: "calc(env(safe-area-inset-top, 0px) + 3.5rem)" }}
           >
             {snippet.depthM != null && (
