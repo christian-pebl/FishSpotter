@@ -1,9 +1,9 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 // Accept only same-origin relative paths: must start with "/" and not "//"
 // (protocol-relative URLs like //evil.com would otherwise pass through to
@@ -30,6 +30,28 @@ function PwReqMark({ met }: { met: boolean }) {
   );
 }
 
+// Brand glyphs for the OAuth buttons. Recognisable logos, not decorative UI
+// icons, so the multi-colour Google G is intentional (and the colour carries
+// no information — the label says which provider).
+function GoogleGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true" className="shrink-0">
+      <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92a8.78 8.78 0 0 0 2.68-6.62z" />
+      <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.81.54-1.85.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.92v2.33A9 9 0 0 0 9 18z" />
+      <path fill="#FBBC05" d="M3.97 10.72a5.41 5.41 0 0 1 0-3.44V4.95H.92a9 9 0 0 0 0 8.1l3.05-2.33z" />
+      <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.46 3.44 1.35l2.58-2.59A9 9 0 0 0 .92 4.95L3.97 7.3C4.68 5.17 6.66 3.58 9 3.58z" />
+    </svg>
+  );
+}
+
+function AppleGlyph() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" className="shrink-0">
+      <path d="M11.18 8.46c-.02-1.7 1.39-2.52 1.45-2.56-.79-1.16-2.02-1.32-2.46-1.34-1.05-.11-2.04.62-2.57.62-.53 0-1.34-.6-2.2-.59-1.13.02-2.18.66-2.76 1.67-1.18 2.05-.3 5.08.85 6.74.56.81 1.23 1.72 2.11 1.69.85-.03 1.17-.55 2.2-.55 1.02 0 1.31.55 2.2.53.91-.02 1.49-.83 2.05-1.64.65-.94.92-1.85.93-1.9-.02-.01-1.78-.69-1.8-2.72zM9.5 3.6c.47-.57.79-1.36.7-2.15-.68.03-1.5.45-1.98 1.02-.43.5-.81 1.3-.71 2.07.76.06 1.53-.39 2-.94z" />
+    </svg>
+  );
+}
+
 function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,6 +72,27 @@ function SignInForm() {
     callbackUrl !== "/feed" && searchParams.get("isSignUp") !== "1";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  // One-tap providers, surfaced only when configured server-side (Google/Apple
+  // are env-gated in lib/auth.ts). If none are set, the block renders nothing
+  // and the email/password form is the whole page — no empty "or" divider.
+  const [oauthProviders, setOauthProviders] = useState<{ id: string; name: string }[]>([]);
+  useEffect(() => {
+    let active = true;
+    getProviders()
+      .then((p) => {
+        if (!p || !active) return;
+        const wanted = ["google", "apple"];
+        setOauthProviders(
+          Object.values(p)
+            .filter((prov) => wanted.includes(prov.id))
+            .map((prov) => ({ id: prov.id, name: prov.name })),
+        );
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,6 +159,26 @@ function SignInForm() {
               Join the PEBL marine monitoring community to submit identifications, track your streak, and contribute to the shared observation record.
             </p>
           )}
+        {oauthProviders.length > 0 && (
+          <div className="mb-6 space-y-2">
+            {oauthProviders.map((prov) => (
+              <button
+                key={prov.id}
+                type="button"
+                onClick={() => signIn(prov.id, { callbackUrl })}
+                className="inline-flex w-full items-center justify-center gap-2.5 min-h-[44px] rounded-full border border-navy-900/15 bg-white px-4 py-3 text-sm font-semibold text-navy-900 transition-colors hover:bg-[color:var(--surface-muted)]"
+              >
+                {prov.id === "google" ? <GoogleGlyph /> : <AppleGlyph />}
+                Continue with {prov.name}
+              </button>
+            ))}
+            <div className="flex items-center gap-3 pt-2 text-xs text-navy-900/45">
+              <span className="h-px flex-1 bg-navy-900/10" />
+              or use email
+              <span className="h-px flex-1 bg-navy-900/10" />
+            </div>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-navy-900">

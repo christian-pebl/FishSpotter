@@ -576,14 +576,19 @@ export function TileGate({
       <AnimatePresence>
         {minimized && (
           <div
-            className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center"
-            style={{ paddingBottom: `max(1rem, env(safe-area-inset-bottom))` }}
+            className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-end"
+            style={{
+              paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
+              paddingRight: `max(1rem, env(safe-area-inset-right))`,
+            }}
           >
             <motion.div
               className="pointer-events-auto relative"
-              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.3, y: 40 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.3, y: 40 }}
+              // Tucks into the bottom-right corner (scales up while sliding in
+              // from down-and-right), clear of the bottom-left depth/location HUD.
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.3, x: 28, y: 28 }}
+              animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.3, x: 28, y: 28 }}
               transition={reduceMotion ? { duration: 0 } : { duration: 0.24, ease: EASE.enter }}
             >
               <button

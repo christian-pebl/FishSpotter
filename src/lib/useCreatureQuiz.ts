@@ -11,66 +11,71 @@ import { triggerCorrectConfetti } from "@/lib/confetti";
 // the streak sound is a comparison on the server-authoritative result
 // (no race when several cards mount at once).
 
-// S2-T10: shared sessionStorage key for the anonymous-answer carry.
-// Anonymous user picks a candidate (or types one) → we stash the
-// {snippetId, chosenOption} here and bounce them to /auth/signin. On
-// return to /feed, useCreatureQuiz checks if the stash matches the
-// currently-mounted snippet and auto-submits. Cleared after one shot.
-const PENDING_ANSWER_KEY = "fishspotter:pendingAnswer";
-
-const PENDING_ANSWER_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+// P0 "play before the wall": signed-out spotters now get the REAL reveal
+// locally (via the read-only /api/answers/preview), instead of being bounced to
+// signup on their first guess. Every guest guess is queued here so that, when
+// they DO sign up, all of them are carried in and persisted (this replaces the
+// old single-answer S2-T10 sessionStorage stash). localStorage so the queue
+// survives a tab close and a return within the day.
+const GUEST_QUEUE_KEY = "fishspotter:guestAnswers";
+const GUEST_ANSWER_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+const GUEST_QUEUE_MAX = 50; // cap so a long guest run can't bloat storage
 
 interface PendingAnswer {
   snippetId: string;
   chosenOption: string;
-  timestamp?: number;
+  timestamp: number;
 }
 
-function readPendingAnswer(): PendingAnswer | null {
-  if (typeof window === "undefined") return null;
+function readGuestQueue(): PendingAnswer[] {
+  if (typeof window === "undefined") return [];
   try {
-    const raw = window.sessionStorage.getItem(PENDING_ANSWER_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as Partial<PendingAnswer>;
-    if (
-      typeof parsed?.snippetId === "string" &&
-      typeof parsed?.chosenOption === "string"
-    ) {
-      // Drop stale entries (older than 24 h).
-      if (
-        typeof parsed.timestamp === "number" &&
-        Date.now() - parsed.timestamp > PENDING_ANSWER_MAX_AGE_MS
-      ) {
-        window.sessionStorage.removeItem(PENDING_ANSWER_KEY);
-        return null;
-      }
-      return { snippetId: parsed.snippetId, chosenOption: parsed.chosenOption, timestamp: parsed.timestamp };
-    }
+    const raw = window.localStorage.getItem(GUEST_QUEUE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    const now = Date.now();
+    return parsed.filter(
+      (e): e is PendingAnswer =>
+        !!e &&
+        typeof e.snippetId === "string" &&
+        typeof e.chosenOption === "string" &&
+        typeof e.timestamp === "number" &&
+        now - e.timestamp <= GUEST_ANSWER_MAX_AGE_MS,
+    );
   } catch {
     // Ignore malformed values; we'll just skip the carry.
-  }
-  return null;
-}
-
-function clearPendingAnswer(): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.sessionStorage.removeItem(PENDING_ANSWER_KEY);
-  } catch {
-    // ignore
+    return [];
   }
 }
 
-function stashPendingAnswer(snippetId: string, chosenOption: string): void {
+function writeGuestQueue(list: PendingAnswer[]): void {
   if (typeof window === "undefined") return;
   try {
-    window.sessionStorage.setItem(
-      PENDING_ANSWER_KEY,
-      JSON.stringify({ snippetId, chosenOption, timestamp: Date.now() }),
+    window.localStorage.setItem(
+      GUEST_QUEUE_KEY,
+      JSON.stringify(list.slice(-GUEST_QUEUE_MAX)),
     );
   } catch {
     // ignore — non-essential
   }
+}
+
+// Add (or replace) the guess for a snippet; returns the new queue length so the
+// caller can drive the "save your N finds" nudge.
+function pushGuestAnswer(snippetId: string, chosenOption: string): number {
+  const list = readGuestQueue().filter((e) => e.snippetId !== snippetId);
+  list.push({ snippetId, chosenOption, timestamp: Date.now() });
+  writeGuestQueue(list);
+  return Math.min(list.length, GUEST_QUEUE_MAX);
+}
+
+function guestAnswerFor(snippetId: string): PendingAnswer | null {
+  return readGuestQueue().find((e) => e.snippetId === snippetId) ?? null;
+}
+
+function removeGuestAnswer(snippetId: string): void {
+  writeGuestQueue(readGuestQueue().filter((e) => e.snippetId !== snippetId));
 }
 
 interface SnippetForQuiz {
@@ -113,6 +118,17 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const [submitting, setSubmitting] = useState(false);
   const [answerText, setAnswerTextState] = useState("");
   const [submitError, setSubmitError] = useState("");
+  // P0: how many clips this signed-out spotter has played (drives the "save
+  // your finds" nudge). Seeded from the persisted guest queue on mount.
+  const [guestAnswerCount, setGuestAnswerCount] = useState(0);
+  useEffect(() => {
+    setGuestAnswerCount(readGuestQueue().length);
+  }, []);
+  // Sign-up link for the guest nudge — returns to the feed so the queued
+  // guesses drain and persist on arrival.
+  const signUpHref = `/auth/signin?isSignUp=1&callbackUrl=${encodeURIComponent(
+    signInCallbackUrl ?? "/feed",
+  )}`;
 
   // S2-T09: dedupe celebration effects (confetti + correct sound). One
   // burst per (user, snippet) per session, regardless of edit-resubmit
@@ -152,33 +168,28 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     if (myAnswer) loadStats();
   }, [myAnswer, loadStats]);
 
-  // S2-T10: rehydrate the pending anonymous answer on return from
-  // signin. The carry is consumed exactly once — even if the user
-  // navigates to a different snippet first, we drop the stash so we
-  // don't auto-submit on the wrong card later.
+  // P0: on auth, carry in the guest guess for THIS snippet — submit it via the
+  // authed path so it's persisted + scored, then drop it from the queue. Each
+  // mounted card drains its own entry, so a whole guest session is backfilled.
+  // (Once the feed windows cards — P2 — a central drain on auth would be more
+  // robust; today every card mounts so per-card draining covers the queue.)
   const rehydratedRef = useRef(false);
   useEffect(() => {
     if (rehydratedRef.current) return;
     if (!session?.user?.id) return;
     if (myAnswer) {
-      // Already answered (server has a row) — drop any stale stash
-      // so it doesn't fire later on a different mount.
-      clearPendingAnswer();
+      // Already persisted — drop any stale queued guess for this snippet.
+      removeGuestAnswer(snippet.id);
       rehydratedRef.current = true;
       return;
     }
-    const pending = readPendingAnswer();
+    const pending = guestAnswerFor(snippet.id);
     if (!pending) {
       rehydratedRef.current = true;
       return;
     }
-    if (pending.snippetId !== snippet.id) {
-      // Mismatch — leave the stash in place. The matching card mount
-      // will consume it.
-      return;
-    }
     // Consume immediately so a slow submit doesn't race a second mount.
-    clearPendingAnswer();
+    removeGuestAnswer(snippet.id);
     rehydratedRef.current = true;
     void handleSubmit({ answerText: pending.chosenOption });
     // handleSubmit is intentionally not a dep — referencing it here
@@ -193,24 +204,59 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   }, []);
 
   const handleSubmit = useCallback(async (options?: SubmitOptions) => {
-    if (!session?.user) {
-      // S2-T10: stash the typed/tapped answer so it survives the signin
-      // round-trip. Callback URL forces them back to the same snippet
-      // so the auto-submit on return targets the right card.
-      const pendingOption = (options?.answerText ?? answerText).trim();
-      if (pendingOption) {
-        stashPendingAnswer(snippet.id, pendingOption);
-      }
-      const target = signInCallbackUrl ?? `/feed/${snippet.id}`;
-      // A first-time spotter who just submitted an ID almost never has an
-      // account yet, so default the bounce to the sign-UP form (the page has a
-      // toggle for returning users who signed out). Avoids landing newcomers on
-      // a password sign-in for an account that does not exist.
-      window.location.href = `/auth/signin?callbackUrl=${encodeURIComponent(target)}&isSignUp=1`;
-      return false;
-    }
+    // Wait for the session to resolve so a submit in the brief loading window
+    // isn't mis-routed (guest preview vs authed persist).
+    if (status === "loading") return false;
+
     const option = (options?.answerText ?? answerText).trim();
     if (!option) return false;
+
+    // P0 "play before the wall": a signed-out spotter gets the REAL reveal
+    // locally — graded by the public, read-only /api/answers/preview (no DB
+    // write) — and the guess is queued for carry-in on signup. No bounce: the
+    // reward lands before we ever ask for an account.
+    if (!session?.user) {
+      setSubmitting(true);
+      setSubmitError("");
+      try {
+        const res = await fetch("/api/answers/preview", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ snippetId: snippet.id, chosenOption: option }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setSubmitError(data.error ?? "Could not check that answer.");
+          return false;
+        }
+        const isCorrect: boolean | null = data.isCorrect ?? null;
+        const points: number = data.points ?? 0;
+        setMyAnswer({ chosenOption: option, isCorrect, points });
+        // Guests don't get the per-user-gated stats route (no Answer row), so
+        // the preview response carries the full reveal payload directly.
+        setStats({
+          total: data.total ?? 0,
+          stats: data.stats ?? [],
+          staffAnswer: data.staffAnswer ?? null,
+          hasReference: data.hasReference ?? false,
+        });
+        setAnswerTextState(option);
+        if (isCorrect === true) {
+          if (!celebratedSnippetIds.current.has(snippet.id)) {
+            celebratedSnippetIds.current.add(snippet.id);
+            playCorrect();
+            triggerCorrectConfetti();
+          }
+        } else if (isCorrect === false && points === 0) {
+          playWrong();
+        }
+        setGuestAnswerCount(pushGuestAnswer(snippet.id, option));
+        return true;
+      } finally {
+        setSubmitting(false);
+      }
+    }
+
     setSubmitting(true);
     setSubmitError("");
     try {
@@ -269,7 +315,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     } finally {
       setSubmitting(false);
     }
-  }, [session?.user, answerText, snippet.id, signInCallbackUrl, loadStats]);
+  }, [status, session?.user, answerText, snippet.id, loadStats]);
 
   // Flip back to the input view so the user can correct their previous answer.
   // The API route already upserts on (userId, snippetId), so a resubmit
@@ -304,5 +350,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     loadMyAnswer,
     loadStats,
     setEditFocusCallback,
+    guestAnswerCount,
+    signUpHref,
   };
 }

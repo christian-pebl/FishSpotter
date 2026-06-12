@@ -178,6 +178,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
   // One-time discoverability nudge for "tap the clip to identify".
   const [showTapHint, setShowTapHint] = useState(false);
+  // Latches true the first time the user taps to identify on this card. Before
+  // that the idle clip just shows the "Tap to name species" prompt; after it,
+  // the depth/location/date HUD appears bottom-left (and the prompt retires).
+  const [hasTappedIdentify, setHasTappedIdentify] = useState(false);
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   // Surfaced by RarityPanel once /api/snippets/[id]/probability resolves.
   // Used by the inline SpeciesGallery in the reveal card (S2-T08) so we
@@ -402,6 +406,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     handleSubmit,
     editAnswer,
     setEditFocusCallback,
+    guestAnswerCount,
+    signUpHref,
   } = useCreatureQuiz(snippet, "/feed");
 
   // S2-T09: tell the hook how to refocus the input on edit. Only used
@@ -769,47 +775,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           className="absolute inset-0 w-full h-full object-contain focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
           style={{ filter: videoFilterFor(settings) }}
         />
-        {/* Depth + location + date chip (Anjali feedback: surface where/how deep
-            the clip was filmed). Read-only HUD; pointer-events-none so it never
-            blocks the tap-to-identify catcher. Sits top-left, clear of the
-            centred play affordance and the bbox trail. */}
-        {(snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
-          <div
-            className="pointer-events-none absolute left-3 z-10 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/15 bg-navy-900 px-3 py-1.5 text-[11px] font-medium text-white"
-            style={{ top: "calc(env(safe-area-inset-top, 0px) + 3.5rem)" }}
-          >
-            {snippet.depthM != null && (
-              <span className="inline-flex items-center gap-1">
-                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
-                  <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                </svg>
-                {Math.round(snippet.depthM)} m
-              </span>
-            )}
-            {snippet.site && (
-              <span className="inline-flex items-center gap-1">
-                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
-                  <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-                  <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
-                </svg>
-                {snippet.site}
-              </span>
-            )}
-            {(() => {
-              const d = snippet.recordingDatetime ? new Date(snippet.recordingDatetime) : null;
-              return d && !Number.isNaN(d.getTime()) ? (
-                <span className="inline-flex items-center gap-1">
-                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
-                    <rect x="2.5" y="3" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
-                    <path d="M2.5 6.5h11M6 1.5v3M10 1.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                  </svg>
-                  {d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
-                </span>
-              ) : null;
-            })()}
-          </div>
-        )}
+        {/* Depth + location + date HUD has moved out of the top-left to the
+            bottom-left (below the progress bar), and only appears after the
+            first identify tap — see the metadata block just below the video
+            frame. Keeps the idle clip clean: just "Tap to name species". */}
         {/* Playback progress bar — pulses on loop so the reset moment is visible */}
         {hasBboxes && (
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
@@ -854,6 +823,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               aria-label="Identify this species"
               onClick={() => {
                 setShowTapHint(false);
+                setHasTappedIdentify(true);
                 togglePanel(false);
                 dispatch({ type: "openShapeGate" });
                 try {
@@ -959,6 +929,54 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         )}
       </div>
 
+      {/* Depth + location + date HUD — bottom-left, BELOW the progress bar, and
+          only after the first identify tap (idle clips stay clean). Left-aligned
+          and right-inset so it never collides with the minimized "magnifier"
+          dock bubble that now tucks into the bottom-right corner. */}
+      {(hasTappedIdentify || !!myAnswer) &&
+        (snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
+          <motion.div
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={TRANSITION.standard}
+            className="pointer-events-none absolute bottom-0 left-0 z-20 flex h-14 max-w-[calc(100%-4.5rem)] items-center pl-3 pr-2"
+            style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+          >
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/15 bg-navy-900/95 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur">
+              {snippet.depthM != null && (
+                <span className="inline-flex items-center gap-1">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
+                    <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                  </svg>
+                  {Math.round(snippet.depthM)} m
+                </span>
+              )}
+              {snippet.site && (
+                <span className="inline-flex items-center gap-1">
+                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
+                    <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                    <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+                  </svg>
+                  {snippet.site}
+                </span>
+              )}
+              {(() => {
+                const d = snippet.recordingDatetime ? new Date(snippet.recordingDatetime) : null;
+                return d && !Number.isNaN(d.getTime()) ? (
+                  <span className="inline-flex items-center gap-1">
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
+                      <rect x="2.5" y="3" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
+                      <path d="M2.5 6.5h11M6 1.5v3M10 1.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                    </svg>
+                    {d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
+                  </span>
+                ) : null;
+              })()}
+            </div>
+          </motion.div>
+        )}
+
       {/* Soft bottom gradient so the floating panel always reads over the video.
           Desktop centres the panel mid-screen so the bottom gradient just
           obscures the seabed — only render it on mobile, and keep it
@@ -973,7 +991,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {/* Collapsed pill — replaces the panel when minimized. Also hidden while a
           gate is open so the gate is the only box on screen. */}
       <AnimatePresence>
-        {panelCollapsed && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
+        {panelCollapsed && !hasTappedIdentify && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
           <motion.div
             key="identify-bar"
             initial={reduceMotion ? false : { opacity: 0, y: 12 }}
@@ -987,6 +1005,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             <button
               type="button"
               onClick={() => {
+                setHasTappedIdentify(true);
                 togglePanel(false);
                 // Lead with the step-by-step shape flow, not the MCQ tiles.
                 if (!myAnswer && !guessMode && !spotItActive && !bodyGateOpen) dispatch({ type: "openShapeGate" });
@@ -1002,9 +1021,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M2 8c2-3 5-4 8-4 1.6 0 2.8.4 3.8 1.1l1.7-1V11l-1.7-1c-1 .7-2.2 1.1-3.8 1.1-3 0-6-1-8-3z" />
                 <circle cx="10" cy="7" r="0.9" fill="#17252A" />
               </svg>
-              {hasCompletedFirstLoop || userHasExpandedManually
-                ? "Name this species"
-                : "Watching… tap to identify"}
+              Tap to name species
               <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true" className="text-teal-300">
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -1230,13 +1247,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
                   {status !== "loading" && !session && !showInputHint && (
                     <p className="pb-1.5 text-xs text-white/70">
+                      You&apos;re spotting as a guest.{" "}
                       <Link
-                        href={`/auth/signin?callbackUrl=${encodeURIComponent(`/feed/${snippet.id}`)}`}
+                        href={signUpHref}
                         className="text-teal-50 underline underline-offset-2"
                       >
-                        Sign in
+                        Sign up
                       </Link>{" "}
-                      to save your answer and streak.
+                      to save your finds and streak.
                     </p>
                   )}
                   {status !== "loading" && (
@@ -1374,6 +1392,29 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </>
                       );
                     })()}
+                    {/* P0: guest "play before the wall" — the reveal lands
+                        first, THEN a soft, non-blocking ask to save it. The
+                        guesses are already queued locally and carry in on
+                        signup, so nothing is lost. */}
+                    {status !== "loading" && !session && (
+                      <div className="mt-3 rounded-modal border border-teal-500/30 bg-teal-500/10 p-3">
+                        <p className="text-sm font-semibold text-teal-50">
+                          {guestAnswerCount >= 3
+                            ? `${guestAnswerCount} clips spotted as a guest`
+                            : "Nice spot!"}
+                        </p>
+                        <p className="mt-0.5 text-xs text-white/70">
+                          Create a free profile to keep your finds
+                          {guestAnswerCount > 0 ? ` (${guestAnswerCount} so far)` : ""}, build a streak, and join the leaderboard.
+                        </p>
+                        <Link
+                          href={signUpHref}
+                          className="mt-2 inline-flex min-h-[44px] items-center justify-center rounded-full bg-teal-500 px-4 py-2 text-xs font-semibold text-navy-900 transition-colors hover:bg-teal-400"
+                        >
+                          Save my finds — sign up free
+                        </Link>
+                      </div>
+                    )}
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}

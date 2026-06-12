@@ -11,7 +11,11 @@ import { useEffect, useRef, useState } from "react";
 type Stat = { value: number; label: string; suffix?: string };
 
 function useCountUp(target: number, run: boolean, durationMs = 1100) {
-  const [n, setN] = useState(0);
+  // Baseline is the REAL value, so the server render, no-JS clients, crawlers,
+  // link-preview bots, and a never-firing observer all show the true number —
+  // never a dead 0. The count-up is a pure enhancement that only runs once
+  // `run` flips true (the band scrolled into view from below); see StatsBand.
+  const [n, setN] = useState(target);
   useEffect(() => {
     if (!run) return;
     const reduced =
@@ -31,6 +35,9 @@ function useCountUp(target: number, run: boolean, durationMs = 1100) {
       setN(Math.round(eased * target));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
+    // Sweep up from 0 for the animation; safe because we only reach here when
+    // the band entered view from off-screen (the user hadn't seen the number).
+    setN(0);
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [target, run, durationMs]);
@@ -44,6 +51,11 @@ export function StatsBand({ clips, species, spotters, speciesLabel = "species to
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Already visible at mount (e.g. short viewport / desktop above-the-fold)?
+    // Leave the real numbers the server rendered — kicking off the count-up
+    // would flash them down to 0 first. The animation is reserved for when the
+    // band is genuinely scrolled INTO view from below.
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
