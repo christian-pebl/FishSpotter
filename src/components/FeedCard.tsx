@@ -25,16 +25,8 @@ const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const TRACE_POINT_LIMIT = 40;
 // Bbox smoothing — lower = smoother trail, slightly more lag.
 const BBOX_SMOOTH_ALPHA = 0.15;
-// Camera follow — fish stays within deadzone, beyond which the view eases.
-const CAM_DEADZONE_X = 0.18;
-const CAM_DEADZONE_Y = 0.18;
-const CAM_FOLLOW = 0.06;
 // Min pixel delta before pushing a new point into the trail buffer.
 const TRAIL_MIN_STEP_PX = 3;
-// Edge cropping — keep the bbox at least this much (% of viewport) from any edge.
-const SAFE_MARGIN = 0.06;
-// Per-frame cap on edge-clamp camera push to avoid jolts (% of overflow).
-const MAX_EDGE_PUSH = 0.04;
 // Reset-fade duration when the video loops, in ms.
 const LOOP_FADE_MS = 180;
 
@@ -512,10 +504,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     // follows the camera correctly during pans.
     let worldPoints: Point[] = [];
     let smoothedNorm: Point | null = null;
-    let camX = 0.5;
-    let camY = 0.5;
-    let lastCamXStr = "";
-    let lastCamYStr = "";
     let prevTime = 0;
     let resetUntil = 0;
     let lastViewW = 0;
@@ -555,61 +543,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       const vh = video.videoHeight;
       if (!cw || !ch || !vw || !vh) return;
 
-      const scale = Math.max(cw / vw, ch / vh);
+      // object-contain shows the WHOLE frame (no crop, no digital-zoom upscale),
+      // centred with letterbox bars, so the creature is always in view: there is
+      // no pan-to-follow and the fish can't be pushed off a cropped edge. The
+      // trail projects straight onto the letterboxed video via the centre offset.
+      const scale = Math.min(cw / vw, ch / vh);
       const renderedWidth = vw * scale;
       const renderedHeight = vh * scale;
-      const overflowX = Math.max(0, renderedWidth - cw);
-      const overflowY = Math.max(0, renderedHeight - ch);
+      const offsetX = (cw - renderedWidth) / 2;
+      const offsetY = (ch - renderedHeight) / 2;
 
       const cxNorm = bbox.x_norm + bbox.w_norm / 2;
       const cyNorm = bbox.y_norm + bbox.h_norm / 2;
-
-      // --- Deadzone follow (normalized) ---
-      const dx = cxNorm - camX;
-      const dy = cyNorm - camY;
-      if (Math.abs(dx) > CAM_DEADZONE_X) {
-        const want = cxNorm - Math.sign(dx) * CAM_DEADZONE_X;
-        camX = clamp01(camX + (want - camX) * CAM_FOLLOW);
-      }
-      if (Math.abs(dy) > CAM_DEADZONE_Y) {
-        const want = cyNorm - Math.sign(dy) * CAM_DEADZONE_Y;
-        camY = clamp01(camY + (want - camY) * CAM_FOLLOW);
-      }
-
-      // --- Edge clamp (pixel-space) so the bbox never crosses the safe margin ---
-      if (overflowX > 0) {
-        const halfW = (bbox.w_norm * renderedWidth) / 2;
-        const safeX = cw * SAFE_MARGIN;
-        const camXMax = (cxNorm * renderedWidth - halfW - safeX) / overflowX;
-        const camXMin = (cxNorm * renderedWidth + halfW - cw + safeX) / overflowX;
-        if (camXMin <= camXMax) {
-          const desired = Math.min(Math.max(camX, camXMin), camXMax);
-          const delta = desired - camX;
-          const limited = Math.sign(delta) * Math.min(Math.abs(delta), MAX_EDGE_PUSH);
-          camX = clamp01(camX + limited);
-        }
-      }
-      if (overflowY > 0) {
-        const halfH = (bbox.h_norm * renderedHeight) / 2;
-        const safeY = ch * SAFE_MARGIN;
-        const camYMax = (cyNorm * renderedHeight - halfH - safeY) / overflowY;
-        const camYMin = (cyNorm * renderedHeight + halfH - ch + safeY) / overflowY;
-        if (camYMin <= camYMax) {
-          const desired = Math.min(Math.max(camY, camYMin), camYMax);
-          const delta = desired - camY;
-          const limited = Math.sign(delta) * Math.min(Math.abs(delta), MAX_EDGE_PUSH);
-          camY = clamp01(camY + limited);
-        }
-      }
-
-      // --- Write objectPosition only on visible change ---
-      const xStr = (camX * 100).toFixed(1);
-      const yStr = (camY * 100).toFixed(1);
-      if (xStr !== lastCamXStr || yStr !== lastCamYStr) {
-        video.style.objectPosition = `${xStr}% ${yStr}%`;
-        lastCamXStr = xStr;
-        lastCamYStr = yStr;
-      }
 
       // --- ViewBox only when size changes ---
       if (cw !== lastViewW || ch !== lastViewH) {
@@ -644,10 +589,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       overlay.style.opacity = inReset ? "0" : "1";
       if (inReset) return;
 
-      // --- Project entire trail with CURRENT camera (fixes pan lag) ---
+      // --- Project the normalized trail onto the letterboxed (contained) video ---
       const screenPoints: Point[] = worldPoints.map((p) => ({
-        x: -overflowX * camX + p.x * renderedWidth,
-        y: -overflowY * camY + p.y * renderedHeight,
+        x: offsetX + p.x * renderedWidth,
+        y: offsetY + p.y * renderedHeight,
       }));
 
       // (3 Jun) Track the trail head so the "Show where on screen" ping can
@@ -777,6 +722,20 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           (bbox trail, progress, paused, fade) live in this container, so they
           inset together and stay aligned. */}
       <div className="absolute inset-x-0 top-0 bottom-14 overflow-hidden bg-black">
+        {/* Blurred poster fill behind the (now object-contain) video: the full
+            portrait frame letterboxes in a taller viewport, so this turns the
+            bars into an ambient extension of the scene instead of dead black.
+            Decorative, sits behind the video + every overlay, and is
+            pointer-events-none so it never intercepts the tap-to-identify
+            catcher. Reuses the already-loaded poster, so no extra fetch. */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- decorative scaled+blurred backdrop; next/image adds nothing here */}
+        <img
+          src={snippet.thumbnailUrl}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover blur-2xl brightness-50"
+        />
         <video
           ref={videoRef}
           {...(preload ? { src: snippet.videoUrl } : {})}
@@ -807,7 +766,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               }
             }
           }}
-          className="absolute inset-0 w-full h-full object-cover focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
+          className="absolute inset-0 w-full h-full object-contain focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#DEF2F1]"
           style={{ filter: videoFilterFor(settings) }}
         />
         {/* Depth + location + date chip (Anjali feedback: surface where/how deep
