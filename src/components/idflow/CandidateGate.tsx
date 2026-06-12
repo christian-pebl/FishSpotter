@@ -14,7 +14,8 @@
  *    body-form (or shape-class) silhouette so a tile is never empty.
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import {
   narrowCandidates,
   speciesValuesFor,
@@ -41,6 +42,44 @@ const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 // keeps the most probable species. The "Pick from a list" fallback covers the
 // rest.
 const MAX_TILES = 24;
+
+/** Rung-3 photo tile media: a lazy <img> that starts transparent and fades to
+ * full opacity over ~180ms (≈ DURATION.micro) once the image actually paints,
+ * so tiles "pop in" as their photos arrive instead of snapping. Pure CSS
+ * opacity transition driven by an onLoad flag — GPU-friendly, no layout. The
+ * fade is gated by reduced motion: opted-out users get the photo at opacity 1
+ * immediately, losing only the flourish. Silhouette / line-art fallbacks use
+ * the existing path and are unaffected. */
+function TilePhoto({ src }: { src: string }) {
+  const reduce = useReducedMotion();
+  const [loaded, setLoaded] = useState(false);
+
+  // A cached image can finish loading before React attaches onLoad (notably on
+  // a remount), which would strand it at opacity 0. The ref callback checks
+  // img.complete on mount and reveals it synchronously in that case.
+  const onRef = useCallback((img: HTMLImageElement | null) => {
+    if (img?.complete) setLoaded(true);
+  }, []);
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      ref={onRef}
+      src={src}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      onLoad={() => setLoaded(true)}
+      className={[
+        "h-full w-full object-cover",
+        // duration-[180ms] mirrors DURATION.micro (0.18s); CSS can't import the
+        // JS token, so it's inlined here with this note.
+        reduce ? "opacity-100" : "opacity-0 transition-opacity duration-[180ms] ease-out",
+        loaded ? "opacity-100" : "",
+      ].join(" ")}
+    />
+  );
+}
 
 /** The best simple silhouette for a species when it has no cached photo:
  * its body-form silhouette, else its shape-class silhouette, else none. */
@@ -146,14 +185,7 @@ export function CandidateGate({
       ariaLabel: `Pick ${c.commonName}`,
       disabled: submitting,
       media: photo ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={photo}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-cover"
-        />
+        <TilePhoto src={photo} />
       ) : sil ? (
         <span className="flex h-full w-full items-center justify-center p-3 text-teal-500/45">
           <MaskSilhouette src={sil} />

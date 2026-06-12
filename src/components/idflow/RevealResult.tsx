@@ -23,6 +23,7 @@ import { motion, type Variants } from "framer-motion";
 import { DURATION, EASE } from "@/lib/motion";
 import { normalizeAnswer } from "@/lib/normalize-answer";
 import { resolvePeblId } from "@/data/pebl-ids";
+import { CorrectFishSwim } from "./CorrectFishSwim";
 
 export type RevealStatsItem = { option: string; count: number; percent: number };
 
@@ -86,7 +87,14 @@ export function RevealResult({
       };
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="pb-1">
+    <motion.div variants={container} initial="hidden" animate="show" className="relative pb-1">
+      {/* Correct-only line-fish swim-by: a faint, behind-the-text flourish that
+          darts across once and self-unmounts. Mounted only on a correct call so
+          it never plays on a miss/pending; it does not touch the staggered
+          reveal or the confetti (both above), and renders nothing under reduced
+          motion. */}
+      {isCorrect === true && <CorrectFishSwim reduceMotion={reduceMotion} />}
+
       {/* Verdict headline (aria-live announces the outcome; icons + text so the
           result never depends on colour alone). */}
       <motion.p
