@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { timingSafeEqual } from "crypto";
+import { isAuthorisedCron } from "@/lib/cron-auth";
 import { prisma } from "@/lib/prisma";
 import { refreshSpeciesImages } from "@/lib/biodiversity/refresh-images";
 
@@ -13,22 +13,8 @@ export const maxDuration = 60;
 const MAX_SPECIES_PER_RUN = 12;
 const BUDGET_MS = 50_000;
 
-function authorised(req: Request): boolean {
-  const expected = process.env.CRON_SECRET;
-  if (!expected) return false;
-  const header = req.headers.get("authorization") ?? "";
-  const a = Buffer.from(header);
-  const b = Buffer.from(`Bearer ${expected}`);
-  if (a.length !== b.length) return false;
-  try {
-    return timingSafeEqual(a, b);
-  } catch {
-    return false;
-  }
-}
-
 export async function GET(req: Request) {
-  if (!authorised(req)) {
+  if (!isAuthorisedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

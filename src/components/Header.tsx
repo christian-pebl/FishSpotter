@@ -27,7 +27,11 @@ export function Header() {
         className={wrapClass}
         style={onFeed ? { paddingTop: "max(0.4rem, env(safe-area-inset-top))" } : undefined}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-1.5">
+        <div
+          className={`mx-auto flex max-w-6xl items-center justify-between gap-2 py-1.5 pl-3 ${
+            onFeed ? "pr-7" : "pr-3"
+          }`}
+        >
           {/* Left: the one menu button. Settings + account/sign-in now live
               inside the side menu (opened from here), not in the top bar. */}
           <button

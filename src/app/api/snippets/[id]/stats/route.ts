@@ -5,7 +5,18 @@ import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { consensusSummary } from "@/lib/consensus";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = "force-dynamic";
+// Public CDN cache for the PRE-ANSWER payload only. The community histogram
+// (total + stats) is the same for every user and changes slowly, so the
+// un-gated shape is safe at the edge. Short TTL because the histogram does drift
+// as people answer: s-maxage caches for 30s, stale-while-revalidate serves a
+// stale copy for another 60s while it refreshes.
+//
+// PRIVACY: once the user has answered we add staffAnswer / hasReference (the
+// reference answer) and, on no-reference clips, the live consensus lean. Those
+// are gated on THIS user having committed, so the post-answer response is
+// returned with no public Cache-Control header (the CDN must not share it).
+const CACHE_CONTROL_PUBLIC =
+  "public, s-maxage=30, stale-while-revalidate=60";
 
 export async function GET(
   _req: Request,
@@ -54,17 +65,26 @@ export async function GET(
   // show "the community is converging on Y" instead of correct/incorrect.
   // Gated on userHasAnswered so a spotter never sees the crowd's lean before
   // committing their own guess.
-  return NextResponse.json({
-    total,
-    stats,
-    ...(userHasAnswered
-      ? {
-          staffAnswer: snippet.staffAnswer,
-          hasReference: snippet.staffAnswer !== null,
-          ...(snippet.staffAnswer === null
-            ? { consensus: consensusSummary(stats, total) }
-            : {}),
-        }
-      : {}),
-  });
+  // Pre-answer the response is just the user-independent histogram (total +
+  // stats), so it gets the public CDN header. Post-answer it carries the
+  // per-user-gated reference (staffAnswer / hasReference / consensus), so we
+  // return no public cache header and the CDN must not store/share it.
+  return NextResponse.json(
+    {
+      total,
+      stats,
+      ...(userHasAnswered
+        ? {
+            staffAnswer: snippet.staffAnswer,
+            hasReference: snippet.staffAnswer !== null,
+            ...(snippet.staffAnswer === null
+              ? { consensus: consensusSummary(stats, total) }
+              : {}),
+          }
+        : {}),
+    },
+    userHasAnswered
+      ? undefined
+      : { headers: { "Cache-Control": CACHE_CONTROL_PUBLIC } },
+  );
 }

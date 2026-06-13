@@ -35,7 +35,7 @@ For the quiz-answer research processing carried out under legitimate interests, 
 - To authenticate you and maintain your account.
 - To calculate your points, streak, and leaderboard rank.
 - To aggregate quiz answers in anonymised form so the community can see identification trends per clip.
-- To send transactional emails (account verification, password reset) via our email processor, Resend.
+- To send transactional emails (account verification, password reset) via our email processor, Twilio SendGrid.
 - To support ecological research into UK marine biodiversity by PEBL CIC as part of our community-benefit mission. Any research outputs use aggregated, anonymised data only.
 
 ### Automated processing of community identifications
@@ -52,7 +52,8 @@ We share data only with the processors listed below, each under a contract that 
 |-----------|------|----------|----------------------------------|
 | **Vercel** | Application hosting and edge delivery | US | UK International Data Transfer Agreement (IDTA), incorporated into the Vercel DPA, layered with the EU Standard Contractual Clauses (Commission Decision 2021/914) |
 | **Supabase** | Database and video/thumbnail file storage | West EU (AWS eu-west-1, Dublin, Republic of Ireland) — personal data stays within the EU/EEA | No transfer outside the UK/EEA |
-| **Resend** | Transactional email delivery | US | EU Standard Contractual Clauses (Commission Decision 2021/914) as amended by the UK Addendum (UK International Data Transfer Addendum), incorporated into the Resend DPA |
+| **Twilio SendGrid** | Transactional email delivery | US | EU Standard Contractual Clauses (Commission Decision 2021/914) as amended by the UK Addendum (UK International Data Transfer Addendum), incorporated into the Twilio SendGrid DPA |
+| **Anthropic** | ID-guide chat (processes user-typed free-text questions) | US | UK International Data Transfer Agreement (IDTA), Standard Contractual Clauses |
 
 Where we transfer personal data outside the UK, we rely on an appropriate safeguard under UK GDPR Article 46 (such as the UK-US Data Bridge, the UK International Data Transfer Agreement, or the UK Addendum to EU Standard Contractual Clauses), as noted per processor above.
 

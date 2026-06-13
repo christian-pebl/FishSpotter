@@ -5,7 +5,19 @@ import { prisma } from "@/lib/prisma";
 import { bucketFor } from "@/lib/biodiversity/buckets";
 import { normaliseCommonName } from "@/lib/biodiversity/gbif-match";
 
-export const dynamic = "force-dynamic";
+// Public CDN cache for the PRE-ANSWER payload only. The cached SpeciesProbability
+// row (90-day TTL) is identical for every user and carries no auth/cookie input,
+// so the un-gated response shape (status / source / totalRecords / species /
+// fetchedAt, with NO staffAnswerScientific) is safe to serve from the edge.
+// s-maxage caches at the CDN for an hour; stale-while-revalidate keeps it warm
+// for a day while a fresh copy is fetched in the background.
+//
+// PRIVACY: the post-answer response adds `staffAnswerScientific` (the reference
+// answer), which is gated on whether THIS user has answered. That value must
+// never land in a shared CDN entry, so the gated response is returned with no
+// public Cache-Control header at all (default private/no-store from the function).
+const CACHE_CONTROL_PUBLIC =
+  "public, s-maxage=3600, stale-while-revalidate=86400";
 
 type ApiResponse =
   | {
@@ -59,7 +71,10 @@ export async function GET(
 
   const bucket = bucketFor(snippet);
   if (!bucket) {
-    return NextResponse.json({ status: "INSUFFICIENT_DATA" });
+    return NextResponse.json(
+      { status: "INSUFFICIENT_DATA" },
+      { headers: { "Cache-Control": CACHE_CONTROL_PUBLIC } },
+    );
   }
 
   const cached = await prisma.speciesProbability.findUnique({
@@ -78,14 +93,23 @@ export async function GET(
   // sees the same fallback copy and we avoid a fire-and-forget fetch that
   // serverless function termination would kill mid-write.
   if (!cached) {
-    return NextResponse.json({ status: "INSUFFICIENT_DATA" });
+    return NextResponse.json(
+      { status: "INSUFFICIENT_DATA" },
+      { headers: { "Cache-Control": CACHE_CONTROL_PUBLIC } },
+    );
   }
 
   if (cached.status === "ERROR") {
-    return NextResponse.json({ status: "ERROR", errorMessage: cached.errorMessage ?? undefined });
+    return NextResponse.json(
+      { status: "ERROR", errorMessage: cached.errorMessage ?? undefined },
+      { headers: { "Cache-Control": CACHE_CONTROL_PUBLIC } },
+    );
   }
   if (cached.status === "INSUFFICIENT_DATA") {
-    return NextResponse.json({ status: "INSUFFICIENT_DATA" });
+    return NextResponse.json(
+      { status: "INSUFFICIENT_DATA" },
+      { headers: { "Cache-Control": CACHE_CONTROL_PUBLIC } },
+    );
   }
 
   const species = safeParseSpecies(cached.speciesJson);
@@ -111,12 +135,22 @@ export async function GET(
       : null
     : undefined;
 
-  return NextResponse.json({
-    status: "OK",
-    source: cached.source,
-    totalRecords: cached.totalRecords,
-    species,
-    fetchedAt: cached.fetchedAt.toISOString(),
-    ...(staffAnswerScientific !== undefined ? { staffAnswerScientific } : {}),
-  });
+  // staffAnswerScientific is undefined ONLY before the user has answered. In that
+  // case the payload is user-independent and gets the public CDN header. Once the
+  // field is present (post-answer) it is a per-user-private reference value, so we
+  // return no public cache header and the CDN must not store/share it.
+  const isPreAnswer = staffAnswerScientific === undefined;
+  return NextResponse.json(
+    {
+      status: "OK",
+      source: cached.source,
+      totalRecords: cached.totalRecords,
+      species,
+      fetchedAt: cached.fetchedAt.toISOString(),
+      ...(isPreAnswer ? {} : { staffAnswerScientific }),
+    },
+    isPreAnswer
+      ? { headers: { "Cache-Control": CACHE_CONTROL_PUBLIC } }
+      : undefined,
+  );
 }

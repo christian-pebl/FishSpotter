@@ -17,7 +17,7 @@ function prettify(v: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 function prettyList(vs: string[]): string {
-  return vs.length ? vs.map(prettify).join(", ") : "—";
+  return vs.length ? vs.map(prettify).join(", ") : "Not recorded";
 }
 const SIZE_LABEL: Record<string, string> = {
   small: "Small (under 10 cm)",
@@ -33,9 +33,23 @@ export async function generateMetadata({
   const { slug } = await params;
   const r = resolveSpeciesSlug(slug);
   if (!r) return { title: "Species not found" };
+  const title = `${r.traits.commonName} (${r.scientificName}): FishSpotter`;
+  const description = r.traits.fieldNote;
+  // Reuse the species' curated reference photo (same row the gallery pins) as
+  // the share-card image when one exists; otherwise the default OG card stands.
+  const photo = await prisma.speciesImage.findFirst({
+    where: { scientificName: r.scientificName, curated: true },
+    orderBy: { ordering: "asc" },
+    select: { url: true, webpUrl: true },
+  });
+  const imageUrl = photo ? (photo.webpUrl ?? photo.url) : null;
+  if (!imageUrl) return { title, description };
+  const images = [imageUrl];
   return {
-    title: `${r.traits.commonName} (${r.scientificName}) — FishSpotter`,
-    description: r.traits.fieldNote,
+    title,
+    description,
+    openGraph: { title, description, images },
+    twitter: { card: "summary_large_image", title, description, images },
   };
 }
 
@@ -88,7 +102,7 @@ export default async function SpeciesProfilePage({
         <p className="mt-0.5 text-sm italic text-navy-900/80">{scientificName}</p>
       </header>
 
-      {/* How to spot it — annotated reference (renders only when marks exist). */}
+      {/* How to spot it: annotated reference (renders only when marks exist). */}
       {markCount > 0 && (
         <section className="mt-5 rounded-card bg-navy-900 p-4">
           <h2 className="mb-3 font-brand-heading text-h3 text-white">How to spot it</h2>

@@ -1,3 +1,5 @@
+import { withSentryConfig } from "@sentry/nextjs";
+
 /** @type {import('next').NextConfig} */
 const remotePatterns = [];
 
@@ -63,6 +65,14 @@ if (isProd) {
 
 const nextConfig = {
   poweredByHeader: false,
+  // Next 14.2.x gates the instrumentation.ts `register()` hook behind this
+  // flag (it defaults to false and becomes the default only in Next 15).
+  // Required so the fail-fast env validation in instrumentation.ts runs at
+  // server boot. Build static-analysis is unaffected (the hook only fires on
+  // the Node server runtime, see instrumentation.ts).
+  experimental: {
+    instrumentationHook: true,
+  },
   images: {
     remotePatterns: dedupedPatterns,
   },
@@ -76,4 +86,20 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// Wrap with the Sentry build plugin. This preserves every option in
+// `nextConfig` above (image remotePatterns, security headers,
+// experimental.instrumentationHook) and only layers Sentry's build-time
+// behaviour on top. The plugin is deliberately configured NOT to require a
+// Sentry account or token:
+//   - silent: true            -> no plugin log spam in CI / local builds.
+//   - SENTRY_AUTH_TOKEN unset  -> source-map upload is skipped automatically
+//                                 (no token => no upload, no failure).
+//   - disableLogger: true      -> tree-shakes Sentry logger statements.
+//   - automaticVercelMonitors: false -> we manage crons via vercel.json.
+// With SENTRY_DSN unset the runtime init files no-op, so the whole
+// integration stays inert until a DSN is provided.
+export default withSentryConfig(nextConfig, {
+  silent: true,
+  disableLogger: true,
+  automaticVercelMonitors: false,
+});

@@ -306,3 +306,19 @@ model SpeciesDistributionCache {
   fetchedAt      DateTime @default(now())
   staleAfter     DateTime
 }
+
+// Web-vitals sink (S4-16). One row per LCP / CLS / INP sample beaconed
+// from WebVitalsReporter to POST /api/vitals (10% of sessions). `rating`
+// is nullable because the current client payload does not send it yet
+// (forward-compatible with web-vitals' good/needs-improvement/poor bucket).
+model Vital {
+  id        String   @id @default(cuid())
+  name      String // metric name: "LCP" | "CLS" | "INP"
+  value     Float
+  rating    String? // "good" | "needs-improvement" | "poor", if known
+  path      String? // window.location.pathname at report time
+  ua        String? // truncated user-agent string
+  createdAt DateTime @default(now())
+
+  @@index([name, createdAt])
+}

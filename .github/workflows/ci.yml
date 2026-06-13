@@ -1,0 +1,53 @@
+# CI quality gate.
+#
+# Runs the pre-push gate from CLAUDE.md (npx tsc --noEmit && npm test &&
+# npm run lint && npm run lint:tokens) on every pull request and on pushes to
+# main. main auto-deploys to Vercel, so this is the last line of defence before
+# a type error, failing unit test, or lint violation ships.
+#
+# No real database or secret is required. npm test is vitest unit tests (offline)
+# and prisma generate only needs a syntactically valid connection string, not a
+# reachable server, so harmless placeholders are set at the job level below.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  quality-gate:
+    name: Type-check, tests, lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Dummy connection strings: prisma generate (via postinstall and the
+      # explicit step) reads these but does not connect. Not real credentials.
+      POSTGRES_PRISMA_URL: postgresql://user:pass@localhost:5432/db
+      POSTGRES_URL_NON_POOLING: postgresql://user:pass@localhost:5432/db
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Lint design tokens
+        run: npm run lint:tokens

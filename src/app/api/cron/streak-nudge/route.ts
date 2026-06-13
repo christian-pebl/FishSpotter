@@ -11,7 +11,9 @@ import { computeStreakFromAnswers } from "@/lib/streak";
 import { StreakNudgeEmail } from "@/lib/email/templates/StreakNudgeEmail";
 import { digestUnsubscribeUrl } from "@/lib/email/unsubscribe";
 import { sendEmail } from "@/lib/email/send";
+import { isAuthorisedCron } from "@/lib/cron-auth";
 import { prisma } from "@/lib/prisma";
+import { log } from "@/lib/log";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -21,15 +23,8 @@ const QUIET_HOURS = 20;
 const COOLDOWN_DAYS = 6;
 const MIN_STREAK = 3;
 
-function unauthorised(req: Request): boolean {
-  const expected = process.env.CRON_SECRET;
-  if (!expected) return true;
-  const got = req.headers.get("authorization");
-  return got !== `Bearer ${expected}`;
-}
-
 export async function GET(req: Request) {
-  if (unauthorised(req)) {
+  if (!isAuthorisedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
@@ -49,6 +44,10 @@ export async function GET(req: Request) {
 
   let sent = 0;
   let skipped = 0;
+  let failed = 0;
+  // Candidates that cleared the streak / quiet-hour gates, i.e. real send
+  // attempts. A zero-sent run is only a problem when there were attempts.
+  let attempted = 0;
   for (const u of candidates) {
     const answers = await prisma.answer.findMany({
       where: { userId: u.id },
@@ -64,6 +63,7 @@ export async function GET(req: Request) {
       skipped++;
       continue;
     }
+    attempted++;
     try {
       await sendEmail({
         to: u.email,
@@ -81,14 +81,35 @@ export async function GET(req: Request) {
       });
       sent++;
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error("[cron/streak-nudge] failed", u.id, err);
+      failed++;
+      log.error("streak-nudge send failed", { context: "cron/streak-nudge", userId: u.id, err });
     }
   }
+
+  // Surface a partial or total failure as HTTP 500 so Vercel cron-failure
+  // alerting fires. A zero-sent run only counts as degraded when there were
+  // genuine send attempts (skipped candidates are the normal, healthy case).
+  const degraded = failed > 0 || (sent === 0 && attempted > 0);
+  if (degraded) {
+    log.error("streak-nudge cron degraded", {
+      context: "cron/streak-nudge",
+      candidates: candidates.length,
+      attempted,
+      sent,
+      skipped,
+      failed,
+    });
+    return NextResponse.json(
+      { ok: false, candidates: candidates.length, sent, skipped, failed },
+      { status: 500 },
+    );
+  }
+
   return NextResponse.json({
     ok: true,
     candidates: candidates.length,
     sent,
     skipped,
+    failed,
   });
 }

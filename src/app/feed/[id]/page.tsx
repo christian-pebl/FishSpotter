@@ -8,9 +8,20 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const row = await prisma.snippet.findUnique({ where: { id }, select: { site: true, deployment: true } });
+  const row = await prisma.snippet.findUnique({
+    where: { id },
+    select: { site: true, deployment: true, thumbnailUrl: true },
+  });
   if (!row) return { title: "Sighting" };
-  return { title: `${row.site} · ${row.deployment}` };
+  const title = `${row.site} · ${row.deployment}`;
+  const description = "Spot the species in this UK marine monitoring clip on PEBL FishSpotter.";
+  const images = [row.thumbnailUrl];
+  return {
+    title,
+    description,
+    openGraph: { title, description, images },
+    twitter: { card: "summary_large_image", title, description, images },
+  };
 }
 
 export default async function SnippetDetailPage({

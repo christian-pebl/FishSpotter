@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { z } from "zod";
 import Anthropic from "@anthropic-ai/sdk";
 import { authOptions } from "@/lib/auth";
 import { assertSameOrigin } from "@/lib/csrf";
@@ -24,25 +25,30 @@ export const dynamic = "force-dynamic";
 const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6";
 const MAX_TURNS = 8;
 const MAX_USER_MESSAGE_CHARS = 600;
+// Bound the total messages array (user + assistant turns) so the Anthropic
+// request size stays in check. The user-turn cap (MAX_TURNS) is still enforced
+// separately below as a soft, streamed reply; this is a hard ceiling on the
+// whole transcript.
+const MAX_MESSAGES = 40;
 const MAX_TOOL_ROUNDS = 4;
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
 ];
 
-type ClientMessage = { role: "user" | "assistant"; content: string };
+const ClientMessageSchema = z.object({
+  role: z.enum(["user", "assistant"]),
+  // Per-message content cap mirrors the existing 600-char limit (previously
+  // only checked on user turns); a min length of 1 keeps empty messages out.
+  content: z.string().min(1).max(MAX_USER_MESSAGE_CHARS),
+});
 
-type ChatRequest = {
-  snippetId: string;
-  messages: ClientMessage[];
-};
-
-function isValidClientMessage(m: unknown): m is ClientMessage {
-  if (!m || typeof m !== "object") return false;
-  const r = (m as { role?: unknown }).role;
-  const c = (m as { content?: unknown }).content;
-  return (r === "user" || r === "assistant") && typeof c === "string";
-}
+const ChatRequestSchema = z.object({
+  snippetId: z.string().min(1),
+  // Non-empty (matches the old length === 0 rejection) and hard-capped at
+  // MAX_MESSAGES so the Anthropic request size is bounded.
+  messages: z.array(ClientMessageSchema).min(1).max(MAX_MESSAGES),
+});
 
 const NARROW_TOOL: Anthropic.Tool = {
   name: "narrow_candidates",
@@ -210,22 +216,18 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: ChatRequest;
+  let rawBody: unknown;
   try {
-    body = (await req.json()) as ChatRequest;
+    rawBody = await req.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
 
-  if (
-    !body ||
-    typeof body.snippetId !== "string" ||
-    !Array.isArray(body.messages) ||
-    body.messages.length === 0 ||
-    !body.messages.every(isValidClientMessage)
-  ) {
+  const parsed = ChatRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
+  const body = parsed.data;
 
   const userMessages = body.messages.filter((m) => m.role === "user");
   if (userMessages.length > MAX_TURNS) {

@@ -13,6 +13,7 @@ import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAnswerRateLimit } from "@/lib/rate-limit";
 import { computeStreakFromAnswers, toDateKey } from "@/lib/streak";
+import { log } from "@/lib/log";
 
 const MAX_ANSWER_LENGTH = 80;
 
@@ -126,7 +127,12 @@ export async function POST(req: Request) {
         });
       }
     } catch (err) {
-      console.error("[answers] pokedex unlock failed", err);
+      log.error("pokedex unlock failed", {
+        context: "answers",
+        userId: session.user.id,
+        staffAnswer: snippet.staffAnswer,
+        err,
+      });
     }
   }
 

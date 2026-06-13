@@ -13,22 +13,17 @@ import { computeStreakFromAnswers } from "@/lib/streak";
 import { WeeklyDigestEmail } from "@/lib/email/templates/WeeklyDigestEmail";
 import { digestUnsubscribeUrl } from "@/lib/email/unsubscribe";
 import { sendEmail } from "@/lib/email/send";
+import { isAuthorisedCron } from "@/lib/cron-auth";
 import { prisma } from "@/lib/prisma";
+import { log } from "@/lib/log";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 const PER_RUN_CAP = 200;
 
-function unauthorised(req: Request): boolean {
-  const expected = process.env.CRON_SECRET;
-  if (!expected) return true;
-  const got = req.headers.get("authorization");
-  return got !== `Bearer ${expected}`;
-}
-
 export async function GET(req: Request) {
-  if (unauthorised(req)) {
+  if (!isAuthorisedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
@@ -74,9 +69,25 @@ export async function GET(req: Request) {
       sent++;
     } catch (err) {
       failed++;
-      // eslint-disable-next-line no-console
-      console.error("[cron/digest] failed", u.id, err);
+      log.error("digest send failed", { context: "cron/digest", userId: u.id, err });
     }
   }
+
+  // Surface a partial or total failure as HTTP 500 so Vercel cron-failure
+  // alerting fires; an all-good run (or a run with no recipients) stays 200.
+  const degraded = failed > 0 || (sent === 0 && recipients.length > 0);
+  if (degraded) {
+    log.error("digest cron degraded", {
+      context: "cron/digest",
+      recipients: recipients.length,
+      sent,
+      failed,
+    });
+    return NextResponse.json(
+      { ok: false, recipients: recipients.length, sent, failed },
+      { status: 500 },
+    );
+  }
+
   return NextResponse.json({ ok: true, recipients: recipients.length, sent, failed });
 }

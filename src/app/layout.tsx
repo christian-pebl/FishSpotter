@@ -22,13 +22,32 @@ const roboto = Roboto({
   display: "swap",
 });
 
+const SITE_TITLE = "PEBL FishSpotter";
+const SITE_DESCRIPTION =
+  "Protecting Ecology Beyond Land through playful marine monitoring, community spotting, and short-form underwater clips.";
+
 export const metadata: Metadata = {
-  title: { default: "PEBL FishSpotter", template: "%s · PEBL FishSpotter" },
-  description: "Protecting Ecology Beyond Land through playful marine monitoring, community spotting, and short-form underwater clips.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://fish-spotter.vercel.app"),
+  title: { default: SITE_TITLE, template: "%s · PEBL FishSpotter" },
+  description: SITE_DESCRIPTION,
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/icon.svg",
     apple: "/apple-touch-icon.svg",
+  },
+  // Default share preview. The 1200x630 card comes from opengraph-image.tsx,
+  // which Next wires onto both openGraph and twitter automatically, so no
+  // explicit image reference is needed here.
+  openGraph: {
+    type: "website",
+    siteName: SITE_TITLE,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 };
 

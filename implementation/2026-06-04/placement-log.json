@@ -12769,3 +12769,99 @@
     }
   ]
 }
+{
+  "ranAt": "ballan-fix-1503",
+  "mode": "relocate",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Labrus bergylta",
+      "commonName": "Ballan wrasse",
+      "mode": "relocate",
+      "heroImageId": "cmpz3qdoo00357isgcyuf8m04",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/266328776/medium.jpeg",
+      "features": 3,
+      "rounds": 5,
+      "before": [
+        {
+          "label": "Thick fleshy lips",
+          "description": "Big, rubbery lips for picking shellfish off the rock, a wrasse hallmark, strongest in the chunky ballan.",
+          "overlayX": 0.659,
+          "overlayY": 0.5225,
+          "overlayRadius": 0.03
+        },
+        {
+          "label": "Single long dorsal fin",
+          "description": "One continuous dorsal fin runs almost the whole back (spiny at the front, soft behind), not split like a bass or gadoid.",
+          "overlayX": 0.306,
+          "overlayY": 0.468,
+          "overlayRadius": 0.1416
+        },
+        {
+          "label": "Stout mottled body",
+          "description": "A deep, robust green-to-brown body, often pale-spotted and highly variable. Our largest wrasse.",
+          "overlayX": 0.3385,
+          "overlayY": 0.567,
+          "overlayRadius": 0.26
+        }
+      ],
+      "after": [
+        {
+          "label": "Thick fleshy lips",
+          "description": "Big, rubbery lips for picking shellfish off the rock, a wrasse hallmark, strongest in the chunky ballan.",
+          "overlayX": 0.168,
+          "overlayY": 0.5445,
+          "overlayRadius": 0.036
+        },
+        {
+          "label": "Single long dorsal fin",
+          "description": "One continuous dorsal fin runs almost the whole back (spiny at the front, soft behind), not split like a bass or gadoid.",
+          "overlayX": 0.5,
+          "overlayY": 0.411,
+          "overlayRadius": 0.22560000000000002
+        },
+        {
+          "label": "Stout mottled body",
+          "description": "A deep, robust green-to-brown body, often pale-spotted and highly variable. Our largest wrasse.",
+          "overlayX": 0.485,
+          "overlayY": 0.5195,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 65,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Thick fleshy lips",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 70,
+            "note": "The circle correctly highlights the prominent lips of the wrasse."
+          },
+          {
+            "number": 2,
+            "label": "Single long dorsal fin",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 10,
+            "note": "The circle is far too large and mostly encompasses background seaweed above the fish."
+          },
+          {
+            "number": 3,
+            "label": "Stout mottled body",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 60,
+            "note": "The circle is oversized and off-center, capturing a lot of background seaweed below the fish."
+          }
+        ],
+        "recommendation": "reposition-circles",
+        "summary": "The lips are correctly marked, but circles 2 and 3 are far too large and misaligned. They need to be resized and centered on the dorsal fin and the mottled body respectively."
+      },
+      "applied": true
+    }
+  ]
+}

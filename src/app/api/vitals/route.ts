@@ -1,15 +1,16 @@
 /**
- * POST /api/vitals — web-vitals sink (S4-16).
+ * POST /api/vitals (web-vitals sink, S4-16).
  *
- * Lightweight: validates the body, logs to the server console
- * (Vercel Functions logs aggregate these), and returns 204. A
- * future ticket can persist to a `Vital` Prisma table once the
- * sample shape is settled. For now this surface gives us the
- * monitoring hook without committing to a schema.
+ * Validates the body, logs to the server console (Vercel Functions logs
+ * aggregate these), persists each sample to the `Vital` Prisma table, and
+ * returns 204. The DB write is best-effort: if the table does not exist yet
+ * (migration not run) or the write otherwise fails, the route still logs and
+ * returns 204 so a beacon never 500s and the client is never blocked on it.
  */
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -30,5 +31,24 @@ export async function POST(req: Request) {
   }
   // eslint-disable-next-line no-console
   console.log("[vitals]", JSON.stringify(parsed));
+
+  // Best-effort persistence. Wrapped so a missing table (migration not yet
+  // run) or any transient DB error degrades to "logged but not stored"
+  // rather than failing the beacon. The metric's client `id` is validated
+  // for shape but not stored (the Vital row has its own cuid primary key).
+  try {
+    await prisma.vital.create({
+      data: {
+        name: parsed.name,
+        value: parsed.value,
+        path: parsed.path,
+        ua: parsed.ua ?? null,
+      },
+    });
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error("[vitals] persist failed (returning 204 anyway):", err);
+  }
+
   return new NextResponse(null, { status: 204 });
 }

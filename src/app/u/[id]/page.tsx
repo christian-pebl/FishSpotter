@@ -21,7 +21,13 @@ export async function generateMetadata({
   });
   if (!user) return { title: "Spotter" };
   const name = user.displayName ?? user.name ?? "Spotter";
-  return { title: name, description: `${name}'s PEBL FishSpotter profile.` };
+  const description = `${name}'s PEBL FishSpotter profile: species spotted, score, and streak.`;
+  return {
+    title: name,
+    description,
+    openGraph: { title: name, description },
+    twitter: { card: "summary_large_image", title: name, description },
+  };
 }
 
 export default async function ProfilePage({
@@ -137,7 +143,7 @@ export default async function ProfilePage({
                     {a.chosenOption}
                     {a.isCorrect === false && a.snippet.staffAnswer &&
                       ` (was ${a.snippet.staffAnswer})`}
-                    {a.isCorrect === null && " (reference pending — bonus awarded)"}
+                    {a.isCorrect === null && " (reference pending, bonus awarded)"}
                   </p>
                 </div>
                 <span
