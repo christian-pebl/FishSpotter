@@ -1,4 +1,17 @@
-# FishSpotter UX — Implementation Plan
+# FishSpotter UX Implementation Plan
+
+> **STATUS (14 Jun 2026): Waves 0, 1, 2 are SHIPPED, deployed, and verified live**
+> (commits `10adaa0`, `6738572`, `82748a0` on `main`). **Pick up at Wave 3.**
+>
+> Done: all of Wave 0; Wave 1 (T-06/07/09/10 reward + T-01 contribution narrative
+> + T-27 onboarding meaning); Wave 2 (T-02/T-28/T-30/T-29 first-run states).
+> Deferred P2 sub-items inside Waves 0-2, for a later pass: the collection
+> "Show all" client expander + tappable group filters (T-02/T-30), onboarding
+> per-step visuals (T-27), teaching-link prominence (T-32), and the hero-demo
+> clip curation (T-05, a content task). Each remaining wave below is unchanged:
+> **Wave 3** (browse posters + per-card identity + filters), **Wave 4** (auth
+> one-tap / blank-canvas / menu IA), **Wave 5** (design-system bridge + the
+> `/feed/[id]` secondary-reveal parity), **Wave 6** (accessibility + trust sweep).
 
 **Companion to** `01-consolidated-findings.md` (38 findings, 6 themes) and the
 40-screenshot evidence set in `shots/`. This plan turns the findings into a

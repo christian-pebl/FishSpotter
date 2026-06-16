@@ -82,5 +82,8 @@ assess-*.log
 audit-species-images.json
 implementation/2026-06-04/orientation-audit.json
 
-# UI/visual-loop screenshot artifacts (regenerable)
+# UI/visual-loop screenshot artifacts (regenerable). Loose PNGs anywhere under
+# implementation/ are review/capture output; force-add (git add -f) the rare one
+# that is genuinely a versioned asset (e.g. a referenced contact sheet).
 implementation/**/shots/
+implementation/**/*.png

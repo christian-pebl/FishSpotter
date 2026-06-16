@@ -1,9 +1,15 @@
-# FishSpotter — Vision-Based UX Review (14 Jun 2026)
+# FishSpotter: Vision-Based UX Review (14 Jun 2026)
 
 A comprehensive, evidence-based visual UX review of the **entire** FishSpotter app
 against its goal: being engaging and easy to use for the general public as a
 citizen-science marine-monitoring tool. Conducted with an agent team and grounded
 in 40 real screenshots of the live production site.
+
+> **STATUS: Waves 0, 1, 2 of the plan are SHIPPED, deployed, and verified live**
+> (commits `10adaa0`, `6738572`, `82748a0` on `main`). The stray test accounts
+> were deleted and the live `feed-05` em-dash is fixed (both DONE; the
+> Housekeeping section below is retained for the record). **Next: Wave 3.** See
+> `02-implementation-plan.md` for the full status and the remaining waves.
 
 ## What's in this folder (read in this order)
 

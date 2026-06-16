@@ -86,3 +86,91 @@ Activation steps performed on 18 May:
 - **Continuation (same day):** improved the auto-placer (`scripts/place-diagnostic-marks.ts`) — Gemini now classifies each feature point vs region and point features (eye/barbel/spot) are capped to a small ring so they stop reading as oversized; the verify loop corrects every off/near ring over 4 rounds with a final fresh re-localise; `loadImage` retries CDN 429s and one species erroring no longer aborts a sweep. Added `scripts/data/mark-redraft.ts` + an author `--redraft` path that deletes a species' draft marks and recreates a clean set: **trimmed 7 over-marked species** (sea bass, butterfish, rock goby, great spider crab, velvet swimming crab, horse mackerel, dog whelk) to 3 distinct marks each, and **re-anchored 2 photo-limited species** (Flat Top Shell, Dragonet) onto features their photo actually shows. Re-audit: **keep 16 -> 26, aligned 17 -> 28, over-marked species -> 0, total off-marks 47 -> 20 (0.35/hero), stragglers 24 -> 15**. The 15 residual are mostly one borderline ring on a good hero or genuinely-hard photos (Pollack head, Poor cod, Flounder, the spider/velvet crabs); listed for a manual admin pass. `tsc`/`test`/`lint` green.
 - **Upside-down photo fix (Ballan wrasse):** the curated Ballan hero (iNat 231750633) was uploaded upside-down with no EXIF flag, so it rendered belly-up in the wizard. Swapped to an upright green-morph shot (iNat 266328776, score 88 IDEAL), demoted + blocklisted the old one, and re-placed the marks. Added `scripts/check-photo-orientation.ts` (Gemini-based) to sweep all heroes for inverted/rotated photos. **Caveat: that checker is noisy** — it false-positived the 3 jellyfish (no fixed "up") + the held-vertical plaice and false-negatived this Ballan, so its flags are human-review candidates only. Visually triaged all 7 of its flags; none were genuine problems. The Ballan fix is DB-backed and already live in prod (verified via the species-images API).
 
+## Engagement: play before the signup wall + UX fixes (12 Jun 2026, commit `5180822`)
+
+The acquisition funnel's worst leak, fixed. A signed-out visitor invited to "start
+spotting" used to be bounced to a sign-up form the instant they committed their
+first ID, before ever seeing the reveal. Now they get the real reveal locally,
+then a soft "save your finds" ask.
+
+- New public, read-only `POST /api/answers/preview` grades a guess (same
+  alias-aware matcher) and returns the full reveal payload (verdict, points,
+  reference, community split) WITHOUT writing a row, so the leaderboard /
+  anti-spam path is untouched. `useCreatureQuiz` no longer redirects guests; it
+  renders the reveal and queues each guess in localStorage, carried in and
+  persisted on sign-up.
+- Surfaced the Google/Apple sign-in buttons (wired in `lib/auth.ts` but never
+  rendered) on the sign-in page; they appear when the provider env vars are set.
+- Fixed the landing "at a glance" stats that served `0/0/0` to SSR / no-JS /
+  crawlers (`StatsBand` now SSRs the real values; the count-up is enhancement).
+- Feed: moved the depth/location/date HUD to the bottom-left (shown only after
+  the first identify tap) and the minimized magnifier bubble to the bottom-right
+  corner so they no longer collide; clearer "Tap to name species" prompt.
+
+## Production hardening: observability, env validation, security, CI (12 Jun 2026, commit `c4da1c9`)
+
+- Sentry error monitoring (`instrumentation.ts` + `sentry.{client,edge,server}.config.ts`),
+  inert until `SENTRY_DSN` is set so it ships safely unconfigured. Set the DSN in
+  Vercel to turn on error capture.
+- Fail-fast env validation (`src/lib/env.ts`), validated once at server boot.
+- Web-vitals sink: `POST /api/vitals` to a new `Vital` table (10% sampling). The
+  table was added to prod via `prisma db push`, then `npm run db:enable-rls`
+  re-run (17/17 public tables protected).
+- Health route `/api/health`, default OG share image, structured logging, CSRF +
+  rate-limit hardening, and a CI workflow.
+
+## Vision-based UX review of the whole app (14 Jun 2026, commit `c94f1ef`)
+
+A comprehensive agent-team visual UX review: a 40-screenshot Playwright capture of
+the live app, 7 specialist vision agents, a synthesis pass, and an adversarial
+completeness critic. Result: 38 prioritised findings across 6 themes, with a
+sequenced 7-wave implementation plan. All artifacts in
+`implementation/2026-06-14/ux-vision-review/` (start at `README.md`, then
+`02-implementation-plan.md`).
+
+Headline: the bones are strong (credible product; the guest reveal sequence is the
+screen to protect), but it leaks at activation to retention: no real-science
+contribution narrative anywhere, demotivating empty first-run states (the pokedex
+57-tile "Locked" wall, "0% accuracy"), a reward that never accumulates progress,
+colour-alone meaning (acute given the colour-blind owner), and auth friction.
+
+## UX plan Wave 0: quick wins + tokens (14 Jun 2026, commit `10adaa0`)
+
+- Landing leads with one dominant "Start spotting" CTA; the deflating "spotters"
+  stat becomes "identifications" (answer count). Removed the duplicate identify
+  prompt. Rung-gate questions render sentence-case and no longer truncate. The
+  minimized resume control is a labelled "Resume" pill (was an unlabelled
+  magnifier). The verify-email banner is reframed as an optional perk with a calm
+  `notice` token. Legal copy points at the canonical fishspotter.app. Brand
+  em-dash sweep of user-facing copy.
+- Deferred with notes: T-05 (hero demo) is a content task (curate a clip with a
+  visible subject); T-21 verified NOT a real bug.
+
+## UX plan Waves 1+2: reward moment + first-run retention states (14 Jun 2026, commits `6738572`, `82748a0`)
+
+Wave 1 (make the win land and mean something):
+- The reward now visibly accumulates: a correct ID surfaces "{species} added to
+  your collection, N of 57" + the day-streak tick on the reveal (new `unlock`
+  field on `POST /api/answers`, threaded through the quiz hook).
+- A coarse "PEBL ID" (e.g. "Fish") is framed as an invitation ("Closest confirmed
+  ID", "your guess is logged and counts toward the community ID"). Honest low-n
+  community framing (no misleading 50/50), and the user's own guess is always
+  shown. Bigger verdict pill.
+- The real-science contribution narrative threads through the landing sub-hero,
+  onboarding, profile, and a new leaderboard collective banner.
+
+Wave 2 (first-run retention states):
+- The pokedex/profile reframes from deficit to momentum: accuracy withheld below
+  5 scored answers (no "0%"), the collection header reads "N to discover",
+  collected species lead the grid, and the 57-tile "Locked" word-wall is gone.
+  The leaderboard leads with the collective contribution. Friendlier collection
+  group names. Species pages end with a "Spot it in the feed" loop CTA.
+- Deferred (P2 polish, tracked in the plan): collection show-all expander +
+  tappable group filters, onboarding per-step visuals, T-32 teaching-link
+  prominence. **Waves 3 to 6 remain** (browse, auth, design-system + secondary
+  reveal, accessibility sweep).
+
+Every commit above verified: `tsc`, 334 tests, `next lint`, `lint:tokens` green;
+the live site re-verified by curl + Playwright after each deploy. Two disposable
+prod test accounts (created for signed-in captures) were deleted afterward.
+
