@@ -85,8 +85,12 @@ export default async function ProfilePage({
   // pending answers on no-reference clips earn a bonus and must not count as
   // wrong, which would silently drag the percentage down.
   const score = pointsAgg._sum.points ?? 0;
+  // T-02: never show "0%" to a newcomer (a blunt, often-wrong judgement at n=1).
+  // Withhold accuracy until there are at least 5 scored answers.
   const accuracy =
-    resolvedAnswers > 0 ? Math.round((correctAnswers / resolvedAnswers) * 100) : 0;
+    resolvedAnswers >= 5
+      ? `${Math.round((correctAnswers / resolvedAnswers) * 100)}%`
+      : "—";
 
   return (
     <MarineBackdrop>
@@ -113,13 +117,18 @@ export default async function ProfilePage({
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Accuracy</dt>
-            <dd className="mt-1 text-2xl font-bold text-navy-900">{accuracy}%</dd>
+            <dd className="mt-1 text-2xl font-bold text-navy-900">{accuracy}</dd>
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Streak</dt>
             <dd className="mt-1 text-2xl font-bold text-navy-900">{streak}</dd>
           </div>
         </dl>
+        {totalAnswers > 0 && (
+          <p className="mt-3 text-xs leading-5 text-navy-900/60">
+            Your {totalAnswers} {totalAnswers === 1 ? "identification feeds" : "identifications feed"} PEBL&apos;s UK reef monitoring record.
+          </p>
+        )}
       </section>
 
       <SpeciesCollection userId={id} />

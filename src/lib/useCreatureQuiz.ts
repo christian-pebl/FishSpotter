@@ -118,6 +118,13 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   const [submitting, setSubmitting] = useState(false);
   const [answerText, setAnswerTextState] = useState("");
   const [submitError, setSubmitError] = useState("");
+  // T-07: reward progress from the authed answer response (streak + collection
+  // unlock), surfaced on the reveal at the moment of the win. Null for guests.
+  const [rewardProgress, setRewardProgress] = useState<{
+    streakCurrent: number;
+    streakAdvanced: boolean;
+    unlock: { isNew: boolean; commonName: string; collectionCount: number } | null;
+  } | null>(null);
   // P0: how many clips this signed-out spotter has played (drives the "save
   // your finds" nudge). Seeded from the persisted guest queue on mount.
   const [guestAnswerCount, setGuestAnswerCount] = useState(0);
@@ -307,6 +314,12 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         if (data.streak && data.streak.current > data.streak.previous) {
           playStreak();
         }
+        // T-07: capture the progress so the reveal can land it at the win.
+        setRewardProgress({
+          streakCurrent: data.streak?.current ?? 0,
+          streakAdvanced: !!(data.streak && data.streak.current > data.streak.previous),
+          unlock: data.unlock ?? null,
+        });
         window.dispatchEvent(new CustomEvent("fishspotter:streak"));
         await loadStats();
         return true;
@@ -327,6 +340,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     // Drop the stats card so the UI doesn't briefly show stale community
     // numbers next to the input — the next submit will reload them.
     setStats(null);
+    setRewardProgress(null);
     setSubmitError("");
     // S2-T09: refocus the input when the parent provides a focus
     // callback. With the MCQ picker active and no DEGENERATE
@@ -352,5 +366,6 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     setEditFocusCallback,
     guestAnswerCount,
     signUpHref,
+    rewardProgress,
   };
 }

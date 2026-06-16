@@ -408,6 +408,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     setEditFocusCallback,
     guestAnswerCount,
     signUpHref,
+    rewardProgress,
   } = useCreatureQuiz(snippet, "/feed");
 
   // S2-T09: tell the hook how to refocus the input on edit. Only used
@@ -1345,6 +1346,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       stats={stats!.stats}
                       total={stats!.total}
                       reduceMotion={!!reduceMotion}
+                      streakCurrent={rewardProgress?.streakCurrent}
+                      streakAdvanced={rewardProgress?.streakAdvanced}
+                      unlock={rewardProgress?.unlock}
                     />
                     {/* S7-T1: ecological-likelihood + species-gallery
                          panels only make sense when a reference ID

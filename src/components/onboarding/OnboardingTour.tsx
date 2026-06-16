@@ -8,7 +8,7 @@ const STEPS = [
   {
     eyebrow: "1 · Spot",
     title: "Pick the species in 5 seconds",
-    body: "Each clip shows a short underwater snippet. We surface a few likely species, so just pick the one that matches what you see. No typing required.",
+    body: "These are real clips from PEBL's UK reef surveys, so your IDs help monitor what lives there. Pick the species that looks closest from a few likely options. No typing needed.",
   },
   {
     eyebrow: "2 · Compare",

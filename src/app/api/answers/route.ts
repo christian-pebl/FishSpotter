@@ -115,16 +115,32 @@ export async function POST(req: Request) {
   // The reference (staffAnswer) must resolve to a catalogue species; coarse
   // references ("Fish") resolve to null and unlock nothing. A failure here must
   // never fail the answer submission, so it is isolated in try/catch.
+  // T-07: tell the client whether this correct ID unlocked a NEW collection
+  // species + the running total, so the reveal can land the "added to your
+  // collection - N of 57" beat at the moment of the win.
+  let unlock: { isNew: boolean; commonName: string; collectionCount: number } | null = null;
   if (isCorrect === true && snippet.staffAnswer) {
     try {
       const aliases = [...CATALOGUE_ALIASES, ...(await loadAliases())];
       const sci = scientificFromLocalName(snippet.staffAnswer, aliases);
       if (sci && CATALOGUE[sci]) {
+        const existed = await prisma.unlockedSpecies.findUnique({
+          where: { userId_scientificName: { userId: session.user.id, scientificName: sci } },
+          select: { userId: true },
+        });
         await prisma.unlockedSpecies.upsert({
           where: { userId_scientificName: { userId: session.user.id, scientificName: sci } },
           create: { userId: session.user.id, scientificName: sci },
           update: {},
         });
+        const collectionCount = await prisma.unlockedSpecies.count({
+          where: { userId: session.user.id },
+        });
+        unlock = {
+          isNew: !existed,
+          commonName: CATALOGUE[sci].commonName ?? snippet.staffAnswer,
+          collectionCount,
+        };
       }
     } catch (err) {
       log.error("pokedex unlock failed", {
@@ -155,5 +171,6 @@ export async function POST(req: Request) {
       previous: previousStreak.currentStreak,
       current: currentStreak.currentStreak,
     },
+    unlock,
   });
 }

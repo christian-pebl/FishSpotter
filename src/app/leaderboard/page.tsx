@@ -184,6 +184,17 @@ export default async function LeaderboardPage() {
         className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8"
       >
         <BackToFeed />
+        {/* T-01 + T-28: lead with the collective contribution, not the competition. */}
+        <section className="pebl-surface rounded-card px-6 py-5">
+          <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+            The community so far
+          </p>
+          <p className="mt-2 text-sm leading-7 text-navy-900">
+            Together, spotters have logged{" "}
+            <strong>{totalAnswers.toLocaleString()}</strong>{" "}
+            {totalAnswers === 1 ? "identification" : "identifications"} across PEBL&apos;s UK reef clips. Every ID helps build the shared marine record.
+          </p>
+        </section>
         <section className="pebl-surface rounded-card px-6 py-6">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
             Community overview
@@ -359,7 +370,7 @@ export default async function LeaderboardPage() {
 
         <section className="pebl-surface rounded-card px-6 py-6">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
-            Most-named species
+            Community trends
           </p>
           <h2 className="mt-1 font-brand-heading text-h2 text-navy-900">
             Most common species answers

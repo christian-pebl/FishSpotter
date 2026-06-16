@@ -27,6 +27,16 @@ import { CorrectFishSwim } from "./CorrectFishSwim";
 
 export type RevealStatsItem = { option: string; count: number; percent: number };
 
+// Coarse reference labels: a clip confirmed only to a group, not a species.
+// When the PEBL reference is one of these, we frame it as an invitation (T-10)
+// rather than letting a one-word "Fish" read as an anticlimax to a user who
+// guessed something specific.
+const COARSE_REFS = new Set([
+  "fish", "crab", "flatfish", "jellyfish", "starfish", "squid", "gastropod",
+  "snail / slug", "snail", "slug", "octopus", "shrimp", "prawn", "anemone",
+  "worm", "eel", "ray", "shark", "goby", "wrasse", "blenny",
+]);
+
 export function RevealResult({
   chosenOption,
   isCorrect,
@@ -36,6 +46,9 @@ export function RevealResult({
   stats,
   total,
   reduceMotion,
+  streakCurrent,
+  streakAdvanced,
+  unlock,
 }: {
   chosenOption: string;
   isCorrect: boolean | null;
@@ -48,6 +61,11 @@ export function RevealResult({
   stats: RevealStatsItem[];
   total: number;
   reduceMotion: boolean;
+  /** T-07 reward progress (authed only): the day-streak total + whether it just
+   * advanced, and whether this correct ID added a NEW collection species. */
+  streakCurrent?: number;
+  streakAdvanced?: boolean;
+  unlock?: { isNew: boolean; commonName: string; collectionCount: number } | null;
 }) {
   // Teal confetti once, on a correct call only. Fired imperatively so it does
   // not re-trigger on re-render; skipped entirely under reduced-motion.
@@ -73,8 +91,14 @@ export function RevealResult({
   }, [isCorrect, reduceMotion]);
 
   const peblId = resolvePeblId(staffAnswer);
+  const isCoarse = !!staffAnswer && COARSE_REFS.has(staffAnswer.trim().toLowerCase());
   const myKey = normalizeAnswer(chosenOption);
   const top = stats.slice(0, 4);
+  // T-09: did the user's own guess land anywhere in the community histogram?
+  // For guests (whose pick is never persisted) it won't, so we surface it
+  // explicitly below instead of leaving them absent from the crowd.
+  const myInTop = top.some((s) => normalizeAnswer(s.option) === myKey);
+  const lowN = total <= 2;
 
   const container: Variants = reduceMotion
     ? { hidden: {}, show: {} }
@@ -107,7 +131,7 @@ export function RevealResult({
         <span className="font-semibold text-white">{chosenOption}</span>
         {isCorrect === true && (
           <span
-            className="inline-flex items-center gap-1 rounded-full bg-correct px-2 py-0.5 text-[11px] font-bold tracking-wide text-correct-ink shadow-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-correct px-2.5 py-1 text-xs font-bold tracking-wide text-correct-ink shadow-sm"
             aria-label="Correct, plus 2 points"
           >
             <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
@@ -119,7 +143,7 @@ export function RevealResult({
         {isCorrect === false &&
           (revealPartial ? (
             <span
-              className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
+              className="inline-flex items-center gap-1 rounded-full bg-pending px-2.5 py-1 text-xs font-bold tracking-wide text-pending-ink shadow-sm"
               aria-label="Close, right shape class, plus 1 point"
             >
               <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
@@ -130,7 +154,7 @@ export function RevealResult({
             </span>
           ) : (
             <span
-              className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2 py-0.5 text-[11px] font-bold tracking-wide text-incorrect-ink shadow-sm"
+              className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2.5 py-1 text-xs font-bold tracking-wide text-incorrect-ink shadow-sm"
               aria-label="Incorrect"
             >
               <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
@@ -141,7 +165,7 @@ export function RevealResult({
           ))}
         {isCorrect === null && (
           <span
-            className="inline-flex items-center gap-1 rounded-full bg-pending px-2 py-0.5 text-[11px] font-bold tracking-wide text-pending-ink shadow-sm"
+            className="inline-flex items-center gap-1 rounded-full bg-pending px-2.5 py-1 text-xs font-bold tracking-wide text-pending-ink shadow-sm"
             aria-label="Bonus, plus 1 point. Reference identification pending."
           >
             <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
@@ -159,19 +183,24 @@ export function RevealResult({
           <div className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-teal-500" aria-hidden="true" />
             <span className="text-[10px] font-semibold uppercase tracking-eyebrow text-teal-100/80">
-              PEBL ID
+              {isCoarse ? "Closest confirmed ID" : "PEBL ID"}
             </span>
           </div>
           {peblId ? (
             <>
               <p className="mt-1 text-base font-semibold leading-tight text-white">{peblId}</p>
-              {staffScientific && (
+              {staffScientific && !isCoarse && (
                 <p className="text-[11px] italic text-white/55">{staffScientific}</p>
+              )}
+              {isCoarse && (
+                <p className="mt-0.5 text-[11px] leading-snug text-white/60">
+                  Not confirmed to species yet. Your &ldquo;{chosenOption}&rdquo; is logged and counts toward the community ID.
+                </p>
               )}
             </>
           ) : (
             <p className="mt-1 text-[12px] leading-snug text-white/65">
-              No reference yet — your ID helps build the dataset.
+              No reference yet. Your ID helps build the dataset.
             </p>
           )}
         </div>
@@ -190,42 +219,90 @@ export function RevealResult({
             </span>
           </div>
           <div className="mt-1.5 space-y-1">
-            {top.length === 0 ? (
+            {total === 0 ? (
               <p className="text-[11px] text-white/45">Be the first to call this one.</p>
+            ) : lowN ? (
+              // T-09: with only 1-2 spotters, hard percentages mislead. Frame it
+              // honestly and still show the user their own pick is logged.
+              <>
+                <p className="text-[11px] leading-snug text-white/60">
+                  You&rsquo;re one of the first to spot this. Your ID helps build the community answer.
+                </p>
+                <p className="text-[11px] font-semibold text-teal-200">
+                  {chosenOption}
+                  <span className="font-normal text-teal-300/80"> · you</span>
+                </p>
+              </>
             ) : (
-              top.map((s, i) => {
-                const mine = normalizeAnswer(s.option) === myKey;
-                return (
-                  <div key={s.option} className="flex items-center gap-1.5 text-[11px]">
-                    <span
-                      className={`w-16 shrink-0 truncate ${mine ? "font-semibold text-teal-200" : "text-white/80"}`}
-                      title={s.option}
-                    >
-                      {s.option}
-                      {mine && <span className="text-teal-300/80"> · you</span>}
-                    </span>
-                    <div className="h-1.5 flex-1 overflow-hidden rounded bg-white/10">
-                      <motion.div
-                        className={`h-full rounded ${mine ? "bg-teal-400" : "bg-teal-500/60"}`}
-                        initial={reduceMotion ? false : { width: 0 }}
-                        animate={{ width: `${s.percent}%` }}
-                        transition={
-                          reduceMotion
-                            ? undefined
-                            : { duration: DURATION.layout, ease: EASE.enter, delay: 0.14 + i * 0.07 }
-                        }
-                      />
+              <>
+                {top.map((s, i) => {
+                  const mine = normalizeAnswer(s.option) === myKey;
+                  return (
+                    <div key={s.option} className="flex items-center gap-1.5 text-[11px]">
+                      <span
+                        className={`w-16 shrink-0 truncate ${mine ? "font-semibold text-teal-200" : "text-white/80"}`}
+                        title={s.option}
+                      >
+                        {s.option}
+                        {mine && <span className="text-teal-300/80"> · you</span>}
+                      </span>
+                      <div className="h-1.5 flex-1 overflow-hidden rounded bg-white/10">
+                        <motion.div
+                          className={`h-full rounded ${mine ? "bg-teal-400" : "bg-teal-500/60"}`}
+                          initial={reduceMotion ? false : { width: 0 }}
+                          animate={{ width: `${s.percent}%` }}
+                          transition={
+                            reduceMotion
+                              ? undefined
+                              : { duration: DURATION.layout, ease: EASE.enter, delay: 0.14 + i * 0.07 }
+                          }
+                        />
+                      </div>
+                      <span className="w-7 shrink-0 text-right tabular-nums text-white/55">
+                        {s.percent}%
+                      </span>
                     </div>
-                    <span className="w-7 shrink-0 text-right tabular-nums text-white/55">
-                      {s.percent}%
+                  );
+                })}
+                {/* T-09: always show the user's own pick, even when it isn't a
+                    common call (always the case for a guest's read-only preview). */}
+                {!myInTop && (
+                  <div className="flex items-center gap-1.5 pt-0.5 text-[11px]">
+                    <span className="w-16 shrink-0 truncate font-semibold text-teal-200" title={chosenOption}>
+                      {chosenOption}
+                      <span className="font-normal text-teal-300/80"> · you</span>
                     </span>
+                    <span className="flex-1 text-[10px] italic text-white/40">your pick</span>
                   </div>
-                );
-              })
+                )}
+              </>
             )}
           </div>
         </div>
       </motion.div>
+
+      {/* T-07: the win visibly accumulates - collection + streak land right here
+          at the reward moment (authed only; guests get the sign-up nudge). */}
+      {(unlock?.isNew || streakAdvanced) && (
+        <motion.div variants={item} className="mt-2 flex flex-wrap items-center gap-2 text-[11px]">
+          {unlock?.isNew && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-correct/15 px-2.5 py-1 font-semibold text-correct">
+              <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
+                <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {unlock.commonName} added to your collection · {unlock.collectionCount} of 57
+            </span>
+          )}
+          {streakAdvanced && streakCurrent != null && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-teal-500/15 px-2.5 py-1 font-semibold text-teal-200">
+              <svg viewBox="0 0 14 14" className="h-3 w-3" fill="currentColor" aria-hidden="true">
+                <path d="M7 1.4c2.2 2.6.7 4.2.7 5.3a2 2 0 1 1-3.4-.1C4.6 4.7 7 4.1 7 1.4z" />
+              </svg>
+              Day {streakCurrent} streak
+            </span>
+          )}
+        </motion.div>
+      )}
     </motion.div>
   );
 }

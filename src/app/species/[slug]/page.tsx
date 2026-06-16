@@ -137,6 +137,20 @@ export default async function SpeciesProfilePage({
         <h2 className="mb-3 font-brand-heading text-h3 text-navy-900">Photos</h2>
         <SpeciesGallery scientificName={scientificName} commonName={traits.commonName} size="thumb" />
       </section>
+
+      {/* T-29: feed the loop - the most educational surface ends with a way back
+          into playing/collecting, not a dead end at "back to feed". */}
+      <section className="pebl-surface mt-5 rounded-card p-4 text-center">
+        <p className="text-sm text-navy-900/80">
+          Name {traits.commonName} in a clip to add it to your collection.
+        </p>
+        <Link
+          href="/feed"
+          className="pebl-button-primary mt-3 inline-flex min-h-[44px] items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold"
+        >
+          Spot it in the feed
+        </Link>
+      </section>
     </main>
   );
 }

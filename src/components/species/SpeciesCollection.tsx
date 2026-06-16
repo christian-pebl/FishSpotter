@@ -50,7 +50,13 @@ export async function SpeciesCollection({
       isUnlocked: unlocked.has(sci),
       thumb: thumb.get(sci),
     }))
-    .sort((a, b) => a.shapeClass.localeCompare(b.shapeClass) || a.common.localeCompare(b.common));
+    // T-02: collected species lead, so the grid opens on progress, not a wall.
+    .sort(
+      (a, b) =>
+        Number(b.isUnlocked) - Number(a.isUnlocked) ||
+        a.shapeClass.localeCompare(b.shapeClass) ||
+        a.common.localeCompare(b.common),
+    );
 
   const total = species.length;
   const collected = species.filter((s) => s.isUnlocked).length;
@@ -64,6 +70,9 @@ export async function SpeciesCollection({
     byClass.set(s.shapeClass, e);
   }
   const cap = (v: string) => v.charAt(0).toUpperCase() + v.slice(1);
+  // T-30: friendlier group names (the raw shape-class keys read as jargon).
+  const CLASS_LABEL: Record<string, string> = { gastropod: "Sea snails" };
+  const niceClass = (v: string) => CLASS_LABEL[v] ?? cap(v);
 
   // Best-effort: only treat a just-unlocked species as "fresh" if it is actually
   // collected (so a stale/bogus param can't fire the reveal on a locked tile).
@@ -77,7 +86,9 @@ export async function SpeciesCollection({
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="pebl-eyebrow">Collection</p>
         <p className="text-xs font-medium text-navy-900/60">
-          {collected} of {total} species
+          {collected === 0
+            ? `${total} species to discover`
+            : `${collected} discovered · ${total - collected} to find`}
         </p>
       </div>
 
@@ -91,7 +102,7 @@ export async function SpeciesCollection({
         {[...byClass.entries()].map(([cls, e]) => (
           <ProgressBadge
             key={cls}
-            label={cap(cls)}
+            label={niceClass(cls)}
             unlocked={e.u}
             total={e.t}
             justTicked={cls === justUnlockedClass}
@@ -102,10 +113,9 @@ export async function SpeciesCollection({
       {/* How collecting works — and an honest note that some clips the PEBL team
           can only identify to group level, so they score but never unlock a
           species (no species-level reference exists for them). */}
-      <p className="mt-3 text-[11px] leading-relaxed text-navy-900/55">
-        Correctly name a species to add it to your collection. Some clips can only
-        be identified to a group (e.g. &ldquo;a crab&rdquo;) even by the PEBL team:
-        those still earn points, but don&rsquo;t unlock a species.
+      <p className="mt-3 text-[10px] leading-relaxed text-navy-900/45">
+        Tip: some clips are only identifiable to a group (like &ldquo;a crab&rdquo;),
+        so they score points without unlocking a species.
       </p>
 
       {/* grid */}
@@ -125,8 +135,8 @@ export async function SpeciesCollection({
               <div
                 role="img"
                 className="relative flex aspect-square items-center justify-center rounded-modal bg-surface-muted"
-                aria-label={`${cap(s.shapeClass)}, not yet collected`}
-                title="Not yet collected"
+                aria-label={`${niceClass(s.shapeClass)}, not yet collected`}
+                title={`${s.common} — name it in a clip to collect it`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element -- local silhouette asset */}
                 <img
@@ -136,7 +146,6 @@ export async function SpeciesCollection({
                   className="h-1/2 w-1/2 object-contain opacity-15"
                 />
               </div>
-              <p className="mt-1 truncate text-[11px] text-navy-900/35">Locked</p>
             </li>
           ),
         )}

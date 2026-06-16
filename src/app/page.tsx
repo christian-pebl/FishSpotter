@@ -133,7 +133,10 @@ export default async function HomePage() {
               >
                 Spot the species in real underwater footage.
               </h1>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <p className="mt-3 max-w-xl text-sm leading-6 text-navy-900/70">
+                Every species you ID helps PEBL monitor life on real UK reefs.
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Link
                   href="/feed"
                   className="pebl-button-primary inline-flex min-h-[44px] items-center justify-center rounded-full px-6 py-3 text-sm font-semibold shadow-glow transition-shadow hover:shadow-glow-strong"
