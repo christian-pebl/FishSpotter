@@ -90,7 +90,7 @@ export default async function ProfilePage({
   const accuracy =
     resolvedAnswers >= 5
       ? `${Math.round((correctAnswers / resolvedAnswers) * 100)}%`
-      : "—";
+      : "-";
 
   return (
     <MarineBackdrop>

@@ -136,7 +136,7 @@ export async function SpeciesCollection({
                 role="img"
                 className="relative flex aspect-square items-center justify-center rounded-modal bg-surface-muted"
                 aria-label={`${niceClass(s.shapeClass)}, not yet collected`}
-                title={`${s.common} — name it in a clip to collect it`}
+                title={`${s.common}: name it in a clip to collect it`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element -- local silhouette asset */}
                 <img
