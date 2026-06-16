@@ -217,7 +217,7 @@ export function AccountClient({
               Show me on the public leaderboard
             </span>
             <span className="block text-xs text-navy-900/55">
-              When off, your score is private — only you can see your own rank.
+              When off, your score is private, so only you can see your own rank.
               Accounts declared as under 18 start with this off by default.
             </span>
           </span>

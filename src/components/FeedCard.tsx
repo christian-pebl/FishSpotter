@@ -856,7 +856,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
                   <path d="M6 7V3.6a1.3 1.3 0 0 1 2.6 0V7.4l1.3-.3a1.3 1.3 0 0 1 1.6 1.4l-.3 2.5a2 2 0 0 1-2 1.7H7.6a2 2 0 0 1-1.8-1.1L4.3 8.8A1.2 1.2 0 0 1 6 7.2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
                 </svg>
-                Tap the clip to identify
+                Not sure? Just pick the closest
               </span>
             </motion.div>
           )}
@@ -1411,7 +1411,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           href={signUpHref}
                           className="mt-2 inline-flex min-h-[44px] items-center justify-center rounded-full bg-teal-500 px-4 py-2 text-xs font-semibold text-navy-900 transition-colors hover:bg-teal-400"
                         >
-                          Save my finds — sign up free
+                          Save my finds, sign up free
                         </Link>
                       </div>
                     )}

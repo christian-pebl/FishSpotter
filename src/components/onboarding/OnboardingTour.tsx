@@ -8,17 +8,17 @@ const STEPS = [
   {
     eyebrow: "1 · Spot",
     title: "Pick the species in 5 seconds",
-    body: "Each clip shows a short underwater snippet. We surface a few likely species — pick the one that matches what you see. No typing required.",
+    body: "Each clip shows a short underwater snippet. We surface a few likely species, so just pick the one that matches what you see. No typing required.",
   },
   {
     eyebrow: "2 · Compare",
     title: "Compare with the reference ID (when available)",
-    body: "After you pick, we reveal the reference identification where one exists, how the wider community guessed, and which species OBIS expects at this site and season. Clips without a reference are worth more — your ID helps build the dataset.",
+    body: "After you pick, we reveal the reference identification where one exists, how the wider community guessed, and which species OBIS expects at this site and season. Clips without a reference are worth more, and your ID helps build the dataset.",
   },
   {
     eyebrow: "3 · Streak",
     title: "Build a streak",
-    body: "Identify clips on consecutive days to grow a streak. Submit 10 identifications to enter the leaderboard. We'll send one Monday digest a week — opt out any time.",
+    body: "Identify clips on consecutive days to grow a streak. Submit 10 identifications to enter the leaderboard. We'll send one Monday digest a week, and you can opt out any time.",
   },
 ];
 

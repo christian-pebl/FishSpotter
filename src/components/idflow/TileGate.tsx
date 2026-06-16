@@ -450,7 +450,7 @@ export function TileGate({
               <span className="h-10 w-10 shrink-0" aria-hidden="true" />
             )}
 
-            <p className="min-w-0 flex-1 truncate text-center text-[11px] font-semibold uppercase tracking-widest text-white/55">
+            <p className="min-w-0 flex-1 text-balance text-center text-[13px] font-semibold leading-tight text-white/85">
               {title}
             </p>
 
@@ -596,14 +596,17 @@ export function TileGate({
                 onClick={() => setMinimized(false)}
                 aria-label={bubbleLabel}
                 title={bubbleLabel}
-                className="flex h-14 w-14 items-center justify-center rounded-full border border-teal-300/40 bg-navy-900/95 text-teal-300 shadow-menu backdrop-blur transition-colors hover:border-teal-300 hover:bg-teal-500/25 hover:text-teal-200"
+                className="inline-flex h-12 items-center gap-2 rounded-full border border-teal-300/40 bg-navy-900/95 pl-3 pr-4 text-sm font-semibold text-teal-300 shadow-menu backdrop-blur transition-colors hover:border-teal-300 hover:bg-teal-500/25 hover:text-teal-200"
               >
-                {/* Magnifier-over-target "Spot It" glyph + an up-cue. */}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" />
-                  <path d="M15.5 15.5L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                  <path d="M10.5 13V8M8 10.5l2.5-2.5L13 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                {/* Target reticle reads "identify / resume" (T-25) — a magnifier
+                    glyph conventionally means "search", not "resume the ID". The
+                    visible "Resume" label removes the unlabelled-affordance risk. */}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="2" />
+                  <circle cx="12" cy="12" r="1.6" fill="currentColor" />
+                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
+                Resume
               </button>
               {/* The dismiss ✕ used to live here as a corner badge, but it was
                   too small and too close to the screen edge to hit reliably on a

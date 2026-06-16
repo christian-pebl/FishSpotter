@@ -34,7 +34,7 @@ export function PasswordResetEmail({
         Or paste this URL into your browser: {resetUrl}
       </Text>
       <Text style={{ fontSize: 12, color: "#5A6E74" }}>
-        This link expires in 1 hour and can only be used once. If you didn&apos;t request a reset, ignore this email — your password stays the same.
+        This link expires in 1 hour and can only be used once. If you didn&apos;t request a reset, ignore this email and your password stays the same.
       </Text>
     </EmailLayout>
   );

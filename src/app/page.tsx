@@ -38,7 +38,7 @@ for (const [binomial, t] of Object.entries(TRAITS)) {
 }
 
 export default async function HomePage() {
-  const [featuredCandidates, distinctAnswerRows, clips, spotters, photoRows] = await Promise.all([
+  const [featuredCandidates, distinctAnswerRows, clips, idsMade, photoRows] = await Promise.all([
     // Fetch top 25 so we can pick the first whose staffAnswer resolves to
     // a real catalogue species, skipping junk labels like "Fish" or "Crab".
     // Stable ordering via id tiebreaker (recordingDatetime is a nullable
@@ -55,7 +55,9 @@ export default async function HomePage() {
       distinct: ["staffAnswer"],
     }),
     prisma.snippet.count(),
-    prisma.user.count(),
+    // T-22: "identifications made" grows per-play and reads positively; the raw
+    // spotter count (single digits) read as an empty product at first impression.
+    prisma.answer.count(),
     prisma.speciesImage.findMany({
       orderBy: [{ curated: "desc" }, { ordering: "asc" }],
       take: 90,
@@ -138,17 +140,15 @@ export default async function HomePage() {
                 >
                   Start spotting
                 </Link>
-                <Link
-                  href="/auth/signin?isSignUp=1"
-                  className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-teal-600 px-6 py-3 text-sm font-semibold text-teal-700 transition-colors hover:bg-teal-50"
-                >
-                  Create your spotter profile
-                </Link>
               </div>
               <p className="mt-4 text-xs text-navy-900/60">
                 Free, no card required.{" "}
+                <Link href="/auth/signin?isSignUp=1" className="underline hover:text-navy-900">
+                  Create a profile
+                </Link>
+                ,{" "}
                 <Link href="/feed/browse" className="underline hover:text-navy-900">
-                  Browse the archive
+                  browse the archive
                 </Link>
                 {" "}or{" "}
                 <Link href="/leaderboard" className="underline hover:text-navy-900">
@@ -172,7 +172,7 @@ export default async function HomePage() {
 
         {/* Live stats */}
         <section aria-label="FishSpotter at a glance">
-          <StatsBand clips={clips} species={speciesCount} spotters={spotters} speciesLabel="identifiable species" />
+          <StatsBand clips={clips} species={speciesCount} idsMade={idsMade} speciesLabel="identifiable species" />
         </section>
 
         {/* How it works */}

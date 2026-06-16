@@ -61,7 +61,7 @@ export default async function AccountPage() {
       <section className="pebl-surface rounded-card p-6">
         <p className="pebl-eyebrow">Your data</p>
         <p className="mt-2 text-sm text-navy-900/72">
-          Download a JSON file with everything we hold on you — account plus every answer. UK GDPR Art. 20.
+          Download a JSON file with everything we hold on you: your account plus every answer. UK GDPR Art. 20.
         </p>
         <a
           href="/api/account/export"

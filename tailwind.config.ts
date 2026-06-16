@@ -67,6 +67,13 @@ export default {
           DEFAULT: "#fcd34d", // amber-300
           ink: "#451a03", // amber-950
         },
+        // Wave 0 (T-26): calm on-brand "notice" token for the verify-email
+        // banner. Dark teal, NOT amber, so an optional prompt reads as info,
+        // not a warning. (Muted-text tokens land in the Wave 6 contrast sweep.)
+        notice: {
+          DEFAULT: "#2B7A78",
+          ink: "#FFFFFF",
+        },
       },
       borderRadius: {
         card: "24px",

@@ -7,7 +7,7 @@ import { speciesSlug } from "@/lib/species-slug";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Species guide — FishSpotter",
+  title: "Species guide · FishSpotter",
   description: "Browse the UK marine species you can spot, with reference photos and field notes.",
 };
 

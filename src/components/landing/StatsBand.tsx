@@ -44,7 +44,7 @@ function useCountUp(target: number, run: boolean, durationMs = 1100) {
   return n;
 }
 
-export function StatsBand({ clips, species, spotters, speciesLabel = "species to spot" }: { clips: number; species: number; spotters: number; speciesLabel?: string }) {
+export function StatsBand({ clips, species, idsMade, speciesLabel = "species to spot" }: { clips: number; species: number; idsMade: number; speciesLabel?: string }) {
   const [run, setRun] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -72,7 +72,7 @@ export function StatsBand({ clips, species, spotters, speciesLabel = "species to
   const stats: Stat[] = [
     { value: clips, label: "underwater clips" },
     { value: species, label: speciesLabel },
-    { value: spotters, label: "spotters" },
+    { value: idsMade, label: "identifications" },
   ];
 
   return (

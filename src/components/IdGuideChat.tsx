@@ -224,7 +224,7 @@ export function IdGuideChat({
               })}
             </div>
             <p className="pt-2 text-[10px] text-white/45">
-              Tap a row to inspect — you decide whether to use it.
+              Tap a row to inspect. You decide whether to use it.
             </p>
           </div>
         )}
@@ -255,7 +255,7 @@ export function IdGuideChat({
             placeholder={
               turnsRemaining > 0
                 ? "Describe what you saw…"
-                : "Conversation complete — start a new chat for more"
+                : "Conversation complete. Start a new chat for more"
             }
             rows={1}
             disabled={streaming || turnsRemaining <= 0}

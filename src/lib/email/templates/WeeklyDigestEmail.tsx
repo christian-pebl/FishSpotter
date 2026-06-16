@@ -13,7 +13,7 @@ export interface WeeklyDigestPayload {
 
 export function WeeklyDigestEmail(p: WeeklyDigestPayload) {
   return (
-    <EmailLayout preview={`Your PEBL FishSpotter week — ${p.weeklyAnswers} answers, ${p.currentStreak}-day streak`}>
+    <EmailLayout preview={`Your PEBL FishSpotter week: ${p.weeklyAnswers} answers, ${p.currentStreak}-day streak`}>
       <Text style={{ fontSize: 22, fontWeight: 700, color: "#17252A", marginTop: 16 }}>
         Hi {p.displayName}, here&apos;s your week.
       </Text>
