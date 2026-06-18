@@ -23,6 +23,10 @@
     "commonName": "European sea bass",
     "aliases": ["sea bass", "bass", "European bass", "Dicentrarchus"]
   },
+  "Eutrigla gurnardus": {
+    "commonName": "Grey gurnard",
+    "aliases": ["grey gurnard", "gray gurnard", "gurnard", "gurnards", "grey gurnet", "Eutrigla"]
+  },
   "Gadus morhua": {
     "commonName": "Atlantic cod",
     "aliases": ["cod", "Atlantic codfish", "codfish", "Gadus", "juvenile cod", "cod (juvenile)"]

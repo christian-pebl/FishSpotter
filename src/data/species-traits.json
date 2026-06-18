@@ -2065,5 +2065,44 @@
       "saucer"
     ],
     "fieldNote": "A small mauve-to-purple bell densely peppered with stinging warts, trailing eight long tentacles and four frilly arms. Glows blue in the dark and arrives in swarms; a notable stinger, increasingly seen in UK waters."
+  },
+  "Eutrigla gurnardus": {
+    "commonName": "Grey gurnard",
+    "shapeClass": "fish",
+    "bodyShape": [
+      "elongated"
+    ],
+    "size": "medium",
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "fin-spots"
+    ],
+    "finShape": [
+      "split-dorsal"
+    ],
+    "features": [
+      "dorsal-spines"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts"
+    ],
+    "fieldNote": "Elongated, armour-headed seabed fish that 'walks' on three free finger-like rays beneath each large fan-shaped pectoral fin. Greyish-brown with a white-spotted, nearly straight side-line; the dark blotch on the first (spiny) dorsal fin is the giveaway.",
+    "bodyDepth": [
+      "slender"
+    ],
+    "lateralLine": [
+      "pale-straight"
+    ],
+    "fishGroup": [
+      "bottom-sitter"
+    ]
   }
 }
