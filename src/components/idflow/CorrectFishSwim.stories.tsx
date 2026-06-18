@@ -100,8 +100,6 @@ function InRevealCorrectStory() {
           chosenOption="Pollack"
           isCorrect={true}
           revealPartial={false}
-          staffAnswer="Pollack"
-          staffScientific="Pollachius pollachius"
           stats={MOCK_STATS}
           total={20}
           reduceMotion={false}
@@ -124,8 +122,6 @@ export const ReducedMotion: Story = {
         chosenOption="Pollack"
         isCorrect={true}
         revealPartial={false}
-        staffAnswer="Pollack"
-        staffScientific="Pollachius pollachius"
         stats={MOCK_STATS}
         total={20}
         reduceMotion={true}
