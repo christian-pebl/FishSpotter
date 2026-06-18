@@ -45,6 +45,13 @@ const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 // rest.
 const MAX_TILES = 24;
 
+/** The OBIS-backed local likelihood for a clip's bucket: the bucket-wide record
+ * total (for the sample-size gate) plus per-species record count + share. */
+type LocalLikelihood = {
+  totalRecords: number;
+  byScientific: Record<string, { count: number; probability: number }>;
+};
+
 /** Rung-3 photo tile media: a lazy <img> that starts transparent and fades to
  * full opacity over ~180ms (≈ DURATION.micro) once the image actually paints,
  * so tiles "pop in" as their photos arrive instead of snapping. Pure CSS
@@ -131,28 +138,48 @@ export function CandidateGate({
 }) {
   // Ecological likelihood for THIS clip's bucket (location · depth · month),
   // from the OBIS-backed probability cache. null until it resolves / when the
-  // bucket has no data. Used to RANK the grid (most-likely-here first) and to
-  // show a per-species "local likelihood" bar in the compare view.
-  const [probByScientific, setProbByScientific] = useState<Record<string, number> | null>(null);
+  // bucket has no data. Drives BOTH the grid ranking (most-likely-here first)
+  // and the compare view's per-species likelihood bars + info bullets. We keep
+  // the per-species record COUNT and the bucket-wide total so the compare view
+  // can gate on sample size and show honest "N records" bullets rather than a
+  // single effort-biased percentage.
+  const [local, setLocal] = useState<LocalLikelihood | null>(null);
   useEffect(() => {
     let cancelled = false;
     fetch(`/api/snippets/${encodeURIComponent(snippetId)}/probability`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (cancelled || !d || d.status !== "OK" || !Array.isArray(d.species)) return;
-        const map: Record<string, number> = {};
+        const byScientific: Record<string, { count: number; probability: number }> = {};
         for (const s of d.species) {
           if (s && typeof s.scientificName === "string" && typeof s.probability === "number") {
-            map[s.scientificName] = s.probability;
+            byScientific[s.scientificName] = {
+              count: typeof s.count === "number" ? s.count : 0,
+              probability: s.probability,
+            };
           }
         }
-        setProbByScientific(map);
+        setLocal({
+          totalRecords: typeof d.totalRecords === "number" ? d.totalRecords : 0,
+          byScientific,
+        });
       })
       .catch(() => {});
     return () => {
       cancelled = true;
     };
   }, [snippetId]);
+
+  // Flatten to {scientificName -> probability} for narrowCandidates' ordering.
+  const probByScientific = useMemo(
+    () =>
+      local
+        ? Object.fromEntries(
+            Object.entries(local.byScientific).map(([k, v]) => [k, v.probability]),
+          )
+        : null,
+    [local],
+  );
 
   const candidates = useMemo(
     () =>
@@ -285,7 +312,7 @@ export function CandidateGate({
         <SpeciesComparison
           group={comparison}
           submitting={submitting}
-          probabilityByScientific={probByScientific ?? undefined}
+          local={local ?? undefined}
           onPick={onPick}
           onClose={() => setComparing(false)}
         />
