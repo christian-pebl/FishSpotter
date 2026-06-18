@@ -931,30 +931,52 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         )}
       </div>
 
-      {/* Clip provenance — a bottom-RIGHT info button. Tap it to reveal where +
-          when this clip was filmed (depth · site · date) in a small popover; tap
-          the site name inside for the map. Replaces the old always-on bottom-left
-          pill so the metadata is on-demand and the clip stays clean. Mirrors the
-          pill's visibility window (after the first identify tap / once answered;
-          idle clips leave the bottom for the identify bar). */}
-      {(hasTappedIdentify || !!myAnswer) &&
-        (snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
-          <>
-            {/* Tap-away backdrop so a tap anywhere closes the popover. */}
-            {metaOpen && (
-              <button
-                type="button"
-                aria-hidden="true"
-                tabIndex={-1}
-                onClick={() => setMetaOpen(false)}
-                className="absolute inset-0 z-20 cursor-default"
-              />
-            )}
-            <div
-              className="pointer-events-none absolute bottom-0 right-0 z-20 flex h-14 items-center justify-end pl-2 pr-3"
-              style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-            >
-              <div className="pointer-events-auto relative flex flex-col items-end">
+      {/* Clip metadata (depth · site · date) + the map now live in the idle
+          bottom bar's LEFT "info pin" — see the docked bar below. */}
+
+      {/* Soft bottom gradient so the floating panel always reads over the video.
+          Desktop centres the panel mid-screen so the bottom gradient just
+          obscures the seabed — only render it on mobile, and keep it
+          subtler so species near the lower edge stay visible. */}
+      {!panelCollapsed && !isDesktop && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-black/40 via-black/10 to-transparent"
+        />
+      )}
+
+      {/* Tap-away backdrop for the bottom-bar info popover: a tap on the clip
+          closes it WITHOUT firing the tap-to-identify catcher (z-10). Gated on
+          the same idle state as the bar so it never strands over a gate. */}
+      {panelCollapsed && !hasTappedIdentify && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && metaOpen && (
+        <button
+          type="button"
+          aria-hidden="true"
+          tabIndex={-1}
+          onClick={() => setMetaOpen(false)}
+          className="absolute inset-0 z-20 cursor-default"
+        />
+      )}
+
+      {/* Collapsed pill — replaces the panel when minimized. Also hidden while a
+          gate is open so the gate is the only box on screen. */}
+      <AnimatePresence>
+        {panelCollapsed && !hasTappedIdentify && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
+          <motion.div
+            key="identify-bar"
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
+            transition={TRANSITION.standard}
+            // (3 Jun) Dark-themed docked bar matching the shape gate. Three
+            // segments: the clip-info pin (left), the identify CTA (centre), and
+            // the radar "locate the fish" ping (right).
+            className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-stretch border-t border-white/10 bg-navy-900/95 backdrop-blur"
+          >
+            {/* Clip-info pin (LEFT) — tap for depth · site · date; tap the place
+                name inside for the small map. */}
+            {(snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
+              <div className="relative flex shrink-0 items-stretch border-r border-white/10">
                 <AnimatePresence>
                   {metaOpen && (
                     <motion.div
@@ -964,7 +986,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       transition={reduceMotion ? { duration: 0 } : { duration: DURATION.standard, ease: EASE.enter }}
                       role="dialog"
                       aria-label="Where and when this clip was filmed"
-                      className="absolute bottom-full right-0 mb-2 w-max max-w-[min(16rem,calc(100vw-1.5rem))] rounded-modal border border-white/15 bg-navy-900/95 p-2.5 text-[11px] font-medium text-white shadow-menu backdrop-blur"
+                      className="absolute bottom-full left-0 mb-2 w-max max-w-[min(16rem,calc(100vw-1.5rem))] rounded-modal border border-white/15 bg-navy-900/95 p-2.5 text-[11px] font-medium text-white shadow-menu backdrop-blur"
                     >
                       <div className="flex flex-col items-start gap-1.5">
                         {snippet.depthM != null && (
@@ -1031,10 +1053,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   aria-label={metaOpen ? "Hide where this clip was filmed" : "Show where this clip was filmed"}
                   aria-expanded={metaOpen}
                   className={[
-                    "inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border backdrop-blur transition-colors",
-                    metaOpen
-                      ? "border-teal-400 bg-teal-500/20 text-teal-200"
-                      : "border-white/15 bg-navy-900/80 text-teal-300 hover:bg-white/10 hover:text-teal-200",
+                    "flex min-w-[52px] items-center justify-center px-4 transition-colors",
+                    metaOpen ? "bg-teal-500/15 text-teal-200" : "text-teal-300 hover:bg-white/5",
                   ].join(" ")}
                 >
                   {/* Map-pin glyph reads as "where was this filmed". */}
@@ -1044,38 +1064,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   </svg>
                 </button>
               </div>
-            </div>
-          </>
-        )}
-
-      {/* Soft bottom gradient so the floating panel always reads over the video.
-          Desktop centres the panel mid-screen so the bottom gradient just
-          obscures the seabed — only render it on mobile, and keep it
-          subtler so species near the lower edge stay visible. */}
-      {!panelCollapsed && !isDesktop && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-black/40 via-black/10 to-transparent"
-        />
-      )}
-
-      {/* Collapsed pill — replaces the panel when minimized. Also hidden while a
-          gate is open so the gate is the only box on screen. */}
-      <AnimatePresence>
-        {panelCollapsed && !hasTappedIdentify && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
-          <motion.div
-            key="identify-bar"
-            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
-            transition={TRANSITION.standard}
-            // (3 Jun) Dark-themed docked bar matching the shape gate. Two
-            // actions: open the step-by-step flow, and radar-ping the creature.
-            className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-stretch border-t border-white/10 bg-navy-900/95 backdrop-blur"
-          >
+            )}
             <button
               type="button"
               onClick={() => {
+                setMetaOpen(false);
                 setHasTappedIdentify(true);
                 togglePanel(false);
                 // Lead with the step-by-step shape flow, not the MCQ tiles.
@@ -1097,11 +1090,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Radar-ping the creature's current location on the clip. */}
+            {/* Radar-ping the creature's location on the clip — the "locate the
+                fish" button, kept on the RIGHT. */}
             {hasBboxes && (
               <button
                 type="button"
-                onClick={triggerPing}
+                onClick={() => {
+                  setMetaOpen(false);
+                  triggerPing();
+                }}
                 aria-label="Show where the creature is on screen"
                 title="Show where on screen"
                 className="flex shrink-0 items-center justify-center gap-1.5 border-l border-white/10 px-4 text-[11px] font-semibold uppercase tracking-wider text-teal-300 transition-colors hover:bg-white/5"
