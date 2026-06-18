@@ -41,6 +41,7 @@ export default async function SpeciesIndexPage() {
   const total = Object.keys(CATALOGUE).length;
 
   return (
+    <div className="flex-1 overflow-y-auto">
     <main id="main" tabIndex={-1} className="mx-auto w-full max-w-3xl px-4 pb-16 pt-4">
       <Link
         href="/feed"
@@ -92,5 +93,6 @@ export default async function SpeciesIndexPage() {
         </section>
       ))}
     </main>
+    </div>
   );
 }
