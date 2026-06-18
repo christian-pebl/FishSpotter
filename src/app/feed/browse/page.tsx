@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
-import { DriftingSilhouettes } from "@/components/DriftingSilhouettes";
+import { MarineBackdrop } from "@/components/MarineBackdrop";
 
 // P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
@@ -124,21 +124,14 @@ export default async function FeedBrowsePage({
   }
 
   return (
+    <MarineBackdrop>
     <div className="relative flex-1 overflow-y-auto">
-      {/* Dark underwater backdrop with slow-drifting marine silhouettes. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-navy-900 via-navy-900 to-navy-800"
-      >
-        <DriftingSilhouettes className="text-teal-200/[0.06]" />
-      </div>
-
       <main
         id="main"
         tabIndex={-1}
-        className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8 text-white"
+        className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8"
       >
-        <h1 className="font-brand-heading text-3xl font-bold text-white">
+        <h1 className="font-brand-heading text-3xl font-bold text-navy-900">
           Observation Archive
         </h1>
 
@@ -154,13 +147,13 @@ export default async function FeedBrowsePage({
             defaultValue={params.q ?? ""}
             placeholder="Search species, site, deployment"
             aria-label="Search clips"
-            className="min-w-[12rem] flex-1 rounded-full bg-white/10 px-4 py-2 text-sm text-white placeholder:text-white/40 focus:bg-white/15 focus:outline-none"
+            className="min-w-[12rem] flex-1 rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 placeholder:text-navy-900/40 focus:bg-white focus:outline-none"
           />
           <select
             name="site"
             defaultValue={params.site ?? ""}
             aria-label="Filter by site"
-            className="rounded-full bg-white/10 px-4 py-2 text-sm text-white [color-scheme:dark] focus:bg-white/15 focus:outline-none"
+            className="rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 focus:bg-white focus:outline-none"
           >
             <option value="">All sites</option>
             {distinctSites.map((s: { site: string }) => (
@@ -173,7 +166,7 @@ export default async function FeedBrowsePage({
             name="sort"
             defaultValue={sort}
             aria-label="Sort clips"
-            className="rounded-full bg-white/10 px-4 py-2 text-sm text-white [color-scheme:dark] focus:bg-white/15 focus:outline-none"
+            className="rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 focus:bg-white focus:outline-none"
           >
             <option value="newest">Newest first</option>
             <option value="oldest">Oldest first</option>
@@ -188,7 +181,7 @@ export default async function FeedBrowsePage({
           {(params.q || params.site || sort !== "newest") && (
             <Link
               href="/feed/browse"
-              className="px-2 text-xs text-white/50 transition-colors hover:text-white/80"
+              className="px-2 text-xs text-navy-900/55 transition-colors hover:text-navy-900/80"
             >
               Reset
             </Link>
@@ -203,7 +196,7 @@ export default async function FeedBrowsePage({
                 aria-label={`Open clip from ${s.site}, ${s.deployment}`}
                 className="group block"
               >
-                <div className="relative aspect-video overflow-hidden rounded-card bg-white/5">
+                <div className="relative aspect-video overflow-hidden rounded-card bg-navy-900/5">
                   <Image
                     src={s.thumbnailUrl}
                     alt=""
@@ -235,13 +228,13 @@ export default async function FeedBrowsePage({
                   )}
                 </div>
                 <div className="mt-2 space-y-0.5 px-0.5">
-                  <p className="truncate text-sm font-semibold text-white">
+                  <p className="truncate text-sm font-semibold text-navy-900">
                     {s.site}
                   </p>
-                  <p className="truncate text-[11px] uppercase tracking-wider text-white/45">
+                  <p className="truncate text-[11px] uppercase tracking-wider text-navy-900/45">
                     {s.deployment}
                   </p>
-                  <p className="flex flex-wrap items-center gap-x-2 text-[11px] text-white/55">
+                  <p className="flex flex-wrap items-center gap-x-2 text-[11px] text-navy-900/55">
                     {s.recordingDatetime && (
                       <span>
                         {new Date(s.recordingDatetime).toLocaleString(undefined, {
@@ -254,7 +247,7 @@ export default async function FeedBrowsePage({
                       </span>
                     )}
                     {s.depthM != null && (
-                      <span className="text-teal-200/70">{Math.round(s.depthM)} m deep</span>
+                      <span className="text-teal-700">{Math.round(s.depthM)} m deep</span>
                     )}
                   </p>
                 </div>
@@ -264,9 +257,9 @@ export default async function FeedBrowsePage({
         </ul>
 
         {snippets.length === 0 && totalCount === 0 && (
-          <p className="text-sm text-white/55">
+          <p className="text-sm text-navy-900/55">
             No clips match.{" "}
-            <Link href="/feed/browse" className="text-teal-300 underline">
+            <Link href="/feed/browse" className="text-teal-700 underline">
               Clear filters
             </Link>
           </p>
@@ -282,7 +275,7 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.max(1, page - 1))}
               aria-disabled={page === 1}
               className={
-                "inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-4 text-xs font-semibold text-white transition-colors hover:bg-white/20 " +
+                "inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/70 px-4 text-xs font-semibold text-navy-900 transition-colors hover:bg-white " +
                 (page === 1 ? "pointer-events-none opacity-40" : "")
               }
             >
@@ -291,14 +284,14 @@ export default async function FeedBrowsePage({
               </svg>
               Previous
             </Link>
-            <span className="text-xs text-white/45">
+            <span className="text-xs text-navy-900/55">
               Page {page} of {totalPages}
             </span>
             <Link
               href={pageUrl(Math.min(totalPages, page + 1))}
               aria-disabled={page === totalPages}
               className={
-                "inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-4 text-xs font-semibold text-white transition-colors hover:bg-white/20 " +
+                "inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/70 px-4 text-xs font-semibold text-navy-900 transition-colors hover:bg-white " +
                 (page === totalPages ? "pointer-events-none opacity-40" : "")
               }
             >
@@ -311,5 +304,6 @@ export default async function FeedBrowsePage({
         )}
       </main>
     </div>
+    </MarineBackdrop>
   );
 }
