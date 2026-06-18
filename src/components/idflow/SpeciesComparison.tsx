@@ -21,11 +21,17 @@ import type { ComparisonGroup } from "@/lib/idflow/comparisons";
 export function SpeciesComparison({
   group,
   submitting,
+  probabilityByScientific,
   onPick,
   onClose,
 }: {
   group: ComparisonGroup;
   submitting: boolean;
+  /** Per-species ecological likelihood for THIS clip's location/depth/month
+   * bucket (OBIS, via /api/snippets/[id]/probability). Values are a 0..1 share
+   * of local records. Omitted / all-zero when the bucket has no data — the
+   * likelihood UI then hides itself. */
+  probabilityByScientific?: Record<string, number>;
   /** Commit a species (by common name) as the guess. */
   onPick: (commonName: string) => void;
   /** Dismiss without committing (back to the grid). */
@@ -103,6 +109,18 @@ export function SpeciesComparison({
 
   if (!mounted || typeof document === "undefined") return null;
 
+  // Local likelihood (OBIS share of records in this clip's bucket). When we have
+  // data, sort the cards most-likely-here first so the eye lands on the strongest
+  // candidate; when we don't, keep the authored order and hide the likelihood UI.
+  const prob = probabilityByScientific ?? {};
+  const maxProb = Math.max(0, ...group.members.map((m) => prob[m.scientificName] ?? 0));
+  const hasProb = maxProb > 0;
+  const orderedMembers = hasProb
+    ? [...group.members].sort(
+        (a, b) => (prob[b.scientificName] ?? 0) - (prob[a.scientificName] ?? 0),
+      )
+    : group.members;
+
   return createPortal(
     <div
       className="fixed inset-0 z-[90] flex items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4"
@@ -133,12 +151,22 @@ export function SpeciesComparison({
         </div>
 
         <div className="flex-1 overflow-y-auto p-3">
+          {/* Ecological-likelihood hint: how often each look-alike is recorded
+              around this clip's spot at this time of year (OBIS). A prior, framed
+              honestly so it never overrides what the user actually saw. */}
+          {hasProb && (
+            <p className="mb-3 rounded-modal border border-teal-500/20 bg-teal-500/5 px-3 py-2 text-[10px] leading-snug text-white/55">
+              <span className="font-semibold text-teal-200/90">Local likelihood</span> — how
+              often each turns up around here at this time of year (OBIS records). A hint
+              from the data; trust what you actually saw in the clip.
+            </p>
+          )}
           {/* Big photo cards, one per look-alike: image + name + a couple of
               distinctive-feature bullets, nothing else. Fixed wide cards keep the
               photos large; the row scrolls (swipe) to compare the rest. Tapping a
               card commits that species. */}
           <div className="flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
-            {group.members.map((m) => {
+            {orderedMembers.map((m) => {
               const photo = photos[m.scientificName];
               return (
                 <button
@@ -172,6 +200,31 @@ export function SpeciesComparison({
                         </li>
                       ))}
                     </ul>
+                    {hasProb &&
+                      (() => {
+                        const p = prob[m.scientificName] ?? 0;
+                        const ratio = maxProb > 0 ? p / maxProb : 0;
+                        const isTop = p > 0 && p === maxProb;
+                        const pct = p <= 0 ? null : p * 100 < 1 ? "<1%" : `${Math.round(p * 100)}%`;
+                        return (
+                          <span className="mt-1 flex flex-col gap-1 border-t border-white/10 pt-2">
+                            <span className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-wider">
+                              <span className={isTop ? "text-teal-300" : p > 0 ? "text-white/70" : "text-white/40"}>
+                                {isTop ? "Most likely here" : p > 0 ? "Seen here" : "Not recorded here"}
+                              </span>
+                              {pct && (
+                                <span className="font-normal tracking-normal text-white/45">{pct} of records</span>
+                              )}
+                            </span>
+                            <span className="block h-1.5 w-full overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+                              <span
+                                className={`block h-full rounded-full ${isTop ? "bg-teal-400" : "bg-teal-500/55"}`}
+                                style={{ width: `${p > 0 ? Math.max(8, Math.round(ratio * 100)) : 0}%` }}
+                              />
+                            </span>
+                          </span>
+                        );
+                      })()}
                   </span>
                 </button>
               );
