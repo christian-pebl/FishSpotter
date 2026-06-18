@@ -56,7 +56,7 @@ export function RevealResult({
   revealPartial: boolean;
   /** PEBL reference label for the clip (null = no reference yet). */
   staffAnswer: string | null;
-  /** Resolved scientific name (arrives after RarityPanel resolves it). */
+  /** Resolved scientific name (arrives after StaffScientificResolver fetches it). */
   staffScientific: string | null;
   stats: RevealStatsItem[];
   total: number;

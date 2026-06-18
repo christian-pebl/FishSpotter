@@ -7,7 +7,7 @@ import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
 import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
-import { RarityPanel } from "./RarityPanel";
+import { StaffScientificResolver } from "./StaffScientificResolver";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
@@ -1350,23 +1350,22 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       streakAdvanced={rewardProgress?.streakAdvanced}
                       unlock={rewardProgress?.unlock}
                     />
-                    {/* S7-T1: ecological-likelihood + species-gallery
-                         panels only make sense when a reference ID
-                         exists — they assess the user's guess against
-                         the staff answer. On no-reference clips we
-                         skip the whole pane and let the +1 bonus chip
-                         carry the messaging. */}
+                    {/* S7-T1: the reference species-gallery only makes sense
+                         when a reference ID exists — it shows the staff answer's
+                         photos + diagnostic marks. On no-reference clips we skip
+                         the whole pane and let the +1 bonus chip carry the
+                         messaging. The headless resolver fetches the reference's
+                         canonical scientific name (the visible "Ecological
+                         likelihood" panel that used to do this was removed). */}
                     {(() => {
                       const referenceAnswer =
                         stats!.staffAnswer ?? snippet.staffAnswer ?? null;
                       if (referenceAnswer === null) return null;
                       return (
                         <>
-                          <RarityPanel
+                          <StaffScientificResolver
                             snippetId={snippet.id}
-                            recordingDatetime={snippet.recordingDatetime}
-                            userIsCorrect={myAnswer?.isCorrect === true}
-                            onResolveStaffScientific={setStaffScientific}
+                            onResolve={setStaffScientific}
                           />
                           {/* S2-T08 inline gallery — sits between the staff
                                answer line and the IdGuide trigger row.
