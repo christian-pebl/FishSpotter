@@ -1635,6 +1635,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSelectForm={(key, value) => {
             dispatch({ type: "selectForm", seed: { key, value } });
           }}
+          onPickSpecies={(name) =>
+            void submitAndAdvance(() => handleSubmit({ answerText: name }))
+          }
+          submitting={submitting}
           onSkip={() => {
             dispatch({ type: "skipToMcq" });
           }}
