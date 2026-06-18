@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * Side-by-side "tell them apart" comparison (18 Jun 2026), opened from the
- * Rung-3 candidate gate when the remaining species are genuine look-alikes
- * (currently the three right-eyed flatfish). It lines the look-alikes up next to
- * each other with the ONE cue that separates each, drawn from the UK ID guides
- * (see src/lib/idflow/comparisons.ts for sources), plus a quickest-route tip and
- * a hybrid caveat. Tapping a species commits it as the guess.
+ * Side-by-side "tell them apart" comparison, opened from the candidate gate when
+ * the remaining species are genuine look-alikes. Deliberately spare (18 Jun
+ * 2026): a row of LARGE photo cards, one per look-alike, each carrying only the
+ * fish name + a couple of bullet points of distinctive features. No intro, tip,
+ * caveat or sources clutter the view (those still live in comparisons.ts for the
+ * record). Tapping a card commits that species as the guess.
  *
  * Focus management is inline (no nested lightbox here, unlike SpeciesGuidePopup),
  * following the same WCAG contract: focus in, scroll lock, Escape, Tab trap,
@@ -117,11 +117,8 @@ export function SpeciesComparison({
         aria-label={group.title}
         className="flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-t-card bg-navy-900 text-white shadow-menu sm:rounded-card"
       >
-        <div className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3">
-          <div className="min-w-0">
-            <h2 className="text-h3 font-semibold leading-tight text-white">{group.title}</h2>
-            <p className="mt-1 text-[11px] leading-snug text-white/60">{group.intro}</p>
-          </div>
+        <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
+          <h2 className="min-w-0 text-h3 font-semibold leading-tight text-white">{group.title}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -135,17 +132,12 @@ export function SpeciesComparison({
           </button>
         </div>
 
-        <div className="flex-1 space-y-4 overflow-y-auto px-4 py-3">
-          <p className="text-center text-[11px] font-medium text-teal-200/90">
-            Compare them, then tap the one that matches your clip.
-          </p>
-
-          {/* Side by side: one column per look-alike, each self-contained
-              (photo + name + its killer cue + supporting cue), tappable to pick.
-              A flex row that GROWS to fill for small groups (3 fit, no scroll) and
-              floors at a min width for larger ones (4 to 7 scroll horizontally,
-              which also serves Anjali's "scroll across to compare" ask). */}
-          <div className="flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
+        <div className="flex-1 overflow-y-auto p-3">
+          {/* Big photo cards, one per look-alike: image + name + a couple of
+              distinctive-feature bullets, nothing else. Fixed wide cards keep the
+              photos large; the row scrolls (swipe) to compare the rest. Tapping a
+              card commits that species. */}
+          <div className="flex gap-3 overflow-x-auto pb-1 snap-x snap-mandatory [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
             {group.members.map((m) => {
               const photo = photos[m.scientificName];
               return (
@@ -155,77 +147,36 @@ export function SpeciesComparison({
                   disabled={submitting}
                   onClick={() => onPick(m.commonName)}
                   aria-label={`This is the one: ${m.commonName}`}
-                  className="group flex min-w-[8.5rem] flex-1 snap-start flex-col overflow-hidden rounded-modal border border-white/15 bg-white/5 text-left transition-colors hover:border-teal-400 hover:bg-teal-500/15 focus-visible:border-teal-400 disabled:opacity-60"
+                  className="group flex w-[min(20rem,82vw)] shrink-0 snap-start flex-col overflow-hidden rounded-card border border-white/15 bg-white/5 text-left transition-colors hover:border-teal-400 hover:bg-teal-500/15 focus-visible:border-teal-400 disabled:opacity-60"
                 >
-                  <span className="block aspect-square w-full overflow-hidden bg-black/40">
+                  <span className="block aspect-[4/3] w-full overflow-hidden bg-black/40">
                     {photo ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={photo} alt={m.commonName} loading="lazy" decoding="async" className="h-full w-full object-cover" />
                     ) : (
                       <span className="flex h-full w-full items-center justify-center text-white/20">
-                        <svg viewBox="0 0 48 32" fill="none" aria-hidden="true" className="w-1/2">
+                        <svg viewBox="0 0 48 32" fill="none" aria-hidden="true" className="w-1/3">
                           <path d="M6 16c3-7 9-11 16-11 9 0 16 5 19 11-3 6-10 11-19 11-7 0-13-4-16-11z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
                           <path d="M41 16l6-5v10l-6-5z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
                         </svg>
                       </span>
                     )}
                   </span>
-                  <span className="flex flex-1 flex-col gap-1 p-2">
-                    <span className="text-[12px] font-semibold leading-tight text-white">{m.commonName}</span>
-                    <span className="text-[11px] font-medium leading-snug text-teal-100">{m.headline}</span>
-                    <span className="text-[10px] leading-snug text-white/55">{m.also}</span>
+                  <span className="flex flex-col gap-2 p-3">
+                    <span className="text-sm font-semibold leading-tight text-white">{m.commonName}</span>
+                    <ul className="flex flex-col gap-1.5">
+                      {[m.headline, m.also].map((point, i) => (
+                        <li key={i} className="flex gap-2 text-[12px] leading-snug text-white/85">
+                          <span aria-hidden="true" className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-teal-400" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </span>
                 </button>
               );
             })}
           </div>
-
-          {group.members.length > 3 && (
-            <p className="text-center text-[10px] text-white/40">
-              Swipe across to see all {group.members.length}.
-            </p>
-          )}
-
-          {/* Quickest decision route across the whole group. */}
-          <div className="rounded-modal border border-teal-500/25 bg-teal-500/10 p-3">
-            <p className="mb-1 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-teal-300/90">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M8 1.5l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.3 4.2 13.3l.7-4.3-3.1-3 4.3-.6z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-              </svg>
-              Quickest check
-            </p>
-            <p className="text-[12px] leading-relaxed text-white/85">{group.tip}</p>
-          </div>
-
-          {group.caveat && (
-            <p className="text-[11px] leading-snug text-white/50">
-              <span className="font-semibold text-white/70">Watch out: </span>
-              {group.caveat}
-            </p>
-          )}
-
-          {group.sources.length > 0 && (
-            <p className="text-[10px] leading-snug text-white/40">
-              Sources:{" "}
-              {group.sources.map((s, i) => (
-                <span key={s.label}>
-                  {i > 0 && ", "}
-                  {s.url ? (
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline decoration-white/30 underline-offset-2 hover:text-white/70"
-                    >
-                      {s.label}
-                    </a>
-                  ) : (
-                    s.label
-                  )}
-                </span>
-              ))}
-            </p>
-          )}
         </div>
       </div>
     </div>,
