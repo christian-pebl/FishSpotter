@@ -840,8 +840,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             src={snippet.thumbnailUrl}
             alt=""
             aria-hidden="true"
-            loading="lazy"
+            loading={isActive ? "eager" : "lazy"}
             className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover blur-2xl brightness-50"
+          />
+        )}
+        {/* Sharp clip still, eagerly fetched on the active/adjacent cards so the
+            first frame paints immediately on a cold load instead of the dark
+            card flashing blank before the video is ready. Same object-contain
+            box as the video, which sits on top and occludes this the moment it
+            has frames. Same URL as the video poster, so it's a single fetch. */}
+        {preload && (
+          /* eslint-disable-next-line @next/next/no-img-element -- instant poster still; next/image adds nothing for a same-origin thumbnail */
+          <img
+            src={snippet.thumbnailUrl}
+            alt=""
+            aria-hidden="true"
+            loading={isActive ? "eager" : "lazy"}
+            className="pointer-events-none absolute inset-0 h-full w-full object-contain"
           />
         )}
         <video
