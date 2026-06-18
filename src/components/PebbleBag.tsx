@@ -43,12 +43,12 @@ function PebbleGlyph({ size }: { size: number }) {
 function Cairn({ onFeed }: { onFeed: boolean }) {
   return (
     <svg
-      width="22"
-      height="22"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
-      style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
+      style={{ opacity: 0.5, ...(onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : {}) }}
     >
       <g stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
         <rect x="7.5" y="2" width="9" height="5" rx="2.5" />
