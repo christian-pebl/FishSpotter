@@ -1,0 +1,14 @@
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- slender dogfish body, pointed snout left, tapering to a thin tail stalk -->
+  <path d="M3 21 C10 16.8 22 15.8 34 17 C42 17.8 48 19.2 52 20.8 C52.6 21 52.6 21 52 21.3 C48 23 42 24.4 34 25.2 C22 26.4 10 25.2 3 21 Z"/>
+  <!-- tall first dorsal fin, raked back -->
+  <path d="M23 16.8 L30 6.5 L33 17 Z"/>
+  <!-- small second dorsal, set well back -->
+  <path d="M42 18.4 L46.5 13.4 L49 19.1 Z"/>
+  <!-- pectoral fin, swept down and back -->
+  <path d="M16 24.4 L19 32 L25 25.6 Z"/>
+  <!-- pelvic fin -->
+  <path d="M33 25 L36 30.4 L40 25.8 Z"/>
+  <!-- asymmetric (heterocercal) shark tail: long upper lobe, short lower lobe -->
+  <path d="M51.5 20.6 L63 8 L60.5 19.2 L62.6 27.6 L57 23.6 Z"/>
+</svg>
