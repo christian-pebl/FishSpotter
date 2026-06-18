@@ -38,14 +38,10 @@ export function BodyFormExampleList({
 
   return (
     <div>
-      <p className="mb-2.5 text-[11px] leading-snug text-white/55">
-        Species with this body type. Reference photos to compare against, not the
-        answer.
-      </p>
-      <ul className="flex flex-col gap-3.5">
+      <ul className="flex flex-col gap-4">
         {species.map((s) => (
           <li key={s.scientificName}>
-            <p className="mb-1 text-sm font-medium text-white">
+            <p className="mb-1.5 text-sm font-medium text-white">
               {s.commonName}{" "}
               <span className="text-[11px] font-normal italic text-white/50">
                 {s.scientificName}
@@ -54,6 +50,7 @@ export function BodyFormExampleList({
             <SpeciesGallery
               scientificName={s.scientificName}
               commonName={s.commonName}
+              size="large"
             />
           </li>
         ))}
