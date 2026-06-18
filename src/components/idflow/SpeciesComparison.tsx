@@ -141,8 +141,11 @@ export function SpeciesComparison({
           </p>
 
           {/* Side by side: one column per look-alike, each self-contained
-              (photo + name + its killer cue + supporting cue), tappable to pick. */}
-          <div className="grid grid-cols-3 gap-2">
+              (photo + name + its killer cue + supporting cue), tappable to pick.
+              A flex row that GROWS to fill for small groups (3 fit, no scroll) and
+              floors at a min width for larger ones (4 to 7 scroll horizontally,
+              which also serves Anjali's "scroll across to compare" ask). */}
+          <div className="flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
             {group.members.map((m) => {
               const photo = photos[m.scientificName];
               return (
@@ -152,7 +155,7 @@ export function SpeciesComparison({
                   disabled={submitting}
                   onClick={() => onPick(m.commonName)}
                   aria-label={`This is the one: ${m.commonName}`}
-                  className="group flex flex-col overflow-hidden rounded-modal border border-white/15 bg-white/5 text-left transition-colors hover:border-teal-400 hover:bg-teal-500/15 focus-visible:border-teal-400 disabled:opacity-60"
+                  className="group flex min-w-[8.5rem] flex-1 snap-start flex-col overflow-hidden rounded-modal border border-white/15 bg-white/5 text-left transition-colors hover:border-teal-400 hover:bg-teal-500/15 focus-visible:border-teal-400 disabled:opacity-60"
                 >
                   <span className="block aspect-square w-full overflow-hidden bg-black/40">
                     {photo ? (
@@ -176,6 +179,12 @@ export function SpeciesComparison({
               );
             })}
           </div>
+
+          {group.members.length > 3 && (
+            <p className="text-center text-[10px] text-white/40">
+              Swipe across to see all {group.members.length}.
+            </p>
+          )}
 
           {/* Quickest decision route across the whole group. */}
           <div className="rounded-modal border border-teal-500/25 bg-teal-500/10 p-3">
