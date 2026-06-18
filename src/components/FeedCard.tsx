@@ -1407,7 +1407,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     <RevealResult
                       chosenOption={myAnswer!.chosenOption}
                       isCorrect={myAnswer!.isCorrect}
-                      revealPartial={revealPartial}
                       stats={stats!.stats}
                       total={stats!.total}
                       reduceMotion={!!reduceMotion}

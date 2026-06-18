@@ -26,7 +26,6 @@ export type RevealStatsItem = { option: string; count: number; percent: number }
 export function RevealResult({
   chosenOption,
   isCorrect,
-  revealPartial,
   stats,
   total,
   reduceMotion,
@@ -36,8 +35,6 @@ export function RevealResult({
 }: {
   chosenOption: string;
   isCorrect: boolean | null;
-  /** true when wrong-species-but-right-shape-class (partial +1 credit). */
-  revealPartial: boolean;
   stats: RevealStatsItem[];
   total: number;
   reduceMotion: boolean;
@@ -95,63 +92,6 @@ export function RevealResult({
           reveal or the confetti (both above), and renders nothing under reduced
           motion. */}
       {isCorrect === true && <CorrectFishSwim reduceMotion={reduceMotion} />}
-
-      {/* Verdict headline (aria-live announces the outcome; icons + text so the
-          result never depends on colour alone). */}
-      <motion.p
-        variants={item}
-        role="status"
-        aria-live="polite"
-        className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm"
-      >
-        <span className="text-white/85">You said</span>
-        <span className="font-semibold text-white">{chosenOption}</span>
-        {isCorrect === true && (
-          <span
-            className="inline-flex items-center gap-1 rounded-full bg-correct px-2.5 py-1 text-xs font-bold tracking-wide text-correct-ink shadow-sm"
-            aria-label="Correct, plus 2 points"
-          >
-            <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Correct · +2
-          </span>
-        )}
-        {isCorrect === false &&
-          (revealPartial ? (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-pending px-2.5 py-1 text-xs font-bold tracking-wide text-pending-ink shadow-sm"
-              aria-label="Close, right shape class, plus 1 point"
-            >
-              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                <path d="M2 4.5q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M2 8q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              Close · +1
-            </span>
-          ) : (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2.5 py-1 text-xs font-bold tracking-wide text-incorrect-ink shadow-sm"
-              aria-label="Incorrect"
-            >
-              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-              Wrong
-            </span>
-          ))}
-        {isCorrect === null && (
-          <span
-            className="inline-flex items-center gap-1 rounded-full bg-pending px-2.5 py-1 text-xs font-bold tracking-wide text-pending-ink shadow-sm"
-            aria-label="Bonus, plus 1 point. Reference identification pending."
-          >
-            <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-            </svg>
-            +1 Bonus
-          </span>
-        )}
-      </motion.p>
 
       {/* Community answers — how many spotters gave each answer (species or
           higher level). Sole panel: the PEBL-reference panel was removed. */}
