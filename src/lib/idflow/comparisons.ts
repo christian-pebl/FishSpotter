@@ -18,6 +18,8 @@
  * fish-comparisons.md for the per-species sourcing.
  */
 
+import type { ShapeClass } from "@/lib/idguide/traits";
+
 export type ComparisonMember = {
   scientificName: string;
   commonName: string;
@@ -45,6 +47,12 @@ export type ComparisonGroup = {
   /** Optional real-world trap to flag (hybrids, reversed individuals, etc.). */
   caveat?: string;
   sources: ComparisonSource[];
+  /** Set for a CLASS-LEVEL group, surfaced at the Rung-2 form gate rather than at
+   * Rung-3. Used when every form of a shape class is a single species (starfish:
+   * each arm-form has one species), so the look-alikes never meet in one Rung-3
+   * candidate set. A class-level group is matched by `comparisonGroupForShapeClass`
+   * and is deliberately skipped by the Rung-3 `comparisonGroupForCandidates`. */
+  shapeClass?: ShapeClass;
 };
 
 const MARLIN: ComparisonSource = { label: "MarLIN", url: "https://www.marlin.ac.uk" };
@@ -516,6 +524,44 @@ export const COMPARISON_GROUPS: ComparisonGroup[] = [
       "A pale young blue jellyfish is genuinely hard to tell from a young lion's mane: a blue or purple tint leans blue jelly, while warm red or orange and a bigger animal lean lion's mane.",
     sources: [MARLIN, MCS, WILDLIFE_TRUSTS],
   },
+
+  {
+    // CLASS-LEVEL (Rung-2): each starfish arm-form is a single species, so the
+    // four never share a Rung-3 candidate set. Surfaced at the arm-form gate.
+    id: "starfish",
+    shapeClass: "starfish",
+    title: "Which starfish?",
+    intro:
+      "First the shape: a small central disc trailing long thin whippy arms is a brittlestar; five short fat arms is a cushion star. The two long-armed stars (common and spiny) then split on their spines.",
+    members: [
+      {
+        scientificName: "Asterias rubens",
+        commonName: "Common Starfish",
+        headline: "Orange, five tapering arms with a low knobbly line of pale spines (no big spikes).",
+        also: "The commonest UK starfish; arms merge smoothly into the body; often near mussels.",
+      },
+      {
+        scientificName: "Marthasterias glacialis",
+        commonName: "Spiny Starfish",
+        headline: "Greyish, long arms lined with three rows of white spines, each ringed blue at the base.",
+        also: "Large; the bold spiny rows are the giveaway over the common starfish.",
+      },
+      {
+        scientificName: "Asterina gibbosa",
+        commonName: "Cushion Star",
+        headline: "Small and puffy, with five SHORT fat arms in a five-pointed-cushion outline.",
+        also: "Greenish-grey to orange; tucked under stones on the lower shore.",
+      },
+      {
+        scientificName: "Ophiothrix fragilis",
+        commonName: "Common Brittlestar",
+        headline: "A small spiny disc trailing five long, thread-thin arms that writhe and snap off.",
+        also: "Arms clearly separate from the round disc; colour varies; often in dense beds.",
+      },
+    ],
+    tip: "Long thin whippy arms off a small disc = brittlestar. Five short fat arms = cushion star. Long arms with three rows of big white spines = spiny starfish. Long arms, orange, with just a low line of spines = common starfish.",
+    sources: [MARLIN, DEVON_WT, WILDLIFE_TRUSTS],
+  },
 ];
 
 /**
@@ -530,8 +576,20 @@ export function comparisonGroupForCandidates(
 ): ComparisonGroup | null {
   const set = new Set(scientificNames);
   for (const g of COMPARISON_GROUPS) {
+    if (g.shapeClass) continue; // class-level groups are surfaced at Rung-2, not here
     const allPresent = g.members.every((m) => set.has(m.scientificName));
     if (allPresent && scientificNames.length <= g.members.length + 3) return g;
   }
   return null;
+}
+
+/**
+ * The class-level comparison group for a shape class, or null. Used at the Rung-2
+ * form gate for classes whose every form is a single species (so no Rung-3
+ * candidate set ever holds the look-alikes together). Currently only starfish.
+ */
+export function comparisonGroupForShapeClass(
+  shapeClass: ShapeClass,
+): ComparisonGroup | null {
+  return COMPARISON_GROUPS.find((g) => g.shapeClass === shapeClass) ?? null;
 }

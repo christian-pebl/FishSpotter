@@ -1,11 +1,11 @@
 "use client";
 
 /**
- * Rung 2 — the body-shape sub-split, as a draggable dark card matching Rung 1
+ * Rung 2: the body-shape sub-split, as a draggable dark card matching Rung 1
  * (3 Jun). Built on the shared TileGate "list" variant so it inherits the gate
  * chrome (drag, Hide, Back, breadcrumb, dark theme, a11y) for free. Each row is
  * a 2x body-form silhouette; a per-row chevron drops an inline examples panel
- * (real photos of catalogue species with that body type) directly below it —
+ * (real photos of catalogue species with that body type) directly below it,
  * single-open, so the user can drop one down, compare, close it, and browse the
  * next. The examples are a major identification helper; nothing there commits a
  * guess.
@@ -18,9 +18,12 @@
  * silhouette (no PhyloPic UUID) registered in bodyform-silhouette-credits.json.
  */
 
+import { useState } from "react";
 import { TileGate, MaskSilhouette, type TileSpec, type Crumb } from "@/components/idflow/TileGate";
 import { BodyFormExampleList } from "@/components/idflow/BodyFormExampleList";
+import { SpeciesComparison } from "@/components/idflow/SpeciesComparison";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
+import { comparisonGroupForShapeClass } from "@/lib/idflow/comparisons";
 import type { ShapeClass } from "@/lib/idguide/traits";
 import type { TraitKey } from "@/lib/idguide/narrow";
 import bodyformCredits from "@/data/bodyform-silhouette-credits.json";
@@ -51,6 +54,8 @@ function FormPlaceholder() {
 export function BodyShapeGate({
   shapeClass,
   onSelectForm,
+  onPickSpecies,
+  submitting = false,
   onSkip,
   onClose,
   onBack,
@@ -60,7 +65,12 @@ export function BodyShapeGate({
   /** Pick a body form (value) or skip it (null). The trait key is passed back
    * so FeedCard can seed the strip's narrowing without re-deriving it. */
   onSelectForm: (key: TraitKey, value: string | null) => void;
-  /** "Skip to guess" — jump to the MCQ fallback. */
+  /** Commit a species directly by common name (used by the class-level compare
+   * view, where each starfish IS its arm-form, so tapping one is the guess). */
+  onPickSpecies?: (commonName: string) => void;
+  /** True while a guess is being submitted (disables the compare cards). */
+  submitting?: boolean;
+  /** "Skip to guess": jump to the MCQ fallback. */
   onSkip: () => void;
   onClose: () => void;
   /** Back to Rung 1 (the shape gate). */
@@ -69,6 +79,11 @@ export function BodyShapeGate({
   breadcrumb?: Crumb[];
 }) {
   const config = bodyFormConfigFor(shapeClass);
+
+  // Class-level "compare them all" (only for a class whose every form is one
+  // species, e.g. starfish). Offered only when FeedCard wired a species-commit.
+  const comparison = comparisonGroupForShapeClass(shapeClass);
+  const [comparing, setComparing] = useState(false);
 
   // FeedCard only opens this gate when a config exists; guard anyway.
   if (!config) return null;
@@ -93,18 +108,34 @@ export function BodyShapeGate({
   }));
 
   return (
-    <TileGate
-      ariaLabel={config.prompt}
-      title={config.prompt}
-      tiles={tiles}
-      variant="list"
-      onSelect={(value) => onSelectForm(config.key, value)}
-      onClose={onClose}
-      onBack={onBack}
-      breadcrumb={breadcrumb}
-      bubbleLabel="Reopen the body-shape selector"
-      notSure={{ label: "Not sure", onClick: () => onSelectForm(config.key, null) }}
-      skip={{ label: "Skip to guess", onClick: onSkip }}
-    />
+    <>
+      <TileGate
+        ariaLabel={config.prompt}
+        title={config.prompt}
+        tiles={tiles}
+        variant="list"
+        suspendKeyboard={comparing}
+        onSelect={(value) => onSelectForm(config.key, value)}
+        onClose={onClose}
+        onBack={onBack}
+        breadcrumb={breadcrumb}
+        bubbleLabel="Reopen the body-shape selector"
+        compare={
+          comparison && onPickSpecies
+            ? { label: "Compare side by side", onClick: () => setComparing(true) }
+            : undefined
+        }
+        notSure={{ label: "Not sure", onClick: () => onSelectForm(config.key, null) }}
+        skip={{ label: "Skip to guess", onClick: onSkip }}
+      />
+      {comparing && comparison && onPickSpecies && (
+        <SpeciesComparison
+          group={comparison}
+          submitting={submitting}
+          onPick={onPickSpecies}
+          onClose={() => setComparing(false)}
+        />
+      )}
+    </>
   );
 }
