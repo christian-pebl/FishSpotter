@@ -70,25 +70,25 @@
     "source": "https://fish-spotter.vercel.app"
   },
   "wrasse": {
-    "taxon": "Abramis brama (deep-bodied fish)",
+    "taxon": "Labridae (wrasses)",
     "imageUuid": null,
     "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
   },
   "silver-shoaler": {
-    "taxon": "Scomber",
+    "taxon": "Clupeidae / silvery shoaling fish",
     "imageUuid": null,
     "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
   },
   "long-skinny": {
-    "taxon": "Anguilla rostrata",
-    "imageUuid": "629e1135-d0c5-4f02-bb13-8cbf63e48692",
-    "attribution": "Steven Traver, via PhyloPic",
+    "taxon": "Anguillidae / Pholidae (eel-like fish)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
-    "source": "https://www.phylopic.org/images/629e1135-d0c5-4f02-bb13-8cbf63e48692"
+    "source": "https://fish-spotter.vercel.app"
   },
   "bottom-sitter": {
     "taxon": "Gobiidae / Callionymidae (bottom-resting fish)",

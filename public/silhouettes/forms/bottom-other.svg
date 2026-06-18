@@ -1,14 +1,35 @@
 <svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
-  <!-- the seabed it walks on -->
+  <!-- the seabed it walks on (shared cue with bottom-sitter) -->
   <path d="M2 35 L62 35 L62 36.6 L2 36.6 Z"/>
-  <!-- elongated armour-headed body, big blunt head left, tapering to the tail -->
-  <path d="M8 19 C9 13.5 14 11 22 11 C33 11 43 13.5 50.5 18 C48 21.5 42 24 33 24.5 C22 25 13 24 8 19 Z"/>
-  <!-- spiny first dorsal -->
-  <path d="M19 11 C20.5 6.5 23.5 5.8 25.5 7.4 C24 8.6 23 9.6 22.5 11.2 Z"/>
-  <!-- soft second dorsal -->
-  <path d="M31 11 C32.5 7.3 35 6.8 36.8 8.2 C35.6 9.4 35 10.4 34.6 11.8 Z"/>
-  <!-- big wing-like pectoral fin fanned out (the gurnard give-away) -->
-  <path d="M19 22 C12.5 24.5 8.5 30 8.5 36.5 C15.5 33.5 23 29 27 23.5 Z"/>
-  <!-- forked tail -->
-  <path d="M50.5 18 L58.5 13.5 L56 18.5 L58.5 23.5 Z"/>
+  <!-- big blocky armoured head (left), deep front, hard wedge taper to a slim
+       caudal peduncle. Steep angular forehead, not a smooth goby dome. -->
+  <path d="M7 28
+           C6 22 7.5 16 12 13.5
+           C15 12 19 11.5 23 12
+           C33 13 42 16 48 20.5
+           C45 22.5 40 23.8 34 24.4
+           C26 25 17 26.2 11 28.6
+           C9.2 29.3 7.6 29.4 7 28 Z"/>
+  <!-- spiny FIRST dorsal: tall pointed triangle (separate; notch before #2) -->
+  <path d="M18 13.2 L22 5 L25.5 13.6 C23 13 20.5 13 18 13.2 Z"/>
+  <!-- soft SECOND dorsal: lower, longer, clear negative-space gap from #1 -->
+  <path d="M29 13.6 C31 9.5 38 9 43 11.4 C40 12.2 35 13 29 13.6 Z"/>
+  <!-- THE WING: big pectoral fanned UP-and-OUT from the mid-flank, held clear of
+       the body by a negative-space sliver, scalloped trailing edge. The gurnard
+       give-away — must read as a spread wing, not a belly. -->
+  <path d="M24 22
+           C20 15 16 11 11.5 9.5
+           C13 13 14.5 16.5 15.5 19.5
+           C12.5 18.5 9.5 18 6.5 18.6
+           C10 21 13.5 23 17 24
+           C13.5 25.5 10.5 27.8 8.5 30.5
+           C13 28.8 18.5 26 22.5 23.4
+           C23 23 23.4 22.4 24 22 Z"/>
+  <!-- walking finger-rays (gurnard signature): 3 short prongs down-forward
+       toward the seabed. DRAFT — drop or thicken if they blur at 8px. -->
+  <path d="M13 27.5 L11.5 31.5 L13.2 31.4 L14.4 27.8 Z"/>
+  <path d="M16 28 L15 32 L16.7 32 L17.6 28.3 Z"/>
+  <path d="M19 28.4 L18.4 32.2 L20.1 32.3 L20.6 28.7 Z"/>
+  <!-- forked tail on the slim peduncle -->
+  <path d="M48 20.5 L57.5 15.5 L54.5 20.8 L57.5 26 Z"/>
 </svg>
