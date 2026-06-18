@@ -708,7 +708,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     await submitAndAdvance(() => handleSubmit());
   }, [answerText, handleSubmit, submitAndAdvance]);
 
-  const showStats = myAnswer && stats;
   // UX-4 reveal verdict tiers (Workstream E scored-by-rung). A "partial" is the
   // right shape class but wrong species (points > 0, isCorrect false). Only a
   // true miss (0 points) gets the error shake; partial reads as encouraging.
@@ -1188,7 +1187,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             </button>
             <div className="overflow-y-auto overscroll-contain px-3 pt-1 pb-2 md:px-4 md:pb-3" style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}>
 
-              {!showStats ? (
+              {!myAnswer ? (
                 <>
                   {submitError && (
                     <p
@@ -1379,6 +1378,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       draggable gate (CandidateGate), rendered at the article
                       level below — so the panel is hidden while it's open. */}
                 </>
+              ) : !stats ? (
+                // Answer recorded but the community stats haven't arrived yet
+                // (loadStats runs after myAnswer is set). Show a brief scoring
+                // placeholder instead of falling back to the Identify/Skip bar,
+                // which used to flash here for a frame between submit and reveal.
+                <div className="flex items-center justify-center gap-2 py-10 text-sm text-white/70">
+                  <svg className="h-4 w-4 animate-spin motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.25" />
+                    <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                  Scoring your answer…
+                </div>
               ) : (
                 <AnimatePresence mode="wait">
                   <motion.div
