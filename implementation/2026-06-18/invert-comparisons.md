@@ -49,9 +49,29 @@ Total: 13 comparison groups, 49 members (flatfish + 6 fish + 6 invert).
   tint leans blue; warm red/orange + bigger leans lion's mane).
 - Sources: MarLIN, Marine Conservation Society, Wildlife Trusts.
 
+## Starfish (class-level, surfaced at Rung-2)
+Starfish are the one shape class where every arm-form is a single species
+(cushion / spiny / common / brittlestar), so the four never meet in one Rung-3
+candidate set. The starfish group is therefore CLASS-LEVEL (`shapeClass:
+"starfish"`): `comparisonGroupForShapeClass` surfaces a "Compare side by side"
+button at the Rung-2 arm-form gate (`BodyShapeGate`), and tapping a starfish in
+the compare commits it directly (FeedCard wires `onPickSpecies` to the same
+submit path the Rung-3 grid uses). The Rung-3 matcher deliberately skips
+class-level groups. The arm-form silhouette tiles are untouched; the compare is
+additive.
+- Common starfish: orange, five tapering arms, a low knobbly line of pale spines.
+- Spiny starfish: greyish, long arms with three rows of white blue-based spines.
+- Cushion star: small, puffy, five short fat arms (a five-pointed cushion).
+- Common brittlestar: a small spiny disc trailing five long thread-thin arms that snap off.
+- Sources: MarLIN, Devon Wildlife Trust, Wildlife Trusts.
+
 ## Verified
-tsc 0, lint + lint:tokens clean, 0 em/en dashes, comparisons.test.ts (every member
-is a real catalogue species with a matching common name) + full suite 341/341.
-Driven live in the dev preview: the saucer-jellyfish compare opens with all four,
-the moon-rings + compass-V cues, the lion's-mane caveat, the "Swipe across to see
-all 4" hint and a working horizontal scroll.
+tsc 0, lint + lint:tokens clean, 0 em/en dashes (new code), comparisons.test.ts
+(every member is a real catalogue species with a matching common name) + full
+suite 341/341. Driven live in the dev preview: the saucer-jellyfish compare opens
+with all four (moon-rings + compass-V cues, lion's-mane caveat, swipe hint,
+horizontal scroll), and the starfish "Compare side by side" surfaces at the Rung-2
+arm-form gate and opens the four-starfish view with its cues.
+
+Total: 14 comparison groups, 53 members. The compare feature now covers every
+confusable set in the catalogue, at the rung where the confusion actually lives.

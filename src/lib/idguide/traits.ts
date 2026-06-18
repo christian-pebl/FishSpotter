@@ -49,6 +49,22 @@ export const FISH_GROUP = [
 ] as const;
 export type FishGroup = (typeof FISH_GROUP)[number];
 
+// Singular noun for each fish group, used by the Rung-3 coarse "It's just a ___"
+// commit so it reflects the group the user actually picked (silver-shoaler →
+// "silver swimmer") instead of the broad shape class ("Fish"). These all map to
+// the fish shape class in answer-matching's buildShapeClassByForm, so a
+// group-level commit still scores shape-class credit (there is no sub-class
+// scoring tier). Keyed exhaustively so a new FishGroup forces a noun here.
+export const FISH_GROUP_COARSE_NOUN: Record<FishGroup, string> = {
+  "cod-like": "cod-shaped fish",
+  wrasse: "wrasse",
+  "silver-shoaler": "silver swimmer",
+  "bottom-sitter": "goby or dragonet",
+  "bottom-other": "bottom fish",
+  "long-skinny": "long, skinny fish",
+  shark: "shark",
+};
+
 export const SIZE = ["small", "medium", "large"] as const; // <10cm, 10-50cm, >50cm
 export type SizeClass = (typeof SIZE)[number];
 

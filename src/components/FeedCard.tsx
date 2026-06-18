@@ -13,6 +13,7 @@ import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 import { ShapeGate, SHAPE_CLASS_LABEL } from "./ShapeGate";
+import { FISH_GROUP_COARSE_NOUN, type FishGroup } from "@/lib/idguide/traits";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
 import { RevealResult } from "./idflow/RevealResult";
@@ -50,6 +51,50 @@ function interpolateBox(a: BBoxFrame, b: BBoxFrame, amount: number): BBoxFrame {
     y_norm: mix(a.y_norm, b.y_norm, amount),
     w_norm: mix(a.w_norm, b.w_norm, amount),
     h_norm: mix(a.h_norm, b.h_norm, amount),
+  };
+}
+
+/**
+ * How a clip should fit its frame. A clip WIDER than the frame (a landscape clip
+ * on a portrait phone) is shown object-cover so it FILLS the screen instead of
+ * letterboxing, and the cropped (horizontal) axis is centred on the species so
+ * the creature is never cropped out; the median bbox centre is the target. A clip
+ * not wider than the frame keeps object-contain (the whole frame, centred), so
+ * portrait clips are mathematically unchanged. No re-encode or canvas copy, so no
+ * quality is lost beyond the native scaling the browser already does.
+ *
+ * Returns the same projection geometry the bbox trail + "locate" ping use, so the
+ * overlay stays pinned to the real pixels under either fit.
+ */
+function fitGeometry(
+  cw: number,
+  ch: number,
+  vw: number,
+  vh: number,
+  center: { x: number; y: number } | null,
+) {
+  const cover = vw / vh > cw / ch;
+  const scale = cover ? Math.max(cw / vw, ch / vh) : Math.min(cw / vw, ch / vh);
+  const renderedWidth = vw * scale;
+  const renderedHeight = vh * scale;
+  // object-position fractions (0..1). Contain stays centred (0.5). Cover centres
+  // the cropped axis on the species; the non-cropped axis has no slack, so 0.5.
+  let posX = 0.5;
+  let posY = 0.5;
+  if (cover && center) {
+    if (renderedWidth - cw > 0.5)
+      posX = clamp01((cw / 2 - center.x * renderedWidth) / (cw - renderedWidth));
+    if (renderedHeight - ch > 0.5)
+      posY = clamp01((ch / 2 - center.y * renderedHeight) / (ch - renderedHeight));
+  }
+  return {
+    cover,
+    renderedWidth,
+    renderedHeight,
+    posX,
+    posY,
+    offsetX: (cw - renderedWidth) * posX,
+    offsetY: (ch - renderedHeight) * posY,
   };
 }
 
@@ -434,6 +479,58 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     [snippet.bboxes]
   );
 
+  // Median species centre (normalized) across the track: the target the cover
+  // crop pans to so a landscape clip fills the screen ON the creature, not on
+  // whatever happens to sit in the middle of the wide frame.
+  const speciesCenter = useMemo(() => {
+    if (bboxes.length === 0) return null;
+    const med = (vals: number[]) => {
+      const s = [...vals].sort((a, b) => a - b);
+      return s[Math.floor(s.length / 2)];
+    };
+    return {
+      x: med(bboxes.map((b) => b.x_norm + b.w_norm / 2)),
+      y: med(bboxes.map((b) => b.y_norm + b.h_norm / 2)),
+    };
+  }, [bboxes]);
+  // Mirror into a ref so the per-frame trail loop reads the latest without
+  // re-subscribing its effect.
+  const speciesCenterRef = useRef(speciesCenter);
+  speciesCenterRef.current = speciesCenter;
+
+  // True when the clip is wider than the frame and fills it (object-cover): the
+  // ambient blur fill is then fully occluded, so we skip rendering it.
+  const [videoCovers, setVideoCovers] = useState(false);
+
+  // Apply the fit (object-fit + object-position) once the intrinsic size is known
+  // and whenever the frame resizes or the phone rotates. Landscape clips fill the
+  // portrait frame, cropped to the species; portrait clips stay contained. Set
+  // imperatively so it survives re-renders without being in the React style prop
+  // (which only carries the colour filter).
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const apply = () => {
+      const cw = video.clientWidth;
+      const ch = video.clientHeight;
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      if (!cw || !ch || !vw || !vh) return;
+      const fit = fitGeometry(cw, ch, vw, vh, speciesCenterRef.current);
+      video.style.objectFit = fit.cover ? "cover" : "contain";
+      video.style.objectPosition = `${(fit.posX * 100).toFixed(2)}% ${(fit.posY * 100).toFixed(2)}%`;
+      setVideoCovers(fit.cover);
+    };
+    apply();
+    video.addEventListener("loadedmetadata", apply);
+    const ro = new ResizeObserver(apply);
+    ro.observe(video);
+    return () => {
+      video.removeEventListener("loadedmetadata", apply);
+      ro.disconnect();
+    };
+  }, [speciesCenter]);
+
   const [videoPaused, setVideoPaused] = useState(false);
 
   useEffect(() => {
@@ -551,15 +648,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       const vh = video.videoHeight;
       if (!cw || !ch || !vw || !vh) return;
 
-      // object-contain shows the WHOLE frame (no crop, no digital-zoom upscale),
-      // centred with letterbox bars, so the creature is always in view: there is
-      // no pan-to-follow and the fish can't be pushed off a cropped edge. The
-      // trail projects straight onto the letterboxed video via the centre offset.
-      const scale = Math.min(cw / vw, ch / vh);
-      const renderedWidth = vw * scale;
-      const renderedHeight = vh * scale;
-      const offsetX = (cw - renderedWidth) / 2;
-      const offsetY = (ch - renderedHeight) / 2;
+      // Project the trail onto the clip exactly as it is shown: fitGeometry gives
+      // the same cover/contain crop + object-position the <video> uses (landscape
+      // clips are cover-cropped to the species, portrait clips are contained), so
+      // the trail + ping stay pinned to the real pixels under either fit.
+      const { renderedWidth, renderedHeight, offsetX, offsetY } = fitGeometry(
+        cw,
+        ch,
+        vw,
+        vh,
+        speciesCenterRef.current,
+      );
 
       const cxNorm = bbox.x_norm + bbox.w_norm / 2;
       const cyNorm = bbox.y_norm + bbox.h_norm / 2;
@@ -708,7 +807,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     await submitAndAdvance(() => handleSubmit());
   }, [answerText, handleSubmit, submitAndAdvance]);
 
-  const showStats = myAnswer && stats;
   // UX-4 reveal verdict tiers (Workstream E scored-by-rung). A "partial" is the
   // right shape class but wrong species (points > 0, isCorrect false). Only a
   // true miss (0 points) gets the error shake; partial reads as encouraging.
@@ -730,20 +828,37 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           (bbox trail, progress, paused, fade) live in this container, so they
           inset together and stay aligned. */}
       <div className="absolute inset-x-0 top-0 bottom-14 overflow-hidden bg-black">
-        {/* Blurred poster fill behind the (now object-contain) video: the full
-            portrait frame letterboxes in a taller viewport, so this turns the
-            bars into an ambient extension of the scene instead of dead black.
-            Decorative, sits behind the video + every overlay, and is
-            pointer-events-none so it never intercepts the tap-to-identify
-            catcher. Reuses the already-loaded poster, so no extra fetch. */}
-        {/* eslint-disable-next-line @next/next/no-img-element -- decorative scaled+blurred backdrop; next/image adds nothing here */}
-        <img
-          src={snippet.thumbnailUrl}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover blur-2xl brightness-50"
-        />
+        {/* Blurred poster fill behind a CONTAINED (letterboxed) clip: a portrait
+            clip letterboxes in a taller viewport, so this turns the bars into an
+            ambient extension of the scene instead of dead black. A landscape clip
+            COVERS the frame and fully occludes this, so it is skipped then.
+            Decorative, behind the video + overlays, pointer-events-none so it
+            never intercepts the tap-to-identify catcher. Reuses the poster. */}
+        {!videoCovers && (
+          /* eslint-disable-next-line @next/next/no-img-element -- decorative scaled+blurred backdrop; next/image adds nothing here */
+          <img
+            src={snippet.thumbnailUrl}
+            alt=""
+            aria-hidden="true"
+            loading={isActive ? "eager" : "lazy"}
+            className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover blur-2xl brightness-50"
+          />
+        )}
+        {/* Sharp clip still, eagerly fetched on the active/adjacent cards so the
+            first frame paints immediately on a cold load instead of the dark
+            card flashing blank before the video is ready. Same object-contain
+            box as the video, which sits on top and occludes this the moment it
+            has frames. Same URL as the video poster, so it's a single fetch. */}
+        {preload && (
+          /* eslint-disable-next-line @next/next/no-img-element -- instant poster still; next/image adds nothing for a same-origin thumbnail */
+          <img
+            src={snippet.thumbnailUrl}
+            alt=""
+            aria-hidden="true"
+            loading={isActive ? "eager" : "lazy"}
+            className="pointer-events-none absolute inset-0 h-full w-full object-contain"
+          />
+        )}
         <video
           ref={videoRef}
           {...(preload ? { src: snippet.videoUrl } : {})}
@@ -1188,7 +1303,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             </button>
             <div className="overflow-y-auto overscroll-contain px-3 pt-1 pb-2 md:px-4 md:pb-3" style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}>
 
-              {!showStats ? (
+              {!myAnswer ? (
                 <>
                   {submitError && (
                     <p
@@ -1379,6 +1494,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       draggable gate (CandidateGate), rendered at the article
                       level below — so the panel is hidden while it's open. */}
                 </>
+              ) : !stats ? (
+                // Answer recorded but the community stats haven't arrived yet
+                // (loadStats runs after myAnswer is set). Show a brief scoring
+                // placeholder instead of falling back to the Identify/Skip bar,
+                // which used to flash here for a frame between submit and reveal.
+                <div className="flex items-center justify-center gap-2 py-10 text-sm text-white/70">
+                  <svg className="h-4 w-4 animate-spin motion-reduce:animate-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.25" />
+                    <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                  Scoring your answer…
+                </div>
               ) : (
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -1635,6 +1762,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSelectForm={(key, value) => {
             dispatch({ type: "selectForm", seed: { key, value } });
           }}
+          onPickSpecies={(name) =>
+            void submitAndAdvance(() => handleSubmit({ answerText: name }))
+          }
+          submitting={submitting}
           onSkip={() => {
             dispatch({ type: "skipToMcq" });
           }}
@@ -1672,11 +1803,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   // Submit the coarse shape class ("Fish") for shape-class credit
                   // when the user can't get to species. label captured so the
                   // closure stays type-safe (selectedShape is narrowed here).
-                  const label = SHAPE_CLASS_LABEL[selectedShape];
+                  const groupNoun =
+                    selectedShape === "fish" && formSeed?.value
+                      ? FISH_GROUP_COARSE_NOUN[formSeed.value as FishGroup]
+                      : undefined;
+                  const noun = groupNoun || SHAPE_CLASS_LABEL[selectedShape];
                   return {
-                    label: `It's just a ${label}`,
+                    label: `It's just a ${noun}`,
                     onClick: () =>
-                      void submitAndAdvance(() => handleSubmit({ answerText: label })),
+                      void submitAndAdvance(() => handleSubmit({ answerText: noun })),
                   };
                 })()
               : undefined
