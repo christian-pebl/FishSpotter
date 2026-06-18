@@ -22,6 +22,12 @@
 import { normalizeAnswer, normalizeForMatch } from "@/lib/normalize-answer";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
+import { CONSENSUS_THRESHOLD_USERS } from "@/lib/pebbles";
+
+// Sea-currency redesign: the consensus threshold now lives in the Pebbles
+// economy module (pebbles.ts), the single source of truth for all scoring
+// constants. Re-exported here so existing importers keep working.
+export { CONSENSUS_THRESHOLD_USERS };
 
 export interface AliasEntry {
   canonical: string;
@@ -46,14 +52,12 @@ export const POINTS_INCORRECT = 0;
 // is "correct"; the reveal derives a "close" treatment from points === 1 in
 // UX-4 without a schema change.
 export const POINTS_SHAPE_CLASS = 1;
-// Q3A-T8 (S7-T1 phase 2): when CONSENSUS_THRESHOLD_USERS or more distinct
-// users converge on the same normalised name for a no-reference snippet,
-// each matcher's Answer.points gets a one-time +2 bonus (applied by the
-// daily consensus-rescore cron). A pending + consensus answer (1 + 2 = 3)
-// thus outranks a referenced correct (2), which incentivises being the
-// first to ID a no-reference snippet.
+// Legacy reference-era scoring constants are retained only for the
+// matchWithAliases unit tests and any transitional callers. The live
+// economy (Pebbles) no longer uses a staffAnswer reference — see pebbles.ts
+// and src/lib/consensus.ts. CONSENSUS_THRESHOLD_USERS is re-exported above
+// from pebbles.ts (the single source of truth).
 export const POINTS_CONSENSUS_BONUS = 2;
-export const CONSENSUS_THRESHOLD_USERS = 3;
 
 export interface MatchResult {
   /** True if matched the reference; false if didn't; null if no reference exists. */

@@ -25,7 +25,7 @@ export async function GET(
   const { id } = await params;
   const snippet = await prisma.snippet.findUnique({
     where: { id },
-    select: { id: true, staffAnswer: true },
+    select: { id: true },
   });
   if (!snippet) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
@@ -44,13 +44,9 @@ export async function GET(
   });
 
   const total = answers.length;
-  // S7-T1: staffAnswer may be null when the snippet has no reference ID
-  // yet. Pass undefined to the histogram so it doesn't try to favour a
-  // canonical that doesn't exist.
-  const stats = bucketAnswersByNormalized(
-    answers,
-    snippet.staffAnswer ?? undefined,
-  )
+  // No PEBL reference any more — the crowd is the authority. The histogram is
+  // pure community answers.
+  const stats = bucketAnswersByNormalized(answers)
     .map(({ option, count }) => ({
       option,
       count,
@@ -58,29 +54,18 @@ export async function GET(
     }))
     .sort((a, b) => b.count - a.count);
 
-  // After the user has answered, return staffAnswer (which may be null)
-  // so the client can distinguish "no reference yet" from "haven't loaded
-  // staff answer yet". hasReference is a convenience flag. For no-reference
-  // (community) clips we also return the live consensus state so the reveal can
-  // show "the community is converging on Y" instead of correct/incorrect.
-  // Gated on userHasAnswered so a spotter never sees the crowd's lean before
-  // committing their own guess.
+  // Blind submission: the live consensus lean is gated on THIS user having
+  // committed their own guess, so nobody sees the crowd before deciding.
   // Pre-answer the response is just the user-independent histogram (total +
-  // stats), so it gets the public CDN header. Post-answer it carries the
-  // per-user-gated reference (staffAnswer / hasReference / consensus), so we
-  // return no public cache header and the CDN must not store/share it.
+  // stats) and gets the public CDN header; post-answer it carries the
+  // per-user-gated consensus state, so no public cache header (the CDN must not
+  // store/share it).
   return NextResponse.json(
     {
       total,
       stats,
       ...(userHasAnswered
-        ? {
-            staffAnswer: snippet.staffAnswer,
-            hasReference: snippet.staffAnswer !== null,
-            ...(snippet.staffAnswer === null
-              ? { consensus: consensusSummary(stats, total) }
-              : {}),
-          }
+        ? { hasReference: false, consensus: consensusSummary(stats, total) }
         : {}),
     },
     userHasAnswered

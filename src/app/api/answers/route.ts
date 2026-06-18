@@ -2,18 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
-import {
-  matchAnswer,
-  CATALOGUE_ALIASES,
-  loadAliases,
-  scientificFromLocalName,
-} from "@/lib/answer-matching";
-import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { immediateAward } from "@/lib/pebbles";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAnswerRateLimit } from "@/lib/rate-limit";
 import { computeStreakFromAnswers, toDateKey } from "@/lib/streak";
-import { log } from "@/lib/log";
 
 const MAX_ANSWER_LENGTH = 80;
 
@@ -64,24 +57,35 @@ export async function POST(req: Request) {
 
   const snippet = await prisma.snippet.findUnique({
     where: { id: snippetId },
-    select: { id: true, staffAnswer: true },
+    select: { id: true },
   });
   if (!snippet) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
 
-  // S2-T01 + S7-T1: alias-aware matching with nullable staffAnswer.
-  // When the snippet has no reference identification yet, returns
-  // { isCorrect: null, points: POINTS_PENDING_REF } — the user still
-  // earns a flat participation bonus. Phase 2 (S7-T2) will retro-credit
-  // additional points once community consensus forms.
-  const { isCorrect, points } = await matchAnswer(snippet.staffAnswer, option);
+  // Sea-currency redesign: there is no PEBL reference answer any more — the
+  // crowd is the authority. Every submission is a community hypothesis. At
+  // submit time we award the DISCOVERY pillar only (base sighting + the
+  // First-Sighting / early-spotter bonus, knowable now); the CONSENSUS payout
+  // is retro-credited by the consensus-rescore cron once the clip's spotters
+  // converge (see src/lib/consensus.ts). isCorrect stays null until then.
+  //
+  // Anti-herding: the community histogram is gated behind the user's own answer
+  // (see GET /api/snippets/[id]/stats), so this submission is made blind.
+  const priorSpotters = await prisma.answer.findMany({
+    where: { snippetId },
+    select: { userId: true },
+  });
+  const hasMine = priorSpotters.some((p) => p.userId === session.user.id);
+  // Arrival order on the clip (0 = first ever). Only meaningful on a first
+  // submission; a re-guess (hasMine) keeps its original award — re-submitting
+  // can't farm Pebbles.
+  const ordinal = priorSpotters.length;
+  const award = hasMine ? null : immediateAward(ordinal);
 
   // S2-T04: compute the streak inline so the client doesn't have to make
-  // a follow-up GET /api/streak. Sample the user's existing answers
-  // BEFORE the upsert; after, decide whether the new answer adds a date
-  // and recompute only in that case (most calls during a session won't
-  // change the streak).
+  // a follow-up GET /api/streak. (Day-streak is a re-engagement badge only; it
+  // does NOT award Pebbles — the "Tide" multiplier was cut from the economy.)
   const beforeAnswers = await prisma.answer.findMany({
     where: { userId: session.user.id },
     select: { createdAt: true },
@@ -100,57 +104,16 @@ export async function POST(req: Request) {
       snippetId,
       chosenOption: option,
       freeText: null,
-      isCorrect,
-      points,
+      isCorrect: null,
+      points: award ? award.pebbles : 0,
     },
+    // Re-guess: update the call but LOCK the original award (no re-pay) and
+    // leave isCorrect for the consensus cron to (re)settle.
     update: {
       chosenOption: option,
       freeText: null,
-      isCorrect,
-      points,
     },
   });
-
-  // Pokedex: a correct ID adds the reference species to the user's collection.
-  // The reference (staffAnswer) must resolve to a catalogue species; coarse
-  // references ("Fish") resolve to null and unlock nothing. A failure here must
-  // never fail the answer submission, so it is isolated in try/catch.
-  // T-07: tell the client whether this correct ID unlocked a NEW collection
-  // species + the running total, so the reveal can land the "added to your
-  // collection - N of 57" beat at the moment of the win.
-  let unlock: { isNew: boolean; commonName: string; collectionCount: number } | null = null;
-  if (isCorrect === true && snippet.staffAnswer) {
-    try {
-      const aliases = [...CATALOGUE_ALIASES, ...(await loadAliases())];
-      const sci = scientificFromLocalName(snippet.staffAnswer, aliases);
-      if (sci && CATALOGUE[sci]) {
-        const existed = await prisma.unlockedSpecies.findUnique({
-          where: { userId_scientificName: { userId: session.user.id, scientificName: sci } },
-          select: { userId: true },
-        });
-        await prisma.unlockedSpecies.upsert({
-          where: { userId_scientificName: { userId: session.user.id, scientificName: sci } },
-          create: { userId: session.user.id, scientificName: sci },
-          update: {},
-        });
-        const collectionCount = await prisma.unlockedSpecies.count({
-          where: { userId: session.user.id },
-        });
-        unlock = {
-          isNew: !existed,
-          commonName: CATALOGUE[sci].commonName ?? snippet.staffAnswer,
-          collectionCount,
-        };
-      }
-    } catch (err) {
-      log.error("pokedex unlock failed", {
-        context: "answers",
-        userId: session.user.id,
-        staffAnswer: snippet.staffAnswer,
-        err,
-      });
-    }
-  }
 
   // Did the upsert introduce a date the user hadn't logged before? An
   // update on an existing answer doesn't move createdAt, so editing a
@@ -163,14 +126,26 @@ export async function POST(req: Request) {
     ? previousStreak
     : computeStreakFromAnswers([...beforeAnswers, { createdAt: answer.createdAt }]);
 
+  // Running Pebble total so the client bag can sync its absolute count and
+  // animate the freshly-earned delta into the pouch.
+  const totals = await prisma.answer.aggregate({
+    _sum: { points: true },
+    where: { userId: session.user.id },
+  });
+
   return NextResponse.json({
     answer,
-    isCorrect,
-    points,
+    isCorrect: answer.isCorrect ?? null,
+    points: answer.points,
+    pebbles: {
+      earned: award ? award.pebbles : 0,
+      total: totals._sum.points ?? 0,
+      firstSighting: award?.firstSighting ?? false,
+    },
     streak: {
       previous: previousStreak.currentStreak,
       current: currentStreak.currentStreak,
     },
-    unlock,
+    unlock: null,
   });
 }
