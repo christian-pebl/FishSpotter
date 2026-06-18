@@ -303,10 +303,43 @@ Schema summary:
 - `SpeciesImage`: cached iNaturalist photo rows keyed on (scientificName, sourceUrl); columns for lifeStage / sex / license / attribution / ordering / curated flag / **`observedOn`** (date or year of the source observation) / **`placeGuess`** (human location of the source observation) — the last two added 4 Jun 2026 to power the gallery 'i' provenance popover; both nullable and only populated for iNaturalist rows (Wikimedia/manual carry no structured obs metadata). Manual `overrides` from `src/data/species-images.json` are upserted with `curated=true` and never overwritten by the script.
 - `DiagnosticMark` (S9-T1): admin-authored labelled rings on a `SpeciesImage`. Columns: `scientificName`, `speciesImageId` (FK), `order`, `label`, `description`, `overlayX`/`overlayY` (normalised 0..1), `overlayRadius` (normalised to `min(width, height)` so rings stay circular across aspect ratios), `createdBy` (admin email for audit). Indexed on `(scientificName, order)` and `(speciesImageId)`. A species counts as "published" by the wizard once it has >=1 mark; no separate status flag.
 
-## Scoring model (S7-T1, 27 May 2026)
+## Scoring model — Pebbles (sea-currency redesign, 18 Jun 2026)
+
+> **This supersedes the reference-based S7-T1 model documented below.** PEBL no
+> longer hands down an official correct answer — **the crowd is the authority**.
+> `Snippet.staffAnswer` is vestigial (ignored by scoring). `Answer.points` now
+> holds **Pebbles**, the leaderboard currency. The economy lives in
+> `src/lib/pebbles.ts` (pure, unit-tested); the immediate award is in
+> `src/app/api/answers/route.ts` and the retro consensus payout in
+> `src/lib/consensus.ts`.
+>
+> Two pillars, no "correctness":
+> - **Discovery (immediate, at submit):** base sighting (`PEBBLE_BASE_SIGHTING=5`)
+>   + a **First Sighting** / early-spotter bonus (`PEBBLE_EARLY_SPOTTER=[25,12,6]`
+>   by arrival order). Awards are locked on first submit — re-guessing can't farm.
+> - **Consensus (retro, by the `consensus-rescore` cron):** when
+>   `CONSENSUS_THRESHOLD_USERS=3` distinct spotters converge on a normalised name,
+>   the leader's camp is credited `PEBBLE_CONSENSUS` (pioneer 30 / joiner 15 /
+>   confirmer 8, by arrival tier) × **rarity** (OBIS `SpeciesProbability` at the
+>   clip's bucket → `rarityForProbability`, ×1 common … ×5 legendary) × **Current**
+>   (a reliability streak of consecutive vindicated calls → `currentMultiplier`,
+>   cap ×2.5). Idempotent per-answer credit via `ConsensusEvent.creditedAnswerIds`;
+>   `isCorrect` is re-settled to mean "matched the live community leader".
+>
+> **Anti-herding:** the community histogram is gated behind the spotter's own
+> answer (blind submission — `GET /api/snippets/[id]/stats`), so consensus rewards
+> measure *independent* agreement. `isContested()` flags split clips in the reveal.
+> **Header bag:** `PebbleBag` shows the running total and animates earned pebbles
+> into a pouch (`pebble-bus` event → bag). **Migration:** legacy points were
+> scaled ×10 via `scripts/migrate-points-to-pebbles.ts`. The day-streak ("Tide")
+> was intentionally NOT made a scoring multiplier; it stays a re-engagement badge.
+
+---
+
+### Legacy reference model (S7-T1, 27 May 2026) — retired, kept for context
 
 The leaderboard ranks spotters by sum of `Answer.points`, not by raw
-correct count. The per-row payout is set by `matchAnswer()` in
+correct count. The per-row payout was set by `matchAnswer()` in
 `src/lib/answer-matching.ts`:
 
 | Verdict | `isCorrect` | `points` | When |

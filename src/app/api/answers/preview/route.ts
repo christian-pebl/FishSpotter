@@ -1,21 +1,22 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { matchAnswer } from "@/lib/answer-matching";
+import { immediateAward } from "@/lib/pebbles";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { consensusSummary } from "@/lib/consensus";
 
-// P0 "play before the wall": a public, READ-ONLY grade so a signed-out spotter
-// sees the real reveal (right/wrong, the reference, the community split) before
-// being asked to make an account. It mirrors POST /api/answers but writes
-// nothing — no Answer row, no streak, no pokédex, no userId. The persisted path
-// (which feeds the leaderboard / consensus / anti-spam) still requires auth, so
-// nothing here can corrupt the dataset.
+// P0 "play before the wall": a public, READ-ONLY reveal so a signed-out spotter
+// sees the community split (and the Pebbles they'd earn) before being asked to
+// make an account. It mirrors POST /api/answers but writes nothing — no Answer
+// row, no streak, no userId. The persisted path (which feeds the leaderboard /
+// consensus / anti-spam) still requires auth, so nothing here can corrupt the
+// dataset.
 //
-// Anti-cheat contract is preserved: the caller must submit a guess
-// (`chosenOption`) to reach the reference, exactly as the authed flow gates
-// staffAnswer behind having answered.
+// Sea-currency redesign: there is no PEBL reference verdict — the crowd is the
+// authority. The reveal shows the community histogram (gated behind the guess,
+// so the submission stays blind) and the consensus state; there is no
+// correct/wrong grade.
 
 const MAX_ANSWER_LENGTH = 80;
 
@@ -43,16 +44,11 @@ export async function POST(req: Request) {
 
   const snippet = await prisma.snippet.findUnique({
     where: { id: parsed.snippetId },
-    select: { id: true, staffAnswer: true },
+    select: { id: true },
   });
   if (!snippet) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
-
-  // Same alias-aware matcher the persisted route uses, so a guest's verdict is
-  // identical to what they'll be credited once they sign up and the answer is
-  // carried in.
-  const { isCorrect, points } = await matchAnswer(snippet.staffAnswer, option);
 
   // Community histogram — identical aggregation to GET /api/snippets/[id]/stats
   // so the reveal's distribution matches the authed experience.
@@ -61,7 +57,7 @@ export async function POST(req: Request) {
     select: { chosenOption: true, isCorrect: true },
   });
   const total = answers.length;
-  const stats = bucketAnswersByNormalized(answers, snippet.staffAnswer ?? undefined)
+  const stats = bucketAnswersByNormalized(answers)
     .map(({ option: opt, count }) => ({
       option: opt,
       count,
@@ -69,16 +65,19 @@ export async function POST(req: Request) {
     }))
     .sort((a, b) => b.count - a.count);
 
+  // Preview of the Pebbles a guest would earn on this clip (base + the
+  // First-Sighting / early-spotter bonus for their would-be arrival order).
+  const preview = immediateAward(total);
+
   return NextResponse.json({
-    isCorrect,
-    points,
+    isCorrect: null,
+    points: 0,
     chosenOption: option,
     total,
     stats,
-    staffAnswer: snippet.staffAnswer,
-    hasReference: snippet.staffAnswer !== null,
-    ...(snippet.staffAnswer === null
-      ? { consensus: consensusSummary(stats, total) }
-      : {}),
+    staffAnswer: null,
+    hasReference: false,
+    pebbles: { earned: preview.pebbles, firstSighting: preview.firstSighting },
+    consensus: consensusSummary(stats, total),
   });
 }
