@@ -43,8 +43,8 @@ function PebbleGlyph({ size }: { size: number }) {
 function Cairn({ onFeed }: { onFeed: boolean }) {
   return (
     <svg
-      width="20"
-      height="20"
+      width="17"
+      height="17"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
@@ -167,7 +167,7 @@ export function PebbleBagView({
         </span>
       </span>
       <span
-        className={`min-w-[1.5ch] text-sm font-semibold tabular-nums ${
+        className={`min-w-[1.5ch] text-sm font-semibold tabular-nums opacity-80 ${
           onFeed ? "text-white/90" : "text-teal-700"
         }`}
         style={onFeed ? { textShadow: overlayTextShadow } : undefined}
