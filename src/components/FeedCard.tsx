@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useDragControls, useReducedMotion } from "fram
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
-import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
+import { setVideoSettings, useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 import { StaffScientificResolver } from "./StaffScientificResolver";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
@@ -1205,25 +1205,32 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Radar-ping the creature's location on the clip — the "locate the
-                fish" button, kept on the RIGHT. */}
+            {/* Toggle the fish-tracking trace on the clip. Off by default; this
+                concentric-ring button on the RIGHT turns the trail overlay on. */}
             {hasBboxes && (
               <button
                 type="button"
                 onClick={() => {
                   setMetaOpen(false);
-                  triggerPing();
+                  const next = !showTracking;
+                  setVideoSettings({ trace: next });
+                  // When switching the trace on, flash the locate ping so the
+                  // user can immediately find the creature in the clip.
+                  if (next) triggerPing();
                 }}
-                aria-label="Show where the creature is on screen"
-                title="Show where on screen"
-                className="flex shrink-0 items-center justify-center gap-1.5 border-l border-white/10 px-4 text-[11px] font-semibold uppercase tracking-wider text-teal-300 transition-colors hover:bg-white/5"
+                aria-pressed={showTracking}
+                aria-label={showTracking ? "Hide the fish-tracking trace" : "Show the fish-tracking trace"}
+                title={showTracking ? "Hide trace" : "Show trace"}
+                className={`flex shrink-0 items-center justify-center gap-1.5 border-l border-white/10 px-4 text-[11px] font-semibold uppercase tracking-wider transition-colors hover:bg-white/5 ${
+                  showTracking ? "bg-teal-500/15 text-teal-200" : "text-teal-300"
+                }`}
               >
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <circle cx="8" cy="8" r="2" fill="currentColor" />
                   <circle cx="8" cy="8" r="5" stroke="currentColor" strokeWidth="1.3" opacity="0.7" />
                   <circle cx="8" cy="8" r="7.2" stroke="currentColor" strokeWidth="1.1" opacity="0.4" />
                 </svg>
-                <span className="hidden sm:inline">Show on screen</span>
+                <span className="hidden sm:inline">{showTracking ? "Hide trace" : "Show trace"}</span>
               </button>
             )}
           </motion.div>

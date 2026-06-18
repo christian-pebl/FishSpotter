@@ -14,7 +14,7 @@ export interface VideoSettings {
 
 const DEFAULTS: VideoSettings = {
   soundOn: false,
-  trace: true,
+  trace: false,
   speed: 1,
   // Murky underwater footage reads better with a gentle default lift; users can
   // still dial it back to 0 (or up) in the settings menu (persisted per-device).
