@@ -267,6 +267,134 @@ export async function geminiGenerate(args: {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Silhouette scoring (added 17 Jun 2026). Scores how well a flat tile
+// silhouette represents its labelled group in the Spot It gate, on fixed
+// 0..100 metrics, so the icon set can be measured and tracked over time
+// (re-run scripts/score-silhouettes.ts; compare the JSON baseline).
+// ---------------------------------------------------------------------------
+
+export type SilhouetteVerdict = "strong" | "adequate" | "weak" | "replace";
+
+/** Structured representativeness score for one tile silhouette. */
+export type SilhouetteScore = {
+  /** 1-3 words: what the shape most looks like at a glance, no caption. */
+  readsAs: string;
+  /** 0..100: would a beginner read this shape as the intended label? */
+  recognizability: number;
+  /** 0..100: does the outline capture the group's key shape cues? */
+  diagnosticAccuracy: number;
+  /** 0..100: clean + legible as a small flat icon (not broken/cluttered). */
+  clarity: number;
+  /** 0..100: visually distinct from the sibling tiles in the same picker. */
+  distinctiveness: number;
+  /** Sibling/animal it is most likely mistaken for, or "none". */
+  confusableWith: string;
+  /** 0..100: overall representativeness. */
+  score: number;
+  verdict: SilhouetteVerdict;
+  /** One short, concrete improvement suggestion. */
+  notes: string;
+};
+
+export type SilhouetteResult =
+  | { ok: true; score: SilhouetteScore; model: string; usage: TokenUsage }
+  | { ok: false; error: string; model: string };
+
+const SILHOUETTE_SCHEMA = {
+  type: "object",
+  properties: {
+    readsAs: { type: "string" },
+    recognizability: { type: "integer" },
+    diagnosticAccuracy: { type: "integer" },
+    clarity: { type: "integer" },
+    distinctiveness: { type: "integer" },
+    confusableWith: { type: "string" },
+    score: { type: "integer" },
+    verdict: { type: "string", enum: ["strong", "adequate", "weak", "replace"] },
+    notes: { type: "string" },
+  },
+  required: [
+    "readsAs",
+    "recognizability",
+    "diagnosticAccuracy",
+    "clarity",
+    "distinctiveness",
+    "confusableWith",
+    "score",
+    "verdict",
+    "notes",
+  ],
+} as const;
+
+function buildSilhouettePrompt(label: string, groupContext: string, siblings: string[]): string {
+  const sib = siblings.length ? siblings.join(", ") : "(none)";
+  return [
+    `You are an icon-design reviewer for a UK marine-species identification game`,
+    `for the general public. The attached image is a flat, single-colour`,
+    `SILHOUETTE used as a tap-target on a picker tile. Its intended meaning is`,
+    `"${label}" (${groupContext}).`,
+    ``,
+    `In the SAME picker the user also sees these sibling tiles: ${sib}.`,
+    `The user is a beginner who taps the silhouette that best matches the animal`,
+    `they just saw in a short underwater video clip. There is a small caption,`,
+    `but good silhouettes should read correctly on shape alone.`,
+    ``,
+    `Judge how well THIS silhouette represents "${label}":`,
+    `- readsAs: in 1-3 words, what does the shape most look like at a glance?`,
+    `- recognizability: would a beginner read this shape as a ${label}?`,
+    `- diagnosticAccuracy: does the outline capture the key shape cues of a`,
+    `  ${label} (e.g. a cod's three separate dorsal fins, a shark's upturned`,
+    `  tail, a wrasse's deep body + single long fin, a crab's wide carapace and`,
+    `  legs, an eel's long ribbon body)?`,
+    `- clarity: is it clean and legible at small icon size, not cluttered,`,
+    `  broken, lopsided, or ambiguous?`,
+    `- distinctiveness: is it visually distinct from the sibling tiles listed,`,
+    `  so it will not be confused with them?`,
+    `- confusableWith: which sibling (or other common animal) is it most likely`,
+    `  to be mistaken for? "none" if clearly distinct.`,
+    ``,
+    `Score each metric 0..100. score is your overall representativeness`,
+    `judgement. Map verdict: strong (>=80), adequate (60-79), weak (40-59),`,
+    `replace (<40). Keep notes to one short, concrete suggestion. Do not use em`,
+    `dashes.`,
+  ].join("\n");
+}
+
+/**
+ * Score a tile silhouette (passed as base64 PNG) for how well it represents its
+ * labelled group, relative to its sibling tiles. Never throws for an expected
+ * failure; returns { ok: false, error } so batch callers can continue.
+ */
+export async function assessSilhouette(args: {
+  label: string;
+  groupContext: string;
+  siblings: string[];
+  imageBase64: string;
+  mimeType?: string;
+  apiKey?: string;
+  model?: string;
+}): Promise<SilhouetteResult> {
+  const model = args.model ?? process.env.GEMINI_MODEL ?? DEFAULT_MODEL;
+  const result = await geminiGenerate({
+    parts: [
+      { text: buildSilhouettePrompt(args.label, args.groupContext, args.siblings) },
+      { inline_data: { mime_type: args.mimeType ?? "image/png", data: args.imageBase64 } },
+    ],
+    schema: SILHOUETTE_SCHEMA,
+    model: args.model,
+    apiKey: args.apiKey,
+    thinkingBudget: 0,
+  });
+  if (!result.ok) return { ok: false, error: result.error, model: result.model };
+  try {
+    const score = JSON.parse(result.text) as SilhouetteScore;
+    return { ok: true, score, model: result.model, usage: result.usage };
+  } catch {
+    return { ok: false, error: `non-JSON model output: ${result.text.slice(0, 200)}`, model };
+  }
+}
+
 /**
  * Assess a single image (by URL or already-decoded base64) for teaching
  * suitability. Never throws for an expected failure (bad key, fetch error,
