@@ -381,8 +381,10 @@ export function TileGate({
 
   return (
     <>
-    <div ref={constraintsRef} className="pointer-events-none absolute inset-0 z-30">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 w-[min(38rem,calc(100%-1.5rem))] -translate-x-1/2 -translate-y-1/2">
+    <div
+      ref={constraintsRef}
+      className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center p-3"
+    >
         <AnimatePresence>
         {!minimized && (
         <motion.div
@@ -411,7 +413,7 @@ export function TileGate({
               ? { duration: 0 }
               : { duration: DURATION.standard, ease: EASE.enter }
           }
-          className="pointer-events-auto relative flex max-h-[calc(100dvh-1.5rem)] flex-col rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
+          className="pointer-events-auto relative flex max-h-full w-[min(38rem,100%)] flex-col rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
           style={{
             paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
             transformOrigin: "bottom center",
@@ -576,7 +578,6 @@ export function TileGate({
         </motion.div>
         )}
         </AnimatePresence>
-      </div>
     </div>
 
       {/* Dock bubble — the minimized state. Tap to restore the card in place
