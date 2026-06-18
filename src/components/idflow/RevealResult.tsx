@@ -1,48 +1,31 @@
 "use client";
 
 /**
- * Post-submit reveal: the slick two-panel result shown after a user commits a
- * species guess (replaces the old single "You said X · reference: Y" line +
- * thin histogram in FeedCard).
+ * Post-submit reveal shown after a user commits a species guess. A compact
+ * "You said X" result line (with the scored verdict chip) followed by the
+ * Community answers panel: the live histogram of what everyone else guessed,
+ * each row showing how many spotters gave that answer (species or higher
+ * level), the user's own pick highlighted, animated bars, and the spotter
+ * count.
  *
- * Two results, side by side (stacked on mobile):
- *   - PEBL ID     : the authoritative internal reference we assign the species
- *                   (resolvePeblId -> the hardcoded ID, falling back to the
- *                   clip's staffAnswer until the raw IDs are wired in).
- *   - Community   : the live histogram of what everyone else guessed, with the
- *                   user's own pick highlighted, animated bars, and the spotter
- *                   count.
+ * The PEBL-reference / "PEBL ID" + "Closest confirmed ID" panel was removed —
+ * the reveal is community-answers only.
  *
- * The whole thing reveals as an orchestrated, staggered sequence (headline ->
- * panels -> bars grow), with a teal confetti burst on a correct call. All of it
- * collapses to an instant, static final state under prefers-reduced-motion.
+ * Reveals as a staggered sequence with a teal confetti burst on a correct call;
+ * collapses to an instant static state under prefers-reduced-motion.
  */
 
 import { useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
 import { DURATION, EASE } from "@/lib/motion";
 import { normalizeAnswer } from "@/lib/normalize-answer";
-import { resolvePeblId } from "@/data/pebl-ids";
 import { CorrectFishSwim } from "./CorrectFishSwim";
 
 export type RevealStatsItem = { option: string; count: number; percent: number };
 
-// Coarse reference labels: a clip confirmed only to a group, not a species.
-// When the PEBL reference is one of these, we frame it as an invitation (T-10)
-// rather than letting a one-word "Fish" read as an anticlimax to a user who
-// guessed something specific.
-const COARSE_REFS = new Set([
-  "fish", "crab", "flatfish", "jellyfish", "starfish", "squid", "gastropod",
-  "snail / slug", "snail", "slug", "octopus", "shrimp", "prawn", "anemone",
-  "worm", "eel", "ray", "shark", "goby", "wrasse", "blenny",
-]);
-
 export function RevealResult({
   chosenOption,
   isCorrect,
-  revealPartial,
-  staffAnswer,
-  staffScientific,
   stats,
   total,
   reduceMotion,
@@ -52,12 +35,6 @@ export function RevealResult({
 }: {
   chosenOption: string;
   isCorrect: boolean | null;
-  /** true when wrong-species-but-right-shape-class (partial +1 credit). */
-  revealPartial: boolean;
-  /** PEBL reference label for the clip (null = no reference yet). */
-  staffAnswer: string | null;
-  /** Resolved scientific name (arrives after StaffScientificResolver fetches it). */
-  staffScientific: string | null;
   stats: RevealStatsItem[];
   total: number;
   reduceMotion: boolean;
@@ -90,15 +67,12 @@ export function RevealResult({
       .catch(() => {});
   }, [isCorrect, reduceMotion]);
 
-  const peblId = resolvePeblId(staffAnswer);
-  const isCoarse = !!staffAnswer && COARSE_REFS.has(staffAnswer.trim().toLowerCase());
   const myKey = normalizeAnswer(chosenOption);
-  const top = stats.slice(0, 4);
+  const top = stats.slice(0, 6);
   // T-09: did the user's own guess land anywhere in the community histogram?
   // For guests (whose pick is never persisted) it won't, so we surface it
   // explicitly below instead of leaving them absent from the crowd.
   const myInTop = top.some((s) => normalizeAnswer(s.option) === myKey);
-  const lowN = total <= 2;
 
   const container: Variants = reduceMotion
     ? { hidden: {}, show: {} }
@@ -119,94 +93,10 @@ export function RevealResult({
           motion. */}
       {isCorrect === true && <CorrectFishSwim reduceMotion={reduceMotion} />}
 
-      {/* Verdict headline (aria-live announces the outcome; icons + text so the
-          result never depends on colour alone). */}
-      <motion.p
-        variants={item}
-        role="status"
-        aria-live="polite"
-        className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm"
-      >
-        <span className="text-white/85">You said</span>
-        <span className="font-semibold text-white">{chosenOption}</span>
-        {isCorrect === true && (
-          <span
-            className="inline-flex items-center gap-1 rounded-full bg-correct px-2.5 py-1 text-xs font-bold tracking-wide text-correct-ink shadow-sm"
-            aria-label="Correct, plus 2 points"
-          >
-            <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <path d="M2 6.5l2.5 2.5L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Correct · +2
-          </span>
-        )}
-        {isCorrect === false &&
-          (revealPartial ? (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-pending px-2.5 py-1 text-xs font-bold tracking-wide text-pending-ink shadow-sm"
-              aria-label="Close, right shape class, plus 1 point"
-            >
-              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                <path d="M2 4.5q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M2 8q1.5-1.6 3 0t3 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              Close · +1
-            </span>
-          ) : (
-            <span
-              className="inline-flex items-center gap-1 rounded-full bg-incorrect px-2.5 py-1 text-xs font-bold tracking-wide text-incorrect-ink shadow-sm"
-              aria-label="Incorrect"
-            >
-              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-              Wrong
-            </span>
-          ))}
-        {isCorrect === null && (
-          <span
-            className="inline-flex items-center gap-1 rounded-full bg-pending px-2.5 py-1 text-xs font-bold tracking-wide text-pending-ink shadow-sm"
-            aria-label="Bonus, plus 1 point. Reference identification pending."
-          >
-            <svg viewBox="0 0 14 14" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <path d="M7 1.5l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 10.4 3.4 12.2l.8-3.7L1.4 5.9l3.8-.4z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-            </svg>
-            +1 Bonus
-          </span>
-        )}
-      </motion.p>
-
-      {/* Two result panels: PEBL ID vs Community. */}
-      <motion.div variants={item} className="mt-2 flex flex-col gap-2 md:flex-row md:gap-3">
-        {/* PEBL ID — the authoritative reference. */}
-        <div className="flex-1 rounded-modal border border-white/10 bg-white/[0.06] p-2.5">
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-500" aria-hidden="true" />
-            <span className="text-[10px] font-semibold uppercase tracking-eyebrow text-teal-100/80">
-              {isCoarse ? "Closest confirmed ID" : "PEBL ID"}
-            </span>
-          </div>
-          {peblId ? (
-            <>
-              <p className="mt-1 text-base font-semibold leading-tight text-white">{peblId}</p>
-              {staffScientific && !isCoarse && (
-                <p className="text-[11px] italic text-white/55">{staffScientific}</p>
-              )}
-              {isCoarse && (
-                <p className="mt-0.5 text-[11px] leading-snug text-white/60">
-                  Not confirmed to species yet. Your &ldquo;{chosenOption}&rdquo; is logged and counts toward the community ID.
-                </p>
-              )}
-            </>
-          ) : (
-            <p className="mt-1 text-[12px] leading-snug text-white/65">
-              No reference yet. Your ID helps build the dataset.
-            </p>
-          )}
-        </div>
-
-        {/* Community — what everyone else guessed. */}
-        <div className="flex-1 rounded-modal border border-white/10 bg-white/[0.06] p-2.5">
+      {/* Community answers — how many spotters gave each answer (species or
+          higher level). Sole panel: the PEBL-reference panel was removed. */}
+      <motion.div variants={item} className="mt-2">
+        <div className="rounded-modal border border-white/10 bg-white/[0.06] p-3">
           <div className="flex items-center gap-1.5">
             <svg viewBox="0 0 14 14" className="h-3 w-3 text-white/45" fill="none" aria-hidden="true">
               <circle cx="5" cy="4.2" r="2" stroke="currentColor" strokeWidth="1.2" />
@@ -215,38 +105,26 @@ export function RevealResult({
               <circle cx="10" cy="4.6" r="1.6" stroke="currentColor" strokeWidth="1.2" />
             </svg>
             <span className="text-[10px] font-semibold uppercase tracking-eyebrow text-white/55">
-              Community · {total} {total === 1 ? "spotter" : "spotters"}
+              Community answers · {total} {total === 1 ? "spotter" : "spotters"}
             </span>
           </div>
-          <div className="mt-1.5 space-y-1">
+          <div className="mt-2 space-y-1.5">
             {total === 0 ? (
               <p className="text-[11px] text-white/45">Be the first to call this one.</p>
-            ) : lowN ? (
-              // T-09: with only 1-2 spotters, hard percentages mislead. Frame it
-              // honestly and still show the user their own pick is logged.
-              <>
-                <p className="text-[11px] leading-snug text-white/60">
-                  You&rsquo;re one of the first to spot this. Your ID helps build the community answer.
-                </p>
-                <p className="text-[11px] font-semibold text-teal-200">
-                  {chosenOption}
-                  <span className="font-normal text-teal-300/80"> · you</span>
-                </p>
-              </>
             ) : (
               <>
                 {top.map((s, i) => {
                   const mine = normalizeAnswer(s.option) === myKey;
                   return (
-                    <div key={s.option} className="flex items-center gap-1.5 text-[11px]">
+                    <div key={s.option} className="flex items-center gap-2 text-xs">
                       <span
-                        className={`w-16 shrink-0 truncate ${mine ? "font-semibold text-teal-200" : "text-white/80"}`}
+                        className={`w-24 shrink-0 truncate ${mine ? "font-semibold text-teal-200" : "text-white/80"}`}
                         title={s.option}
                       >
                         {s.option}
                         {mine && <span className="text-teal-300/80"> · you</span>}
                       </span>
-                      <div className="h-1.5 flex-1 overflow-hidden rounded bg-white/10">
+                      <div className="h-2 flex-1 overflow-hidden rounded bg-white/10">
                         <motion.div
                           className={`h-full rounded ${mine ? "bg-teal-400" : "bg-teal-500/60"}`}
                           initial={reduceMotion ? false : { width: 0 }}
@@ -258,17 +136,17 @@ export function RevealResult({
                           }
                         />
                       </div>
-                      <span className="w-14 shrink-0 text-right tabular-nums text-white/55">
-                        {s.count} · {s.percent}%
+                      <span className="w-20 shrink-0 text-right tabular-nums text-white/60">
+                        {s.count} {s.count === 1 ? "spotter" : "spotters"}
                       </span>
                     </div>
                   );
                 })}
-                {/* T-09: always show the user's own pick, even when it isn't a
-                    common call (always the case for a guest's read-only preview). */}
+                {/* Always show the user's own pick, even when it isn't a common
+                    call (always the case for a guest's read-only preview). */}
                 {!myInTop && (
-                  <div className="flex items-center gap-1.5 pt-0.5 text-[11px]">
-                    <span className="w-16 shrink-0 truncate font-semibold text-teal-200" title={chosenOption}>
+                  <div className="flex items-center gap-2 pt-0.5 text-xs">
+                    <span className="w-24 shrink-0 truncate font-semibold text-teal-200" title={chosenOption}>
                       {chosenOption}
                       <span className="font-normal text-teal-300/80"> · you</span>
                     </span>

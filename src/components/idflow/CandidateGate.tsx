@@ -29,6 +29,8 @@ import {
   type Crumb,
 } from "@/components/idflow/TileGate";
 import { SpeciesGuidePopup } from "@/components/idflow/SpeciesGuidePopup";
+import { SpeciesComparison } from "@/components/idflow/SpeciesComparison";
+import { comparisonGroupForCandidates } from "@/lib/idflow/comparisons";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import type { ShapeClass, TraitSelection } from "@/lib/idguide/traits";
 import silhouetteCredits from "@/data/silhouette-credits.json";
@@ -144,6 +146,14 @@ export function CandidateGate({
     commonName: string;
   } | null>(null);
 
+  // Look-alike "compare side by side" view (e.g. the three right-eyed flatfish).
+  // Offered only when the remaining candidates are a known confusion group.
+  const comparison = useMemo(
+    () => comparisonGroupForCandidates(candidates.map((c) => c.scientificName)),
+    [candidates],
+  );
+  const [comparing, setComparing] = useState(false);
+
   // Lead photo per candidate, fetched once the gate is up. Small set. These
   // tiles render at ~330px CSS (≈660px on 2× screens), so we use the 500px
   // `url` (medium) rather than the 240px `thumbUrl` — the thumb visibly
@@ -225,6 +235,11 @@ export function CandidateGate({
         // to re-narrow; "Pick from a list" jumps to the full MCQ.
         notSure={onBack ? { label: "None look right", onClick: onBack } : undefined}
         skip={onSkipToMCQ ? { label: "Pick from a list", onClick: onSkipToMCQ } : undefined}
+        compare={
+          comparison
+            ? { label: "Compare side by side", onClick: () => setComparing(true) }
+            : undefined
+        }
         coarse={coarse}
       />
       {preview && (
@@ -234,6 +249,14 @@ export function CandidateGate({
           submitting={submitting}
           onConfirm={() => onPick(preview.commonName)}
           onClose={() => setPreview(null)}
+        />
+      )}
+      {comparing && comparison && (
+        <SpeciesComparison
+          group={comparison}
+          submitting={submitting}
+          onPick={onPick}
+          onClose={() => setComparing(false)}
         />
       )}
     </>

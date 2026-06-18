@@ -34,13 +34,6 @@
     "license": "Public Domain Mark 1.0",
     "source": "https://www.phylopic.org/images/5ac54f3b-2422-4d31-9920-ec90c16d4fd5"
   },
-  "laterally-compressed": {
-    "taxon": "Abramis brama",
-    "imageUuid": "fc97b67e-627d-4430-9a5a-2cf661640bc7",
-    "attribution": "Ando, via PhyloPic",
-    "license": "Public Domain Mark 1.0",
-    "source": "https://www.phylopic.org/images/fc97b67e-627d-4430-9a5a-2cf661640bc7"
-  },
   "elongated": {
     "taxon": "Ammodytes",
     "imageUuid": "31124fe7-c960-40dd-943b-dbecd53650db",
@@ -70,25 +63,25 @@
     "source": "https://fish-spotter.vercel.app"
   },
   "wrasse": {
-    "taxon": "Abramis brama (deep-bodied fish)",
+    "taxon": "Labridae (wrasses)",
     "imageUuid": null,
     "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
   },
   "silver-shoaler": {
-    "taxon": "Scomber",
+    "taxon": "Clupeidae / silvery shoaling fish",
     "imageUuid": null,
     "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
   },
   "long-skinny": {
-    "taxon": "Anguilla rostrata",
-    "imageUuid": "629e1135-d0c5-4f02-bb13-8cbf63e48692",
-    "attribution": "Steven Traver, via PhyloPic",
+    "taxon": "Anguillidae / Pholidae (eel-like fish)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
-    "source": "https://www.phylopic.org/images/629e1135-d0c5-4f02-bb13-8cbf63e48692"
+    "source": "https://fish-spotter.vercel.app"
   },
   "bottom-sitter": {
     "taxon": "Gobiidae / Callionymidae (bottom-resting fish)",

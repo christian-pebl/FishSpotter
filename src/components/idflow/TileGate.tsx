@@ -86,6 +86,7 @@ export function TileGate({
   notSure,
   skip,
   coarse,
+  compare,
   emptyMessage,
   suspendKeyboard = false,
   bubbleLabel = "Reopen the selector",
@@ -108,6 +109,10 @@ export function TileGate({
    *  rendered as a full-width button above the notSure/skip row. Lets a user
    *  who can't get to species commit the shape class for partial credit. */
   coarse?: { label: string; onClick: () => void };
+  /** A secondary "compare these look-alikes side by side" action, rendered as a
+   *  full-width outline button below the grid (Rung-3 only, when the candidate
+   *  set is a known confusion group). Opens the SpeciesComparison view. */
+  compare?: { label: string; onClick: () => void };
   /** Shown instead of the grid when there are no tiles. */
   emptyMessage?: string;
   /** When true (an Examples popup is open on top), the gate yields keyboard
@@ -532,6 +537,20 @@ export function TileGate({
                 grid
               )}
             </div>
+
+            {compare && (
+              <button
+                type="button"
+                onClick={compare.onClick}
+                className="mt-3 inline-flex min-h-[44px] w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:border-teal-400 hover:bg-teal-500/15 hover:text-teal-100"
+              >
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+                  <rect x="2" y="3" width="5" height="10" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                  <rect x="9" y="3" width="5" height="10" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                </svg>
+                {compare.label}
+              </button>
+            )}
 
             {coarse && (
               <button

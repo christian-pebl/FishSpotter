@@ -124,6 +124,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const settings = useVideoSettings();
   const showTracking = settings.trace;
   const [mapOpen, setMapOpen] = useState(false);
+  // Provenance popover (depth · site · date) behind the bottom-right info
+  // button. Tapping the site name inside it opens the MapModal.
+  const [metaOpen, setMetaOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
   // UX-0: the "Spot It" rung flow — shape gate (Rung 1) → body-shape gate
   // (Rung 2) → candidate gate (Rung 3), with the MCQ tile grid as the
@@ -928,53 +931,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         )}
       </div>
 
-      {/* Depth + location + date HUD — bottom-left, BELOW the progress bar, and
-          only after the first identify tap (idle clips stay clean). Left-aligned
-          and right-inset so it never collides with the minimized "magnifier"
-          dock bubble that now tucks into the bottom-right corner. */}
-      {(hasTappedIdentify || !!myAnswer) &&
-        (snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
-          <motion.div
-            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={TRANSITION.standard}
-            className="pointer-events-none absolute bottom-0 left-0 z-20 flex h-14 max-w-[calc(100%-4.5rem)] items-center pl-3 pr-2"
-            style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-          >
-            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-white/15 bg-navy-900/95 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur">
-              {snippet.depthM != null && (
-                <span className="inline-flex items-center gap-1">
-                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
-                    <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                  </svg>
-                  {Math.round(snippet.depthM)} m
-                </span>
-              )}
-              {snippet.site && (
-                <span className="inline-flex items-center gap-1">
-                  <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
-                    <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-                    <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
-                  </svg>
-                  {snippet.site}
-                </span>
-              )}
-              {(() => {
-                const d = snippet.recordingDatetime ? new Date(snippet.recordingDatetime) : null;
-                return d && !Number.isNaN(d.getTime()) ? (
-                  <span className="inline-flex items-center gap-1">
-                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-300">
-                      <rect x="2.5" y="3" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
-                      <path d="M2.5 6.5h11M6 1.5v3M10 1.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                    </svg>
-                    {d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
-                  </span>
-                ) : null;
-              })()}
-            </div>
-          </motion.div>
-        )}
+      {/* Clip metadata (depth · site · date) + the map now live in the idle
+          bottom bar's LEFT "info pin" — see the docked bar below. */}
 
       {/* Soft bottom gradient so the floating panel always reads over the video.
           Desktop centres the panel mid-screen so the bottom gradient just
@@ -984,6 +942,19 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/4 bg-gradient-to-t from-black/40 via-black/10 to-transparent"
+        />
+      )}
+
+      {/* Tap-away backdrop for the bottom-bar info popover: a tap on the clip
+          closes it WITHOUT firing the tap-to-identify catcher (z-10). Gated on
+          the same idle state as the bar so it never strands over a gate. */}
+      {panelCollapsed && !hasTappedIdentify && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && metaOpen && (
+        <button
+          type="button"
+          aria-hidden="true"
+          tabIndex={-1}
+          onClick={() => setMetaOpen(false)}
+          className="absolute inset-0 z-20 cursor-default"
         />
       )}
 
@@ -997,13 +968,107 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12 }}
             transition={TRANSITION.standard}
-            // (3 Jun) Dark-themed docked bar matching the shape gate. Two
-            // actions: open the step-by-step flow, and radar-ping the creature.
+            // (3 Jun) Dark-themed docked bar matching the shape gate. Three
+            // segments: the clip-info pin (left), the identify CTA (centre), and
+            // the radar "locate the fish" ping (right).
             className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-stretch border-t border-white/10 bg-navy-900/95 backdrop-blur"
           >
+            {/* Clip-info pin (LEFT) — tap for depth · site · date; tap the place
+                name inside for the small map. */}
+            {(snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
+              <div className="relative flex shrink-0 items-stretch border-r border-white/10">
+                <AnimatePresence>
+                  {metaOpen && (
+                    <motion.div
+                      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.96 }}
+                      transition={reduceMotion ? { duration: 0 } : { duration: DURATION.standard, ease: EASE.enter }}
+                      role="dialog"
+                      aria-label="Where and when this clip was filmed"
+                      className="absolute bottom-full left-0 mb-2 w-max max-w-[min(16rem,calc(100vw-1.5rem))] rounded-modal border border-white/15 bg-navy-900/95 p-2.5 text-[11px] font-medium text-white shadow-menu backdrop-blur"
+                    >
+                      <div className="flex flex-col items-start gap-1.5">
+                        {snippet.depthM != null && (
+                          <span className="inline-flex items-center gap-1.5">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">
+                              <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                            </svg>
+                            {Math.round(snippet.depthM)} m deep
+                          </span>
+                        )}
+                        {snippet.site && (
+                          hasLocation ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setMapOpen(true);
+                                setMetaOpen(false);
+                              }}
+                              aria-label={`Show ${snippet.site} on a map`}
+                              className="-mx-1 inline-flex items-center gap-1.5 rounded-modal px-1 py-0.5 text-left text-teal-200 transition-colors hover:bg-white/10 hover:text-teal-100"
+                            >
+                              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">
+                                <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                                <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+                              </svg>
+                              <span className="underline decoration-teal-400/50 underline-offset-2">{snippet.site}</span>
+                              <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-400/80">
+                                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </button>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5">
+                              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">
+                                <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+                                <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
+                              </svg>
+                              {snippet.site}
+                            </span>
+                          )
+                        )}
+                        {(() => {
+                          const d = snippet.recordingDatetime ? new Date(snippet.recordingDatetime) : null;
+                          return d && !Number.isNaN(d.getTime()) ? (
+                            <span className="inline-flex items-center gap-1.5">
+                              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">
+                                <rect x="2.5" y="3" width="11" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
+                                <path d="M2.5 6.5h11M6 1.5v3M10 1.5v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                              </svg>
+                              {d.toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
+                            </span>
+                          ) : null;
+                        })()}
+                        {hasLocation && (
+                          <span className="pt-0.5 text-[10px] text-white/45">Tap the place name for a map</span>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <button
+                  type="button"
+                  onClick={() => setMetaOpen((o) => !o)}
+                  aria-label={metaOpen ? "Hide where this clip was filmed" : "Show where this clip was filmed"}
+                  aria-expanded={metaOpen}
+                  className={[
+                    "flex min-w-[52px] items-center justify-center px-4 transition-colors",
+                    metaOpen ? "bg-teal-500/15 text-teal-200" : "text-teal-300 hover:bg-white/5",
+                  ].join(" ")}
+                >
+                  {/* Map-pin glyph reads as "where was this filmed". */}
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M10 18s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                    <circle cx="10" cy="8" r="2.2" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                </button>
+              </div>
+            )}
             <button
               type="button"
               onClick={() => {
+                setMetaOpen(false);
                 setHasTappedIdentify(true);
                 togglePanel(false);
                 // Lead with the step-by-step shape flow, not the MCQ tiles.
@@ -1025,11 +1090,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Radar-ping the creature's current location on the clip. */}
+            {/* Radar-ping the creature's location on the clip — the "locate the
+                fish" button, kept on the RIGHT. */}
             {hasBboxes && (
               <button
                 type="button"
-                onClick={triggerPing}
+                onClick={() => {
+                  setMetaOpen(false);
+                  triggerPing();
+                }}
                 aria-label="Show where the creature is on screen"
                 title="Show where on screen"
                 className="flex shrink-0 items-center justify-center gap-1.5 border-l border-white/10 px-4 text-[11px] font-semibold uppercase tracking-wider text-teal-300 transition-colors hover:bg-white/5"
@@ -1338,9 +1407,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     <RevealResult
                       chosenOption={myAnswer!.chosenOption}
                       isCorrect={myAnswer!.isCorrect}
-                      revealPartial={revealPartial}
-                      staffAnswer={stats!.staffAnswer ?? snippet.staffAnswer ?? null}
-                      staffScientific={staffScientific}
                       stats={stats!.stats}
                       total={stats!.total}
                       reduceMotion={!!reduceMotion}

@@ -174,3 +174,40 @@ Every commit above verified: `tsc`, 334 tests, `next lint`, `lint:tokens` green;
 the live site re-verified by curl + Playwright after each deploy. Two disposable
 prod test accounts (created for signed-in captures) were deleted afterward.
 
+
+## Fish sub-silhouette redraw (18 Jun 2026)
+
+- **Reviewed + redrew the 7 fish Rung-2 "What kind of fish was it?" tile
+  silhouettes** so each reads as its family group and stays mutually
+  distinguishable at the flat-mask icon size (~40-64px). One agent reviewed each
+  icon against the Gemini-vision baseline (`implementation/2026-06-17/silhouette-scores.json`),
+  the field-guide rationale, and the `MaskSilhouette` render constraint; the per-icon
+  plans + draft SVGs live in `implementation/2026-06-18/fish-silhouettes/` (README has
+  the cross-cutting findings). Applied 6 redraws (shark left as-is — it already scored
+  90/"strong"):
+  - **cod-like** — three dorsal sails now rise ~7-9 units with deep V-notches of true
+    negative space, so the cod give-away ("three separate fins on the back") survives
+    downsampling instead of slurring into a "bumpy back" (was readsAs "Fish with fins").
+  - **wrasse** — the single long dorsal is lifted off the back (negative-space gap) so it
+    reads as ONE continuous fin vs cod's three humps; sharper thick-lipped pointed snout;
+    bold rounded (unforked) paddle tail. Targets the cod-confusion that capped it at 73.
+  - **silver-shoaler** — switched from the 2-fish shoal (readsAs "Two fish") to a single
+    slim fish with a deep symmetric fork, matching the other single-subject fish tiles and
+    the "Silver swimmers" relabel.
+  - **bottom-sitter** vs **bottom-other** — the 18-Jun split left these two near-identical
+    seabed silhouettes; pulled them to opposite poles — bottom-sitter = small/plump/smooth
+    two-goby cluster, bottom-other = big/armoured/spiky gurnard with a spread wing pectoral
+    + walking finger-rays — so the icon (the sole disambiguator, since labels carry no shape
+    hint) actually separates them.
+  - **long-skinny** — replaced the potrace "boomerang" (the lone non-hand-authored icon)
+    with a clean hand-drawn slender eel: gentle S, a negative-space eye, a small symmetric
+    tail fin; no longer reads as a boomerang/snake.
+  - Attribution: `long-skinny` was a reused PhyloPic potrace and is now a PEBL-original CC0
+    hand drawing — updated `bodyform-silhouette-credits.json` accordingly; also corrected two
+    stale taxon labels (wrasse was *Abramis brama*, a freshwater bream → Labridae;
+    silver-shoaler *Scomber* → Clupeidae/silvery shoalers).
+  - Verified: `tsc` clean, **336 tests pass**, `lint` + `lint:tokens` clean, and every tile
+    rasterised + eyeballed at a 40px "small render" simulation (the size users actually see).
+    Remaining validation: the Gemini re-score (`npm run score:silhouettes`) needs `GEMINI_API_KEY`
+    in `.env.local` (not present in CI/remote) — run it after merge and diff the baseline; targets
+    are cod/wrasse >80 and no `bottom-sitter`↔`bottom-other` `confusableWith` flag.
