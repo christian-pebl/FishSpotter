@@ -13,6 +13,7 @@ import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 import { ShapeGate, SHAPE_CLASS_LABEL } from "./ShapeGate";
+import { FISH_GROUP_COARSE_NOUN, type FishGroup } from "@/lib/idguide/traits";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
 import { RevealResult } from "./idflow/RevealResult";
@@ -1787,11 +1788,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   // Submit the coarse shape class ("Fish") for shape-class credit
                   // when the user can't get to species. label captured so the
                   // closure stays type-safe (selectedShape is narrowed here).
-                  const label = SHAPE_CLASS_LABEL[selectedShape];
+                  const groupNoun =
+                    selectedShape === "fish" && formSeed?.value
+                      ? FISH_GROUP_COARSE_NOUN[formSeed.value as FishGroup]
+                      : undefined;
+                  const noun = groupNoun || SHAPE_CLASS_LABEL[selectedShape];
                   return {
-                    label: `It's just a ${label}`,
+                    label: `It's just a ${noun}`,
                     onClick: () =>
-                      void submitAndAdvance(() => handleSubmit({ answerText: label })),
+                      void submitAndAdvance(() => handleSubmit({ answerText: noun })),
                   };
                 })()
               : undefined
