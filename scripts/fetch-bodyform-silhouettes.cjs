@@ -60,14 +60,6 @@ const TARGETS = [
     source: "https://www.phylopic.org/images/5ac54f3b-2422-4d31-9920-ec90c16d4fd5",
   },
   {
-    file: "laterally-compressed",
-    uuid: "fc97b67e-627d-4430-9a5a-2cf661640bc7",
-    taxon: "Abramis brama",
-    license: "Public Domain Mark 1.0",
-    attribution: "Ando, via PhyloPic",
-    source: "https://www.phylopic.org/images/fc97b67e-627d-4430-9a5a-2cf661640bc7",
-  },
-  {
     file: "elongated",
     uuid: "31124fe7-c960-40dd-943b-dbecd53650db",
     taxon: "Ammodytes",
