@@ -465,3 +465,49 @@ a {
   background: #5eead4;
   box-shadow: 0 0 10px rgba(94, 234, 212, 0.9);
 }
+
+/* Initial-load swim loader (feed/loading.tsx). A school of line-art creatures
+ * crosses the screen above a thin indeterminate progress bar. Three keyframes:
+ * the lane crossing (outer), the swim wiggle (inner), and the bar sweep. All
+ * CSS, so the global prefers-reduced-motion block neutralises them; the
+ * component also renders an explicit static school for reduced motion. */
+@keyframes fs-swimlane {
+  from {
+    transform: translateX(-20vw);
+  }
+  to {
+    transform: translateX(120vw);
+  }
+}
+.fs-swimlane {
+  animation: fs-swimlane linear infinite;
+  will-change: transform;
+}
+@keyframes fs-swimwig {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-3px) rotate(-5deg);
+  }
+  60% {
+    transform: translateY(2px) rotate(4deg);
+  }
+}
+.fs-swimwig {
+  animation: fs-swimwig 2.1s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes fs-loadbar {
+  0% {
+    left: -34%;
+  }
+  100% {
+    left: 104%;
+  }
+}
+.fs-loadbar {
+  animation: fs-loadbar 1.8s ease-in-out infinite;
+  will-change: left;
+}

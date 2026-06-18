@@ -9,11 +9,11 @@
   },
   "flatfish": {
     "taxon": "Pleuronectiformes",
-    "imageUuid": "e0cd6df8-23c0-4973-aa3a-8ec042a4cea2",
-    "contributor": "Cee Nell",
-    "attribution": "Cee Nell",
+    "imageUuid": null,
+    "contributor": "PEBL CIC",
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "source": "https://www.phylopic.org/images/e0cd6df8-23c0-4973-aa3a-8ec042a4cea2"
+    "source": "https://fish-spotter.vercel.app"
   },
   "crab": {
     "taxon": "Brachyura",
@@ -41,18 +41,18 @@
   },
   "gastropod": {
     "taxon": "Gastropoda",
-    "imageUuid": "06f288ac-a5dc-4404-bba7-02f2d9098b08",
-    "contributor": "Tauana Cunha",
-    "attribution": "Tauana J. Cunha",
+    "imageUuid": null,
+    "contributor": "PEBL CIC",
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "source": "https://www.phylopic.org/images/06f288ac-a5dc-4404-bba7-02f2d9098b08"
+    "source": "https://fish-spotter.vercel.app"
   },
   "squid": {
     "taxon": "Teuthida",
-    "imageUuid": "dccda11b-cb69-441f-bbce-b1fef6dbb62c",
-    "contributor": "Margot Michaud",
-    "attribution": "Margot Michaud",
+    "imageUuid": null,
+    "contributor": "PEBL CIC",
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "source": "https://www.phylopic.org/images/dccda11b-cb69-441f-bbce-b1fef6dbb62c"
+    "source": "https://fish-spotter.vercel.app"
   }
 }
