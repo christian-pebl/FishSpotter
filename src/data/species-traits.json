@@ -39,6 +39,9 @@
     ],
     "lateralLine": [
       "dark-curved"
+    ],
+    "fishGroup": [
+      "cod-like"
     ]
   },
   "Pollachius virens": {
@@ -79,6 +82,9 @@
     ],
     "lateralLine": [
       "pale-straight"
+    ],
+    "fishGroup": [
+      "cod-like"
     ]
   },
   "Trisopterus luscus": {
@@ -116,6 +122,9 @@
     "fieldNote": "Coppery deep-bodied cod relative with 4-5 dark vertical bands, a single chin barbel, and a dark blotch at the base of each pectoral fin; dense shoals near wrecks and ledges.",
     "bodyDepth": [
       "deep"
+    ],
+    "fishGroup": [
+      "cod-like"
     ]
   },
   "Labrus bergylta": {
@@ -156,6 +165,9 @@
     "fieldNote": "Stocky wrasse with thick lips and a long spiny dorsal fin; colours vary from green to red-brown with pale spots.",
     "bodyDepth": [
       "deep"
+    ],
+    "fishGroup": [
+      "wrasse"
     ]
   },
   "Labrus mixtus": {
@@ -192,6 +204,9 @@
     "fieldNote": "Two looks: males blaze electric blue with wavy stripes along a yellow-orange body; females and juveniles are pink-orange with three distinctive black saddle blotches along the back near the tail.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "wrasse"
     ]
   },
   "Symphodus melops": {
@@ -229,7 +244,10 @@
     ],
     "fieldNote": "Small wrasse with a comma-shaped dark eye-spot on the tail base and a curved line behind the eye.",
     "bodyDepth": [
-      "deep"
+      "medium"
+    ],
+    "fishGroup": [
+      "wrasse"
     ]
   },
   "Ctenolabrus rupestris": {
@@ -269,6 +287,9 @@
     "fieldNote": "Slim orange-brown wrasse with TWO diagnostic black spots: one high on the tail base, the other at the front of the dorsal fin. Smallest of the common Welsh wrasses.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "wrasse"
     ]
   },
   "Conger conger": {
@@ -299,7 +320,10 @@
       "undulating",
       "stationary"
     ],
-    "fieldNote": "Massive grey-brown eel with continuous dorsal-tail-anal fin; usually only the head visible peering from a crevice."
+    "fieldNote": "Massive grey-brown eel with continuous dorsal-tail-anal fin; usually only the head visible peering from a crevice.",
+    "fishGroup": [
+      "long-skinny"
+    ]
   },
   "Pholis gunnellus": {
     "commonName": "Butterfish",
@@ -331,7 +355,10 @@
       "undulating",
       "stationary"
     ],
-    "fieldNote": "Slippery ribbon-like fish with a row of dark-and-pale ocelli along the dorsal fin."
+    "fieldNote": "Slippery ribbon-like fish with a row of dark-and-pale ocelli along the dorsal fin.",
+    "fishGroup": [
+      "long-skinny"
+    ]
   },
   "Gobiusculus flavescens": {
     "commonName": "Two-spotted goby",
@@ -371,6 +398,9 @@
     "fieldNote": "Small orange-brown goby with TWO diagnostic black spots: one at the tail base, one behind the pectoral fin. Unlike other gobies it hovers in loose midwater groups near kelp and seaweed, not glued to the bottom.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "bottom-sitter"
     ]
   },
   "Pomatoschistus microps": {
@@ -408,6 +438,9 @@
     "fieldNote": "Very similar to sand goby but with a shorter, rounder head and a more strongly marked first dorsal. Found in estuaries and tidal creeks rather than open sandy sea bed.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "bottom-sitter"
     ]
   },
   "Gobius paganellus": {
@@ -446,6 +479,9 @@
     "fieldNote": "Squat little goby with pelvic fins fused into a sucker; pale orange band at the top of the first dorsal.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "bottom-sitter"
     ]
   },
   "Pomatoschistus minutus": {
@@ -483,6 +519,9 @@
     "fieldNote": "Pale, near-translucent goby with rows of fine spots; vanishes against sand.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "bottom-sitter"
     ]
   },
   "Callionymus lyra": {
@@ -516,7 +555,10 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "Flat-headed sand-dweller; males flare a tall first dorsal and lyre-shaped tail in display."
+    "fieldNote": "Flat-headed sand-dweller; males flare a tall first dorsal and lyre-shaped tail in display.",
+    "fishGroup": [
+      "bottom-sitter"
+    ]
   },
   "Callionymus maculatus": {
     "commonName": "Spotted dragonet",
@@ -550,7 +592,10 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m."
+    "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m.",
+    "fishGroup": [
+      "bottom-sitter"
+    ]
   },
   "Pleuronectes platessa": {
     "commonName": "Plaice",
@@ -686,6 +731,9 @@
     "fieldNote": "Slim sandy-coloured shark covered in small dark spots all over body and fins; two dorsal fins set far back. Often curled on the bottom or wedged into crevices.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "shark"
     ]
   },
   "Mullus surmuletus": {
@@ -723,6 +771,9 @@
     "fieldNote": "Pink-red body with two long chin barbels swept under the snout; flicks the barbels through sand to feed.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "bottom-sitter"
     ]
   },
   "Trisopterus minutus": {
@@ -759,6 +810,9 @@
     "fieldNote": "Small bib-shaped cod relative with a single chin barbel and big eyes; loose shoals in clear water.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "cod-like"
     ]
   },
   "Gadus morhua": {
@@ -798,6 +852,9 @@
     ],
     "lateralLine": [
       "arched-over-pectoral"
+    ],
+    "fishGroup": [
+      "cod-like"
     ]
   },
   "Chelon labrosus": {
@@ -835,6 +892,9 @@
     "fieldNote": "Silver streamlined mullet with very thick upper lip; cruises near the surface in tight schools.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "silver-shoaler"
     ]
   },
   "Dicentrarchus labrax": {
@@ -871,6 +931,9 @@
     "fieldNote": "Sleek silver bass with sharp spiny first dorsal; powerful and fast, often in small packs hunting baitfish.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "silver-shoaler"
     ]
   },
   "Trachurus trachurus": {
@@ -908,6 +971,9 @@
     "fieldNote": "Iridescent silver body with a strongly arched lateral line of bony scutes; tight dense schools.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "silver-shoaler"
     ]
   },
   "Scomber scombrus": {
@@ -945,6 +1011,9 @@
     "fieldNote": "Steel-blue back with wavy black vertical bars; pencil-shaped body and a row of finlets before the tail.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "silver-shoaler"
     ]
   },
   "Sprattus sprattus": {
@@ -978,7 +1047,10 @@
     ],
     "fieldNote": "Tiny silver baitfish in vast shimmering bait balls; sharp belly keel.",
     "bodyDepth": [
-      "deep"
+      "slender"
+    ],
+    "fishGroup": [
+      "silver-shoaler"
     ]
   },
   "Atherina presbyter": {
@@ -1013,6 +1085,9 @@
     "fieldNote": "Slender semi-transparent fish with a silver lateral stripe; loose shoals near the surface.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "silver-shoaler"
     ]
   },
   "Taurulus bubalis": {
@@ -1051,6 +1126,9 @@
     "fieldNote": "Heavily armoured ambush predator with long head spines and a wide gape; matches the rock perfectly.",
     "bodyDepth": [
       "medium"
+    ],
+    "fishGroup": [
+      "bottom-sitter"
     ]
   },
   "Lipophrys pholis": {
@@ -1086,7 +1164,10 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "Tubby blenny with a continuous spiny dorsal and a long anal fin; no head tentacles (unlike tompot blenny). Pops in and out of crevices and rockpool gullies."
+    "fieldNote": "Tubby blenny with a continuous spiny dorsal and a long anal fin; no head tentacles (unlike tompot blenny). Pops in and out of crevices and rockpool gullies.",
+    "fishGroup": [
+      "bottom-sitter"
+    ]
   },
   "Spinachia spinachia": {
     "commonName": "Fifteen-spined stickleback",
@@ -1121,6 +1202,9 @@
     "fieldNote": "Pencil-thin fish with a row of tiny spines along the back and a slender tail wrist.",
     "bodyDepth": [
       "slender"
+    ],
+    "fishGroup": [
+      "long-skinny"
     ]
   },
   "Carcinus maenas": {

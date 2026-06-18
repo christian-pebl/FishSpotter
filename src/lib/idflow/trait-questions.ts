@@ -101,6 +101,14 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     drifting: "Is it drifting passively with the current?",
     crawl: "Is it crawling along the bottom?",
   },
+  fishGroup: {
+    "cod-like": "Is it a chunky, blunt-nosed fish hanging over the reef, with three separate fins along its back?",
+    wrasse: "Is it a deep, thick-lipped fish pottering in the rocks, with one long fin down its back?",
+    "silver-shoaler": "Is it a slim, bright-silver fish out in open water (often in a shoal)?",
+    "bottom-sitter": "Is it a small fish perched on the seabed, darting in short hops?",
+    "long-skinny": "Is the body eel-like — much longer than it is deep?",
+    shark: "Does it look like a little shark?",
+  },
   bodyShape: {
     fusiform: "Is it a normal fish silhouette — torpedo or deep-bodied (not eel, flat, or bottom-hugging)?",
     elongated: "Is the body long and slender?",

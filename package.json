@@ -35,6 +35,8 @@
     "db:backfill-references": "tsx --env-file=.env.local scripts/backfill-references.ts",
     "db:retro-score": "tsx --env-file=.env.local scripts/retro-score-answers.ts",
     "images:assess": "tsx --env-file=.env.local scripts/assess-image-quality.ts",
+    "score:silhouettes": "tsx --env-file=.env.local scripts/score-silhouettes.ts",
+    "score:photos": "tsx --env-file=.env.local scripts/score-photos.ts",
     "db:purge-bad-photos": "tsx --env-file=.env.local scripts/purge-bad-photos.ts",
     "db:backfill-image-dims": "tsx --env-file=.env.local scripts/backfill-image-dims.ts",
     "db:backfill-webp": "tsx --env-file=.env.local scripts/backfill-webp-images.ts",

@@ -11,6 +11,7 @@ import {
   CRAB_FORM,
   FEATURES,
   FIN_SHAPE,
+  FISH_GROUP,
   HABITAT,
   LATERAL_LINE,
   MARKINGS,
@@ -35,6 +36,7 @@ export type Candidate = {
 // (see narrowCandidates), not a weighted trait. movement is a normal scored
 // trait, surfaced by the adaptive picker only when it discriminates.
 export const TRAIT_KEYS = [
+  "fishGroup",
   "bodyShape",
   "bodyDepth",
   "lateralLine",
@@ -58,6 +60,7 @@ export const TRAIT_KEYS = [
 export type TraitKey = (typeof TRAIT_KEYS)[number];
 
 const ALLOWED_VALUES: Record<TraitKey, ReadonlySet<string>> = {
+  fishGroup: new Set(FISH_GROUP),
   bodyShape: new Set(BODY_SHAPE),
   bodyDepth: new Set(BODY_DEPTH),
   lateralLine: new Set(LATERAL_LINE),

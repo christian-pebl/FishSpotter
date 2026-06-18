@@ -22,6 +22,28 @@ export const BODY_SHAPE = [
 // the asymmetric eyes-migrated flatfish (plaice/dab/flounder).
 export type BodyShape = (typeof BODY_SHAPE)[number];
 
+// Fish Rung-2 grouping (added 17 Jun 2026). This is the FIRST cut a beginner
+// makes after tapping "Fish", and it replaces the old `bodyShape` sub-split
+// whose merged `fusiform` ("Torpedo or deep-bodied") bucket held 20 of the 28
+// fish — far past the ~10-option ceiling and, per a 28-photo vision pass, an
+// unreliable cut (deep-vs-torpedo only holds at the extremes). The six values
+// are plain-English family gestalts a novice can read off a short underwater
+// clip, grounded in three UK field guides (ZSL estuarine key, Sussex IFCA,
+// EA/Maitland key) — see implementation/2026-06-17/. Each value keeps its
+// bucket <=10 with no further rung needed (largest: bottom-sitter = 9).
+// `fishGroup` is the authoritative fish gate trait; `bodyShape` stays as a
+// secondary scored descriptor. Optional array on SpeciesTraits, present only on
+// fish entries (mirrors bodyDepth/lateralLine).
+export const FISH_GROUP = [
+  "cod-like", // chunky reef hangers with three separate dorsal fins (gadoids)
+  "wrasse", // deep oval, thick-lipped, one long dorsal, fussing in the rocks
+  "silver-shoaler", // slim bright-silver open-water fish (mackerel, bass, mullet, sprat)
+  "bottom-sitter", // small fish perched on the seabed (gobies, dragonets, blenny, sea scorpion, red mullet)
+  "long-skinny", // eel-like / ribbon body, much longer than deep (conger, butterfish, stickleback)
+  "shark", // unmistakable little-shark silhouette (lesser-spotted catshark)
+] as const;
+export type FishGroup = (typeof FISH_GROUP)[number];
+
 export const SIZE = ["small", "medium", "large"] as const; // <10cm, 10-50cm, >50cm
 export type SizeClass = (typeof SIZE)[number];
 
@@ -231,6 +253,9 @@ export type SpeciesTraits = {
   behavior: Behavior[];
   habitat: Habitat[];
   movement: Movement[];
+  // Fish Rung-2 family grouping (optional): the authoritative gate cut for fish,
+  // present on every fish entry, absent on inverts.
+  fishGroup?: FishGroup[];
   // Fish Rung-3 splitters (optional): present on fish entries that need them to
   // separate within an over-stuffed body-shape bucket, absent elsewhere.
   bodyDepth?: BodyDepth[];
@@ -260,6 +285,7 @@ export type TraitSelection = {
   behavior?: Behavior[];
   habitat?: Habitat[];
   movement?: Movement[];
+  fishGroup?: FishGroup[];
   bodyDepth?: BodyDepth[];
   lateralLine?: LateralLine[];
   carapaceTexture?: CarapaceTexture[];

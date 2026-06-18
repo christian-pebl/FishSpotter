@@ -11,6 +11,7 @@ import {
   HABITAT,
   MOVEMENT,
   SHAPE_CLASS,
+  FISH_GROUP,
   BODY_DEPTH,
   LATERAL_LINE,
   CARAPACE_TEXTURE,
@@ -58,8 +59,9 @@ const speciesTraitsSchema = z
     behavior: z.array(z.enum(BEHAVIOR)),
     habitat: z.array(z.enum(HABITAT)),
     movement: z.array(z.enum(MOVEMENT)),
-    // Optional Rung-3 / invert splitters — present only on entries that need
-    // them, absent elsewhere (see SpeciesTraits in traits.ts).
+    // Optional Rung-2 / Rung-3 / invert splitters — present only on entries that
+    // need them, absent elsewhere (see SpeciesTraits in traits.ts).
+    fishGroup: z.array(z.enum(FISH_GROUP)).optional(),
     bodyDepth: z.array(z.enum(BODY_DEPTH)).optional(),
     lateralLine: z.array(z.enum(LATERAL_LINE)).optional(),
     carapaceTexture: z.array(z.enum(CARAPACE_TEXTURE)).optional(),

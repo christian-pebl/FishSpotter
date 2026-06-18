@@ -62,6 +62,48 @@
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
   },
+  "cod-like": {
+    "taxon": "Gadidae (cod-shaped fish)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "wrasse": {
+    "taxon": "Abramis brama (deep-bodied fish)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "silver-shoaler": {
+    "taxon": "Scomber",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "long-skinny": {
+    "taxon": "Anguilla rostrata",
+    "imageUuid": "629e1135-d0c5-4f02-bb13-8cbf63e48692",
+    "attribution": "Steven Traver, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/629e1135-d0c5-4f02-bb13-8cbf63e48692"
+  },
+  "bottom-sitter": {
+    "taxon": "Gobiidae / Callionymidae (bottom-resting fish)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "shark": {
+    "taxon": "Scyliorhinidae (small shark)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
   "cuttlefish": {
     "taxon": "Sepia orbignyana",
     "imageUuid": "00f831ef-01ad-4327-8506-7e0b92c1839b",
@@ -92,10 +134,10 @@
   },
   "short-stubby": {
     "taxon": "Asteriidae",
-    "imageUuid": "19f846e4-62f6-4081-9e52-b933792c5bcd",
-    "attribution": "Mario Quevedo, via PhyloPic",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
-    "source": "https://www.phylopic.org/images/19f846e4-62f6-4081-9e52-b933792c5bcd"
+    "source": "https://fish-spotter.vercel.app"
   },
   "long-spiny": {
     "taxon": "Odontaster validus",
@@ -127,10 +169,10 @@
   },
   "pointed-cone": {
     "taxon": "Trochidae",
-    "imageUuid": "af3b0a39-4ba9-4134-800e-d181a7288689",
-    "attribution": "Tauana Cunha, via PhyloPic",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
-    "source": "https://www.phylopic.org/images/af3b0a39-4ba9-4134-800e-d181a7288689"
+    "source": "https://fish-spotter.vercel.app"
   },
   "rounded-squat": {
     "taxon": "Tegula fasciata",
@@ -155,9 +197,9 @@
   },
   "trailing-mass": {
     "taxon": "Cyanea capillata",
-    "imageUuid": "f2fb5773-f8ff-45b0-9c6c-cc5aef3c93d5",
-    "attribution": "Guillaume Dera, via PhyloPic",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
-    "source": "https://www.phylopic.org/images/f2fb5773-f8ff-45b0-9c6c-cc5aef3c93d5"
+    "source": "https://fish-spotter.vercel.app"
   }
 }

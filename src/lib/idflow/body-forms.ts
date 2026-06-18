@@ -25,11 +25,11 @@ export type SubSplit = {
 };
 
 // Branch-specific first cut. flatfish has one species so it gets no sub-split
-// (and so no Rung-2 gate); fish splits on body shape — the "Bottom scooters"
-// option (bottom-scooter) groups the dragonets WITH the bottom-dwelling gobies
-// (perch-and-dart seabed fish), replacing the old flat-dorsoventral "Flat, on
-// the bottom" cut which split them apart. Each invert class splits on its own
-// "form" trait.
+// (and so no Rung-2 gate); fish splits on `fishGroup` — a plain-English family
+// gestalt (cod-shaped / wrasse / silver shoaler / bottom-sitter / long-skinny /
+// shark) that a beginner can read off a clip, replacing the old `bodyShape` cut
+// whose merged "Torpedo or deep-bodied" bucket held 20 species. Each invert
+// class splits on its own "form" trait.
 export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
   crab: {
     key: "crabForm",
@@ -42,13 +42,19 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
     ],
   },
   fish: {
-    key: "bodyShape",
-    prompt: "What was the overall body shape?",
+    // Family-gestalt cut (17 Jun 2026), replacing the old body-shape split whose
+    // merged "Torpedo or deep-bodied" bucket held 20 species. Each option keeps
+    // its Rung-3 grid <=10 with no further rung. Grounded in UK field guides +
+    // a 28-photo vision pass (implementation/2026-06-17/).
+    key: "fishGroup",
+    prompt: "What kind of fish was it?",
     options: [
-      { value: "fusiform", label: "Torpedo or deep-bodied" },
-      { value: "elongated", label: "Long and slender" },
-      { value: "eel-like", label: "Eel-like" },
-      { value: "bottom-scooter", label: "Bottom scooters" },
+      { value: "cod-like", label: "Cod-shaped" },
+      { value: "wrasse", label: "Wrasses" },
+      { value: "silver-shoaler", label: "Silver shoalers" },
+      { value: "bottom-sitter", label: "Bottom-sitters" },
+      { value: "long-skinny", label: "Long and skinny" },
+      { value: "shark", label: "Shark-shaped" },
     ],
   },
   squid: {

@@ -13,6 +13,7 @@ import {
   CRAB_FORM,
   FEATURES,
   FIN_SHAPE,
+  FISH_GROUP,
   HABITAT,
   LATERAL_LINE,
   MARKINGS,
@@ -26,6 +27,7 @@ import type { TraitKey } from "@/lib/idguide/narrow";
 // traitQuestion expects. If a new trait value lands without curated copy, the
 // coverage test below fails instead of shipping `Does it look "none"?` to users.
 const ALL_VALUES: Record<TraitKey, readonly string[]> = {
+  fishGroup: FISH_GROUP,
   bodyShape: BODY_SHAPE,
   bodyDepth: BODY_DEPTH,
   lateralLine: LATERAL_LINE,
