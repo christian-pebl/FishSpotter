@@ -258,8 +258,8 @@ export function RevealResult({
                           }
                         />
                       </div>
-                      <span className="w-7 shrink-0 text-right tabular-nums text-white/55">
-                        {s.percent}%
+                      <span className="w-14 shrink-0 text-right tabular-nums text-white/55">
+                        {s.count} · {s.percent}%
                       </span>
                     </div>
                   );

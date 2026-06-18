@@ -301,7 +301,12 @@ export default async function LeaderboardPage() {
                         #{entry.rank}
                       </td>
                       <td className="px-4 py-3 font-medium text-navy-900">
-                        {entry.displayName}
+                        <Link
+                          href={`/u/${entry.userId}`}
+                          className="rounded-sm hover:text-teal-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500"
+                        >
+                          {entry.displayName}
+                        </Link>
                         {isMe && (
                           <span className="ml-2 inline-block rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-teal-700">
                             You

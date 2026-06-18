@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { SnippetReferenceEditor } from "./SnippetReferenceEditor";
+import { SnippetAnswers } from "@/components/SnippetAnswers";
 
 export const dynamic = "force-dynamic";
 
@@ -91,6 +92,7 @@ export default async function AdminSnippetEditorPage({
           </div>
         </div>
       </div>
+      <SnippetAnswers snippetId={snippet.id} />
     </div>
   );
 }

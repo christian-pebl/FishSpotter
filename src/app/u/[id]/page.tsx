@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { isAdminEmail } from "@/lib/admin";
 import { computeStreakFromAnswers } from "@/lib/streak";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
@@ -36,6 +39,8 @@ export default async function ProfilePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const session = await getServerSession(authOptions);
+  const viewerId = (session?.user as { id?: string } | undefined)?.id ?? null;
   const user = await prisma.user.findUnique({
     where: { id },
     select: {
@@ -46,6 +51,19 @@ export default async function ProfilePage({
     },
   });
   if (!user) notFound();
+
+  // Individual answers (which clip you guessed what on) are private: visible
+  // only to YOU on your own profile, or to staff (@pebl-cic.co.uk). Everyone
+  // else sees the aggregate stats + species collection, not the per-clip list.
+  const isOwner = viewerId === id;
+  let canSeeAnswers = isOwner;
+  if (viewerId && !isOwner) {
+    const viewer = await prisma.user.findUnique({
+      where: { id: viewerId },
+      select: { email: true },
+    });
+    canSeeAnswers = isAdminEmail(viewer?.email);
+  }
 
   const [
     totalAnswers,
@@ -133,6 +151,7 @@ export default async function ProfilePage({
 
       <SpeciesCollection userId={id} />
 
+      {canSeeAnswers && (
       <section className="pebl-surface rounded-card p-6">
         <p className="pebl-eyebrow">Recent identifications</p>
         {recentAnswers.length === 0 ? (
@@ -196,6 +215,7 @@ export default async function ProfilePage({
           </ul>
         )}
       </section>
+      )}
     </main>
     </MarineBackdrop>
   );

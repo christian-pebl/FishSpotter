@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SnippetPlayer } from "@/components/SnippetPlayer";
+import { SnippetAnswers } from "@/components/SnippetAnswers";
+import { getAdminSession } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -32,6 +34,9 @@ export default async function SnippetDetailPage({
   const { id } = await params;
   const row = await prisma.snippet.findUnique({ where: { id } });
   if (!row) notFound();
+  // Staff-only "who answered what" panel below the player. Public visitors see
+  // only the anonymous aggregate stats in the player's own reveal.
+  const admin = await getAdminSession();
   const snippet = {
     id: row.id,
     videoUrl: row.videoUrl,
@@ -55,6 +60,7 @@ export default async function SnippetDetailPage({
           </Link>
         </p>
         <SnippetPlayer snippet={snippet} />
+        {admin && <SnippetAnswers snippetId={snippet.id} />}
       </main>
     </div>
   );
