@@ -38,9 +38,15 @@ export interface FeedSnippet {
 
 interface FeedPlayerProps {
   snippets: FeedSnippet[];
+  /**
+   * True when the corpus has clips but the signed-in viewer has answered
+   * every one (strict exclusion left nothing new). Switches the empty state
+   * from "no clips yet" to an "all caught up" message. (2026-06-18)
+   */
+  allCaughtUp?: boolean;
 }
 
-export function FeedPlayer({ snippets }: FeedPlayerProps) {
+export function FeedPlayer({ snippets, allCaughtUp = false }: FeedPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [hintVisible, setHintVisible] = useState(false);
@@ -149,13 +155,16 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
     return (
       <div className="flex flex-1 items-center justify-center p-6">
         <div className="pebl-surface max-w-sm rounded-card p-6 text-center">
-          <p className="pebl-eyebrow">Empty feed</p>
+          <p className="pebl-eyebrow">
+            {allCaughtUp ? "All caught up" : "Empty feed"}
+          </p>
           <h2 className="mt-2 font-brand-heading text-h3 text-navy-900">
-            No clips here yet
+            {allCaughtUp ? "You've spotted every clip" : "No clips here yet"}
           </h2>
           <p className="mt-2 text-sm text-navy-900/72">
-            New underwater snippets are added as deployments come in. Browse the
-            archive in the meantime.
+            {allCaughtUp
+              ? "Nice work — you've identified every clip in the feed. New snippets appear as deployments come in. Revisit past clips in the archive while you wait."
+              : "New underwater snippets are added as deployments come in. Browse the archive in the meantime."}
           </p>
           <a
             href="/feed/browse"

@@ -16,24 +16,20 @@ describe("orderFeed", () => {
     expect(r2.map((s) => s.id)).toEqual(r1.map((s) => s.id));
   });
 
-  it("puts every unanswered snippet before every answered snippet", () => {
+  it("excludes every answered snippet entirely (strict exclusion)", () => {
     const all = snippets(["a", "b", "c", "d", "e", "f", "g", "h"]);
     const answered = new Set(["b", "d", "g"]);
     const result = orderFeed(all, answered, "user-123");
 
-    const firstAnsweredIndex = result.findIndex((s) => answered.has(s.id));
-    const lastUnansweredIndex = (() => {
-      for (let i = result.length - 1; i >= 0; i--) {
-        if (!answered.has(result[i].id)) return i;
-      }
-      return -1;
-    })();
-
-    // Every answered snippet must appear after every unanswered one.
-    expect(firstAnsweredIndex).toBeGreaterThan(lastUnansweredIndex);
-    // And every snippet is in the result exactly once.
-    expect(result).toHaveLength(all.length);
-    expect(new Set(result.map((s) => s.id)).size).toBe(all.length);
+    // No answered snippet may appear at all.
+    for (const s of result) {
+      expect(answered.has(s.id)).toBe(false);
+    }
+    // Exactly the unanswered ones survive, each once.
+    expect(result).toHaveLength(all.length - answered.size);
+    expect(new Set(result.map((s) => s.id))).toEqual(
+      new Set(["a", "c", "e", "f", "h"]),
+    );
   });
 
   it("shuffles differently for different seeds", () => {
@@ -57,31 +53,26 @@ describe("orderFeed", () => {
     );
   });
 
-  it("returns answered snippets fully shuffled when EVERYTHING is answered", () => {
+  it("returns an empty list when EVERYTHING is answered (caught up)", () => {
     const ids = ["a", "b", "c", "d", "e", "f", "g", "h"];
     const all = snippets(ids);
     const answered = new Set(ids);
     const result = orderFeed(all, answered, "seed-1");
-    expect(result).toHaveLength(8);
-    expect(new Set(result.map((s) => s.id))).toEqual(answered);
+    // Strict exclusion: nothing new to serve -> the page shows "all caught up".
+    expect(result).toEqual([]);
   });
 
-  it("places a snippet that moves from unanswered → answered at the tail of the resulting shuffle", () => {
-    // Simulates the user submitting an answer for snippet 'c'.
+  it("drops a snippet once it becomes answered (no longer served)", () => {
+    // Simulates the user submitting an answer for snippet 'c' on a reload.
     const all = snippets(["a", "b", "c", "d", "e"]);
     const before = orderFeed(all, new Set(), "user-123");
     const after = orderFeed(all, new Set(["c"]), "user-123");
 
-    // 'c' must be in the back half (the answered tail).
-    const cIndex = after.findIndex((s) => s.id === "c");
-    expect(cIndex).toBe(after.length - 1);
-
-    // The unanswered tail's relative order is preserved against the seed.
-    // (Specifically: the unanswered shuffle is computed on a 4-item list
-    // post-answer vs a 5-item list pre-answer — different inputs, so
-    // we don't assert ordering equality, just position of 'c'.)
+    // 'c' is served before answering, and gone afterwards.
+    expect(before.some((s) => s.id === "c")).toBe(true);
+    expect(after.some((s) => s.id === "c")).toBe(false);
     expect(before).toHaveLength(5);
-    expect(after).toHaveLength(5);
+    expect(after).toHaveLength(4);
   });
 
   it("never duplicates a snippet", () => {

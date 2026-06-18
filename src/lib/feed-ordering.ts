@@ -1,16 +1,29 @@
 /**
- * Feed ordering (S8-T1).
+ * Feed ordering (S8-T1; strict-exclusion revision 2026-06-18).
  *
  * Given the full snippet list, the set of snippet IDs the current viewer
- * has already answered, and a seed, returns the ordered feed:
+ * has already answered, and a seed, returns ONLY the snippets the viewer
+ * has NOT answered yet, shuffled deterministically by the seed.
  *
- *   1. Unanswered snippets first, shuffled deterministically by the seed.
- *   2. Answered snippets after, also shuffled by the same seed.
+ * Strict exclusion ("only new videos are served"):
+ *   - A snippet a user has answered is "seen" and is never served to them
+ *     again on a fresh page load. The set of answered IDs is the per-user
+ *     history (the `Answer` table, `@@unique([userId, snippetId])`).
+ *   - When a signed-in user has answered every available clip, this returns
+ *     an empty list and the feed page renders an "all caught up" state
+ *     (they can revisit past clips via the archive). Anonymous viewers have
+ *     no answer history, so they always get the full corpus.
  *
- * Why two-tier:
- *   - The first card a user sees should be one they haven't labelled.
- *   - But we don't want a dead end when they've answered everything —
- *     they can keep scrolling and revisit past clips.
+ * (Historical note: this used to be a two-tier order — unanswered first,
+ * then answered at the tail — so the feed never dead-ended. That let a
+ * user re-see clips they'd already labelled. We now hard-exclude instead,
+ * surfacing a caught-up screen rather than recycling old clips.)
+ *
+ * In-session caveat: a card answered DURING the current page lifetime stays
+ * in this list (it was unanswered at load); `FeedPlayer` moves it to the
+ * back rather than yanking it. It's excluded on the next load. So the
+ * exclusion boundary is "page load", which is the right granularity for
+ * "only serve new videos".
  *
  * Seed contract:
  *   - Signed-in users: `session.user.id` so the order is stable per user.
@@ -33,21 +46,12 @@ export function orderFeed<T extends OrderableSnippet>(
 ): T[] {
   if (snippets.length === 0) return [];
 
-  const unanswered: T[] = [];
-  const answered: T[] = [];
-  for (const s of snippets) {
-    if (answeredIds.has(s.id)) {
-      answered.push(s);
-    } else {
-      unanswered.push(s);
-    }
-  }
+  // Strict exclusion: drop every snippet the viewer has already answered.
+  const unseen =
+    answeredIds.size === 0
+      ? snippets
+      : snippets.filter((s) => !answeredIds.has(s.id));
 
-  // One RNG instance, consumed in order across both shuffles. This means
-  // shifting a snippet from "unanswered" to "answered" (after the user
-  // submits) doesn't reshuffle the unanswered tail in a way that would
-  // jumble the user's mental position — the unanswered shuffle is
-  // computed against the same seed regardless of the answered set size.
   const rng = mulberry32(hashStringToSeed(seed));
-  return [...shuffle(unanswered, rng), ...shuffle(answered, rng)];
+  return shuffle(unseen, rng);
 }

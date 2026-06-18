@@ -80,6 +80,13 @@ export default async function FeedPage() {
 
   const orderedSnippets = orderFeed(snippets, answeredIds, seed);
 
+  // "All caught up": the corpus has clips, but the signed-in viewer has
+  // answered every one of them — so strict exclusion leaves nothing new to
+  // serve. Distinguishes that from a genuinely empty corpus so FeedPlayer
+  // can show an encouraging, archive-pointing state instead of "no clips".
+  const allCaughtUp =
+    !!session?.user?.id && snippets.length > 0 && orderedSnippets.length === 0;
+
   let needsTour = false;
   let unverified = false;
   if (session?.user?.id) {
@@ -109,7 +116,7 @@ export default async function FeedPage() {
 
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
-      <FeedPlayer snippets={feedSnippets} />
+      <FeedPlayer snippets={feedSnippets} allCaughtUp={allCaughtUp} />
       <OnboardingTour needsTour={needsTour} />
       <VerificationBanner unverified={unverified} />
     </main>
