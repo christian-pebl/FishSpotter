@@ -184,35 +184,24 @@ export default async function LeaderboardPage() {
         className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8"
       >
         <BackToFeed />
-        {/* T-01 + T-28: lead with the collective contribution, not the competition. */}
-        <section className="pebl-surface rounded-card px-6 py-5">
-          <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
-            The community so far
-          </p>
-          <p className="mt-2 text-sm leading-7 text-navy-900">
-            Together, spotters have logged{" "}
-            <strong>{totalAnswers.toLocaleString()}</strong>{" "}
-            {totalAnswers === 1 ? "identification" : "identifications"} across PEBL&apos;s UK reef clips. Every ID helps build the shared marine record.
-          </p>
-        </section>
         <section className="pebl-surface rounded-card px-6 py-6">
           <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
-            Community overview
+            Leaderboard
           </p>
           <h1 className="mt-2 font-brand-heading text-h1 text-navy-900">
             Spotter leaderboard
           </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-navy-900/72">
-            Every clip you identify earns Pebbles and climbs the board. Be first to spot a clip, call rare species, agree with the community, and keep your run going — then see how you stack up against fellow spotters.
-          </p>
-          <p className="mt-3 max-w-2xl text-xs leading-5 text-navy-900/72">
-            There&apos;s no official answer — the community is the authority. You bank Pebbles for being first to a clip (First Sighting), and more when the crowd later agrees with your call. Calling it early, and calling rarer species, pays more. Each clip counts once per spotter. Minimum {MIN_ANSWERS_FOR_RANKING} identifications to enter the ranking.
+          <p className="mt-2 text-sm text-navy-900/72">
+            <strong className="text-navy-900">{totalAnswers.toLocaleString()}</strong>{" "}
+            {totalAnswers === 1 ? "identification" : "identifications"} ·{" "}
+            <strong className="text-navy-900">{Object.keys(byUser).length.toLocaleString()}</strong>{" "}
+            {Object.keys(byUser).length === 1 ? "spotter" : "spotters"}
           </p>
         </section>
 
         {leaderboard.length === 0 ? (
           <p className="text-sm text-navy-900/72">
-            No spotters have hit the {MIN_ANSWERS_FOR_RANKING}-answer threshold yet. Sign in and start identifying clips to be the first.
+            No spotters have qualified yet.
           </p>
         ) : (
           <div className="pebl-surface overflow-hidden rounded-card">
@@ -338,35 +327,15 @@ export default async function LeaderboardPage() {
           </div>
         )}
 
-        {ineligible && (
-          <div className="pebl-surface rounded-card px-6 py-5">
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
-              Your progress
-            </p>
-            <p className="mt-2 text-sm leading-7 text-navy-900">
-              {myCounts!.correct} correct out of {myCounts!.total} so far.{" "}
-              <strong>{answersToQualify}</strong> more {answersToQualify === 1 ? "answer" : "answers"} to qualify for the leaderboard.
+        {(ineligible || noAnswersYet) && (
+          <div className="pebl-surface rounded-card flex flex-wrap items-center justify-between gap-3 px-6 py-4">
+            <p className="text-sm text-navy-900">
+              <strong>{ineligible ? answersToQualify : MIN_ANSWERS_FOR_RANKING}</strong>{" "}
+              more to qualify for the ranking.
             </p>
             <Link
               href="/feed"
-              className="pebl-button-primary mt-4 inline-flex items-center justify-center px-5 py-2.5 text-sm"
-            >
-              Head to the live feed
-            </Link>
-          </div>
-        )}
-
-        {noAnswersYet && (
-          <div className="pebl-surface rounded-card px-6 py-5">
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
-              Get started
-            </p>
-            <p className="mt-2 text-sm leading-7 text-navy-900">
-              You haven&apos;t submitted any identifications yet. Submit {MIN_ANSWERS_FOR_RANKING} to enter the ranking.
-            </p>
-            <Link
-              href="/feed"
-              className="pebl-button-primary mt-4 inline-flex items-center justify-center px-5 py-2.5 text-sm"
+              className="pebl-button-primary inline-flex items-center justify-center px-5 py-2.5 text-sm"
             >
               Head to the live feed
             </Link>
@@ -374,15 +343,9 @@ export default async function LeaderboardPage() {
         )}
 
         <section className="pebl-surface rounded-card px-6 py-6">
-          <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
-            Community trends
-          </p>
-          <h2 className="mt-1 font-brand-heading text-h2 text-navy-900">
-            Most common species answers
+          <h2 className="font-brand-heading text-h2 text-navy-900">
+            Most-named species
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-7 text-navy-900/72">
-            What spotters are naming most often across the live feed. {totalAnswers > 0 ? `${totalAnswers} total observations.` : ""}
-          </p>
           {topAnswers.length === 0 ? (
             <p className="mt-4 text-sm text-navy-900/72">No observations recorded yet.</p>
           ) : (
