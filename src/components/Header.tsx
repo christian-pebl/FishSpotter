@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { SideMenu } from "@/components/SideMenu";
+import { PebbleBag } from "@/components/PebbleBag";
 
 const overlayTextShadow = "0 1px 3px rgba(0,0,0,0.55)";
 
@@ -56,23 +57,27 @@ export function Header() {
             </svg>
           </button>
 
-          {/* Right: a faint PEBL logo (links home). */}
-          <Link
-            href="/"
-            aria-label="FishSpotter home"
-            className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-full ${
-              onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
-            }`}
-            style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/branding/PEBL Logo-1.svg"
-              alt=""
-              aria-hidden
-              className="h-5 w-auto opacity-30"
-            />
-          </Link>
+          {/* Right cluster: a faint PEBL logo (links home), nudged left to make
+              way for the Pebble bag pinned in the top-right corner. */}
+          <div className="flex items-center gap-1">
+            <Link
+              href="/"
+              aria-label="FishSpotter home"
+              className={`pointer-events-auto -mr-1 inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-full px-1 ${
+                onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
+              }`}
+              style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/branding/PEBL Logo-1.svg"
+                alt=""
+                aria-hidden
+                className="h-4 w-auto opacity-30"
+              />
+            </Link>
+            <PebbleBag onFeed={onFeed} />
+          </div>
         </div>
       </header>
       <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />

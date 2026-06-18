@@ -19,6 +19,7 @@ import { useEffect, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
 import { DURATION, EASE } from "@/lib/motion";
 import { normalizeAnswer } from "@/lib/normalize-answer";
+import { isContested } from "@/lib/pebbles";
 import { CorrectFishSwim } from "./CorrectFishSwim";
 
 export type RevealStatsItem = { option: string; count: number; percent: number };
@@ -32,6 +33,8 @@ export function RevealResult({
   streakCurrent,
   streakAdvanced,
   unlock,
+  pebblesEarned,
+  firstSighting,
 }: {
   chosenOption: string;
   isCorrect: boolean | null;
@@ -43,6 +46,9 @@ export function RevealResult({
   streakCurrent?: number;
   streakAdvanced?: boolean;
   unlock?: { isNew: boolean; commonName: string; collectionCount: number } | null;
+  /** Sea-currency: Pebbles earned by this submission + First Sighting flag. */
+  pebblesEarned?: number;
+  firstSighting?: boolean;
 }) {
   // Teal confetti once, on a correct call only. Fired imperatively so it does
   // not re-trigger on re-render; skipped entirely under reduced-motion.
@@ -93,6 +99,24 @@ export function RevealResult({
           motion. */}
       {isCorrect === true && <CorrectFishSwim reduceMotion={reduceMotion} />}
 
+      {/* Sea-currency: the Pebbles this submission banked, landed in place at the
+          moment of the reveal (it also flies into the header pouch). First
+          Sighting gets brighter copy — you were the first to ever log this clip. */}
+      {!!pebblesEarned && pebblesEarned > 0 && (
+        <motion.div variants={item} className="mt-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/15 px-3 py-1 text-xs font-semibold text-teal-200">
+            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+              <ellipse cx="8" cy="9" rx="6.5" ry="5" fill="currentColor" />
+              <ellipse cx="6" cy="6.6" rx="2.4" ry="1.4" fill="#ffffff" opacity="0.4" />
+            </svg>
+            +{pebblesEarned} {pebblesEarned === 1 ? "Pebble" : "Pebbles"}
+            {firstSighting && (
+              <span className="ml-0.5 text-teal-100">· First Sighting!</span>
+            )}
+          </span>
+        </motion.div>
+      )}
+
       {/* Community answers — how many spotters gave each answer (species or
           higher level). Sole panel: the PEBL-reference panel was removed. */}
       <motion.div variants={item} className="mt-2">
@@ -107,6 +131,17 @@ export function RevealResult({
             <span className="text-[10px] font-semibold uppercase tracking-eyebrow text-white/55">
               Community answers · {total} {total === 1 ? "spotter" : "spotters"}
             </span>
+            {isContested(stats, total) && (
+              <span
+                className="ml-auto inline-flex items-center gap-1 rounded-full bg-pending/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-pending"
+                title="The community is split on this one — a tricky clip worth a closer look."
+              >
+                <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
+                  <path d="M6 1v6M6 9.5v1.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+                Contested
+              </span>
+            )}
           </div>
           <div className="mt-2 space-y-1.5">
             {total === 0 ? (
