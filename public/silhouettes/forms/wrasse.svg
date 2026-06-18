@@ -1,12 +1,20 @@
-<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 46" xmlns="http://www.w3.org/2000/svg">
-  <!-- deep oval body, blunt thick-lipped head (left) -->
-  <path d="M11 24 C11 14 19 8.5 31 8.5 C42 8.5 50 13 52 20 C53 23 53 25 52 28 C50 35 42 39.5 31 39.5 C19 39.5 11 34 11 24 Z"/>
-  <!-- blunt snout / thick lips -->
-  <path d="M11 21 C8 21 6.5 23 6.5 24.5 C6.5 26 8 27.5 11 27.5 Z"/>
-  <!-- ONE long continuous dorsal fin running the whole back (the wrasse give-away) -->
-  <path d="M17 10 C24 4.5 44 4.5 50 11 C44 9 24 8.5 17 10 Z"/>
-  <!-- matching long anal fin along the lower back half -->
-  <path d="M30 39 C38 42.5 46 42 50 37 C45 38 36 38.5 30 38 Z"/>
-  <!-- rounded paddle tail (not forked) -->
-  <path d="M52 24 C58 19.5 61 19.5 62 20.5 C61 24 61 24 62 27.5 C61 28.5 58 28.5 52 24 Z"/>
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 68 44" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wrasse gestalt: DEEP-bodied oblong, sharply POINTED thick-lipped snout,
+       ONE tall long-based dorsal that runs the whole back and reaches the tail
+       base, peaking toward the rear (the soft-dorsal lobe wrasses show; the
+       give-away vs cod's three separate humps), big rounded pectoral, rounded
+       paddle tail. Faces left. -->
+  <!-- deep body, sharply pointed snout -->
+  <path d="M2 22 C6 14 11 9 18 8 C28 6 40 8 49 16 C51 18 52 20 52 22 C52 24 51 26 49 28 C40 33 28 35 18 34 C11 33 6 29 2 22 Z"/>
+  <!-- thick lips: small nub right at the pointed snout tip -->
+  <path d="M2 22 C0.5 21 0.5 22.5 1.2 23.5 C2 24.5 3 24 3.5 23 C3 23 2.5 22.5 2 22 Z"/>
+  <!-- ONE tall long-based dorsal fin running the whole back to the tail base,
+       smooth and peaking toward the rear (the soft wrasse dorsal) -->
+  <path d="M15 9 C18 4 22 3 27 3 C34 2.5 41 2 46 4 C48 7 49 11 49 16 C40 12 24 11 15 9 Z"/>
+  <!-- big rounded pectoral fin behind the gill -->
+  <path d="M23 24 C19 30 21 35 27 36 C28 31 27 27 27 25 C25 24 24 24 23 24 Z"/>
+  <!-- long low anal fin under the rear belly -->
+  <path d="M32 34 C35 38 40 37 43 33 C38 35 34 35 33 34 Z"/>
+  <!-- rounded paddle tail (fully convex, not forked), overlapping the body tip -->
+  <path d="M47 22 C53 16 60 14 64 15 C66 18 66 26 64 29 C60 30 53 28 47 22 Z"/>
 </svg>

@@ -31,15 +31,21 @@ export function SpeciesGallery({
   scientificName,
   commonName,
   size = "thumb",
+  layout = "strip",
 }: {
   scientificName: string;
   commonName: string;
   size?: "thumb" | "large";
+  /** "strip" = a row of thumbnails (default). "carousel" = one large image you
+   * swipe left/right through (Anjali's "scroll across the adults" ask). */
+  layout?: "strip" | "carousel";
 }) {
   const [images, setImages] = useState<SpeciesImagePayload[]>([]);
   const [status, setStatus] = useState<Status>("idle");
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const [info, setInfo] = useState<{ idx: number; rect: DOMRect } | null>(null);
+  // Carousel layout: index of the large image currently shown.
+  const [currentIdx, setCurrentIdx] = useState(0);
   const thumbRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   // S2-T17: extracted fetch so the retry button can re-run it.
@@ -50,9 +56,10 @@ export function SpeciesGallery({
   useEffect(() => {
     let cancelled = false;
     setStatus("loading");
-    // Reset lightbox state when the species changes so a stale index from a
-    // previous species doesn't open the wrong photo.
+    // Reset lightbox + carousel position when the species changes so a stale
+    // index from a previous species doesn't open the wrong photo.
     setLightboxIdx(null);
+    setCurrentIdx(0);
     let autoRetried = false;
     const run = (): Promise<void> =>
       fetch(`/api/species-images/${encodeURIComponent(scientificName)}`)
@@ -145,6 +152,136 @@ export function SpeciesGallery({
       : "h-14 w-14 shrink-0 overflow-hidden rounded-lg";
   const infoBtnSize = size === "large" ? "h-7 w-7" : "h-5 w-5";
 
+  // Shared overlays (provenance popover + full-screen lightbox), used by both layouts.
+  const overlays = (
+    <>
+      {info !== null && images[info.idx] && (
+        <InfoPopover
+          image={images[info.idx]}
+          commonName={commonName}
+          anchorRect={info.rect}
+          onClose={() => setInfo(null)}
+        />
+      )}
+      {lightboxIdx !== null && images[lightboxIdx] && (
+        <LightboxPortal
+          image={images[lightboxIdx]}
+          commonName={commonName}
+          onClose={closeLightbox}
+          onNext={lightboxIdx + 1 < images.length ? showNext : null}
+          onPrev={lightboxIdx > 0 ? showPrev : null}
+          position={`${lightboxIdx + 1} of ${images.length}`}
+        />
+      )}
+    </>
+  );
+
+  // Carousel: one large image you swipe left/right through (arrows on desktop),
+  // with a position readout, subject label and the 'i' provenance button. Tap
+  // the image to open the full-screen lightbox.
+  if (layout === "carousel") {
+    const idx = Math.min(currentIdx, images.length - 1);
+    const cur = images[idx];
+    const curLabel = [cur.lifeStage, cur.sex].filter(Boolean).join(" / ") || null;
+    const go = (d: number) =>
+      setCurrentIdx((i) => Math.max(0, Math.min(images.length - 1, i + d)));
+    return (
+      <>
+        <div
+          className="relative w-full overflow-hidden rounded-card border border-white/10 bg-black/40"
+          style={{ aspectRatio: "4 / 3" }}
+          onTouchStart={(e) => {
+            (e.currentTarget as HTMLDivElement).dataset.cx = String(e.touches[0].clientX);
+          }}
+          onTouchEnd={(e) => {
+            const root = e.currentTarget as HTMLDivElement;
+            const sx = Number(root.dataset.cx ?? "");
+            delete root.dataset.cx;
+            if (!Number.isFinite(sx)) return;
+            const dx = e.changedTouches[0].clientX - sx;
+            if (dx <= -50) go(1);
+            else if (dx >= 50) go(-1);
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxIdx(idx)}
+            aria-label={`Enlarge photo of ${commonName} (${idx + 1} of ${images.length})`}
+            className="absolute inset-0 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white/70"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={cur.url}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-contain"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              setInfo((c) => (c?.idx === idx ? null : { idx, rect }));
+            }}
+            aria-label={`Photo credit and source for ${commonName}`}
+            aria-expanded={info?.idx === idx}
+            className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/65 text-white/90 backdrop-blur-sm transition hover:bg-black/85 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+          >
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M8 7v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              <circle cx="8" cy="4.6" r="0.95" fill="currentColor" />
+            </svg>
+          </button>
+          {curLabel && (
+            <span className="pointer-events-none absolute left-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-[10px] uppercase tracking-wider text-white">
+              {curLabel}
+            </span>
+          )}
+          {images.length > 1 && (
+            <>
+              {idx > 0 && (
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  aria-label="Previous photo"
+                  className="absolute left-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M10 3.5L5.5 8l4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+              {idx < images.length - 1 && (
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  aria-label="Next photo"
+                  className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M6 3.5L10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              )}
+              <span className="pointer-events-none absolute bottom-2 right-2 rounded-full bg-black/65 px-2 py-0.5 text-[10px] font-medium text-white/85">
+                {idx + 1} / {images.length}
+              </span>
+            </>
+          )}
+        </div>
+        {images.length > 1 && (
+          <p className="mt-1.5 text-center text-[10px] text-white/40">
+            Swipe or use the arrows to compare other adults.
+          </p>
+        )}
+        {overlays}
+      </>
+    );
+  }
+
   return (
     <>
       <ul
@@ -206,26 +343,7 @@ export function SpeciesGallery({
           );
         })}
       </ul>
-
-      {info !== null && images[info.idx] && (
-        <InfoPopover
-          image={images[info.idx]}
-          commonName={commonName}
-          anchorRect={info.rect}
-          onClose={() => setInfo(null)}
-        />
-      )}
-
-      {lightboxIdx !== null && images[lightboxIdx] && (
-        <LightboxPortal
-          image={images[lightboxIdx]}
-          commonName={commonName}
-          onClose={closeLightbox}
-          onNext={lightboxIdx + 1 < images.length ? showNext : null}
-          onPrev={lightboxIdx > 0 ? showPrev : null}
-          position={`${lightboxIdx + 1} of ${images.length}`}
-        />
-      )}
+      {overlays}
     </>
   );
 }

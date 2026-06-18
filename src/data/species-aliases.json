@@ -103,6 +103,10 @@
     "commonName": "Bib",
     "aliases": ["pouting", "pout", "whiting pout"]
   },
+  "Merlangius merlangus": {
+    "commonName": "Whiting",
+    "aliases": ["whiting", "common whiting", "Merlangius"]
+  },
   "Trisopterus minutus": {
     "commonName": "Poor cod",
     "aliases": ["poor-cod", "Trisopterus"]
