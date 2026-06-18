@@ -37,8 +37,13 @@ export type BodyShape = (typeof BODY_SHAPE)[number];
 export const FISH_GROUP = [
   "cod-like", // chunky reef hangers with three separate dorsal fins (gadoids)
   "wrasse", // deep oval, thick-lipped, one long dorsal, fussing in the rocks
-  "silver-shoaler", // slim bright-silver open-water fish (mackerel, bass, mullet, sprat)
-  "bottom-sitter", // small fish perched on the seabed (gobies, dragonets, blenny, sea scorpion, red mullet)
+  "silver-shoaler", // slim bright-silver open-water fish (mackerel, bass, grey mullet, sprat)
+  "bottom-sitter", // small smooth seabed perch-and-darters: gobies + dragonets
+  // The other seabed fish, split off bottom-sitter on 18 Jun 2026 when that
+  // bucket hit the 10-species Rung-2 ceiling: gurnards, red mullet, sea
+  // scorpion, blenny. This is the home for every gurnard (grey/red/tub/streaked)
+  // — chunkier or odder bottom fish that walk, root or lurk rather than dart.
+  "bottom-other",
   "long-skinny", // eel-like / ribbon body, much longer than deep (conger, butterfish, stickleback)
   "shark", // unmistakable little-shark silhouette (lesser-spotted catshark)
 ] as const;

@@ -97,6 +97,13 @@
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
   },
+  "bottom-other": {
+    "taxon": "Triglidae / Mullidae / Cottidae (gurnards, mullet, sea scorpion)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
   "shark": {
     "taxon": "Scyliorhinidae (small shark)",
     "imageUuid": null,

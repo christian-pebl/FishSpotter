@@ -1,0 +1,14 @@
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- the seabed it walks on -->
+  <path d="M2 35 L62 35 L62 36.6 L2 36.6 Z"/>
+  <!-- elongated armour-headed body, big blunt head left, tapering to the tail -->
+  <path d="M8 19 C9 13.5 14 11 22 11 C33 11 43 13.5 50.5 18 C48 21.5 42 24 33 24.5 C22 25 13 24 8 19 Z"/>
+  <!-- spiny first dorsal -->
+  <path d="M19 11 C20.5 6.5 23.5 5.8 25.5 7.4 C24 8.6 23 9.6 22.5 11.2 Z"/>
+  <!-- soft second dorsal -->
+  <path d="M31 11 C32.5 7.3 35 6.8 36.8 8.2 C35.6 9.4 35 10.4 34.6 11.8 Z"/>
+  <!-- big wing-like pectoral fin fanned out (the gurnard give-away) -->
+  <path d="M19 22 C12.5 24.5 8.5 30 8.5 36.5 C15.5 33.5 23 29 27 23.5 Z"/>
+  <!-- forked tail -->
+  <path d="M50.5 18 L58.5 13.5 L56 18.5 L58.5 23.5 Z"/>
+</svg>

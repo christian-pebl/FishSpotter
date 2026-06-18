@@ -813,7 +813,7 @@
       "medium"
     ],
     "fishGroup": [
-      "bottom-sitter"
+      "bottom-other"
     ]
   },
   "Trisopterus minutus": {
@@ -1168,7 +1168,7 @@
       "medium"
     ],
     "fishGroup": [
-      "bottom-sitter"
+      "bottom-other"
     ]
   },
   "Lipophrys pholis": {
@@ -1206,7 +1206,7 @@
     ],
     "fieldNote": "Tubby blenny with a continuous spiny dorsal and a long anal fin; no head tentacles (unlike tompot blenny). Pops in and out of crevices and rockpool gullies.",
     "fishGroup": [
-      "bottom-sitter"
+      "bottom-other"
     ]
   },
   "Spinachia spinachia": {
@@ -2142,7 +2142,124 @@
       "pale-straight"
     ],
     "fishGroup": [
-      "bottom-sitter"
+      "bottom-other"
+    ]
+  },
+  "Chelidonichthys cuculus": {
+    "commonName": "Red gurnard",
+    "shapeClass": "fish",
+    "bodyShape": [
+      "elongated"
+    ],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "split-dorsal"
+    ],
+    "features": [
+      "dorsal-spines"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts"
+    ],
+    "fieldNote": "Brick-red gurnard with an armoured head and the family's three free finger-like pectoral rays for 'walking' the seabed. A conspicuous row of bony plates runs along the straight side-line; pectoral fins are plain reddish (no bold patch). Smaller than the tub gurnard.",
+    "bodyDepth": [
+      "slender"
+    ],
+    "lateralLine": [
+      "pale-straight"
+    ],
+    "fishGroup": [
+      "bottom-other"
+    ]
+  },
+  "Chelidonichthys lucerna": {
+    "commonName": "Tub gurnard",
+    "shapeClass": "fish",
+    "bodyShape": [
+      "elongated"
+    ],
+    "size": "large",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "fin-spots"
+    ],
+    "finShape": [
+      "split-dorsal"
+    ],
+    "features": [
+      "dorsal-spines"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts"
+    ],
+    "fieldNote": "The largest UK gurnard: reddish, armour-headed, walking on three free finger-like pectoral rays. The give-away is the enormous fan pectoral fins, vivid peacock-blue and green with a bright blue edge, flared when it moves.",
+    "bodyDepth": [
+      "medium"
+    ],
+    "lateralLine": [
+      "pale-straight"
+    ],
+    "fishGroup": [
+      "bottom-other"
+    ]
+  },
+  "Chelidonichthys lastoviza": {
+    "commonName": "Streaked gurnard",
+    "shapeClass": "fish",
+    "bodyShape": [
+      "elongated"
+    ],
+    "size": "medium",
+    "coloration": [
+      "striped-vertical"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [
+      "split-dorsal"
+    ],
+    "features": [
+      "dorsal-spines"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "fits-and-starts"
+    ],
+    "fieldNote": "Gurnard whose reddish body is covered in many fine dark OBLIQUE streaks, the give-away. Armoured head and three free finger-like pectoral rays for 'walking' the seabed like its cousins; deeper-bodied than the grey gurnard.",
+    "bodyDepth": [
+      "medium"
+    ],
+    "lateralLine": [
+      "pale-straight"
+    ],
+    "fishGroup": [
+      "bottom-other"
     ]
   }
 }

@@ -27,6 +27,18 @@
     "commonName": "Grey gurnard",
     "aliases": ["grey gurnard", "gray gurnard", "gurnard", "gurnards", "grey gurnet", "Eutrigla"]
   },
+  "Chelidonichthys cuculus": {
+    "commonName": "Red gurnard",
+    "aliases": ["red gurnard", "red gurnards", "Aspitrigla cuculus", "Aspitrigla", "Chelidonichthys"]
+  },
+  "Chelidonichthys lucerna": {
+    "commonName": "Tub gurnard",
+    "aliases": ["tub gurnard", "tub gurnards", "tubfish", "yellow gurnard", "sapphirine gurnard", "Trigla lucerna"]
+  },
+  "Chelidonichthys lastoviza": {
+    "commonName": "Streaked gurnard",
+    "aliases": ["streaked gurnard", "streaked gurnards", "Trigloporus lastoviza", "Trigloporus"]
+  },
   "Gadus morhua": {
     "commonName": "Atlantic cod",
     "aliases": ["cod", "Atlantic codfish", "codfish", "Gadus", "juvenile cod", "cod (juvenile)"]

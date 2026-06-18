@@ -56,7 +56,12 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
       // value stays `silver-shoaler` (the trait/silhouette are unchanged); only
       // the user-facing tile label reads "Silver swimmers".
       { value: "silver-shoaler", label: "Silver swimmers" },
-      { value: "bottom-sitter", label: "Bottom-sitters" },
+      // bottom-sitter was split on 18 Jun 2026 (it had hit the 10-species
+      // ceiling): the small smooth perch-and-darters stay here as "Gobies &
+      // dragonets"; the chunkier/odder seabed fish (gurnards, red mullet, sea
+      // scorpion, blenny) move to "Other bottom fish" so every gurnard has a home.
+      { value: "bottom-sitter", label: "Gobies & dragonets" },
+      { value: "bottom-other", label: "Other bottom fish" },
       { value: "long-skinny", label: "Long and skinny" },
       { value: "shark", label: "Shark-shaped" },
     ],
