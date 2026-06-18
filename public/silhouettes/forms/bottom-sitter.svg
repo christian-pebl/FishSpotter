@@ -1,12 +1,31 @@
 <svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
-  <!-- the seabed it perches on -->
+  <!-- the seabed it perches on (the tile's anchor cue) -->
   <path d="M2 34 L62 34 L62 35.6 L2 35.6 Z"/>
-  <!-- blunt-headed fish resting on the bottom, flat belly along the seabed -->
-  <path d="M9 21 C10 14.5 17 12 26 12 C35 12 43 15 49 20 C47 26 40 30 30 31 L15 31 C11 31 9 27.5 9 21 Z"/>
-  <!-- small first dorsal -->
-  <path d="M22 12 C24 9 27 9 29 11 C27 11.5 24 11.5 22 12 Z"/>
-  <!-- big splayed fan pectoral fin (the bottom-percher give-away) -->
-  <path d="M18 30 C13.5 32.5 11.5 36 12.5 38.8 C16.8 36.6 22.5 33.4 24.5 30.5 Z"/>
-  <!-- short tail -->
-  <path d="M49 20 L57 16.5 L54 21 L57 25.5 Z"/>
+  <!-- FOREGROUND goby: short, plump, blunt-headed teardrop, hunched so the
+       tail dips toward the sand; smooth back, no spikes. Smaller footprint
+       than bottom-other's elongated body. -->
+  <path d="M14 25
+           C15 19 20 16.5 27 16.5
+           C33 16.5 38 19 41 23
+           C39.5 27.5 35 30.5 28 31.5
+           L20 32
+           C16 32 14 29.5 14 25 Z"/>
+  <!-- one low ROUNDED dorsal hump (single, smooth — not the sibling's two bumps) -->
+  <path d="M24 16.5 C26 13.8 29.5 13.8 31.5 16 C29.5 16.2 26.5 16.2 24 16.5 Z"/>
+  <!-- big splayed fan pectoral planted down-and-forward onto the sand
+       (the perch-and-dart give-away; deliberately larger than the old one) -->
+  <path d="M21 30
+           C15 32 11.5 35.5 12 38.6
+           C17 36.6 23.5 33.6 26 30.5 Z"/>
+  <!-- short rounded tail dropping toward the seabed (hunched stance) -->
+  <path d="M41 23 L48 21 L45.5 25 L48 29 Z"/>
+  <!-- BACKGROUND goby: a second, smaller blunt teardrop above/behind, to read
+       as "small + many"; kept simple (body + tiny tail, no fins) so it doesn't
+       clutter at 40px. -->
+  <path d="M30 8
+           C31 5.2 35 4 40 4.4
+           C44 4.7 47 6 48.5 8
+           C46.5 10.2 43 11 38.5 10.8
+           C34 10.6 31.5 9.6 30 8 Z"/>
+  <path d="M48.5 8 L54 5.6 L51.5 8 L54 10.4 Z"/>
 </svg>

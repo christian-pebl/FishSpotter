@@ -1,9 +1,18 @@
-<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg">
-  <!-- lead clupeid: streamlined back, one small soft dorsal, deep forked tail -->
-  <path d="M8 25 C12 19.5 22 17.5 33 18 C43 18.5 51 21 55 25 C51 29 43 31.5 33 32 C22 32.5 12 30.5 8 25 Z"/>
-  <path d="M29 18 C31 15.2 34 15.2 36 17.4 C34 17.8 31 17.8 29 18 Z"/>
-  <path d="M55 25 L66 19.5 L61 25 L66 30.5 Z"/>
-  <!-- a second, smaller fish above to read as a shoal -->
-  <path d="M9 8 C12 4.8 18 3.8 24 4.6 C29 5.2 33 6.6 35 9 C32 11 27 11.6 22 11.4 C16 11.2 12 10 9 8 Z"/>
-  <path d="M35 9 L42 5.6 L38.5 9 L42 12.4 Z"/>
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Silver swimmer: slim streamlined body, one small SOFT dorsal bump,
+       blunt snout, deep SYMMETRIC forked tail. Single subject (label is no
+       longer "shoalers"), so it sits parallel to the other one-fish fish tiles
+       and spends the whole box on the two diagnostics: slim ratio + deep fork.
+       Anti-shark = symmetric fork + soft low dorsal + blunt snout. -->
+  <!-- body: fusiform lens, snout x=4, peduncle x=48, ~3.5:1 slim -->
+  <path d="M4 20
+           C8 13.5 16 11 24 11.5
+           C34 12 43 14.5 48 18
+           C48.5 18.7 48.5 21.3 48 22
+           C43 25.5 34 28 24 28.5
+           C16 29 8 26.5 4 20 Z"/>
+  <!-- soft single dorsal bump, low + rounded, peak ~x26 (NOT a shark spike) -->
+  <path d="M20 12 C24 8.6 30 8.4 34 11.4 C30 11.2 24 11.3 20 12 Z"/>
+  <!-- deep symmetric forked tail: outer tips (62,9)/(62,31), notch vertex (51,20) -->
+  <path d="M48 20 L62 9 L51 20 L62 31 Z"/>
 </svg>

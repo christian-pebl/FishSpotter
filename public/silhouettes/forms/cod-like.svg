@@ -1,15 +1,40 @@
-<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
-  <!-- robust blunt-headed body -->
-  <path d="M7 21 C9 14.5 16 11.5 27 11.5 C38 11.5 47 14.5 51 20 C47 25.5 38 28.5 27 28.5 C16 28.5 9 26.5 7 21 Z"/>
-  <!-- three separate dorsal fins, rounded (the cod give-away) -->
-  <path d="M15 12 C16.5 7.5 19.5 6.5 21.5 8 C20.5 9.5 20 11 20 12.3 Z"/>
-  <path d="M25 11.5 C26.5 6.8 29.5 6 31.5 7.6 C30.5 9.2 30 10.6 30 12 Z"/>
-  <path d="M34.5 12 C36 7.6 39 6.8 41 8.4 C40 10 39.5 11 39.5 12.4 Z"/>
-  <!-- two rounded anal fins under the belly -->
-  <path d="M26.5 28.5 C28 32.5 30.5 33.4 32 31.5 C30.8 30.4 30 29.6 29.4 28.4 Z"/>
-  <path d="M34 28.3 C35.4 31.8 37.6 32.6 39 31 C38 30 37.2 29.2 36.6 28.2 Z"/>
-  <!-- soft forked tail -->
-  <path d="M50.5 20 C57.5 14.5 61.5 13.5 62.5 13.5 C61 17 60.4 18.6 60.4 20 C60.4 21.4 61 23 62.5 26.5 C61.5 26.5 57.5 25.5 50.5 20 Z"/>
-  <!-- chin barbel -->
-  <path d="M9 23.5 C8.2 26 8.6 28 10 29 C10.4 27 10 25 9.8 23.6 Z"/>
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 44" xmlns="http://www.w3.org/2000/svg">
+  <!-- Chunky blunt-headed gadoid body. Faces left; head a rounded forehead at
+       the left, tapering to the caudal peduncle at the right. Top edge is the
+       baseline the three dorsal sails rise from; it dips to ~y17 between sails
+       so the notches are real sky. -->
+  <path d="M6 24
+           C6 17.5 11 13.5 18 12.8
+           C20 16.5 20 16.5 22 16.8
+           C24 16.6 24 16.6 26 12.4
+           C28 12.4 30 12.4 32 12.6
+           C34 16.4 34 16.4 36 16.6
+           C38 16.4 38 16.4 40 12.6
+           C44 13 48 14.5 50 17.2
+           L52 18.5
+           C53 20 53 28 52 29.5
+           L50 30.8
+           C48 33.5 44 35 40 35.4
+           C38 31.6 38 31.6 36 31.4
+           C34 31.6 34 31.6 32 35.4
+           C30 35.6 28 35.6 26 35.4
+           C24 31.6 24 31.6 22 31.2
+           C20 31.5 20 31.5 18 35.2
+           C11 34.5 6 30.5 6 24 Z"/>
+  <!-- DORSAL SAIL 1 (front) — tall rounded dome, deep notch after it -->
+  <path d="M14 14 C15 6 19 4.5 23 6 C24 8.5 25 11 25.5 13 C21 13 17.5 13.4 14 14 Z"/>
+  <!-- DORSAL SAIL 2 (middle) — the tallest, asserts "separate fin" hardest -->
+  <path d="M25 13 C26.5 4.5 31 3.2 35 5 C36 7.8 37 10.6 37.5 13 C33 13 29 13 25 13 Z"/>
+  <!-- DORSAL SAIL 3 (rear) -->
+  <path d="M37 13 C38.5 5.5 43 4.5 47 6.5 C48 9 48.5 11.4 49 13.6 C45 13 41 13 37 13 Z"/>
+  <!-- ANAL FIN 1 — rounded hump mirroring the dorsals, smaller -->
+  <path d="M26 35.4 C27.5 41 31 41.8 33 38.6 C31 38 29 37.4 28 36 C27.2 35.8 26.6 35.6 26 35.4 Z"/>
+  <!-- ANAL FIN 2 -->
+  <path d="M36 35.4 C37.5 41 41 41.6 43 38.4 C41 38 39 37.2 38 36 C37.2 35.8 36.6 35.6 36 35.4 Z"/>
+  <!-- Small pectoral fin, low behind the head (modest, not a wing) -->
+  <path d="M16 28 C13.5 32.5 15 36.5 19 37 C19.5 33.5 19 30.5 19 28.8 C18 28.4 17 28.2 16 28 Z"/>
+  <!-- Shallow-forked (emarginate) caudal — neither round paddle nor deep V -->
+  <path d="M52 21 C57 17.5 61 16.5 62.5 16.5 C61 19.5 60.5 21.5 60.5 24 C60.5 26.5 61 28.5 62.5 31.5 C61 31.5 57 30.5 52 27 C52.7 25 52.7 23 52 21 Z"/>
+  <!-- Chin barbel — tiny nub under the head (low-cost, may vanish at icon size) -->
+  <path d="M8 27.5 C7.2 30.5 7.8 32.5 9.4 33.4 C9.8 31 9.4 29 9 27.6 Z"/>
 </svg>

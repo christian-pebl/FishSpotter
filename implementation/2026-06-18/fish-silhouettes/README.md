@@ -8,9 +8,13 @@ Gemini vision baseline (`implementation/2026-06-17/silhouette-scores.json`),
 the field-guide rationale (`implementation/2026-06-17/fish-category-review.md`),
 and the flat-mask render constraint in `src/components/idflow/TileGate.tsx`.
 
-**Nothing here is applied to the live SVGs.** Each `*.md` carries a draft `<svg>`
-ready for a designer/reviewer; apply + re-score (`npm run score:silhouettes`) is
-a separate, gated step.
+**Status (18 Jun 2026): APPLIED.** All 6 redraws (cod-like, wrasse,
+silver-shoaler, bottom-sitter, bottom-other, long-skinny) are now live in
+`public/silhouettes/forms/`; shark was left as-is per its plan. Verified by
+`tsc` + 336 tests + `lint`/`lint:tokens` and a rasterised 40px small-render
+eyeball of every tile. The one remaining gated step is the Gemini re-score
+(`npm run score:silhouettes`), which needs `GEMINI_API_KEY` in `.env.local`
+(absent in the remote/CI env) — run it post-merge and diff the baseline.
 
 ## The render constraint that shapes every recommendation
 
