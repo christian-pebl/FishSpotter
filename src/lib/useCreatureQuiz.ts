@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playStreak } from "@/lib/sounds";
 import { triggerCorrectConfetti } from "@/lib/confetti";
+import { emitPebbles } from "@/lib/pebble-bus";
 
 // S2-T04 killed the sharedBaselineStreak module global + the
 // follow-up GET /api/streak after each submit. The streak diff is now
@@ -320,6 +321,16 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
           streakAdvanced: !!(data.streak && data.streak.current > data.streak.previous),
           unlock: data.unlock ?? null,
         });
+        // Sea-currency redesign: tell the header's Pebble bag to collect the
+        // freshly-earned pebbles and sync the running total. `earned` is 0 on a
+        // re-guess (the original award is locked), so the bag stays still then.
+        if (data.pebbles) {
+          emitPebbles({
+            earned: data.pebbles.earned ?? 0,
+            total: data.pebbles.total ?? 0,
+            firstSighting: data.pebbles.firstSighting ?? false,
+          });
+        }
         window.dispatchEvent(new CustomEvent("fishspotter:streak"));
         await loadStats();
         return true;
