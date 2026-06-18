@@ -110,8 +110,8 @@ export function TileGate({
    *  who can't get to species commit the shape class for partial credit. */
   coarse?: { label: string; onClick: () => void };
   /** A secondary "compare these look-alikes side by side" action, rendered as a
-   *  full-width outline button below the grid (Rung-3 only, when the candidate
-   *  set is a known confusion group). Opens the SpeciesComparison view. */
+   *  full-width outline button below the grid (Rung-3 / class-level confusion
+   *  groups). Opens the simplified SpeciesComparison (big photos + bullet cues). */
   compare?: { label: string; onClick: () => void };
   /** Shown instead of the grid when there are no tiles. */
   emptyMessage?: string;

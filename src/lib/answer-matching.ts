@@ -21,7 +21,7 @@
 
 import { normalizeAnswer, normalizeForMatch } from "@/lib/normalize-answer";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
-import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
+import { SHAPE_CLASS, FISH_GROUP_COARSE_NOUN, type ShapeClass } from "@/lib/idguide/traits";
 import { CONSENSUS_THRESHOLD_USERS } from "@/lib/pebbles";
 
 // Sea-currency redesign: the consensus threshold now lives in the Pebbles
@@ -226,6 +226,15 @@ export function buildShapeClassByForm(
   for (const shapeClass of SHAPE_CLASS) {
     const key = normalizeForMatch(shapeClass);
     if (!map.has(key)) map.set(key, shapeClass);
+  }
+
+  // The Rung-3 coarse fish-group commits ("It's just a silver swimmer") all
+  // resolve to the fish shape class, so a group-level commit earns shape-class
+  // credit exactly like the bare "fish" word. Added last so a real species/alias
+  // form is never clobbered.
+  for (const noun of Object.values(FISH_GROUP_COARSE_NOUN)) {
+    const key = normalizeForMatch(noun);
+    if (!map.has(key)) map.set(key, "fish");
   }
 
   return map;

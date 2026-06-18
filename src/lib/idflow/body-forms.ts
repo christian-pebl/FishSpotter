@@ -57,11 +57,15 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
       // the user-facing tile label reads "Silver swimmers".
       { value: "silver-shoaler", label: "Silver swimmers" },
       // bottom-sitter was split on 18 Jun 2026 (it had hit the 10-species
-      // ceiling): the small smooth perch-and-darters stay here as "Gobies &
-      // dragonets"; the chunkier/odder seabed fish (gurnards, red mullet, sea
-      // scorpion, blenny) move to "Other bottom fish" so every gurnard has a home.
-      { value: "bottom-sitter", label: "Gobies & dragonets" },
-      { value: "bottom-other", label: "Other bottom fish" },
+      // ceiling). The split now cuts on SIZE, which a beginner can judge off a
+      // clip far more reliably than "is this a goby or a gurnard?": the small
+      // smooth perch-and-darters (gobies + dragonets, all ~4-8 cm) stay here as
+      // "Small bottom fish"; the chunkier seabed fish (gurnards, red mullet, and
+      // the bigger sea scorpion + shanny, all medium-plus) are "Bigger bottom
+      // fish". Sea scorpion + shanny were re-tagged small -> medium so the size
+      // cut is clean (they're 12-17 cm, genuinely bigger than a goby).
+      { value: "bottom-sitter", label: "Small bottom fish" },
+      { value: "bottom-other", label: "Bigger bottom fish" },
       { value: "long-skinny", label: "Long and skinny" },
       { value: "shark", label: "Shark-shaped" },
     ],
