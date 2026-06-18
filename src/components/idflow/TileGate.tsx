@@ -11,7 +11,7 @@
  *     restore),
  *   - a "Hide" affordance back to the video, an optional "Back" affordance to
  *     the previous rung, and an optional breadcrumb of prior picks,
- *   - a tile grid (optionally scrollable) + an optional Not-sure / Skip footer.
+ *   - a tile grid (scrolls when it overflows) + an optional Not-sure / Skip footer.
  *
  * Each tile is a select button. The visual is either a small centered `icon`
  * (silhouette rungs) or a full-width square `media` node (Rung-3 photos), with
@@ -86,7 +86,6 @@ export function TileGate({
   notSure,
   skip,
   coarse,
-  scrollable = false,
   emptyMessage,
   suspendKeyboard = false,
   bubbleLabel = "Reopen the selector",
@@ -109,8 +108,6 @@ export function TileGate({
    *  rendered as a full-width button above the notSure/skip row. Lets a user
    *  who can't get to species commit the shape class for partial credit. */
   coarse?: { label: string; onClick: () => void };
-  /** Wrap the grid in a max-height scroll region (Rung-3 photo grids). */
-  scrollable?: boolean;
   /** Shown instead of the grid when there are no tiles. */
   emptyMessage?: string;
   /** When true (an Examples popup is open on top), the gate yields keyboard
@@ -414,7 +411,7 @@ export function TileGate({
               ? { duration: 0 }
               : { duration: DURATION.standard, ease: EASE.enter }
           }
-          className="pointer-events-auto relative rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
+          className="pointer-events-auto relative flex max-h-[calc(100dvh-1.5rem)] flex-col rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
           style={{
             paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
             transformOrigin: "bottom center",
@@ -440,7 +437,7 @@ export function TileGate({
           {/* Header row: back (arrow only), the title, then minimise + close.
               A flex row so the controls never overlap the title (they used to
               be absolute-positioned over a centred title). */}
-          <div className="mb-2 flex items-center gap-2">
+          <div className="mb-2 flex shrink-0 items-center gap-2">
             {onBack ? (
               <button
                 type="button"
@@ -489,13 +486,13 @@ export function TileGate({
             </div>
           </div>
 
-          <div>
+          <div className="flex min-h-0 flex-1 flex-col">
 
             {/* Breadcrumb of prior picks — each can jump back to its rung. */}
             {breadcrumb && breadcrumb.length > 0 && (
               <nav
                 aria-label="Your picks so far"
-                className="mb-2.5 flex flex-wrap items-center justify-center gap-x-1 gap-y-1"
+                className="mb-2.5 flex shrink-0 flex-wrap items-center justify-center gap-x-1 gap-y-1"
               >
                 {breadcrumb.map((c, i) => (
                   <span key={`${c.label}-${i}`} className="flex items-center gap-1">
@@ -518,23 +515,27 @@ export function TileGate({
               </nav>
             )}
 
-            {tiles.length === 0 && emptyMessage ? (
-              <p className="px-2 py-6 text-center text-sm text-white/60">{emptyMessage}</p>
-            ) : variant === "list" ? (
-              list
-            ) : scrollable ? (
-              <div className="-mx-1 max-h-[38vh] overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
-                {grid}
-              </div>
-            ) : (
-              grid
-            )}
+            {/* Single scroll owner: the card is capped to the viewport and the
+                header / breadcrumb / footer are pinned, so the TILES scroll when
+                a rung has more rows than fit (e.g. the 7-row fish body-shape list,
+                or any gate in landscape). Without this the centred card overflowed
+                the overflow-hidden feed item and clipped its own drag handle and
+                Skip footer with no way to reach them. */}
+            <div className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
+              {tiles.length === 0 && emptyMessage ? (
+                <p className="px-2 py-6 text-center text-sm text-white/60">{emptyMessage}</p>
+              ) : variant === "list" ? (
+                list
+              ) : (
+                grid
+              )}
+            </div>
 
             {coarse && (
               <button
                 type="button"
                 onClick={coarse.onClick}
-                className="mt-3 inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-teal-100 hover:border-teal-400 hover:bg-teal-500/20"
+                className="mt-3 inline-flex min-h-[44px] w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-teal-100 hover:border-teal-400 hover:bg-teal-500/20"
               >
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
                   <path d="M8 11V7M8 5h.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -545,7 +546,7 @@ export function TileGate({
             )}
 
             {(notSure || skip) && (
-              <div className="mt-3 flex items-center justify-between">
+              <div className="mt-3 flex shrink-0 items-center justify-between">
                 {notSure ? (
                   <button
                     type="button"

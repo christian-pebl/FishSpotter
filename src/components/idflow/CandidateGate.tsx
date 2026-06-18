@@ -208,7 +208,6 @@ export function CandidateGate({
         title={candidates.length > 0 ? "Which one is it? Tap to compare" : "No matches"}
         tiles={tiles}
         columns={2}
-        scrollable
         suspendKeyboard={!!preview}
         onSelect={(sci) => {
           const c = candidates.find((x) => x.scientificName === sci);
