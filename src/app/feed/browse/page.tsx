@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
-import { MarineBackdrop } from "@/components/MarineBackdrop";
+import { DriftingSilhouettes } from "@/components/DriftingSilhouettes";
 
 // P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
@@ -35,6 +35,7 @@ type SnippetRow = {
   thumbnailUrl: string;
   site: string;
   deployment: string;
+  depthM: number | null;
   recordingDatetime: string | null;
 };
 
@@ -81,6 +82,7 @@ export default async function FeedBrowsePage({
         thumbnailUrl: true,
         site: true,
         deployment: true,
+        depthM: true,
         recordingDatetime: true,
       },
     }),
@@ -122,89 +124,76 @@ export default async function FeedBrowsePage({
   }
 
   return (
-    <MarineBackdrop>
-    <div className="flex-1 overflow-y-auto">
+    <div className="relative flex-1 overflow-y-auto">
+      {/* Dark underwater backdrop with slow-drifting marine silhouettes. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-navy-900 via-navy-900 to-navy-800"
+      >
+        <DriftingSilhouettes className="text-teal-200/[0.06]" />
+      </div>
+
       <main
         id="main"
         tabIndex={-1}
-        className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8"
+        className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8 text-white"
       >
-        <div className="pebl-surface rounded-card px-6 py-6">
-          <p className="pebl-eyebrow text-xs">Observation archive</p>
-          <h1 className="mt-2 font-brand-heading text-3xl font-bold text-navy-900">
-            Browse the wider PEBL clip library
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-navy-900">
-            Review archived sightings from marine monitoring deployments, open any clip, and add your identification to the community record.
-          </p>
-        </div>
+        <h1 className="font-brand-heading text-3xl font-bold text-white">
+          Observation Archive
+        </h1>
 
-        {/* S4-07 filter / sort row */}
+        {/* Filter / sort row — clean, borderless, species-guide styling. */}
         <form
           method="get"
-          className="pebl-surface flex flex-wrap items-end gap-3 rounded-card px-4 py-3"
+          className="flex flex-wrap items-center gap-2"
           aria-label="Filter clips"
         >
-          <label className="flex flex-col text-xs text-navy-900/72">
-            Search
-            <input
-              type="search"
-              name="q"
-              defaultValue={params.q ?? ""}
-              placeholder="Species, site, deployment"
-              className="mt-1 rounded-modal border border-navy-900/15 bg-white px-3 py-1.5 text-sm"
-            />
-          </label>
-          <label className="flex flex-col text-xs text-navy-900/72">
-            Site
-            <select
-              name="site"
-              defaultValue={params.site ?? ""}
-              className="mt-1 rounded-modal border border-navy-900/15 bg-white px-3 py-1.5 text-sm"
-            >
-              <option value="">All sites</option>
-              {distinctSites.map((s: { site: string }) => (
-                <option key={s.site} value={s.site}>
-                  {s.site}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col text-xs text-navy-900/72">
-            Sort
-            <select
-              name="sort"
-              defaultValue={sort}
-              className="mt-1 rounded-modal border border-navy-900/15 bg-white px-3 py-1.5 text-sm"
-            >
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
-              <option value="site">Site (A-Z)</option>
-            </select>
-          </label>
+          <input
+            type="search"
+            name="q"
+            defaultValue={params.q ?? ""}
+            placeholder="Search species, site, deployment"
+            aria-label="Search clips"
+            className="min-w-[12rem] flex-1 rounded-full bg-white/10 px-4 py-2 text-sm text-white placeholder:text-white/40 focus:bg-white/15 focus:outline-none"
+          />
+          <select
+            name="site"
+            defaultValue={params.site ?? ""}
+            aria-label="Filter by site"
+            className="rounded-full bg-white/10 px-4 py-2 text-sm text-white [color-scheme:dark] focus:bg-white/15 focus:outline-none"
+          >
+            <option value="">All sites</option>
+            {distinctSites.map((s: { site: string }) => (
+              <option key={s.site} value={s.site}>
+                {s.site}
+              </option>
+            ))}
+          </select>
+          <select
+            name="sort"
+            defaultValue={sort}
+            aria-label="Sort clips"
+            className="rounded-full bg-white/10 px-4 py-2 text-sm text-white [color-scheme:dark] focus:bg-white/15 focus:outline-none"
+          >
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="site">Site (A-Z)</option>
+          </select>
           <button
             type="submit"
-            className="pebl-button-primary px-3 py-1.5 text-xs"
+            className="rounded-full bg-teal-500 px-4 py-2 text-sm font-semibold text-navy-900 transition-colors hover:bg-teal-400"
           >
             Apply
           </button>
-          <Link
-            href="/feed/browse"
-            className="text-xs text-navy-900/55 underline"
-          >
-            Reset
-          </Link>
+          {(params.q || params.site || sort !== "newest") && (
+            <Link
+              href="/feed/browse"
+              className="px-2 text-xs text-white/50 transition-colors hover:text-white/80"
+            >
+              Reset
+            </Link>
+          )}
         </form>
-
-        {/* S4-07 results count + S4-10 end-of-results clarity */}
-        <p
-          className="text-xs text-navy-900/55"
-          aria-live="polite"
-        >
-          {totalCount === 0
-            ? "No clips match your filters."
-            : `${totalCount} clip${totalCount === 1 ? "" : "s"}${params.site ? ` at ${params.site}` : ""}${params.q ? ` matching "${params.q}"` : ""}`}
-        </p>
 
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {snippets.map((s: SnippetRow) => (
@@ -212,19 +201,17 @@ export default async function FeedBrowsePage({
               <Link
                 href={`/feed/${s.id}`}
                 aria-label={`Open clip from ${s.site}, ${s.deployment}`}
-                className="pebl-surface block overflow-hidden rounded-card transition hover:-translate-y-0.5 hover:border-teal-500"
+                className="group block"
               >
-                <div className="relative aspect-video bg-surface-muted">
+                <div className="relative aspect-video overflow-hidden rounded-card bg-white/5">
                   <Image
                     src={s.thumbnailUrl}
                     alt=""
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
-                  {/* P-18: answered-state badge. Only shown when signed in
-                      (myUserId truthy). Answered clips get a teal pill so
-                      spotters can quickly see what's still open. */}
+                  {/* P-18: answered-state badge, signed-in only. */}
                   {myUserId && (
                     <span
                       className={
@@ -247,16 +234,29 @@ export default async function FeedBrowsePage({
                     </span>
                   )}
                 </div>
-                <div className="space-y-1 p-4">
-                  <p className="pebl-eyebrow truncate text-[11px]">{s.deployment}</p>
-                  <p className="truncate text-base font-semibold text-navy-900">
+                <div className="mt-2 space-y-0.5 px-0.5">
+                  <p className="truncate text-sm font-semibold text-white">
                     {s.site}
                   </p>
-                  {s.recordingDatetime && (
-                    <p className="text-xs text-navy-900/55">
-                      {new Date(s.recordingDatetime).toLocaleDateString()}
-                    </p>
-                  )}
+                  <p className="truncate text-[11px] uppercase tracking-wider text-white/45">
+                    {s.deployment}
+                  </p>
+                  <p className="flex flex-wrap items-center gap-x-2 text-[11px] text-white/55">
+                    {s.recordingDatetime && (
+                      <span>
+                        {new Date(s.recordingDatetime).toLocaleString(undefined, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                    )}
+                    {s.depthM != null && (
+                      <span className="text-teal-200/70">{Math.round(s.depthM)} m deep</span>
+                    )}
+                  </p>
                 </div>
               </Link>
             </li>
@@ -264,12 +264,11 @@ export default async function FeedBrowsePage({
         </ul>
 
         {snippets.length === 0 && totalCount === 0 && (
-          <p className="text-sm text-navy-900/55">
-            Try a wider filter, or{" "}
-            <Link href="/feed/browse" className="text-teal-700 underline">
-              clear all filters
+          <p className="text-sm text-white/55">
+            No clips match.{" "}
+            <Link href="/feed/browse" className="text-teal-300 underline">
+              Clear filters
             </Link>
-            .
           </p>
         )}
 
@@ -283,8 +282,8 @@ export default async function FeedBrowsePage({
               href={pageUrl(Math.max(1, page - 1))}
               aria-disabled={page === 1}
               className={
-                "pebl-button-secondary inline-flex min-h-[44px] items-center gap-1.5 px-3 text-xs " +
-                (page === 1 ? "pointer-events-none opacity-50" : "")
+                "inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-4 text-xs font-semibold text-white transition-colors hover:bg-white/20 " +
+                (page === 1 ? "pointer-events-none opacity-40" : "")
               }
             >
               <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -292,15 +291,15 @@ export default async function FeedBrowsePage({
               </svg>
               Previous
             </Link>
-            <span className="text-xs text-navy-900/55">
+            <span className="text-xs text-white/45">
               Page {page} of {totalPages}
             </span>
             <Link
               href={pageUrl(Math.min(totalPages, page + 1))}
               aria-disabled={page === totalPages}
               className={
-                "pebl-button-secondary inline-flex min-h-[44px] items-center gap-1.5 px-3 text-xs " +
-                (page === totalPages ? "pointer-events-none opacity-50" : "")
+                "inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white/10 px-4 text-xs font-semibold text-white transition-colors hover:bg-white/20 " +
+                (page === totalPages ? "pointer-events-none opacity-40" : "")
               }
             >
               Next
@@ -312,6 +311,5 @@ export default async function FeedBrowsePage({
         )}
       </main>
     </div>
-    </MarineBackdrop>
   );
 }
