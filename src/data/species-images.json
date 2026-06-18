@@ -882,6 +882,16 @@
     ],
     "Lipophrys pholis": [
       {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Lipophrys_pholis_France.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Lipophrys_pholis_France.jpg/960px-Lipophrys_pholis_France.jpg",
+        "attribution": "(c) Julien Renoult, CC BY 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lipophrys_pholis_France.jpg",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 0
+      },
+      {
         "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/300356277/medium.jpg",
         "thumbUrl": null,
         "attribution": "(c) Michiel Vos, CC BY-NC via iNaturalist",
@@ -920,6 +930,16 @@
     ],
     "Scomber scombrus": [
       {
+        "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/384826554/medium.jpg",
+        "thumbUrl": null,
+        "attribution": "(c) James-LaFontaine, CC BY via iNaturalist",
+        "sourceUrl": "https://www.inaturalist.org/observations/217525252",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 0
+      },
+      {
         "url": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Scomber_scombrus.jpg",
         "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Scomber_scombrus.jpg/960px-Scomber_scombrus.jpg",
         "attribution": "Hans Hillewaert, CC BY-SA 4.0 via Wikimedia Commons",
@@ -953,7 +973,7 @@
         "license": "cc-by",
         "lifeStage": "adult",
         "sex": null,
-        "ordering": 0
+        "ordering": 1
       },
       {
         "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/81127630/medium.jpg",
@@ -965,7 +985,7 @@
         "sex": null,
         "width": 2048,
         "height": 1131,
-        "ordering": 1
+        "ordering": 0
       },
       {
         "url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Sprattus_sprattus.jpg",
@@ -1027,6 +1047,16 @@
       }
     ],
     "Chelon labrosus": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Chelon_labrosus_Pillon.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Chelon_labrosus_Pillon.jpg/960px-Chelon_labrosus_Pillon.jpg",
+        "attribution": "Roberto Pillon, CC BY 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Chelon_labrosus_Pillon.jpg",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 0
+      },
       {
         "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/158973980/medium.jpg",
         "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/158973980/square.jpg",
@@ -1107,6 +1137,16 @@
       }
     ],
     "Pleuronectes platessa": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Pleuronectes_platessa.carrelet02.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Pleuronectes_platessa.carrelet02.jpg/960px-Pleuronectes_platessa.carrelet02.jpg",
+        "attribution": "Liné1, CC BY 2.5 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pleuronectes_platessa.carrelet02.jpg",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 0
+      },
       {
         "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/373845978/medium.jpg",
         "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/373845978/square.jpg",
