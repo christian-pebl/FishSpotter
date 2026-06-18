@@ -193,12 +193,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const dragControls = useDragControls();
   const articleRef = useRef<HTMLElement>(null);
   // Default panel position: vertically centered on desktop, bottom-snapped on
-  // mobile. Use a lazy initialiser so the first client paint already knows the
-  // right breakpoint — avoids the mobile→desktop flicker on hydration.
-  const [isDesktop, setIsDesktop] = useState(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return false;
-    return window.matchMedia("(min-width: 768px)").matches;
-  });
+  // mobile. MUST initialise to false (the server has no viewport). A matchMedia
+  // lazy initialiser returns true on a wide client but false on the server, so
+  // on a laptop it desynced hydration and crashed the feed's Suspense boundary
+  // ("switched to client rendering", visible as a cut-off / broken layout). The
+  // effect below syncs the real value on mount, one frame after the first paint.
+  const [isDesktop, setIsDesktop] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(min-width: 768px)");
@@ -230,10 +230,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // P-2: at lg (1024px) the panel shifts to the right side of the video,
   // giving the left ~65% of the viewport for unobstructed viewing. Below lg
   // it stays centred (isDesktop path) or bottom-anchored (mobile path).
-  const [isLg, setIsLg] = useState(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return false;
-    return window.matchMedia("(min-width: 1024px)").matches;
-  });
+  // Initialise false for the same SSR-safety reason as isDesktop above.
+  const [isLg, setIsLg] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(min-width: 1024px)");

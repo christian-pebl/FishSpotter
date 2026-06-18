@@ -127,6 +127,46 @@
       "cod-like"
     ]
   },
+  "Merlangius merlangus": {
+    "commonName": "Whiting",
+    "shapeClass": "fish",
+    "bodyShape": [
+      "fusiform",
+      "elongated"
+    ],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "fin-spots"
+    ],
+    "finShape": [
+      "forked-tail",
+      "split-dorsal"
+    ],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "schooling",
+      "on-bottom"
+    ],
+    "habitat": [
+      "sandy-bottom",
+      "open-water"
+    ],
+    "movement": [
+      "water-column"
+    ],
+    "fieldNote": "Slim sandy-grey gadoid with three dorsal fins and NO chin barbel (unlike cod or bib), plus a small dark blotch at the upper base of each pectoral fin. The upper jaw is slightly the longer; shoals near the bottom over sand and mud.",
+    "bodyDepth": [
+      "slender"
+    ],
+    "fishGroup": [
+      "cod-like"
+    ]
+  },
   "Labrus bergylta": {
     "commonName": "Ballan wrasse",
     "shapeClass": "fish",

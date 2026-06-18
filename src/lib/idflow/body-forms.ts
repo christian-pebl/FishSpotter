@@ -25,8 +25,8 @@ export type SubSplit = {
 };
 
 // Branch-specific first cut. flatfish has one species so it gets no sub-split
-// (and so no Rung-2 gate); fish splits on `fishGroup` — a plain-English family
-// gestalt (cod-shaped / wrasse / silver shoaler / bottom-sitter / long-skinny /
+// (and so no Rung-2 gate); fish splits on `fishGroup`, a plain-English family
+// gestalt (cod-shaped / wrasse / silver swimmer / bottom-sitter / long-skinny /
 // shark) that a beginner can read off a clip, replacing the old `bodyShape` cut
 // whose merged "Torpedo or deep-bodied" bucket held 20 species. Each invert
 // class splits on its own "form" trait.
@@ -51,7 +51,11 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
     options: [
       { value: "cod-like", label: "Cod-shaped" },
       { value: "wrasse", label: "Wrasses" },
-      { value: "silver-shoaler", label: "Silver shoalers" },
+      // Label is appearance-based, NOT behaviour-based: bass (and adult mullet)
+      // are not reliable shoalers, so "shoalers" mis-cued field testers. The
+      // value stays `silver-shoaler` (the trait/silhouette are unchanged); only
+      // the user-facing tile label reads "Silver swimmers".
+      { value: "silver-shoaler", label: "Silver swimmers" },
       { value: "bottom-sitter", label: "Bottom-sitters" },
       { value: "long-skinny", label: "Long and skinny" },
       { value: "shark", label: "Shark-shaped" },

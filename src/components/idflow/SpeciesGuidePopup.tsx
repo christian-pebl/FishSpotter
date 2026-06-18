@@ -176,9 +176,10 @@ export function SpeciesGuidePopup({
               scientificName={scientificName}
               commonName={commonName}
               size="large"
+              layout="carousel"
             />
             <p className="mt-1.5 text-[10px] text-white/40">
-              Compare these against the clip. Tap a photo to enlarge.
+              Compare these against the clip. Tap to enlarge.
             </p>
           </div>
 
