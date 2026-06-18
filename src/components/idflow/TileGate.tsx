@@ -166,7 +166,11 @@ export function TileGate({
         ?.querySelector<HTMLElement>(
           "button:not([disabled]), [tabindex]:not([tabindex='-1'])",
         )
-        ?.focus();
+        // preventScroll: the gate renders inline inside the feed, so the nearest
+        // scrollable ancestor is the snap-mandatory feed container. A plain
+        // focus() would scroll that container to reveal the focused control,
+        // cross a snap boundary, and bounce the feed to the previous clip.
+        ?.focus({ preventScroll: true });
     }
 
     const onKey = (e: KeyboardEvent) => {
@@ -204,7 +208,10 @@ export function TileGate({
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
-      lastFocused?.focus?.();
+      // preventScroll: see the mount focus-grab above. Restoring focus on
+      // unmount must not scroll the snap feed (esp. on rung-advance, where the
+      // captured element may be a mid-exit trigger anchored to the card bottom).
+      lastFocused?.focus?.({ preventScroll: true });
     };
   }, [onClose, suspendKeyboard, minimized]);
 

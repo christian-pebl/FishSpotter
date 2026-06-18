@@ -82,7 +82,9 @@ export function IdGuideSheet({
     const focusable = dialog.querySelector<HTMLElement>(
       "input, textarea, button:not([disabled]), [tabindex]:not([tabindex='-1'])",
     );
-    focusable?.focus();
+    // preventScroll: the sheet opens over the snap feed; a plain focus() would
+    // scroll the feed to reveal the control and bounce to another clip.
+    focusable?.focus({ preventScroll: true });
   }, [open, mode]);
 
   useEffect(() => {
