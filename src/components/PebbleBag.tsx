@@ -13,14 +13,10 @@ import { onPebbles } from "@/lib/pebble-bus";
 
 const overlayTextShadow = "0 1px 3px rgba(0,0,0,0.55)";
 
-// PEBL-stone palette for the flying pebbles. Kept subtle and on-brand.
-const PEBBLE_FILLS = ["#3AAFA9", "#2B7A78", "#7fc6c1", "#bfe3e0", "#17252A"];
-
 type FlyingPebble = {
   id: number;
   startX: number;
   startY: number;
-  fill: string;
   size: number;
   rotate: number;
 };
@@ -34,53 +30,31 @@ export interface PebbleEarn {
   nonce: number;
 }
 
-/** A single rounded pebble with a soft top highlight. */
-function PebbleGlyph({ fill, size }: { fill: string; size: number }) {
+/** A single minimalist outline pebble — inherits colour via currentColor. */
+function PebbleGlyph({ size }: { size: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <ellipse cx="8" cy="9" rx="6.5" ry="5" fill={fill} />
-      <ellipse cx="6" cy="6.6" rx="2.4" ry="1.4" fill="#ffffff" opacity="0.4" />
+      <rect x="1.6" y="4.2" width="12.8" height="7.6" rx="3.8" stroke="currentColor" strokeWidth="1.4" />
     </svg>
   );
 }
 
-/** The drawstring pouch the pebbles collect into. */
-function Pouch({ onFeed }: { onFeed: boolean }) {
+/** A minimalist outline cairn — three balanced pebbles, the PEBL stack. */
+function Cairn({ onFeed }: { onFeed: boolean }) {
   return (
     <svg
-      width="24"
-      height="24"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
       style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
     >
-      {/* pouch body */}
-      <path
-        d="M5.2 12.4C5.2 9 8.2 7.2 12 7.2s6.8 1.8 6.8 5.2c0 4-2.9 6.6-6.8 6.6s-6.8-2.6-6.8-6.6Z"
-        fill="#3AAFA9"
-      />
-      <path
-        d="M5.2 12.4C5.2 9 8.2 7.2 12 7.2s6.8 1.8 6.8 5.2c0 4-2.9 6.6-6.8 6.6s-6.8-2.6-6.8-6.6Z"
-        stroke="#2B7A78"
-        strokeWidth="1.1"
-      />
-      {/* drawstring neck */}
-      <path
-        d="M8.4 7.6c.7-1 2-1.5 3.6-1.5s2.9.5 3.6 1.5"
-        stroke="#2B7A78"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-      <path
-        d="M7.4 7.1c1-.7 3-1.1 4.6-1.1s3.6.4 4.6 1.1"
-        stroke="#88c5c1"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
-      {/* two pebbles peeking out of the top */}
-      <circle cx="10.4" cy="11.2" r="1.5" fill="#DEF2F1" opacity="0.9" />
-      <circle cx="13.4" cy="12" r="1.2" fill="#bfe3e0" opacity="0.85" />
+      <g stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+        <rect x="7.5" y="2" width="9" height="5" rx="2.5" />
+        <rect x="5" y="8.8" width="14" height="6.2" rx="3.1" />
+        <rect x="3" y="16.6" width="18" height="6.4" rx="3.2" />
+      </g>
     </svg>
   );
 }
@@ -142,7 +116,6 @@ export function PebbleBagView({
       id: burstSeq.current * 100 + i,
       startX: -9 + Math.random() * 18,
       startY: -22 - Math.random() * 5,
-      fill: PEBBLE_FILLS[i % PEBBLE_FILLS.length],
       size: 8 + Math.random() * 2.5,
       rotate: -22 + Math.random() * 44,
     }));
@@ -160,10 +133,14 @@ export function PebbleBagView({
   }, [earn, reduceMotion, pouchControls]);
 
   return (
-    <span className="relative inline-flex items-center gap-1.5">
+    <span
+      className={`relative inline-flex items-center gap-1.5 ${
+        onFeed ? "text-white/90" : "text-teal-700"
+      }`}
+    >
       <span className="relative inline-flex">
         <motion.span animate={pouchControls} className="inline-flex">
-          <Pouch onFeed={onFeed} />
+          <Cairn onFeed={onFeed} />
         </motion.span>
         {/* Fly-in burst layer — absolutely centred over the pouch. */}
         <span className="pointer-events-none absolute left-1/2 top-1/2">
@@ -183,7 +160,7 @@ export function PebbleBagView({
                 transition={{ duration: 0.7, delay: i * 0.06, ease: "easeIn", times: [0, 0.5, 1] }}
                 style={{ marginLeft: -p.size / 2, marginTop: -p.size / 2 }}
               >
-                <PebbleGlyph fill={p.fill} size={p.size} />
+                <PebbleGlyph size={p.size} />
               </motion.span>
             )),
           )}

@@ -105,9 +105,12 @@ export function RevealResult({
       {!!pebblesEarned && pebblesEarned > 0 && (
         <motion.div variants={item} className="mt-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/15 px-3 py-1 text-xs font-semibold text-teal-200">
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
-              <ellipse cx="8" cy="9" rx="6.5" ry="5" fill="currentColor" />
-              <ellipse cx="6" cy="6.6" rx="2.4" ry="1.4" fill="#ffffff" opacity="0.4" />
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+              <g stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round">
+                <rect x="7.5" y="2" width="9" height="5" rx="2.5" />
+                <rect x="5" y="8.8" width="14" height="6.2" rx="3.1" />
+                <rect x="3" y="16.6" width="18" height="6.4" rx="3.2" />
+              </g>
             </svg>
             +{pebblesEarned} {pebblesEarned === 1 ? "Pebble" : "Pebbles"}
             {firstSighting && (
