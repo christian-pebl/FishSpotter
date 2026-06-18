@@ -54,6 +54,10 @@ const WILDLIFE_TRUSTS: ComparisonSource = {
   url: "https://www.wildlifetrusts.org",
 };
 const SUSSEX_IFCA: ComparisonSource = { label: "Sussex IFCA Fish ID Guide", url: "" };
+const MERRYWEATHER: ComparisonSource = { label: "Merryweather Crab Guide", url: "" };
+const CEFAS_CEPH: ComparisonSource = { label: "Cefas Cephalopod Guide", url: "" };
+const DEVON_WT: ComparisonSource = { label: "Devon Wildlife Trust", url: "https://www.devonwildlifetrust.org" };
+const MCS: ComparisonSource = { label: "Marine Conservation Society", url: "https://www.mcsuk.org" };
 
 export const COMPARISON_GROUPS: ComparisonGroup[] = [
   {
@@ -353,6 +357,164 @@ export const COMPARISON_GROUPS: ComparisonGroup[] = [
     ],
     tip: "Big, thick, smooth grey eel = conger. Small flat ribbon with a line of pale-ringed dark dots = butterfish. Tiny, super-skinny, with a long pointed snout and a row of little back-spines = fifteen-spined stickleback.",
     sources: [MARLIN, FISHBASE],
+  },
+
+  {
+    id: "crabs-broad",
+    title: "Edible crab or shore crab?",
+    intro:
+      "Both are broad oval crabs with no swimming paddles. Look at the shell edge and the claw tips.",
+    members: [
+      {
+        scientificName: "Cancer pagurus",
+        commonName: "Edible Crab",
+        headline: "Smooth reddish-brown shell with a crimped \"pie-crust\" edge and black-tipped claws.",
+        also: "Big and heavy, wider than long, matt brown rather than glossy green.",
+      },
+      {
+        scientificName: "Carcinus maenas",
+        commonName: "Shore Crab",
+        headline: "Smaller crab with a sawn, toothed shell edge beside the eyes, often glossy green.",
+        also: "Squarish outline; claws not black-tipped; the commonest crab on every shore.",
+      },
+    ],
+    tip: 'Pie-crust edge and black-dipped claws = edible crab. A jagged, toothed edge with no black tips, often green = shore crab.',
+    caveat:
+      "Counting the shell teeth is unreliable on a clip; judge the overall edge (smooth scalloped versus sawn) and the claw tips instead.",
+    sources: [MARLIN, WILDLIFE_TRUSTS, MERRYWEATHER],
+  },
+
+  {
+    id: "crabs-swimming",
+    title: "Velvet or harbour crab?",
+    intro:
+      "Both are swimming crabs with a flattened paddle on the back legs, so the paddle confirms the pair but does not split them. Check the eyes.",
+    members: [
+      {
+        scientificName: "Necora puber",
+        commonName: "Velvet Swimming Crab",
+        headline: "Bright RED eyes on a dark, velvety, hair-furred shell, with blue lines on the legs.",
+        also: "Furry matt look, never sandy or glossy; rears up with its claws raised.",
+      },
+      {
+        scientificName: "Liocarcinus depurator",
+        commonName: "Harbour Crab",
+        headline: "Paler, smoother sandy shell with NO red eyes and a violet-tinged back paddle.",
+        also: "Two faint arcs of pale dots; reddish spotted legs; on muddy sand.",
+      },
+    ],
+    tip: "Red eyes plus a furry dark shell = velvet swimming crab. Dark eyes, paler and smoother, with a violet paddle = harbour crab.",
+    sources: [MARLIN, WILDLIFE_TRUSTS, MERRYWEATHER],
+  },
+
+  {
+    id: "squid-loligo",
+    title: "Which squid?",
+    intro:
+      "These two torpedo squid are nearly impossible to separate on video; the only reliable feature is a close-up of the tentacle suckers. \"A Loligo squid\" is usually the honest answer.",
+    members: [
+      {
+        scientificName: "Loligo forbesii",
+        commonName: "Veined Squid",
+        headline: "No reliable video cue; leans larger and northern, with longer fins (about 3/4 of the body).",
+        also: "Reddish with fine veined speckles; the main squid of UK fisheries.",
+      },
+      {
+        scientificName: "Loligo vulgaris",
+        commonName: "European Squid",
+        headline: "No reliable video cue; leans smaller and southern, with slightly shorter fins.",
+        also: "Reddish, quick to flush pale; a fast open-shelf schooler.",
+      },
+    ],
+    tip: 'On a clip you usually cannot tell them apart, so "a Loligo squid" is the safe call. Only lean toward veined squid if it is clearly large and northern with long fins.',
+    caveat:
+      "The one trustworthy separator (the size of the tentacle-club suckers) needs the arms spread in the hand, so do not over-claim from a swimming clip.",
+    sources: [CEFAS_CEPH, MARLIN],
+  },
+
+  {
+    id: "octopus",
+    title: "Curled or common octopus?",
+    intro:
+      "Look at one arm and count the rows of suckers. In UK waters it is almost always the curled octopus; the common octopus is a rare southern visitor.",
+    members: [
+      {
+        scientificName: "Eledone cirrhosa",
+        commonName: "Curled Octopus",
+        headline: "A SINGLE row of suckers down each arm; rough, warty, orange-brown body.",
+        also: "Shorter arms, smaller; tucked into rocky crevices; the octopus you actually expect here.",
+      },
+      {
+        scientificName: "Octopus vulgaris",
+        commonName: "Common Octopus",
+        headline: "A DOUBLE row of suckers on long arms; smoother, greyer, much larger body.",
+        also: "A rare southern stray to UK waters; most \"common octopus\" sightings are really curled.",
+      },
+    ],
+    tip: "One row of suckers, warty and orange = curled octopus (and in UK waters that is nearly always the answer). Two rows, smooth, grey and large = common octopus.",
+    sources: [CEFAS_CEPH, MARLIN],
+  },
+
+  {
+    id: "gastropods-pointed",
+    title: "Dog whelk or painted top shell?",
+    intro:
+      "Both are pointed-cone shells, but surface and shape split them fast: a rough ridged stubby shell versus a smooth glossy straight-sided cone.",
+    members: [
+      {
+        scientificName: "Nucella lapillus",
+        commonName: "Dog Whelk",
+        headline: "Rough, ridged, chunky shell with a short blunt spire, often among barnacles.",
+        also: "Oval opening with a short spout; very variable colour (white, brown, banded).",
+      },
+      {
+        scientificName: "Calliostoma zizyphinum",
+        commonName: "Painted Top Shell",
+        headline: "Smooth glossy straight-sided cone with a sharp point and pink-purple streaks.",
+        also: "Looks like a clean spinning top, conspicuously fuzz-free, with a flat base.",
+      },
+    ],
+    tip: "Rough, ridged, stubby and near barnacles = dog whelk. A smooth, glossy, straight-sided cone with a sharp tip and pink streaks = painted top shell.",
+    caveat:
+      "Dog whelk colour varies hugely (white to brown to banded), so go by the rough ridged texture and stubby shape, not the colour.",
+    sources: [MARLIN, DEVON_WT, WILDLIFE_TRUSTS],
+  },
+
+  {
+    id: "jellyfish-saucer",
+    title: "Which jellyfish?",
+    intro:
+      "Four domed-bell jellyfish. Look at the top of the bell first: the pattern there separates all four before you check the tentacles.",
+    members: [
+      {
+        scientificName: "Aurelia aurita",
+        commonName: "Moon Jellyfish",
+        headline: "Four pale horseshoe rings show through a clear saucer bell; only a short tentacle fringe.",
+        also: "Britain's commonest jelly; flat translucent bell; no long trailing tentacles.",
+      },
+      {
+        scientificName: "Chrysaora hysoscella",
+        commonName: "Compass Jellyfish",
+        headline: "Sixteen brown V-shaped marks radiate from the centre like a compass.",
+        also: "Pale yellow-white bell; long thin tentacles and frilly mouth-arms; it stings.",
+      },
+      {
+        scientificName: "Cyanea lamarckii",
+        commonName: "Blue Jellyfish",
+        headline: "Bluish-to-purple domed bell over a thick, dense mass of fine tentacles.",
+        also: "Colour deepens with age; a radiating fibre pattern but no brown V-marks.",
+      },
+      {
+        scientificName: "Pelagia noctiluca",
+        commonName: "Mauve Stinger",
+        headline: "Small mauve-pink bell stippled all over with warty stinging spots.",
+        also: "The smallest here, with long thin tentacles; an oceanic species; glows at night.",
+      },
+    ],
+    tip: "Four horseshoe rings = moon. Brown compass-rose V-marks = compass. Blue-purple bell with dense tentacles and no V-marks = blue. A small mauve bell covered in warty spots = mauve stinger.",
+    caveat:
+      "A pale young blue jellyfish is genuinely hard to tell from a young lion's mane: a blue or purple tint leans blue jelly, while warm red or orange and a bigger animal lean lion's mane.",
+    sources: [MARLIN, MCS, WILDLIFE_TRUSTS],
   },
 ];
 
