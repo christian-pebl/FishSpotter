@@ -125,6 +125,8 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     streakCurrent: number;
     streakAdvanced: boolean;
     unlock: { isNew: boolean; commonName: string; collectionCount: number } | null;
+    pebblesEarned: number;
+    firstSighting: boolean;
   } | null>(null);
   // P0: how many clips this signed-out spotter has played (drives the "save
   // your finds" nudge). Seeded from the persisted guest queue on mount.
@@ -320,6 +322,8 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
           streakCurrent: data.streak?.current ?? 0,
           streakAdvanced: !!(data.streak && data.streak.current > data.streak.previous),
           unlock: data.unlock ?? null,
+          pebblesEarned: data.pebbles?.earned ?? 0,
+          firstSighting: data.pebbles?.firstSighting ?? false,
         });
         // Sea-currency redesign: tell the header's Pebble bag to collect the
         // freshly-earned pebbles and sync the running total. `earned` is 0 on a

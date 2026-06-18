@@ -203,10 +203,10 @@ export default async function LeaderboardPage() {
             Spotter leaderboard
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-navy-900/72">
-            Every clip you identify earns points and climbs the board. Keep a streak going, sharpen your eye against the reference IDs, and see how you stack up against fellow spotters.
+            Every clip you identify earns Pebbles and climbs the board. Be first to spot a clip, call rare species, agree with the community, and keep your run going — then see how you stack up against fellow spotters.
           </p>
           <p className="mt-3 max-w-2xl text-xs leading-5 text-navy-900/72">
-            Score = 2 points per correct ID against a reference, 1 point for a submission on a clip without a reference yet, 0 for an unmatched guess. Each clip counts once per spotter. Minimum {MIN_ANSWERS_FOR_RANKING} answers to enter the ranking.
+            There&apos;s no official answer — the community is the authority. You bank Pebbles for being first to a clip (First Sighting), and more when the crowd later agrees with your call. Calling it early, and calling rarer species, pays more. Each clip counts once per spotter. Minimum {MIN_ANSWERS_FOR_RANKING} identifications to enter the ranking.
           </p>
         </section>
 
@@ -218,15 +218,15 @@ export default async function LeaderboardPage() {
           <div className="pebl-surface overflow-hidden rounded-card">
             <table className="w-full text-left text-sm">
               <caption className="sr-only">
-                Top spotters ranked by correct identifications. Minimum {MIN_ANSWERS_FOR_RANKING} answers to qualify.
+                Top spotters ranked by Pebbles earned. Minimum {MIN_ANSWERS_FOR_RANKING} identifications to qualify.
               </caption>
               <thead>
                 <tr className="border-b border-navy-900/12 text-xs uppercase tracking-eyebrow text-navy-900/72">
                   <th scope="col" className="px-4 py-3 w-12">Rank</th>
                   <th scope="col" className="px-4 py-3">Spotter</th>
-                  <th scope="col" className="px-4 py-3 text-right">Score</th>
+                  <th scope="col" className="px-4 py-3 text-right">Pebbles</th>
                   <th scope="col" className="px-4 py-3 text-right hidden sm:table-cell">
-                    Correct
+                    Consensus
                   </th>
                 </tr>
               </thead>
@@ -333,7 +333,7 @@ export default async function LeaderboardPage() {
               Your rank: <span className="font-mono text-teal-600">#{myEntry.rank}</span>
             </div>
             <div className="text-navy-900/72">
-              {myEntry.score} points · {myEntry.correct}/{myEntry.total} correct
+              {myEntry.score.toLocaleString()} Pebbles · {myEntry.correct}/{myEntry.total} consensus
             </div>
           </div>
         )}

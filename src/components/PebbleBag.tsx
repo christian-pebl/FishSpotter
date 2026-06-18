@@ -27,6 +27,13 @@ type FlyingPebble = {
 
 type Burst = { id: number; pebbles: FlyingPebble[] };
 
+/** A "collect" signal — bump `nonce` to fire a fresh fly-in burst. */
+export interface PebbleEarn {
+  earned: number;
+  firstSighting: boolean;
+  nonce: number;
+}
+
 /** A single rounded pebble with a soft top highlight. */
 function PebbleGlyph({ fill, size }: { fill: string; size: number }) {
   return (
@@ -78,99 +85,86 @@ function Pouch({ onFeed }: { onFeed: boolean }) {
   );
 }
 
-export function PebbleBag({ onFeed }: { onFeed: boolean }) {
-  const { status } = useSession();
+/**
+ * Presentational pouch with the collect-into-bag animation. Stateless about WHERE
+ * Pebbles come from — driven entirely by `total` (animated count-up) and `earn`
+ * (a nonce-bumped signal that fires a fly-in burst). Reused by the live container
+ * and the Storybook story, so the animation can be watched/tuned in isolation.
+ *
+ * Smoothness contract: every animated property is transform (x/y/scale/rotate) or
+ * opacity — compositor-only, no layout thrash — and the whole thing collapses to a
+ * plain count-up under prefers-reduced-motion.
+ */
+export function PebbleBagView({
+  total,
+  onFeed,
+  earn,
+}: {
+  total: number;
+  onFeed: boolean;
+  earn?: PebbleEarn | null;
+}) {
   const reduceMotion = useReducedMotion();
-  const [total, setTotal] = useState<number | null>(null);
-  const [display, setDisplay] = useState(0);
+  const [display, setDisplay] = useState(total);
   const [bursts, setBursts] = useState<Burst[]>([]);
   const pouchControls = useAnimationControls();
-  const totalRef = useRef(0);
+  const displayRef = useRef(total);
   const burstSeq = useRef(0);
+  const lastNonce = useRef<number | null>(null);
 
-  // Load the absolute total once the session is known.
+  // Count-up toward the authoritative total whenever it changes.
   useEffect(() => {
-    if (status !== "authenticated") return;
-    let active = true;
-    fetch("/api/me/pebbles")
-      .then((r) => r.json())
-      .then((d) => {
-        if (!active) return;
-        const t = Number(d.total ?? 0);
-        totalRef.current = t;
-        setTotal(t);
-        setDisplay(t);
-      })
-      .catch(() => {});
-    return () => {
-      active = false;
-    };
-  }, [status]);
-
-  const spawnBurst = useCallback(
-    (earned: number, firstSighting: boolean) => {
-      if (reduceMotion || earned <= 0) return;
-      const n = Math.min(firstSighting ? 6 : 4, Math.max(1, Math.round(earned / 6)));
-      const pebbles: FlyingPebble[] = Array.from({ length: n }, (_, i) => ({
-        id: burstSeq.current * 100 + i,
-        startX: -14 + Math.random() * 28,
-        startY: -26 - Math.random() * 8,
-        fill: PEBBLE_FILLS[i % PEBBLE_FILLS.length],
-        size: 9 + Math.random() * 4,
-        rotate: -40 + Math.random() * 80,
-      }));
-      const burst: Burst = { id: burstSeq.current++, pebbles };
-      setBursts((b) => [...b, burst]);
-      // Pouch "plump" when the pebbles land.
-      pouchControls.start({
-        scale: [1, 1.18, 1],
-        transition: { duration: 0.4, times: [0, 0.45, 1], ease: "easeOut", delay: 0.18 },
-      });
-      // Clean up the burst once its pebbles have settled.
-      window.setTimeout(() => {
-        setBursts((b) => b.filter((x) => x.id !== burst.id));
-      }, 1000);
-    },
-    [reduceMotion, pouchControls],
-  );
-
-  useEffect(() => {
-    return onPebbles(({ earned, total: newTotal, firstSighting }) => {
-      const from = totalRef.current;
-      totalRef.current = newTotal;
-      setTotal(newTotal);
-      spawnBurst(earned, !!firstSighting);
-      if (reduceMotion) {
-        setDisplay(newTotal);
-        return;
-      }
-      // Count-up, started slightly after the pebbles begin to drop.
-      animate(from, newTotal, {
-        duration: 0.6,
-        delay: 0.25,
-        ease: "easeOut",
-        onUpdate: (v) => setDisplay(Math.round(v)),
-      });
+    const from = displayRef.current;
+    displayRef.current = total;
+    if (reduceMotion || from === total) {
+      setDisplay(total);
+      return;
+    }
+    const controls = animate(from, total, {
+      duration: 0.6,
+      delay: 0.25,
+      ease: "easeOut",
+      onUpdate: (v) => setDisplay(Math.round(v)),
     });
-  }, [spawnBurst, reduceMotion]);
+    return () => controls.stop();
+  }, [total, reduceMotion]);
 
-  // Only signed-in spotters have a pouch (guests keep the bare logo).
-  if (status !== "authenticated" || total === null) return null;
+  // Fire a fly-in burst + pouch "plump" when a new earn signal arrives.
+  useEffect(() => {
+    if (!earn || earn.nonce === lastNonce.current) return;
+    lastNonce.current = earn.nonce;
+    if (reduceMotion || earn.earned <= 0) return;
+
+    const n = Math.min(earn.firstSighting ? 6 : 4, Math.max(1, Math.round(earn.earned / 6)));
+    const pebbles: FlyingPebble[] = Array.from({ length: n }, (_, i) => ({
+      id: burstSeq.current * 100 + i,
+      startX: -14 + Math.random() * 28,
+      startY: -26 - Math.random() * 8,
+      fill: PEBBLE_FILLS[i % PEBBLE_FILLS.length],
+      size: 9 + Math.random() * 4,
+      rotate: -40 + Math.random() * 80,
+    }));
+    const burst: Burst = { id: burstSeq.current++, pebbles };
+    setBursts((b) => [...b, burst]);
+    pouchControls.start({
+      scale: [1, 1.18, 1],
+      transition: { duration: 0.4, times: [0, 0.45, 1], ease: "easeOut", delay: 0.18 },
+    });
+    const t = window.setTimeout(
+      () => setBursts((b) => b.filter((x) => x.id !== burst.id)),
+      1000,
+    );
+    return () => window.clearTimeout(t);
+  }, [earn, reduceMotion, pouchControls]);
 
   return (
-    <Link
-      href="/leaderboard"
-      aria-label={`Your Pebbles: ${total.toLocaleString()}. View the leaderboard.`}
-      className={`pointer-events-auto relative inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-2 ${
-        onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
-      }`}
-    >
+    <span className="relative inline-flex items-center gap-1.5">
       <span className="relative inline-flex">
         <motion.span animate={pouchControls} className="inline-flex">
           <Pouch onFeed={onFeed} />
         </motion.span>
         {/* Fly-in burst layer — absolutely centred over the pouch. */}
-        <span className="pointer-events-none absolute left-1/2 top-1/2 -z-0">
+        <span className="pointer-events-none absolute left-1/2 top-1/2">
           {bursts.map((burst) =>
             burst.pebbles.map((p, i) => (
               <motion.span
@@ -184,12 +178,7 @@ export function PebbleBag({ onFeed }: { onFeed: boolean }) {
                   scale: [0.9, 1, 0.25],
                   rotate: p.rotate * 0.4,
                 }}
-                transition={{
-                  duration: 0.7,
-                  delay: i * 0.06,
-                  ease: "easeIn",
-                  times: [0, 0.5, 1],
-                }}
+                transition={{ duration: 0.7, delay: i * 0.06, ease: "easeIn", times: [0, 0.5, 1] }}
                 style={{ marginLeft: -p.size / 2, marginTop: -p.size / 2 }}
               >
                 <PebbleGlyph fill={p.fill} size={p.size} />
@@ -206,6 +195,55 @@ export function PebbleBag({ onFeed }: { onFeed: boolean }) {
       >
         {display.toLocaleString()}
       </span>
+    </span>
+  );
+}
+
+/**
+ * Live container: pulls the spotter's absolute total on load and listens for
+ * Pebble-earn events from the feed (via pebble-bus). Only signed-in spotters get
+ * a pouch — guests keep the bare logo.
+ */
+export function PebbleBag({ onFeed }: { onFeed: boolean }) {
+  const { status } = useSession();
+  const [total, setTotal] = useState<number | null>(null);
+  const [earn, setEarn] = useState<PebbleEarn | null>(null);
+  const nonce = useRef(0);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    let active = true;
+    fetch("/api/me/pebbles")
+      .then((r) => r.json())
+      .then((d) => {
+        if (active) setTotal(Number(d.total ?? 0));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [status]);
+
+  useEffect(() => {
+    return onPebbles(({ earned, total: newTotal, firstSighting }) => {
+      setTotal(newTotal);
+      setEarn({ earned, firstSighting: !!firstSighting, nonce: ++nonce.current });
+    });
+  }, []);
+
+  const ariaTotal = useCallback(() => (total ?? 0).toLocaleString(), [total]);
+
+  if (status !== "authenticated" || total === null) return null;
+
+  return (
+    <Link
+      href="/leaderboard"
+      aria-label={`Your Pebbles: ${ariaTotal()}. View the leaderboard.`}
+      className={`pointer-events-auto inline-flex min-h-[44px] items-center rounded-full px-2 ${
+        onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
+      }`}
+    >
+      <PebbleBagView total={total} onFeed={onFeed} earn={earn} />
     </Link>
   );
 }

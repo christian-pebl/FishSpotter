@@ -1413,6 +1413,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       streakCurrent={rewardProgress?.streakCurrent}
                       streakAdvanced={rewardProgress?.streakAdvanced}
                       unlock={rewardProgress?.unlock}
+                      pebblesEarned={rewardProgress?.pebblesEarned}
+                      firstSighting={rewardProgress?.firstSighting}
                     />
                     {/* S7-T1: the reference species-gallery only makes sense
                          when a reference ID exists — it shows the staff answer's
