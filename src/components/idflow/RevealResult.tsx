@@ -133,7 +133,7 @@ export function RevealResult({
             </span>
             {isContested(stats, total) && (
               <span
-                className="ml-auto inline-flex items-center gap-1 rounded-full bg-amber-300/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-amber-200"
+                className="ml-auto inline-flex items-center gap-1 rounded-full bg-pending/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-pending"
                 title="The community is split on this one — a tricky clip worth a closer look."
               >
                 <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">

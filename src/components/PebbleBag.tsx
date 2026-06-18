@@ -135,20 +135,22 @@ export function PebbleBagView({
     lastNonce.current = earn.nonce;
     if (reduceMotion || earn.earned <= 0) return;
 
-    const n = Math.min(earn.firstSighting ? 6 : 4, Math.max(1, Math.round(earn.earned / 6)));
+    // Keep it subtle: 2 pebbles for a normal sighting, up to 4 for a First
+    // Sighting, in a tight spread with gentle rotation.
+    const n = Math.min(earn.firstSighting ? 4 : 2, Math.max(1, Math.round(earn.earned / 10)));
     const pebbles: FlyingPebble[] = Array.from({ length: n }, (_, i) => ({
       id: burstSeq.current * 100 + i,
-      startX: -14 + Math.random() * 28,
-      startY: -26 - Math.random() * 8,
+      startX: -9 + Math.random() * 18,
+      startY: -22 - Math.random() * 5,
       fill: PEBBLE_FILLS[i % PEBBLE_FILLS.length],
-      size: 9 + Math.random() * 4,
-      rotate: -40 + Math.random() * 80,
+      size: 8 + Math.random() * 2.5,
+      rotate: -22 + Math.random() * 44,
     }));
     const burst: Burst = { id: burstSeq.current++, pebbles };
     setBursts((b) => [...b, burst]);
     pouchControls.start({
-      scale: [1, 1.18, 1],
-      transition: { duration: 0.4, times: [0, 0.45, 1], ease: "easeOut", delay: 0.18 },
+      scale: [1, 1.1, 1],
+      transition: { duration: 0.42, times: [0, 0.45, 1], ease: "easeOut", delay: 0.16 },
     });
     const t = window.setTimeout(
       () => setBursts((b) => b.filter((x) => x.id !== burst.id)),
