@@ -101,6 +101,7 @@ function fallbackSilhouetteSrc(
 }
 
 export function CandidateGate({
+  snippetId,
   shapeClass,
   seed,
   submitting,
@@ -111,6 +112,9 @@ export function CandidateGate({
   onSkipToMCQ,
   coarse,
 }: {
+  /** The clip being identified — keys the ecological-likelihood lookup (OBIS
+   * probability for this clip's location/depth/month bucket). */
+  snippetId: string;
   /** null = "Not sure" at the shape gate: narrow the whole (weighted) catalogue. */
   shapeClass: ShapeClass | null;
   /** Rung-2 result: the sub-split trait key + chosen form (null = skipped). */
@@ -125,6 +129,31 @@ export function CandidateGate({
    *  only when a shape was chosen, i.e. not the "Not sure" whole-catalogue path). */
   coarse?: { label: string; onClick: () => void };
 }) {
+  // Ecological likelihood for THIS clip's bucket (location · depth · month),
+  // from the OBIS-backed probability cache. null until it resolves / when the
+  // bucket has no data. Used to RANK the grid (most-likely-here first) and to
+  // show a per-species "local likelihood" bar in the compare view.
+  const [probByScientific, setProbByScientific] = useState<Record<string, number> | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/snippets/${encodeURIComponent(snippetId)}/probability`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (cancelled || !d || d.status !== "OK" || !Array.isArray(d.species)) return;
+        const map: Record<string, number> = {};
+        for (const s of d.species) {
+          if (s && typeof s.scientificName === "string" && typeof s.probability === "number") {
+            map[s.scientificName] = s.probability;
+          }
+        }
+        setProbByScientific(map);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [snippetId]);
+
   const candidates = useMemo(
     () =>
       narrowCandidates({
@@ -133,9 +162,10 @@ export function CandidateGate({
         mustHave: seed?.value
           ? ({ [seed.key]: [seed.value] } as TraitSelection)
           : {},
+        probabilityByScientific: probByScientific ?? undefined,
         limit: 100,
       }).slice(0, MAX_TILES),
-    [shapeClass, seed?.key, seed?.value],
+    [shapeClass, seed?.key, seed?.value, probByScientific],
   );
 
   // The species whose guide popup is open (tap a tile -> preview -> confirm).
@@ -255,6 +285,7 @@ export function CandidateGate({
         <SpeciesComparison
           group={comparison}
           submitting={submitting}
+          probabilityByScientific={probByScientific ?? undefined}
           onPick={onPick}
           onClose={() => setComparing(false)}
         />

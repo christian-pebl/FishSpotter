@@ -1780,6 +1780,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           !myAnswer so it closes to the reveal once a guess is committed. */}
       {spotItActive && !myAnswer && (
         <CandidateGate
+          snippetId={snippet.id}
           shapeClass={selectedShape}
           seed={formSeed ?? undefined}
           submitting={submitting}
