@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { SnippetReferenceEditor } from "./SnippetReferenceEditor";
+import { SnippetTrackEditor } from "./SnippetTrackEditor";
+import type { TrackFrame } from "./actions";
 import { SnippetAnswers } from "@/components/SnippetAnswers";
 
 export const dynamic = "force-dynamic";
@@ -24,9 +26,40 @@ export default async function AdminSnippetEditorPage({
       site: true,
       deployment: true,
       staffAnswer: true,
+      bboxJson: true,
     },
   });
   if (!snippet) notFound();
+
+  // Parse the stored track for the drawing editor. Stored as a JSON string of
+  // BBoxFrame[]; tolerate a malformed/empty column by falling back to [].
+  let initialFrames: TrackFrame[] = [];
+  if (snippet.bboxJson) {
+    try {
+      const parsed = JSON.parse(snippet.bboxJson);
+      if (Array.isArray(parsed)) {
+        initialFrames = parsed
+          .filter(
+            (f): f is TrackFrame =>
+              f &&
+              typeof f.frame_clip === "number" &&
+              typeof f.x_norm === "number" &&
+              typeof f.y_norm === "number" &&
+              typeof f.w_norm === "number" &&
+              typeof f.h_norm === "number",
+          )
+          .map((f) => ({
+            frame_clip: f.frame_clip,
+            x_norm: f.x_norm,
+            y_norm: f.y_norm,
+            w_norm: f.w_norm,
+            h_norm: f.h_norm,
+          }));
+      }
+    } catch {
+      initialFrames = [];
+    }
+  }
 
   const answers = await prisma.answer.findMany({
     where: { snippetId: id },
@@ -92,6 +125,16 @@ export default async function AdminSnippetEditorPage({
           </div>
         </div>
       </div>
+
+      <div className="mt-5">
+        <SnippetTrackEditor
+          snippetId={snippet.id}
+          videoUrl={snippet.videoUrl}
+          thumbnailUrl={snippet.thumbnailUrl}
+          initialFrames={initialFrames}
+        />
+      </div>
+
       <SnippetAnswers snippetId={snippet.id} />
     </div>
   );
