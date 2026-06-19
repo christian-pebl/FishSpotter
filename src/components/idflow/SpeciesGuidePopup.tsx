@@ -163,7 +163,7 @@ export function SpeciesGuidePopup({
           </button>
         </div>
 
-        <div className="flex-1 space-y-4 overflow-y-auto px-4 py-3">
+        <div className="flex-1 min-h-0 space-y-4 overflow-y-auto overscroll-contain px-4 py-3">{/* min-h-0: without it this flex child floors at content height, overflows max-h-[92vh], and the parent's overflow-hidden clips it instead of scrolling (mobile "can't scroll down" bug). */}
           {/* Diagnostic guide (numbered circles). Renders nothing if the
               species has no authored marks on a curated photo. */}
           <AnnotatedSpeciesPhoto scientificName={scientificName} commonName={commonName} />
