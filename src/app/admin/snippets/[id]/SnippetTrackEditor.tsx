@@ -78,6 +78,7 @@ export function SnippetTrackEditor({
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [rect, setRect] = useState<Rect>({ left: 0, top: 0, width: 0, height: 0 });
+  const [aspect, setAspect] = useState("3 / 4");
   const [draw, setDraw] = useState<DrawState>(null);
 
   const [pending, startTransition] = useTransition();
@@ -113,6 +114,9 @@ export function SnippetTrackEditor({
     const onTime = () => setCurrentTime(v.currentTime);
     const onMeta = () => {
       setDuration(v.duration || 0);
+      // Size the drawing box to the clip's real shape so a landscape clip isn't
+      // squeezed into a tall frame (which shrinks the fish and wastes area).
+      if (v.videoWidth && v.videoHeight) setAspect(`${v.videoWidth} / ${v.videoHeight}`);
       recomputeRect();
     };
     const onPlay = () => setIsPlaying(true);
@@ -281,8 +285,8 @@ export function SnippetTrackEditor({
         <div>
           <div
             ref={wrapperRef}
-            className="relative w-full overflow-hidden rounded-lg bg-navy-900"
-            style={{ aspectRatio: "3 / 4" }}
+            className="relative mx-auto w-full overflow-hidden rounded-lg bg-navy-900"
+            style={{ aspectRatio: aspect, maxHeight: "min(68vh, 560px)" }}
           >
             <video
               ref={videoRef}
@@ -358,32 +362,29 @@ export function SnippetTrackEditor({
             </div>
           </div>
 
-          {/* Transport */}
+          {/* Transport — 44px tall controls for thumbs */}
           <div className="mt-2 flex items-center gap-2">
             <button
               type="button"
               onClick={togglePlay}
-              className="rounded-md bg-navy-900 px-3 py-1 text-[12px] font-medium text-white hover:bg-navy-800"
+              className="inline-flex h-11 flex-1 items-center justify-center rounded-md bg-navy-900 text-sm font-medium text-white hover:bg-navy-800"
             >
               {isPlaying ? "Pause" : "Play"}
             </button>
             <button
               type="button"
               onClick={() => seek(currentTime - 1 / FPS)}
-              className="rounded-md border border-navy-200 px-2 py-1 text-[12px] text-navy-700 hover:bg-navy-50"
+              className="inline-flex h-11 items-center justify-center rounded-md border border-navy-200 px-3 text-sm text-navy-700 hover:bg-navy-50"
             >
-              &minus;1 frame
+              &minus;1f
             </button>
             <button
               type="button"
               onClick={() => seek(currentTime + 1 / FPS)}
-              className="rounded-md border border-navy-200 px-2 py-1 text-[12px] text-navy-700 hover:bg-navy-50"
+              className="inline-flex h-11 items-center justify-center rounded-md border border-navy-200 px-3 text-sm text-navy-700 hover:bg-navy-50"
             >
-              +1 frame
+              +1f
             </button>
-            <span className="ml-auto tabular-nums text-[11px] text-navy-500">
-              {fmtTime(currentTime)} / {fmtTime(duration)}
-            </span>
           </div>
           <input
             type="range"
@@ -392,38 +393,43 @@ export function SnippetTrackEditor({
             step={0.01}
             value={currentTime}
             onChange={(e) => seek(parseFloat(e.target.value))}
-            className="mt-2 w-full accent-teal-600"
+            className="mt-3 h-11 w-full accent-teal-600"
             aria-label="Scrub clip"
           />
+          <p className="mt-1 text-center tabular-nums text-[11px] text-navy-500">
+            {fmtTime(currentTime)} / {fmtTime(duration)}
+          </p>
         </div>
 
         {/* Keyframe list + actions */}
         <div className="min-w-0">
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => exact && deleteFrame(currentFrame)}
-              disabled={!exact}
-              className="rounded-md border border-navy-200 px-3 py-1.5 text-[12px] font-medium text-navy-700 hover:bg-navy-50 disabled:opacity-40"
-            >
-              Delete keyframe here
-            </button>
-            <button
-              type="button"
-              onClick={clearAll}
-              disabled={frames.length === 0}
-              className="rounded-md border border-navy-200 px-3 py-1.5 text-[12px] font-medium text-navy-700 hover:bg-navy-50 disabled:opacity-40"
-            >
-              Clear all
-            </button>
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             <button
               type="button"
               onClick={save}
               disabled={!dirty || pending}
-              className="rounded-md bg-teal-600 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-teal-700 disabled:opacity-50"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-teal-600 px-4 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-50 sm:order-last"
             >
-              {pending ? "Saving…" : "Save track"}
+              {pending ? "Saving…" : dirty ? "Save track" : "Saved"}
             </button>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => exact && deleteFrame(currentFrame)}
+                disabled={!exact}
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-md border border-navy-200 px-3 text-sm font-medium text-navy-700 hover:bg-navy-50 disabled:opacity-40"
+              >
+                Delete here
+              </button>
+              <button
+                type="button"
+                onClick={clearAll}
+                disabled={frames.length === 0}
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-md border border-navy-200 px-3 text-sm font-medium text-navy-700 hover:bg-navy-50 disabled:opacity-40"
+              >
+                Clear all
+              </button>
+            </div>
           </div>
 
           {message && <p className="mt-2 text-[12px] text-teal-700">{message}</p>}
@@ -440,17 +446,17 @@ export function SnippetTrackEditor({
               return (
                 <li
                   key={f.frame_clip}
-                  className={`flex items-center justify-between gap-2 px-3 py-2 text-[12px] ${
+                  className={`flex items-center justify-between gap-2 text-[12px] ${
                     isCurrent ? "bg-teal-50" : ""
                   }`}
                 >
                   <button
                     type="button"
                     onClick={() => seek(f.frame_clip / FPS)}
-                    className="flex-1 text-left text-navy-800 hover:text-teal-700"
+                    className="flex min-h-[44px] flex-1 items-center gap-2 px-3 py-2 text-left text-navy-800 hover:text-teal-700"
                   >
                     <span className="tabular-nums font-medium">{fmtTime(f.frame_clip / FPS)}</span>
-                    <span className="ml-2 text-navy-400">
+                    <span className="text-navy-400">
                       {Math.round(f.x_norm * 100)},{Math.round(f.y_norm * 100)} ·{" "}
                       {Math.round(f.w_norm * 100)}×{Math.round(f.h_norm * 100)}
                     </span>
@@ -458,7 +464,7 @@ export function SnippetTrackEditor({
                   <button
                     type="button"
                     onClick={() => deleteFrame(f.frame_clip)}
-                    className="shrink-0 rounded px-2 py-1 text-[11px] font-medium text-navy-400 hover:bg-red-50 hover:text-red-600"
+                    className="inline-flex min-h-[44px] shrink-0 items-center px-3 text-[11px] font-medium text-navy-400 hover:bg-red-50 hover:text-red-600"
                   >
                     Remove
                   </button>

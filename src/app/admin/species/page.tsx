@@ -61,7 +61,41 @@ export default async function AdminSpeciesListPage() {
         </div>
       </header>
 
-      <div className="overflow-hidden rounded-card border border-navy-200 bg-white">
+      {/* Mobile: tappable cards (the table clips on a phone). */}
+      <ul className="space-y-2 sm:hidden">
+        {rows.map((row) => (
+          <li key={row.scientificName}>
+            <Link
+              href={`/admin/species/${encodeURIComponent(row.scientificName)}`}
+              className={`flex items-center gap-3 rounded-card border border-navy-200 bg-white p-3 active:bg-navy-50 ${
+                row.isPilot ? "border-teal-200" : ""
+              }`}
+            >
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-2">
+                  <span className="truncate font-medium text-navy-900">{row.commonName}</span>
+                  {row.isPilot && (
+                    <span className="shrink-0 rounded-full bg-teal-100 px-1.5 py-0.5 text-[10px] font-medium text-teal-700">
+                      Pilot
+                    </span>
+                  )}
+                </span>
+                <span className="block truncate text-[12px] italic text-navy-600">{row.scientificName}</span>
+                <span className="mt-1 flex items-center gap-2">
+                  <StatusPill count={row.markCount} />
+                  <span className="text-[11px] text-navy-500">{row.markCount} marks</span>
+                </span>
+              </span>
+              <span className="shrink-0 text-[12px] font-medium text-teal-700">
+                {row.markCount === 0 ? "Author" : "Edit"}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      {/* Desktop: dense table. */}
+      <div className="hidden overflow-x-auto rounded-card border border-navy-200 bg-white sm:block">
         <table className="w-full text-left text-sm">
           <thead className="bg-navy-50 text-[11px] uppercase tracking-wider text-navy-600">
             <tr>

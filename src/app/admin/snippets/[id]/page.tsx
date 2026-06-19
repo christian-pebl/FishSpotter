@@ -83,56 +83,44 @@ export default async function AdminSnippetEditorPage({
       <h1 className="mt-2 font-brand text-xl font-semibold text-navy-900">{snippet.site}</h1>
       <p className="text-[11px] text-navy-500">{snippet.externalId}</p>
 
-      <div className="mt-4 grid gap-5 md:grid-cols-[260px_1fr]">
-        <div>
-          {/* eslint-disable-next-line @next/next/no-img-element -- admin uses video below; poster is the thumb */}
-          <video
-            src={snippet.videoUrl}
-            poster={snippet.thumbnailUrl}
-            controls
-            playsInline
-            className="aspect-[9/16] w-full rounded-lg bg-navy-900 object-cover"
-          />
-          <p className="mt-2 text-[11px] text-navy-500">{snippet.deployment}</p>
-        </div>
+      <p className="text-[11px] text-navy-500">{snippet.deployment}</p>
 
-        <div>
-          <section className="rounded-lg border border-navy-200/60 bg-white p-4">
-            <p className="text-[10px] font-semibold uppercase tracking-wide text-navy-500">
-              What spotters said ({answers.length})
-            </p>
-            {breakdown.length === 0 ? (
-              <p className="mt-2 text-sm text-navy-500">No answers yet.</p>
-            ) : (
-              <ul className="mt-2 space-y-1">
-                {breakdown.map((b) => (
-                  <li key={b.option} className="flex items-center justify-between gap-2 text-sm">
-                    <span className="truncate text-navy-800">{b.option}</span>
-                    <span className="shrink-0 tabular-nums text-navy-500">{b.count}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-
-          <div className="mt-4">
-            <SnippetReferenceEditor
-              snippetId={snippet.id}
-              currentValue={currentIsCatalogue ? snippet.staffAnswer : null}
-              currentRaw={snippet.staffAnswer}
-              catalogue={catalogue}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5">
+      {/* Track editor is the primary player for this page (its own video +
+          drawing surface), so there's no separate preview video. */}
+      <div className="mt-4">
         <SnippetTrackEditor
           snippetId={snippet.id}
           videoUrl={snippet.videoUrl}
           thumbnailUrl={snippet.thumbnailUrl}
           initialFrames={initialFrames}
         />
+      </div>
+
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <SnippetReferenceEditor
+          snippetId={snippet.id}
+          currentValue={currentIsCatalogue ? snippet.staffAnswer : null}
+          currentRaw={snippet.staffAnswer}
+          catalogue={catalogue}
+        />
+
+        <section className="rounded-lg border border-navy-200/60 bg-white p-4">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-navy-500">
+            What spotters said ({answers.length})
+          </p>
+          {breakdown.length === 0 ? (
+            <p className="mt-2 text-sm text-navy-500">No answers yet.</p>
+          ) : (
+            <ul className="mt-2 space-y-1">
+              {breakdown.map((b) => (
+                <li key={b.option} className="flex items-center justify-between gap-2 text-sm">
+                  <span className="truncate text-navy-800">{b.option}</span>
+                  <span className="shrink-0 tabular-nums text-navy-500">{b.count}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </div>
 
       <SnippetAnswers snippetId={snippet.id} />
