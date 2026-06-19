@@ -4,9 +4,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { resolveSpeciesSlug } from "@/lib/species-slug";
 import { getCachedDepth, getCachedDistribution } from "@/lib/biodiversity/species-cache";
-import { AnnotatedSpeciesPhoto } from "@/components/AnnotatedSpeciesPhoto";
-import { SpeciesGallery } from "@/components/SpeciesGallery";
-import { DistributionMap } from "@/components/species/DistributionMap";
+import { SpeciesGuideContent, type SpeciesDepth } from "@/components/species/SpeciesGuideContent";
 
 // Daily ISR: the OBIS depth/distribution fetches are cached per species for a
 // day (a dedicated cache table comes with the pokedex schema work).
@@ -16,14 +14,6 @@ function prettify(v: string): string {
   const s = v.replace(/-/g, " ");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
-function prettyList(vs: string[]): string {
-  return vs.length ? vs.map(prettify).join(", ") : "Not recorded";
-}
-const SIZE_LABEL: Record<string, string> = {
-  small: "Small (under 10 cm)",
-  medium: "Medium (10-50 cm)",
-  large: "Large (over 50 cm)",
-};
 
 export async function generateMetadata({
   params,
@@ -53,15 +43,6 @@ export async function generateMetadata({
   };
 }
 
-function Fact({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-modal bg-surface-muted px-3 py-2.5">
-      <p className="text-[10px] font-semibold uppercase tracking-eyebrow text-navy-900/70">{label}</p>
-      <p className="mt-0.5 text-sm leading-snug text-navy-900">{value}</p>
-    </div>
-  );
-}
-
 export default async function SpeciesProfilePage({
   params,
 }: {
@@ -72,15 +53,15 @@ export default async function SpeciesProfilePage({
   if (!resolved) notFound();
   const { scientificName, traits } = resolved;
 
-  // Server-side, in parallel: do we have authored marks (gate the "how to spot
-  // it" section), and the OBIS depth + distribution (ISR-cached, fail-soft).
-  const [markCount, depth, distribution] = await Promise.all([
-    prisma.diagnosticMark.count({ where: { scientificName } }),
+  // OBIS depth + distribution, SSR (ISR-cached, fail-soft) and passed into the
+  // shared content so the profile keeps server rendering them.
+  const [depth, distribution] = await Promise.all([
     getCachedDepth(scientificName),
     getCachedDistribution(scientificName),
   ]);
-
-  const depthValue = depth ? `${depth.label} (median ${Math.round(depth.medianM)} m)` : "Not recorded";
+  const initialDepth: SpeciesDepth = depth
+    ? { label: depth.label, medianM: Math.round(depth.medianM) }
+    : null;
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -95,7 +76,7 @@ export default async function SpeciesProfilePage({
         Back to the feed
       </Link>
 
-      <header className="mt-3">
+      <header className="mb-5 mt-3">
         <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
           {prettify(traits.shapeClass)}
         </p>
@@ -103,41 +84,18 @@ export default async function SpeciesProfilePage({
         <p className="mt-0.5 text-sm italic text-navy-900/80">{scientificName}</p>
       </header>
 
-      {/* How to spot it: annotated reference (renders only when marks exist). */}
-      {markCount > 0 && (
-        <section className="mt-5 rounded-card bg-navy-900 p-4">
-          <h2 className="mb-3 font-brand-heading text-h3 text-white">How to spot it</h2>
-          <AnnotatedSpeciesPhoto scientificName={scientificName} commonName={traits.commonName} />
-        </section>
-      )}
-
-      {/* Field note */}
-      <section className="pebl-surface mt-5 rounded-card p-4">
-        <p className="text-sm leading-7 text-navy-900/85">{traits.fieldNote}</p>
-      </section>
-
-      {/* Field facts */}
-      <section className="mt-5 grid grid-cols-2 gap-3">
-        <Fact label="Usually seen at" value={depthValue} />
-        <Fact label="Size" value={SIZE_LABEL[traits.size] ?? prettify(traits.size)} />
-        <Fact label="Habitat" value={prettyList(traits.habitat)} />
-        <Fact label="Behaviour" value={prettyList(traits.behavior)} />
-      </section>
-
-      {/* Where it's seen */}
-      <section className="pebl-surface mt-5 rounded-card p-4">
-        <h2 className="font-brand-heading text-h3 text-navy-900">Where it&apos;s seen</h2>
-        <p className="mb-3 mt-0.5 text-xs text-navy-900/60">
-          Occurrence records around the UK and north-east Atlantic (OBIS).
-        </p>
-        <DistributionMap grid={distribution} />
-      </section>
-
-      {/* Photos */}
-      <section className="pebl-surface mt-5 rounded-card p-4">
-        <h2 className="mb-3 font-brand-heading text-h3 text-navy-900">Photos</h2>
-        <SpeciesGallery scientificName={scientificName} commonName={traits.commonName} size="thumb" />
-      </section>
+      {/* Shared species content — identical to the rung guide (which only adds a
+          "This is my pick" button around the very same component). */}
+      <SpeciesGuideContent
+        scientificName={scientificName}
+        commonName={traits.commonName}
+        fieldNote={traits.fieldNote}
+        size={traits.size}
+        habitat={traits.habitat}
+        behavior={traits.behavior}
+        initialDepth={initialDepth}
+        initialDistribution={distribution}
+      />
 
       {/* T-29: feed the loop - the most educational surface ends with a way back
           into playing/collecting, not a dead end at "back to feed". */}

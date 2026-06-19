@@ -1,18 +1,11 @@
 "use client";
 
 /**
- * Species guide popup (3 Jun 2026) — the "flash card" a user sees when they
- * tap a species tile in the live ID flow (Rung 3 CandidateGate). Instead of
- * committing the guess instantly, the tile now opens this preview so the user
- * can study the species and confirm.
- *
- * It surfaces, in one place, the three things we author per species:
- *   1. the diagnostic guide — AnnotatedSpeciesPhoto's numbered circles on the
- *      curated reference photo (renders nothing if the species has no marks),
- *   2. a gallery of good-quality CC photos (SpeciesGallery, large + lightbox),
- *   3. the field note prose from the trait catalogue.
- * Plus a "This is my pick" button that commits the guess, and a way back to the
- * list. Nothing here changes the answer until the user confirms.
+ * Species guide popup — the "flash card" a user sees when they tap a species
+ * tile in the live ID flow (Rung 3 CandidateGate). It renders the SHARED
+ * SpeciesGuideContent (the exact same detail shown on the /species/[slug]
+ * profile page reached from the menu), so the two never drift apart. The ONLY
+ * difference here is the "This is my pick" button that commits the guess.
  *
  * Focus management is inline rather than via useModalFocus because SpeciesGallery
  * opens its OWN lightbox (portaled to body at z-[100], above this popup at
@@ -22,12 +15,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { AnnotatedSpeciesPhoto } from "@/components/AnnotatedSpeciesPhoto";
-import { SpeciesGallery } from "@/components/SpeciesGallery";
-import { DistributionMap } from "@/components/species/DistributionMap";
-import type { DistributionGrid } from "@/lib/biodiversity/distribution";
+import { SpeciesGuideContent } from "@/components/species/SpeciesGuideContent";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
-
 
 // SpeciesGallery's lightbox renders role="dialog" with an aria-label that
 // starts with "Photo of". If one is open, this popup must ignore Escape so a
@@ -56,39 +45,7 @@ export function SpeciesGuidePopup({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // Typical-depth band (Anjali: "most commonly found at this depth"). Cached
-  // server-side, so this is a fast read; absent for species OBIS has no data on.
-  const [depthLabel, setDepthLabel] = useState<string | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-    setDepthLabel(null);
-    fetch(`/api/species/depth?name=${encodeURIComponent(scientificName)}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((body: { depth?: { label?: string } | null } | null) => {
-        if (!cancelled && body?.depth?.label) setDepthLabel(body.depth.label);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [scientificName]);
-
-  // "Where it's seen" occurrence-density grid (OBIS, cached). The basemap shows
-  // immediately (grid=null) and the density fills in when this resolves.
-  const [grid, setGrid] = useState<DistributionGrid | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-    setGrid(null);
-    fetch(`/api/species/distribution?name=${encodeURIComponent(scientificName)}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((body: { grid?: DistributionGrid | null } | null) => {
-        if (!cancelled && body?.grid) setGrid(body.grid);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [scientificName]);
+  const traits = CATALOGUE[scientificName];
 
   // Focus in, scroll lock, guarded Escape + Tab trap.
   const close = useCallback(() => {
@@ -137,8 +94,6 @@ export function SpeciesGuidePopup({
     };
   }, [close]);
 
-  const fieldNote = CATALOGUE[scientificName]?.fieldNote;
-
   if (!mounted || typeof document === "undefined") return null;
 
   return createPortal(
@@ -153,27 +108,23 @@ export function SpeciesGuidePopup({
         role="dialog"
         aria-modal="true"
         aria-label={`About ${commonName}`}
-        className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-navy-900 text-white shadow-menu sm:rounded-card"
+        className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface text-navy-900 shadow-menu sm:rounded-card"
       >
-        <div className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex items-start justify-between gap-3 border-b border-navy-900/10 px-4 py-3">
           <div className="min-w-0">
-            <h2 className="text-h3 font-semibold leading-tight text-white">{commonName}</h2>
-            <p className="truncate text-[11px] italic text-white/50">{scientificName}</p>
-            {depthLabel && (
-              <p className="mt-1 inline-flex items-center gap-1 text-[11px] text-teal-200/90">
-                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M8 1v11M8 12l-3-3M8 12l3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                </svg>
-                Usually seen ~{depthLabel}
+            {traits && (
+              <p className="text-[10px] font-semibold uppercase tracking-eyebrow text-teal-600">
+                {traits.shapeClass.replace(/-/g, " ")}
               </p>
             )}
+            <h2 className="font-brand-heading text-h3 leading-tight text-navy-900">{commonName}</h2>
+            <p className="truncate text-[11px] italic text-navy-900/55">{scientificName}</p>
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Back to the list"
-            className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:bg-white/20 hover:text-white"
+            className="inline-flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-full bg-surface-muted px-3 text-[11px] font-semibold uppercase tracking-wider text-navy-900/70 hover:bg-teal-500/15 hover:text-teal-700"
           >
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M10 3.5L5.5 8l4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -182,55 +133,24 @@ export function SpeciesGuidePopup({
           </button>
         </div>
 
-        <div className="flex-1 min-h-0 space-y-4 overflow-y-auto overscroll-contain px-4 py-3">{/* min-h-0: without it this flex child floors at content height, overflows max-h-[92vh], and the parent's overflow-hidden clips it instead of scrolling (mobile "can't scroll down" bug). */}
-          {/* Diagnostic guide (numbered circles). Renders nothing if the
-              species has no authored marks on a curated photo. */}
-          <AnnotatedSpeciesPhoto scientificName={scientificName} commonName={commonName} />
-
-          <div>
-            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-teal-300/80">
-              Reference photos
-            </p>
-            <SpeciesGallery
+        {/* min-h-0 lets this flex child shrink and own the scroll instead of
+            overflowing the dialog (mobile "can't scroll" guard). */}
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain bg-surface-muted/40 px-4 py-4">
+          {traits ? (
+            <SpeciesGuideContent
               scientificName={scientificName}
               commonName={commonName}
-              size="large"
-              layout="carousel"
+              fieldNote={traits.fieldNote}
+              size={traits.size}
+              habitat={traits.habitat}
+              behavior={traits.behavior}
             />
-            <p className="mt-1.5 text-[10px] text-white/40">
-              Compare these against the clip. Tap to enlarge.
-            </p>
-          </div>
-
-          <div>
-            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-teal-300/80">
-              Where it&apos;s seen
-            </p>
-            {/* Light card so the map (designed for light surfaces) stays legible
-                inside the dark popup. */}
-            <div className="flex justify-center rounded-modal bg-white px-3 py-3">
-              <DistributionMap grid={grid} />
-            </div>
-            <p className="mt-1.5 text-[10px] text-white/40">
-              Records around the UK &amp; NE Atlantic (OBIS). The ringed marker is
-              the PEBL filming site.
-            </p>
-          </div>
-
-          {fieldNote && (
-            <div>
-              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-teal-300/80">
-                Field note
-              </p>
-              <p className="text-sm leading-relaxed text-white/80">{fieldNote}</p>
-            </div>
+          ) : (
+            <p className="text-sm text-navy-900/70">No guide available for this species yet.</p>
           )}
         </div>
 
-        <div className="border-t border-white/10 px-4 py-3">
-          {/* T21: single primary action. Dismissal is the header "Back to the
-              list" (+ backdrop / Escape), so the old redundant "Keep looking"
-              third affordance is removed. */}
+        <div className="border-t border-navy-900/10 px-4 py-3">
           <button
             type="button"
             disabled={submitting}
