@@ -387,6 +387,35 @@ WHERE a."snippetId" = $2 AND a."isCorrect" IS NULL;
 (Use the matcher's alias-aware logic in code, not raw `lower()`, for a
 production retro-score.)
 
+## Engagement metrics (Climate Action Fund impact, 19 Jun 2026)
+
+First-party, privacy-first measurement so PEBL can show the National Lottery
+Climate Action Fund that people are engaging. **Data-minimal by design:** no IP,
+user-agent, referrer, or cross-visit device id is ever stored.
+
+- **Capture only what isn't derivable.** New `Event` table logs three types —
+  `session_start`, `clip_view`, `clip_watch` (active seconds). IDs, accuracy and
+  species-learned are **derived** from `Answer` / `UnlockedSpecies`, never
+  duplicated. `Event.sessionId` is a random per-tab id (sessionStorage, dies with
+  the tab); `userId` links to an account only while signed in (cascade-delete for
+  erasure).
+- **Consent-gated end to end.** The cookie banner now offers *Essential only* /
+  *Accept* (sets `analytics` in the `pebl_consent` cookie). The client tracker
+  (`src/lib/engagement.ts` + `useEngagement.ts`, wired in `FeedPlayer`) no-ops
+  without consent via `hasAnalyticsConsent()`; `POST /api/events`
+  (consent-gated, same-origin, zod-validated, batched for `sendBeacon`,
+  rate-limited) returns 204 and stores nothing if `analytics !== true`.
+- **Watch-time** = the active clip's on-screen, tab-visible time, banked in short
+  segments (visibility/pagehide/25s-interval) so a close loses ~nothing.
+- **Reporting:** `/admin/metrics` (admin-gated) shows aggregate Reach /
+  Engagement / Learning; `/api/admin/metrics/export` streams a 90-day per-day CSV
+  for funder reports.
+- **Demographics** (coastal/region, "connection to the sea") are a **separate,
+  later** progressive-onboarding workstream — not collected here.
+- **Deploy step:** schema change → run `prisma db push` **then**
+  `npm run db:enable-rls` (the `Event` table lands with RLS off until that runs;
+  it's Prisma-only/owner-role accessed, so RLS-with-no-policy is correct).
+
 ## Probability data flow (OBIS + GBIF)
 
 The fish-probability feature reads from two external APIs at backfill time
