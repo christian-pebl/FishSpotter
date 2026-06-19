@@ -55,13 +55,12 @@ function interpolateBox(a: BBoxFrame, b: BBoxFrame, amount: number): BBoxFrame {
 }
 
 /**
- * How a clip should fit its frame. A clip WIDER than the frame (a landscape clip
- * on a portrait phone) is shown object-cover so it FILLS the screen instead of
- * letterboxing, and the cropped (horizontal) axis is centred on the species so
- * the creature is never cropped out; the median bbox centre is the target. A clip
- * not wider than the frame keeps object-contain (the whole frame, centred), so
- * portrait clips are mathematically unchanged. No re-encode or canvas copy, so no
- * quality is lost beyond the native scaling the browser already does.
+ * How a clip should fit its frame. Every clip is shown object-CONTAIN — the
+ * whole frame, centred — so nothing is cropped or zoomed. A landscape clip on a
+ * portrait phone is letterboxed and the ambient blur backdrop (below) fills the
+ * gaps, rather than being cover-cropped to fill the height (which read as "too
+ * zoomed in"). Portrait clips are mathematically unchanged. No re-encode or
+ * canvas copy, so no quality is lost beyond the native scaling the browser does.
  *
  * Returns the same projection geometry the bbox trail + "locate" ping use, so the
  * overlay stays pinned to the real pixels under either fit.
@@ -73,7 +72,11 @@ function fitGeometry(
   vh: number,
   center: { x: number; y: number } | null,
 ) {
-  const cover = vw / vh > cw / ch;
+  // Always contain: show the entire clip frame (no zoom/crop). The cover branch
+  // is kept below so the geometry/projection maths stays a single code path, but
+  // it is intentionally never taken (Christian, 19 Jun — cover-fill was too
+  // zoomed in on landscape clips).
+  const cover = false;
   const scale = cover ? Math.max(cw / vw, ch / vh) : Math.min(cw / vw, ch / vh);
   const renderedWidth = vw * scale;
   const renderedHeight = vh * scale;
@@ -498,15 +501,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const speciesCenterRef = useRef(speciesCenter);
   speciesCenterRef.current = speciesCenter;
 
-  // True when the clip is wider than the frame and fills it (object-cover): the
-  // ambient blur fill is then fully occluded, so we skip rendering it.
+  // True only if a clip ever cover-fills the frame and occludes the ambient blur
+  // fill. Clips are object-contain now, so this stays false and the blur backdrop
+  // always renders to fill the letterbox gaps; kept for the geometry single path.
   const [videoCovers, setVideoCovers] = useState(false);
 
   // Apply the fit (object-fit + object-position) once the intrinsic size is known
-  // and whenever the frame resizes or the phone rotates. Landscape clips fill the
-  // portrait frame, cropped to the species; portrait clips stay contained. Set
-  // imperatively so it survives re-renders without being in the React style prop
-  // (which only carries the colour filter).
+  // and whenever the frame resizes or the phone rotates. Every clip is contained
+  // (the whole frame, centred), so nothing is cropped/zoomed. Set imperatively so
+  // it survives re-renders without being in the React style prop (which only
+  // carries the colour filter).
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -835,12 +839,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           (bbox trail, progress, paused, fade) live in this container, so they
           inset together and stay aligned. */}
       <div className="absolute inset-x-0 top-0 bottom-14 overflow-hidden bg-black">
-        {/* Blurred poster fill behind a CONTAINED (letterboxed) clip: a portrait
-            clip letterboxes in a taller viewport, so this turns the bars into an
-            ambient extension of the scene instead of dead black. A landscape clip
-            COVERS the frame and fully occludes this, so it is skipped then.
-            Decorative, behind the video + overlays, pointer-events-none so it
-            never intercepts the tap-to-identify catcher. Reuses the poster. */}
+        {/* Blurred poster fill behind a CONTAINED (letterboxed) clip: every clip
+            is letterboxed now (portrait in a taller viewport, landscape top/
+            bottom), so this turns the bars into an ambient extension of the scene
+            instead of dead black. Decorative, behind the video + overlays,
+            pointer-events-none so it never intercepts the tap-to-identify
+            catcher. Reuses the poster. */}
         {!videoCovers && (
           /* eslint-disable-next-line @next/next/no-img-element -- decorative scaled+blurred backdrop; next/image adds nothing here */
           <img
