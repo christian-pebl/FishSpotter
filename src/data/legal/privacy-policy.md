@@ -21,6 +21,7 @@ We are the data controller for the personal data described in this policy. We pr
 | IP address | Rate-limiting and abuse prevention (held in memory only; never persisted; cleared on server restart) | Legitimate interests — preventing abuse and protecting service availability |
 | Server access logs (IP, User-Agent, request path, timestamp) | Security, debugging, abuse prevention | Legitimate interests |
 | Cookies (see Cookies section) | Keeping you signed in; stable personalised feed ordering | Strictly necessary (session); Consent (functional) |
+| Anonymous usage events (session start, clips viewed, active watch-time) | Showing our funder the project engages people; improving the app | Consent (analytics) — only if you choose "Accept" on the banner |
 
 We do not collect payment data, precise device location, or any special-category data.
 
@@ -72,10 +73,13 @@ We use the following first-party cookies:
 | **NextAuth session** | Strictly necessary | Until sign-out or after a period of inactivity | A signed, HTTP-only token that keeps you authenticated | Exempt from consent under PECR Reg. 6(1) |
 | **fs.anon_seed** | Functional / preferences | ~12 months | Stable, personalised feed ordering for anonymous visitors (deterministic shuffle that stays consistent across page loads) | Covered by the consent banner |
 | **`pebl_consent`** | Strictly necessary | ~12 months | Records your cookie-consent choice so we do not ask you again on every visit | Exempt from consent under PECR Reg. 6(1) |
+| **`fishspotter:sid`** | Analytics (functional) | Until you close the tab (sessionStorage) | A random per-tab id used only to count anonymous usage (see below). It is not a cookie and does not follow you between visits | Set only with your consent (Accept) |
 
 The **fs.anon_seed** cookie is a functional cookie, not strictly necessary, so it is covered by the consent banner shown on your first visit; we only set it where consent permits. You can withdraw your consent for functional cookies at any time by clearing your cookies or by using the cookie controls on the site.
 
-We do not currently deploy analytics cookies. If we add optional cookies in future, we will ask for your consent via the banner shown on your first visit before setting them.
+### Anonymous usage measurement
+
+With your consent (the **Accept** option on the banner), we record a small amount of **first-party, anonymous** usage data so we can show our funder, the National Lottery Climate Action Fund, that the project is engaging people. We measure only: when a viewing session starts, which clips are viewed, and how long clips are actively watched. We deliberately **do not** store your IP address, device or browser details, your location, or any identifier that follows you between visits. We do not use third-party analytics, advertising networks, or social-media tracking pixels. If you choose **Essential only**, none of this is recorded. You can withdraw consent at any time by clearing your cookies/site storage.
 
 ---
 
