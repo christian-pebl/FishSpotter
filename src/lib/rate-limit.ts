@@ -53,6 +53,16 @@ export function checkAnswerRateLimit(userId: string): boolean {
   return consume(`answer:${userId}`, ANSWER_WINDOW_MS, ANSWER_MAX_PER_HOUR);
 }
 
+// Engagement-event ingest (POST /api/events). Beacons are batched, so this caps
+// the number of REQUESTS per key/hour — 600 (~one flush every 6s) is far above
+// real usage but stops a loose client or bot from flooding the Event table.
+const EVENT_WINDOW_MS = 60 * 60 * 1000;
+const EVENT_MAX_PER_HOUR = 600;
+
+export function checkEventRateLimit(key: string): boolean {
+  return consume(`event:${key}`, EVENT_WINDOW_MS, EVENT_MAX_PER_HOUR);
+}
+
 if (typeof globalThis !== "undefined") {
   const sweep = () => {
     const now = Date.now();
