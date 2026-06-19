@@ -97,49 +97,69 @@ const POOL = [
 type Swimmer = {
   /** Public path to the silhouette SVG (used as a CSS mask). */
   src: string;
-  /** CSS top — the lane centre, offset up by half the creature height so it
-   *  sits centred on the lane line regardless of the px height. */
+  /** CSS top — the (jittered) lane centre, offset up by half the creature
+   *  height so it sits on its line regardless of the px height. */
   top: string;
   /** Width / height in px (small, so many fit). */
   width: number;
   height: number;
-  /** Crossing duration — shared by both creatures in a lane (keeps them a fixed
-   *  distance apart so they never overlap). */
+  /** Crossing duration — per-creature, so everything drifts at its own speed. */
   dur: string;
-  /** Negative delay; the second creature in a lane trails by half a period. */
+  /** Negative delay so the field is mid-crossing on the first frame. */
   delay: string;
+  /** Vertical drift over one crossing (vh) — gives each creature its own shallow
+   *  left→right angle instead of a dead-flat lane. */
+  dy: string;
   /** Left position for the static reduced-motion tableau (spread out). */
   rest: string;
 };
 
-// Build a non-overlapping field: LANES horizontal bands, PER_LANE creatures per
-// lane spread evenly around the crossing (so they're always 1/PER_LANE of a
-// period — i.e. a large slice of the screen — apart, never overlapping). Lanes
-// are phase-staggered by the golden ratio so the cast stays evenly spread across
-// the width at every moment, not bunched. Deterministic (no Math.random) so SSR
-// and the client render the identical field — no hydration mismatch.
+// Build the field: LANES horizontal bands seed an even spread (so the cast isn't
+// bunched), but each creature then gets its OWN speed, a shallow vertical angle,
+// and a little off-grid jitter — so it drifts organically rather than in a tidy
+// grid. Still all slow and left→right. Deterministic (a fixed hash, no
+// Math.random) so SSR and the client render the identical field — no hydration
+// mismatch.
 const LANES = 16;
 const PER_LANE = 3;
 const REST_LEFT = [12, 42, 72]; // static reduced-motion columns, per PER_LANE
 
+// Stable pseudo-random in [0,1) from an integer — identical on server + client.
+function hash(n: number): number {
+  const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 function buildSchool(): Swimmer[] {
+  const laneH = 100 / LANES;
   const out: Swimmer[] = [];
   for (let lane = 0; lane < LANES; lane++) {
-    const centre = ((lane + 0.5) / LANES) * 100; // % down the screen
-    const dur = 24 + (lane % 6) * 2; // 24–34s, slow drift
     const lanePhase = (lane * 0.618) % 1; // golden-ratio stagger across lanes
     for (let j = 0; j < PER_LANE; j++) {
       const idx = lane * PER_LANE + j;
-      const width = 20 + (idx % 7) * 2; // 20–32px (small)
+      const hSpeed = hash(idx + 1);
+      const hPhase = hash(idx + 101);
+      const hTop = hash(idx + 211);
+      const hAngle = hash(idx + 307);
+      const hSize = hash(idx + 409);
+
+      const width = 20 + Math.round(hSize * 12); // 20–32px (small)
       const height = Math.round(width * 0.7);
-      const phaseFrac = (lanePhase + j / PER_LANE) % 1; // evenly spaced in-lane
+      // Nudge each creature off its exact lane line so the rows aren't a grid.
+      const centre = ((lane + 0.5) / LANES) * 100 + (hTop - 0.5) * laneH * 0.4;
+      const dur = 26 + hSpeed * 16; // 26–42s — slow, but each its own speed
+      // Seed an even spread, then jitter the phase a touch.
+      const phaseFrac = (lanePhase + j / PER_LANE + (hPhase - 0.5) * 0.12 + 1) % 1;
+      const dy = (hAngle * 2 - 1) * 2; // −2…+2vh: a shallow, varied angle
+
       out.push({
         src: POOL[idx % POOL.length],
         top: `calc(${centre.toFixed(2)}% - ${(height / 2).toFixed(1)}px)`,
         width,
         height,
-        dur: `${dur}s`,
+        dur: `${dur.toFixed(1)}s`,
         delay: `${(-phaseFrac * dur).toFixed(2)}s`,
+        dy: `${dy.toFixed(2)}vh`,
         rest: `${REST_LEFT[j] + (lane % 4) * 5}%`,
       });
     }
@@ -208,6 +228,8 @@ export function SwimLoader({
                 height: s.height,
                 animationDuration: s.dur,
                 animationDelay: s.delay,
+                // Per-creature vertical drift → its own shallow left→right angle.
+                ["--fs-dy" as string]: s.dy,
               };
           return (
             <div
