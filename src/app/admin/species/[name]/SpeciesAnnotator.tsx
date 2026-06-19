@@ -60,6 +60,10 @@ export function SpeciesAnnotator({
   );
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [dragState, setDragState] = useState<DragState>(null);
+  // On touch, the photo only captures gestures (placing/moving marks, blocking
+  // page scroll) while place mode is on; otherwise a swipe scrolls the page and
+  // can't drop a stray mark. A mouse/pen always works.
+  const [placeMode, setPlaceMode] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [isSaving, startSavingTransition] = useTransition();
   const [saveError, setSaveError] = useState<string | null>(null);
@@ -89,6 +93,9 @@ export function SpeciesAnnotator({
   }
 
   function handlePhotoPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    // Let touch swipes scroll the page (and not drop a stray mark) unless place
+    // mode is on. Mouse/pen always places.
+    if (e.pointerType === "touch" && !placeMode) return;
     // Clicks on circle / handle bubble up but mark their own target — we
     // only treat true empty-space clicks as "create new mark".
     if ((e.target as HTMLElement | SVGElement).dataset?.markhit) return;
@@ -117,6 +124,9 @@ export function SpeciesAnnotator({
   }
 
   function startMove(e: React.PointerEvent<SVGElement>, mark: AnnotatorMark) {
+    // Touch falls through to scroll unless place mode is on (no stopPropagation
+    // here, so the page can still scroll off a mark).
+    if (e.pointerType === "touch" && !placeMode) return;
     e.stopPropagation();
     const frac = pointerFraction(e);
     if (!frac) return;
@@ -132,6 +142,7 @@ export function SpeciesAnnotator({
   }
 
   function startResize(e: React.PointerEvent<SVGElement>, mark: AnnotatorMark) {
+    if (e.pointerType === "touch" && !placeMode) return;
     e.stopPropagation();
     (e.target as Element).setPointerCapture?.(e.pointerId);
     setSelectedId(mark.id);
@@ -332,16 +343,31 @@ export function SpeciesAnnotator({
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr,320px]">
         <div className="space-y-2">
+          <button
+            type="button"
+            onClick={() => setPlaceMode((v) => !v)}
+            aria-pressed={placeMode}
+            className={`inline-flex h-11 w-full items-center justify-center rounded-md text-sm font-semibold transition lg:hidden ${
+              placeMode
+                ? "bg-teal-600 text-white hover:bg-teal-700"
+                : "border border-teal-600 text-teal-700 hover:bg-teal-50"
+            }`}
+          >
+            {placeMode ? "Done — scroll the page" : "Place / move marks"}
+          </button>
           <div
             ref={wrapperRef}
             onPointerDown={handlePhotoPointerDown}
-            className="relative w-full select-none overflow-hidden rounded-modal border border-navy-300 bg-navy-100"
+            className={`relative w-full select-none overflow-hidden rounded-modal border bg-navy-100 ${
+              placeMode ? "border-teal-500 ring-2 ring-teal-500" : "border-navy-300"
+            }`}
             style={{
               aspectRatio:
                 activePhoto?.width && activePhoto?.height
                   ? `${activePhoto.width} / ${activePhoto.height}`
                   : "4 / 3",
               cursor: dragState ? "grabbing" : "crosshair",
+              touchAction: placeMode ? "none" : "auto",
             }}
           >
             {activePhoto && (
