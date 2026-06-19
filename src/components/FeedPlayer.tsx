@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FeedCard } from "./FeedCard";
 import { TRANSITION } from "@/lib/motion";
+import { useEngagementTracker } from "@/lib/useEngagement";
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // Q3A-T7: delay the move-to-back reorder until AFTER FeedCard's
@@ -61,6 +62,9 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
     const answered = snippets.filter((s) => recentlyAnswered.has(s.id));
     return [...unanswered, ...answered];
   }, [snippets, recentlyAnswered]);
+
+  // Engagement measurement (consent-gated): track the active clip + watch-time.
+  useEngagementTracker(orderedSnippets[activeIndex]?.id ?? null);
 
   const markAnswered = useCallback((snippetId: string) => {
     window.setTimeout(() => {

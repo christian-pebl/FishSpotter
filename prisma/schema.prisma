@@ -28,6 +28,7 @@ model User {
   createdAt           DateTime             @default(now())
   answers             Answer[]
   unlockedSpecies     UnlockedSpecies[]
+  events              Event[]
   accounts            Account[]
   sessions            Session[]
   verificationTokens  VerificationToken[]
@@ -321,4 +322,29 @@ model Vital {
   createdAt DateTime @default(now())
 
   @@index([name, createdAt])
+}
+
+// Engagement event log — Climate Action Fund impact measurement (first-party,
+// privacy-first). We deliberately store the MINIMUM: no IP, no user-agent, no
+// referrer, no persistent cross-visit device id. It captures only what can't be
+// derived from the Answer / UnlockedSpecies tables — sessions, active
+// watch-time, and clip views — so identifications, accuracy and species-learned
+// stay derived, not duplicated.
+//
+// `sessionId` is a random per-TAB id (sessionStorage), so nothing follows a
+// person across visits; `userId` links events to an account only while signed
+// in. Every write is gated on analytics consent (see POST /api/events). Rows are
+// an append-only stream; the admin dashboard aggregates them on demand.
+model Event {
+  id        String   @id @default(cuid())
+  userId    String? // null for signed-out spotters; set when authed
+  sessionId String // random per-tab id, NOT a cross-visit fingerprint
+  type      String // "session_start" | "clip_view" | "clip_watch"
+  snippetId String? // the clip this event is about, when relevant
+  value     Float? // generic numeric payload (clip_watch: active seconds)
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([type, createdAt])
+  @@index([userId, createdAt])
 }
