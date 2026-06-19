@@ -2,10 +2,16 @@
 
 /**
  * Shared swim loader — a FULL-SCREEN field of marine silhouettes that drift
- * slowly across the viewport and gently bob, at 50% opacity, behind a thin
- * indeterminate progress bar + a rotating caption. Used by EVERY route's
- * Suspense fallback (feed, archive, leaderboard, sign-in) so loading feels
- * consistent and on-brand everywhere, on phone and desktop alike.
+ * slowly across the viewport and gently bob, behind a thin progress bar + a
+ * rotating caption. Used by EVERY route's Suspense fallback (feed, archive,
+ * leaderboard, sign-in) so loading feels consistent and on-brand everywhere,
+ * on phone and desktop alike.
+ *
+ * The whole field is wrapped in a master fade ENVELOPE (fs-swimfield): the
+ * screen opens on the bare background, the cast fades up, holds while it drifts,
+ * then fades back out as the progress fill reaches its end — one slick arc that
+ * dissolves into the page being loaded. It loops (synced to the fill) so a slow
+ * load simply repeats the breath rather than stranding an empty screen.
  *
  * The creatures are the CC0 silhouettes drawn from EVERY rung's asset folder —
  * the rung-1 shape-class gate (/silhouettes), the rung-2/3 body forms
@@ -237,11 +243,15 @@ export function SwimLoader({
       aria-busy="true"
       aria-label={label}
     >
-      {/* Full-screen ambient field: a diverse, non-overlapping cast drifting +
-          bobbing across the whole viewport at 50% opacity, softly fading at the
-          edges. */}
+      {/* Full-screen ambient field: a diverse cast drifting + bobbing across the
+          whole viewport. A master envelope (fs-swimfield) opens on the bare
+          background, fades the whole cast up, holds it while it drifts, then
+          fades it back out in sync with the loadbar fill — one slick arc that
+          dissolves into the page. The per-creature drift/bob run underneath. */}
       <div
-        className="pointer-events-none absolute inset-0 overflow-hidden text-teal-300"
+        className={`pointer-events-none absolute inset-0 overflow-hidden text-teal-300 ${
+          reduce ? "" : "fs-swimfield"
+        }`}
         aria-hidden="true"
       >
         {SCHOOL.map((s, k) => {
@@ -287,7 +297,9 @@ export function SwimLoader({
           {reduce ? (
             <div className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-teal-400" />
           ) : (
-            <div className="fs-loadbar absolute inset-y-0 w-1/3 rounded-full bg-teal-400" />
+            // Determinate fill, synced to the field envelope: it reaches the end
+            // as the silhouettes fade out, then both restart invisibly.
+            <div className="fs-loadfill absolute inset-y-0 left-0 rounded-full bg-teal-400" />
           )}
         </div>
 
