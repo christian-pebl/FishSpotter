@@ -472,31 +472,36 @@ a {
  * CSS, so the global prefers-reduced-motion block neutralises them; the
  * component also renders an explicit static school for reduced motion. */
 @keyframes fs-swimlane {
-  from {
-    transform: translateX(-20vw);
+  0% {
+    transform: translateX(-25vw);
+    opacity: 0;
   }
-  to {
-    transform: translateX(120vw);
+  12% {
+    opacity: 0.5;
+  }
+  88% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(125vw);
+    opacity: 0;
   }
 }
 .fs-swimlane {
   animation: fs-swimlane linear infinite;
-  will-change: transform;
+  will-change: transform, opacity;
 }
 @keyframes fs-swimwig {
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translateY(-5px) rotate(-2deg);
   }
-  30% {
-    transform: translateY(-3px) rotate(-5deg);
-  }
-  60% {
-    transform: translateY(2px) rotate(4deg);
+  50% {
+    transform: translateY(5px) rotate(2deg);
   }
 }
 .fs-swimwig {
-  animation: fs-swimwig 2.1s ease-in-out infinite;
+  animation: fs-swimwig 5.5s ease-in-out infinite;
   will-change: transform;
 }
 @keyframes fs-loadbar {
