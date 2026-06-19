@@ -158,7 +158,7 @@ export function SpeciesComparison({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4"
+      className="fixed inset-x-0 top-0 z-[90] flex h-[100dvh] items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -168,7 +168,7 @@ export function SpeciesComparison({
         role="dialog"
         aria-modal="true"
         aria-label={group.title}
-        className="flex max-h-[92vh] w-full max-w-xl flex-col overflow-hidden rounded-t-card bg-navy-900 text-white shadow-menu sm:rounded-card"
+        className="flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-card bg-navy-900 text-white shadow-menu sm:rounded-card"
       >
         <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
           <h2 className="min-w-0 text-h3 font-semibold leading-tight text-white">{group.title}</h2>
