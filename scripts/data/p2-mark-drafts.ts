@@ -1,8 +1,10 @@
 /**
  * P2 diagnostic-mark drafts: editorial feature lists (label + description ONLY,
- * no coordinates) for the 15 catalogue species that had NO guide-hero in the
- * 2026-06-04 audit. scripts/place-diagnostic-marks.ts (author mode) places the
- * ring coordinates with Gemini; this file is just the "what to look for" text.
+ * no coordinates) for catalogue species that lacked authored marks (the 15 with
+ * no guide-hero in the 2026-06-04 audit, plus later additions like whiting).
+ * scripts/place-diagnostic-marks.ts (author mode) places the ring coordinates
+ * with Gemini; this file is just the "what to look for" text. Adding a species
+ * here is what makes it eligible for `--mode author` (and the onboard pipeline).
  *
  * Voice + length match scripts/seed-fish-marks.ts. Twelve of these reuse the
  * (sound) draft TEXT that already sat in seed-fish-marks.ts but never inserted
@@ -50,6 +52,23 @@ export const P2_MARK_DRAFTS: Record<string, Feature[]> = {
       label: "Mottled olive-brown back",
       description:
         "Peppered, mottled camouflage on a green-brown base; cleaner-coloured pollack and saithe lack this speckling.",
+    },
+  ],
+  "Merlangius merlangus": [
+    {
+      label: "Dark blotch at the pectoral base",
+      description:
+        "A small dark spot at the upper base of each pectoral fin, the whiting's single most reliable tell against the other small gadoids.",
+    },
+    {
+      label: "No chin barbel",
+      description:
+        "No whisker under the chin (or a tiny stub at most), unlike cod and bib; the upper jaw is slightly the longer.",
+    },
+    {
+      label: "Slim sandy-grey gadoid, three dorsals",
+      description:
+        "A slim sandy-grey body with three separate dorsal fins, shoaling near the bottom over sand and mud.",
     },
   ],
 

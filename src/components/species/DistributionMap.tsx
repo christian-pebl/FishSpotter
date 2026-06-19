@@ -28,14 +28,31 @@ const GRATICULE_LON = [-10, 0]; // labelled meridians
 const fmtLat = (l: number) => `${Math.abs(l)}°${l >= 0 ? "N" : "S"}`;
 const fmtLon = (l: number) => `${Math.abs(l)}°${l >= 0 ? "E" : "W"}`;
 
+/**
+ * Geohash cell size in degrees for a given precision. OBIS returns the density
+ * grid as geohash cells, so the on-screen footprint must match the real cell
+ * span (lon° × lat°) or the squares overlap horizontally / gap vertically.
+ * Bits alternate lon, lat starting with lon, 5 bits per character.
+ */
+function geohashCellDegrees(precision: number): { lonDeg: number; latDeg: number } {
+  const bits = Math.max(1, Math.round(precision)) * 5;
+  const lonBits = Math.ceil(bits / 2);
+  const latBits = Math.floor(bits / 2);
+  return { lonDeg: 360 / 2 ** lonBits, latDeg: 180 / 2 ** latBits };
+}
+
 export function DistributionMap({ grid }: { grid: DistributionGrid | null }) {
   const bbox = grid?.bbox ?? VIEW_BBOX;
   const x = (lon: number) => ((lon - bbox.minLon) / (bbox.maxLon - bbox.minLon)) * VB_W;
   const y = (lat: number) => ((bbox.maxLat - lat) / (bbox.maxLat - bbox.minLat)) * VB_H;
 
-  // Cell footprint ~ the grid spacing, so cells tile rather than dot.
-  const cw = VB_W / 13;
-  const ch = VB_H / 13;
+  // Cell footprint = the real geohash cell span projected into the viewBox, so
+  // cells tile edge-to-edge at any precision instead of overlapping. The fills
+  // are semi-transparent, so we size to exactly one cell span (no overdraw) —
+  // any overlap would compound into dark seams.
+  const { lonDeg, latDeg } = geohashCellDegrees(grid?.precision ?? 3);
+  const cw = (lonDeg / (bbox.maxLon - bbox.minLon)) * VB_W;
+  const ch = (latDeg / (bbox.maxLat - bbox.minLat)) * VB_H;
 
   const cells = grid?.cells ?? [];
   const hasData = cells.length > 0;

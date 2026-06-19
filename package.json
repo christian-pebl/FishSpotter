@@ -27,6 +27,7 @@
     "db:seed-aliases": "tsx --env-file=.env.local scripts/seed-aliases.ts",
     "db:seed-fish-marks": "tsx --env-file=.env.local scripts/seed-fish-marks.ts",
     "db:seed-invert-marks": "tsx --env-file=.env.local scripts/seed-invert-marks.ts",
+    "db:onboard-species": "tsx --env-file=.env.local scripts/onboard-species.ts",
     "db:build-galleries": "tsx --env-file=.env.local scripts/build-species-galleries.ts",
     "db:enrich-image-meta": "tsx --env-file=.env.local scripts/enrich-image-meta.ts",
     "db:transcode": "tsx --env-file=.env.local scripts/transcode-to-h264.ts",
