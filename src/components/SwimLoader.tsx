@@ -7,15 +7,21 @@
  * Suspense fallback (feed, archive, leaderboard, sign-in) so loading feels
  * consistent and on-brand everywhere, on phone and desktop alike.
  *
- * The creatures are the CC0 shape-class silhouettes from /public/silhouettes
- * (squid, jellyfish, crab, starfish, gastropod — the two bottom-dwelling fish
- * are intentionally left out), tinted teal the same way ShapeGate / MarinePattern
- * do it: `mask-image` + `bg-current`, so the solid SVG becomes a teal silhouette
- * with zero JS cost and they recolour with the text colour.
+ * The creatures are the CC0 silhouettes drawn from EVERY rung's asset folder —
+ * the rung-1 shape-class gate (/silhouettes), the rung-2/3 body forms
+ * (/silhouettes/forms) and the decorative marine set (/patterns/silhouettes) —
+ * deduped to one source per concept for a wide, varied cast. The two
+ * bottom-dwelling fish (the catfish-like `fish`/`flatfish` gate art and the
+ * bottom-* forms) are intentionally left out. Each is tinted teal the same way
+ * ShapeGate / MarinePattern do it: `mask-image` + `bg-current`.
  *
- * Each drifter softly fades in as it enters and out as it leaves (the opacity
- * ramp in the fs-swimlane keyframe peaks at 0.5), so there are no hard pop-ins
- * at the screen edges — a calm in/out transition.
+ * Layout (no overlap): the field is split into horizontal LANES. Vertically,
+ * lanes don't share space, so creatures in different lanes never collide. Each
+ * lane carries two creatures that share ONE drift duration and sit half a period
+ * apart (opposite sides of the screen), so they never collide within the lane
+ * either. Sizes are small so many fit; each one softly fades in as it enters and
+ * out as it leaves (the opacity ramp in the fs-swimlane keyframe peaks at 0.5),
+ * so there are no hard pop-ins at the edges.
  *
  * Pure CSS animation (paints on the first frame, no JS needed), so it starts
  * instantly on a cold load. Reduced motion: the CSS animations are neutralised
@@ -43,44 +49,105 @@ const CAPTIONS = [
   "Surfacing the clips",
 ] as const;
 
+// A diverse cast pulled from every rung's silhouette folder, interleaved so that
+// consecutive entries (which land in adjacent lanes) look different. Deduped to
+// one source per concept (e.g. squid from the gate, octopus/cuttlefish/shark
+// from the pattern set). Bottom-dwelling fish are deliberately excluded.
+const POOL = [
+  "/silhouettes/squid.svg", // rung-1 shape-class gate
+  "/silhouettes/forms/cod-like.svg", // rung-2/3 body forms
+  "/patterns/silhouettes/seahorse.svg", // decorative marine set
+  "/silhouettes/crab.svg",
+  "/silhouettes/forms/wrasse.svg",
+  "/patterns/silhouettes/ray.svg",
+  "/silhouettes/jellyfish.svg",
+  "/silhouettes/forms/silver-shoaler.svg",
+  "/patterns/silhouettes/shark.svg",
+  "/silhouettes/starfish.svg",
+  "/silhouettes/forms/long-skinny.svg",
+  "/patterns/silhouettes/dolphin.svg",
+  "/silhouettes/gastropod.svg",
+  "/silhouettes/forms/eel-like.svg",
+  "/patterns/silhouettes/turtle.svg",
+  "/silhouettes/forms/elongated.svg",
+  "/patterns/silhouettes/seal.svg",
+  "/silhouettes/forms/fusiform.svg",
+  "/patterns/silhouettes/octopus.svg",
+  "/silhouettes/forms/swimming.svg",
+  "/patterns/silhouettes/cuttlefish.svg",
+  "/silhouettes/forms/thin-whippy.svg",
+  "/patterns/silhouettes/lobster.svg",
+  "/silhouettes/forms/bobtail.svg",
+  "/patterns/silhouettes/prawn.svg",
+  "/silhouettes/forms/spider.svg",
+  "/patterns/silhouettes/shrimp.svg",
+  "/silhouettes/forms/hermit.svg",
+  "/patterns/silhouettes/nudibranch.svg",
+  "/silhouettes/forms/broad-carapace.svg",
+  "/patterns/silhouettes/scallop.svg",
+  "/silhouettes/forms/rounded-squat.svg",
+  "/patterns/silhouettes/mussel.svg",
+  "/silhouettes/forms/long-smooth.svg",
+  "/patterns/silhouettes/urchin.svg",
+  "/silhouettes/forms/frilly-arms.svg",
+  "/patterns/silhouettes/anemone.svg",
+  "/silhouettes/forms/long-spiny.svg",
+] as const;
+
 type Swimmer = {
   /** Public path to the silhouette SVG (used as a CSS mask). */
   src: string;
-  /** Vertical position (spread across the full screen height). */
+  /** CSS top — the lane centre, offset up by half the creature height so it
+   *  sits centred on the lane line regardless of the px height. */
   top: string;
-  /** Width in px (height derives from the natural ratio via `contain`). */
+  /** Width / height in px (small, so many fit). */
   width: number;
-  /** Crossing duration — higher = slower drift across the screen. */
+  height: number;
+  /** Crossing duration — shared by both creatures in a lane (keeps them a fixed
+   *  distance apart so they never overlap). */
   dur: string;
-  /** Negative delay so the field is mid-crossing on the first frame. */
+  /** Negative delay; the second creature in a lane trails by half a period. */
   delay: string;
   /** Left position for the static reduced-motion tableau (spread out). */
   rest: string;
 };
 
-// A full-screen field. Durations are deliberately long (20–30s) so the
-// creatures drift slowly across rather than darting; `top`/`rest` are spread
-// over the whole viewport height so the field fills the screen (moving) and
-// reads as a calm, spaced-out scatter when static (reduced motion).
-//
-// Only water-column / mobile creatures: squid (mantle-first, faces its travel
-// direction), jellyfish, crab, starfish, gastropod (head-right). The two
-// bottom-dwelling fish were intentionally removed.
-const SCHOOL: Swimmer[] = [
-  { src: "/silhouettes/squid.svg", top: "6%", width: 64, dur: "24s", delay: "-2s", rest: "8%" },
-  { src: "/silhouettes/jellyfish.svg", top: "16%", width: 40, dur: "28s", delay: "-12s", rest: "22%" },
-  { src: "/silhouettes/crab.svg", top: "26%", width: 52, dur: "20s", delay: "-6s", rest: "38%" },
-  { src: "/silhouettes/starfish.svg", top: "36%", width: 44, dur: "26s", delay: "-17s", rest: "54%" },
-  { src: "/silhouettes/gastropod.svg", top: "46%", width: 38, dur: "22s", delay: "-9s", rest: "70%" },
-  { src: "/silhouettes/squid.svg", top: "56%", width: 58, dur: "27s", delay: "-20s", rest: "86%" },
-  { src: "/silhouettes/jellyfish.svg", top: "66%", width: 36, dur: "25s", delay: "-4s", rest: "14%" },
-  { src: "/silhouettes/starfish.svg", top: "76%", width: 48, dur: "21s", delay: "-14s", rest: "30%" },
-  { src: "/silhouettes/crab.svg", top: "86%", width: 54, dur: "29s", delay: "-23s", rest: "46%" },
-  { src: "/silhouettes/gastropod.svg", top: "92%", width: 40, dur: "23s", delay: "-7s", rest: "62%" },
-  { src: "/silhouettes/squid.svg", top: "12%", width: 56, dur: "30s", delay: "-25s", rest: "78%" },
-  { src: "/silhouettes/starfish.svg", top: "70%", width: 40, dur: "24s", delay: "-16s", rest: "4%" },
-  { src: "/silhouettes/jellyfish.svg", top: "50%", width: 42, dur: "26s", delay: "-11s", rest: "94%" },
-];
+// Build a non-overlapping field: LANES horizontal bands, PER_LANE creatures per
+// lane spread evenly around the crossing (so they're always 1/PER_LANE of a
+// period — i.e. a large slice of the screen — apart, never overlapping). Lanes
+// are phase-staggered by the golden ratio so the cast stays evenly spread across
+// the width at every moment, not bunched. Deterministic (no Math.random) so SSR
+// and the client render the identical field — no hydration mismatch.
+const LANES = 16;
+const PER_LANE = 3;
+const REST_LEFT = [12, 42, 72]; // static reduced-motion columns, per PER_LANE
+
+function buildSchool(): Swimmer[] {
+  const out: Swimmer[] = [];
+  for (let lane = 0; lane < LANES; lane++) {
+    const centre = ((lane + 0.5) / LANES) * 100; // % down the screen
+    const dur = 24 + (lane % 6) * 2; // 24–34s, slow drift
+    const lanePhase = (lane * 0.618) % 1; // golden-ratio stagger across lanes
+    for (let j = 0; j < PER_LANE; j++) {
+      const idx = lane * PER_LANE + j;
+      const width = 20 + (idx % 7) * 2; // 20–32px (small)
+      const height = Math.round(width * 0.7);
+      const phaseFrac = (lanePhase + j / PER_LANE) % 1; // evenly spaced in-lane
+      out.push({
+        src: POOL[idx % POOL.length],
+        top: `calc(${centre.toFixed(2)}% - ${(height / 2).toFixed(1)}px)`,
+        width,
+        height,
+        dur: `${dur}s`,
+        delay: `${(-phaseFrac * dur).toFixed(2)}s`,
+        rest: `${REST_LEFT[j] + (lane % 4) * 5}%`,
+      });
+    }
+  }
+  return out;
+}
+
+const SCHOOL = buildSchool();
 
 /** A single masked silhouette — solid SVG tinted teal via mask + currentColor. */
 function Silhouette({ src }: { src: string }) {
@@ -125,32 +192,33 @@ export function SwimLoader({
       aria-busy="true"
       aria-label={label}
     >
-      {/* Full-screen ambient field: silhouettes drifting + bobbing across the
-          whole viewport at 50% opacity, softly fading in/out at the edges. */}
+      {/* Full-screen ambient field: a diverse, non-overlapping cast drifting +
+          bobbing across the whole viewport at 50% opacity, softly fading at the
+          edges. */}
       <div
         className="pointer-events-none absolute inset-0 overflow-hidden text-teal-300"
         aria-hidden="true"
       >
-        {SCHOOL.map((s, i) => {
+        {SCHOOL.map((s, k) => {
           const style: CSSProperties = reduce
-            ? { top: s.top, left: s.rest, width: s.width, height: s.width * 0.7, opacity: 0.5 }
+            ? { top: s.top, left: s.rest, width: s.width, height: s.height, opacity: 0.5 }
             : {
                 top: s.top,
                 width: s.width,
-                height: s.width * 0.7,
+                height: s.height,
                 animationDuration: s.dur,
                 animationDelay: s.delay,
               };
           return (
             <div
-              key={i}
+              key={k}
               className={reduce ? "absolute" : "fs-swimlane absolute left-0"}
               style={style}
             >
               <span
                 className={reduce ? "block h-full w-full" : "fs-swimwig block h-full w-full"}
                 // Desync each creature's bob so the field doesn't pulse in unison.
-                style={reduce ? undefined : { animationDelay: `${(-i * 0.9).toFixed(1)}s` }}
+                style={reduce ? undefined : { animationDelay: `${(-k * 0.6).toFixed(1)}s` }}
               >
                 <Silhouette src={s.src} />
               </span>

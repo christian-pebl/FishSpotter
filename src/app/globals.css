@@ -494,10 +494,10 @@ a {
 @keyframes fs-swimwig {
   0%,
   100% {
-    transform: translateY(-5px) rotate(-2deg);
+    transform: translateY(-3px) rotate(-2deg);
   }
   50% {
-    transform: translateY(5px) rotate(2deg);
+    transform: translateY(3px) rotate(2deg);
   }
 }
 .fs-swimwig {
