@@ -185,7 +185,7 @@ export function SpeciesComparison({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-3">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-3">
           {/* Ecological-likelihood hint: how often each look-alike is recorded
               around this clip's spot at this time of year (OBIS). A prior, framed
               honestly so it never overrides what the user actually saw. */}
