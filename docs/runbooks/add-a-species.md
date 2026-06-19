@@ -85,20 +85,33 @@ npx tsc --noEmit && npm test && npm run lint && npm run lint:tokens
 
 ## 5. Populate photos + marks (DB side, needs `.env.local`)
 
+**Before running:** add the species' diagnostic-mark draft (label + description
+per feature, grounded in its `fieldNote` + the UK guides) to
+**`scripts/data/p2-mark-drafts.ts`**. Without it the species onboards with photos
+but **no ID rings** — this is exactly the gap that left whiting with reference
+photos and no circles. The draft is what makes the marks step auto-author.
+
+Then run the single onboarding command — it chains every per-species data step
+(refresh photos → Gemini-vet gallery + hero → Gemini-place the mark rings from
+your draft → backfill provenance → sync aliases):
+
 ```bash
-# fetch iNat photos + apply your curated override
-npm run db:refresh-images -- --species "Genus species"
-
-# seed the alias table from the JSON
-npm run db:seed-aliases
-
-# (optional) build the full vetted gallery — needs GEMINI_API_KEY
-npx tsx --env-file=.env.local scripts/build-species-galleries.ts --species "Genus species"
+npm run db:onboard-species -- --species "Genus species"
+# --skip-gallery to skip the quota-heavy Gemini gallery pass
+# --dry-run to print the plan; --continue to keep going past a failed step
 ```
 
-Then author diagnostic marks in **`/admin/species/Genus%20species`** (admin = a
-`@pebl-cic.co.uk` login): click to drop numbered rings on the curated photo, label
-each. A species counts as "published" once it has ≥1 mark.
+Needs `GEMINI_API_KEY` for the gallery + marks steps (free tier ~20 req/day, so
+do one species at a time). The placed rings are **DRAFTS pending expert
+sign-off** — review them in **`/admin/species/Genus%20species`** (admin = a
+`@pebl-cic.co.uk` login): click to add/move/relabel rings on the curated photo.
+A species counts as "published" by the wizard once it has ≥1 mark.
+
+> Running the steps by hand instead? `db:refresh-images -- --species "X"`,
+> `db:build-galleries -- --species "X"`, then
+> `place-diagnostic-marks.ts --mode author --species "X" --apply`,
+> `db:enrich-image-meta`, `db:seed-aliases`. The onboard command just runs these
+> in order.
 
 ## 6. If it's a new shape class
 
