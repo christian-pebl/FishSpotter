@@ -80,6 +80,10 @@ export function SnippetTrackEditor({
   const [rect, setRect] = useState<Rect>({ left: 0, top: 0, width: 0, height: 0 });
   const [aspect, setAspect] = useState("3 / 4");
   const [draw, setDraw] = useState<DrawState>(null);
+  // On touch, the draw surface only captures gestures (and blocks page scroll)
+  // while draw mode is on; otherwise a swipe over the video scrolls the page as
+  // normal. A mouse/pen can always draw regardless of this.
+  const [drawMode, setDrawMode] = useState(false);
 
   const [pending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
@@ -163,13 +167,16 @@ export function SnippetTrackEditor({
 
   const onPointerDown = useCallback(
     (e: React.PointerEvent<SVGSVGElement>) => {
+      // Let touch swipes scroll the page unless the user has turned on draw
+      // mode. Mouse/pen always draws.
+      if (e.pointerType === "touch" && !drawMode) return;
       e.preventDefault();
       videoRef.current?.pause();
       (e.target as Element).setPointerCapture?.(e.pointerId);
       const { x, y } = toNorm(e.clientX, e.clientY);
       setDraw({ x0: x, y0: y, x1: x, y1: y });
     },
-    [toNorm],
+    [toNorm, drawMode],
   );
 
   const onPointerMove = useCallback(
@@ -277,15 +284,31 @@ export function SnippetTrackEditor({
       </div>
       <p className="mt-1 text-[11px] text-navy-500">
         Scrub to where the creature is, then drag a box around it to drop a keyframe. Add a few
-        across the clip — the feed draws a smooth trail between them.
+        across the clip — the feed draws a smooth trail between them. On a phone, turn on{" "}
+        <span className="font-medium text-navy-700">Draw on clip</span> first (otherwise swiping the
+        clip just scrolls the page).
       </p>
 
       <div className="mt-3 grid gap-4 lg:grid-cols-[minmax(0,360px)_1fr]">
         {/* Video + draw overlay */}
         <div>
+          <button
+            type="button"
+            onClick={() => setDrawMode((v) => !v)}
+            aria-pressed={drawMode}
+            className={`mb-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md text-sm font-semibold transition lg:hidden ${
+              drawMode
+                ? "bg-teal-600 text-white hover:bg-teal-700"
+                : "border border-teal-600 text-teal-700 hover:bg-teal-50"
+            }`}
+          >
+            {drawMode ? "Done drawing — scroll the page" : "Draw on clip"}
+          </button>
           <div
             ref={wrapperRef}
-            className="relative mx-auto w-full overflow-hidden rounded-lg bg-navy-900"
+            className={`relative mx-auto w-full overflow-hidden rounded-lg bg-navy-900 ${
+              drawMode ? "ring-2 ring-teal-500" : ""
+            }`}
             style={{ aspectRatio: aspect, maxHeight: "min(68vh, 560px)" }}
           >
             <video
@@ -297,8 +320,16 @@ export function SnippetTrackEditor({
               className="absolute inset-0 h-full w-full object-contain"
             />
             <div
-              className="absolute touch-none"
-              style={{ left: rect.left, top: rect.top, width: rect.width, height: rect.height }}
+              className="absolute"
+              style={{
+                left: rect.left,
+                top: rect.top,
+                width: rect.width,
+                height: rect.height,
+                // Only swallow touch gestures (blocking page scroll) while
+                // drawing on a phone; a mouse/pen ignores touch-action anyway.
+                touchAction: drawMode ? "none" : "auto",
+              }}
             >
               <svg
                 width={rect.width}
