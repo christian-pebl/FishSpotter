@@ -19,8 +19,24 @@
  * than a frozen off-screen one.
  */
 
-import { type CSSProperties } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import { useReducedMotion } from "framer-motion";
+
+// A pool of short, on-brand eyebrow phrases. The loader rotates through these
+// on every mount (cold boot AND soft navigations like archive → live feed) so
+// the wait reads fresh each time rather than repeating one fixed line.
+const CAPTIONS = [
+  "Spotting the reef",
+  "Scanning the shallows",
+  "Chasing the shoal",
+  "Following the current",
+  "Drifting through the kelp",
+  "Tracking the tide",
+  "Combing the seabed",
+  "Watching the water",
+  "Counting the fins",
+  "Surfacing the clips",
+] as const;
 
 type Swimmer = {
   /** Public path to the silhouette SVG (used as a CSS mask). */
@@ -43,13 +59,18 @@ type Swimmer = {
 // drift slowly across rather than darting. `top`/`rest` are spread so the
 // moving school fills the lane and the static (reduced-motion) school reads as
 // a calm spaced-out row.
+//
+// The lane travels left → right (see `fs-swimlane`), so any directional creature
+// must point right. The two bottom-dwelling fish (the catfish-like `fish` and
+// the `flatfish`) were dropped from the school — they read as seabed bottom
+// feeders, not water-column swimmers. The squid (mantle-first) and gastropod
+// (head right) already lead rightward; the jellyfish / crab / starfish are
+// radial so they need no flip.
 const SCHOOL: Swimmer[] = [
-  { src: "/silhouettes/fish.svg", top: "16%", width: 78, dur: "9s", delay: "0s", rest: "8%" },
   { src: "/silhouettes/squid.svg", top: "60%", width: 66, dur: "12s", delay: "-3s", rest: "26%" },
   { src: "/silhouettes/jellyfish.svg", top: "34%", width: 42, dur: "13s", delay: "-7.5s", rest: "44%" },
   { src: "/silhouettes/crab.svg", top: "72%", width: 54, dur: "10.5s", delay: "-5s", rest: "60%" },
   { src: "/silhouettes/starfish.svg", top: "10%", width: 46, dur: "12s", delay: "-9s", rest: "76%" },
-  { src: "/silhouettes/flatfish.svg", top: "48%", width: 72, dur: "8s", delay: "-1.5s", rest: "90%" },
   { src: "/silhouettes/gastropod.svg", top: "82%", width: 40, dur: "12.5s", delay: "-6s", rest: "18%" },
 ];
 
@@ -73,12 +94,21 @@ export function SwimLoader({
   caption,
   label = "Loading",
 }: {
-  /** Short eyebrow line under the school (e.g. "Spotting the reef"). */
+  /** Deterministic first-paint eyebrow (avoids a hydration mismatch); the
+   *  component then rotates to a random phrase from CAPTIONS on mount. */
   caption: string;
   /** Accessible label for the busy region. */
   label?: string;
 }) {
   const reduce = useReducedMotion();
+
+  // Seed with the passed `caption` for SSR/first paint (stable across the
+  // server↔client boundary), then swap to a fresh random phrase once mounted so
+  // every load — and every soft navigation — shows a different line.
+  const [phrase, setPhrase] = useState(caption);
+  useEffect(() => {
+    setPhrase(CAPTIONS[Math.floor(Math.random() * CAPTIONS.length)]);
+  }, []);
 
   return (
     <main
@@ -124,7 +154,7 @@ export function SwimLoader({
           )}
         </div>
 
-        <p className="pebl-eyebrow mt-4 text-center text-teal-200/90">{caption}</p>
+        <p className="pebl-eyebrow mt-4 text-center text-teal-200/90">{phrase}</p>
       </div>
     </main>
   );
