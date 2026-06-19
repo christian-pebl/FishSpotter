@@ -24,6 +24,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnnotatedSpeciesPhoto } from "@/components/AnnotatedSpeciesPhoto";
 import { SpeciesGallery } from "@/components/SpeciesGallery";
+import { DistributionMap } from "@/components/species/DistributionMap";
+import type { DistributionGrid } from "@/lib/biodiversity/distribution";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 
 
@@ -64,6 +66,23 @@ export function SpeciesGuidePopup({
       .then((r) => (r.ok ? r.json() : null))
       .then((body: { depth?: { label?: string } | null } | null) => {
         if (!cancelled && body?.depth?.label) setDepthLabel(body.depth.label);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [scientificName]);
+
+  // "Where it's seen" occurrence-density grid (OBIS, cached). The basemap shows
+  // immediately (grid=null) and the density fills in when this resolves.
+  const [grid, setGrid] = useState<DistributionGrid | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    setGrid(null);
+    fetch(`/api/species/distribution?name=${encodeURIComponent(scientificName)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body: { grid?: DistributionGrid | null } | null) => {
+        if (!cancelled && body?.grid) setGrid(body.grid);
       })
       .catch(() => {});
     return () => {
@@ -180,6 +199,21 @@ export function SpeciesGuidePopup({
             />
             <p className="mt-1.5 text-[10px] text-white/40">
               Compare these against the clip. Tap to enlarge.
+            </p>
+          </div>
+
+          <div>
+            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-teal-300/80">
+              Where it&apos;s seen
+            </p>
+            {/* Light card so the map (designed for light surfaces) stays legible
+                inside the dark popup. */}
+            <div className="flex justify-center rounded-modal bg-white px-3 py-3">
+              <DistributionMap grid={grid} />
+            </div>
+            <p className="mt-1.5 text-[10px] text-white/40">
+              Records around the UK &amp; NE Atlantic (OBIS). The ringed marker is
+              the PEBL filming site.
             </p>
           </div>
 
