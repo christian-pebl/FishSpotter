@@ -1,0 +1,81 @@
+# Onboard a species' DB-side data (photos + diagnostic-mark rings).
+#
+# Runs the per-species onboarding pipeline (scripts/onboard-species.ts) in CI so
+# a species' reference photos AND its diagnostic-mark rings land in the
+# production database — the bit that can't happen from a code deploy alone.
+# Default target is whiting (Merlangius merlangus), which shipped with photos but
+# no ID circles.
+#
+# Trigger it manually from the "Actions" tab (workflow_dispatch).
+#
+# Required repo secrets:
+#   - POSTGRES_PRISMA_URL        pooled connection string (runtime queries)
+#   - POSTGRES_URL_NON_POOLING   direct connection string
+#   - GEMINI_API_KEY             Gemini vision key — the marks step uses it to
+#                                localise each diagnostic feature on the photo.
+#                                Without it the marks step is skipped (photos
+#                                still refresh).
+
+name: Onboard species data
+
+on:
+  workflow_dispatch:
+    inputs:
+      species:
+        description: "Scientific name to onboard (e.g. 'Merlangius merlangus')"
+        required: true
+        default: "Merlangius merlangus"
+      skip-gallery:
+        description: "Skip the Gemini gallery rebuild (faster, less quota; keeps the curated hero)"
+        required: false
+        default: "true"
+
+jobs:
+  onboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Materialise .env.local from secrets
+        env:
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          # onboard-species.ts spawns the step scripts with --env-file=.env.local,
+          # so the secrets need to live in that file for this job.
+          {
+            echo "POSTGRES_PRISMA_URL=${POSTGRES_PRISMA_URL}"
+            echo "POSTGRES_URL_NON_POOLING=${POSTGRES_URL_NON_POOLING}"
+            echo "GEMINI_API_KEY=${GEMINI_API_KEY}"
+          } > .env.local
+          if [ -z "${GEMINI_API_KEY}" ]; then
+            echo "::warning::GEMINI_API_KEY secret is empty — the diagnostic-marks step will be skipped (photos still refresh)."
+          fi
+
+      - name: Onboard species
+        run: |
+          SKIP_FLAG=""
+          if [ "${{ github.event.inputs.skip-gallery }}" = "true" ]; then
+            SKIP_FLAG="--skip-gallery"
+          fi
+          npm run db:onboard-species -- --species "${{ github.event.inputs.species }}" $SKIP_FLAG --continue
+
+      - name: Cleanup
+        if: always()
+        run: rm -f .env.local
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "Onboarding finished for '${{ github.event.inputs.species }}'."
+          echo "Verify the rings are live: open the species in the feed's 'Tap to compare' guide,"
+          echo "or review/adjust the DRAFT rings at /admin/species (a @pebl-cic.co.uk login)."
