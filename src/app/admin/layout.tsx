@@ -21,6 +21,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               FishSpotter admin
             </Link>
             <nav className="flex items-center gap-3 text-[12px] text-navy-700">
+              <Link href="/admin/metrics" className="hover:text-navy-900">
+                Metrics
+              </Link>
               <Link href="/admin/species" className="hover:text-navy-900">
                 Species
               </Link>
