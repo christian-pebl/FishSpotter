@@ -708,8 +708,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       if (traceHead) {
         tracePosRef.current = traceHead;
         if (pingActiveRef.current && pingElRef.current) {
-          pingElRef.current.style.left = `${traceHead.x}px`;
-          pingElRef.current.style.top = `${traceHead.y}px`;
+          // Drive the ping via a compositor transform (not left/top). The rings
+          // have will-change:transform + a running animation, so they live on a
+          // GPU layer; moving the container with main-thread left/top let those
+          // ring layers lag the parent during motion, which rendered as an
+          // offset "duplicate" circle trailing the dot. translate3d keeps the
+          // container on the same thread as the rings so they stay pinned.
+          pingElRef.current.style.left = "0px";
+          pingElRef.current.style.top = "0px";
+          pingElRef.current.style.transform = `translate3d(${traceHead.x}px, ${traceHead.y}px, 0)`;
         }
       }
 
@@ -1033,10 +1040,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             ref={pingElRef}
             aria-hidden="true"
             className="pointer-events-none absolute z-20"
-            style={{
-              left: tracePosRef.current ? `${tracePosRef.current.x}px` : "50%",
-              top: tracePosRef.current ? `${tracePosRef.current.y}px` : "50%",
-            }}
+            style={
+              // Match the rAF loop: position via a compositor transform so the
+              // dot + rings stay pinned together (see the trace loop comment).
+              tracePosRef.current
+                ? {
+                    left: 0,
+                    top: 0,
+                    transform: `translate3d(${tracePosRef.current.x}px, ${tracePosRef.current.y}px, 0)`,
+                  }
+                : { left: "50%", top: "50%" }
+            }
           >
             <span className="fs-radar-ring" />
             <span className="fs-radar-ring" style={{ animationDelay: "0.5s" }} />
