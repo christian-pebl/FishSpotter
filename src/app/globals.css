@@ -479,6 +479,11 @@ a {
   12% {
     opacity: 0.5;
   }
+  50% {
+    /* Mid-crossing waypoint pulled off the straight chord so the path bows into
+     * a shallow curve — drifting on an eddy, not tracking a ruler line. */
+    transform: translate(50vw, var(--fs-dy-mid, 0px));
+  }
   88% {
     opacity: 0.5;
   }
@@ -504,15 +509,55 @@ a {
   animation: fs-swimwig 5.5s ease-in-out infinite;
   will-change: transform;
 }
-@keyframes fs-loadbar {
+/* Master envelope over the WHOLE silhouette field: it opens on the bare
+ * background (opacity 0), the cast fades up, holds while it drifts, then fades
+ * back out as the loadbar fill reaches the end — reading as one slick arc that
+ * dissolves into the page behind it. Looped (synced to fs-loadfill below) so a
+ * slow load just repeats the breath instead of stranding an empty screen. The
+ * per-creature drift/bob/edge-fade run underneath and multiply with this. */
+@keyframes fs-swimfield {
   0% {
-    left: -34%;
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 1;
   }
   100% {
-    left: 104%;
+    opacity: 0;
   }
 }
-.fs-loadbar {
-  animation: fs-loadbar 1.8s ease-in-out infinite;
-  will-change: left;
+.fs-swimfield {
+  animation: fs-swimfield 7.5s ease-in-out infinite;
+  will-change: opacity;
+}
+/* Determinate-feeling fill synced to fs-swimfield: it grows left→right and is
+ * ~full as the field fades out ("once the loading bar gets towards the end").
+ * Both the width reset and the seam are hidden because the bar is at opacity 0
+ * across the loop boundary, so it reads as one continuous sweep. */
+@keyframes fs-loadfill {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  80% {
+    width: 100%;
+  }
+  90% {
+    width: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+.fs-loadfill {
+  animation: fs-loadfill 7.5s ease-in-out infinite;
+  will-change: width, opacity;
 }
