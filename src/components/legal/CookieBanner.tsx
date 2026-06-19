@@ -26,12 +26,12 @@ export function CookieBanner({ initiallyDismissed }: Props) {
     return () => window.removeEventListener("focus", onFocus);
   }, [dismissed]);
 
-  const accept = () => {
+  const save = (analytics: boolean) => {
     const value = JSON.stringify({
       v: 1,
       ts: Date.now(),
       essential: true,
-      analytics: false,
+      analytics,
     });
     document.cookie = `${CONSENT_COOKIE}=${encodeURIComponent(value)}; max-age=${TWELVE_MONTHS_SECS}; path=/; SameSite=Lax`;
     setDismissed(true);
@@ -46,25 +46,28 @@ export function CookieBanner({ initiallyDismissed }: Props) {
       className="fixed inset-x-2 bottom-2 z-[60] mx-auto max-w-2xl pebl-surface rounded-card border border-navy-900/12 p-4 text-sm shadow-card"
     >
       <p className="text-navy-900">
-        FishSpotter uses one strictly-necessary cookie to keep you signed in. No analytics, no tracking. Read the details in our{" "}
+        FishSpotter keeps one strictly-necessary cookie to sign you in. May we also
+        count anonymous usage — clips watched, species spotted — to show our funder
+        the project&apos;s impact? No third-party tracking, ever. See our{" "}
         <Link href="/privacy" className="text-teal-700 underline">
           privacy policy
         </Link>
         .
       </p>
-      <div className="mt-3 flex justify-end gap-2">
-        <Link
-          href="/privacy"
-          className="pebl-button-secondary px-3 py-1.5 text-xs"
-        >
-          Read policy
-        </Link>
+      <div className="mt-3 flex flex-wrap justify-end gap-2">
         <button
           type="button"
-          onClick={accept}
+          onClick={() => save(false)}
+          className="pebl-button-secondary px-3 py-1.5 text-xs"
+        >
+          Essential only
+        </button>
+        <button
+          type="button"
+          onClick={() => save(true)}
           className="pebl-button-primary px-3 py-1.5 text-xs"
         >
-          Got it
+          Accept
         </button>
       </div>
     </div>
