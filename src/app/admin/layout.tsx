@@ -14,8 +14,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { email } = await requireAdminSession();
 
   return (
-    <div className="flex min-h-screen flex-col bg-navy-50">
-      <header className="border-b border-navy-200/60 bg-white">
+    // The root <body> is h-[100dvh] overflow-hidden (for the feed), so the
+    // document never scrolls — each route owns its scroll. Fill the available
+    // height and scroll the main region internally, or admin content is clipped.
+    <div className="flex min-h-0 flex-1 flex-col bg-navy-50">
+      <header className="shrink-0 border-b border-navy-200/60 bg-white">
         <div className="mx-auto w-full max-w-6xl px-4 pt-3">
           <div className="flex items-center justify-between gap-3">
             <Link href="/admin" className="font-brand text-sm font-semibold text-navy-900">
@@ -34,8 +37,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <AdminNav />
         </div>
       </header>
-      <main id="main" tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
-        {children}
+      <main id="main" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto">
+        <div className="mx-auto w-full max-w-6xl px-4 py-6">{children}</div>
       </main>
     </div>
   );
