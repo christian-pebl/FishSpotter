@@ -15,13 +15,21 @@
  * bottom-* forms) are intentionally left out. Each is tinted teal the same way
  * ShapeGate / MarinePattern do it: `mask-image` + `bg-current`.
  *
- * Layout (no overlap): the field is split into horizontal LANES. Vertically,
- * lanes don't share space, so creatures in different lanes never collide. Each
- * lane carries two creatures that share ONE drift duration and sit half a period
- * apart (opposite sides of the screen), so they never collide within the lane
- * either. Sizes are small so many fit; each one softly fades in as it enters and
- * out as it leaves (the opacity ramp in the fs-swimlane keyframe peaks at 0.5),
- * so there are no hard pop-ins at the edges.
+ * Layout: horizontal LANES are used only as a STRATIFIED-SAMPLING device — they
+ * guarantee the cast covers the full height — but each creature is then jittered
+ * almost a full lane off its band, so the field reads random rather than ruled.
+ * Sizes are small so occasional overlap at 50% opacity is harmless and natural;
+ * each one softly fades in as it enters and out as it leaves (the opacity ramp
+ * in the fs-swimlane keyframe peaks at 0.5), so there are no hard pop-ins.
+ *
+ * Movement reads like loose, drifting CURRENTS — everything travels broadly
+ * left→right, but each creature is scattered to a stratified-random spot (not a
+ * tidy grid), starts at a fully-random point in its crossing (so there are no
+ * even columns at any instant), runs at its own speed, and follows a CURVED
+ * path: a pronounced, varied net vertical angle plus a mid-crossing waypoint
+ * pulled off the straight chord, so it bows and meanders like an eddy rather
+ * than sliding along a ruler line. The result fans the cast out in slightly
+ * different directions instead of a parallel parade.
  *
  * Pure CSS animation (paints on the first frame, no JS needed), so it starts
  * instantly on a cold load. Reduced motion: the CSS animations are neutralised
@@ -107,24 +115,31 @@ type Swimmer = {
   dur: string;
   /** Negative delay so the field is mid-crossing on the first frame. */
   delay: string;
-  /** Vertical drift over one crossing (vh) — gives each creature its own shallow
-   *  left→right angle instead of a dead-flat lane. */
+  /** Net vertical drift over one crossing (vh) — each creature's own left→right
+   *  angle, varied enough that the cast fans out instead of running parallel. */
   dy: string;
+  /** Mid-crossing vertical waypoint (vh), pulled off the straight chord so the
+   *  path bows into a curve and meanders like a current. */
+  dyMid: string;
+  /** Per-creature bob duration, so the wig doesn't beat in unison. */
+  wigDur: string;
   /** Left position for the static reduced-motion tableau (spread out). */
   rest: string;
 };
 
-// Build the field: LANES horizontal bands seed an even spread (so the cast isn't
-// bunched), but each creature then gets its OWN speed, a shallow vertical angle,
-// and a little off-grid jitter — so it drifts organically rather than in a tidy
-// grid. Still all slow and left→right. Deterministic (a fixed hash, no
-// Math.random) so SSR and the client render the identical field — no hydration
-// mismatch.
-const LANES = 16;
+// Build the field: LANES horizontal bands are a stratified-sampling device (they
+// guarantee full-height coverage), but every creature is then heavily jittered
+// off its band, given a FULLY random crossing phase, its own speed, a pronounced
+// varied vertical angle, and a curved path — so the cast scatters and meanders
+// like loose currents rather than marching in a grid. Still all slow and broadly
+// left→right. Deterministic (a fixed hash, no Math.random) so SSR and the client
+// render the identical field — no hydration mismatch.
+const LANES = 18;
 const PER_LANE = 3;
 const REST_LEFT = [12, 42, 72]; // static reduced-motion columns, per PER_LANE
 
 // Stable pseudo-random in [0,1) from an integer — identical on server + client.
+// Two decorrelated draws per seed (different multipliers) so axes don't align.
 function hash(n: number): number {
   const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
   return x - Math.floor(x);
@@ -134,7 +149,6 @@ function buildSchool(): Swimmer[] {
   const laneH = 100 / LANES;
   const out: Swimmer[] = [];
   for (let lane = 0; lane < LANES; lane++) {
-    const lanePhase = (lane * 0.618) % 1; // golden-ratio stagger across lanes
     for (let j = 0; j < PER_LANE; j++) {
       const idx = lane * PER_LANE + j;
       const hSpeed = hash(idx + 1);
@@ -142,15 +156,24 @@ function buildSchool(): Swimmer[] {
       const hTop = hash(idx + 211);
       const hAngle = hash(idx + 307);
       const hSize = hash(idx + 409);
+      const hMid = hash(idx + 521);
+      const hWig = hash(idx + 631);
 
-      const width = 20 + Math.round(hSize * 12); // 20–32px (small)
+      const width = 18 + Math.round(hSize * 18); // 18–36px — a wider size spread
       const height = Math.round(width * 0.7);
-      // Nudge each creature off its exact lane line so the rows aren't a grid.
-      const centre = ((lane + 0.5) / LANES) * 100 + (hTop - 0.5) * laneH * 0.4;
-      const dur = 26 + hSpeed * 16; // 26–42s — slow, but each its own speed
-      // Seed an even spread, then jitter the phase a touch.
-      const phaseFrac = (lanePhase + j / PER_LANE + (hPhase - 0.5) * 0.12 + 1) % 1;
-      const dy = (hAngle * 2 - 1) * 2; // −2…+2vh: a shallow, varied angle
+      // Stratified-random vertical: the lane is a coarse band, but a near-full-
+      // lane jitter (±0.95·laneH) scatters the creature so the field reads random
+      // rather than ruled, while still covering the whole height.
+      const centre = ((lane + 0.5) / LANES) * 100 + (hTop - 0.5) * laneH * 1.9;
+      const dur = 22 + hSpeed * 26; // 22–48s — a wide speed spread
+      // FULLY random crossing phase → no even columns lined up at any instant.
+      const phaseFrac = hPhase;
+      // Net vertical travel across the crossing: a pronounced, varied angle so
+      // creatures fan out in slightly different directions, not dead-flat parallel.
+      const dy = (hAngle * 2 - 1) * 13; // −13…+13vh
+      // Midpoint waypoint pulled off the straight chord → the path bows/meanders
+      // like an eddying current instead of a straight diagonal.
+      const dyMid = dy * 0.5 + (hMid - 0.5) * 16; // ±8vh of curve off the chord
 
       out.push({
         src: POOL[idx % POOL.length],
@@ -160,6 +183,8 @@ function buildSchool(): Swimmer[] {
         dur: `${dur.toFixed(1)}s`,
         delay: `${(-phaseFrac * dur).toFixed(2)}s`,
         dy: `${dy.toFixed(2)}vh`,
+        dyMid: `${dyMid.toFixed(2)}vh`,
+        wigDur: `${(4.5 + hWig * 3.5).toFixed(1)}s`, // 4.5–8s per-creature bob
         rest: `${REST_LEFT[j] + (lane % 4) * 5}%`,
       });
     }
@@ -228,8 +253,10 @@ export function SwimLoader({
                 height: s.height,
                 animationDuration: s.dur,
                 animationDelay: s.delay,
-                // Per-creature vertical drift → its own shallow left→right angle.
+                // Per-creature curved drift: its own net angle (--fs-dy) plus a
+                // mid-crossing waypoint (--fs-dy-mid) that bows the path.
                 ["--fs-dy" as string]: s.dy,
+                ["--fs-dy-mid" as string]: s.dyMid,
               };
           return (
             <div
@@ -239,8 +266,13 @@ export function SwimLoader({
             >
               <span
                 className={reduce ? "block h-full w-full" : "fs-swimwig block h-full w-full"}
-                // Desync each creature's bob so the field doesn't pulse in unison.
-                style={reduce ? undefined : { animationDelay: `${(-k * 0.6).toFixed(1)}s` }}
+                // Desync each creature's bob (own duration + delay) so the field
+                // doesn't pulse in unison.
+                style={
+                  reduce
+                    ? undefined
+                    : { animationDuration: s.wigDur, animationDelay: `${(-k * 0.6).toFixed(1)}s` }
+                }
               >
                 <Silhouette src={s.src} />
               </span>

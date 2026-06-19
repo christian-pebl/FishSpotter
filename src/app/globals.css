@@ -479,6 +479,11 @@ a {
   12% {
     opacity: 0.5;
   }
+  50% {
+    /* Mid-crossing waypoint pulled off the straight chord so the path bows into
+     * a shallow curve — drifting on an eddy, not tracking a ruler line. */
+    transform: translate(50vw, var(--fs-dy-mid, 0px));
+  }
   88% {
     opacity: 0.5;
   }
