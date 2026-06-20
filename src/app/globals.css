@@ -428,60 +428,73 @@ a {
   will-change: transform;
 }
 
-/* Soft one-shot "here's the fish" highlight (FeedCard). A gentle concentric
- * ring that fades in, holds, then fades out once over ~3s on the earliest
- * labelled bbox, drawing the eye to the creature without obscuring it (no
- * centre dot). The container is sized + margin-centred on the projected point;
- * the pulse scales/fades around its centre. Reduced-motion users get a static
- * ring (the global block neutralises the keyframes, so we disable + pin it). */
-@keyframes fs-fish-pulse {
+/* Soft "here's the fish" highlight (FeedCard). A gentle concentric ring that
+ * follows the creature along its bbox track for ~3s then fades, drawing the eye
+ * to the fish without obscuring it (no centre dot). The OUTER container is
+ * positioned each frame via translate3d (ringRef); `.fs-fish-follow` is a box
+ * margin-centred on that point that runs the fade envelope, and the rings run a
+ * gentle infinite pulse (transform-only, so it never fights the container's
+ * positional transform). Reduced-motion users get a static ring (the global
+ * block neutralises the keyframes, so we disable + pin them). */
+@keyframes fs-fish-fade {
   0% {
     opacity: 0;
-    transform: scale(0.7);
   }
   15% {
     opacity: 1;
-    transform: scale(1);
   }
-  72% {
+  75% {
     opacity: 1;
-    transform: scale(1.04);
   }
   100% {
     opacity: 0;
-    transform: scale(1.16);
   }
 }
-.fs-fish-highlight {
+@keyframes fs-fish-pulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+.fs-fish-follow {
   position: absolute;
   width: 120px;
   height: 120px;
-  margin: -60px 0 0 -60px; /* centre the box on the inline left/top point */
-  animation: fs-fish-pulse 3s ease-in-out forwards;
-  will-change: transform, opacity;
+  margin: -60px 0 0 -60px; /* centre on the parent's translated origin */
+  animation: fs-fish-fade 3s ease-in-out forwards;
+  will-change: opacity;
 }
 .fs-fish-ring {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
   border-radius: 9999px;
 }
 .fs-fish-ring--outer {
   width: 92px;
   height: 92px;
+  margin: -46px 0 0 -46px;
   border: 2px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 0 14px rgba(255, 255, 255, 0.45), inset 0 0 10px rgba(255, 255, 255, 0.15);
+  animation: fs-fish-pulse 1.6s ease-in-out infinite;
+  will-change: transform;
 }
 .fs-fish-ring--inner {
   width: 58px;
   height: 58px;
+  margin: -29px 0 0 -29px;
   border: 1.5px solid rgba(255, 255, 255, 0.5);
 }
 @media (prefers-reduced-motion: reduce) {
-  .fs-fish-highlight {
+  .fs-fish-follow {
     animation: none;
     opacity: 0.9;
+  }
+  .fs-fish-ring--outer {
+    animation: none;
   }
 }
 

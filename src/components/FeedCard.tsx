@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useDragControls, useReducedMotion } from "fram
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
-import { setVideoSettings, useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
+import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 import { StaffScientificResolver } from "./StaffScientificResolver";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
@@ -167,7 +167,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const glowGradRef = useRef<SVGLinearGradientElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const settings = useVideoSettings();
-  const showTracking = settings.trace;
+  // The continuous line-trace is disabled — the soft follow-highlight below is
+  // the only in-clip indicator now. Kept as an inert flag so the trail loop
+  // (which also drives the loop-reset progress pulse) early-returns cleanly.
+  const showTracking = false;
   const [mapOpen, setMapOpen] = useState(false);
   // Provenance popover (depth · site · date) behind the bottom-right info
   // button. Tapping the site name inside it opens the MapModal.
@@ -195,15 +198,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // Jump back to a given rung, resetting downstream picks so they're re-made.
   const goToRung1 = useCallback(() => dispatch({ type: "goToRung1" }), []);
   const goToRung2 = useCallback(() => dispatch({ type: "goToRung2" }), []);
-  // Soft "here's the fish" highlight: a single gentle concentric ring that
-  // fades in and out once over ~3s on the EARLIEST labelled bbox, then
-  // disappears. A subtle one-shot indicator (not a continuous trace) so it
-  // never obscures the creature. Position (screen px) is computed when shown;
-  // `key` re-runs the CSS pulse on re-trigger.
-  const [fishHighlight, setFishHighlight] = useState<{ x: number; y: number; key: number } | null>(
-    null,
-  );
+  // Soft "here's the fish" highlight: a gentle concentric ring that FOLLOWS the
+  // creature along its bbox track (synced to playback) for ~3s when a clip
+  // becomes active, then fades — so it's clear which specific fish is being
+  // identified, without an obscuring continuous trace. `key` restarts the CSS
+  // fade/pulse; the per-frame position is driven imperatively on ringRef.
+  const [highlight, setHighlight] = useState<{ key: number } | null>(null);
   const highlightShownRef = useRef(false);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
   // the user has either watched the clip through one loop OR manually
   // tapped the collapsed pill to expand. Encourages observation before
@@ -521,52 +524,34 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     };
   }, [speciesCenter]);
 
-  // Project the earliest labelled bbox to screen px and show the soft highlight.
-  // bboxes is sorted ascending by frame_clip, so bboxes[0] is the earliest
-  // usable box; the feed maps playback progress->frame proportionally, so that
-  // point sits at the clip's start — exactly where the indicator should land.
-  const showFishHighlight = useCallback(() => {
+  // Trigger the follow-highlight: mounts the ring (the loop below drives its
+  // position) and auto-clears after ~3s so it stays a brief indicator. Bumping
+  // `key` restarts the CSS fade + pulse.
+  const triggerHighlight = useCallback(() => {
     const video = videoRef.current;
-    if (!video || bboxes.length === 0) return false;
-    const cw = video.clientWidth;
-    const ch = video.clientHeight;
-    const vw = video.videoWidth;
-    const vh = video.videoHeight;
-    if (!cw || !ch || !vw || !vh) return false;
-    const { renderedWidth, renderedHeight, offsetX, offsetY } = fitGeometry(
-      cw,
-      ch,
-      vw,
-      vh,
-      speciesCenterRef.current,
-    );
-    const b = bboxes[0];
-    const cx = b.x_norm + b.w_norm / 2;
-    const cy = b.y_norm + b.h_norm / 2;
-    setFishHighlight({
-      x: offsetX + cx * renderedWidth,
-      y: offsetY + cy * renderedHeight,
-      key: Date.now(),
-    });
+    if (!video || !video.videoWidth || bboxes.length === 0) return false;
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    setHighlight({ key: Date.now() });
+    highlightTimerRef.current = setTimeout(() => setHighlight(null), 3000);
     return true;
   }, [bboxes]);
 
-  // Auto-trigger the highlight once each time the card becomes active (waits for
-  // the video to report real dimensions so the projection is correct).
+  // Auto-trigger once each time the card becomes active (waits for the video to
+  // report real dimensions so the first projection is correct).
   useEffect(() => {
     if (!isActive) {
       highlightShownRef.current = false;
-      setFishHighlight(null);
+      if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+      setHighlight(null);
       return;
     }
     if (highlightShownRef.current || bboxes.length === 0) return;
     let cancelled = false;
     const attempt = () => {
       if (cancelled || highlightShownRef.current) return;
-      if (showFishHighlight()) highlightShownRef.current = true;
+      if (triggerHighlight()) highlightShownRef.current = true;
     };
-    // Small delay so the first frame is painted and the eye has settled.
-    const t = setTimeout(attempt, 600);
+    const t = setTimeout(attempt, 500);
     const video = videoRef.current;
     const onMeta = () => attempt();
     video?.addEventListener("loadedmetadata", onMeta);
@@ -575,14 +560,74 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       clearTimeout(t);
       video?.removeEventListener("loadedmetadata", onMeta);
     };
-  }, [isActive, bboxes, showFishHighlight]);
+  }, [isActive, bboxes, triggerHighlight]);
 
-  // One-shot: clear after the ~3s fade so it doesn't linger or repeat.
+  // While the highlight is mounted, follow the creature along its bbox track in
+  // sync with playback (same getBoxAtProgress + fitGeometry projection the clip
+  // uses), so the ring sits on the fish and moves with it. A single-box track
+  // resolves to a fixed point (one pulse in place); a multi-box track moves
+  // along, showing the fish's direction.
   useEffect(() => {
-    if (!fishHighlight) return;
-    const t = setTimeout(() => setFishHighlight(null), 3000);
-    return () => clearTimeout(t);
-  }, [fishHighlight]);
+    if (!highlight || !isActive || bboxes.length === 0) return;
+    const video = videoRef.current;
+    if (!video) return;
+    let cancelled = false;
+    let rafId = 0;
+    let rvfcId = 0;
+    const step = (mediaTime: number) => {
+      const dur = video.duration;
+      if (!Number.isFinite(dur) || dur <= 0) return;
+      const t = Math.min(Math.max(mediaTime, 0), dur);
+      const bbox = getBoxAtProgress(bboxes, t / dur);
+      if (!bbox) return;
+      const cw = video.clientWidth;
+      const ch = video.clientHeight;
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      if (!cw || !ch || !vw || !vh) return;
+      const { renderedWidth, renderedHeight, offsetX, offsetY } = fitGeometry(
+        cw,
+        ch,
+        vw,
+        vh,
+        speciesCenterRef.current,
+      );
+      const x = offsetX + (bbox.x_norm + bbox.w_norm / 2) * renderedWidth;
+      const y = offsetY + (bbox.y_norm + bbox.h_norm / 2) * renderedHeight;
+      const el = ringRef.current;
+      if (el) el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    };
+    type RVFCMeta = { mediaTime: number };
+    type RVFCCallback = (now: number, metadata: RVFCMeta) => void;
+    type VideoWithRVFC = HTMLVideoElement & {
+      requestVideoFrameCallback?: (cb: RVFCCallback) => number;
+      cancelVideoFrameCallback?: (id: number) => void;
+    };
+    const v = video as VideoWithRVFC;
+    step(video.currentTime); // place it before the first frame to avoid a flash
+    if (typeof v.requestVideoFrameCallback === "function") {
+      const onFrame: RVFCCallback = (_now, metadata) => {
+        if (cancelled) return;
+        step(metadata.mediaTime);
+        rvfcId = v.requestVideoFrameCallback!(onFrame);
+      };
+      rvfcId = v.requestVideoFrameCallback(onFrame);
+    } else {
+      const onRaf = () => {
+        if (cancelled) return;
+        step(video.currentTime);
+        rafId = requestAnimationFrame(onRaf);
+      };
+      rafId = requestAnimationFrame(onRaf);
+    }
+    return () => {
+      cancelled = true;
+      if (rafId) cancelAnimationFrame(rafId);
+      if (rvfcId && typeof v.cancelVideoFrameCallback === "function") {
+        v.cancelVideoFrameCallback(rvfcId);
+      }
+    };
+  }, [highlight, isActive, bboxes]);
 
   const [videoPaused, setVideoPaused] = useState(false);
 
@@ -1067,18 +1112,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           </>
         )}
 
-        {/* Soft one-shot "here's the fish" highlight — a gentle concentric ring
-            that fades in/out once on the earliest labelled bbox, then clears.
-            No centre dot, so the creature stays visible inside it. */}
-        {fishHighlight && hasBboxes && (
+        {/* Soft "here's the fish" highlight — a gentle concentric ring that
+            follows the creature along its bbox track for ~3s, then fades. No
+            centre dot, so the fish stays visible inside it. The container is
+            positioned each frame via translate3d (ringRef); the inner box
+            handles the fade envelope + pulse. */}
+        {highlight && hasBboxes && (
           <div
-            key={fishHighlight.key}
+            key={highlight.key}
+            ref={ringRef}
             aria-hidden="true"
-            className="fs-fish-highlight pointer-events-none z-20"
-            style={{ left: fishHighlight.x, top: fishHighlight.y }}
+            className="pointer-events-none absolute z-20"
+            style={{ left: 0, top: 0 }}
           >
-            <span className="fs-fish-ring fs-fish-ring--outer" />
-            <span className="fs-fish-ring fs-fish-ring--inner" />
+            <div className="fs-fish-follow">
+              <span className="fs-fish-ring fs-fish-ring--outer" />
+              <span className="fs-fish-ring fs-fish-ring--inner" />
+            </div>
           </div>
         )}
       </div>
@@ -1242,33 +1292,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Toggle the fish-tracking trace on the clip. Off by default; this
-                concentric-ring button on the RIGHT turns the trail overlay on. */}
-            {hasBboxes && (
-              <button
-                type="button"
-                onClick={() => {
-                  setMetaOpen(false);
-                  setVideoSettings({ trace: !showTracking });
-                  // The soft fish highlight already flags where the creature is;
-                  // turning the trace on no longer needs a separate ping flash.
-                  showFishHighlight();
-                }}
-                aria-pressed={showTracking}
-                aria-label={showTracking ? "Hide the fish-tracking trace" : "Show the fish-tracking trace"}
-                title={showTracking ? "Hide trace" : "Show trace"}
-                className={`flex shrink-0 items-center justify-center gap-1.5 border-l border-white/10 px-4 text-[11px] font-semibold uppercase tracking-wider transition-colors hover:bg-white/5 ${
-                  showTracking ? "bg-teal-500/15 text-teal-200" : "text-teal-300"
-                }`}
-              >
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <circle cx="8" cy="8" r="2" fill="currentColor" />
-                  <circle cx="8" cy="8" r="5" stroke="currentColor" strokeWidth="1.3" opacity="0.7" />
-                  <circle cx="8" cy="8" r="7.2" stroke="currentColor" strokeWidth="1.1" opacity="0.4" />
-                </svg>
-                <span className="hidden sm:inline">{showTracking ? "Hide trace" : "Show trace"}</span>
-              </button>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
