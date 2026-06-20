@@ -22,6 +22,7 @@ type FeedSnippetRow = {
   deployment: string;
   staffAnswer: string | null;
   bboxJson: string | null;
+  manualTrackJson: string | null;
   lat: number | null;
   lon: number | null;
   depthM: number | null;
@@ -47,6 +48,7 @@ export default async function FeedPage() {
         deployment: true,
         staffAnswer: true,
         bboxJson: true,
+        manualTrackJson: true,
         lat: true,
         lon: true,
         depthM: true,
@@ -101,6 +103,7 @@ export default async function FeedPage() {
     deployment: snippet.deployment,
     staffAnswer: snippet.staffAnswer,
     bboxes: snippet.bboxJson ? JSON.parse(snippet.bboxJson) : null,
+    manualTrack: snippet.manualTrackJson ? JSON.parse(snippet.manualTrackJson) : null,
     lat: snippet.lat,
     lon: snippet.lon,
     depthM: snippet.depthM,

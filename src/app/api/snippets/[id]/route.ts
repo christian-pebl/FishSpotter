@@ -12,9 +12,10 @@ export async function GET(
     where: { id },
   });
   if (!snippet) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  const { bboxJson, ...rest } = snippet;
+  const { bboxJson, manualTrackJson, ...rest } = snippet;
   return NextResponse.json({
     ...rest,
     bboxes: bboxJson ? JSON.parse(bboxJson) : null,
+    manualTrack: manualTrackJson ? JSON.parse(manualTrackJson) : null,
   });
 }
