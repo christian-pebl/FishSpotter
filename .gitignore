@@ -68,6 +68,9 @@ backup*/
 # TypeScript incremental build info
 tsconfig.tsbuildinfo
 
+# Incremental db:sync state (per-machine signatures of synced snip folders)
+.sync-manifest.json
+
 # Spot It reference guide PDFs (48MB of free UK marine ID guides; source
 # material for catalogue authoring, re-downloadable, not versioned)
 decision-tree/id-guides/

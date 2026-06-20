@@ -109,9 +109,15 @@ async function main() {
 
     const meta: Metadata = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
     let bboxJson: string | null = null;
+    let manualTrackJson: string | null = null;
     if (fs.existsSync(bboxPath)) {
       const bboxData = JSON.parse(fs.readFileSync(bboxPath, "utf-8"));
       bboxJson = JSON.stringify(bboxData.bboxes ?? bboxData);
+      // Hand-marked centre path, when the reviewer added one in TRDesk4.
+      const pts = bboxData?.manual_track?.points;
+      if (Array.isArray(pts) && pts.length > 0) {
+        manualTrackJson = JSON.stringify(pts);
+      }
     }
 
     let videoUrl: string;
@@ -145,6 +151,7 @@ async function main() {
         recordingDatetime: meta.recording_datetime ?? null,
         staffAnswer: getReferenceAnswer(meta),
         bboxJson,
+        manualTrackJson,
       },
       update: {
         videoUrl,
@@ -157,6 +164,7 @@ async function main() {
         recordingDatetime: meta.recording_datetime ?? null,
         staffAnswer: getReferenceAnswer(meta),
         bboxJson,
+        manualTrackJson,
       },
     });
     console.log(`Seeded: ${folderName}`);

@@ -19,13 +19,13 @@ export async function GET(
   const { id } = await params;
   const snippet = await prisma.snippet.findUnique({
     where: { id },
-    select: { bboxJson: true },
+    select: { bboxJson: true, manualTrackJson: true },
   });
   if (!snippet) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  // Parse + re-serialise: the column stores a JSON string but
-  // returning structured JSON saves the client a JSON.parse.
+  // Parse + re-serialise: the columns store JSON strings but returning
+  // structured JSON saves the client a JSON.parse.
   let bboxes: unknown = null;
   if (snippet.bboxJson) {
     try {
@@ -34,8 +34,16 @@ export async function GET(
       bboxes = null;
     }
   }
+  let manualTrack: unknown = null;
+  if (snippet.manualTrackJson) {
+    try {
+      manualTrack = JSON.parse(snippet.manualTrackJson);
+    } catch {
+      manualTrack = null;
+    }
+  }
   return NextResponse.json(
-    { bboxes },
+    { bboxes, manualTrack },
     {
       headers: {
         // Stable per snippet; cache modestly to absorb the ±1 preload

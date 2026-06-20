@@ -32,13 +32,14 @@
 
 | File | Purpose |
 |------|---------|
-| `src/components/FeedCard.tsx` | Main video card — video playback, bbox tracking overlay, species quiz |
+| `src/components/FeedCard.tsx` | Main video card — video playback, bbox tracking overlay (prefers `manualTrackJson` over `bboxJson` for the trail), species quiz |
 | `src/components/FeedPlayer.tsx` | IntersectionObserver scroll container; sets activeIndex |
 | `src/app/feed/page.tsx` | Live feed page (server component, fetches snippets) |
 | `src/app/feed/browse/page.tsx` | Archive grid page |
 | `src/app/leaderboard/page.tsx` | Community leaderboard |
 | `prisma/schema.prisma` | DB schema: User, Snippet, Answer |
-| `scripts/seed.ts` | One-time seed: reads local snips folders, uploads to Supabase, inserts DB records |
+| `scripts/seed.ts` | One-time seed: reads local snips folders, uploads to Supabase, inserts DB records (now also ingests `manual_track` -> `manualTrackJson`) |
+| `scripts/sync.ts` | **Incremental snippet sync (`npm run db:sync`).** Reads `SNIPS_DIR`, upserts only NEW/CHANGED folders (tracked via a local `.sync-manifest.json` of size+mtime signatures), re-uploads media + cache-busts ONLY when the clip bytes changed (so the editor's manual-track-only rewrites don't re-upload video), and writes `bboxJson` + `manualTrackJson`. This is what DesktopML's `fishspotter_sync.py` invokes after every export; `seed.ts` stays the upload-everything bootstrap. Flags: `--all`, `--dry-run`, `--limit N`. |
 | `scripts/transcode-to-h264.ts` | Utility: downloads all mp4v snippets, transcodes to H.264, re-uploads, updates DB URLs |
 | `scripts/reupload-snippets-hq.ts` | Re-uploads the high-quality re-cut clips (from `DesktopML/reexport_snippets_hq.py`, default `--from` the local export dir or pass `--from "<G: Fish Spotter Snips>"`) to the active storage provider and cache-busts the DB `videoUrl`/`thumbnailUrl` with a `?v=` bump. Idempotent: skips rows already on the active provider's host (`--all` to force). `--dry-run` / `--limit N`. Used for the 10 Jun 2026 quality re-cut; also the tool to re-consolidate onto R2 once R2 creds are present. |
 | `scripts/refresh-images.ts` | CLI runner for the species-image cache (thin wrapper around `src/lib/biodiversity/refresh-images.ts`) |
@@ -274,7 +275,11 @@ are the standard for new and touched code, so the drift narrows over time:
 
 Run scripts with: `npx tsx --env-file=.env.local scripts/<script>.ts`
 
-Seed: `npm run db:seed`
+Seed: `npm run db:seed` (one-time bootstrap, uploads everything)
+
+Incremental sync: `npm run db:sync` (after every TRDesk4 export; uploads/upserts only new or changed snips, reads `SNIPS_DIR`). See `scripts/sync.ts`.
+
+After adding `Snippet.manualTrackJson` (June 2026): run `npm run db:push` once to apply the column, then `npm run db:enable-rls -- --check` (column add keeps RLS, but it is the load-bearing invariant, so confirm it).
 
 ### Row-Level Security (RLS) — load-bearing security invariant
 
@@ -296,7 +301,7 @@ directly readable by anyone via `/rest/v1/<Table>` — which previously exposed
   client-side Supabase SDK to read a table (none do today).
 
 Schema summary:
-- `Snippet`: id, externalId (folder name), videoUrl, thumbnailUrl, site, deployment, depthM, lat, lon, recordingDatetime, **`staffAnswer: String?`** (nullable since S7-T1 — null means "no reference identification yet"), bboxJson
+- `Snippet`: id, externalId (folder name), videoUrl, thumbnailUrl, site, deployment, depthM, lat, lon, recordingDatetime, **`staffAnswer: String?`** (nullable since S7-T1 — null means "no reference identification yet"), bboxJson, manualTrackJson (hand-marked 16-point fish-centre path from TRDesk4's Snip Editor; FeedCard prefers it over bboxJson when drawing the fish-trail)
 - `Answer`: userId, snippetId, chosenOption, **`isCorrect: Boolean?`** (null when the snippet has no reference yet), **`points: Int`** (S7-T1; 2 = correct match against reference, 1 = pending bonus on a no-reference snippet, 0 = unmatched guess)
 - `User`: id, email, displayName, name
 - `SpeciesProbability`: cached OBIS species composition per (lat₀.₁°, lon₀.₁°, depth₁₀m, month) bucket

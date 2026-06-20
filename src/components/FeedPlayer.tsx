@@ -22,6 +22,16 @@ export interface BBoxFrame {
   h_norm: number;
 }
 
+/** A single hand-marked fish-centre point (the manual 16-point track authored
+ *  in TRDesk4). Centre only, no width/height: FeedCard maps it to a zero-size
+ *  BBoxFrame so the existing trail renderer treats (x_norm, y_norm) as the fish
+ *  centre with no other change. */
+export interface TrackPoint {
+  frame_clip: number;
+  x_norm: number;
+  y_norm: number;
+}
+
 export interface FeedSnippet {
   id: string;
   videoUrl: string;
@@ -31,6 +41,9 @@ export interface FeedSnippet {
   /** Reference identification. Null when the snippet has no reference yet (S7-T1). */
   staffAnswer: string | null;
   bboxes: BBoxFrame[] | null;
+  /** Hand-marked centre path. When present, FeedCard draws its trail from this
+   *  in preference to the auto bboxes (it is the cleaner signal). */
+  manualTrack?: TrackPoint[] | null;
   lat: number | null;
   lon: number | null;
   depthM: number | null;

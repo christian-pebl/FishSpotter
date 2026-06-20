@@ -20,6 +20,7 @@ import { RevealResult } from "./idflow/RevealResult";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
 import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
+import { manualTrackToBoxes } from "@/lib/manualTrack";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -459,17 +460,22 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     return () => setEditFocusCallback(null);
   }, [setEditFocusCallback]);
 
-  const bboxes = useMemo(
-    () =>
-      (snippet.bboxes ?? [])
-        .filter(hasUsableBox)
-        .map((box, index) => ({
-          ...box,
-          frame_clip: Number.isFinite(box.frame_clip) ? box.frame_clip : index,
-        }))
-        .sort((a, b) => a.frame_clip - b.frame_clip),
-    [snippet.bboxes]
-  );
+  const bboxes = useMemo(() => {
+    // Prefer the hand-marked manual track when present — a far cleaner signal
+    // than the auto RT-DETR/motion boxes. Centre points map to zero-size boxes
+    // so the trail renderer below treats (x_norm, y_norm) as the fish centre
+    // with no other change (centre = x_norm + w_norm/2 = x_norm when w_norm=0).
+    const manual = snippet.manualTrack;
+    const source: BBoxFrame[] =
+      manual && manual.length > 0 ? manualTrackToBoxes(manual) : snippet.bboxes ?? [];
+    return source
+      .filter(hasUsableBox)
+      .map((box, index) => ({
+        ...box,
+        frame_clip: Number.isFinite(box.frame_clip) ? box.frame_clip : index,
+      }))
+      .sort((a, b) => a.frame_clip - b.frame_clip);
+  }, [snippet.bboxes, snippet.manualTrack]);
 
   // Median species centre (normalized) across the track: the target the cover
   // crop pans to so a landscape clip fills the screen ON the creature, not on
