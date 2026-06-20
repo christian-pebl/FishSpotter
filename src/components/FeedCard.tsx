@@ -195,26 +195,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // Jump back to a given rung, resetting downstream picks so they're re-made.
   const goToRung1 = useCallback(() => dispatch({ type: "goToRung1" }), []);
   const goToRung2 = useCallback(() => dispatch({ type: "goToRung2" }), []);
-  // (3 Jun) "Show where on screen" radar ping — concentric rings that track the
-  // bbox trail head so the user can find the creature in the clip. tracePosRef
-  // is updated each frame by the trail render loop; the ping element follows it.
-  const [showPing, setShowPing] = useState(false);
-  const [pingKey, setPingKey] = useState(0);
-  const tracePosRef = useRef<{ x: number; y: number } | null>(null);
-  const pingElRef = useRef<HTMLDivElement>(null);
-  const pingActiveRef = useRef(false);
-  const pingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  // Mirror showPing into a ref so the rAF trail loop can move the ping element
-  // without being re-subscribed on every toggle.
-  useEffect(() => {
-    pingActiveRef.current = showPing;
-  }, [showPing]);
-  const triggerPing = useCallback(() => {
-    if (pingTimerRef.current) clearTimeout(pingTimerRef.current);
-    setPingKey((k) => k + 1);
-    setShowPing(true);
-    pingTimerRef.current = setTimeout(() => setShowPing(false), 3500);
-  }, []);
+  // Soft "here's the fish" highlight: a single gentle concentric ring that
+  // fades in and out once over ~3s on the EARLIEST labelled bbox, then
+  // disappears. A subtle one-shot indicator (not a continuous trace) so it
+  // never obscures the creature. Position (screen px) is computed when shown;
+  // `key` re-runs the CSS pulse on re-trigger.
+  const [fishHighlight, setFishHighlight] = useState<{ x: number; y: number; key: number } | null>(
+    null,
+  );
+  const highlightShownRef = useRef(false);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
   // the user has either watched the clip through one loop OR manually
   // tapped the collapsed pill to expand. Encourages observation before
@@ -532,6 +521,69 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     };
   }, [speciesCenter]);
 
+  // Project the earliest labelled bbox to screen px and show the soft highlight.
+  // bboxes is sorted ascending by frame_clip, so bboxes[0] is the earliest
+  // usable box; the feed maps playback progress->frame proportionally, so that
+  // point sits at the clip's start — exactly where the indicator should land.
+  const showFishHighlight = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || bboxes.length === 0) return false;
+    const cw = video.clientWidth;
+    const ch = video.clientHeight;
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!cw || !ch || !vw || !vh) return false;
+    const { renderedWidth, renderedHeight, offsetX, offsetY } = fitGeometry(
+      cw,
+      ch,
+      vw,
+      vh,
+      speciesCenterRef.current,
+    );
+    const b = bboxes[0];
+    const cx = b.x_norm + b.w_norm / 2;
+    const cy = b.y_norm + b.h_norm / 2;
+    setFishHighlight({
+      x: offsetX + cx * renderedWidth,
+      y: offsetY + cy * renderedHeight,
+      key: Date.now(),
+    });
+    return true;
+  }, [bboxes]);
+
+  // Auto-trigger the highlight once each time the card becomes active (waits for
+  // the video to report real dimensions so the projection is correct).
+  useEffect(() => {
+    if (!isActive) {
+      highlightShownRef.current = false;
+      setFishHighlight(null);
+      return;
+    }
+    if (highlightShownRef.current || bboxes.length === 0) return;
+    let cancelled = false;
+    const attempt = () => {
+      if (cancelled || highlightShownRef.current) return;
+      if (showFishHighlight()) highlightShownRef.current = true;
+    };
+    // Small delay so the first frame is painted and the eye has settled.
+    const t = setTimeout(attempt, 600);
+    const video = videoRef.current;
+    const onMeta = () => attempt();
+    video?.addEventListener("loadedmetadata", onMeta);
+    return () => {
+      cancelled = true;
+      clearTimeout(t);
+      video?.removeEventListener("loadedmetadata", onMeta);
+    };
+  }, [isActive, bboxes, showFishHighlight]);
+
+  // One-shot: clear after the ~3s fade so it doesn't linger or repeat.
+  useEffect(() => {
+    if (!fishHighlight) return;
+    const t = setTimeout(() => setFishHighlight(null), 3000);
+    return () => clearTimeout(t);
+  }, [fishHighlight]);
+
   const [videoPaused, setVideoPaused] = useState(false);
 
   useEffect(() => {
@@ -702,24 +754,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         x: offsetX + p.x * renderedWidth,
         y: offsetY + p.y * renderedHeight,
       }));
-
-      // (3 Jun) Track the trail head so the "Show where on screen" ping can
-      // follow the creature; move the ping element when it's active.
-      const traceHead = screenPoints[screenPoints.length - 1];
-      if (traceHead) {
-        tracePosRef.current = traceHead;
-        if (pingActiveRef.current && pingElRef.current) {
-          // Drive the ping via a compositor transform (not left/top). The rings
-          // have will-change:transform + a running animation, so they live on a
-          // GPU layer; moving the container with main-thread left/top let those
-          // ring layers lag the parent during motion, which rendered as an
-          // offset "duplicate" circle trailing the dot. translate3d keeps the
-          // container on the same thread as the rings so they stay pinned.
-          pingElRef.current.style.left = "0px";
-          pingElRef.current.style.top = "0px";
-          pingElRef.current.style.transform = `translate3d(${traceHead.x}px, ${traceHead.y}px, 0)`;
-        }
-      }
 
       const pathD = buildSmoothPath(screenPoints);
       trailPath.setAttribute("d", pathD);
@@ -1033,30 +1067,18 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           </>
         )}
 
-        {/* (3 Jun) "Show where on screen" radar ping — concentric rings that
-            follow the tracking-trace head (updated each frame by the trail loop). */}
-        {showPing && hasBboxes && (
+        {/* Soft one-shot "here's the fish" highlight — a gentle concentric ring
+            that fades in/out once on the earliest labelled bbox, then clears.
+            No centre dot, so the creature stays visible inside it. */}
+        {fishHighlight && hasBboxes && (
           <div
-            key={pingKey}
-            ref={pingElRef}
+            key={fishHighlight.key}
             aria-hidden="true"
-            className="pointer-events-none absolute z-20"
-            style={
-              // Match the rAF loop: position via a compositor transform so the
-              // dot + rings stay pinned together (see the trace loop comment).
-              tracePosRef.current
-                ? {
-                    left: 0,
-                    top: 0,
-                    transform: `translate3d(${tracePosRef.current.x}px, ${tracePosRef.current.y}px, 0)`,
-                  }
-                : { left: "50%", top: "50%" }
-            }
+            className="fs-fish-highlight pointer-events-none z-20"
+            style={{ left: fishHighlight.x, top: fishHighlight.y }}
           >
-            <span className="fs-radar-ring" />
-            <span className="fs-radar-ring" style={{ animationDelay: "0.5s" }} />
-            <span className="fs-radar-ring" style={{ animationDelay: "1s" }} />
-            <span className="fs-radar-dot" />
+            <span className="fs-fish-ring fs-fish-ring--outer" />
+            <span className="fs-fish-ring fs-fish-ring--inner" />
           </div>
         )}
       </div>
@@ -1227,11 +1249,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 type="button"
                 onClick={() => {
                   setMetaOpen(false);
-                  const next = !showTracking;
-                  setVideoSettings({ trace: next });
-                  // When switching the trace on, flash the locate ping so the
-                  // user can immediately find the creature in the clip.
-                  if (next) triggerPing();
+                  setVideoSettings({ trace: !showTracking });
+                  // The soft fish highlight already flags where the creature is;
+                  // turning the trace on no longer needs a separate ping flash.
+                  showFishHighlight();
                 }}
                 aria-pressed={showTracking}
                 aria-label={showTracking ? "Hide the fish-tracking trace" : "Show the fish-tracking trace"}

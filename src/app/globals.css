@@ -428,42 +428,61 @@ a {
   will-change: transform;
 }
 
-/* "Show where on screen" radar ping (FeedCard). Concentric rings expand from
- * the tracking-trace head to draw the eye to where the creature is. Each ring
- * uses the same keyframe with a staggered delay. The global
- * prefers-reduced-motion block neutralises the animation for opted-out users. */
-@keyframes fs-radar {
+/* Soft one-shot "here's the fish" highlight (FeedCard). A gentle concentric
+ * ring that fades in, holds, then fades out once over ~3s on the earliest
+ * labelled bbox, drawing the eye to the creature without obscuring it (no
+ * centre dot). The container is sized + margin-centred on the projected point;
+ * the pulse scales/fades around its centre. Reduced-motion users get a static
+ * ring (the global block neutralises the keyframes, so we disable + pin it). */
+@keyframes fs-fish-pulse {
   0% {
-    transform: translate(-50%, -50%) scale(0.3);
-    opacity: 0.9;
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  72% {
+    opacity: 1;
+    transform: scale(1.04);
   }
   100% {
-    transform: translate(-50%, -50%) scale(2.8);
     opacity: 0;
+    transform: scale(1.16);
   }
 }
-.fs-radar-ring {
+.fs-fish-highlight {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 52px;
-  height: 52px;
-  border-radius: 9999px;
-  border: 2px solid #5eead4; /* teal-300 */
-  box-shadow: 0 0 8px rgba(94, 234, 212, 0.5);
-  animation: fs-radar 1.5s ease-out infinite;
+  width: 120px;
+  height: 120px;
+  margin: -60px 0 0 -60px; /* centre the box on the inline left/top point */
+  animation: fs-fish-pulse 3s ease-in-out forwards;
   will-change: transform, opacity;
 }
-.fs-radar-dot {
+.fs-fish-ring {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 9999px;
-  background: #5eead4;
-  box-shadow: 0 0 10px rgba(94, 234, 212, 0.9);
+}
+.fs-fish-ring--outer {
+  width: 92px;
+  height: 92px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.45), inset 0 0 10px rgba(255, 255, 255, 0.15);
+}
+.fs-fish-ring--inner {
+  width: 58px;
+  height: 58px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fs-fish-highlight {
+    animation: none;
+    opacity: 0.9;
+  }
 }
 
 /* Initial-load swim loader (feed/loading.tsx). A school of line-art creatures
