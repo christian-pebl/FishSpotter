@@ -12,6 +12,8 @@
  * OBIS I/O. Nothing here writes the DB; wiring + caching is a later step.
  */
 
+import { fetchWithTimeout } from "@/lib/http";
+
 const OBIS_BASE = "https://api.obis.org/v3";
 
 // Sanity window for a depth reading, in metres. Negatives (elevation) and
@@ -127,7 +129,7 @@ export async function fetchSpeciesDepths(
     );
     if (after) url.searchParams.set("after", after);
 
-    const res = await fetch(url.toString(), {
+    const res = await fetchWithTimeout(url.toString(), {
       headers: { Accept: "application/json" },
       signal: opts.signal,
     });

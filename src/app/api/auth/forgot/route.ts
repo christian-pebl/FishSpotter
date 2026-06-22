@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
   const ipHeader = req.headers.get("x-forwarded-for");
   const ip = (ipHeader?.split(",")[0]?.trim()) ?? "unknown";
-  if (!checkAuthRateLimit(`forgot:${ip}:${email}`)) {
+  if (!(await checkAuthRateLimit(`forgot:${ip}:${email}`))) {
     return NextResponse.json(
       { error: "Too many attempts. Try again in 15 minutes." },
       { status: 429 },

@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 
   // Rate-limit per account when signed in, else per tab session.
   const rateKey = userId ?? parsed.events[0]?.sessionId ?? "anon";
-  if (!checkEventRateLimit(rateKey)) {
+  if (!(await checkEventRateLimit(rateKey))) {
     return new NextResponse(null, { status: 429 });
   }
 

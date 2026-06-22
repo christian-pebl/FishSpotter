@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 
@@ -33,18 +34,33 @@ export function SnippetPlayer({ snippet }: SnippetPlayerProps) {
 
   const reduceMotion = useReducedMotion();
   const showStats = myAnswer && stats;
+  const [videoError, setVideoError] = useState(false);
 
   return (
     <div className="space-y-6">
       <div className="pebl-surface overflow-hidden rounded-card p-3">
         <div className="relative mx-auto aspect-[9/16] max-h-[70vh] overflow-hidden rounded-card bg-navy-900">
-        <video
-          src={snippet.videoUrl}
-          poster={snippet.thumbnailUrl}
-          controls
-          className="w-full h-full object-contain"
-          playsInline
-        />
+        {videoError ? (
+          <div
+            role="alert"
+            className="flex h-full w-full flex-col items-center justify-center gap-2 p-6 text-center text-white/90"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="text-sm font-medium">This clip couldn’t be loaded.</p>
+            <p className="text-xs text-white/70">It may be temporarily unavailable — try refreshing the page.</p>
+          </div>
+        ) : (
+          <video
+            src={snippet.videoUrl}
+            poster={snippet.thumbnailUrl}
+            controls
+            className="w-full h-full object-contain"
+            playsInline
+            onError={() => setVideoError(true)}
+          />
+        )}
         </div>
       </div>
 

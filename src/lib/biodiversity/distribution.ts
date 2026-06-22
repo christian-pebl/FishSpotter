@@ -12,6 +12,8 @@
  * caching + the SVG/basemap rendering is a later (UI) step.
  */
 
+import { fetchWithTimeout } from "@/lib/http";
+
 const OBIS_BASE = "https://api.obis.org/v3";
 
 export type BBox = { minLat: number; maxLat: number; minLon: number; maxLon: number };
@@ -107,7 +109,7 @@ export async function fetchSpeciesGrid(
   const precision = opts.precision ?? 3;
   const url = new URL(`${OBIS_BASE}/occurrence/grid/${precision}`);
   url.searchParams.set("scientificname", scientificName);
-  const res = await fetch(url.toString(), {
+  const res = await fetchWithTimeout(url.toString(), {
     headers: { Accept: "application/json" },
     signal: opts.signal,
   });

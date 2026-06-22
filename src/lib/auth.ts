@@ -63,7 +63,7 @@ export const authOptions: NextAuthOptions = {
         const email = credentials.email.trim().toLowerCase();
         const ipHeader = req?.headers?.["x-forwarded-for"];
         const ip = (Array.isArray(ipHeader) ? ipHeader[0] : ipHeader)?.split(",")[0]?.trim() || "unknown";
-        if (!checkAuthRateLimit(`${ip}:${email}`)) return null;
+        if (!(await checkAuthRateLimit(`${ip}:${email}`))) return null;
 
         let user = await prisma.user.findUnique({ where: { email } });
 
@@ -72,7 +72,7 @@ export const authOptions: NextAuthOptions = {
           // ICO Children's Code: block under-13 signups outright. The
           // self-declared band is the only age data we ever store.
           if (credentials.ageBracket === "under_13") return null;
-          if (!checkAuthRateLimit(`signup:${ip}`)) return null;
+          if (!(await checkAuthRateLimit(`signup:${ip}`))) return null;
           const isMinor = credentials.ageBracket === "13_17";
           const rawName = (credentials.name ?? "").trim().slice(0, 32);
           const cleanName = rawName.replace(/[^\p{L}\p{N}\s._-]/gu, "");

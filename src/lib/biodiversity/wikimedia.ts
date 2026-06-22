@@ -15,6 +15,7 @@
  */
 
 import { isRetryableStatus, nextRetryDelay } from "./inaturalist";
+import { fetchWithTimeout } from "@/lib/http";
 
 const COMMONS_API = "https://commons.wikimedia.org/w/api.php";
 
@@ -69,7 +70,7 @@ type CommonsSearchResponse = {
 async function fetchWithRetry(url: string): Promise<Response> {
   let attempt = 0;
   while (true) {
-    const res = await fetch(url, {
+    const res = await fetchWithTimeout(url, {
       headers: {
         Accept: "application/json",
         "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)",

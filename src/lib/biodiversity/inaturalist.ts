@@ -7,6 +7,8 @@
  * a backfill of the catalogue species, but throttle anyway to be polite.
  */
 
+import { fetchWithTimeout } from "@/lib/http";
+
 const INAT_BASE = "https://api.inaturalist.org/v1";
 
 // Comma-joined license filter passed to /observations. Project policy is
@@ -121,17 +123,32 @@ export function isRetryableStatus(status: number): boolean {
   return status === 429 || status === 503 || status === 502 || status === 504;
 }
 
+const INAT_TIMEOUT_MS = 12_000;
+
 async function fetchWithRetry(url: string): Promise<Response> {
   let attempt = 0;
   while (true) {
-    const res = await fetch(url, {
-      headers: {
-        Accept: "application/json",
-        // iNaturalist recommends a User-Agent that identifies the caller so
-        // they can contact us if we misbehave.
-        "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)",
-      },
-    });
+    let res: Response;
+    try {
+      res = await fetchWithTimeout(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            // iNaturalist recommends a User-Agent that identifies the caller so
+            // they can contact us if we misbehave.
+            "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)",
+          },
+        },
+        INAT_TIMEOUT_MS,
+      );
+    } catch (err) {
+      // Timeout or network error: retry with backoff, then surface.
+      if (attempt >= MAX_RETRIES - 1) throw err;
+      await new Promise((resolve) => setTimeout(resolve, nextRetryDelay(attempt, null)));
+      attempt++;
+      continue;
+    }
     if (res.ok) return res;
     // Non-retryable 4xx: fail immediately so a 404 doesn't waste 3 attempts.
     if (!isRetryableStatus(res.status)) return res;

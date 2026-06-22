@@ -209,7 +209,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Chat unavailable" }, { status: 503 });
   }
 
-  if (!checkChatRateLimit(session.user.id)) {
+  if (!(await checkChatRateLimit(session.user.id))) {
     return NextResponse.json(
       { error: "You've hit the hourly chat limit. Try the manual trait filter instead." },
       { status: 429 }

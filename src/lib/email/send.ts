@@ -18,6 +18,7 @@
 import type { ReactElement } from "react";
 import { render } from "@react-email/components";
 import { getSendgridApiKey } from "./client";
+import { fetchWithTimeout } from "@/lib/http";
 
 interface SendEmailArgs {
   to: string;
@@ -77,14 +78,18 @@ export async function sendEmail({
     };
     if (replyToAddress) body.reply_to = { email: replyToAddress };
 
-    const res = await fetch(SENDGRID_ENDPOINT, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
+    const res = await fetchWithTimeout(
+      SENDGRID_ENDPOINT,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
       },
-      body: JSON.stringify(body),
-    });
+      15_000,
+    );
 
     if (!res.ok) {
       const errBody = await res.text().catch(() => "");

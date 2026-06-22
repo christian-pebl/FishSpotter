@@ -49,7 +49,33 @@ const dedupedPatterns = remotePatterns.filter((p) => {
 
 const isProd = process.env.NODE_ENV === "production";
 
+// Content-Security-Policy. The app has no untrusted-HTML render path (the one
+// dangerouslySetInnerHTML reads a trusted in-repo markdown file), so this is
+// defence-in-depth. script-src/style-src keep 'unsafe-inline' because Next's
+// App Router injects inline bootstrap scripts without a nonce and there is no
+// nonce middleware; tightening that would need a nonce pipeline (tracked as a
+// follow-up). The high-value, zero-breakage directives are object-src 'none',
+// base-uri 'self', frame-ancestors 'none', and form-action 'self'.
+const cspDirectives = [
+  "default-src 'self'",
+  // 'unsafe-eval' is required for Next dev (React Refresh) and some client libs.
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "style-src 'self' 'unsafe-inline'",
+  // Storage hosts (Supabase / R2) + data/blob for posters & generated images.
+  "img-src 'self' data: blob: https:",
+  "media-src 'self' https:",
+  "font-src 'self' data:",
+  // Same-origin API + outbound beacons (web-vitals, Sentry when a DSN is set).
+  "connect-src 'self' https:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+];
+if (isProd) cspDirectives.push("upgrade-insecure-requests");
+
 const securityHeaders = [
+  { key: "Content-Security-Policy", value: cspDirectives.join("; ") },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

@@ -62,6 +62,12 @@ export const envSchema = z.object({
   // Cron auth
   CRON_SECRET: optionalString,
 
+  // Distributed rate limiting (Upstash Redis REST). Optional: when absent the
+  // limiter falls back to a per-instance in-memory store. Set BOTH in
+  // production so caps hold across serverless instances.
+  UPSTASH_REDIS_REST_URL: optionalString,
+  UPSTASH_REDIS_REST_TOKEN: optionalString,
+
   // Storage provider. Defaults to "supabase" (the no-env-var default the
   // runtime already assumes). Optional everything-else for R2; R2 creds are
   // only consumed by the storage scripts, never the Next.js runtime, so they

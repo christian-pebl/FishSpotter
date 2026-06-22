@@ -1,4 +1,5 @@
 import { BucketKey, DEPTH_BUCKET_NULL, monthsAround } from "./buckets";
+import { fetchWithTimeout } from "@/lib/http";
 
 const OBIS_BASE = "https://api.obis.org/v3";
 
@@ -61,7 +62,7 @@ async function resolveFishTaxonIds(): Promise<number[]> {
     const ids: number[] = [];
     for (const name of FISH_CLASS_NAMES) {
       const url = new URL(`${OBIS_BASE}/taxon/${encodeURIComponent(name)}`);
-      const res = await fetch(url.toString(), { headers: { Accept: "application/json" } });
+      const res = await fetchWithTimeout(url.toString(), { headers: { Accept: "application/json" } });
       if (!res.ok) throw new Error(`OBIS taxon lookup for "${name}" failed: ${res.status} ${res.statusText}`);
 
       type TaxonLookupResponse = { results?: ObisTaxonRow[] };
@@ -110,7 +111,7 @@ async function fetchOccurrencePage(
   const url = new URL(`${OBIS_BASE}/occurrence`);
   for (const [k, v] of params) url.searchParams.set(k, v);
   if (after) url.searchParams.set("after", after);
-  const res = await fetch(url.toString(), { headers: { Accept: "application/json" } });
+  const res = await fetchWithTimeout(url.toString(), { headers: { Accept: "application/json" } });
   if (!res.ok) throw new Error(`OBIS ${res.status} ${res.statusText}`);
   return (await res.json()) as ObisOccurrencePage;
 }

@@ -18,6 +18,8 @@
  * REST docs: https://ai.google.dev/api/generate-content
  */
 
+import { fetchWithTimeout } from "@/lib/http";
+
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
 // Override with GEMINI_MODEL in .env.local. Default to the latest Flash id
@@ -168,9 +170,11 @@ function guessMimeType(url: string, contentType: string | null): string {
 }
 
 async function downloadImage(url: string): Promise<{ base64: string; mimeType: string }> {
-  const res = await fetch(url, {
-    headers: { "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)" },
-  });
+  const res = await fetchWithTimeout(
+    url,
+    { headers: { "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)" } },
+    15_000,
+  );
   if (!res.ok) throw new Error(`image fetch ${res.status} ${res.statusText}`);
   const buf = Buffer.from(await res.arrayBuffer());
   if (buf.byteLength > MAX_IMAGE_BYTES) {
@@ -220,17 +224,23 @@ export async function geminiGenerate(args: {
       thinkingConfig: { thinkingBudget: args.thinkingBudget ?? 0 },
     },
   };
-  const url = `${GEMINI_BASE}/models/${model}:generateContent?key=${apiKey}`;
+  // Pass the key via header, not the query string: query strings end up in
+  // access logs / error traces, headers do not.
+  const url = `${GEMINI_BASE}/models/${model}:generateContent`;
 
   let attempt = 0;
   while (true) {
     let res: Response;
     try {
-      res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      res = await fetchWithTimeout(
+        url,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+          body: JSON.stringify(body),
+        },
+        60_000,
+      );
     } catch (e) {
       if (attempt >= MAX_RETRIES - 1) return { ok: false, error: `network: ${(e as Error).message}`, model };
       await new Promise((r) => setTimeout(r, nextDelay(attempt, null)));

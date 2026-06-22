@@ -1,3 +1,5 @@
+import { fetchWithTimeout } from "@/lib/http";
+
 const GBIF_MATCH = "https://api.gbif.org/v1/species/match";
 
 export type NameMatchResult = {
@@ -47,7 +49,7 @@ export async function resolveCommonName(name: string): Promise<NameMatchResult> 
   url.searchParams.set("name", query);
   url.searchParams.set("verbose", "false");
 
-  const res = await fetch(url.toString(), { headers: { Accept: "application/json" } });
+  const res = await fetchWithTimeout(url.toString(), { headers: { Accept: "application/json" } });
   if (!res.ok) {
     throw new Error(`GBIF match ${res.status} ${res.statusText}`);
   }

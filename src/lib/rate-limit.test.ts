@@ -2,6 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Notes on testing strategy
 // --------------------------
+// These tests exercise the IN-MEMORY FALLBACK path (no UPSTASH_REDIS_REST_URL /
+// _TOKEN in the test env, so `makeLimiter` returns null and every check falls
+// back to the bounded local Map). The public checks are async now (the Upstash
+// path is a network round-trip), so every call is awaited; the fallback resolves
+// synchronously so fake timers are unaffected.
+//
 // rate-limit.ts reads time via Date.now() directly (NOT injectable) and keeps
 // a single module-level `buckets` Map plus a module-level setInterval sweep.
 // Neither the Map, the constants, nor the internal consume()/evictIfFull() are
@@ -33,59 +39,66 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
+describe("backend selection", () => {
+  it("uses the in-memory fallback when Upstash env is absent", async () => {
+    const { isDistributedRateLimit } = await loadModule();
+    expect(isDistributedRateLimit()).toBe(false);
+  });
+});
+
 describe("checkAuthRateLimit", () => {
   it("allows the first MAX_ATTEMPTS in the window and blocks the next", async () => {
     const { checkAuthRateLimit } = await loadModule();
     const key = "1.2.3.4";
 
     for (let i = 0; i < MAX_ATTEMPTS; i++) {
-      expect(checkAuthRateLimit(key)).toBe(true);
+      expect(await checkAuthRateLimit(key)).toBe(true);
     }
     // The (N+1)th attempt within the same window is blocked.
-    expect(checkAuthRateLimit(key)).toBe(false);
+    expect(await checkAuthRateLimit(key)).toBe(false);
     // ...and stays blocked while the window is still open.
-    expect(checkAuthRateLimit(key)).toBe(false);
+    expect(await checkAuthRateLimit(key)).toBe(false);
   });
 
   it("keys are independent: exhausting one does not block another", async () => {
     const { checkAuthRateLimit } = await loadModule();
 
-    for (let i = 0; i < MAX_ATTEMPTS; i++) checkAuthRateLimit("key-a");
-    expect(checkAuthRateLimit("key-a")).toBe(false);
+    for (let i = 0; i < MAX_ATTEMPTS; i++) await checkAuthRateLimit("key-a");
+    expect(await checkAuthRateLimit("key-a")).toBe(false);
 
     // A different key has its own fresh budget.
-    expect(checkAuthRateLimit("key-b")).toBe(true);
+    expect(await checkAuthRateLimit("key-b")).toBe(true);
   });
 
   it("resets the budget once the window expires", async () => {
     const { checkAuthRateLimit } = await loadModule();
     const key = "5.6.7.8";
 
-    for (let i = 0; i < MAX_ATTEMPTS; i++) checkAuthRateLimit(key);
-    expect(checkAuthRateLimit(key)).toBe(false);
+    for (let i = 0; i < MAX_ATTEMPTS; i++) await checkAuthRateLimit(key);
+    expect(await checkAuthRateLimit(key)).toBe(false);
 
     // Advance the clock to exactly the reset boundary. resetAt was set to
     // START + WINDOW_MS, and the branch fires when resetAt <= now, so the
     // bucket is renewed at the boundary itself.
     vi.setSystemTime(START + WINDOW_MS);
-    expect(checkAuthRateLimit(key)).toBe(true);
+    expect(await checkAuthRateLimit(key)).toBe(true);
 
     // After the renewal we have a full fresh window again.
     for (let i = 1; i < MAX_ATTEMPTS; i++) {
-      expect(checkAuthRateLimit(key)).toBe(true);
+      expect(await checkAuthRateLimit(key)).toBe(true);
     }
-    expect(checkAuthRateLimit(key)).toBe(false);
+    expect(await checkAuthRateLimit(key)).toBe(false);
   });
 
   it("does not reset one millisecond before the window boundary", async () => {
     const { checkAuthRateLimit } = await loadModule();
     const key = "9.9.9.9";
 
-    for (let i = 0; i < MAX_ATTEMPTS; i++) checkAuthRateLimit(key);
+    for (let i = 0; i < MAX_ATTEMPTS; i++) await checkAuthRateLimit(key);
 
     // Just shy of the boundary: resetAt > now, so still blocked.
     vi.setSystemTime(START + WINDOW_MS - 1);
-    expect(checkAuthRateLimit(key)).toBe(false);
+    expect(await checkAuthRateLimit(key)).toBe(false);
   });
 });
 
@@ -97,12 +110,12 @@ describe("checkChatRateLimit / checkAnswerRateLimit (separate namespaces)", () =
     // Same raw id used across all three; they must not share a bucket because
     // the wrappers prefix the key ("chat:" / "answer:") while auth does not.
     const id = "user-1";
-    for (let i = 0; i < MAX_ATTEMPTS; i++) checkAuthRateLimit(id);
-    expect(checkAuthRateLimit(id)).toBe(false); // auth exhausted (5/window)
+    for (let i = 0; i < MAX_ATTEMPTS; i++) await checkAuthRateLimit(id);
+    expect(await checkAuthRateLimit(id)).toBe(false); // auth exhausted (5/window)
 
     // Chat (30/hr) and answer (200/hr) still have headroom for the same id.
-    expect(checkChatRateLimit(id)).toBe(true);
-    expect(checkAnswerRateLimit(id)).toBe(true);
+    expect(await checkChatRateLimit(id)).toBe(true);
+    expect(await checkAnswerRateLimit(id)).toBe(true);
   });
 
   it("chat allows 30 per hour then blocks the 31st", async () => {
@@ -110,9 +123,9 @@ describe("checkChatRateLimit / checkAnswerRateLimit (separate namespaces)", () =
     const id = "chatter";
 
     for (let i = 0; i < 30; i++) {
-      expect(checkChatRateLimit(id)).toBe(true);
+      expect(await checkChatRateLimit(id)).toBe(true);
     }
-    expect(checkChatRateLimit(id)).toBe(false);
+    expect(await checkChatRateLimit(id)).toBe(false);
   });
 });
 
@@ -126,7 +139,7 @@ describe("MAX_BUCKETS eviction path", () => {
 
     // Fill the map to exactly MAX_BUCKETS with distinct keys, all created at
     // START so they share resetAt = START + WINDOW_MS.
-    for (let i = 0; i < 10000; i++) checkAuthRateLimit(`fill-${i}`);
+    for (let i = 0; i < 10000; i++) await checkAuthRateLimit(`fill-${i}`);
 
     // Move the clock past the window so every existing bucket is now expired.
     vi.setSystemTime(START + WINDOW_MS + 1);
@@ -134,8 +147,8 @@ describe("MAX_BUCKETS eviction path", () => {
     // Inserting a brand-new key triggers evictIfFull, which clears all 10000
     // expired entries first. The new insert (and a re-touch of an old key)
     // must succeed as fresh buckets.
-    expect(checkAuthRateLimit("post-expiry-new")).toBe(true);
-    expect(checkAuthRateLimit("fill-0")).toBe(true); // recreated as a fresh bucket
+    expect(await checkAuthRateLimit("post-expiry-new")).toBe(true);
+    expect(await checkAuthRateLimit("fill-0")).toBe(true); // recreated as a fresh bucket
   });
 
   it("evicts the oldest live entry when the map is full of non-expired buckets", async () => {
@@ -143,15 +156,15 @@ describe("MAX_BUCKETS eviction path", () => {
 
     // "fill-0" is inserted first, so it is the oldest in insertion order and
     // the eviction victim. Give it 2 hits so we can detect a reset later.
-    checkAuthRateLimit("fill-0");
-    checkAuthRateLimit("fill-0");
-    for (let i = 1; i < 10000; i++) checkAuthRateLimit(`fill-${i}`);
+    await checkAuthRateLimit("fill-0");
+    await checkAuthRateLimit("fill-0");
+    for (let i = 1; i < 10000; i++) await checkAuthRateLimit(`fill-${i}`);
     // Map is now full (10000 live, non-expired buckets).
 
     // Insert a new key WITHOUT advancing the clock: nothing is expired, so the
     // expired-sweep frees nothing and the oldest live entry ("fill-0") is
     // evicted to make room.
-    expect(checkAuthRateLimit("overflow-key")).toBe(true);
+    expect(await checkAuthRateLimit("overflow-key")).toBe(true);
 
     // Proof of eviction: "fill-0" had 2 of 5 used; if it had been retained we
     // could still hit it 3 more times. Instead it now behaves as a brand-new
@@ -159,7 +172,7 @@ describe("MAX_BUCKETS eviction path", () => {
     // recreated rather than continued.
     let allowed = 0;
     for (let i = 0; i < MAX_ATTEMPTS; i++) {
-      if (checkAuthRateLimit("fill-0")) allowed++;
+      if (await checkAuthRateLimit("fill-0")) allowed++;
     }
     expect(allowed).toBe(MAX_ATTEMPTS);
   });
