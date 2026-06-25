@@ -15,6 +15,9 @@ export async function GET() {
   const answers = await prisma.answer.findMany({
     where: { userId: session.user.id },
     select: { createdAt: true },
+    // Hardening: bound the per-user history scan (see POST /api/answers).
+    orderBy: { createdAt: "desc" },
+    take: 1000,
   });
 
   return NextResponse.json(computeStreakFromAnswers(answers));

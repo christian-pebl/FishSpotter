@@ -296,23 +296,29 @@ export async function POST(req: Request) {
         let receivedAnyText = false;
         // Inner loop: allow up to N tool-call rounds per agent turn.
         for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
-          const messageStream = client.messages.stream({
-            model: MODEL,
-            max_tokens: 1024,
-            system: [
-              {
-                type: "text",
-                text: stableSystemBlock,
-                cache_control: { type: "ephemeral" },
-              },
-              {
-                type: "text",
-                text: dynamicSystemBlock,
-              },
-            ],
-            tools: [NARROW_TOOL],
-            messages: apiMessages,
-          });
+          const messageStream = client.messages.stream(
+            {
+              model: MODEL,
+              max_tokens: 1024,
+              system: [
+                {
+                  type: "text",
+                  text: stableSystemBlock,
+                  cache_control: { type: "ephemeral" },
+                },
+                {
+                  type: "text",
+                  text: dynamicSystemBlock,
+                },
+              ],
+              tools: [NARROW_TOOL],
+              messages: apiMessages,
+            },
+            // Safety net: cap each model round so a hung upstream can't hold the
+            // serverless function open to Vercel's wall-clock limit. The client
+            // also has a 20s idle watchdog; this is the server-side backstop.
+            { signal: AbortSignal.timeout(45000) },
+          );
 
           // Forward token deltas to the client as they arrive.
           messageStream.on("text", (delta) => {

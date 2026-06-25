@@ -81,7 +81,23 @@ export function IdGuideChat({
     const controller = new AbortController();
     abortRef.current = controller;
 
+    // Safety net: if the stream stalls (Anthropic rate-limits mid-stream, or the
+    // connection hangs after headers), abort after an idle window so the user
+    // gets the manual-filter fallback instead of a forever "thinking…" bubble.
+    // Re-armed on every chunk; a user-initiated Stop is tracked separately.
+    let timedOut = false;
+    const IDLE_TIMEOUT_MS = 20000;
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+    const armIdleTimer = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        timedOut = true;
+        controller.abort();
+      }, IDLE_TIMEOUT_MS);
+    };
+
     try {
+      armIdleTimer();
       const res = await fetch("/api/idguide/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -102,6 +118,7 @@ export function IdGuideChat({
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
+        armIdleTimer();
         buffer += decoder.decode(value, { stream: true });
 
         let idx: number;
@@ -136,8 +153,12 @@ export function IdGuideChat({
         }
       }
     } catch (err) {
-      if (controller.signal.aborted) {
-        // Surface the cancellation in the assistant bubble instead of an error.
+      if (controller.signal.aborted && timedOut) {
+        // Idle-timeout abort: surface as an error so the manual-filter fallback
+        // shows, instead of a misleading "(stopped)" or a stuck "thinking…".
+        setError("The guide stalled. Try again, or use the manual filter below.");
+      } else if (controller.signal.aborted) {
+        // User pressed Stop — surface the cancellation in the assistant bubble.
         setMessages((prev) => {
           const copy = [...prev];
           const last = copy[copy.length - 1];
@@ -151,6 +172,7 @@ export function IdGuideChat({
         setError(message);
       }
     } finally {
+      if (idleTimer) clearTimeout(idleTimer);
       abortRef.current = null;
       setStreaming(false);
       setAwaitingFirstToken(false);

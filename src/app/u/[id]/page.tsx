@@ -91,6 +91,9 @@ export default async function ProfilePage({
       prisma.answer.findMany({
         where: { userId: id },
         select: { createdAt: true },
+        // Hardening: bound the per-user history scan (see POST /api/answers).
+        orderBy: { createdAt: "desc" },
+        take: 1000,
       }),
       prisma.answer.aggregate({ where: { userId: id }, _sum: { points: true } }),
       prisma.answer.count({ where: { userId: id, isCorrect: { not: null } } }),

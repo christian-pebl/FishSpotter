@@ -7,6 +7,7 @@ import { FeedPlayer } from "@/components/FeedPlayer";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { VerificationBanner } from "@/components/VerificationBanner";
 import { orderFeed } from "@/lib/feed-ordering";
+import { safeParseJson } from "@/lib/safe-json";
 
 export const dynamic = "force-dynamic";
 
@@ -102,8 +103,8 @@ export default async function FeedPage() {
     site: snippet.site,
     deployment: snippet.deployment,
     staffAnswer: snippet.staffAnswer,
-    bboxes: snippet.bboxJson ? JSON.parse(snippet.bboxJson) : null,
-    manualTrack: snippet.manualTrackJson ? JSON.parse(snippet.manualTrackJson) : null,
+    bboxes: safeParseJson(snippet.bboxJson),
+    manualTrack: safeParseJson(snippet.manualTrackJson),
     lat: snippet.lat,
     lon: snippet.lon,
     depthM: snippet.depthM,

@@ -168,10 +168,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const glowGradRef = useRef<SVGLinearGradientElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const settings = useVideoSettings();
-  // The continuous line-trace is disabled — the soft follow-highlight below is
-  // the only in-clip indicator now. Kept as an inert flag so the trail loop
-  // (which also drives the loop-reset progress pulse) early-returns cleanly.
-  const showTracking = false;
   const [mapOpen, setMapOpen] = useState(false);
   // Provenance popover (depth · site · date) behind the bottom-right info
   // button. Tapping the site name inside it opens the MapModal.
@@ -213,6 +209,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // tapped the collapsed pill to expand. Encourages observation before
   // commitment without blocking impatient users.
   const [hasCompletedFirstLoop, setHasCompletedFirstLoop] = useState(false);
+  // Trace active on first play only; hides once the video loops.
+  const showTracking = !hasCompletedFirstLoop;
   const [userHasExpandedManually, setUserHasExpandedManually] = useState(false);
   const [hasIdentifiedOnce, setHasIdentifiedOnce] = useState(true); // optimistic; corrected on mount
   const [showInputHint, setShowInputHint] = useState(false);
@@ -542,6 +540,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     return true;
   }, [bboxes]);
 
+  const [pingActive, setPingActive] = useState(false);
+  const pingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handlePing = useCallback(() => {
+    if (!triggerHighlight()) return;
+    if (pingTimerRef.current) clearTimeout(pingTimerRef.current);
+    setPingActive(true);
+    pingTimerRef.current = setTimeout(() => setPingActive(false), 3000);
+  }, [triggerHighlight]);
+
   // Auto-trigger once each time the card becomes active (waits for the video to
   // report real dimensions so the first projection is correct).
   useEffect(() => {
@@ -636,6 +643,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   }, [highlight, isActive, bboxes]);
 
   const [videoPaused, setVideoPaused] = useState(false);
+  // Safety net: a clip that 404s or is the wrong codec must not leave a frozen,
+  // unresponsive card on stage. onError flips this; the active card then shows a
+  // clear "didn't load / Skip" affordance. The poster still backs the identify
+  // flow, so it degrades to a still-frame ID rather than a dead card. Cleared on
+  // any fresh load attempt (onLoadStart) and on a successful onCanPlay.
+  const [videoErrored, setVideoErrored] = useState(false);
 
   useEffect(() => {
     const v = videoRef.current;
@@ -962,11 +975,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           preload={isActive ? "auto" : preload ? "metadata" : "none"}
           tabIndex={isActive ? 0 : -1}
           aria-label={`Underwater clip from ${snippet.site} ${snippet.deployment}. Press space to play or pause.`}
+          onLoadStart={() => setVideoErrored(false)}
           onCanPlay={() => {
+            setVideoErrored(false);
             if (isActive) videoRef.current?.play().catch(() => {});
           }}
           onError={(e) => {
             const v = e.currentTarget;
+            setVideoErrored(true);
             console.error("[FeedCard] video error", v.error?.code, v.error?.message, snippet.videoUrl.slice(-60));
           }}
           onKeyDown={(e) => {
@@ -1014,6 +1030,28 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               </svg>
             </div>
           </button>
+        )}
+        {/* Safety net: a clip that fails to load (404 / bad codec) shows a clear
+            badge + Skip instead of a silent frozen card. Non-blocking: the poster
+            still backs the identify flow, so a still-frame ID is possible; Skip
+            snaps to the next clip. */}
+        {isActive && videoErrored && (
+          <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex justify-center px-4">
+            <div className="pointer-events-auto flex items-center gap-3 rounded-full bg-black/70 px-4 py-2 text-xs text-white backdrop-blur-sm">
+              <span>This clip didn&apos;t load.</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const next = articleRef.current?.nextElementSibling;
+                  if (next instanceof HTMLElement)
+                    next.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="rounded-full bg-white/20 px-3 py-1 font-medium hover:bg-white/30"
+              >
+                Skip
+              </button>
+            </div>
+          </div>
         )}
 
         {/* Tap the clip itself to start identifying. A transparent catcher over
@@ -1298,6 +1336,27 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
+            {/* Radar ping (RIGHT) — only after first loop when trace has gone */}
+            {hasCompletedFirstLoop && bboxes.length > 0 && (
+              <button
+                type="button"
+                onClick={handlePing}
+                aria-label="Highlight where the fish is"
+                className={[
+                  "flex shrink-0 min-w-[52px] items-center justify-center px-4 border-l border-white/10 transition-colors",
+                  pingActive
+                    ? "bg-teal-500/20 text-teal-200"
+                    : "text-teal-300/70 hover:bg-white/5 hover:text-teal-300",
+                ].join(" ")}
+              >
+                {/* Concentric-ring sonar icon */}
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="2.2" fill="currentColor" />
+                  <circle cx="10" cy="10" r="5.5" stroke="currentColor" strokeWidth="1.4" opacity="0.6" />
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.3" opacity="0.3" />
+                </svg>
+              </button>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
