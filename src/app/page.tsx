@@ -7,7 +7,11 @@ import { StatsBand } from "@/components/landing/StatsBand";
 import { StepCards } from "@/components/landing/StepCards";
 import { SpeciesMarquee, type MarqueeSpecies } from "@/components/landing/SpeciesMarquee";
 
-export const dynamic = "force-dynamic";
+// Hardening (conference prep): the landing page (the demo URL) renders the same
+// for everyone (5 global queries, no per-user data), so ISR caches it. A QR-code
+// crowd then hits a cached render (~1 rebuild/min) instead of re-running all 5
+// queries on every request. Counts are at most 60s stale, which is fine here.
+export const revalidate = 60;
 
 const TRAITS = CATALOGUE;
 

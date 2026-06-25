@@ -89,6 +89,11 @@ export async function POST(req: Request) {
   const beforeAnswers = await prisma.answer.findMany({
     where: { userId: session.user.id },
     select: { createdAt: true },
+    // Hardening: bound the per-user history scan (served by [userId, createdAt]).
+    // The 1000 most-recent answers far exceeds any streak the app can produce,
+    // so it never truncates a streak while staying bounded as the table grows.
+    orderBy: { createdAt: "desc" },
+    take: 1000,
   });
   const previousStreak = computeStreakFromAnswers(beforeAnswers);
 

@@ -154,20 +154,34 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   }, []);
 
   const loadMyAnswer = useCallback(async () => {
-    const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
-    const data = await res.json();
-    if (data.answer)
-      setMyAnswer({
-        chosenOption: data.answer.chosenOption,
-        isCorrect: data.answer.isCorrect ?? null,
-        points: data.answer.points ?? 0,
-      });
+    try {
+      const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.answer)
+        setMyAnswer({
+          chosenOption: data.answer.chosenOption,
+          isCorrect: data.answer.isCorrect ?? null,
+          points: data.answer.points ?? 0,
+        });
+    } catch {
+      // Transient failure: leave myAnswer unset so the user can still answer.
+    }
   }, [snippet.id]);
 
   const loadStats = useCallback(async () => {
-    const res = await fetch(`/api/snippets/${snippet.id}/stats`);
-    const data = await res.json();
-    setStats(data);
+    try {
+      const res = await fetch(`/api/snippets/${snippet.id}/stats`);
+      if (!res.ok) throw new Error(`stats ${res.status}`);
+      const data = await res.json();
+      setStats(data);
+    } catch {
+      // Don't strand the reveal on an infinite "Scoring your answer…" spinner
+      // if the stats fetch blips (transient 500 / timeout). Fall back to an
+      // empty community breakdown so the result still renders; the user keeps
+      // their score (myAnswer / rewardProgress drive the reveal regardless).
+      setStats({ total: 0, stats: [] });
+    }
   }, [snippet.id]);
 
   useEffect(() => {

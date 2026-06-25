@@ -141,6 +141,11 @@ model Answer {
   @@index([createdAt])
   @@index([userId, createdAt])
   @@index([isCorrect, createdAt])
+  // Hardening (conference prep): the per-clip read paths (stats, preview,
+  // answer-submit) filter on snippetId alone. @@unique([userId, snippetId])
+  // leads on userId so it can't serve WHERE snippetId = ?; this turns those
+  // sequential scans into index scans on the fastest-growing table.
+  @@index([snippetId])
 }
 
 enum ProbabilityStatus {
