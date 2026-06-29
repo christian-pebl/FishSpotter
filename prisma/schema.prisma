@@ -113,6 +113,7 @@ model Snippet {
   staffAnswer       String? // reference label from metadata; null = no reference yet (S7-T1)
   bboxJson          String? // JSON string of bbox_data.json bboxes (auto track: RT-DETR/motion)
   manualTrackJson   String? // JSON string of manual_track.points (hand-marked centre path); preferred over bboxJson when set
+  excluded          Boolean  @default(false) // deselected via TRDesk4's "Exclude from FishSpotter" toggle (metadata.fishspotter_excluded). Set by scripts/sync.ts; hidden from every user-facing surface by excludeBlockedSnippetsWhere(). Reversible: un-exclude in TRDesk4 + re-sync.
   createdAt         DateTime @default(now())
   answers           Answer[]
 

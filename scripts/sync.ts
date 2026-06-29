@@ -31,6 +31,7 @@ import {
   uploadThumbnail,
   uploadVideo,
 } from "./lib/storage";
+import { isSnippetExcluded } from "../src/lib/snippet-blocklist";
 
 const prisma = new PrismaClient();
 
@@ -180,6 +181,14 @@ async function main() {
   for (const folderName of dirs) {
     if (processed >= LIMIT) break;
 
+    // Intentionally-excluded snips (src/lib/snippet-blocklist.ts) are never
+    // (re)added to the app, so don't upload media or upsert a row for them.
+    if (isSnippetExcluded(folderName)) {
+      console.log(`SKIP (excluded) ${folderName}`);
+      skipped++;
+      continue;
+    }
+
     const dir = path.join(SNIPS_DIR, folderName);
     const metaPath = path.join(dir, "metadata.json");
     const bboxPath = path.join(dir, "bbox_data.json");
@@ -193,7 +202,7 @@ async function main() {
     const prev = manifest[folderName];
     const existing = await prisma.snippet.findUnique({
       where: { externalId: folderName },
-      select: { id: true, videoUrl: true, thumbnailUrl: true },
+      select: { id: true, videoUrl: true, thumbnailUrl: true, excluded: true },
     });
 
     const isNew = !existing;
@@ -209,6 +218,34 @@ async function main() {
       continue;
     }
 
+    const meta: Metadata = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
+
+    // Deselected via TRDesk4's "Exclude from FishSpotter" gallery toggle. The
+    // flag lives in the snip's metadata.json (travels with it via Drive); we
+    // mirror it into Snippet.excluded so excludeBlockedSnippetsWhere() hides the
+    // snip on every user-facing surface. Reversible: un-exclude in TRDesk4 +
+    // re-sync flips it back (the row below is upserted with excluded: false).
+    const fsExcluded =
+      (meta as { fishspotter_excluded?: boolean }).fishspotter_excluded === true;
+    if (fsExcluded) {
+      if (existing) {
+        if (!existing.excluded && !DRY) {
+          await prisma.snippet.update({
+            where: { externalId: folderName },
+            data: { excluded: true },
+          });
+        }
+        console.log(`${DRY ? "DRY  " : "HIDE "}${folderName} (fishspotter_excluded)`);
+        processed++;
+      } else {
+        // Never synced and already flagged — nothing to upload or hide.
+        console.log(`SKIP (excluded, not in DB) ${folderName}`);
+        skipped++;
+      }
+      manifest[folderName] = sig;
+      continue;
+    }
+
     // Re-upload media only for genuinely new snips, or when a PRIOR signature
     // shows the clip bytes changed (a re-cut). When the row already exists but
     // we have no prior signature (the first sync after deploy), assume the live
@@ -216,7 +253,6 @@ async function main() {
     // re-uploading every clip on the first run would needlessly cache-bust them.
     const videoChanged = isNew || (!!prev && prev.video !== sig.video);
 
-    const meta: Metadata = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
     const { bboxJson, manualTrackJson } = readTracking(bboxPath);
 
     let videoUrl: string;
@@ -270,6 +306,7 @@ async function main() {
       staffAnswer: getReferenceAnswer(meta),
       bboxJson,
       manualTrackJson,
+      excluded: false, // reaching here means not fishspotter_excluded; re-include flips a previously-hidden snip back
     };
     await prisma.snippet.upsert({
       where: { externalId: folderName },

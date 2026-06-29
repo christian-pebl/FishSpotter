@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { HeroPreview } from "@/components/landing/HeroPreview";
 import { StatsBand } from "@/components/landing/StatsBand";
@@ -48,7 +49,7 @@ export default async function HomePage() {
     // Stable ordering via id tiebreaker (recordingDatetime is a nullable
     // string, so id ensures deterministic results when datetimes tie).
     prisma.snippet.findMany({
-      where: { staffAnswer: { not: null } },
+      where: { staffAnswer: { not: null }, ...excludeBlockedSnippetsWhere() },
       orderBy: [{ recordingDatetime: "desc" }, { id: "desc" }],
       take: 25,
       select: { videoUrl: true, thumbnailUrl: true, staffAnswer: true, site: true },
@@ -58,7 +59,7 @@ export default async function HomePage() {
       select: { staffAnswer: true },
       distinct: ["staffAnswer"],
     }),
-    prisma.snippet.count(),
+    prisma.snippet.count({ where: excludeBlockedSnippetsWhere() }),
     // T-22: "identifications made" grows per-play and reads positively; the raw
     // spotter count (single digits) read as an empty product at first impression.
     prisma.answer.count(),

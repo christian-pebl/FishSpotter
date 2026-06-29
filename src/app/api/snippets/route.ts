@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const snippets = await prisma.snippet.findMany({
+    where: excludeBlockedSnippetsWhere(),
     orderBy: { createdAt: "desc" },
     select: {
       id: true,

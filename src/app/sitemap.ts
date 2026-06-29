@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { speciesSlug } from "@/lib/species-slug";
+import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 
 export const revalidate = 3600; // hourly
 
@@ -27,6 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
   try {
     const snippets = await prisma.snippet.findMany({
+      where: excludeBlockedSnippetsWhere(),
       select: { id: true, externalId: true, createdAt: true },
       orderBy: { createdAt: "desc" },
       take: 1000,

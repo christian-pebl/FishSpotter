@@ -31,6 +31,12 @@ const BBOX_SMOOTH_ALPHA = 0.15;
 const TRAIL_MIN_STEP_PX = 3;
 // Reset-fade duration when the video loops, in ms.
 const LOOP_FADE_MS = 180;
+// Ping highlight durations. A moving track gets a brief ~1.5s ring that FOLLOWS
+// the fish; a single-point mark (no path to follow) gets one really short pulse.
+// Keep HIGHLIGHT_FOLLOW_MS in sync with the `fs-fish-fade` CSS duration so the
+// ring unmounts exactly as its fade-out finishes (no abrupt cut at full opacity).
+const HIGHLIGHT_FOLLOW_MS = 1500;
+const HIGHLIGHT_PULSE_MS = 900;
 
 interface Point {
   x: number;
@@ -196,12 +202,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const goToRung1 = useCallback(() => dispatch({ type: "goToRung1" }), []);
   const goToRung2 = useCallback(() => dispatch({ type: "goToRung2" }), []);
   // Soft "here's the fish" highlight: a gentle concentric ring that FOLLOWS the
-  // creature along its bbox track (synced to playback) for ~3s when a clip
-  // becomes active, then fades — so it's clear which specific fish is being
-  // identified, without an obscuring continuous trace. `key` restarts the CSS
-  // fade/pulse; the per-frame position is driven imperatively on ringRef.
-  const [highlight, setHighlight] = useState<{ key: number } | null>(null);
-  const highlightShownRef = useRef(false);
+  // creature along its bbox track (synced to playback) for ~1.5s. It is shown
+  // ONLY when the user taps the radar "locate the fish" ping (handlePing) — it
+  // never auto-appears. During the first loop the centre-track trace already
+  // shows where the fish is, so an automatic ring on top would double up.
+  // `key` restarts the CSS fade/pulse; the per-frame position is driven
+  // imperatively on ringRef.
+  const [highlight, setHighlight] = useState<{ key: number; short: boolean } | null>(null);
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   // S2-T11: watch-first gate. The expanded quiz panel only mounts once
@@ -528,15 +535,24 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     };
   }, [speciesCenter]);
 
-  // Trigger the follow-highlight: mounts the ring (the loop below drives its
-  // position) and auto-clears after ~3s so it stays a brief indicator. Bumping
-  // `key` restarts the CSS fade + pulse.
+  // A single-point mark (1 centre point) has no path to follow, so its ping is
+  // one really short pulse rather than the ~3s ring that tracks a moving fish.
+  const isSinglePointTrack = bboxes.length <= 1;
+
+  // Trigger the highlight: mounts the ring/pulse (the loop below drives its
+  // position) and auto-clears so it stays a brief indicator. Bumping `key`
+  // restarts the CSS animation. Moving tracks get the follow-ring; single-point
+  // marks get one short pulse.
   const triggerHighlight = useCallback(() => {
     const video = videoRef.current;
     if (!video || !video.videoWidth || bboxes.length === 0) return false;
     if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
-    setHighlight({ key: Date.now() });
-    highlightTimerRef.current = setTimeout(() => setHighlight(null), 3000);
+    const short = bboxes.length <= 1;
+    setHighlight({ key: Date.now(), short });
+    highlightTimerRef.current = setTimeout(
+      () => setHighlight(null),
+      short ? HIGHLIGHT_PULSE_MS : HIGHLIGHT_FOLLOW_MS,
+    );
     return true;
   }, [bboxes]);
 
@@ -546,34 +562,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     if (!triggerHighlight()) return;
     if (pingTimerRef.current) clearTimeout(pingTimerRef.current);
     setPingActive(true);
-    pingTimerRef.current = setTimeout(() => setPingActive(false), 3000);
-  }, [triggerHighlight]);
+    pingTimerRef.current = setTimeout(
+      () => setPingActive(false),
+      isSinglePointTrack ? HIGHLIGHT_PULSE_MS : HIGHLIGHT_FOLLOW_MS,
+    );
+  }, [triggerHighlight, isSinglePointTrack]);
 
-  // Auto-trigger once each time the card becomes active (waits for the video to
-  // report real dimensions so the first projection is correct).
+  // Tear the follow-highlight ring (and its timers) down when the card scrolls
+  // out of view. The ring is only ever raised by an explicit ping tap
+  // (handlePing); it auto-clears after ~1.5s on its own, but a card going inactive
+  // mid-pulse must drop it immediately so it never lingers on the wrong clip.
   useEffect(() => {
-    if (!isActive) {
-      highlightShownRef.current = false;
-      if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
-      setHighlight(null);
-      return;
-    }
-    if (highlightShownRef.current || bboxes.length === 0) return;
-    let cancelled = false;
-    const attempt = () => {
-      if (cancelled || highlightShownRef.current) return;
-      if (triggerHighlight()) highlightShownRef.current = true;
-    };
-    const t = setTimeout(attempt, 500);
-    const video = videoRef.current;
-    const onMeta = () => attempt();
-    video?.addEventListener("loadedmetadata", onMeta);
-    return () => {
-      cancelled = true;
-      clearTimeout(t);
-      video?.removeEventListener("loadedmetadata", onMeta);
-    };
-  }, [isActive, bboxes, triggerHighlight]);
+    if (isActive) return;
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    if (pingTimerRef.current) clearTimeout(pingTimerRef.current);
+    setHighlight(null);
+    setPingActive(false);
+  }, [isActive]);
 
   // While the highlight is mounted, follow the creature along its bbox track in
   // sync with playback (same getBoxAtProgress + fitGeometry projection the clip
@@ -1169,7 +1174,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             className="pointer-events-none absolute z-20"
             style={{ left: 0, top: 0 }}
           >
-            <div className="fs-fish-follow">
+            <div className={highlight.short ? "fs-fish-pulse" : "fs-fish-follow"}>
               <span className="fs-fish-ring fs-fish-ring--outer" />
               <span className="fs-fish-ring fs-fish-ring--inner" />
             </div>

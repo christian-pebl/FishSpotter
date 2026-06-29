@@ -8,6 +8,7 @@ import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { VerificationBanner } from "@/components/VerificationBanner";
 import { orderFeed } from "@/lib/feed-ordering";
 import { safeParseJson } from "@/lib/safe-json";
+import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +41,7 @@ export default async function FeedPage() {
   // shuffle bucket) is stable on insert order.
   const [snippets, session] = await Promise.all([
     prisma.snippet.findMany({
+      where: excludeBlockedSnippetsWhere(),
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
