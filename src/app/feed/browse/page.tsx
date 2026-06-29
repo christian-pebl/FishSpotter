@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
+import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 
 // P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
@@ -60,6 +61,8 @@ export default async function FeedBrowsePage({
       { staffAnswer: { contains: params.q, mode: "insensitive" } },
     ];
   }
+  // Hide intentionally-excluded snippets from the archive list + count.
+  Object.assign(where, excludeBlockedSnippetsWhere());
 
   const orderBy: Prisma.SnippetOrderByWithRelationInput =
     sort === "oldest"
