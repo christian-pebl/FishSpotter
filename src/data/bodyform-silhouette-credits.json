@@ -201,5 +201,33 @@
     "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
+  },
+  "round-spiny": {
+    "taxon": "Echinoidea (regular sea urchins)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "heart-shaped": {
+    "taxon": "Spatangoida (heart urchins)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "diving-bird": {
+    "taxon": "Phalacrocoracidae (cormorants/shags)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "pinniped": {
+    "taxon": "Phocidae (true seals)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
   }
 }

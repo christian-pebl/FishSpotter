@@ -54,5 +54,13 @@
     "attribution": "PEBL CIC (original silhouette)",
     "license": "https://creativecommons.org/publicdomain/zero/1.0/",
     "source": "https://fish-spotter.vercel.app"
+  },
+  "wildlife": {
+    "taxon": "Pinnipedia / Aves (mixed, non-fish wildlife)",
+    "imageUuid": null,
+    "contributor": "PEBL CIC",
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://fish-spotter.vercel.app"
   }
 }

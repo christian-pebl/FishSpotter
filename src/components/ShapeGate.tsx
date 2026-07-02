@@ -106,14 +106,29 @@ function SilSquid() {
   );
 }
 
+// Added 2 Jul 2026 for the `wildlife` shape class (diving seabirds, seals).
+// A seal reads more instantly at icon size than a bird silhouette does, so it
+// carries the tile; the Rung-2 sub-split (BodyShapeGate) shows a bird icon
+// too for the "Diving bird" option.
+function SilWildlife() {
+  return (
+    <svg viewBox="0 0 48 32" fill="none" aria-hidden="true" className="w-full h-full">
+      <path d="M4 20c1-8 7-14 16-14 10 0 17 6 20 13-2 3-5 5-8 6 1 2 1 4 0 6-3-1-5-3-6-5-3 1-6 1-9 0-3 3-7 4-11 3 1-2 2-4 2-6-2-1-3-2-4-3z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+      <circle cx="15" cy="12" r="1.4" fill="currentColor"/>
+      <path d="M8 13q2-2 5-2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
 const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "fish",       label: "Fish",       Icon: SilFish },
   { key: "flatfish",   label: "Flatfish",   Icon: SilFlatfish },
   { key: "crab",       label: "Crab",       Icon: SilCrab },
   { key: "jellyfish",  label: "Jellyfish",  Icon: SilJellyfish },
-  { key: "starfish",   label: "Starfish",   Icon: SilStarfish },
+  { key: "starfish",   label: "Starfish & urchin", Icon: SilStarfish },
   { key: "gastropod",  label: "Snail / slug", Icon: SilGastropod },
   { key: "squid",      label: "Squid",      Icon: SilSquid },
+  { key: "wildlife",   label: "Other wildlife", Icon: SilWildlife },
 ];
 
 /** ShapeClass → its gate label, for breadcrumbs in later rungs. */

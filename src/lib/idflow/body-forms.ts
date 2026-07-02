@@ -82,12 +82,16 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
   },
   starfish: {
     key: "armForm",
-    prompt: "What were the arms like?",
+    // Was "What were the arms like?" — broadened 2 Jul 2026 when sea urchins
+    // (no arms at all) joined this tile rather than getting their own class.
+    prompt: "What did the body look like?",
     options: [
       { value: "short-stubby", label: "Five short fat arms" },
       { value: "long-spiny", label: "Long arms, rows of spines" },
       { value: "long-smooth", label: "Long arms, no spines" },
       { value: "thin-whippy", label: "Thread-thin whippy arms" },
+      { value: "round-spiny", label: "Round spiny ball, no arms" },
+      { value: "heart-shaped", label: "Oval/heart-shaped, fine spines" },
     ],
   },
   gastropod: {
@@ -109,6 +113,15 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
       { value: "trailing-mass", label: "Long trailing tentacles" },
     ],
   },
+  // NB: no `wildlife` entry yet. The `wildlifeForm` trait + its two values
+  // (diving-bird, pinniped) are already live in traits.ts/narrow.ts/
+  // catalogue.ts, and this SUB_SPLITS entry is drafted and ready in
+  // implementation/2026-07-02/new-species-onboarding.md — but body-forms.test.ts
+  // requires every SUB_SPLITS key to resolve to >=2 real catalogue species
+  // right now (bodyFormConfigFor filters zero-count options to null), so
+  // wiring it in before the wildlife species land would break CI. Add it back
+  // the moment the diving-bird + seal species are merged into
+  // species-traits.json (see the same doc for the exact snippet to paste in).
 };
 
 export type BodyFormOption = { value: string; label: string; count: number };

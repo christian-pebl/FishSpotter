@@ -525,6 +525,13 @@ export const COMPARISON_GROUPS: ComparisonGroup[] = [
     sources: [MARLIN, MCS, WILDLIFE_TRUSTS],
   },
 
+  // NB: no "sea-urchins" / "diving-seabirds" / "seals" comparison groups yet —
+  // comparisons.test.ts requires every member to already be a real catalogue
+  // species, and the 10 new species (4 urchins, 4 seabirds, 2 seals) aren't
+  // merged in yet (pending curated photos — see
+  // implementation/2026-07-02/new-species-onboarding.md, which has these three
+  // groups fully drafted and ready to paste in the moment the species land).
+
   {
     // CLASS-LEVEL (Rung-2): each starfish arm-form is a single species, so the
     // four never share a Rung-3 candidate set. Surfaced at the arm-form gate.

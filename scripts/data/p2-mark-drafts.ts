@@ -300,4 +300,180 @@ export const P2_MARK_DRAFTS: Record<string, Feature[]> = {
         "The male raises a first dorsal fin in display, but it is lower and less filamentous than the tall sail of the common dragonet.",
     },
   ],
+
+  // ---- Echinoderms: sea urchins (added 2 Jul 2026, `starfish` shape class,
+  // `round-spiny`/`heart-shaped` armForm) ----
+  "Echinus esculentus": [
+    {
+      label: "Large pink-red spiny ball",
+      description:
+        "A large, robust ball covered in short, dense spines, pinkish-red to purple-red. By far the biggest of the UK's regular urchins.",
+    },
+    {
+      label: "Five-part radial pattern",
+      description:
+        "Faint pale bands run in five double rows from top to bottom of the test (the ambulacral grooves), visible where spines are thin.",
+    },
+    {
+      label: "On rock and kelp forest",
+      description:
+        "Grazes exposed rock and kelp holdfasts on the lower shore and shallow subtidal, rather than tucked in a hollow.",
+    },
+  ],
+  "Psammechinus miliaris": [
+    {
+      label: "Green test, purple spine tips",
+      description:
+        "A small, bright green ball with each spine tipped violet-purple, the giveaway against the other round urchins.",
+    },
+    {
+      label: "Camouflage debris on spines",
+      description:
+        "Often carries bits of shell, gravel or weed wedged between the spines for cover, more than the other UK urchins do.",
+    },
+    {
+      label: "Small size, rock pools and kelp",
+      description:
+        "The smallest common UK urchin, typically under 4cm, in shallow rock pools and kelp holdfasts.",
+    },
+  ],
+  "Paracentrotus lividus": [
+    {
+      label: "Deep purple-brown, longer spines",
+      description:
+        "A dark purple-brown (sometimes greenish) ball with noticeably longer, more slender spines than the green sea urchin.",
+    },
+    {
+      label: "Sits in an excavated rock hollow",
+      description:
+        "Often found bedded into a self-excavated pit in soft rock, only the spine tips showing above the rim.",
+    },
+    {
+      label: "South-western rocky shores",
+      description:
+        "A specialist of exposed rocky shores in the milder south-west, less widespread around the UK than the common or green urchin.",
+    },
+  ],
+  "Echinocardium cordatum": [
+    {
+      label: "Oval, heart-shaped test",
+      description:
+        "An oval to heart-shaped test with a shallow notch at the front end, quite unlike the round ball of a regular urchin.",
+    },
+    {
+      label: "Fine fur of short spines",
+      description:
+        "Covered in a dense, fine fur of short yellowish spines rather than the long defensive spines of Echinus or Paracentrotus.",
+    },
+    {
+      label: "Burrows in sand; often just the pale test",
+      description:
+        "Lives buried in sandy sediment, so it is most often seen on camera as the pale, fragile empty test lying on the seabed rather than the live animal.",
+    },
+  ],
+
+  // ---- Wildlife: diving seabirds + seals (added 2 Jul 2026, new `wildlife`
+  // shape class, `diving-bird`/`pinniped` wildlifeForm) ----
+  "Phalacrocorax aristotelis": [
+    {
+      label: "All-dark glossy plumage",
+      description:
+        "Uniformly dark black-green with an oily sheen, no white patches anywhere, unlike the cormorant.",
+    },
+    {
+      label: "Slim hooked bill, steep forehead",
+      description:
+        "A slim, sharply hooked bill and a steep forehead give a slightly quiffed profile; breeding birds grow a small forward-curling crest.",
+    },
+    {
+      label: "Fast, agile underwater swimmer",
+      description:
+        "Swims low in the water with just the head and neck showing, then dives fast and directly after fish, often solitary.",
+    },
+  ],
+  "Phalacrocorax carbo": [
+    {
+      label: "Yellow-orange bare face patch",
+      description:
+        "A patch of bare yellow-orange skin at the base of the bill and around the eye, the single most reliable tell against the shag.",
+    },
+    {
+      label: "White cheek and throat patch",
+      description:
+        "A white patch on the cheek and throat (more extensive and whiter than any shag marking); breeding adults also show a white thigh patch.",
+    },
+    {
+      label: "Wings-open drying posture",
+      description:
+        "Often perches upright with both wings held open to dry after diving, a habit distinctive among UK waterbirds.",
+    },
+  ],
+  "Uria aalge": [
+    {
+      label: "Long, thin, dagger-like bill",
+      description:
+        "A slender, pointed bill much longer and thinner than a razorbill's blunt one, held level.",
+    },
+    {
+      label: "Dark brown (not black) upperparts",
+      description:
+        "Chocolate-brown rather than glossy black upperparts, with a clean white belly and foreneck.",
+    },
+    {
+      label: "Upright, small-penguin posture",
+      description:
+        "Stands and swims in an upright, small-penguin-like posture, usually in dense rafts or colonies rather than alone.",
+    },
+  ],
+  "Alca torda": [
+    {
+      label: "Thick, blunt bill with a white stripe",
+      description:
+        "A deep, laterally flattened, blunt-tipped bill crossed by a bold white vertical stripe, the razorbill's clearest tell.",
+    },
+    {
+      label: "Glossy black (not brown) upperparts",
+      description:
+        "Glossy jet-black upperparts (versus the guillemot's chocolate-brown), with a fine white line running from the bill to the eye.",
+    },
+    {
+      label: "Stockier, blockier head than a guillemot",
+      description:
+        "A more robust, blocky head and thicker neck than the slimmer-headed guillemot it often rafts alongside.",
+    },
+  ],
+  "Halichoerus grypus": [
+    {
+      label: "Long, straight \"Roman nose\" profile",
+      description:
+        "A long, straight, sloping muzzle in profile, quite unlike the harbour seal's short rounded face.",
+    },
+    {
+      label: "Widely-spaced, parallel nostrils",
+      description:
+        "Nostril slits sit parallel and well apart, rather than meeting in a V at the bottom.",
+    },
+    {
+      label: "Bulky body, blotchy coat",
+      description:
+        "A noticeably larger, bulkier body than a harbour seal, with an irregular blotchy (not evenly spotted) coat pattern.",
+    },
+  ],
+  "Phoca vitulina": [
+    {
+      label: "Short, rounded \"dog-like\" head",
+      description:
+        "A short, rounded head with a steep forehead, giving a dog-like profile quite unlike the grey seal's long muzzle.",
+    },
+    {
+      label: "V-shaped nostrils",
+      description:
+        "Nostril slits meet in a V shape at the bottom, close together (versus the grey seal's parallel, widely-spaced slits).",
+    },
+    {
+      label: "Small, evenly-spotted coat",
+      description:
+        "A smaller, daintier body than a grey seal, with small, fairly regular spots evenly covering the coat.",
+    },
+  ],
 };

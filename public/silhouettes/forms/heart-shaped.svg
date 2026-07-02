@@ -1,0 +1,11 @@
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 52 44" xmlns="http://www.w3.org/2000/svg">
+  <!-- heart urchin / sea potato: oval burrowing test with a shallow notch at
+       the front end, giving the characteristic heart/potato outline -->
+  <path d="M26 4
+           C15 4 5 13 5 24
+           C5 34 14 40 26 40
+           C38 40 47 34 47 24
+           C47 14 38 5.5 27.5 4.2
+           C27 5.6 25.6 5.7 25.2 4.4
+           C25.5 4.2 25.7 4.1 26 4 Z"/>
+</svg>

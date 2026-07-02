@@ -31,6 +31,14 @@ const ALIASES: Record<string, ShapeClass> = {
   cuttlefish: "squid",
   octopus: "squid",
   cephalopod: "squid",
+  urchin: "starfish",
+  seaurchin: "starfish",
+  starfishurchin: "starfish", // the "Starfish & urchin" gate label, normalised
+  otherwildlife: "wildlife", // the "Other wildlife" gate label, normalised
+  seal: "wildlife",
+  seals: "wildlife",
+  divingbird: "wildlife",
+  seabird: "wildlife",
 };
 
 export function resolveShapeClassRef(

@@ -163,6 +163,7 @@ export const SHAPE_CLASS = [
   "starfish",
   "gastropod",
   "squid",
+  "wildlife",
 ] as const;
 // NB the `scooter` class (dragonets only) was retired on 3 Jun 2026 and folded
 // into `fish`: a downward-looking seabed camera + naive-user testing (Gemini
@@ -173,6 +174,12 @@ export const SHAPE_CLASS = [
 // WITH the bottom-dwelling gobies rather than splitting them off, since
 // beginners group all the perch-and-dart seabed fish together. Distinct from
 // the `flatfish` class (asymmetric, eyes-migrated).
+// `wildlife` (added 2 Jul 2026) is the catch-all for non-fish/invert sightings
+// the cameras pick up (diving seabirds, seals, ...). Unlike every other class
+// it isn't a taxonomic group — it's "cool footage that isn't a fish or marine
+// invert" — grouped by ARCHITECTURE.md's guidance to avoid a string of
+// single-species classes that each feel hollow until they have their own >=3
+// species. Sub-splits on `wildlifeForm` (see below).
 export type ShapeClass = (typeof SHAPE_CLASS)[number];
 
 // Movement is a NORMAL scored trait, not a funnel level. Surfaced by the
@@ -236,12 +243,20 @@ export const CEPHALOPOD_FORM = [
 ] as const;
 export type CephalopodForm = (typeof CEPHALOPOD_FORM)[number];
 
-// Echinoderm arm plan (Starfish tile).
+// Echinoderm arm plan (Starfish tile). Sea urchins (added 2 Jul 2026) joined
+// this tile rather than getting a separate shape class: same phylum
+// (Echinodermata), and the existing "starfish" gate already covers more than
+// literal stars (it includes the brittlestar). Two new values cover the
+// urchins' very different silhouette — a round spiny ball has nothing in
+// common with a five-armed star, so they get their own Rung-2 tiles rather
+// than being folded into an existing "arm" bucket.
 export const ARM_FORM = [
   "short-stubby", // cushion star — short fat arms, pentagon outline
   "long-spiny", // spiny starfish — long arms with rows of spines
   "long-smooth", // common starfish — long tapering arms, no obvious spines
   "thin-whippy", // brittlestar — small disc, long thread-like arms
+  "round-spiny", // regular sea urchins — round spine-covered test, no arms at all
+  "heart-shaped", // heart urchins (sea potato) — oval/heart-shaped burrower, fine spine "fur"
 ] as const;
 export type ArmForm = (typeof ARM_FORM)[number];
 
@@ -261,6 +276,18 @@ export const BELL_FORM = [
   "trailing-mass", // bell trailing a dense mass of long tentacles (lion's mane)
 ] as const;
 export type BellForm = (typeof BELL_FORM)[number];
+
+// Wildlife body plan (Other wildlife tile, added 2 Jul 2026). The first
+// non-fish/invert shape class: air-breathing vertebrates the cameras catch
+// underwater (diving seabirds, seals; a dolphin would join `pinniped`'s
+// sibling if/when one turns up). None of the fish traits (finShape,
+// bodyShape, fishGroup, ...) carry any signal here, so — like the invert
+// classes — this tile gets its own small "form" enum for the Rung-2 split.
+export const WILDLIFE_FORM = [
+  "diving-bird", // cormorant/shag/auk shape — long neck or streamlined body, paddling feet, no flippers
+  "pinniped", // seal shape — torpedo body, whiskered head, front + rear flippers
+] as const;
+export type WildlifeForm = (typeof WILDLIFE_FORM)[number];
 
 export type SpeciesTraits = {
   commonName: string;
@@ -290,6 +317,8 @@ export type SpeciesTraits = {
   armForm?: ArmForm[];
   shellShape?: ShellShape[];
   bellForm?: BellForm[];
+  // Wildlife-only (optional): present on the wildlife class, absent elsewhere.
+  wildlifeForm?: WildlifeForm[];
   fieldNote: string;
 };
 
@@ -316,6 +345,7 @@ export type TraitSelection = {
   armForm?: ArmForm[];
   shellShape?: ShellShape[];
   bellForm?: BellForm[];
+  wildlifeForm?: WildlifeForm[];
 };
 
 export const TRAIT_CATEGORIES = {

@@ -54,6 +54,12 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "long-spiny": "Does it have long arms covered in rows of spines?",
     "long-smooth": "Does it have long tapering arms with no obvious spines?",
     "thin-whippy": "Does it have a small central disc with long thread-like arms?",
+    "round-spiny": "Is it a round spiny ball with no arms at all, like a pincushion?",
+    "heart-shaped": "Is it an oval or heart-shaped body with a fine fur of short spines?",
+  },
+  wildlifeForm: {
+    "diving-bird": "Is it a bird — a streamlined diving shape with paddling feet, no flippers?",
+    pinniped: "Is it a seal — a torpedo-shaped body with a whiskered head and flippers?",
   },
   shellShape: {
     "flat-cone": "Is the shell a low cone clamped down onto the rock (limpet-like)?",

@@ -18,6 +18,7 @@ import {
   MOVEMENT,
   SHELL_SHAPE,
   SIZE,
+  WILDLIFE_FORM,
   type ShapeClass,
   type SpeciesCatalogue,
   type SpeciesTraits,
@@ -55,6 +56,7 @@ export const TRAIT_KEYS = [
   "armForm",
   "shellShape",
   "bellForm",
+  "wildlifeForm",
 ] as const satisfies ReadonlyArray<keyof TraitSelection>;
 
 export type TraitKey = (typeof TRAIT_KEYS)[number];
@@ -79,6 +81,7 @@ const ALLOWED_VALUES: Record<TraitKey, ReadonlySet<string>> = {
   armForm: new Set(ARM_FORM),
   shellShape: new Set(SHELL_SHAPE),
   bellForm: new Set(BELL_FORM),
+  wildlifeForm: new Set(WILDLIFE_FORM),
 };
 
 export function speciesValuesFor(traits: SpeciesTraits, key: TraitKey): string[] {

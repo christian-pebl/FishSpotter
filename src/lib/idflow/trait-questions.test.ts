@@ -20,6 +20,7 @@ import {
   MOVEMENT,
   SHELL_SHAPE,
   SIZE,
+  WILDLIFE_FORM,
 } from "@/lib/idguide/traits";
 import type { TraitKey } from "@/lib/idguide/narrow";
 
@@ -46,6 +47,7 @@ const ALL_VALUES: Record<TraitKey, readonly string[]> = {
   armForm: ARM_FORM,
   shellShape: SHELL_SHAPE,
   bellForm: BELL_FORM,
+  wildlifeForm: WILDLIFE_FORM,
 };
 
 describe("traitQuestion", () => {

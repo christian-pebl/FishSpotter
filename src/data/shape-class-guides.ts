@@ -72,16 +72,17 @@ export const SHAPE_CLASS_GUIDES: Record<ShapeClass, ShapeClassGuide> = {
       "Look at the bell, the four pale rings of a moon jelly versus the solid dome and cauliflower arms of a barrel jelly.",
   },
   starfish: {
-    label: "Starfish",
-    intro: "Starfish are slow, many-armed animals of rock and sand.",
+    label: "Starfish & urchin",
+    intro:
+      "Starfish, brittlestars and sea urchins are slow-moving, spiny-skinned animals of rock and sand (echinoderms) — some star-shaped, some a round spiny ball.",
     cues: [
-      "A star outline, usually five arms from a central disc",
+      "A star outline (usually five arms), OR a round or oval ball with no arms at all",
       "Sits flat on the bottom and moves very slowly",
       "A rough, knobbly or spiny upper surface",
-      "Rows of tiny tube feet underneath each arm",
+      "Rows of tiny tube feet underneath",
     ],
     tellApart:
-      "Arm length and texture separate them, the short fat arms of a cushion star versus the long arms of a common starfish.",
+      "Arms or no arms is the first split. Among the star-shaped ones, arm length and texture separate them (short fat arms of a cushion star versus the long spiny arms of a spiny starfish); among the round ones, a solid spiny ball is a regular sea urchin, an oval fur-spined one is a heart urchin.",
   },
   gastropod: {
     label: "Snail or slug",
@@ -106,5 +107,18 @@ export const SHAPE_CLASS_GUIDES: Record<ShapeClass, ShapeClassGuide> = {
     ],
     tellApart:
       "Body plan tells them apart, the torpedo body and side fins of a squid versus the round folded body of an octopus.",
+  },
+  wildlife: {
+    label: "Other wildlife",
+    intro:
+      "Not every camera clip is a fish or marine invertebrate — air-breathing visitors like diving seabirds and seals turn up too.",
+    cues: [
+      "Comes up for air rather than breathing underwater",
+      "Diving birds: streamlined body, paddling feet, often a long neck",
+      "Seals: torpedo body, whiskered face, front and rear flippers",
+      "Moves with real speed and purpose compared to most fish",
+    ],
+    tellApart:
+      "Feathers and paddling feet mean a diving bird; a whiskered face and flippers mean a seal.",
   },
 };
