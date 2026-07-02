@@ -1341,8 +1341,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Radar ping (RIGHT) — only after first loop when trace has gone */}
-            {hasCompletedFirstLoop && bboxes.length > 0 && (
+            {/* Radar ping (RIGHT) — available whenever the clip has track data.
+                Previously gated on `hasCompletedFirstLoop` too ("only after the
+                trace has gone, so the two don't double up"), but that made the
+                button vanish for an unpredictable stretch — a full loop can be
+                many seconds, longer on a slow connection, or never finish if the
+                user scrolls to the next clip first. Tapping it during the trace
+                is harmless (it just re-triggers the same ring on top), so drop
+                the extra gate and keep the button reliably present. */}
+            {bboxes.length > 0 && (
               <button
                 type="button"
                 onClick={handlePing}
