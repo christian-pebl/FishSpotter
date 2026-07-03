@@ -15,8 +15,8 @@ backlog so it can become tickets.
 
 FishSpotter is not really a fish-ID game. It is **the most engaging asset PEBL
 has for telling its story**. Every other PEBL surface (the website, the
-bioRxiv paper, the WWF Cymru partnership, the SubCam hardware) is aimed at
-funders, scientists, and sea-farm operators. FishSpotter is the only thing PEBL
+bioRxiv paper, the monitoring hardware and services) is aimed at funders,
+scientists, and sea-farm operators. FishSpotter is the only thing PEBL
 owns that a member of the public will *choose* to spend five minutes with.
 
 That reframes the growth question. We are not optimising a game's DAU. We are
@@ -78,8 +78,9 @@ Sighting of a John Dory") into an image someone is proud to post.
 
 This is the one that matters most for PEBL specifically. A player currently
 learns *zero* about **why the footage exists**. The clips come from cameras on
-real seaweed and shellfish farms in Pembrokeshire (Câr y Môr), and the whole
-scientific point — the thing PEBL's [bioRxiv paper](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
+real UK kelp farms — [Algapelago](https://www.algapelago.com/) in North Devon
+and [Kelp Crofters](https://kelpcrofters.com/) on the Isle of Skye — and the
+whole scientific point — the thing PEBL's [bioRxiv paper](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
 and the [Marine Biological Association](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/)
 work show — is that **these farms create habitat: nurseries, shelter, and
 feeding grounds that increase the abundance and diversity of marine life.** The
@@ -130,7 +131,7 @@ against Reach / Belief / Pipeline from §1.
 Add a share control using the Web Share API (`navigator.share`) with a
 clipboard-copy fallback, on: the reveal card after a correct/consensus ID, the
 profile page, the leaderboard row (self), and the streak milestone. Share text
-is templated per context ("I just spotted a *Labrus mixtus* on a Welsh seaweed
+is templated per context ("I just spotted a *Labrus mixtus* on a UK kelp
 farm 🌊 — can you? {url}"). Every shared URL carries a `?ref=` param for
 attribution and a soft invite. *This is the one item that, if we ship nothing
 else, changes the growth curve.*
@@ -139,7 +140,7 @@ else, changes the growth curve.*
 (`ImageResponse`/`opengraph-image.tsx` per route) for the three post-worthy
 moments: a **spotter card** (name, species-collected count, Tide length, top
 species photo), a **species card** (the annotated reference photo + one
-diagnostic mark + "Spotted on a Welsh seaweed farm"), and a **clip card** (the
+diagnostic mark + "Spotted on a UK kelp farm"), and a **clip card** (the
 actual snippet still + the consensus ID). Fill the profile OG gap while we're
 there. Now a shared link *looks* like something worth clicking.
 
@@ -152,25 +153,26 @@ against the crowd").
 ### P1 — Make the mission the product, not a footnote
 
 **5.4 "Where this comes from" in the core loop. (M.)** On the reveal card, add
-a small, dismissible provenance line: *"Filmed on a seaweed farm in
-Pembrokeshire. Farms like this shelter more fish than the open seabed —
-[why →]"*. The `[why →]` opens a short, beautiful explainer (see 5.5). This is
+a small, dismissible provenance line: *"Filmed on a kelp farm · Algapelago,
+North Devon. Farms like this shelter more fish than the open seabed —
+[why →]"* (farm resolved per-clip; Skye clips read Kelp Crofters). The
+`[why →]` opens a short, beautiful explainer (see 5.5). This is
 the single most important belief-moving change: it attaches the message to the
 moment of delight, every clip.
 
 **5.5 A real `/about` (or `/why-seaweed`) page. (M.)** Today "About PEBL" is a
 paragraph on the landing page. Build a proper, public, indexable, shareable
-page that tells the story: what a seaweed farm is, the cameras (SubCam2 / BRUV)
-that shot this footage, and the evidence that farms boost biodiversity — cite
-PEBL's own [research](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
-and partners ([Câr y Môr](https://www.pebl-cic.co.uk/), WWF Cymru). This is
-the page journalists and funders link to, and the destination for the reveal-card
-`[why →]`. It doubles as SEO surface for "does seaweed farming help
-biodiversity".
+page that tells the story: what a kelp farm is, the cameras that shot this
+footage, and the evidence that farms boost biodiversity — cite PEBL's own
+[research](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1) and the
+source farms ([Algapelago](https://www.algapelago.com/),
+[Kelp Crofters](https://kelpcrofters.com/)). This is the page journalists and
+funders link to, and the destination for the reveal-card `[why →]`. It doubles
+as SEO surface for "does seaweed farming help biodiversity".
 
 **5.6 Onboarding gains a "why" beat. (S.)** The 3-step tour (Spot / Compare /
 Streak) is pure mechanics. Add a fourth: *"Every clip is real footage from a
-Welsh seaweed farm — you're helping show these farms are alive."* One screen,
+UK kelp farm — you're helping show these farms are alive."* One screen,
 big impact on framing.
 
 **5.7 PEBL CTAs that convert belief into pipeline. (S.)** Once someone cares,
@@ -192,13 +194,16 @@ regulars a reason to return and a fresh thing to post. Rides the existing
 consensus + rarity (OBIS `SpeciesProbability`) data.
 
 **5.10 Seed distribution channels. (ongoing, non-code.)** The app is ready to
-be *posted*; PEBL needs to post it. Priorities: (a) short vertical clips of the
-best snippets for Instagram/TikTok Reels with the "guess the fish → it's on a
-seaweed farm" hook; (b) a partner drop via [WWF
-Cymru](https://www.wwf.org.uk/what-we-do/projects/pembrokeshire-wholescape) and
-Câr y Môr's channels; (c) UK marine/rockpooling communities, school
-citizen-science programmes, and the Seaweed School network; (d) the Climate
-Action Fund's own comms as a proof-of-engagement showcase.
+be *posted*; PEBL needs to post it (via the [@pebl_cic](https://www.instagram.com/pebl_cic/)
+channels + the Linktree). Priorities: (a) short vertical clips of the best
+snippets for Instagram/TikTok Reels with the "guess the fish → it's on a kelp
+farm" hook; (b) a partner drop via the source farms'
+([Algapelago](https://www.algapelago.com/), [Kelp Crofters](https://kelpcrofters.com/))
+own channels and their networks (e.g. WWF's [Helping Scottish
+Kelp](https://www.wwf.org.uk/what-we-do/projects/helping-scottish-kelp)); (c) UK
+marine/rockpooling communities, school citizen-science programmes, and the
+Seaweed School network; (d) the Climate Action Fund's own comms as a
+proof-of-engagement showcase.
 
 **5.11 Referral credit in Pebbles. (S, after 5.1.)** When a `?ref=` visitor
 signs up and makes their first ID, award both users Pebbles. Turns the sharing
@@ -233,9 +238,11 @@ self-propelling story about seaweed farming.
 ### Sources
 
 - PEBL CIC — [Ocean data, made accessible](https://www.pebl-cic.co.uk/) ·
-  [Products](https://www.pebl-cic.co.uk/products)
+  [Products](https://www.pebl-cic.co.uk/products) · [@pebl_cic](https://www.instagram.com/pebl_cic/)
+- Source farms — [Algapelago](https://www.algapelago.com/) (Bideford Bay, North
+  Devon) · [Kelp Crofters](https://kelpcrofters.com/) (Isle of Skye)
 - Rippin et al., *Integrating environmental and ecological monitoring with
   seaweed farming* — [bioRxiv 2024](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
 - Marine Biological Association — [Shellfish and seaweed farms as fish
   habitat](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/)
-- WWF Cymru — [Pembrokeshire Wholescape](https://www.wwf.org.uk/what-we-do/projects/pembrokeshire-wholescape)
+- WWF — [Helping Scottish Kelp](https://www.wwf.org.uk/what-we-do/projects/helping-scottish-kelp)

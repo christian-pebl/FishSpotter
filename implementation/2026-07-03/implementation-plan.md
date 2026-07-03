@@ -70,50 +70,66 @@ Refactor the existing landing/footer/email links (`src/app/page.tsx` 252/277,
 ### A2. Farm/site provenance data — `src/data/farms.ts` (new)
 
 The load-bearing new model for "where this footage comes from". Every `Snippet`
-already has a `site` string (e.g. the `SC` in `externalId` `ALG_SC_11_…`) plus
-`deployment`, `lat`, `lon`, `depthM`. Map `site` → a farm record, with a
-**Câr y Môr default** so a clip is never left without provenance.
+already has a `site` string plus `externalId` (e.g. `ALG_SC_11_…`),
+`deployment`, `lat`, `lon`, `depthM`. **Two real farms today** (confirmed by
+Christian): **Algapelago** (the `ALG_` footage — kelp farm in North Devon) and
+**Kelp Crofters** (the kelp footage — Isle of Skye). Resolve a clip → farm from
+its `externalId`/`site` prefix.
 
 ```ts
 // src/data/farms.ts
 export type Farm = {
   key: string;             // internal key
-  name: string;            // "Câr y Môr"
+  name: string;            // "Algapelago"
   blurb: string;           // one line: what it is
-  location: string;        // "St Davids, Pembrokeshire"
-  url: string;             // https://www.carymor.wales/
-  kind: "seaweed-shellfish" | "seaweed" | "reef-control";
+  location: string;        // "Bideford Bay, North Devon"
+  url: string;             // https://www.algapelago.com/
+  kind: "kelp" | "seaweed-shellfish" | "reef-control";
 };
 
 export const FARMS: Record<string, Farm> = {
-  carymor: {
-    key: "carymor",
-    name: "Câr y Môr",
-    blurb: "Wales' first regenerative seaweed & shellfish farm — community-owned.",
-    location: "St Davids, Pembrokeshire",
-    url: "https://www.carymor.wales/",
-    kind: "seaweed-shellfish",
+  algapelago: {
+    key: "algapelago",
+    name: "Algapelago",
+    blurb: "Europe's most-offshore kelp farm — a de-facto marine sanctuary off Lundy.",
+    location: "Bideford Bay, North Devon",
+    url: "https://www.algapelago.com/",
+    kind: "kelp",
   },
-  // add more farms as footage sources expand
+  kelpcrofters: {
+    key: "kelpcrofters",
+    name: "Kelp Crofters",
+    blurb: "Community-scale kelp farm off Pabay, cultivated by crofters and marine scientists.",
+    location: "Isle of Skye, Scotland",
+    url: "https://kelpcrofters.com/",
+    kind: "kelp",
+  },
 };
 
-// site code -> farm key. Default everything to Câr y Môr for now.
+// externalId / site prefix -> farm key. ⚠️ confirm the Kelp Crofters prefix.
 export const SITE_TO_FARM: Record<string, string> = {
-  // "SC": "carymor",   // ⚠️ confirm real site codes with Christian
+  ALG: "algapelago",
+  // KLP / KC / ...: "kelpcrofters",   // ⚠️ what prefix do the Skye clips use?
 };
 
-export function farmForSite(site: string): Farm {
-  return FARMS[SITE_TO_FARM[site] ?? "carymor"] ?? FARMS.carymor;
+/** Resolve from the externalId (or site) prefix, e.g. "ALG_SC_11_…" -> Algapelago. */
+export function farmForSnippet(s: { externalId: string; site: string }): Farm | null {
+  const prefix = (s.externalId.split("_")[0] || s.site).toUpperCase();
+  const key = SITE_TO_FARM[prefix];
+  return key ? FARMS[key] : null;   // null -> render no farm attribution rather than a wrong one
 }
 ```
 
 Pure, unit-tested (`farms.test.ts`: every `SITE_TO_FARM` value resolves to a
-real `FARMS` entry; `farmForSite` always returns a farm). (S)
+real `FARMS` entry; `ALG_…` externalIds resolve to Algapelago; an unknown
+prefix returns `null`). Returning `null` (not a default farm) means we never
+mis-attribute a clip to the wrong farm. (S)
 
-> **Open questions for Christian:** (1) are **all** current clips from Câr y Môr,
-> or are some from other farms / reef control sites? (2) the real `site` code
-> values in the DB, so `SITE_TO_FARM` is accurate. If it's 100% Câr y Môr today,
-> we ship the default and the map stays empty.
+> **Open question for Christian:** the `ALG` prefix is confirmed for Algapelago.
+> What prefix do the **Kelp Crofters** (Skye) clips carry in their
+> `externalId`/`site`? Give me that string and the map is complete. (Any clips
+> that aren't from either farm — e.g. reef control sites — just render without a
+> farm link.)
 
 ### A3. Share attribution — `src/lib/share.ts` (new)
 
@@ -146,9 +162,9 @@ Depends on PR-A. The single highest-leverage user-visible change.
 
 | Surface | File | Shared URL | Copy (template) |
 |---|---|---|---|
-| Reveal card | `src/components/idflow/RevealResult.tsx` | `/feed/[id]?ref=reveal` | *"I just spotted a {species} on a Welsh seaweed farm 🌊 Can you? {url}"* |
+| Reveal card | `src/components/idflow/RevealResult.tsx` | `/feed/[id]?ref=reveal` | *"I just spotted a {species} on a UK kelp farm 🌊 Can you? {url}"* |
 | Milestone (streak/First Sighting) | `RevealResult.tsx` (reward block) | `/u/[id]?ref=milestone` | *"{n}-day Tide on FishSpotter 🔥 spotting marine life on real seaweed farms {url}"* |
-| Own profile | `src/app/u/[id]/page.tsx` | `/u/[id]?ref=profile` | *"My FishSpotter collection: {k} species IDed on Welsh seaweed farms {url}"* |
+| Own profile | `src/app/u/[id]/page.tsx` | `/u/[id]?ref=profile` | *"My FishSpotter collection: {k} species IDed on UK kelp farms {url}"* |
 | Leaderboard (self row) | `src/app/leaderboard/page.tsx` | `/leaderboard?ref=leaderboard` | *"I'm #{rank} on FishSpotter this week {url}"* |
 
 `RevealResult` already receives `firstSighting`, `streakCurrent`, `unlock` — the
@@ -178,8 +194,8 @@ Depends on PR-A. Makes shared links *look* worth clicking. Uses Next's
 | Card | New file | Content |
 |---|---|---|
 | Spotter | `src/app/u/[id]/opengraph-image.tsx` | Name, species-collected count, Tide length, top species photo, PEBL mark. Fills the current profile-OG gap. |
-| Species | `src/app/species/[slug]/opengraph-image.tsx` | Annotated reference photo + one diagnostic-mark ring + "Spotted on a Welsh seaweed farm". Replaces today's raw iNat photo. |
-| Clip | `src/app/feed/[id]/opengraph-image.tsx` | Snippet still + consensus ID + farm name (from `farmForSite`). Replaces today's bare thumbnail. |
+| Species | `src/app/species/[slug]/opengraph-image.tsx` | Annotated reference photo + one diagnostic-mark ring + "Spotted on a UK kelp farm". Replaces today's raw iNat photo. |
+| Clip | `src/app/feed/[id]/opengraph-image.tsx` | Snippet still + consensus ID + farm name (from `farmForSnippet`). Replaces today's bare thumbnail. |
 
 Each reads the same data its `generateMetadata` already fetches, so no new
 queries beyond an image compose. Keep them under the Edge `ImageResponse` size
@@ -197,14 +213,17 @@ Depends on PR-A. The belief-moving PR, and where the farm links live.
 ### D1. Reveal provenance line — `src/components/idflow/RevealResult.tsx` (M)
 
 Add a compact, dismissible line under the community histogram. Needs the
-snippet `site` (already on the snippet in the parent) → `farmForSite(site)`:
+snippet `externalId`/`site` (already on the snippet in the parent) →
+`farmForSnippet(snippet)`; render nothing if it returns `null`:
 
-> *Filmed on a seaweed farm · **Câr y Môr**, St Davids. Farms like this shelter
+> *Filmed on a kelp farm · **Algapelago**, North Devon. Farms like this shelter
 > more fish than the open seabed. [Why seaweed farms →]  [Visit the farm ↗]*
 
+(Skye clips render "**Kelp Crofters**, Isle of Skye" from the same helper.)
+
 - **[Why seaweed farms →]** → internal `/why-seaweed` (D2).
-- **[Visit the farm ↗]** → `farm.url` (Câr y Môr) with `rel="noopener"`, tagged
-  `?ref=fishspotter` where the destination supports it.
+- **[Visit the farm ↗]** → `farm.url` (the actual source farm) with
+  `rel="noopener"`, tagged `?ref=fishspotter` where the destination supports it.
 - Dismiss persists per-session (localStorage) so it doesn't nag every reveal but
   reappears for new sessions. Fires a lightweight `share_click`-adjacent
   `provenance_click` event for the belief metric.
@@ -215,16 +234,18 @@ A proper public, indexable, shareable page (the destination journalists and
 funders link to; the reveal's [Why →] target). Sections:
 
 1. **What you're looking at** — these clips are real footage from cameras on
-   working seaweed & shellfish farms in Pembrokeshire.
+   working UK kelp farms.
 2. **Why farms help** — nurseries, shelter, feeding grounds; more abundance and
    diversity than bare seabed. Cite PEBL's own
    [research](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1) and
    the [MBA](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/)
    findings.
-3. **The farm** — Câr y Môr, community-owned, [carymor.wales](https://www.carymor.wales/).
-4. **Who made this** — PEBL CIC + partners (WWF Cymru), one soft line about
-   PEBL's monitoring work with a link to the Linktree/website. **No hardware
-   pitch.**
+3. **The farms** — a card per source farm from `FARMS`:
+   **[Algapelago](https://www.algapelago.com/)** (Bideford Bay, North Devon) and
+   **[Kelp Crofters](https://kelpcrofters.com/)** (Isle of Skye). Each with its
+   one-line blurb + link.
+4. **Who made this** — PEBL CIC, one soft line about PEBL's monitoring work with
+   a link to the Linktree/website. **No hardware pitch.**
 5. A **one-tap micro-poll**: *"Did you know seaweed farms boost biodiversity?
    [I do now]"* → feeds the belief metric for funder reporting.
 
@@ -236,8 +257,8 @@ for on-brand visuals.
 
 Add a 4th `STEPS` entry after Spot/Compare/Streak:
 
-> **4 · Why** — *"Every clip is real footage from a Welsh seaweed farm. Spotting
-> the life on them helps show these farms are alive — [see why]."*
+> **4 · Why** — *"Every clip is real footage from a UK kelp farm. Spotting the
+> life on them helps show these farms are alive — [see why]."*
 
 One slide; `[see why]` deep-links to `/why-seaweed`. Update the "Step n of N"
 counter automatically (it's derived from `STEPS.length`).
@@ -245,9 +266,9 @@ counter automatically (it's derived from `STEPS.length`).
 ### D4. Farm chip on clip/browse surfaces — `src/app/feed/[id]/page.tsx`,
 `src/app/feed/browse/page.tsx` (S)
 
-A small "🌊 Câr y Môr" chip (token-styled, not emoji-as-icon — use the wave
-silhouette) linking to the farm, so provenance is visible even outside the
-reveal.
+A small farm chip (e.g. "Algapelago" / "Kelp Crofters", token-styled with the
+wave silhouette — not emoji-as-icon) from `farmForSnippet`, linking to the farm,
+so provenance is visible even outside the reveal.
 
 ---
 
@@ -313,11 +334,13 @@ the `verify` skill on any PR with a runtime surface (B, C, D, E). New pure libs
 
 ## Open questions for Christian (blockers marked ⚠️)
 1. ⚠️ **Exact Linktree URL** (from the @pebl_cic bio) → drops into `pebl-links.ts`.
-2. ⚠️ **Site → farm mapping**: are all current clips Câr y Môr, or multiple
-   farms/control sites? Real `site` codes for `SITE_TO_FARM`.
-3. Is linking Câr y Môr directly OK with them (courtesy heads-up to the farm)?
-   They're community-owned and education-forward, so almost certainly yes — but
-   worth a note since we're driving traffic to them.
+2. ⚠️ **Kelp Crofters site prefix**: `ALG` = Algapelago is confirmed. What
+   `externalId`/`site` prefix do the Skye (Kelp Crofters) clips carry? That
+   completes `SITE_TO_FARM`. (Any non-farm/reef-control clips just render
+   without a farm link.)
+3. A courtesy heads-up to **Algapelago** and **Kelp Crofters** before we drive
+   traffic to them — both are education-forward, so almost certainly welcome,
+   but worth a note (and a chance to agree the exact link/wording they'd like).
 4. Web-push (E1): worth the VAPID setup now, or defer until share loop proves
    the audience is returning? (Recommend defer — ship A–D first, measure, then E.)
 
@@ -325,6 +348,6 @@ the `verify` skill on any PR with a runtime surface (B, C, D, E). New pure libs
 
 ### Sources
 - PEBL — [pebl-cic.co.uk](https://www.pebl-cic.co.uk/) · [@pebl_cic](https://www.instagram.com/pebl_cic/) · [Products](https://www.pebl-cic.co.uk/products)
-- [Câr y Môr](https://www.carymor.wales/) — Wales' first regenerative seaweed & shellfish farm
+- Source farms — [Algapelago](https://www.algapelago.com/) (Bideford Bay, North Devon) · [Kelp Crofters](https://kelpcrofters.com/) (Isle of Skye)
 - PEBL — [bioRxiv: monitoring + seaweed farming](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
 - [Marine Biological Association](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/) — farms as fish habitat
