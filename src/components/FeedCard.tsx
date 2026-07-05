@@ -708,23 +708,27 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     const glowGrad = glowGradRef.current;
     const progress = progressRef.current;
 
+    // NB: object-fit / object-position belong to the fit effect above — never
+    // reset them here. Clearing objectPosition on teardown snapped a
+    // cover-cropped clip off the species the moment the trail retired (first
+    // loop) and left every rewatch mis-cropped, with the "locate" ping ring
+    // projected against the crop the video no longer had.
     const hideAll = () => {
-      video.style.objectPosition = "";
       if (overlay) overlay.style.opacity = "0";
       if (progress) progress.style.transform = "scaleX(0)";
     };
 
-    if (
-      !isActive ||
-      bboxes.length === 0 ||
-      !overlay ||
-      !trailPath ||
-      !trailGlowPath ||
-      !showTracking
-    ) {
+    if (!isActive || bboxes.length === 0) {
       hideAll();
       return;
     }
+
+    // The trail is a first-watch-only overlay, but this frame loop also drives
+    // the playback progress bar + its loop pulse, which must keep running for
+    // the card's whole active life (they used to freeze at zero once the first
+    // loop finished). Only the trail drawing is gated on showTracking.
+    const drawTrail = showTracking && !!overlay && !!trailPath && !!trailGlowPath;
+    if (!drawTrail && overlay) overlay.style.opacity = "0";
 
     let cancelled = false;
     // Trail stored in WORLD (normalized) space — re-projected each frame so it
@@ -760,6 +764,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       if (progress) {
         progress.style.transform = `scaleX(${(t / dur).toFixed(4)})`;
       }
+
+      if (!drawTrail || !overlay || !trailPath || !trailGlowPath) return;
 
       const bbox = getBoxAtProgress(bboxes, t / dur);
       if (!bbox) return;
