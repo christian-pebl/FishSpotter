@@ -66,6 +66,14 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "frilly-arms": "Is it a solid bell with frilly cauliflower-like arms and no long tentacles?",
     "trailing-mass": "Is it trailing a dense mass of long stinging tentacles?",
   },
+  urchinForm: {
+    "round-spiny": "Is it a round ball covered in spines all over?",
+    "heart-shaped": "Is it a flattened, heart-shaped animal buried in the sand?",
+  },
+  wildlifeForm: {
+    bird: "Is it a bird, with a neck and a bill?",
+    seal: "Is it a seal, with flippers and no neck?",
+  },
   coloration: {
     uniform: "Is it a fairly plain, uniform colour?",
     mottled: "Is it mottled or blotchy?",

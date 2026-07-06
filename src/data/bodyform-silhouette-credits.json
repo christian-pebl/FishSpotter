@@ -201,5 +201,33 @@
     "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
+  },
+  "round-spiny": {
+    "taxon": "Echinus / Psammechinus / Paracentrotus (regular echinoids)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "heart-shaped": {
+    "taxon": "Spatangoida (heart urchins)",
+    "imageUuid": "22f937e1-5441-413b-8331-51475518caaf",
+    "attribution": "Hans Hillewaert (vectorized by T. Michael Keesey), via PhyloPic",
+    "license": "CC-BY-SA 3.0",
+    "source": "https://www.phylopic.org/images/22f937e1-5441-413b-8331-51475518caaf"
+  },
+  "bird": {
+    "taxon": "Phalacrocorax (cormorants / shags)",
+    "imageUuid": "21a3420c-8d7a-4bd2-8ff7-b89fe7f5add5",
+    "attribution": "Ferran Sayol, via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/21a3420c-8d7a-4bd2-8ff7-b89fe7f5add5"
+  },
+  "seal": {
+    "taxon": "Phocidae (seals)",
+    "imageUuid": "64c27f60-ffbf-4ee8-ae1e-726042c477ff",
+    "attribution": "Jakovche, via PhyloPic",
+    "license": "CC-BY-SA 3.0",
+    "source": "https://www.phylopic.org/images/64c27f60-ffbf-4ee8-ae1e-726042c477ff"
   }
 }

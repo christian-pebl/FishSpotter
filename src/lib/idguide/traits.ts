@@ -163,6 +163,13 @@ export const SHAPE_CLASS = [
   "starfish",
   "gastropod",
   "squid",
+  "urchin",
+  // Catch-all for the non-invertebrate wildlife the cameras also catch
+  // (diving seabirds, seals) — added 6 Jul 2026 after two Kelp Crofters clips
+  // (KEL33 urchin, KEL37 shag) surfaced with nowhere to go in the gate. Splits
+  // on `wildlifeForm` (bird / seal) at Rung 2, same pattern as every other
+  // invert class's "form" splitter.
+  "other",
 ] as const;
 // NB the `scooter` class (dragonets only) was retired on 3 Jun 2026 and folded
 // into `fish`: a downward-looking seabed camera + naive-user testing (Gemini
@@ -262,6 +269,20 @@ export const BELL_FORM = [
 ] as const;
 export type BellForm = (typeof BELL_FORM)[number];
 
+// Echinoid body plan (Sea Urchin tile). The real Regularia/Irregularia split:
+// round spiny grazers versus flattened burrowers that live under the sand.
+export const URCHIN_FORM = [
+  "round-spiny", // regular echinoid — globe-shaped test, spines all round (Echinus, Psammechinus, Paracentrotus)
+  "heart-shaped", // irregular echinoid — flattened, fur-like short spines, burrows in sand/mud (Echinocardium, Spatangus)
+] as const;
+export type UrchinForm = (typeof URCHIN_FORM)[number];
+
+// Other Wildlife body plan (the catch-all tile). Bird vs seal is the only cut
+// this shape class needs at Rung 2 — each side is small enough to go straight
+// to the Rung-3 photo grid with no further split.
+export const WILDLIFE_FORM = ["bird", "seal"] as const;
+export type WildlifeForm = (typeof WILDLIFE_FORM)[number];
+
 export type SpeciesTraits = {
   commonName: string;
   shapeClass: ShapeClass;
@@ -290,6 +311,8 @@ export type SpeciesTraits = {
   armForm?: ArmForm[];
   shellShape?: ShellShape[];
   bellForm?: BellForm[];
+  urchinForm?: UrchinForm[];
+  wildlifeForm?: WildlifeForm[];
   fieldNote: string;
 };
 
@@ -316,6 +339,8 @@ export type TraitSelection = {
   armForm?: ArmForm[];
   shellShape?: ShellShape[];
   bellForm?: BellForm[];
+  urchinForm?: UrchinForm[];
+  wildlifeForm?: WildlifeForm[];
 };
 
 export const TRAIT_CATEGORIES = {
