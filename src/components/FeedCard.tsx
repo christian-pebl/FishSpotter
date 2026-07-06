@@ -1441,6 +1441,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
               {!myAnswer ? (
                 <>
+                  {/* Clearance for the absolute header controls (drag grip +
+                      Hide pill). Without it the first content row — the Skip /
+                      "Where is this?" cluster, or guess-mode's submit arrow —
+                      rendered straight into the top-right corner and stacked
+                      under the Hide button. */}
+                  <div className="h-8 shrink-0" aria-hidden="true" />
                   {submitError && (
                     <p
                       id={`species-error-${snippet.id}`}
@@ -1549,21 +1555,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       </>
                   )}
 
-                  {hasNext && (
-                    <div className="flex justify-end pb-1">
-                      <button
-                        type="button"
-                        onClick={onAdvance}
-                        // Q4-A-8: 44px touch target. Skip is the only
-                        // way to bypass a card without submitting, so
-                        // it must be tappable on mobile.
-                        className="inline-flex min-h-[44px] items-center rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 transition-colors hover:bg-white/8 hover:text-white/90"
-                      >
-                        Skip
-                      </button>
-                    </div>
-                  )}
-
                   {status !== "loading" && !session && !showInputHint && (
                     <p className="pb-1.5 text-xs text-white/70">
                       You&apos;re spotting as a guest.{" "}
@@ -1621,6 +1612,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                             <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
                           </svg>
                           Where is this?
+                        </button>
+                      )}
+                      {/* Q4-A-8: 44px touch target. Skip is the only way to
+                          bypass a card without submitting, so it must be
+                          tappable on mobile. Lives in this row's right cluster
+                          (was its own top-right row, where it stacked under the
+                          absolute Hide pill). */}
+                      {hasNext && (
+                        <button
+                          type="button"
+                          onClick={onAdvance}
+                          className={[
+                            "inline-flex min-h-[44px] items-center rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 transition-colors hover:bg-white/8 hover:text-white/90",
+                            hasLocation ? "" : "ml-auto",
+                          ].join(" ")}
+                        >
+                          Skip
                         </button>
                       )}
                     </div>
