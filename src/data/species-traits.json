@@ -2261,5 +2261,313 @@
     "fishGroup": [
       "bottom-other"
     ]
+  },
+  "Echinus esculentus": {
+    "commonName": "Edible sea urchin",
+    "shapeClass": "urchin",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "kelp"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "urchinForm": [
+      "round-spiny"
+    ],
+    "fieldNote": "Britain's largest urchin, a reddish-pink to purple dome up to 16cm across, covered in short even spines with a five-part radial pattern showing through. Grazes algae off rock and kelp stipes with a mouth on its underside; edible, and once commercially harvested."
+  },
+  "Psammechinus miliaris": {
+    "commonName": "Green sea urchin",
+    "shapeClass": "urchin",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom"
+    ],
+    "habitat": [
+      "kelp",
+      "rocky-crevice",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "urchinForm": [
+      "round-spiny"
+    ],
+    "fieldNote": "A small green urchin, its short spines tipped with violet-purple, giving a speckled two-tone look. Common in shallow rockpools, kelp holdfasts and seagrass beds all around the UK, often the first urchin a rockpooler finds."
+  },
+  "Paracentrotus lividus": {
+    "commonName": "Purple sea urchin",
+    "shapeClass": "urchin",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "urchinForm": [
+      "round-spiny"
+    ],
+    "fieldNote": "A dark purple to blackish urchin of rock pools and shallow reefs in the south and west, often sitting in a shallow pit it has worn into the rock. Longer spines than the green urchin; found on south-western and Irish coasts, absent from the North Sea."
+  },
+  "Echinocardium cordatum": {
+    "commonName": "Sea potato",
+    "shapeClass": "urchin",
+    "bodyShape": [],
+    "size": "small",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "burrowing",
+      "hiding"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "urchinForm": [
+      "heart-shaped"
+    ],
+    "fieldNote": "Egg-shaped and covered in short, fine, backward-pointing spines like fur, living buried 10-20cm down in clean sand. Almost never seen alive and in the open; what washes up on beaches is the pale, heart-marked test with its five petal-shaped pore patterns."
+  },
+  "Spatangus purpureus": {
+    "commonName": "Purple heart urchin",
+    "shapeClass": "urchin",
+    "bodyShape": [],
+    "size": "medium",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "burrowing",
+      "hiding"
+    ],
+    "habitat": [
+      "sandy-bottom"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "urchinForm": [
+      "heart-shaped"
+    ],
+    "fieldNote": "A larger, purplish-brown heart urchin covered in dense short spines, ploughing shallow trails just under the surface of clean sand and gravel in deeper subtidal water. Bigger and hairier-looking than the sea potato, with a distinct heart-shaped outline."
+  },
+  "Phalacrocorax aristotelis": {
+    "commonName": "European shag",
+    "shapeClass": "other",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "uniform",
+      "iridescent"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary",
+      "fast-swim"
+    ],
+    "habitat": [
+      "near-surface",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "water-column"
+    ],
+    "wildlifeForm": [
+      "bird"
+    ],
+    "fieldNote": "A slim, all-dark diving bird with a thin hooked bill and, in breeding adults, a small forward-curling crest. Glossy bottle-green to black plumage with a purple sheen; dives from the surface to hunt fish, often staying under for 20-40 seconds. The commonest inshore diving bird on rocky UK coasts, easily confused with the cormorant."
+  },
+  "Phalacrocorax carbo": {
+    "commonName": "Great cormorant",
+    "shapeClass": "other",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "uniform",
+      "iridescent"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary",
+      "fast-swim"
+    ],
+    "habitat": [
+      "near-surface",
+      "open-water",
+      "rocky-crevice"
+    ],
+    "movement": [
+      "water-column"
+    ],
+    "wildlifeForm": [
+      "bird"
+    ],
+    "fieldNote": "Bigger and bulkier than the shag, with a heavier build, a longer neck, and a patch of yellow-orange bare skin around the base of the bill and chin. Bronzy-black overall; breeding adults show a white throat patch and white thigh flash. Dives to chase fish, then perches upright on rocks or posts with wings held open to dry."
+  },
+  "Somateria mollissima": {
+    "commonName": "Common eider",
+    "shapeClass": "other",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "schooling",
+      "on-bottom"
+    ],
+    "habitat": [
+      "near-surface",
+      "sandy-bottom"
+    ],
+    "movement": [
+      "water-column"
+    ],
+    "wildlifeForm": [
+      "bird"
+    ],
+    "fieldNote": "The heaviest UK duck. Males are boldly pied black and white with a pale green nape patch and a long sloping profile running from the forehead straight into the bill; females are warm mottled brown all over, both with the same wedge-shaped head. Dives to feed on mussels and other shellfish, often around shellfish farms, and rafts in large flocks just offshore."
+  },
+  "Halichoerus grypus": {
+    "commonName": "Grey seal",
+    "shapeClass": "other",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "mottled"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "near-surface"
+    ],
+    "movement": [
+      "water-column"
+    ],
+    "wildlifeForm": [
+      "seal"
+    ],
+    "fieldNote": "The larger UK seal, with a long straight 'Roman nose' profile and widely spaced nostrils that sit parallel. Coat is blotchy and irregularly patched, grey to brown with large dark and pale patches. Hauls out on rocky shores and offshore islands around most of the UK coast, especially in autumn to breed."
+  },
+  "Phoca vitulina": {
+    "commonName": "Harbour seal",
+    "shapeClass": "other",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "spotted"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "solitary"
+    ],
+    "habitat": [
+      "rocky-crevice",
+      "sandy-bottom",
+      "near-surface"
+    ],
+    "movement": [
+      "water-column"
+    ],
+    "wildlifeForm": [
+      "seal"
+    ],
+    "fieldNote": "Smaller and daintier than the grey seal, with a short rounded 'button' muzzle, a concave forehead profile, and V-shaped nostrils that meet at the bottom. Coat is finely speckled with small dark spots rather than blotches. Often hauls out on sandbanks and rocks at low tide in a curved 'banana' pose, and is more likely to be seen in estuaries and harbours than the grey seal."
   }
 }

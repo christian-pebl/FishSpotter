@@ -107,4 +107,28 @@ export const SHAPE_CLASS_GUIDES: Record<ShapeClass, ShapeClassGuide> = {
     tellApart:
       "Body plan tells them apart, the torpedo body and side fins of a squid versus the round folded body of an octopus.",
   },
+  urchin: {
+    label: "Sea Urchin",
+    intro: "Sea urchins are spiny-skinned grazers or burrowers of rock and sand.",
+    cues: [
+      "A hard, round or heart-shaped test (shell) covered in short spines",
+      "No head, no legs, just radiating spines and tiny tube feet",
+      "Either sits on rock grazing algae, or buried in sand and mud",
+      "Moves very slowly, if at all, when out in the open",
+    ],
+    tellApart:
+      "Shape splits them fast, a round ball bristling with long spines versus a flattened, fur-spined heart shape that lives buried in sediment.",
+  },
+  other: {
+    label: "Seabird or Seal",
+    intro: "The cameras also catch visiting seabirds and seals, not just fish and invertebrates.",
+    cues: [
+      "A whole-animal body plan, not a fish, crab or invertebrate",
+      "Birds: a streamlined diving body, neck and bill, paddling with webbed feet",
+      "Seals: a torpedo body with front and rear flippers, no neck",
+      "Both come from above the water to feed, rather than living on the seabed",
+    ],
+    tellApart:
+      "A long neck and a pointed bill means a bird; a thick-necked, flippered body means a seal.",
+  },
 };

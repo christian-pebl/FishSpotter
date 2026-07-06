@@ -109,6 +109,22 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
       { value: "trailing-mass", label: "Long trailing tentacles" },
     ],
   },
+  urchin: {
+    key: "urchinForm",
+    prompt: "What was the shape?",
+    options: [
+      { value: "round-spiny", label: "Round, spines all over" },
+      { value: "heart-shaped", label: "Heart-shaped, in the sand" },
+    ],
+  },
+  other: {
+    key: "wildlifeForm",
+    prompt: "What was it?",
+    options: [
+      { value: "bird", label: "A bird" },
+      { value: "seal", label: "A seal" },
+    ],
+  },
 };
 
 export type BodyFormOption = { value: string; label: string; count: number };

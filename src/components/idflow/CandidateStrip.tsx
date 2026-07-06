@@ -65,6 +65,8 @@ const SHAPE_NOUN: Record<ShapeClass, string> = {
   starfish: "starfish",
   gastropod: "snail",
   squid: "squid",
+  urchin: "urchin",
+  other: "creature",
 };
 
 function pluralise(n: number, noun: string): string {
