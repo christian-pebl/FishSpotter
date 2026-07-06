@@ -12865,3 +12865,1171 @@
     }
   ]
 }
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": false,
+  "results": [
+    {
+      "scientificName": "Halichoerus grypus",
+      "commonName": "Grey seal",
+      "mode": "author",
+      "heroImageId": "cmr93go8q00007i6w1bbzow6o",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/601555050/medium.jpg",
+      "features": 3,
+      "rounds": 3,
+      "before": [],
+      "after": [
+        {
+          "label": "Long straight 'Roman nose' snout",
+          "description": "A long, straight, heavy muzzle with the forehead sloping smoothly into the nose (no dip), the key feature versus the harbour seal.",
+          "overlayX": 0.8105,
+          "overlayY": 0.616,
+          "overlayRadius": 0.0786
+        },
+        {
+          "label": "Wide, near-parallel nostrils",
+          "description": "Nostrils are large and set well apart, running almost parallel rather than meeting in a V.",
+          "overlayX": 0.8505,
+          "overlayY": 0.635,
+          "overlayRadius": 0.0369
+        },
+        {
+          "label": "Blotchy grey coat",
+          "description": "A grey coat marked with bold irregular dark blotches; a big, heavy seal (bulls up to 2.5 m).",
+          "overlayX": 0.45,
+          "overlayY": 0.5115,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Long straight 'Roman nose' snout",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 85,
+            "note": "The circle perfectly captures the long, straight profile of the snout."
+          },
+          {
+            "number": 2,
+            "label": "Wide, near-parallel nostrils",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 70,
+            "note": "The nostrils are visible at the tip of the snout, though the angle makes them slightly hard to resolve clearly."
+          },
+          {
+            "number": 3,
+            "label": "Blotchy grey coat",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The large circle clearly highlights the characteristic blotchy grey pattern on the seal's back."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The annotations are well placed and clearly highlight the key diagnostic features of the grey seal. No changes are needed."
+      },
+      "applied": false
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Echinus esculentus",
+      "commonName": "Edible sea urchin",
+      "mode": "author",
+      "heroImageId": "cmr93g6yg00007iqo6zh72irv",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/153301161/medium.jpg",
+      "features": 3,
+      "rounds": 4,
+      "before": [],
+      "after": [
+        {
+          "label": "Large domed globular test",
+          "description": "A big, near-spherical shell (test) up to 15 cm across, taller and rounder than the other UK urchins. The biggest urchin you will see on rock.",
+          "overlayX": 0.479,
+          "overlayY": 0.58,
+          "overlayRadius": 0.23279999999999998
+        },
+        {
+          "label": "Short, blunt, close-packed spines",
+          "description": "Spines are short and stubby relative to the huge body, giving a neat pincushion rather than the long spikes of the purple urchin.",
+          "overlayX": 0.467,
+          "overlayY": 0.58,
+          "overlayRadius": 0.1
+        },
+        {
+          "label": "Pink-to-red colour",
+          "description": "Overall reddish, pink or purplish with paler spine tips; the warm colour plus sheer size is the quick tell.",
+          "overlayX": 0.478,
+          "overlayY": 0.58,
+          "overlayRadius": 0.234
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 75,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Large domed globular test",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 80,
+            "note": "The large outer circle correctly encompasses the entire globular test of the urchin."
+          },
+          {
+            "number": 2,
+            "label": "Short, blunt, close-packed spines",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 85,
+            "note": "The inner circle is well-centered on the dense, short spines covering the test."
+          },
+          {
+            "number": 3,
+            "label": "Pink-to-red colour",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 60,
+            "note": "The marker is placed on the outer edge where pink tips are visible, but the overall pinkish-red body color is somewhat obscured by the green-blue overlay."
+          }
+        ],
+        "recommendation": "re-author-marks",
+        "summary": "The placement of the circles is accurate, but the large semi-transparent teal overlay masks the natural pink-to-red coloration of the urchin. Adjust the overlay transparency or use simple ring outlines instead of solid fills to let the true colors show through."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Psammechinus miliaris",
+      "commonName": "Green sea urchin",
+      "mode": "author",
+      "heroImageId": "cmr91kjrr00007i64jhlu4lza",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/104965188/medium.jpg",
+      "features": 3,
+      "rounds": 5,
+      "before": [],
+      "after": [
+        {
+          "label": "Small green test",
+          "description": "A small urchin (usually under 5 cm) with a distinctly green-tinged test, far smaller than the edible urchin.",
+          "overlayX": 0.47,
+          "overlayY": 0.545,
+          "overlayRadius": 0.26
+        },
+        {
+          "label": "Violet-tipped spines",
+          "description": "Short green spines tipped with purple or violet, the feature that names it the green sea urchin.",
+          "overlayX": 0.288,
+          "overlayY": 0.577,
+          "overlayRadius": 0.040419161676646706
+        },
+        {
+          "label": "Low, flattened dome",
+          "description": "The body is lower and more flattened than the tall globe of the edible urchin.",
+          "overlayX": 0.47,
+          "overlayY": 0.545,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 45,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Small green test",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 50,
+            "note": "The large circle covers the entire green test, but the scale is hard to judge without a reference object."
+          },
+          {
+            "number": 2,
+            "label": "Violet-tipped spines",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 10,
+            "note": "The circle is placed off the main body on a blue tube foot or debris, and violet tips are not clearly visible on the spines."
+          },
+          {
+            "number": 3,
+            "label": "Low, flattened dome",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 20,
+            "note": "The circle is placed on the background algae next to the urchin, failing to show the profile of the dome."
+          }
+        ],
+        "recommendation": "reposition-circles",
+        "summary": "The main circle correctly encompasses the green test, but circle 2 is placed on background debris instead of the spines, and circle 3 is completely off the animal. Reposition circle 2 to point directly at the purple-tipped spines and circle 3 to highlight the flattened profile of the test."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Paracentrotus lividus",
+      "commonName": "Purple sea urchin",
+      "mode": "author",
+      "heroImageId": "cmr91knzz00007ino7nvfdudv",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/82659600/medium.jpg",
+      "features": 3,
+      "rounds": 5,
+      "before": [],
+      "after": [
+        {
+          "label": "Long, stout, pointed spines",
+          "description": "Long, strong, sharply pointed spines, noticeably longer relative to the body than the edible or green urchin's short spines.",
+          "overlayX": 0.4675,
+          "overlayY": 0.534,
+          "overlayRadius": 0.23625
+        },
+        {
+          "label": "Dark purple to olive colour",
+          "description": "Test and spines are dark purple, brown or olive-green; the purple form gives it its name.",
+          "overlayX": 0.5335,
+          "overlayY": 0.54,
+          "overlayRadius": 0.26
+        },
+        {
+          "label": "Wedged into a rock hollow",
+          "description": "Often found gripping a self-excavated hollow in the rock, spines splayed outward from the burrow.",
+          "overlayX": 0.5315,
+          "overlayY": 0.548,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 40,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Long, stout, pointed spines",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 50,
+            "note": "The circle is extremely large and covers the entire urchin rather than focusing on individual spines."
+          },
+          {
+            "number": 2,
+            "label": "Dark purple to olive colour",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 0,
+            "note": "The circle for label 2 is missing entirely from the image."
+          },
+          {
+            "number": 3,
+            "label": "Wedged into a rock hollow",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 60,
+            "note": "The circle is oversized and overlaps the entire animal instead of highlighting the rock hollow interface."
+          }
+        ],
+        "recommendation": "re-author-marks",
+        "summary": "The current circles are massive, overlapping, and poorly targeted, while circle 2 is completely missing. Re-author the marks with smaller, distinct circles pointing to specific spines, the purple coloration, and the rock crevice."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Echinocardium cordatum",
+      "commonName": "Sea potato",
+      "mode": "author",
+      "heroImageId": "cmr93gb4y00007ih4ptnrxlls",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/456289942/medium.jpg",
+      "features": 3,
+      "rounds": 4,
+      "before": [],
+      "after": [
+        {
+          "label": "Heart-shaped test",
+          "description": "Not a ball but a domed heart or egg shape with a front groove, quite unlike the round regular urchins.",
+          "overlayX": 0.487,
+          "overlayY": 0.538,
+          "overlayRadius": 0.26
+        },
+        {
+          "label": "Fine fur-like spines",
+          "description": "Covered in short, dense, backward-swept yellowish spines that look more like fur or felt than spikes.",
+          "overlayX": 0.482,
+          "overlayY": 0.566,
+          "overlayRadius": 0.2424
+        },
+        {
+          "label": "Half-buried in clean sand",
+          "description": "Lives buried in sandy seabed; usually seen as a pale furry mound flush with the sand, or as an empty white test washed up.",
+          "overlayX": 0.5,
+          "overlayY": 0.5,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 40,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Heart-shaped test",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 30,
+            "note": "The circle is extremely large and encompasses the entire animal, making it hard to distinguish the specific heart shape."
+          },
+          {
+            "number": 2,
+            "label": "Fine fur-like spines",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 60,
+            "note": "The circle covers the whole body rather than focusing on a specific patch of the fine, hair-like spines."
+          },
+          {
+            "number": 3,
+            "label": "Half-buried in clean sand",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 50,
+            "note": "The circle is too large and overlaps the entire animal instead of highlighting the boundary where it meets the sandy substrate."
+          }
+        ],
+        "recommendation": "reposition-circles",
+        "summary": "All three circles are nearly identical in size and stacked on top of each other, covering the entire animal. They need to be resized and repositioned to target their specific features individually."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Spatangus purpureus",
+      "commonName": "Purple heart urchin",
+      "mode": "author",
+      "heroImageId": "cmr91kxef00007i30tin1nglm",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/177654030/medium.jpg",
+      "features": 3,
+      "rounds": 2,
+      "before": [],
+      "after": [
+        {
+          "label": "Large purple heart test",
+          "description": "A big heart-shaped urchin (up to 12 cm) flushed purple, larger and more strongly coloured than the sea potato.",
+          "overlayX": 0.491,
+          "overlayY": 0.448,
+          "overlayRadius": 0.26
+        },
+        {
+          "label": "Sparse, flattened spines",
+          "description": "Spines are shorter and sparser than the sea potato's dense fur, so more of the purple test shows through.",
+          "overlayX": 0.43,
+          "overlayY": 0.39,
+          "overlayRadius": 0.171
+        },
+        {
+          "label": "Front apical groove",
+          "description": "A clear groove runs forward over the top of the heart shape toward the mouth end.",
+          "overlayX": 0.56,
+          "overlayY": 0.3,
+          "overlayRadius": 0.096
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Large purple heart test",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The large circle correctly encompasses the entire purple heart-shaped body of the urchin."
+          },
+          {
+            "number": 2,
+            "label": "Sparse, flattened spines",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 80,
+            "note": "The circle is well-placed over the sparser, flattened spines on the upper surface."
+          },
+          {
+            "number": 3,
+            "label": "Front apical groove",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 85,
+            "note": "The circle is centered directly on the prominent groove running down the front of the test."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The annotations are highly accurate and clearly highlight the diagnostic features of the purple heart urchin. No changes are needed."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Phalacrocorax aristotelis",
+      "commonName": "European shag",
+      "mode": "author",
+      "heroImageId": "cmr93gfo800007icckdy43x2g",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/637572127/medium.jpg",
+      "features": 3,
+      "rounds": 4,
+      "before": [],
+      "after": [
+        {
+          "label": "Slim bill, steep forehead",
+          "description": "A slender hooked bill meeting a steep, rounded forehead; daintier-headed than the heavy-billed cormorant.",
+          "overlayX": 0.5345,
+          "overlayY": 0.319,
+          "overlayRadius": 0.09780000000000001
+        },
+        {
+          "label": "Upright forward-curling crest",
+          "description": "In breeding plumage a short quiff-like crest curls forward off the forehead, the shag's signature.",
+          "overlayX": 0.427,
+          "overlayY": 0.278,
+          "overlayRadius": 0.056400000000000006
+        },
+        {
+          "label": "Glossy bottle-green plumage + yellow gape",
+          "description": "All-dark plumage with an oily green sheen and a small yellow patch of skin at the base of the bill; no white on the face or thighs.",
+          "overlayX": 0.401,
+          "overlayY": 0.6215,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Slim bill, steep forehead",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The circle perfectly frames the slender bill and steep forehead profile."
+          },
+          {
+            "number": 2,
+            "label": "Upright forward-curling crest",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 95,
+            "note": "The prominent forward-curling crest is clearly visible and well-targeted."
+          },
+          {
+            "number": 3,
+            "label": "Glossy bottle-green plumage + yellow gape",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 80,
+            "note": "The circle is extremely large and centered on the body, which misses the yellow gape entirely."
+          }
+        ],
+        "recommendation": "reposition-circles",
+        "summary": "The photo is excellent and clearly shows all diagnostic features. Circle 3 is too large and should be resized and shifted to focus specifically on the yellow gape and glossy neck plumage."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Phalacrocorax carbo",
+      "commonName": "Great cormorant",
+      "mode": "author",
+      "heroImageId": "cmr93gjvz00007iu0j48p856a",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/114436012/medium.jpg",
+      "features": 3,
+      "rounds": 2,
+      "before": [],
+      "after": [
+        {
+          "label": "Heavy hooked bill, white face patch",
+          "description": "A thick, powerful hooked bill set off by bare yellow skin and a white chin-and-cheek patch, bigger-headed than the shag.",
+          "overlayX": 0.4805,
+          "overlayY": 0.272,
+          "overlayRadius": 0.1
+        },
+        {
+          "label": "White thigh patch (breeding)",
+          "description": "A bold white patch on the flank/thigh in breeding plumage, diagnostic against the shag which never shows it.",
+          "overlayX": 0.4255,
+          "overlayY": 0.6815,
+          "overlayRadius": 0.04210122699386503
+        },
+        {
+          "label": "Bulky black body",
+          "description": "A large, heavy, bronze-black waterbird that swims low and stands upright with wings spread to dry.",
+          "overlayX": 0.3855,
+          "overlayY": 0.63,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 90,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Heavy hooked bill, white face patch",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 95,
+            "note": "The circle perfectly frames the heavy hooked bill, yellow gular skin, and white face patch."
+          },
+          {
+            "number": 2,
+            "label": "White thigh patch (breeding)",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 95,
+            "note": "The bright white breeding thigh patch is clearly visible and perfectly targeted by the circle."
+          },
+          {
+            "number": 3,
+            "label": "Bulky black body",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The large circle correctly encompasses the bulky dark body and bronze-scaled wing feathers."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The image is an excellent reference photo showing all key diagnostic features of a breeding adult Great cormorant. All circles are perfectly aligned and clear."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Somateria mollissima",
+      "commonName": "Common eider",
+      "mode": "author",
+      "heroImageId": "cmr91lbkk00007il4cvn6m6ji",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/182744382/medium.jpg",
+      "features": 3,
+      "rounds": 5,
+      "before": [],
+      "after": [
+        {
+          "label": "Wedge-shaped bill-to-forehead",
+          "description": "Feathering runs far down onto the bill in a long sloping wedge, giving a distinctive flat 'Roman' head profile with no forehead step.",
+          "overlayX": 0.61,
+          "overlayY": 0.362,
+          "overlayRadius": 0.057600000000000005
+        },
+        {
+          "label": "Black-and-white male, black cap",
+          "description": "Adult male is clean white above and black below with a black crown cap, unlike any other UK sea duck.",
+          "overlayX": 0.4675,
+          "overlayY": 0.485,
+          "overlayRadius": 0.2298
+        },
+        {
+          "label": "Pale green nape",
+          "description": "A soft lime-green wash on the back of the neck of the male; a bulky sea duck riding low in coastal water.",
+          "overlayX": 0.547,
+          "overlayY": 0.366,
+          "overlayRadius": 0.0336
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 45,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Wedge-shaped bill-to-forehead",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 60,
+            "note": "The circle is correctly placed on the wedge-shaped bill and forehead profile."
+          },
+          {
+            "number": 2,
+            "label": "Black-and-white male, black cap",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 10,
+            "note": "The circle is placed on the bill instead of the black cap or the body plumage."
+          },
+          {
+            "number": 3,
+            "label": "Pale green nape",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 20,
+            "note": "The circle is placed on the black cap and forehead rather than the pale green nape."
+          }
+        ],
+        "recommendation": "reposition-circles",
+        "summary": "The circles for marks 2 and 3 are misaligned. Circle 2 should be moved to highlight the black cap or the overall black and white body, and circle 3 should be moved to the pale green patch on the back of the neck."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Halichoerus grypus",
+      "commonName": "Grey seal",
+      "mode": "author",
+      "heroImageId": "cmr93go8q00007i6w1bbzow6o",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/601555050/medium.jpg",
+      "features": 3,
+      "rounds": 3,
+      "before": [],
+      "after": [
+        {
+          "label": "Long straight 'Roman nose' snout",
+          "description": "A long, straight, heavy muzzle with the forehead sloping smoothly into the nose (no dip), the key feature versus the harbour seal.",
+          "overlayX": 0.8105,
+          "overlayY": 0.616,
+          "overlayRadius": 0.0786
+        },
+        {
+          "label": "Wide, near-parallel nostrils",
+          "description": "Nostrils are large and set well apart, running almost parallel rather than meeting in a V.",
+          "overlayX": 0.8505,
+          "overlayY": 0.635,
+          "overlayRadius": 0.0369
+        },
+        {
+          "label": "Blotchy grey coat",
+          "description": "A grey coat marked with bold irregular dark blotches; a big, heavy seal (bulls up to 2.5 m).",
+          "overlayX": 0.45,
+          "overlayY": 0.5115,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Long straight 'Roman nose' snout",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 85,
+            "note": "The circle perfectly captures the long, straight profile of the snout."
+          },
+          {
+            "number": 2,
+            "label": "Wide, near-parallel nostrils",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 70,
+            "note": "The nostrils are visible at the tip of the snout, though the angle makes them slightly hard to resolve clearly."
+          },
+          {
+            "number": 3,
+            "label": "Blotchy grey coat",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The large circle clearly highlights the characteristic blotchy grey pattern on the seal's back."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The annotations are well placed and clearly highlight the key diagnostic features of the grey seal. No changes are needed."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Phoca vitulina",
+      "commonName": "Harbour seal",
+      "mode": "author",
+      "heroImageId": "cmr91ll5900007igseynv12n5",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/7517869/medium.png",
+      "features": 3,
+      "rounds": 5,
+      "before": [],
+      "after": [
+        {
+          "label": "Short concave 'puppy' face",
+          "description": "A small rounded head with a short snout and a clear dip between forehead and nose, a dog- or cat-like face unlike the grey seal's straight profile.",
+          "overlayX": 0.6585,
+          "overlayY": 0.5245,
+          "overlayRadius": 0.03015
+        },
+        {
+          "label": "V-shaped nostrils",
+          "description": "Nostrils meet at the bottom in a rough V or heart shape, close together at the front of the muzzle.",
+          "overlayX": 0.6895,
+          "overlayY": 0.516,
+          "overlayRadius": 0.03
+        },
+        {
+          "label": "Densely spotted coat",
+          "description": "A grey-to-tan coat peppered with fine dark spots and rings all over; a smaller, rounder seal than the grey.",
+          "overlayX": 0.5075,
+          "overlayY": 0.549,
+          "overlayRadius": 0.16533400809716597
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 45,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Short concave 'puppy' face",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 40,
+            "note": "The circle is placed slightly too far forward over the snout rather than centering on the profile of the face."
+          },
+          {
+            "number": 2,
+            "label": "V-shaped nostrils",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 10,
+            "note": "The circle is floating in the empty air in front of the seal's nose."
+          },
+          {
+            "number": 3,
+            "label": "Densely spotted coat",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 75,
+            "note": "The circle is far too large, encompassing the entire seal, the rock, and a large portion of the surrounding water."
+          }
+        ],
+        "recommendation": "reposition-circles",
+        "summary": "The circles are poorly aligned, with circle 2 floating in empty space and circle 3 being far too large. Reposition circle 1 on the profile, move circle 2 onto the nostrils, and shrink circle 3 to focus specifically on a section of the spotted coat."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Echinus esculentus",
+      "commonName": "Edible sea urchin",
+      "mode": "author",
+      "heroImageId": "cmr93g6yg00007iqo6zh72irv",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/153301161/medium.jpg",
+      "features": 2,
+      "rounds": 4,
+      "before": [],
+      "after": [
+        {
+          "label": "Domed globular test",
+          "description": "The large rounded body forms a tall dome, up to 15 cm across; this is the biggest and roundest UK urchin, reddish-pink in colour.",
+          "overlayX": 0.479,
+          "overlayY": 0.582,
+          "overlayRadius": 0.23279999999999998
+        },
+        {
+          "label": "Short blunt spines",
+          "description": "The spines around the rim are short and stubby, a neat pincushion rather than the long spikes of the purple urchin.",
+          "overlayX": 0.36,
+          "overlayY": 0.42,
+          "overlayRadius": 0.03
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Domed globular test",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The large circle perfectly encompasses the round, domed body of the sea urchin."
+          },
+          {
+            "number": 2,
+            "label": "Short blunt spines",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 80,
+            "note": "The small circle is well-placed on the short, dense spines along the upper edge."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The annotations are highly accurate and clearly highlight both the overall globular shape and the short, blunt spines of the edible sea urchin."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Psammechinus miliaris",
+      "commonName": "Green sea urchin",
+      "mode": "author",
+      "heroImageId": "cmr91kjrr00007i64jhlu4lza",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/104965188/medium.jpg",
+      "features": 2,
+      "rounds": 2,
+      "before": [],
+      "after": [
+        {
+          "label": "Small green test",
+          "description": "The compact central body is green-tinged and usually under 5 cm, far smaller than the edible urchin.",
+          "overlayX": 0.47,
+          "overlayY": 0.544,
+          "overlayRadius": 0.26
+        },
+        {
+          "label": "Violet-tipped spines",
+          "description": "The short spines around the edge are tipped with purple or violet, the feature that names the green sea urchin.",
+          "overlayX": 0.323,
+          "overlayY": 0.522,
+          "overlayRadius": 0.03
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Small green test",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 85,
+            "note": "The large circle correctly encompasses the entire small green test of the urchin."
+          },
+          {
+            "number": 2,
+            "label": "Violet-tipped spines",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The small circle is perfectly centered on several spines showing distinct violet tips."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The annotations are highly accurate and clearly highlight both the overall green test and the diagnostic violet-tipped spines. No changes are needed."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Paracentrotus lividus",
+      "commonName": "Purple sea urchin",
+      "mode": "author",
+      "heroImageId": "cmr91knzz00007ino7nvfdudv",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/82659600/medium.jpg",
+      "features": 2,
+      "rounds": 4,
+      "before": [],
+      "after": [
+        {
+          "label": "Long pointed spines",
+          "description": "Long, strong, sharply pointed spines radiate outward, much longer relative to the body than the edible or green urchin's short spines.",
+          "overlayX": 0.402,
+          "overlayY": 0.5495,
+          "overlayRadius": 0.054450000000000005
+        },
+        {
+          "label": "Dark purple test",
+          "description": "The central body is dark purple, brown or olive-green; often wedged in a self-excavated rock hollow.",
+          "overlayX": 0.482,
+          "overlayY": 0.5265,
+          "overlayRadius": 0.15255000000000002
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Long pointed spines",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The circle is well placed over the long, sharp purple spines."
+          },
+          {
+            "number": 2,
+            "label": "Dark purple test",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 80,
+            "note": "The large circle encompasses the central body test, showing its dark greenish-purple color."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The annotations are well placed and clearly highlight both the long pointed spines and the dark purple test of the sea urchin."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Echinocardium cordatum",
+      "commonName": "Sea potato",
+      "mode": "author",
+      "heroImageId": "cmr93gb4y00007ih4ptnrxlls",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/456289942/medium.jpg",
+      "features": 2,
+      "rounds": 5,
+      "before": [],
+      "after": [
+        {
+          "label": "Heart-shaped mound",
+          "description": "Not a ball but a domed heart or egg shape half-buried in clean sand, quite unlike the round regular urchins.",
+          "overlayX": 0.476,
+          "overlayY": 0.545,
+          "overlayRadius": 0.26
+        },
+        {
+          "label": "Fine fur-like spines",
+          "description": "The surface is covered in short, dense, backward-swept yellowish spines that look more like fur or felt than spikes.",
+          "overlayX": 0.476,
+          "overlayY": 0.545,
+          "overlayRadius": 0.26
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 75,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Heart-shaped mound",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 0,
+            "note": "The circle for mark 1 is completely missing from the image."
+          },
+          {
+            "number": 2,
+            "label": "Fine fur-like spines",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 85,
+            "note": "The large circle is well-centered on the dense, fur-like spines covering the body."
+          }
+        ],
+        "recommendation": "re-author-marks",
+        "summary": "The annotation for the fine fur-like spines is well-placed, but the first mark for the heart-shaped mound is missing entirely. Add a new circle to highlight the overall heart-shaped body shape."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Somateria mollissima",
+      "commonName": "Common eider",
+      "mode": "author",
+      "heroImageId": "cmr91lbkk00007il4cvn6m6ji",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/182744382/medium.jpg",
+      "features": 2,
+      "rounds": 5,
+      "before": [],
+      "after": [
+        {
+          "label": "Wedge-shaped bill and head",
+          "description": "At the front of the head, feathering runs far down the bill in a long sloping wedge, giving a flat 'Roman' profile with no forehead step and a black crown cap.",
+          "overlayX": 0.5885,
+          "overlayY": 0.363,
+          "overlayRadius": 0.0834
+        },
+        {
+          "label": "Black-and-white body",
+          "description": "The male's bulky body is clean white above and black below, unlike any other UK sea duck; it rides low in coastal water.",
+          "overlayX": 0.4305,
+          "overlayY": 0.504,
+          "overlayRadius": 0.17579999999999998
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": false,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Wedge-shaped bill and head",
+            "featurePresentAtRing": false,
+            "alignment": "off",
+            "clarity": 10,
+            "note": "The circle labeled 1 is floating in the empty air above the bird's head."
+          },
+          {
+            "number": 2,
+            "label": "Black-and-white body",
+            "featurePresentAtRing": true,
+            "alignment": "near",
+            "clarity": 80,
+            "note": "The circle labeled 2 is centered on the head instead of the body, while the large unnumbered circle covers the body."
+          }
+        ],
+        "recommendation": "reposition-circles",
+        "summary": "The circles are misaligned and swapped. The circle labeled 1 is floating in the air, the circle labeled 2 is on the head, and the large body circle has no label number. Reposition and re-label the circles to correctly target the head and body."
+      },
+      "applied": true
+    }
+  ]
+}
+{
+  "ranAt": null,
+  "mode": "author",
+  "apply": true,
+  "results": [
+    {
+      "scientificName": "Phoca vitulina",
+      "commonName": "Harbour seal",
+      "mode": "author",
+      "heroImageId": "cmr91ll5900007igseynv12n5",
+      "heroImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/7517869/medium.png",
+      "features": 2,
+      "rounds": 2,
+      "before": [],
+      "after": [
+        {
+          "label": "Short dished 'puppy' face",
+          "description": "A small rounded head with a short snout and a clear concave dip between forehead and nose, a dog- or cat-like face unlike the grey seal's long straight muzzle.",
+          "overlayX": 0.6635,
+          "overlayY": 0.5225,
+          "overlayRadius": 0.03324898785425101
+        },
+        {
+          "label": "Densely spotted coat",
+          "description": "The body is peppered all over with fine dark spots and rings on a grey-to-tan ground; a smaller, rounder seal than the grey.",
+          "overlayX": 0.511,
+          "overlayY": 0.549,
+          "overlayRadius": 0.16761133603238865
+        }
+      ],
+      "finalGrade": {
+        "imageOk": true,
+        "overallClarity": 85,
+        "overallAligned": true,
+        "perMark": [
+          {
+            "number": 1,
+            "label": "Short dished 'puppy' face",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 80,
+            "note": "The circle is well placed over the seal's head, showing the short snout and concave profile clearly."
+          },
+          {
+            "number": 2,
+            "label": "Densely spotted coat",
+            "featurePresentAtRing": true,
+            "alignment": "on",
+            "clarity": 90,
+            "note": "The large circle encompasses the entire body of the seal, showcasing the dense spotting pattern perfectly."
+          }
+        ],
+        "recommendation": "keep",
+        "summary": "The annotations are highly accurate and clearly highlight the diagnostic features of the harbour seal. No changes are needed."
+      },
+      "applied": true
+    }
+  ]
+}

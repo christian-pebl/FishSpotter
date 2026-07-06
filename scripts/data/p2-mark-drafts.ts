@@ -300,4 +300,155 @@ export const P2_MARK_DRAFTS: Record<string, Feature[]> = {
         "The male raises a first dorsal fin in display, but it is lower and less filamentous than the tall sail of the common dragonet.",
     },
   ],
+
+  // ---- Sea urchins (regular) ----
+  // NB: a round urchin has no separable parts, so 3 rings collapse to
+  // concentric circles. Use 2 marks at different scales/positions: one on the
+  // central body/test, one on a spine zone at the rim.
+  "Echinus esculentus": [
+    {
+      label: "Domed globular test",
+      description:
+        "The large rounded body forms a tall dome, up to 15 cm across; this is the biggest and roundest UK urchin, reddish-pink in colour.",
+    },
+    {
+      label: "Short blunt spines",
+      description:
+        "The spines around the rim are short and stubby, a neat pincushion rather than the long spikes of the purple urchin.",
+    },
+  ],
+  "Psammechinus miliaris": [
+    {
+      label: "Small green test",
+      description:
+        "The compact central body is green-tinged and usually under 5 cm, far smaller than the edible urchin.",
+    },
+    {
+      label: "Violet-tipped spines",
+      description:
+        "The short spines around the edge are tipped with purple or violet, the feature that names the green sea urchin.",
+    },
+  ],
+  "Paracentrotus lividus": [
+    {
+      label: "Long pointed spines",
+      description:
+        "Long, strong, sharply pointed spines radiate outward, much longer relative to the body than the edible or green urchin's short spines.",
+    },
+    {
+      label: "Dark purple test",
+      description:
+        "The central body is dark purple, brown or olive-green; often wedged in a self-excavated rock hollow.",
+    },
+  ],
+
+  // ---- Sea urchins (irregular / heart) ----
+  "Echinocardium cordatum": [
+    {
+      label: "Heart-shaped mound",
+      description:
+        "Not a ball but a domed heart or egg shape half-buried in clean sand, quite unlike the round regular urchins.",
+    },
+    {
+      label: "Fine fur-like spines",
+      description:
+        "The surface is covered in short, dense, backward-swept yellowish spines that look more like fur or felt than spikes.",
+    },
+  ],
+  "Spatangus purpureus": [
+    {
+      label: "Large purple heart test",
+      description:
+        "A big heart-shaped urchin (up to 12 cm) flushed purple, larger and more strongly coloured than the sea potato.",
+    },
+    {
+      label: "Sparse, flattened spines",
+      description:
+        "Spines are shorter and sparser than the sea potato's dense fur, so more of the purple test shows through.",
+    },
+    {
+      label: "Front apical groove",
+      description:
+        "A clear groove runs forward over the top of the heart shape toward the mouth end.",
+    },
+  ],
+
+  // ---- Seabirds ----
+  "Phalacrocorax aristotelis": [
+    {
+      label: "Slim bill, steep forehead",
+      description:
+        "A slender hooked bill meeting a steep, rounded forehead; daintier-headed than the heavy-billed cormorant.",
+    },
+    {
+      label: "Upright forward-curling crest",
+      description:
+        "In breeding plumage a short quiff-like crest curls forward off the forehead, the shag's signature.",
+    },
+    {
+      label: "Glossy bottle-green plumage + yellow gape",
+      description:
+        "All-dark plumage with an oily green sheen and a small yellow patch of skin at the base of the bill; no white on the face or thighs.",
+    },
+  ],
+  "Phalacrocorax carbo": [
+    {
+      label: "Heavy hooked bill, white face patch",
+      description:
+        "A thick, powerful hooked bill set off by bare yellow skin and a white chin-and-cheek patch, bigger-headed than the shag.",
+    },
+    {
+      label: "White thigh patch (breeding)",
+      description:
+        "A bold white patch on the flank/thigh in breeding plumage, diagnostic against the shag which never shows it.",
+    },
+    {
+      label: "Bulky black body",
+      description:
+        "A large, heavy, bronze-black waterbird that swims low and stands upright with wings spread to dry.",
+    },
+  ],
+  "Somateria mollissima": [
+    {
+      label: "Wedge-shaped bill and head",
+      description:
+        "At the front of the head, feathering runs far down the bill in a long sloping wedge, giving a flat 'Roman' profile with no forehead step and a black crown cap.",
+    },
+    {
+      label: "Black-and-white body",
+      description:
+        "The male's bulky body is clean white above and black below, unlike any other UK sea duck; it rides low in coastal water.",
+    },
+  ],
+
+  // ---- Seals ----
+  "Halichoerus grypus": [
+    {
+      label: "Long straight 'Roman nose' snout",
+      description:
+        "A long, straight, heavy muzzle with the forehead sloping smoothly into the nose (no dip), the key feature versus the harbour seal.",
+    },
+    {
+      label: "Wide, near-parallel nostrils",
+      description:
+        "Nostrils are large and set well apart, running almost parallel rather than meeting in a V.",
+    },
+    {
+      label: "Blotchy grey coat",
+      description:
+        "A grey coat marked with bold irregular dark blotches; a big, heavy seal (bulls up to 2.5 m).",
+    },
+  ],
+  "Phoca vitulina": [
+    {
+      label: "Short dished 'puppy' face",
+      description:
+        "A small rounded head with a short snout and a clear concave dip between forehead and nose, a dog- or cat-like face unlike the grey seal's long straight muzzle.",
+    },
+    {
+      label: "Densely spotted coat",
+      description:
+        "The body is peppered all over with fine dark spots and rings on a grey-to-tan ground; a smaller, rounder seal than the grey.",
+    },
+  ],
 };
