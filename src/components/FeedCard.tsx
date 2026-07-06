@@ -1061,16 +1061,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
         {/* Tap the clip itself to start identifying. A transparent catcher over
             the playing video opens the Spot It flow — only in the idle "watching"
-            state (not paused, not answered, no gate/strip/guess already open), and
+            state (not paused, not answered, no gate/strip already open), and
             at z-10 so the panel (z-20) and docked bar (z-30) still take their own
-            taps. Mutually exclusive with the tap-to-play overlay above. */}
+            taps. Mutually exclusive with the tap-to-play overlay above.
+            In guess mode the catcher stays OFF while the input panel is visible
+            (a stray tap must not yank the user out of typing) but comes BACK when
+            the panel is hidden — otherwise guessMode + Hide left the card with no
+            touch affordance to answer at all (the only toggle was the desktop-only
+            H key). */}
         {isActive &&
           !videoPaused &&
           !myAnswer &&
           !shapeGateOpen &&
           !bodyGateOpen &&
           !spotItActive &&
-          !guessMode && (
+          (!guessMode || panelCollapsed) && (
             <button
               type="button"
               aria-label="Identify this species"
@@ -1078,7 +1083,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 setShowTapHint(false);
                 setHasTappedIdentify(true);
                 togglePanel(false);
-                dispatch({ type: "openShapeGate" });
+                // Mid-guess (type-a-name) the user's context is the input panel —
+                // restore it rather than stacking the shape gate on top of it.
+                if (!guessMode) dispatch({ type: "openShapeGate" });
                 try {
                   localStorage.setItem("fishspotter:hasIdentified", "1");
                   localStorage.setItem("fishspotter:tapHintSeen", "1");
@@ -1369,7 +1376,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {/* Floating glass panel — Claude-style input or stats card. Hidden while a
           gate (shape or body) is open so only the gate box shows, not two. */}
       <AnimatePresence>
-        {!panelCollapsed && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
+        {!panelCollapsed && !shapeGateOpen && !(bodyGateOpen && !myAnswer) && !(spotItActive && !myAnswer) && (
           <div
             className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(560px,calc(100%-2rem))]"
             style={
@@ -1901,8 +1908,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       )}
 
       {/* Rung 2: body-shape gate. Same draggable dark card as Rung 1; the clip
-          keeps playing behind it. Picking a form seeds Rung 3's narrowing. */}
-      {bodyGateOpen && selectedShape && (
+          keeps playing behind it. Picking a form seeds Rung 3's narrowing.
+          Gated on !myAnswer (like Rung 3) so a species pick made from this
+          gate's "Compare side by side" closes to the reveal instead of leaving
+          the gate covering it. */}
+      {bodyGateOpen && selectedShape && !myAnswer && (
         <BodyShapeGate
           shapeClass={selectedShape}
           onSelectForm={(key, value) => {

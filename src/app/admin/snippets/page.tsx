@@ -43,8 +43,8 @@ export default async function AdminSnippetsPage() {
       <h1 className="font-brand text-xl font-semibold text-navy-900">Snippet references</h1>
       <p className="mt-1 text-sm text-navy-600">
         Set a species reference where you can, or leave a clip as Community (no reference) so the
-        crowd decides. Saving re-scores existing answers and unlocks the species for spotters who
-        got it right.
+        crowd decides. Saving re-judges existing answers&apos; verdicts and unlocks the species for
+        spotters who got it right — Pebbles balances are never changed.
       </p>
       <p className="mt-2 text-[12px] text-navy-500">
         {snippets.length} clips · {counts.verified} verified · {counts.coarse} group-only ·{" "}

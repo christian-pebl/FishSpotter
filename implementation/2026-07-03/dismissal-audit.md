@@ -45,11 +45,17 @@ Verified: `tsc` clean · 371/371 vitest · `lint` + `lint:tokens` clean.
 
 ---
 
-## Remaining findings (swept, verified in code, NOT yet fixed)
+## Remaining findings (swept, verified in code)
+
+> **Update 2026-07-06:** D1 and D2 are now **fixed** (same commit series as the
+> P0 rescore fix): the tap-to-identify catcher returns whenever the panel is
+> hidden pre-answer (restoring the input in guess mode rather than stacking the
+> shape gate), and BodyShapeGate is gated on `!myAnswer` + the comparison
+> closes on pick, so a compare-submit lands on the reveal. D3+ remain open.
 
 ### P1 — close destroys the way back in
 
-**D1. Guess-mode + Hide = a card with no way to answer (mobile).**
+**D1. Guess-mode + Hide = a card with no way to answer (mobile). ✅ FIXED**
 `flowReducer` has no action that clears `guessMode` (`lib/idflow/flow.ts:96–104`).
 After Identify → "Pick from a list" → Hide (`FeedCard.tsx:1428–1439`), every
 re-entry affordance is gone: the tap-to-identify catcher requires `!guessMode`
@@ -60,7 +66,7 @@ until reload. **Fix:** clear `guessMode` when the panel hides, or drop
 `!guessMode` from the catcher's guard (tapping the clip pre-answer should
 always reopen the flow).
 
-**D2. Submitting from Rung-2 "Compare side by side" buries the reveal.**
+**D2. Submitting from Rung-2 "Compare side by side" buries the reveal. ✅ FIXED**
 `BodyShapeGate` renders with no `!myAnswer` guard (`FeedCard.tsx:1897`, unlike
 CandidateGate at `:1919`) and `SpeciesComparison`'s `comparing` flag isn't
 cleared by `onPick` (`BodyShapeGate.tsx:86,131–138`). Submitting from the

@@ -41,7 +41,11 @@ anywhere.
 
 ## P0 — data integrity (fix before anything else)
 
-### R2-1. Admin reference-save silently destroys Pebbles balances
+### R2-1. Admin reference-save silently destroys Pebbles balances ✅ FIXED 2026-07-06
+> Fixed on this branch: `rescoreAnswers` no longer emits `points` (type-level —
+> a test guards against regression), the server action writes `isCorrect` +
+> unlocks only, and the admin copy now says "Pebbles balances are never
+> changed."
 `setSnippetReference` → `rescoreAnswers` → `matchWithAliases` **overwrites
 `Answer.points` on the retired 0/1/2 scale**
 (`admin/snippets/[id]/actions.ts:108,114–121`; `lib/snippet-reference.ts:39`;
