@@ -106,6 +106,37 @@ function SilSquid() {
   );
 }
 
+function SilUrchin() {
+  return (
+    <svg viewBox="0 0 44 44" fill="none" aria-hidden="true" className="w-full h-full">
+      <circle cx="22" cy="23" r="11" stroke="currentColor" strokeWidth="2"/>
+      <path
+        d="M22 12V2M22 34v8M11 23H3M33 23h8M14 15L8 9M30 15l6-6M14 31l-6 6M30 31l6 6M17.5 11.5L15 4M26.5 11.5L29 4M17.5 34.5L15 42M26.5 34.5L29 42"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function SilOtherWildlife() {
+  // A seal in the water — the top-level tile icon; the bird/seal sub-split at
+  // Rung 2 gets its own pair of silhouettes (public/silhouettes/forms/).
+  return (
+    <svg viewBox="0 0 52 30" fill="none" aria-hidden="true" className="w-full h-full">
+      <path
+        d="M9 19c-3-1-5-4-4-7 1-3 4-4 6-2 2-4 6-6 11-6 12 0 21 7 24 14-3 3-8 6-15 7-9 1-18-1-22-6z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      <circle cx="16" cy="11" r="1.3" fill="currentColor"/>
+    </svg>
+  );
+}
+
 const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "fish",       label: "Fish",       Icon: SilFish },
   { key: "flatfish",   label: "Flatfish",   Icon: SilFlatfish },
@@ -114,6 +145,8 @@ const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "starfish",   label: "Starfish",   Icon: SilStarfish },
   { key: "gastropod",  label: "Snail / slug", Icon: SilGastropod },
   { key: "squid",      label: "Squid",      Icon: SilSquid },
+  { key: "urchin",     label: "Sea Urchin", Icon: SilUrchin },
+  { key: "other",      label: "Seabird or Seal", Icon: SilOtherWildlife },
 ];
 
 /** ShapeClass → its gate label, for breadcrumbs in later rungs. */

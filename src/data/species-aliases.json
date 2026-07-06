@@ -246,5 +246,45 @@
   "Pelagia noctiluca": {
     "commonName": "Mauve Stinger",
     "aliases": ["mauve stinger jellyfish", "purple jellyfish", "Pelagia"]
+  },
+  "Echinus esculentus": {
+    "commonName": "Edible sea urchin",
+    "aliases": ["edible urchin", "European edible sea urchin", "Echinus"]
+  },
+  "Psammechinus miliaris": {
+    "commonName": "Green sea urchin",
+    "aliases": ["green urchin", "shore sea urchin", "Psammechinus"]
+  },
+  "Paracentrotus lividus": {
+    "commonName": "Purple sea urchin",
+    "aliases": ["purple urchin", "rock sea urchin", "Paracentrotus"]
+  },
+  "Echinocardium cordatum": {
+    "commonName": "Sea potato",
+    "aliases": ["common heart urchin", "heart urchin", "Echinocardium"]
+  },
+  "Spatangus purpureus": {
+    "commonName": "Purple heart urchin",
+    "aliases": ["Spatangus"]
+  },
+  "Phalacrocorax aristotelis": {
+    "commonName": "European shag",
+    "aliases": ["shag", "common shag"]
+  },
+  "Phalacrocorax carbo": {
+    "commonName": "Great cormorant",
+    "aliases": ["cormorant"]
+  },
+  "Somateria mollissima": {
+    "commonName": "Common eider",
+    "aliases": ["eider", "eider duck"]
+  },
+  "Halichoerus grypus": {
+    "commonName": "Grey seal",
+    "aliases": ["gray seal", "Atlantic grey seal"]
+  },
+  "Phoca vitulina": {
+    "commonName": "Harbour seal",
+    "aliases": ["common seal", "harbor seal"]
   }
 }

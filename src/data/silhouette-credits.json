@@ -54,5 +54,21 @@
     "attribution": "PEBL CIC (original silhouette)",
     "license": "https://creativecommons.org/publicdomain/zero/1.0/",
     "source": "https://fish-spotter.vercel.app"
+  },
+  "urchin": {
+    "taxon": "Echinoidea",
+    "imageUuid": null,
+    "contributor": "PEBL CIC",
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "other": {
+    "taxon": "Phalacrocorax (seabird) / Phocidae (seal)",
+    "imageUuid": null,
+    "contributor": "PEBL CIC",
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "source": "https://fish-spotter.vercel.app"
   }
 }

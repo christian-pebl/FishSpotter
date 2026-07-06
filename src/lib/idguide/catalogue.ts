@@ -21,6 +21,8 @@ import {
   ARM_FORM,
   SHELL_SHAPE,
   BELL_FORM,
+  URCHIN_FORM,
+  WILDLIFE_FORM,
   type SpeciesCatalogue,
 } from "./traits";
 
@@ -71,6 +73,8 @@ const speciesTraitsSchema = z
     armForm: z.array(z.enum(ARM_FORM)).optional(),
     shellShape: z.array(z.enum(SHELL_SHAPE)).optional(),
     bellForm: z.array(z.enum(BELL_FORM)).optional(),
+    urchinForm: z.array(z.enum(URCHIN_FORM)).optional(),
+    wildlifeForm: z.array(z.enum(WILDLIFE_FORM)).optional(),
     fieldNote: z.string().min(1),
   })
   .strict();
