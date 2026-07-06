@@ -1061,16 +1061,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
         {/* Tap the clip itself to start identifying. A transparent catcher over
             the playing video opens the Spot It flow — only in the idle "watching"
-            state (not paused, not answered, no gate/strip/guess already open), and
+            state (not paused, not answered, no gate/strip already open), and
             at z-10 so the panel (z-20) and docked bar (z-30) still take their own
-            taps. Mutually exclusive with the tap-to-play overlay above. */}
+            taps. Mutually exclusive with the tap-to-play overlay above.
+            In guess mode the catcher stays OFF while the input panel is visible
+            (a stray tap must not yank the user out of typing) but comes BACK when
+            the panel is hidden — otherwise guessMode + Hide left the card with no
+            touch affordance to answer at all (the only toggle was the desktop-only
+            H key). */}
         {isActive &&
           !videoPaused &&
           !myAnswer &&
           !shapeGateOpen &&
           !bodyGateOpen &&
           !spotItActive &&
-          !guessMode && (
+          (!guessMode || panelCollapsed) && (
             <button
               type="button"
               aria-label="Identify this species"
@@ -1078,7 +1083,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 setShowTapHint(false);
                 setHasTappedIdentify(true);
                 togglePanel(false);
-                dispatch({ type: "openShapeGate" });
+                // Mid-guess (type-a-name) the user's context is the input panel —
+                // restore it rather than stacking the shape gate on top of it.
+                if (!guessMode) dispatch({ type: "openShapeGate" });
                 try {
                   localStorage.setItem("fishspotter:hasIdentified", "1");
                   localStorage.setItem("fishspotter:tapHintSeen", "1");
@@ -1369,7 +1376,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {/* Floating glass panel — Claude-style input or stats card. Hidden while a
           gate (shape or body) is open so only the gate box shows, not two. */}
       <AnimatePresence>
-        {!panelCollapsed && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
+        {!panelCollapsed && !shapeGateOpen && !(bodyGateOpen && !myAnswer) && !(spotItActive && !myAnswer) && (
           <div
             className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(560px,calc(100%-2rem))]"
             style={
@@ -1441,6 +1448,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
               {!myAnswer ? (
                 <>
+                  {/* Clearance for the absolute header controls (drag grip +
+                      Hide pill). Without it the first content row — the Skip /
+                      "Where is this?" cluster, or guess-mode's submit arrow —
+                      rendered straight into the top-right corner and stacked
+                      under the Hide button. */}
+                  <div className="h-8 shrink-0" aria-hidden="true" />
                   {submitError && (
                     <p
                       id={`species-error-${snippet.id}`}
@@ -1549,21 +1562,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       </>
                   )}
 
-                  {hasNext && (
-                    <div className="flex justify-end pb-1">
-                      <button
-                        type="button"
-                        onClick={onAdvance}
-                        // Q4-A-8: 44px touch target. Skip is the only
-                        // way to bypass a card without submitting, so
-                        // it must be tappable on mobile.
-                        className="inline-flex min-h-[44px] items-center rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 transition-colors hover:bg-white/8 hover:text-white/90"
-                      >
-                        Skip
-                      </button>
-                    </div>
-                  )}
-
                   {status !== "loading" && !session && !showInputHint && (
                     <p className="pb-1.5 text-xs text-white/70">
                       You&apos;re spotting as a guest.{" "}
@@ -1621,6 +1619,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                             <circle cx="7.5" cy="5.9" r="1.5" fill="currentColor" />
                           </svg>
                           Where is this?
+                        </button>
+                      )}
+                      {/* Q4-A-8: 44px touch target. Skip is the only way to
+                          bypass a card without submitting, so it must be
+                          tappable on mobile. Lives in this row's right cluster
+                          (was its own top-right row, where it stacked under the
+                          absolute Hide pill). */}
+                      {hasNext && (
+                        <button
+                          type="button"
+                          onClick={onAdvance}
+                          className={[
+                            "inline-flex min-h-[44px] items-center rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 transition-colors hover:bg-white/8 hover:text-white/90",
+                            hasLocation ? "" : "ml-auto",
+                          ].join(" ")}
+                        >
+                          Skip
                         </button>
                       )}
                     </div>
@@ -1893,8 +1908,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       )}
 
       {/* Rung 2: body-shape gate. Same draggable dark card as Rung 1; the clip
-          keeps playing behind it. Picking a form seeds Rung 3's narrowing. */}
-      {bodyGateOpen && selectedShape && (
+          keeps playing behind it. Picking a form seeds Rung 3's narrowing.
+          Gated on !myAnswer (like Rung 3) so a species pick made from this
+          gate's "Compare side by side" closes to the reveal instead of leaving
+          the gate covering it. */}
+      {bodyGateOpen && selectedShape && !myAnswer && (
         <BodyShapeGate
           shapeClass={selectedShape}
           onSelectForm={(key, value) => {

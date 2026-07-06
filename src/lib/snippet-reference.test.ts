@@ -1,12 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  CATALOGUE_ALIASES,
-  buildShapeClassByForm,
-  POINTS_CORRECT_REF,
-  POINTS_SHAPE_CLASS,
-  POINTS_INCORRECT,
-  POINTS_PENDING_REF,
-} from "./answer-matching";
+import { CATALOGUE_ALIASES, buildShapeClassByForm } from "./answer-matching";
 import { rescoreAnswers } from "./snippet-reference";
 
 const aliases = CATALOGUE_ALIASES;
@@ -17,7 +10,7 @@ function ans(id: string, userId: string, chosenOption: string) {
 }
 
 describe("rescoreAnswers", () => {
-  it("scores a species reference: correct unlocks, same-shape gets partial, wrong-shape zero", () => {
+  it("judges a species reference: correct unlocks, wrong (any shape) does not", () => {
     const out = rescoreAnswers(
       [
         ans("a1", "u1", "Cuckoo wrasse"), // matches Labrus mixtus (alias)
@@ -28,9 +21,19 @@ describe("rescoreAnswers", () => {
       aliases,
       shapeMap,
     );
-    expect(out[0]).toMatchObject({ isCorrect: true, points: POINTS_CORRECT_REF, unlockSpecies: "Labrus mixtus" });
-    expect(out[1]).toMatchObject({ isCorrect: false, points: POINTS_SHAPE_CLASS, unlockSpecies: null });
-    expect(out[2]).toMatchObject({ isCorrect: false, points: POINTS_INCORRECT, unlockSpecies: null });
+    expect(out[0]).toMatchObject({ isCorrect: true, unlockSpecies: "Labrus mixtus" });
+    expect(out[1]).toMatchObject({ isCorrect: false, unlockSpecies: null });
+    expect(out[2]).toMatchObject({ isCorrect: false, unlockSpecies: null });
+  });
+
+  it("never emits points — Pebbles are live currency the rescore must not touch", () => {
+    // The P0 (2026-07-06): writing the matcher's retired 0/1/2 points scale
+    // over live Pebbles balances. The result type has no `points`; this guards
+    // against it creeping back in.
+    const out = rescoreAnswers([ans("a1", "u1", "Cuckoo wrasse")], "Labrus mixtus", aliases, shapeMap);
+    for (const r of out) {
+      expect(r).not.toHaveProperty("points");
+    }
   });
 
   it("clearing the reference (null) makes every answer pending, no unlocks", () => {
@@ -42,7 +45,6 @@ describe("rescoreAnswers", () => {
     );
     for (const r of out) {
       expect(r.isCorrect).toBeNull();
-      expect(r.points).toBe(POINTS_PENDING_REF);
       expect(r.unlockSpecies).toBeNull();
     }
   });

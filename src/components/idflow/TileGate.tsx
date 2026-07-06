@@ -139,7 +139,12 @@ export function TileGate({
   // press-and-settle + teal confirm before the gate advances, so a pick reads as
   // registered rather than the grid vanishing under the finger. reduceMotion
   // commits instantly (no delay, no scale) so motion-averse users lose nothing.
+  // The lock MUST release when onSelect fires: on Rung 3 the gate stays mounted
+  // (onSelect opens the species popup on top), so a never-cleared `committing`
+  // silently swallowed every tap after the popup was dismissed — the grid
+  // looked alive but was dead until the whole gate was closed and reopened.
   const [committing, setCommitting] = useState<string | null>(null);
+  const commitTimer = useRef<number | null>(null);
   const commitSelect = (key: string) => {
     if (committing) return; // lock out double-taps mid-confirm
     if (reduceMotion) {
@@ -147,8 +152,17 @@ export function TileGate({
       return;
     }
     setCommitting(key);
-    window.setTimeout(() => onSelect(key), 170);
+    commitTimer.current = window.setTimeout(() => {
+      commitTimer.current = null;
+      setCommitting(null);
+      onSelect(key);
+    }, 170);
   };
+  useEffect(() => {
+    return () => {
+      if (commitTimer.current !== null) window.clearTimeout(commitTimer.current);
+    };
+  }, []);
   const dialogRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
   const constraintsRef = useRef<HTMLDivElement>(null);

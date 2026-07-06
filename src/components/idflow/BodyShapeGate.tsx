@@ -132,7 +132,14 @@ export function BodyShapeGate({
         <SpeciesComparison
           group={comparison}
           submitting={submitting}
-          onPick={onPickSpecies}
+          // Close the comparison as the pick commits — this gate has no
+          // !myAnswer unmount of its own, so a pick made from here would
+          // otherwise leave the comparison (and the gate under it) covering
+          // the reveal.
+          onPick={(name) => {
+            setComparing(false);
+            onPickSpecies(name);
+          }}
           onClose={() => setComparing(false)}
         />
       )}

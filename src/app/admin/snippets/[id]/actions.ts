@@ -76,8 +76,13 @@ export async function saveSnippetTrack(
 
 /**
  * Set (a catalogue species) or clear (null = indeterminate / community) a
- * snippet's reference, then retro-score every answer on it and retro-unlock the
- * species for now-correct spotters. Admin-only.
+ * snippet's reference, then retro-judge every answer's VERDICT on it and
+ * retro-unlock the species for now-correct spotters. Admin-only.
+ *
+ * Pebbles invariant: this never writes `Answer.points`. Points are live
+ * Pebbles (submit awards + consensus credits); the matcher's 0/1/2 scale is
+ * the retired model, and writing it here destroyed real balances (P0,
+ * 2026-07-06). Only `isCorrect` and unlocks change.
  *
  * A non-null value must be a catalogue species (the editor picks from the
  * catalogue). Clearing makes it a community clip (answers go pending; the
@@ -116,7 +121,7 @@ export async function setSnippetReference(
     ...rescored.map((r) =>
       prisma.answer.update({
         where: { id: r.id },
-        data: { isCorrect: r.isCorrect, points: r.points },
+        data: { isCorrect: r.isCorrect },
       }),
     ),
     ...(unlocks.length

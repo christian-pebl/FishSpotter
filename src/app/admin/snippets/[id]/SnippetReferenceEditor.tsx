@@ -69,19 +69,20 @@ export function SnippetReferenceEditor({
         disabled={!changed || pending}
         className="mt-3 inline-flex items-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-700 disabled:opacity-50"
       >
-        {pending ? "Saving…" : "Save + re-score"}
+        {pending ? "Saving…" : "Save + re-judge"}
       </button>
 
       {result && (
         <p className="mt-2 text-[12px] text-teal-700">
-          Re-scored {result.rescored} answers · {result.nowCorrect} correct · {result.unlocked} species
+          Re-judged {result.rescored} answers · {result.nowCorrect} correct · {result.unlocked} species
           unlocked.
         </p>
       )}
       {error && <p className="mt-2 text-[12px] text-red-600">{error}</p>}
       <p className="mt-2 text-[11px] text-navy-500">
-        Saving re-judges every existing answer on this clip and unlocks the species for spotters who
-        got it right. Clearing makes it a community clip (crowd consensus decides).
+        Saving re-judges every existing answer&apos;s verdict on this clip and unlocks the species for
+        spotters who got it right. Pebbles balances are never changed. Clearing makes it a community
+        clip (crowd consensus decides).
       </p>
     </section>
   );
