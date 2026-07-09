@@ -96,7 +96,7 @@ export const SHAPE_CLASS_GUIDES: Record<ShapeClass, ShapeClassGuide> = {
       "For snails it is the shell shape; for sea slugs it is the colour and the gills or horns carried on the back.",
   },
   squid: {
-    label: "Squid or octopus",
+    label: "Squid, Cuttlefish or Octopus",
     intro: "Squid, cuttlefish and octopus are soft-bodied with many arms.",
     cues: [
       "A soft body with eight arms (squid and cuttlefish add two long tentacles)",
@@ -120,15 +120,15 @@ export const SHAPE_CLASS_GUIDES: Record<ShapeClass, ShapeClassGuide> = {
       "Shape splits them fast, a round ball bristling with long spines versus a flattened, fur-spined heart shape that lives buried in sediment.",
   },
   other: {
-    label: "Seabird or Seal",
-    intro: "The cameras also catch visiting seabirds and seals, not just fish and invertebrates.",
+    label: "Birds & Mammals",
+    intro: "The cameras also catch visiting seabirds and marine mammals, not just fish and invertebrates.",
     cues: [
       "A whole-animal body plan, not a fish, crab or invertebrate",
       "Birds: a streamlined diving body, neck and bill, paddling with webbed feet",
-      "Seals: a torpedo body with front and rear flippers, no neck",
+      "Mammals: a torpedo body with front and rear flippers, no neck",
       "Both come from above the water to feed, rather than living on the seabed",
     ],
     tellApart:
-      "A long neck and a pointed bill means a bird; a thick-necked, flippered body means a seal.",
+      "A long neck and a pointed bill means a bird; a thick-necked, flippered body means a mammal.",
   },
 };

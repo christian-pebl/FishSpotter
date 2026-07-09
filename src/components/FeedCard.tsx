@@ -12,7 +12,7 @@ import { IdGuideTrigger } from "./IdGuideTrigger";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
-import { ShapeGate, SHAPE_CLASS_LABEL } from "./ShapeGate";
+import { ShapeGate, SHAPE_CLASS_LABEL, SHAPE_CLASS_COMMIT_NOUN } from "./ShapeGate";
 import { FISH_GROUP_COARSE_NOUN, type FishGroup } from "@/lib/idguide/traits";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
@@ -1964,7 +1964,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     selectedShape === "fish" && formSeed?.value
                       ? FISH_GROUP_COARSE_NOUN[formSeed.value as FishGroup]
                       : undefined;
-                  const noun = groupNoun || SHAPE_CLASS_LABEL[selectedShape];
+                  const noun = groupNoun || SHAPE_CLASS_COMMIT_NOUN[selectedShape];
                   return {
                     label: `It's just a ${noun}`,
                     onClick: () =>
