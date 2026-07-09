@@ -32,9 +32,9 @@ const SHAPE_LABEL: Record<ShapeClass, string> = {
   jellyfish: "Jellyfish",
   starfish: "Starfish",
   gastropod: "Snail / slug",
-  squid: "Squid",
+  squid: "Squid, Cuttlefish, Octopus",
   urchin: "Sea Urchin",
-  other: "Other Wildlife",
+  other: "Birds & Mammals",
 };
 
 type Item = {

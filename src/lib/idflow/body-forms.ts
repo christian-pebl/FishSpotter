@@ -122,7 +122,7 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
     prompt: "What was it?",
     options: [
       { value: "bird", label: "A bird" },
-      { value: "seal", label: "A seal" },
+      { value: "seal", label: "A mammal" },
     ],
   },
 };

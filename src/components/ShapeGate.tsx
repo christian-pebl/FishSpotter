@@ -121,18 +121,22 @@ function SilUrchin() {
 }
 
 function SilOtherWildlife() {
-  // A seal in the water — the top-level tile icon; the bird/seal sub-split at
-  // Rung 2 gets its own pair of silhouettes (public/silhouettes/forms/).
+  // A diving seabird — the top-level tile icon (10 Jul 2026: swapped from a
+  // merged bird/seal blob to a clean bird, easier to read at icon size); the
+  // bird/mammal sub-split at Rung 2 gets its own pair of silhouettes
+  // (public/silhouettes/forms/). Used only if public/silhouettes/other.svg is
+  // ever missing — the live tile renders that file (a copy of forms/bird.svg).
   return (
-    <svg viewBox="0 0 52 30" fill="none" aria-hidden="true" className="w-full h-full">
+    <svg viewBox="0 0 40 44" fill="none" aria-hidden="true" className="w-full h-full">
       <path
-        d="M9 19c-3-1-5-4-4-7 1-3 4-4 6-2 2-4 6-6 11-6 12 0 21 7 24 14-3 3-8 6-15 7-9 1-18-1-22-6z"
+        d="M20 6c-6 2-9 8-8 15 1 6 5 11 9 15 4-4 8-9 9-15 1-7-4-13-10-15z"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      <circle cx="16" cy="11" r="1.3" fill="currentColor"/>
+      <path d="M20 4l-4-3M20 4l4-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <circle cx="20" cy="10" r="1.3" fill="currentColor"/>
     </svg>
   );
 }
@@ -144,15 +148,28 @@ const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "jellyfish",  label: "Jellyfish",  Icon: SilJellyfish },
   { key: "starfish",   label: "Starfish",   Icon: SilStarfish },
   { key: "gastropod",  label: "Snail / slug", Icon: SilGastropod },
-  { key: "squid",      label: "Squid",      Icon: SilSquid },
+  { key: "squid",      label: "Squid, Cuttlefish, Octopus", Icon: SilSquid },
   { key: "urchin",     label: "Sea Urchin", Icon: SilUrchin },
-  { key: "other",      label: "Seabird or Seal", Icon: SilOtherWildlife },
+  { key: "other",      label: "Birds & Mammals", Icon: SilOtherWildlife },
 ];
 
 /** ShapeClass → its gate label, for breadcrumbs in later rungs. */
 export const SHAPE_CLASS_LABEL = Object.fromEntries(
   TILES.map((t) => [t.key, t.label]),
 ) as Record<ShapeClass, string>;
+
+/**
+ * ShapeClass -> a singular noun for the "It's just a ___" coarse commit
+ * (FeedCard's Rung-3 fallback, also submitted verbatim as the answer text).
+ * Most tile labels already read as a singular noun; `squid` and `other` now
+ * span multiple animals in their tile label, so they get a dedicated noun
+ * here instead of reusing SHAPE_CLASS_LABEL.
+ */
+export const SHAPE_CLASS_COMMIT_NOUN: Record<ShapeClass, string> = {
+  ...SHAPE_CLASS_LABEL,
+  squid: "cephalopod",
+  other: "bird or mammal",
+};
 
 // ---------------------------------------------------------------------------
 
