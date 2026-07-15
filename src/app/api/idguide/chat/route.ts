@@ -382,8 +382,13 @@ export async function POST(req: Request) {
         }
         send({ type: "done" });
       } catch (err) {
-        const message = err instanceof Error ? err.message : "Unknown error";
-        send({ type: "error", message });
+        // Log the real error server-side; never stream an internal error
+        // string to the browser (info-leak smell).
+        console.error("[idguide/chat] stream error:", err);
+        send({
+          type: "error",
+          message: "Something went wrong. Please try again.",
+        });
       } finally {
         controller.close();
       }

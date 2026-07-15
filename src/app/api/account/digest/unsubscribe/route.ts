@@ -7,6 +7,7 @@
  * files only export HTTP handlers (Next.js requirement).
  */
 
+import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { digestUnsubscribeToken } from "@/lib/email/unsubscribe";
 import { prisma } from "@/lib/prisma";
@@ -26,7 +27,12 @@ export async function GET(req: Request) {
   } catch {
     return NextResponse.json({ error: "Service misconfigured" }, { status: 503 });
   }
-  if (expected !== token) {
+  const expectedBuf = Buffer.from(expected);
+  const tokenBuf = Buffer.from(token);
+  if (
+    expectedBuf.length !== tokenBuf.length ||
+    !timingSafeEqual(expectedBuf, tokenBuf)
+  ) {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
   await prisma.user.update({
