@@ -177,6 +177,7 @@ async function main() {
 
   let processed = 0;
   let skipped = 0;
+  const failures: { folder: string; error: string }[] = [];
 
   for (const folderName of dirs) {
     if (processed >= LIMIT) break;
@@ -189,6 +190,11 @@ async function main() {
       continue;
     }
 
+    // Per-folder resilience: a single bad upload (e.g. a clip over the storage
+    // provider's max object size) must never abort the whole run. Log the
+    // culprit by name, leave it OUT of the manifest so a re-run retries it, and
+    // keep going so every other snip still syncs.
+    try {
     const dir = path.join(SNIPS_DIR, folderName);
     const metaPath = path.join(dir, "metadata.json");
     const bboxPath = path.join(dir, "bbox_data.json");
@@ -320,10 +326,20 @@ async function main() {
       `${isNew ? "NEW " : "UPD "}${folderName}${videoChanged ? " (media)" : ""}` +
         `${manualTrackJson ? " [manualTrack]" : ""}`,
     );
+    } catch (err) {
+      // Not added to the manifest, so the next run retries this folder.
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`FAIL ${folderName}: ${msg}`);
+      failures.push({ folder: folderName, error: msg });
+    }
   }
 
   saveManifest(manifest);
-  console.log(`\nSync complete. processed=${processed} skipped=${skipped}`);
+  console.log(`\nSync complete. processed=${processed} skipped=${skipped} failed=${failures.length}`);
+  if (failures.length > 0) {
+    console.log("Failed folders (left out of the manifest; re-run to retry):");
+    for (const f of failures) console.log(`  - ${f.folder}: ${f.error}`);
+  }
 }
 
 main()
