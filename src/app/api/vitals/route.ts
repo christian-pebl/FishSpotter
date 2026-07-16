@@ -11,6 +11,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { assertSameOrigin } from "@/lib/csrf";
+import { clientIpKey } from "@/lib/client-ip";
+import { checkVitalsRateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -23,12 +26,25 @@ const Schema = z.object({
 });
 
 export async function POST(req: Request) {
+  // Primary defense: only accept first-party beacons. A non-browser flood
+  // carries no Origin/Referer and is rejected here before any DB work.
+  if (!assertSameOrigin(req)) {
+    return NextResponse.json({ error: "Bad origin" }, { status: 403 });
+  }
+
   let parsed;
   try {
     parsed = Schema.parse(await req.json());
   } catch {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
+
+  // Secondary cap for browser-originated floods. Over-limit drops silently to
+  // 204 (write skipped) so the beacon never blocks or errors the client.
+  if (!checkVitalsRateLimit(clientIpKey(req))) {
+    return new NextResponse(null, { status: 204 });
+  }
+
   // eslint-disable-next-line no-console
   console.log("[vitals]", JSON.stringify(parsed));
 

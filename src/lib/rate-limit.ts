@@ -63,6 +63,28 @@ export function checkEventRateLimit(key: string): boolean {
   return consume(`event:${key}`, EVENT_WINDOW_MS, EVENT_MAX_PER_HOUR);
 }
 
+// web-vitals sink (POST /api/vitals). Keyed on client IP since the route is
+// unauthenticated. A page load fires a handful of beacons; 120/hour/IP is
+// generous for multi-tab browsing but stops a browser-originated flood from
+// bloating the Vital table. (The same-origin gate is the primary defense; this
+// is the secondary cap for floods that do carry a first-party Origin.)
+const VITALS_WINDOW_MS = 60 * 60 * 1000;
+const VITALS_MAX_PER_HOUR = 120;
+
+export function checkVitalsRateLimit(ipKey: string): boolean {
+  return consume(`vitals:${ipKey}`, VITALS_WINDOW_MS, VITALS_MAX_PER_HOUR);
+}
+
+// Signed-out reveal preview (POST /api/answers/preview). Read-only + same-origin
+// gated, but runs a DB read per call, so cap per IP. 200/hour matches the authed
+// answer cap — well above a real guest's identify cadence.
+const PREVIEW_WINDOW_MS = 60 * 60 * 1000;
+const PREVIEW_MAX_PER_HOUR = 200;
+
+export function checkPreviewRateLimit(ipKey: string): boolean {
+  return consume(`preview:${ipKey}`, PREVIEW_WINDOW_MS, PREVIEW_MAX_PER_HOUR);
+}
+
 if (typeof globalThis !== "undefined") {
   const sweep = () => {
     const now = Date.now();

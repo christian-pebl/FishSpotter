@@ -3,6 +3,8 @@ import { z } from "zod";
 import { immediateAward } from "@/lib/pebbles";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
+import { clientIpKey } from "@/lib/client-ip";
+import { checkPreviewRateLimit } from "@/lib/rate-limit";
 import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { consensusSummary } from "@/lib/consensus";
 
@@ -28,6 +30,10 @@ const PreviewSchema = z.object({
 export async function POST(req: Request) {
   if (!assertSameOrigin(req)) {
     return NextResponse.json({ error: "Bad origin" }, { status: 403 });
+  }
+
+  if (!checkPreviewRateLimit(clientIpKey(req))) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
   let parsed;

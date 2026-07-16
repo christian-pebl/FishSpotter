@@ -54,6 +54,16 @@ const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+  // Defense-in-depth CSP: only the directives that add clickjacking /
+  // base-tag / plugin / form-hijack hardening with ZERO regression risk to
+  // page loads. script-src / img-src / style-src / connect-src are
+  // deliberately omitted — a full source-list needs violation-report testing
+  // against the live host set (Supabase, R2, iNat/Wikimedia, Sentry, map
+  // tiles, framer inline styles) and should ship Report-Only first.
+  {
+    key: "Content-Security-Policy",
+    value: "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'",
+  },
 ];
 
 if (isProd) {
