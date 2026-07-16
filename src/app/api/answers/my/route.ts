@@ -22,7 +22,13 @@ export async function GET(req: Request) {
 
   const answers = await prisma.answer.findMany({
     where: { userId: session.user.id },
-    select: { snippetId: true, chosenOption: true, isCorrect: true, createdAt: true },
+    select: {
+      snippetId: true,
+      chosenOption: true,
+      isCorrect: true,
+      points: true,
+      createdAt: true,
+    },
   });
   return NextResponse.json({ answers });
 }
