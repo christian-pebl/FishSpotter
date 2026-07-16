@@ -33,36 +33,49 @@ export function Header() {
             onFeed ? "pr-7" : "pr-3"
           }`}
         >
-          {/* Left: the one menu button. Settings + account/sign-in now live
-              inside the side menu (opened from here), not in the top bar. */}
-          <button
-            type="button"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full ${
-              onFeed
-                ? "text-white/90 hover:bg-white/10"
-                : "text-[color:var(--foreground)] hover:bg-[color:var(--surface-muted)]"
-            }`}
-            style={onFeed ? { textShadow: overlayTextShadow } : undefined}
-          >
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path
-                d="M3 5h12M3 9h12M3 13h12"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
+          {/* Left: the one menu button + a small FishSpotter brand wordmark.
+              Settings + account/sign-in live inside the side menu (opened from
+              here), not in the top bar. */}
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full ${
+                onFeed
+                  ? "text-white/90 hover:bg-white/10"
+                  : "text-[color:var(--foreground)] hover:bg-[color:var(--surface-muted)]"
+              }`}
+              style={onFeed ? { textShadow: overlayTextShadow } : undefined}
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path
+                  d="M3 5h12M3 9h12M3 13h12"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+            <Link
+              href="/"
+              aria-label="FishSpotter home"
+              className={`pointer-events-auto font-display text-xl leading-none tracking-wide ${
+                onFeed ? "text-white" : "text-teal-600"
+              }`}
+              style={onFeed ? { textShadow: overlayTextShadow } : undefined}
+            >
+              FishSpotter
+            </Link>
+          </div>
 
           {/* Right cluster: a faint PEBL logo (links home), nudged left to make
               way for the Pebble bag pinned in the top-right corner. */}
           <div className="flex items-center gap-1">
             <Link
               href="/"
-              aria-label="FishSpotter home"
+              aria-label="PEBL"
               className={`pointer-events-auto -mr-1 inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-full px-1 ${
                 onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
               }`}

@@ -26,24 +26,18 @@ const COMMON_NAMES = Object.values(TRAITS)
   .map((t) => t.commonName)
   .filter((n): n is string => !!n);
 
-// shape-class lookup keyed by BOTH binomial and common name, so a label
-// resolves whether it arrives as a binomial, a common name, or junk.
-const SHAPE_BY_NAME = new Map<string, string>();
-// catalogue common-names grouped by shape-class, for same-class distractors.
-const NAMES_BY_SHAPE = new Map<string, string[]>();
-for (const [binomial, t] of Object.entries(TRAITS)) {
-  if (!t.shapeClass) continue;
-  SHAPE_BY_NAME.set(binomial, t.shapeClass);
-  if (t.commonName) {
-    SHAPE_BY_NAME.set(t.commonName, t.shapeClass);
-    const arr = NAMES_BY_SHAPE.get(t.shapeClass) ?? [];
-    arr.push(t.commonName);
-    NAMES_BY_SHAPE.set(t.shapeClass, arr);
-  }
-}
+// The hero preview is pinned to this specific clip (a clear velvet crab on the
+// Pabay / Kelp Crofters seabed) so the faux crab-quiz always plays over footage
+// that actually contains a crab, rather than whatever clip is newest.
+const HERO_CLIP_EXTERNAL_ID =
+  "KEL33_2026-04-23_08-01_velvetcrab_track_manual_0-696_20260629_112902";
 
 export default async function HomePage() {
-  const [featuredCandidates, distinctAnswerRows, clips, idsMade, photoRows] = await Promise.all([
+  const [pinnedHero, featuredCandidates, clips, idsMade, photoRows] = await Promise.all([
+    prisma.snippet.findUnique({
+      where: { externalId: HERO_CLIP_EXTERNAL_ID },
+      select: { videoUrl: true, thumbnailUrl: true, staffAnswer: true, site: true },
+    }),
     // Fetch top 25 so we can pick the first whose staffAnswer resolves to
     // a real catalogue species, skipping junk labels like "Fish" or "Crab".
     // Stable ordering via id tiebreaker (recordingDatetime is a nullable
@@ -53,11 +47,6 @@ export default async function HomePage() {
       orderBy: [{ recordingDatetime: "desc" }, { id: "desc" }],
       take: 25,
       select: { videoUrl: true, thumbnailUrl: true, staffAnswer: true, site: true },
-    }),
-    prisma.snippet.findMany({
-      where: { staffAnswer: { not: null } },
-      select: { staffAnswer: true },
-      distinct: ["staffAnswer"],
     }),
     prisma.snippet.count({ where: excludeBlockedSnippetsWhere() }),
     // T-22: "identifications made" grows per-play and reads positively; the raw
@@ -70,34 +59,13 @@ export default async function HomePage() {
     }),
   ]);
 
-  // Prefer a clip whose staffAnswer maps to a real catalogue species so the
-  // hero answer chip is a proper name, not junk. Fall back to first result.
+  // Prefer the pinned velvet-crab clip; fall back to a clip whose staffAnswer
+  // maps to a real catalogue species, then to the newest clip.
   const featured =
+    pinnedHero ??
     featuredCandidates.find((r) => COMMON_NAMES.includes(displayName(r.staffAnswer!))) ??
     featuredCandidates[0] ??
     null;
-
-  // Hero answer. Resolve the raw staffAnswer label to a display name.
-  const answer = featured?.staffAnswer ? displayName(featured.staffAnswer) : "Pollack";
-
-  // Shape-aware distractors: prefer same shape-class as the answer so the
-  // faux quiz looks realistic (no Crab offered against a Pollack).
-  const answerShape =
-    (featured?.staffAnswer && SHAPE_BY_NAME.get(featured.staffAnswer)) ||
-    SHAPE_BY_NAME.get(answer) ||
-    "fish";
-  const sameShape = (n: string) => SHAPE_BY_NAME.get(n) === answerShape;
-
-  const realSameClass = distinctAnswerRows
-    .map((r) => displayName(r.staffAnswer as string))
-    .filter((n) => n !== answer && COMMON_NAMES.includes(n) && sameShape(n));
-  const catSameClass = (NAMES_BY_SHAPE.get(answerShape) ?? []).filter((n) => n !== answer);
-
-  const distractors: string[] = [];
-  for (const n of [...realSameClass, ...catSameClass, ...COMMON_NAMES]) {
-    if (n !== answer && !distractors.includes(n)) distractors.push(n);
-    if (distractors.length >= 3) break;
-  }
 
   // All species the ID system can recognise.
   const speciesCount = COMMON_NAMES.length;
@@ -123,33 +91,47 @@ export default async function HomePage() {
       <main
         id="main"
         tabIndex={-1}
-        className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-4 py-8 md:py-12"
+        className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-12 px-4 py-6 md:gap-16 md:py-8"
       >
         {/* Hero */}
         <section
-          className="relative py-10 md:py-14"
+          className="relative pt-2 md:pt-6"
           aria-labelledby="hero-heading"
         >
-          <div className={`relative grid items-center gap-10 ${featured ? "md:grid-cols-[1.1fr_0.9fr]" : ""}`}>
+          <div className={`relative grid items-center gap-8 md:gap-12 ${featured ? "md:grid-cols-[1.05fr_0.95fr]" : ""}`}>
             <div>
+              {/* The brand wordmark now lives discreetly in the header; the hero
+                  leads with the value-proposition headline. */}
               <h1
                 id="hero-heading"
-                className="font-brand-heading max-w-2xl text-4xl font-bold leading-tight text-navy-900 md:text-5xl"
+                className="font-brand-heading max-w-xl text-4xl font-bold leading-[1.08] text-navy-900 md:text-5xl"
               >
                 Spot the species in real underwater footage.
               </h1>
-              <p className="mt-3 max-w-xl text-sm leading-6 text-navy-900/70">
-                Every species you ID helps PEBL monitor life on real UK reefs.
+              <p className="mt-3 max-w-md text-base leading-6 text-navy-900/70">
+                Every species you ID helps us better understand our coastlines.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <Link
                   href="/feed"
-                  className="pebl-button-primary inline-flex min-h-[44px] items-center justify-center rounded-full px-6 py-3 text-sm font-semibold shadow-glow transition-shadow hover:shadow-glow-strong"
+                  className="pebl-button-primary inline-flex min-h-[44px] items-center justify-center rounded-full px-7 py-3 text-base font-semibold shadow-glow transition-shadow hover:shadow-glow-strong"
                 >
                   Start spotting
                 </Link>
               </div>
-              <p className="mt-4 text-xs text-navy-900/60">
+              {/* Compact live proof-strip: fills the column height so it
+                  balances the tall preview card and gives the numbers a
+                  supporting (not headline) role. */}
+              <div className="mt-6 border-t border-navy-900/10 pt-5">
+                <StatsBand
+                  clips={clips}
+                  species={speciesCount}
+                  idsMade={idsMade}
+                  speciesLabel="species to spot"
+                  variant="inline"
+                />
+              </div>
+              <p className="mt-5 text-xs text-navy-900/60">
                 Free, no card required.{" "}
                 <Link href="/auth/signin?isSignUp=1" className="underline hover:text-navy-900">
                   Create a profile
@@ -170,17 +152,12 @@ export default async function HomePage() {
               <HeroPreview
                 videoUrl={featured.videoUrl}
                 poster={featured.thumbnailUrl}
-                answer={answer}
-                distractors={distractors}
+                answer="Velvet crab"
+                distractors={["Brown crab", "Hermit crab", "Spider crab"]}
                 site={featured.site}
               />
             )}
           </div>
-        </section>
-
-        {/* Live stats */}
-        <section aria-label="FishSpotter at a glance">
-          <StatsBand clips={clips} species={speciesCount} idsMade={idsMade} speciesLabel="identifiable species" />
         </section>
 
         {/* How it works */}

@@ -132,9 +132,11 @@ export async function POST(req: Request) {
     : computeStreakFromAnswers([...beforeAnswers, { createdAt: answer.createdAt }]);
 
   // Running Pebble total so the client bag can sync its absolute count and
-  // animate the freshly-earned delta into the pouch.
+  // animate the freshly-earned delta into the pouch. _count drives the guest
+  // "save your finds" prompt (fires at GUEST_SAVE_PROMPT_AT clips).
   const totals = await prisma.answer.aggregate({
     _sum: { points: true },
+    _count: { _all: true },
     where: { userId: session.user.id },
   });
 
@@ -142,6 +144,7 @@ export async function POST(req: Request) {
     answer,
     isCorrect: answer.isCorrect ?? null,
     points: answer.points,
+    answerCount: totals._count._all,
     pebbles: {
       earned: award ? award.pebbles : 0,
       total: totals._sum.points ?? 0,

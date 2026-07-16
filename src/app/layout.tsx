@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Jost, Roboto } from "next/font/google";
+import localFont from "next/font/local";
 import { SessionProvider } from "@/components/SessionProvider";
 import { Header } from "@/components/Header";
 import { CookieBanner } from "@/components/legal/CookieBanner";
@@ -19,6 +20,15 @@ const roboto = Roboto({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
   variable: "--font-body",
+  display: "swap",
+});
+
+// Super Water (DaFont, fsuarez913) — a rounded bubble cartoon face, free for
+// commercial use. Used only for the "FishSpotter" brand wordmark on the landing
+// hero, so it's exposed as its own display variable.
+const superWater = localFont({
+  src: "./fonts/SuperWater.ttf",
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -66,7 +76,7 @@ export default async function RootLayout({
 }>) {
   const consent = await readConsent();
   return (
-    <html lang="en" className={`${jost.variable} ${roboto.variable}`}>
+    <html lang="en" className={`${jost.variable} ${roboto.variable} ${superWater.variable}`}>
       <head>
         {/*
           Species reference photos load as plain <img> straight from the

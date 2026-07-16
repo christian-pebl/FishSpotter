@@ -91,6 +91,7 @@ export default {
       fontFamily: {
         brand: ["var(--font-heading)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
+        display: ["var(--font-display)", "var(--font-heading)", "sans-serif"],
       },
       letterSpacing: {
         eyebrow: "0.18em",

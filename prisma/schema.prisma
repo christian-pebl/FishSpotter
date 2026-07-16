@@ -12,6 +12,12 @@ model User {
   id                  String               @id @default(cuid())
   email               String               @unique
   passwordHash        String?
+  // Guest accounts (username-only, zero-friction play): created by the guest
+  // branch of the credentials provider. They own real Answer rows and appear on
+  // the leaderboard immediately, but carry a synthetic placeholder email until
+  // they "claim" the account by adding a real one (POST /api/guest/claim), which
+  // flips this back to false. See src/lib/auth.ts + src/app/api/guest/claim.
+  isGuest             Boolean              @default(false)
   name                String?
   displayName         String? // optional display name for leaderboard
   emailVerified       DateTime? // set when the user clicks the verification link (S3-06/07)

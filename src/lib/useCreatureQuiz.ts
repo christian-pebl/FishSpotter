@@ -6,6 +6,7 @@ import { playCorrect, playWrong, playStreak } from "@/lib/sounds";
 import { triggerCorrectConfetti } from "@/lib/confetti";
 import { emitPebbles } from "@/lib/pebble-bus";
 import { getMyAnswer, setMyAnswer as cacheMyAnswer } from "@/lib/myAnswers";
+import { GUEST_SAVE_PROMPT_AT, GUEST_MILESTONE_EVENT } from "@/lib/guest";
 
 // S2-T04 killed the sharedBaselineStreak module global + the
 // follow-up GET /api/streak after each submit. The streak diff is now
@@ -351,6 +352,19 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
             total: data.pebbles.total ?? 0,
             firstSighting: data.pebbles.firstSighting ?? false,
           });
+        }
+        // Zero-friction guest flow: once a username-only guest has spotted
+        // GUEST_SAVE_PROMPT_AT clips, nudge them to save with an email. The
+        // GuestSavePrompt listens for this; it decides whether to actually show.
+        if (
+          (session?.user as { isGuest?: boolean } | undefined)?.isGuest &&
+          (data.answerCount ?? 0) >= GUEST_SAVE_PROMPT_AT
+        ) {
+          window.dispatchEvent(
+            new CustomEvent(GUEST_MILESTONE_EVENT, {
+              detail: { count: data.answerCount },
+            }),
+          );
         }
         window.dispatchEvent(new CustomEvent("fishspotter:streak"));
         await loadStats();

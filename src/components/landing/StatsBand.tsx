@@ -44,7 +44,7 @@ function useCountUp(target: number, run: boolean, durationMs = 1100) {
   return n;
 }
 
-export function StatsBand({ clips, species, idsMade, speciesLabel = "species to spot" }: { clips: number; species: number; idsMade: number; speciesLabel?: string }) {
+export function StatsBand({ clips, species, idsMade, speciesLabel = "species to spot", variant = "cards" }: { clips: number; species: number; idsMade: number; speciesLabel?: string; variant?: "cards" | "inline" }) {
   const [run, setRun] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -75,12 +75,35 @@ export function StatsBand({ clips, species, idsMade, speciesLabel = "species to 
     { value: idsMade, label: "identifications" },
   ];
 
+  if (variant === "inline") {
+    return (
+      <div ref={ref} className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
+        {stats.map((s) => (
+          <InlineStat key={s.label} stat={s} run={run} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div ref={ref} className="grid grid-cols-3 gap-3 text-center">
       {stats.map((s) => (
         <StatItem key={s.label} stat={s} run={run} />
       ))}
     </div>
+  );
+}
+
+function InlineStat({ stat, run }: { stat: Stat; run: boolean }) {
+  const n = useCountUp(stat.value, run);
+  return (
+    <span className="flex items-baseline gap-1.5">
+      <span className="font-brand-heading text-2xl font-bold leading-none text-teal-700">
+        {n.toLocaleString()}
+        {stat.suffix ?? ""}
+      </span>
+      <span className="text-xs text-navy-900/70">{stat.label}</span>
+    </span>
   );
 }
 

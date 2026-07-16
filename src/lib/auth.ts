@@ -55,8 +55,41 @@ export const authOptions: NextAuthOptions = {
         name: { label: "Name", type: "text" },
         isSignUp: { label: "Sign up", type: "text" },
         ageBracket: { label: "Age band", type: "text" },
+        guest: { label: "Guest", type: "text" },
       },
       async authorize(credentials, req) {
+        const ipHeaderRaw = req?.headers?.["x-forwarded-for"];
+        const clientIp =
+          (Array.isArray(ipHeaderRaw) ? ipHeaderRaw[0] : ipHeaderRaw)
+            ?.split(",")[0]
+            ?.trim() || "unknown";
+
+        // Zero-friction guest play: a username is the ONLY input. We mint a
+        // lightweight User (synthetic placeholder email + isGuest=true) so the
+        // spotter's answers persist and they appear on the leaderboard at once.
+        // They "claim" it later by adding a real email (POST /api/guest/claim).
+        if (credentials?.guest === "true") {
+          if (!checkAuthRateLimit(`guest:${clientIp}`)) return null;
+          const rawName = (credentials.name ?? "").trim().slice(0, 32);
+          const cleanName = rawName.replace(/[^\p{L}\p{N}\s._-]/gu, "").trim();
+          const displayName =
+            cleanName || `Spotter-${Math.random().toString(36).slice(2, 8)}`;
+          // Unique placeholder so the non-null @unique email constraint holds
+          // without colliding; replaced with a real address on claim.
+          const placeholderEmail = `guest_${globalThis.crypto.randomUUID()}@guest.fishspotter.local`;
+          const guest = await prisma.user.create({
+            data: {
+              email: placeholderEmail,
+              isGuest: true,
+              name: displayName,
+              displayName,
+              // No age declared for guests; leaderboard is open to them.
+              leaderboardOptIn: true,
+            },
+          });
+          return { id: guest.id, name: guest.displayName, isGuest: true };
+        }
+
         if (!credentials?.email || !credentials.password) return null;
         if (credentials.password.length < MIN_PASSWORD) return null;
 
@@ -101,27 +134,42 @@ export const authOptions: NextAuthOptions = {
           // provider outage, missing API key) doesn't block signup — the user
           // can resend from /account later.
           void sendVerificationEmail(user.id, email, user.displayName ?? user.name ?? "Spotter");
-          return { id: user.id, name: user.displayName ?? user.name };
+          return { id: user.id, name: user.displayName ?? user.name, isGuest: false };
         }
 
         if (!user || !user.passwordHash) return null;
         const ok = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!ok) return null;
-        return { id: user.id, name: user.displayName ?? user.name };
+        return { id: user.id, name: user.displayName ?? user.name, isGuest: false };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
         token.name = user.name;
+        token.isGuest = (user as { isGuest?: boolean }).isGuest ?? false;
+      }
+      // After a guest claims their account (POST /api/guest/claim), the client
+      // calls session.update() so this re-reads the now-false isGuest flag and
+      // the guest-save prompt stops firing.
+      if (trigger === "update" && token.id) {
+        const fresh = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { isGuest: true, displayName: true, name: true },
+        });
+        if (fresh) {
+          token.isGuest = fresh.isGuest;
+          token.name = fresh.displayName ?? fresh.name ?? token.name;
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         (session.user as { id?: string }).id = token.id as string;
+        (session.user as { isGuest?: boolean }).isGuest = !!token.isGuest;
       }
       return session;
     },

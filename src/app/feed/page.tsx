@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { FeedPlayer } from "@/components/FeedPlayer";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { VerificationBanner } from "@/components/VerificationBanner";
+import { GuestGate } from "@/components/guest/GuestGate";
+import { GuestSavePrompt } from "@/components/guest/GuestSavePrompt";
 import { orderFeed } from "@/lib/feed-ordering";
 import { safeParseJson } from "@/lib/safe-json";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
@@ -90,12 +92,14 @@ export default async function FeedPage() {
   if (session?.user?.id) {
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { onboardedAt: true, emailVerified: true },
+      select: { onboardedAt: true, emailVerified: true, isGuest: true },
     });
     needsTour = !!user && user.onboardedAt === null;
     // T5: nudge brand-new users to verify (they land here straight after signup
-    // with no "check your inbox" confirmation).
-    unverified = !!user && !user.emailVerified;
+    // with no "check your inbox" confirmation). Guests have only a placeholder
+    // email, so they're never nagged to verify it — they claim a real one via
+    // the guest-save prompt instead.
+    unverified = !!user && !user.isGuest && !user.emailVerified;
   }
 
   const feedSnippets = orderedSnippets.map((snippet: FeedSnippetRow) => ({
@@ -118,6 +122,11 @@ export default async function FeedPage() {
       <FeedPlayer snippets={feedSnippets} />
       <OnboardingTour needsTour={needsTour} />
       <VerificationBanner unverified={unverified} />
+      {/* Zero-friction guest flow: username prompt for signed-out spotters,
+          then an email-save nudge once a guest has spotted a few clips. Both
+          self-gate on session state, so they no-op for signed-in users. */}
+      <GuestGate />
+      <GuestSavePrompt />
     </main>
   );
 }

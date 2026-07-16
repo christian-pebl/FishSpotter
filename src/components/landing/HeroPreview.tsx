@@ -151,9 +151,6 @@ export function HeroPreview({ videoUrl, poster, answer, distractors, site }: Pro
             <span className="text-[11px] font-semibold uppercase tracking-eyebrow text-white/90">
               Spot the species
             </span>
-            <span className="rounded-full bg-white/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-eyebrow text-white/80">
-              Demo
-            </span>
           </div>
 
           {/* Bottom: faux candidate chips. */}
