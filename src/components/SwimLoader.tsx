@@ -51,7 +51,7 @@ import { useReducedMotion } from "framer-motion";
 // on every mount (cold boot AND soft navigations like archive → live feed) so
 // the wait reads fresh each time rather than repeating one fixed line.
 const CAPTIONS = [
-  "Spotting the reef",
+  "Sweeping the seafloor",
   "Scanning the shallows",
   "Chasing the shoal",
   "Following the current",

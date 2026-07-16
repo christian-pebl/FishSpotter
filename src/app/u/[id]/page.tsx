@@ -147,7 +147,7 @@ export default async function ProfilePage({
         </dl>
         {totalAnswers > 0 && (
           <p className="mt-3 text-xs leading-5 text-navy-900/60">
-            Your {totalAnswers} {totalAnswers === 1 ? "identification feeds" : "identifications feed"} PEBL&apos;s UK reef monitoring record.
+            Your {totalAnswers} {totalAnswers === 1 ? "identification feeds" : "identifications feed"} PEBL&apos;s UK seabed monitoring record.
           </p>
         )}
       </section>

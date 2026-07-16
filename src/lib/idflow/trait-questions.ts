@@ -110,7 +110,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     crawl: "Is it crawling along the bottom?",
   },
   fishGroup: {
-    "cod-like": "Is it a chunky, blunt-nosed fish hanging over the reef, with three separate fins along its back?",
+    "cod-like": "Is it a chunky, blunt-nosed fish hanging over the seabed, with three separate fins along its back?",
     wrasse: "Is it a deep, thick-lipped fish pottering in the rocks, with one long fin down its back?",
     "silver-shoaler": "Is it a slim, bright-silver fish out in open water (often in a shoal)?",
     "bottom-sitter": "Is it a small, smooth goby or dragonet perched on the seabed, darting in short hops?",

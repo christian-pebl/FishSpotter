@@ -30,7 +30,7 @@ const stroke = {
 const STEPS: Step[] = [
   {
     eyebrow: "1 · Spot",
-    title: "Spot the species in 5 seconds",
+    title: "Spot the species",
     body: "Each clip is a short underwater snippet. Pick the species from a small set of likely candidates: local marine life curated by PEBL ecologists.",
     silhouette: "fish",
     icon: (

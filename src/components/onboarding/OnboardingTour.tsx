@@ -7,8 +7,8 @@ import { useModalFocus } from "@/lib/useModalFocus";
 const STEPS = [
   {
     eyebrow: "1 · Spot",
-    title: "Pick the species in 5 seconds",
-    body: "These are real clips from PEBL's UK reef surveys, so your IDs help monitor what lives there. Pick the species that looks closest from a few likely options. No typing needed.",
+    title: "Pick the species",
+    body: "These are real clips from PEBL's UK seabed surveys, so your IDs help monitor what lives there. Pick the species that looks closest from a few likely options. No typing needed.",
   },
   {
     eyebrow: "2 · Compare",
