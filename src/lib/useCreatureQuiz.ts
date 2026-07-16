@@ -5,6 +5,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { playCorrect, playWrong, playStreak } from "@/lib/sounds";
 import { triggerCorrectConfetti } from "@/lib/confetti";
 import { emitPebbles } from "@/lib/pebble-bus";
+import { getMyAnswer, setMyAnswer as cacheMyAnswer } from "@/lib/myAnswers";
 
 // S2-T04 killed the sharedBaselineStreak module global + the
 // follow-up GET /api/streak after each submit. The streak diff is now
@@ -153,21 +154,19 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     editFocusRef.current = fn;
   }, []);
 
+  const userId = session?.user?.id ?? null;
   const loadMyAnswer = useCallback(async () => {
+    // Guests have no persisted answers — skip the fetch entirely. Only signed-in
+    // cards load, and they share ONE coalesced /api/answers/my call across the
+    // whole feed (see @/lib/myAnswers) rather than one request per card.
+    if (!userId) return;
     try {
-      const res = await fetch(`/api/answers/my?snippetId=${snippet.id}`);
-      if (!res.ok) return;
-      const data = await res.json();
-      if (data.answer)
-        setMyAnswer({
-          chosenOption: data.answer.chosenOption,
-          isCorrect: data.answer.isCorrect ?? null,
-          points: data.answer.points ?? 0,
-        });
+      const answer = await getMyAnswer(userId, snippet.id);
+      if (answer) setMyAnswer(answer);
     } catch {
       // Transient failure: leave myAnswer unset so the user can still answer.
     }
-  }, [snippet.id]);
+  }, [snippet.id, userId]);
 
   const loadStats = useCallback(async () => {
     try {
@@ -300,11 +299,15 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
       if (data.answer) {
         const isCorrect: boolean | null = data.answer.isCorrect ?? null;
         const points: number = data.answer.points ?? 0;
-        setMyAnswer({
+        const answer = {
           chosenOption: data.answer.chosenOption,
           isCorrect,
           points,
-        });
+        };
+        setMyAnswer(answer);
+        // Keep the shared answer cache in step so a remount of this card reads
+        // the submitted answer instead of re-fetching the whole set.
+        if (userId) cacheMyAnswer(userId, snippet.id, answer);
         setAnswerTextState(data.answer.chosenOption);
         if (isCorrect === true) {
           // S2-T09: celebrate once per (user, snippet) per session.
@@ -357,7 +360,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     } finally {
       setSubmitting(false);
     }
-  }, [status, session?.user, answerText, snippet.id, loadStats]);
+  }, [status, session?.user, userId, answerText, snippet.id, loadStats]);
 
   // Flip back to the input view so the user can correct their previous answer.
   // The API route already upserts on (userId, snippetId), so a resubmit
