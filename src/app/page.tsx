@@ -216,6 +216,26 @@ export default async function HomePage() {
           </section>
         )}
 
+        {/* The seaweed farms */}
+        <section className="pebl-surface rounded-card p-6 md:p-8" aria-labelledby="about-farms">
+          <p className="pebl-eyebrow text-xs">Where the clips come from</p>
+          <h2 id="about-farms" className="mt-2 text-2xl font-bold text-navy-900">
+            Filmed beneath real seaweed farms
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-navy-900">
+            Every clip is filmed under a working UK seaweed farm. Most of what these farms grow
+            becomes a biostimulant: a natural alternative to synthetic fertiliser that helps crops
+            resist stress and grow stronger, sprayed onto real fields by real farmers. PEBL monitors
+            six of them for a National Lottery Climate Action Fund project with WWF.
+          </p>
+          <Link
+            href="/farms"
+            className="mt-4 inline-flex items-center text-sm text-teal-700 underline"
+          >
+            Meet the six farms →
+          </Link>
+        </section>
+
         {/* About PEBL */}
         <section className="pebl-surface rounded-card p-6 md:p-8" aria-labelledby="about-pebl">
           <p className="pebl-eyebrow text-xs">About PEBL</p>

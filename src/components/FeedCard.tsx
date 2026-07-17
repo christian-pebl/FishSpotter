@@ -9,6 +9,7 @@ import { MapModal } from "./MapModal";
 import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 import { StaffScientificResolver } from "./StaffScientificResolver";
 import { IdGuideTrigger } from "./IdGuideTrigger";
+import { resolveFarmByDeployment } from "@/lib/farms/catalogue";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
@@ -1793,6 +1794,25 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           Where is this?
                         </button>
                       )}
+                      {(() => {
+                        const farm = resolveFarmByDeployment(snippet.deployment);
+                        if (!farm) return null;
+                        // Quiet, opt-in bridge from "which fish is this" to "which
+                        // farm grew the kelp it's sheltering under", one tap, with
+                        // no interruption to the guess -> reveal -> next loop.
+                        return (
+                          <Link
+                            href={`/farms/${farm.slug}`}
+                            className="inline-flex min-h-[44px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/70 hover:text-white/90"
+                          >
+                            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-500/80">
+                              <path d="M8 14.5S3 10 3 6.5A5 5 0 0 1 13 6.5c0 3.5-5 8-5 8Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                              <path d="M8 4.5c-1.8 1-2.3 2.6-2 4.5M8 4.5c1.8 1 1.6 3 1 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                            </svg>
+                            About {farm.name}
+                          </Link>
+                        );
+                      })()}
                     </div>
                     <div
                       className={`mt-2 flex items-center justify-between gap-2 ${
@@ -1893,7 +1913,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSelectShape activates the candidate strip — with a shape, or null
           ("Not sure" → strip narrows the whole catalogue, never dead-ends).
           onSkip closes the gate to the MCQ fast path ("skip to guess").
-          onClose just dismisses, preserving any in-progress narrow. */}
+          onClose dismisses AND collapses the panel (togglePanel(true), same
+          as the panel's own Hide button) — otherwise panelCollapsed was still
+          false underneath, so the floating Identify/Where-is-this/Skip panel
+          reappeared right after Close, reading as a stray box left behind.
+          Collapsing here leaves a clean clip with the tap-to-identify catcher
+          as the one consistent way back in, so open → close → tap → open
+          loops indefinitely instead of stranding the user. */}
       {shapeGateOpen && (
         <ShapeGate
           onSelectShape={(shape) => {
@@ -1909,7 +1935,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             // "Skip to guess" — reveal the MCQ tile grid as the fallback.
             dispatch({ type: "skipToMcq" });
           }}
-          onClose={() => dispatch({ type: "closeShapeGate" })}
+          onClose={() => {
+            dispatch({ type: "closeShapeGate" });
+            togglePanel(true);
+          }}
         />
       )}
 
@@ -1931,7 +1960,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSkip={() => {
             dispatch({ type: "skipToMcq" });
           }}
-          onClose={() => dispatch({ type: "closeBodyGate" })}
+          onClose={() => {
+            // Same rationale as the Rung-1 ShapeGate's onClose above: collapse
+            // the panel too, or the floating action panel reappears underneath.
+            dispatch({ type: "closeBodyGate" });
+            togglePanel(true);
+          }}
           onBack={goToRung1}
           breadcrumb={[{ label: rungNav.shapeLabel, onClick: goToRung1 }]}
         />
@@ -1949,7 +1983,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onPick={(name) =>
             void submitAndAdvance(() => handleSubmit({ answerText: name }))
           }
-          onClose={() => dispatch({ type: "closeCandidates" })}
+          onClose={() => {
+            // Same rationale as the Rung-1 ShapeGate's onClose above: collapse
+            // the panel too, or the floating action panel reappears underneath.
+            dispatch({ type: "closeCandidates" });
+            togglePanel(true);
+          }}
           onBack={rungNav.rung2Applies ? goToRung2 : goToRung1}
           breadcrumb={[
             { label: rungNav.shapeLabel, onClick: goToRung1 },
