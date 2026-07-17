@@ -47,8 +47,8 @@ export default async function FarmProfilePage({
   const farm = resolveFarmSlug(slug);
   if (!farm) notFound();
 
-  const hasClips = farm.deploymentNames.length > 0;
-  const [clipCount, speciesRows] = hasClips
+  const hasDeployments = farm.deploymentNames.length > 0;
+  const [clipCount, speciesRows] = hasDeployments
     ? await Promise.all([
         prisma.snippet.count({
           where: { deployment: { in: farm.deploymentNames }, ...excludeBlockedSnippetsWhere() },
@@ -65,6 +65,9 @@ export default async function FarmProfilePage({
       ])
     : [0, []];
   const speciesCount = speciesRows.length;
+  // A farm can have a deployment yet zero *visible* clips (e.g. its only clip is
+  // blocklisted), so gate the stats on the real count, not just deploymentNames.
+  const hasClips = clipCount > 0;
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -118,8 +121,7 @@ export default async function FarmProfilePage({
           </div>
         ) : (
           <div className="pebl-surface mt-5 rounded-card p-4 text-sm text-navy-900/70">
-            PEBL&apos;s monitoring cameras are heading to {farm.name} as part of the full six-farm
-            season. Clips filmed here will appear in the feed once they&apos;re in.
+            Clips filmed at {farm.name} will appear in the feed as monitoring footage is published.
           </div>
         )}
 
