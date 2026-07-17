@@ -93,3 +93,74 @@ describe("orderFeed", () => {
     }
   });
 });
+
+describe("orderFeed with a difficulty readiness param", () => {
+  const rated = (id: string, difficultyScore: number) => ({ id, difficultyScore });
+
+  it("is a no-op (plain shuffle) when readiness is omitted, even if snippets carry difficultyScore", () => {
+    const all = [rated("a", 0.9), rated("b", 0.5), rated("c", 0.1)];
+    const withOpts = orderFeed(all, new Set(), "seed-1");
+    const withoutOpts = orderFeed(
+      all.map(({ id }) => ({ id })),
+      new Set(),
+      "seed-1",
+    );
+    expect(withOpts.map((s) => s.id)).toEqual(withoutOpts.map((s) => s.id));
+  });
+
+  it("is a no-op when snippets have no difficultyScore, even if readiness is set", () => {
+    const all = snippets(["a", "b", "c", "d"]);
+    const withReadiness = orderFeed(all, new Set(), "seed-1", { readiness: 0 });
+    const without = orderFeed(all, new Set(), "seed-1");
+    expect(withReadiness.map((s) => s.id)).toEqual(without.map((s) => s.id));
+  });
+
+  it("still returns every snippet exactly once with readiness set", () => {
+    const all = [
+      rated("e1", 0.95), rated("m1", 0.5), rated("h1", 0.05),
+      rated("e2", 0.9), rated("m2", 0.45), rated("h2", 0.1),
+    ];
+    const answered = new Set(["m1"]);
+    for (const readiness of [0, 0.5, 1]) {
+      const result = orderFeed(all, answered, "seed-1", { readiness });
+      expect(result).toHaveLength(all.length);
+      expect(new Set(result.map((s) => s.id)).size).toBe(all.length);
+    }
+  });
+
+  it("keeps the answered tier at the back regardless of readiness", () => {
+    const all = [
+      rated("e1", 0.95), rated("m1", 0.5), rated("h1", 0.05), rated("e2", 0.9),
+    ];
+    const answered = new Set(["e1", "h1"]);
+    const result = orderFeed(all, answered, "seed-1", { readiness: 1 });
+    const firstAnsweredIndex = result.findIndex((s) => answered.has(s.id));
+    const lastUnansweredIndex = result.length - 1 - [...result].reverse().findIndex((s) => !answered.has(s.id));
+    expect(firstAnsweredIndex).toBeGreaterThan(lastUnansweredIndex);
+  });
+
+  it("is deterministic given the same inputs including readiness", () => {
+    const all = [rated("a", 0.9), rated("b", 0.5), rated("c", 0.1), rated("d", 0.6)];
+    const r1 = orderFeed(all, new Set(), "user-123", { readiness: 0.3 });
+    const r2 = orderFeed(all, new Set(), "user-123", { readiness: 0.3 });
+    expect(r2.map((s) => s.id)).toEqual(r1.map((s) => s.id));
+  });
+
+  it("skews the unanswered tier toward easy clips for a brand-new spotter", () => {
+    const all = [
+      rated("e1", 0.95), rated("e2", 0.9), rated("e3", 0.85),
+      rated("m1", 0.6), rated("m2", 0.55), rated("m3", 0.5),
+      rated("h1", 0.2), rated("h2", 0.15), rated("h3", 0.1),
+    ];
+    let easySum = 0;
+    let hardSum = 0;
+    const trials = 100;
+    for (let i = 0; i < trials; i++) {
+      const result = orderFeed(all, new Set(), `trial-${i}`, { readiness: 0 });
+      const indexOf = (id: string) => result.findIndex((r) => r.id === id);
+      easySum += indexOf("e1") + indexOf("e2") + indexOf("e3");
+      hardSum += indexOf("h1") + indexOf("h2") + indexOf("h3");
+    }
+    expect(easySum / trials).toBeLessThan(hardSum / trials);
+  });
+});

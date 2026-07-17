@@ -9,6 +9,7 @@ import { VerificationBanner } from "@/components/VerificationBanner";
 import { GuestGate } from "@/components/guest/GuestGate";
 import { GuestSavePrompt } from "@/components/guest/GuestSavePrompt";
 import { orderFeed } from "@/lib/feed-ordering";
+import { readinessFromAnsweredCount } from "@/lib/difficulty";
 import { safeParseJson } from "@/lib/safe-json";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 
@@ -41,7 +42,13 @@ export default async function FeedPage() {
   // isn't signed in. createdAt-desc is the underlying order — orderFeed
   // shuffles on top of that, so any future tie-break (within the same
   // shuffle bucket) is stable on insert order.
-  const [snippets, session] = await Promise.all([
+  //
+  // difficultyScore is fetched via $queryRaw rather than the typed select
+  // above: this was wired in before the generated Prisma Client had been
+  // regenerated for the new column (a native-binary lock from other
+  // concurrent dev processes blocked `prisma generate`). Once regenerated,
+  // fold `difficultyScore: true` into the select above and drop this query.
+  const [snippets, session, difficultyRows] = await Promise.all([
     prisma.snippet.findMany({
       where: excludeBlockedSnippetsWhere(),
       orderBy: { createdAt: "desc" },
@@ -61,7 +68,11 @@ export default async function FeedPage() {
       },
     }),
     getServerSession(authOptions),
+    prisma.$queryRaw<Array<{ id: string; difficultyScore: number }>>`
+      SELECT id, "difficultyScore" FROM "Snippet"
+    `,
   ]);
+  const difficultyById = new Map(difficultyRows.map((r) => [r.id, r.difficultyScore]));
 
   // S8-T1: pick the shuffle seed + collect the user's answered IDs.
   // Seed = userId for signed-in users (stable across reloads, distinct
@@ -85,7 +96,18 @@ export default async function FeedPage() {
     seed = cookieStore.get(ANON_SEED_COOKIE)?.value ?? "anon-fallback";
   }
 
-  const orderedSnippets = orderFeed(snippets, answeredIds, seed);
+  // Difficulty ramp: brand-new spotters (readiness 0) get a feed skewed
+  // toward easy, clear clips; readiness rises with clips answered, mixing
+  // in harder/more cryptic ones (src/lib/difficulty.ts). Anonymous visitors
+  // have no answer history to draw on, so they always start at readiness 0
+  // — a reasonable default since a signed-out visitor is, by definition,
+  // new to this browser's session.
+  const readiness = readinessFromAnsweredCount(answeredIds.size);
+  const snippetsWithDifficulty = snippets.map((s) => ({
+    ...s,
+    difficultyScore: difficultyById.get(s.id) ?? 0.5,
+  }));
+  const orderedSnippets = orderFeed(snippetsWithDifficulty, answeredIds, seed, { readiness });
 
   let needsTour = false;
   let unverified = false;
