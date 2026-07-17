@@ -6,7 +6,6 @@ import { Header } from "@/components/Header";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { PwaRegister } from "@/components/PwaRegister";
 import { WebVitalsReporter } from "@/components/WebVitalsReporter";
-import { readConsent } from "@/lib/cookies/consent";
 import "./globals.css";
 
 const jost = Jost({
@@ -69,12 +68,11 @@ export const viewport: Viewport = {
   width: "device-width",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const consent = await readConsent();
   return (
     <html lang="en" className={`${jost.variable} ${roboto.variable} ${superWater.variable}`}>
       <head>
@@ -105,7 +103,7 @@ export default async function RootLayout({
           <div className="flex-1 flex flex-col min-h-0">
             {children}
           </div>
-          <CookieBanner initiallyDismissed={!!consent} />
+          <CookieBanner />
           <WebVitalsReporter />
         </SessionProvider>
       </body>

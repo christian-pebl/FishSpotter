@@ -5,9 +5,18 @@ import { prisma } from "@/lib/prisma";
 
 const ADMIN_EMAIL_SUFFIX = "@pebl-cic.co.uk";
 
-export function isAdminEmail(email: string | null | undefined): boolean {
-  if (!email) return false;
-  return email.trim().toLowerCase().endsWith(ADMIN_EMAIL_SUFFIX);
+// Admin requires a @pebl-cic.co.uk email AND a verified one (emailVerified
+// non-null). The domain check alone is not enough: POST /api/guest/claim
+// lets any signed-in guest write an arbitrary unclaimed address into
+// User.email (with emailVerified left null) without ever proving they
+// received the confirmation link, so a guest could claim
+// "anything@pebl-cic.co.uk" and self-escalate to admin in three requests.
+// Requiring emailVerified closes that path since guest-claim never sets it.
+export function isAdminUser(
+  user: { email?: string | null; emailVerified?: Date | null } | null | undefined,
+): boolean {
+  if (!user?.email || !user.emailVerified) return false;
+  return user.email.trim().toLowerCase().endsWith(ADMIN_EMAIL_SUFFIX);
 }
 
 // The session token only carries `id` and `name` (see auth.ts JWT callback),
@@ -19,9 +28,9 @@ export async function getAdminSession() {
   if (!userId) return null;
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { email: true },
+    select: { email: true, emailVerified: true },
   });
-  if (!isAdminEmail(user?.email)) return null;
+  if (!isAdminUser(user)) return null;
   return { session, email: user!.email };
 }
 

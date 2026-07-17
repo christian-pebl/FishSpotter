@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { isAdminEmail } from "@/lib/admin";
+import { isAdminUser } from "@/lib/admin";
 import { computeStreakFromAnswers } from "@/lib/streak";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
@@ -60,9 +60,9 @@ export default async function ProfilePage({
   if (viewerId && !isOwner) {
     const viewer = await prisma.user.findUnique({
       where: { id: viewerId },
-      select: { email: true },
+      select: { email: true, emailVerified: true },
     });
-    canSeeAnswers = isAdminEmail(viewer?.email);
+    canSeeAnswers = isAdminUser(viewer);
   }
 
   const [

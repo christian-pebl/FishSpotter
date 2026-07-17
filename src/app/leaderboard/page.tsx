@@ -7,10 +7,19 @@ import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
 
-// S4-02: switch from force-dynamic to ISR. Anonymous requests cache for
-// 60s; signed-in requests are dynamic (Next sees the cookie read from
-// getServerSession and bypasses the cache) — best of both worlds. The
-// page only does 3 queries regardless of Answer table size:
+// S4-02: switch from force-dynamic to ISR (revalidate below). In practice
+// getServerSession() calls cookies() unconditionally to look for a session,
+// which makes Next mark the whole route dynamic regardless of whether a
+// session exists -- so this still serves Cache-Control: no-store to every
+// visitor, not just signed-in ones (confirmed 2026-07-16 auditing the
+// bf-cache finding). Root cause is that myUserId feeds real data filtering
+// below (an opted-out user still sees their OWN row), not just a decorative
+// "you" highlight, so the response genuinely varies per viewer -- caching it
+// at the ISR/CDN layer would leak one viewer's row to another. Fixing this
+// for real needs the public ranking split out as the cacheable part, with
+// the viewer's own row (if opted out) layered in via a small client-side
+// fetch; not done here as it's a larger change than this pass covers. The
+// page still only does 3 queries regardless of Answer table size:
 //   1) groupBy({by: userId}) for the ranking table
 //   2) groupBy({by: chosenOption}) for the histogram
 //   3) findMany Users by id IN (...)

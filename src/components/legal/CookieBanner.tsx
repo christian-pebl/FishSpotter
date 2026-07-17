@@ -8,23 +8,44 @@ import { useEffect, useState } from "react";
 const CONSENT_COOKIE = "pebl_consent";
 const TWELVE_MONTHS_SECS = 60 * 60 * 24 * 365;
 
-interface Props {
-  initiallyDismissed: boolean;
+function hasConsentCookie(): boolean {
+  return document.cookie.includes(`${CONSENT_COOKIE}=`);
 }
 
-export function CookieBanner({ initiallyDismissed }: Props) {
-  const [dismissed, setDismissed] = useState(initiallyDismissed);
+// The server can never know a visitor's cookie (this page is static/ISR --
+// see the layout.tsx comment on why), so it always renders "no banner" as
+// the SSR-safe baseline. Checking document.cookie in a useState lazy
+// initializer looks tempting (and was tried here first) but is wrong: on
+// the client's FIRST render pass -- the one hydration diffs against the
+// server HTML -- a returning visitor's cookie would already make it want
+// to render null while the server rendered the full banner. That is a
+// structural hydration mismatch (a whole subtree vs. null, not just a text
+// diff), and React does not reliably clean up the resulting orphaned DOM:
+// the leftover server-rendered banner stays in the document with no fiber
+// attached to it, so it never responds to clicks again. Deferring the real
+// check to a useEffect keeps the client's first render identical to the
+// server's (both render null/hidden), so hydration always succeeds; the
+// effect then corrects the state via a normal post-mount re-render, which
+// uses ordinary reconciliation instead of hydration reconciliation.
+export function CookieBanner() {
+  const [mounted, setMounted] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setDismissed(hasConsentCookie());
+  }, []);
 
   // Belt-and-braces: if the cookie was set in another tab while this
   // tab is open, hide the banner on focus.
   useEffect(() => {
-    if (dismissed) return;
+    if (!mounted || dismissed) return;
     const onFocus = () => {
-      if (document.cookie.includes(`${CONSENT_COOKIE}=`)) setDismissed(true);
+      if (hasConsentCookie()) setDismissed(true);
     };
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
-  }, [dismissed]);
+  }, [mounted, dismissed]);
 
   const save = (analytics: boolean) => {
     const value = JSON.stringify({
@@ -37,7 +58,7 @@ export function CookieBanner({ initiallyDismissed }: Props) {
     setDismissed(true);
   };
 
-  if (dismissed) return null;
+  if (!mounted || dismissed) return null;
 
   return (
     <div

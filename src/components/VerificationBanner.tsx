@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const DISMISS_KEY = "fs.verify_banner_dismissed";
 
@@ -10,13 +10,26 @@ const DISMISS_KEY = "fs.verify_banner_dismissed";
  * tells them to check their inbox and lets them resend. Rendered fixed so the
  * feed's overflow-hidden immersive layout can't clip it. Dismissal is sticky
  * for the browser session so it does not nag on every navigation.
+ *
+ * `dismissed` is read from sessionStorage in a useEffect, not a useState
+ * lazy initializer: the server always renders with dismissed=false (it has
+ * no sessionStorage), so if the client's FIRST render read a "true" value
+ * instead, that's a structural hydration mismatch (a whole subtree vs.
+ * null) that React can leave as an orphaned, un-hydrated DOM node -- see
+ * the identical bug + full writeup in CookieBanner.tsx. Deferring to an
+ * effect keeps the first client render identical to the server's.
  */
 export function VerificationBanner({ unverified }: { unverified: boolean }) {
-  const [dismissed, setDismissed] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.sessionStorage.getItem(DISMISS_KEY) === "1";
-  });
+  const [dismissed, setDismissed] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "rate-limited" | "error">("idle");
+
+  useEffect(() => {
+    try {
+      setDismissed(window.sessionStorage.getItem(DISMISS_KEY) === "1");
+    } catch {
+      // sessionStorage unavailable (private mode quota) — leave dismissed=false.
+    }
+  }, []);
 
   if (!unverified || dismissed) return null;
 

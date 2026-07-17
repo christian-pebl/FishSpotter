@@ -104,7 +104,7 @@ export function SpeciesGuideContent({
     };
   }, [scientificName, initialDepth, initialDistribution]);
 
-  const depthValue = depth ? `${depth.label} (median ${Math.round(depth.medianM)} m)` : "Not recorded";
+  const depthValue = depth ? `${depth.label} (median ${Math.round(depth.medianM)} m)` : null;
 
   return (
     <div className="space-y-5">
@@ -124,9 +124,11 @@ export function SpeciesGuideContent({
         </section>
       )}
 
-      {/* Field facts */}
+      {/* Field facts. Depth comes from a live OBIS cache and isn't always
+          backfilled yet, so omit the row rather than show a "Not recorded"
+          placeholder next to a species we clearly do have footage of. */}
       <section className="grid grid-cols-2 gap-3">
-        <Fact label="Usually seen at" value={depthValue} />
+        {depthValue && <Fact label="Usually seen at" value={depthValue} />}
         <Fact label="Size" value={SIZE_LABEL[size] ?? prettify(size)} />
         <Fact label="Habitat" value={prettyList(habitat)} />
         <Fact label="Behaviour" value={prettyList(behavior)} />

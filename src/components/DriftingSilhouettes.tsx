@@ -10,9 +10,12 @@ import { useInView } from "@/lib/useInView";
  * tinted via mask-image + `background-color: currentColor`, so the whole field
  * inherits one teal hue from a `text-*` class (colourblind-safe, low cost).
  *
- * The layout is deterministic (seeded PRNG) so the server and client render the
- * same field and there is no hydration mismatch. Decorative -> aria-hidden, and
- * the global prefers-reduced-motion block freezes every drifter.
+ * The layout is deterministic (seeded PRNG) so the server and client agree on
+ * every value, EXCEPT that Math.cos/Math.sin aren't spec-guaranteed
+ * bit-identical across engines — round() below normalises that away before
+ * the numbers get stringified into `style`, so there is no hydration
+ * mismatch. Decorative -> aria-hidden, and the global prefers-reduced-motion
+ * block freezes every drifter.
  */
 
 // Recognisable, UK-marine, non-blob silhouettes (the coiled/ambiguous ones the
@@ -49,6 +52,19 @@ function mulberry32(a: number) {
   };
 }
 
+// Math.cos/Math.sin (used below for dx/dy) aren't guaranteed bit-identical
+// across JS engines for the same input — Node's SSR and the browser's
+// hydration pass can differ in the last float bit. React's hydration check
+// compares the stringified style attribute, so an unrounded value like
+// -4.930483214042849 vs ...48 trips a mismatch warning on every page load.
+// Rounding to a fixed, coarse precision before formatting makes the two
+// strings match regardless of that last-bit float noise; the precision is
+// far finer than perceptible on a slow decorative drift anyway.
+function round(n: number, decimals: number): number {
+  const f = 10 ** decimals;
+  return Math.round(n * f) / f;
+}
+
 export function DriftingSilhouettes({
   count = 44,
   className = "text-teal-600/[0.12]",
@@ -64,18 +80,18 @@ export function DriftingSilhouettes({
     const rand = mulberry32(seed);
     return Array.from({ length: count }, () => {
       const src = SILHOUETTES[Math.floor(rand() * SILHOUETTES.length)];
-      const top = rand() * 100;
-      const left = rand() * 100;
-      const size = 26 + rand() * 38; // 26-64px
+      const top = round(rand() * 100, 2);
+      const left = round(rand() * 100, 2);
+      const size = round(26 + rand() * 38, 1); // 26-64px
       // Each drifter gets its own direction (full 360deg) and travel distance.
       const angle = rand() * Math.PI * 2;
       const dist = 24 + rand() * 34; // px
-      const dx = Math.cos(angle) * dist;
-      const dy = Math.sin(angle) * dist;
-      const dur = 80 + rand() * 70; // 80-150s -> very slow, calm drift
-      const delay = -rand() * dur; // desync so they don't pulse together
-      const rot = rand() * 16 - 8; // gentle tilt
-      const op = 0.05 + rand() * 0.07; // per-drifter alpha variation
+      const dx = round(Math.cos(angle) * dist, 2);
+      const dy = round(Math.sin(angle) * dist, 2);
+      const dur = round(80 + rand() * 70, 2); // 80-150s -> very slow, calm drift
+      const delay = round(-rand() * dur, 2); // desync so they don't pulse together
+      const rot = round(rand() * 16 - 8, 2); // gentle tilt
+      const op = round(0.05 + rand() * 0.07, 3); // per-drifter alpha variation
       const mirror = rand() < 0.5 ? -1 : 1;
       return { src, top, left, size, dx, dy, dur, delay, rot, op, mirror };
     });

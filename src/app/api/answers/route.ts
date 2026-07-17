@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   // S6-T6: anti-cheat per-user rate limit. 200 answers/hour is well
   // above human spotting cadence and stops scripted scrape-and-submit
   // bots from corrupting the leaderboard.
-  if (!checkAnswerRateLimit(session.user.id)) {
+  if (!(await checkAnswerRateLimit(session.user.id))) {
     return NextResponse.json(
       { error: "Too many answers in a short window. Slow down a bit." },
       { status: 429 },

@@ -72,7 +72,7 @@
 | `src/lib/useModalFocus.ts` | Shared modal focus-management hook (remember opener + restore, initial focus, Tab trap, Escape, body-scroll lock) — the WCAG 2.1.2 contract, extracted from `IdGuideSheet`'s proven implementation. Applied to `MapModal` (which had none, so keyboard users could tab onto the live feed behind the open map). |
 | `src/app/auth/layout.tsx` | Shared chrome for all `/auth` routes (signin/forgot/reset/verify): renders an animated `MarinePattern` behind the card and drops the card to 80% white (`[&_.pebl-surface]:bg-white/80`) so the water shows through (frosted feel). Fixes the design-audit F-EMPTY-AUTH-STATES bare-card finding. |
 | `implementation/2026-06-02/design-audit.md` | Multi-agent visual/UX design audit (2 Jun 2026) + its implementation status. 12 finder lenses, per-finding adversarial verification, 61 confirmed findings deduped to 21 themes. The one P1 (`MapModal` focus) + 8 quick wins + core-loop fixes are shipped; the remaining systemic P2s (full glyph/radius/touch-target sweeps, editorial auth pages, type tokens) are tracked there. |
-| `src/lib/admin.ts` | S9-T1 admin gate: `isAdminEmail()` checks for the `@pebl-cic.co.uk` suffix; `requireAdminSession()` does the lookup and redirects non-admins to `/`. Used by the `/admin` layout + the diagnostic-mark server actions. |
+| `src/lib/admin.ts` | S9-T1 admin gate: `isAdminUser()` requires BOTH the `@pebl-cic.co.uk` suffix AND a verified email (`emailVerified` non-null) — domain alone is not enough because guest-claim (`POST /api/guest/claim`) can write an unverified, arbitrary email into `User.email` (fixed 2026-07-16 Critical audit finding, was a guest->admin escalation). `getAdminSession()`/`requireAdminSession()` do the lookup and redirect non-admins to `/`. Used by the `/admin` layout + the diagnostic-mark server actions + the private per-user answers view on `/u/[id]`. |
 | `src/components/landing/*` | Landing-page redesign (2 Jun 2026, `implementation/2026-06-02/landing-redesign.md`). `UnderwaterBackdrop` (depth gradient + drifting CC0 silhouettes + light shafts + bubbles), `HeroPreview` (real looping snippet with a self-playing faux species-pick overlay), `StatsBand` (live clips/species/spotters count-up), `StepCards` (Spot→Compare→Streak, stroked-teal icons + scroll-in stagger), `SpeciesMarquee` (auto-scrolling real `SpeciesImage` photos with `© Author · LICENCE` credit). All on-brand, reduced-motion-safe, off-screen-paused. |
 | `src/lib/useInView.ts` | Shared client IntersectionObserver hook (`[ref, inView]`) used by the landing components to pause always-on CSS animations + the hero video when scrolled off-screen. Pairs with the `.fs-paused` utility in `globals.css`. |
 | `src/app/admin/layout.tsx` | Single gate + top nav for everything under `/admin`. Carries `robots: noindex` so admin pages never get indexed. |
@@ -270,6 +270,33 @@ are the standard for new and touched code, so the drift narrows over time:
   `[color:var(--x)]` (theming hooks, the `pebl-*` component classes). `--primary`
   and `teal-600` are the same hex; don't add new parallel definitions of a
   colour; extend the Tailwind palette and reference it.
+
+## Rate limiting
+
+`src/lib/rate-limit.ts` backs every IP/user-keyed limit in the app (auth,
+guest claim, answer submission, idguide chat, events, vitals, preview).
+Two backends, auto-selected at module load:
+
+- **In-memory (default, no env vars set).** A single process-local `Map`.
+  Correct for a single instance, but on Vercel every warm serverless
+  instance keeps its own counters, so the effective limit loosens by
+  however many instances are warm at once (2026-07-16 audit finding 3.2/6).
+- **Redis (Upstash), when `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`
+  are set.** One shared counter regardless of instance count. Uses
+  `@upstash/redis`'s REST client (works over HTTP, no persistent connection
+  needed — the right shape for serverless) with a fixed-window `INCR` +
+  one-time `EXPIRE` per key. Fails OPEN on any Redis error (allows the
+  request rather than blocking everyone if Upstash has an outage) — a rate
+  limiter's job is abuse resistance, not core auth.
+
+All six `checkXRateLimit()` exports are `async` (the Redis path is a real
+network call) — every call site already awaits them from inside an async
+route handler or NextAuth's `authorize()`. To actually enable the shared
+store, provision an Upstash Redis database (small free tier is enough for
+this app's volume) and set the two env vars above in Vercel; no code
+change needed. Client-IP extraction (`x-forwarded-for` first entry,
+`x-real-ip` fallback) lives in `src/lib/client-ip.ts` — every rate-limited
+route imports it rather than re-parsing headers itself.
 
 ## Database
 
@@ -548,6 +575,10 @@ GEMINI_API_KEY=...                # image-quality / vision tool (gemini-vision.t
 GEMINI_MODEL=gemini-3.5-flash     # optional override (default gemini-3.5-flash)
 SENDGRID_API_KEY=...              # transactional email (src/lib/email/client.ts) — replaced Resend
 CRON_SECRET=...                   # required in production for /api/cron/*
+
+# Rate limiter shared store (optional — see "Rate limiting" section below)
+UPSTASH_REDIS_REST_URL=...        # both unset -> falls back to in-memory (per-instance) limiting
+UPSTASH_REDIS_REST_TOKEN=...
 
 # Storage provider (see "Storage provider" section above)
 STORAGE_PROVIDER=supabase         # "r2" or "supabase" (default)
