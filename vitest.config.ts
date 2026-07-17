@@ -1,7 +1,8 @@
 import { defineConfig } from "vitest/config";
+import { loadEnv } from "vite";
 import path from "node:path";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   test: {
     include: [
       "src/**/*.{test,spec}.{ts,tsx}",
@@ -20,6 +21,12 @@ export default defineConfig({
     // Runs for every test file (node and jsdom): adds jest-dom matchers and a
     // DOM-guarded afterEach cleanup() (see vitest.setup.ts).
     setupFiles: ["./vitest.setup.ts"],
+    // loadEnv (unlike Vite's default) is not prefix-filtered, so this pulls
+    // in .env/.env.local as-is. Needed because src/lib/auth.ts throws at
+    // import time without NEXTAUTH_SECRET, and any test touching admin.ts
+    // (or auth.ts itself) transitively imports it — a bare `vitest run`
+    // otherwise fails module collection in a fresh checkout / CI.
+    env: loadEnv(mode, process.cwd(), ""),
   },
   resolve: {
     alias: {
@@ -29,4 +36,4 @@ export default defineConfig({
   // Use the React 17+ automatic JSX runtime (matches Next's compiler) so
   // component tests do not need an explicit React import.
   esbuild: { jsx: "automatic" },
-});
+}));
