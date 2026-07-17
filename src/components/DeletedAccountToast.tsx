@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 /**
  * Confirms a just-completed account deletion. AccountClient redirects to
@@ -9,9 +9,18 @@ import { useRouter } from "next/navigation";
  * rendered that confirmation -- the user just landed back on the homepage
  * with an inert query param. Mirrors VerificationBanner's dismissible
  * fixed bottom-card pattern.
+ *
+ * Reads the query param client-side (useSearchParams, wrapped in its own
+ * Suspense boundary below) rather than as a server-computed prop: the
+ * homepage is otherwise fully static (export const revalidate = 60), and
+ * reading searchParams in the Server Component would force it dynamic on
+ * every request -- the same Cache-Control: no-store trap that disabled
+ * back/forward cache site-wide (2026-07-16 audit finding).
  */
-export function DeletedAccountToast({ show }: { show: boolean }) {
+function DeletedAccountToastInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const show = searchParams.get("deleted") === "1";
   const [visible, setVisible] = useState(show);
 
   useEffect(() => {
@@ -60,5 +69,13 @@ export function DeletedAccountToast({ show }: { show: boolean }) {
         </svg>
       </button>
     </div>
+  );
+}
+
+export function DeletedAccountToast() {
+  return (
+    <Suspense fallback={null}>
+      <DeletedAccountToastInner />
+    </Suspense>
   );
 }

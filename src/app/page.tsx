@@ -33,12 +33,7 @@ const COMMON_NAMES = Object.values(TRAITS)
 const HERO_CLIP_EXTERNAL_ID =
   "KEL33_2026-04-23_08-01_velvetcrab_track_manual_0-696_20260629_112902";
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const justDeleted = (await searchParams).deleted === "1";
+export default async function HomePage() {
   const [pinnedHero, featuredCandidates, clips, idsMade, photoRows] = await Promise.all([
     prisma.snippet.findUnique({
       where: { externalId: HERO_CLIP_EXTERNAL_ID },
@@ -93,7 +88,7 @@ export default async function HomePage({
 
   return (
     <MarineBackdrop>
-    <DeletedAccountToast show={justDeleted} />
+    <DeletedAccountToast />
     <div className="flex-1 overflow-y-auto">
       <main
         id="main"
