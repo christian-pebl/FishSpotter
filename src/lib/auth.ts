@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
+import { clientIpKeyFromHeaders } from "@/lib/client-ip";
 import { sendVerificationEmail } from "@/lib/email/dispatch";
 
 if (!process.env.NEXTAUTH_SECRET) {
@@ -58,11 +59,7 @@ export const authOptions: NextAuthOptions = {
         guest: { label: "Guest", type: "text" },
       },
       async authorize(credentials, req) {
-        const ipHeaderRaw = req?.headers?.["x-forwarded-for"];
-        const clientIp =
-          (Array.isArray(ipHeaderRaw) ? ipHeaderRaw[0] : ipHeaderRaw)
-            ?.split(",")[0]
-            ?.trim() || "unknown";
+        const clientIp = clientIpKeyFromHeaders(req?.headers);
 
         // Zero-friction guest play: a username is the ONLY input. We mint a
         // lightweight User (synthetic placeholder email + isGuest=true) so the
@@ -94,9 +91,7 @@ export const authOptions: NextAuthOptions = {
         if (credentials.password.length < MIN_PASSWORD) return null;
 
         const email = credentials.email.trim().toLowerCase();
-        const ipHeader = req?.headers?.["x-forwarded-for"];
-        const ip = (Array.isArray(ipHeader) ? ipHeader[0] : ipHeader)?.split(",")[0]?.trim() || "unknown";
-        if (!checkAuthRateLimit(`${ip}:${email}`)) return null;
+        if (!checkAuthRateLimit(`${clientIp}:${email}`)) return null;
 
         let user = await prisma.user.findUnique({ where: { email } });
 
@@ -105,7 +100,7 @@ export const authOptions: NextAuthOptions = {
           // ICO Children's Code: block under-13 signups outright. The
           // self-declared band is the only age data we ever store.
           if (credentials.ageBracket === "under_13") return null;
-          if (!checkAuthRateLimit(`signup:${ip}`)) return null;
+          if (!checkAuthRateLimit(`signup:${clientIp}`)) return null;
           const isMinor = credentials.ageBracket === "13_17";
           const rawName = (credentials.name ?? "").trim().slice(0, 32);
           const cleanName = rawName.replace(/[^\p{L}\p{N}\s._-]/gu, "");

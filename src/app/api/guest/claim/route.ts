@@ -18,6 +18,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
+import { clientIpKey } from "@/lib/client-ip";
 import { PasswordResetEmail } from "@/lib/email/templates/PasswordResetEmail";
 import { sendEmail } from "@/lib/email/send";
 import {
@@ -53,8 +54,7 @@ export async function POST(req: Request) {
   }
   const email = parsed.email.trim().toLowerCase();
 
-  const ipHeader = req.headers.get("x-forwarded-for");
-  const ip = ipHeader?.split(",")[0]?.trim() ?? "unknown";
+  const ip = clientIpKey(req);
   if (!checkAuthRateLimit(`claim:${ip}`)) {
     return NextResponse.json(
       { error: "Too many attempts. Try again in 15 minutes." },

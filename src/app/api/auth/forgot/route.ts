@@ -20,6 +20,7 @@ import {
 } from "@/lib/auth/tokens";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
+import { clientIpKey } from "@/lib/client-ip";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -45,8 +46,7 @@ export async function POST(req: Request) {
   }
   const email = parsed.email.trim().toLowerCase();
 
-  const ipHeader = req.headers.get("x-forwarded-for");
-  const ip = (ipHeader?.split(",")[0]?.trim()) ?? "unknown";
+  const ip = clientIpKey(req);
   if (!checkAuthRateLimit(`forgot:${ip}:${email}`)) {
     return NextResponse.json(
       { error: "Too many attempts. Try again in 15 minutes." },
