@@ -49,20 +49,64 @@ const dedupedPatterns = remotePatterns.filter((p) => {
 
 const isProd = process.env.NODE_ENV === "production";
 
+// Full source-listed CSP (2026-07-16 audit finding 3.2/5). Every host below
+// was confirmed either by reading the DB directly (SpeciesImage/Snippet URLs
+// -- Supabase, iNat, Wikimedia, Flickr, artsobservasjoner.no) or by reading
+// the component that hits it (Leaflet -> tile.openstreetmap.org in
+// MapModalInner.tsx). R2 is included even though no live row uses it today:
+// next.config.mjs already whitelists it for next/image, and STORAGE_PROVIDER
+// flips back to r2 for new uploads (see the Storage provider section of
+// CLAUDE.md) -- omitting it would just break silently the next time that
+// happens. Sentry is NOT listed: SENTRY_DSN is unset (Sentry.init's own
+// `enabled: Boolean(dsn)` guard makes it a no-op today), so there is no
+// ingest host to allow yet -- add the project's *.ingest.<region>.sentry.io
+// host to connect-src when a DSN is actually provisioned.
+const IMAGE_HOSTS = [
+  "https://aazxphcrexkggbmmceli.supabase.co",
+  "https://pub-b0fda9a751144df59165871565716de4.r2.dev",
+  "https://inaturalist-open-data.s3.amazonaws.com",
+  "https://upload.wikimedia.org",
+  "https://live.staticflickr.com",
+  "https://www.artsobservasjoner.no",
+  "https://tile.openstreetmap.org",
+];
+const MEDIA_HOSTS = [
+  "https://aazxphcrexkggbmmceli.supabase.co",
+  "https://pub-b0fda9a751144df59165871565716de4.r2.dev",
+];
+
+// Next 14 dev mode needs 'unsafe-eval' (webpack's eval-based sourcemaps) and
+// a websocket connect-src (HMR). Neither is needed -- or shipped -- in prod.
+const CSP_DIRECTIVES = [
+  `default-src 'self'`,
+  // No nonce/hash infra exists for Next's inline bootstrap scripts or
+  // Framer Motion's inline handlers, so 'unsafe-inline' is the pragmatic
+  // floor here -- script injection is still blocked from any OTHER origin,
+  // which is what actually matters (see audit 3.4: no XSS sink exists to
+  // inject inline script into in the first place).
+  `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`,
+  // Tailwind arbitrary values + the mask-image drift/pattern components
+  // (DriftingSilhouettes, MarinePattern) render extensively via inline
+  // `style={{}}`, which CSP governs through style-src.
+  `style-src 'self' 'unsafe-inline'`,
+  `img-src 'self' data: blob: ${IMAGE_HOSTS.join(" ")}`,
+  `media-src 'self' ${MEDIA_HOSTS.join(" ")}`,
+  `font-src 'self'`,
+  `connect-src 'self'${isProd ? "" : " ws://localhost:*"}`,
+  `base-uri 'self'`,
+  `object-src 'none'`,
+  `frame-ancestors 'none'`,
+  `form-action 'self'`,
+];
+
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
-  // Defense-in-depth CSP: only the directives that add clickjacking /
-  // base-tag / plugin / form-hijack hardening with ZERO regression risk to
-  // page loads. script-src / img-src / style-src / connect-src are
-  // deliberately omitted — a full source-list needs violation-report testing
-  // against the live host set (Supabase, R2, iNat/Wikimedia, Sentry, map
-  // tiles, framer inline styles) and should ship Report-Only first.
   {
     key: "Content-Security-Policy",
-    value: "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'",
+    value: CSP_DIRECTIVES.join("; "),
   },
 ];
 
