@@ -365,3 +365,45 @@ the handoff doc for the exact checklist.
   loop driven end-to-end twice in a live preview browser (opened the shape
   gate, closed it, confirmed zero visible floating panel with the tap catcher
   restored, tapped, confirmed the gate reopened).
+
+## Difficulty ladder for the feed (17 Jul 2026, SHIPPED LIVE via PR #105, main `31ddf8b`)
+
+New spotters get clear, easy clips first; harder/more cryptic ones mix in as they gain
+experience. Built in two phases — validate the signal, then commit to a schema change — per
+Christian's steer.
+
+- **Phase 0 (throwaway validation):** checked whether apparent organism size (median bbox area
+  from the existing `bboxJson` track) actually separates clips the way a human would expect
+  before building anything durable on it. 73/77 active clips have a usable bbox track, 262x
+  spread in area, and the ranking passed a gut check (small crabs/gastropods sink to "hard,"
+  larger/closer subjects rise to "easy"). Confusability data (`confusion-matrix.ts`) was also
+  considered but is too sparse to trust yet — only 24 wrong answers recorded, half against coarse
+  placeholder references ("Fish"/"Crab") — so it's deferred to a later empirical pass once there's
+  real per-clip answer volume.
+- **Schema:** `Snippet.difficultyScore Float @default(0.5)` (1 = easiest, 0 = hardest,
+  corpus-relative percentile). Live on prod DB; 73 clips seeded via `scripts/seed-difficulty.ts`
+  (`npm run db:seed-difficulty`, idempotent, safe to re-run after `db:sync` adds clips).
+- **Ordering** (`src/lib/difficulty.ts` + `src/lib/feed-ordering.ts`): `orderFeed` gained an
+  optional `readiness` param (0 = brand new, ramps to 1 over 15 answered clips) that soft-weights
+  the unanswered tier toward easy/medium/hard bands — never a hard filter, so the feed never
+  dead-ends into all-hard or all-easy. Omitting `readiness`, or an item missing
+  `difficultyScore`, reproduces the exact prior shuffle, so every existing caller/test is
+  unaffected. Anonymous visitors and signed-in users with no answer history both start at
+  readiness 0.
+- **Deliberately deferred, not oversights:** Phase 2 (migrating the score from intrinsic/bbox-size
+  to empirical/answer-accuracy-derived, once there's traffic to trust) and a user-facing
+  difficulty badge — an invisible pacing curve is arguably the better product call than a visible
+  "Level 3!" indicator, but that's Christian's to weigh in on.
+- **Bonus fix, same pass:** `main`'s own CI had been failing on every push since PR #103 landed
+  (`admin.test.ts`'s import chain hits `src/lib/auth.ts`'s `NEXTAUTH_SECRET` fail-fast guard, and
+  CI never had a dummy value for it). Fixed with a one-line addition to `.github/workflows/
+  ci.yml`'s existing dummy-env-var block — pre-existing gap, unrelated to this feature.
+- **How it shipped, worth knowing given the operational note above:** the original build (commit
+  `c1ecce4`) landed on a branch based off the now-merged `fix/audit-findings-jul2026`, and picked
+  up one unrelated commit when this shared checkout's branch changed under it mid-session. Since
+  the two commits touched disjoint files, the difficulty-ladder diff was cherry-picked cleanly
+  into an isolated worktree, pushed as `feat/difficulty-ladder-v2`, and merged via PR #105 — no
+  content lost.
+- **Verified:** `tsc --noEmit` clean, full suite green (400+ tests, 28 directly on this), `lint` +
+  `lint:tokens` clean, and separately live-verified against prod: `/feed` renders 200 with real
+  content, the `difficultyScore` raw-SQL query executes without error, no console/server errors.
