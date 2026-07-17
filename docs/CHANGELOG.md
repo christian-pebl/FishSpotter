@@ -211,3 +211,139 @@ prod test accounts (created for signed-in captures) were deleted afterward.
     Remaining validation: the Gemini re-score (`npm run score:silhouettes`) needs `GEMINI_API_KEY`
     in `.env.local` (not present in CI/remote) — run it after merge and diff the baseline; targets
     are cod/wrasse >80 and no `bottom-sitter`↔`bottom-other` `confusableWith` flag.
+
+
+## End-to-end audit fixes, 8 of 11 findings (17 Jul 2026)
+
+Working from an 11-finding audit report (compiled 16 Jul 2026, published as a
+Claude artifact). Branch `fix/audit-findings-jul2026`, 9 commits on top of
+`main` at `89112b6`. **Not yet merged** and this branch was never committed
+against the main working checkout, so a fresh session needs to know where it
+actually lives: see the handoff doc, `implementation/2026-07-17/audit-fixes-handoff.md`,
+for the exact path and everything a verification pass should check.
+
+- **Critical: guest to admin privilege escalation, fixed.** `isAdminUser()`
+  (was `isAdminEmail()`) now requires a verified email in addition to the
+  `@pebl-cic.co.uk` domain match. Previously any signed-in guest could
+  `POST /api/guest/claim` with an unclaimed `@pebl-cic.co.uk` address and
+  become a full admin instantly, since guest claim writes `User.email`
+  without proof of ownership and `emailVerified` stays null. Same gap fixed
+  on the private per-user answers view (`/u/[id]`). `src/lib/admin.test.ts`
+  added (8 tests); this was the first test to import `admin.ts`, which
+  surfaced a separate gap (`npm test` needs `NEXTAUTH_SECRET` from
+  `.env.local`, not loaded by a bare `vitest run`), fixed in
+  `vitest.config.ts` via Vite's `loadEnv`.
+- **`DriftingSilhouettes` hydration mismatch, fixed.** `Math.cos`/`Math.sin`
+  are not spec-guaranteed bit-identical across engines, so a returning
+  visitor's server and client could disagree on the last float bit of a
+  computed offset, tripping a hydration warning on every page load. Rounding
+  every computed value to a fixed, coarse precision before stringifying
+  fixes it. Cleared 8 of the Playwright suite's 9 failures (25/34 to 34/34
+  passing); the 9th was an unrelated cold-compile flake, confirmed by
+  rerunning clean.
+- **Copy and accessibility nits, fixed.** The species flash card's "Usually
+  seen at: Not recorded" placeholder (depth data is a live OBIS cache, not
+  always populated) now omits the row instead, matching the pattern
+  `SpeciesComparison` already used. Account deletion redirects to
+  `/?deleted=1` but nothing rendered that confirmation; added
+  `DeletedAccountToast.tsx`. The homepage "How it works" section had three
+  `<h3>` step cards with no `<h2>` before them (skips a level after the hero
+  `<h1>`), the Lighthouse moderate heading order finding; added a visible
+  heading for the section.
+- **2020 dated Algapelago archive clip, investigated, not changed.** The
+  audit flagged one Bideford Bay clip dated January 2020 as worth a sense
+  check against PEBL's Algapelago work (documented elsewhere as starting
+  2025). There are actually **9 such clips**, not one, spanning 22 Jan to 10
+  Feb 2020, all sharing the same site name and exact lat/lon, with time
+  stamps consistent with a real time lapse deployment (09:00:40 /
+  12:00:40 capture times). This reads like genuine early footage under the
+  Algapelago name predating the eDNA programme's 2025 start, not a typo, but
+  Claude does not have the ground truth to say for certain. Needs Christian's
+  call; no data was touched.
+- **Full source listed CSP, fixed.** Replaces the 4 directive, zero risk
+  only policy from the 15 Jul hardening pass with a complete
+  `script-src`/`style-src`/`img-src`/`media-src`/`font-src`/`connect-src`
+  policy. Every host was confirmed empirically (a live DB query for every
+  `SpeciesImage`/`Snippet` URL actually in use, plus reading the Leaflet
+  `tileLayer()` call directly), tested first as `Content-Security-Policy-Report-Only`
+  across every major page with zero violations, then flipped to enforcing
+  and reverified against a real `next build && next start` production
+  server.
+- **Rate limiter shared store, implemented (opt-in).** Added a pluggable
+  Redis backend via `@upstash/redis`, auto-selected when
+  `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` are set, falling back
+  to the existing in-memory behaviour with zero change otherwise (no Upstash
+  account exists yet; provisioning one is an infra step for whoever owns
+  deployment). Fails open on any Redis error. All 6 `checkXRateLimit()`
+  exports are now `async`; all 13 call sites across 9 files updated. Also
+  consolidated 4 duplicated client-IP extraction call sites onto the
+  existing `client-ip.ts` helper, which had zero test coverage before this
+  despite backing every IP-keyed rate limit in the app (11 tests added).
+  Verified live: guest sign-in exercised end to end through the refactored
+  `authorize()` (real session created, then the test row deleted).
+- **`npm audit` cleanup + Next.js major upgrade scoped, not attempted.** Ran
+  `npm audit fix` (non-breaking) plus an isolated `@react-email/components`
+  major bump (confirmed `prismjs`'s vulnerable dependency chain was dead
+  code via grep before touching it; spot-checked by actually rendering
+  `PasswordResetEmail` through the new version and asserting on the real
+  HTML output). Production `npm audit`: 36 to 26 vulnerabilities. The
+  remaining findings all trace back to the Next.js 14 to 16 and NextAuth 4
+  to 5 upgrades, both correctly out of scope for an audit-fixes pass per
+  the report's own call (no reachable RCE/auth bypass, several
+  Vercel-mitigated). Scoped in
+  `implementation/2026-07-17/next-major-upgrade-scope.md`: what actually
+  breaks in this codebase specifically, a recommended sequence, and an
+  effort estimate.
+- **Back/forward cache, fixed.** Root cause: the root layout called
+  `readConsent()` (`next/headers` `cookies()`) unconditionally to compute
+  the cookie banner's initial state. Calling `cookies()` anywhere in that
+  shared tree forces every page in the app into fully dynamic,
+  `Cache-Control: no-store` rendering, which disqualifies every page from
+  the browser's back/forward cache, exactly the audit's "fails on every
+  page" finding. Moving the check to the client restored static/ISR caching
+  for `/`, `/privacy`, `/terms`, `/accessibility`, `/auth/signin`,
+  `/auth/forgot`, and `/species`; `/feed`, `/feed/browse`, `/leaderboard`,
+  `/account`, and `/admin/*` correctly stay dynamic (real per-user
+  personalisation, not a bug). While verifying this, found and fixed a
+  genuine hydration mismatch it exposed: reading `document.cookie` in a
+  `useState` lazy initializer made the server (no cookie access) and a
+  returning client (cookie exists) disagree on the first render, and React
+  left an orphaned, unmanaged DOM node behind rather than reconciling it,
+  so the cookie banner's buttons silently stopped responding to clicks.
+  Fixed via the standard defer-to-a-post-mount-effect pattern; the same
+  latent pattern existed in `VerificationBanner.tsx` and got the identical
+  fix. Also caught and fixed a regression from this session's own copy-nit
+  work: `DeletedAccountToast` had been reading `searchParams` server-side,
+  which silently broke the homepage's own ISR.
+
+Deliberately not pursued this pass (Christian's call, not essential to the
+launch-readiness goal): **homepage image optimisation** and **`/feed`
+main-thread blocking (TBT)**. On TBT specifically: the reported 3.3 to 4.0s
+did not reproduce locally in the same way, and a plausible, well-reasoned
+fix (video `poster` was loading eagerly for all ~73 off-screen feed cards,
+since `<video poster>` has no equivalent of `<img loading="lazy">`) produced
+a confusing, inconclusive before/after Lighthouse comparison, likely because
+another concurrent session's dev server was competing for CPU on the same
+machine during measurement. The attempted fix was reverted, not shipped;
+`FeedCard.tsx` is unchanged from `main`.
+
+**Operational note:** partway through this session, the shared main working
+directory (`C:\Users\Christian Abulhawa\FishSpotter`) was switched to a
+different branch (`feat/difficulty-ladder`) by another concurrent Claude Code
+session, without this session's knowledge. One commit briefly landed there
+by mistake; it was recovered via `git cherry-pick` into an isolated worktree
+at `C:\Users\Christian Abulhawa\FishSpotter-recovery-tmp` (checked out to
+`fix/audit-findings-jul2026`), which is where the rest of this work happened
+and where the branch currently lives. `feat/difficulty-ladder` was left
+untouched since it is not this session's branch to rewrite, but it still has
+that one stray commit sitting on top of its own work and will want cleanup
+(for example `git branch -f feat/difficulty-ladder <their-last-real-commit>`)
+by whoever owns that branch.
+
+Every commit above verified: `tsc` clean, vitest green (394 to 400 tests
+depending on the commit), `next lint` clean, and a real `next build && next
+start` production server reverified after the CSP, back/forward cache, and
+dependency changes specifically (not just `next dev`). Playwright 34/34.
+Not yet merged to `main`, and Lighthouse has not been rerun as a full,
+low-noise, final pass, both intentionally handed to the next session; see
+the handoff doc for the exact checklist.
