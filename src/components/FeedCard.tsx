@@ -1778,6 +1778,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       return (
                         <Link
                           href={`/farms/${farm.slug}`}
+                          // No prefetch: the farm profile runs DB queries on
+                          // render, and this is a deliberate low-frequency click,
+                          // not a hot path. Prefetching it on every reveal would
+                          // needlessly render the profile (and leak any of its
+                          // render issues into the core feed loop).
+                          prefetch={false}
                           className="mt-3 flex items-center gap-3 rounded-modal border border-teal-500/25 bg-teal-500/10 p-2.5 transition-colors hover:bg-teal-500/15"
                         >
                           {farm.media?.hero && (
