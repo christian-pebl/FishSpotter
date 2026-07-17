@@ -211,3 +211,20 @@ prod test accounts (created for signed-in captures) were deleted afterward.
     Remaining validation: the Gemini re-score (`npm run score:silhouettes`) needs `GEMINI_API_KEY`
     in `.env.local` (not present in CI/remote) — run it after merge and diff the baseline; targets
     are cod/wrasse >80 and no `bottom-sitter`↔`bottom-other` `confusableWith` flag.
+
+## Spot It close/reopen loop fix (17 Jul 2026)
+
+- **Fixed:** pressing Close (X) on any "Spot It" gate (the shape picker, the
+  body-shape picker, or the species photo grid) left the floating
+  Identify/Where-is-this?/Skip action panel visible underneath — `panelCollapsed`
+  was never reset on close, so dismissing the gate surfaced a second, unlabelled
+  box instead of returning to a clean clip, and there was no obvious way back
+  in. `src/components/FeedCard.tsx`'s three gate `onClose` handlers now also
+  call `togglePanel(true)` — the same call the panel's own Hide button already
+  makes — so Close always lands on a bare clip with the tap-to-identify catcher
+  as the one consistent way back in: open → close → tap → open now loops
+  indefinitely instead of stranding the user.
+- Verified: `tsc` clean, full test suite green, `lint` clean, and the actual
+  loop driven end-to-end twice in a live preview browser (opened the shape
+  gate, closed it, confirmed zero visible floating panel with the tap catcher
+  restored, tapped, confirmed the gate reopened).
