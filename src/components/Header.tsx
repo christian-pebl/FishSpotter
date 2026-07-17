@@ -44,7 +44,7 @@ export function Header() {
               aria-expanded={menuOpen}
               className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full ${
                 onFeed
-                  ? "text-white/90 hover:bg-white/10"
+                  ? "text-white hover:bg-white/10"
                   : "text-[color:var(--foreground)] hover:bg-[color:var(--surface-muted)]"
               }`}
               style={onFeed ? { textShadow: overlayTextShadow } : undefined}
@@ -77,16 +77,26 @@ export function Header() {
               href="/"
               aria-label="PEBL"
               className={`pointer-events-auto -mr-1 inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-full px-1 ${
-                onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
+                onFeed ? "text-white hover:bg-white/10" : "text-teal-600 hover:bg-[color:var(--surface-muted)]"
               }`}
               style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/branding/PEBL Logo-1.svg"
-                alt=""
+              {/* PEBL wordmark recoloured via CSS mask so it inherits the exact
+                  same colour + drop shadow as the FishSpotter wordmark (white on
+                  the feed overlay, teal off-feed) instead of a faint grey image. */}
+              <span
                 aria-hidden
-                className="h-4 w-auto opacity-30"
+                className="block h-4 w-12 bg-current"
+                style={{
+                  WebkitMaskImage: "url('/branding/PEBL Logo-1.svg')",
+                  maskImage: "url('/branding/PEBL Logo-1.svg')",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskPosition: "center",
+                  maskPosition: "center",
+                  WebkitMaskSize: "contain",
+                  maskSize: "contain",
+                }}
               />
             </Link>
             <PebbleBag onFeed={onFeed} />
