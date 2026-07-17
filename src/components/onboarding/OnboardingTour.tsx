@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useModalFocus } from "@/lib/useModalFocus";
+import { TourPreview } from "./TourPreview";
 
 const STEPS = [
   {
@@ -75,8 +76,12 @@ export function OnboardingTour({ needsTour }: Props) {
         <p className="sr-only" aria-live="polite">
           Step {step + 1} of {STEPS.length}
         </p>
-        <p className="pebl-eyebrow">{slide.eyebrow}</p>
-        <h2 className="mt-3 font-brand text-h2 text-navy-900">{slide.title}</h2>
+        {/* Live preview: the exact card the user will see, playing itself
+            through one real identification (watch -> tap -> pick -> lock),
+            then settling into the reveal/streak state for steps 2 and 3. */}
+        <TourPreview step={step as 0 | 1 | 2} />
+        <p className="pebl-eyebrow mt-4">{slide.eyebrow}</p>
+        <h2 className="mt-2 font-brand text-h2 text-navy-900">{slide.title}</h2>
         <p className="mt-3 text-sm leading-6 text-navy-900/72">{slide.body}</p>
         <div className="mt-6 flex items-center justify-between">
           <div className="flex items-center gap-1.5" aria-hidden>
