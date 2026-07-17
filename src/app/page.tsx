@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
+import { DeletedAccountToast } from "@/components/DeletedAccountToast";
 import { HeroPreview } from "@/components/landing/HeroPreview";
 import { StatsBand } from "@/components/landing/StatsBand";
 import { StepCards } from "@/components/landing/StepCards";
@@ -32,7 +33,12 @@ const COMMON_NAMES = Object.values(TRAITS)
 const HERO_CLIP_EXTERNAL_ID =
   "KEL33_2026-04-23_08-01_velvetcrab_track_manual_0-696_20260629_112902";
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const justDeleted = (await searchParams).deleted === "1";
   const [pinnedHero, featuredCandidates, clips, idsMade, photoRows] = await Promise.all([
     prisma.snippet.findUnique({
       where: { externalId: HERO_CLIP_EXTERNAL_ID },
@@ -87,6 +93,7 @@ export default async function HomePage() {
 
   return (
     <MarineBackdrop>
+    <DeletedAccountToast show={justDeleted} />
     <div className="flex-1 overflow-y-auto">
       <main
         id="main"
@@ -161,8 +168,14 @@ export default async function HomePage() {
         </section>
 
         {/* How it works */}
-        <section aria-label="How it works">
-          <StepCards />
+        <section aria-labelledby="how-it-works-heading">
+          <p className="pebl-eyebrow text-xs">How it works</p>
+          <h2 id="how-it-works-heading" className="mt-2 text-2xl font-bold text-navy-900">
+            Three clips a day keeps the streak alive
+          </h2>
+          <div className="mt-4">
+            <StepCards />
+          </div>
         </section>
 
         {/* Species showcase */}
