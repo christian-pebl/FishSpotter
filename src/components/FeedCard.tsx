@@ -1893,7 +1893,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSelectShape activates the candidate strip — with a shape, or null
           ("Not sure" → strip narrows the whole catalogue, never dead-ends).
           onSkip closes the gate to the MCQ fast path ("skip to guess").
-          onClose just dismisses, preserving any in-progress narrow. */}
+          onClose dismisses AND collapses the panel (togglePanel(true), same
+          as the panel's own Hide button) — otherwise panelCollapsed was still
+          false underneath, so the floating Identify/Where-is-this/Skip panel
+          reappeared right after Close, reading as a stray box left behind.
+          Collapsing here leaves a clean clip with the tap-to-identify catcher
+          as the one consistent way back in, so open → close → tap → open
+          loops indefinitely instead of stranding the user. */}
       {shapeGateOpen && (
         <ShapeGate
           onSelectShape={(shape) => {
@@ -1909,7 +1915,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             // "Skip to guess" — reveal the MCQ tile grid as the fallback.
             dispatch({ type: "skipToMcq" });
           }}
-          onClose={() => dispatch({ type: "closeShapeGate" })}
+          onClose={() => {
+            dispatch({ type: "closeShapeGate" });
+            togglePanel(true);
+          }}
         />
       )}
 
@@ -1931,7 +1940,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSkip={() => {
             dispatch({ type: "skipToMcq" });
           }}
-          onClose={() => dispatch({ type: "closeBodyGate" })}
+          onClose={() => {
+            // Same rationale as the Rung-1 ShapeGate's onClose above: collapse
+            // the panel too, or the floating action panel reappears underneath.
+            dispatch({ type: "closeBodyGate" });
+            togglePanel(true);
+          }}
           onBack={goToRung1}
           breadcrumb={[{ label: rungNav.shapeLabel, onClick: goToRung1 }]}
         />
@@ -1949,7 +1963,12 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onPick={(name) =>
             void submitAndAdvance(() => handleSubmit({ answerText: name }))
           }
-          onClose={() => dispatch({ type: "closeCandidates" })}
+          onClose={() => {
+            // Same rationale as the Rung-1 ShapeGate's onClose above: collapse
+            // the panel too, or the floating action panel reappears underneath.
+            dispatch({ type: "closeCandidates" });
+            togglePanel(true);
+          }}
           onBack={rungNav.rung2Applies ? goToRung2 : goToRung1}
           breadcrumb={[
             { label: rungNav.shapeLabel, onClick: goToRung1 },
