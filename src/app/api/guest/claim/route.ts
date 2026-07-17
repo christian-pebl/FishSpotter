@@ -55,7 +55,7 @@ export async function POST(req: Request) {
   const email = parsed.email.trim().toLowerCase();
 
   const ip = clientIpKey(req);
-  if (!checkAuthRateLimit(`claim:${ip}`)) {
+  if (!(await checkAuthRateLimit(`claim:${ip}`))) {
     return NextResponse.json(
       { error: "Too many attempts. Try again in 15 minutes." },
       { status: 429 },

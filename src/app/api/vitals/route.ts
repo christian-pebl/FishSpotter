@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
   // Secondary cap for browser-originated floods. Over-limit drops silently to
   // 204 (write skipped) so the beacon never blocks or errors the client.
-  if (!checkVitalsRateLimit(clientIpKey(req))) {
+  if (!(await checkVitalsRateLimit(clientIpKey(req)))) {
     return new NextResponse(null, { status: 204 });
   }
 

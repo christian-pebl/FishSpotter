@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
         // spotter's answers persist and they appear on the leaderboard at once.
         // They "claim" it later by adding a real email (POST /api/guest/claim).
         if (credentials?.guest === "true") {
-          if (!checkAuthRateLimit(`guest:${clientIp}`)) return null;
+          if (!(await checkAuthRateLimit(`guest:${clientIp}`))) return null;
           const rawName = (credentials.name ?? "").trim().slice(0, 32);
           const cleanName = rawName.replace(/[^\p{L}\p{N}\s._-]/gu, "").trim();
           const displayName =
@@ -91,7 +91,7 @@ export const authOptions: NextAuthOptions = {
         if (credentials.password.length < MIN_PASSWORD) return null;
 
         const email = credentials.email.trim().toLowerCase();
-        if (!checkAuthRateLimit(`${clientIp}:${email}`)) return null;
+        if (!(await checkAuthRateLimit(`${clientIp}:${email}`))) return null;
 
         let user = await prisma.user.findUnique({ where: { email } });
 
@@ -100,7 +100,7 @@ export const authOptions: NextAuthOptions = {
           // ICO Children's Code: block under-13 signups outright. The
           // self-declared band is the only age data we ever store.
           if (credentials.ageBracket === "under_13") return null;
-          if (!checkAuthRateLimit(`signup:${clientIp}`)) return null;
+          if (!(await checkAuthRateLimit(`signup:${clientIp}`))) return null;
           const isMinor = credentials.ageBracket === "13_17";
           const rawName = (credentials.name ?? "").trim().slice(0, 32);
           const cleanName = rawName.replace(/[^\p{L}\p{N}\s._-]/gu, "");

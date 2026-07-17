@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Bad origin" }, { status: 403 });
   }
 
-  if (!checkPreviewRateLimit(clientIpKey(req))) {
+  if (!(await checkPreviewRateLimit(clientIpKey(req)))) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 

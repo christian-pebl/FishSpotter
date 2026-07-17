@@ -271,6 +271,33 @@ are the standard for new and touched code, so the drift narrows over time:
   and `teal-600` are the same hex; don't add new parallel definitions of a
   colour; extend the Tailwind palette and reference it.
 
+## Rate limiting
+
+`src/lib/rate-limit.ts` backs every IP/user-keyed limit in the app (auth,
+guest claim, answer submission, idguide chat, events, vitals, preview).
+Two backends, auto-selected at module load:
+
+- **In-memory (default, no env vars set).** A single process-local `Map`.
+  Correct for a single instance, but on Vercel every warm serverless
+  instance keeps its own counters, so the effective limit loosens by
+  however many instances are warm at once (2026-07-16 audit finding 3.2/6).
+- **Redis (Upstash), when `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`
+  are set.** One shared counter regardless of instance count. Uses
+  `@upstash/redis`'s REST client (works over HTTP, no persistent connection
+  needed — the right shape for serverless) with a fixed-window `INCR` +
+  one-time `EXPIRE` per key. Fails OPEN on any Redis error (allows the
+  request rather than blocking everyone if Upstash has an outage) — a rate
+  limiter's job is abuse resistance, not core auth.
+
+All six `checkXRateLimit()` exports are `async` (the Redis path is a real
+network call) — every call site already awaits them from inside an async
+route handler or NextAuth's `authorize()`. To actually enable the shared
+store, provision an Upstash Redis database (small free tier is enough for
+this app's volume) and set the two env vars above in Vercel; no code
+change needed. Client-IP extraction (`x-forwarded-for` first entry,
+`x-real-ip` fallback) lives in `src/lib/client-ip.ts` — every rate-limited
+route imports it rather than re-parsing headers itself.
+
 ## Database
 
 Run scripts with: `npx tsx --env-file=.env.local scripts/<script>.ts`
@@ -548,6 +575,10 @@ GEMINI_API_KEY=...                # image-quality / vision tool (gemini-vision.t
 GEMINI_MODEL=gemini-3.5-flash     # optional override (default gemini-3.5-flash)
 SENDGRID_API_KEY=...              # transactional email (src/lib/email/client.ts) — replaced Resend
 CRON_SECRET=...                   # required in production for /api/cron/*
+
+# Rate limiter shared store (optional — see "Rate limiting" section below)
+UPSTASH_REDIS_REST_URL=...        # both unset -> falls back to in-memory (per-instance) limiting
+UPSTASH_REDIS_REST_TOKEN=...
 
 # Storage provider (see "Storage provider" section above)
 STORAGE_PROVIDER=supabase         # "r2" or "supabase" (default)

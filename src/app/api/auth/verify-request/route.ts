@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  if (!checkAuthRateLimit(`verify-resend:${session.user.id}`)) {
+  if (!(await checkAuthRateLimit(`verify-resend:${session.user.id}`))) {
     return NextResponse.json({ error: "Too many attempts. Try again later." }, { status: 429 });
   }
 
