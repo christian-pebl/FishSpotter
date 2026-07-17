@@ -9,6 +9,7 @@ import { MapModal } from "./MapModal";
 import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
 import { StaffScientificResolver } from "./StaffScientificResolver";
 import { IdGuideTrigger } from "./IdGuideTrigger";
+import { resolveFarmByDeployment } from "@/lib/farms/catalogue";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
@@ -1768,6 +1769,46 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </Link>
                       </div>
                     )}
+                    {(() => {
+                      const farm = resolveFarmByDeployment(snippet.deployment);
+                      if (!farm) return null;
+                      // A small visual bridge from the clip to the farm whose kelp
+                      // it was filmed under. Sits on the reveal (post-guess) so it
+                      // never interrupts spotting; the in-flow route to /farms.
+                      return (
+                        <Link
+                          href={`/farms/${farm.slug}`}
+                          // No prefetch: the farm profile runs DB queries on
+                          // render, and this is a deliberate low-frequency click,
+                          // not a hot path. Prefetching it on every reveal would
+                          // needlessly render the profile (and leak any of its
+                          // render issues into the core feed loop).
+                          prefetch={false}
+                          className="mt-3 flex items-center gap-3 rounded-modal border border-teal-500/25 bg-teal-500/10 p-2.5 transition-colors hover:bg-teal-500/15"
+                        >
+                          {farm.media?.hero && (
+                            /* eslint-disable-next-line @next/next/no-img-element -- local static asset */
+                            <img
+                              src={farm.media.hero.src}
+                              alt=""
+                              loading="lazy"
+                              className="h-11 w-11 shrink-0 rounded-modal object-cover"
+                            />
+                          )}
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-xs font-semibold text-teal-50">
+                              Filmed at {farm.name}
+                            </span>
+                            <span className="block truncate text-[11px] text-white/60">
+                              See the seaweed farm behind this clip
+                            </span>
+                          </span>
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">
+                            <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </Link>
+                      );
+                    })()}
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}

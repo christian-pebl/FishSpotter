@@ -1,0 +1,320 @@
+{
+  "algapelago": {
+    "slug": "algapelago",
+    "name": "Algapelago",
+    "legalName": "Algapelago Marine Ltd",
+    "location": {
+      "place": "Bideford Bay, North Devon, England",
+      "country": "England"
+    },
+    "deploymentNames": ["Algapelago"],
+    "founded": {
+      "year": 2021,
+      "story": "Founded by cousins Olly Hicks, a three-time world-record ocean adventurer and conservationist, and Humphrey Atkinson, a product developer with a background at the bioplastics company Notpla. A pilot farm went into the water in December 2022, and the site now holds the UK's largest kelp licence at around 120 hectares, four miles offshore."
+    },
+    "people": [
+      { "name": "Olly Hicks", "role": "Co-founder" },
+      { "name": "Humphrey Atkinson", "role": "Co-founder" },
+      {
+        "name": "Luke Ansell",
+        "role": "Head of Operations & Research",
+        "quote": "We convert seaweed into biostimulants for agriculture: a concentrated seaweed extract that supports crop health and improves resilience to stress.",
+        "quoteSource": "interview"
+      }
+    ],
+    "mission": "Rewilding our oceans to provide sustainable products for regenerative agriculture and beyond.",
+    "whyItMatters": "Algapelago converts harvested kelp into a biostimulant: mechanically chopped seaweed reduced to a smooth, stabilised slurry that farmers spray on their fields. Early glasshouse trials have shown yield benefits of up to 50% in wheat and 40% in barley, plus improved root development and better resilience to stress like drought and heat. The farm is also running a 'Blue Forest' programme to measure what its rope structures do for marine life, and early data already shows juvenile fish sheltering and feeding around the farm's 3D structures on the seabed. PEBL's own underwater monitoring here has recorded around 50 benthic species living among the kelp lines and regular harbour porpoise activity, made possible in part by National Lottery Climate Action Fund support for more monitoring cameras and a proper farm-versus-control comparison.",
+    "scale": "Around 120 hectares, four miles offshore: the UK's largest licensed kelp farm",
+    "tags": ["lead-farm", "biostimulants", "bioplastics-pedigree", "imta"],
+    "products": ["Sugar kelp", "Oarweed", "Farm biostimulants (launching 2026)", "Feed additives (in development)"],
+    "website": "https://www.algapelago.com/",
+    "social": {
+      "instagram": "https://www.instagram.com/algapelago/",
+      "linkedin": "https://www.linkedin.com/company/algapelago-marine"
+    },
+    "interview": {
+      "personName": "Luke Ansell",
+      "soundbites": [
+        "We convert seaweed into biostimulants for agriculture: a concentrated seaweed extract that supports crop health and improves resilience to stress.",
+        "We've got this Blue Forest programme that's trying to get good data on what kind of habitat the farm is providing. The data is showing we're providing interesting structure for things to grow on: potentially juvenile fish using it to shelter and feed, and different species using it for food, shelter or even hunting."
+      ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/algapelago/hero.webp",
+        "alt": "Algapelago's workboat DORIS and its crew among the farm's surface buoys off North Devon",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/algapelago/g1.webp", "alt": "Aerial of the rugged North Devon coast, a workboat leaving a wake out to sea", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g2.webp", "alt": "Rows of labelled seaweed cultures growing in the hatchery", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g3.webp", "alt": "Freshly harvested kelp fronds, close up", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g4.webp", "alt": "A crew member sampling the water with a scientific probe on deck", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g5.webp", "alt": "Two Algapelago crew on the beach, their workboat moored behind", "orientation": "landscape" }
+      ]
+    }
+  },
+  "atlantic-mariculture": {
+    "slug": "atlantic-mariculture",
+    "name": "Atlantic Mariculture",
+    "legalName": "Atlantic Mariculture Ltd",
+    "location": {
+      "place": "Loch Sunart, Western Highlands, Scotland",
+      "country": "Scotland"
+    },
+    "deploymentNames": ["Atlantic Mariculture"],
+    "founded": {
+      "year": 2018,
+      "story": "Founded as GreenSea Solutions by Amabel and Douglas Hamilton, and based at Ardtoe Marine Laboratory on Scotland's west coast. Its East Oronsay site in Loch Sunart is often described as the UK's most productive seaweed farm, and the company has since helped install a similar rig system at Algapelago's Devon farm."
+    },
+    "people": [
+      {
+        "name": "Dr Adrian Macleod",
+        "role": "Innovation Manager",
+        "quote": "There's a real risk that if we rely on harvesting from the sea, being hunter-gatherers of the sea and not farmers of the sea, we will run out of the seaweed biomass we need.",
+        "quoteSource": "interview"
+      }
+    ],
+    "mission": "From sea to soil.",
+    "whyItMatters": "Atlantic Mariculture sells its kelp harvest as a biostimulant under the brand Tangled Greens: a cold-pressed liquid extract, Soil Association approved for organic growers, that changes how a plant uses nutrients and helps it resist drought and other stress. Most biostimulant seaweed today is still wild-harvested, and Innovation Manager Adrian Macleod points out the risk in that: warming seas, including in Nova Scotia where much of the industry's raw material comes from, could shrink those wild populations. Farming seaweed on ropes, rather than gathering it from the wild, is Atlantic Mariculture's answer. Trials run with the James Hutton Institute have shown yield gains of up to 30% under reduced-fertiliser regimes. National Lottery Climate Action Fund support pays for cameras under the farm and at control sites nearby, giving PEBL's monitoring the statistical power to show, across several farms at once, what a seaweed farm actually does to the seabed beneath it.",
+    "scale": "15 hectares at East Oronsay, roughly 90 to 100 tonnes of kelp a year",
+    "tags": ["biostimulants"],
+    "products": ["Liquid Kelp (Tangled Greens biostimulant)", "Tree Tonic", "Seaweed biomass", "Oysters"],
+    "website": "https://www.atlanticmariculture.co.uk/",
+    "social": {
+      "linkedin": "https://uk.linkedin.com/company/atlanticmariculture",
+      "instagram": "https://www.instagram.com/atlanticmaricultureltd/"
+    },
+    "interview": {
+      "personName": "Dr Adrian Macleod",
+      "soundbites": [
+        "There's a real risk that if we rely on harvesting from the sea, being hunter-gatherers of the sea and not farmers of the sea, we will run out of the seaweed biomass we need. One of the areas we get a lot of biomass from is Nova Scotia, and that's one of the fastest-warming areas.",
+        "In Loch Sunart it's an incredibly biodiverse location. The last time I was at the farm we had whales, we've had dolphins come through, and we routinely see a lot of feeding activity with marine birds."
+      ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/atlantic-mariculture/hero.webp",
+        "alt": "Aerial of two Atlantic Mariculture workboats moving among the red buoy lines of the seaweed farm in Loch Sunart",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/atlantic-mariculture/g1.webp", "alt": "The farm's buoy grid across a Highland sea loch, mountains behind", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g2.webp", "alt": "Freshly harvested golden sugar kelp piled on the boat deck", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g3.webp", "alt": "A worker in red waterproofs holding up a length of harvested kelp", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g4.webp", "alt": "Staff working among the round culture tanks at the Ardtoe hatchery", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g5.webp", "alt": "Stacked totes of Liquid Kelp biostimulant ready to ship", "orientation": "landscape" }
+      ],
+      "video": { "provider": "vimeo", "id": "825379825", "title": "Atlantic Mariculture" }
+    }
+  },
+  "kelp-crofters": {
+    "slug": "kelp-crofters",
+    "name": "Kelp Crofters",
+    "location": {
+      "place": "Pabay, Inner Sound, Isle of Skye, Scotland",
+      "country": "Scotland"
+    },
+    "deploymentNames": ["Kelp Crofters"],
+    "founded": {
+      "year": 2020,
+      "story": "Founded by Martin Welch, Dr Kyla Orr and Alex Glasgow, three friends local to Skye and Lochalsh with backgrounds spanning fishing, marine science and landscape architecture. Martin patented KelpRing, a seeding system, after noticing kelp naturally colonising his own fishing gear; the farm now runs its own hatchery in clear, high-status loch water."
+    },
+    "people": [
+      {
+        "name": "Martin Welch",
+        "role": "Co-founder",
+        "quote": "We're all like-minded people with an active interest in where we live and want to make a positive contribution to our environmental future and rural economy.",
+        "quoteSource": "press"
+      },
+      {
+        "name": "Dr Kyla Orr",
+        "role": "Co-founder",
+        "quote": "We are passionate about minimising our environmental impact, from production through to delivery, and we are striving to use recyclable packaging, low-energy processing technology and upcycled waste materials wherever possible.",
+        "quoteSource": "website"
+      },
+      { "name": "Alex Glasgow", "role": "Co-founder" }
+    ],
+    "mission": "Redefining the way we use our seas and land.",
+    "whyItMatters": "Kelp Crofters turns its harvest into biostimulants and soil improvers, drawing on the antioxidants, alginates and natural growth hormones in kelp. Trials have recorded yield improvements of eight to ten per cent in barley and potatoes. One founder, a former ice-climbing guide, has watched Scotland's mountain snow cover shrink over thirty years and sees the same climate pressure showing up as drought and flood on the farms they now supply: the biostimulant, they say, gives crops some resilience against both. True to the farm's name, the founders argue for a network of small, croft-scale kelp farms rather than a few industrial ones, carrying the Highland crofting tradition of stewarding land and sea together into the water.",
+    "tags": ["crofting", "biostimulants", "hatchery"],
+    "products": ["Liquid seaweed biostimulant", "Kelp meal", "Sugar kelp", "Winged kelp (food-grade)"],
+    "website": "https://kelpcrofters.com/",
+    "social": {
+      "instagram": "https://www.instagram.com/kelpcrofters/",
+      "facebook": "https://www.facebook.com/100091247044753"
+    },
+    "interview": {
+      "personName": "Martin Welch",
+      "soundbites": [
+        "All the small stuff in the sea lives in the kelp forest, that's where they go and survive. The fact that we're growing kelp, it just creates a habitat for other species. We're pretty sure the impact is positive, but this project is what's actually going to let us find out.",
+        "I used to be an ice climber, guiding in the winter mountains for thirty years, and there's been an awful change in Scotland's winter mountains. Before, snow cover was there from December through to April; now there's not that much snow at all. With the sea it's less obvious, because you can't see what's happening down there. But turning seaweed into a liquid biostimulant for the farm brings it all back round to the land."
+      ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/kelp-crofters/hero.webp",
+        "alt": "Kelp Crofters crew in oilskins hauling dripping ropes of cultivated kelp aboard the boat off Skye",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/kelp-crofters/g1.webp", "alt": "The full crew hauling harvested kelp aboard the vessel", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g2.webp", "alt": "A dense curtain of golden sugar kelp lifted on the grow-line", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g3.webp", "alt": "A rope of cultivated kelp hauled from a mirror-calm loch", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g4.webp", "alt": "The work boat Ailsa moored, a crew member on deck", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g5.webp", "alt": "The Ailsa on the sea loch beneath the Red Cuillins of Skye", "orientation": "landscape" }
+      ]
+    }
+  },
+  "car-y-mor": {
+    "slug": "car-y-mor",
+    "name": "Câr-y-Môr",
+    "location": {
+      "place": "St Justinian, St Davids Peninsula, Pembrokeshire, Wales",
+      "country": "Wales"
+    },
+    "deploymentNames": [],
+    "founded": {
+      "year": 2019,
+      "story": "Founded by Owen Haines, a third-generation fish farmer, together with his family, after growing frustrated with the chemicals and waste of conventional fish farming. Câr-y-Môr means 'for the love of the sea' in Welsh, and the farm became Wales' first community-owned regenerative ocean farm, registered as a Community Benefit Society in August 2019."
+    },
+    "people": [
+      {
+        "name": "Beth Marshall",
+        "role": "Marine Biologist",
+        "quote": "It's important to use seaweed biostimulant because it helps farmers reduce their reliance on synthetic fertilisers.",
+        "quoteSource": "interview"
+      }
+    ],
+    "mission": "Regenerating the sea, restoring the soil, and putting nutritious Welsh produce back on the table.",
+    "whyItMatters": "Câr-y-Môr grows seaweed and shellfish with no fertiliser, pesticide or added freshwater, then turns part of the harvest into a liquid seaweed biostimulant for land. Co-op Foundation funded trials cut synthetic fertiliser use by 40% while grass yield rose 29%, with further gains recorded on organic potatoes and silage. Profits are reinvested into the community-owned farm rather than paid out to shareholders, so a healthier seabed and healthier soil both feed back into the same 700-plus-member community.",
+    "scale": "3 hectares, a Community Benefit Society with 700+ members",
+    "tags": ["community-owned", "biostimulants"],
+    "products": ["Liquid seaweed biostimulant", "Crab-shell soil amendment", "Laverbread pesto and other seaweed food", "Shellfish"],
+    "website": "https://www.carymor.wales/",
+    "social": {
+      "instagram": "https://www.instagram.com/car_y_mor/"
+    },
+    "interview": {
+      "personName": "Beth Marshall",
+      "soundbites": [
+        "We grow the seaweed on ropes in the sea and it absorbs nutrients from the water, using that to create long blades. We harvest it, bring it onto site, put it into big tanks with water and let it do its thing, and it turns into a liquid. We strain that out and give it to farmers, and they spray it on their fields.",
+        "We make sure we're not damaging anything with our seaweed farming by monitoring with cameras on the seabed, comparing what's living underneath the farms to what's away from them, and seeing if there's an increase in biodiversity."
+      ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/car-y-mor/hero.webp",
+        "alt": "A Câr-y-Môr worker hauling a seaweed line heavy with golden kelp, the Pembrokeshire coast behind",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/car-y-mor/g1.webp", "alt": "The harvest team on the barge, one holding a kelp frond aloft", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g2.webp", "alt": "Volunteers and staff sorting shellfish into trays on the barge deck", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g3.webp", "alt": "Wide view of the ocean farm, the buoy float-line stretched across the sound", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g4.webp", "alt": "A gaff-rigged sailing boat on blue water beside the farm's float-line", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g5.webp", "alt": "A farmer in yellow oilskins hauling a kelp line, fronds hanging in the foreground", "orientation": "portrait" }
+      ],
+      "video": { "provider": "youtube", "id": "UL29ndxcYjg", "title": "For the Love of the Sea" }
+    }
+  },
+  "norfolk-seaweed": {
+    "slug": "norfolk-seaweed",
+    "name": "Norfolk Seaweed",
+    "location": {
+      "place": "Blakeney Point, North Norfolk, England",
+      "country": "England"
+    },
+    "deploymentNames": ["Blakeney Overfalls"],
+    "founded": {
+      "story": "Founded by Willie Athill and Allie Wharf, whose families both farmed oysters and mussels. Athill spent years in the army and then in oil and gas before a spell in Southeast Asian aquaculture drew him back to the Norfolk coast where he grew up. The farm is licensed to grow seaweed across 25 hectares, around two miles offshore from Blakeney Point."
+    },
+    "people": [
+      {
+        "name": "Willie Athill",
+        "role": "Co-founder",
+        "quote": "The seabed in the North Sea has been overused over the last 150 years and it is now a desert. Our belief is that with 50 hectares of seaweed farm being protected, we can turn it back into a wonderland.",
+        "quoteSource": "website"
+      },
+      {
+        "name": "Allie Wharf",
+        "role": "Co-founder",
+        "quote": "It's why we set up Norfolk Seaweed, so we could work in the place we love.",
+        "quoteSource": "website"
+      }
+    ],
+    "mission": "Nature-made products. Nature-led restoration.",
+    "whyItMatters": "Norfolk Seaweed is running a WWF and Co-op Foundation backed trial across 96 barley plots and 48 potato plots at Holkham Estate, testing its seaweed biostimulant against synthetic fertiliser, with retailers including Tesco and the John Lewis Partnership watching the results. The farm also restores native oysters alongside its kelp lines, working with Oyster Heaven on a 'Mother Reef' project aiming for four million oysters off Wells-next-the-Sea by 2026: what would be the UK's largest native oyster reef restoration.",
+    "scale": "25 hectares, around 2 miles offshore from Blakeney Point",
+    "tags": ["biostimulants", "oyster-restoration"],
+    "products": ["Dried sugar kelp (biostimulant and biofertiliser)", "Pacific oysters"],
+    "website": "https://www.norfolkseaweed.com/",
+    "social": {
+      "linkedin": "https://uk.linkedin.com/company/norfolk-seaweed"
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/norfolk-seaweed/hero.webp",
+        "alt": "Willie Athill at the helm of the Norfolk Seaweed workboat, the North Norfolk coast behind",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/norfolk-seaweed/g1.webp", "alt": "Grading a tray of Pacific oysters beside the tidal creek", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g2.webp", "alt": "Holding up two long strands of red seaweed at the water's edge", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g3.webp", "alt": "Sunset over the tidal creeks near Stiffkey", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g4.webp", "alt": "Collecting seaweed samples on the low-tide Norfolk shore", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g5.webp", "alt": "The workboat Morning Flight in a boatyard hoist", "orientation": "portrait" }
+      ],
+      "video": { "provider": "youtube", "id": "ByhlOTNHwHM", "title": "Seaweed in East Anglia" }
+    }
+  },
+  "kaly": {
+    "slug": "kaly",
+    "name": "Kaly",
+    "legalName": "Kaly Group Limited",
+    "location": {
+      "place": "Loch Bay, Waternish Peninsula, Isle of Skye, Scotland",
+      "country": "Scotland"
+    },
+    "deploymentNames": [],
+    "founded": {
+      "year": 2022,
+      "story": "Founded by Bruce Hare and Taco van Heusden after Hare came across seaweed cultivation research from the Scottish Association for Marine Science during lockdown. The idea took shape in conversation with Iain Matheson, a local lobster fisherman who became a co-founder. Kaly's first farm opened in Loch Bay, near Stein, in 2024, and the business is based in a converted Thomas Telford church and manse on Waternish."
+    },
+    "people": [
+      { "name": "Iain Matheson", "role": "Co-founder, lobster fisherman" },
+      {
+        "name": "Daniel Hillman",
+        "role": "Co-founder",
+        "quote": "Kaly's vision is to unlock the full potential of seaweed farming in Scotland, creating a sustainable supply chain that benefits local communities while driving economic and environmental gains.",
+        "quoteSource": "press"
+      }
+    ],
+    "mission": "Grow seaweed, involve local communities, improve our marine environment.",
+    "whyItMatters": "Kaly's business pairs kelp farming with the rhythm of local creel fishing: seaweed in winter, shellfish in summer, so the same boats and crews can work the water year-round. The farm is still young, and most of today's harvest goes out as raw, stabilised biomass to other processors, but biostimulants for agriculture sit on its roadmap alongside cosmetics, animal feed and bioplastics as the farm scales up.",
+    "scale": "Loch Bay, Waternish; first farm opened 2024",
+    "tags": [],
+    "products": ["Stabilised kelp biomass (washed, chopped, frozen or dried)"],
+    "website": "https://kaly.eco/",
+    "social": {
+      "instagram": "https://www.instagram.com/kaly.eco/",
+      "linkedin": "https://uk.linkedin.com/company/kaly-group",
+      "twitter": "https://twitter.com/kaly_eco2022"
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/kaly/hero.webp",
+        "alt": "Loch Bay and the village of Stein on the Waternish peninsula, Isle of Skye",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/kaly/g1.webp", "alt": "Working boats moored at the Loch Bay pier in the evening light", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g2.webp", "alt": "Freshly harvested kelp, close up", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g3.webp", "alt": "Crofting cottages and a single-track road on Skye, the Cuillin range beyond", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g4.webp", "alt": "Aerial of Kaly's base, a converted church and manse on Waternish", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g5.webp", "alt": "Shafts of light breaking through storm cloud over Loch Bay", "orientation": "portrait" }
+      ],
+      "credit": "Photography: Alan Mearns"
+    }
+  }
+}

@@ -59,6 +59,23 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    href: "/farms",
+    label: "The seaweed farms",
+    match: (p) => p.startsWith("/farms"),
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M8 14V6M8 6c0-2 1.4-3.3 3-3.7M8 6c0-2-1.4-3.3-3-3.7M8 9.6c1.2-.3 2-1 2.4-2M8 9.6c-1.2-.3-2-1-2.4-2"
+          stroke="currentColor"
+          strokeWidth="1.3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path d="M3.5 14h9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
     href: "/leaderboard",
     label: "Leaderboard",
     match: (p) => p.startsWith("/leaderboard"),
