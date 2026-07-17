@@ -35,12 +35,22 @@
     "interview": {
       "personName": "Luke Ansell",
       "soundbites": [
-        "I work for Algapelago Marine Ltd, and we are a seaweed and shellfish farming company, farming offshore in Bideford Bay in North Devon.",
         "We convert seaweed into biostimulants for agriculture: a concentrated seaweed extract that supports crop health and improves resilience to stress.",
-        "A biostimulant is effectively mechanically chopped up seaweed. The final product is a smooth, slurry-like mixture, and it smells just like the seaweed that comes off our farm. We only add a few things to stabilise it, so it really is just our seaweed in liquid form.",
-        "We've had some really exciting results in cereals to start: yield benefits of up to 50% in wheat and up to 40% in barley in early glasshouse trials, plus improved root development and a better response to stress like drought and heat.",
-        "We've got this Blue Forest programme that's trying to get good data on what kind of habitat the farm is providing. The data is showing we're providing interesting structure for things to grow on: potentially juvenile fish using it to shelter and feed, and different species using it for food, shelter or even hunting.",
-        "The National Lottery Climate Action Fund has been important in supporting this work because it's enabled us to increase the number of monitoring cameras we're using on site, and that allows much more powerful analysis of the data."
+        "We've got this Blue Forest programme that's trying to get good data on what kind of habitat the farm is providing. The data is showing we're providing interesting structure for things to grow on: potentially juvenile fish using it to shelter and feed, and different species using it for food, shelter or even hunting."
+      ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/algapelago/hero.webp",
+        "alt": "Algapelago's workboat DORIS and its crew among the farm's surface buoys off North Devon",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/algapelago/g1.webp", "alt": "Aerial of the rugged North Devon coast, a workboat leaving a wake out to sea", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g2.webp", "alt": "Rows of labelled seaweed cultures growing in the hatchery", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g3.webp", "alt": "Freshly harvested kelp fronds, close up", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g4.webp", "alt": "A crew member sampling the water with a scientific probe on deck", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g5.webp", "alt": "Two Algapelago crew on the beach, their workboat moored behind", "orientation": "landscape" }
       ]
     }
   },
@@ -78,13 +88,24 @@
     "interview": {
       "personName": "Dr Adrian Macleod",
       "soundbites": [
-        "I'm the Innovation Manager for Atlantic Mariculture. We're a seaweed biostimulant manufacturer, and we're cultivating seaweed as opposed to harvesting it from the wild.",
-        "Biostimulants are extracts from seaweed that change the physiology of the plant, allowing it to use more of the nutrients available, and support it to resist drought or other stresses.",
         "There's a real risk that if we rely on harvesting from the sea, being hunter-gatherers of the sea and not farmers of the sea, we will run out of the seaweed biomass we need. One of the areas we get a lot of biomass from is Nova Scotia, and that's one of the fastest-warming areas.",
-        "This funding from the National Lottery is going to support us to deploy cameras underneath the farm and adjacent to it at control locations, and to do the same survey at multiple farms, which gives us the statistical power to really understand the changes associated with this activity.",
-        "In Loch Sunart it's an incredibly biodiverse location. The last time I was at the farm we had whales, we've had dolphins come through, and we routinely see a lot of feeding activity with marine birds.",
-        "Our social licence to operate is everything we are at the moment. We're working with local fishermen, local trades people and local communities, so people understand who we are and what we're trying to achieve."
+        "In Loch Sunart it's an incredibly biodiverse location. The last time I was at the farm we had whales, we've had dolphins come through, and we routinely see a lot of feeding activity with marine birds."
       ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/atlantic-mariculture/hero.webp",
+        "alt": "Aerial of two Atlantic Mariculture workboats moving among the red buoy lines of the seaweed farm in Loch Sunart",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/atlantic-mariculture/g1.webp", "alt": "The farm's buoy grid across a Highland sea loch, mountains behind", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g2.webp", "alt": "Freshly harvested golden sugar kelp piled on the boat deck", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g3.webp", "alt": "A worker in red waterproofs holding up a length of harvested kelp", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g4.webp", "alt": "Staff working among the round culture tanks at the Ardtoe hatchery", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g5.webp", "alt": "Stacked totes of Liquid Kelp biostimulant ready to ship", "orientation": "landscape" }
+      ],
+      "video": { "provider": "vimeo", "id": "825379825", "title": "Atlantic Mariculture" }
     }
   },
   "kelp-crofters": {
@@ -124,14 +145,24 @@
       "facebook": "https://www.facebook.com/100091247044753"
     },
     "interview": {
-      "personName": "Alex Glasgow and Martin Welch",
+      "personName": "Martin Welch",
       "soundbites": [
-        "We run Kelp Crofters, a seaweed farm on Skye. We've tried all sorts of ways to make it work financially, and after a few years of trialling we've gone down the line of creating a biostimulant with the seaweed.",
-        "We process the seaweed into a liquid that farmers spray on their crops: barley, potatoes, carrots, could be anything. We had about eight to ten percent improvement in yields in trials.",
         "All the small stuff in the sea lives in the kelp forest, that's where they go and survive. The fact that we're growing kelp, it just creates a habitat for other species. We're pretty sure the impact is positive, but this project is what's actually going to let us find out.",
-        "Over the four or five years we've been farming there, there's an awful lot of scallop and mussel spat growing on the ropes. The capacity for life to cling onto something you put in the sea is incredible, and that's all food for the ecosystem below.",
-        "Climate change to me: I used to be an ice climber, guiding in the winter mountains for thirty years, and there's been an awful change in Scotland's winter mountains. Before, snow cover was there from December through to April; now there's not that much snow at all. That's a real visual telltale that the climate is changing. With the sea it's less obvious, because you can't see what's happening down there. But turning seaweed into a liquid biostimulant for the farm brings it all back round to the land. Farmers across the UK are struggling with crazy weather, one year drought, the next year flooded, and what we've found in the research is that the biostimulant gives the crop some resilience against those stresses.",
-        "There's no chemicals involved, it's just seaweed that grows naturally. We put ropes in with seed in October, and come May we're harvesting, without any other real input."
+        "I used to be an ice climber, guiding in the winter mountains for thirty years, and there's been an awful change in Scotland's winter mountains. Before, snow cover was there from December through to April; now there's not that much snow at all. With the sea it's less obvious, because you can't see what's happening down there. But turning seaweed into a liquid biostimulant for the farm brings it all back round to the land."
+      ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/kelp-crofters/hero.webp",
+        "alt": "Kelp Crofters crew in oilskins hauling dripping ropes of cultivated kelp aboard the boat off Skye",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/kelp-crofters/g1.webp", "alt": "The full crew hauling harvested kelp aboard the vessel", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g2.webp", "alt": "A dense curtain of golden sugar kelp lifted on the grow-line", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g3.webp", "alt": "A rope of cultivated kelp hauled from a mirror-calm loch", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g4.webp", "alt": "The work boat Ailsa moored, a crew member on deck", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g5.webp", "alt": "The Ailsa on the sea loch beneath the Red Cuillins of Skye", "orientation": "landscape" }
       ]
     }
   },
@@ -167,12 +198,24 @@
     "interview": {
       "personName": "Beth Marshall",
       "soundbites": [
-        "My role at Câr-y-Môr is the marine biologist. I work out on the farm growing seaweed and shellfish, and on land doing the land-based tanks.",
         "We grow the seaweed on ropes in the sea and it absorbs nutrients from the water, using that to create long blades. We harvest it, bring it onto site, put it into big tanks with water and let it do its thing, and it turns into a liquid. We strain that out and give it to farmers, and they spray it on their fields.",
-        "It's important to use seaweed biostimulant because it helps farmers reduce their reliance on synthetic fertilisers.",
-        "We make sure we're not damaging anything with our seaweed farming by monitoring with cameras on the seabed, comparing what's living underneath the farms to what's away from them, and seeing if there's an increase in biodiversity.",
-        "The National Lottery Climate Action Fund supports us by allowing us to spend money on the cameras to look into the seaweed farms."
+        "We make sure we're not damaging anything with our seaweed farming by monitoring with cameras on the seabed, comparing what's living underneath the farms to what's away from them, and seeing if there's an increase in biodiversity."
       ]
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/car-y-mor/hero.webp",
+        "alt": "A Câr-y-Môr worker hauling a seaweed line heavy with golden kelp, the Pembrokeshire coast behind",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/car-y-mor/g1.webp", "alt": "The harvest team on the barge, one holding a kelp frond aloft", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g2.webp", "alt": "Volunteers and staff sorting shellfish into trays on the barge deck", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g3.webp", "alt": "Wide view of the ocean farm, the buoy float-line stretched across the sound", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g4.webp", "alt": "A gaff-rigged sailing boat on blue water beside the farm's float-line", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g5.webp", "alt": "A farmer in yellow oilskins hauling a kelp line, fronds hanging in the foreground", "orientation": "portrait" }
+      ],
+      "video": { "provider": "youtube", "id": "UL29ndxcYjg", "title": "For the Love of the Sea" }
     }
   },
   "norfolk-seaweed": {
@@ -208,6 +251,21 @@
     "website": "https://www.norfolkseaweed.com/",
     "social": {
       "linkedin": "https://uk.linkedin.com/company/norfolk-seaweed"
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/norfolk-seaweed/hero.webp",
+        "alt": "Willie Athill at the helm of the Norfolk Seaweed workboat, the North Norfolk coast behind",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/norfolk-seaweed/g1.webp", "alt": "Grading a tray of Pacific oysters beside the tidal creek", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g2.webp", "alt": "Holding up two long strands of red seaweed at the water's edge", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g3.webp", "alt": "Sunset over the tidal creeks near Stiffkey", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g4.webp", "alt": "Collecting seaweed samples on the low-tide Norfolk shore", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g5.webp", "alt": "The workboat Morning Flight in a boatyard hoist", "orientation": "portrait" }
+      ],
+      "video": { "provider": "youtube", "id": "ByhlOTNHwHM", "title": "Seaweed in East Anglia" }
     }
   },
   "kaly": {
@@ -242,6 +300,21 @@
       "instagram": "https://www.instagram.com/kaly.eco/",
       "linkedin": "https://uk.linkedin.com/company/kaly-group",
       "twitter": "https://twitter.com/kaly_eco2022"
+    },
+    "media": {
+      "hero": {
+        "src": "/farm-media/kaly/hero.webp",
+        "alt": "Loch Bay and the village of Stein on the Waternish peninsula, Isle of Skye",
+        "orientation": "landscape"
+      },
+      "gallery": [
+        { "src": "/farm-media/kaly/g1.webp", "alt": "Working boats moored at the Loch Bay pier in the evening light", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g2.webp", "alt": "Freshly harvested kelp, close up", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g3.webp", "alt": "Crofting cottages and a single-track road on Skye, the Cuillin range beyond", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g4.webp", "alt": "Aerial of Kaly's base, a converted church and manse on Waternish", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g5.webp", "alt": "Shafts of light breaking through storm cloud over Loch Bay", "orientation": "portrait" }
+      ],
+      "credit": "Photography: Alan Mearns"
     }
   }
 }

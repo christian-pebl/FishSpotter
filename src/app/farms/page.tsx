@@ -60,29 +60,47 @@ export default async function FarmsIndexPage() {
               <li key={farm.slug}>
                 <Link
                   href={`/farms/${farm.slug}`}
-                  className="pebl-surface group flex items-center justify-between gap-4 rounded-card p-4 transition-colors hover:bg-teal-50"
+                  className="pebl-surface group flex items-stretch gap-3 overflow-hidden rounded-card p-3 transition-colors hover:bg-teal-50"
                 >
-                  <div className="min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+                  <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-modal bg-gradient-to-br from-teal-500/25 to-navy-900/20 sm:w-28">
+                    {farm.media?.hero && (
+                      /* eslint-disable-next-line @next/next/no-img-element -- local static asset */
+                      <img
+                        src={farm.media.hero.src}
+                        alt=""
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    )}
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-center">
+                    <p className="text-[11px] font-semibold uppercase tracking-eyebrow text-teal-600">
                       {farm.location.place}
                     </p>
                     <h2 className="mt-0.5 font-brand-heading text-h3 text-navy-900">{farm.name}</h2>
                     <p className="mt-1 line-clamp-2 text-sm text-navy-900/70">{farm.mission}</p>
+                    <span className="mt-2 inline-flex w-fit items-center gap-1">
+                      {clips > 0 ? (
+                        <span className="rounded-full bg-teal-50 px-2.5 py-1 text-[11px] font-semibold text-teal-700 group-hover:bg-white">
+                          {clips} clip{clips === 1 ? "" : "s"} filmed here
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-navy-900/5 px-2.5 py-1 text-[11px] font-medium text-navy-900/50">
+                          Monitoring starting soon
+                        </span>
+                      )}
+                    </span>
                   </div>
-                  <div className="flex shrink-0 flex-col items-end gap-1">
-                    {clips > 0 ? (
-                      <span className="rounded-full bg-teal-50 px-2.5 py-1 text-[11px] font-semibold text-teal-700 group-hover:bg-white">
-                        {clips} clip{clips === 1 ? "" : "s"} filmed here
-                      </span>
-                    ) : (
-                      <span className="rounded-full bg-navy-900/5 px-2.5 py-1 text-[11px] font-medium text-navy-900/50">
-                        Monitoring starting soon
-                      </span>
-                    )}
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-400">
-                      <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                    className="shrink-0 self-center text-teal-400"
+                  >
+                    <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </Link>
               </li>
             );

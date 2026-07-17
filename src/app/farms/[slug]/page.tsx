@@ -5,6 +5,9 @@ import { prisma } from "@/lib/prisma";
 import { resolveFarmSlug, allFarmSlugs } from "@/lib/farms/catalogue";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import type { FarmTag } from "@/lib/farms/traits";
+import { FarmHero } from "@/components/farms/FarmHero";
+import { FarmGallery } from "@/components/farms/FarmGallery";
+import { FarmVideo } from "@/components/farms/FarmVideo";
 
 export const revalidate = 3600;
 
@@ -76,18 +79,29 @@ export default async function FarmProfilePage({
           Back to the feed
         </Link>
 
-        <header className="mb-5 mt-3">
-          <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
-            {farm.location.place}
-          </p>
-          <h1 className="mt-1 font-brand-heading text-h1 text-navy-900">{farm.name}</h1>
-          {farm.legalName && (
-            <p className="mt-0.5 text-sm italic text-navy-900/60">{farm.legalName}</p>
-          )}
-        </header>
+        {farm.media?.hero ? (
+          <div className="mt-3">
+            <FarmHero
+              image={farm.media.hero}
+              name={farm.name}
+              place={farm.location.place}
+              legalName={farm.legalName}
+            />
+          </div>
+        ) : (
+          <header className="mb-5 mt-3">
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+              {farm.location.place}
+            </p>
+            <h1 className="mt-1 font-brand-heading text-h1 text-navy-900">{farm.name}</h1>
+            {farm.legalName && (
+              <p className="mt-0.5 text-sm italic text-navy-900/60">{farm.legalName}</p>
+            )}
+          </header>
+        )}
 
         {hasClips ? (
-          <div className="pebl-surface flex items-center gap-6 rounded-card p-4">
+          <div className="pebl-surface mt-5 flex items-center gap-6 rounded-card p-4">
             <div>
               <p className="font-brand-heading text-h2 text-teal-600">{clipCount}</p>
               <p className="text-xs text-navy-900/60">clip{clipCount === 1 ? "" : "s"} filmed here</p>
@@ -103,7 +117,7 @@ export default async function FarmProfilePage({
             </p>
           </div>
         ) : (
-          <div className="pebl-surface rounded-card p-4 text-sm text-navy-900/70">
+          <div className="pebl-surface mt-5 rounded-card p-4 text-sm text-navy-900/70">
             PEBL&apos;s monitoring cameras are heading to {farm.name} as part of the full six-farm
             season. Clips filmed here will appear in the feed once they&apos;re in.
           </div>
@@ -117,6 +131,18 @@ export default async function FarmProfilePage({
           <h2 className="font-brand-heading text-h3 text-navy-900">Kelp to crop</h2>
           <p className="mt-2 text-sm leading-relaxed text-navy-900/80">{farm.whyItMatters}</p>
         </section>
+
+        {farm.media?.video && (
+          <FarmVideo
+            video={farm.media.video}
+            poster={farm.media.hero?.src}
+            farmName={farm.name}
+          />
+        )}
+
+        {farm.media?.gallery && farm.media.gallery.length > 0 && (
+          <FarmGallery images={farm.media.gallery} credit={farm.media.credit} />
+        )}
 
         {farm.interview && farm.interview.soundbites.length > 0 && (
           <section className="mt-6">
@@ -208,7 +234,7 @@ export default async function FarmProfilePage({
           {hasClips ? (
             <>
               <p className="text-sm text-navy-900/80">
-                See the fish sharing this water with {farm.name}&apos;s kelp lines.
+                See the fish that share this water with the kelp at {farm.name}.
               </p>
               <Link
                 href={`/feed/browse?q=${encodeURIComponent(farm.deploymentNames[0])}`}

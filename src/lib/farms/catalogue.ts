@@ -14,6 +14,26 @@ const farmPersonSchema = z.object({
   quoteSource: z.enum(["interview", "website", "press"]).optional(),
 });
 
+const farmImageSchema = z.object({
+  // Locally hosted only: a relative /farm-media/... path, never an external URL.
+  src: z.string().regex(/^\/farm-media\/[a-z0-9-]+\/[a-z0-9._-]+$/i, "must be a /farm-media/<slug>/<file> path"),
+  alt: z.string().min(1),
+  orientation: z.enum(["landscape", "portrait"]).optional(),
+});
+
+const farmMediaSchema = z.object({
+  hero: farmImageSchema.optional(),
+  gallery: z.array(farmImageSchema).optional(),
+  video: z
+    .object({
+      provider: z.enum(["youtube", "vimeo"]),
+      id: z.string().min(1),
+      title: z.string().min(1).optional(),
+    })
+    .optional(),
+  credit: z.string().min(1).optional(),
+});
+
 const farmSchema = z
   .object({
     slug: z.string().min(1),
@@ -51,6 +71,7 @@ const farmSchema = z
         soundbites: z.array(z.string().min(1)).min(1),
       })
       .optional(),
+    media: farmMediaSchema.optional(),
   })
   .strict();
 

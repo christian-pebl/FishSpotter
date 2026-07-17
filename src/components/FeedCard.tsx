@@ -1769,6 +1769,40 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </Link>
                       </div>
                     )}
+                    {(() => {
+                      const farm = resolveFarmByDeployment(snippet.deployment);
+                      if (!farm) return null;
+                      // A small visual bridge from the clip to the farm whose kelp
+                      // it was filmed under. Sits on the reveal (post-guess) so it
+                      // never interrupts spotting; the in-flow route to /farms.
+                      return (
+                        <Link
+                          href={`/farms/${farm.slug}`}
+                          className="mt-3 flex items-center gap-3 rounded-modal border border-teal-500/25 bg-teal-500/10 p-2.5 transition-colors hover:bg-teal-500/15"
+                        >
+                          {farm.media?.hero && (
+                            /* eslint-disable-next-line @next/next/no-img-element -- local static asset */
+                            <img
+                              src={farm.media.hero.src}
+                              alt=""
+                              loading="lazy"
+                              className="h-11 w-11 shrink-0 rounded-modal object-cover"
+                            />
+                          )}
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-xs font-semibold text-teal-50">
+                              Filmed at {farm.name}
+                            </span>
+                            <span className="block truncate text-[11px] text-white/60">
+                              See the seaweed farm behind this clip
+                            </span>
+                          </span>
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">
+                            <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </Link>
+                      );
+                    })()}
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
                       <IdGuideTrigger
                         snippetId={snippet.id}
@@ -1794,25 +1828,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           Where is this?
                         </button>
                       )}
-                      {(() => {
-                        const farm = resolveFarmByDeployment(snippet.deployment);
-                        if (!farm) return null;
-                        // Quiet, opt-in bridge from "which fish is this" to "which
-                        // farm grew the kelp it's sheltering under", one tap, with
-                        // no interruption to the guess -> reveal -> next loop.
-                        return (
-                          <Link
-                            href={`/farms/${farm.slug}`}
-                            className="inline-flex min-h-[44px] items-center gap-1 py-1.5 text-[10px] uppercase tracking-wider text-white/70 hover:text-white/90"
-                          >
-                            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="text-teal-500/80">
-                              <path d="M8 14.5S3 10 3 6.5A5 5 0 0 1 13 6.5c0 3.5-5 8-5 8Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-                              <path d="M8 4.5c-1.8 1-2.3 2.6-2 4.5M8 4.5c1.8 1 1.6 3 1 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-                            </svg>
-                            About {farm.name}
-                          </Link>
-                        );
-                      })()}
                     </div>
                     <div
                       className={`mt-2 flex items-center justify-between gap-2 ${

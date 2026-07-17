@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import seaweedFarmsData from "@/data/seaweed-farms.json";
 import { FarmCatalogueSchema } from "./catalogue";
@@ -44,5 +46,26 @@ describe("seaweed farm catalogue consistency", () => {
       }
     }
     expect(duplicates, duplicates.join("; ")).toEqual([]);
+  });
+
+  // Every image the catalogue references must actually exist under public/, so a
+  // typo'd or missing asset fails CI instead of rendering a broken image live.
+  it("every referenced media file exists in public/", () => {
+    const mediaFarms = seaweedFarmsData as Record<
+      string,
+      { media?: { hero?: { src: string }; gallery?: { src: string }[] } }
+    >;
+    const publicDir = join(process.cwd(), "public");
+    const missing: string[] = [];
+    for (const [slug, farm] of Object.entries(mediaFarms)) {
+      const srcs = [
+        ...(farm.media?.hero ? [farm.media.hero.src] : []),
+        ...(farm.media?.gallery?.map((g) => g.src) ?? []),
+      ];
+      for (const src of srcs) {
+        if (!existsSync(join(publicDir, src))) missing.push(`${slug}: ${src}`);
+      }
+    }
+    expect(missing, `missing media files:\n${missing.join("\n")}`).toEqual([]);
   });
 });

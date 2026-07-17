@@ -7,6 +7,7 @@ import { HeroPreview } from "@/components/landing/HeroPreview";
 import { StatsBand } from "@/components/landing/StatsBand";
 import { StepCards } from "@/components/landing/StepCards";
 import { SpeciesMarquee, type MarqueeSpecies } from "@/components/landing/SpeciesMarquee";
+import { FARMS } from "@/lib/farms/catalogue";
 
 // Hardening (conference prep): the landing page (the demo URL) renders the same
 // for everyone (5 global queries, no per-user data), so ISR caches it. A QR-code
@@ -228,11 +229,33 @@ export default async function HomePage() {
             resist stress and grow stronger, sprayed onto real fields by real farmers. PEBL monitors
             six of them for a National Lottery Climate Action Fund project with WWF.
           </p>
+          <ul className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-6">
+            {Object.values(FARMS).map((farm) => (
+              <li key={farm.slug}>
+                <Link href={`/farms/${farm.slug}`} className="group block">
+                  <div className="relative aspect-square overflow-hidden rounded-modal bg-navy-900/10 ring-1 ring-navy-900/10">
+                    {farm.media?.hero && (
+                      /* eslint-disable-next-line @next/next/no-img-element -- local static asset */
+                      <img
+                        src={farm.media.hero.src}
+                        alt=""
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    )}
+                  </div>
+                  <p className="mt-1 truncate text-[11px] font-medium text-navy-900" title={farm.name}>
+                    {farm.name}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
           <Link
             href="/farms"
             className="mt-4 inline-flex items-center text-sm text-teal-700 underline"
           >
-            Meet the six farms →
+            Meet all six farms →
           </Link>
         </section>
 

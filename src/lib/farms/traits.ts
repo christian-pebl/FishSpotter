@@ -38,6 +38,33 @@ export type FarmInterview = {
   soundbites: string[];
 };
 
+export type FarmImage = {
+  /** Public path, e.g. "/farm-media/kaly/hero.webp". Locally hosted, not hotlinked. */
+  src: string;
+  alt: string;
+  orientation?: "landscape" | "portrait";
+};
+
+export type FarmVideo = {
+  provider: "youtube" | "vimeo";
+  /** The bare video id (not a full URL). */
+  id: string;
+  title?: string;
+};
+
+/**
+ * Real imagery of the farm and its operations, sourced from the farm's own
+ * website (permission granted). Locally hosted under public/farm-media/<slug>/
+ * so nothing hotlinks and nothing breaks if the farm redesigns its site.
+ */
+export type FarmMedia = {
+  hero?: FarmImage;
+  gallery?: FarmImage[];
+  video?: FarmVideo;
+  /** Photographer / attribution line shown under the imagery. */
+  credit?: string;
+};
+
 export type SeaweedFarm = {
   slug: string;
   name: string;
@@ -69,6 +96,7 @@ export type SeaweedFarm = {
     twitter?: string;
   };
   interview?: FarmInterview;
+  media?: FarmMedia;
 };
 
 export type FarmCatalogue = Record<string, SeaweedFarm>;
