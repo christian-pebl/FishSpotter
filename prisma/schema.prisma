@@ -120,6 +120,15 @@ model Snippet {
   bboxJson          String? // JSON string of bbox_data.json bboxes (auto track: RT-DETR/motion)
   manualTrackJson   String? // JSON string of manual_track.points (hand-marked centre path); preferred over bboxJson when set
   excluded          Boolean  @default(false) // deselected via TRDesk4's "Exclude from FishSpotter" toggle (metadata.fishspotter_excluded). Set by scripts/sync.ts; hidden from every user-facing surface by excludeBlockedSnippetsWhere(). Reversible: un-exclude in TRDesk4 + re-sync.
+  // Difficulty ladder (Jul 2026): 0 = hardest, 1 = easiest, corpus-relative
+  // percentile. Seeded from apparent organism size (median bbox area from
+  // bboxJson — the strongest signal available with near-zero answer volume
+  // today) by scripts/seed-difficulty.ts. Default 0.5 covers unseeded rows
+  // (new clips before the next seed run, or clips with no bbox signal) so a
+  // fresh clip sits at neutral difficulty rather than skewing the ramp.
+  // Intended to migrate toward an empirical (answer-accuracy-derived) score
+  // once there's enough traffic per clip — see feed-ordering.ts.
+  difficultyScore   Float    @default(0.5)
   createdAt         DateTime @default(now())
   answers           Answer[]
 
