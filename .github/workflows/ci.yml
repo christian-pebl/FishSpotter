@@ -26,6 +26,10 @@ jobs:
       # explicit step) reads these but does not connect. Not real credentials.
       POSTGRES_PRISMA_URL: postgresql://user:pass@localhost:5432/db
       POSTGRES_URL_NON_POOLING: postgresql://user:pass@localhost:5432/db
+      # Dummy secret: src/lib/auth.ts throws at import time if this is unset
+      # (a real fail-fast check for prod). Any non-empty string satisfies it
+      # for the offline unit-test/type-check run here; not a real credential.
+      NEXTAUTH_SECRET: ci-placeholder-not-a-real-secret
     steps:
       - uses: actions/checkout@v4
 
