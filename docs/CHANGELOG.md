@@ -407,3 +407,50 @@ Christian's steer.
 - **Verified:** `tsc --noEmit` clean, full suite green (400+ tests, 28 directly on this), `lint` +
   `lint:tokens` clean, and separately live-verified against prod: `/feed` renders 200 with real
   content, the `difficultyScore` raw-SQL query executes without error, no console/server errors.
+
+## Seaweed farm mission integration (16-17 Jul 2026, SHIPPED LIVE)
+
+Connects the fish clips to the real UK seaweed farms PEBL monitors under the NLCAF/WWF
+"Unlocking the Power of Seaweed" programme, so spotting a fish also surfaces why that farm
+exists: mostly biostimulants, a natural fertiliser alternative, for climate-resilient
+agriculture. Built across several passes, each shipped and verified independently rather than
+held back for one big merge.
+
+- **Research, grounded not guessed:** transcribed all 4 available March 2026 PEBL farmer
+  interviews (Adrian/Atlantic Mariculture, Alex & Martin/Kelp Crofters, Beth/Câr-y-Môr,
+  Luke/Algapelago; Kaly and Norfolk Seaweed have no interview footage) and researched all 6
+  farms' own websites for mission/story copy. Cross-checked the DB rather than assuming: of the
+  91 live clips, only Algapelago/Atlantic Mariculture/Kelp Crofters map to a farm by exact
+  `Snippet.deployment`; three other deployments (Dale Bay/Project Seagrass, Veerse
+  Meer/Netherlands oyster project, East Pickard Bay/BRUV trial) are unrelated PEBL projects
+  reusing this app and were deliberately excluded from any farm framing. Blakeney Overfalls =
+  Norfolk Seaweed, confirmed by Christian.
+- **Content model:** `src/lib/farms/traits.ts` + `catalogue.ts` (zod-validated, mirrors the
+  species-catalogue pattern) + `src/data/seaweed-farms.json`, all 6 farms. `catalogue.test.ts` is
+  the CI gate (schema strictness, no duplicate deployment claims, every referenced media file
+  exists in `public/`).
+- **Pages + discovery:** `/farms` hub + `/farms/[slug]` profiles (mission, biostimulant story,
+  attributed interview quotes, founding story, live clip/species counts). Three low-friction
+  discovery routes, not a hard gate: a `SideMenu` nav entry, a landing-page thumbnail strip, and
+  a visual "Filmed at [farm]" card on the feed reveal (only on clips actually from a mapped farm).
+- **Real photography:** scraped each farm's own website (permission confirmed by Christian) for
+  operational imagery, 36 photos total, optimised to local WebP via
+  `scripts/farm-media/build.mjs` (`sharp`), never hotlinked.
+- **Video, added then removed:** three farms briefly had an embedded YouTube/Vimeo film; per
+  Christian's steer ("we dont need video... just have the pictures"), all farm video was removed
+  and the now-fully-unreachable `FarmVideo` component + its schema field were deleted outright
+  rather than left as dead code.
+- **Shipped in 5 pushes, each independently verified** (`tsc`, `lint`, `lint:tokens`, full test
+  suite, and, for the first two, a full production build) before going out: `5b23c61` (the
+  core feature; took 3 merge attempts, since PR #103 and #104 both landed on `main` mid-verification,
+  each one handled via a disposable test worktree, never touching another session's checkout and
+  never force-pushing), `3782668` (fixed a pre-existing, unrelated local-build error:
+  `/opengraph-image` hit a Windows-only bug in Next's bundled `@vercel/og`,
+  [vercel/next.js#77164](https://github.com/vercel/next.js/issues/77164); replaced the dynamic
+  route with a pre-rendered static PNG via `scripts/build-opengraph-image.mjs`, sidestepping the
+  bug entirely since the card's content never varied per-request anyway), `ee21e4f` and `57d40d4`
+  (video removal, above).
+- **Operational note:** this thread of work hit the shared-repo concurrent-session hazard
+  repeatedly (three separate pushes were rejected mid-session by other sessions landing first).
+  Every recovery followed the same pattern: disposable worktree, re-fetch, re-verify the actual
+  merge target, push immediately.
