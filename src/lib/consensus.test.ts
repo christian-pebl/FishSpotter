@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { consensusSummary, eligibleGroups, groupPendingAnswers } from "./consensus";
+import { consensusSummary, eligibleGroups, groupPendingAnswers, pickLeaderGroup } from "./consensus";
 import { CONSENSUS_THRESHOLD_USERS } from "./answer-matching";
 
 function ans(
@@ -95,6 +95,39 @@ describe("eligibleGroups", () => {
     ]);
     expect(eligibleGroups(groups)).toEqual([]);
     expect(groups[0].userIds.size).toBe(2);
+  });
+});
+
+describe("pickLeaderGroup", () => {
+  it("picks the group with the most distinct spotters", () => {
+    const groups = groupPendingAnswers([
+      ans("a1", "u1", "snip1", "Pollack"),
+      ans("a2", "u2", "snip1", "Pollack"),
+      ans("a3", "u3", "snip1", "Pollack"),
+      ans("a4", "u4", "snip1", "Cod"),
+      ans("a5", "u5", "snip1", "Cod"),
+    ]);
+    expect(pickLeaderGroup(groups)?.normalisedName).toBe("pollack");
+  });
+
+  it("tiebreaks equally-sized groups by the alphabetically-first normalised name", () => {
+    const groups = groupPendingAnswers([
+      ans("a1", "u1", "snip1", "Saithe"),
+      ans("a2", "u2", "snip1", "Saithe"),
+      ans("a3", "u3", "snip1", "Saithe"),
+      ans("a4", "u4", "snip1", "Cod"),
+      ans("a5", "u5", "snip1", "Cod"),
+      ans("a6", "u6", "snip1", "Cod"),
+    ]);
+    expect(pickLeaderGroup(groups)?.normalisedName).toBe("cod");
+  });
+
+  it("returns undefined when no group has reached the threshold", () => {
+    const groups = groupPendingAnswers([
+      ans("a1", "u1", "snip1", "Pollack"),
+      ans("a2", "u2", "snip1", "Pollack"),
+    ]);
+    expect(pickLeaderGroup(groups)).toBeUndefined();
   });
 });
 

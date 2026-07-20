@@ -37,6 +37,7 @@
     "db:backfill-references": "tsx --env-file=.env.local scripts/backfill-references.ts",
     "db:retro-score": "tsx --env-file=.env.local scripts/retro-score-answers.ts",
     "db:seed-difficulty": "tsx --env-file=.env.local scripts/seed-difficulty.ts",
+    "db:seed-trust": "tsx --env-file=.env.local scripts/seed-trust-accounts.ts",
     "images:assess": "tsx --env-file=.env.local scripts/assess-image-quality.ts",
     "score:silhouettes": "tsx --env-file=.env.local scripts/score-silhouettes.ts",
     "score:photos": "tsx --env-file=.env.local scripts/score-photos.ts",

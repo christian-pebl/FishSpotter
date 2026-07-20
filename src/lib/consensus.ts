@@ -112,6 +112,24 @@ export function eligibleGroups(groups: ConsensusGroup[]): ConsensusGroup[] {
   return groups.filter((g) => g.userIds.size >= CONSENSUS_THRESHOLD_USERS);
 }
 
+/**
+ * Pick a single snippet's winning consensus group: most distinct spotters,
+ * deterministic tiebreak by the alphabetically-first normalised name. Returns
+ * undefined if no group has reached CONSENSUS_THRESHOLD_USERS yet. Extracted
+ * out of rescoreConsensus's loop so src/lib/trust.ts's trust-graph derivation
+ * (Pebbles anti-gaming Plan 1 Phase 1) can determine winning camps the exact
+ * same way payouts do, with zero risk of the two definitions drifting apart.
+ */
+export function pickLeaderGroup(groups: ConsensusGroup[]): ConsensusGroup | undefined {
+  const leader = groups
+    .slice()
+    .sort((a, b) =>
+      b.userIds.size - a.userIds.size ||
+      a.normalisedName.localeCompare(b.normalisedName),
+    )[0];
+  return leader && leader.userIds.size >= CONSENSUS_THRESHOLD_USERS ? leader : undefined;
+}
+
 export type ConsensusSummary = {
   /** distinct spotters needed to reach consensus */
   threshold: number;
@@ -188,14 +206,8 @@ export async function rescoreConsensus(
 
     const groups = groupPendingAnswers(answers.map((a) => ({ ...a })));
     groupsInspected += groups.length;
-    // Leader = most distinct spotters; deterministic tiebreak by name key.
-    const leader = groups
-      .slice()
-      .sort((a, b) =>
-        b.userIds.size - a.userIds.size ||
-        a.normalisedName.localeCompare(b.normalisedName),
-      )[0];
-    if (leader && leader.userIds.size >= CONSENSUS_THRESHOLD_USERS) {
+    const leader = pickLeaderGroup(groups);
+    if (leader) {
       reachedLeaderBySnippet.set(snippetId, leader.normalisedName);
       winningAnswersBySnippet.set(snippetId, leader);
     }

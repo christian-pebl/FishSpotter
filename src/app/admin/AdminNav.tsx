@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/admin/snippets", label: "Clips & tracks" },
   { href: "/admin/species", label: "Species marks" },
   { href: "/admin/metrics", label: "Metrics" },
+  { href: "/admin/trust", label: "Trust" },
 ];
 
 // Touch-friendly admin nav: pill links (>=44px tall) that scroll horizontally

@@ -31,9 +31,20 @@ model User {
   // can change this later in account settings.
   leaderboardOptIn    Boolean              @default(true)
   lastStreakNudgeAt   DateTime? // one streak-nudge per user per week (S3-17)
+  // Pebbles anti-gaming: Plan 1 Phase 1 (docs/pebbles-anti-gaming-and-prizes-plan.md).
+  // isTrustSeed marks a handful of manually-vetted, known-real accounts that
+  // anchor the trust graph; trustScore is a hidden reputation (0..200, seeds
+  // pinned at 100) propagated from those seeds via co-occurrence in winning
+  // consensus camps (see src/lib/trust.ts), recomputed daily by the
+  // consensus-rescore cron. Never shown to spotters; gates prize eligibility
+  // only, never removes Pebbles or status.
+  isTrustSeed         Boolean              @default(false)
+  trustScore          Float                @default(0)
+  trustUpdatedAt      DateTime?
   createdAt           DateTime             @default(now())
   answers             Answer[]
   unlockedSpecies     UnlockedSpecies[]
+  pebblePurchases     PebblePurchase[]
   events              Event[]
   accounts            Account[]
   sessions            Session[]
@@ -295,6 +306,25 @@ model ConsensusEvent {
 
   @@unique([snippetId, normalisedName])
   @@index([snippetId])
+}
+
+// Pebbles shop ledger: one row per item a spotter buys. Items themselves are a
+// static code catalogue (src/lib/shop/catalogue.ts), not a table. `pebbleCost`
+// snapshots the price paid so the wallet math (earned - spent) stays correct
+// even if an item's catalogue price later changes. A spotter's spendable wallet
+// is sum(Answer.points) - sum(PebblePurchase.pebbleCost); their leaderboard
+// score stays on lifetime earned points, so buying things never lowers a rank.
+// Cosmetics are one-time (enforced in the purchase route, not a DB unique, so
+// consumables like a Tide Freeze can still be bought repeatedly).
+model PebblePurchase {
+  id          String   @id @default(cuid())
+  userId      String
+  itemId      String // key into src/lib/shop/catalogue.ts
+  pebbleCost  Int // price paid, snapshotted
+  purchasedAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 // Pokedex: one row per species a user has correctly identified at least once.
