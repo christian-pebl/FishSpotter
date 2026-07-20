@@ -104,8 +104,7 @@
         { "src": "/farm-media/atlantic-mariculture/g3.webp", "alt": "A worker in red waterproofs holding up a length of harvested kelp", "orientation": "landscape" },
         { "src": "/farm-media/atlantic-mariculture/g4.webp", "alt": "Staff working among the round culture tanks at the Ardtoe hatchery", "orientation": "landscape" },
         { "src": "/farm-media/atlantic-mariculture/g5.webp", "alt": "Stacked totes of Liquid Kelp biostimulant ready to ship", "orientation": "landscape" }
-      ],
-      "video": { "provider": "vimeo", "id": "825379825", "title": "Atlantic Mariculture" }
+      ]
     }
   },
   "kelp-crofters": {
