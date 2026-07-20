@@ -6,18 +6,19 @@
  *
  * Pure leaf (no Prisma, no React) so pricing / ownership rules are unit tested
  * in catalogue.test.ts and reused by the purchase route, the shop UI, and the
- * profile page that renders owned cosmetics.
+ * pages that render redeemed items.
  *
- * Phase 1 is cosmetic-only: nothing here costs PEBL real money, so it needs no
- * anti-gaming gate (a farmer only ever buys their own cosmetics). Real-world
- * prizes (guidebook, SubCam) are a later phase gated on the trust layer in
- * docs/pebbles-anti-gaming-and-prizes-plan.md; deliberately NOT in this list.
+ * 20 Jul 2026: the Phase-1 cosmetics (gold nameplate, coral accent) and the
+ * Tide Freeze were RETIRED — the shop now sells one real-world prize, the
+ * Field Studies Council rockpool ID guide. Prize redemptions are gated by
+ * `isPrizeEligible` (src/lib/trust.ts) in the purchase route, per
+ * docs/pebbles-anti-gaming-and-prizes-plan.md. Retired item ids must never be
+ * reused: PebblePurchase rows for them may exist in prod (their pebbleCost
+ * still counts as spent), and held Tide Freezes are still honoured by the
+ * streak service via TIDE_FREEZE_ID below.
  */
 
-export type ShopItemType = "cosmetic" | "consumable";
-
-/** How a cosmetic renders on the public profile card. */
-export type CosmeticKind = "nameplate" | "profile-accent";
+export type ShopItemType = "cosmetic" | "consumable" | "prize";
 
 export interface ShopItem {
   /** Stable id: the PebblePurchase.itemId key. Never reuse or rename. */
@@ -28,45 +29,33 @@ export interface ShopItem {
   /** Price in Pebbles. */
   price: number;
   type: ShopItemType;
-  /** For cosmetics: how/where it renders. Omitted for consumables. */
-  kind?: CosmeticKind;
-  /** For consumables: the most a spotter may hold unused at once (Duolingo-style
-   *  streak-freeze cap). Omitted for cosmetics (they are one-time by nature). */
+  /** For consumables: the most a spotter may hold unused at once. */
   maxHold?: number;
 }
 
-/** The consumable that protects a day-streak from one missed day. */
+/**
+ * RETIRED consumable id, kept (not in SHOP_ITEMS) because the streak service
+ * still consumes freezes that were bought before retirement — a held freeze
+ * keeps protecting a missed day; it just can't be bought any more.
+ */
 export const TIDE_FREEZE_ID = "tide-freeze";
+
+/** The real-world prize: an FSC fold-out guide to UK rockpool wildlife. */
+export const FSC_GUIDE_ID = "fsc-rockpool-guide";
 
 /**
  * The live catalogue. Order here is the display order in the shop grid.
- * Cosmetics are one-time buys; a consumable (e.g. a future Tide Freeze) may be
- * bought repeatedly.
+ * Prizes are one-time redemptions; fulfilment is manual (PEBL emails the
+ * spotter — redeemed rows are the PebblePurchase entries for FSC_GUIDE_ID).
  */
 export const SHOP_ITEMS: readonly ShopItem[] = [
   {
-    id: "gold-nameplate",
-    name: "Gold nameplate",
-    blurb: "Your name shines gold on the leaderboard and your profile.",
-    price: 150,
-    type: "cosmetic",
-    kind: "nameplate",
-  },
-  {
-    id: "coral-accent",
-    name: "Coral accent",
-    blurb: "A warm coral band on your profile, and a coral flash by your leaderboard name.",
-    price: 300,
-    type: "cosmetic",
-    kind: "profile-accent",
-  },
-  {
-    id: TIDE_FREEZE_ID,
-    name: "Tide Freeze",
-    blurb: "Miss a day without losing your streak. Hold up to two.",
-    price: 80,
-    type: "consumable",
-    maxHold: 2,
+    id: FSC_GUIDE_ID,
+    name: "FSC rockpool ID guide",
+    blurb:
+      "A real Field Studies Council fold-out guide to UK rockpool wildlife, posted to you by PEBL.",
+    price: 1000,
+    type: "prize",
   },
 ] as const;
 
@@ -74,19 +63,7 @@ export function getShopItem(id: string): ShopItem | undefined {
   return SHOP_ITEMS.find((i) => i.id === id);
 }
 
-/** True for items a spotter may only ever own once (all cosmetics today). */
+/** True for items a spotter may only ever own/redeem once (everything but consumables). */
 export function isOneTime(item: ShopItem): boolean {
-  return item.type === "cosmetic";
-}
-
-/** The set of cosmetic item ids a spotter owns, from their purchase itemIds. */
-export function ownedCosmeticKinds(
-  ownedItemIds: Iterable<string>,
-): Set<CosmeticKind> {
-  const kinds = new Set<CosmeticKind>();
-  for (const id of ownedItemIds) {
-    const item = getShopItem(id);
-    if (item?.type === "cosmetic" && item.kind) kinds.add(item.kind);
-  }
-  return kinds;
+  return item.type !== "consumable";
 }

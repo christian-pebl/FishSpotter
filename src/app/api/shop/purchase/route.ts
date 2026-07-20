@@ -7,6 +7,7 @@ import { assertSameOrigin } from "@/lib/csrf";
 import { checkShopRateLimit } from "@/lib/rate-limit";
 import { getShopItem } from "@/lib/shop/catalogue";
 import { canPurchase, walletState } from "@/lib/shop/wallet";
+import { isPrizeEligible } from "@/lib/trust";
 
 const PurchaseSchema = z.object({
   itemId: z.string().min(1).max(64),
@@ -87,6 +88,46 @@ export async function POST(req: Request) {
   }
 
   const item = check.item;
+
+  // Real-world prizes are the one shop path that costs PEBL money, so they go
+  // through the anti-gaming gate (docs/pebbles-anti-gaming-and-prizes-plan.md):
+  // verified email + trust above the bar + account age + non-bursty activity.
+  // The gate only withholds upside — Pebbles are never removed. The email
+  // reason is actionable so we surface it; the rest stay a generic "more
+  // spotting history" nudge (trust internals are deliberately never shown).
+  if (item.type === "prize") {
+    const [user, answerDates] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: { emailVerified: true, createdAt: true, trustScore: true },
+      }),
+      prisma.answer.findMany({
+        where: { userId },
+        select: { createdAt: true },
+        orderBy: { createdAt: "desc" },
+        take: 1000,
+      }),
+    ]);
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const eligibility = isPrizeEligible(
+      {
+        emailVerified: user.emailVerified,
+        createdAt: user.createdAt,
+        trustScore: user.trustScore,
+        answerDates: answerDates.map((a: { createdAt: Date }) => a.createdAt),
+      },
+      new Date(),
+    );
+    if (!eligibility.eligible) {
+      const message = eligibility.reasons.includes("email not verified")
+        ? "Verify your email first — prizes are posted to real spotters."
+        : "Prize redemptions unlock with a bit more spotting history across more days. Keep at it!";
+      return NextResponse.json({ error: message, code: "not-eligible" }, { status: 403 });
+    }
+  }
+
   await prisma.pebblePurchase.create({
     data: { userId, itemId: item.id, pebbleCost: item.price },
   });

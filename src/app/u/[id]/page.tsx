@@ -5,7 +5,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { isAdminUser } from "@/lib/admin";
 import { datesFromAnswers, readStreak } from "@/lib/streak-service";
-import { ownedCosmeticKinds } from "@/lib/shop/catalogue";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
@@ -73,7 +72,6 @@ export default async function ProfilePage({
     allAnswerDates,
     pointsAgg,
     resolvedAnswers,
-    purchases,
   ] =
     await Promise.all([
       prisma.answer.count({ where: { userId: id } }),
@@ -99,14 +97,7 @@ export default async function ProfilePage({
       }),
       prisma.answer.aggregate({ where: { userId: id }, _sum: { points: true } }),
       prisma.answer.count({ where: { userId: id, isCorrect: { not: null } } }),
-      prisma.pebblePurchase.findMany({ where: { userId: id }, select: { itemId: true } }),
     ]);
-
-  // Cosmetics the spotter has unlocked in the Pebbles shop. These are public, so
-  // everyone viewing the profile sees them (that's the point of a cosmetic).
-  const cosmetics = ownedCosmeticKinds(purchases.map((p) => p.itemId));
-  const hasNameplate = cosmetics.has("nameplate");
-  const hasAccent = cosmetics.has("profile-accent");
 
   const streak = await readStreak(prisma, id, datesFromAnswers(allAnswerDates));
   const displayName = user.displayName ?? user.name ?? "Spotter";
@@ -131,31 +122,8 @@ export default async function ProfilePage({
     >
       <BackToFeed />
       <section className="pebl-surface overflow-hidden rounded-card p-6 md:p-8">
-        {hasAccent && (
-          <div
-            aria-hidden="true"
-            className="-mx-6 -mt-6 mb-5 h-2 bg-gradient-to-r from-orange-400 via-orange-300 to-teal-400 md:-mx-8 md:-mt-8"
-          />
-        )}
         <p className="pebl-eyebrow">Spotter profile</p>
-        <h1
-          className={`mt-2 flex items-center gap-2 font-brand text-h1 ${
-            hasNameplate ? "text-amber-500" : "text-navy-900"
-          }`}
-        >
-          {displayName}
-          {hasNameplate && (
-            <svg
-              viewBox="0 0 14 14"
-              className="h-4 w-4 shrink-0"
-              fill="currentColor"
-              aria-label="Gold nameplate"
-              role="img"
-            >
-              <path d="M7 1l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 9.4 3.4 11.8l.8-3.7L1.4 5.5l3.8-.4z" />
-            </svg>
-          )}
-        </h1>
+        <h1 className="mt-2 font-brand text-h1 text-navy-900">{displayName}</h1>
         <p className="mt-1 text-xs text-navy-900/55">
           Joined {user.createdAt.toLocaleDateString()}
         </p>

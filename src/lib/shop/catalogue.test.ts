@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  FSC_GUIDE_ID,
   SHOP_ITEMS,
+  TIDE_FREEZE_ID,
   getShopItem,
   isOneTime,
-  ownedCosmeticKinds,
 } from "./catalogue";
 
 describe("shop catalogue", () => {
@@ -16,25 +17,27 @@ describe("shop catalogue", () => {
     }
   });
 
-  it("every cosmetic declares a kind", () => {
-    for (const item of SHOP_ITEMS) {
-      if (item.type === "cosmetic") expect(item.kind).toBeDefined();
-    }
+  it("sells the FSC guide as a 1000-Pebble one-time prize", () => {
+    const guide = getShopItem(FSC_GUIDE_ID);
+    expect(guide?.type).toBe("prize");
+    expect(guide?.price).toBe(1000);
+    expect(isOneTime(guide!)).toBe(true);
   });
 
   it("getShopItem resolves known ids and rejects unknown", () => {
-    expect(getShopItem("gold-nameplate")?.name).toBe("Gold nameplate");
+    expect(getShopItem(FSC_GUIDE_ID)?.name).toBe("FSC rockpool ID guide");
     expect(getShopItem("does-not-exist")).toBeUndefined();
   });
 
-  it("isOneTime is true for cosmetics", () => {
-    expect(isOneTime(getShopItem("gold-nameplate")!)).toBe(true);
-  });
-
-  it("ownedCosmeticKinds maps owned ids to kinds and ignores unknowns", () => {
-    const kinds = ownedCosmeticKinds(["gold-nameplate", "coral-accent", "bogus"]);
-    expect(kinds.has("nameplate")).toBe(true);
-    expect(kinds.has("profile-accent")).toBe(true);
-    expect(kinds.size).toBe(2);
+  it("retired items stay retired: not purchasable, ids never reused", () => {
+    // The Phase-1 cosmetics and the Tide Freeze were removed from sale on
+    // 20 Jul 2026. Their PebblePurchase rows may exist in prod, so the ids
+    // must never come back as different items.
+    for (const retired of ["gold-nameplate", "coral-accent", TIDE_FREEZE_ID]) {
+      expect(getShopItem(retired)).toBeUndefined();
+    }
+    // TIDE_FREEZE_ID stays exported: the streak service still honours held
+    // freezes bought before retirement.
+    expect(TIDE_FREEZE_ID).toBe("tide-freeze");
   });
 });

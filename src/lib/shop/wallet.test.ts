@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { canPurchase, totalSpent, walletState } from "./wallet";
-import { getShopItem } from "./catalogue";
+import { FSC_GUIDE_ID, getShopItem } from "./catalogue";
 
-const NAMEPLATE = getShopItem("gold-nameplate")!;
+const GUIDE = getShopItem(FSC_GUIDE_ID)!;
 
 describe("wallet math", () => {
   it("totalSpent sums snapshotted costs", () => {
@@ -30,23 +30,23 @@ describe("canPurchase", () => {
   });
 
   it("rejects a one-time item already owned", () => {
-    const owned = new Set([NAMEPLATE.id]);
-    expect(canPurchase(NAMEPLATE.id, 9999, owned)).toMatchObject({
+    const owned = new Set([GUIDE.id]);
+    expect(canPurchase(GUIDE.id, 9999, owned)).toMatchObject({
       ok: false,
       error: "already-owned",
     });
   });
 
   it("rejects when the wallet can't cover the price", () => {
-    expect(canPurchase(NAMEPLATE.id, NAMEPLATE.price - 1, new Set())).toMatchObject({
+    expect(canPurchase(GUIDE.id, GUIDE.price - 1, new Set())).toMatchObject({
       ok: false,
       error: "insufficient",
     });
   });
 
   it("allows an affordable, unowned item", () => {
-    const res = canPurchase(NAMEPLATE.id, NAMEPLATE.price, new Set());
+    const res = canPurchase(GUIDE.id, GUIDE.price, new Set());
     expect(res.ok).toBe(true);
-    expect(res.item?.id).toBe(NAMEPLATE.id);
+    expect(res.item?.id).toBe(GUIDE.id);
   });
 });

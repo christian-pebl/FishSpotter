@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
-import { ownedCosmeticKinds, type CosmeticKind } from "@/lib/shop/catalogue";
 import { prisma } from "@/lib/prisma";
 
 // The leaderboard body, extracted from the old /leaderboard page so it can be a
@@ -113,27 +112,6 @@ export async function LeaderboardPanel() {
   }));
 
   const leaderboard = ranked.slice(0, 50);
-
-  // Shop cosmetics are status signals, so they render where the audience is:
-  // on the ranking rows, not just the buyer's own profile. One indexed query
-  // for the visible rows, grouped to kinds via the shared catalogue helper.
-  const cosmeticsByUser = new Map<string, Set<CosmeticKind>>();
-  if (leaderboard.length > 0) {
-    const purchases = await prisma.pebblePurchase.findMany({
-      where: { userId: { in: leaderboard.map((r) => r.userId) } },
-      select: { userId: true, itemId: true },
-    });
-    const itemIdsByUser = new Map<string, string[]>();
-    for (const p of purchases as Array<{ userId: string; itemId: string }>) {
-      const ids = itemIdsByUser.get(p.userId) ?? [];
-      ids.push(p.itemId);
-      itemIdsByUser.set(p.userId, ids);
-    }
-    for (const [userId, itemIds] of itemIdsByUser) {
-      cosmeticsByUser.set(userId, ownedCosmeticKinds(itemIds));
-    }
-  }
-
   const myEntry = myUserId ? ranked.find((r) => r.userId === myUserId) ?? null : null;
   const myEntryVisible = !!myEntry && leaderboard.some((r) => r.userId === myUserId);
 
@@ -175,9 +153,6 @@ export async function LeaderboardPanel() {
             <tbody>
               {leaderboard.map((entry) => {
                 const isMe = entry.userId === myUserId;
-                const cosmetics = cosmeticsByUser.get(entry.userId);
-                const hasNameplate = cosmetics?.has("nameplate") ?? false;
-                const hasAccent = cosmetics?.has("profile-accent") ?? false;
                 const medal =
                   entry.rank === 1
                     ? {
@@ -239,33 +214,10 @@ export async function LeaderboardPanel() {
                     <td className="px-4 py-3 font-medium text-navy-900">
                       <Link
                         href={`/u/${entry.userId}`}
-                        className={
-                          "rounded-sm hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500" +
-                          (hasNameplate
-                            ? " inline-flex items-center gap-1 font-semibold text-amber-700 hover:text-amber-600"
-                            : " hover:text-teal-700")
-                        }
+                        className="rounded-sm hover:text-teal-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-500"
                       >
                         {entry.displayName}
-                        {hasNameplate && (
-                          <svg
-                            viewBox="0 0 14 14"
-                            className="h-3 w-3 shrink-0 text-amber-500"
-                            fill="currentColor"
-                            role="img"
-                            aria-label="Gold nameplate"
-                          >
-                            <path d="M7 1l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 9.4 3.4 11.8l.8-3.7L1.4 5.5l3.8-.4z" />
-                          </svg>
-                        )}
                       </Link>
-                      {hasAccent && (
-                        <span
-                          className="ml-2 inline-block h-1.5 w-6 rounded-full bg-gradient-to-r from-orange-400 via-orange-300 to-teal-400 align-middle"
-                          role="img"
-                          aria-label="Coral accent"
-                        />
-                      )}
                       {isMe && (
                         <span className="ml-2 inline-block rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-teal-700">
                           You
