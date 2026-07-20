@@ -33,10 +33,12 @@ export function Header() {
             onFeed ? "pr-7" : "pr-3"
           }`}
         >
-          {/* Left: the one menu button + a small FishSpotter brand wordmark.
-              Settings + account/sign-in live inside the side menu (opened from
-              here), not in the top bar. */}
-          <div className="flex items-center gap-1">
+          {/* Left: the one menu button + the FishSpotter · by PEBL brand lockup.
+              PEBL branding now lives here as a subtitle (the pebble-cairn score
+              on the right already carries PEBL's mark), so the top-right holds
+              only the score. Settings + account/sign-in live inside the side
+              menu opened from here, not in the top bar. */}
+          <div className="flex items-center gap-1.5">
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
@@ -58,47 +60,36 @@ export function Header() {
                 />
               </svg>
             </button>
+            {/* Two-line lockup, vertically centred as a block. The balancing
+                "by PEBL" line also settles the wordmark's optical alignment
+                against the rest of the bar (the display font sat a touch high
+                as a lone single line). */}
             <Link
               href="/"
-              aria-label="FishSpotter home"
-              className={`pointer-events-auto font-display text-xl leading-none tracking-wide ${
-                onFeed ? "text-white" : "text-teal-600"
-              }`}
+              aria-label="FishSpotter, by PEBL. Home."
+              className="pointer-events-auto flex flex-col justify-center"
               style={onFeed ? { textShadow: overlayTextShadow } : undefined}
             >
-              FishSpotter
+              <span
+                className={`font-display text-xl leading-none tracking-wide ${
+                  onFeed ? "text-white" : "text-teal-600"
+                }`}
+              >
+                FishSpotter
+              </span>
+              <span
+                className={`mt-1 text-[10px] font-semibold uppercase leading-none tracking-[0.2em] ${
+                  onFeed ? "text-white/75" : "text-[color:var(--muted)]"
+                }`}
+              >
+                by PEBL
+              </span>
             </Link>
           </div>
 
-          {/* Right cluster: a faint PEBL logo (links home), nudged left to make
-              way for the Pebble bag pinned in the top-right corner. */}
-          <div className="flex items-center gap-1">
-            <Link
-              href="/"
-              aria-label="PEBL"
-              className={`pointer-events-auto -mr-1 inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-full px-1 ${
-                onFeed ? "text-white hover:bg-white/10" : "text-teal-600 hover:bg-[color:var(--surface-muted)]"
-              }`}
-              style={onFeed ? { filter: `drop-shadow(${overlayTextShadow})` } : undefined}
-            >
-              {/* PEBL wordmark recoloured via CSS mask so it inherits the exact
-                  same colour + drop shadow as the FishSpotter wordmark (white on
-                  the feed overlay, teal off-feed) instead of a faint grey image. */}
-              <span
-                aria-hidden
-                className="block h-4 w-12 bg-current"
-                style={{
-                  WebkitMaskImage: "url('/branding/PEBL Logo-1.svg')",
-                  maskImage: "url('/branding/PEBL Logo-1.svg')",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskPosition: "center",
-                  maskPosition: "center",
-                  WebkitMaskSize: "contain",
-                  maskSize: "contain",
-                }}
-              />
-            </Link>
+          {/* Right cluster: the Pebble score only (its cairn icon is PEBL's
+              brand mark). Empty for signed-out guests, which keeps the bar clean. */}
+          <div className="flex items-center">
             <PebbleBag onFeed={onFeed} />
           </div>
         </div>

@@ -46,11 +46,11 @@
         "orientation": "landscape"
       },
       "gallery": [
-        { "src": "/farm-media/algapelago/g1.webp", "alt": "Aerial of the rugged North Devon coast, a workboat leaving a wake out to sea", "orientation": "landscape" },
-        { "src": "/farm-media/algapelago/g2.webp", "alt": "Rows of labelled seaweed cultures growing in the hatchery", "orientation": "landscape" },
-        { "src": "/farm-media/algapelago/g3.webp", "alt": "Freshly harvested kelp fronds, close up", "orientation": "landscape" },
-        { "src": "/farm-media/algapelago/g4.webp", "alt": "A crew member sampling the water with a scientific probe on deck", "orientation": "landscape" },
-        { "src": "/farm-media/algapelago/g5.webp", "alt": "Two Algapelago crew on the beach, their workboat moored behind", "orientation": "landscape" }
+        { "src": "/farm-media/algapelago/g1.webp", "alt": "Aerial of the rugged North Devon coast, a workboat leaving a wake out to sea", "caption": "Heading out past the North Devon headlands.", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g2.webp", "alt": "Rows of labelled seaweed cultures growing in the hatchery", "caption": "Next season's crop, started in the hatchery.", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g3.webp", "alt": "Freshly harvested kelp fronds, close up", "caption": "Sugar kelp, fresh off the line.", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g4.webp", "alt": "A crew member sampling the water with a scientific probe on deck", "caption": "Every haul comes with a water reading.", "orientation": "landscape" },
+        { "src": "/farm-media/algapelago/g5.webp", "alt": "Two Algapelago crew on the beach, their workboat moored behind", "caption": "The crew, with DORIS at her mooring.", "orientation": "landscape" }
       ]
     }
   },
@@ -99,11 +99,11 @@
         "orientation": "landscape"
       },
       "gallery": [
-        { "src": "/farm-media/atlantic-mariculture/g1.webp", "alt": "The farm's buoy grid across a Highland sea loch, mountains behind", "orientation": "landscape" },
-        { "src": "/farm-media/atlantic-mariculture/g2.webp", "alt": "Freshly harvested golden sugar kelp piled on the boat deck", "orientation": "landscape" },
-        { "src": "/farm-media/atlantic-mariculture/g3.webp", "alt": "A worker in red waterproofs holding up a length of harvested kelp", "orientation": "landscape" },
-        { "src": "/farm-media/atlantic-mariculture/g4.webp", "alt": "Staff working among the round culture tanks at the Ardtoe hatchery", "orientation": "landscape" },
-        { "src": "/farm-media/atlantic-mariculture/g5.webp", "alt": "Stacked totes of Liquid Kelp biostimulant ready to ship", "orientation": "landscape" }
+        { "src": "/farm-media/atlantic-mariculture/g1.webp", "alt": "The farm's buoy grid across a Highland sea loch, mountains behind", "caption": "The lines laid out across Loch Sunart.", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g2.webp", "alt": "Freshly harvested golden sugar kelp piled on the boat deck", "caption": "A good morning's sugar kelp.", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g3.webp", "alt": "A worker in red waterproofs holding up a length of harvested kelp", "caption": "Sugar kelp, straight off the line.", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g4.webp", "alt": "Staff working among the round culture tanks at the Ardtoe hatchery", "caption": "Inside the Ardtoe hatchery, where it all starts.", "orientation": "landscape" },
+        { "src": "/farm-media/atlantic-mariculture/g5.webp", "alt": "Stacked totes of Liquid Kelp biostimulant ready to ship", "caption": "Liquid Kelp, boxed and ready to go.", "orientation": "landscape" }
       ]
     }
   },
@@ -157,11 +157,11 @@
         "orientation": "landscape"
       },
       "gallery": [
-        { "src": "/farm-media/kelp-crofters/g1.webp", "alt": "The full crew hauling harvested kelp aboard the vessel", "orientation": "landscape" },
-        { "src": "/farm-media/kelp-crofters/g2.webp", "alt": "A dense curtain of golden sugar kelp lifted on the grow-line", "orientation": "landscape" },
-        { "src": "/farm-media/kelp-crofters/g3.webp", "alt": "A rope of cultivated kelp hauled from a mirror-calm loch", "orientation": "landscape" },
-        { "src": "/farm-media/kelp-crofters/g4.webp", "alt": "The work boat Ailsa moored, a crew member on deck", "orientation": "landscape" },
-        { "src": "/farm-media/kelp-crofters/g5.webp", "alt": "The Ailsa on the sea loch beneath the Red Cuillins of Skye", "orientation": "landscape" }
+        { "src": "/farm-media/kelp-crofters/g1.webp", "alt": "The full crew hauling harvested kelp aboard the vessel", "caption": "All hands on the harvest.", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g2.webp", "alt": "A dense curtain of golden sugar kelp lifted on the grow-line", "caption": "A full curtain of kelp coming up.", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g3.webp", "alt": "A rope of cultivated kelp hauled from a mirror-calm loch", "caption": "A still morning on the Inner Sound.", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g4.webp", "alt": "The work boat Ailsa moored, a crew member on deck", "caption": "Aboard the Ailsa.", "orientation": "landscape" },
+        { "src": "/farm-media/kelp-crofters/g5.webp", "alt": "The Ailsa on the sea loch beneath the Red Cuillins of Skye", "caption": "The Ailsa under the Red Cuillins.", "orientation": "landscape" }
       ]
     }
   },
@@ -208,11 +208,11 @@
         "orientation": "landscape"
       },
       "gallery": [
-        { "src": "/farm-media/car-y-mor/g1.webp", "alt": "The harvest team on the barge, one holding a kelp frond aloft", "orientation": "landscape" },
-        { "src": "/farm-media/car-y-mor/g2.webp", "alt": "Volunteers and staff sorting shellfish into trays on the barge deck", "orientation": "landscape" },
-        { "src": "/farm-media/car-y-mor/g3.webp", "alt": "Wide view of the ocean farm, the buoy float-line stretched across the sound", "orientation": "landscape" },
-        { "src": "/farm-media/car-y-mor/g4.webp", "alt": "A gaff-rigged sailing boat on blue water beside the farm's float-line", "orientation": "landscape" },
-        { "src": "/farm-media/car-y-mor/g5.webp", "alt": "A farmer in yellow oilskins hauling a kelp line, fronds hanging in the foreground", "orientation": "portrait" }
+        { "src": "/farm-media/car-y-mor/g1.webp", "alt": "The harvest team on the barge, one holding a kelp frond aloft", "caption": "First of the kelp, up for a look.", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g2.webp", "alt": "Volunteers and staff sorting shellfish into trays on the barge deck", "caption": "Volunteers working through the shellfish haul.", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g3.webp", "alt": "Wide view of the ocean farm, the buoy float-line stretched across the sound", "caption": "The float-line stretched right across the sound.", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g4.webp", "alt": "A gaff-rigged sailing boat on blue water beside the farm's float-line", "caption": "Sharing the water off St Justinian.", "orientation": "landscape" },
+        { "src": "/farm-media/car-y-mor/g5.webp", "alt": "A farmer in yellow oilskins hauling a kelp line, fronds hanging in the foreground", "caption": "Hauling in, frond by frond.", "orientation": "portrait" }
       ]
     }
   },
@@ -257,11 +257,11 @@
         "orientation": "landscape"
       },
       "gallery": [
-        { "src": "/farm-media/norfolk-seaweed/g1.webp", "alt": "Grading a tray of Pacific oysters beside the tidal creek", "orientation": "landscape" },
-        { "src": "/farm-media/norfolk-seaweed/g2.webp", "alt": "Holding up two long strands of red seaweed at the water's edge", "orientation": "landscape" },
-        { "src": "/farm-media/norfolk-seaweed/g3.webp", "alt": "Sunset over the tidal creeks near Stiffkey", "orientation": "landscape" },
-        { "src": "/farm-media/norfolk-seaweed/g4.webp", "alt": "Collecting seaweed samples on the low-tide Norfolk shore", "orientation": "landscape" },
-        { "src": "/farm-media/norfolk-seaweed/g5.webp", "alt": "The workboat Morning Flight in a boatyard hoist", "orientation": "portrait" }
+        { "src": "/farm-media/norfolk-seaweed/g1.webp", "alt": "Grading a tray of Pacific oysters beside the tidal creek", "caption": "Grading the oysters down by the creek.", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g2.webp", "alt": "Holding up two long strands of red seaweed at the water's edge", "caption": "Red weed, fresh from the shallows.", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g3.webp", "alt": "Sunset over the tidal creeks near Stiffkey", "caption": "Last light over the Stiffkey creeks.", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g4.webp", "alt": "Collecting seaweed samples on the low-tide Norfolk shore", "caption": "Working the low tide.", "orientation": "landscape" },
+        { "src": "/farm-media/norfolk-seaweed/g5.webp", "alt": "The workboat Morning Flight in a boatyard hoist", "caption": "Morning Flight, up for a refit.", "orientation": "portrait" }
       ]
     }
   },
@@ -305,11 +305,11 @@
         "orientation": "landscape"
       },
       "gallery": [
-        { "src": "/farm-media/kaly/g1.webp", "alt": "Working boats moored at the Loch Bay pier in the evening light", "orientation": "landscape" },
-        { "src": "/farm-media/kaly/g2.webp", "alt": "Freshly harvested kelp, close up", "orientation": "landscape" },
-        { "src": "/farm-media/kaly/g3.webp", "alt": "Crofting cottages and a single-track road on Skye, the Cuillin range beyond", "orientation": "landscape" },
-        { "src": "/farm-media/kaly/g4.webp", "alt": "Aerial of Kaly's base, a converted church and manse on Waternish", "orientation": "landscape" },
-        { "src": "/farm-media/kaly/g5.webp", "alt": "Shafts of light breaking through storm cloud over Loch Bay", "orientation": "portrait" }
+        { "src": "/farm-media/kaly/g1.webp", "alt": "Working boats moored at the Loch Bay pier in the evening light", "caption": "Evening at the Loch Bay pier.", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g2.webp", "alt": "Freshly harvested kelp, close up", "caption": "Kelp, just landed.", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g3.webp", "alt": "Crofting cottages and a single-track road on Skye, the Cuillin range beyond", "caption": "The single-track road home, Cuillin beyond.", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g4.webp", "alt": "Aerial of Kaly's base, a converted church and manse on Waternish", "caption": "An old church on Waternish, now base camp.", "orientation": "landscape" },
+        { "src": "/farm-media/kaly/g5.webp", "alt": "Shafts of light breaking through storm cloud over Loch Bay", "caption": "Skye weather breaking over Loch Bay.", "orientation": "portrait" }
       ],
       "credit": "Photography: Alan Mearns"
     }
