@@ -7,7 +7,6 @@ import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import type { FarmTag } from "@/lib/farms/traits";
 import { FarmHero } from "@/components/farms/FarmHero";
 import { FarmGallery } from "@/components/farms/FarmGallery";
-import { FarmVideo } from "@/components/farms/FarmVideo";
 
 export const revalidate = 3600;
 
@@ -133,14 +132,6 @@ export default async function FarmProfilePage({
           <h2 className="font-brand-heading text-h3 text-navy-900">Kelp to crop</h2>
           <p className="mt-2 text-sm leading-relaxed text-navy-900/80">{farm.whyItMatters}</p>
         </section>
-
-        {farm.media?.video && (
-          <FarmVideo
-            video={farm.media.video}
-            poster={farm.media.hero?.src}
-            farmName={farm.name}
-          />
-        )}
 
         {farm.media?.gallery && farm.media.gallery.length > 0 && (
           <FarmGallery images={farm.media.gallery} credit={farm.media.credit} />

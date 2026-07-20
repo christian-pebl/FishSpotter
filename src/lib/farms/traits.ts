@@ -45,13 +45,6 @@ export type FarmImage = {
   orientation?: "landscape" | "portrait";
 };
 
-export type FarmVideo = {
-  provider: "youtube" | "vimeo";
-  /** The bare video id (not a full URL). */
-  id: string;
-  title?: string;
-};
-
 /**
  * Real imagery of the farm and its operations, sourced from the farm's own
  * website (permission granted). Locally hosted under public/farm-media/<slug>/
@@ -60,7 +53,6 @@ export type FarmVideo = {
 export type FarmMedia = {
   hero?: FarmImage;
   gallery?: FarmImage[];
-  video?: FarmVideo;
   /** Photographer / attribution line shown under the imagery. */
   credit?: string;
 };

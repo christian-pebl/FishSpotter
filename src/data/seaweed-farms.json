@@ -213,8 +213,7 @@
         { "src": "/farm-media/car-y-mor/g3.webp", "alt": "Wide view of the ocean farm, the buoy float-line stretched across the sound", "orientation": "landscape" },
         { "src": "/farm-media/car-y-mor/g4.webp", "alt": "A gaff-rigged sailing boat on blue water beside the farm's float-line", "orientation": "landscape" },
         { "src": "/farm-media/car-y-mor/g5.webp", "alt": "A farmer in yellow oilskins hauling a kelp line, fronds hanging in the foreground", "orientation": "portrait" }
-      ],
-      "video": { "provider": "youtube", "id": "UL29ndxcYjg", "title": "For the Love of the Sea" }
+      ]
     }
   },
   "norfolk-seaweed": {
@@ -263,8 +262,7 @@
         { "src": "/farm-media/norfolk-seaweed/g3.webp", "alt": "Sunset over the tidal creeks near Stiffkey", "orientation": "landscape" },
         { "src": "/farm-media/norfolk-seaweed/g4.webp", "alt": "Collecting seaweed samples on the low-tide Norfolk shore", "orientation": "landscape" },
         { "src": "/farm-media/norfolk-seaweed/g5.webp", "alt": "The workboat Morning Flight in a boatyard hoist", "orientation": "portrait" }
-      ],
-      "video": { "provider": "youtube", "id": "ByhlOTNHwHM", "title": "Seaweed in East Anglia" }
+      ]
     }
   },
   "kaly": {

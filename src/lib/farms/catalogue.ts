@@ -24,13 +24,6 @@ const farmImageSchema = z.object({
 const farmMediaSchema = z.object({
   hero: farmImageSchema.optional(),
   gallery: z.array(farmImageSchema).optional(),
-  video: z
-    .object({
-      provider: z.enum(["youtube", "vimeo"]),
-      id: z.string().min(1),
-      title: z.string().min(1).optional(),
-    })
-    .optional(),
   credit: z.string().min(1).optional(),
 });
 
