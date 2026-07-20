@@ -21,7 +21,11 @@
  * formula was retired in S2-T03.
  */
 
-export const MIN_ANSWERS_FOR_RANKING = 10;
+// Every spotter with at least one answer qualifies -- accessibility over
+// gatekeeping. Kept at 1 rather than 0 as a defensive floor: the DB
+// aggregation this feeds never emits a 0-answer row, but rankSpotters() is
+// also called directly with hand-built fixtures in tests.
+export const MIN_ANSWERS_FOR_RANKING = 1;
 
 export interface SpotterCounts {
   userId: string;

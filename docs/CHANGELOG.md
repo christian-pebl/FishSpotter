@@ -454,3 +454,23 @@ held back for one big merge.
   repeatedly (three separate pushes were rejected mid-session by other sessions landing first).
   Every recovery followed the same pattern: disposable worktree, re-fetch, re-verify the actual
   merge target, push immediately.
+- **Leaderboard accessibility fix, 20 Jul 2026** — `MIN_ANSWERS_FOR_RANKING` dropped from 10 to 1
+  (`src/lib/leaderboard.ts`): every spotter with at least one submitted answer now qualifies for
+  the ranking, including a brand-new guest's very first guess. An audit against the live DB found
+  the old 10-answer bar wasn't filtering noise, it was hiding real performance: two spotters (9 and
+  8 answers, 210 and 176 Pebbles) outscored a third spotter who WAS visible on the board (15
+  answers, 165 Pebbles), and 3 of the 5 people who had ever played were invisible. Also fixed a
+  latent inconsistency where `/api/leaderboard` (the public JSON endpoint) hand-rolled its own
+  `.sort()` with no minimum-answers floor and no accuracy tiebreak, silently disagreeing with
+  whatever renders the ranking on both who qualifies and tie order; it now calls the shared
+  `rankSpotters()` helper and includes `rank` in its response, so it's the single source of truth.
+  The `leaderboardOptIn` ICO Children's Code gate for declared 13-17 minors is unrelated and
+  untouched. `tsc`, full test suite (418 tests), and `lint` all clean; verified live in a dev
+  preview against the real DB (5 spotters, all correctly ranked, JSON and the then-current
+  `/leaderboard` page matched exactly). **Note:** `/leaderboard` itself was concurrently rewritten
+  by separate in-flight work (now a redirect into a new `/pebbles` hub, ranking as a tab via
+  `src/components/leaderboard/LeaderboardPanel.tsx`) while this fix was landing, so the page-level
+  "N more to qualify" banner cleanup from this pass didn't ship. `MIN_ANSWERS_FOR_RANKING` is a
+  shared constant, so the new panel inherits the accessibility fix automatically, but it still
+  carries the old "Minimum {N} identifications" copy verbatim, harmless at N=1, worth a pass
+  whenever that panel is finished.

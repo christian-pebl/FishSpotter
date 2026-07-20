@@ -25,13 +25,13 @@ describe("scoreSpotter", () => {
 });
 
 describe("rankSpotters", () => {
-  it("filters out spotters below the minimum-answer threshold", () => {
+  it("filters out only spotters with zero answers -- a single guess qualifies", () => {
     const ranked = rankSpotters([
       { userId: "regular", correct: 5, total: 12 },
-      { userId: "drive-by", correct: 1, total: 1 },
-      { userId: "almost", correct: 8, total: MIN_ANSWERS_FOR_RANKING - 1 },
+      { userId: "one-guess", correct: 1, total: 1 },
+      { userId: "never-answered", correct: 0, total: MIN_ANSWERS_FOR_RANKING - 1 },
     ]);
-    expect(ranked.map((r) => r.userId)).toEqual(["regular"]);
+    expect(ranked.map((r) => r.userId)).toEqual(["regular", "one-guess"]);
   });
 
   it("uses shared ranks for tied scores (1, 2, 2, 4 style)", () => {
@@ -69,12 +69,7 @@ describe("rankSpotters", () => {
   });
 
   it("returns an empty list when no spotter is eligible", () => {
-    expect(
-      rankSpotters([
-        { userId: "x", correct: 0, total: 0 },
-        { userId: "y", correct: 3, total: 5 },
-      ]),
-    ).toEqual([]);
+    expect(rankSpotters([{ userId: "x", correct: 0, total: 0 }])).toEqual([]);
   });
 
   it("100 random answers at 50% accuracy scores 50, NOT 75 (regression test for §05 F-LB-02)", () => {
@@ -97,13 +92,11 @@ describe("rankSpotters", () => {
   });
 
   it("a user with one pending + one correct beats a user with two pending (S7-T1)", () => {
-    // Spotter A: 1 correct + 1 pending = 3 pts, total 2 → ineligible (min 10).
-    // Bump them both above the threshold with extras:
-    // A: 1 correct (2) + 9 pending (9) = 11
-    // B: 0 correct (0) + 10 pending (10) = 10
+    // A: 1 correct (2 pts) + 1 pending (1 pt) = 3
+    // B: 0 correct (0 pts) + 2 pending (2 pts) = 2
     const ranked = rankSpotters([
-      { userId: "A", correct: 1, total: 10, points: 11 },
-      { userId: "B", correct: 0, total: 10, points: 10 },
+      { userId: "A", correct: 1, total: 2, points: 3 },
+      { userId: "B", correct: 0, total: 2, points: 2 },
     ]);
     expect(ranked.map((r) => r.userId)).toEqual(["A", "B"]);
   });

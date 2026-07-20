@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { rankSpotters } from "@/lib/leaderboard";
 
 // S4-02 + Batch D1: the anonymous JSON payload is identical for every caller
 // and changes slowly, so cache it for 60s (mirrors the /leaderboard page
@@ -7,9 +8,11 @@ import { prisma } from "@/lib/prisma";
 export const revalidate = 60;
 
 // S7-T1: ranking sums Answer.points instead of the old (audit-flagged)
-// `correct + 0.5*wrong` formula. The page route at /leaderboard uses the same
-// scoring; this JSON endpoint mirrors it so any external integrators see
-// consistent numbers.
+// `correct + 0.5*wrong` formula. Ranking itself now goes through the shared
+// rankSpotters() helper (previously this route hand-rolled its own `.sort()`
+// with no minimum-answers floor and no accuracy tiebreak, so it could
+// silently disagree with the /leaderboard page on ordering and on who
+// qualifies). This is the single source of truth for both.
 //
 // Batch D1: the previous implementation did `answer.findMany({ select: ... })`
 // over the ENTIRE Answer table and aggregated in JS (a full-table scan). It
@@ -73,23 +76,30 @@ export async function GET() {
     }
   }
 
-  const leaderboard = Object.entries(byUser)
-    .map(([userId, { correct, total, points }]) => ({
-      // userId is kept: the /u/[id] profile route already makes the cuid a
-      // public identifier (it is the URL segment), so omitting it here would
-      // hide nothing, and a client could legitimately link a row to a profile.
+  const ranked = rankSpotters(
+    Object.entries(byUser).map(([userId, { correct, total, points }]) => ({
       userId,
-      displayName:
-        userMap[userId]?.displayName ??
-        userMap[userId]?.name ??
-        `User ${userId.slice(0, 6)}`,
       correct,
       total,
       points,
-      score: points,
-    }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 50);
+    })),
+  );
+
+  const leaderboard = ranked.slice(0, 50).map((r) => ({
+    // userId is kept: the /u/[id] profile route already makes the cuid a
+    // public identifier (it is the URL segment), so omitting it here would
+    // hide nothing, and a client could legitimately link a row to a profile.
+    userId: r.userId,
+    displayName:
+      userMap[r.userId]?.displayName ??
+      userMap[r.userId]?.name ??
+      `User ${r.userId.slice(0, 6)}`,
+    correct: r.correct,
+    total: r.total,
+    points: r.points ?? 0,
+    score: r.score,
+    rank: r.rank,
+  }));
 
   return NextResponse.json({ leaderboard });
 }
