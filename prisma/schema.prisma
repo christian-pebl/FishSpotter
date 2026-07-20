@@ -322,7 +322,13 @@ model PebblePurchase {
   itemId      String // key into src/lib/shop/catalogue.ts
   pebbleCost  Int // price paid, snapshotted
   purchasedAt DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // For consumables (the Tide Freeze): null while unused ("held"), set to the
+  // UTC date (YYYY-MM-DD) the freeze was spent to protect once it bridges a
+  // missed day. Cosmetics leave this null forever. Recording the protected DATE
+  // (not just a used-flag) is what keeps a spent freeze permanently covering
+  // that gap when the streak is recomputed. See src/lib/streak.ts.
+  consumedForDate String?
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }

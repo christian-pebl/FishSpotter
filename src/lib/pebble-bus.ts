@@ -31,3 +31,26 @@ export function onPebbles(handler: (detail: PebbleEarnDetail) => void): () => vo
   window.addEventListener(PEBBLE_EVENT, listener);
   return () => window.removeEventListener(PEBBLE_EVENT, listener);
 }
+
+// A separate signal for the spendable WALLET (earned - spent). Fired after a
+// shop purchase so the Pebble bag can draw its count down without a reload.
+// Kept distinct from PEBBLE_EVENT (which carries an earn delta + fly-in burst):
+// a spend has no burst, it just sets the new authoritative wallet balance.
+export const PEBBLE_WALLET_EVENT = "fishspotter:wallet";
+
+export interface WalletChangeDetail {
+  /** The spotter's new spendable wallet balance. */
+  wallet: number;
+}
+
+export function emitWallet(detail: WalletChangeDetail): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent<WalletChangeDetail>(PEBBLE_WALLET_EVENT, { detail }));
+}
+
+export function onWallet(handler: (detail: WalletChangeDetail) => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const listener = (e: Event) => handler((e as CustomEvent<WalletChangeDetail>).detail);
+  window.addEventListener(PEBBLE_WALLET_EVENT, listener);
+  return () => window.removeEventListener(PEBBLE_WALLET_EVENT, listener);
+}

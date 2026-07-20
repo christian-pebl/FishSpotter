@@ -76,12 +76,14 @@ const NAV: NavItem[] = [
     ),
   },
   {
-    href: "/leaderboard",
-    label: "Leaderboard",
-    match: (p) => p.startsWith("/leaderboard"),
+    href: "/pebbles",
+    label: "Pebbles & shop",
+    match: (p) => p.startsWith("/pebbles") || p.startsWith("/leaderboard"),
     icon: (
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M4 13V8m4 5V4m4 9v-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        <rect x="4.5" y="1.5" width="7" height="3.4" rx="1.7" stroke="currentColor" strokeWidth="1.3" />
+        <rect x="2.8" y="6" width="10.4" height="3.8" rx="1.9" stroke="currentColor" strokeWidth="1.3" />
+        <rect x="1.6" y="11.1" width="12.8" height="3.6" rx="1.8" stroke="currentColor" strokeWidth="1.3" />
       </svg>
     ),
   },

@@ -6,7 +6,8 @@ import { immediateAward } from "@/lib/pebbles";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAnswerRateLimit } from "@/lib/rate-limit";
-import { computeStreakFromAnswers, toDateKey } from "@/lib/streak";
+import { toDateKey } from "@/lib/streak";
+import { datesFromAnswers, readStreak, settleStreak } from "@/lib/streak-service";
 
 const MAX_ANSWER_LENGTH = 80;
 
@@ -95,7 +96,10 @@ export async function POST(req: Request) {
     orderBy: { createdAt: "desc" },
     take: 1000,
   });
-  const previousStreak = computeStreakFromAnswers(beforeAnswers);
+  const beforeDates = datesFromAnswers(beforeAnswers);
+  // Freeze-aware, read-only: the streak BEFORE this submission (Tide Freezes
+  // already held/spent are honoured, but none are spent by a read).
+  const previousStreak = await readStreak(prisma, session.user.id, beforeDates);
 
   const answer = await prisma.answer.upsert({
     where: {
@@ -124,12 +128,12 @@ export async function POST(req: Request) {
   // update on an existing answer doesn't move createdAt, so editing a
   // previous answer cannot bump the streak.
   const answerDateKey = toDateKey(answer.createdAt);
-  const alreadyHadDate = beforeAnswers.some(
-    (a) => toDateKey(a.createdAt) === answerDateKey,
-  );
-  const currentStreak = alreadyHadDate
-    ? previousStreak
-    : computeStreakFromAnswers([...beforeAnswers, { createdAt: answer.createdAt }]);
+  const currentDates = beforeDates.includes(answerDateKey)
+    ? beforeDates
+    : [...beforeDates, answerDateKey];
+  // Freeze-aware AND the single writer: settleStreak spends (stamps) any held
+  // Tide Freezes needed to bridge a missed day, so the bridge is permanent.
+  const currentStreak = await settleStreak(prisma, session.user.id, currentDates);
 
   // Running Pebble total so the client bag can sync its absolute count and
   // animate the freshly-earned delta into the pouch. _count drives the guest
@@ -151,8 +155,8 @@ export async function POST(req: Request) {
       firstSighting: award?.firstSighting ?? false,
     },
     streak: {
-      previous: previousStreak.currentStreak,
-      current: currentStreak.currentStreak,
+      previous: previousStreak,
+      current: currentStreak,
     },
     unlock: null,
   });

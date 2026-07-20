@@ -44,24 +44,8 @@
  * legible frame rather than a frozen off-screen one.
  */
 
-import { type CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties } from "react";
 import { useReducedMotion } from "framer-motion";
-
-// A pool of short, on-brand eyebrow phrases. The loader rotates through these
-// on every mount (cold boot AND soft navigations like archive → live feed) so
-// the wait reads fresh each time rather than repeating one fixed line.
-const CAPTIONS = [
-  "Sweeping the seafloor",
-  "Scanning the shallows",
-  "Chasing the shoal",
-  "Following the current",
-  "Drifting through the kelp",
-  "Tracking the tide",
-  "Combing the seabed",
-  "Watching the water",
-  "Counting the fins",
-  "Surfacing the clips",
-] as const;
 
 // A diverse cast pulled from every rung's silhouette folder, interleaved so that
 // consecutive entries (which land in adjacent lanes) look different. Deduped to
@@ -216,24 +200,12 @@ function Silhouette({ src }: { src: string }) {
 }
 
 export function SwimLoader({
-  caption,
   label = "Loading",
 }: {
-  /** Deterministic first-paint eyebrow (avoids a hydration mismatch); the
-   *  component then rotates to a random phrase from CAPTIONS on mount. */
-  caption: string;
   /** Accessible label for the busy region. */
   label?: string;
 }) {
   const reduce = useReducedMotion();
-
-  // Seed with the passed `caption` for SSR/first paint (stable across the
-  // server↔client boundary), then swap to a fresh random phrase once mounted so
-  // every load — and every soft navigation — shows a different line.
-  const [phrase, setPhrase] = useState(caption);
-  useEffect(() => {
-    setPhrase(CAPTIONS[Math.floor(Math.random() * CAPTIONS.length)]);
-  }, []);
 
   return (
     <main
@@ -302,8 +274,6 @@ export function SwimLoader({
             <div className="fs-loadfill absolute inset-y-0 left-0 rounded-full bg-teal-400" />
           )}
         </div>
-
-        <p className="pebl-eyebrow mt-4 text-center text-teal-200/90">{phrase}</p>
       </div>
     </main>
   );

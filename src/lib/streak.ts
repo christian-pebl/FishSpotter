@@ -78,3 +78,101 @@ export function computeStreakFromAnswers(
     now,
   );
 }
+
+// ---------------------------------------------------------------------------
+// Tide Freeze — freeze-aware streak (shop consumable)
+// ---------------------------------------------------------------------------
+
+function prevDay(key: string): string {
+  return toDateKey(new Date(parseDateKey(key).getTime() - 24 * 60 * 60 * 1000));
+}
+
+export interface FreezeState {
+  /** Count of unused ("held") Tide Freezes the spotter owns. */
+  availableFreezes: number;
+  /** UTC date-keys (YYYY-MM-DD) already covered by a spent freeze. A day here is
+   *  bridged for free (its freeze was consumed on a previous pass). */
+  protectedDates: ReadonlySet<string>;
+}
+
+export interface FreezeStreakResult extends StreakResult {
+  /** Missed days newly bridged by spending a held freeze on THIS pass. The
+   *  caller (the answers route) persists these by stamping that many held
+   *  freezes with the date, so the bridge is permanent on later recomputes. */
+  newlyProtectedDates: string[];
+}
+
+/**
+ * Like computeStreakFromDates, but a missed day can be bridged if it is already
+ * protected (a freeze was spent on it before) or by spending one of the held
+ * `availableFreezes`. Greedy from the most recent day: it first reconnects the
+ * latest activity to the today/yesterday window, then bridges internal gaps,
+ * stopping when a missed day cannot be covered. Pure — persistence of the
+ * spent freezes is the caller's job (via newlyProtectedDates).
+ */
+export function computeStreakWithFreezes(
+  dates: Iterable<string>,
+  freeze: FreezeState,
+  now: Date = new Date(),
+): FreezeStreakResult {
+  const sorted = Array.from(new Set(dates)).sort().reverse();
+  if (sorted.length === 0) {
+    return { currentStreak: 0, lastActivityDate: null, newlyProtectedDates: [] };
+  }
+
+  const today = toDateKey(now);
+  const yesterday = toDateKey(new Date(now.getTime() - 24 * 60 * 60 * 1000));
+
+  let available = freeze.availableFreezes;
+  const newlyProtected: string[] = [];
+  // Cover one specific missed day: free if already protected, else spend a held
+  // freeze (recording it). Returns false when none are left.
+  const cover = (day: string): boolean => {
+    if (freeze.protectedDates.has(day)) return true;
+    if (available > 0) {
+      available -= 1;
+      newlyProtected.push(day);
+      return true;
+    }
+    return false;
+  };
+
+  const broken: FreezeStreakResult = {
+    currentStreak: 0,
+    lastActivityDate: sorted[0],
+    newlyProtectedDates: [],
+  };
+
+  // 1) Reconnect the most recent activity to the today/yesterday window.
+  const last = sorted[0];
+  if (last !== today && last !== yesterday) {
+    let cursor = yesterday;
+    while (cursor !== last) {
+      if (!cover(cursor)) return broken;
+      cursor = prevDay(cursor);
+    }
+  }
+
+  // 2) Walk consecutive activity days, bridging internal gaps.
+  let streak = 1;
+  for (let i = 1; i < sorted.length; i++) {
+    const gap = daysBetween(sorted[i - 1], sorted[i]); // >= 1
+    if (gap === 1) {
+      streak += 1;
+      continue;
+    }
+    let cursor = prevDay(sorted[i - 1]);
+    let bridged = true;
+    for (let k = 0; k < gap - 1; k++) {
+      if (!cover(cursor)) {
+        bridged = false;
+        break;
+      }
+      cursor = prevDay(cursor);
+    }
+    if (!bridged) break;
+    streak += 1;
+  }
+
+  return { currentStreak: streak, lastActivityDate: sorted[0], newlyProtectedDates: newlyProtected };
+}

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { computeStreakFromAnswers } from "@/lib/streak";
+import { datesFromAnswers, readStreak } from "@/lib/streak-service";
 
 export const dynamic = "force-dynamic";
 
@@ -20,5 +20,12 @@ export async function GET() {
     take: 1000,
   });
 
-  return NextResponse.json(computeStreakFromAnswers(answers));
+  // Freeze-aware (read-only): held/spent Tide Freezes keep the streak alive
+  // across a missed day; a read never spends one.
+  const currentStreak = await readStreak(
+    prisma,
+    session.user.id,
+    datesFromAnswers(answers),
+  );
+  return NextResponse.json({ currentStreak });
 }

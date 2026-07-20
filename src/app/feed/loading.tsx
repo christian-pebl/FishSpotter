@@ -11,5 +11,5 @@
 import { SwimLoader } from "@/components/SwimLoader";
 
 export default function FeedLoading() {
-  return <SwimLoader caption="Sweeping the seafloor" label="Loading the live feed" />;
+  return <SwimLoader label="Loading the live feed" />;
 }
