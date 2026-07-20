@@ -17,7 +17,11 @@ const farmPersonSchema = z.object({
 const farmImageSchema = z.object({
   // Locally hosted only: a relative /farm-media/... path, never an external URL.
   src: z.string().regex(/^\/farm-media\/[a-z0-9-]+\/[a-z0-9._-]+$/i, "must be a /farm-media/<slug>/<file> path"),
+  // `alt` stays descriptive for screen readers / SEO. `caption` is the optional
+  // human, editorial line shown under the photo in the gallery lightbox, kept
+  // separate so accessibility text and the visible caption can differ in voice.
   alt: z.string().min(1),
+  caption: z.string().min(1).optional(),
   orientation: z.enum(["landscape", "portrait"]).optional(),
 });
 

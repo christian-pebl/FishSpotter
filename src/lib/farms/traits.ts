@@ -41,7 +41,10 @@ export type FarmInterview = {
 export type FarmImage = {
   /** Public path, e.g. "/farm-media/kaly/hero.webp". Locally hosted, not hotlinked. */
   src: string;
+  /** Descriptive text for screen readers / SEO. */
   alt: string;
+  /** Optional human, editorial line shown as the visible caption (falls back to none). */
+  caption?: string;
   orientation?: "landscape" | "portrait";
 };
 

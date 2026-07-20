@@ -112,10 +112,12 @@ export function FarmGallery({
               alt={images[openIndex].alt}
               className="max-h-[80vh] w-auto rounded-modal object-contain"
             />
-            <figcaption className="mt-2 max-w-xl text-center text-xs text-white/70">
-              {images[openIndex].alt}
-              {credit && <span className="mt-0.5 block text-white/45">{credit}</span>}
-            </figcaption>
+            {(images[openIndex].caption || credit) && (
+              <figcaption className="mt-2 max-w-xl text-center text-xs text-white/70">
+                {images[openIndex].caption}
+                {credit && <span className="mt-0.5 block text-white/45">{credit}</span>}
+              </figcaption>
+            )}
           </figure>
         </div>
       )}
