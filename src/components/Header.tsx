@@ -77,12 +77,29 @@ export function Header() {
               >
                 FishSpotter
               </span>
+              {/* "by" + the real PEBL logo (recoloured via CSS mask so the
+                  wordmark inherits the subtitle colour: white on the feed
+                  overlay, muted teal elsewhere). */}
               <span
-                className={`mt-1 text-[10px] font-semibold uppercase leading-none tracking-[0.2em] ${
+                className={`mt-1 flex items-center gap-1 text-[10px] font-semibold uppercase leading-none tracking-[0.15em] ${
                   onFeed ? "text-white/75" : "text-[color:var(--muted)]"
                 }`}
               >
-                by PEBL
+                by
+                <span
+                  aria-hidden
+                  className="block h-3.5 w-[42px] bg-current"
+                  style={{
+                    WebkitMaskImage: "url('/branding/PEBL Logo-1.svg')",
+                    maskImage: "url('/branding/PEBL Logo-1.svg')",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskPosition: "left center",
+                    maskPosition: "left center",
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                  }}
+                />
               </span>
             </Link>
           </div>
