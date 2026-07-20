@@ -47,7 +47,7 @@ export const SHOP_ITEMS: readonly ShopItem[] = [
   {
     id: "gold-nameplate",
     name: "Gold nameplate",
-    blurb: "Your spotter name shines gold on your profile.",
+    blurb: "Your name shines gold on the leaderboard and your profile.",
     price: 150,
     type: "cosmetic",
     kind: "nameplate",
@@ -55,7 +55,7 @@ export const SHOP_ITEMS: readonly ShopItem[] = [
   {
     id: "coral-accent",
     name: "Coral accent",
-    blurb: "A warm coral band across your profile header.",
+    blurb: "A warm coral band on your profile, and a coral flash by your leaderboard name.",
     price: 300,
     type: "cosmetic",
     kind: "profile-accent",
