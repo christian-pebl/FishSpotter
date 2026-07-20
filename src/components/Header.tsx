@@ -60,14 +60,15 @@ export function Header() {
                 />
               </svg>
             </button>
-            {/* Two-line lockup, vertically centred as a block. The balancing
-                "by PEBL" line also settles the wordmark's optical alignment
-                against the rest of the bar (the display font sat a touch high
-                as a lone single line). */}
+            {/* Single-line lockup: FishSpotter + a small "by" + the real PEBL
+                logo, all on one row and vertically centred against the menu
+                button. The PEBL logo is recoloured via CSS mask so the wordmark
+                inherits the lockup colour (white on the feed overlay, muted teal
+                elsewhere). */}
             <Link
               href="/"
               aria-label="FishSpotter, by PEBL. Home."
-              className="pointer-events-auto flex flex-col justify-center"
+              className="pointer-events-auto flex items-center gap-1.5"
               style={onFeed ? { textShadow: overlayTextShadow } : undefined}
             >
               <span
@@ -77,11 +78,8 @@ export function Header() {
               >
                 FishSpotter
               </span>
-              {/* "by" + the real PEBL logo (recoloured via CSS mask so the
-                  wordmark inherits the subtitle colour: white on the feed
-                  overlay, muted teal elsewhere). */}
               <span
-                className={`mt-1 flex items-center gap-1 text-[10px] font-semibold uppercase leading-none tracking-[0.15em] ${
+                className={`flex items-center gap-1 text-[10px] font-semibold lowercase leading-none tracking-[0.08em] ${
                   onFeed ? "text-white/75" : "text-[color:var(--muted)]"
                 }`}
               >
