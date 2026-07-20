@@ -17,3 +17,6 @@ export const MAX_EVENTS_PER_BATCH = 50;
 
 /** Sanity clamp on clip_watch seconds (a day) — guards against bad clocks. */
 export const MAX_WATCH_SECONDS = 24 * 60 * 60;
+
+/** Cap on attribution string lengths (referrer hostname, utm_* values). */
+export const MAX_ATTRIBUTION_LEN = 128;

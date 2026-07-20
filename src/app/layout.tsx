@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Jost, Roboto } from "next/font/google";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider } from "@/components/SessionProvider";
 import { Header } from "@/components/Header";
 import { CookieBanner } from "@/components/legal/CookieBanner";
@@ -105,6 +106,7 @@ export default function RootLayout({
           </div>
           <CookieBanner />
           <WebVitalsReporter />
+          <Analytics />
         </SessionProvider>
       </body>
     </html>

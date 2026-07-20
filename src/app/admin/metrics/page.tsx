@@ -48,6 +48,7 @@ export default async function MetricsPage() {
     verdicts,
     correct,
     speciesUnlocks,
+    sourceRows,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.user.count({ where: { createdAt: { gte: since30 } } }),
@@ -66,7 +67,21 @@ export default async function MetricsPage() {
     prisma.answer.count({ where: { isCorrect: { not: null } } }),
     prisma.answer.count({ where: { isCorrect: true } }),
     prisma.unlockedSpecies.count(),
+    prisma.event.groupBy({
+      by: ["utmSource", "referrer"],
+      where: { type: "session_start", createdAt: { gte: since30 } },
+      _count: { _all: true },
+      orderBy: { _count: { id: "desc" } },
+      take: 10,
+    }),
   ]);
+
+  const topSources = sourceRows
+    .map((r) => ({
+      label: r.utmSource ?? r.referrer ?? "direct / unknown",
+      count: r._count._all,
+    }))
+    .filter((r) => r.count > 0);
 
   const watchMinAll = Math.round((watchAll._sum.value ?? 0) / 60);
   const watchMin30 = Math.round((watch30._sum.value ?? 0) / 60);
@@ -112,6 +127,26 @@ export default async function MetricsPage() {
           <StatCard label="Clips watched" value={clipViews.toLocaleString()} sub="clip views logged" />
           <StatCard label="Identifications" value={identifications.toLocaleString()} sub="IDs submitted" />
         </div>
+      </section>
+
+      <section>
+        <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-eyebrow text-navy-600">
+          Top sources (30d)
+        </h2>
+        {topSources.length === 0 ? (
+          <p className="text-[12px] text-navy-600">No sessions with attribution yet.</p>
+        ) : (
+          <div className="rounded-card border border-navy-200/60 bg-white p-4">
+            <ul className="divide-y divide-navy-200/60">
+              {topSources.map((s) => (
+                <li key={s.label} className="flex items-center justify-between py-2 text-[13px]">
+                  <span className="text-navy-900">{s.label}</span>
+                  <span className="tabular-nums font-semibold text-navy-900">{s.count.toLocaleString()}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
       <section>

@@ -474,3 +474,80 @@ held back for one big merge.
   shared constant, so the new panel inherits the accessibility fix automatically, but it still
   carries the old "Minimum {N} identifications" copy verbatim, harmless at N=1, worth a pass
   whenever that panel is finished.
+- **Pebbles anti-gaming Plan 1 Phase 1, 20 Jul 2026** (commit `6bd41b4`, design record
+  `docs/pebbles-anti-gaming-and-prizes-plan.md`) — closes the Sybil hole in the crowd-authority
+  consensus model: a ring of 3+ colluding accounts could previously self-consensus on a rare
+  species and farm the rarity multiplier, since "truth" was an unweighted crowd-of-3
+  (`CONSENSUS_THRESHOLD_USERS`). Adds a hidden `trustScore` per user (`User.isTrustSeed` /
+  `trustScore` / `trustUpdatedAt`), propagated from a handful of manually-seeded real accounts
+  (`christian@pebl-cic.co.uk`, `anjali@pebl-cic.co.uk`, `daniabulhawa@gmail.com`) via personalized
+  PageRank over co-occurrence in **winning** consensus camps (`src/lib/trust.ts`, new). Teleport is
+  seed-only (not classic PageRank's uniform-everyone teleport), which gives a provable, exact
+  property: an isolated ring with zero graph path to any seed earns exactly `0` trust, no matter how
+  densely it agrees with itself. Runs daily in the existing `consensus-rescore` cron, right after
+  `rescoreConsensus` (sequencing is load-bearing — every reached camp needs a fresh `ConsensusEvent`
+  row for decay weighting). `isPrizeEligible` gates on verified email + trust bar + account age +
+  non-bursty activity spread; nothing consumes it yet beyond the new read-only `/admin/trust` page
+  (trust is never shown to spotters, never removes Pebbles or status — gates upside only). A
+  dedicated adversarial review pass caught three real bugs before implementation, all fixed: the
+  seed-trust pin has to be the unconditional last step (not fed into the cross-run smoothing blend,
+  or re-flagging an existing user as a seed produces a blended ~40 instead of 100); the decay
+  formula needed true half-life math (`0.5 ** (age/halfLife)`, not `exp(-age/halfLife)`, which
+  reaches 0.5 at the wrong point); and zero seeds must short-circuit rather than divide by a zero
+  median (would otherwise write `NaN` into every user's `trustScore` if the code deployed before the
+  seed script ran). `src/lib/consensus.ts` gained one new pure export, `pickLeaderGroup` (mechanical
+  extraction of the existing inline leader-selection logic, zero behavior change, `rescoreConsensus`
+  now calls it too) so the trust graph and the Pebble payout can never disagree about who won a
+  clip. Verified two ways: `tsc`/full test suite (456 tests, 39 new)/`lint`/`lint:tokens` all clean,
+  **and** a direct run against real production data (bypassing the cron's `CRON_SECRET`, which isn't
+  in local `.env.local`) confirmed all 3 seeds pinned at exactly `100.00`, one active guest account
+  picked up a genuine non-degenerate `47.57`, everyone else `0.00`, zero `NaN` anywhere. Shipped
+  alongside a large concurrent "Pebbles shop" session building `/pebbles`, wallet, and purchases —
+  coordinated rather than clashed: confirmed via `git diff` that shared-file edits
+  (`prisma/schema.prisma`'s new `PebblePurchase` model, `consensus.ts`) landed side by side cleanly,
+  and staged only this feature's 10 files by explicit path for the commit (never `git add -A`).
+  **Not built yet** (later phases per the plan doc): trust-weighting the actual consensus payout,
+  the rarity-multiplier cap, coarse taxonomy, collusion-cluster detection, and none of the five
+  prizes. **Known gaps:** `PRIZE_TRUST_BAR=40` and the decay/damping/smoothing constants are
+  reasonable defaults, not yet calibrated against real accumulated data; Anjali's seed account still
+  isn't `emailVerified` (fine as a trust anchor, blocks her personally claiming a prize later); a
+  documented, deliberately-accepted burst-loophole in the activity-spread check (see
+  `isPrizeEligible`'s docstring).
+- **Pebbles shop, 20 Jul 2026** (commit `7b820a2`, LIVE on fish-spotter.vercel.app). A
+  Duolingo-style shop layered on the Pebbles economy. Tapping the header pebble bag now opens a
+  new `/pebbles` hub with **Shop | Leaderboard** tabs; the old `/leaderboard` route redirects into
+  it and its body was extracted to `src/components/leaderboard/LeaderboardPanel.tsx`. The currency
+  is split in two so spending never costs a spotter their rank: lifetime **earned**
+  (`sum(Answer.points)`) still ranks the leaderboard and never decreases, while a spendable
+  **wallet** (`earned - shop spend`) drives the bag and shop (`/api/me/pebbles` now returns
+  `{earned, spent, wallet}`). Items live in a code catalogue (`src/lib/shop/catalogue.ts`) backed
+  by a new `PebblePurchase` ledger table, not a DB item table. Three items shipped: **Gold
+  nameplate** (150) and **Coral accent** (300), one-time cosmetics that render on the public
+  `/u/[id]` profile; and **Tide Freeze** (80, hold up to 2), a consumable that protects the
+  day-streak. The freeze is correct and one-time: a freeze-aware streak
+  (`computeStreakWithFreezes` in `src/lib/streak.ts` + `src/lib/streak-service.ts`) bridges a
+  missed day by spending a held freeze and stamps `PebblePurchase.consumedForDate` with the
+  protected date, so the bridge stays permanent on recompute and cannot be double-spent;
+  `/api/answers` is the single writer, other streak reads (`/api/streak`, profile, hub banner) are
+  read-only. Purchases go through `POST /api/shop/purchase` (auth + same-origin + zod +
+  `checkShopRateLimit` + server-side affordability/ownership/hold-cap). Also removed the rotating
+  SwimLoader captions ("Chasing the shoal", etc.) at Christian's request. Prod DB migrated
+  (`PebblePurchase` + `consumedForDate`) with RLS enabled (19/19). Verified: `tsc`, 463 tests
+  (new shop/wallet/streak suites), `lint`, `lint:tokens`, production build; real purchase and
+  freeze-consumption integration runs against the DB; shop/leaderboard/profile checked at desktop
+  1280 and mobile 375 (no horizontal overflow, touch targets >=44px); and confirmed live on prod
+  after deploy. Built alongside the concurrent trust session above; staged by explicit path (never
+  `git add -A`). **Not built yet:** more shop inventory; a live end-to-end purchase click on the
+  deployed build (logic is DB-integration-tested, but no funded account was signed into via the UI).
+- **Traffic-source observability, 20 Jul 2026** — prompted by the first Reddit share of
+  fishspotter.app; goal was to see whether a channel is converting without adding any user-facing
+  friction. Added `@vercel/analytics` to the root layout (pageviews/referrers/geo/device, no
+  cookies, no consent required). Separately, extended the existing consent-gated `Event` pipeline:
+  `session_start` now carries a one-time referrer hostname (`document.referrer`, host only, never
+  the full URL) + `utm_source`/`utm_medium`/`utm_campaign` from the landing URL
+  (`src/lib/engagement.ts`), stored on 4 new nullable `Event` columns and surfaced as a "Top sources
+  (30d)" panel on `/admin/metrics`, so a channel like Reddit can be tied directly to the existing
+  funnel (signups, watch time, IDs, consensus accuracy) instead of living in a separate dashboard.
+  Zero incremental friction: the capture only fires for spotters who already accepted analytics
+  consent; nothing new is asked of anyone. Prod DB migrated (`prisma db push`, additive-only), RLS
+  reconfirmed 19/19. Verified: `tsc`, 463 tests, `lint`, `lint:tokens`.

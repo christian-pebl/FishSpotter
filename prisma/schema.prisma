@@ -394,14 +394,21 @@ model Vital {
 // in. Every write is gated on analytics consent (see POST /api/events). Rows are
 // an append-only stream; the admin dashboard aggregates them on demand.
 model Event {
-  id        String   @id @default(cuid())
-  userId    String? // null for signed-out spotters; set when authed
-  sessionId String // random per-tab id, NOT a cross-visit fingerprint
-  type      String // "session_start" | "clip_view" | "clip_watch"
-  snippetId String? // the clip this event is about, when relevant
-  value     Float? // generic numeric payload (clip_watch: active seconds)
-  createdAt DateTime @default(now())
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  userId     String? // null for signed-out spotters; set when authed
+  sessionId  String // random per-tab id, NOT a cross-visit fingerprint
+  type       String // "session_start" | "clip_view" | "clip_watch"
+  snippetId  String? // the clip this event is about, when relevant
+  value      Float? // generic numeric payload (clip_watch: active seconds)
+  // Traffic-source attribution, captured once on session_start only (from
+  // document.referrer + the landing URL's query string). Never a fingerprint —
+  // just where the tab's first pageview came from.
+  referrer   String? // e.g. "reddit.com" (hostname only, not the full URL)
+  utmSource  String?
+  utmMedium  String?
+  utmCampaign String?
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([type, createdAt])
   @@index([userId, createdAt])

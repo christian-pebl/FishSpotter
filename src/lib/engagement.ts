@@ -12,7 +12,9 @@
  *
  * Three event types only (see src/lib/events.ts): session_start, clip_view,
  * clip_watch. Everything else the funder needs (IDs, accuracy, species learned)
- * is derived from existing tables — not tracked here.
+ * is derived from existing tables — not tracked here. session_start also
+ * carries a one-time referrer hostname + UTM params (landing-page attribution
+ * only, never a fingerprint) so a traffic source can be tied to the funnel.
  */
 
 import { hasAnalyticsConsent } from "@/lib/cookies/client-consent";
@@ -27,7 +29,45 @@ type QueuedEvent = {
   sessionId: string;
   snippetId?: string;
   value?: number;
+  referrer?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
 };
+
+const MAX_ATTR_LEN = 128;
+
+function truncate(value: string): string {
+  return value.slice(0, MAX_ATTR_LEN);
+}
+
+/** Hostname only (e.g. "reddit.com") — never the full referrer URL, which can carry a source page's own query/path. */
+function referrerHostname(): string | undefined {
+  try {
+    if (!document.referrer) return undefined;
+    const host = new URL(document.referrer).hostname.replace(/^www\./, "");
+    return host ? truncate(host) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/** Landing-URL UTM params, captured once at session start. */
+function utmParams(): { utmSource?: string; utmMedium?: string; utmCampaign?: string } {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get("utm_source");
+    const medium = params.get("utm_medium");
+    const campaign = params.get("utm_campaign");
+    return {
+      utmSource: source ? truncate(source) : undefined,
+      utmMedium: medium ? truncate(medium) : undefined,
+      utmCampaign: campaign ? truncate(campaign) : undefined,
+    };
+  } catch {
+    return {};
+  }
+}
 
 let queue: QueuedEvent[] = [];
 let activeSnippet: string | null = null;
@@ -54,7 +94,7 @@ function getSessionId(): string | null {
     if (!id) {
       id = randomId();
       window.sessionStorage.setItem(SESSION_KEY, id);
-      queue.push({ type: "session_start", sessionId: id });
+      queue.push({ type: "session_start", sessionId: id, referrer: referrerHostname(), ...utmParams() });
     }
     return id;
   } catch {
