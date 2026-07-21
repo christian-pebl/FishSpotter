@@ -22,7 +22,14 @@ export const metadata: Metadata = {
  * into one page, 20 Jul 2026): your totals, your progress toward winning the
  * Seasearch guide, and the community ranking — one streamlined view.
  */
-export default async function PebblesHubPage() {
+export default async function PebblesHubPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page: rawPage } = await searchParams;
+  const leaderboardPage = Number(rawPage) || 1;
+
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
 
@@ -124,7 +131,7 @@ export default async function PebblesHubPage() {
             eligibility={eligibility}
           />
 
-          <LeaderboardPanel />
+          <LeaderboardPanel page={leaderboardPage} />
         </main>
       </div>
     </MarineBackdrop>
