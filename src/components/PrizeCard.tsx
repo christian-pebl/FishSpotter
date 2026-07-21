@@ -6,9 +6,10 @@ import { AnimatePresence, animate, motion, useReducedMotion } from "framer-motio
 import { onPebbles } from "@/lib/pebble-bus";
 import {
   PRIZE_BLURB,
+  PRIZE_FALLBACK_IMAGE,
+  PRIZE_GALLERY,
   PRIZE_NAME,
   PRIZE_TARGET_PEBBLES,
-  SEASEARCH_GUIDE_ID,
 } from "@/lib/prize";
 import { EASE, TRANSITION } from "@/lib/motion";
 
@@ -43,6 +44,110 @@ function AnimatedCount({ value }: { value: number }) {
   return <>{display.toLocaleString()}</>;
 }
 
+function Chevron({ dir }: { dir: "left" | "right" }) {
+  return (
+    <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" aria-hidden="true">
+      <path
+        d={dir === "left" ? "M10 3L5 8l5 5" : "M6 3l5 5-5 5"}
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/**
+ * Flick-through gallery of the guide: front cover first, then inside pages.
+ * Every manifest entry is probed by the thumbnail strip on mount — a file
+ * that 404s drops out, and if none load at all the strip collapses and the
+ * committed PEBL illustration takes over. So shipping real screenshots is
+ * just dropping files into public/shop/guide/ (see PRIZE_GALLERY).
+ */
+function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
+  const [failed, setFailed] = useState<ReadonlySet<string>>(new Set());
+  const [active, setActive] = useState(0);
+
+  const loaded = PRIZE_GALLERY.filter((img) => !failed.has(img.src));
+  const visible = loaded.length > 0 ? loaded : [PRIZE_FALLBACK_IMAGE];
+  const idx = Math.min(active, visible.length - 1);
+  const current = visible[idx];
+  const many = visible.length > 1;
+
+  const markFailed = (src: string) =>
+    setFailed((f) => (f.has(src) ? f : new Set([...f, src])));
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="relative flex items-center justify-center overflow-hidden rounded-modal bg-[color:var(--surface-muted)] p-2">
+        <AnimatePresence mode="wait" initial={false}>
+          {/* Plain img (not next/image): sources fall back at runtime via
+              onError, and the assets are small local files. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <motion.img
+            key={current.src}
+            src={current.src}
+            onError={() => markFailed(current.src)}
+            alt={current.alt}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={reduceMotion ? { duration: 0 } : TRANSITION.micro}
+            className="h-44 w-full object-contain sm:h-52"
+          />
+        </AnimatePresence>
+        {many && (
+          <>
+            <button
+              type="button"
+              aria-label="Previous page"
+              onClick={() => setActive((idx - 1 + visible.length) % visible.length)}
+              className="absolute left-1.5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-navy-900/40 text-white hover:bg-navy-900/60"
+            >
+              <Chevron dir="left" />
+            </button>
+            <button
+              type="button"
+              aria-label="Next page"
+              onClick={() => setActive((idx + 1) % visible.length)}
+              className="absolute right-1.5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-navy-900/40 text-white hover:bg-navy-900/60"
+            >
+              <Chevron dir="right" />
+            </button>
+          </>
+        )}
+      </div>
+
+      {many && (
+        <div className="flex gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="Guide pages">
+          {visible.map((img, i) => (
+            <button
+              key={img.src}
+              type="button"
+              role="tab"
+              aria-selected={i === idx}
+              aria-label={`Show ${img.alt}`}
+              onClick={() => setActive(i)}
+              className={`h-14 w-12 shrink-0 overflow-hidden rounded-modal border-2 bg-[color:var(--surface-muted)] transition-colors ${
+                i === idx ? "border-teal-500" : "border-transparent hover:border-navy-900/20"
+              }`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={img.src}
+                onError={() => markFailed(img.src)}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 type Note = { kind: "error" | "success"; text: string };
 
 /**
@@ -53,9 +158,10 @@ type Note = { kind: "error" | "success"; text: string };
  * precomputed copy so the card can pre-warn instead of surprising a spotter
  * at 1,000 Pebbles.
  *
- * Imagery prefers a real photo at /shop/seasearch-guide.jpg (drop one into
- * public/shop/ and it's picked up with no code change) and falls back to the
- * committed PEBL illustration at /shop/seasearch-guide.svg.
+ * Imagery is a flick-through gallery (front cover + inside pages) driven by
+ * the PRIZE_GALLERY manifest — drop screenshots into public/shop/guide/ with
+ * the manifest filenames and they appear with no code change; until then the
+ * committed PEBL illustration stands in.
  */
 export function PrizeCard({
   authed,
@@ -76,7 +182,6 @@ export function PrizeCard({
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<Note | null>(null);
   const [shake, setShake] = useState(0);
-  const [imgSrc, setImgSrc] = useState(`/shop/${SEASEARCH_GUIDE_ID}.jpg`);
 
   // Keep the progress live while the page is open (earning in another tab of
   // the same session fires the pebble bus).
@@ -124,19 +229,8 @@ export function PrizeCard({
           initial={false}
           animate={justClaimed && !reduceMotion ? { scale: [1, 1.04, 1] } : { scale: 1 }}
           transition={{ duration: 0.45, ease: EASE.enter }}
-          className="flex items-center justify-center overflow-hidden rounded-modal bg-[color:var(--surface-muted)] p-2"
         >
-          {/* Plain img (not next/image): the src falls back at runtime via
-              onError, and the asset is a small local file. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={imgSrc}
-            onError={() => {
-              if (!imgSrc.endsWith(".svg")) setImgSrc(`/shop/${SEASEARCH_GUIDE_ID}.svg`);
-            }}
-            alt="The Seasearch marine life identification guide"
-            className="h-44 w-full object-contain sm:h-52"
-          />
+          <PrizeGallery reduceMotion={reduceMotion} />
         </motion.div>
 
         <div className="flex flex-col gap-3">

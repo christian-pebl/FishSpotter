@@ -54,6 +54,20 @@ describe("PrizeCard", () => {
     expect(screen.queryByRole("button", { name: "Claim your guide" })).not.toBeInTheDocument();
   });
 
+  it("shows the guide gallery and flicks to the next page", async () => {
+    // jsdom never loads images, so onError doesn't fire and the full manifest
+    // stays visible — which is exactly what production looks like once the
+    // screenshots are dropped into public/shop/guide/.
+    renderCard();
+    expect(
+      screen.getByRole("img", { name: "Seasearch guide — front cover" }),
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Next page" }));
+    expect(
+      await screen.findByRole("img", { name: "Seasearch guide — inside page 1" }),
+    ).toBeInTheDocument();
+  });
+
   it("sends guests to sign in", () => {
     renderCard({ authed: false, initialEarned: 0, eligibility: null });
     expect(screen.getByRole("link", { name: "Sign in and start earning" })).toBeInTheDocument();

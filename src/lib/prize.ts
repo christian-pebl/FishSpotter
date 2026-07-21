@@ -32,3 +32,25 @@ export const PRIZE_BLURB =
 export function hasReachedPrizeTarget(earned: number): boolean {
   return earned >= PRIZE_TARGET_PEBBLES;
 }
+
+/**
+ * Gallery manifest for the prize card: the front cover plus a few inside
+ * pages so spotters can flick through what they'd win. Entries are probed at
+ * runtime — any file that 404s is dropped client-side, and if none load the
+ * card falls back to PRIZE_FALLBACK_IMAGE. So shipping the real screenshots
+ * is just: drop files with these names into public/shop/guide/ (no code
+ * change needed). Cover first; pages in reading order.
+ */
+export const PRIZE_GALLERY: ReadonlyArray<{ src: string; alt: string }> = [
+  { src: "/shop/guide/cover.jpg", alt: "Seasearch guide — front cover" },
+  ...Array.from({ length: 6 }, (_, i) => ({
+    src: `/shop/guide/page-${i + 1}.jpg`,
+    alt: `Seasearch guide — inside page ${i + 1}`,
+  })),
+];
+
+/** Committed PEBL illustration shown until real screenshots land. */
+export const PRIZE_FALLBACK_IMAGE = {
+  src: `/shop/${SEASEARCH_GUIDE_ID}.svg`,
+  alt: "Illustration of a fold-out marine identification guide",
+} as const;
