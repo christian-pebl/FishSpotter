@@ -35,16 +35,29 @@ export function hasReachedPrizeTarget(earned: number): boolean {
 
 /**
  * Gallery manifest for the prize card: the front cover plus a few inside
- * pages so spotters can flick through what they'd win. Entries are probed at
- * runtime — any file that 404s is dropped client-side, and if none load the
- * card falls back to PRIZE_FALLBACK_IMAGE. So shipping the real screenshots
- * is just: drop files with these names into public/shop/guide/ (no code
- * change needed). Cover first; pages in reading order.
+ * pages so spotters can flick through what they'd win. Each slot lists its
+ * candidate sources (jpg then png); the gallery tries them in order at
+ * runtime and drops the slot if none load, falling back to
+ * PRIZE_FALLBACK_IMAGE when nothing loads at all. So shipping the real
+ * screenshots is just: drop files with these names (either extension) into
+ * public/shop/guide/ — no code change needed. Cover first; pages in
+ * reading order.
  */
-export const PRIZE_GALLERY: ReadonlyArray<{ src: string; alt: string }> = [
-  { src: "/shop/guide/cover.jpg", alt: "Seasearch guide — front cover" },
+export interface PrizeGallerySlot {
+  /** Candidate URLs tried in order until one loads. */
+  srcs: readonly string[];
+  alt: string;
+}
+
+const slotSources = (name: string): readonly string[] => [
+  `/shop/guide/${name}.jpg`,
+  `/shop/guide/${name}.png`,
+];
+
+export const PRIZE_GALLERY: ReadonlyArray<PrizeGallerySlot> = [
+  { srcs: slotSources("cover"), alt: "Seasearch guide — front cover" },
   ...Array.from({ length: 6 }, (_, i) => ({
-    src: `/shop/guide/page-${i + 1}.jpg`,
+    srcs: slotSources(`page-${i + 1}`),
     alt: `Seasearch guide — inside page ${i + 1}`,
   })),
 ];

@@ -66,17 +66,29 @@ function Chevron({ dir }: { dir: "left" | "right" }) {
  * just dropping files into public/shop/guide/ (see PRIZE_GALLERY).
  */
 function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
-  const [failed, setFailed] = useState<ReadonlySet<string>>(new Set());
+  // Per-slot candidate index, keyed by the slot's first source. An onError
+  // advances the slot to its next candidate (jpg -> png); once the index
+  // walks past the last candidate the slot has no loadable file and drops.
+  const [candidate, setCandidate] = useState<Record<string, number>>({});
   const [active, setActive] = useState(0);
 
-  const loaded = PRIZE_GALLERY.filter((img) => !failed.has(img.src));
-  const visible = loaded.length > 0 ? loaded : [PRIZE_FALLBACK_IMAGE];
+  const loaded = PRIZE_GALLERY.filter(
+    (slot) => (candidate[slot.srcs[0]] ?? 0) < slot.srcs.length,
+  ).map((slot) => ({
+    key: slot.srcs[0],
+    src: slot.srcs[candidate[slot.srcs[0]] ?? 0],
+    alt: slot.alt,
+  }));
+  const visible =
+    loaded.length > 0
+      ? loaded
+      : [{ key: PRIZE_FALLBACK_IMAGE.src, ...PRIZE_FALLBACK_IMAGE }];
   const idx = Math.min(active, visible.length - 1);
   const current = visible[idx];
   const many = visible.length > 1;
 
-  const markFailed = (src: string) =>
-    setFailed((f) => (f.has(src) ? f : new Set([...f, src])));
+  const markFailed = (key: string) =>
+    setCandidate((c) => ({ ...c, [key]: (c[key] ?? 0) + 1 }));
 
   return (
     <div className="flex flex-col gap-2">
@@ -88,7 +100,7 @@ function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
           <motion.img
             key={current.src}
             src={current.src}
-            onError={() => markFailed(current.src)}
+            onError={() => markFailed(current.key)}
             alt={current.alt}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -123,7 +135,7 @@ function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
         <div className="flex gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="Guide pages">
           {visible.map((img, i) => (
             <button
-              key={img.src}
+              key={img.key}
               type="button"
               role="tab"
               aria-selected={i === idx}
@@ -136,7 +148,7 @@ function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={img.src}
-                onError={() => markFailed(img.src)}
+                onError={() => markFailed(img.key)}
                 alt=""
                 className="h-full w-full object-cover"
               />
