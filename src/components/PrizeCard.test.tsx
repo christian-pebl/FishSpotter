@@ -54,13 +54,33 @@ describe("PrizeCard", () => {
     expect(screen.queryByRole("button", { name: "Claim your guide" })).not.toBeInTheDocument();
   });
 
-  it("shows the guide gallery and flicks to the next page", async () => {
-    // jsdom never loads images, so onError doesn't fire and the full manifest
-    // stays visible — which is exactly what production looks like once the
-    // screenshots are dropped into public/shop/guide/.
+  it("shows the fallback illustration while no gallery file loads", () => {
+    // jsdom's Image() never fires onload/onerror, so the probe never settles —
+    // the same rendered state as production before any screenshot is uploaded.
     renderCard();
     expect(
-      screen.getByRole("img", { name: "Seasearch guide — front cover" }),
+      screen.getByRole("img", {
+        name: "Illustration of a fold-out marine identification guide",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Next page" })).not.toBeInTheDocument();
+  });
+
+  it("shows the guide gallery and flicks to the next page once files load", async () => {
+    // Probing uses detached Image() objects; stub them to load instantly so
+    // every manifest slot resolves — production once screenshots exist.
+    class InstantImage {
+      onload: (() => void) | null = null;
+      onerror: (() => void) | null = null;
+      set src(_v: string) {
+        queueMicrotask(() => this.onload?.());
+      }
+    }
+    vi.stubGlobal("Image", InstantImage);
+
+    renderCard();
+    expect(
+      await screen.findByRole("img", { name: "Seasearch guide — front cover" }),
     ).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Next page" }));
     expect(

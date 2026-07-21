@@ -58,49 +58,66 @@ function Chevron({ dir }: { dir: "left" | "right" }) {
   );
 }
 
+type GalleryImage = { src: string; alt: string };
+
+/**
+ * Probe a slot's candidate sources (jpg then png) with detached Image()
+ * objects, resolving to the first that loads or null when none do.
+ */
+function probeSlot(srcs: readonly string[], alt: string): Promise<GalleryImage | null> {
+  return new Promise((resolve) => {
+    const tryAt = (i: number) => {
+      if (i >= srcs.length) return resolve(null);
+      const probe = new window.Image();
+      probe.onload = () => resolve({ src: srcs[i], alt });
+      probe.onerror = () => tryAt(i + 1);
+      probe.src = srcs[i];
+    };
+    tryAt(0);
+  });
+}
+
 /**
  * Flick-through gallery of the guide: front cover first, then inside pages.
- * Every manifest entry is probed by the thumbnail strip on mount — a file
- * that 404s drops out, and if none load at all the strip collapses and the
- * committed PEBL illustration takes over. So shipping real screenshots is
- * just dropping files into public/shop/guide/ (see PRIZE_GALLERY).
+ * Slots are probed with detached Image() objects in an effect — NOT via
+ * onError on the rendered <img>, because with SSR'd markup a fast 404 can
+ * fire before hydration attaches React's handler, leaving broken-image
+ * icons on screen. Until the probe settles (and whenever nothing loads) the
+ * committed PEBL illustration renders, so a missing file is never visible.
+ * Shipping real screenshots is just dropping files into public/shop/guide/
+ * (see PRIZE_GALLERY).
  */
 function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
-  // Per-slot candidate index, keyed by the slot's first source. An onError
-  // advances the slot to its next candidate (jpg -> png); once the index
-  // walks past the last candidate the slot has no loadable file and drops.
-  const [candidate, setCandidate] = useState<Record<string, number>>({});
+  const [resolved, setResolved] = useState<GalleryImage[] | null>(null);
   const [active, setActive] = useState(0);
 
-  const loaded = PRIZE_GALLERY.filter(
-    (slot) => (candidate[slot.srcs[0]] ?? 0) < slot.srcs.length,
-  ).map((slot) => ({
-    key: slot.srcs[0],
-    src: slot.srcs[candidate[slot.srcs[0]] ?? 0],
-    alt: slot.alt,
-  }));
-  const visible =
-    loaded.length > 0
-      ? loaded
-      : [{ key: PRIZE_FALLBACK_IMAGE.src, ...PRIZE_FALLBACK_IMAGE }];
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(PRIZE_GALLERY.map((slot) => probeSlot(slot.srcs, slot.alt))).then(
+      (slots) => {
+        if (!cancelled) setResolved(slots.filter((s): s is GalleryImage => s !== null));
+      },
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const visible = resolved?.length ? resolved : [PRIZE_FALLBACK_IMAGE];
   const idx = Math.min(active, visible.length - 1);
   const current = visible[idx];
   const many = visible.length > 1;
-
-  const markFailed = (key: string) =>
-    setCandidate((c) => ({ ...c, [key]: (c[key] ?? 0) + 1 }));
 
   return (
     <div className="flex flex-col gap-2">
       <div className="relative flex items-center justify-center overflow-hidden rounded-modal bg-[color:var(--surface-muted)] p-2">
         <AnimatePresence mode="wait" initial={false}>
-          {/* Plain img (not next/image): sources fall back at runtime via
-              onError, and the assets are small local files. */}
+          {/* Plain img (not next/image): every rendered src has already been
+              probed successfully, and the assets are small local files. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <motion.img
             key={current.src}
             src={current.src}
-            onError={() => markFailed(current.key)}
             alt={current.alt}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -135,7 +152,7 @@ function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
         <div className="flex gap-1.5 overflow-x-auto pb-0.5" role="tablist" aria-label="Guide pages">
           {visible.map((img, i) => (
             <button
-              key={img.key}
+              key={img.src}
               type="button"
               role="tab"
               aria-selected={i === idx}
@@ -146,12 +163,7 @@ function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={img.src}
-                onError={() => markFailed(img.key)}
-                alt=""
-                className="h-full w-full object-cover"
-              />
+              <img src={img.src} alt="" className="h-full w-full object-cover" />
             </button>
           ))}
         </div>
