@@ -551,3 +551,23 @@ held back for one big merge.
   Zero incremental friction: the capture only fires for spotters who already accepted analytics
   consent; nothing new is asked of anyone. Prod DB migrated (`prisma db push`, additive-only), RLS
   reconfirmed 19/19. Verified: `tsc`, 463 tests, `lint`, `lint:tokens`.
+
+- **Shop removed; the Pebbles page becomes one leaderboard with a real prize (20 Jul 2026)** —
+  the Phase-1 shop (gold nameplate, coral accent, Tide Freeze) was retired the day it shipped,
+  per Christian's steer that cosmetics read as gimmicky. In its place: `/pebbles` is now a single
+  streamlined page — your totals, a **prize-progress card** (reach **1,000 lifetime earned
+  Pebbles** and PEBL posts you the **Seasearch marine life ID guide**), and the community
+  leaderboard, no tabs. The prize is a **gift, not a spend**: claiming records a `PebblePurchase`
+  row with `pebbleCost 0` via the new `POST /api/prize/claim`, so Pebbles and rank are untouched
+  (the whole earned/wallet split is gone — one number rules the bag, the rank, and the progress
+  bar; `/api/me/pebbles` now returns lifetime earned). Claims are the first consumer of the
+  Plan-1 **`isPrizeEligible` anti-gaming gate** (verified email + trust bar + account age +
+  non-bursty activity), enforced server-side and precomputed on the page so the card pre-warns
+  ("verify your email") instead of surprising a spotter at 1,000. Fulfilment is manual:
+  claimed rows are `PebblePurchase` entries for `seasearch-guide`; PEBL emails the spotter.
+  Prize imagery prefers a real photo at `public/shop/seasearch-guide.jpg` (drop-in, no code
+  change) over the committed PEBL SVG illustration. Retired shop item ids must never be reused
+  (prod may hold their purchase rows); `TIDE_FREEZE_ID` moved into `streak-service.ts`, which
+  still honours held freezes. Deleted: `ShopPanel`/`ShopGrid`, `src/lib/shop/*`,
+  `POST /api/shop/purchase`. New: `src/lib/prize.ts`, `PrizeCard`, claim route + tests.
+  Verified: `tsc`, 461 tests, `lint`, `lint:tokens`.

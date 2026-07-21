@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-label="Fold-out rockpool identification chart">
+  <!-- Original PEBL illustration: a stand-in for the FSC rockpool guide product
+       photo. Drop a real photo at /shop/fsc-rockpool-guide.jpg and the shop
+       card will use it automatically (this SVG is the fallback). -->
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3AAFA9"/>
+      <stop offset="1" stop-color="#2B7A78"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F6E7C9"/>
+      <stop offset="1" stop-color="#EED9AF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- back leaf of the fold-out, peeking behind -->
+  <g transform="rotate(4 240 180)">
+    <rect x="96" y="52" width="300" height="248" rx="10" fill="#DEF2F1" stroke="#17252A" stroke-opacity="0.14" stroke-width="2"/>
+  </g>
+
+  <!-- front leaf -->
+  <g transform="rotate(-4 240 180)">
+    <rect x="82" y="42" width="308" height="260" rx="10" fill="#FFFFFF" stroke="#17252A" stroke-opacity="0.22" stroke-width="2"/>
+
+    <!-- header band -->
+    <path d="M82 52 a10 10 0 0 1 10-10 h288 a10 10 0 0 1 10 10 v50 q-40 16 -77 6 t-77 2 t-77 -4 t-77 6 z" fill="url(#sea)"/>
+    <text x="102" y="74" font-family="Georgia, 'Times New Roman', serif" font-size="21" font-weight="bold" fill="#FFFFFF">Rockpool wildlife</text>
+    <text x="102" y="93" font-family="Verdana, Geneva, sans-serif" font-size="10.5" letter-spacing="1.6" fill="#DEF2F1">FOLD-OUT ID CHART</text>
+
+    <!-- sand foot -->
+    <path d="M82 268 q60 -12 118 -4 t118 -2 t72 4 v30 a10 10 0 0 1 -10 10 h-288 a10 10 0 0 1 -10 -10 z" fill="url(#sand)"/>
+
+    <!-- specimen grid -->
+    <!-- crab -->
+    <g transform="translate(136 148)" stroke="#B4552D" stroke-width="3" fill="none" stroke-linecap="round">
+      <ellipse cx="0" cy="0" rx="21" ry="14" fill="#E07A4E" stroke="none"/>
+      <path d="M-19 -8 q-11 -8 -8 -18 M-27 -26 l6 7 M-21 -27 l0 8"/>
+      <path d="M19 -8 q11 -8 8 -18 M27 -26 l-6 7 M21 -27 l0 8"/>
+      <path d="M-20 6 l-9 8 M-16 11 l-7 10 M20 6 l9 8 M16 11 l7 10"/>
+      <circle cx="-7" cy="-4" r="1.8" fill="#17252A" stroke="none"/>
+      <circle cx="7" cy="-4" r="1.8" fill="#17252A" stroke="none"/>
+    </g>
+    <text x="136" y="196" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="8.5" fill="#17252A" fill-opacity="0.7">Shore crab</text>
+
+    <!-- starfish -->
+    <g transform="translate(240 150)">
+      <path d="M0 -24 L6.5 -7.5 L24 -7 L10 4 L15 21 L0 11 L-15 21 L-10 4 L-24 -7 L-6.5 -7.5 Z" fill="#E8A33D" stroke="#B87A1E" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="0" cy="-14" r="1.4" fill="#B87A1E"/>
+      <circle cx="0" cy="-6" r="1.4" fill="#B87A1E"/>
+      <circle cx="0" cy="2" r="1.4" fill="#B87A1E"/>
+    </g>
+    <text x="240" y="196" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="8.5" fill="#17252A" fill-opacity="0.7">Common starfish</text>
+
+    <!-- anemone -->
+    <g transform="translate(340 152)" stroke="#C0455E" stroke-width="3" stroke-linecap="round">
+      <path d="M0 4 q-3 -20 0 -24 M-8 5 q-9 -16 -8 -21 M8 5 q9 -16 8 -21 M-14 9 q-13 -9 -14 -14 M14 9 q13 -9 14 -14" fill="none"/>
+      <ellipse cx="0" cy="13" rx="16" ry="9" fill="#D95F79" stroke="#C0455E" stroke-width="2.5"/>
+    </g>
+    <text x="340" y="196" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="8.5" fill="#17252A" fill-opacity="0.7">Beadlet anemone</text>
+
+    <!-- topshell -->
+    <g transform="translate(160 236)">
+      <path d="M-14 8 a15 13 0 1 1 28 2 z" fill="#8B9698" stroke="#4F5C5F" stroke-width="2.5"/>
+      <path d="M-7 4 a8 7 0 1 1 15 1" fill="none" stroke="#4F5C5F" stroke-width="2"/>
+      <circle cx="1" cy="1" r="2.2" fill="#4F5C5F"/>
+    </g>
+    <text x="160" y="262" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="8.5" fill="#17252A" fill-opacity="0.7">Grey topshell</text>
+
+    <!-- shanny -->
+    <g transform="translate(296 234)">
+      <path d="M-26 0 q12 -13 30 -10 q10 2 14 8 l8 -7 v18 l-8 -7 q-4 6 -14 8 q-18 3 -30 -10 z" fill="#3AAFA9" stroke="#1F5F5D" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="-14" cy="-3" r="2" fill="#17252A"/>
+      <path d="M-6 -9 q10 -4 18 -1 M-4 9 q9 4 16 1" fill="none" stroke="#1F5F5D" stroke-width="1.6"/>
+    </g>
+    <text x="296" y="262" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="8.5" fill="#17252A" fill-opacity="0.7">Shanny</text>
+
+    <!-- fold crease -->
+    <line x1="240" y1="108" x2="240" y2="266" stroke="#17252A" stroke-opacity="0.08" stroke-width="2" stroke-dasharray="5 6"/>
+  </g>
+</svg>
