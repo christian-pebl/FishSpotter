@@ -20,7 +20,10 @@ type LeaderRow = {
   rank: number;
 };
 
-export async function LeaderboardPanel() {
+/** Rows per leaderboard page — keeps the Stats page from growing endlessly. */
+export const LEADERBOARD_PAGE_SIZE = 20;
+
+export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
   const session = await getServerSession(authOptions);
   const myUserId = session?.user?.id ?? null;
 
@@ -110,7 +113,11 @@ export async function LeaderboardPanel() {
       `User ${r.userId.slice(0, 6)}`,
   }));
 
-  const leaderboard = ranked.slice(0, 50);
+  // Paginate server-side: 20 rows per page, ?page=N links below the table.
+  const totalPages = Math.max(1, Math.ceil(ranked.length / LEADERBOARD_PAGE_SIZE));
+  const currentPage = Math.min(Math.max(1, Math.floor(page) || 1), totalPages);
+  const pageStart = (currentPage - 1) * LEADERBOARD_PAGE_SIZE;
+  const leaderboard = ranked.slice(pageStart, pageStart + LEADERBOARD_PAGE_SIZE);
   const myEntry = myUserId ? ranked.find((r) => r.userId === myUserId) ?? null : null;
   const myEntryVisible = !!myEntry && leaderboard.some((r) => r.userId === myUserId);
 
@@ -233,6 +240,40 @@ export async function LeaderboardPanel() {
             </tbody>
           </table>
         </div>
+      )}
+
+      {totalPages > 1 && (
+        <nav aria-label="Leaderboard pages" className="flex items-center justify-between gap-3">
+          {currentPage > 1 ? (
+            <Link
+              href={`/pebbles?page=${currentPage - 1}`}
+              className="pebl-surface inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-5 text-sm font-semibold text-navy-900/72 hover:text-navy-900"
+            >
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+                <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Previous
+            </Link>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          <span className="text-xs font-medium text-navy-900/55">
+            Page {currentPage} of {totalPages}
+          </span>
+          {currentPage < totalPages ? (
+            <Link
+              href={`/pebbles?page=${currentPage + 1}`}
+              className="pebl-surface inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-5 text-sm font-semibold text-navy-900/72 hover:text-navy-900"
+            >
+              Next
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+        </nav>
       )}
 
       {myEntry && !myEntryVisible && (
