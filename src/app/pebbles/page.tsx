@@ -14,7 +14,7 @@ import { LeaderboardPanel } from "@/components/leaderboard/LeaderboardPanel";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Leaderboard",
+  title: "Stats",
 };
 
 /**
