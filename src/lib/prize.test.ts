@@ -6,11 +6,11 @@ import {
 } from "./prize";
 
 describe("prize", () => {
-  it("targets 1000 lifetime earned Pebbles", () => {
-    expect(PRIZE_TARGET_PEBBLES).toBe(1000);
-    expect(hasReachedPrizeTarget(999)).toBe(false);
-    expect(hasReachedPrizeTarget(1000)).toBe(true);
-    expect(hasReachedPrizeTarget(1001)).toBe(true);
+  it("targets 2000 lifetime earned Pebbles", () => {
+    expect(PRIZE_TARGET_PEBBLES).toBe(2000);
+    expect(hasReachedPrizeTarget(1999)).toBe(false);
+    expect(hasReachedPrizeTarget(2000)).toBe(true);
+    expect(hasReachedPrizeTarget(2001)).toBe(true);
   });
 
   it("keeps a stable claim itemId that never collides with retired shop ids", () => {

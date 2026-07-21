@@ -27,18 +27,18 @@ describe("PrizeCard", () => {
   it("shows progress toward the target while short of it, with no claim button", () => {
     renderCard();
     expect(screen.getByText(/Win the Seasearch marine life ID guide/)).toBeInTheDocument();
-    expect(screen.getByText(/260 of 1,000/)).toBeInTheDocument();
+    expect(screen.getByText(/260 of 2,000/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Claim your guide" })).not.toBeInTheDocument();
   });
 
   it("offers the claim once the target is reached", () => {
-    renderCard({ initialEarned: 1200 });
+    renderCard({ initialEarned: 2400 });
     expect(screen.getByRole("button", { name: "Claim your guide" })).toBeEnabled();
   });
 
   it("gates a reached target behind eligibility with a reason", () => {
     renderCard({
-      initialEarned: 1200,
+      initialEarned: 2400,
       eligibility: {
         eligible: false,
         reason: "Verify your email to claim the guide — prizes are posted to real spotters.",
@@ -49,7 +49,7 @@ describe("PrizeCard", () => {
   });
 
   it("shows the claimed state", () => {
-    renderCard({ initialEarned: 1200, initiallyClaimed: true });
+    renderCard({ initialEarned: 2400, initiallyClaimed: true });
     expect(screen.getByText("Claimed")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Claim your guide" })).not.toBeInTheDocument();
   });
@@ -80,7 +80,7 @@ describe("PrizeCard", () => {
     });
     vi.stubGlobal("fetch", fetchMock);
 
-    renderCard({ initialEarned: 1200 });
+    renderCard({ initialEarned: 2400 });
     await userEvent.click(screen.getByRole("button", { name: "Claim your guide" }));
 
     await waitFor(() => {
@@ -101,7 +101,7 @@ describe("PrizeCard", () => {
       }),
     );
 
-    renderCard({ initialEarned: 1200 });
+    renderCard({ initialEarned: 2400 });
     await userEvent.click(screen.getByRole("button", { name: "Claim your guide" }));
 
     await waitFor(() => {

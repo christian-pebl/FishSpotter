@@ -571,3 +571,7 @@ held back for one big merge.
   still honours held freezes. Deleted: `ShopPanel`/`ShopGrid`, `src/lib/shop/*`,
   `POST /api/shop/purchase`. New: `src/lib/prize.ts`, `PrizeCard`, claim route + tests.
   Verified: `tsc`, 461 tests, `lint`, `lint:tokens`.
+
+- **Prize target 1,000 → 2,000 Pebbles; nav renamed to "Stats" (21 Jul 2026)** — the Seasearch
+  guide now takes 2,000 lifetime earned Pebbles (`PRIZE_TARGET_PEBBLES`), and the side-menu entry
+  + page title for `/pebbles` are simply "Stats".
