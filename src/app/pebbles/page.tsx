@@ -1,68 +1,81 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { walletState } from "@/lib/shop/wallet";
+import { SEASEARCH_GUIDE_ID } from "@/lib/prize";
+import { isPrizeEligible } from "@/lib/trust";
 import { datesFromAnswers, readStreak } from "@/lib/streak-service";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
-import { ShopPanel } from "@/components/shop/ShopPanel";
+import { PrizeCard } from "@/components/PrizeCard";
 import { LeaderboardPanel } from "@/components/leaderboard/LeaderboardPanel";
 
 // Per-viewer (session-dependent), never cached.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Pebbles",
+  title: "Leaderboard",
 };
 
-type Tab = "shop" | "leaderboard";
-
-function PebbleGlyph({ size = 14 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <rect x="1.6" y="4.2" width="12.8" height="7.6" rx="3.8" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
-  );
-}
-
-export default async function PebblesHubPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ tab?: string }>;
-}) {
-  const { tab: rawTab } = await searchParams;
-  const tab: Tab = rawTab === "leaderboard" ? "leaderboard" : "shop";
-
+/**
+ * The single Pebbles destination (the old Shop | Leaderboard tabs collapsed
+ * into one page, 20 Jul 2026): your totals, your progress toward winning the
+ * Seasearch guide, and the community ranking — one streamlined view.
+ */
+export default async function PebblesHubPage() {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
 
-  // Banner balances (only for signed-in spotters).
-  let banner: { earned: number; wallet: number; streak: number } | null = null;
+  let banner: { earned: number; streak: number } | null = null;
+  let claimed = false;
+  let eligibility: { eligible: boolean; reason: string | null } | null = null;
+
   if (userId) {
-    const [pointsAgg, purchases, answerDates] = await Promise.all([
+    const [pointsAgg, answerDates, claim, user] = await Promise.all([
       prisma.answer.aggregate({ _sum: { points: true }, where: { userId } }),
-      prisma.pebblePurchase.findMany({ where: { userId }, select: { pebbleCost: true } }),
       prisma.answer.findMany({
         where: { userId },
         select: { createdAt: true },
         orderBy: { createdAt: "desc" },
         take: 1000,
       }),
+      prisma.pebblePurchase.findFirst({
+        where: { userId, itemId: SEASEARCH_GUIDE_ID },
+        select: { id: true },
+      }),
+      prisma.user.findUnique({
+        where: { id: userId },
+        select: { emailVerified: true, createdAt: true, trustScore: true },
+      }),
     ]);
     const earned = pointsAgg._sum.points ?? 0;
-    const { wallet } = walletState(earned, purchases);
     const streak = await readStreak(prisma, userId, datesFromAnswers(answerDates));
-    banner = { earned, wallet, streak };
-  }
+    banner = { earned, streak };
+    claimed = !!claim;
 
-  const tabClass = (t: Tab) =>
-    `inline-flex min-h-[44px] items-center justify-center rounded-full px-5 text-sm font-semibold transition-colors ${
-      tab === t
-        ? "bg-teal-600 text-white"
-        : "bg-[color:var(--surface)] text-navy-900/72 hover:text-navy-900"
-    }`;
+    if (user) {
+      // Precomputed so the prize card pre-warns ("verify your email") instead
+      // of surprising a spotter at 1,000 Pebbles. The claim route re-checks
+      // server-side regardless; this copy is UX, not enforcement.
+      const result = isPrizeEligible(
+        {
+          emailVerified: user.emailVerified,
+          createdAt: user.createdAt,
+          trustScore: user.trustScore,
+          answerDates: answerDates.map((a) => a.createdAt),
+        },
+        new Date(),
+      );
+      eligibility = {
+        eligible: result.eligible,
+        reason: result.eligible
+          ? null
+          : result.reasons.includes("email not verified")
+            ? "Verify your email to claim the guide — prizes are posted to real spotters."
+            : "Prize claims unlock with more spotting history across more days.",
+      };
+    }
+  }
 
   return (
     <MarineBackdrop>
@@ -75,51 +88,43 @@ export default async function PebblesHubPage({
           <BackToFeed />
 
           <section className="pebl-surface rounded-card px-6 py-6">
-            <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">Pebbles</p>
-            <h1 className="mt-2 font-brand-heading text-h1 text-navy-900">Your Pebbles</h1>
+            <p className="text-xs font-semibold uppercase tracking-eyebrow text-teal-600">
+              Pebbles
+            </p>
+            <h1 className="mt-2 font-brand text-h1 text-navy-900">Your Pebbles</h1>
             {banner ? (
-              <dl className="mt-4 grid grid-cols-3 gap-3 text-center">
-                <div className="rounded-card border border-navy-900/12 p-3">
-                  <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">To spend</dt>
-                  <dd className="mt-1 inline-flex items-center gap-1.5 text-2xl font-bold text-teal-700">
-                    <PebbleGlyph size={16} />
-                    {banner.wallet.toLocaleString()}
-                  </dd>
-                </div>
+              <dl className="mt-4 grid grid-cols-2 gap-3 text-center">
                 <div className="rounded-card border border-navy-900/12 p-3">
                   <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">
-                    Earned all-time
+                    Pebbles earned
                   </dt>
-                  <dd className="mt-1 text-2xl font-bold text-navy-900">
+                  <dd className="mt-1 text-2xl font-bold text-teal-700">
                     {banner.earned.toLocaleString()}
                   </dd>
                 </div>
                 <div className="rounded-card border border-navy-900/12 p-3">
-                  <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Streak</dt>
+                  <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">
+                    Streak
+                  </dt>
                   <dd className="mt-1 text-2xl font-bold text-navy-900">{banner.streak}</dd>
                 </div>
               </dl>
             ) : (
               <p className="mt-2 text-sm text-navy-900/72">
-                Earn Pebbles by identifying clips in the feed, then spend them here.
+                Earn Pebbles by identifying clips in the feed — they count toward the prize below
+                and your leaderboard rank.
               </p>
             )}
           </section>
 
-          <nav aria-label="Pebbles sections" className="flex gap-2">
-            <Link href="/pebbles?tab=shop" className={tabClass("shop")} aria-current={tab === "shop"}>
-              Shop
-            </Link>
-            <Link
-              href="/pebbles?tab=leaderboard"
-              className={tabClass("leaderboard")}
-              aria-current={tab === "leaderboard"}
-            >
-              Leaderboard
-            </Link>
-          </nav>
+          <PrizeCard
+            authed={!!userId}
+            initialEarned={banner?.earned ?? 0}
+            initiallyClaimed={claimed}
+            eligibility={eligibility}
+          />
 
-          {tab === "shop" ? <ShopPanel /> : <LeaderboardPanel />}
+          <LeaderboardPanel />
         </main>
       </div>
     </MarineBackdrop>

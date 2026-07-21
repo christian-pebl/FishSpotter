@@ -140,7 +140,7 @@ export async function checkPreviewRateLimit(ipKey: string): Promise<boolean> {
   return consume(`preview:${ipKey}`, PREVIEW_WINDOW_MS, PREVIEW_MAX_PER_HOUR);
 }
 
-// Pebbles shop purchases (POST /api/shop/purchase). A real spotter buys a
+// Pebbles prize claims (POST /api/prize/claim). A real spotter claims a
 // handful of items ever; 60/hour/user is far above genuine use but stops a
 // scripted client from hammering the purchase path.
 const SHOP_WINDOW_MS = 60 * 60 * 1000;

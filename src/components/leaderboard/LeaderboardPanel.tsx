@@ -4,12 +4,11 @@ import { authOptions } from "@/lib/auth";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
 import { prisma } from "@/lib/prisma";
 
-// The leaderboard body, extracted from the old /leaderboard page so it can be a
-// tab inside the Pebbles hub (/pebbles) alongside the shop. Returns the sections
-// only; the hub owns the MarineBackdrop + <main> + BackToFeed chrome.
-//
-// Ranking stays on lifetime EARNED Pebbles (sum of Answer.points); shop spending
-// draws down the separate spendable wallet and never touches this score.
+// The leaderboard body, extracted from the old /leaderboard page so it renders
+// inside the single Pebbles page (/pebbles) below the prize-progress card.
+// Returns the sections only; the page owns the MarineBackdrop + <main> +
+// BackToFeed chrome. Ranking is lifetime EARNED Pebbles (sum of Answer.points)
+// — the same number that fills the prize progress bar.
 
 type LeaderRow = {
   userId: string;

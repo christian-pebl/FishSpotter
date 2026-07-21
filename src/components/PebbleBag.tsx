@@ -9,7 +9,7 @@ import {
   useAnimationControls,
   useReducedMotion,
 } from "framer-motion";
-import { onPebbles, onWallet } from "@/lib/pebble-bus";
+import { onPebbles } from "@/lib/pebble-bus";
 
 const overlayTextShadow = "0 1px 3px rgba(0,0,0,0.55)";
 
@@ -179,16 +179,15 @@ export function PebbleBagView({
 }
 
 /**
- * Live container: pulls the spotter's spendable WALLET on load and keeps it in
- * sync: earning in the feed adds the earned delta, buying in the shop sets the
- * new balance (both via pebble-bus). The bag shows the wallet (earned - spent),
- * not lifetime earned, so it reads as "what you can spend"; the all-time earned
- * score still ranks the leaderboard. Only signed-in spotters get a pouch;
- * guests keep the bare logo.
+ * Live container: pulls the spotter's lifetime EARNED Pebbles on load (the
+ * shop is retired, so there is no spend and one number rules everything: the
+ * bag, the leaderboard rank, and the prize progress) and keeps it in sync as
+ * earning events arrive via the pebble bus. Only signed-in spotters get a
+ * pouch; guests keep the bare logo.
  */
 export function PebbleBag({ onFeed }: { onFeed: boolean }) {
   const { status } = useSession();
-  const [wallet, setWallet] = useState<number | null>(null);
+  const [total, setTotal] = useState<number | null>(null);
   const [earn, setEarn] = useState<PebbleEarn | null>(null);
   const nonce = useRef(0);
 
@@ -198,7 +197,7 @@ export function PebbleBag({ onFeed }: { onFeed: boolean }) {
     fetch("/api/me/pebbles")
       .then((r) => r.json())
       .then((d) => {
-        if (active) setWallet(Number(d.wallet ?? d.total ?? 0));
+        if (active) setTotal(Number(d.total ?? 0));
       })
       .catch(() => {});
     return () => {
@@ -206,35 +205,30 @@ export function PebbleBag({ onFeed }: { onFeed: boolean }) {
     };
   }, [status]);
 
-  useEffect(() => {
-    // Earning: add the freshly-earned delta to the wallet and fire the fly-in
-    // burst. (The event's `total` is lifetime EARNED, not the wallet, so we add
-    // the delta rather than adopting it.)
-    const offEarn = onPebbles(({ earned, firstSighting }) => {
-      setWallet((w) => (w ?? 0) + earned);
-      setEarn({ earned, firstSighting: !!firstSighting, nonce: ++nonce.current });
-    });
-    // Spending: adopt the authoritative new wallet from the shop (no burst).
-    const offWallet = onWallet(({ wallet: newWallet }) => setWallet(newWallet));
-    return () => {
-      offEarn();
-      offWallet();
-    };
-  }, []);
+  useEffect(
+    () =>
+      onPebbles(({ earned, firstSighting, total: newTotal }) => {
+        // Adopt the authoritative lifetime total from the earn event when it
+        // carries one; otherwise add the delta.
+        setTotal((t) => (newTotal > 0 ? newTotal : (t ?? 0) + earned));
+        setEarn({ earned, firstSighting: !!firstSighting, nonce: ++nonce.current });
+      }),
+    [],
+  );
 
-  const ariaTotal = useCallback(() => (wallet ?? 0).toLocaleString(), [wallet]);
+  const ariaTotal = useCallback(() => (total ?? 0).toLocaleString(), [total]);
 
-  if (status !== "authenticated" || wallet === null) return null;
+  if (status !== "authenticated" || total === null) return null;
 
   return (
     <Link
       href="/pebbles"
-      aria-label={`Your Pebbles: ${ariaTotal()} to spend. Open the shop and leaderboard.`}
+      aria-label={`Your Pebbles: ${ariaTotal()}. See the leaderboard and your prize progress.`}
       className={`pointer-events-auto inline-flex min-h-[44px] items-center rounded-full px-2 ${
         onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
       }`}
     >
-      <PebbleBagView total={wallet} onFeed={onFeed} earn={earn} />
+      <PebbleBagView total={total} onFeed={onFeed} earn={earn} />
     </Link>
   );
 }

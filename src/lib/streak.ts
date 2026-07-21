@@ -80,7 +80,7 @@ export function computeStreakFromAnswers(
 }
 
 // ---------------------------------------------------------------------------
-// Tide Freeze — freeze-aware streak (shop consumable)
+// Tide Freeze — freeze-aware streak (retired shop consumable; held freezes still honoured)
 // ---------------------------------------------------------------------------
 
 function prevDay(key: string): string {

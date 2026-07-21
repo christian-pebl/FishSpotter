@@ -7,12 +7,19 @@
  */
 
 import type { PrismaClient } from "@prisma/client";
-import { TIDE_FREEZE_ID } from "@/lib/shop/catalogue";
 import {
   computeStreakWithFreezes,
   type FreezeState,
   toDateKey,
 } from "@/lib/streak";
+
+/**
+ * PebblePurchase.itemId of the RETIRED Tide Freeze shop consumable (the shop
+ * was removed 20 Jul 2026). Freezes bought before retirement are still
+ * honoured here — a held freeze keeps protecting a missed day; there is just
+ * no way to buy more. The id must never be reused.
+ */
+export const TIDE_FREEZE_ID = "tide-freeze";
 
 interface LoadedFreezes {
   state: FreezeState;
