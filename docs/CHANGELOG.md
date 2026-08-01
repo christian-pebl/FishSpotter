@@ -647,6 +647,28 @@ held back for one big merge.
   phases (`MetricSnapshot` + trend deltas, a weekly push Routine) are in
   `implementation/2026-08-01/metrics-access-plan.md`.
 
+- **Remote-safe prize desk: `GET /api/admin/prize-desk/summary` (1 Aug 2026)** — Christian used the new
+  `/admin/prizes` page from his browser via Claude in Chrome and asked to reach the same data from a
+  Claude Code session directly (no browser, no DB credentials, network policy blocks the live app — the
+  exact gap the metrics roundup endpoint above was built for). Unlike `/api/metrics/summary`, this one is
+  **not aggregate-only**: the entire point of the desk is a specific spotter's email, so real PII travels
+  in the response. Deliberately asked which posture Christian wanted rather than assuming; he chose a
+  token-gated endpoint over a local-only CLI. Mirrors the metrics pattern closely: own secret
+  (`PRIZE_DESK_TOKEN`, separate from `METRICS_TOKEN`/`CRON_SECRET`), `checkPrizeDeskRateLimit` in
+  `rate-limit.ts` (12 req/hour — tighter than metrics' 60, reflecting the PII stakes of a leaked token),
+  `isAuthorisedBearer` for the check. New `toPrizeDeskSummary()` in `src/lib/prize-desk.ts` is an explicit
+  allow-list (never `...row`) so a future field added to `PrizeWinnerRow` can't leak into the response
+  without a deliberate, reviewed change — pinned by a unit test that snapshots the exact key set and
+  asserts a guest's placeholder address never appears anywhere in the serialized body. `CLAUDE.md` gained
+  a "Prize desk via Claude Code" section mirroring the stats-roundup one, with explicit PII-handling
+  guidance (never paste a spotter's email somewhere public) since this is the first remote-access
+  endpoint in the codebase that isn't aggregate-only. Verified against a live dev server + real Postgres:
+  401 with no/wrong token, real email in the body for a verified spotter, `null` for a guest with their
+  placeholder domain absent from the response entirely, and the rate limit tripping to 429 on exactly the
+  12th request. Verified: `tsc`, 546 tests (13 new), `lint`, `lint:tokens`. **Still needs**: `PRIZE_DESK_TOKEN`
+  set in Vercel prod env, and — per the metrics entry above — a redeploy after setting it, since new env
+  vars don't apply to an already-built deployment.
+
 ## 2026-08-01: Public clip comments + PEBL feedback inbox (SHIPPED LIVE, PR #119, main `0ad167f`)
 
 Spotters can now leave a comment on a clip after committing their own ID: the species isn't in

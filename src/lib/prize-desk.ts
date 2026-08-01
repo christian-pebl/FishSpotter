@@ -113,6 +113,52 @@ export async function loadPrizeWinnerRows(
   return buildPrizeWinnerRows(inputs);
 }
 
+/** JSON-safe shape of one row for the token-gated remote summary endpoint. */
+export interface PrizeDeskSummaryWinner {
+  userId: string;
+  spotter: string;
+  pebbles: number;
+  status: PrizeWinnerRow["status"];
+  contact: PrizeWinnerRow["contact"];
+  contactEmail: string | null;
+  isGuest: boolean;
+  emailVerified: string | null;
+  claimedAt: string | null;
+  fulfilledAt: string | null;
+  fulfilledBy: string | null;
+  eligible: boolean;
+  eligibilityReasons: readonly string[];
+}
+
+/**
+ * Serialize desk rows for GET /api/admin/prize-desk/summary — Dates become
+ * ISO strings, and the field list here is the explicit, tested contract for
+ * what a PRIZE_DESK_TOKEN holder can see. This endpoint (unlike metrics) is
+ * NOT aggregate-only: contactEmail is real PII. Keep this an allow-list
+ * (never `...row`) so a future field added to PrizeWinnerRow doesn't leak
+ * into the response without a deliberate, reviewed change here.
+ */
+export function toPrizeDeskSummary(
+  rows: readonly PrizeWinnerRow[],
+): { count: number; winners: PrizeDeskSummaryWinner[] } {
+  const winners = rows.map((r) => ({
+    userId: r.userId,
+    spotter: r.spotter,
+    pebbles: r.pebbles,
+    status: r.status,
+    contact: r.contact,
+    contactEmail: r.contactEmail,
+    isGuest: r.isGuest,
+    emailVerified: r.emailVerified?.toISOString() ?? null,
+    claimedAt: r.claimedAt?.toISOString() ?? null,
+    fulfilledAt: r.fulfilledAt?.toISOString() ?? null,
+    fulfilledBy: r.fulfilledBy,
+    eligible: r.eligible,
+    eligibilityReasons: r.eligibilityReasons,
+  }));
+  return { count: winners.length, winners };
+}
+
 export type MarkFulfilledResult = {
   fulfilledAt: Date | null;
   fulfilledBy: string | null;
