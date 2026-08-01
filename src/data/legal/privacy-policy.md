@@ -18,6 +18,7 @@ We are the data controller for the personal data described in this policy. We pr
 | Display name | Leaderboard, community stats | Contract |
 | Hashed password | Authentication (bcrypt; your plain-text password is never stored) | Contract |
 | Quiz answers (species guesses, timestamps) | Score calculation, streak, community identification statistics, ecological research | Contract; Legitimate interests — generating anonymised, aggregated species-distribution datasets for UK marine biodiversity science (Art. 6(1)(f)) |
+| Comments you post on clips, and any comment you report | Running the public discussion threads; improving clips, tracking overlays and our species catalogue; moderating the service | Legitimate interests — operating a community identification service and keeping it safe (Art. 6(1)(f)) |
 | IP address | Rate-limiting and abuse prevention (held in memory only; never persisted; cleared on server restart) | Legitimate interests — preventing abuse and protecting service availability |
 | Server access logs (IP, User-Agent, request path, timestamp) | Security, debugging, abuse prevention | Legitimate interests |
 | Cookies (see Cookies section) | Keeping you signed in; stable personalised feed ordering | Strictly necessary (session); Consent (functional) |
@@ -87,6 +88,7 @@ With your consent (the **Accept** option on the banner), we record a small amoun
 
 - **Account data** (email, display name, hashed password): retained while your account is active and for **24 months after your last sign-in**, after which we prompt you or delete it.
 - **Quiz answers linked to your account**: retained for the same period as your account data.
+- **Comments you post**: retained for the same period as your account data, and deleted with your account. Comments are **public** to other spotters who have identified the same clip. If your leaderboard visibility is switched on, they are shown with your display name; if it is switched off (the default for spotters aged 13-17), other spotters see an anonymised handle instead, though PEBL staff can still identify you internally to moderate the service. Records of moderation decisions (for example that a comment was hidden, and why) may be kept for a reasonable period after deletion where we need them to meet our legal obligations.
 - **Anonymised aggregates** derived from quiz answers: retained indefinitely for ecological research purposes; they cannot be used to identify you.
 - **IP addresses**: held in memory only, never persisted, cleared on server restart.
 - **Server access logs**: retained by Vercel, our hosting sub-processor, per Vercel's log-retention period (see "What data we collect and why").

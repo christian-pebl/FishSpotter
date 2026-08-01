@@ -150,6 +150,34 @@ export async function checkShopRateLimit(userId: string): Promise<boolean> {
   return consume(`shop:${userId}`, SHOP_WINDOW_MS, SHOP_MAX_PER_HOUR);
 }
 
+// Clip comments (POST /api/comments). A spotter leaving genuine feedback writes
+// a handful an hour at most, and src/lib/comments.ts already caps them at
+// MAX_PER_CLIP per clip; this is the cross-clip flood guard. 20/hour/user is far
+// above real use but stops a scripted client from filling the thread table.
+const COMMENT_WINDOW_MS = 60 * 60 * 1000;
+const COMMENT_MAX_PER_HOUR = 20;
+
+export async function checkCommentRateLimit(userId: string): Promise<boolean> {
+  return consume(`comment:${userId}`, COMMENT_WINDOW_MS, COMMENT_MAX_PER_HOUR);
+}
+
+// NOT a request limiter: this throttles the OUTBOUND instant-notification email
+// to a single admin (see src/lib/email/comment-notify.ts). Comments notify PEBL
+// staff instantly, which is the right default at launch volume but would turn a
+// spam run — or simply a busy afternoon — into a pager. Over the cap the email is
+// skipped silently; the comment is still in the /admin/comments inbox, so nothing
+// is lost. Keyed on the recipient's address, not the commenter.
+const COMMENT_MAIL_WINDOW_MS = 60 * 60 * 1000;
+const COMMENT_MAIL_MAX_PER_HOUR = 20;
+
+export async function checkCommentMailRateLimit(adminEmail: string): Promise<boolean> {
+  return consume(
+    `comment-mail:${adminEmail.toLowerCase()}`,
+    COMMENT_MAIL_WINDOW_MS,
+    COMMENT_MAIL_MAX_PER_HOUR,
+  );
+}
+
 // GET /api/metrics/summary. Token-gated (METRICS_TOKEN), so callers are
 // trusted, but the aggregation queries a dozen tables — cap requests per
 // token so a misconfigured cron/agent loop can't hammer the DB. 60/hour is
