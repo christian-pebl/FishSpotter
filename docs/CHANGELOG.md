@@ -605,3 +605,54 @@ held back for one big merge.
   `select`-less write fails CI instead of production. Lesson for the next additive column: push the
   schema FIRST — a nullable column add is backward-compatible with the old code, so that ordering
   has no window at all.
+
+## 2026-08-01: Public clip comments + PEBL feedback inbox (SHIPPED LIVE, PR #119, main `0ad167f`)
+
+Spotters can now leave a comment on a clip after committing their own ID: the species isn't in
+the list, the clip is too murky to call, it looks like a juvenile, or anything else. Comments
+form a **public thread** per clip, and land in a staff triage + moderation inbox at
+`/admin/comments` with instant email to verified `@pebl-cic.co.uk` accounts. Full design record
+in `implementation/2026-08-01/user-comments-plan.md`.
+
+- **The load-bearing rule: the thread is invisible until you have answered that clip.** Not
+  politeness. `src/lib/consensus.ts` pays Pebbles for INDEPENDENT convergence and
+  `src/lib/trust.ts` propagates reputation through the winning camps, so a thread readable
+  before you commit would quietly turn consensus into a measurement of copying. Mirrors the
+  gate `GET /api/snippets/[id]/stats` already applies to the histogram.
+- **New tables** `Comment` + `CommentReport` (pushed to prod, RLS enabled and verified). Also
+  carried forward the `Event.label` column DECLARATION: it already existed in production but was
+  never committed to `main`, so a `db push` from a fresh branch would have DROPPED it and its
+  data. Confirmed purely additive via `prisma migrate diff` first; `--accept-data-loss` never used.
+- **One serialisation door.** `toPublicComment()` in `src/lib/comments.ts` names every field
+  explicitly and never spreads a Prisma row, so `adminNote` and author emails cannot leak. The
+  author's email is not even a parameter to that module. Mutation-tested.
+- **Blocklist** merged with the LDNOOBW open-source English list (MIT; basis of the `bad-words`
+  npm package): 403 entries filtered to 250. **44 words deliberately excluded** because they
+  collide with this app's own content: `sex`/`sexual` ("sexual dimorphism" is standard
+  field-guide language), `anus`/`penis` (real crustacean + cephalopod anatomy), `shrimping` (a
+  real fishing activity), `xx`/`xxx` (near-universal UK texting sign-off), `sucks`/`sexy` (not
+  unambiguous profanity by the module's own bar). Matcher is word-level, so it stays immune to
+  the Scunthorpe problem ("bass", "cockle", "assess"). A hit HOLDS for review, never rejects.
+- **Minors' names protected.** Declared 13-17 accounts default `leaderboardOptIn: false`, which
+  already hid their name from the leaderboard; comments now honour the same signal via
+  `publicAuthorName()`, showing an anonymised `Spotter <id6>` handle to other spotters. Staff
+  still see the real name for moderation. This closed a real inconsistency, not a hypothetical.
+- **Moderation:** report control on every comment (5 reasons, one per person per comment),
+  auto-hide at 3 distinct reporters, admin hide/unhide/delete, canned one-tap replies, outcome
+  codes on resolve. Hard link rejection at post time. Rate limits 20/hr/user, 3 top-level per
+  clip (replies exempt, so a conversation can't be cut off).
+- **OSA risk assessments** in `docs/safety/` (illegal-content s.10 + children's s.12 + ICO
+  Children's Code cross-reference), written against the actual implementation and **adopted by
+  Christian Berger on 2026-08-01**. The children's assessment records an explicit decision NOT
+  to build age-segregated comment threads, with reasoning: segregation built on self-declared
+  age would only protect users who declared honestly, adding complexity and false assurance
+  without reducing real risk. Structural mitigations (no private messaging anywhere, the
+  answer-gate, public-only visibility, reactive reports) do not depend on declared age.
+- Terms of Service gained a "Comments and discussion" section; Privacy Policy gained a
+  collection row + retention line describing the public nature and the anonymisation behaviour.
+- **Bug found by live validation, not tests:** the per-clip cap was also blocking REPLIES, so a
+  spotter with 3 comments on a clip could never answer anyone there again. Fixed + regression
+  tested. Also fixed from a Gemini 3.5-flash visual pass: composer reason chips wrapped to four
+  rows and pushed Post off a 390px screen, admin controls were 36px against the repo's 44px rule.
+- Verified on the live domain after deploy: anonymous `GET /api/comments` returns exactly
+  `{"gated":true}` with no leaked fields, bare GET is 400, anonymous POST refused, RLS 21/21.

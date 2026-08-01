@@ -1,17 +1,24 @@
-# Illegal content risk assessment — clip comments feature
+# Illegal content risk assessment: clip comments feature
 
 **Service:** FishSpotter (fish-spotter.vercel.app), operated by PEBL CIC
 **Feature assessed:** public per-clip discussion threads (`/api/comments`, `/admin/comments`), introduced 2026-08-01
-**Prepared by:** Claude (engineering analysis), Christian Berger (PEBL CIC)
-**Status:** WORKING DRAFT prepared by engineering, based on the actual implementation.
-**This is not a substitute for formal legal/compliance sign-off.** It records
-the technical facts, the risks they create, and the mitigations already
-built, so a human accountable for OSA compliance can review, amend, and
-formally adopt it. Treat every risk rating below as a starting proposal, not
-a determination.
+**Prepared by:** Claude (engineering analysis), from the actual implementation.
+**Reviewed and adopted by:** Christian Berger, PEBL CIC, **2026-08-01**.
+
+**Status: ADOPTED.** This is PEBL CIC's illegal-content risk assessment for
+the clip comments feature. The ratings below were proposed by engineering and
+are adopted as the service provider's assessment.
+
+**Provenance note, retained deliberately:** this document was drafted by an AI
+assistant analysing the codebase, then reviewed and adopted by PEBL's
+accountable person. That is an honest description of how it was produced and
+should not be edited out. It is a record of the service provider's own
+assessment, not independent legal advice; if PEBL later obtains formal legal
+review, this document should be updated to reflect it.
+
 **Review cadence:** re-assess on any material change to the comments feature
 (new posting surface, moderation change, or a real incident), and at least
-annually.
+annually. Next scheduled review: **2027-08-01**.
 
 ---
 
@@ -35,7 +42,7 @@ by any spotter who has answered that clip, with one level of reply nesting.
 ## 3. User base
 
 - Self-declared age bands at signup: under-13 (blocked outright), 13-17, 18+.
-  Age is **self-declared only** — there is no age-verification or
+  Age is **self-declared only**, there is no age-verification or
   age-estimation step. This is a material limitation, not a mitigation; see
   §7.
 - The service is UK-facing (PEBL CIC survey data, UK species, UK audience),
@@ -64,17 +71,17 @@ mitigations*, proposed by engineering for review.
 
 - **Enabled by:** free-text comment body, in principle.
 - **Mitigations:** the merged word-level blocklist (`src/lib/comments.ts`,
-  sourced 2026-08-01 from the LDNOOBW open-source list — see the file's doc
+  sourced 2026-08-01 from the LDNOOBW open-source list, see the file's doc
   comment for full provenance) includes CSEA-related terms (grooming/abuse
   slang, `pedophile`, `pedobear`, `jailbait`, `nambla`, `pthc`, `shota`,
   `lolita`) and holds a matching comment for staff review rather than
   publishing it. The Report control on every comment is a second, independent
-  path. No private messaging exists on the service at all — a structural
+  path. No private messaging exists on the service at all, a structural
   mitigation, not just a policy one: there is no mechanism on FishSpotter for
   one user to contact another privately, exchange contact details in a
   DM-like channel, or arrange contact outside the public, moderated thread.
 - **Residual risk: Low.** The absence of private messaging is the single
-  strongest mitigation here — the highest-severity CSEA risk pattern
+  strongest mitigation here, the highest-severity CSEA risk pattern
   (grooming via private contact) has no channel to occur through on this
   service. Public-thread CSEA content is caught by the blocklist hold or
   reactive report, both landing in a staff-monitored inbox with instant
@@ -96,7 +103,7 @@ mitigations*, proposed by engineering for review.
 ### 5.3 Hate offences / racially or religiously aggravated harassment
 
 - **Enabled by:** free-text comment body and reply (direct address).
-- **Mitigations:** the sourced blocklist directly targets this category —
+- **Mitigations:** the sourced blocklist directly targets this category -
   it includes commonly-used English-language ethnic, racial, and homophobic
   slurs (holds for review rather than rejecting, so a false positive doesn't
   silently lose a legitimate contribution). Report reasons include "abusive".
@@ -106,10 +113,10 @@ mitigations*, proposed by engineering for review.
   against in absolute terms: it is a general-purpose open-source list, not a
   continuously-maintained, comprehensive hate-speech lexicon, and it has zero
   evasion resistance (spaced letters, leetspeak, coded terms bypass it
-  entirely — a deliberate design trade-off, see the blocklist's doc comment).
+  entirely, a deliberate design trade-off, see the blocklist's doc comment).
   The reactive report path is the real backstop for anything the wordlist
   misses, and it is a strong one (one report from the target plus two more
-  auto-hides pending review), but it is reactive, not preventive — content is
+  auto-hides pending review), but it is reactive, not preventive, content is
   visible until reported. **Recommended follow-up:** evaluate a maintained
   moderation API (e.g. a hate-speech/toxicity classifier) as a
   pre-publication check; this needs a vendor and cost decision (Christian's
@@ -123,7 +130,7 @@ mitigations*, proposed by engineering for review.
   clauses (Terms "Comments and discussion", added with this feature)
   explicitly prohibit posting personal information about yourself or anyone
   else. No way to see another user's email or any contact detail through the
-  comment surface — `authorId` links only to the public `/u/[id]` profile,
+  comment surface, `authorId` links only to the public `/u/[id]` profile,
   which shows aggregate spotting stats, not personal data.
 - **Residual risk: Low-Medium.** A single reply thread with a small number
   of participants (typically two: the original commenter and repliers) means
@@ -137,7 +144,7 @@ mitigations*, proposed by engineering for review.
 - **Enabled by:** free-text comment body could in principle carry a scam
   link or solicitation.
 - **Mitigations:** **all links are rejected outright at post time**
-  (`containsUrl()` — `http://`, `https://`, `www.`, and bare domain patterns
+  (`containsUrl()`, `http://`, `https://`, `www.`, and bare domain patterns
   including `.co.uk`), not merely held for review. This is a hard block, the
   strongest mitigation in the whole feature, because the majority of fraud
   vectors in a comment box depend on a clickable link or a reachable domain.
@@ -167,7 +174,7 @@ mitigations*, proposed by engineering for review.
 | **Instant staff email** | A new comment, a reply to a PEBL comment, or the first report of any comment triggers an email to every verified `@pebl-cic.co.uk` account within the request (throttled per recipient to prevent the channel becoming unusable under load). |
 | **Admin removal + account suspension** | Already covered by the Terms of Service "Acceptable use" section (applies service-wide, not just to comments). |
 | **Rate limiting** | 20 comments/hour/user, capped at 3 top-level comments per clip (replies exempt from the per-clip cap so a conversation isn't cut off). |
-| **`adminNote` and moderation metadata never reach a client** | `toPublicComment()` (single serialisation door, unit- and mutation-tested) — irrelevant to illegal-content risk directly, but ensures the moderation record itself cannot leak. |
+| **`adminNote` and moderation metadata never reach a client** | `toPublicComment()` (single serialisation door, unit- and mutation-tested), irrelevant to illegal-content risk directly, but ensures the moderation record itself cannot leak. |
 
 ## 7. Known limitations (recorded, not hidden)
 
@@ -195,13 +202,18 @@ offences) and §5.4 (harassment), both real but bounded by the anti-herding
 audience gate, the absence of any private-messaging channel, and a working
 reactive-report pipeline with instant staff notification.
 
-**Recommended actions, in priority order:**
-1. Formal review and sign-off of this document by Christian / PEBL's
-   accountable person before the feature is publicly live.
-2. Evaluate a maintained hate-speech/toxicity moderation API as a
-   pre-publication check (§5.3) — vendor and cost decision required.
-3. Monitor `/admin/comments` report volume and categories for the first
-   weeks post-launch; use that real data to revisit this assessment's
-   ratings rather than relying solely on this pre-launch analysis.
-4. Re-run this assessment if a real incident occurs, or on any material
-   change to the feature.
+**Actions:**
+1. ~~Formal review and sign-off before the feature is publicly live.~~
+   **DONE 2026-08-01**, adopted by Christian Berger. (Recorded honestly: the
+   feature went live on 2026-08-01 and this assessment was adopted the same
+   day, rather than strictly before first deployment.)
+2. **OPEN**, evaluate a maintained hate-speech/toxicity moderation API as a
+   pre-publication check (§5.3). Vendor and cost decision. Accepted as a
+   known gap at adoption, mitigated in the interim by the reactive report +
+   auto-hide + instant-notification pipeline.
+3. **OPEN, ongoing**, monitor `/admin/comments` report volume and categories
+   for the first weeks post-launch; use that real data to revisit these
+   ratings rather than relying solely on pre-launch analysis. This is the
+   single most useful input to the next review.
+4. **STANDING**, re-run this assessment if a real incident occurs, or on any
+   material change to the feature.
