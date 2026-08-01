@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { isPrizeEligible } from "@/lib/trust";
+import { loadPrizeWinnerRows } from "@/lib/prize-desk";
 import {
   PRIZE_NAME,
   PRIZE_STATUS_LABEL,
   PRIZE_TARGET_PEBBLES,
-  SEASEARCH_GUIDE_ID,
-  buildPrizeWinnerRows,
-  hasReachedPrizeTarget,
   type PrizeStatus,
-  type PrizeWinnerInput,
   type PrizeWinnerRow,
 } from "@/lib/prize";
 import { CopyEmailButton, PostedToggle } from "./PrizeRowActions";
@@ -45,9 +41,12 @@ function Contact({ row }: { row: PrizeWinnerRow }) {
   }
   return (
     <span className="inline-flex items-center gap-1">
-      <span className="break-all text-navy-900">{row.contactEmail}</span>
+      {/* The table scrolls horizontally rather than breaking an address
+          mid-word: a half-wrapped email is exactly the thing someone
+          mis-transcribes when posting a book. */}
+      <span className="whitespace-nowrap text-navy-900">{row.contactEmail}</span>
       {row.contact === "unverified" ? (
-        <span className="shrink-0 rounded-full bg-pending px-2 py-0.5 text-[10px] font-semibold text-pending-ink">
+        <span className="shrink-0 whitespace-nowrap rounded-full bg-pending px-2 py-0.5 text-[10px] font-semibold text-pending-ink">
           unverified
         </span>
       ) : null}
@@ -57,96 +56,7 @@ function Contact({ row }: { row: PrizeWinnerRow }) {
 }
 
 export default async function AdminPrizesPage() {
-  const now = new Date();
-
-  type PointsRow = { userId: string; _sum: { points: number | null } };
-  const [claims, perUserPoints] = await Promise.all([
-    prisma.pebblePurchase.findMany({
-      where: { itemId: SEASEARCH_GUIDE_ID },
-      select: { userId: true, purchasedAt: true, fulfilledAt: true, fulfilledBy: true },
-      orderBy: { purchasedAt: "asc" },
-    }),
-    prisma.answer.groupBy({ by: ["userId"], _sum: { points: true } }),
-  ]);
-
-  const pebblesByUser = new Map<string, number>(
-    (perUserPoints as PointsRow[]).map((r) => [r.userId, r._sum.points ?? 0]),
-  );
-  // One claim per spotter ever (enforced in the claim route); keep the oldest
-  // defensively so a duplicate row can't hide the original's posted stamp.
-  const claimByUser = new Map<string, (typeof claims)[number]>();
-  for (const c of claims) if (!claimByUser.has(c.userId)) claimByUser.set(c.userId, c);
-
-  // Candidates = everyone over the target, plus anyone holding a claim (so a
-  // claim can never drop off the desk while PEBL still owes them a book).
-  const candidateIds = Array.from(
-    new Set([
-      ...Array.from(pebblesByUser.entries())
-        .filter(([, pebbles]) => hasReachedPrizeTarget(pebbles))
-        .map(([userId]) => userId),
-      ...claimByUser.keys(),
-    ]),
-  );
-
-  const [users, answerDates] = await Promise.all([
-    candidateIds.length
-      ? prisma.user.findMany({
-          where: { id: { in: candidateIds } },
-          select: {
-            id: true,
-            email: true,
-            displayName: true,
-            name: true,
-            isGuest: true,
-            emailVerified: true,
-            createdAt: true,
-            trustScore: true,
-          },
-        })
-      : Promise.resolve([]),
-    candidateIds.length
-      ? prisma.answer.findMany({
-          where: { userId: { in: candidateIds } },
-          select: { userId: true, createdAt: true },
-        })
-      : Promise.resolve([]),
-  ]);
-
-  const datesByUser = new Map<string, Date[]>();
-  for (const a of answerDates) {
-    const list = datesByUser.get(a.userId);
-    if (list) list.push(a.createdAt);
-    else datesByUser.set(a.userId, [a.createdAt]);
-  }
-
-  const inputs: PrizeWinnerInput[] = users.map((u) => {
-    const claim = claimByUser.get(u.id) ?? null;
-    const verdict = isPrizeEligible(
-      {
-        emailVerified: u.emailVerified,
-        createdAt: u.createdAt,
-        trustScore: u.trustScore,
-        answerDates: datesByUser.get(u.id) ?? [],
-      },
-      now,
-    );
-    return {
-      userId: u.id,
-      displayName: u.displayName,
-      name: u.name,
-      email: u.email,
-      isGuest: u.isGuest,
-      emailVerified: u.emailVerified,
-      pebbles: pebblesByUser.get(u.id) ?? 0,
-      claimedAt: claim?.purchasedAt ?? null,
-      fulfilledAt: claim?.fulfilledAt ?? null,
-      fulfilledBy: claim?.fulfilledBy ?? null,
-      eligible: verdict.eligible,
-      eligibilityReasons: verdict.reasons,
-    };
-  });
-
-  const rows = buildPrizeWinnerRows(inputs);
+  const rows = await loadPrizeWinnerRows(prisma, new Date());
   const count = (s: PrizeStatus) => rows.filter((r) => r.status === s).length;
 
   return (
@@ -168,7 +78,7 @@ export default async function AdminPrizesPage() {
         </p>
       ) : (
         <div className="mt-4 overflow-x-auto rounded-card border border-navy-200/60 bg-white">
-          <table className="w-full min-w-[860px] text-left text-[12px]">
+          <table className="w-full min-w-[960px] text-left text-[12px]">
             <thead>
               <tr className="border-b border-navy-200/60 text-[10px] font-semibold uppercase tracking-wide text-navy-500">
                 <th className="px-3 py-2">Spotter</th>
@@ -215,7 +125,7 @@ export default async function AdminPrizesPage() {
                   </td>
                   <td className="px-3 py-2">
                     <span
-                      className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_PILL[r.status]}`}
+                      className={`inline-block whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_PILL[r.status]}`}
                     >
                       {PRIZE_STATUS_LABEL[r.status]}
                     </span>
