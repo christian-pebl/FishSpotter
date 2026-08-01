@@ -1,0 +1,132 @@
+<meta charset="utf-8">
+<title>PEBL Workshop - Evidence Cards</title>
+<style>
+  :root{--navy:#17252A;--teal:#3AAFA9;--dteal:#2B7A78;--lteal:#DEF2F1;--tan:#b8935a;--soft:#4d6b72;--hair:#cfe0e0}
+  @page{size:A4;margin:0}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Helvetica,Arial,sans-serif;color:var(--navy);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet{width:210mm;height:297mm;page-break-after:always;display:flex;flex-direction:column}
+  .sheet:last-child{page-break-after:auto}
+  .card{height:148.5mm;padding:13mm 14mm 10mm;position:relative;display:flex;flex-direction:column;border-bottom:.4mm dashed #b9cccc}
+  .card:last-child{border-bottom:0}
+  .tbl{font-size:8pt;letter-spacing:1.4pt;text-transform:uppercase;color:var(--dteal);font-weight:bold;margin:0 0 1mm}
+  h2{font-size:19pt;line-height:1.06;margin:0 0 3mm;letter-spacing:-.4pt;max-width:150mm}
+  .stat{font-size:40pt;font-weight:bold;color:var(--teal);line-height:.95;margin:0 0 2mm}
+  .stat small{font-size:15pt;font-weight:bold}
+  .body{font-size:10.6pt;line-height:1.5;margin:0 0 auto;max-width:168mm}
+  .body b{color:var(--navy)}
+  .means{background:var(--lteal);border-left:3.5pt solid var(--teal);padding:5pt 8pt;font-size:9.6pt;margin:4mm 0 0;line-height:1.45}
+  .means b{display:block;font-size:7.6pt;letter-spacing:1pt;text-transform:uppercase;color:var(--dteal);margin-bottom:1.5pt}
+  .src{font-size:8pt;color:var(--soft);border-top:.6pt solid var(--hair);padding-top:2.5mm;margin-top:4mm;line-height:1.4}
+  .flag{position:absolute;top:13mm;right:14mm;font-size:7.6pt;font-weight:bold;letter-spacing:.8pt;text-transform:uppercase;padding:2.5pt 7pt;border-radius:9pt}
+  .up{background:var(--lteal);color:var(--dteal)}
+  .down{background:#fdf3e7;color:#8a6224}
+  .peb{background:var(--navy);color:#fff}
+  .card.dark{background:var(--navy);color:#fff}
+  .card.dark h2,.card.dark .body b{color:#fff}
+  .card.dark .body{color:#dCE8E8}
+  .card.dark .stat{color:var(--teal)}
+  .card.dark .src{color:#8fb3b8;border-top-color:#2f4a50}
+  .card.dark .means{background:rgba(58,175,169,.14);border-left-color:var(--teal);color:#eaf4f4}
+  .card.dark .means b{color:var(--teal)}
+  .card.dark .tbl{color:var(--teal)}
+  .refs{font-size:9pt;line-height:1.5}
+  .refs li{margin-bottom:2.5mm}
+</style>
+
+<!-- SHEET 1 -->
+<div class="sheet">
+  <div class="card">
+    <span class="flag up">Evidence for</span>
+    <p class="tbl">Table 2 &middot; the mussel ropes</p>
+    <h2>The reef that came back after 150 years</h2>
+    <p class="stat">30<small>% more reef</small></p>
+    <p class="body">Researchers watched the seabed under the UK's first large offshore mussel farm, in Lyme Bay, for <b>eight years</b>. Compared with control sites nearby, the damaged seabed under the farm got more complex, and <b>biogenic reef increased by 30% after seven years</b>. Shellfish reef is returning to that part of the seabed for the first time in up to 150 years.</p>
+    <div class="means"><b>What it means at your table</b>Your mussels are not just food. The shells that drop off the ropes build hard ground on bare sand, and that new ground is what a lot of your table is living on.</div>
+    <p class="src">University of Plymouth, long-term monitoring of the UK's first offshore mussel farm. Published in <i>Ecological Indicators</i>, 2024. Before-After-Control-Impact design, eight years of survey.</p>
+  </div>
+
+  <div class="card">
+    <span class="flag up">Evidence for</span>
+    <p class="tbl">Table 3 &middot; the rope shoal</p>
+    <h2>More fish, and young ones settling in</h2>
+    <p class="stat">1.6&times;<small> more fish</small></p>
+    <p class="body">Pulling together studies from around the world, fish were on average <b>1.6 times more abundant on shellfish and seaweed farms</b> than in comparable habitat nearby. In one study, the larvae of <b>seven different fish species</b> settled out of the plankton into farm structures, at a diversity similar to natural habitat.</p>
+    <div class="means"><b>What it means at your table</b>The farm is not just attracting adult fish that were already nearby. Young fish are choosing to settle there and grow up, which is what the word "nursery" actually means.</div>
+    <p class="src">Global synthesis of restorative aquaculture, <i>Reviews in Aquaculture</i>, and larval settlement work in the Hauraki Gulf, New Zealand. Summarised by The Nature Conservancy, 2022 to 2024.</p>
+  </div>
+</div>
+
+<!-- SHEET 2 -->
+<div class="sheet">
+  <div class="card">
+    <span class="flag up">Evidence for</span>
+    <p class="tbl">Table 4 &middot; the seabed crew</p>
+    <h2>Crab and lobster do well out of it</h2>
+    <p class="stat">Commercial<small> species gain</small></p>
+    <p class="body">The same Lyme Bay farm was studied specifically for its effect on species people actually catch. The work found a <b>restorative function for commercial crustaceans</b>, with the farm structure and the material falling from it supporting more crab and lobster than the surrounding seabed. The operators report large increases in bass, mullet, crab and lobster over nine years.</p>
+    <div class="means"><b>What it means at your table</b>Your hermit crab and your shore crab are eating what rains down. The things that eat <i>them</i>, including species in a pot, benefit too.</div>
+    <p class="src">"Restorative function of offshore longline mussel farms with ecological benefits for commercial crustacean species", <i>Science of the Total Environment</i>, 2024.</p>
+  </div>
+
+  <div class="card">
+    <span class="flag up">Evidence for</span>
+    <p class="tbl">Table 1 &middot; the kelp canopy</p>
+    <h2>A patch of easier water for shellfish</h2>
+    <p class="stat">23<small>% easier shell-building</small></p>
+    <p class="body">Seaweed photosynthesises, which strips carbon dioxide out of the water around it. Measured inside a kelp farm at peak growth, the water was <b>less acidic than outside</b>, and aragonite saturation, the measure of how easily an animal can build a shell, was <b>23% higher</b>. Seaweed farms have been described as local refuges from ocean acidification.</p>
+    <div class="means"><b>What it means at your table</b>Your limpets, urchins and top shells all build shells out of seawater. As the sea slowly acidifies that gets harder. Inside the canopy it is measurably easier.</div>
+    <p class="src">"Seaweed farms provide refugia from ocean acidification", <i>Science of the Total Environment</i>, 2021, plus kelp farm measurements in Maine, USA. Effect is local and strongest at peak growth.</p>
+  </div>
+</div>
+
+<!-- SHEET 3 -->
+<div class="sheet">
+  <div class="card">
+    <span class="flag down">Evidence against</span>
+    <p class="tbl">Table 5 &middot; the open sand</p>
+    <h2>A farm is not a wild kelp forest</h2>
+    <p class="stat">Fewer<small> species than the real thing</small></p>
+    <p class="body">A 2025 study of wave-exposed kelp farms in Norway used both eDNA and traditional sampling, netting, cameras and invertebrate collection. Compared with <b>natural habitats nearby</b>, the kelp farms held <b>lower species richness and lower abundance</b>. A farm adds habitat to bare ground. It does not replace a real reef, and it should never be an argument for damaging one.</p>
+    <div class="means"><b>What it means at your table</b>Your table barely changed when we took the farm away, and that is the honest half of this story. Farms help most where there was nothing. They are not a substitute for protecting what is already there.</div>
+    <p class="src">"Combining environmental DNA and traditional sampling to assess the role of kelp aquaculture as an artificial habitat in Norway", <i>Frontiers in Marine Science</i>, 2025.</p>
+  </div>
+
+  <div class="card dark">
+    <span class="flag down">Read this one out</span>
+    <p class="tbl">Facilitator card</p>
+    <h2>The carbon claim does not stand up</h2>
+    <p class="body">You will hear that seaweed farming locks away large amounts of carbon. Recent assessments do not support it. Globally, seaweed farming is currently estimated to be a <b>net emitter</b>: the carbon sequestered is more than cancelled out by the emissions of running the farms. There is <b>no standardised way to verify</b> seaweed carbon storage, unlike saltmarsh or seagrass. Where seaweed genuinely helps the climate is by <b>replacing something worse</b>, such as fertiliser, animal feed or plastic, not by burying carbon.</p>
+    <div class="means"><b>Why we say this out loud</b>Somebody in the room already believes the carbon story. Correcting it yourself, before you are challenged, is the fastest way to be trusted on everything else you say.</div>
+    <p class="src">"Carbon removal and climate change mitigation by seaweed farming: a state of knowledge review", <i>Science of the Total Environment</i>, 2024, and assessments of seaweed carbon crediting under the EU QU.A.L.ITY framework, 2025.</p>
+  </div>
+</div>
+
+<!-- SHEET 4 -->
+<div class="sheet">
+  <div class="card dark">
+    <span class="flag peb">PEBL</span>
+    <p class="tbl">The gap we are filling</p>
+    <h2>Almost none of this was measured in Wales</h2>
+    <p class="body">Nearly every number on these cards comes from Lyme Bay, Norway, New Zealand or Maine. The evidence that farms build habitat is real, but it is <b>somewhere else</b>, on other seabeds, with other species, at other scales. Welsh farms are smaller, closer inshore and mostly newer.</p>
+    <p class="body">That is why PEBL puts cameras on them. Everything you built on the mat today came out of footage from real farms, identified frame by frame. <b>The clips you watched at the start are the raw evidence.</b></p>
+    <div class="means"><b>What you can do</b>The code on your species card opens that footage. You can help identify what our cameras are seeing, from home, in ten minutes. That is not a gimmick, the identifications feed the dataset.</div>
+    <p class="src">Plant Ecology Beyond Land (PEBL) CIC, company number 12076622. www.pebl-cic.co.uk</p>
+  </div>
+
+  <div class="card">
+    <span class="flag peb">Sources</span>
+    <p class="tbl">If anyone asks for the papers</p>
+    <h2>Where these numbers come from</h2>
+    <ol class="refs">
+      <li><b>Lyme Bay biogenic reef.</b> Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm. <i>Ecological Indicators</i>, 2024. University of Plymouth.</li>
+      <li><b>Commercial crustaceans.</b> Restorative function of offshore longline mussel farms with ecological benefits for commercial crustacean species. <i>Science of the Total Environment</i>, 2024.</li>
+      <li><b>Fish aggregation and nursery use.</b> Restorative aquaculture syntheses, <i>Reviews in Aquaculture</i>; larval settlement, Hauraki Gulf.</li>
+      <li><b>Acidification refuge.</b> Seaweed farms provide refugia from ocean acidification. <i>Science of the Total Environment</i>, 2021.</li>
+      <li><b>The counterweight.</b> Kelp aquaculture as artificial habitat, eDNA and traditional sampling, Norway. <i>Frontiers in Marine Science</i>, 2025.</li>
+      <li><b>Carbon.</b> Carbon removal and climate change mitigation by seaweed farming: a state of knowledge review. <i>Science of the Total Environment</i>, 2024.</li>
+      <li><b>Longline farm interactions review.</b> Offshore longline mussel farms: a review of oceanographic and ecological interactions. <i>Reviews in Aquaculture</i>, 2021.</li>
+    </ol>
+    <p class="src">Findings are summarised in plain English for a public audience. Figures are quoted as reported by the authors. Where a study disagrees with the others we have included it rather than left it out.</p>
+  </div>
+</div>
