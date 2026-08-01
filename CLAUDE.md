@@ -2,14 +2,10 @@
 
 ## Project Overview
 
-**FishSpotter** (fishspotter.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
+**FishSpotter** (www.fishspotter.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
 
 - Repo: https://github.com/christian-pebl/FishSpotter
-- Live URL: **https://fishspotter.app** — the canonical production site (custom domain on the same Vercel
-  project; DNS resolves to Vercel edge). `fish-spotter.vercel.app` still serves the same deployment, so
-  older links and the cron/verify commands further down this file keep working — but use `fishspotter.app`
-  for anything new: docs, spotter-facing email, `NEXTAUTH_URL`, and links rendered in the UI. Still ignore
-  `fishspotter.vercel.app`, which is a different, unrelated deployment.
+- Live URL: **https://www.fishspotter.app** (canonical custom domain, confirmed 1 Aug 2026 — `fishspotter.app` 308-redirects to it. Both map to the Vercel project `fish-spotter`, so `fish-spotter.vercel.app` / `fishspotter.vercel.app` are the same underlying deployment, just not the domain to link or reference)
 - Local dev: `npm run dev` runs on **localhost:3000**
 - Database: Supabase Postgres (project ID: `aazxphcrexkggbmmceli`, region: West EU / Ireland)
 - Storage: Supabase Storage bucket `snippets` — public URLs at `https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/{externalId}/snippet.mp4`
@@ -182,7 +178,7 @@ with `STORAGE_PROVIDER=r2` (the script is idempotent and cache-busts the DB URLs
    npm run db:migrate-to-r2 -- --limit 3     # spot-check on 3 clips first
    npm run db:migrate-to-r2                  # full migration (idempotent)
    ```
-5. **Verify**: load any snippet on fish-spotter.vercel.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
+5. **Verify**: load any snippet on www.fishspotter.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
 6. **Drop the Supabase objects** only after a few days of production traffic confirm R2 is serving. The Snippet rows now point at R2; the Supabase objects are dead weight but harmless until removed via the Supabase dashboard.
 
 The migration is idempotent: re-running skips any row whose URL already lives under `R2_PUBLIC_URL`. Use `--force` to re-upload anyway.
@@ -477,9 +473,10 @@ Token-gated on `METRICS_TOKEN` (Vercel prod env, deliberately separate from
 `CRON_SECRET` so it rotates independently), rate-limited at 60 req/hour on
 the token (`checkMetricsRateLimit` in `src/lib/rate-limit.ts`), aggregate-only
 — no user id/email/name ever appears in the response. This requires the
-remote environment's network policy to allow `fish-spotter.vercel.app`; if
-the call fails at the connection level (not a 401/429), that's the network
-policy blocking the host, not a missing number — say so explicitly.
+remote environment's network policy to allow `www.fishspotter.app` (the
+canonical domain — see "Live URL" above); if the call fails at the
+connection level (not a 401/429), that's the network policy blocking the
+host, not a missing number — say so explicitly.
 
 **Path 2 — local, with `.env.local` present:**
 
@@ -495,6 +492,15 @@ npm run db:stats -- --days 7   # change the window
 that prompted building this path: a remote session with no DB credentials and
 a network policy blocking the app has genuinely no way to know the numbers
 without one of the two paths above.
+
+**Path 1 confirmed working end-to-end, 1 Aug 2026:** `METRICS_TOKEN` is set
+in Vercel Production (added after the fact — it did not ship set, so the
+endpoint 401'd until this). A real request to
+`https://www.fishspotter.app/api/metrics/summary` with the correct bearer
+token returned a full payload (all sections populated); a wrong token
+correctly returned 401. If a session still can't reach the endpoint, the
+blocker is that session's network policy or a missing/wrong
+`FISHSPOTTER_METRICS_TOKEN` locally — not the server.
 
 The response/CLI output covers `reach`, `discovery` (First Sighting —
 clips-with-a-first-spot, the unspotted backlog, time-to-first-spot, spotter
@@ -621,7 +627,7 @@ stale rows), trigger a manual run with `?force=1`:
 
 ```
 curl -H "Authorization: Bearer $CRON_SECRET" \
-  https://fish-spotter.vercel.app/api/cron/refresh-images?force=1
+  https://www.fishspotter.app/api/cron/refresh-images?force=1
 ```
 
 Each call processes up to 12 species; for the full catalogue, hit the

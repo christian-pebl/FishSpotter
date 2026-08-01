@@ -1,10 +1,18 @@
-# Public clip comments + PEBL feedback inbox — implementation plan
+# Public clip comments + PEBL feedback inbox: implementation plan
 
 Date: 2026-08-01
 Owner: Christian (direction) + Claude (build)
-Status: **PR #119 open on `feat/clip-comments`, merged with main, CI green.**
-All four phases built, plus the three items flagged as outstanding at the end
-of the previous pass are now closed (§ "Outstanding items closed, 2026-08-01").
+Status: **SHIPPED LIVE AND SIGNED OFF.** PR #119 squash-merged to `main`
+(`0ad167f`), production deploy green, verified against the live domain. Both
+OSA risk assessments **adopted by Christian Berger on 2026-08-01**, including
+an explicit recorded decision NOT to build age-segregated comment threads
+(reasoning in `docs/safety/osa-childrens-risk-assessment-clip-comments.md`
+§4.2). All four phases built and all previously-outstanding items closed.
+
+**Nothing about this feature is now blocking.** The two remaining items are
+ongoing rather than open: monitor real report volume once there is traffic,
+and evaluate a maintained moderation API when volume justifies the vendor
+cost. Both are recorded as standing actions in the risk assessments.
 Execution target: Claude Code, Opus 5, max reasoning effort.
 
 ## Build log
@@ -24,7 +32,7 @@ Execution target: Claude Code, Opus 5, max reasoning effort.
 | T2.x moderation | DONE | Report route, auto-hide, held queue, hide/unhide/delete. |
 | T3.x instant email | DONE | Template, dispatcher, throttle, wired into both routes. |
 | T4.1/T4.2 legal copy | DONE | Terms "Comments and discussion"; Privacy collection + retention rows. |
-| T4.3 risk assessments | DONE (working draft) | `docs/safety/osa-*-risk-assessment-clip-comments.md`. Needs Christian's formal sign-off, not further build work. |
+| T4.3 risk assessments | DONE + ADOPTED | `docs/safety/osa-*-risk-assessment-clip-comments.md`. Adopted by Christian Berger 2026-08-01, including the recorded age-segregation decision. |
 
 Final gate: `tsc` 0, **553 tests pass** (57 files), `lint` clean, `lint:tokens`
 clean, `next build` succeeds, `db:enable-rls --check` exits 0.
@@ -34,26 +42,26 @@ clean, `next build` succeeds, `db:enable-rls --check` exits 0.
 Three things were flagged at the end of the previous session as blocking
 public launch. All three are now closed:
 
-### 1. Minors named in comments while defaulted off the leaderboard — FIXED
+### 1. Minors named in comments while defaulted off the leaderboard: FIXED
 
 The inconsistency named in the original plan (§12) was real: declared minors
 (13-17) default to `leaderboardOptIn: false` at signup
 ([auth.ts](../../src/lib/auth.ts)), which already hides their real name from
-the public leaderboard — but the comment thread showed their real display
+the public leaderboard, but the comment thread showed their real display
 name to everyone regardless, undoing that protection the moment they used
 the new feature.
 
 **Fix:** `publicAuthorName()` in [comments.ts](../../src/lib/comments.ts)
 extends the same `leaderboardOptIn` signal to public comment display. An
 opted-out author (every self-declared minor by default) is shown to *other*
-spotters as an anonymised handle (`Spotter <id6>` — reuses the existing
+spotters as an anonymised handle (`Spotter <id6>`, reuses the existing
 null-display-name fallback format, so it carries no separate stigma). The
 author still sees their own real name on their own comment; staff always see
-the real name for moderation (`viewer.isAdmin` bypass — a distinct legal
+the real name for moderation (`viewer.isAdmin` bypass, a distinct legal
 basis from the public-display protection). `PublicComment.isAnonymised` flag
 added for future UI use; deliberately not rendered as a visible badge yet,
 since the whole point of the naming convention is that it reads identically
-to "never set a display name" — a badge would defeat that.
+to "never set a display name", a badge would defeat that.
 
 New tests in `comments.test.ts` (`publicAuthorName / isAnonymised` block):
 opted-in author unaffected, opted-out author anonymised for a stranger AND a
@@ -64,14 +72,14 @@ in the serialised JSON for a non-owner, non-admin viewer.
 Privacy Policy's "Comments you post" retention row updated to describe the
 anonymisation behaviour in plain language.
 
-### 2. No slur coverage in the blocklist — FIXED (partially, honestly scoped)
+### 2. No slur coverage in the blocklist: FIXED (partially, honestly scoped)
 
 The original 20-word hand-picked blocklist covered profanity only, with
-zero slur coverage — flagged as open decision 3 in the original plan.
+zero slur coverage, flagged as open decision 3 in the original plan.
 
 **What was done:** merged with the LDNOOBW "List of Dirty, Naughty, Obscene,
 and Otherwise Bad Words" English list (MIT licensed, the basis of the popular
-`bad-words` npm package — a real, citable, widely-used open-source source,
+`bad-words` npm package, a real, citable, widely-used open-source source,
 fetched directly from its GitHub repo, not invented). 403 raw entries ->
 248 usable single-word entries (multi-word phrases dropped; the matcher is
 deliberately word-level only, see the Scunthorpe design note) -> merged with
@@ -81,10 +89,10 @@ context, then **250 final words**.
 The exclusion set is the interesting part, and it's fully documented in the
 `BLOCKLIST` doc comment in [comments.ts](../../src/lib/comments.ts):
 anatomy/biology vocabulary that's ordinary ID-guide language for THIS app
-("sex", "sexual"/"sexuality" — "sexual dimorphism" is standard field-guide
-language, "anus", "penis" — real crustacean/cephalopod anatomy terms), a real
+("sex", "sexual"/"sexuality", "sexual dimorphism" is standard field-guide
+language, "anus", "penis", real crustacean/cephalopod anatomy terms), a real
 fishing activity ("shrimping"), a near-universal UK texting sign-off and
-inherently low-precision 2-3 letter tokens ("xx"/"xxx" — "nice spot! xx"),
+inherently low-precision 2-3 letter tokens ("xx"/"xxx", "nice spot! xx"),
 and two words that fail the module's own "unambiguous profanity" bar
 ("sucks" overwhelmingly means "disappointing", not sexual; "sexy" is mild
 hyperbole, not hostility).
@@ -96,21 +104,27 @@ sentences hold, a real-slur block confirming the merge actually landed
 **Honestly scoped, not oversold:** this closes "no slur coverage at all", it
 does not claim to be a comprehensive or continuously-maintained hate-speech
 lexicon. The illegal-content risk assessment (§5.3) records this explicitly
-and recommends a maintained moderation API as a follow-up vendor decision —
+and recommends a maintained moderation API as a follow-up vendor decision -
 Christian's call, not something to bolt on silently.
 
-### 3. OSA risk assessments — DRAFTED, needs Christian's sign-off
+### 3. OSA risk assessments: DRAFTED, then ADOPTED 2026-08-01
 
-Two working drafts, written from the actual implementation (not a generic
-template):
+Written from the actual implementation (not a generic template), and adopted
+by Christian Berger on 2026-08-01. The age-segregation trade-off flagged
+below as "the one judgement call" was explicitly decided at adoption:
+**age-segregated threads will not be built**, because segregation resting on
+self-declared age would protect only the users who declared honestly, adding
+complexity and false assurance without reducing real risk. Full reasoning in
+the children's assessment §4.2. The Medium rating is therefore an ACCEPTED
+residual risk, not an unresolved gap.
 
-- `docs/safety/osa-illegal-content-risk-assessment-clip-comments.md` — the
+- `docs/safety/osa-illegal-content-risk-assessment-clip-comments.md`, the
   s.10 duty. Per-category analysis (CSEA, terrorism, hate offences,
   harassment, fraud, drugs/weapons) against the mitigations actually built
   (anti-herding gate, no private messaging anywhere on the service, hard
   link rejection, blocklist hold, report + auto-hide, instant staff email).
   Proposed overall rating: Low-Medium.
-- `docs/safety/osa-childrens-risk-assessment-clip-comments.md` — the s.12
+- `docs/safety/osa-childrens-risk-assessment-clip-comments.md`, the s.12
   duty plus an ICO Children's Code cross-reference. Names the one real,
   unresolved trade-off plainly rather than smoothing it over: adults and
   minors share the same public comment thread with no age segregation,
@@ -119,11 +133,12 @@ template):
   of that gap. Flags it as the one judgement call in the document that is
   genuinely Christian's to make.
 
-Both are explicitly labelled as engineering-prepared working drafts, not a
-substitute for formal legal/compliance review. That labelling is deliberate
-and should stay — an AI-drafted document can capture the technical facts
-accurately; it cannot provide the accountable legal sign-off the OSA
-actually requires.
+Both retain a provenance note recording that they were AI-drafted and then
+reviewed and adopted by PEBL's accountable person. That labelling is
+deliberate and should stay: it is an honest description of how the documents
+were produced, and it distinguishes the service provider's own assessment
+(which is what the OSA requires, and what these now are) from independent
+legal advice (which they are not).
 
 ## Live validation against production (2026-08-01)
 
@@ -151,7 +166,7 @@ Signed in, on a clip the spotter HAD answered:
 | Empty / whitespace body | 400 rejected |
 | Posting on an unanswered clip | 403 `must-answer-first` |
 | Profanity | 201 but `isHidden: true`, `held: true` (held, not lost) |
-| **"a bass, not a cockle bed"** | **201, NOT held** — the Scunthorpe guard working on real input |
+| **"a bass, not a cockle bed"** | **201, NOT held**, the Scunthorpe guard working on real input |
 | 4th top-level comment | 429 `clip-limit-reached` |
 | Self-report | 400 |
 | `reportCount` for a non-admin | `null` (INV-2 in a real payload) |
@@ -190,7 +205,7 @@ All four surfaces ended at `matchesIntent: true`.
 
 | Surface | Score | Note |
 |---|---|---|
-| Reveal with collapsed thread | 78 | "successfully positions the collapsed comments row subordinate to the prominent Next button" — the design goal, confirmed |
+| Reveal with collapsed thread | 78 | "successfully positions the collapsed comments row subordinate to the prominent Next button", the design goal, confirmed |
 | Thread expanded | 68 (readability 3 -> 75) | after the contrast + layout fixes below |
 | Admin inbox | 72 (from 68) | |
 | Shape gate (pre-existing) | 68 | not this feature's code |
@@ -220,7 +235,7 @@ All four surfaces ended at `matchesIntent: true`.
 - **"Emoji in the Day 1 streak pill."** It is an inline stroked SVG flame in
   `RevealResult`, not an emoji. False positive, and pre-existing code.
 - **Cramped 3x3 shape grid, "USE ARROWS OR SCROLL" pill, low-contrast
-  "WHERE IS THIS?" / "EDIT ANSWER"** — all pre-existing feed UI, out of scope.
+  "WHERE IS THIS?" / "EDIT ANSWER"**, all pre-existing feed UI, out of scope.
 
 ### Known issue, NOT fixed (pre-existing, flagged for Christian)
 
@@ -355,13 +370,13 @@ Every task below carries the same six fields. Execute them in order within a
 phase; tasks marked **parallel-safe** touch disjoint files and can be issued in
 one batched message.
 
-- **Files** — exact paths, new or edited.
-- **Pattern** — an existing file and line range to copy from. Read *that range*,
+- **Files**, exact paths, new or edited.
+- **Pattern**, an existing file and line range to copy from. Read *that range*,
   not the whole file. This is the main token-efficiency lever in the plan.
-- **Do** — what to build.
-- **Test** — the test written as part of the task, not after.
-- **Verify** — a runnable command whose output proves the task landed.
-- **Depends on** — prerequisite task IDs.
+- **Do**, what to build.
+- **Test**, the test written as part of the task, not after.
+- **Verify**, a runnable command whose output proves the task landed.
+- **Depends on**, prerequisite task IDs.
 
 ### 1.4 Token efficiency rules for this build
 
@@ -552,7 +567,7 @@ M catalogue additions.*
 
 ---
 
-## 4. Phase 0 — Pre-flight
+## 4. Phase 0: Pre-flight
 
 ### T0.1 Worktree + baseline
 
@@ -565,7 +580,7 @@ M catalogue additions.*
 
 ---
 
-## 5. Phase 1 — The thread (core loop)
+## 5. Phase 1: The thread (core loop)
 
 Target: a spotter can post, everyone who has answered can read, staff can see
 and reply. Roughly 1.5 days.
@@ -627,7 +642,7 @@ export function threadShape(rows, viewer): PublicComment[]   // nests one level
 - **Verify:** `npx vitest run src/lib/comments.test.ts`
 - **Depends on:** T0.1
 
-### T1.2 Schema + RLS — **parallel-safe with T1.1**
+### T1.2 Schema + RLS: **parallel-safe with T1.1**
 
 - **Files:** `prisma/schema.prisma`
 - **Do:** add both models from §3.1 plus the two back-relations.
@@ -691,7 +706,7 @@ export function threadShape(rows, viewer): PublicComment[]   // nests one level
 - **Verify:** `npx tsc --noEmit`
 - **Depends on:** T1.1, T1.2, T1.3
 
-### T1.5 GET /api/comments (the gated read) — **INV-1 lives here**
+### T1.5 GET /api/comments (the gated read): **INV-1 lives here**
 
 - **Files:** `src/app/api/comments/route.ts` (same file as T1.4)
 - **Pattern:** [stats/route.ts:32-39](<../../src/app/api/snippets/[id]/stats/route.ts>)
@@ -748,13 +763,13 @@ export function threadShape(rows, viewer): PublicComment[]   // nests one level
 - **Files:** [src/components/FeedCard.tsx](../../src/components/FeedCard.tsx),
   [src/components/idflow/CandidateGate.tsx](../../src/components/idflow/CandidateGate.tsx)
 - **Anchors, read a 40-line window around each, not the whole file:**
-  - `FeedCard.tsx:1740` — the `<RevealResult .../>` mount. `CommentThread` goes
+  - `FeedCard.tsx:1740`, the `<RevealResult .../>` mount. `CommentThread` goes
     directly after the farm link block that ends at line 1859.
-  - `FeedCard.tsx:1860` — the trigger row holding "Help me identify" and
+  - `FeedCard.tsx:1860`, the trigger row holding "Help me identify" and
     "Where is this?".
-  - `FeedCard.tsx:1886` — the sticky advance row. `CommentThread` must render
+  - `FeedCard.tsx:1886`, the sticky advance row. `CommentThread` must render
     **above** this.
-  - `CandidateGate.tsx:294` — the existing `skip={...}` prop.
+  - `CandidateGate.tsx:294`, the existing `skip={...}` prop.
 - **Do:**
   - mount `CommentThread` in the reveal, above the advance row
   - at the candidate gate, add a tertiary "I can't find it" action alongside
@@ -770,7 +785,7 @@ export function threadShape(rows, viewer): PublicComment[]   // nests one level
   the thread appears and "Next" is still reachable at 390px width.
 - **Depends on:** T1.6
 
-### T1.8 e2e gate tests — **this is the INV-1 proof**
+### T1.8 e2e gate tests: **this is the INV-1 proof**
 
 - **Files:** [tests/e2e/security.spec.ts](../../tests/e2e/security.spec.ts)
 - **Pattern:** the existing `"S1-T11: anonymous spoiler-gate on API"` describe
@@ -839,7 +854,7 @@ export function threadShape(rows, viewer): PublicComment[]   // nests one level
 
 ---
 
-## 6. Phase 2 — Moderation
+## 6. Phase 2: Moderation
 
 Target: reports, auto-hide, held-comment queue. Roughly 1 day. **This phase is
 not optional before launch.** An accessible reporting route and a demonstrable
@@ -882,7 +897,7 @@ Full gate plus the e2e suite.
 
 ---
 
-## 7. Phase 3 — Instant email
+## 7. Phase 3: Instant email
 
 Target: staff know within seconds. Roughly half a day.
 
@@ -945,7 +960,7 @@ If the added latency proves noticeable in practice, the upgrade is to add
 
 ---
 
-## 8. Phase 4 — Compliance (run in parallel with Phases 1 to 3)
+## 8. Phase 4: Compliance (run in parallel with Phases 1 to 3)
 
 This is the item most likely to set the actual launch date. Start it on day one,
 not after the code is done.

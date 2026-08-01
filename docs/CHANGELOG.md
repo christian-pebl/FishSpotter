@@ -606,10 +606,51 @@ held back for one big merge.
   schema FIRST — a nullable column add is backward-compatible with the old code, so that ordering
   has no window at all.
 
+- **Streamlined metrics access via Claude Code (1 Aug 2026, PRs #117, #121)** — "what are the
+  latest FishSpotter stats?" used to mean opening `/admin/metrics` by hand; that dashboard only
+  covers Reach/Engagement/Learning from the consent-gated `Event` log and says nothing about the
+  Discovery pillar (First Sighting), retention, or the consensus machinery. Three pieces:
+  `npm run db:stats` (`scripts/stats-roundup.ts`) is a read-only CLI one-pager covering all seven
+  sections; `src/lib/metrics/roundup.ts` (`computeRoundup()`) is the shared aggregation lib behind
+  it, splitting SQL-side totals (`count`/`aggregate`/`groupBy`) from the genuinely order-dependent
+  First-Sighting/contested-clip maths, which runs over a narrow 4-column `Answer` projection;
+  `GET /api/metrics/summary` exposes the same data remotely, gated on a new `METRICS_TOKEN`
+  (deliberately separate from `CRON_SECRET`) and rate-limited at 60/hour. First-Sighting numbers
+  needed no new instrumentation — arrival order reconstructs exactly from `Answer.createdAt`
+  ordering, since the submit-time award already keys off "count of prior answers on this clip."
+  `src/lib/cron-auth.ts` generalised into `isAuthorisedBearer(req, secret)` with `isAuthorisedCron`
+  kept as a wrapper, zero behaviour change to the five existing crons.
+  **Two real bugs surfaced by testing against a genuine throwaway Postgres, not a mocked Prisma**
+  (`src/lib/metrics/roundup.integration.test.ts`): a re-guess test written as two `Answer.create()`
+  calls failed on `Answer`'s actual `@@unique([userId, snippetId])` constraint before it even
+  reached the code under test — fixed to model the real `upsert().update` path the answers route
+  uses; and running this suite alongside `prize-desk.integration.test.ts` (both `TRUNCATE`
+  overlapping tables in `beforeEach` against one shared CI database) raced across vitest's parallel
+  file workers the moment a second integration suite existed, surfacing as a foreign-key violation
+  — fixed with `--no-file-parallelism` on the CI integration step.
+  **Also corrected a standing doc error**: `CLAUDE.md` said `fish-spotter.vercel.app` was canonical
+  and to ignore `fishspotter.vercel.app` as "a different deployment" — backwards. The actual
+  production domain, confirmed by Christian and by checking the Vercel project's Domains tab, is
+  the custom domain **`www.fishspotter.app`** (weeks of real traffic; `fishspotter.app` 308s to it).
+  Every hardcoded reference in `CLAUDE.md` was corrected.
+  **Verified live end-to-end, not just deployed**: since this kind of remote/web Claude Code
+  session cannot reach `www.fishspotter.app` directly (its network policy denies the host at the
+  proxy — confirmed repeatedly with `curl`/`WebFetch`, both 403), the live check was done via
+  Claude in Chrome operating a real browser: `METRICS_TOKEN` generated and set in Vercel
+  Production, a redeploy triggered (new env vars don't apply to an already-built deployment —
+  worth remembering for the next one), then `GET /api/metrics/summary` with the correct token
+  returned a full payload and a wrong token correctly 401'd.
+  **Still open**: the network-policy allowlist for `www.fishspotter.app` was never actually added
+  to this kind of session's environment, so "ask Claude Code right here" for the numbers still
+  fails from a remote/web session specifically — it works from a local session with `.env.local`,
+  or from any session/browser with normal internet access. Full design rationale + the remaining
+  phases (`MetricSnapshot` + trend deltas, a weekly push Routine) are in
+  `implementation/2026-08-01/metrics-access-plan.md`.
+
 - **Remote-safe prize desk: `GET /api/admin/prize-desk/summary` (1 Aug 2026)** — Christian used the new
   `/admin/prizes` page from his browser via Claude in Chrome and asked to reach the same data from a
   Claude Code session directly (no browser, no DB credentials, network policy blocks the live app — the
-  exact gap the metrics roundup endpoint was built for). Unlike `/api/metrics/summary`, this one is
+  exact gap the metrics roundup endpoint above was built for). Unlike `/api/metrics/summary`, this one is
   **not aggregate-only**: the entire point of the desk is a specific spotter's email, so real PII travels
   in the response. Deliberately asked which posture Christian wanted rather than assuming; he chose a
   token-gated endpoint over a local-only CLI. Mirrors the metrics pattern closely: own secret
@@ -624,4 +665,57 @@ held back for one big merge.
   endpoint in the codebase that isn't aggregate-only. Verified against a live dev server + real Postgres:
   401 with no/wrong token, real email in the body for a verified spotter, `null` for a guest with their
   placeholder domain absent from the response entirely, and the rate limit tripping to 429 on exactly the
-  12th request. Verified: `tsc`, 478 tests (13 new), `lint`, `lint:tokens`.
+  12th request. Verified: `tsc`, 546 tests (13 new), `lint`, `lint:tokens`. **Still needs**: `PRIZE_DESK_TOKEN`
+  set in Vercel prod env, and — per the metrics entry above — a redeploy after setting it, since new env
+  vars don't apply to an already-built deployment.
+
+## 2026-08-01: Public clip comments + PEBL feedback inbox (SHIPPED LIVE, PR #119, main `0ad167f`)
+
+Spotters can now leave a comment on a clip after committing their own ID: the species isn't in
+the list, the clip is too murky to call, it looks like a juvenile, or anything else. Comments
+form a **public thread** per clip, and land in a staff triage + moderation inbox at
+`/admin/comments` with instant email to verified `@pebl-cic.co.uk` accounts. Full design record
+in `implementation/2026-08-01/user-comments-plan.md`.
+
+- **The load-bearing rule: the thread is invisible until you have answered that clip.** Not
+  politeness. `src/lib/consensus.ts` pays Pebbles for INDEPENDENT convergence and
+  `src/lib/trust.ts` propagates reputation through the winning camps, so a thread readable
+  before you commit would quietly turn consensus into a measurement of copying. Mirrors the
+  gate `GET /api/snippets/[id]/stats` already applies to the histogram.
+- **New tables** `Comment` + `CommentReport` (pushed to prod, RLS enabled and verified). Also
+  carried forward the `Event.label` column DECLARATION: it already existed in production but was
+  never committed to `main`, so a `db push` from a fresh branch would have DROPPED it and its
+  data. Confirmed purely additive via `prisma migrate diff` first; `--accept-data-loss` never used.
+- **One serialisation door.** `toPublicComment()` in `src/lib/comments.ts` names every field
+  explicitly and never spreads a Prisma row, so `adminNote` and author emails cannot leak. The
+  author's email is not even a parameter to that module. Mutation-tested.
+- **Blocklist** merged with the LDNOOBW open-source English list (MIT; basis of the `bad-words`
+  npm package): 403 entries filtered to 250. **44 words deliberately excluded** because they
+  collide with this app's own content: `sex`/`sexual` ("sexual dimorphism" is standard
+  field-guide language), `anus`/`penis` (real crustacean + cephalopod anatomy), `shrimping` (a
+  real fishing activity), `xx`/`xxx` (near-universal UK texting sign-off), `sucks`/`sexy` (not
+  unambiguous profanity by the module's own bar). Matcher is word-level, so it stays immune to
+  the Scunthorpe problem ("bass", "cockle", "assess"). A hit HOLDS for review, never rejects.
+- **Minors' names protected.** Declared 13-17 accounts default `leaderboardOptIn: false`, which
+  already hid their name from the leaderboard; comments now honour the same signal via
+  `publicAuthorName()`, showing an anonymised `Spotter <id6>` handle to other spotters. Staff
+  still see the real name for moderation. This closed a real inconsistency, not a hypothetical.
+- **Moderation:** report control on every comment (5 reasons, one per person per comment),
+  auto-hide at 3 distinct reporters, admin hide/unhide/delete, canned one-tap replies, outcome
+  codes on resolve. Hard link rejection at post time. Rate limits 20/hr/user, 3 top-level per
+  clip (replies exempt, so a conversation can't be cut off).
+- **OSA risk assessments** in `docs/safety/` (illegal-content s.10 + children's s.12 + ICO
+  Children's Code cross-reference), written against the actual implementation and **adopted by
+  Christian Berger on 2026-08-01**. The children's assessment records an explicit decision NOT
+  to build age-segregated comment threads, with reasoning: segregation built on self-declared
+  age would only protect users who declared honestly, adding complexity and false assurance
+  without reducing real risk. Structural mitigations (no private messaging anywhere, the
+  answer-gate, public-only visibility, reactive reports) do not depend on declared age.
+- Terms of Service gained a "Comments and discussion" section; Privacy Policy gained a
+  collection row + retention line describing the public nature and the anonymisation behaviour.
+- **Bug found by live validation, not tests:** the per-clip cap was also blocking REPLIES, so a
+  spotter with 3 comments on a clip could never answer anyone there again. Fixed + regression
+  tested. Also fixed from a Gemini 3.5-flash visual pass: composer reason chips wrapped to four
+  rows and pushed Post off a 390px screen, admin controls were 36px against the repo's 44px rule.
+- Verified on the live domain after deploy: anonymous `GET /api/comments` returns exactly
+  `{"gated":true}` with no leaked fields, bare GET is 400, anonymous POST refused, RLS 21/21.
