@@ -150,6 +150,18 @@ export async function checkShopRateLimit(userId: string): Promise<boolean> {
   return consume(`shop:${userId}`, SHOP_WINDOW_MS, SHOP_MAX_PER_HOUR);
 }
 
+// GET /api/metrics/summary. Token-gated (METRICS_TOKEN), so callers are
+// trusted, but the aggregation queries a dozen tables — cap requests per
+// token so a misconfigured cron/agent loop can't hammer the DB. 60/hour is
+// generous for a dashboard poll or a Claude Code session pulling numbers a
+// few times an hour, well below anything a real reporting workflow needs.
+const METRICS_WINDOW_MS = 60 * 60 * 1000;
+const METRICS_MAX_PER_HOUR = 60;
+
+export async function checkMetricsRateLimit(key: string): Promise<boolean> {
+  return consume(`metrics:${key}`, METRICS_WINDOW_MS, METRICS_MAX_PER_HOUR);
+}
+
 // Only needed for the in-memory fallback -- Redis keys expire on their own.
 if (!redis && typeof globalThis !== "undefined") {
   const sweep = () => {

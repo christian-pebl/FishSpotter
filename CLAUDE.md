@@ -450,6 +450,78 @@ user-agent, referrer, or cross-visit device id is ever stored.
   `npm run db:enable-rls` (the `Event` table lands with RLS off until that runs;
   it's Prisma-only/owner-role accessed, so RLS-with-no-policy is correct).
 
+## Getting FishSpotter's stats via Claude Code (1 Aug 2026)
+
+**Whenever asked for FishSpotter's latest stats, a metrics roundup, or "how
+engagement is going," use this — never estimate or reconstruct a number from
+memory.** `/admin/metrics` only covers Reach/Engagement/Learning from the
+consent-gated `Event` log; it says nothing about the Discovery pillar (First
+Sighting), retention, or the consensus machinery. The real source of truth is
+`computeRoundup()` in `src/lib/metrics/roundup.ts`, shared by three consumers
+that must never drift apart: `scripts/stats-roundup.ts` (CLI), `GET
+/api/metrics/summary` (remote-safe), and `/admin/metrics` (browser).
+
+**Path 1 — remote endpoint (works from any session, local or web):**
+
+```bash
+curl -sS -H "Authorization: Bearer $FISHSPOTTER_METRICS_TOKEN" \
+  "$FISHSPOTTER_METRICS_URL/api/metrics/summary"        # add ?days=N to change the window (default 30)
+```
+
+Token-gated on `METRICS_TOKEN` (Vercel prod env, deliberately separate from
+`CRON_SECRET` so it rotates independently), rate-limited at 60 req/hour on
+the token (`checkMetricsRateLimit` in `src/lib/rate-limit.ts`), aggregate-only
+— no user id/email/name ever appears in the response. This requires the
+remote environment's network policy to allow `fish-spotter.vercel.app`; if
+the call fails at the connection level (not a 401/429), that's the network
+policy blocking the host, not a missing number — say so explicitly.
+
+**Path 2 — local, with `.env.local` present:**
+
+```bash
+npm run db:stats               # human-formatted roundup
+npm run db:stats -- --json     # same data as the endpoint, machine-readable
+npm run db:stats -- --days 7   # change the window
+```
+
+**Neither available?** Say so plainly and name the missing piece
+(`FISHSPOTTER_METRICS_URL`/`FISHSPOTTER_METRICS_TOKEN` not set, and no local
+`.env.local`) — do not fall back to a guess. This was the actual failure mode
+that prompted building this path: a remote session with no DB credentials and
+a network policy blocking the app has genuinely no way to know the numbers
+without one of the two paths above.
+
+The response/CLI output covers `reach`, `discovery` (First Sighting —
+clips-with-a-first-spot, the unspotted backlog, time-to-first-spot, spotter
+concentration, the `[25, 12, 6]` taper fill, discovery-vs-total Pebble split;
+this needs no dedicated instrumentation — arrival order reconstructs exactly
+from `Answer.createdAt`, since the submit-time award already keys off "count
+of prior answers on this clip"), `engagement`, `retention`, `learning`,
+`community` (consensus), `content`, and a `caveats` array — attach the
+relevant caveat to any number before quoting it (Event-derived figures are
+consent-gated and start 19 Jun 2026; `isCorrect` means "matched the community
+leader" not a PEBL reference; `Answer.points` was scaled ×10 by the 18 Jun
+2026 Pebbles migration).
+
+Design notes for anyone extending `roundup.ts`: totals/sums/single-column
+group-bys go through Prisma `count`/`aggregate`/`groupBy` (SQL does the work,
+small results cross the wire); only the genuinely order-dependent maths
+(arrival order, per-snippet distinct-spotter breakdowns) stays in-memory,
+over one narrow `Answer` projection. Full design rationale, rejected
+alternatives (DB credentials in every session — rejected: too much blast
+radius for a reporting feature), and the remaining phases (`MetricSnapshot`
++ trend deltas, a weekly push Routine) are in
+`implementation/2026-08-01/metrics-access-plan.md`.
+
+**If you touch `roundup.ts`:** `src/lib/metrics/roundup.integration.test.ts`
+runs against a real throwaway Postgres (gated on `METRICS_TEST_DATABASE_URL`,
+same convention as `prize-desk.integration.test.ts`) and is the test that
+actually proves the arrival-order and contested-clip logic — the CI
+"Integration (real Postgres)" job runs it with `--no-file-parallelism`
+(the two integration suites TRUNCATE overlapping tables in `beforeEach`
+against one shared database, so running them in separate vitest worker
+threads races).
+
 ## Probability data flow (OBIS + GBIF)
 
 The fish-probability feature reads from two external APIs at backfill time
