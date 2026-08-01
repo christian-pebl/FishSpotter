@@ -55,3 +55,46 @@ jobs:
 
       - name: Lint design tokens
         run: npm run lint:tokens
+
+  # The prize desk decides who PEBL posts a real book to, and its logic is a
+  # groupBy/join pipeline plus a write — neither of which a mocked Prisma
+  # proves anything about. This job stands up a throwaway Postgres, pushes the
+  # schema (which also proves the schema still applies cleanly from scratch),
+  # and runs the tests that are skipped in the offline job above.
+  integration:
+    name: Integration (real Postgres)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: fishspotter_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      POSTGRES_PRISMA_URL: postgresql://postgres:postgres@localhost:5432/fishspotter_test
+      POSTGRES_URL_NON_POOLING: postgresql://postgres:postgres@localhost:5432/fishspotter_test
+      PRIZE_TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fishspotter_test
+      NEXTAUTH_SECRET: ci-placeholder-not-a-real-secret
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Push schema to the throwaway database
+        run: npx prisma db push
+
+      - name: Integration tests
+        run: npx vitest run --testNamePattern="" src/lib/prize-desk.integration.test.ts

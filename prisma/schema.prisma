@@ -328,9 +328,19 @@ model PebblePurchase {
   // (not just a used-flag) is what keeps a spent freeze permanently covering
   // that gap when the streak is recomputed. See src/lib/streak.ts.
   consumedForDate String?
-  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Manual fulfilment of the Seasearch guide prize (itemId = SEASEARCH_GUIDE_ID).
+  // A claim only records that the spotter asked for the book; PEBL still has to
+  // post it. `fulfilledAt` is stamped when an admin marks it posted on
+  // /admin/prizes, `fulfilledBy` records which admin, so a two-person team can
+  // see a guide is already on its way. Null on every non-prize purchase.
+  fulfilledAt     DateTime?
+  fulfilledBy     String?
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  // /admin/prizes scans every claim across all users, so the prize lookup is
+  // itemId-first rather than userId-first.
+  @@index([itemId])
 }
 
 // Pokedex: one row per species a user has correctly identified at least once.

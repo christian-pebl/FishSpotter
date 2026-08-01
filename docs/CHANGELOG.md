@@ -575,3 +575,19 @@ held back for one big merge.
 - **Prize target 1,000 → 2,000 Pebbles; nav renamed to "Stats" (21 Jul 2026)** — the Seasearch
   guide now takes 2,000 lifetime earned Pebbles (`PRIZE_TARGET_PEBBLES`), and the side-menu entry
   + page title for `/pebbles` are simply "Stats".
+
+- **Prize fulfilment desk at `/admin/prizes` (1 Aug 2026)** — the first spotter reached 2,000
+  Pebbles and there was no way to find out who, or to reach them. `POST /api/prize/claim` writes a
+  zero-cost `PebblePurchase` and returns `{ok:true}`; nothing notified PEBL, no admin view existed,
+  and `/admin/trust` sorts by trust score and doesn't show Pebbles at all — so a claim sat unnoticed
+  until someone thought to run SQL. New admin page lists everyone at/over `PRIZE_TARGET_PEBBLES`
+  ordered by what needs doing (to post → not claimed → unreachable → posted), with the contact
+  email + copy button, the `isPrizeEligible` verdict, and a "Mark posted" toggle. Two new nullable
+  columns on `PebblePurchase` (`fulfilledAt`, `fulfilledBy`) record who posted a book so a
+  two-person team can't send it twice; plus an `@@index([itemId])` since the desk scans claims
+  across all users. **Guests are called out as unreachable:** they carry a *synthetic placeholder*
+  in `User.email`, so the column looks populated but nothing can be posted to it — the only route
+  is the in-app save prompt. Row derivation is pure (`buildPrizeWinnerRows` in `src/lib/prize.ts`),
+  10 new unit tests. Requires `npm run db:push` before deploy (the page 500s until the columns
+  exist); column adds keep RLS, but re-run `npm run db:enable-rls -- --check` to confirm.
+  Verified: `tsc`, 465 tests, `lint`, `lint:tokens`, `build` compiles.
