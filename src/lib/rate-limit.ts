@@ -162,6 +162,17 @@ export async function checkMetricsRateLimit(key: string): Promise<boolean> {
   return consume(`metrics:${key}`, METRICS_WINDOW_MS, METRICS_MAX_PER_HOUR);
 }
 
+// GET /api/admin/prize-desk/summary. Token-gated (PRIZE_DESK_TOKEN), and
+// unlike metrics this response carries real spotter emails — a tighter cap
+// than metrics (12/hour vs 60/hour) reflects that a leaked/misused token
+// here is a PII exposure, not just a wasted query.
+const PRIZE_DESK_WINDOW_MS = 60 * 60 * 1000;
+const PRIZE_DESK_MAX_PER_HOUR = 12;
+
+export async function checkPrizeDeskRateLimit(key: string): Promise<boolean> {
+  return consume(`prize-desk:${key}`, PRIZE_DESK_WINDOW_MS, PRIZE_DESK_MAX_PER_HOUR);
+}
+
 // Only needed for the in-memory fallback -- Redis keys expire on their own.
 if (!redis && typeof globalThis !== "undefined") {
   const sweep = () => {

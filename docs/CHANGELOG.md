@@ -605,3 +605,23 @@ held back for one big merge.
   `select`-less write fails CI instead of production. Lesson for the next additive column: push the
   schema FIRST — a nullable column add is backward-compatible with the old code, so that ordering
   has no window at all.
+
+- **Remote-safe prize desk: `GET /api/admin/prize-desk/summary` (1 Aug 2026)** — Christian used the new
+  `/admin/prizes` page from his browser via Claude in Chrome and asked to reach the same data from a
+  Claude Code session directly (no browser, no DB credentials, network policy blocks the live app — the
+  exact gap the metrics roundup endpoint was built for). Unlike `/api/metrics/summary`, this one is
+  **not aggregate-only**: the entire point of the desk is a specific spotter's email, so real PII travels
+  in the response. Deliberately asked which posture Christian wanted rather than assuming; he chose a
+  token-gated endpoint over a local-only CLI. Mirrors the metrics pattern closely: own secret
+  (`PRIZE_DESK_TOKEN`, separate from `METRICS_TOKEN`/`CRON_SECRET`), `checkPrizeDeskRateLimit` in
+  `rate-limit.ts` (12 req/hour — tighter than metrics' 60, reflecting the PII stakes of a leaked token),
+  `isAuthorisedBearer` for the check. New `toPrizeDeskSummary()` in `src/lib/prize-desk.ts` is an explicit
+  allow-list (never `...row`) so a future field added to `PrizeWinnerRow` can't leak into the response
+  without a deliberate, reviewed change — pinned by a unit test that snapshots the exact key set and
+  asserts a guest's placeholder address never appears anywhere in the serialized body. `CLAUDE.md` gained
+  a "Prize desk via Claude Code" section mirroring the stats-roundup one, with explicit PII-handling
+  guidance (never paste a spotter's email somewhere public) since this is the first remote-access
+  endpoint in the codebase that isn't aggregate-only. Verified against a live dev server + real Postgres:
+  401 with no/wrong token, real email in the body for a verified spotter, `null` for a guest with their
+  placeholder domain absent from the response entirely, and the rate limit tripping to 429 on exactly the
+  12th request. Verified: `tsc`, 478 tests (13 new), `lint`, `lint:tokens`.
