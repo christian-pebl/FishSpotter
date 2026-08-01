@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/admin/snippets", label: "Clips & tracks" },
   { href: "/admin/species", label: "Species marks" },
   { href: "/admin/metrics", label: "Metrics" },
+  { href: "/admin/prizes", label: "Prizes" },
   { href: "/admin/trust", label: "Trust" },
 ];
 
