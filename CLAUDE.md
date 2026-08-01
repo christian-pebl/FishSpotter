@@ -2,10 +2,14 @@
 
 ## Project Overview
 
-**FishSpotter** (fish-spotter.vercel.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
+**FishSpotter** (fishspotter.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
 
 - Repo: https://github.com/christian-pebl/FishSpotter
-- Live URL: **https://fish-spotter.vercel.app** (canonical — ignore fishspotter.vercel.app, different deployment)
+- Live URL: **https://fishspotter.app** — the canonical production site (custom domain on the same Vercel
+  project; DNS resolves to Vercel edge). `fish-spotter.vercel.app` still serves the same deployment, so
+  older links and the cron/verify commands further down this file keep working — but use `fishspotter.app`
+  for anything new: docs, spotter-facing email, `NEXTAUTH_URL`, and links rendered in the UI. Still ignore
+  `fishspotter.vercel.app`, which is a different, unrelated deployment.
 - Local dev: `npm run dev` runs on **localhost:3000**
 - Database: Supabase Postgres (project ID: `aazxphcrexkggbmmceli`, region: West EU / Ireland)
 - Storage: Supabase Storage bucket `snippets` — public URLs at `https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/{externalId}/snippet.mp4`
