@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/admin/species", label: "Species marks" },
   { href: "/admin/comments", label: "Feedback" },
   { href: "/admin/metrics", label: "Metrics" },
+  { href: "/admin/prizes", label: "Prizes" },
   { href: "/admin/trust", label: "Trust" },
 ];
 

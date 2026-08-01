@@ -551,3 +551,57 @@ held back for one big merge.
   Zero incremental friction: the capture only fires for spotters who already accepted analytics
   consent; nothing new is asked of anyone. Prod DB migrated (`prisma db push`, additive-only), RLS
   reconfirmed 19/19. Verified: `tsc`, 463 tests, `lint`, `lint:tokens`.
+
+- **Shop removed; the Pebbles page becomes one leaderboard with a real prize (20 Jul 2026)** —
+  the Phase-1 shop (gold nameplate, coral accent, Tide Freeze) was retired the day it shipped,
+  per Christian's steer that cosmetics read as gimmicky. In its place: `/pebbles` is now a single
+  streamlined page — your totals, a **prize-progress card** (reach **1,000 lifetime earned
+  Pebbles** and PEBL posts you the **Seasearch marine life ID guide**), and the community
+  leaderboard, no tabs. The prize is a **gift, not a spend**: claiming records a `PebblePurchase`
+  row with `pebbleCost 0` via the new `POST /api/prize/claim`, so Pebbles and rank are untouched
+  (the whole earned/wallet split is gone — one number rules the bag, the rank, and the progress
+  bar; `/api/me/pebbles` now returns lifetime earned). Claims are the first consumer of the
+  Plan-1 **`isPrizeEligible` anti-gaming gate** (verified email + trust bar + account age +
+  non-bursty activity), enforced server-side and precomputed on the page so the card pre-warns
+  ("verify your email") instead of surprising a spotter at 1,000. Fulfilment is manual:
+  claimed rows are `PebblePurchase` entries for `seasearch-guide`; PEBL emails the spotter.
+  Prize imagery prefers a real photo at `public/shop/seasearch-guide.jpg` (drop-in, no code
+  change) over the committed PEBL SVG illustration. Retired shop item ids must never be reused
+  (prod may hold their purchase rows); `TIDE_FREEZE_ID` moved into `streak-service.ts`, which
+  still honours held freezes. Deleted: `ShopPanel`/`ShopGrid`, `src/lib/shop/*`,
+  `POST /api/shop/purchase`. New: `src/lib/prize.ts`, `PrizeCard`, claim route + tests.
+  Verified: `tsc`, 461 tests, `lint`, `lint:tokens`.
+
+- **Prize target 1,000 → 2,000 Pebbles; nav renamed to "Stats" (21 Jul 2026)** — the Seasearch
+  guide now takes 2,000 lifetime earned Pebbles (`PRIZE_TARGET_PEBBLES`), and the side-menu entry
+  + page title for `/pebbles` are simply "Stats".
+
+- **Prize fulfilment desk at `/admin/prizes` (1 Aug 2026)** — the first spotter reached 2,000
+  Pebbles and there was no way to find out who, or to reach them. `POST /api/prize/claim` writes a
+  zero-cost `PebblePurchase` and returns `{ok:true}`; nothing notified PEBL, no admin view existed,
+  and `/admin/trust` sorts by trust score and doesn't show Pebbles at all — so a claim sat unnoticed
+  until someone thought to run SQL. New admin page lists everyone at/over `PRIZE_TARGET_PEBBLES`
+  ordered by what needs doing (to post → not claimed → unreachable → posted), with the contact
+  email + copy button, the `isPrizeEligible` verdict, and a "Mark posted" toggle. Two new nullable
+  columns on `PebblePurchase` (`fulfilledAt`, `fulfilledBy`) record who posted a book so a
+  two-person team can't send it twice; plus an `@@index([itemId])` since the desk scans claims
+  across all users. **Guests are called out as unreachable:** they carry a *synthetic placeholder*
+  in `User.email`, so the column looks populated but nothing can be posted to it — the only route
+  is the in-app save prompt. Row derivation is pure (`buildPrizeWinnerRows` in `src/lib/prize.ts`),
+  10 new unit tests. Requires `npm run db:push` before deploy (the page 500s until the columns
+  exist); column adds keep RLS, but re-run `npm run db:enable-rls -- --check` to confirm.
+  Verified: `tsc`, 465 tests, `lint`, `lint:tokens`, `build` compiles.
+
+- **Deploy-order hardening: `select`-less Prisma writes on `PebblePurchase` (1 Aug 2026)** — the
+  `/admin/prizes` schema change above landed in prod as merge-then-migrate, and a Vercel deploy
+  always beats a manual `prisma db push`. In that window the new code talked to a database without
+  `fulfilledAt`/`fulfilledBy`, and two writes that passed no explicit `select` emitted
+  `RETURNING <every scalar column>` and 500'd: **`POST /api/prize/claim`** (the claim button — for
+  the very spotter who had just reached the target) and the **Tide Freeze spend inside
+  `settleStreak`**, which runs on `POST /api/answers`. Reads that already passed an explicit
+  `select` were unaffected. Both call sites now select `{ id: true }` (the rows were discarded
+  anyway) with a comment explaining the `select` is load-bearing, not tidiness. Two integration
+  tests drop the two columns, replay those exact query shapes, and restore them, so a future
+  `select`-less write fails CI instead of production. Lesson for the next additive column: push the
+  schema FIRST — a nullable column add is backward-compatible with the old code, so that ordering
+  has no window at all.

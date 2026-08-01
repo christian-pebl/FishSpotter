@@ -34,6 +34,7 @@
     "db:transcode": "tsx --env-file=.env.local scripts/transcode-to-h264.ts",
     "db:audit-references": "tsx --env-file=.env.local scripts/audit-reference-ids.ts",
     "db:confusion-matrix": "tsx --env-file=.env.local scripts/confusion-matrix.ts",
+    "db:stats": "tsx --env-file=.env.local scripts/stats-roundup.ts",
     "db:backfill-references": "tsx --env-file=.env.local scripts/backfill-references.ts",
     "db:retro-score": "tsx --env-file=.env.local scripts/retro-score-answers.ts",
     "db:seed-difficulty": "tsx --env-file=.env.local scripts/seed-difficulty.ts",
