@@ -25,6 +25,33 @@ to print the full diet list per predator plus a trophic-direction sanity check:
 DUMP=1 node food-web/build-foodweb.mjs
 ```
 
+## Verify (run this after any data edit)
+
+```bash
+node food-web/verify.mjs
+```
+
+Read-only cross-check; exits non-zero on any error. It checks:
+
+- **Names** — every species name matches a `commonName` in `src/data/species-traits.json`
+  exactly (with a near-miss hint on case typos), no duplicates, no catalogue species
+  missing, and every `FARM` key is a real species (a typo there would silently
+  misclassify a species).
+- **Locations** — each species' `zone` is consistent with its catalogue `habitat` /
+  `behavior`, birds and seals are in the surface band, flatfish on the seabed,
+  jellyfish in open water, and proximity is a valid value.
+- **Relationships** — link endpoints exist, no self-links, no duplicate or inverted
+  (lower tier eats higher tier) links, every species eats something, every species
+  has a predator unless it is an expected terminal, every energy source feeds
+  something, and every species has a path down to a basal energy source.
+- **Farm impact** — the rule that a farm-`created` species must sit on the farm
+  (`core`), and that nothing surviving the no-farm baseline depends solely on
+  farm-created food (otherwise it would starve in the baseline view).
+
+The catalogue is a moving target (other work renames species), so re-run this after
+pulling. It caught a live rename: `Hyas araneus` "Great Spider Crab" became
+`Majoidea` "Spider Crab" mid-session.
+
 ## What's in it
 
 - **72 species** (fish, crabs, cephalopods, starfish, gastropods, jellyfish,
