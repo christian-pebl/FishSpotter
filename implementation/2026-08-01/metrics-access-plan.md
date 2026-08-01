@@ -16,7 +16,7 @@ Claude Code runs in two contexts, and they fail differently:
 | Context | Has `.env.local`? | Can reach the live app? | Status |
 |---|---|---|---|
 | **Local** (Christian's machine) | Yes | Yes | `npm run db:stats` works today. Gap is ergonomics — you have to remember the command exists. |
-| **Remote / web / mobile** (this kind of session) | **No** | **No** — the environment's network policy denies `fish-spotter.vercel.app` at the proxy | Cannot produce a single figure. Hard blocker. |
+| **Remote / web / mobile** (this kind of session) | **No** | **No** — the environment's network policy denies the live domain (`www.fishspotter.app`) at the proxy | Cannot produce a single figure. Hard blocker. |
 
 Any plan that doesn't solve the remote case leaves you tied to one laptop, which defeats
 the point of asking from your phone.
@@ -42,7 +42,7 @@ trade for a reporting feature.
 cannot read a user record, cannot write, cannot be widened without a code change and a
 deploy. It works from any Claude Code session, from `curl`, from a phone. It reuses the
 `isAuthorisedCron` pattern the five existing crons already trust.
-*Cost:* one new route, and `fish-spotter.vercel.app` must be added to the environment's
+*Cost:* one new route, and `www.fishspotter.app` must be added to the environment's
 network allowlist.
 
 **C — Both.** Endpoint for routine use; DB creds only in a local session when a genuinely
@@ -55,12 +55,30 @@ recurring case.
 
 1. Generate a token: `openssl rand -hex 32`.
 2. Set `METRICS_TOKEN` in Vercel (Production), and in `.env.local` for local runs.
-3. **Allowlist `fish-spotter.vercel.app`** in the Claude Code web environment's network
-   policy (see https://code.claude.com/docs/en/claude-code-on-the-web). Without this,
-   remote sessions still can't reach the endpoint — the code will be live and unusable.
+3. **Allowlist `www.fishspotter.app`** (the confirmed canonical domain — see CLAUDE.md
+   "Live URL", corrected 1 Aug 2026; originally written against the wrong domain,
+   `fish-spotter.vercel.app`) in the Claude Code web environment's network policy (see
+   https://code.claude.com/docs/en/claude-code-on-the-web). Without this, remote
+   sessions still can't reach the endpoint — the code will be live and unusable.
 
 Nothing downstream works remotely until step 3 is done, so do it first and confirm with
 a `curl` from a remote session.
+
+**Status, 1 Aug 2026 — steps 1-2 done and verified end-to-end; step 3 still open.**
+Christian generated `METRICS_TOKEN` (32 random bytes via the browser's
+`crypto.getRandomValues`, functionally equivalent to `openssl rand -hex 32`) and set it
+in Vercel Production, then redeployed so the running function picked it up (a new env
+var does NOT apply to an already-built deployment — this tripped us up briefly and is
+worth remembering for any future env var addition). Verified live: a real request to
+`https://www.fishspotter.app/api/metrics/summary` with the correct bearer token
+returned a full payload; a wrong token correctly 401'd. **Step 3 was never done** —
+every session in this conversation, right through to the final validation, still hit a
+proxy 403 calling `www.fishspotter.app` directly, confirmed repeatedly with both `curl`
+and `WebFetch`. The endpoint is live and correctly gated, but Path 1 (the remote
+endpoint) remains unusable from THIS environment's network policy specifically until
+someone allowlists the domain there. The validation above was done via Claude in
+Chrome operating a real browser, not this session reaching the network directly — a
+useful workaround, but not a substitute for the actual allowlist fix.
 
 ### Phase 1 — Extract the shared aggregation lib (~2 h)
 
