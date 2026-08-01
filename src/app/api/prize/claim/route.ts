@@ -95,8 +95,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: message, code: "not-eligible" }, { status: 403 });
   }
 
+  // `select` is load-bearing, not tidiness: without it Prisma emits
+  // `INSERT ... RETURNING` every scalar column, so this route starts failing
+  // the moment schema.prisma gains a column that prod hasn't migrated yet.
+  // That happened on 1 Aug 2026 — adding PebblePurchase.fulfilledAt/fulfilledBy
+  // for /admin/prizes broke this claim button in the window between deploy and
+  // `prisma db push`. We discard the row anyway, so ask for one column.
   await prisma.pebblePurchase.create({
     data: { userId, itemId: SEASEARCH_GUIDE_ID, pebbleCost: 0 },
+    select: { id: true },
   });
 
   return NextResponse.json({ ok: true, itemId: SEASEARCH_GUIDE_ID });
