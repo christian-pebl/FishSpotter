@@ -70,3 +70,81 @@ test.describe("S1-T11: anonymous spoiler-gate on API", () => {
     expect(body).not.toHaveProperty("staffAnswerScientific");
   });
 });
+
+test.describe("clip comments: anti-herding gate + leak guard (INV-1, INV-2)", () => {
+  async function firstSnippetId(page: import("@playwright/test").Page) {
+    await page.goto("/feed/browse");
+    const href = await page.locator('a[href^="/feed/"]').first().getAttribute("href");
+    return href ? href.replace(/^\/feed\//, "") : null;
+  }
+
+  test("anonymous GET /api/comments is gated and leaks nothing about the thread", async ({
+    request,
+    page,
+  }) => {
+    const id = await firstSnippetId(page);
+    if (!id) test.skip(true, "No snippets seeded; skipping.");
+
+    const res = await request.get(`/api/comments?snippetId=${id}`);
+    expect(res.status()).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+
+    // The gate must be total: no comments, and no count either. A bare total
+    // would still leak whether a clip is being discussed, and how much.
+    expect(body).toHaveProperty("gated", true);
+    expect(body).not.toHaveProperty("comments");
+    expect(body).not.toHaveProperty("total");
+  });
+
+  test("no internal field ever appears in a comments payload (INV-2)", async ({
+    request,
+    page,
+  }) => {
+    const id = await firstSnippetId(page);
+    if (!id) test.skip(true, "No snippets seeded; skipping.");
+
+    const res = await request.get(`/api/comments?snippetId=${id}`);
+    const raw = await res.text();
+    for (const secret of ["adminNote", "hiddenReason", "handledBy", "emailVerified"]) {
+      expect(raw, `payload leaked ${secret}`).not.toContain(secret);
+    }
+  });
+
+  test("GET without snippetId is a 400, not a full-table read", async ({ request }) => {
+    const res = await request.get("/api/comments");
+    expect(res.status()).toBe(400);
+  });
+
+  test("anonymous POST /api/comments is rejected", async ({ request, page }) => {
+    const id = await firstSnippetId(page);
+    if (!id) test.skip(true, "No snippets seeded; skipping.");
+
+    const res = await request.post("/api/comments", {
+      data: { snippetId: id, body: "e2e should never persist this" },
+    });
+    // 401 unauthorised, or 403 if the same-origin guard fires first. Either is a
+    // refusal; what must never happen is a 201.
+    expect([401, 403]).toContain(res.status());
+  });
+
+  test("cross-origin POST /api/comments is rejected by the same-origin guard", async ({
+    request,
+    page,
+  }) => {
+    const id = await firstSnippetId(page);
+    if (!id) test.skip(true, "No snippets seeded; skipping.");
+
+    const res = await request.post("/api/comments", {
+      headers: { origin: "https://evil.example.com" },
+      data: { snippetId: id, body: "e2e cross-origin probe" },
+    });
+    expect(res.status()).toBe(403);
+  });
+
+  test("anonymous report is rejected", async ({ request }) => {
+    const res = await request.post("/api/comments/does-not-exist/report", {
+      data: { reason: "spam" },
+    });
+    expect([401, 403]).toContain(res.status());
+  });
+});

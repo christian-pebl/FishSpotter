@@ -12,6 +12,11 @@ const TILES = [
     body: "Author diagnostic marks — the labelled rings on a reference photo shown in the Help me identify wizard.",
   },
   {
+    href: "/admin/comments",
+    title: "Spotter feedback",
+    body: "Public comments left on clips. Triage, reply, moderate, and resolve against a real outcome.",
+  },
+  {
     href: "/admin/metrics",
     title: "Impact metrics",
     body: "Aggregate reach, engagement and learning for funder reporting. Export a 90-day CSV.",

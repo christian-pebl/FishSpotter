@@ -17,6 +17,7 @@ import { ShapeGate, SHAPE_CLASS_LABEL, SHAPE_CLASS_COMMIT_NOUN } from "./ShapeGa
 import { FISH_GROUP_COARSE_NOUN, type FishGroup } from "@/lib/idguide/traits";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
+import { CommentThread } from "./idflow/CommentThread";
 import { RevealResult } from "./idflow/RevealResult";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
 import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
@@ -1835,6 +1836,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </button>
                       )}
                     </div>
+                    {/* Public clip discussion. Sits ABOVE the sticky advance row
+                        so "Next" is never pushed out of reach, and renders
+                        collapsed by default so reading it is opt-in. The server
+                        gates the content on this spotter having answered (see
+                        GET /api/comments, INV-1), so mounting it here is safe. */}
+                    <CommentThread
+                      snippetId={snippet.id}
+                      signedIn={!!session}
+                      isGuest={!!(session?.user as { isGuest?: boolean } | undefined)?.isGuest}
+                      signUpHref={signUpHref}
+                    />
                     <div
                       className={`mt-2 flex items-center justify-between gap-2 ${
                         hasNext
