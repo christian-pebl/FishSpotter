@@ -2,8 +2,7 @@
 <title>PEBL Workshop Guide - Who Lives on a Seaweed Farm?</title>
 <style>
   :root{
-    --navy:#17252A; --teal:#3AAFA9; --dteal:#2B7A78; --lteal:#DEF2F1; --white:#fff;
-    --ink:#17252A; --soft:#4d6b72; --hair:#cfe0e0; --tan:#b8935a;
+    --ink:#111; --ink2:#4a4a4a; --line:#bbb; --tint:#f2f2f2; --tint2:#e2e2e2;
   }
   @page{ size:A4; margin:14mm 14mm 12mm; }
   *{box-sizing:border-box}
@@ -13,47 +12,58 @@
      bleeding onto the next page */
   .page{page-break-after:always;display:flex;flex-direction:column;min-height:266mm}
   .page:last-child{page-break-after:auto}
-  h1{font-size:26pt;line-height:1.05;margin:0 0 6pt;letter-spacing:-.5pt}
-  h2{font-size:15pt;margin:0 0 3pt;color:var(--navy);letter-spacing:-.2pt}
-  h3{font-size:11pt;margin:12pt 0 4pt;color:var(--dteal);text-transform:uppercase;letter-spacing:.6pt}
+  h1{font-size:26pt;line-height:1.05;margin:0 0 6pt;letter-spacing:-.5pt;color:#000}
+  h2{font-size:15pt;margin:0 0 3pt;color:#000;letter-spacing:-.2pt}
+  h3{font-size:11pt;margin:12pt 0 4pt;color:#000;text-transform:uppercase;letter-spacing:.7pt;font-weight:bold}
   p{margin:0 0 7pt}
   ul,ol{margin:0 0 7pt;padding-left:15pt}
   li{margin-bottom:3pt}
-  .eyebrow{font-size:8.5pt;letter-spacing:1.6pt;text-transform:uppercase;color:var(--dteal);font-weight:bold;margin:0 0 8pt}
-  .rule{height:2.5pt;background:var(--teal);border:0;margin:8pt 0 12pt;width:100%}
-  .hdr{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1pt solid var(--hair);padding-bottom:5pt;margin-bottom:12pt}
-  .hdr .step{font-size:8.5pt;letter-spacing:1.4pt;text-transform:uppercase;color:var(--dteal);font-weight:bold}
-  .hdr .clock{font-size:8.5pt;color:var(--soft);font-weight:bold}
-  .note,.watch,.say{padding:8pt 10pt;margin:9pt 0;border-radius:3pt;font-size:9.6pt}
-  .note{background:var(--lteal);border-left:3.5pt solid var(--teal)}
-  .watch{background:#fdf3e7;border-left:3.5pt solid var(--tan)}
-  .say{background:#f4f8f8;border-left:3.5pt solid var(--dteal);font-style:italic}
-  .note b,.watch b,.say b{display:block;font-size:8pt;letter-spacing:1pt;text-transform:uppercase;margin-bottom:3pt;font-style:normal}
-  .note b{color:var(--dteal)} .watch b{color:#8a6224} .say b{color:var(--dteal)}
+  .eyebrow{font-size:8.5pt;letter-spacing:1.8pt;text-transform:uppercase;color:#000;font-weight:bold;margin:0 0 8pt}
+  .rule{height:2pt;background:#000;border:0;margin:8pt 0 12pt;width:100%}
+  .hdr{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5pt solid #000;padding-bottom:5pt;margin-bottom:12pt}
+  .hdr .step{font-size:8.5pt;letter-spacing:1.4pt;text-transform:uppercase;color:#000;font-weight:bold}
+  .hdr .clock{font-size:8.5pt;color:var(--ink2);font-weight:bold}
+  /* three call-out types, coded by BORDER STRUCTURE + ICON so they survive
+     black & white printing without relying on hue at all:
+       NOTE  = left bar only, light tint fill, filled-dot icon  (fyi)
+       WATCH = full box border + a hazard top-stripe, triangle icon (caution)
+       SAY   = dashed left bar, no fill, quote-mark icon (script to read aloud) */
+  .note,.watch,.say{padding:8pt 10pt;margin:9pt 0;font-size:9.6pt;position:relative}
+  .note{background:var(--tint);border-left:3.5pt solid #000}
+  .watch{background:#fff;border:1.3pt solid #000;padding-top:12pt}
+  .watch::before{content:"";position:absolute;top:0;left:0;right:0;height:4.5pt;
+    background:repeating-linear-gradient(45deg,#000,#000 3px,#fff 3px,#fff 7px)}
+  .say{background:#fff;border-left:2pt dashed #000;font-style:italic}
+  .note b,.watch b,.say b{display:block;font-size:8pt;letter-spacing:1pt;text-transform:uppercase;margin-bottom:3pt;font-style:normal;color:#000}
+  .note b::before{content:"\25CF  "}
+  .watch b::before{content:"\25B2  "}
+  .say b::before{content:"\201C  ";font-size:11pt;font-style:normal}
   table{width:100%;border-collapse:collapse;font-size:9.4pt;margin:6pt 0 9pt}
-  th{background:var(--navy);color:#fff;text-align:left;padding:5pt 7pt;font-size:8.6pt;letter-spacing:.5pt;text-transform:uppercase}
-  td{padding:5pt 7pt;border-bottom:.6pt solid var(--hair);vertical-align:top}
-  tr:nth-child(even) td{background:var(--lteal)}
+  th{background:#000;color:#fff;text-align:left;padding:5pt 7pt;font-size:8.6pt;letter-spacing:.5pt;text-transform:uppercase}
+  td{padding:5pt 7pt;border-bottom:.6pt solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:var(--tint)}
   .two{display:flex;gap:14pt}
   .two>*{flex:1}
-  .cap{font-size:8.4pt;color:var(--soft);text-align:center;margin-top:3pt;font-style:italic}
-  .sk{border:.7pt solid var(--hair);border-radius:4pt;padding:8pt;background:#fbfdfd}
-  .foot{margin-top:auto;padding-top:6pt;display:flex;justify-content:space-between;font-size:7.6pt;color:var(--soft);border-top:.6pt solid var(--hair)}
-  .big{font-size:34pt;font-weight:bold;color:var(--teal);line-height:1}
+  .cap{font-size:8.4pt;color:var(--ink2);text-align:center;margin-top:3pt;font-style:italic}
+  .sk{border:1pt solid #000;border-radius:2pt;padding:8pt;background:#fff}
+  .foot{margin-top:auto;padding-top:6pt;display:flex;justify-content:space-between;font-size:7.6pt;color:var(--ink2);border-top:.6pt solid var(--line)}
   .kpi{display:flex;gap:10pt;margin:10pt 0}
-  .kpi div{flex:1;background:var(--lteal);border-radius:4pt;padding:9pt;text-align:center}
-  .kpi .n{font-size:20pt;font-weight:bold;color:var(--dteal);line-height:1.1}
-  .kpi .l{font-size:8.2pt;color:var(--soft);margin-top:2pt}
+  .kpi div{flex:1;background:var(--tint);border:1pt solid #000;border-radius:2pt;padding:9pt;text-align:center}
+  .kpi .n{font-size:20pt;font-weight:bold;color:#000;line-height:1.1}
+  .kpi .l{font-size:8.2pt;color:var(--ink2);margin-top:2pt}
   .chk li{list-style:none;margin-left:-10pt;margin-bottom:4pt}
-  .chk li::before{content:"";display:inline-block;width:8pt;height:8pt;border:1pt solid var(--dteal);border-radius:1.5pt;margin-right:6pt;vertical-align:-.5pt}
-  .deck{border:.7pt solid var(--hair);border-radius:4pt;padding:5.5pt 8pt;margin-bottom:5pt;background:#fbfdfd}
-  .deck h4{margin:0 0 1pt;font-size:10pt;color:var(--navy)}
-  .deck .story{font-size:8.4pt;color:var(--soft);font-style:italic;margin-bottom:3pt}
+  .chk li::before{content:"";display:inline-block;width:8pt;height:8pt;border:1.2pt solid #000;margin-right:6pt;vertical-align:-.5pt}
+  .deck{border:1pt solid #000;border-radius:2pt;padding:5.5pt 8pt;margin-bottom:5pt;background:#fff}
+  .deck h4{margin:0 0 1pt;font-size:10pt;color:#000}
+  .deck .story{font-size:8.4pt;color:var(--ink2);font-style:italic;margin-bottom:3pt}
   .deck ul{columns:2;font-size:8.6pt;line-height:1.34;padding-left:12pt;margin:0}
   .deck li{margin-bottom:1pt}
-  .tagf{font-size:7.4pt;color:var(--dteal);font-weight:bold}
-  .tagl{font-size:7.4pt;color:var(--soft)}
-  .tagp{font-size:7.4pt;color:#8a6224;font-weight:bold}
+  /* severity of the removal, coded by weight/icon not colour */
+  .tagf{font-size:7.4pt;color:#000;font-weight:bold}
+  .tagf::before{content:"\2B24  "}
+  .tagl{font-size:7.4pt;color:var(--ink2)}
+  .tagp{font-size:7.4pt;color:#000;font-weight:bold}
+  .tagp::before{content:"\2605  "}
 </style>
 
 <!-- ============ COVER ============ -->
@@ -73,35 +83,35 @@
   <div class="sk" style="margin-top:6pt">
     <svg viewBox="0 0 560 210" width="100%">
       <!-- marquee -->
-      <path d="M14 60 L280 16 L546 60" fill="none" stroke="#2B7A78" stroke-width="2"/>
-      <rect x="14" y="60" width="532" height="140" fill="none" stroke="#cfe0e0" stroke-width="1.2"/>
+      <path d="M14 60 L280 16 L546 60" fill="none" stroke="#000" stroke-width="2"/>
+      <rect x="14" y="60" width="532" height="140" fill="none" stroke="#999" stroke-width="1.2"/>
       <!-- screen -->
-      <rect x="238" y="70" width="84" height="26" rx="3" fill="#DEF2F1" stroke="#3AAFA9" stroke-width="1.4"/>
-      <text x="280" y="87" font-family="Helvetica" font-size="10" fill="#2B7A78" text-anchor="middle">clips</text>
+      <rect x="238" y="70" width="84" height="26" rx="3" fill="#f2f2f2" stroke="#000" stroke-width="1.4"/>
+      <text x="280" y="87" font-family="Helvetica" font-size="10" fill="#000" text-anchor="middle">clips</text>
       <!-- 5 tables with 8 seats -->
       <g>
-        <g transform="translate(96,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#17252A" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#17252A" text-anchor="middle">1</text></g>
-        <g transform="translate(188,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#17252A" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#17252A" text-anchor="middle">2</text></g>
-        <g transform="translate(280,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#17252A" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#17252A" text-anchor="middle">3</text></g>
-        <g transform="translate(372,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#17252A" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#17252A" text-anchor="middle">4</text></g>
-        <g transform="translate(464,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#17252A" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#17252A" text-anchor="middle">5</text></g>
+        <g transform="translate(96,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">1</text></g>
+        <g transform="translate(188,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">2</text></g>
+        <g transform="translate(280,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">3</text></g>
+        <g transform="translate(372,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">4</text></g>
+        <g transform="translate(464,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">5</text></g>
       </g>
       <!-- seats -->
-      <g fill="#8fb3b8">
-        <script/>
+      <g fill="#999">
         <g><circle cx="70" cy="128" r="4.6"/><circle cx="70" cy="152" r="4.6"/><circle cx="96" cy="114" r="4.6"/><circle cx="96" cy="166" r="4.6"/><circle cx="122" cy="128" r="4.6"/><circle cx="122" cy="152" r="4.6"/><circle cx="83" cy="118" r="4.6"/><circle cx="109" cy="162" r="4.6"/></g>
         <g><circle cx="162" cy="128" r="4.6"/><circle cx="162" cy="152" r="4.6"/><circle cx="188" cy="114" r="4.6"/><circle cx="188" cy="166" r="4.6"/><circle cx="214" cy="128" r="4.6"/><circle cx="214" cy="152" r="4.6"/><circle cx="175" cy="118" r="4.6"/><circle cx="201" cy="162" r="4.6"/></g>
         <g><circle cx="254" cy="128" r="4.6"/><circle cx="254" cy="152" r="4.6"/><circle cx="280" cy="114" r="4.6"/><circle cx="280" cy="166" r="4.6"/><circle cx="306" cy="128" r="4.6"/><circle cx="306" cy="152" r="4.6"/><circle cx="267" cy="118" r="4.6"/><circle cx="293" cy="162" r="4.6"/></g>
         <g><circle cx="346" cy="128" r="4.6"/><circle cx="346" cy="152" r="4.6"/><circle cx="372" cy="114" r="4.6"/><circle cx="372" cy="166" r="4.6"/><circle cx="398" cy="128" r="4.6"/><circle cx="398" cy="152" r="4.6"/><circle cx="359" cy="118" r="4.6"/><circle cx="385" cy="162" r="4.6"/></g>
         <g><circle cx="438" cy="128" r="4.6"/><circle cx="438" cy="152" r="4.6"/><circle cx="464" cy="114" r="4.6"/><circle cx="464" cy="166" r="4.6"/><circle cx="490" cy="128" r="4.6"/><circle cx="490" cy="152" r="4.6"/><circle cx="451" cy="118" r="4.6"/><circle cx="477" cy="162" r="4.6"/></g>
       </g>
-      <!-- facilitators -->
-      <circle cx="142" cy="188" r="7" fill="#3AAFA9"/><text x="142" y="192" font-family="Helvetica" font-size="8" fill="#fff" text-anchor="middle">L</text>
-      <circle cx="418" cy="188" r="7" fill="#2B7A78"/><text x="418" y="192" font-family="Helvetica" font-size="8" fill="#fff" text-anchor="middle">R</text>
-      <path d="M150 186 C210 176 250 176 300 184" fill="none" stroke="#3AAFA9" stroke-width="1.1" stroke-dasharray="4 3"/>
-      <path d="M410 186 C360 176 330 176 306 184" fill="none" stroke="#2B7A78" stroke-width="1.1" stroke-dasharray="4 3"/>
+      <!-- facilitators: L = solid fill, R = outline only, so they read apart by
+           fill-state rather than by two similar hues -->
+      <circle cx="142" cy="188" r="7" fill="#000"/><text x="142" y="192" font-family="Helvetica" font-size="8" fill="#fff" text-anchor="middle" font-weight="bold">L</text>
+      <circle cx="418" cy="188" r="7" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="418" y="192" font-family="Helvetica" font-size="8" fill="#000" text-anchor="middle" font-weight="bold">R</text>
+      <path d="M150 186 C210 176 250 176 300 184" fill="none" stroke="#000" stroke-width="1.1" stroke-dasharray="4 3"/>
+      <path d="M410 186 C360 176 330 176 306 184" fill="none" stroke="#000" stroke-width="1.1" stroke-dasharray="1.5 3"/>
     </svg>
-    <p class="cap">Room layout. L = Lead (runs the timings and the big moments). R = Runner (works the tables). Each covers roughly half the room.</p>
+    <p class="cap">Room layout. L = Lead (runs the timings and the big moments, solid marker). R = Runner (works the tables, outline marker). Each covers roughly half the room.</p>
   </div>
 
   <div class="note"><b>The one thing to get right</b>Everything builds towards minute 24, when you physically remove the farm. Protect that moment. If you are running late, cut the discussion, never the removal.</div>
@@ -116,32 +126,32 @@
   <div class="sk">
     <svg viewBox="0 0 560 92" width="100%">
       <g font-family="Helvetica" font-size="9">
-        <rect x="6"   y="26" width="34"  height="26" rx="2.5" fill="#DEF2F1" stroke="#3AAFA9"/>
-        <rect x="42"  y="26" width="46"  height="26" rx="2.5" fill="#DEF2F1" stroke="#3AAFA9"/>
-        <rect x="90"  y="26" width="150" height="26" rx="2.5" fill="#3AAFA9"/>
-        <rect x="242" y="26" width="58"  height="26" rx="2.5" fill="#17252A"/>
-        <rect x="302" y="26" width="76"  height="26" rx="2.5" fill="#2B7A78"/>
-        <rect x="380" y="26" width="112" height="26" rx="2.5" fill="#DEF2F1" stroke="#3AAFA9"/>
-        <rect x="494" y="26" width="46"  height="26" rx="2.5" fill="#DEF2F1" stroke="#3AAFA9"/>
-        <text x="23"  y="43" fill="#17252A" text-anchor="middle">1</text>
-        <text x="65"  y="43" fill="#17252A" text-anchor="middle">2</text>
-        <text x="165" y="43" fill="#fff"    text-anchor="middle">3  BUILD THE WEB</text>
-        <text x="271" y="43" fill="#fff"    text-anchor="middle">4  REMOVE</text>
-        <text x="340" y="43" fill="#fff"    text-anchor="middle">5  COST/GIVE</text>
-        <text x="436" y="43" fill="#17252A" text-anchor="middle">6  QUESTIONS</text>
-        <text x="517" y="43" fill="#17252A" text-anchor="middle">7</text>
-        <g fill="#4d6b72" font-size="8">
+        <rect x="6"   y="26" width="34"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <rect x="42"  y="26" width="46"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <rect x="90"  y="26" width="150" height="26" rx="2.5" fill="#777"/>
+        <rect x="242" y="26" width="58"  height="26" rx="2.5" fill="#000"/>
+        <rect x="302" y="26" width="76"  height="26" rx="2.5" fill="#444"/>
+        <rect x="380" y="26" width="112" height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <rect x="494" y="26" width="46"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <text x="23"  y="43" fill="#000" text-anchor="middle">1</text>
+        <text x="65"  y="43" fill="#000" text-anchor="middle">2</text>
+        <text x="165" y="43" fill="#fff" text-anchor="middle">3  BUILD THE WEB</text>
+        <text x="271" y="43" fill="#fff" text-anchor="middle">4  REMOVE</text>
+        <text x="340" y="43" fill="#fff" text-anchor="middle">5  COST/GIVE</text>
+        <text x="436" y="43" fill="#000" text-anchor="middle">6  QUESTIONS</text>
+        <text x="517" y="43" fill="#000" text-anchor="middle">7</text>
+        <g fill="#555" font-size="8">
           <text x="6" y="20">0</text><text x="90" y="20">8</text><text x="242" y="20">24</text>
           <text x="302" y="20">30</text><text x="380" y="20">38</text><text x="494" y="20">50</text><text x="534" y="20">60</text>
         </g>
-        <g fill="#4d6b72" font-size="7.6">
+        <g fill="#555" font-size="7.6">
           <text x="23"  y="66" text-anchor="middle">hook</text>
           <text x="65"  y="66" text-anchor="middle">decks out</text>
           <text x="517" y="66" text-anchor="middle">close</text>
         </g>
       </g>
     </svg>
-    <p class="cap">Minutes. The dark block is the pivot. The pale blocks are what you cut if you are behind.</p>
+    <p class="cap">Minutes. The black block is the pivot &mdash; darkness increases as you approach it, and falls away after. The pale blocks are what you cut if you are behind.</p>
   </div>
 
   <h3>Kit list</h3>
@@ -158,7 +168,7 @@
       <li>Printed stills of the 3 clips as backup</li>
       <li>Mussel shells, a metre of dropper rope</li>
       <li>Fresh kelp, collected that morning</li>
-      <li>2 &times; A5 crib sheets (page 8)</li>
+      <li>2 &times; A5 crib sheets (page 9)</li>
     </ul>
   </div>
 
@@ -192,33 +202,34 @@
     <tr><td>Props and contingency</td><td>Shells, rope offcut, kelp on the day</td><td>~&pound;25</td></tr>
     <tr><td colspan="2"><b>Total</b></td><td><b>~&pound;255</b></td></tr>
   </table>
+  <p class="cap" style="text-align:left;margin:-4pt 0 8pt">The mats and species cards above are the only colour items &mdash; they go to a proper print shop. This guide and the evidence cards are built for an ordinary black &amp; white office printer or photocopier.</p>
 
   <div class="two">
     <div class="sk">
       <svg viewBox="0 0 260 168" width="100%">
-        <rect x="10" y="10" width="110" height="148" rx="6" fill="#fff" stroke="#17252A" stroke-width="1.4"/>
-        <rect x="10" y="10" width="110" height="9" rx="4" fill="#3AAFA9"/>
-        <ellipse cx="65" cy="66" rx="34" ry="19" fill="#DEF2F1" stroke="#2B7A78" stroke-width="1.2"/>
-        <text x="65" y="70" font-family="Helvetica" font-size="9" fill="#2B7A78" text-anchor="middle">silhouette</text>
-        <text x="65" y="106" font-family="Helvetica" font-size="12" font-weight="bold" fill="#17252A" text-anchor="middle">Ballan wrasse</text>
-        <text x="65" y="120" font-family="Helvetica" font-size="8.5" fill="#4d6b72" text-anchor="middle">Gwrach y m&ocirc;r</text>
-        <text x="65" y="136" font-family="Helvetica" font-size="8" fill="#4d6b72" text-anchor="middle" font-style="italic">the shell-crunching</text>
-        <text x="65" y="146" font-family="Helvetica" font-size="8" fill="#4d6b72" text-anchor="middle" font-style="italic">kelp heavyweight</text>
-        <circle cx="106" cy="26" r="7" fill="#17252A"/>
+        <rect x="10" y="10" width="110" height="148" rx="6" fill="#fff" stroke="#000" stroke-width="1.4"/>
+        <rect x="10" y="10" width="110" height="9" rx="4" fill="#000"/>
+        <ellipse cx="65" cy="66" rx="34" ry="19" fill="#f2f2f2" stroke="#000" stroke-width="1.2"/>
+        <text x="65" y="70" font-family="Helvetica" font-size="9" fill="#000" text-anchor="middle">silhouette</text>
+        <text x="65" y="106" font-family="Helvetica" font-size="12" font-weight="bold" fill="#000" text-anchor="middle">Ballan wrasse</text>
+        <text x="65" y="120" font-family="Helvetica" font-size="8.5" fill="#555" text-anchor="middle">Gwrach y m&ocirc;r</text>
+        <text x="65" y="136" font-family="Helvetica" font-size="8" fill="#555" text-anchor="middle" font-style="italic">the shell-crunching</text>
+        <text x="65" y="146" font-family="Helvetica" font-size="8" fill="#555" text-anchor="middle" font-style="italic">kelp heavyweight</text>
+        <circle cx="106" cy="26" r="7" fill="#000"/>
         <path d="M106 22 v8 M102 26 h8" stroke="#fff" stroke-width="1.4"/>
 
-        <rect x="140" y="10" width="110" height="148" rx="6" fill="#fff" stroke="#17252A" stroke-width="1.4"/>
-        <text x="150" y="30" font-family="Helvetica" font-size="8" fill="#2B7A78" font-weight="bold">I LIVE</text>
-        <text x="150" y="41" font-family="Helvetica" font-size="8.5" fill="#17252A">kelp canopy</text>
-        <text x="150" y="60" font-family="Helvetica" font-size="8" fill="#2B7A78" font-weight="bold">I EAT</text>
-        <text x="150" y="71" font-family="Helvetica" font-size="8.5" fill="#17252A">limpets, top shells,</text>
-        <text x="150" y="81" font-family="Helvetica" font-size="8.5" fill="#17252A">urchins, mussels</text>
-        <text x="150" y="100" font-family="Helvetica" font-size="8" fill="#2B7A78" font-weight="bold">EATS ME</text>
-        <text x="150" y="111" font-family="Helvetica" font-size="8.5" fill="#17252A">cormorant</text>
-        <rect x="146" y="122" width="98" height="16" rx="3" fill="#17252A"/>
+        <rect x="140" y="10" width="110" height="148" rx="6" fill="#fff" stroke="#000" stroke-width="1.4"/>
+        <text x="150" y="30" font-family="Helvetica" font-size="8" fill="#000" font-weight="bold">I LIVE</text>
+        <text x="150" y="41" font-family="Helvetica" font-size="8.5" fill="#000">kelp canopy</text>
+        <text x="150" y="60" font-family="Helvetica" font-size="8" fill="#000" font-weight="bold">I EAT</text>
+        <text x="150" y="71" font-family="Helvetica" font-size="8.5" fill="#000">limpets, top shells,</text>
+        <text x="150" y="81" font-family="Helvetica" font-size="8.5" fill="#000">urchins, mussels</text>
+        <text x="150" y="100" font-family="Helvetica" font-size="8" fill="#000" font-weight="bold">EATS ME</text>
+        <text x="150" y="111" font-family="Helvetica" font-size="8.5" fill="#000">cormorant</text>
+        <rect x="146" y="122" width="98" height="16" rx="3" fill="#000"/>
         <text x="195" y="133" font-family="Helvetica" font-size="7.6" fill="#fff" text-anchor="middle">FARM-BUILT</text>
-        <rect x="215" y="140" width="30" height="14" fill="#DEF2F1" stroke="#2B7A78" stroke-width=".8"/>
-        <text x="230" y="150" font-family="Helvetica" font-size="6" fill="#2B7A78" text-anchor="middle">QR</text>
+        <rect x="215" y="140" width="30" height="14" fill="#f2f2f2" stroke="#000" stroke-width=".8"/>
+        <text x="230" y="150" font-family="Helvetica" font-size="6" fill="#000" text-anchor="middle">QR</text>
       </svg>
       <p class="cap">Card front and back. Big name, Welsh name, a plain-language nickname, three short fields, and a symbol in the corner.</p>
     </div>
@@ -279,36 +290,37 @@
 
   <div class="sk">
     <svg viewBox="0 0 560 250" width="100%">
-      <rect x="8" y="8" width="544" height="234" rx="5" fill="#eef3f6" stroke="#17252A" stroke-width="1.4"/>
+      <rect x="8" y="8" width="544" height="234" rx="5" fill="#fff" stroke="#000" stroke-width="1.4"/>
       <!-- zones -->
-      <line x1="8" y1="42" x2="552" y2="42" stroke="#8fa6b4" stroke-width="1.2"/>
-      <line x1="8" y1="196" x2="552" y2="196" stroke="#c9bfa4" stroke-width="1.2"/>
-      <rect x="8" y="196" width="544" height="46" fill="#ece3cf"/>
-      <text x="16" y="26" font-family="Helvetica" font-size="9" fill="#4d6b72" font-style="italic">surface</text>
-      <text x="16" y="212" font-family="Helvetica" font-size="9" fill="#4d6b72" font-style="italic">seabed</text>
+      <line x1="8" y1="42" x2="552" y2="42" stroke="#999" stroke-width="1.2"/>
+      <line x1="8" y1="196" x2="552" y2="196" stroke="#999" stroke-width="1.2"/>
+      <rect x="8" y="196" width="544" height="46" fill="#e8e8e8"/>
+      <text x="16" y="26" font-family="Helvetica" font-size="9" fill="#555" font-style="italic">surface</text>
+      <text x="16" y="212" font-family="Helvetica" font-size="9" fill="#555" font-style="italic">seabed</text>
       <!-- ropes + kelp printed on mat -->
-      <g stroke="#365a76" stroke-width="1.6">
+      <g stroke="#000" stroke-width="1.6">
         <line x1="90" y1="42" x2="90" y2="150"/><line x1="130" y1="42" x2="130" y2="150"/>
       </g>
-      <g fill="#233f5a"><circle cx="90" cy="62" r="4"/><circle cx="90" cy="78" r="4"/><circle cx="90" cy="94" r="4"/><circle cx="90" cy="110" r="4"/><circle cx="130" cy="62" r="4"/><circle cx="130" cy="78" r="4"/><circle cx="130" cy="94" r="4"/><circle cx="130" cy="110" r="4"/></g>
-      <g fill="#b8935a"><path d="M420 44 q-14 40 4 80 q-16 -40 -4 -80"/><path d="M452 44 q-14 40 4 80 q-16 -40 -4 -80"/><path d="M484 44 q-14 40 4 80 q-16 -40 -4 -80"/></g>
+      <g fill="#000"><circle cx="90" cy="62" r="4"/><circle cx="90" cy="78" r="4"/><circle cx="90" cy="94" r="4"/><circle cx="90" cy="110" r="4"/><circle cx="130" cy="62" r="4"/><circle cx="130" cy="78" r="4"/><circle cx="130" cy="94" r="4"/><circle cx="130" cy="110" r="4"/></g>
+      <!-- kelp: hollow/outlined so it reads as leafy against the mussels' solid dots -->
+      <g fill="#f2f2f2" stroke="#000" stroke-width="1.1"><path d="M420 44 q-14 40 4 80 q-16 -40 -4 -80"/><path d="M452 44 q-14 40 4 80 q-16 -40 -4 -80"/><path d="M484 44 q-14 40 4 80 q-16 -40 -4 -80"/></g>
       <!-- printed resource chips -->
       <g font-family="Helvetica" font-size="8">
-        <rect x="66" y="158" width="88" height="17" rx="4" fill="#fff" stroke="#8E7FB0" stroke-width="1.2"/><text x="110" y="170" fill="#17252A" text-anchor="middle">FARMED MUSSELS</text>
-        <rect x="404" y="130" width="88" height="17" rx="4" fill="#fff" stroke="#8FA93E" stroke-width="1.2"/><text x="448" y="142" fill="#17252A" text-anchor="middle">KELP</text>
-        <rect x="248" y="96" width="88" height="17" rx="4" fill="#fff" stroke="#7FB4CE" stroke-width="1.2"/><text x="292" y="108" fill="#17252A" text-anchor="middle">PLANKTON</text>
-        <rect x="230" y="206" width="106" height="17" rx="4" fill="#fff" stroke="#B08A5C" stroke-width="1.2"/><text x="283" y="218" fill="#17252A" text-anchor="middle">DETRITUS ON SEABED</text>
+        <rect x="66" y="158" width="88" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="110" y="170" fill="#000" text-anchor="middle">FARMED MUSSELS</text>
+        <rect x="404" y="130" width="88" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="448" y="142" fill="#000" text-anchor="middle">KELP</text>
+        <rect x="248" y="96" width="88" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="292" y="108" fill="#000" text-anchor="middle">PLANKTON</text>
+        <rect x="230" y="206" width="106" height="17" rx="4" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="283" y="218" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
       </g>
       <!-- placed cards -->
       <g font-family="Helvetica" font-size="7.6" text-anchor="middle">
-        <g><rect x="186" y="52" width="52" height="34" rx="3" fill="#fff" stroke="#17252A" stroke-width="1.2"/><text x="212" y="72" fill="#17252A">cormorant</text></g>
-        <g><rect x="352" y="150" width="52" height="34" rx="3" fill="#fff" stroke="#17252A" stroke-width="1.2"/><text x="378" y="164" fill="#17252A">ballan</text><text x="378" y="174" fill="#17252A">wrasse</text></g>
-        <g><rect x="466" y="160" width="52" height="34" rx="3" fill="#fff" stroke="#17252A" stroke-width="1.2"/><text x="492" y="180" fill="#17252A">limpet</text></g>
-        <g><rect x="398" y="200" width="52" height="34" rx="3" fill="#fff" stroke="#17252A" stroke-width="1.2"/><text x="424" y="214" fill="#17252A">spider</text><text x="424" y="224" fill="#17252A">crab</text></g>
+        <g><rect x="186" y="52" width="52" height="34" rx="3" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="212" y="72" fill="#000">cormorant</text></g>
+        <g><rect x="352" y="150" width="52" height="34" rx="3" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="378" y="164" fill="#000">ballan</text><text x="378" y="174" fill="#000">wrasse</text></g>
+        <g><rect x="466" y="160" width="52" height="34" rx="3" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="492" y="180" fill="#000">limpet</text></g>
+        <g><rect x="398" y="200" width="52" height="34" rx="3" fill="#fff" stroke="#000" stroke-width="1.2"/><text x="424" y="214" fill="#000">spider</text><text x="424" y="224" fill="#000">crab</text></g>
       </g>
       <!-- arrows -->
-      <defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 z" fill="#2B7A78"/></marker></defs>
-      <g stroke="#2B7A78" stroke-width="1.5" fill="none" marker-end="url(#a)">
+      <defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 z" fill="#000"/></marker></defs>
+      <g stroke="#000" stroke-width="1.5" fill="none" marker-end="url(#a)">
         <path d="M470 148 L500 158"/>
         <path d="M464 176 L408 168"/>
         <path d="M424 198 L392 186"/>
@@ -354,42 +366,42 @@
     <svg viewBox="0 0 560 200" width="100%">
       <!-- before -->
       <g>
-        <rect x="8" y="18" width="248" height="150" rx="5" fill="#eef3f6" stroke="#17252A" stroke-width="1.3"/>
-        <text x="132" y="12" font-family="Helvetica" font-size="9" fill="#2B7A78" text-anchor="middle" font-weight="bold">BEFORE</text>
-        <g stroke="#365a76" stroke-width="1.4"><line x1="46" y1="30" x2="46" y2="96"/><line x1="70" y1="30" x2="70" y2="96"/></g>
-        <g fill="#233f5a"><circle cx="46" cy="44" r="3.4"/><circle cx="46" cy="58" r="3.4"/><circle cx="46" cy="72" r="3.4"/><circle cx="70" cy="44" r="3.4"/><circle cx="70" cy="58" r="3.4"/><circle cx="70" cy="72" r="3.4"/></g>
-        <g fill="#b8935a"><path d="M196 30 q-10 30 3 58 q-12 -28 -3 -58"/><path d="M220 30 q-10 30 3 58 q-12 -28 -3 -58"/></g>
-        <g fill="#fff" stroke="#17252A" stroke-width="1.1">
+        <rect x="8" y="18" width="248" height="150" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+        <text x="132" y="12" font-family="Helvetica" font-size="9" fill="#000" text-anchor="middle" font-weight="bold">BEFORE</text>
+        <g stroke="#000" stroke-width="1.4"><line x1="46" y1="30" x2="46" y2="96"/><line x1="70" y1="30" x2="70" y2="96"/></g>
+        <g fill="#000"><circle cx="46" cy="44" r="3.4"/><circle cx="46" cy="58" r="3.4"/><circle cx="46" cy="72" r="3.4"/><circle cx="70" cy="44" r="3.4"/><circle cx="70" cy="58" r="3.4"/><circle cx="70" cy="72" r="3.4"/></g>
+        <g fill="#f2f2f2" stroke="#000" stroke-width="1"><path d="M196 30 q-10 30 3 58 q-12 -28 -3 -58"/><path d="M220 30 q-10 30 3 58 q-12 -28 -3 -58"/></g>
+        <g fill="#fff" stroke="#000" stroke-width="1.1">
           <rect x="98" y="36" width="34" height="22" rx="2.5"/><rect x="150" y="70" width="34" height="22" rx="2.5"/>
           <rect x="60" y="112" width="34" height="22" rx="2.5"/><rect x="112" y="118" width="34" height="22" rx="2.5"/>
           <rect x="176" y="112" width="34" height="22" rx="2.5"/><rect x="208" y="66" width="34" height="22" rx="2.5"/>
         </g>
-        <g stroke="#2B7A78" stroke-width="1.3" fill="none" marker-end="url(#a)">
+        <g stroke="#000" stroke-width="1.3" fill="none" marker-end="url(#a)">
           <path d="M98 48 L84 44"/><path d="M150 80 L136 52"/><path d="M94 122 L110 124"/>
           <path d="M176 120 L150 92"/><path d="M208 76 L186 78"/><path d="M132 46 L206 72"/><path d="M78 112 L96 60"/>
         </g>
-        <text x="132" y="160" font-family="Helvetica" font-size="11" fill="#17252A" text-anchor="middle" font-weight="bold">11 arrows</text>
+        <text x="132" y="160" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle" font-weight="bold">11 arrows</text>
       </g>
       <!-- arrow -->
-      <path d="M266 92 L296 92" stroke="#17252A" stroke-width="2" marker-end="url(#a)"/>
+      <path d="M266 92 L296 92" stroke="#000" stroke-width="2" marker-end="url(#a)"/>
       <!-- after -->
       <g>
-        <rect x="304" y="18" width="248" height="150" rx="5" fill="#eef3f6" stroke="#17252A" stroke-width="1.3"/>
-        <text x="428" y="12" font-family="Helvetica" font-size="9" fill="#2B7A78" text-anchor="middle" font-weight="bold">AFTER</text>
-        <g fill="#e4eaee" stroke="#c3cfd5" stroke-width="1.1">
+        <rect x="304" y="18" width="248" height="150" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+        <text x="428" y="12" font-family="Helvetica" font-size="9" fill="#000" text-anchor="middle" font-weight="bold">AFTER</text>
+        <g fill="#eee" stroke="#bbb" stroke-width="1.1">
           <rect x="394" y="36" width="34" height="22" rx="2.5"/><rect x="446" y="70" width="34" height="22" rx="2.5"/>
           <rect x="472" y="112" width="34" height="22" rx="2.5"/>
         </g>
-        <g stroke="#c3cfd5" stroke-width="1.2"><path d="M396 40 l26 14 M422 40 l-26 14"/><path d="M448 74 l26 14 M474 74 l-26 14"/><path d="M474 116 l26 14 M500 116 l-26 14"/></g>
-        <g fill="#fff" stroke="#17252A" stroke-width="1.1">
+        <g stroke="#bbb" stroke-width="1.2"><path d="M396 40 l26 14 M422 40 l-26 14"/><path d="M448 74 l26 14 M474 74 l-26 14"/><path d="M474 116 l26 14 M500 116 l-26 14"/></g>
+        <g fill="#fff" stroke="#000" stroke-width="1.1">
           <rect x="356" y="112" width="34" height="22" rx="2.5"/><rect x="408" y="118" width="34" height="22" rx="2.5"/><rect x="504" y="66" width="34" height="22" rx="2.5"/>
         </g>
-        <g stroke="#2B7A78" stroke-width="1.3" fill="none" marker-end="url(#a)"><path d="M390 122 L406 124"/></g>
-        <text x="428" y="160" font-family="Helvetica" font-size="11" fill="#17252A" text-anchor="middle" font-weight="bold">4 arrows</text>
-        <g><circle cx="524" cy="150" r="9" fill="#3AAFA9"/><text x="524" y="154" font-family="Helvetica" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">+</text></g>
+        <g stroke="#000" stroke-width="1.3" fill="none" marker-end="url(#a)"><path d="M390 122 L406 124"/></g>
+        <text x="428" y="160" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle" font-weight="bold">4 arrows</text>
+        <g><circle cx="524" cy="150" r="11" fill="none" stroke="#000" stroke-width="1"/><circle cx="524" cy="150" r="9" fill="#000"/><text x="524" y="154" font-family="Helvetica" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">+</text></g>
       </g>
     </svg>
-    <p class="cap">One table, before and after. Grey cards are face down. The teal plus is the one species that does better without the farm.</p>
+    <p class="cap">One table, before and after. Grey ghosted cards are face down. The ringed "+" badge is the one species that does better without the farm.</p>
   </div>
 
   <h3>Run it in this order</h3>
@@ -419,12 +431,12 @@
   <div class="two">
     <div class="sk">
       <svg viewBox="0 0 260 190" width="100%">
-        <path d="M40 176 L58 96 M220 176 L202 96" stroke="#17252A" stroke-width="1.6"/>
-        <rect x="46" y="14" width="168" height="90" rx="3" fill="#fff" stroke="#17252A" stroke-width="1.5"/>
-        <line x1="130" y1="14" x2="130" y2="104" stroke="#cfe0e0" stroke-width="1.2"/>
-        <text x="88" y="30" font-family="Helvetica" font-size="9" font-weight="bold" fill="#2B7A78" text-anchor="middle">WHAT IT GIVES</text>
-        <text x="172" y="30" font-family="Helvetica" font-size="9" font-weight="bold" fill="#8a6224" text-anchor="middle">WHAT IT COSTS</text>
-        <g stroke="#4d6b72" stroke-width="1.1">
+        <path d="M40 176 L58 96 M220 176 L202 96" stroke="#000" stroke-width="1.6"/>
+        <rect x="46" y="14" width="168" height="90" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <line x1="130" y1="14" x2="130" y2="104" stroke="#999" stroke-width="1.2"/>
+        <text x="88" y="30" font-family="Helvetica" font-size="9" font-weight="bold" fill="#000" text-anchor="middle">+ WHAT IT GIVES</text>
+        <text x="172" y="30" font-family="Helvetica" font-size="9" font-weight="bold" fill="#000" text-anchor="middle">&#8722; WHAT IT COSTS</text>
+        <g stroke="#999" stroke-width="1.1">
           <line x1="56" y1="44" x2="120" y2="44"/><line x1="56" y1="56" x2="114" y2="56"/><line x1="56" y1="68" x2="122" y2="68"/><line x1="56" y1="80" x2="108" y2="80"/>
           <line x1="140" y1="44" x2="204" y2="44"/><line x1="140" y1="56" x2="196" y2="56"/><line x1="140" y1="68" x2="200" y2="68"/>
         </g>
@@ -583,8 +595,8 @@
 
   <div class="note"><b>The measure of success</b>Not how many people came. Whether the most sceptical person in the room left still talking to you. If a local fisherman filled in the costs column and stayed behind to argue about siting, that was a good workshop.</div>
 
-  <div style="margin-top:16pt;border-top:2.5pt solid #3AAFA9;padding-top:8pt">
-    <p style="margin:0;font-size:9pt;color:#4d6b72">Plant Ecology Beyond Land (PEBL) CIC &middot; company number 12076622 &middot; www.pebl-cic.co.uk &middot; hello@pebl-cic.co.uk<br>Species, diets and farm impact generated from the FishSpotter catalogue and the PEBL farm food web. A teaching schematic, not a quantified survey.</p>
+  <div style="margin-top:16pt;border-top:2pt solid #000;padding-top:8pt">
+    <p style="margin:0;font-size:9pt;color:#555">Plant Ecology Beyond Land (PEBL) CIC &middot; company number 12076622 &middot; www.pebl-cic.co.uk &middot; hello@pebl-cic.co.uk<br>Species, diets and farm impact generated from the FishSpotter catalogue and the PEBL farm food web. A teaching schematic, not a quantified survey.</p>
   </div>
 
   <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 11</span></div>

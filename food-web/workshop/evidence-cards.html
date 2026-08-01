@@ -1,35 +1,43 @@
 <meta charset="utf-8">
 <title>PEBL Workshop - Evidence Cards</title>
 <style>
-  :root{--navy:#17252A;--teal:#3AAFA9;--dteal:#2B7A78;--lteal:#DEF2F1;--tan:#b8935a;--soft:#4d6b72;--hair:#cfe0e0}
+  :root{--ink:#111;--ink2:#4a4a4a;--line:#bbb;--tint:#f0f0f0}
   @page{size:A4;margin:0}
   *{box-sizing:border-box}
-  body{margin:0;font-family:Helvetica,Arial,sans-serif;color:var(--navy);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{margin:0;font-family:Helvetica,Arial,sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .sheet{width:210mm;height:297mm;page-break-after:always;display:flex;flex-direction:column}
   .sheet:last-child{page-break-after:auto}
-  .card{height:148.5mm;padding:13mm 14mm 10mm;position:relative;display:flex;flex-direction:column;border-bottom:.4mm dashed #b9cccc}
+  .card{height:148.5mm;padding:13mm 14mm 10mm;position:relative;display:flex;flex-direction:column;border-bottom:1pt dashed #000}
   .card:last-child{border-bottom:0}
-  .tbl{font-size:8pt;letter-spacing:1.4pt;text-transform:uppercase;color:var(--dteal);font-weight:bold;margin:0 0 1mm}
-  h2{font-size:19pt;line-height:1.06;margin:0 0 3mm;letter-spacing:-.4pt;max-width:150mm}
-  .stat{font-size:40pt;font-weight:bold;color:var(--teal);line-height:.95;margin:0 0 2mm}
+  .card::after{content:"\00b7 cut here \00b7";position:absolute;left:50%;bottom:-2.4mm;transform:translateX(-50%);
+    font-size:6.4pt;letter-spacing:1pt;text-transform:uppercase;color:#777;background:#fff;padding:0 5pt;z-index:5}
+  .card:last-child::after{content:none}
+  /* the two facilitator-only cards get a heavier frame + a light tint, so they
+     read as "different" in a stack without needing a solid colour fill */
+  .card.special{border-top:2.5pt solid #000;border-left:2.5pt solid #000;border-right:2.5pt solid #000;background:var(--tint)}
+  .tbl{font-size:8pt;letter-spacing:1.4pt;text-transform:uppercase;color:#000;font-weight:bold;margin:0 0 1mm}
+  h2{font-size:19pt;line-height:1.06;margin:0 0 3mm;letter-spacing:-.4pt;max-width:150mm;color:#000}
+  .stat{font-size:40pt;font-weight:bold;color:#000;line-height:.95;margin:0 0 2mm}
   .stat small{font-size:15pt;font-weight:bold}
   .body{font-size:10.6pt;line-height:1.5;margin:0 0 auto;max-width:168mm}
-  .body b{color:var(--navy)}
-  .means{background:var(--lteal);border-left:3.5pt solid var(--teal);padding:5pt 8pt;font-size:9.6pt;margin:4mm 0 0;line-height:1.45}
-  .means b{display:block;font-size:7.6pt;letter-spacing:1pt;text-transform:uppercase;color:var(--dteal);margin-bottom:1.5pt}
-  .src{font-size:8pt;color:var(--soft);border-top:.6pt solid var(--hair);padding-top:2.5mm;margin-top:4mm;line-height:1.4}
-  .flag{position:absolute;top:13mm;right:14mm;font-size:7.6pt;font-weight:bold;letter-spacing:.8pt;text-transform:uppercase;padding:2.5pt 7pt;border-radius:9pt}
-  .up{background:var(--lteal);color:var(--dteal)}
-  .down{background:#fdf3e7;color:#8a6224}
-  .peb{background:var(--navy);color:#fff}
-  .card.dark{background:var(--navy);color:#fff}
-  .card.dark h2,.card.dark .body b{color:#fff}
-  .card.dark .body{color:#dCE8E8}
-  .card.dark .stat{color:var(--teal)}
-  .card.dark .src{color:#8fb3b8;border-top-color:#2f4a50}
-  .card.dark .means{background:rgba(58,175,169,.14);border-left-color:var(--teal);color:#eaf4f4}
-  .card.dark .means b{color:var(--teal)}
-  .card.dark .tbl{color:var(--teal)}
+  .body b{color:#000}
+  .means{background:#fff;border:1pt solid #000;border-left:3.5pt solid #000;padding:5pt 8pt;font-size:9.6pt;margin:4mm 0 0;line-height:1.45}
+  .card.special .means{background:#fff}
+  .means b{display:block;font-size:7.6pt;letter-spacing:1pt;text-transform:uppercase;color:#000;margin-bottom:1.5pt}
+  .means b::before{content:"\25CF  "}
+  .src{font-size:8pt;color:var(--ink2);border-top:.6pt solid var(--line);padding-top:2.5mm;margin-top:4mm;line-height:1.4}
+  /* flags: shape + fill-state carry the meaning instead of hue.
+     rounded pill, outline only  = evidence FOR
+     rounded pill, solid black   = evidence AGAINST / read this one out
+     square badge                = PEBL / meta / sources (a different category entirely) */
+  .flag{position:absolute;top:13mm;right:14mm;font-size:7.6pt;font-weight:bold;letter-spacing:.8pt;text-transform:uppercase;
+    padding:2.5pt 9pt;border:1.3pt solid #000}
+  .up{background:#fff;color:#000;border-radius:9pt}
+  .up::before{content:"\25B2  "}
+  .down{background:#000;color:#fff;border-radius:9pt}
+  .down::before{content:"\25BC  "}
+  .peb{background:#fff;color:#000;border-radius:2pt}
+  .card.special .flag.peb,.card.special .flag.down{background:#000;color:#fff}
   .refs{font-size:9pt;line-height:1.5}
   .refs li{margin-bottom:2.5mm}
 </style>
@@ -92,7 +100,7 @@
     <p class="src">"Combining environmental DNA and traditional sampling to assess the role of kelp aquaculture as an artificial habitat in Norway", <i>Frontiers in Marine Science</i>, 2025.</p>
   </div>
 
-  <div class="card dark">
+  <div class="card special">
     <span class="flag down">Read this one out</span>
     <p class="tbl">Facilitator card</p>
     <h2>The carbon claim does not stand up</h2>
@@ -104,7 +112,7 @@
 
 <!-- SHEET 4 -->
 <div class="sheet">
-  <div class="card dark">
+  <div class="card special">
     <span class="flag peb">PEBL</span>
     <p class="tbl">The gap we are filling</p>
     <h2>Almost none of this was measured in Wales</h2>
