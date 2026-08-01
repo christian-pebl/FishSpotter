@@ -106,4 +106,3 @@ jobs:
         # correct; parallel across files was never actually safe once a
         # second integration suite existed.
         run: npx vitest run --no-file-parallelism --testNamePattern="" src/lib/prize-desk.integration.test.ts src/lib/metrics/roundup.integration.test.ts
-          METRICS_TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fishspotter_test
