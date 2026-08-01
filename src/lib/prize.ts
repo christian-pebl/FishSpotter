@@ -33,6 +33,127 @@ export function hasReachedPrizeTarget(earned: number): boolean {
   return earned >= PRIZE_TARGET_PEBBLES;
 }
 
+// ---------------------------------------------------------------------------
+// Fulfilment desk (/admin/prizes) — pure row derivation
+// ---------------------------------------------------------------------------
+
+/**
+ * How reachable a winner is by email.
+ *
+ * `guest` matters: zero-friction guest accounts carry a SYNTHETIC PLACEHOLDER
+ * address in User.email (see the guest branch in src/lib/auth.ts), so the
+ * column looks populated but nothing can be posted to it. Never show a guest's
+ * email as a contact — the only route to them is nudging the in-app "save your
+ * finds" prompt, which runs POST /api/guest/claim.
+ *
+ * `unverified` is a real address the spotter typed at guest-claim but never
+ * confirmed. Worth showing (you can email a nudge) but it can't clear the
+ * claim gate, which requires emailVerified.
+ */
+export type PrizeContactState = "verified" | "unverified" | "guest";
+
+export function prizeContactState(user: {
+  isGuest: boolean;
+  emailVerified: Date | null;
+}): PrizeContactState {
+  if (user.isGuest) return "guest";
+  return user.emailVerified ? "verified" : "unverified";
+}
+
+/**
+ * Where a winner sits in the fulfilment pipeline.
+ *   to-post           — claimed, not yet posted. THE work queue.
+ *   posted            — claimed and marked posted by an admin.
+ *   reached-unclaimed — over the target but hasn't tapped claim; reachable.
+ *   unreachable       — over the target, but a guest with no real address.
+ */
+export type PrizeStatus = "to-post" | "reached-unclaimed" | "posted" | "unreachable";
+
+/** Display order: what needs doing first, then what might need chasing. */
+export const PRIZE_STATUS_ORDER: readonly PrizeStatus[] = [
+  "to-post",
+  "reached-unclaimed",
+  "unreachable",
+  "posted",
+];
+
+export const PRIZE_STATUS_LABEL: Record<PrizeStatus, string> = {
+  "to-post": "To post",
+  "reached-unclaimed": "Not claimed",
+  unreachable: "No contact",
+  posted: "Posted",
+};
+
+export interface PrizeWinnerInput {
+  userId: string;
+  displayName: string | null;
+  name: string | null;
+  email: string;
+  isGuest: boolean;
+  emailVerified: Date | null;
+  /** Lifetime earned Pebbles (sum of Answer.points). */
+  pebbles: number;
+  /** PebblePurchase.purchasedAt for SEASEARCH_GUIDE_ID, or null if never claimed. */
+  claimedAt: Date | null;
+  /** PebblePurchase.fulfilledAt — set once an admin marks the book posted. */
+  fulfilledAt: Date | null;
+  fulfilledBy: string | null;
+  /** isPrizeEligible()'s verdict, so the desk can flag a suspect claim. */
+  eligible: boolean;
+  eligibilityReasons: readonly string[];
+}
+
+export interface PrizeWinnerRow extends PrizeWinnerInput {
+  status: PrizeStatus;
+  contact: PrizeContactState;
+  /** The address to actually write to, or null when there is no real one. */
+  contactEmail: string | null;
+  /** Best available human label for the spotter. */
+  spotter: string;
+}
+
+function statusFor(input: PrizeWinnerInput, contact: PrizeContactState): PrizeStatus {
+  if (input.claimedAt) return input.fulfilledAt ? "posted" : "to-post";
+  return contact === "guest" ? "unreachable" : "reached-unclaimed";
+}
+
+/**
+ * Derive one fulfilment-desk row. Pure so the desk's whole decision table is
+ * unit tested rather than eyeballed against production data.
+ */
+export function toPrizeWinnerRow(input: PrizeWinnerInput): PrizeWinnerRow {
+  const contact = prizeContactState(input);
+  return {
+    ...input,
+    contact,
+    status: statusFor(input, contact),
+    contactEmail: contact === "guest" ? null : input.email,
+    spotter: input.displayName?.trim() || input.name?.trim() || "Unnamed spotter",
+  };
+}
+
+/**
+ * Build the desk's rows: everyone at or over the target, ordered by what needs
+ * doing (see PRIZE_STATUS_ORDER), then by Pebbles descending within a status.
+ *
+ * A claim is honoured even if the spotter's total later dips below the target
+ * (it can't today — Pebbles are never deducted — but a claimed row must never
+ * silently vanish from the desk while PEBL still owes someone a book).
+ */
+export function buildPrizeWinnerRows(
+  inputs: readonly PrizeWinnerInput[],
+): PrizeWinnerRow[] {
+  return inputs
+    .filter((w) => hasReachedPrizeTarget(w.pebbles) || w.claimedAt !== null)
+    .map(toPrizeWinnerRow)
+    .sort(
+      (a, b) =>
+        PRIZE_STATUS_ORDER.indexOf(a.status) - PRIZE_STATUS_ORDER.indexOf(b.status) ||
+        b.pebbles - a.pebbles ||
+        a.spotter.localeCompare(b.spotter),
+    );
+}
+
 /**
  * Gallery manifest for the prize card: the front cover plus a few inside
  * pages so spotters can flick through what they'd win. Each slot lists its
