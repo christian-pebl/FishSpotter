@@ -606,6 +606,47 @@ held back for one big merge.
   schema FIRST — a nullable column add is backward-compatible with the old code, so that ordering
   has no window at all.
 
+- **Streamlined metrics access via Claude Code (1 Aug 2026, PRs #117, #121)** — "what are the
+  latest FishSpotter stats?" used to mean opening `/admin/metrics` by hand; that dashboard only
+  covers Reach/Engagement/Learning from the consent-gated `Event` log and says nothing about the
+  Discovery pillar (First Sighting), retention, or the consensus machinery. Three pieces:
+  `npm run db:stats` (`scripts/stats-roundup.ts`) is a read-only CLI one-pager covering all seven
+  sections; `src/lib/metrics/roundup.ts` (`computeRoundup()`) is the shared aggregation lib behind
+  it, splitting SQL-side totals (`count`/`aggregate`/`groupBy`) from the genuinely order-dependent
+  First-Sighting/contested-clip maths, which runs over a narrow 4-column `Answer` projection;
+  `GET /api/metrics/summary` exposes the same data remotely, gated on a new `METRICS_TOKEN`
+  (deliberately separate from `CRON_SECRET`) and rate-limited at 60/hour. First-Sighting numbers
+  needed no new instrumentation — arrival order reconstructs exactly from `Answer.createdAt`
+  ordering, since the submit-time award already keys off "count of prior answers on this clip."
+  `src/lib/cron-auth.ts` generalised into `isAuthorisedBearer(req, secret)` with `isAuthorisedCron`
+  kept as a wrapper, zero behaviour change to the five existing crons.
+  **Two real bugs surfaced by testing against a genuine throwaway Postgres, not a mocked Prisma**
+  (`src/lib/metrics/roundup.integration.test.ts`): a re-guess test written as two `Answer.create()`
+  calls failed on `Answer`'s actual `@@unique([userId, snippetId])` constraint before it even
+  reached the code under test — fixed to model the real `upsert().update` path the answers route
+  uses; and running this suite alongside `prize-desk.integration.test.ts` (both `TRUNCATE`
+  overlapping tables in `beforeEach` against one shared CI database) raced across vitest's parallel
+  file workers the moment a second integration suite existed, surfacing as a foreign-key violation
+  — fixed with `--no-file-parallelism` on the CI integration step.
+  **Also corrected a standing doc error**: `CLAUDE.md` said `fish-spotter.vercel.app` was canonical
+  and to ignore `fishspotter.vercel.app` as "a different deployment" — backwards. The actual
+  production domain, confirmed by Christian and by checking the Vercel project's Domains tab, is
+  the custom domain **`www.fishspotter.app`** (weeks of real traffic; `fishspotter.app` 308s to it).
+  Every hardcoded reference in `CLAUDE.md` was corrected.
+  **Verified live end-to-end, not just deployed**: since this kind of remote/web Claude Code
+  session cannot reach `www.fishspotter.app` directly (its network policy denies the host at the
+  proxy — confirmed repeatedly with `curl`/`WebFetch`, both 403), the live check was done via
+  Claude in Chrome operating a real browser: `METRICS_TOKEN` generated and set in Vercel
+  Production, a redeploy triggered (new env vars don't apply to an already-built deployment —
+  worth remembering for the next one), then `GET /api/metrics/summary` with the correct token
+  returned a full payload and a wrong token correctly 401'd.
+  **Still open**: the network-policy allowlist for `www.fishspotter.app` was never actually added
+  to this kind of session's environment, so "ask Claude Code right here" for the numbers still
+  fails from a remote/web session specifically — it works from a local session with `.env.local`,
+  or from any session/browser with normal internet access. Full design rationale + the remaining
+  phases (`MetricSnapshot` + trend deltas, a weekly push Routine) are in
+  `implementation/2026-08-01/metrics-access-plan.md`.
+
 ## 2026-08-01: Public clip comments + PEBL feedback inbox (SHIPPED LIVE, PR #119, main `0ad167f`)
 
 Spotters can now leave a comment on a clip after committing their own ID: the species isn't in
