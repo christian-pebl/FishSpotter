@@ -2,10 +2,9 @@
 
 Date: 2026-08-01
 Owner: Christian (direction) + Claude (build)
-Status: **BUILD COMPLETE, validated against production data, NOT committed and
-NOT deployed.** Phases 1-4 built. Outstanding before launch: the OSA risk
-assessments (T4.3, Christian's), a slur list for the blocklist, and a visual
-sign-off pass.
+Status: **PR #119 open on `feat/clip-comments`, merged with main, CI green.**
+All four phases built, plus the three items flagged as outstanding at the end
+of the previous pass are now closed (§ "Outstanding items closed, 2026-08-01").
 Execution target: Claude Code, Opus 5, max reasoning effort.
 
 ## Build log
@@ -13,22 +12,118 @@ Execution target: Claude Code, Opus 5, max reasoning effort.
 | Task | State | Notes |
 |---|---|---|
 | T0.1 worktree + baseline | DONE | `../FishSpotter-comments` on `feat/clip-comments`. |
-| T1.1 pure lib + tests | DONE | `src/lib/comments.ts` + 50 tests. Both guard tests mutation-verified. |
+| T1.1 pure lib + tests | DONE | `src/lib/comments.ts`. Both guard tests mutation-verified. |
 | T1.2 schema + RLS | DONE | Tables live in production. RLS proven end-to-end. |
 | T1.3 rate limiters | DONE | Comment limiter + per-admin email throttle. |
 | T1.4 POST /api/comments | DONE | Validated live against prod (see below). |
 | T1.5 GET (gated) | DONE | INV-1 verified live, signed-out and signed-in. |
-| T1.6 composer + thread | DONE | `CommentBox` + `CommentThread`, 5 component tests. |
+| T1.6 composer + thread | DONE | `CommentBox` + `CommentThread`, component tests. |
 | T1.7 feed mount | DONE | Above the sticky advance row so Next stays reachable. |
 | T1.8 e2e gate tests | DONE | 6 cases added to `tests/e2e/security.spec.ts`. |
 | T1.9 admin inbox | DONE | Triage + moderation, canned replies, unread badge. |
 | T2.x moderation | DONE | Report route, auto-hide, held queue, hide/unhide/delete. |
 | T3.x instant email | DONE | Template, dispatcher, throttle, wired into both routes. |
 | T4.1/T4.2 legal copy | DONE | Terms "Comments and discussion"; Privacy collection + retention rows. |
-| T4.3 risk assessments | **OUTSTANDING** | Christian's. Blocks public launch. |
+| T4.3 risk assessments | DONE (working draft) | `docs/safety/osa-*-risk-assessment-clip-comments.md`. Needs Christian's formal sign-off, not further build work. |
 
-Final gate: `tsc` 0, **527 tests pass** (56 files), `lint` clean, `lint:tokens`
+Final gate: `tsc` 0, **553 tests pass** (57 files), `lint` clean, `lint:tokens`
 clean, `next build` succeeds, `db:enable-rls --check` exits 0.
+
+## Outstanding items closed, 2026-08-01 (second pass)
+
+Three things were flagged at the end of the previous session as blocking
+public launch. All three are now closed:
+
+### 1. Minors named in comments while defaulted off the leaderboard — FIXED
+
+The inconsistency named in the original plan (§12) was real: declared minors
+(13-17) default to `leaderboardOptIn: false` at signup
+([auth.ts](../../src/lib/auth.ts)), which already hides their real name from
+the public leaderboard — but the comment thread showed their real display
+name to everyone regardless, undoing that protection the moment they used
+the new feature.
+
+**Fix:** `publicAuthorName()` in [comments.ts](../../src/lib/comments.ts)
+extends the same `leaderboardOptIn` signal to public comment display. An
+opted-out author (every self-declared minor by default) is shown to *other*
+spotters as an anonymised handle (`Spotter <id6>` — reuses the existing
+null-display-name fallback format, so it carries no separate stigma). The
+author still sees their own real name on their own comment; staff always see
+the real name for moderation (`viewer.isAdmin` bypass — a distinct legal
+basis from the public-display protection). `PublicComment.isAnonymised` flag
+added for future UI use; deliberately not rendered as a visible badge yet,
+since the whole point of the naming convention is that it reads identically
+to "never set a display name" — a badge would defeat that.
+
+New tests in `comments.test.ts` (`publicAuthorName / isAnonymised` block):
+opted-in author unaffected, opted-out author anonymised for a stranger AND a
+signed-out viewer, the author sees their own real name, staff sees the real
+name, and a leak-guard asserting the real name string never appears anywhere
+in the serialised JSON for a non-owner, non-admin viewer.
+
+Privacy Policy's "Comments you post" retention row updated to describe the
+anonymisation behaviour in plain language.
+
+### 2. No slur coverage in the blocklist — FIXED (partially, honestly scoped)
+
+The original 20-word hand-picked blocklist covered profanity only, with
+zero slur coverage — flagged as open decision 3 in the original plan.
+
+**What was done:** merged with the LDNOOBW "List of Dirty, Naughty, Obscene,
+and Otherwise Bad Words" English list (MIT licensed, the basis of the popular
+`bad-words` npm package — a real, citable, widely-used open-source source,
+fetched directly from its GitHub repo, not invented). 403 raw entries ->
+248 usable single-word entries (multi-word phrases dropped; the matcher is
+deliberately word-level only, see the Scunthorpe design note) -> merged with
+the existing 20 -> **44 words deliberately excluded** for this app's specific
+context, then **250 final words**.
+
+The exclusion set is the interesting part, and it's fully documented in the
+`BLOCKLIST` doc comment in [comments.ts](../../src/lib/comments.ts):
+anatomy/biology vocabulary that's ordinary ID-guide language for THIS app
+("sex", "sexual"/"sexuality" — "sexual dimorphism" is standard field-guide
+language, "anus", "penis" — real crustacean/cephalopod anatomy terms), a real
+fishing activity ("shrimping"), a near-universal UK texting sign-off and
+inherently low-precision 2-3 letter tokens ("xx"/"xxx" — "nice spot! xx"),
+and two words that fail the module's own "unambiguous profanity" bar
+("sucks" overwhelmingly means "disappointing", not sexual; "sexy" is mild
+hyperbole, not hostility).
+
+New tests: a domain-vocabulary block confirming none of those 9 example
+sentences hold, a real-slur block confirming the merge actually landed
+(`paki`, `spastic`), and a hold-vs-reject contract test.
+
+**Honestly scoped, not oversold:** this closes "no slur coverage at all", it
+does not claim to be a comprehensive or continuously-maintained hate-speech
+lexicon. The illegal-content risk assessment (§5.3) records this explicitly
+and recommends a maintained moderation API as a follow-up vendor decision —
+Christian's call, not something to bolt on silently.
+
+### 3. OSA risk assessments — DRAFTED, needs Christian's sign-off
+
+Two working drafts, written from the actual implementation (not a generic
+template):
+
+- `docs/safety/osa-illegal-content-risk-assessment-clip-comments.md` — the
+  s.10 duty. Per-category analysis (CSEA, terrorism, hate offences,
+  harassment, fraud, drugs/weapons) against the mitigations actually built
+  (anti-herding gate, no private messaging anywhere on the service, hard
+  link rejection, blocklist hold, report + auto-hide, instant staff email).
+  Proposed overall rating: Low-Medium.
+- `docs/safety/osa-childrens-risk-assessment-clip-comments.md` — the s.12
+  duty plus an ICO Children's Code cross-reference. Names the one real,
+  unresolved trade-off plainly rather than smoothing it over: adults and
+  minors share the same public comment thread with no age segregation,
+  because the platform has no reliable age verification to build stricter
+  controls on top of. Proposed overall rating: Medium, specifically because
+  of that gap. Flags it as the one judgement call in the document that is
+  genuinely Christian's to make.
+
+Both are explicitly labelled as engineering-prepared working drafts, not a
+substitute for formal legal/compliance review. That labelling is deliberate
+and should stay — an AI-drafted document can capture the technical facts
+accurately; it cannot provide the accountable legal sign-off the OSA
+actually requires.
 
 ## Live validation against production (2026-08-01)
 

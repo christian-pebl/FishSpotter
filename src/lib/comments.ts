@@ -204,34 +204,92 @@ export function containsUrl(body: string): boolean {
  * all of which are things a UK spotter will genuinely type. comments.test.ts
  * pins that behaviour.
  *
- * This list is a defensible starting point covering unambiguous profanity only.
- * It does NOT yet include slurs, which need to come from a maintained source
- * under Christian's review (open decision 3 in the plan). It also makes no
- * attempt at evasion handling (spaced-out or leetspeak variants): the reader
- * report path in Phase 2 is the real backstop, and an arms race in a regex is
- * not worth having.
+ * SOURCE (2026-08-01): merged from the original 20-word hand-picked set with
+ * the LDNOOBW "List of Dirty, Naughty, Obscene, and Otherwise Bad Words"
+ * English list — https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words
+ * (MIT licensed; a widely-used, actively-maintained open-source moderation
+ * list, e.g. the basis of the popular npm `bad-words` package). This closes
+ * most of the original "no slur coverage" gap (plan open decision 3):
+ * the merged list includes common English-language ethnic, racial and
+ * homophobic slurs, not profanity alone.
+ *
+ * Two deliberate departures from the raw source, both because this is a
+ * marine-species citizen-science app aimed at 13+ UK users, not a generic
+ * comment box:
+ *   1. MULTI-WORD ENTRIES DROPPED. hitsBlocklist tokenises into single words
+ *      by design (see the Scunthorpe note above); phrase matching is a
+ *      different, harder problem (word order, punctuation) better left to
+ *      the Report flow than bolted onto this matcher.
+ *   2. AN EXPLICIT EXCLUDE SET removes ~40 single words that are either (a)
+ *      ordinary marine-biology/anatomy vocabulary a genuine spotter comment
+ *      will use — "sex" ("the sex of the crab"), "sexual"/"sexuality" ("sexual
+ *      dimorphism" is standard ID-guide language), "anus", "penis" (real
+ *      crustacean/cephalopod anatomy terms) — (b) a real fishing activity
+ *      ("shrimping"), (c) a near-universal UK texting sign-off and inherently
+ *      low-precision 2-3 letter token ("xx"/"xxx" — "nice spot! xx"), or (d)
+ *      not unambiguous profanity by this module's own stated bar ("sucks"
+ *      overwhelmingly means "disappointing", not sexual; "sexy" is mild
+ *      admiring hyperbole, not hostility). The full exclude list is the
+ *      literal EXCLUDE set used to regenerate this array — see
+ *      implementation/2026-08-01/user-comments-plan.md for the build script.
+ *
+ * STILL A GAP, NOT A COMPLETE SOLUTION: this is a general-purpose open-source
+ * list, not a comprehensive or continuously-maintained hate-speech lexicon.
+ * The real backstop for the categories a static list cannot fully cover
+ * (coded language, emerging slurs, context-dependent harassment) is the
+ * Report control on every comment (Phase 2), auto-hide at 3 reports, and
+ * admin removal — all content-agnostic and effective where a wordlist is
+ * not. A maintained moderation API (e.g. a hate-speech classifier) is the
+ * natural next step but needs a vendor and cost decision, which is
+ * Christian's call, not something to bolt on silently here.
+ *
+ * Still makes no attempt at evasion handling (spaced-out or leetspeak
+ * variants) — an arms race in a regex is not worth having; the report path
+ * is the real backstop for that too.
  */
 const BLOCKLIST: readonly string[] = [
-  "fuck",
-  "fucking",
-  "fucked",
-  "fucker",
-  "shit",
-  "shite",
-  "shitty",
-  "bullshit",
-  "cunt",
-  "wanker",
-  "bastard",
-  "bollocks",
-  "prick",
-  "twat",
-  "arsehole",
-  "asshole",
-  "dickhead",
-  "motherfucker",
-  "slut",
-  "whore",
+  "acrotomophilia", "anal", "anilingus", "apeshit", "arsehole", "ass",
+  "asshole", "assmunch", "autoerotic", "babeland", "bangbros", "bangbus",
+  "bareback", "barenaked", "bastard", "bastardo", "bastinado", "bbw",
+  "bdsm", "beaner", "beaners", "beastiality", "bestiality", "bimbos",
+  "birdlock", "bitch", "bitches", "blowjob", "blumpkin", "bollocks",
+  "bondage", "boner", "boob", "boobs", "bukkake", "bulldyke",
+  "bullshit", "bunghole", "busty", "butt", "buttcheeks", "butthole",
+  "camgirl", "camslut", "camwhore", "carpetmuncher", "cialis", "circlejerk",
+  "clusterfuck", "cock", "cocks", "coon", "coons", "coprolagnia",
+  "coprophilia", "cornhole", "creampie", "cumshot", "cumshots", "cunnilingus",
+  "cunt", "darkie", "daterape", "deepthroat", "dendrophilia", "dick",
+  "dickhead", "dildo", "dingleberries", "dingleberry", "doggiestyle", "doggystyle",
+  "dolcett", "domination", "dominatrix", "dommes", "dvda", "ecchi",
+  "erotism", "escort", "eunuch", "fag", "faggot", "fecal",
+  "felch", "fellatio", "feltch", "femdom", "figging", "fingerbang",
+  "fingering", "fisting", "footjob", "frotting", "fuck", "fucked",
+  "fucker", "fuckin", "fucking", "fucktards", "fudgepacker", "futanari",
+  "gangbang", "goatcx", "goatse", "gokkun", "goodpoop", "goregasm",
+  "grope", "guro", "handjob", "hardcore", "hentai", "homoerotic",
+  "honkey", "hooker", "horny", "humping", "incest", "intercourse",
+  "jailbait", "jigaboo", "jiggaboo", "jiggerboo", "jizz", "juggs",
+  "kike", "kinbaku", "kinkster", "kinky", "knobbing", "livesex",
+  "lolita", "lovemaking", "milf", "mong", "motherfucker", "muffdiving",
+  "nambla", "nawashi", "negro", "neonazi", "nigga", "nigger",
+  "nimphomania", "nsfw", "nude", "nudity", "nutten", "nympho",
+  "nymphomania", "octopussy", "omorashi", "orgy", "paedophile", "paki",
+  "panties", "panty", "pedobear", "pedophile", "pegging", "pikey",
+  "pissing", "pisspig", "playboy", "ponyplay", "poof", "poon",
+  "poontang", "poopchute", "porn", "porno", "pornography", "prick",
+  "pthc", "pubes", "punany", "pussy", "queaf", "queef",
+  "quim", "raghead", "rape", "raping", "rapist", "rectum",
+  "rimjob", "rimming", "sadism", "santorum", "scat", "schlong",
+  "scissoring", "sexcam", "sexo", "shemale", "shibari", "shit",
+  "shitblimp", "shite", "shitty", "shota", "skeet", "slanteye",
+  "slut", "smut", "snatch", "snowballing", "sodomize", "sodomy",
+  "spastic", "spic", "splooge", "spooge", "spunk", "strapon",
+  "strappado", "swastika", "swinger", "threesome", "throating", "thumbzilla",
+  "titty", "topless", "tosser", "towelhead", "tranny", "tribadism",
+  "tubgirl", "tushy", "twat", "twink", "twinkie", "undressing",
+  "upskirt", "urophilia", "viagra", "vibrator", "vorarephilia", "voyeur",
+  "voyeurweb", "voyuer", "wank", "wanker", "wetback", "whore",
+  "worldsex", "yaoi", "yiffy", "zoophilia",
 ];
 
 const BLOCKLIST_SET: ReadonlySet<string> = new Set(BLOCKLIST);
@@ -370,6 +428,26 @@ export interface CommentAuthorLike {
   displayName: string | null;
   name: string | null;
   isPebl: boolean;
+  /**
+   * User.leaderboardOptIn. Declared minors (13-17) default this to false at
+   * signup — a deliberate ICO Children's Code "high privacy by default"
+   * choice that already hides their real name from the public leaderboard.
+   *
+   * Comments extend the SAME signal: an opted-out author (which includes
+   * every self-declared minor unless they later opt back in) is shown to
+   * OTHER spotters under an anonymised handle instead of their real name.
+   * Without this, a minor protected from public leaderboard exposure would
+   * still have their real display name shown publicly on every comment they
+   * post — a real inconsistency, not a hypothetical one.
+   *
+   * This affects PUBLIC serialisation only (toPublicComment /
+   * authorDisplayNameFor). It does NOT affect staff moderation: the admin
+   * inbox resolves names independently and needs full identification to
+   * moderate and to act on repeat-offender patterns — a distinct legal basis
+   * (operating and moderating the service) already covered in the Privacy
+   * Policy, not the public-display basis this gates.
+   */
+  leaderboardOptIn: boolean;
 }
 
 export interface Viewer {
@@ -386,6 +464,8 @@ export interface PublicComment {
   suggestedName: string | null;
   authorId: string;
   authorName: string;
+  /** True when authorName is an anonymised handle, not the author's real name. */
+  isAnonymised: boolean;
   /** Renders the teal PEBL chip, so an official answer is distinguishable. */
   isPebl: boolean;
   isMine: boolean;
@@ -400,6 +480,29 @@ export interface PublicComment {
 /** Matches SnippetAnswers' fallback so one spotter reads the same everywhere. */
 export function authorDisplayName(author: CommentAuthorLike): string {
   return author.displayName ?? author.name ?? `Spotter ${author.id.slice(0, 6)}`;
+}
+
+const anonymisedHandle = (author: CommentAuthorLike) => `Spotter ${author.id.slice(0, 6)}`;
+
+/**
+ * The name PUBLIC readers see. Reuses the existing "Spotter <id6>" convention
+ * (already the null-name fallback in authorDisplayName) so an anonymised
+ * author reads exactly like a spotter who just never set a display name —
+ * no separate visual language, no "anonymous" stigma.
+ *
+ * `viewer` lets the author see their OWN real name on their own comment (the
+ * anonymisation is a public-facing protection, not a memory hole for the
+ * person who wrote it); everyone else, including a signed-out preview
+ * context, gets the anonymised handle when leaderboardOptIn is false.
+ */
+export function publicAuthorName(author: CommentAuthorLike, viewer: Viewer): string {
+  if (author.leaderboardOptIn) return authorDisplayName(author);
+  // Staff need real identification to moderate and to spot repeat-offender
+  // patterns — a distinct legal basis from the public-display protection
+  // this function otherwise enforces (see CommentAuthorLike.leaderboardOptIn).
+  if (viewer.isAdmin) return authorDisplayName(author);
+  if (viewer.userId === author.id) return authorDisplayName(author);
+  return anonymisedHandle(author);
 }
 
 /**
@@ -431,6 +534,7 @@ export function toPublicComment(
   viewer: Viewer,
   replies: PublicComment[] = [],
 ): PublicComment {
+  const authorName = publicAuthorName(author, viewer);
   return {
     id: row.id,
     parentId: row.parentId,
@@ -438,7 +542,8 @@ export function toPublicComment(
     body: row.body,
     suggestedName: row.suggestedName,
     authorId: author.id,
-    authorName: authorDisplayName(author),
+    authorName,
+    isAnonymised: authorName !== authorDisplayName(author),
     isPebl: author.isPebl,
     isMine: viewer.userId !== null && viewer.userId === row.userId,
     isHidden: row.hiddenAt !== null,

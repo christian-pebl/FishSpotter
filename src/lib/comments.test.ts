@@ -20,6 +20,7 @@ import {
   shouldAutoHide,
   threadShape,
   toPublicComment,
+  publicAuthorName,
   type CommentAuthorLike,
   type CommentRowLike,
   type ThreadInput,
@@ -35,6 +36,7 @@ const AUTHOR: CommentAuthorLike = {
   displayName: "Ffion",
   name: null,
   isPebl: false,
+  leaderboardOptIn: true,
 };
 
 const PEBL_AUTHOR: CommentAuthorLike = {
@@ -42,6 +44,17 @@ const PEBL_AUTHOR: CommentAuthorLike = {
   displayName: "Christian",
   name: null,
   isPebl: true,
+  leaderboardOptIn: true,
+};
+
+// A self-declared minor's default: leaderboardOptIn defaults false at signup
+// (src/lib/auth.ts), which now also anonymises their PUBLIC comment name.
+const OPTED_OUT_AUTHOR: CommentAuthorLike = {
+  id: "user-minor0001",
+  displayName: "Jamie",
+  name: null,
+  isPebl: false,
+  leaderboardOptIn: false,
 };
 
 function row(over: Partial<CommentRowLike> = {}): CommentRowLike {
@@ -189,6 +202,40 @@ describe("hitsBlocklist", () => {
     for (const body of innocent) {
       expect(hitsBlocklist(body), `false positive on: ${body}`).toBeNull();
     }
+  });
+
+  it("does not hold ordinary marine-biology / anatomy vocabulary (2026-08-01 sourced list)", () => {
+    // The LDNOOBW merge added ~250 words, several of which collide with real
+    // ID-guide language for this specific app and were deliberately excluded.
+    // This pins that exclusion so a future re-merge can't silently reintroduce
+    // it (see the BLOCKLIST doc comment for the full reasoning).
+    const domainVocabulary = [
+      "What's the sex of this crab, male or female?",
+      "Classic sexual dimorphism in wrasse, that's a male",
+      "You can see the anus clearly on the sea cucumber",
+      "The penis is a diagnostic feature in some cephalopods",
+      "Out shrimping at low tide this morning",
+      "Nice spot! xx",
+      "Great find xxx",
+      "The clip quality really sucks here, hard to call",
+      "That's a sexy little dragonet",
+    ];
+    for (const body of domainVocabulary) {
+      expect(hitsBlocklist(body), `false positive on: ${body}`).toBeNull();
+    }
+  });
+
+  it("still catches a real slur from the sourced list", () => {
+    // Confirms the LDNOOBW merge actually landed (closes plan open decision 3:
+    // the original 20-word list had no slur coverage at all).
+    expect(hitsBlocklist("get out of here you paki")).toBe("paki");
+    expect(hitsBlocklist("total spastic move")).toBe("spastic");
+  });
+
+  it("holds a comment for review rather than silently rejecting it", () => {
+    // The design contract: a hit HOLDS, it does not reject. canPost/the POST
+    // route decide what happens with the result; this function only detects.
+    expect(hitsBlocklist("this clip is bollocks")).toBe("bollocks");
   });
 });
 
@@ -389,6 +436,40 @@ describe("toPublicComment", () => {
     expect(toPublicComment(row(), AUTHOR, STRANGER).createdAt).toBe(
       "2026-08-01T10:00:00.000Z",
     );
+  });
+});
+
+describe("publicAuthorName / isAnonymised — leaderboardOptIn extended to comments", () => {
+  // Declared minors (13-17) default leaderboardOptIn=false at signup, which
+  // already hides their real name from the public leaderboard. This closes the
+  // gap: without it, that same minor's real name would still be shown publicly
+  // on every comment they post — an inconsistency, not a hypothetical one.
+
+  it("shows the real name to strangers when the author is opted in (the common case)", () => {
+    expect(publicAuthorName(AUTHOR, STRANGER)).toBe("Ffion");
+    expect(toPublicComment(row(), AUTHOR, STRANGER).isAnonymised).toBe(false);
+  });
+
+  it("anonymises an opted-out author's name for a stranger", () => {
+    expect(publicAuthorName(OPTED_OUT_AUTHOR, STRANGER)).toBe("Spotter user-m");
+    const out = toPublicComment(row({ userId: OPTED_OUT_AUTHOR.id }), OPTED_OUT_AUTHOR, STRANGER);
+    expect(out.authorName).toBe("Spotter user-m");
+    expect(out.isAnonymised).toBe(true);
+    // The real name must not be recoverable from the payload at all.
+    expect(JSON.stringify(out)).not.toContain("Jamie");
+  });
+
+  it("lets an opted-out author see their OWN real name on their own comment", () => {
+    const owner: Viewer = { userId: OPTED_OUT_AUTHOR.id, isAdmin: false };
+    expect(publicAuthorName(OPTED_OUT_AUTHOR, owner)).toBe("Jamie");
+  });
+
+  it("still lets staff see the real name, for moderation", () => {
+    expect(publicAuthorName(OPTED_OUT_AUTHOR, ADMIN)).toBe("Jamie");
+  });
+
+  it("anonymises for a signed-out viewer just the same as a stranger", () => {
+    expect(publicAuthorName(OPTED_OUT_AUTHOR, SIGNED_OUT)).toBe("Spotter user-m");
   });
 });
 

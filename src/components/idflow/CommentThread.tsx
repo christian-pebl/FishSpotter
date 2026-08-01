@@ -25,6 +25,9 @@ type PublicComment = {
   suggestedName: string | null;
   authorId: string;
   authorName: string;
+  /** True when authorName is an anonymised handle (privacy default, e.g. for
+   * declared minors), not the poster's real display name. */
+  isAnonymised: boolean;
   isPebl: boolean;
   isMine: boolean;
   isHidden: boolean;

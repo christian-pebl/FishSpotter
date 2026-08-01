@@ -49,6 +49,7 @@ const AUTHOR_SELECT = {
   name: true,
   email: true,
   emailVerified: true,
+  leaderboardOptIn: true,
 } as const;
 
 type AuthorRow = {
@@ -57,6 +58,7 @@ type AuthorRow = {
   name: string | null;
   email: string | null;
   emailVerified: Date | null;
+  leaderboardOptIn: boolean;
 };
 
 /** Drops the email fields on the way through, leaving only the badge boolean. */
@@ -66,6 +68,7 @@ function toAuthorLike(u: AuthorRow): CommentAuthorLike {
     displayName: u.displayName,
     name: u.name,
     isPebl: isAdminUser({ email: u.email, emailVerified: u.emailVerified }),
+    leaderboardOptIn: u.leaderboardOptIn,
   };
 }
 
@@ -192,7 +195,14 @@ export async function POST(req: Request) {
   const [me, answered, existingOnClip] = await Promise.all([
     prisma.user.findUnique({
       where: { id: userId },
-      select: { isGuest: true, displayName: true, name: true, email: true, emailVerified: true },
+      select: {
+        isGuest: true,
+        displayName: true,
+        name: true,
+        email: true,
+        emailVerified: true,
+        leaderboardOptIn: true,
+      },
     }),
     hasAnswered(userId, snippetId),
     prisma.comment.count({ where: { userId, snippetId, parentId: null } }),
@@ -318,6 +328,7 @@ export async function POST(req: Request) {
           name: me.name,
           email: me.email,
           emailVerified: me.emailVerified,
+          leaderboardOptIn: me.leaderboardOptIn,
         }),
         viewer,
       ),

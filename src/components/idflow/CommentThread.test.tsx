@@ -71,6 +71,7 @@ describe("CommentThread gating (INV-1 at the UI layer)", () => {
           suggestedName: null,
           authorId: "u1",
           authorName: "Ffion",
+          isAnonymised: false,
           isPebl: false,
           isMine: false,
           isHidden: false,
