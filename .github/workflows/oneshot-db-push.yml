@@ -40,7 +40,7 @@ jobs:
 
       - name: Schema BEFORE
         run: |
-          cat > /tmp/before.mjs <<'EOF'
+          cat > ./ops-before.mjs <<'EOF'
           import { PrismaClient } from '@prisma/client';
           const p = new PrismaClient();
           const c = await p.$queryRawUnsafe(`select column_name from information_schema.columns where table_name='PebblePurchase' order by column_name`);
@@ -49,7 +49,7 @@ jobs:
           console.log('PebblePurchase row count:', n[0].n);
           await p.$disconnect();
           EOF
-          node /tmp/before.mjs
+          node ./ops-before.mjs
 
       - name: Apply schema (prisma db push)
         # Additive only: two NULLable columns + one index. No --accept-data-loss.
@@ -58,7 +58,7 @@ jobs:
 
       - name: Schema AFTER + verify the desk can read
         run: |
-          cat > /tmp/after.mjs <<'EOF'
+          cat > ./ops-after.mjs <<'EOF'
           import { PrismaClient } from '@prisma/client';
           const p = new PrismaClient();
           const c = await p.$queryRawUnsafe(`select column_name from information_schema.columns where table_name='PebblePurchase' order by column_name`);
@@ -90,7 +90,7 @@ jobs:
           console.log('DESK READ OK');
           await p.$disconnect();
           EOF
-          node /tmp/after.mjs
+          node ./ops-after.mjs
 
       - name: RLS audit (read-only, fails if any public table is unprotected)
         run: npx tsx scripts/enable-rls.ts --check
