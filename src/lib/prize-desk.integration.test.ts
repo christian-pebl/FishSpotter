@@ -262,6 +262,60 @@ describe.skipIf(!url)("prize desk (integration)", () => {
     });
   });
 
+  /**
+   * Deploy-order safety. A Vercel deploy of new code lands BEFORE anyone runs
+   * `prisma db push`, so for a few minutes the running code talks to a database
+   * that lacks the newest columns. Any Prisma write without an explicit
+   * `select` emits `RETURNING <every scalar column>` and 500s in that window.
+   *
+   * On 1 Aug 2026 that took out POST /api/prize/claim (the claim button) and
+   * the Tide Freeze spend inside POST /api/answers. These tests drop the two
+   * columns, replay the exact query shapes from those paths, and put the
+   * columns back — so a future `select`-less write is caught here rather than
+   * in production.
+   */
+  describe("survives a pre-migration database (deploy-order safety)", () => {
+    async function withoutFulfilmentColumns(fn: () => Promise<void>) {
+      await prisma.$executeRawUnsafe(
+        'ALTER TABLE "PebblePurchase" DROP COLUMN "fulfilledAt", DROP COLUMN "fulfilledBy"',
+      );
+      try {
+        await fn();
+      } finally {
+        await prisma.$executeRawUnsafe(
+          'ALTER TABLE "PebblePurchase" ADD COLUMN "fulfilledAt" TIMESTAMP(3), ADD COLUMN "fulfilledBy" TEXT',
+        );
+      }
+    }
+
+    it("POST /api/prize/claim can still record a claim", async () => {
+      await seedUser({ id: "u1", email: "a@x.test", pebbles: 2500 });
+      await withoutFulfilmentColumns(async () => {
+        const created = await prisma.pebblePurchase.create({
+          data: { userId: "u1", itemId: SEASEARCH_GUIDE_ID, pebbleCost: 0 },
+          select: { id: true },
+        });
+        expect(created.id).toBeTruthy();
+      });
+    });
+
+    it("settleStreak can still spend a Tide Freeze", async () => {
+      await seedUser({ id: "u1", email: "a@x.test", pebbles: 100 });
+      const freeze = await prisma.pebblePurchase.create({
+        data: { userId: "u1", itemId: "tide-freeze", pebbleCost: 50 },
+        select: { id: true },
+      });
+      await withoutFulfilmentColumns(async () => {
+        const updated = await prisma.pebblePurchase.update({
+          where: { id: freeze.id },
+          data: { consumedForDate: "2026-08-01" },
+          select: { id: true },
+        });
+        expect(updated.id).toBe(freeze.id);
+      });
+    });
+  });
+
   it("does not treat a shop-only purchaser as a prize claimant", async () => {
     await seedUser({ id: "u1", email: "a@x.test", pebbles: 100 });
     await prisma.pebblePurchase.create({

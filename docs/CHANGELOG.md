@@ -591,3 +591,17 @@ held back for one big merge.
   10 new unit tests. Requires `npm run db:push` before deploy (the page 500s until the columns
   exist); column adds keep RLS, but re-run `npm run db:enable-rls -- --check` to confirm.
   Verified: `tsc`, 465 tests, `lint`, `lint:tokens`, `build` compiles.
+
+- **Deploy-order hardening: `select`-less Prisma writes on `PebblePurchase` (1 Aug 2026)** — the
+  `/admin/prizes` schema change above landed in prod as merge-then-migrate, and a Vercel deploy
+  always beats a manual `prisma db push`. In that window the new code talked to a database without
+  `fulfilledAt`/`fulfilledBy`, and two writes that passed no explicit `select` emitted
+  `RETURNING <every scalar column>` and 500'd: **`POST /api/prize/claim`** (the claim button — for
+  the very spotter who had just reached the target) and the **Tide Freeze spend inside
+  `settleStreak`**, which runs on `POST /api/answers`. Reads that already passed an explicit
+  `select` were unaffected. Both call sites now select `{ id: true }` (the rows were discarded
+  anyway) with a comment explaining the `select` is load-bearing, not tidiness. Two integration
+  tests drop the two columns, replay those exact query shapes, and restore them, so a future
+  `select`-less write fails CI instead of production. Lesson for the next additive column: push the
+  schema FIRST — a nullable column add is backward-compatible with the old code, so that ordering
+  has no window at all.

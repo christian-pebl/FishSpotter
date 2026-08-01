@@ -72,11 +72,18 @@ export async function settleStreak(
   const { state, availableIds } = await loadFreezeState(prisma, userId);
   const result = computeStreakWithFreezes(dates, state, now);
   if (result.newlyProtectedDates.length > 0) {
+    // `select` is load-bearing, not tidiness: without it Prisma emits
+    // `UPDATE ... RETURNING` every scalar column, so spending a freeze starts
+    // failing the moment schema.prisma gains a column prod hasn't migrated
+    // yet — and this runs inside POST /api/answers, the core loop. (Bit us on
+    // 1 Aug 2026 when PebblePurchase gained fulfilledAt/fulfilledBy.) The
+    // results are discarded, so ask for one column.
     await prisma.$transaction(
       result.newlyProtectedDates.map((date, i) =>
         prisma.pebblePurchase.update({
           where: { id: availableIds[i] },
           data: { consumedForDate: date },
+          select: { id: true },
         }),
       ),
     );
