@@ -2,7 +2,9 @@
 
 **Date:** 2026-08-02
 **Branch:** `claude/comment-profanity-filter-bmhx5v`
-**Status:** plan, not built. One open decision for Christian (§8).
+**Status:** **BUILT.** The §8 open decision was resolved by Christian on
+2026-08-02 — *"shit and fuck should just be starred out"* — which is the `mask`
+tier as recommended. Implementation notes against the plan are in §10.
 
 ---
 
@@ -240,7 +242,13 @@ Pre-push gate, per CLAUDE.md conventions:
 
 ---
 
-## 8. Open decision for Christian
+## 8. Open decision for Christian — RESOLVED 2026-08-02
+
+> **Christian's call: "shit and fuck should just be starred out."** Both are in
+> `MASK_WORDS`, along with their listed inflections. The secondary calls went
+> the recommended way too: the author sees their own comment masked, and the
+> asterisks match the word's length. The rest of this section is the original
+> reasoning, kept for the record.
 
 **Where the mask/hold line sits.** The tiering in §2 is my recommendation, not
 a fact. The judgement call is `fuck` and its inflections: it is the most common
@@ -273,3 +281,44 @@ Everything else in this plan is a mechanical consequence of §2 and §3.
 - **No edit-your-own-comment flow.** Unchanged from the 2026-08-01 plan.
 - **No change to the report, auto-hide, or admin removal paths.** They are
   content-agnostic and remain the real backstop.
+
+---
+
+## 10. What actually shipped (2026-08-02)
+
+Built as planned. Three notes where the implementation added something the plan
+did not anticipate:
+
+**Two marine false positives removed from the hold tier.** Partitioning the list
+surfaced two words that were being held on a *marine* app and shouldn't have
+been, both squarely within the existing EXCLUDE rationale ("ordinary vocabulary
+a genuine spotter on THIS app will type"), just spotted later:
+
+- **`butt`** — a UK dialect name for a flounder/flatfish, and "water butt".
+  "Caught a butt off the rocks" was being hidden pending review.
+- **`scat`** — standard wildlife field vocabulary for droppings ("otter scat"),
+  and a real fish genus (*Scatophagus*).
+
+Neither is masked either; they are now just ordinary words. Pinned by a test.
+
+**The mask tier is broader at the mild end than the hold tier ever was.** It
+includes `crap`, `piss`, `arse` and inflections, which were never in the
+original blocklist because *holding* a comment over "crap" would have been
+absurd. Masking costs nothing, so the mild end can afford to be wider.
+Deliberately left out: **`bloody`** (a literal marine meaning — a bloody wound
+on a fish — plus "bloody good spot" is not hostile) and **`bugger`** ("a cheeky
+little bugger" is affectionate about an animal). Both are in the Scunthorpe
+fixture list so they stay unmasked.
+
+**`wasMasked` is read off the serialised payload, not recomputed.** The POST
+response's `masked` flag is `publicComment.wasMasked` rather than an independent
+`maskProfanity()` call, so the flag can never disagree with the body the client
+actually received.
+
+Test count: `comments.test.ts` 51 → **75**. Full suite 575 passing;
+`tsc --noEmit`, `lint` and `lint:tokens` all clean.
+
+Deferred as planned: no `CommentThread` per-comment masked note (the composer
+message carries the signal and the 390px card is tight), and no admin-inbox
+"masked publicly" chip. Both are cosmetic and easy to add if the inbox turns
+out to be confusing in practice.

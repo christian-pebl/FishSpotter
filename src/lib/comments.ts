@@ -190,19 +190,41 @@ export function containsUrl(body: string): boolean {
 }
 
 // ---------------------------------------------------------------------------
-// Blocklist
+// Blocklist — two severity tiers
 // ---------------------------------------------------------------------------
 
 /**
- * Word-level blocklist. A hit HOLDS the comment for review (hiddenAt set at
- * creation) rather than rejecting it, so a false positive is recoverable by a
- * human instead of silently losing a spotter's contribution.
+ * Word-level blocklist, split into two tiers by what a hit DOES (2026-08-02).
+ *
+ *   MASK_WORDS -> the word is replaced with asterisks in public payloads and the
+ *                 comment posts LIVE. No hold, no review queue, no staff email.
+ *   HOLD_WORDS -> unchanged behaviour: hiddenAt is set at creation and a human
+ *                 reviews it at /admin/comments.
+ *
+ * WHY THE SPLIT EXISTS. Until 2026-08-02 this was one flat list and every hit
+ * hid the whole comment. That is the right answer for a slur and the wrong one
+ * for "that's a shit clip, can't see a thing" — which lost a genuine
+ * contribution and put a human in the loop to un-hide it. Masking fixes the
+ * mild end.
+ *
+ * WHY SLURS ARE NOT MASKED, and must never be moved into MASK_WORDS: masking a
+ * slur is WORSE than hiding it. "get out of here you ****" is still a hostile
+ * comment aimed at a person, now rendered live and permanent with a fig leaf
+ * over it. The word was never the harm; the aggression was. comments.test.ts
+ * asserts the two tiers are disjoint and that no slur appears in MASK_WORDS, so
+ * a future list refresh cannot quietly promote one.
+ *
+ * A word not present in EITHER tier is simply allowed. A word must be
+ * deliberately placed in MASK_WORDS to be masked, so an unclassified addition
+ * fails safe into HOLD_WORDS rather than being silently waved through.
  *
  * Matching tokenises the body into words and does exact set lookups, so it is
  * structurally immune to the Scunthorpe problem — a substring matcher on a
  * marine app would reject "bass", "cockle", "assess" and "Scunthorpe" itself,
  * all of which are things a UK spotter will genuinely type. comments.test.ts
- * pins that behaviour.
+ * pins that behaviour for BOTH tiers: a masking false positive is visible
+ * garbage on a live page, so the guard matters more here than it did when the
+ * only consequence was a review queue.
  *
  * SOURCE (2026-08-01): merged from the original 20-word hand-picked set with
  * the LDNOOBW "List of Dirty, Naughty, Obscene, and Otherwise Bad Words"
@@ -243,69 +265,140 @@ export function containsUrl(body: string): boolean {
  * natural next step but needs a vendor and cost decision, which is
  * Christian's call, not something to bolt on silently here.
  *
- * Still makes no attempt at evasion handling (spaced-out or leetspeak
- * variants) — an arms race in a regex is not worth having; the report path
- * is the real backstop for that too.
+ * Neither tier makes any attempt at evasion handling (spaced-out or leetspeak
+ * variants: "sh1t", "s h i t"). That is a deliberate non-goal, not an
+ * oversight — an arms race in a regex on a marine app generates false
+ * positives on real vocabulary faster than it catches evaders, and the Report
+ * -> auto-hide -> admin removal path is the real backstop for someone
+ * determined to be offensive. Please do not "fix" this.
  */
-const BLOCKLIST: readonly string[] = [
-  "acrotomophilia", "anal", "anilingus", "apeshit", "arsehole", "ass",
-  "asshole", "assmunch", "autoerotic", "babeland", "bangbros", "bangbus",
-  "bareback", "barenaked", "bastard", "bastardo", "bastinado", "bbw",
-  "bdsm", "beaner", "beaners", "beastiality", "bestiality", "bimbos",
-  "birdlock", "bitch", "bitches", "blowjob", "blumpkin", "bollocks",
-  "bondage", "boner", "boob", "boobs", "bukkake", "bulldyke",
-  "bullshit", "bunghole", "busty", "butt", "buttcheeks", "butthole",
+
+/**
+ * Tier 1: masked to asterisks, comment posts live. The register of ordinary
+ * British annoyance — the things someone types about a murky clip, not at
+ * another spotter. Inflections are listed explicitly rather than stemmed,
+ * because stemming is where Scunthorpe-class bugs come from.
+ *
+ * Includes a few words that were never in the original hold list at all
+ * ("crap", "piss", "arse"): holding a comment over "crap" would have been
+ * absurd, but masking it costs nothing, so the mask tier can afford to be
+ * broader at the mild end than the hold tier ever was.
+ */
+const MASK_WORDS: readonly string[] = [
+  "apeshit", "arse", "arsed", "arsehole", "arseholes", "ass",
+  "asshole", "assholes", "assmunch", "bastard", "bastardo", "bastards",
+  "bitch", "bitches", "bitching", "bollocks", "bullshit", "clusterfuck",
+  "crap", "crappy", "dick", "dickhead", "dickheads", "dicks",
+  "fuck", "fucked", "fucker", "fuckers", "fuckin", "fucking",
+  "fucks", "fucktards", "fuckwit", "fuckwits", "motherfucker", "motherfuckers",
+  "motherfucking", "piss", "pissed", "pissing", "prick", "pricks",
+  "shit", "shitblimp", "shite", "shits", "shitting", "shitty",
+  "tosser", "tossers", "twat", "twats", "wank", "wanker",
+  "wankers",
+];
+
+/**
+ * Tier 2: holds the comment for review. Every slur (racial, ethnic, homophobic,
+ * ableist, antisemitic), all sexual/pornographic vocabulary, and the
+ * exploitation terms. This is the original 2026-08-01 list minus the words
+ * promoted to MASK_WORDS above, minus two marine false positives:
+ *
+ *   "butt"  — a genuine UK dialect name for a flounder/flatfish (and "water
+ *             butt"), so "caught a butt off the rocks" was being held.
+ *   "scat"  — standard wildlife field vocabulary for droppings ("otter scat"),
+ *             and also a real fish genus (Scatophagus).
+ *
+ * Both removals are the same rationale as the EXCLUDE set documented above —
+ * ordinary vocabulary a genuine spotter on THIS app will type — just spotted
+ * later. Neither is masked either; they are simply ordinary words here.
+ */
+const HOLD_WORDS: readonly string[] = [
+  "acrotomophilia", "anal", "anilingus", "autoerotic", "babeland", "bangbros",
+  "bangbus", "bareback", "barenaked", "bastinado", "bbw", "bdsm",
+  "beaner", "beaners", "beastiality", "bestiality", "bimbos", "birdlock",
+  "blowjob", "blumpkin", "bondage", "boner", "boob", "boobs",
+  "bukkake", "bulldyke", "bunghole", "busty", "buttcheeks", "butthole",
   "camgirl", "camslut", "camwhore", "carpetmuncher", "cialis", "circlejerk",
-  "clusterfuck", "cock", "cocks", "coon", "coons", "coprolagnia",
+  "cock", "cocks", "coon", "coons", "coprolagnia",
   "coprophilia", "cornhole", "creampie", "cumshot", "cumshots", "cunnilingus",
-  "cunt", "darkie", "daterape", "deepthroat", "dendrophilia", "dick",
-  "dickhead", "dildo", "dingleberries", "dingleberry", "doggiestyle", "doggystyle",
+  "cunt", "darkie", "daterape", "deepthroat", "dendrophilia",
+  "dildo", "dingleberries", "dingleberry", "doggiestyle", "doggystyle",
   "dolcett", "domination", "dominatrix", "dommes", "dvda", "ecchi",
   "erotism", "escort", "eunuch", "fag", "faggot", "fecal",
   "felch", "fellatio", "feltch", "femdom", "figging", "fingerbang",
-  "fingering", "fisting", "footjob", "frotting", "fuck", "fucked",
-  "fucker", "fuckin", "fucking", "fucktards", "fudgepacker", "futanari",
+  "fingering", "fisting", "footjob", "frotting", "fudgepacker", "futanari",
   "gangbang", "goatcx", "goatse", "gokkun", "goodpoop", "goregasm",
   "grope", "guro", "handjob", "hardcore", "hentai", "homoerotic",
   "honkey", "hooker", "horny", "humping", "incest", "intercourse",
   "jailbait", "jigaboo", "jiggaboo", "jiggerboo", "jizz", "juggs",
   "kike", "kinbaku", "kinkster", "kinky", "knobbing", "livesex",
-  "lolita", "lovemaking", "milf", "mong", "motherfucker", "muffdiving",
+  "lolita", "lovemaking", "milf", "mong", "muffdiving",
   "nambla", "nawashi", "negro", "neonazi", "nigga", "nigger",
   "nimphomania", "nsfw", "nude", "nudity", "nutten", "nympho",
   "nymphomania", "octopussy", "omorashi", "orgy", "paedophile", "paki",
   "panties", "panty", "pedobear", "pedophile", "pegging", "pikey",
-  "pissing", "pisspig", "playboy", "ponyplay", "poof", "poon",
-  "poontang", "poopchute", "porn", "porno", "pornography", "prick",
+  "pisspig", "playboy", "ponyplay", "poof", "poon",
+  "poontang", "poopchute", "porn", "porno", "pornography",
   "pthc", "pubes", "punany", "pussy", "queaf", "queef",
   "quim", "raghead", "rape", "raping", "rapist", "rectum",
-  "rimjob", "rimming", "sadism", "santorum", "scat", "schlong",
-  "scissoring", "sexcam", "sexo", "shemale", "shibari", "shit",
-  "shitblimp", "shite", "shitty", "shota", "skeet", "slanteye",
+  "rimjob", "rimming", "sadism", "santorum", "schlong",
+  "scissoring", "sexcam", "sexo", "shemale", "shibari",
+  "shota", "skeet", "slanteye",
   "slut", "smut", "snatch", "snowballing", "sodomize", "sodomy",
   "spastic", "spic", "splooge", "spooge", "spunk", "strapon",
   "strappado", "swastika", "swinger", "threesome", "throating", "thumbzilla",
-  "titty", "topless", "tosser", "towelhead", "tranny", "tribadism",
-  "tubgirl", "tushy", "twat", "twink", "twinkie", "undressing",
+  "titty", "topless", "towelhead", "tranny", "tribadism",
+  "tubgirl", "tushy", "twink", "twinkie", "undressing",
   "upskirt", "urophilia", "viagra", "vibrator", "vorarephilia", "voyeur",
-  "voyeurweb", "voyuer", "wank", "wanker", "wetback", "whore",
+  "voyeurweb", "voyuer", "wetback", "whore",
   "worldsex", "yaoi", "yiffy", "zoophilia",
 ];
 
-const BLOCKLIST_SET: ReadonlySet<string> = new Set(BLOCKLIST);
+const HOLD_SET: ReadonlySet<string> = new Set(HOLD_WORDS);
+
+/** Exported for the tier-disjointness and no-slur-in-mask tests only. */
+export const __tiers = { MASK_WORDS, HOLD_WORDS } as const;
 
 /**
- * The first blocked term in the body, or null. Tokenises on letters plus the
+ * The first HOLD-tier term in the body, or null. Tokenises on letters plus the
  * apostrophe so "don't" stays one word, then does exact lookups.
+ *
+ * Mask-tier profanity deliberately does NOT register here: it is handled by
+ * maskProfanity() at serialisation and must not hide the comment.
  */
 export function hitsBlocklist(body: string): string | null {
   const words = body.toLowerCase().match(/[a-z']+/g);
   if (!words) return null;
   for (const word of words) {
     const bare = word.replace(/^'+|'+$/g, "");
-    if (BLOCKLIST_SET.has(bare)) return bare;
+    if (HOLD_SET.has(bare)) return bare;
   }
   return null;
+}
+
+// Longest-first so an entry can never be shadowed by a shorter prefix entry.
+// `\b` on both sides is what keeps this word-level: "bass" and "assess" contain
+// "ass" as a substring but not as a word, so neither is touched.
+const MASK_PATTERN = new RegExp(
+  `\\b(?:${[...MASK_WORDS]
+    .sort((a, b) => b.length - a.length)
+    .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|")})\\b`,
+  "gi",
+);
+
+/**
+ * Replace every mask-tier word with the same number of asterisks, leaving the
+ * rest of the string — punctuation, capitalisation, whitespace, newlines —
+ * byte-identical. Returns the input unchanged when it is clean.
+ *
+ * Same-length asterisks ("shit" -> "****", "bollocks" -> "********") keep the
+ * sentence scanning at its original rhythm and read as a redaction rather than
+ * a typo. Keeping the first letter ("s***") was considered and rejected: it is
+ * MORE legible as profanity, not less, which defeats the point.
+ */
+export function maskProfanity(body: string): string {
+  return body.replace(MASK_PATTERN, (match) => "*".repeat(match.length));
 }
 
 // ---------------------------------------------------------------------------
@@ -466,6 +559,13 @@ export interface PublicComment {
   authorName: string;
   /** True when authorName is an anonymised handle, not the author's real name. */
   isAnonymised: boolean;
+  /**
+   * True when mask-tier profanity was asterisked out of `body`/`suggestedName`
+   * on the way to this viewer. Lets the composer tell an author we tidied their
+   * wording instead of leaving them to spot it themselves. Always false in an
+   * admin payload, which carries the original text.
+   */
+  wasMasked: boolean;
   /** Renders the teal PEBL chip, so an official answer is distinguishable. */
   isPebl: boolean;
   isMine: boolean;
@@ -527,6 +627,20 @@ function toReasonCode(raw: string): ReasonCode {
  * input row is never spread, so a column added to the schema later cannot ride
  * out to a client unnoticed. `adminNote`, `hiddenReason`, `handledBy` and
  * `outcome` are all internal and have no route out through here.
+ *
+ * This is also where mask-tier profanity is asterisked (2026-08-02), for the
+ * same structural reason: it is the ONE function every public payload passes
+ * through, so a route added later cannot serve an unmasked body by forgetting
+ * to call the masker. The row keeps its original text in Postgres — masking is
+ * a read-time transform, so it applies retroactively to every comment already
+ * stored, needs no migration, and a mis-tiered word is a one-line fix rather
+ * than something baked into the data.
+ *
+ * Admins receive the ORIGINAL text. They moderate: they need to see what was
+ * actually typed to judge severity and to spot repeat-offender patterns, and a
+ * `****` in the staff inbox would be useless for both. Authors DO see their own
+ * comment masked, deliberately — if their own copy read back intact they would
+ * assume it published intact, and the mask is the entire feedback signal.
  */
 export function toPublicComment(
   row: CommentRowLike,
@@ -535,15 +649,21 @@ export function toPublicComment(
   replies: PublicComment[] = [],
 ): PublicComment {
   const authorName = publicAuthorName(author, viewer);
+  const body = viewer.isAdmin ? row.body : maskProfanity(row.body);
+  const suggestedName =
+    row.suggestedName === null || viewer.isAdmin
+      ? row.suggestedName
+      : maskProfanity(row.suggestedName);
   return {
     id: row.id,
     parentId: row.parentId,
     reason: toReasonCode(row.reason),
-    body: row.body,
-    suggestedName: row.suggestedName,
+    body,
+    suggestedName,
     authorId: author.id,
     authorName,
     isAnonymised: authorName !== authorDisplayName(author),
+    wasMasked: body !== row.body || suggestedName !== row.suggestedName,
     isPebl: author.isPebl,
     isMine: viewer.userId !== null && viewer.userId === row.userId,
     isHidden: row.hiddenAt !== null,
