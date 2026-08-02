@@ -15,12 +15,14 @@ import {
   containsUrl,
   hitsBlocklist,
   isVisibleTo,
+  maskProfanity,
   sanitiseBody,
   sanitiseSuggestedName,
   shouldAutoHide,
   threadShape,
   toPublicComment,
   publicAuthorName,
+  __tiers,
   type CommentAuthorLike,
   type CommentRowLike,
   type ThreadInput,
@@ -176,9 +178,19 @@ describe("containsUrl", () => {
 });
 
 describe("hitsBlocklist", () => {
-  it("matches a blocked word on its own", () => {
-    expect(hitsBlocklist("this is shit")).toBe("shit");
-    expect(hitsBlocklist("THIS IS SHIT")).toBe("shit");
+  it("matches a hold-tier word on its own", () => {
+    expect(hitsBlocklist("what a slut")).toBe("slut");
+    expect(hitsBlocklist("WHAT A SLUT")).toBe("slut");
+  });
+
+  it("no longer holds mask-tier profanity (2026-08-02)", () => {
+    // These used to hide the whole comment. They now post live and are
+    // asterisked by maskProfanity() at serialisation instead — the behaviour
+    // change this tier split exists for. Losing a real observation because
+    // someone was rude about the visibility was the failure mode.
+    expect(hitsBlocklist("this is shit")).toBeNull();
+    expect(hitsBlocklist("can't see a fucking thing")).toBeNull();
+    expect(hitsBlocklist("this clip is bollocks")).toBeNull();
   });
 
   it("returns null for clean text", () => {
@@ -235,7 +247,109 @@ describe("hitsBlocklist", () => {
   it("holds a comment for review rather than silently rejecting it", () => {
     // The design contract: a hit HOLDS, it does not reject. canPost/the POST
     // route decide what happens with the result; this function only detects.
-    expect(hitsBlocklist("this clip is bollocks")).toBe("bollocks");
+    expect(hitsBlocklist("that's just porn")).toBe("porn");
+  });
+
+  it("no longer holds marine vocabulary that collided with the sourced list", () => {
+    // "butt" is a UK dialect name for a flounder (and a water butt); "scat" is
+    // standard wildlife field vocabulary for droppings, and a real fish genus.
+    // Both were being held on a marine app. Same rationale as the EXCLUDE set.
+    expect(hitsBlocklist("Caught a butt off the rocks")).toBeNull();
+    expect(hitsBlocklist("Otter scat on the slipway")).toBeNull();
+  });
+});
+
+describe("maskProfanity", () => {
+  it("replaces a mask-tier word with the same number of asterisks", () => {
+    expect(maskProfanity("this is shit")).toBe("this is ****");
+    expect(maskProfanity("this clip is bollocks")).toBe("this clip is ********");
+  });
+
+  it("is case-insensitive and leaves the rest of the sentence alone", () => {
+    expect(maskProfanity("THIS IS SHIT, mate.")).toBe("THIS IS ****, mate.");
+    expect(maskProfanity("Can't see a Fucking thing here")).toBe(
+      "Can't see a ******* thing here",
+    );
+  });
+
+  it("preserves punctuation, newlines and spacing exactly", () => {
+    expect(maskProfanity("shit! really?")).toBe("****! really?");
+    expect(maskProfanity("murky\n\nshit visibility")).toBe("murky\n\n**** visibility");
+    expect(maskProfanity("(shit)")).toBe("(****)");
+  });
+
+  it("masks every hit in a body, not just the first", () => {
+    expect(maskProfanity("shit clip, fucking useless")).toBe("**** clip, ******* useless");
+  });
+
+  it("masks inflections that are listed, without stemming", () => {
+    // Listed explicitly (see MASK_WORDS): stemming is where Scunthorpe-class
+    // bugs come from, so each form earns its own entry.
+    expect(maskProfanity("fucked")).toBe("******");
+    expect(maskProfanity("shitty")).toBe("******");
+    expect(maskProfanity("wankers")).toBe("*******");
+  });
+
+  it("returns a clean body untouched", () => {
+    const clean = "Two-spotted goby, I think — the twin flank spots are clear.";
+    expect(maskProfanity(clean)).toBe(clean);
+  });
+
+  it("is immune to the Scunthorpe problem", () => {
+    // The guard that matters most for masking: a false positive here is visible
+    // garbage on a live page, not a reviewable hold. Same fixtures as
+    // hitsBlocklist, plus the words the mask tier newly brought into scope.
+    const innocent = [
+      "Caught near Scunthorpe last summer",
+      "Hard to assess from this angle",
+      "A classic example of a corkwing",
+      "Some shiitake-looking growth on the rope",
+      "Definitely a bass",
+      "Two cockles on the sand",
+      "The analysis was thorough",
+      "Grassy weed in the background",
+      "Caught a butt off the rocks",
+      "Otter scat on the slipway",
+      "Bloody good spot, that",
+      "A cheeky little bugger hiding in the kelp",
+      "Classic sexual dimorphism in wrasse, that's a male",
+      "Out shrimping at low tide this morning",
+    ];
+    for (const body of innocent) {
+      expect(maskProfanity(body), `false positive on: ${body}`).toBe(body);
+    }
+  });
+});
+
+describe("blocklist tiers", () => {
+  it("keeps the two tiers disjoint", () => {
+    const overlap = __tiers.MASK_WORDS.filter((w) => __tiers.HOLD_WORDS.includes(w));
+    expect(overlap, `word in both tiers: ${overlap.join(", ")}`).toEqual([]);
+  });
+
+  it("never masks a slur", () => {
+    // THE guardrail for the tier split. Masking a slur is worse than hiding it:
+    // "get out of here you ****" is still a hostile comment, now live and
+    // permanent with a fig leaf on it. If a list refresh ever promotes one of
+    // these into MASK_WORDS, this fails.
+    const slurs = [
+      "paki", "nigger", "nigga", "wetback", "spic", "kike", "coon", "darkie",
+      "raghead", "towelhead", "beaner", "honkey", "negro", "pikey", "jigaboo",
+      "slanteye", "fag", "faggot", "bulldyke", "tranny", "shemale", "spastic",
+      "mong", "neonazi", "swastika",
+    ];
+    for (const slur of slurs) {
+      expect(__tiers.MASK_WORDS, `slur in the mask tier: ${slur}`).not.toContain(slur);
+      // And each is still actually caught by the hold tier.
+      expect(hitsBlocklist(`you ${slur}`), `slur no longer held: ${slur}`).toBe(slur);
+    }
+  });
+
+  it("masks the words Christian named, and holds nothing milder than them", () => {
+    expect(__tiers.MASK_WORDS).toContain("shit");
+    expect(__tiers.MASK_WORDS).toContain("fuck");
+    expect(hitsBlocklist("shit")).toBeNull();
+    expect(hitsBlocklist("fuck")).toBeNull();
   });
 });
 
@@ -430,6 +544,43 @@ describe("toPublicComment", () => {
 
   it("falls back to the default reason for an unrecognised stored value", () => {
     expect(toPublicComment(row({ reason: "banana" }), AUTHOR, STRANGER).reason).toBe("note");
+  });
+
+  it("masks profanity for public viewers, including the author (2026-08-02)", () => {
+    const r = row({ body: "can't see a fucking thing in this one" });
+    for (const v of [STRANGER, OWNER, SIGNED_OUT]) {
+      const out = toPublicComment(r, AUTHOR, v);
+      expect(out.body).toBe("can't see a ******* thing in this one");
+      expect(out.wasMasked).toBe(true);
+    }
+  });
+
+  it("gives admins the original text, because they moderate on it", () => {
+    const r = row({ body: "can't see a fucking thing in this one" });
+    const out = toPublicComment(r, AUTHOR, ADMIN);
+    expect(out.body).toBe("can't see a fucking thing in this one");
+    expect(out.wasMasked).toBe(false);
+  });
+
+  it("masks suggestedName on the same door", () => {
+    const r = row({ body: "clean body", suggestedName: "shit fish" });
+    expect(toPublicComment(r, AUTHOR, STRANGER).suggestedName).toBe("**** fish");
+    expect(toPublicComment(r, AUTHOR, ADMIN).suggestedName).toBe("shit fish");
+  });
+
+  it("leaves a clean comment untouched and flags nothing", () => {
+    const out = toPublicComment(row({ body: "Lovely little corkwing" }), AUTHOR, STRANGER);
+    expect(out.body).toBe("Lovely little corkwing");
+    expect(out.wasMasked).toBe(false);
+  });
+
+  it("masks a held comment too, in the author's own view of it", () => {
+    // A hold-tier hit hides the comment, but the author still sees it. If it
+    // ALSO contains mask-tier profanity, their copy is masked like anyone
+    // else's — the two tiers compose rather than one shadowing the other.
+    const r = row({ body: "shit, what a slut", hiddenAt: new Date() });
+    expect(toPublicComment(r, AUTHOR, OWNER).body).toBe("****, what a slut");
+    expect(toPublicComment(r, AUTHOR, ADMIN).body).toBe("shit, what a slut");
   });
 
   it("serialises createdAt as an ISO string", () => {

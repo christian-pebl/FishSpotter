@@ -248,9 +248,15 @@ export async function POST(req: Request) {
     );
   }
 
-  // A blocklist hit HOLDS the comment for review rather than rejecting it, so a
-  // false positive is recoverable by a human instead of silently losing a
-  // spotter's contribution. The author still sees their own held comment.
+  // A HOLD-tier hit (slurs, sexual content) holds the comment for review rather
+  // than rejecting it, so a false positive is recoverable by a human instead of
+  // silently losing a spotter's contribution. The author still sees their own
+  // held comment.
+  //
+  // Mask-tier profanity ("shit", "fuck" and friends) deliberately does NOT
+  // appear here: it posts live and is asterisked at serialisation by
+  // toPublicComment(). Nothing is stored differently — the row keeps the
+  // original text either way.
   const blocked = hitsBlocklist(body);
 
   const reason = parsed.reason ?? "note";
@@ -318,23 +324,29 @@ export async function POST(req: Request) {
     });
   }
 
+  const publicComment = toPublicComment(
+    created,
+    toAuthorLike({
+      id: userId,
+      displayName: me.displayName,
+      name: me.name,
+      email: me.email,
+      emailVerified: me.emailVerified,
+      leaderboardOptIn: me.leaderboardOptIn,
+    }),
+    viewer,
+  );
+
   return NextResponse.json(
     {
-      comment: toPublicComment(
-        created,
-        toAuthorLike({
-          id: userId,
-          displayName: me.displayName,
-          name: me.name,
-          email: me.email,
-          emailVerified: me.emailVerified,
-          leaderboardOptIn: me.leaderboardOptIn,
-        }),
-        viewer,
-      ),
+      comment: publicComment,
       // Tells the composer to show "held for review" rather than pretending it
       // is live for everyone.
       held: blocked !== null,
+      // Posted live, but with a word asterisked. Read off the serialised
+      // payload rather than recomputed, so the flag can never disagree with the
+      // body the client actually received.
+      masked: publicComment.wasMasked,
     },
     { status: 201 },
   );
