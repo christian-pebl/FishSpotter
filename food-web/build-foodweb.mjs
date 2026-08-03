@@ -12,7 +12,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));      // <repo>/food-web
 const SIL = join(HERE, '..', 'public', 'silhouettes');    // reads the PEBL silhouettes
 const OUT = join(HERE, '..', 'public', 'food-web.html');  // self-contained, served at /food-web.html
 
-const FORMS = {
+export const FORMS = {
   'cod-like':'forms/cod-like.svg','wrasse':'forms/wrasse.svg','long-skinny':'forms/long-skinny.svg',
   'bottom-sitter':'forms/bottom-sitter.svg','bottom-other':'forms/bottom-other.svg',
   'silver-shoaler':'forms/silver-shoaler.svg','shark':'forms/shark.svg','flatfish':'flatfish.svg',
@@ -128,18 +128,36 @@ export const RES = {
 // 'harmed'   = actually MORE abundant without the farm (biodeposits suppress it)
 // default 'anyway' = a soft-sediment / open-water native, ~unchanged.
 // Grounded in the artificial-reef, canopy-nursery and biodeposition literature.
+//
+// 'created' is deliberately RESTRICTED to species that physically cannot occupy
+// bare soft sediment: hard-substrate obligates (limpets, top shells, urchins,
+// whelks, the two big starfish) and small, site-attached crevice/weed fish with
+// home ranges of metres (blennies, rock goby, sea scorpion, the weed gobies and
+// stickleback). For those, "no hard surface" really does mean "not here".
+//
+// It is NOT applied to large, wide-ranging animals that the farm merely draws in
+// from surrounding ground — the attraction-vs-production distinction in the
+// artificial-reef literature. Ballan and cuckoo wrasse and both octopuses were
+// reclassified 'created' -> 'enhanced' on exactly that ground (2026-08-03): all
+// four range over hundreds of metres, occupy any nearby reef or debris, and are
+// concentrated by the farm rather than brought into existence by it. Claiming
+// them as farm-built overstates what a farm demonstrably does.
 export const FARM = {
-  // reef / weed / crevice obligates + canopy & mussel dependents -> gone at the site
-  'Bib':'created','Ballan wrasse':'created','Cuckoo wrasse':'created','Corkwing wrasse':'created',
+  // hard-substrate + weed/crevice obligates -> genuinely nowhere to live on bare sand
+  'Bib':'created','Corkwing wrasse':'created',
   'Goldsinny wrasse':'created','Conger eel':'created','Butterfish':'created','Two-spotted goby':'created',
   'Rock goby':'created','Poor cod':'created','Long-spined sea scorpion':'created','Shanny':'created',
-  'Fifteen-spined stickleback':'created','Velvet Swimming Crab':'created','Curled Octopus':'created',
-  'Common Octopus':'created','Cushion Star':'created','Spiny Starfish':'created','Common Limpet':'created',
+  'Fifteen-spined stickleback':'created','Velvet Swimming Crab':'created',
+  'Cushion Star':'created','Spiny Starfish':'created','Common Limpet':'created',
   'Dog Whelk':'created','Painted Top Shell':'created','Flat Top Shell':'created','Edible sea urchin':'created',
   'Green sea urchin':'created','Purple sea urchin':'created',
-  // present anyway, boosted by the structure / mussels / prey aggregation
+  // present anyway, boosted by the structure / mussels / prey aggregation. The
+  // wrasses and octopuses sit here because the farm concentrates them, not because
+  // it creates them (see the note above).
   'Pollack':'enhanced','Saithe':'enhanced','Atlantic cod':'enhanced','Spider Crab':'enhanced',
   'Common Starfish':'enhanced','Common Brittlestar':'enhanced','Common eider':'enhanced',
+  'Ballan wrasse':'enhanced','Cuckoo wrasse':'enhanced',
+  'Curled Octopus':'enhanced','Common Octopus':'enhanced',
   // clean-sand specialist that heavy biodeposition suppresses -> does better without
   'Sea potato':'harmed',
 };

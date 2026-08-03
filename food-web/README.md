@@ -57,7 +57,7 @@ pulling. It caught a live rename: `Hyas araneus` "Great Spider Crab" became
 - **72 species** (fish, crabs, cephalopods, starfish, gastropods, jellyfish,
   urchins, seabirds, seals) laid out on the farm by depth zone (surface / mussel
   lines / seaweed canopy / open water / seabed).
-- **234 feeding links** (prey → predator), verified against published UK / NE-Atlantic
+- **238 feeding links** (prey → predator), verified against published UK / NE-Atlantic
   diet records. Every species eats something; the only species with no predator are
   the ecologically-valid terminals (apex predators, jellyfish, large starfish).
 - **Trophic tier** colour (T2 grazers/filter feeders → T5 apex), colourblind-safe.
@@ -72,16 +72,31 @@ the script), for a generic sheltered soft-sediment site:
 
 | class | meaning | baseline view | count |
 |---|---|---|---|
-| `created` | absent without the farm (reef / weed / crevice obligates, gastropods, rock urchins, mussel specialists) | ghosted, links pruned | 25 |
-| `enhanced` | present anyway but fewer without the farm (pollack, saithe, cod, spider crab, common starfish, brittlestar, eider) | faded | 7 |
+| `created` | absent without the farm (hard-substrate obligates, and small site-attached weed / crevice fish) | ghosted, links pruned | 21 |
+| `enhanced` | present anyway but fewer without the farm (pollack, saithe, cod, spider crab, common starfish, brittlestar, eider, ballan + cuckoo wrasse, both octopuses) | faded | 11 |
 | `harmed` | *more* abundant without the farm's biodeposits (sea potato) | shown with a **+** badge | 1 |
 | `anyway` | soft-sediment / open-water native, ~unchanged | normal | 39 |
 
 Switching to **Without the farm** hides the structure, kelp and mussels, ghosts the
 `created` species, prunes every feeding link that touched them, and recomputes the
-stats: **72 → 47 species, 234 → 129 links**. The interaction is mode-aware, so a
+stats: **72 → 51 species, 238 → 151 links**. The interaction is mode-aware, so a
 selected species' diet contracts to only the prey/predators that survive at the
-baseline site (e.g. Atlantic cod drops from 17 prey to 11).
+baseline site.
+
+### `created` is deliberately narrow (revised 3 Aug 2026)
+
+`created` is only used where an animal **physically cannot occupy bare soft
+sediment** — it needs a hard surface to grip (limpets, top shells, urchins,
+whelks, the big starfish) or a crevice to hide in (blennies, rock goby, conger,
+and the small weed-dependent fish whose home ranges are metres wide).
+
+It is *not* used for large, wide-ranging animals that a farm merely draws in from
+the surrounding seabed. That is the **attraction vs production** distinction from
+the artificial-reef literature, and conflating the two is the standard way this
+kind of claim gets overstated. Ballan wrasse, cuckoo wrasse and both octopuses
+were moved `created` → `enhanced` on exactly that basis: all four range over
+hundreds of metres and occupy any nearby reef or debris, so the farm concentrates
+them rather than bringing them into existence.
 
 ## Where the data lives (to edit)
 

@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join, dirname } from 'node:path';
 import QRCode from 'qrcode';
-import { SPECIES, FORMS } from '../build-foodweb.mjs';
+import { SPECIES, FORMS, farmOf } from '../build-foodweb.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SIL = join(HERE, '..', '..', 'public', 'silhouettes');
@@ -38,6 +38,17 @@ const CARD_OVERRIDE = {
 
 const TIER = { 2: '#63AEB5', 3: '#2E8C9E', 4: '#2A6394', 5: '#26324E' };
 const TIERLABEL = { 2: 'Grazer / filter feeder', 3: 'Planktivore / invertivore', 4: 'Predator', 5: 'Apex predator' };
+
+// Farm-impact badge. This is the mechanism the whole minute-24 reveal runs on —
+// the facilitator says "turn over the filled circle", so the glyph has to be ON
+// the card. Symbol AND word, never colour alone (a marquee is dim and half the
+// room is over 60), matching the four symbols defined in the facilitator guide.
+const FARMBADGE = {
+  created:  { sym: '●', label: 'FARM-BUILT',     hint: 'gone without the farm' },
+  enhanced: { sym: '◑', label: 'BOOSTED',        hint: 'fewer without the farm' },
+  anyway:   { sym: '○', label: 'HERE ANYWAY',    hint: 'barely changes' },
+  harmed:   { sym: '✦', label: 'BETTER WITHOUT', hint: 'more without the farm' },
+};
 
 // Same 5 decks as make-decks.mjs (kept independent/literal so this script has
 // no import-order coupling — cross-checked against it by the report below).
@@ -166,6 +177,7 @@ for (const deck of DECKS) {
     const creditLine = photo
       ? `${esc(photo.attribution)} &middot; ${esc(photo.license.toUpperCase())} &middot; via ${esc(photo.source)}`
       : `PEBL / FishSpotter silhouette &mdash; no print-safe photo cached yet`;
+    const badge = FARMBADGE[farmOf(name)] || FARMBADGE.anyway;
 
     cardsHtml.push(`
     <div class="pair" data-id="${idOf(name)}">
@@ -186,6 +198,7 @@ for (const deck of DECKS) {
         <div class="field"><b>I LIVE</b><span>${esc(cap(habitatText(e)))}</span></div>
         <div class="field"><b>I EAT</b><span>${esc(diet?.eat || '—')}</span></div>
         <div class="field"><b>EATS ME</b><span>${esc(diet?.by || '—')}</span></div>
+        <div class="farmbadge"><span class="fsym">${badge.sym}</span><span class="flab">${badge.label}</span><span class="fhint">${badge.hint}</span></div>
         <div class="qrrow">
           <img class="qr" src="${qrUri}">
           <div class="qrtext"><b>Keep spotting.</b> Scan to help ID real footage on fishspotter.app</div>
@@ -240,6 +253,11 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .field{margin-bottom:2mm;min-width:0}
 .field b{display:block;font-size:5pt;letter-spacing:.5pt;color:var(--dteal);text-transform:uppercase;margin-bottom:0.3mm}
 .field span{display:block;font-size:6.1pt;line-height:1.3;color:var(--navy);overflow-wrap:break-word}
+/* farm-impact badge — the glyph the minute-24 reveal is called off */
+.farmbadge{display:flex;align-items:baseline;gap:1.1mm;margin:0 0 1.2mm;min-width:0}
+.fsym{font-size:8pt;line-height:1;color:var(--navy);flex:0 0 auto}
+.flab{font-size:5.4pt;font-weight:bold;letter-spacing:.4pt;color:var(--navy);flex:0 0 auto}
+.fhint{font-size:4.8pt;color:#9aa7ab;min-width:0;overflow-wrap:break-word}
 .qrrow{margin-top:auto;display:flex;align-items:center;gap:1.4mm;border-top:0.5pt solid var(--hair);padding-top:1.2mm;min-width:0}
 .qr{width:8mm;height:8mm;flex:0 0 auto}
 .qrtext{font-size:4.6pt;line-height:1.2;color:var(--soft);min-width:0}
