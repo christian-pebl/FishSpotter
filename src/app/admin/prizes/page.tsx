@@ -10,17 +10,16 @@ import {
 } from "@/lib/prize";
 import { CopyEmailButton, PostedToggle } from "./PrizeRowActions";
 
-// The fulfilment desk. Claiming the guide only records that a spotter asked
-// for it (POST /api/prize/claim writes a zero-cost PebblePurchase and returns);
-// nothing emails PEBL, so without this page a claim sits unnoticed until
-// someone thinks to run SQL. Read-mostly: the single write is "mark posted".
+// The fulfilment desk, and now the ONLY prize workflow: spotters have no claim
+// button (removed 11 Aug 2026), so nothing anywhere tells PEBL a winner exists.
+// This page is the queue. Read-mostly: the single write is "mark posted",
+// which also creates the fulfilment record on the spot.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "Prizes · FishSpotter admin" };
 
 const STATUS_PILL: Record<PrizeStatus, string> = {
   "to-post": "bg-teal-600 text-white",
-  "reached-unclaimed": "bg-pending text-pending-ink",
   unreachable: "bg-navy-100 text-navy-700",
   posted: "bg-navy-100 text-navy-500",
 };
@@ -63,13 +62,14 @@ export default async function AdminPrizesPage() {
     <div>
       <h1 className="font-brand text-xl font-semibold text-navy-900">Prize fulfilment</h1>
       <p className="mt-1 text-sm text-navy-600">
-        Spotters at or over {PRIZE_TARGET_PEBBLES.toLocaleString()} lifetime Pebbles. Claiming
-        only records that someone asked for the {PRIZE_NAME} — posting it is manual, and
-        nothing emails PEBL when a claim lands, so this page is the queue.
+        Spotters at or over {PRIZE_TARGET_PEBBLES.toLocaleString()} lifetime Pebbles. There is
+        no claim button, so nothing notifies PEBL when someone crosses the line. Email each
+        winner for a postal address, send the {PRIZE_NAME}, then mark it posted here so it
+        cannot be sent twice.
       </p>
       <p className="mt-2 text-[12px] text-navy-500">
-        {count("to-post")} to post · {count("reached-unclaimed")} not claimed ·{" "}
-        {count("unreachable")} unreachable · {count("posted")} posted
+        {count("to-post")} to post · {count("unreachable")} unreachable ·{" "}
+        {count("posted")} posted
       </p>
 
       {rows.length === 0 ? (
@@ -84,7 +84,7 @@ export default async function AdminPrizesPage() {
                 <th className="px-3 py-2">Spotter</th>
                 <th className="px-3 py-2">Pebbles</th>
                 <th className="px-3 py-2">Contact</th>
-                <th className="px-3 py-2">Claimed</th>
+                <th className="px-3 py-2">Posted</th>
                 <th className="px-3 py-2">Trust gate</th>
                 <th className="px-3 py-2">Status</th>
                 <th className="px-3 py-2">Action</th>
@@ -101,23 +101,28 @@ export default async function AdminPrizesPage() {
                     <Contact row={r} />
                   </td>
                   <td className="px-3 py-2 text-navy-500">
-                    {dateOnly(r.claimedAt)}
                     {r.fulfilledAt ? (
-                      <span className="block text-[10px] text-navy-400">
-                        posted {dateOnly(r.fulfilledAt)}
-                        {r.fulfilledBy ? ` by ${r.fulfilledBy}` : ""}
-                      </span>
-                    ) : null}
+                      <>
+                        {dateOnly(r.fulfilledAt)}
+                        {r.fulfilledBy ? (
+                          <span className="block text-[10px] text-navy-400">
+                            by {r.fulfilledBy}
+                          </span>
+                        ) : null}
+                      </>
+                    ) : (
+                      "—"
+                    )}
                   </td>
                   <td className="px-3 py-2 text-navy-500">
                     {r.eligible ? (
                       "passes"
                     ) : (
-                      // A claimed row can't have failed the gate (the route
-                      // checks it), so a "fails" here means either an unclaimed
-                      // spotter who isn't allowed to claim yet, or an account
-                      // whose trust has since decayed — worth a look before
-                      // posting a book.
+                      // ADVISORY ONLY since the claim gate was removed: this
+                      // never blocks anything, it just flags a total worth a
+                      // second look before PEBL spends money on a book (the
+                      // classic shape being 2,000 Pebbles inside a single
+                      // three-day burst).
                       <span title={r.eligibilityReasons.join(", ")}>
                         fails: {r.eligibilityReasons.join(", ") || "unknown"}
                       </span>
@@ -131,14 +136,19 @@ export default async function AdminPrizesPage() {
                     </span>
                   </td>
                   <td className="px-3 py-2">
-                    {r.claimedAt ? (
+                    {/* Available for every reachable winner, not just those
+                        holding a claim row: with no claim button, a winner
+                        normally has no row until this toggle creates one.
+                        Gating on claimedAt made the desk's only write
+                        impossible for exactly the people it serves. */}
+                    {r.contact === "guest" ? (
+                      <span className="text-navy-400">—</span>
+                    ) : (
                       <PostedToggle
                         userId={r.userId}
                         spotter={r.spotter}
                         fulfilled={!!r.fulfilledAt}
                       />
-                    ) : (
-                      <span className="text-navy-400">—</span>
                     )}
                   </td>
                 </tr>

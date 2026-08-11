@@ -68,18 +68,26 @@ describe("prizeContactState", () => {
 });
 
 describe("prize winner status", () => {
-  it("puts a claimed-but-unposted winner in the work queue", () => {
-    expect(toPrizeWinnerRow(winner({ claimedAt: new Date() })).status).toBe("to-post");
+  it("puts a reachable winner in the work queue with no claim needed", () => {
+    // The claim button is gone: reaching the target IS the trigger, so a
+    // winner with no PebblePurchase row at all still needs a book posting.
+    expect(toPrizeWinnerRow(winner({ claimedAt: null })).status).toBe("to-post");
   });
 
-  it("marks a claim posted once fulfilledAt is stamped", () => {
-    const row = toPrizeWinnerRow(
-      winner({ claimedAt: new Date("2026-07-20"), fulfilledAt: new Date("2026-07-22") }),
-    );
+  it("marks it posted once fulfilledAt is stamped", () => {
+    const row = toPrizeWinnerRow(winner({ fulfilledAt: new Date("2026-07-22") }));
     expect(row.status).toBe("posted");
   });
 
-  it("flags an over-target guest as unreachable, not merely unclaimed", () => {
+  it("reads posted off fulfilledAt alone, never claimedAt", () => {
+    // A row can carry claimedAt from a legacy pre-11-Aug-2026 claim without
+    // the book ever having been sent. That is still work to do.
+    expect(toPrizeWinnerRow(winner({ claimedAt: new Date("2026-07-20") })).status).toBe(
+      "to-post",
+    );
+  });
+
+  it("flags an over-target guest as unreachable", () => {
     expect(toPrizeWinnerRow(winner({ isGuest: true })).status).toBe("unreachable");
   });
 
@@ -100,8 +108,17 @@ describe("buildPrizeWinnerRows", () => {
     expect(rows.map((r) => r.userId)).toEqual(["at"]);
   });
 
-  it("keeps a claimed row even if the total somehow falls below target", () => {
-    // PEBL still owes them a book — a claim must never silently vanish.
+  it("keeps a posted row even if the total somehow falls below target", () => {
+    // Losing this row would destroy the only record that the book was sent,
+    // and the desk would invite PEBL to post a second one.
+    const rows = buildPrizeWinnerRows([
+      winner({ pebbles: 10, fulfilledAt: new Date() }),
+    ]);
+    expect(rows).toHaveLength(1);
+    expect(rows[0].status).toBe("posted");
+  });
+
+  it("keeps a legacy claimed row even if the total falls below target", () => {
     const rows = buildPrizeWinnerRows([winner({ pebbles: 10, claimedAt: new Date() })]);
     expect(rows).toHaveLength(1);
     expect(rows[0].status).toBe("to-post");
@@ -109,16 +126,14 @@ describe("buildPrizeWinnerRows", () => {
 
   it("orders by work-to-do first, then Pebbles descending", () => {
     const rows = buildPrizeWinnerRows([
-      winner({ userId: "posted", pebbles: 9000, claimedAt: new Date(), fulfilledAt: new Date() }),
+      winner({ userId: "posted", pebbles: 9000, fulfilledAt: new Date() }),
       winner({ userId: "guest", pebbles: 8000, isGuest: true }),
-      winner({ userId: "unclaimed-lo", pebbles: 2100 }),
-      winner({ userId: "unclaimed-hi", pebbles: 5000 }),
-      winner({ userId: "to-post", pebbles: 2000, claimedAt: new Date() }),
+      winner({ userId: "to-post-lo", pebbles: 2000 }),
+      winner({ userId: "to-post-hi", pebbles: 5000 }),
     ]);
     expect(rows.map((r) => r.userId)).toEqual([
-      "to-post",
-      "unclaimed-hi",
-      "unclaimed-lo",
+      "to-post-hi",
+      "to-post-lo",
       "guest",
       "posted",
     ]);

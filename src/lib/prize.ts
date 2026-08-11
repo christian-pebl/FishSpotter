@@ -5,12 +5,23 @@
  * day they shipped): one visible goal on the leaderboard page beats a
  * storefront.
  *
- * The prize is a GIFT, not a spend — claiming records a PebblePurchase row
- * with pebbleCost 0, so the spotter's Pebbles (and leaderboard rank) are
- * untouched. Claims are gated by `isPrizeEligible` (src/lib/trust.ts) in
- * POST /api/prize/claim per docs/pebbles-anti-gaming-and-prizes-plan.md.
- * Fulfilment is manual: claimed rows are the PebblePurchase entries for
- * SEASEARCH_GUIDE_ID; PEBL emails the spotter to arrange delivery.
+ * There is NO in-app claim step (removed 11 Aug 2026). A spotter who reaches
+ * the target sees a "PEBL will email you" card and nothing else; PEBL works
+ * the /admin/prizes desk, emails each winner directly to ask for a postal
+ * address, and marks the guide posted. That first fulfilment (Teagan Grey,
+ * 11 Aug 2026) was done entirely by hand, which is what this simplification
+ * codifies: one winner every few weeks does not need a claim funnel.
+ *
+ * Consequences, all deliberate:
+ *   - PebblePurchase rows for SEASEARCH_GUIDE_ID are now written ONLY by an
+ *     admin marking a guide posted, never by the spotter. They are a
+ *     fulfilment record, not a request.
+ *   - `isPrizeEligible` (src/lib/trust.ts) no longer BLOCKS anything. It is
+ *     advisory signal on the desk, so a 2,000-Pebble run earned in a single
+ *     three-day burst is visible before PEBL spends money on a book.
+ *
+ * The prize is still a GIFT, not a spend: the fulfilment row carries
+ * pebbleCost 0, so Pebbles and leaderboard rank are untouched.
  *
  * Pure leaf (no Prisma, no React). Historic shop itemIds (gold-nameplate,
  * coral-accent, tide-freeze) may exist as PebblePurchase rows in prod and must
@@ -26,7 +37,12 @@ export const PRIZE_TARGET_PEBBLES = 2000;
 export const PRIZE_NAME = "Seasearch marine life ID guide";
 
 export const PRIZE_BLURB =
-  "Earn 2,000 Pebbles spotting clips and PEBL will post you the Seasearch guide to the marine life of Britain and Ireland — the book the pros carry.";
+  "Earn 2,000 Pebbles spotting clips and PEBL will post you the Seasearch guide to the marine life of Britain and Ireland, the book the pros carry.";
+
+/** Shown once a spotter is over the line. Sets the expectation that the next
+ *  move is PEBL's, since there is nothing for them to tap. */
+export const PRIZE_REACHED_BLURB =
+  "You've reached 2,000 Pebbles, so the guide is yours. PEBL will email you to ask where to post it.";
 
 /** True once a spotter's lifetime earned Pebbles reach the target. */
 export function hasReachedPrizeTarget(earned: number): boolean {
@@ -62,24 +78,27 @@ export function prizeContactState(user: {
 
 /**
  * Where a winner sits in the fulfilment pipeline.
- *   to-post           — claimed, not yet posted. THE work queue.
- *   posted            — claimed and marked posted by an admin.
- *   reached-unclaimed — over the target but hasn't tapped claim; reachable.
- *   unreachable       — over the target, but a guest with no real address.
+ *   to-post     = over the target with a real address. THE work queue: email
+ *                 them, post the book, mark it posted.
+ *   posted      = an admin has marked the guide sent.
+ *   unreachable = over the target, but a guest with no real address.
+ *
+ * The old `reached-unclaimed` status is gone with the claim button: with no
+ * way for a spotter to raise their hand, "reached but not claimed" and "needs
+ * posting" are the same state, and keeping both just split the work queue in
+ * two for no reason.
  */
-export type PrizeStatus = "to-post" | "reached-unclaimed" | "posted" | "unreachable";
+export type PrizeStatus = "to-post" | "posted" | "unreachable";
 
 /** Display order: what needs doing first, then what might need chasing. */
 export const PRIZE_STATUS_ORDER: readonly PrizeStatus[] = [
   "to-post",
-  "reached-unclaimed",
   "unreachable",
   "posted",
 ];
 
 export const PRIZE_STATUS_LABEL: Record<PrizeStatus, string> = {
   "to-post": "To post",
-  "reached-unclaimed": "Not claimed",
   unreachable: "No contact",
   posted: "Posted",
 };
@@ -113,8 +132,11 @@ export interface PrizeWinnerRow extends PrizeWinnerInput {
 }
 
 function statusFor(input: PrizeWinnerInput, contact: PrizeContactState): PrizeStatus {
-  if (input.claimedAt) return input.fulfilledAt ? "posted" : "to-post";
-  return contact === "guest" ? "unreachable" : "reached-unclaimed";
+  // Driven by fulfilment, NOT by claimedAt: post-refactor the PebblePurchase
+  // row is written when an admin marks the book sent, so claimedAt and
+  // fulfilledAt land together and only the latter means anything.
+  if (input.fulfilledAt) return "posted";
+  return contact === "guest" ? "unreachable" : "to-post";
 }
 
 /**
@@ -136,15 +158,21 @@ export function toPrizeWinnerRow(input: PrizeWinnerInput): PrizeWinnerRow {
  * Build the desk's rows: everyone at or over the target, ordered by what needs
  * doing (see PRIZE_STATUS_ORDER), then by Pebbles descending within a status.
  *
- * A claim is honoured even if the spotter's total later dips below the target
- * (it can't today — Pebbles are never deducted — but a claimed row must never
- * silently vanish from the desk while PEBL still owes someone a book).
+ * A fulfilled row is kept even if the spotter's total later dips below the
+ * target (it can't today, since Pebbles are never deducted, but a posted book
+ * must never silently vanish from the desk, or PEBL loses the only record it
+ * has that the guide was already sent).
  */
 export function buildPrizeWinnerRows(
   inputs: readonly PrizeWinnerInput[],
 ): PrizeWinnerRow[] {
   return inputs
-    .filter((w) => hasReachedPrizeTarget(w.pebbles) || w.claimedAt !== null)
+    .filter(
+      (w) =>
+        hasReachedPrizeTarget(w.pebbles) ||
+        w.fulfilledAt !== null ||
+        w.claimedAt !== null,
+    )
     .map(toPrizeWinnerRow)
     .sort(
       (a, b) =>
@@ -176,10 +204,10 @@ const slotSources = (name: string): readonly string[] => [
 ];
 
 export const PRIZE_GALLERY: ReadonlyArray<PrizeGallerySlot> = [
-  { srcs: slotSources("cover"), alt: "Seasearch guide — front cover" },
+  { srcs: slotSources("cover"), alt: "Seasearch guide: front cover" },
   ...Array.from({ length: 6 }, (_, i) => ({
     srcs: slotSources(`page-${i + 1}`),
-    alt: `Seasearch guide — inside page ${i + 1}`,
+    alt: `Seasearch guide: inside page ${i + 1}`,
   })),
 ];
 

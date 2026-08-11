@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { SEASEARCH_GUIDE_ID } from "@/lib/prize";
-import { isPrizeEligible } from "@/lib/trust";
 import { datesFromAnswers, readStreak } from "@/lib/streak-service";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
@@ -34,11 +33,10 @@ export default async function PebblesHubPage({
   const userId = session?.user?.id ?? null;
 
   let banner: { earned: number; streak: number } | null = null;
-  let claimed = false;
-  let eligibility: { eligible: boolean; reason: string | null } | null = null;
+  let guidePosted = false;
 
   if (userId) {
-    const [pointsAgg, answerDates, claim, user] = await Promise.all([
+    const [pointsAgg, answerDates, fulfilment] = await Promise.all([
       prisma.answer.aggregate({ _sum: { points: true }, where: { userId } }),
       prisma.answer.findMany({
         where: { userId },
@@ -46,42 +44,17 @@ export default async function PebblesHubPage({
         orderBy: { createdAt: "desc" },
         take: 1000,
       }),
+      // Post-refactor this row exists only once an admin has marked the guide
+      // posted, so it is a "your book is on its way" signal, not a claim.
       prisma.pebblePurchase.findFirst({
         where: { userId, itemId: SEASEARCH_GUIDE_ID },
-        select: { id: true },
-      }),
-      prisma.user.findUnique({
-        where: { id: userId },
-        select: { emailVerified: true, createdAt: true, trustScore: true },
+        select: { fulfilledAt: true },
       }),
     ]);
     const earned = pointsAgg._sum.points ?? 0;
     const streak = await readStreak(prisma, userId, datesFromAnswers(answerDates));
     banner = { earned, streak };
-    claimed = !!claim;
-
-    if (user) {
-      // Precomputed so the prize card pre-warns ("verify your email") instead
-      // of surprising a spotter at 1,000 Pebbles. The claim route re-checks
-      // server-side regardless; this copy is UX, not enforcement.
-      const result = isPrizeEligible(
-        {
-          emailVerified: user.emailVerified,
-          createdAt: user.createdAt,
-          trustScore: user.trustScore,
-          answerDates: answerDates.map((a) => a.createdAt),
-        },
-        new Date(),
-      );
-      eligibility = {
-        eligible: result.eligible,
-        reason: result.eligible
-          ? null
-          : result.reasons.includes("email not verified")
-            ? "Verify your email to claim the guide — prizes are posted to real spotters."
-            : "Prize claims unlock with more spotting history across more days.",
-      };
-    }
+    guidePosted = !!fulfilment?.fulfilledAt;
   }
 
   return (
@@ -118,7 +91,7 @@ export default async function PebblesHubPage({
               </dl>
             ) : (
               <p className="mt-2 text-sm text-navy-900/72">
-                Earn Pebbles by identifying clips in the feed — they count toward the prize below
+                Earn Pebbles by identifying clips in the feed. They count toward the prize below
                 and your leaderboard rank.
               </p>
             )}
@@ -127,8 +100,7 @@ export default async function PebblesHubPage({
           <PrizeCard
             authed={!!userId}
             initialEarned={banner?.earned ?? 0}
-            initiallyClaimed={claimed}
-            eligibility={eligibility}
+            guidePosted={guidePosted}
           />
 
           <LeaderboardPanel page={leaderboardPage} />
