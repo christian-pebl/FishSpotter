@@ -130,7 +130,7 @@ describe.skipIf(!url)("prize desk (integration)", () => {
     // someone who never earned it (or withholds one from someone who did).
     expect(rows[0].pebbles).toBe(PRIZE_TARGET_PEBBLES);
     expect(rows[0].spotter).toBe("Reef");
-    expect(rows[0].status).toBe("reached-unclaimed");
+    expect(rows[0].status).toBe("to-post");
     expect(rows[0].contactEmail).toBe("a@x.test");
   });
 
@@ -148,7 +148,7 @@ describe.skipIf(!url)("prize desk (integration)", () => {
     expect(row.contact).toBe("guest");
   });
 
-  it("surfaces a claimed-but-unposted guide as the work queue", async () => {
+  it("surfaces an unposted guide as the work queue, claim row or not", async () => {
     await seedUser({ id: "u1", email: "a@x.test", pebbles: 3000 });
     await seedClaim("u1");
     const [row] = await loadPrizeWinnerRows(prisma, NOW);
@@ -217,11 +217,32 @@ describe.skipIf(!url)("prize desk (integration)", () => {
       expect((await loadPrizeWinnerRows(prisma, NOW))[0].status).toBe("to-post");
     });
 
-    it("refuses to stamp a spotter who never claimed", async () => {
+    it("creates the fulfilment row for a winner who never claimed", async () => {
+      // THE case the desk now exists for: no claim button means a winner has
+      // no PebblePurchase row at all. The old version threw here, which made
+      // the desk's only write impossible for every real winner.
       await seedUser({ id: "u1", email: "a@x.test", pebbles: 3000 });
-      await expect(
-        markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk"),
-      ).rejects.toThrow(/hasn't claimed/);
+
+      const marked = await markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk");
+      expect(marked.fulfilledAt).toBeInstanceOf(Date);
+      expect(marked.fulfilledBy).toBe("chris@pebl-cic.co.uk");
+      expect((await loadPrizeWinnerRows(prisma, NOW))[0].status).toBe("posted");
+
+      const created = await prisma.pebblePurchase.findFirstOrThrow({
+        where: { userId: "u1", itemId: SEASEARCH_GUIDE_ID },
+      });
+      // Still a gift: stamping fulfilment must never cost the spotter Pebbles.
+      expect(created.pebbleCost).toBe(0);
+    });
+
+    it("un-marking a winner with no row is a no-op, not a phantom row", async () => {
+      await seedUser({ id: "u1", email: "a@x.test", pebbles: 3000 });
+
+      const undone = await markPrizeFulfilled(prisma, "u1", false, "chris@pebl-cic.co.uk");
+      expect(undone.fulfilledAt).toBeNull();
+      expect(
+        await prisma.pebblePurchase.count({ where: { itemId: SEASEARCH_GUIDE_ID } }),
+      ).toBe(0);
     });
 
     it("never stamps a retired shop purchase as a posted prize", async () => {
@@ -232,14 +253,17 @@ describe.skipIf(!url)("prize desk (integration)", () => {
         data: { userId: "u1", itemId: "tide-freeze", pebbleCost: 50 },
       });
 
-      await expect(
-        markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk"),
-      ).rejects.toThrow(/hasn't claimed/);
+      await markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk");
 
       const freeze = await prisma.pebblePurchase.findFirstOrThrow({
         where: { itemId: "tide-freeze" },
       });
       expect(freeze.fulfilledAt).toBeNull();
+      // The stamp landed on a NEW guide row instead of the cosmetic.
+      const guide = await prisma.pebblePurchase.findFirstOrThrow({
+        where: { itemId: SEASEARCH_GUIDE_ID },
+      });
+      expect(guide.fulfilledAt).toBeInstanceOf(Date);
     });
 
     it("stamps only the guide when a spotter also holds shop purchases", async () => {
@@ -271,8 +295,14 @@ describe.skipIf(!url)("prize desk (integration)", () => {
    * On 1 Aug 2026 that took out POST /api/prize/claim (the claim button) and
    * the Tide Freeze spend inside POST /api/answers. These tests drop the two
    * columns, replay the exact query shapes from those paths, and put the
-   * columns back — so a future `select`-less write is caught here rather than
+   * columns back, so a future `select`-less write is caught here rather than
    * in production.
+   *
+   * The claim-route case is gone with the route itself (11 Aug 2026). The
+   * remaining spender is the streak path. NOTE that markPrizeFulfilled is
+   * deliberately NOT covered here: it writes fulfilledAt by definition, so it
+   * cannot survive a database that lacks the column. That is safe only because
+   * those columns shipped to prod on 1 Aug, well ahead of this change.
    */
   describe("survives a pre-migration database (deploy-order safety)", () => {
     async function withoutFulfilmentColumns(fn: () => Promise<void>) {
@@ -287,17 +317,6 @@ describe.skipIf(!url)("prize desk (integration)", () => {
         );
       }
     }
-
-    it("POST /api/prize/claim can still record a claim", async () => {
-      await seedUser({ id: "u1", email: "a@x.test", pebbles: 2500 });
-      await withoutFulfilmentColumns(async () => {
-        const created = await prisma.pebblePurchase.create({
-          data: { userId: "u1", itemId: SEASEARCH_GUIDE_ID, pebbleCost: 0 },
-          select: { id: true },
-        });
-        expect(created.id).toBeTruthy();
-      });
-    });
 
     it("settleStreak can still spend a Tide Freeze", async () => {
       await seedUser({ id: "u1", email: "a@x.test", pebbles: 100 });

@@ -9,6 +9,7 @@ import {
   PRIZE_FALLBACK_IMAGE,
   PRIZE_GALLERY,
   PRIZE_NAME,
+  PRIZE_REACHED_BLURB,
   PRIZE_TARGET_PEBBLES,
 } from "@/lib/prize";
 import { EASE, TRANSITION } from "@/lib/motion";
@@ -172,40 +173,33 @@ function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
   );
 }
 
-type Note = { kind: "error" | "success"; text: string };
-
 /**
  * The single goal of the Pebbles page: your progress toward winning the
- * Seasearch guide, and the claim action once you're there. The prize is a
- * gift (claiming deducts nothing); POST /api/prize/claim enforces the target
- * + the anti-gaming eligibility gate server-side — `eligibility` here is the
- * precomputed copy so the card can pre-warn instead of surprising a spotter
- * at 1,000 Pebbles.
+ * Seasearch guide.
+ *
+ * There is deliberately NO action here (the claim button was removed 11 Aug
+ * 2026). Crossing 2,000 Pebbles is the whole achievement; PEBL works the
+ * /admin/prizes desk and emails each winner to ask where to post the book.
+ * That keeps a once-every-few-weeks event off the critical path of a button,
+ * an API route and an anti-gaming gate that could refuse a genuine winner.
  *
  * Imagery is a flick-through gallery (front cover + inside pages) driven by
- * the PRIZE_GALLERY manifest — drop screenshots into public/shop/guide/ with
- * the manifest filenames and they appear with no code change; until then the
+ * the PRIZE_GALLERY manifest: drop screenshots into public/shop/guide/ with
+ * the manifest filenames and they appear with no code change. Until then the
  * committed PEBL illustration stands in.
  */
 export function PrizeCard({
   authed,
   initialEarned,
-  initiallyClaimed,
-  eligibility,
+  guidePosted,
 }: {
   authed: boolean;
   initialEarned: number;
-  initiallyClaimed: boolean;
-  /** Precomputed for signed-in spotters; null for guests. */
-  eligibility: { eligible: boolean; reason: string | null } | null;
+  /** True once an admin has marked this spotter's guide posted. */
+  guidePosted: boolean;
 }) {
   const reduceMotion = useReducedMotion() ?? false;
   const [earned, setEarned] = useState(initialEarned);
-  const [claimed, setClaimed] = useState(initiallyClaimed);
-  const [justClaimed, setJustClaimed] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [note, setNote] = useState<Note | null>(null);
-  const [shake, setShake] = useState(0);
 
   // Keep the progress live while the page is open (earning in another tab of
   // the same session fires the pebble bus).
@@ -216,29 +210,6 @@ export function PrizeCard({
 
   const reached = earned >= PRIZE_TARGET_PEBBLES;
   const pct = Math.max(0, Math.min(100, (earned / PRIZE_TARGET_PEBBLES) * 100));
-  const gated = reached && !claimed && !!eligibility && !eligibility.eligible;
-
-  async function claim() {
-    setBusy(true);
-    setNote(null);
-    try {
-      const res = await fetch("/api/prize/claim", { method: "POST" });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
-      if (!res.ok || !data.ok) {
-        setShake((s) => s + 1);
-        setNote({ kind: "error", text: data.error ?? "Something went wrong. Try again." });
-        return;
-      }
-      setClaimed(true);
-      setJustClaimed(true);
-      setNote({ kind: "success", text: "Claimed! PEBL will email you to arrange delivery." });
-    } catch {
-      setShake((s) => s + 1);
-      setNote({ kind: "error", text: "Network error. Try again." });
-    } finally {
-      setBusy(false);
-    }
-  }
 
   return (
     <motion.section
@@ -249,9 +220,8 @@ export function PrizeCard({
     >
       <div className="grid gap-4 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-center">
         <motion.div
-          key={justClaimed ? 1 : 0}
           initial={false}
-          animate={justClaimed && !reduceMotion ? { scale: [1, 1.04, 1] } : { scale: 1 }}
+          animate={reached && !reduceMotion ? { scale: [1, 1.04, 1] } : { scale: 1 }}
           transition={{ duration: 0.45, ease: EASE.enter }}
         >
           <PrizeGallery reduceMotion={reduceMotion} />
@@ -262,17 +232,15 @@ export function PrizeCard({
             <p className="text-[10px] font-semibold uppercase tracking-eyebrow text-teal-600">
               The prize
             </p>
-            <h2 className="mt-1 font-brand text-h3 text-navy-900">Win the {PRIZE_NAME}</h2>
-            <p className="mt-1.5 text-sm leading-6 text-navy-900/72">{PRIZE_BLURB}</p>
+            <h2 className="mt-1 font-brand text-h3 text-navy-900">
+              {reached ? `You've won the ${PRIZE_NAME}` : `Win the ${PRIZE_NAME}`}
+            </h2>
+            <p className="mt-1.5 text-sm leading-6 text-navy-900/72">
+              {reached ? PRIZE_REACHED_BLURB : PRIZE_BLURB}
+            </p>
           </div>
 
-          <motion.div
-            key={shake}
-            initial={false}
-            animate={shake && !reduceMotion ? { x: [0, -6, 6, -4, 4, 0] } : { x: 0 }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col gap-2"
-          >
+          <div className="flex flex-col gap-2">
             {authed ? (
               <>
                 <div>
@@ -295,12 +263,14 @@ export function PrizeCard({
                       <AnimatedCount value={Math.min(earned, PRIZE_TARGET_PEBBLES)} /> of{" "}
                       {PRIZE_TARGET_PEBBLES.toLocaleString()}
                     </span>
-                    {!reached && <span>— keep spotting</span>}
+                    {!reached && <span>keep spotting</span>}
                   </p>
                 </div>
 
-                {claimed ? (
-                  <span className="inline-flex min-h-[44px] items-center justify-center gap-1.5 self-start rounded-full bg-teal-500/12 px-5 text-sm font-semibold text-teal-700">
+                {/* Status, never an action. A winner has nothing to tap: the
+                    next move is PEBL's email. */}
+                {guidePosted ? (
+                  <span className="inline-flex min-h-[44px] items-center gap-1.5 self-start rounded-full bg-teal-500/12 px-5 text-sm font-semibold text-teal-700">
                     <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
                       <motion.path
                         d="M2 6.5l2.5 2.5L10 3"
@@ -308,30 +278,27 @@ export function PrizeCard({
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        initial={justClaimed && !reduceMotion ? { pathLength: 0 } : false}
+                        initial={reduceMotion ? false : { pathLength: 0 }}
                         animate={{ pathLength: 1 }}
                         transition={{ duration: 0.4, ease: EASE.enter, delay: 0.05 }}
                       />
                     </svg>
-                    Claimed
+                    Guide posted
                   </span>
                 ) : reached ? (
-                  <motion.button
-                    type="button"
-                    onClick={claim}
-                    disabled={busy || gated}
-                    whileTap={reduceMotion || busy || gated ? undefined : { scale: 0.97 }}
-                    className="inline-flex min-h-[44px] items-center justify-center self-start rounded-full bg-teal-600 px-6 text-sm font-semibold text-white transition-opacity hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-45"
+                  <span
+                    role="status"
+                    className="inline-flex min-h-[44px] items-center gap-2 self-start rounded-full bg-teal-500/12 px-5 text-sm font-semibold text-teal-700"
                   >
-                    {busy ? "Claiming…" : "Claim your guide"}
-                  </motion.button>
+                    <motion.span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 rounded-full bg-teal-600"
+                      animate={reduceMotion ? undefined : { opacity: [1, 0.35, 1] }}
+                      transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    PEBL will email you
+                  </span>
                 ) : null}
-
-                {gated && !note && (
-                  <p className="text-xs text-navy-900/72" role="status">
-                    {eligibility?.reason}
-                  </p>
-                )}
               </>
             ) : (
               <Link
@@ -341,23 +308,7 @@ export function PrizeCard({
                 Sign in and start earning
               </Link>
             )}
-
-            <AnimatePresence mode="wait" initial={false}>
-              {note && (
-                <motion.p
-                  key={note.text}
-                  initial={{ opacity: 0, y: -3 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={TRANSITION.micro}
-                  className={`text-xs ${note.kind === "error" ? "text-danger" : "text-teal-700"}`}
-                  role={note.kind === "error" ? "alert" : "status"}
-                >
-                  {note.text}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </motion.div>
+          </div>
         </div>
       </div>
     </motion.section>

@@ -165,13 +165,21 @@ export type MarkFulfilledResult = {
 };
 
 /**
- * Stamp (or clear) the posted marker on a spotter's guide claim.
+ * Stamp (or clear) the posted marker for a spotter's guide.
+ *
+ * Creates the PebblePurchase row on demand when none exists. That is the whole
+ * point post-refactor: there is no claim button, so a winner normally has no
+ * row at all until PEBL posts their book. The previous version threw
+ * ("That spotter hasn't claimed the guide yet"), which made the desk's only
+ * write impossible for exactly the people it now exists to serve.
  *
  * Scoped by itemId as well as userId: the ledger also holds retired shop
  * purchases (gold-nameplate, coral-accent, tide-freeze) that must never be
- * stamped as a posted prize. Throws when the spotter holds no guide claim.
+ * stamped as a posted prize.
  *
- * Never touches Pebbles, the claim itself, or leaderboard rank.
+ * Written with pebbleCost 0 so the guide stays a gift. Never touches Pebbles
+ * or leaderboard rank. Un-marking keeps the row (a spent id is never reused)
+ * and only clears the stamp, so a mis-click is always reversible.
  */
 export async function markPrizeFulfilled(
   prisma: PrismaClient,
@@ -179,17 +187,31 @@ export async function markPrizeFulfilled(
   posted: boolean,
   adminEmail: string,
 ): Promise<MarkFulfilledResult> {
-  const claim = await prisma.pebblePurchase.findFirst({
+  const existing = await prisma.pebblePurchase.findFirst({
     where: { userId, itemId: SEASEARCH_GUIDE_ID },
     select: { id: true },
     orderBy: { purchasedAt: "asc" },
   });
-  if (!claim) {
-    throw new Error("That spotter hasn't claimed the guide yet.");
+
+  if (!existing) {
+    // Nothing to un-mark: report the cleared state rather than writing a row
+    // whose only purpose would be to record that no book was sent.
+    if (!posted) return { fulfilledAt: null, fulfilledBy: null };
+
+    return prisma.pebblePurchase.create({
+      data: {
+        userId,
+        itemId: SEASEARCH_GUIDE_ID,
+        pebbleCost: 0,
+        fulfilledAt: new Date(),
+        fulfilledBy: adminEmail,
+      },
+      select: { fulfilledAt: true, fulfilledBy: true },
+    });
   }
 
   return prisma.pebblePurchase.update({
-    where: { id: claim.id },
+    where: { id: existing.id },
     data: posted
       ? { fulfilledAt: new Date(), fulfilledBy: adminEmail }
       : { fulfilledAt: null, fulfilledBy: null },

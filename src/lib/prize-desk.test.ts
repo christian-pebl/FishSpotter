@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { toPrizeDeskSummary, type PrizeDeskSummaryWinner } from "./prize-desk";
-import type { PrizeWinnerRow } from "./prize";
+import { markPrizeFulfilled, toPrizeDeskSummary, type PrizeDeskSummaryWinner } from "./prize-desk";
+import { SEASEARCH_GUIDE_ID, type PrizeWinnerRow } from "./prize";
 
 const row = (over: Partial<PrizeWinnerRow> = {}): PrizeWinnerRow => ({
   userId: "u1",
@@ -15,7 +15,7 @@ const row = (over: Partial<PrizeWinnerRow> = {}): PrizeWinnerRow => ({
   fulfilledBy: null,
   eligible: true,
   eligibilityReasons: [],
-  status: "reached-unclaimed",
+  status: "to-post",
   contact: "verified",
   contactEmail: "reef@example.com",
   spotter: "Reef",
@@ -90,5 +90,83 @@ describe("toPrizeDeskSummary", () => {
     const serialized = JSON.stringify(winners[0]);
     expect(serialized).not.toContain("fishspotter.local");
     expect(winners[0].contactEmail).toBeNull();
+  });
+});
+
+/**
+ * markPrizeFulfilled's branching, against a hand-rolled fake Prisma.
+ *
+ * The real-database coverage lives in prize-desk.integration.test.ts, which is
+ * skipped unless PRIZE_TEST_DATABASE_URL is set, so on a normal `npm test`
+ * (and in CI) nothing executed this function at all. Since the create-on-demand
+ * branch is the whole point of the 11 Aug 2026 refactor, and getting it wrong
+ * means either a book that can't be recorded or a duplicate posting, it needs
+ * coverage that always runs.
+ */
+describe("markPrizeFulfilled", () => {
+  function fakePrisma(existing: { id: string } | null) {
+    const calls = { create: [] as unknown[], update: [] as unknown[] };
+    const prisma = {
+      pebblePurchase: {
+        findFirst: async () => existing,
+        create: async ({ data }: { data: Record<string, unknown> }) => {
+          calls.create.push(data);
+          return { fulfilledAt: data.fulfilledAt, fulfilledBy: data.fulfilledBy };
+        },
+        update: async ({ data, where }: { data: Record<string, unknown>; where: unknown }) => {
+          calls.update.push({ data, where });
+          return { fulfilledAt: data.fulfilledAt, fulfilledBy: data.fulfilledBy };
+        },
+      },
+    } as unknown as Parameters<typeof markPrizeFulfilled>[0];
+    return { prisma, calls };
+  }
+
+  it("creates a zero-cost fulfilment row when the winner has none", async () => {
+    const { prisma, calls } = fakePrisma(null);
+    const res = await markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk");
+
+    expect(calls.create).toHaveLength(1);
+    expect(calls.update).toHaveLength(0);
+    expect(calls.create[0]).toMatchObject({
+      userId: "u1",
+      itemId: SEASEARCH_GUIDE_ID,
+      // Load-bearing: the guide is a gift, so recording it must never look
+      // like a spend against the spotter's Pebbles.
+      pebbleCost: 0,
+      fulfilledBy: "chris@pebl-cic.co.uk",
+    });
+    expect(res.fulfilledAt).toBeInstanceOf(Date);
+  });
+
+  it("updates in place when a row already exists, never creating a second", async () => {
+    const { prisma, calls } = fakePrisma({ id: "row1" });
+    await markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk");
+
+    expect(calls.create).toHaveLength(0);
+    expect(calls.update).toHaveLength(1);
+    expect(calls.update[0]).toMatchObject({ where: { id: "row1" } });
+  });
+
+  it("un-marking with no existing row writes nothing at all", async () => {
+    // Otherwise the desk would litter the ledger with rows recording that a
+    // book was NOT sent, and every one of them would resurface as a winner.
+    const { prisma, calls } = fakePrisma(null);
+    const res = await markPrizeFulfilled(prisma, "u1", false, "chris@pebl-cic.co.uk");
+
+    expect(calls.create).toHaveLength(0);
+    expect(calls.update).toHaveLength(0);
+    expect(res).toEqual({ fulfilledAt: null, fulfilledBy: null });
+  });
+
+  it("un-marking an existing row clears the stamp but keeps the row", async () => {
+    const { prisma, calls } = fakePrisma({ id: "row1" });
+    const res = await markPrizeFulfilled(prisma, "u1", false, "chris@pebl-cic.co.uk");
+
+    expect(calls.update).toHaveLength(1);
+    expect(calls.update[0]).toMatchObject({
+      data: { fulfilledAt: null, fulfilledBy: null },
+    });
+    expect(res.fulfilledAt).toBeNull();
   });
 });
