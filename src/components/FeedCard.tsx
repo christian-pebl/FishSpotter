@@ -668,37 +668,54 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     }
 
     let cancelled = false;
+    let inFlight = false;
 
-    const tryPlay = () => {
-      if (cancelled || !videoRef.current) return;
-      videoRef.current.play().then(() => {
-        if (!cancelled) { setVideoPaused(false); }
-      }).catch((err: unknown) => {
-        if (cancelled) return;
-        const name = err instanceof Error ? err.name : String(err);
-        if (name === "NotAllowedError") {
-          setVideoPaused(true);
-        }
-      });
+    // One play() attempt at a time, and never before the element actually has
+    // frames. The old version fired play() immediately AND from a `canplay`
+    // listener AND from the JSX onCanPlay handler, so up to three requests
+    // raced on one element, which is precisely what makes a browser reject
+    // with AbortError ("interrupted by a new load request"). Firefox is the
+    // strictest here, but it was reproducible on Chromium and Edge too.
+    const attempt = () => {
+      const el = videoRef.current;
+      if (cancelled || !el || inFlight) return;
+      if (!el.paused) return;
+      // HAVE_CURRENT_DATA. Below this, play() races the load; wait for an event.
+      if (el.readyState < 2) return;
+      inFlight = true;
+      el.play()
+        .then(() => {
+          if (!cancelled) setVideoPaused(false);
+        })
+        .catch(() => {
+          // ANY rejection must surface the tap-to-play affordance, not just
+          // NotAllowedError. Swallowing AbortError left the card frozen on its
+          // poster with no control at all, recoverable only by scrolling away
+          // and back (which re-ran this effect). Reported from the field on
+          // Firefox, Vanadium and Edge, 11 Aug 2026.
+          if (!cancelled && videoRef.current?.paused) setVideoPaused(true);
+        })
+        .finally(() => {
+          inFlight = false;
+        });
     };
 
-    if (v.readyState >= 3) {
-      tryPlay();
-    } else {
-      const onCanPlay = () => {
-        v.removeEventListener("canplay", onCanPlay);
-        tryPlay();
-      };
-      v.addEventListener("canplay", onCanPlay);
-      tryPlay();
-      return () => {
-        cancelled = true;
-        v.removeEventListener("canplay", onCanPlay);
-      };
-    }
+    attempt();
+    // Retry as the element becomes playable. Both events are needed: a cold
+    // card with a freshly-added src reaches HAVE_CURRENT_DATA on `loadeddata`,
+    // while one restored from cache can go straight to `canplay`.
+    v.addEventListener("loadeddata", attempt);
+    v.addEventListener("canplay", attempt);
 
-    return () => { cancelled = true; };
-  }, [isActive]);
+    return () => {
+      cancelled = true;
+      v.removeEventListener("loadeddata", attempt);
+      v.removeEventListener("canplay", attempt);
+    };
+    // `preload` and the URL matter: when a card scrolls far enough out of the
+    // window the src attribute is removed entirely (see the <video> below), so
+    // coming back needs a fresh set of listeners on a re-loading element.
+  }, [isActive, preload, snippet.videoUrl]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -989,10 +1006,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           tabIndex={isActive ? 0 : -1}
           aria-label={`Underwater clip from ${snippet.site} ${snippet.deployment}. Press space to play or pause.`}
           onLoadStart={() => setVideoErrored(false)}
-          onCanPlay={() => {
-            setVideoErrored(false);
-            if (isActive) videoRef.current?.play().catch(() => {});
-          }}
+          onCanPlay={() => setVideoErrored(false)}
+          // Whatever finally starts playback (the effect's retry, a tap, the
+          // sound toggle), this is the single place the tap-to-play overlay is
+          // dismissed, so it can never linger over a playing clip.
+          onPlaying={() => setVideoPaused(false)}
           onError={(e) => {
             const v = e.currentTarget;
             setVideoErrored(true);
