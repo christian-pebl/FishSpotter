@@ -20,6 +20,10 @@
     {
       "path": "/api/cron/consensus-rescore",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/new-clips",
+      "schedule": "0 10 * * *"
     }
   ]
 }
