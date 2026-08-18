@@ -49,6 +49,7 @@ export function CommentBox({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [held, setHeld] = useState(false);
+  const [masked, setMasked] = useState(false);
   const [done, setDone] = useState(false);
 
   const wantsName = reason === "not-listed" || reason === "disagree";
@@ -74,6 +75,7 @@ export function CommentBox({
       const data = (await res.json().catch(() => ({}))) as {
         error?: string;
         held?: boolean;
+        masked?: boolean;
       };
       if (!res.ok) {
         setError(data.error ?? "Couldn't post that. Try again in a moment.");
@@ -82,6 +84,7 @@ export function CommentBox({
       setBody("");
       setSuggestedName("");
       setHeld(!!data.held);
+      setMasked(!!data.masked);
       setDone(true);
       onPosted?.();
     } catch {
@@ -117,7 +120,9 @@ export function CommentBox({
           <span>
             {held
               ? "Thanks. This one's gone to PEBL for a quick check before it appears."
-              : "Posted. Thanks for adding to this one."}
+              : masked
+                ? "Posted — we've starred out a word. Thanks for adding to this one."
+                : "Posted. Thanks for adding to this one."}
           </span>
         </p>
         <button
@@ -125,6 +130,7 @@ export function CommentBox({
           onClick={() => {
             setDone(false);
             setHeld(false);
+            setMasked(false);
           }}
           className="mt-1 inline-flex min-h-[44px] items-center text-[10px] uppercase tracking-wider text-white/60 hover:text-white/85"
         >
