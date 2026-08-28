@@ -1297,3 +1297,83 @@ Verified: type-check, 673 unit tests, both linters, CI green on PR #143, then th
 whole flow driven on live production (fish-spotter.vercel.app) at desktop and
 phone widths, confirming the split holds from rung 1 through the reveal and that
 the removed button is gone.
+
+## 2026-08-28: small pinned markers replace the big rings on "How to spot it"
+
+The diagnostic-mark rings on the species-guide photo (`AnnotatedSpeciesPhoto.tsx`)
+were a big semi-transparent circle per feature, which read as visual clutter
+rather than a clean numbered pointer. Replaced with a single small numbered
+marker pinned exactly on the feature's authored centre, no ring. The reference-
+photo gallery moved to sit directly below "How to spot it" instead of the foot
+of the page (a real photo is the clearest confirmation of what a species looks
+like) and got a proper wrapping grid, ~2.6x the old thumbnail size, with a new
+`layout="grid"` / `theme="light"` mode on `SpeciesGallery.tsx` (the component
+was built dark-first; the light variant fixes what would otherwise be
+white-on-white loading/empty/error chrome on the light species-guide surface).
+The redundant field-note paragraph now only renders as a fallback for the
+handful of species with no annotated diagram yet, since the diagram's own
+legend already covers the same visual-ID ground. Merged as PR #144 (`a11adb4d`).
+
+**A real bug surfaced by the redesign, not by the sweep below.** Two marks that
+both describe a whole-body or radiating feature (a starfish's "five stubby
+arms" and "pentagon outline"; an urchin's overall shape and its all-over fur)
+land on the same or near-identical authored centre, because that kind of
+feature genuinely has no single correct point. A drawn ring tolerated the
+overlap; a solid dot does not; one can fully hide the other. Confirmed directly
+in the Gemini grading output: Sea potato's first marker came back "completely
+missing from the image", it was sitting exactly under the second. Fixed with a
+deterministic separation pass (`separateOverlaps` in both
+`AnnotatedSpeciesPhoto.tsx` and `scripts/lib/mark-overlay.ts`, kept in sync by
+hand since the script has no import path to the component) that nudges two
+close markers apart by a fixed minimum distance, computed purely at render
+time so the stored coordinates stay the untouched ground truth.
+
+**Gemini-verified relocation swept all 67 marked species**, run as 5 parallel
+background shards (`place-diagnostic-marks.ts --mode relocate --all --slice a:b
+--apply`) after the Workflow tool's multi-agent path hit a machine-wide agent
+cap from other concurrent sessions; plain parallel OS processes did the same
+job with no orchestration overhead, since the actual "thinking" happens inside
+each Gemini call, not in an agent's own reasoning. 45 species were already
+correctly placed; 18 were corrected and confirmed aligned by an independent
+re-grade. Along the way, found and fixed a live bug in the placement script:
+its Gemini caller was still sending `thinkingConfig.thinkingBudget: 0`
+unconditionally, which `gemini-3.6-flash` (`.env.local`'s current model)
+rejects outright with a 400, silently failing every relocate call. Same
+one-retry-without-thinkingConfig fix already shipped in `gemini-vision.ts`,
+ported across.
+
+**Three species still need a human look, all content/photo limits, not
+placement bugs:**
+- **Cushion Star** and **Sea potato**, the whole-body-feature pair described
+  above. Legible now (separation fix), but Gemini's strict per-mark grading
+  still calls them imperfect since neither mark has a true single point. Would
+  need re-authoring the marks (most likely merging the pair into one), not a
+  coordinate fix.
+- **Velvet Swimming Crab**'s "paddle-shaped rear legs" mark. Tried by the
+  automated sweep (5 rounds) and then by hand with a coordinate-grid overlay
+  for precision, still never resolved, both "Red eyes" and "Velvety carapace"
+  did resolve the same way. The front-facing reference photo doesn't clearly
+  show the flattened swimming leg from any angle tried; needs a different
+  photo, not another placement attempt.
+
+**A live production collision, worth knowing if this pattern recurs.** Mid-fix
+on Velvet Swimming Crab, another concurrent FishSpotter session wrote to the
+exact same `DiagnosticMark` rows (a single-transaction update touching a mark
+this session had never even queried), overwriting the in-progress fix. Backed
+off rather than race it; confirmed via each row's `updatedAt` and the
+single-transaction signature that it was a real second writer, not a bug in
+this session's own scripts. Separately, `SpeciesGuideContent.tsx`'s edit
+turned out to depend on a substantial "grounded species guide" (citations/
+provenance) feature that was sitting uncommitted in the shared checkout from a
+different session; rather than commit a stale snapshot of someone else's
+in-progress work, the redesign was rebased onto that feature once its own
+author merged it properly (PR #146, landed independently), so the final merged
+diff is only the 5 files above.
+
+Verified: `tsc`, both linters and the full test suite (692 tests) clean on an
+isolated worktree build (the primary checkout was under heavy concurrent edits
+from other sessions all day), CI green on PR #144 (type-check/lint/tests,
+integration against real Postgres, Vercel build), then re-checked directly
+against live production (fish-spotter.vercel.app) after merge: marker geometry,
+gallery grid, and the field-note fallback in both directions (a marked species
+and an unmarked one) all confirmed live.
