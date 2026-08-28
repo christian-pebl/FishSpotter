@@ -37,6 +37,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { DURATION, EASE } from "@/lib/motion";
+import {
+  COMPACT_HEIGHT_PCT,
+  MAX_HEIGHT_PCT,
+  MAX_WIDTH_PCT,
+  MIN_HEIGHT_PCT,
+  MIN_WIDTH_PCT,
+  MIN_WIDTH_REM,
+  useDocked,
+  useSplitPanel,
+  useSplitResize,
+  useStoredSplitSize,
+} from "@/lib/split-screen";
 
 /** A teal-tinted silhouette from a static SVG, via CSS mask + bg-current (zero
  * JS-bundle cost, hover-recolours with the tile). Shared by all rungs. */
@@ -296,92 +308,18 @@ export type TileSpec = {
 export type Crumb = { label: string; onClick?: () => void };
 
 /**
- * Desktop docking (28 Aug 2026). On a wide screen the gate no longer floats
+ * Desktop docking (28 Aug 2026). On a wide screen the gate does not float
  * centred over the clip. It docks to the LEFT edge, full height, capped at half
  * the width, so the video keeps playing (and stays watchable) beside it rather
- * than underneath it. The user can drag the panel's right edge to resize; the
- * width persists across clips and sessions.
+ * than underneath it. On a phone the same panel is a bottom sheet and the clip
+ * sits above it. Drag the seam edge (or the sheet's grip) to re-balance; the
+ * size persists across clips and sessions.
  *
- * MAX_WIDTH_PCT is the load-bearing number: it is what guarantees "at least half
- * the clip is always visible", so raising it defeats the point of docking.
- * MIN_WIDTH_REM keeps a 3-column tile grid legible on a narrow laptop.
- *
- * Below the breakpoint (phones, the primary surface) nothing changes: the card
- * stays the centred, draggable, bottom-anchored sheet it already was.
+ * The geometry itself now lives in `@/lib/split-screen`, because the tiles are
+ * no longer the only thing that occupies the working half: the comparison, the
+ * species card, the reveal and the map all render into the same rect and
+ * inherit the same stored size. See that module for the contract.
  */
-const DOCK_MEDIA_QUERY = "(min-width: 768px)";
-const MIN_WIDTH_PCT = 28;
-const MAX_WIDTH_PCT = 50;
-// Roughly a third of a wide screen by default: enough for a 3-column tile grid,
-// and it leaves the clip the larger share. The user can widen it to half.
-const DEFAULT_WIDTH_PCT = 36;
-const MIN_WIDTH_REM = 20;
-const WIDTH_STORAGE_KEY = "fs-gate-width-pct";
-
-/**
- * Phone sizing (28 Aug 2026). A phone has no room to put the panel beside the
- * clip, so it goes UNDER it: a 50/50 split, video on top, options below. The
- * sheet is anchored to the bottom and sized by its top grip. Drag the grip and
- * the split moves live, let go and it stays. Below COMPACT_HEIGHT_PCT the tile
- * grid reflows denser so a short sheet still shows whole tiles rather than a
- * sliver of the first row.
- *
- * The other half of the deal is the "Full video" button on the sheet's top
- * edge: one tap drops the sheet to the dock bubble so the clip plays full
- * screen, and the bubble brings it back with the rung intact. Between them, a
- * phone user never has to choose between watching and identifying.
- *
- * This replaces the old free-drag-the-card-around behaviour, which moved the
- * card without ever giving back any space.
- */
-// Low enough to uncover most of the clip, high enough that the tile grid is
-// still a grid at the bottom of the range rather than a clipped sliver. Going
-// all the way to "no panel" is the Full video button's job, not the grip's.
-const MIN_HEIGHT_PCT = 34;
-const MAX_HEIGHT_PCT = 92;
-// A straight 50/50 split by default: clip on top, options underneath. Both
-// halves are then always live, so you can watch the animal and read the tiles
-// without moving anything, and the grip re-balances it from there.
-const DEFAULT_HEIGHT_PCT = 50;
-const COMPACT_HEIGHT_PCT = 46;
-const HEIGHT_STORAGE_KEY = "fs-gate-height-pct";
-
-const clampWidthPct = (v: number) =>
-  Math.min(MAX_WIDTH_PCT, Math.max(MIN_WIDTH_PCT, v));
-
-const clampHeightPct = (v: number) =>
-  Math.min(MAX_HEIGHT_PCT, Math.max(MIN_HEIGHT_PCT, v));
-
-const readStoredPct = (key: string, fallback: number) => {
-  try {
-    const stored = Number(window.localStorage.getItem(key));
-    return Number.isFinite(stored) && stored > 0 ? stored : fallback;
-  } catch {
-    return fallback; // storage unavailable (private window, blocked site data)
-  }
-};
-
-const writeStoredPct = (key: string, value: number) => {
-  try {
-    window.localStorage.setItem(key, String(value));
-  } catch {
-    /* storage unavailable, so the size still applies only for this session */
-  }
-};
-
-/** True on a wide viewport. SSR-safe (false first paint, corrected on mount),
- *  and live: dragging a desktop window narrow re-flows back to the sheet. */
-function useDocked(): boolean {
-  const [docked, setDocked] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia(DOCK_MEDIA_QUERY);
-    const sync = () => setDocked(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-  return docked;
-}
 
 export function TileGate({
   ariaLabel,
@@ -501,13 +439,16 @@ export function TileGate({
   // Left-docked resizable panel on desktop; bottom-anchored resizable sheet on
   // a phone (see useDocked / the sizing constants above).
   const docked = useDocked();
-  const [widthPct, setWidthPct] = useState(DEFAULT_WIDTH_PCT);
-  const [heightPct, setHeightPct] = useState(DEFAULT_HEIGHT_PCT);
-  const [resizing, setResizing] = useState(false);
-  const widthRef = useRef(widthPct);
-  widthRef.current = widthPct;
-  const heightRef = useRef(heightPct);
-  heightRef.current = heightPct;
+  const { widthPct, setWidthPct, heightPct, setHeightPct } = useStoredSplitSize();
+  const { resizing, startResize, onResizeKey } = useSplitResize({
+    docked,
+    widthPct,
+    heightPct,
+    setWidthPct,
+    setHeightPct,
+    panelRef: dialogRef,
+    trackRef: constraintsRef,
+  });
 
   // Announce the space this gate is taking, live. Two listeners depend on it:
   // FeedPlayer stands its "swipe up for next" nudge down while a gate is up,
@@ -517,100 +458,16 @@ export function TileGate({
   //
   // Minimized counts as closed: the card is a dock bubble then, and the clip
   // should go back to full bleed.
-  useEffect(() => {
-    window.dispatchEvent(
-      new CustomEvent("fs-gate", {
-        detail: minimized
-          ? { open: false }
-          : { open: true, docked, widthPct, heightPct },
-      }),
-    );
-  }, [docked, widthPct, heightPct, minimized]);
-
-  useEffect(
-    () => () => {
-      window.dispatchEvent(new CustomEvent("fs-gate", { detail: { open: false } }));
-    },
-    [],
+  useSplitPanel(
+    dialogRef,
+    minimized
+      ? { open: false }
+      : { open: true, docked, widthPct, heightPct },
   );
-
-  // Restore the viewer's last size once, on mount.
-  useEffect(() => {
-    setWidthPct(clampWidthPct(readStoredPct(WIDTH_STORAGE_KEY, DEFAULT_WIDTH_PCT)));
-    setHeightPct(clampHeightPct(readStoredPct(HEIGHT_STORAGE_KEY, DEFAULT_HEIGHT_PCT)));
-  }, []);
 
   // Below this the sheet is too short for the full-size tile grid, so the grid
   // reflows denser (an extra column, shorter tiles) instead of clipping row one.
   const compact = !docked && heightPct < COMPACT_HEIGHT_PCT;
-
-  /** One pointer-drag resize for both axes: docked drags the right edge (width),
-   *  a sheet drags the top grip (height). Live while the finger is down, banked
-   *  to localStorage on release. */
-  const startResize = (e: React.PointerEvent) => {
-    const card = dialogRef.current;
-    const track = constraintsRef.current;
-    if (!card || !track) return;
-    e.preventDefault();
-    const cardRect = card.getBoundingClientRect();
-    const trackRect = track.getBoundingClientRect();
-    if (trackRect.width <= 0 || trackRect.height <= 0) return;
-    setResizing(true);
-
-    // Banked here rather than read back off the state ref on release: a flick
-    // where the last move and the release land in the same frame would persist
-    // the pre-drag value, because React has not re-rendered the ref yet.
-    let latest = docked ? widthRef.current : heightRef.current;
-
-    const onMove = (ev: PointerEvent) => {
-      if (docked) {
-        latest = clampWidthPct(((ev.clientX - cardRect.left) / trackRect.width) * 100);
-        setWidthPct(latest);
-      } else {
-        // Bottom-anchored: the sheet grows upward, so its height is the gap
-        // between the pointer and the sheet's (fixed) bottom edge.
-        latest = clampHeightPct(((cardRect.bottom - ev.clientY) / trackRect.height) * 100);
-        setHeightPct(latest);
-      }
-    };
-    const onUp = () => {
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", onUp);
-      window.removeEventListener("pointercancel", onUp);
-      setResizing(false);
-      writeStoredPct(docked ? WIDTH_STORAGE_KEY : HEIGHT_STORAGE_KEY, latest);
-    };
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", onUp);
-    window.addEventListener("pointercancel", onUp);
-  };
-
-  /** Keyboard resize. A pointer drag must never be the only way to work a
-   *  control (WCAG 2.1.1). Arrows step 2%, Home/End snap to the bounds. */
-  const onResizeKey = (e: React.KeyboardEvent) => {
-    const [less, more] = docked
-      ? ["ArrowLeft", "ArrowRight"]
-      : ["ArrowDown", "ArrowUp"];
-    const current = docked ? widthRef.current : heightRef.current;
-    const min = docked ? MIN_WIDTH_PCT : MIN_HEIGHT_PCT;
-    const max = docked ? MAX_WIDTH_PCT : MAX_HEIGHT_PCT;
-    let next: number | null = null;
-    if (e.key === less) next = current - 2;
-    else if (e.key === more) next = current + 2;
-    else if (e.key === "Home") next = min;
-    else if (e.key === "End") next = max;
-    if (next === null) return;
-    e.preventDefault();
-    if (docked) {
-      const v = clampWidthPct(next);
-      setWidthPct(v);
-      writeStoredPct(WIDTH_STORAGE_KEY, v);
-    } else {
-      const v = clampHeightPct(next);
-      setHeightPct(v);
-      writeStoredPct(HEIGHT_STORAGE_KEY, v);
-    }
-  };
 
   // React 18.3 needs `inert` spread as a string for Framer compatibility.
   const inertProps = suspendKeyboard

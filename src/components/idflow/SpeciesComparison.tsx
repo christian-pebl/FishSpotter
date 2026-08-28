@@ -15,8 +15,8 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import type { ComparisonGroup } from "@/lib/idflow/comparisons";
+import { PanelOverlay } from "@/components/idflow/PanelOverlay";
 
 // Below this many records in the clip's bucket the share is too noisy to show
 // (a handful of survey records can make one species read "100%"). Mirrors the
@@ -156,20 +156,13 @@ export function SpeciesComparison({
     ? [...group.members].sort((a, b) => probOf(b.scientificName) - probOf(a.scientificName))
     : group.members;
 
-  return createPortal(
-    <div
-      className="fixed inset-x-0 top-0 z-[90] flex h-[100dvh] items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4"
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+  return (
+    <PanelOverlay
+      dialogRef={dialogRef}
+      ariaLabel={group.title}
+      onDismiss={onClose}
+      surfaceClassName="bg-navy-900 text-white"
     >
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={group.title}
-        className="flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-card bg-navy-900 text-white shadow-menu sm:rounded-card"
-      >
         <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">
           <h2 className="min-w-0 text-h3 font-semibold leading-tight text-white">{group.title}</h2>
           <button
@@ -223,7 +216,14 @@ export function SpeciesComparison({
               return (
                 <div
                   key={m.scientificName}
-                  className="flex w-[min(20rem,82vw)] shrink-0 snap-start flex-col gap-2"
+                  // Phone: a snap carousel sized off the VIEWPORT, so one card
+                  // fills the sheet with the next peeking. Desktop: sized off
+                  // the CONTAINER instead, so a pair sits genuinely side by
+                  // side inside the docked panel rather than spilling past the
+                  // seam (a "compare side by side" you have to scroll to see is
+                  // not a comparison). `md:` is the same 768px breakpoint the
+                  // panel docks at, so the two switch together.
+                  className="flex w-[min(20rem,82vw)] shrink-0 snap-start flex-col gap-2 md:w-[min(20rem,48%)]"
                 >
                   <button
                     type="button"
@@ -317,8 +317,6 @@ export function SpeciesComparison({
             })}
           </div>
         </div>
-      </div>
-    </div>,
-    document.body,
+    </PanelOverlay>
   );
 }

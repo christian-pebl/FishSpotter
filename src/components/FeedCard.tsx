@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
-import { motion, AnimatePresence, useDragControls, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
@@ -13,8 +13,9 @@ import {
   videoFilterFor,
   VIDEO_SPEEDS,
 } from "@/lib/videoSettings";
+import { SplitPanel } from "./idflow/SplitPanel";
+import { getSplitFrame, subscribeSplitFrame, type SplitFrame } from "@/lib/split-screen";
 import { StaffScientificResolver } from "./StaffScientificResolver";
-import { IdGuideTrigger } from "./IdGuideTrigger";
 import { resolveFarmByDeployment } from "@/lib/farms/catalogue";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
@@ -366,9 +367,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // don't fire a second /probability fetch.
   const [staffScientific, setStaffScientific] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  // framer-motion drag, gated on the visible handle so taps on form
-  // controls don't accidentally initiate a drag.
-  const dragControls = useDragControls();
   const articleRef = useRef<HTMLElement>(null);
   // Default panel position: vertically centered on desktop, bottom-snapped on
   // mobile. MUST initialise to false (the server has no viewport). A matchMedia
@@ -1204,31 +1202,27 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // property is a style recalc, which the video's existing ResizeObserver
   // already picks up to recompute fitGeometry, so the bbox trail stays aligned.
   useEffect(() => {
-    const onGate = (e: Event) => {
+    const apply = (d: SplitFrame) => {
       const el = articleRef.current;
       if (!el) return;
-      const d = (e as CustomEvent<{
-        open: boolean;
-        docked?: boolean;
-        widthPct?: number;
-        heightPct?: number;
-      }>).detail;
-      setSplitMode(!!d?.open);
-      if (!d?.open) {
+      setSplitMode(d.open);
+      if (!d.open) {
         el.style.removeProperty("--gate-left");
         el.style.removeProperty("--gate-bottom");
         return;
       }
       if (d.docked) {
-        el.style.setProperty("--gate-left", `${d.widthPct ?? 0}%`);
+        el.style.setProperty("--gate-left", `${d.widthPct}%`);
         el.style.removeProperty("--gate-bottom");
       } else {
-        el.style.setProperty("--gate-bottom", `${d.heightPct ?? 0}%`);
+        el.style.setProperty("--gate-bottom", `${d.heightPct}%`);
         el.style.removeProperty("--gate-left");
       }
     };
-    window.addEventListener("fs-gate", onGate);
-    return () => window.removeEventListener("fs-gate", onGate);
+    // Seed from the cached snapshot: a card that becomes active while a panel
+    // is already open would otherwise stay full-bleed until the next resize.
+    apply(getSplitFrame());
+    return subscribeSplitFrame(apply);
   }, []);
 
   return (
@@ -1799,83 +1793,54 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           gate (shape or body) is open so only the gate box shows, not two. */}
       <AnimatePresence>
         {!panelCollapsed && !shapeGateOpen && !(bodyGateOpen && !myAnswer) && !(spotItActive && !myAnswer) && (
-          <div
-            className="pointer-events-none absolute z-20 w-[min(480px,calc(100%-1rem))] lg:w-[min(560px,calc(100%-2rem))]"
-            style={
-              // Reveal result is screen-centred on EVERY breakpoint, so it sits
-              // in exactly the same place as the Spot It rung selection tiles
-              // (TileGate centres at top-1/2). Post-answer there is no text
-              // input, so no keyboard offset / bottom-dock is needed.
-              { top: "50%", left: "50%", transform: "translate(-50%, -50%)" }
-            }
+          <SplitPanel
+            ariaLabel={myAnswer ? "Your result for this clip" : "Name this species"}
+            onFullVideo={() => togglePanel(true)}
+            fullVideoLabel="Full video"
           >
-          <motion.aside
-            key="panel"
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              boxShadow:
-                submitPulse === "correct"
-                  ? "0 0 0 3px rgba(58,175,169,0.65), 0 8px 30px rgba(0,0,0,0.45)"
-                  : "0 8px 30px rgba(0,0,0,0.45)",
-            }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-            transition={TRANSITION.standard}
-            drag
-            dragControls={dragControls}
-            dragListener={false}
-            dragMomentum={false}
-            dragElastic={0.08}
-            dragConstraints={articleRef}
-            // Matches the Spot It rung cards (TileGate): opaque navy, no
-            // saturate boost. The old bg-navy-900/72 + backdrop-saturate-150 let
-            // the underwater video bleed through and amplified its hue, so the
-            // reveal read as a vivid green card instead of the dark gate design.
-            className="pointer-events-auto relative flex max-h-[min(62vh,calc(100%-3.5rem))] w-full flex-col overflow-hidden rounded-card border border-white/12 bg-navy-900 backdrop-blur md:max-h-[min(80vh,calc(100%-3.5rem))]"
-          >
-            {/* Drag-only-from-here button. Visible grip so users know it's the
-                drag affordance. dragListener=false on the parent means drag
-                cannot start anywhere else. */}
-            <button
-              type="button"
-              onPointerDown={(e) => dragControls.start(e)}
-              aria-label="Drag to reposition panel"
-              className="absolute left-1/2 top-0 z-10 flex h-11 w-11 -translate-x-1/2 cursor-grab touch-none items-center justify-center text-white/35 transition-colors hover:text-white/75 active:cursor-grabbing"
-            >
-              <span className="flex h-6 w-9 items-center justify-center rounded-full hover:bg-white/10">
-                <svg width="14" height="6" viewBox="0 0 14 6" fill="currentColor" aria-hidden="true">
-                  <circle cx="2" cy="1.5" r="1" />
-                  <circle cx="7" cy="1.5" r="1" />
-                  <circle cx="12" cy="1.5" r="1" />
-                  <circle cx="2" cy="4.5" r="1" />
-                  <circle cx="7" cy="4.5" r="1" />
-                  <circle cx="12" cy="4.5" r="1" />
+            {/* Correct-answer pulse. Was a drop shadow on a floating card; on a
+                flush split panel the equivalent is an inset ring on the seam,
+                which reads at a glance without implying the panel is hovering
+                over the clip. */}
+            <AnimatePresence>
+              {submitPulse === "correct" && (
+                <motion.span
+                  aria-hidden="true"
+                  initial={reduceMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={TRANSITION.standard}
+                  className="pointer-events-none absolute inset-0 z-30 ring-2 ring-inset ring-teal-500/65"
+                />
+              )}
+            </AnimatePresence>
+            {/* Desktop "Hide" gets its OWN row rather than floating over the
+                content. Absolutely positioned it landed on top of whatever the
+                panel's first row happened to be, which in guess mode was the
+                submit arrow: two controls stacked in the same 32px corner. On a
+                phone the sheet's grip strip already carries "Full video", so
+                this row is desktop-only. */}
+            <div className="hidden shrink-0 items-center justify-end px-4 pt-2 md:flex">
+              <button
+                type="button"
+                onClick={() => togglePanel(true)}
+                aria-label="Minimize panel to see video (press H)"
+                title="Minimize, press H to toggle"
+                className="inline-flex h-8 items-center gap-1 rounded-full bg-white/5 px-2 text-[10px] font-medium uppercase tracking-wider text-white/70 transition-colors hover:bg-white/15 hover:text-white"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M2.5 6h7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
                 </svg>
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => togglePanel(true)}
-              aria-label="Minimize panel to see video (press H)"
-              title="Minimize, press H to toggle"
-              className="absolute right-1.5 top-1 z-10 inline-flex h-8 items-center gap-1 rounded-full bg-white/5 px-2 text-[10px] font-medium uppercase tracking-wider text-white/70 transition-colors hover:bg-white/15 hover:text-white before:absolute before:-inset-x-2 before:-inset-y-1.5 before:content-['']"
+                Hide
+              </button>
+            </div>
+            <div
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pt-8 pb-2 md:px-4 md:pt-1 md:pb-3"
+              style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}
             >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M2.5 6h7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-              </svg>
-              <span className="hidden sm:inline">Hide</span>
-            </button>
-            <div className="overflow-y-auto overscroll-contain px-3 pt-1 pb-2 md:px-4 md:pb-3" style={{ paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))` }}>
 
               {!myAnswer ? (
-                <>
-                  {/* Clearance for the absolute header controls (drag grip +
-                      Hide pill). Without it the first content row, the Skip /
-                      "Where is this?" cluster, or guess-mode's submit arrow,
-                      rendered straight into the top-right corner and stacked
-                      under the Hide button. */}
-                  <div className="h-8 shrink-0" aria-hidden="true" />
+                <div className="flex min-h-full flex-col">
                   {submitError && (
                     <p
                       id={`species-error-${snippet.id}`}
@@ -1997,7 +1962,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     </p>
                   )}
                   {status !== "loading" && (
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pb-1.5">
+                    <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5 pb-1.5 pt-2">
                       {/* UX-0: "Spot It" gate entry, opens the shape-class
                           silhouette grid. Sits alongside (not replacing) the
                           existing "Help me identify" wizard trigger. */}
@@ -2066,7 +2031,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   {/* UX-1 (3 Jun): Rung 3 moved out of the panel into its own
                       draggable gate (CandidateGate), rendered at the article
                       level below, so the panel is hidden while it's open. */}
-                </>
+                </div>
               ) : !stats ? (
                 // Answer recorded but the community stats haven't arrived yet
                 // (loadStats runs after myAnswer is set). Show a brief scoring
@@ -2080,6 +2045,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   Scoring your answer…
                 </div>
               ) : (
+                // min-h-full + flex: the docked panel is full height, so short
+                // reveal content would otherwise leave the advance row floating
+                // in the middle of a tall empty panel. This drops it to the
+                // foot, matching where TileGate puts its own footer actions.
+                <div className="flex min-h-full flex-col">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={
@@ -2102,7 +2072,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           : { scale: 1, opacity: 1 }
                     }
                     transition={revealWrong ? { duration: 0.36 } : spring.cheer}
-                    className="pb-2"
+                    className="flex flex-1 flex-col pb-2"
                   >
                     <RevealResult
                       chosenOption={myAnswer!.chosenOption}
@@ -2225,16 +2195,6 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       );
                     })()}
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <IdGuideTrigger
-                        snippetId={snippet.id}
-                        submitted={true}
-                        staffAnswer={
-                          stats!.staffAnswer ?? snippet.staffAnswer ?? null
-                        }
-                        staffScientific={staffScientific}
-                        onSuggest={() => {}}
-                        isLoggedIn={!!session}
-                      />
                       {hasLocation && (
                         <button
                           type="button"
@@ -2262,7 +2222,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       signUpHref={signUpHref}
                     />
                     <div
-                      className={`mt-2 flex items-center justify-between gap-2 ${
+                      className={`mt-auto flex items-center justify-between gap-2 pt-2 ${
                         hasNext
                           ? // T15: pin the advance row to the bottom of the
                             // reveal scroll so "Next" is always reachable on
@@ -2340,10 +2300,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                     )}
                   </motion.div>
                 </AnimatePresence>
+                </div>
               )}
             </div>
-          </motion.aside>
-          </div>
+          </SplitPanel>
         )}
       </AnimatePresence>
       {hasLocation && (
