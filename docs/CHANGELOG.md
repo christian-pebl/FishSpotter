@@ -1120,3 +1120,51 @@ the real function; do not re-implement the thing you are checking.
   12th request. Verified: `tsc`, 546 tests (13 new), `lint`, `lint:tokens`. **Still needs**: `PRIZE_DESK_TOKEN`
   set in Vercel prod env, and, per the metrics entry above, a redeploy after setting it, since new env
   vars don't apply to an already-built deployment.
+
+## 2026-08-28: Norfolk clips restored to the feed, and the prefix bug behind the blank metadata
+
+The 12 NORF-1 (Blakeney Overfalls) clips exported on 25 Aug had been hidden since, first for the
+burnt-in detector overlay (entry above), then because their metadata carried no deployment record
+at all, so the metadata gate held them.
+
+**Root cause of the blank metadata, found today and fixed at source.** TRDesk4's
+`_parse_video_metadata` matched its deployment prefix with `^([A-Za-z]+)_`, which cannot match
+`NORF-1_2026-06-14_08-01`: the hyphen before the camera number breaks the pattern, so the
+`_DEPLOYMENT_REGISTRY` lookup never ran and site, deployment, depth, latitude and longitude were
+never stamped. `NORF` was in that registry the whole time with real coordinates. The older
+un-hyphenated `NORF_2025-10-02_...` names parsed fine, which is why this only appeared once the
+camera-numbered naming started. Fixed in DesktopML `d7289ba`: the prefix now accepts an optional
+`-<n>` camera suffix, plus an HH-MM fallback for names carrying no seconds. Any future site with
+hyphenated camera names would have hit the same bug.
+
+All 12 clips were then back-filled from the registry (Blakeney Overfalls, 53.029167, 0.975833,
+20 m), un-excluded and synced. Preflight went 12 READY / 0 HOLD with the burn-in and codec gates
+both passing them on the way through. Verified live: 12/12 visible and fully attributed, all 12
+present in the feed (page 3, since the feed orders by `createdAt desc` and these are dated 25 Aug),
+the Blakeney-filtered archive renders 12 cards, and `npm run check:codecs` reports all 163 live
+clips H.264. Visible snippet count went 131 to 143.
+
+## 2026-08-28: every em and en dash removed from the repo
+
+House rule is no em or en dashes anywhere. A pre-commit guard already enforced it on new
+`.md`/`.txt` writes, but 3,480 legacy occurrences across 306 files meant the guard fired on almost
+every edit to an existing doc, which trains people to ignore it. Swept the repo (`cc94eb1`), then
+swept again after merging main, which brought 267 more in files the first pass never saw.
+
+Punctuation was chosen by context, not blanket-replaced: colon for definition-list shapes, comma
+for mid-sentence appositives, plain hyphen for the 128 numeric ranges and for the dash used as an
+empty-value placeholder in tables and admin UI, parentheses for 13 hand-checked matched pairs.
+
+**An automated "matched pair to parentheses" heuristic was tried and rejected.** It cannot tell a
+real pair from two unrelated dashes on one line, and it corrupted markdown table cells and lines
+carrying two quoted strings. The genuine pairs are listed explicitly instead.
+
+Verified beyond tsc/tests/lint, because a text substitution can silently break structure: line
+counts, line endings, table pipes, code fences, parenthesis balance, XML comment delimiters, 72
+SVGs parsing, 7 YAML workflows parsing, all `src/data` JSON valid. All 79 changed user-facing
+strings were read individually and 13 that had become comma splices were rewritten by hand. Six
+`DiagnosticMark` rows whose text is shown in the ID wizard were fixed directly in the production
+database to match the seed scripts.
+
+Deliberately not swept: `placement-log.json` and the two species-image-audit JSONs, which are
+generated records of what a script produced and one of which is a comparison baseline.
