@@ -1377,3 +1377,80 @@ integration against real Postgres, Vercel build), then re-checked directly
 against live production (fish-spotter.vercel.app) after merge: marker geometry,
 gallery grid, and the field-note fallback in both directions (a marked species
 and an unmarked one) all confirmed live.
+## 2026-08-28: every species-guide claim traced to a verified open-access source
+
+PRs [#146](https://github.com/christian-pebl/FishSpotter/pull/146),
+[#148](https://github.com/christian-pebl/FishSpotter/pull/148),
+[#149](https://github.com/christian-pebl/FishSpotter/pull/149), all merged and
+verified on production.
+
+The species guide asserted **920 factual statements** about 72 species and sourced
+none of them. It now carries a provenance layer: a WoRMS anchor per species, **339
+sources (318 verified)**, and **837 claims (91%) bound to one**, of which **318 have
+been confirmed against the passage itself**. Sources are FishBase 95, WoRMS 78,
+MarLIN 70, **45 peer-reviewed papers**, plus FAO catalogues, SCOS, BTO, PlymSea, BHL
+and institutional guides.
+
+**What a reader sees.** A small numbered marker beside a claim opens a card naming
+the source, where in it, and the sentence the claim rests on, with a link out. It
+opens in place; the first version was an anchor to the foot of the page, which on a
+phone loses the reader's place and never says which of six sources is the relevant
+one. The numbered bibliography stays at the foot with publisher, licence and
+last-checked date. Where a source CONTRADICTS the app the marker says so rather than
+rendering a clean citation: **142 claims are in that state** and are editorial work,
+not code.
+
+**Two identity traps, both hit, both now guarded.** MarLIN's common-mussel page names
+plaice AND dab in its body, so a body-containment match bound two flatfish to a
+bivalve; the test is now the page's own `<title>`. FishBase's `FoodItemsList.php`
+renders its heading from the URL's genus/species but its rows from the stock code, so
+a constructed URL returns a page headed "Food Items - Pollachius pollachius" listing
+freshwater African tilapia prey; `refs:diet` only ever follows the link FishBase
+itself publishes. A third trap: a page `<title>` test structurally REJECTS
+peer-reviewed papers, because a paper's title names its finding, not the species, so
+journals verify through Crossref instead.
+
+**Corrections this surfaced, all live before today.**
+- The depth tile was computed from OBIS occurrence records and told the public a grey
+  seal is "usually seen at ~0 m", which is the depth of the OBSERVER (an air-breather
+  is recorded at the surface by construction). It now reads a STATED range from
+  FishBase, MarLIN or SCOS for 62 species, and shows nothing for the 10 where no
+  source states one. `summariseDepths` refuses a band with no spread or with under
+  10% record coverage.
+- **The created / enhanced / harmed farm classification is withdrawn**, and with it
+  the with/without-farm toggle. Not one of the 21 "created" assignments survived a
+  check against the literature: 10 were contradicted by their own source, 9
+  unconfirmed, 2 unsourced. `FARM` is now empty with the reasoning in place and a test
+  that fails if the field returns. **The "farm builds 21 of 72 species" headline must
+  not be quoted.**
+- 58 bindings were deleted for not holding up, including 18 feeding links whose diet
+  record was about a different animal (`carcinus` matched inside `Liocarcinus`, a
+  different family). The matcher now uses word boundaries and strips FishBase's
+  category-label columns.
+- 222 stored quotes were opening with FishBase navigation ("Identification keys |
+  Morphology | ...") instead of the sentence carrying the claim; 130 more now skip the
+  leading meristic counts to start at the prose.
+
+**Also shipped:** an "I eat / Eats me" section per species, walkable hop by hop
+through the catalogue and cited where evidenced.
+
+**The pipeline** (`docs/runbooks/ground-a-species-claim.md`): `refs:resolve`,
+`refs:verify`, `refs:extract`, `refs:diet`, `refs:merge`, `refs:apply-fixes`,
+`refs:apply-depth`, `refs:apply-confirmations`, `refs:clean-quotes`, `refs:audit`.
+Two trust levels stay strictly apart: `linkVerified` is machine, `claimSupported` only
+ever comes from a passage someone read.
+
+**A defect worth remembering.** #149 corrected #148. The confirmation applier globbed
+`/challenge|verify/` and swept in the TRAWL pass's `*-verify.json` files, a different
+pass about different claims: it matched 26 pairs by coincidence and missed 28 of the
+54 verdicts the adversarial challenger returned, so 28 claims shipped marked as
+confirmed when the challenger had rejected them. Root cause was upstream: the confirm
+agents were told to write a file, the challenge agents were not, so their verdicts
+only ever existed as workflow return values. Files are now read BY NAME, and a shard
+with no challenge file cannot confirm anything.
+
+**Not done:** the 83 unbound claims are almost all individual feeding links the
+literature does not record (an agent judged 66 of 72 genuinely unsourceable rather
+than forcing a family-level match). The 318 confirmations rest on agent reading plus
+an adversarial challenge, not human review, and deserve a spot-check before being
+quoted externally.
