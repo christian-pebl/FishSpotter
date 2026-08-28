@@ -17,6 +17,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ComparisonGroup } from "@/lib/idflow/comparisons";
+import { emitTour } from "@/lib/tour-bus";
 
 // Below this many records in the clip's bucket the share is too noisy to show
 // (a handful of survey records can make one species read "100%"). Mirrors the
@@ -50,6 +51,8 @@ export function SpeciesComparison({
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  // Announce the side-by-side to the first-run tour (see SpeciesGuidePopup).
+  useEffect(() => emitTour("comparison-opened"), []);
 
   // Lead photo per member, fetched once (same route the candidate grid uses).
   const [photos, setPhotos] = useState<Record<string, string | null>>({});
@@ -168,6 +171,7 @@ export function SpeciesComparison({
         role="dialog"
         aria-modal="true"
         aria-label={group.title}
+        data-tour="comparison"
         className="flex max-h-[92dvh] w-full max-w-xl flex-col overflow-hidden rounded-t-card bg-navy-900 text-white shadow-menu sm:rounded-card"
       >
         <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3">

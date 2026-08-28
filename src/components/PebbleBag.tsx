@@ -230,6 +230,8 @@ export function PebbleBag({ onFeed }: { onFeed: boolean }) {
     <Link
       href="/pebbles"
       aria-label={`Your Pebbles: ${ariaTotal()} to spend. Open the shop and leaderboard.`}
+      // First-run tour anchor: the pebbles hint tethers itself under the bag.
+      data-tour="pebbles"
       className={`pointer-events-auto inline-flex min-h-[44px] items-center rounded-full px-2 ${
         onFeed ? "hover:bg-white/10" : "hover:bg-[color:var(--surface-muted)]"
       }`}

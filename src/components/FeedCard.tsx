@@ -19,6 +19,7 @@ import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
 import { RevealResult } from "./idflow/RevealResult";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
+import { emitTour, type TourSignal } from "@/lib/tour-bus";
 import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 import { manualTrackToBoxes } from "@/lib/manualTrack";
@@ -465,6 +466,34 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     });
     return () => setEditFocusCallback(null);
   }, [setEditFocusCallback]);
+
+  // First-run tour signals. The tour is a spotlight over the LIVE app (see
+  // src/components/onboarding/OnboardingTour.tsx) mounted as a sibling of the
+  // feed, so it cannot read this reducer directly. Each rung transition is
+  // announced on the tour bus and the tour jumps to the step that signal
+  // belongs to.
+  //
+  // These are statements of fact ("the candidate gate is now open"), not
+  // instructions. Nothing here knows or cares whether a tour is running, and
+  // emitting into an empty room costs one CustomEvent, so there is no coupling
+  // back from the app to the tour. Only the ACTIVE card speaks, or the two
+  // neighbours the feed keeps mounted would narrate over it.
+  const lastSignalRef = useRef<TourSignal | null>(null);
+  useEffect(() => {
+    if (!isActive) return;
+    const signal: TourSignal | null = myAnswer
+      ? "committed"
+      : spotItActive
+        ? "candidates-open"
+        : bodyGateOpen
+          ? "form-gate-open"
+          : shapeGateOpen
+            ? "identify-opened"
+            : null;
+    if (!signal || signal === lastSignalRef.current) return;
+    lastSignalRef.current = signal;
+    emitTour(signal);
+  }, [isActive, shapeGateOpen, bodyGateOpen, spotItActive, myAnswer]);
 
   const bboxes = useMemo(() => {
     // Prefer the hand-marked manual track when present — a far cleaner signal
@@ -945,7 +974,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           overlapped by the identify entry while watching. All video overlays
           (bbox trail, progress, paused, fade) live in this container, so they
           inset together and stay aligned. */}
-      <div className="absolute inset-x-0 top-0 bottom-14 overflow-hidden bg-black">
+      <div
+        // First-run tour anchor. Only the ACTIVE card carries it: the feed keeps
+        // neighbouring cards mounted, and the spotlight must light the clip the
+        // user is actually looking at.
+        {...(isActive ? { "data-tour": "clip" } : {})}
+        className="absolute inset-x-0 top-0 bottom-14 overflow-hidden bg-black"
+      >
         {/* Blurred poster fill behind a CONTAINED (letterboxed) clip: a portrait
             clip letterboxes in a taller viewport, so this turns the bars into an
             ambient extension of the scene instead of dead black. A landscape clip
@@ -1687,6 +1722,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           : { scale: 1, opacity: 1 }
                     }
                     transition={revealWrong ? { duration: 0.36 } : spring.cheer}
+                    {...(isActive ? { "data-tour": "reveal" } : {})}
                     className="pb-2"
                   >
                     <RevealResult

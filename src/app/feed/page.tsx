@@ -12,6 +12,7 @@ import { orderFeed } from "@/lib/feed-ordering";
 import { readinessFromAnsweredCount } from "@/lib/difficulty";
 import { safeParseJson } from "@/lib/safe-json";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
+import { pinTutorialClip } from "@/lib/onboarding-clip";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
 
 type FeedSnippetRow = {
   id: string;
+  externalId: string;
   videoUrl: string;
   thumbnailUrl: string;
   site: string;
@@ -54,6 +56,7 @@ export default async function FeedPage() {
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
+        externalId: true,
         videoUrl: true,
         thumbnailUrl: true,
         site: true,
@@ -111,6 +114,10 @@ export default async function FeedPage() {
 
   let needsTour = false;
   let unverified = false;
+  // Whether the tutorial clip actually ended up first. Passed to the tour so a
+  // missing or blocklisted clip degrades to shape-agnostic coaching rather than
+  // pointing at the wrong tile (see src/lib/onboarding-clip.ts).
+  let tutorialClipPinned = false;
   if (session?.user?.id) {
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
@@ -124,7 +131,12 @@ export default async function FeedPage() {
     unverified = !!user && !user.isGuest && !user.emailVerified;
   }
 
-  const feedSnippets = orderedSnippets.map((snippet: FeedSnippetRow) => ({
+  // First-run only: hoist the tutorial clip to the front so the tour's ghost
+  // cursor can point at "Crab" over footage that contains one.
+  const tourOrdered = needsTour ? pinTutorialClip(orderedSnippets as FeedSnippetRow[]) : null;
+  if (tourOrdered) tutorialClipPinned = tourOrdered.pinned;
+
+  const feedSnippets = (tourOrdered?.rows ?? orderedSnippets).map((snippet: FeedSnippetRow) => ({
     id: snippet.id,
     videoUrl: snippet.videoUrl,
     thumbnailUrl: snippet.thumbnailUrl,
@@ -142,7 +154,7 @@ export default async function FeedPage() {
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
       <FeedPlayer snippets={feedSnippets} />
-      <OnboardingTour needsTour={needsTour} />
+      <OnboardingTour needsTour={needsTour} tutorialClipPinned={tutorialClipPinned} />
       <VerificationBanner unverified={unverified} />
       {/* Zero-friction guest flow: username prompt for signed-out spotters,
           then an email-save nudge once a guest has spotted a few clips. Both

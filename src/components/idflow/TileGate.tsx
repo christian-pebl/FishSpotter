@@ -387,6 +387,7 @@ export function TileGate({
               onMouseEnter={() => setHovered(tile.key)}
               onMouseLeave={() => setHovered(null)}
               aria-label={tile.ariaLabel ?? tile.label}
+              data-tour-tile={tile.key}
               animate={
                 committing === tile.key && !reduceMotion
                   ? { scale: [1, 0.95, 1] }
@@ -475,6 +476,7 @@ export function TileGate({
                 onMouseEnter={() => setHovered(tile.key)}
                 onMouseLeave={() => setHovered(null)}
                 aria-label={tile.ariaLabel ?? tile.label}
+                data-tour-tile={tile.key}
                 animate={
                   committing === tile.key && !reduceMotion
                     ? { scale: [1, 0.97, 1] }
@@ -788,7 +790,12 @@ export function TileGate({
                 or any gate in landscape). Without this the centred card overflowed
                 the overflow-hidden feed item and clipped its own drag handle and
                 Skip footer with no way to reach them. */}
-            <div className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
+            <div
+              // First-run tour anchor: the spotlight lights the tile area, not
+              // the whole panel, so the caption below stays readable.
+              data-tour="tiles"
+              className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15"
+            >
               {tiles.length === 0 && emptyMessage ? (
                 <p className="px-2 py-6 text-center text-sm text-white/60">{emptyMessage}</p>
               ) : variant === "list" ? (
@@ -821,6 +828,7 @@ export function TileGate({
             {compare && (
               <button
                 type="button"
+                data-tour="compare"
                 onClick={compare.onClick}
                 className="mt-3 inline-flex min-h-[44px] w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:border-teal-400 hover:bg-teal-500/15 hover:text-teal-100"
               >

@@ -1,128 +1,175 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useModalFocus } from "@/lib/useModalFocus";
-import { TourPreview } from "./TourPreview";
-
-const STEPS = [
-  {
-    eyebrow: "1 · Spot",
-    title: "Pick the species",
-    body: "These are real clips from PEBL's UK seabed surveys, so your IDs help monitor what lives there. Pick the species that looks closest from a few likely options. No typing needed.",
-  },
-  {
-    eyebrow: "2 · Compare",
-    title: "Compare with the reference ID (when available)",
-    body: "After you pick, we reveal the reference identification where one exists, how the wider community guessed, and which species OBIS expects at this site and season. Clips without a reference are worth more, and your ID helps build the dataset.",
-  },
-  {
-    eyebrow: "3 · Streak",
-    title: "Build a streak",
-    body: "Identify clips on consecutive days to grow a streak. Submit 10 identifications to enter the leaderboard. We'll send one Monday digest a week, and you can opt out any time.",
-  },
-];
-
-interface Props {
-  needsTour: boolean;
-}
+import { onPebbles } from "@/lib/pebble-bus";
+import { onTour } from "@/lib/tour-bus";
+import { GhostCursor } from "./GhostCursor";
+import { PebbleHint } from "./PebbleHint";
+import { Spotlight } from "./Spotlight";
+import { TourCaption } from "./TourCaption";
+import { STEP_COUNT, TOUR_STEPS, TUTORIAL_HINTS, stepForSignal } from "./tour-steps";
+import { useAnchorRect, useTileCentre } from "./useAnchorRect";
 
 /**
- * Onboarding tour for first-time signed-in users (S3-11). The parent
- * decides whether the tour should appear (checks User.onboardedAt
- * server-side) and passes `needsTour`. Dismissal POSTs
- * /api/account/onboarding so the flag survives a sessionStorage clear
- * or a second device.
+ * First-run tour (S3-11, rebuilt 28 Aug 2026).
+ *
+ * WHAT CHANGED AND WHY. The old tour was a `max-w-md` modal containing a
+ * hand-drawn REPLICA of a feed card: a fake Identify pill, a fake four-chip
+ * grid, a fake histogram, a fake streak flame. Because nothing linked that
+ * replica to the real components, it drifted: by August it was teaching the
+ * retired MCQ fast path rather than the Spot It rung flow, and showing a
+ * reference-answer badge that had been removed from the reveal on purpose (the
+ * crowd is the authority, there is no answer key). A second copy of the UI will
+ * always drift, so it is gone.
+ *
+ * This is a full-screen SPOTLIGHT over the live app. Everything outside the
+ * current target is dimmed, the target is a lit cut-out, a ghost cursor mimes
+ * the gesture, and the user makes the real tap on the real control. Every
+ * highlighted pixel is shipping UI, so there is nothing left to drift.
+ *
+ * The tour FOLLOWS the app rather than driving it. Each rung transition emits a
+ * signal on the tour bus and the tour jumps to whichever step that signal
+ * belongs to (`stepForSignal`). That is what makes divergence safe: a user who
+ * picks Fish instead of the suggested Crab, whose shape class has no body-form
+ * sub-split, or who takes "skip to guess" straight past three rungs, all land
+ * on a coherent step rather than stranding the spotlight on a dead anchor.
+ *
+ * It ends at the consensus. Pebbles are a non-blocking hint afterwards
+ * (`PebbleHint`), so the tutorial is already complete before it appears and
+ * nobody has to click it to be done.
  */
-export function OnboardingTour({ needsTour }: Props) {
+export function OnboardingTour({
+  needsTour,
+  /** Is the pinned tutorial clip (the velvet crab) the card on screen? Only
+   *  then may the ghost cursor point at a NAMED tile: pointing at "Crab" over a
+   *  clip of a pollack would teach the wrong answer on the first ID. */
+  tutorialClipPinned = false,
+}: {
+  needsTour: boolean;
+  tutorialClipPinned?: boolean;
+}) {
   const { data: session } = useSession();
-  const [open, setOpen] = useState(needsTour && !!session?.user);
+  const [phase, setPhase] = useState<"idle" | "tour" | "hint" | "done">("idle");
   const [step, setStep] = useState(0);
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const [earned, setEarned] = useState(0);
+  const [forced, setForced] = useState(false);
+  const dismissedRef = useRef(false);
 
+  // `?tour=1` forces the tour, for testing and for a deliberate replay. The
+  // completion POST is idempotent (it only writes where onboardedAt is null),
+  // so a forced replay costs nothing but the clip it spends. Read off
+  // `window.location` rather than `useSearchParams`, which would drag a
+  // Suspense boundary requirement into the feed page for one debug flag.
   useEffect(() => {
-    if (!needsTour || !session?.user) return;
-    setOpen(true);
-  }, [needsTour, session?.user]);
-
-  const close = useCallback(async () => {
-    setOpen(false);
-    try {
-      await fetch("/api/account/onboarding", { method: "POST" });
-    } catch {
-      // No-op — refreshing the page on a future session sees the
-      // same `needsTour=true` and re-prompts.
-    }
+    setForced(new URLSearchParams(window.location.search).get("tour") === "1");
   }, []);
 
-  // WCAG 2.1.2: trap focus inside the dialog, restore to the opener on close,
-  // Escape-to-close, lock body scroll. (Was declared aria-modal with none of
-  // these — a keyboard user could Tab onto the live feed behind it.)
-  useModalFocus(open, dialogRef, close);
+  const wanted = (needsTour || forced) && !!session?.user;
 
-  if (!open) return null;
-  const slide = STEPS[step];
-  const last = step === STEPS.length - 1;
+  useEffect(() => {
+    if (dismissedRef.current || !wanted) return;
+    setPhase("tour");
+    // useSession() hands back a new object on every background refetch (e.g.
+    // visibilitychange on a tab switch) even when nothing changed, so depending
+    // on it would re-open the tour after dismissal. dismissedRef makes the
+    // re-arm a one-shot.
+  }, [wanted]);
+
+  // The reveal's pebble award, banked so the hint can name a real number.
+  useEffect(() => onPebbles(({ earned: n }) => setEarned(n)), []);
+
+  const active = phase === "tour";
+  const current = TOUR_STEPS[Math.min(step, STEP_COUNT - 1)];
+
+  // Follow the app. A signal always JUMPS to its step, forwards or back, so a
+  // user who taps Back through the rungs is tracked just as faithfully as one
+  // who walks forwards.
+  useEffect(() => {
+    if (!active) return;
+    return onTour((signal) => {
+      const target = stepForSignal(signal);
+      if (target >= 0) setStep(target);
+    });
+  }, [active]);
+
+  const complete = useCallback(
+    async (showHint: boolean) => {
+      dismissedRef.current = true;
+      setPhase(showHint ? "hint" : "done");
+      try {
+        await fetch("/api/account/onboarding", { method: "POST" });
+      } catch {
+        // No-op. A future session sees needsTour=true and re-prompts, which is
+        // the right failure: better a repeated tour than a silently lost one.
+      }
+    },
+    [],
+  );
+
+  // Escape skips. The caption is not modal (it must not trap focus, or the user
+  // could not reach the controls it points at), so this is bound at the window.
+  useEffect(() => {
+    if (!active) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") void complete(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active, complete]);
+
+  const anchors = useMemo(() => current.anchors, [current]);
+  const match = useAnchorRect(anchors, active);
+  // Only the LAST anchor is the recovery fallback (the clip). Resolving to it
+  // on any step past the first means the surface this step describes is gone.
+  const recovered =
+    !!match && step > 0 && match.key === anchors[anchors.length - 1] && anchors.length > 1;
+
+  const hintTile =
+    tutorialClipPinned && current.cursor?.hint ? TUTORIAL_HINTS[current.cursor.hint] : undefined;
+  const tileCentre = useTileCentre(hintTile, active && !recovered);
+
+  const cursorPoint = (() => {
+    if (!active || recovered || !current.cursor || !match) return null;
+    if (tileCentre) return tileCentre;
+    const { rect } = match;
+    // Scroll mode sits a little above centre so the mimed drag stays inside the
+    // scrollable area rather than running off its bottom edge.
+    return {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height * (current.cursor.mode === "scroll" ? 0.38 : 0.5),
+    };
+  })();
+
+  const copy = recovered && current.recovery ? current.recovery : current.copy;
+  const last = step === STEP_COUNT - 1;
 
   return (
-    <div
-      ref={dialogRef}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Welcome tour"
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/55 p-4"
-    >
-      <div className="pebl-surface w-full max-w-md rounded-card p-6 md:p-8">
-        <p className="sr-only" aria-live="polite">
-          Step {step + 1} of {STEPS.length}
-        </p>
-        {/* Live preview: the exact card the user will see, playing itself
-            through one real identification (watch -> tap -> pick -> lock),
-            then settling into the reveal/streak state for steps 2 and 3. */}
-        <TourPreview step={step as 0 | 1 | 2} />
-        <p className="pebl-eyebrow mt-4">{slide.eyebrow}</p>
-        <h2 className="mt-2 font-brand text-h2 text-navy-900">{slide.title}</h2>
-        <p className="mt-3 text-sm leading-6 text-navy-900/72">{slide.body}</p>
-        <div className="mt-6 flex items-center justify-between">
-          <div className="flex items-center gap-1.5" aria-hidden>
-            {STEPS.map((_, i) => (
-              <span
-                key={i}
-                className={
-                  "h-1.5 rounded-full transition-all " +
-                  (i === step ? "w-6 bg-teal-500" : "w-2.5 bg-navy-900/15")
-                }
-              />
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={close}
-              className="pebl-button-secondary px-3 py-1.5 text-xs"
-            >
-              Skip
-            </button>
-            {last ? (
-              <button
-                type="button"
-                onClick={close}
-                className="pebl-button-primary px-4 py-1.5 text-xs"
-              >
-                Got it
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setStep(step + 1)}
-                className="pebl-button-primary px-4 py-1.5 text-xs"
-              >
-                Next
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      {active && (
+        <>
+          <Spotlight rect={match?.rect ?? null} />
+          <GhostCursor point={cursorPoint} mode={current.cursor?.mode ?? "click"} />
+          <TourCaption
+            // In recovery the tour is not pointing AT anything, it is telling
+            // the user to tap the clip again. Passing no anchor docks the
+            // caption to the top of the screen, which matters on a phone: the
+            // recovery anchor is the clip, whose lower edge is exactly where
+            // the gate sheet sits, so hugging it put the caption on the sheet.
+            anchor={recovered ? null : (match?.rect ?? null)}
+            eyebrow={copy.eyebrow}
+            title={copy.title}
+            body={copy.body}
+            stepIndex={step}
+            stepCount={STEP_COUNT}
+            nextLabel={recovered ? null : current.nextLabel}
+            onNext={() => void complete(last)}
+            onBack={step > 0 ? () => setStep(step - 1) : null}
+            onSkip={() => void complete(false)}
+          />
+        </>
+      )}
+      {phase === "hint" && <PebbleHint earned={earned} onDismiss={() => setPhase("done")} />}
+    </>
   );
 }

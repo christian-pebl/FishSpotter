@@ -17,6 +17,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { SpeciesGuideContent } from "@/components/species/SpeciesGuideContent";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { emitTour } from "@/lib/tour-bus";
 
 // SpeciesGallery's lightbox renders role="dialog" with an aria-label that
 // starts with "Photo of". If one is open, this popup must ignore Escape so a
@@ -44,6 +45,11 @@ export function SpeciesGuidePopup({
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  // Tell the first-run tour the species page is up, so its spotlight follows
+  // the user here whether they arrived from the candidate grid or the
+  // side-by-side comparison. Fire-and-forget; nothing listens unless a tour is
+  // running (src/lib/tour-bus.ts).
+  useEffect(() => emitTour("guide-opened"), []);
 
   const traits = CATALOGUE[scientificName];
 
@@ -108,6 +114,7 @@ export function SpeciesGuidePopup({
         role="dialog"
         aria-modal="true"
         aria-label={`About ${commonName}`}
+        data-tour="species-guide"
         className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface text-navy-900 shadow-menu sm:rounded-card"
       >
         <div className="flex items-start justify-between gap-3 border-b border-navy-900/10 px-4 py-3">
