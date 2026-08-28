@@ -432,3 +432,41 @@ purely the other session's uncommitted work: it does not exist in the commit.
 (Four render tests fail in that worktree, but only because jest-dom's matchers do
 not register through a junctioned `node_modules`, `Invalid Chai property:
 toBeInTheDocument`. The same tests pass in the main checkout.)
+
+### 10a. Correction: it is pushed, but STRANDED
+
+Section 10 says "Shipped". That is misleading and is corrected here rather than
+edited away, because the mistake is worth seeing.
+
+`fix/snip-metadata-gate` **had already been merged to `origin/main` (merge
+`51e06af`) before this session started, and is now 41 commits behind it.** So
+these commits are pushed, and are not on main, and will not deploy. The push also
+ran no CI: `ci`, `codec-guard`, `playwright` and `lighthouse` all trigger on
+`pull_request` or push to `main` only, so a green `git push` on a feature branch
+means nothing was checked.
+
+Both facts were already written down in this project's memory before the session
+began. The mistake was committing without checking the branch map first.
+
+**Re-landing is a hand re-apply, not a cherry-pick.** Since the merge base
+`cc94eb1`, main has moved `FeedCard.tsx` +384, `TileGate.tsx` +211,
+`PebbleBag.tsx` +50, `feed/page.tsx` +46 and `SpeciesGuidePopup.tsx` +26, and the
+surgically staged blobs in section 10 were built from THIS BRANCH's `HEAD`, so
+they encode a `FeedCard` that is 41 commits stale. The route that works here, and
+that this repo has used repeatedly:
+
+1. `git worktree add <tmp> origin/main`
+2. Copy across the wholly-new files unchanged: everything under
+   `src/components/onboarding/`, `src/lib/tour-bus.ts`,
+   `src/lib/onboarding-clip.ts`, `scripts/tour-qa.ts`,
+   `scripts/tour-qa-cleanup.ts`, this document.
+3. Re-apply the anchors by hand onto main's current versions of `FeedCard.tsx`,
+   `TileGate.tsx`, `feed/page.tsx`, `PebbleBag.tsx`, `SpeciesComparison.tsx` and
+   `SpeciesGuidePopup.tsx`. They are small and additive: the `data-tour` /
+   `data-tour-tile` attributes, two `emitTour` mount effects, one `useEffect` in
+   `FeedCard`, and the `pinTutorialClip` wiring in the feed page.
+4. Re-run `scripts/tour-qa.ts` against main's code, then
+   `scripts/tour-qa-cleanup.ts --apply`.
+5. Open the PR from there, and put the `docs/CHANGELOG.md` entry in it. That entry
+   is deliberately NOT written into the shared working tree: this project's
+   convention is that changelog entries land on main with their PR.
