@@ -5,7 +5,9 @@
     "legalName": "Algapelago Marine Ltd",
     "location": {
       "place": "Bideford Bay, North Devon, England",
-      "country": "England"
+      "country": "England",
+      "lat": 51.05,
+      "lon": -4.3
     },
     "deploymentNames": ["Algapelago"],
     "founded": {
@@ -60,7 +62,9 @@
     "legalName": "Atlantic Mariculture Ltd",
     "location": {
       "place": "Loch Sunart, Western Highlands, Scotland",
-      "country": "Scotland"
+      "country": "Scotland",
+      "lat": 56.67,
+      "lon": -5.85
     },
     "deploymentNames": ["Atlantic Mariculture"],
     "founded": {
@@ -112,7 +116,9 @@
     "name": "Kelp Crofters",
     "location": {
       "place": "Pabay, Inner Sound, Isle of Skye, Scotland",
-      "country": "Scotland"
+      "country": "Scotland",
+      "lat": 57.27,
+      "lon": -5.85
     },
     "deploymentNames": ["Kelp Crofters"],
     "founded": {
@@ -170,7 +176,9 @@
     "name": "Câr-y-Môr",
     "location": {
       "place": "St Justinian, St Davids Peninsula, Pembrokeshire, Wales",
-      "country": "Wales"
+      "country": "Wales",
+      "lat": 51.87,
+      "lon": -5.3
     },
     "deploymentNames": ["Ramsey Sound Farm", "Ramsey Sound Control"],
     "founded": {
@@ -221,7 +229,9 @@
     "name": "Norfolk Seaweed",
     "location": {
       "place": "Blakeney Point, North Norfolk, England",
-      "country": "England"
+      "country": "England",
+      "lat": 52.98,
+      "lon": 0.95
     },
     "deploymentNames": ["Blakeney Overfalls"],
     "founded": {
@@ -271,7 +281,9 @@
     "legalName": "Kaly Group Limited",
     "location": {
       "place": "Loch Bay, Waternish Peninsula, Isle of Skye, Scotland",
-      "country": "Scotland"
+      "country": "Scotland",
+      "lat": 57.52,
+      "lon": -6.62
     },
     "deploymentNames": [],
     "founded": {
