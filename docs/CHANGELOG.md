@@ -1243,3 +1243,57 @@ the real function; do not re-implement the thing you are checking.
   - **Known gap, unchanged by this work but multiplied by it:** tiles show CC-licensed photos with no
     visible attribution (the credit is one tap away in the guide). One photo or six, the posture is
     the same, but six is a better reason to fix it.
+
+## 2026-08-28: every window becomes a split screen citizen, and the legacy guide goes
+
+The split screen shipped on 28 Aug applied to the Spot It rung tiles and nothing
+else. Every other surface was still a floating or full-screen overlay, so the
+layout collapsed at exactly the moments it mattered most: the side-by-side
+comparison and the species card dimmed the clip and straddled the seam while the
+spotter was deciding which of two animals they were looking at, and the reveal
+went back to a draggable card centred over the animal they had just named. PR #143.
+
+**The audit.** Every overlay in the app, checked against the split at 1440px and
+on a Pixel 7. Six were wrong and are fixed: the reveal panel, the guess panel,
+`SpeciesComparison`, `SpeciesGuidePopup`, `MapModal`, and the verification
+banner (a bottom-centred toast that landed on the phone sheet's action row).
+Three are deliberately left full-screen and that is now written down: the
+`SpeciesGallery` lightbox (shrinking "zoom into this photo" into a 500px panel
+defeats it), the guest sign-up wall, and `SideMenu` (both are "you are leaving
+the flow" moments).
+
+**The contract** now lives in `src/lib/split-screen.ts`, so the width the viewer
+drags on the tiles is the width the reveal inherits. Rung 3 turns into the reveal
+in place, in the same half, with the clip live beside it. Two new shells:
+`SplitPanel` (the working half, used by the reveal and guess panel) and
+`PanelOverlay` (a dialog that lands on the working half, used by the comparison,
+the species card and the map). Portaled overlays position off `--fs-panel-*`
+custom properties, which fall back to the whole viewport when nothing is split,
+so an overlay opened from a non-split context needs no branch at the call site.
+
+**Two bugs found only by measuring, both now regression tests.** The frame bus
+needs a CACHED snapshot: an overlay that mounts into an already-open split has no
+event to wait for, and without the cache renders full screen for its whole life.
+And the panel rect must be re-measured until it settles: the panel enters on a
+framer-motion transform that moves it 12px without ever changing its size, so a
+ResizeObserver alone leaves the rect stale and every overlay 12px low, which
+showed up on the phone as the gate's "Full video" button bleeding through the
+comparison header.
+
+**Removed: the post-submit "How to spot a [X] next time" button.** It was the only
+render site of `IdGuideTrigger` (always `submitted={true}`), so it was also the
+only way to reach the old 5-step wizard, the ID chat, the chip fallback and the
+group guide. All eight files went: `IdGuideTrigger`, `IdGuideSheet`,
+`IdGuideWizard`, `IdGuideChat`, `IdGuideChipFallback`, `GroupGuide`,
+`src/data/shape-class-guides.ts`, `src/lib/idguide/shape-class-ref.ts`.
+
+Two consequences worth knowing. For a SPECIES reference nothing is lost: the
+reveal already renders the annotated photo with its diagnostic-mark rings plus the
+gallery, and `/species/[slug]` carries the full guide. For a COARSE reference
+("Crab", "Fish") the group-level guide had no other home and is gone with it.
+`POST /api/idguide/chat` still exists but now has no caller.
+
+Verified: type-check, 673 unit tests, both linters, CI green on PR #143, then the
+whole flow driven on live production (fish-spotter.vercel.app) at desktop and
+phone widths, confirming the split holds from rung 1 through the reveal and that
+the removed button is gone.
