@@ -6,7 +6,13 @@ import { motion, AnimatePresence, useDragControls, useReducedMotion } from "fram
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
-import { useVideoSettings, videoFilterFor } from "@/lib/videoSettings";
+import {
+  setVideoSettings,
+  stepSpeed,
+  useVideoSettings,
+  videoFilterFor,
+  VIDEO_SPEEDS,
+} from "@/lib/videoSettings";
 import { StaffScientificResolver } from "./StaffScientificResolver";
 import { IdGuideTrigger } from "./IdGuideTrigger";
 import { resolveFarmByDeployment } from "@/lib/farms/catalogue";
@@ -33,6 +39,59 @@ const MAX_ZOOM = 4;
 // One press of the +/- buttons. Multiplicative so each press feels the same
 // size at any level, unlike a fixed +0.5 which crawls once you are zoomed in.
 const ZOOM_BUTTON_STEP = 1.4;
+// The ends of the shared playback-rate ladder, so the speed buttons can grey out
+// at the limits rather than silently doing nothing.
+const MIN_SPEED = VIDEO_SPEEDS[0];
+const MAX_SPEED = VIDEO_SPEEDS[VIDEO_SPEEDS.length - 1];
+
+/**
+ * One capsule of the on-clip control stack. Each instrument (magnify, speed,
+ * play) gets its own, so the stack reads as three tools rather than one long
+ * strip of glyphs.
+ */
+function ClipControlGroup({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-full border border-white/15 bg-black/55 backdrop-blur-sm">
+      {children}
+    </div>
+  );
+}
+
+/**
+ * One button inside a capsule. Extracted so the five buttons cannot drift apart
+ * visually, and so the 44px touch target is stated once. `divided` draws the
+ * hairline that separates it from whatever sits above it in the same capsule.
+ */
+function ClipControlButton({
+  onClick,
+  disabled,
+  label,
+  title,
+  divided,
+  children,
+}: {
+  onClick: () => void;
+  disabled?: boolean;
+  label: string;
+  title?: string;
+  divided?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+      title={title ?? label}
+      className={`inline-flex h-11 w-11 items-center justify-center text-white/85 hover:bg-white/15 hover:text-white disabled:opacity-35 disabled:hover:bg-transparent${
+        divided ? " border-t border-white/15" : ""
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
 
 /**
  * The zoom transform for a frame: where it is anchored, and how far the picture
@@ -816,7 +875,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     };
   }, [highlight, isActive, bboxes]);
 
+  // Two separate facts, deliberately not one flag. `videoPaused` is the honest
+  // playback state, kept truthful by the <video>'s own play/pause events, and it
+  // only drives the play/pause glyph in the control stack. `autoplayBlocked` is
+  // the narrower case the browser refused to start the clip, which is the only
+  // one that earns the big scrim-and-triangle overlay: throwing that over a
+  // frame the user deliberately paused to study would hide the animal behind
+  // the very control they just used.
   const [videoPaused, setVideoPaused] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   // Safety net: a clip that 404s or is the wrong codec must not leave a frozen,
   // unresponsive card on stage. onError flips this; the active card then shows a
   // clear "didn't load / Skip" affordance. The poster still backs the identify
@@ -831,6 +898,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     if (!isActive) {
       v.pause();
       setVideoPaused(false);
+      setAutoplayBlocked(false);
       return;
     }
 
@@ -839,12 +907,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     const tryPlay = () => {
       if (cancelled || !videoRef.current) return;
       videoRef.current.play().then(() => {
-        if (!cancelled) { setVideoPaused(false); }
+        if (!cancelled) { setVideoPaused(false); setAutoplayBlocked(false); }
       }).catch((err: unknown) => {
         if (cancelled) return;
         const name = err instanceof Error ? err.name : String(err);
         if (name === "NotAllowedError") {
           setVideoPaused(true);
+          setAutoplayBlocked(true);
         }
       });
     };
@@ -1220,6 +1289,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           tabIndex={isActive ? 0 : -1}
           aria-label={`Underwater clip from ${snippet.site} ${snippet.deployment}. Press space to play or pause.`}
           onLoadStart={() => setVideoErrored(false)}
+          onPlay={() => {
+            setVideoPaused(false);
+            setAutoplayBlocked(false);
+          }}
+          onPause={() => {
+            // Skip the deactivation pause: a card scrolled off stage is stopped
+            // by us, not paused by the user, and must not come back wearing a
+            // play glyph.
+            if (isActive) setVideoPaused(true);
+          }}
           onCanPlay={() => {
             setVideoErrored(false);
             if (isActive) videoRef.current?.play().catch(() => {});
@@ -1259,7 +1338,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             />
           </div>
         )}
-        {isActive && videoPaused && (
+        {isActive && autoplayBlocked && (
           <button
             type="button"
             aria-label="Tap to play"
@@ -1300,7 +1379,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
         {/* Tap the clip itself to start identifying. A transparent catcher over
             the playing video opens the Spot It flow, only in the idle "watching"
-            state (not paused, not answered, no gate/strip already open), and
+            state (autoplay not blocked, not answered, no gate/strip open), and
             at z-10 so the panel (z-20) and docked bar (z-30) still take their own
             taps. Mutually exclusive with the tap-to-play overlay above.
             In guess mode the catcher stays OFF while the input panel is visible
@@ -1309,7 +1388,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             touch affordance to answer at all (the only toggle was the desktop-only
             H key). */}
         {isActive &&
-          !videoPaused &&
+          !autoplayBlocked &&
           !myAnswer &&
           !shapeGateOpen &&
           !bodyGateOpen &&
@@ -1338,7 +1417,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             pointer-events-none so the tap still reaches the catcher. */}
         {showTapHint &&
           isActive &&
-          !videoPaused &&
+          !autoplayBlocked &&
           !myAnswer &&
           !shapeGateOpen &&
           !bodyGateOpen &&
@@ -1407,38 +1486,107 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           </>
         )}
 
-        {/* Zoom controls, top-right of the CLIP (not the card), so they sit over
-            the picture they act on and clear the overlay header above. Shown
-            once the panel is up (or once zoomed), matching where the wheel and
-            pinch become magnifiers, so the idle full-bleed feed stays clean.
-            Each press is multiplicative, and every route zooms about the
-            animal, so the feature you are studying stays centred as it grows. */}
-        {isActive && (splitMode || zoom > 1) && (
-          <div className="absolute right-3 top-16 z-20 flex flex-col overflow-hidden rounded-full border border-white/15 bg-black/55 backdrop-blur-sm">
-            <button
-              type="button"
-              onClick={() => applyZoom(zoom * ZOOM_BUTTON_STEP)}
-              disabled={zoom >= MAX_ZOOM}
-              aria-label="Zoom in on the animal"
-              title="Zoom in"
-              className="inline-flex h-11 w-11 items-center justify-center text-white/85 hover:bg-white/15 hover:text-white disabled:opacity-35 disabled:hover:bg-transparent"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              onClick={() => applyZoom(zoom / ZOOM_BUTTON_STEP)}
-              disabled={zoom <= 1}
-              aria-label={zoom > 1 ? "Zoom out" : "Already at the full frame"}
-              title="Zoom out"
-              className="inline-flex h-11 w-11 items-center justify-center border-t border-white/15 text-white/85 hover:bg-white/15 hover:text-white disabled:opacity-35 disabled:hover:bg-transparent"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
-            </button>
+        {/* Clip controls, top-right of the CLIP (not the card), so they sit over
+            the picture they act on and clear the overlay header above. Three
+            capsules, one per instrument: magnify, slow down, hold still.
+            Grouped rather than run together as one long pill so the eye can
+            find the one it wants without reading five glyphs.
+
+            Shown once the panel is up (or once anything is off its default),
+            matching where the wheel and pinch become magnifiers, so the idle
+            full-bleed feed stays clean. Speed is in the condition because it
+            persists across clips: a feed stuck at 0.25x must always carry the
+            control that undoes it. */}
+        {isActive && (splitMode || zoom > 1 || settings.speed !== 1) && (
+          <div className="absolute right-3 top-16 z-20 flex flex-col items-end gap-2">
+            {/* Magnify. Each press is multiplicative, and every route zooms
+                about the animal, so the feature you are studying stays centred
+                as it grows. */}
+            <ClipControlGroup>
+              <ClipControlButton
+                onClick={() => applyZoom(zoom * ZOOM_BUTTON_STEP)}
+                disabled={zoom >= MAX_ZOOM}
+                label="Zoom in on the animal"
+                title="Zoom in"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </ClipControlButton>
+              <ClipControlButton
+                onClick={() => applyZoom(zoom / ZOOM_BUTTON_STEP)}
+                disabled={zoom <= 1}
+                label={zoom > 1 ? "Zoom out" : "Already at the full frame"}
+                title="Zoom out"
+                divided
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </ClipControlButton>
+            </ClipControlGroup>
+
+            {/* Playback rate, with the current rate between the two presses so
+                the stepper is never blind. Writes the shared video setting, so
+                it holds across clips and the side menu agrees with it. */}
+            <ClipControlGroup>
+              <ClipControlButton
+                onClick={() => setVideoSettings({ speed: stepSpeed(settings.speed, 1) })}
+                disabled={settings.speed >= MAX_SPEED}
+                label={`Speed up, currently ${settings.speed}x`}
+                title="Speed up"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M2 3.6 7.2 8 2 12.4Z" />
+                  <path d="M8.8 3.6 14 8l-5.2 4.4Z" />
+                </svg>
+              </ClipControlButton>
+              <span
+                aria-live="polite"
+                className="border-t border-white/15 px-1 py-[3px] text-center text-[10px] font-semibold tabular-nums text-white/70"
+              >
+                {settings.speed}×
+              </span>
+              <ClipControlButton
+                onClick={() => setVideoSettings({ speed: stepSpeed(settings.speed, -1) })}
+                disabled={settings.speed <= MIN_SPEED}
+                label={`Slow down, currently ${settings.speed}x`}
+                title="Slow down"
+                divided
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M14 3.6 8.8 8 14 12.4Z" />
+                  <path d="M7.2 3.6 2 8l5.2 4.4Z" />
+                </svg>
+              </ClipControlButton>
+            </ClipControlGroup>
+
+            {/* Hold still. A deliberate pause leaves the frame clean (no scrim,
+                no centre triangle): that overlay is for blocked autoplay, where
+                the user has nothing else to press. */}
+            <ClipControlGroup>
+              <ClipControlButton
+                onClick={() => {
+                  const v = videoRef.current;
+                  if (!v) return;
+                  if (v.paused) v.play().catch(() => {});
+                  else v.pause();
+                }}
+                label={videoPaused ? "Play the clip" : "Pause on this frame"}
+                title={videoPaused ? "Play" : "Pause"}
+              >
+                {videoPaused ? (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <path d="M4.5 2.8 13 8l-8.5 5.2Z" />
+                  </svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <rect x="4" y="3" width="3" height="10" rx="1.2" />
+                    <rect x="9" y="3" width="3" height="10" rx="1.2" />
+                  </svg>
+                )}
+              </ClipControlButton>
+            </ClipControlGroup>
           </div>
         )}
 

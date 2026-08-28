@@ -5,11 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   setVideoSettings,
   useVideoSettings,
-  type VideoSpeed,
+  VIDEO_SPEEDS,
 } from "@/lib/videoSettings";
 import { TRANSITION } from "@/lib/motion";
-
-const SPEEDS: VideoSpeed[] = [0.5, 1, 1.5];
 
 /**
  * The live-feed video controls (sound, highlight trace, speed, brightness,
@@ -35,15 +33,18 @@ export function VideoSettingsPanel() {
 
       <div className="mt-3">
         <p className="mb-1 text-[11px] font-medium text-white/65">Playback speed</p>
-        <div className="flex gap-1.5">
-          {SPEEDS.map((s) => {
+        {/* Two rows of three rather than one row of six: the ladder widened for
+            the on-clip stepper, and six pills abreast would drop each one under
+            the 44px touch target at 375px. */}
+        <div className="grid grid-cols-3 gap-1.5">
+          {VIDEO_SPEEDS.map((s) => {
             const active = settings.speed === s;
             return (
               <button
                 key={s}
                 type="button"
                 onClick={() => setVideoSettings({ speed: s })}
-                className={`min-h-[40px] flex-1 rounded-modal px-2 py-1.5 text-xs font-semibold transition-colors ${
+                className={`min-h-[44px] rounded-modal px-2 py-1.5 text-xs font-semibold transition-colors ${
                   active ? "bg-teal-500 text-navy-900" : "bg-white/10 text-white/75 hover:bg-white/18"
                 }`}
                 aria-pressed={active}
