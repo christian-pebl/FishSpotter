@@ -134,16 +134,10 @@ export function SpeciesGuideContent({
         <Fact label="Behaviour" value={prettyList(behavior)} />
       </section>
 
-      {/* Where it's seen */}
+      {/* Where you'd find it: the map states its claim in words first. */}
       <section className="pebl-surface rounded-card p-4">
-        <SectionTitle>Where it&apos;s seen</SectionTitle>
-        <p className="mb-3 -mt-1 text-xs text-navy-900/60">
-          Occurrence records around the UK &amp; north-east Atlantic (OBIS). The
-          ringed marker is the PEBL filming site.
-        </p>
-        <div className="flex justify-center">
-          <DistributionMap grid={grid} />
-        </div>
+        <SectionTitle>Where you&apos;d find it</SectionTitle>
+        <DistributionMap grid={grid} />
       </section>
 
       {/* Photos */}
