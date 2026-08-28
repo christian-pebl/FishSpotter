@@ -44,7 +44,7 @@ export default async function AdminSnippetsPage() {
       <p className="mt-1 text-sm text-navy-600">
         Set a species reference where you can, or leave a clip as Community (no reference) so the
         crowd decides. Saving re-judges existing answers&apos; verdicts and unlocks the species for
-        spotters who got it right — Pebbles balances are never changed.
+        spotters who got it right, Pebbles balances are never changed.
       </p>
       <p className="mt-2 text-[12px] text-navy-500">
         {snippets.length} clips · {counts.verified} verified · {counts.coarse} group-only ·{" "}
@@ -70,7 +70,7 @@ export default async function AdminSnippetsPage() {
                 />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm text-navy-900">
-                    {common || s.staffAnswer || "— no reference —"}
+                    {common || s.staffAnswer || "no reference"}
                   </span>
                   <span className="block truncate text-[11px] text-navy-500">{s.site}</span>
                 </span>

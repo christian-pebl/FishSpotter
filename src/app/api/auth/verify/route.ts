@@ -1,5 +1,5 @@
 /**
- * POST /api/auth/verify — consume an email-verification token (S3-07).
+ * POST /api/auth/verify, consume an email-verification token (S3-07).
  *
  * Body: { token }. Validates the SHA-256 hash in VerificationToken
  * (not consumed, not expired), sets User.emailVerified = now, marks

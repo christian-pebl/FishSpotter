@@ -96,7 +96,7 @@ export function SpeciesAnnotator({
     // Let touch swipes scroll the page (and not drop a stray mark) unless place
     // mode is on. Mouse/pen always places.
     if (e.pointerType === "touch" && !placeMode) return;
-    // Clicks on circle / handle bubble up but mark their own target — we
+    // Clicks on circle / handle bubble up but mark their own target, we
     // only treat true empty-space clicks as "create new mark".
     if ((e.target as HTMLElement | SVGElement).dataset?.markhit) return;
     const frac = pointerFraction(e);
@@ -353,7 +353,7 @@ export function SpeciesAnnotator({
                 : "border border-teal-600 text-teal-700 hover:bg-teal-50"
             }`}
           >
-            {placeMode ? "Done — scroll the page" : "Place / move marks"}
+            {placeMode ? "Done, scroll the page" : "Place / move marks"}
           </button>
           <div
             ref={wrapperRef}

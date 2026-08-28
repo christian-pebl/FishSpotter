@@ -1,8 +1,8 @@
 <svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 44" xmlns="http://www.w3.org/2000/svg">
   <!-- Gadoid (cod/pollack/bib) gestalt. Faces left: blunt rounded forehead, body
        tapering to a slim caudal peduncle. The signature is drawn straight into
-       the body CONTOUR — three separate dorsal humps along the back and two anal
-       humps below the rear — with deep dips between them, so they read as
+       the body CONTOUR, three separate dorsal humps along the back and two anal
+       humps below the rear, with deep dips between them, so they read as
        distinct fins at icon size instead of the previous merged ridge. -->
   <path d="M7 22
            C8 18 9 16 12 16
@@ -32,7 +32,7 @@
   <path d="M15.5 26
            C12.5 30 14 34 18 34.5
            C18.5 31 18 28 16.5 26.3 Z"/>
-  <!-- Chin barbel — the gadoid tell; small, may soften at the smallest sizes -->
+  <!-- Chin barbel, the gadoid tell; small, may soften at the smallest sizes -->
   <path d="M8 26.5
            C7 29.5 7.6 31.5 9.2 32
            C9.6 29.6 9.2 27.6 8.8 26.6 Z"/>

@@ -1,4 +1,4 @@
-# Session handoff — 1 June 2026
+# Session handoff: 1 June 2026
 
 Pick-up notes for a fresh chat. This session designed (did **not** yet build)
 the **"Spot It" visual ID flow**: a shape-class-first, scored-by-rung
@@ -15,7 +15,7 @@ content), D (assets), E (scoring by rung), F (UX build, starting at UX-0).
 
 ---
 
-## TL;DR — where we landed
+## TL;DR: where we landed
 
 1. **Reassessed the model.** The original "5 sequential levels" (Shape ->
    Sub-class -> Context -> Movement -> Species) does not survive contact with
@@ -29,17 +29,17 @@ content), D (assets), E (scoring by rung), F (UX build, starting at UX-0).
    + the `DiagnosticMark` system + `SpeciesProbability`. We add: shape as a hard
    filter, an information-gain next-question picker, and scored-by-rung.
 3. **Three plan docs written** (read in this order):
-   - `implementation/2026-06-01/guide-integration-plan.md` — engine model + how
+   - `implementation/2026-06-01/guide-integration-plan.md`, engine model + how
      the 6 guides map to the catalogue.
-   - `implementation/2026-06-01/ux-id-flow-plan.md` — the user-facing flow.
-   - `implementation/2026-06-01/implementation-plan.md` — **the executable build
+   - `implementation/2026-06-01/ux-id-flow-plan.md`, the user-facing flow.
+   - `implementation/2026-06-01/implementation-plan.md`, **the executable build
      (start here for doing).**
 
 ## Approved decisions (Christian, 1 June)
 
 1. Guided flow sits **alongside** the MCQ; launched by a "Help me ID it" entry;
    "skip to guess" jumps to the MCQ from any rung.
-2. **Scored by rung** — coarse shape-class match earns partial credit. This
+2. **Scored by rung**: coarse shape-class match earns partial credit. This
    reframes the parked nullify audit: "Fish / Crab / Jellyfish" become valid
    coarse references, not junk.
 3. **Assets:** PhyloPic silhouettes (recolored teal) for the gate; **annotated
@@ -47,7 +47,7 @@ content), D (assets), E (scoring by rung), F (UX build, starting at UX-0).
    illustration); Canva/Claude-generate only for throwaway prototype placeholders.
 4. **Prototype the gate first** (UX-0) before the full asset set.
 
-## The ONE open input — RESOLVED (Christian, 1 June)
+## The ONE open input: RESOLVED (Christian, 1 June)
 
 **Point values per rung: LOCKED at two tiers.** Species = 2 (unchanged
 `POINTS_CORRECT_REF`), correct shape-class only = 1 (new `POINTS_SHAPE_CLASS`),
@@ -61,11 +61,11 @@ shape-class rung for now. Workstream E is unblocked.
 
 ## Recommended execution order (from implementation-plan.md)
 
-1. ~~**A** — schema foundation.~~ DONE (`1173734`).
-2. ~~**B** — engine (shape hard filter, movement scored, info-gain
+1. ~~**A**: schema foundation.~~ DONE (`1173734`).
+2. ~~**B**: engine (shape hard filter, movement scored, info-gain
    `nextBestTrait`).~~ DONE (`f1e73c8`). NEXT recommended: **D placeholders ->
    UX-0** gate prototype over a clip.
-3. **C: Crab** content (makes the gate non-hollow off-fish) — editorial, needs
+3. **C: Crab** content (makes the gate non-hollow off-fish), editorial, needs
    marine-bio sign-off.
 4. **UX-1** (candidate strip + skip-to-guess), **UX-2** (adaptive Rung 3).
 5. **E** (scored-by-rung) once Crab is in -> **UX-4** (reveal + score).
@@ -95,7 +95,7 @@ The Next dev server serves it: `npm run dev`, then open
 `http://localhost:3000/decision-tree.html`. (It is a static file under
 `public/`, independent of the React app.)
 
-## Paid guides — decision made
+## Paid guides: decision made
 
 We did **not** buy any. The 6 free PDFs cover the branch logic. If ever
 spending, Baldock & Dipper "Inshore Fishes of Britain and Ireland" (~£11) is the

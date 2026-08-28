@@ -1,4 +1,4 @@
-// Phase 1 capture — the guest core loop (the heart of the app). Drives the feed
+// Phase 1 capture, the guest core loop (the heart of the app). Drives the feed
 // identify flow and screenshots every reachable state. Logs the control
 // inventory at each gate so selectors can be verified. Per-step try/catch.
 import { chromium, type Page, type BrowserContext } from "playwright";

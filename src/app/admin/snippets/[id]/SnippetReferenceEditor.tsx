@@ -54,7 +54,7 @@ export function SnippetReferenceEditor({
           onChange={(e) => setValue(e.target.value)}
           className="mt-1 block w-full rounded-md border border-navy-300 bg-white px-2 py-2 text-sm text-navy-900"
         >
-          <option value="">Community (no reference — crowd decides)</option>
+          <option value="">Community (no reference, crowd decides)</option>
           {catalogue.map((c) => (
             <option key={c.scientificName} value={c.scientificName}>
               {c.commonName} ({c.scientificName})

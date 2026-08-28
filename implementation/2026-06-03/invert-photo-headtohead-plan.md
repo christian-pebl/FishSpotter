@@ -10,14 +10,14 @@ fish-type species.
 Catalogue is now **57 species**. The 27 fish-type (26 fish + plaice + dragonet) are done.
 Remaining:
 
-**Group A — 26 invertebrates (already have a curated override, never visually head-to-head'd):**
+**Group A, 26 invertebrates (already have a curated override, never visually head-to-head'd):**
 - Crab (6): Carcinus maenas, Cancer pagurus, Necora puber, Liocarcinus depurator, Hyas araneus, Pagurus bernhardus
 - Squid/cephalopod (6): Sepia officinalis, Loligo forbesii, Loligo vulgaris, Sepiola atlantica, Eledone cirrhosa, Octopus vulgaris
 - Starfish (4): Asterina gibbosa, Marthasterias glacialis, Asterias rubens, Ophiothrix fragilis
 - Gastropod (4): Patella vulgata, Nucella lapillus, Calliostoma zizyphinum, Steromphala umbilicalis
 - Jellyfish (6): Aurelia aurita, Chrysaora hysoscella, Cyanea capillata, Rhizostoma octopus, Cyanea lamarckii, Pelagia noctiluca
 
-**Group B — 3 new species, ZERO curation (need a from-scratch best pick):**
+**Group B, 3 new species, ZERO curation (need a from-scratch best pick):**
 - Callionymus maculatus (Spotted dragonet, scooter)
 - Limanda limanda (Dab, flatfish)
 - Platichthys flesus (Flounder, flatfish)
@@ -28,7 +28,7 @@ Remaining:
 ## THE central constraint: authored DiagnosticMarks (onDelete: Cascade)
 
 `DiagnosticMark.speciesImageId` is a FK with **`onDelete: Cascade`**. **All 26 invertebrates
-already carry 2–3 authored marks** (the jellyfish + invert tiles were marked in the 2 Jun work).
+already carry 2-3 authored marks** (the jellyfish + invert tiles were marked in the 2 Jun work).
 The "apply" step used for fish (delete the old curated row, upsert the new one) would therefore
 **cascade-delete the authored marks** of any invert whose photo is swapped. Re-authoring marks is
 manual work in `/admin/species/[name]` (coordinates are normalised to the specific photo, so they
@@ -50,7 +50,7 @@ was free; the inverts are all marked, so a swap costs a re-authoring.
 - **(P3) Photo-frozen audit.** Don't swap any invert photo; just produce a ranked report of which
   committed invert photos are weak, for humans to fix in `/admin` where marks already live.
 
-Group B has **no marks**, so it is unaffected — apply the best pick directly (like run 1).
+Group B has **no marks**, so it is unaffected, apply the best pick directly (like run 1).
 
 ## Methodology (reuse the run-2 harness)
 
@@ -82,7 +82,7 @@ The run-2 script (`fish-photo-headtohead-wf_3d900559-0a6.js`) already does commi
    `fresh-only` flag (no committed) so the agent curates from scratch.
 
 Keep the same schema (winner row + winnerSource + reasoning + runnerUp) and the
-misID warning (vote-order surfaces lookalikes — acute for inverts: shore-crab vs other
+misID warning (vote-order surfaces lookalikes, acute for inverts: shore-crab vs other
 Carcinus, moon vs other Aurelia, common vs other Asterias, etc.).
 
 ## Execution sequence (once a policy is chosen)
@@ -102,19 +102,19 @@ Carcinus, moon vs other Aurelia, common vs other Asterias, etc.).
 
 ## Risks / watch-outs
 
-- **Marks cascade (above)** — the dominant risk for Group A. Whatever policy, *always* re-check
+- **Marks cascade (above)**: the dominant risk for Group A. Whatever policy, *always* re-check
   `diagnosticMark` counts for swapped species after pruning, the way the Trachurus check was done.
 - **Parallel "Fish manual review" sessions are active** and own this file + the marks via PR #28.
   Re-read the manifest immediately before editing (as in run 2); coordinate so a swap here doesn't
   fight a concurrent manual edit there. Consider doing this on a dedicated branch.
-- **Licensing** — keep to cc0 / cc-by / cc-by-sa / cc-by-nc only; the policy explicitly allows
+- **Licensing**: keep to cc0 / cc-by / cc-by-sa / cc-by-nc only; the policy explicitly allows
   cc-by-nc. Several existing invert overrides are Wikimedia or cc-by-nc; the fresh sweep should
   prefer iNat research-grade and keep attributions verbatim.
-- **Wikimedia false-positives** — the 2 Jun note records a wrong-subject Wikimedia photo
+- **Wikimedia false-positives**: the 2 Jun note records a wrong-subject Wikimedia photo
   (a person mis-filed under Aurelia). The fresh sweep should stay on iNat research-grade for
   inverts and treat any Wikimedia candidate with extra suspicion (the `looksNonPhotographic`
   guard only catches engravings/plates, not wrong-subject modern photos).
-- **Cost** — Group A ~26 agents x ~8 image views + Group B ~3. Comparable to run 2 (~2.2M tokens).
+- **Cost**: Group A ~26 agents x ~8 image views + Group B ~3. Comparable to run 2 (~2.2M tokens).
   Worth confirming the user wants the full sweep vs a smaller priority subset (e.g. jellyfish +
   crabs first, since those are the most feed-visible invert classes).
 

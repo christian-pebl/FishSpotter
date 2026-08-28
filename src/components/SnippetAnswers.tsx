@@ -7,7 +7,7 @@
  *
  * The gate lives in GET /api/snippets/[id]/answers (admins @pebl-cic.co.uk
  * only). For everyone else the API returns { gated: true } and this renders
- * nothing — the public surfaces show only the anonymous aggregate stats.
+ * nothing, the public surfaces show only the anonymous aggregate stats.
  */
 
 import { useEffect, useState } from "react";

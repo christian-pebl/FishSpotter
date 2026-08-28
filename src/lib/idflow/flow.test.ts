@@ -121,7 +121,7 @@ describe("flowReducer", () => {
     });
   });
 
-  it("is pure — does not mutate the input state", () => {
+  it("is pure, does not mutate the input state", () => {
     const snapshot = JSON.parse(JSON.stringify(busy));
     flowReducer(busy, { type: "skipToMcq" });
     flowReducer(busy, { type: "goToRung1" });

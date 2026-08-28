@@ -60,7 +60,7 @@ function writeGuestQueue(list: PendingAnswer[]): void {
       JSON.stringify(list.slice(-GUEST_QUEUE_MAX)),
     );
   } catch {
-    // ignore — non-essential
+    // ignore, non-essential
   }
 }
 
@@ -98,9 +98,9 @@ interface SubmitOptions {
 export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: string) {
   const { data: session, status } = useSession();
   // S7-T1: isCorrect is null when the snippet has no reference identification
-  // yet — the user earns a flat participation bonus regardless of their guess.
+  // yet, the user earns a flat participation bonus regardless of their guess.
   // points is the per-row score the server awarded (2 correct, 1 pending,
-  // 0 incorrect — see lib/answer-matching POINTS_*).
+  // 0 incorrect, see lib/answer-matching POINTS_*).
   const [myAnswer, setMyAnswer] = useState<{
     chosenOption: string;
     isCorrect: boolean | null;
@@ -136,7 +136,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   useEffect(() => {
     setGuestAnswerCount(readGuestQueue().length);
   }, []);
-  // Sign-up link for the guest nudge — returns to the feed so the queued
+  // Sign-up link for the guest nudge, returns to the feed so the queued
   // guesses drain and persist on arrival.
   const signUpHref = `/auth/signin?isSignUp=1&callbackUrl=${encodeURIComponent(
     signInCallbackUrl ?? "/feed",
@@ -157,7 +157,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
 
   const userId = session?.user?.id ?? null;
   const loadMyAnswer = useCallback(async () => {
-    // Guests have no persisted answers — skip the fetch entirely. Only signed-in
+    // Guests have no persisted answers, skip the fetch entirely. Only signed-in
     // cards load, and they share ONE coalesced /api/answers/my call across the
     // whole feed (see @/lib/myAnswers) rather than one request per card.
     if (!userId) return;
@@ -192,17 +192,17 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     if (myAnswer) loadStats();
   }, [myAnswer, loadStats]);
 
-  // P0: on auth, carry in the guest guess for THIS snippet — submit it via the
+  // P0: on auth, carry in the guest guess for THIS snippet, submit it via the
   // authed path so it's persisted + scored, then drop it from the queue. Each
   // mounted card drains its own entry, so a whole guest session is backfilled.
-  // (Once the feed windows cards — P2 — a central drain on auth would be more
+  // (Once the feed windows cards, P2, a central drain on auth would be more
   // robust; today every card mounts so per-card draining covers the queue.)
   const rehydratedRef = useRef(false);
   useEffect(() => {
     if (rehydratedRef.current) return;
     if (!session?.user?.id) return;
     if (myAnswer) {
-      // Already persisted — drop any stale queued guess for this snippet.
+      // Already persisted, drop any stale queued guess for this snippet.
       removeGuestAnswer(snippet.id);
       rehydratedRef.current = true;
       return;
@@ -216,7 +216,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     removeGuestAnswer(snippet.id);
     rehydratedRef.current = true;
     void handleSubmit({ answerText: pending.chosenOption });
-    // handleSubmit is intentionally not a dep — referencing it here
+    // handleSubmit is intentionally not a dep, referencing it here
     // would re-run the effect on every render thanks to useCallback's
     // identity churn (session changes, answerText changes, etc.).
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -236,8 +236,8 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     if (!option) return false;
 
     // P0 "play before the wall": a signed-out spotter gets the REAL reveal
-    // locally — graded by the public, read-only /api/answers/preview (no DB
-    // write) — and the guess is queued for carry-in on signup. No bounce: the
+    // locally, graded by the public, read-only /api/answers/preview (no DB
+    // write), and the guess is queued for carry-in on signup. No bounce: the
     // reward lands before we ever ask for an account.
     if (!session?.user) {
       setSubmitting(true);
@@ -323,11 +323,11 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         } else if (isCorrect === false && points === 0) {
           // Only a true miss buzzes. A shape-class partial credit (points > 0,
           // "Spot It" Workstream E) is encouraging, not an error, so it stays
-          // silent — the reveal's "Close · +1" pill carries the signal.
+          // silent, the reveal's "Close · +1" pill carries the signal.
           playWrong();
         }
         // S7-T1: when isCorrect is null (no reference yet) the submission
-        // is a "pending bonus" — no celebration audio (it isn't a verified
+        // is a "pending bonus", no celebration audio (it isn't a verified
         // correct answer) and no wrong buzz (the user didn't actually
         // miss). The +1 chip on the reveal carries the signal.
         // S2-T04: server returns { previous, current } inline. Streak
@@ -384,7 +384,7 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     setAnswerTextState(myAnswer.chosenOption);
     setMyAnswer(null);
     // Drop the stats card so the UI doesn't briefly show stale community
-    // numbers next to the input — the next submit will reload them.
+    // numbers next to the input, the next submit will reload them.
     setStats(null);
     setRewardProgress(null);
     setSubmitError("");

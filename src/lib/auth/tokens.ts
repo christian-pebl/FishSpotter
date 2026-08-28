@@ -12,7 +12,7 @@ export function generateToken(): string {
   return randomBytes(32).toString("hex");
 }
 
-/** SHA-256 of the plain token. Stable across processes — no salt
+/** SHA-256 of the plain token. Stable across processes, no salt
  *  because the entropy in the source is already 256 bits. */
 export function hashToken(plain: string): string {
   return createHash("sha256").update(plain).digest("hex");

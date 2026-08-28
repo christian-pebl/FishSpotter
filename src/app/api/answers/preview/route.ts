@@ -10,12 +10,12 @@ import { consensusSummary } from "@/lib/consensus";
 
 // P0 "play before the wall": a public, READ-ONLY reveal so a signed-out spotter
 // sees the community split (and the Pebbles they'd earn) before being asked to
-// make an account. It mirrors POST /api/answers but writes nothing — no Answer
+// make an account. It mirrors POST /api/answers but writes nothing, no Answer
 // row, no streak, no userId. The persisted path (which feeds the leaderboard /
 // consensus / anti-spam) still requires auth, so nothing here can corrupt the
 // dataset.
 //
-// Sea-currency redesign: there is no PEBL reference verdict — the crowd is the
+// Sea-currency redesign: there is no PEBL reference verdict, the crowd is the
 // authority. The reveal shows the community histogram (gated behind the guess,
 // so the submission stays blind) and the consensus state; there is no
 // correct/wrong grade.
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
 
-  // Community histogram — identical aggregation to GET /api/snippets/[id]/stats
+  // Community histogram, identical aggregation to GET /api/snippets/[id]/stats
   // so the reveal's distribution matches the authed experience.
   const answers = await prisma.answer.findMany({
     where: { snippetId: snippet.id },

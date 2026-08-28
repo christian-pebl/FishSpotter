@@ -16,7 +16,7 @@
   <path d="M29 13.6 C31 9.5 38 9 43 11.4 C40 12.2 35 13 29 13.6 Z"/>
   <!-- THE WING: big pectoral fanned UP-and-OUT from the mid-flank, held clear of
        the body by a negative-space sliver, scalloped trailing edge. The gurnard
-       give-away — must read as a spread wing, not a belly. -->
+       give-away, must read as a spread wing, not a belly. -->
   <path d="M24 22
            C20 15 16 11 11.5 9.5
            C13 13 14.5 16.5 15.5 19.5
@@ -26,7 +26,7 @@
            C13 28.8 18.5 26 22.5 23.4
            C23 23 23.4 22.4 24 22 Z"/>
   <!-- walking finger-rays (gurnard signature): 3 short prongs down-forward
-       toward the seabed. DRAFT — drop or thicken if they blur at 8px. -->
+       toward the seabed. DRAFT, drop or thicken if they blur at 8px. -->
   <path d="M13 27.5 L11.5 31.5 L13.2 31.4 L14.4 27.8 Z"/>
   <path d="M16 28 L15 32 L16.7 32 L17.6 28.3 Z"/>
   <path d="M19 28.4 L18.4 32.2 L20.1 32.3 L20.6 28.7 Z"/>

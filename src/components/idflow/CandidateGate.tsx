@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Rung 3 — the final pick, as a draggable dark gate matching Rungs 1 & 2
+ * Rung 3, the final pick, as a draggable dark gate matching Rungs 1 & 2
  * (3 Jun 2026). After the shape gate (Rung 1) and body-shape gate (Rung 2), the
  * remaining candidates are shown as a grid of tiles, each a real lead photo +
  * common name. Tapping a tile commits the guess (same `onPick` path as the MCQ).
@@ -61,7 +61,7 @@ type LocalLikelihood = {
 /** Rung-3 photo tile media: a lazy <img> that starts transparent and fades to
  * full opacity over ~180ms (≈ DURATION.micro) once the image actually paints,
  * so tiles "pop in" as their photos arrive instead of snapping. Pure CSS
- * opacity transition driven by an onLoad flag — GPU-friendly, no layout. The
+ * opacity transition driven by an onLoad flag, GPU-friendly, no layout. The
  * fade is gated by reduced motion: opted-out users get the photo at opacity 1
  * immediately, losing only the flourish. Silhouette / line-art fallbacks use
  * the existing path and are unaffected. */
@@ -125,7 +125,7 @@ export function CandidateGate({
   onSkipToMCQ,
   coarse,
 }: {
-  /** The clip being identified — keys the ecological-likelihood lookup (OBIS
+  /** The clip being identified, keys the ecological-likelihood lookup (OBIS
    * probability for this clip's location/depth/month bucket). */
   snippetId: string;
   /** null = "Not sure" at the shape gate: narrow the whole (weighted) catalogue. */
@@ -138,7 +138,7 @@ export function CandidateGate({
   onBack?: () => void;
   breadcrumb?: Crumb[];
   onSkipToMCQ?: () => void;
-  /** "It's just a {Fish}" — commit the coarse shape class (FeedCard supplies it
+  /** "It's just a {Fish}", commit the coarse shape class (FeedCard supplies it
    *  only when a shape was chosen, i.e. not the "Not sure" whole-catalogue path). */
   coarse?: { label: string; onClick: () => void };
 }) {
@@ -231,7 +231,7 @@ export function CandidateGate({
 
   // Lead photo per candidate, fetched once the gate is up. Small set. These
   // tiles render at ~330px CSS (≈660px on 2× screens), so we use the 500px
-  // `url` (medium) rather than the 240px `thumbUrl` — the thumb visibly
+  // `url` (medium) rather than the 240px `thumbUrl`, the thumb visibly
   // upscales/blurs at this size. Route C makes `url` cheap to serve here: it's
   // an ~89KB WebP once transcoded, vs the ~340KB source JPEG.
   const [photos, setPhotos] = useState<Record<string, string | null>>({});
@@ -310,7 +310,7 @@ export function CandidateGate({
         onBack={onBack}
         breadcrumb={breadcrumb}
         bubbleLabel="Reopen the species picker"
-        emptyMessage="No matches left — go back a step or pick from a list."
+        emptyMessage="No matches left. Go back a step or pick from a list."
         // An explicit "none of these match" exit at the decision point. "None
         // look right" steps back to re-narrow; "Pick from a list" jumps to the
         // full MCQ. On the compare-them-all path there is nothing left to

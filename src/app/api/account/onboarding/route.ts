@@ -1,5 +1,5 @@
 /**
- * POST /api/account/onboarding — record that the user has dismissed
+ * POST /api/account/onboarding, record that the user has dismissed
  * the first-run tour (S3-11). Idempotent: re-posting from a stale
  * client is a no-op.
  */

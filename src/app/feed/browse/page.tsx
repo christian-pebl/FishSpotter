@@ -138,7 +138,7 @@ export default async function FeedBrowsePage({
           Observation Archive
         </h1>
 
-        {/* Filter / sort row — clean, borderless, species-guide styling. */}
+        {/* Filter / sort row, clean, borderless, species-guide styling. */}
         <form
           method="get"
           className="flex flex-wrap items-center gap-2"

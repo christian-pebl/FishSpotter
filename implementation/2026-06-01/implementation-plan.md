@@ -1,4 +1,4 @@
-# Implementation plan — visual ID flow ("Spot It")
+# Implementation plan: visual ID flow ("Spot It")
 
 Date: 1 June 2026. The executable build. Rationale lives in
 `guide-integration-plan.md` (engine model) and `ux-id-flow-plan.md` (UX design).
@@ -78,7 +78,7 @@ Phase 2 (parse-and-verify, Christian signs off).
 
 The gate is only useful once non-fish classes have species, or tapping "Crab"
 returns zero candidates. Order by leverage:
-1. **Crab** (5-6 species, from `merryweather-crabs-slef.pdf`) — the branch we
+1. **Crab** (5-6 species, from `merryweather-crabs-slef.pdf`), the branch we
    designed; unblocks the first non-fish gate tile.
 2. **Gadoids already present**; verify their `movement` + marks (feeds Rung 3
    confusion pairs).
@@ -109,7 +109,7 @@ connected design tool so F is not blocked on D.
 
 ---
 
-## E. Scoring — by rung  (after A + C)
+## E. Scoring: by rung  (after A + C)
 
 Files: `src/lib/answer-matching.ts`, scoring/points model, `prisma/schema.prisma`
 if a shape-class reference column is needed.
@@ -139,25 +139,25 @@ sub-class tier (Int points + consensus invariant). Workstream E unblocked.
 
 ---
 
-## F. UX build — the rungs  (consumes B/C/D/E)
+## F. UX build: the rungs  (consumes B/C/D/E)
 
 Files: `src/components/FeedCard.tsx`, new `src/components/idflow/*`, reuse
 `IdGuideWizard`, `MCQCandidatePicker`, `AnnotatedSpeciesPhoto`,
 `narrowCandidates`.
 
-- **UX-0 — Gate prototype.** "Help me ID it" button on FeedCard opens a bottom
+- **UX-0, Gate prototype.** "Help me ID it" button on FeedCard opens a bottom
   sheet with the 8-silhouette grid (placeholder art). Tap sets `shapeClass`.
   Show a live candidate count. Proves the feel. *(Needs A, B step 1; D
   placeholders.)*
-- **UX-1 — Candidate strip + skip-to-guess.** Render `narrowCandidates()`
+- **UX-1, Candidate strip + skip-to-guess.** Render `narrowCandidates()`
   output as a shrinking thumbnail strip; "skip to guess" -> existing
   `MCQCandidatePicker`. *(Needs C started so the strip isn't empty off-fish.)*
-- **UX-2 — Adaptive Rung 3.** Wire `nextBestTrait`; ask one visual trait at a
+- **UX-2, Adaptive Rung 3.** Wire `nextBestTrait`; ask one visual trait at a
   time; auto-stop at `NARROW_ENOUGH = 3`. *(Needs B step 3.)*
-- **UX-3 — Sub-splits (Rung 2)** for fish / flatfish / crab.
-- **UX-4 — Reveal + scored-by-rung.** Finalists with `DiagnosticMark` rings;
+- **UX-3, Sub-splits (Rung 2)** for fish / flatfish / crab.
+- **UX-4, Reveal + scored-by-rung.** Finalists with `DiagnosticMark` rings;
   commit; score via E. *(Needs E.)*
-- **UX-5 — Real assets.** Swap placeholders for PhyloPic SVGs + annotated-photo
+- **UX-5, Real assets.** Swap placeholders for PhyloPic SVGs + annotated-photo
   trait prompts. *(Needs D complete + Phase 3 marks.)*
 
 Each UX phase ships testable on the live feed. Respect CLAUDE.md UI rules
@@ -168,7 +168,7 @@ cards, immediate reveal feedback).
 
 ## Recommended execution order
 
-1. **A** (schema) — unblocks all.
+1. **A** (schema), unblocks all.
 2. **B step 1** (shape hard filter) + **D placeholders** -> **UX-0**. Feel the
    gate this week.
 3. **C: Crab** + **B step 3** (info-gain) in parallel.

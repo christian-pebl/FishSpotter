@@ -3,7 +3,7 @@
  *
  * Used as a top-up source when iNat returns thin (Q3A-T5, 27 May 2026).
  * Some catalogue species have weak iNat coverage in specific lifeStage /
- * sex buckets — plaice larvae, catshark egg cases, etc. Wikimedia
+ * sex buckets, plaice larvae, catshark egg cases, etc. Wikimedia
  * Commons often has better coverage for those edge cases because it
  * pools from museum collections + textbook illustrations.
  *
@@ -92,7 +92,7 @@ function stripHtml(html: string | undefined): string {
 export function isAcceptedLicense(licenseSlug: string | undefined, usageTerms: string | undefined): boolean {
   const slug = (licenseSlug ?? "").toLowerCase().trim();
   if (slug === "cc0" || slug === "cc-zero") return true;
-  // Reject "no derivatives" first — cc-by-nd-4.0 also starts with cc-by-
+  // Reject "no derivatives" first, cc-by-nd-4.0 also starts with cc-by-
   // and would slip through the family prefix check below otherwise.
   // Wikimedia includes ND in the slug as either "-nd-" (versioned) or
   // "-nd" (suffix without version).
@@ -111,8 +111,8 @@ export function isAcceptedLicense(licenseSlug: string | undefined, usageTerms: s
 // and Iconographia Zoologica plates, or a `.tif` scan). Those are useless as
 // "what you'd see underwater" reference photos, so drop them. NB this cannot
 // catch a wrong-SUBJECT modern photo whose filename coincidentally contains
-// the binomial (e.g. a person named "Aurelia Aurita") — only a human eye does
-// — which is why teaching content (DiagnosticMark) is gated to curated photos.
+// the binomial (e.g. a person named "Aurelia Aurita"), only a human eye does
+//, which is why teaching content (DiagnosticMark) is gated to curated photos.
 const NON_PHOTO_EXTENSIONS = /\.(tif|tiff|svg|pdf|djvu|gif)$/i;
 const NON_PHOTO_TITLE = /haeckel|iconographia|lithograph|engraving|\bplate\b|\bprint\b|drawing|illustration|woodcut|\b1[5-9]\d\d\b/i;
 

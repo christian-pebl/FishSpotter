@@ -8,9 +8,9 @@
  * cloudflare-dns.ts then writes those records.
  *
  * Resend API surface:
- *   GET    /domains                — list
- *   POST   /domains                — create
- *   GET    /domains/{id}           — fetch (includes DNS records)
+ *   GET    /domains               , list
+ *   POST   /domains               , create
+ *   GET    /domains/{id}          , fetch (includes DNS records)
  */
 
 import type { DnsRecordSpec } from "./cloudflare-dns";

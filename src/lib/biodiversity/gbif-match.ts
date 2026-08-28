@@ -33,7 +33,7 @@ function pickCanonical(json: GbifMatchResponse): string | null {
 
 function stripAuthorship(name: string | undefined | null): string | null {
   if (!name) return null;
-  // Drop parenthetical or trailing author/year — anything after the first comma
+  // Drop parenthetical or trailing author/year, anything after the first comma
   // or open-paren on the right of the binomial.
   const cleaned = name.replace(/\s*[\(,].*$/, "").trim();
   return cleaned.length > 0 ? cleaned : null;

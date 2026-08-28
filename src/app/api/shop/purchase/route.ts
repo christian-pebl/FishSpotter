@@ -52,7 +52,7 @@ export async function POST(req: Request) {
 
   // Consumable hold cap (Tide Freeze): reject when the spotter already holds the
   // maximum unspent count. Checked before canPurchase because a consumable is
-  // never "already-owned" (it's re-buyable) — the cap is the only ceiling.
+  // never "already-owned" (it's re-buyable), the cap is the only ceiling.
   const capItem = getShopItem(parsed.itemId);
   if (capItem?.type === "consumable" && capItem.maxHold) {
     const held = purchases.filter(

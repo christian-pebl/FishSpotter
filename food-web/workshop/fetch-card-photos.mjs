@@ -1,4 +1,4 @@
-// Pull a print-safe (CC0 / CC-BY only — no NC, no SA obligations) photo for each
+// Pull a print-safe (CC0 / CC-BY only, no NC, no SA obligations) photo for each
 // of the 40 workshop-deck species from the live SpeciesImage cache, plus the
 // scientific-name lookup from the catalogue. Writes card-photos.json.
 //   npx tsx --env-file=.env.local food-web/workshop/fetch-card-photos.mjs
@@ -70,6 +70,6 @@ for (const commonName of DECK_NAMES) {
 
 writeFileSync(join(HERE, 'card-photos.json'), JSON.stringify(out, null, 2));
 console.log(`resolved ${Object.keys(out).length}/${DECK_NAMES.length} species with a print-safe photo`);
-if (licenseBlocked.length) console.log(`\nBLOCKED BY LICENSE (has photos, but none CC0/CC-BY) — ${licenseBlocked.length}:\n  ` + licenseBlocked.join('\n  '));
-if (missing.length) console.log(`\nNO PHOTO AT ALL — ${missing.length}:\n  ` + missing.join('\n  '));
+if (licenseBlocked.length) console.log(`\nBLOCKED BY LICENSE (has photos, but none CC0/CC-BY), ${licenseBlocked.length}:\n  ` + licenseBlocked.join('\n  '));
+if (missing.length) console.log(`\nNO PHOTO AT ALL, ${missing.length}:\n  ` + missing.join('\n  '));
 await prisma.$disconnect();

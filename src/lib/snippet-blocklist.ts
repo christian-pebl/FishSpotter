@@ -39,11 +39,11 @@ export function isSnippetExcluded(externalId: string): boolean {
  *   `where: { ...existingFilter, ...excludeBlockedSnippetsWhere() }`
  *
  * Two layers, both load-bearing:
- *  - `excluded: false` — the data-driven exclusion. `scripts/sync.ts` mirrors
+ *  - `excluded: false`, the data-driven exclusion. `scripts/sync.ts` mirrors
  *    each snip's `metadata.fishspotter_excluded` (toggled in TRDesk4's "Exclude
  *    from FishSpotter" gallery button) into the `Snippet.excluded` column, so a
  *    deselected snip is hidden everywhere on the next sync, reversibly.
- *  - the static `externalId notIn` list — a hardcoded belt-and-suspenders for
+ *  - the static `externalId notIn` list, a hardcoded belt-and-suspenders for
  *    clips excluded before the column existed / outside the sync path.
  */
 export function excludeBlockedSnippetsWhere(): Prisma.SnippetWhereInput {

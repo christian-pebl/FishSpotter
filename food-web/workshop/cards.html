@@ -15,7 +15,7 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .reviewnote b{color:var(--navy)}
 /* 2 pairs (front+back) per row: 4 x 44mm cards + 2 x 2mm within-pair gaps +
    1 x 4mm column gap = 184mm, inside the 190mm usable width (A4 less 2x10mm
-   page margin) — leaves 6mm of slack. Card ratio 44:62 matches true A6 (105:148)
+   page margin), leaves 6mm of slack. Card ratio 44:62 matches true A6 (105:148)
    so this preview is proportionally honest, not just a rough thumbnail. */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm 4mm}
 .pair{display:flex;gap:2mm;min-width:0;break-inside:avoid;page-break-inside:avoid}
@@ -1303,7 +1303,7 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
        at the front (x~17) and rear (x~46) tips; in between, the fin's lower edge
        sits ABOVE the body's top edge, leaving a thin negative-space gap that
        makes it read as a single continuous fin on top of the back. Peaks toward
-       the rear (the soft wrasse dorsal lobe). One smooth arc — NO scallops, so
+       the rear (the soft wrasse dorsal lobe). One smooth arc, NO scallops, so
        it can never read as cod's three humps. -->
   <path d="M17 12.5
            C20 6 26 4 33 3.6
@@ -2490,7 +2490,7 @@ fill="currentColor" stroke="none">
 12 -7 12 -15z"/>
 </g></g></symbol>
 <symbol id="f-long-skinny" viewBox="0 0 72 40"><g fill="currentColor"><!-- long slender eel/ribbon body: blunt rounded head (left), gentle single S,
-       tapering toward the tail (right). ~6:1 length:depth — the give-away.
+       tapering toward the tail (right). ~6:1 length:depth, the give-away.
        The reversed inner sub-path punches the eye as negative space. -->
   <path fill-rule="evenodd" d="
     M7 20
@@ -2515,8 +2515,8 @@ fill="currentColor" stroke="none">
   <path d="M30 21.4 C34 22.7 40 23.4 47 23.9 C44 24.7 38 24.5 31 23.2 C30.4 23 30 22.2 30 21.4 Z"/></g></symbol>
 <symbol id="f-cod-like" viewBox="0 0 64 44"><g fill="currentColor"><!-- Gadoid (cod/pollack/bib) gestalt. Faces left: blunt rounded forehead, body
        tapering to a slim caudal peduncle. The signature is drawn straight into
-       the body CONTOUR — three separate dorsal humps along the back and two anal
-       humps below the rear — with deep dips between them, so they read as
+       the body CONTOUR, three separate dorsal humps along the back and two anal
+       humps below the rear, with deep dips between them, so they read as
        distinct fins at icon size instead of the previous merged ridge. -->
   <path d="M7 22
            C8 18 9 16 12 16
@@ -2546,7 +2546,7 @@ fill="currentColor" stroke="none">
   <path d="M15.5 26
            C12.5 30 14 34 18 34.5
            C18.5 31 18 28 16.5 26.3 Z"/>
-  <!-- Chin barbel — the gadoid tell; small, may soften at the smallest sizes -->
+  <!-- Chin barbel, the gadoid tell; small, may soften at the smallest sizes -->
   <path d="M8 26.5
            C7 29.5 7.6 31.5 9.2 32
            C9.6 29.6 9.2 27.6 8.8 26.6 Z"/></g></symbol>
@@ -2846,7 +2846,7 @@ l-32 30 -126 -22 c-202 -35 -531 -27 -672 16 -10 3 -84 -46 -192 -127z"/>
   <path d="M29 13.6 C31 9.5 38 9 43 11.4 C40 12.2 35 13 29 13.6 Z"/>
   <!-- THE WING: big pectoral fanned UP-and-OUT from the mid-flank, held clear of
        the body by a negative-space sliver, scalloped trailing edge. The gurnard
-       give-away — must read as a spread wing, not a belly. -->
+       give-away, must read as a spread wing, not a belly. -->
   <path d="M24 22
            C20 15 16 11 11.5 9.5
            C13 13 14.5 16.5 15.5 19.5
@@ -2856,7 +2856,7 @@ l-32 30 -126 -22 c-202 -35 -531 -27 -672 16 -10 3 -84 -46 -192 -127z"/>
            C13 28.8 18.5 26 22.5 23.4
            C23 23 23.4 22.4 24 22 Z"/>
   <!-- walking finger-rays (gurnard signature): 3 short prongs down-forward
-       toward the seabed. DRAFT — drop or thicken if they blur at 8px. -->
+       toward the seabed. DRAFT, drop or thicken if they blur at 8px. -->
   <path d="M13 27.5 L11.5 31.5 L13.2 31.4 L14.4 27.8 Z"/>
   <path d="M16 28 L15 32 L16.7 32 L17.6 28.3 Z"/>
   <path d="M19 28.4 L18.4 32.2 L20.1 32.3 L20.6 28.7 Z"/>

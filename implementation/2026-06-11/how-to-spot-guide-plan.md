@@ -36,7 +36,7 @@ and group-level-only clips (3f9bd9d) deliberately produce group references.
 The mental model of "How to spot a [X] next time" is a **field-guide cheat
 sheet**: "here's how to recognise this thing when you see it again." Two shapes:
 
-### Case A — reference is a species (already good, minor adds)
+### Case A: reference is a species (already good, minor adds)
 Keep the current card. What it shows / should show:
 - annotated reference photo with numbered diagnostic rings (the headline),
 - reference gallery (CC photos, lightbox),
@@ -47,14 +47,14 @@ Keep the current card. What it shows / should show:
   (we already compute confusions in `scripts/confusion-matrix.ts`), and a "See
   full profile" link to `/species/[slug]`.
 
-### Case B — reference is a group (the fix)
+### Case B: reference is a group (the fix)
 Render a **group guide**, e.g. "How to spot a flatfish":
 1. the **group silhouette** (we already ship one per shape class) + a one-line
    intro,
-2. **2-4 group recognition cues** — the at-a-glance tells ("lies flat on the
+2. **2-4 group recognition cues**: the at-a-glance tells ("lies flat on the
    seabed", "both eyes on the upper side", "diamond/oval outline", "often
    half-buried in sand"),
-3. **the members you'll actually see here** — the catalogue species in that shape
+3. **the members you'll actually see here**: the catalogue species in that shape
    class (Flatfish -> Plaice, Dab, Flounder) as tappable photo tiles; tapping one
    drills into that species' Case-A card,
 4. a one-liner on **telling the members apart** (the key splitter),

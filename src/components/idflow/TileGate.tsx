@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * TileGate — the reusable "Spot It" gate chrome.
+ * TileGate, the reusable "Spot It" gate chrome.
  *
  * Shared by Rung 1 (shape class), Rung 2 (body shape) and Rung 3 (CandidateGate
  * species photo grid). It owns:
@@ -219,7 +219,7 @@ export function TileGate({
   // mounted (rung + selection state preserved); only the card collapses, so the
   // user can flick between the selector and the clip behind it. Hide minimizes
   // to the bubble; the true dismiss (onClose) lives on the restored card's
-  // Close button (the bubble itself only restores — no corner ✕ to mis-tap).
+  // Close button (the bubble itself only restores, no corner ✕ to mis-tap).
   const [minimized, setMinimized] = useState(false);
   // List variant: which row's examples panel is open (single-open accordion).
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
@@ -234,7 +234,7 @@ export function TileGate({
   // commits instantly (no delay, no scale) so motion-averse users lose nothing.
   // The lock MUST release when onSelect fires: on Rung 3 the gate stays mounted
   // (onSelect opens the species popup on top), so a never-cleared `committing`
-  // silently swallowed every tap after the popup was dismissed — the grid
+  // silently swallowed every tap after the popup was dismissed, the grid
   // looked alive but was dead until the whole gate was closed and reopened.
   const [committing, setCommitting] = useState<string | null>(null);
   const commitTimer = useRef<number | null>(null);
@@ -755,7 +755,7 @@ export function TileGate({
 
           <div className="flex min-h-0 flex-1 flex-col">
 
-            {/* Breadcrumb of prior picks — each can jump back to its rung. */}
+            {/* Breadcrumb of prior picks, each can jump back to its rung. */}
             {breadcrumb && breadcrumb.length > 0 && (
               <nav
                 aria-label="Your picks so far"
@@ -879,7 +879,7 @@ export function TileGate({
         </AnimatePresence>
     </div>
 
-      {/* Dock bubble — the minimized state. Tap to restore the card in place
+      {/* Dock bubble, the minimized state. Tap to restore the card in place
           (dismiss lives on the restored card's Close button, not here). */}
       <AnimatePresence>
         {minimized && (
@@ -906,7 +906,7 @@ export function TileGate({
                 title={bubbleLabel}
                 className="inline-flex h-12 items-center gap-2 rounded-full border border-teal-300/40 bg-navy-900/95 pl-3 pr-4 text-sm font-semibold text-teal-300 shadow-menu backdrop-blur transition-colors hover:border-teal-300 hover:bg-teal-500/25 hover:text-teal-200"
               >
-                {/* Target reticle reads "identify / resume" (T-25) — a magnifier
+                {/* Target reticle reads "identify / resume" (T-25), a magnifier
                     glyph conventionally means "search", not "resume the ID". The
                     visible "Resume" label removes the unlabelled-affordance risk. */}
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">

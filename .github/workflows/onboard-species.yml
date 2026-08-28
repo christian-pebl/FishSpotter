@@ -2,7 +2,7 @@
 #
 # Runs the per-species onboarding pipeline (scripts/onboard-species.ts) in CI so
 # a species' reference photos AND its diagnostic-mark rings land in the
-# production database — the bit that can't happen from a code deploy alone.
+# production database, the bit that can't happen from a code deploy alone.
 # Default target is whiting (Merlangius merlangus), which shipped with photos but
 # no ID circles.
 #
@@ -11,7 +11,7 @@
 # Required repo secrets:
 #   - POSTGRES_PRISMA_URL        pooled connection string (runtime queries)
 #   - POSTGRES_URL_NON_POOLING   direct connection string
-#   - GEMINI_API_KEY             Gemini vision key — the marks step uses it to
+#   - GEMINI_API_KEY             Gemini vision key, the marks step uses it to
 #                                localise each diagnostic feature on the photo.
 #                                Without it the marks step is skipped (photos
 #                                still refresh).
@@ -58,7 +58,7 @@ jobs:
             echo "GEMINI_API_KEY=${GEMINI_API_KEY}"
           } > .env.local
           if [ -z "${GEMINI_API_KEY}" ]; then
-            echo "::warning::GEMINI_API_KEY secret is empty — the diagnostic-marks step will be skipped (photos still refresh)."
+            echo "::warning::GEMINI_API_KEY secret is empty, the diagnostic-marks step will be skipped (photos still refresh)."
           fi
 
       - name: Onboard species

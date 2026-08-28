@@ -1,4 +1,4 @@
-# Session handoff — 28 May 2026
+# Session handoff: 28 May 2026
 
 Pick-up notes for a fresh chat. This session completed the **code-side** of
 the Q4 plan (`implementation/2026-05-27/plan.md`). Everything below is
@@ -9,7 +9,7 @@ Branch: `main` @ `dcfb658`. Working tree clean.
 
 ---
 
-## TL;DR — what's left for you (editorial, no code blocking it)
+## TL;DR: what's left for you (editorial, no code blocking it)
 
 1. **Approve the reference-ID audit, then run the backfill.**
    - Run `npm run db:audit-references` to see the current proposal.
@@ -34,7 +34,7 @@ Branch: `main` @ `dcfb658`. Working tree clean.
      **flatfish ↔ dragonet**. Author marks at `/admin/species/[name]` that
      answer "what rules out the thing people mistake it for?"
    - Note: the junk references (Fish/Crab) dominate the matrix until step 1
-     nullifies them — do the backfill first and the matrix sharpens.
+     nullifies them, do the backfill first and the matrix sharpens.
 
 ---
 
@@ -83,10 +83,10 @@ All on top of where the session started (`0e1d917`). Commit list, newest last:
 
 ## Verification (this session, all green)
 
-- `npx tsc --noEmit` — clean
-- `npm run test` — 167/167 pass (20 files)
-- `npm run lint` — clean (one pre-existing `<img>` warning in Header.tsx)
-- `npm run build` — production build succeeds, all routes compile
+- `npx tsc --noEmit`, clean
+- `npm run test`, 167/167 pass (20 files)
+- `npm run lint`, clean (one pre-existing `<img>` warning in Header.tsx)
+- `npm run build`, production build succeeds, all routes compile
 - Independent code-review agent: logic clean (retro-score mirrors
   `matchWithAliases`, transaction + dry-run guard sound, verdict hexes exact,
   curated gate preserves behaviour when env unset). Its only finding (em
@@ -99,7 +99,7 @@ All on top of where the session started (`0e1d917`). Commit list, newest last:
 - 30 snippets, 8 distinct `staffAnswer` labels.
 - Audit proposal: nullify 17 (Fish 9 / Crab 5 / Jellyfish 3); backfill 13
   (Scooter 4 / Flatfish 4 / Common Whiting 3 / Gastropod 1 / Juvenile Cod 1).
-  Note: Flatfish / Scooter / Gastropod are not species-level — resolve to a
+  Note: Flatfish / Scooter / Gastropod are not species-level, resolve to a
   binomial or move them into NULLIFY before applying.
 - SpeciesImage: 79 rows, **1 curated** (Pollachius pollachius). This is why
   the MCQ gate is shipped off.
@@ -113,6 +113,6 @@ All on top of where the session started (`0e1d917`). Commit list, newest last:
 - P-17 mobile bottom tab bar (needs design scoping).
 - P-27 murky-video companion images (content, after mark coverage widens).
 - Full mobile-first redesign pass (strategic recommendation #3 in plan.md).
-- Bass-in-gadoid trait example in IdGuideWizard line 65 — left for the
+- Bass-in-gadoid trait example in IdGuideWizard line 65, left for the
   marine biologist (bass legitimately has two dorsal fins).
-- The three D-sweeps (radius/type/var) — documented as conventions, not run.
+- The three D-sweeps (radius/type/var), documented as conventions, not run.

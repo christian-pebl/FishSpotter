@@ -7,7 +7,7 @@ import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
  * group guide instead of degrading to a full-catalogue search when the reference
  * is a group rather than a single species.
  *
- * Callers MUST try species resolution first and only fall back to this — a
+ * Callers MUST try species resolution first and only fall back to this, a
  * genuine species name ("Curled octopus") should open its own card, while a bare
  * group word ("Octopus", "Crab") opens the group guide.
  */

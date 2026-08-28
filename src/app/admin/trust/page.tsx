@@ -54,7 +54,7 @@ export default async function AdminTrustPage() {
       <h1 className="font-brand text-xl font-semibold text-navy-900">Trust &amp; prize eligibility</h1>
       <p className="mt-1 text-sm text-navy-600">
         Hidden reputation score, propagated from trust-seed accounts via co-occurrence in winning
-        consensus camps (Plan 1 Phase 1). Never shown to spotters — gates prize eligibility only,
+        consensus camps (Plan 1 Phase 1). Never shown to spotters, gates prize eligibility only,
         never removes Pebbles or status.
       </p>
       <p className="mt-2 text-[12px] text-navy-500">
@@ -88,7 +88,7 @@ export default async function AdminTrustPage() {
                 </td>
                 <td className="px-3 py-2 tabular-nums text-navy-900">{r.trustScore.toFixed(1)}</td>
                 <td className="px-3 py-2 text-navy-500">
-                  {r.trustUpdatedAt ? r.trustUpdatedAt.toISOString().slice(0, 10) : "—"}
+                  {r.trustUpdatedAt ? r.trustUpdatedAt.toISOString().slice(0, 10) : "-"}
                 </td>
                 <td className="px-3 py-2 text-navy-500">{r.emailVerified ? "yes" : "no"}</td>
                 <td className="px-3 py-2">

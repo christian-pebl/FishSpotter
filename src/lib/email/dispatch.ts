@@ -1,5 +1,5 @@
 /**
- * Higher-level email dispatchers — these own the token creation + the
+ * Higher-level email dispatchers, these own the token creation + the
  * outbound send so the calling code doesn't have to duplicate the
  * token / hash / URL plumbing every time.
  */
@@ -19,7 +19,7 @@ function baseUrl(): string {
 
 /**
  * Generate a verification token, persist its hash, send the email
- * (or no-op when SendGrid isn't configured). Never throws — the caller's
+ * (or no-op when SendGrid isn't configured). Never throws, the caller's
  * own transaction must not be blocked by email infrastructure.
  */
 export async function sendVerificationEmail(

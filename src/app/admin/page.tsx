@@ -9,7 +9,7 @@ const TILES = [
   {
     href: "/admin/species",
     title: "Species marks",
-    body: "Author diagnostic marks — the labelled rings on a reference photo shown in the Help me identify wizard.",
+    body: "Author diagnostic marks, the labelled rings on a reference photo shown in the Help me identify wizard.",
   },
   {
     href: "/admin/metrics",

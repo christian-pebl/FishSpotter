@@ -105,7 +105,7 @@ describe("isCorrectWithAliases", () => {
   });
 });
 
-describe("matchWithAliases (S7-T1 — points + nullable staff answer)", () => {
+describe("matchWithAliases (S7-T1, points + nullable staff answer)", () => {
   it("awards POINTS_CORRECT_REF for a direct correct match", () => {
     expect(matchWithAliases("Pollack", "pollack", ALIASES)).toEqual({
       isCorrect: true,
@@ -130,7 +130,7 @@ describe("matchWithAliases (S7-T1 — points + nullable staff answer)", () => {
   });
 
   it("returns { isCorrect: null, points: POINTS_PENDING_REF } when staffAnswer is null", () => {
-    // The pending payout is independent of what the user guessed — no
+    // The pending payout is independent of what the user guessed, no
     // reference label exists to compare against.
     expect(matchWithAliases(null, "Pollack", ALIASES)).toEqual({
       isCorrect: null,
@@ -147,7 +147,7 @@ describe("matchWithAliases (S7-T1 — points + nullable staff answer)", () => {
   });
 });
 
-describe("matchWithAliases — shape-class partial credit (Workstream E)", () => {
+describe("matchWithAliases, shape-class partial credit (Workstream E)", () => {
   // Mirror production: catalogue species links + editorial aliases, plus the
   // derived shape-class map.
   const aliases = [...CATALOGUE_ALIASES, ...ALIASES];

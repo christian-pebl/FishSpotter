@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     // The root <body> is h-[100dvh] overflow-hidden (for the feed), so the
-    // document never scrolls — each route owns its scroll. Fill the available
+    // document never scrolls, each route owns its scroll. Fill the available
     // height and scroll the main region internally, or admin content is clipped.
     <div className="flex min-h-0 flex-1 flex-col bg-navy-50">
       <header className="shrink-0 border-b border-navy-200/60 bg-white">

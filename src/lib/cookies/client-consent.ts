@@ -6,7 +6,7 @@
  * server-only `next/headers`; this browser helper just parses document.cookie, so
  * the cookie name is inlined (same pattern as CookieBanner).
  *
- * Engagement tracking is gated on this returning true — no consent, no events.
+ * Engagement tracking is gated on this returning true, no consent, no events.
  */
 const CONSENT_COOKIE = "pebl_consent";
 

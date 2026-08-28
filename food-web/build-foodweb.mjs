@@ -35,13 +35,13 @@ const SPRITE = Object.keys(FORMS).map(symbolFor).join('\n');
 // ---- Species catalogue (72) -------------------------------------------------
 const S=(name,short,form,tier,zone,prox)=>({name,short,form,tier,zone,prox});
 export const SPECIES = [
-  // SURFACE — apex divers & seals
+  // SURFACE, apex divers & seals
   S('European shag','Shag','bird',5,'surface','core'),
   S('Great cormorant','Cormorant','bird',5,'surface','core'),
   S('Common eider','Eider','bird',5,'surface','core'),
   S('Grey seal','Grey seal','seal',5,'surface','core'),
   S('Harbour seal','Harbour seal','seal',5,'surface','core'),
-  // MUSSEL LINES (left) — shellfish predators + patrolling fish/cephalopods
+  // MUSSEL LINES (left), shellfish predators + patrolling fish/cephalopods
   S('Common Starfish','Common starfish','long-smooth',3,'mussel','core'),
   S('Spiny Starfish','Spiny starfish','long-spiny',3,'mussel','core'),
   S('Dog Whelk','Dog whelk','pointed-cone',3,'mussel','core'),
@@ -54,7 +54,7 @@ export const SPECIES = [
   S('Saithe','Saithe','cod-like',4,'mussel','core'),
   S('Atlantic cod','Atlantic cod','cod-like',4,'mussel','core'),
   S('European sea bass','Sea bass','silver-shoaler',4,'mussel','core'),
-  // SEAWEED CANOPY (right) — grazers, epifauna, nursery fish
+  // SEAWEED CANOPY (right), grazers, epifauna, nursery fish
   S('Common Limpet','Limpet','flat-cone',2,'canopy','core'),
   S('Painted Top Shell','Painted top','pointed-cone',2,'canopy','core'),
   S('Flat Top Shell','Flat top','rounded-squat',2,'canopy','core'),
@@ -67,7 +67,7 @@ export const SPECIES = [
   S('Goldsinny wrasse','Goldsinny','wrasse',3,'canopy','core'),
   S('Thick-lipped mullet','Thick-lip mullet','silver-shoaler',2,'canopy','footprint'),
   S('Ballan wrasse','Ballan wrasse','wrasse',4,'canopy','core'),
-  // OPEN — pass-through pelagics & drifting jellyfish
+  // OPEN, pass-through pelagics & drifting jellyfish
   S('Sprat','Sprat','silver-shoaler',3,'open','passing'),
   S('Sand smelt','Sand smelt','silver-shoaler',3,'open','passing'),
   S('Atlantic mackerel','Mackerel','silver-shoaler',3,'open','passing'),
@@ -80,7 +80,7 @@ export const SPECIES = [
   S('Barrel Jellyfish','Barrel jelly','frilly-arms',3,'open','passing'),
   S('Mauve Stinger','Mauve stinger','saucer',3,'open','passing'),
   S("Lion's Mane Jellyfish","Lion's mane",'trailing-mass',4,'open','passing'),
-  // SEABED — scavengers, deposit feeders, benthic predators (biodeposit footprint)
+  // SEABED, scavengers, deposit feeders, benthic predators (biodeposit footprint)
   S('Shore Crab','Shore crab','broad-carapace',3,'seabed','core'),
   S('Edible Crab','Edible crab','broad-carapace',4,'seabed','core'),
   S('Harbour Crab','Harbour crab','swimming',3,'seabed','footprint'),
@@ -136,7 +136,7 @@ export const RES = {
 // stickleback). For those, "no hard surface" really does mean "not here".
 //
 // It is NOT applied to large, wide-ranging animals that the farm merely draws in
-// from surrounding ground — the attraction-vs-production distinction in the
+// from surrounding ground, the attraction-vs-production distinction in the
 // artificial-reef literature. Ballan and cuckoo wrasse and both octopuses were
 // reclassified 'created' -> 'enhanced' on exactly that ground (2026-08-03): all
 // four range over hundreds of metres, occupy any nearby reef or debris, and are

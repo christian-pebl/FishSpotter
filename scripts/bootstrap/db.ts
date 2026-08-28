@@ -3,9 +3,9 @@
  * right order with friendly logging.
  *
  * Sequence (idempotent):
- *   1. `npm run db:push`          — apply pending schema changes
- *   2. `npm run db:seed-aliases`  — populate SpeciesAlias if empty
- *   3. `npm run db:migrate-to-r2` — move snippets to R2 (only when
+ *   1. `npm run db:push`         , apply pending schema changes
+ *   2. `npm run db:seed-aliases` , populate SpeciesAlias if empty
+ *   3. `npm run db:migrate-to-r2`, move snippets to R2 (only when
  *                                    STORAGE_PROVIDER=r2 is active)
  */
 

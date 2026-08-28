@@ -31,7 +31,7 @@ function makeMockFetch(handlers: Array<(req: MockCall) => Response | Promise<Res
 
 function jsonRes(status: number, body: unknown): Response {
   // Per the Fetch spec, null-body statuses (204/205/304) must not have
-  // a body — synthesise empty responses for those.
+  // a body, synthesise empty responses for those.
   if (status === 204 || status === 205 || status === 304) {
     return new Response(null, { status });
   }

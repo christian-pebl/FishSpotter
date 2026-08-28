@@ -3,7 +3,7 @@
  *
  * For each row missing `webpUrl`, downloads the source photo, transcodes it to
  * WebP at the two UI sizes (240px thumb / 500px medium), uploads both to the
- * active storage provider (R2 in production — see scripts/lib/storage.ts), and
+ * active storage provider (R2 in production, see scripts/lib/storage.ts), and
  * records the public URLs on the row. Idempotent: only touches rows where
  * `webpUrl IS NULL` unless --force is passed.
  *
@@ -47,7 +47,7 @@ async function main() {
   const quality = Number.isFinite(qualityRaw) && qualityRaw > 0 ? qualityRaw : DEFAULT_WEBP_QUALITY;
 
   // Fail fast if storage isn't configured, BEFORE downloading/encoding anything
-  // — unless we're only dry-running (which never touches storage).
+  //, unless we're only dry-running (which never touches storage).
   // getStorageDriver() throws on missing provider creds.
   if (!dryRun) {
     console.log(`Storage provider: ${getStorageDriver().provider}`);
@@ -66,7 +66,7 @@ async function main() {
   console.log(
     `Rows to process: ${rows.length}` +
       `${force ? " (--force: includes already-transcoded)" : " (missing webpUrl)"}` +
-      `${dryRun ? " [DRY RUN — no upload/write]" : ""}` +
+      `${dryRun ? " [DRY RUN, no upload/write]" : ""}` +
       `  quality=${quality}\n`,
   );
 

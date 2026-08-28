@@ -3,8 +3,8 @@
 /**
  * Live "Did you mean…" suggestions under the Skip-to-guess text field.
  *
- * Reads the catalogue search index (answer-index.ts) on every keystroke — no
- * network — and lists the best real species matches, each submitting its
+ * Reads the catalogue search index (answer-index.ts) on every keystroke, no
+ * network, and lists the best real species matches, each submitting its
  * canonical common name (so the scoring matcher exact-matches). Variations are
  * handled by the index: aliases, plurals, genus, diacritics, small typos.
  *
@@ -97,7 +97,7 @@ export function SpeciesSuggestions({
 
         {suggestions.length === 0 && (
           <p className="px-3 py-2 text-[11px] text-white/55">
-            No catalogue match — you can still submit it as a new sighting.
+            No catalogue match. You can still submit it as a new sighting.
           </p>
         )}
 

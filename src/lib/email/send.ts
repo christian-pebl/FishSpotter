@@ -1,7 +1,7 @@
 /**
  * Typed `sendEmail` wrapper for transactional emails (S3-03).
  *
- * Provider: SendGrid v3 REST API (switched from Resend — see ./client.ts).
+ * Provider: SendGrid v3 REST API (switched from Resend, see ./client.ts).
  *
  * Behaviour:
  *   - If SENDGRID_API_KEY isn't set, log to console and return
@@ -55,7 +55,7 @@ export async function sendEmail({
 
   if (!apiKey || !fromAddress) {
     // eslint-disable-next-line no-console
-    console.warn("[email] SENDGRID_API_KEY / EMAIL_FROM_ADDRESS missing — skipping send.", { to, subject });
+    console.warn("[email] SENDGRID_API_KEY / EMAIL_FROM_ADDRESS missing, skipping send.", { to, subject });
     return { ok: true, skipped: true };
   }
 

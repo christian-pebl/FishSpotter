@@ -1,4 +1,4 @@
-# Section 2 — Invert content activation (photo cache + footage)
+# Section 2: Invert content activation (photo cache + footage)
 
 Date: 2 June 2026. Closes the "data gaps that make the invert gate tiles
 hollow in real use" from the outstanding list. The Spot It gate, engine,
@@ -8,7 +8,7 @@ marks, and eventually real invert clips).
 
 ---
 
-## 2a. Reference-photo cache  (ACTIONABLE NOW — this session)
+## 2a. Reference-photo cache  (ACTIONABLE NOW: this session)
 
 **Problem.** The 26 Workstream-C inverts (6 crab, 6 squid/cephalopod, 4 starfish,
 4 gastropod, 6 jellyfish) have **zero `SpeciesImage` rows**. They were added to
@@ -27,10 +27,10 @@ for them (no male/female/juvenile split needed). **No manifest edit required.**
 
 **Steps.**
 1. Spot-check one species end to end:
-   `npm run db:refresh-images -- --species "Carcinus maenas"` — confirm rows land
+   `npm run db:refresh-images -- --species "Carcinus maenas"`, confirm rows land
    and the photos are sensible.
 2. Bulk-populate the inverts:
-   `npm run db:refresh-images -- --stale-only` — `--stale-only` processes any
+   `npm run db:refresh-images -- --stale-only`, `--stale-only` processes any
    species with zero rows (all 26 inverts) and skips fish whose rows are still
    fresh (<7 days), so it touches the inverts without redundant fish refetches.
    Inverts get default 4-photo buckets; the Wikimedia top-up fires automatically
@@ -44,13 +44,13 @@ for them (no male/female/juvenile split needed). **No manifest edit required.**
 **Notes.**
 - Writes to the production Supabase DB (idempotent `upsert` on
   `(scientificName, sourceUrl)`; no deletes). Photo rows live in the DB, **not
-  git** — the committed artefacts for this step are this plan + any doc updates.
+  git**: the committed artefacts for this step are this plan + any doc updates.
 - iNat "research grade" sorts by ID-agreement, not photo composition, so these
   rows are *coverage*, not yet *teaching* photos. Curation (2c) is separate.
 
 ---
 
-## 2b. Invert footage in the feed  (FOOTAGE-DEPENDENT — not solo-actionable)
+## 2b. Invert footage in the feed  (FOOTAGE-DEPENDENT: not solo-actionable)
 
 **Problem.** The feed is mostly fish footage, so a user rarely reaches the
 jellyfish/starfish/squid tiles on a *real* snippet. The gate is correct, but the
@@ -62,12 +62,12 @@ invert species (e.g. "Edible Crab") or a coarse shape-class term (e.g.
 "Jellyfish", which scored-by-rung now treats as a valid coarse reference).
 
 **When footage exists.** Seed via the `scripts/seed.ts` pattern; ensure H.264
-(`scripts/transcode-to-h264.ts`); set `staffAnswer`. No code change needed —
+(`scripts/transcode-to-h264.ts`); set `staffAnswer`. No code change needed,
 the gate, scoring and catalogue already support every invert class.
 
 ---
 
-## 2c. Annotated invert `DiagnosticMark`s  (FOLLOW-ON — after 2a + curation)
+## 2c. Annotated invert `DiagnosticMark`s  (FOLLOW-ON: after 2a + curation)
 
 Once 2a caches photos: curate one clean, single-specimen teaching photo per
 invert (add to the `overrides` block in `species-images.json` with

@@ -57,7 +57,7 @@ for(const s of SPECIES){
   const e = byCommon.get(s.name); if(!e) continue;
   const test = ZONE_OK[s.zone];
   if(!test) { err(`unknown zone "${s.zone}" on ${s.name}`); continue; }
-  if(!test(e)) warn(`zone "${s.zone}" vs habitat [${(e.habitat||[]).join(', ')}] — ${s.name}`);
+  if(!test(e)) warn(`zone "${s.zone}" vs habitat [${(e.habitat||[]).join(', ')}], ${s.name}`);
   if(!['core','footprint','passing'].includes(s.prox)) err(`unknown proximity "${s.prox}" on ${s.name}`);
 }
 // internal rule: a species the FARM CREATES exists because of farm structure/kelp/mussels,
@@ -96,7 +96,7 @@ const TERMINAL_OK = new Set(['European shag','Great cormorant','Common eider','G
   'Common Starfish','Spiny Starfish','Cushion Star','Compass Jellyfish','Barrel Jellyfish','Mauve Stinger',"Lion's Mane Jellyfish"]);
 for(const s of SPECIES) if(!eaten[s.name] && !TERMINAL_OK.has(s.name))
   err(`no predator and not an expected terminal: ${s.name}`);
-for(const t of TERMINAL_OK) if(eaten[t]) console.log(`  note: "${t}" now has a predator (${eaten[t].join(', ')}) — fine, just no longer terminal`);
+for(const t of TERMINAL_OK) if(eaten[t]) console.log(`  note: "${t}" now has a predator (${eaten[t].join(', ')}), fine, just no longer terminal`);
 // every basal resource must feed something; every species must reach a basal resource
 for(const r of Object.keys(RES)) if(!eaten[r]) err(`energy source feeds nothing: ${r}`);
 const RESSET=new Set(Object.keys(RES));

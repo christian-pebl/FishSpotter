@@ -101,7 +101,7 @@ async function main() {
       console.log(`  Codec: ${codec}`);
 
       if (codec === "h264") {
-        console.log(`  Already H.264 — skipping transcode`);
+        console.log(`  Already H.264, skipping transcode`);
         skipped++;
         // Clean up and continue
         fs.unlinkSync(inputPath);

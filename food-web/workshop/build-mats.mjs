@@ -1,5 +1,5 @@
-// Draw the finished A1 mat for each workshop table — cards in their zones and
-// every arrow drawn — and inject the SVGs into guide.html between <!--MATn-->
+// Draw the finished A1 mat for each workshop table, cards in their zones and
+// every arrow drawn, and inject the SVGs into guide.html between <!--MATn-->
 // markers.
 //
 // The layout (where each card sits) is hand-authored below, because a force
@@ -93,7 +93,7 @@ const TABLES = {
         pairs: [['Common Brittlestar','Common Starfish']] },
       { why: 'Bigger crab eats smaller crab. People rarely expect this one.', bend: -30,
         pairs: [['Shore Crab','Edible Crab']] },
-      { why: 'Eider take far more than mussels — crabs and whelks go down whole too.',
+      { why: 'Eider take far more than mussels, crabs and whelks go down whole too.',
         pairs: [['Shore Crab','Common eider'],['Dog Whelk','Common eider']] },
     ],
   },
@@ -130,7 +130,7 @@ const TABLES = {
       'Shanny': [240, 186], 'Hermit Crab': [332, 186],
     },
     groups: [
-      { why: 'The rain-down from the farm — mussel waste, dropped shell, shredded weed — feeds the whole bottom layer.',
+      { why: 'The rain-down from the farm (mussel waste, dropped shell, shredded weed) feeds the whole bottom layer.',
         pairs: [['Seabed biodeposits','Rock goby'],['Seabed biodeposits','Butterfish'],['Seabed biodeposits','Shanny'],['Seabed biodeposits','Hermit Crab']] },
       { why: 'It takes drifting food as well as picking the bottom, so it has two arrows in.',
         pairs: [['Plankton','Rock goby']] },
@@ -154,13 +154,13 @@ const TABLES = {
       'Dragonet': [248, 186], 'Sand goby': [352, 186],
     },
     groups: [
-      { why: 'Four cards feeding off the seabed directly. Note this food source is not farm-dependent — sand always has organic matter in it.',
+      { why: 'Four cards feeding off the seabed directly. Note this food source is not farm-dependent, sand always has organic matter in it.',
         pairs: [['Seabed biodeposits','Sea potato'],['Seabed biodeposits','Purple heart urchin'],['Seabed biodeposits','Dragonet'],['Seabed biodeposits','Sand goby']] },
       { why: 'It takes drifting food too, giving it a second arrow.',
         pairs: [['Plankton','Sand goby']] },
       { why: "On every mat. The only arrow here that disappears at the reveal, along with the sea scorpion's.",
         pairs: [['Plankton','Farmed mussels']] },
-      { why: 'Plaice crunch buried urchins — one of the few things that eats a sea potato.',
+      { why: 'Plaice crunch buried urchins, one of the few things that eats a sea potato.',
         pairs: [['Sea potato','Plaice'],['Purple heart urchin','Plaice']] },
       { why: 'Same again for the flounder.',
         pairs: [['Sea potato','Flounder']] },
@@ -197,7 +197,7 @@ function clip(ax, ay, bx, by, ahw, ahh, bhw, bhh) {
 }
 
 // A line crossing another line is normal in a food web and reads fine. A line
-// passing THROUGH a third box does not — it looks like it connects to it. So
+// passing THROUGH a third box does not, it looks like it connects to it. So
 // bend each arrow just enough to miss every box it is not attached to, trying
 // the smallest deflection first and keeping the straight line when it is clear.
 const BENDS = [0, 11, -11, 18, -18, 26, -26, 34, -34, 44, -44, 56, -56];

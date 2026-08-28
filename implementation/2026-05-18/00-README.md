@@ -1,6 +1,6 @@
-# FishSpotter — Implementation Plan (2026-05-18)
+# FishSpotter: Implementation Plan (2026-05-18)
 
-**Source:** [`audit/ux-2026-05/`](../../audit/ux-2026-05/) — ~175 file-cited findings across 7 specialist audits, 2026-05-18.
+**Source:** [`audit/ux-2026-05/`](../../audit/ux-2026-05/), ~175 file-cited findings across 7 specialist audits, 2026-05-18.
 **Executor:** Claude Code in-session. Tickets are written compact, but each carries enough file:line context to be picked up cold from a future session.
 **Total:** 6 sprints, **114 tickets**, ~4,100 lines of plan across 7 files.
 
@@ -28,7 +28,7 @@ All 17 tickets landed on `main` across 4 PRs, plus two cost-optimisation PRs tha
 
 Main verified green: `npm run build`, `next lint`, `tsc --noEmit` all clean.
 
-**Residual user actions** (cannot be automated, ~15 min total) — see [RESIDUAL-ACTIONS.md](RESIDUAL-ACTIONS.md).
+**Residual user actions** (cannot be automated, ~15 min total), see [RESIDUAL-ACTIONS.md](RESIDUAL-ACTIONS.md).
 
 ---
 
@@ -84,12 +84,12 @@ Per the sprint plans (using S/M/L/XL effort tags):
 
 | Sprint | Tickets | Rough dev-days (single executor) |
 |---|---|---|
-| 1 — Foundations | 17 | ~12-15 |
-| 2 — Quiz pipeline | 20 | ~14-18 |
-| 3 — Onboarding & compliance | 18 | ~15-20 (+ legal copy time, not engineering) |
-| 4 — Performance | 18 | ~12-16 |
-| 5 — Navigation & polish | 22 | ~12-15 |
-| 6 — Advanced | 19 | ~26-29 |
+| 1, Foundations | 17 | ~12-15 |
+| 2, Quiz pipeline | 20 | ~14-18 |
+| 3, Onboarding & compliance | 18 | ~15-20 (+ legal copy time, not engineering) |
+| 4, Performance | 18 | ~12-16 |
+| 5, Navigation & polish | 22 | ~12-15 |
+| 6, Advanced | 19 | ~26-29 |
 | **Total** | **114** | **~90-110 dev-days** |
 
 This roughly fits the 90-day horizon assuming a full-time executor. If running in parallel with other work, treat as ~6 months calendar.
@@ -102,14 +102,14 @@ These need a steer from Christian / PEBL product before the relevant tickets can
 
 | # | Decision | Blocks | Default assumed in plan |
 |---|---|---|---|
-| 1 | **MCQ vs free-text quiz** (the brief says MCQ, the implementation is free-text) | All of Sprint 2 | MCQ — the OBIS pipeline already computes candidates |
-| 2 | **Email service provider** (Resend / SendGrid / AWS SES / Nodemailer) | S3-T03 onwards (password reset, verify, digests) | Resend — referenced in user CLAUDE.md |
-| 3 | **Anonymous-first answer flow** — can guests answer before signing in? | S3-T15 redirect contract, S2-T11 pendingAnswer carry | Yes, with sessionStorage carry through sign-in |
+| 1 | **MCQ vs free-text quiz** (the brief says MCQ, the implementation is free-text) | All of Sprint 2 | MCQ, the OBIS pipeline already computes candidates |
+| 2 | **Email service provider** (Resend / SendGrid / AWS SES / Nodemailer) | S3-T03 onwards (password reset, verify, digests) | Resend, referenced in user CLAUDE.md |
+| 3 | **Anonymous-first answer flow**: can guests answer before signing in? | S3-T15 redirect contract, S2-T11 pendingAnswer carry | Yes, with sessionStorage carry through sign-in |
 | 4 | **Privacy / T&Cs copy** (engineering scaffolds the pages, but content needs PEBL legal) | S3-T08, S3-T09 | Engineering ships shells with placeholder ICO-checklist sections |
-| 5 | **Captions posture** for silent underwater clips — formal WCAG 1.2.2 exemption or behavioural captions? | S6-T19, partial S5-T22 axe gate | (a) silent-media exemption marker; plan also covers (b) VTT captions |
-| 6 | **Follow / social graph** — is FishSpotter a social product or a leaderboard product? | S6-T11 (currently a decision record, no code) | No follow graph; share-by-URL only |
-| 7 | **Notification surface** — web push, in-app only, or none? | S6 notifications tickets | In-app only at launch |
-| 8 | **i18n scope** — English-only, or also Welsh / French given PEBL Ocean focus? | S6 i18n scaffold | English-only at launch, but scaffolded for future |
+| 5 | **Captions posture** for silent underwater clips, formal WCAG 1.2.2 exemption or behavioural captions? | S6-T19, partial S5-T22 axe gate | (a) silent-media exemption marker; plan also covers (b) VTT captions |
+| 6 | **Follow / social graph**: is FishSpotter a social product or a leaderboard product? | S6-T11 (currently a decision record, no code) | No follow graph; share-by-URL only |
+| 7 | **Notification surface**: web push, in-app only, or none? | S6 notifications tickets | In-app only at launch |
+| 8 | **i18n scope**: English-only, or also Welsh / French given PEBL Ocean focus? | S6 i18n scaffold | English-only at launch, but scaffolded for future |
 
 ---
 
@@ -117,29 +117,29 @@ These need a steer from Christian / PEBL product before the relevant tickets can
 
 **The 90-day default**, optimised for de-risking compliance early:
 
-1. **Weeks 1-2 (Sprint 1)** — Tokens, error shells, security fixes, testing infra. **Required before any other sprint.**
-2. **Weeks 3-4 (Sprint 2)** — Quiz pipeline. Highest user-visible impact; aligns app with brief.
-3. **Weeks 5-7 (Sprint 3)** — Onboarding + compliance. Cannot launch publicly without this for a UK CIC.
-4. **Weeks 7-9 (Sprint 4, partially parallel with Sprint 3)** — Perf. Independent enough to parallel with most of Sprint 3.
-5. **Weeks 10-11 (Sprint 5)** — Nav + a11y polish. Requires Sprint 1 (tokens) + Sprint 4 (perf) baseline.
-6. **Weeks 12+ (Sprint 6)** — Advanced features. By here the product decisions should all be made.
+1. **Weeks 1-2 (Sprint 1)**: Tokens, error shells, security fixes, testing infra. **Required before any other sprint.**
+2. **Weeks 3-4 (Sprint 2)**: Quiz pipeline. Highest user-visible impact; aligns app with brief.
+3. **Weeks 5-7 (Sprint 3)**: Onboarding + compliance. Cannot launch publicly without this for a UK CIC.
+4. **Weeks 7-9 (Sprint 4, partially parallel with Sprint 3)**: Perf. Independent enough to parallel with most of Sprint 3.
+5. **Weeks 10-11 (Sprint 5)**: Nav + a11y polish. Requires Sprint 1 (tokens) + Sprint 4 (perf) baseline.
+6. **Weeks 12+ (Sprint 6)**: Advanced features. By here the product decisions should all be made.
 
-**Alternative — "thin v1 fast" sequence** if PEBL wants a friends-and-family launch sooner: Sprint 1 → S2-T01..T07 (quiz data layer only) → critical S3 only (T01-T07 password/verify) → quick S4-T02 (leaderboard SQL) → S5-T1/T2 (nav fix). ~5 weeks. Defer everything else.
+**Alternative, "thin v1 fast" sequence** if PEBL wants a friends-and-family launch sooner: Sprint 1 → S2-T01..T07 (quiz data layer only) → critical S3 only (T01-T07 password/verify) → quick S4-T02 (leaderboard SQL) → S5-T1/T2 (nav fix). ~5 weeks. Defer everything else.
 
 ---
 
 ## What this plan deliberately doesn't include
 
-Surfaced in the audit but **not in any sprint** — flag as separate work-streams:
+Surfaced in the audit but **not in any sprint**: flag as separate work-streams:
 
 - **Backend / Supabase RLS hardening** beyond the two specific UX-surfaced API leaks (S1-T11, S1-T12)
 - **DB query plan review** for any path not already on the perf list
-- **Vercel cron failure-mode review** — well documented in CLAUDE.md, not in scope
-- **ML / bbox tracking pipeline review** — out of UX scope
-- **OBIS / GBIF / iNat data correctness audit** — already probed in CLAUDE.md, not in scope
-- **Seed scripts hardening** — referenced in CLAUDE.md but not user-facing
-- **Snippet upload tooling** — partially in S6-T13 (admin route), full scope larger
-- **Mobile native apps** — out of scope; this plan is PWA-first
+- **Vercel cron failure-mode review**: well documented in CLAUDE.md, not in scope
+- **ML / bbox tracking pipeline review**: out of UX scope
+- **OBIS / GBIF / iNat data correctness audit**: already probed in CLAUDE.md, not in scope
+- **Seed scripts hardening**: referenced in CLAUDE.md but not user-facing
+- **Snippet upload tooling**: partially in S6-T13 (admin route), full scope larger
+- **Mobile native apps**: out of scope; this plan is PWA-first
 
 ---
 
@@ -147,9 +147,9 @@ Surfaced in the audit but **not in any sprint** — flag as separate work-stream
 
 Two recommended patterns:
 
-**Pattern A — Per-sprint markdown checkboxes.** Append a status line to each ticket as you complete it: `**Status:** ✅ Done 2026-05-22 (commit abc1234)`. Re-grep `Status:` at end of sprint to retrospect.
+**Pattern A, Per-sprint markdown checkboxes.** Append a status line to each ticket as you complete it: `**Status:** ✅ Done 2026-05-22 (commit abc1234)`. Re-grep `Status:` at end of sprint to retrospect.
 
-**Pattern B — Git-flow per ticket.** One branch per ticket (`claude/s1-t01-tokens`), one PR per branch, link the audit refs in the PR description. Sprint exits when all PRs merged + sprint-level DoD criteria green.
+**Pattern B, Git-flow per ticket.** One branch per ticket (`claude/s1-t01-tokens`), one PR per branch, link the audit refs in the PR description. Sprint exits when all PRs merged + sprint-level DoD criteria green.
 
 Either pattern works. Pattern B gives the cleanest review history; Pattern A is faster if reviewing internally.
 
@@ -164,19 +164,19 @@ Either pattern works. Pattern B gives the cleanest review history; Pattern A is 
 - No major Next.js / Prisma / NextAuth major-version bumps mid-plan. (Next.js 14 → 15 would invalidate parts of Sprint 1.)
 
 **Top risks:**
-1. **Sprint 3 legal-copy bottleneck** — engineering can scaffold privacy/T&Cs in days, but legal review can take weeks. Start that conversation in Sprint 1.
-2. **Sprint 2 product-decision drift** — if MCQ vs free-text flips mid-sprint, 5-6 tickets need redesign. Lock the decision before starting.
-3. **Email deliverability** — Resend setup looks easy but DKIM/SPF on `pebl-cic.co.uk` may require DNS access not under engineering's control. Surface this in Sprint 1 prep.
-4. **iOS Safari autoplay quirks** — Sprint 1-2 changes to the feed video pipeline need re-verification on real iOS, not just simulator.
-5. **`?v=3` cache-busting** for video URLs (Sprint 4 S4-T18) — switching to new-path-on-re-encode may strand stale CDN caches for hours. Stage carefully.
+1. **Sprint 3 legal-copy bottleneck**: engineering can scaffold privacy/T&Cs in days, but legal review can take weeks. Start that conversation in Sprint 1.
+2. **Sprint 2 product-decision drift**: if MCQ vs free-text flips mid-sprint, 5-6 tickets need redesign. Lock the decision before starting.
+3. **Email deliverability**: Resend setup looks easy but DKIM/SPF on `pebl-cic.co.uk` may require DNS access not under engineering's control. Surface this in Sprint 1 prep.
+4. **iOS Safari autoplay quirks**: Sprint 1-2 changes to the feed video pipeline need re-verification on real iOS, not just simulator.
+5. **`?v=3` cache-busting** for video URLs (Sprint 4 S4-T18), switching to new-path-on-re-encode may strand stale CDN caches for hours. Stage carefully.
 
 ---
 
 ## Companion documents
 
-- **The audit itself**: [`audit/ux-2026-05/`](../../audit/ux-2026-05/) — start with `00-README.md` there for cross-cutting themes
-- **Prior audit (different breakdown, 2026-05-18)**: [`audit/`](../../audit/) — retained for reference
-- **Codebase-level operational notes**: `CLAUDE.md` (root of worktree) — H.264 invariant, env vars, DB scripts
+- **The audit itself**: [`audit/ux-2026-05/`](../../audit/ux-2026-05/), start with `00-README.md` there for cross-cutting themes
+- **Prior audit (different breakdown, 2026-05-18)**: [`audit/`](../../audit/), retained for reference
+- **Codebase-level operational notes**: `CLAUDE.md` (root of worktree), H.264 invariant, env vars, DB scripts
 
 ---
 

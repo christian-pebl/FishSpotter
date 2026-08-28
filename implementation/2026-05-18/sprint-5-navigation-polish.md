@@ -1,4 +1,4 @@
-# Sprint 5 — Navigation, Accessibility & Polish
+# Sprint 5: Navigation, Accessibility & Polish
 
 ## Goal
 
@@ -19,7 +19,7 @@ Sprint 5 settles visual + a11y polish on top of Sprint 1's design tokens and Spr
 - **axe-core CI gate**: `@axe-core/playwright` runs on every PR against `/`, `/feed`, `/feed/browse`, `/feed/[externalId]`, `/leaderboard`, `/auth/signin` at 375 + 1280 viewports. Zero `critical` violations, zero `serious` violations. Build fails on regression.
 - **Lighthouse CI accessibility score ≥95** on all six routes above, mobile slow-4G profile, asserted in `.lighthouserc.json`.
 - **Keyboard-only walkthrough passes** the matrix in §07 testing plan: skip-link moves focus into `<main>`; Tab traversal hits every interactive control in DOM order with a visible focus ring; Escape closes every dialog/drawer; focus returns to the trigger on close.
-- **Screen-reader walkthrough passes** on NVDA + VoiceOver: quiz outcome ("Correct — common name" / "Not quite — was X") is announced via the new aria-live region; species input announces its purpose ("Species name, edit text"); every page has exactly one `<h1>`.
+- **Screen-reader walkthrough passes** on NVDA + VoiceOver: quiz outcome ("Correct, common name" / "Not quite, was X") is announced via the new aria-live region; species input announces its purpose ("Species name, edit text"); every page has exactly one `<h1>`.
 - **Deep-link parity**: refreshing `/feed` while clip 5 is visible reloads the same clip; sharing the URL bar from a logged-in session opens the same clip for the recipient; `/feed/{externalId}` is the canonical permalink and old CUID URLs 301 to it.
 - **Color contrast matrix**: `axe-core` colour-contrast rule passes everywhere. `#3AAFA9` is not used as text below 14px on any background; `#2B7A78` replaces it for small text on white/light-teal.
 - **Cross-promo CTAs**: `/leaderboard` and `/feed/browse` each render a primary "Open live feed" CTA above the fold; archive cards link to `/feed/{externalId}`.
@@ -31,31 +31,31 @@ Sprint 5 settles visual + a11y polish on top of Sprint 1's design tokens and Spr
 
 | Finding | Source | Ticket(s) |
 |---|---|---|
-| F1 — No persistent nav chrome on non-feed pages | §04 | S5-T1, S5-T2 |
-| F2 — Chevron-left hamburger is misleading | §04 | S5-T1 |
-| F3 — Two header treatments, brittle pointer-events | §04 | S5-T2 |
-| F4 — `/feed` URL never reflects visible clip; no share affordance | §04, §02 | S5-T3, S5-T5 |
-| F12 — Snippet permalink lacks prev/next/share | §04 | S5-T5 |
-| F13 — `/feed` back-nav loses activeIndex | §04 | S5-T3 |
-| F14 — `usePathname()` exact match brittle on trailing slash | §04 | S5-T2 |
-| F15 — No cross-promo from leaderboard/browse back to feed | §04 | S5-T6 |
-| F16 — No `sitemap.ts` / `robots.ts` | §04 | S5-T19 |
-| F20 — `/feed/[id]` uses opaque CUID | §04 | S5-T4 |
-| F8 — Service-worker route list drift | §04 | S5-T20 |
-| A11Y-01 — `#3AAFA9` text fails AA contrast | §07 | S5-T15 |
-| A11Y-02 — Color-only correctness signal | §07 | S5-T9 |
-| A11Y-03 — Post-submit panel swap not announced | §07 | S5-T9 |
-| A11Y-04 — Skip-link target missing `tabIndex={-1}` | §07 | S5-T16 |
-| A11Y-06 — Species input has placeholder-as-label | §07 | S5-T10 |
-| A11Y-10 — `SideMenu` lacks focus trap (and `MapModal`) | §07 | S5-T11 |
-| A11Y-11 — `/feed` has no `<h1>`; hierarchy audit needed | §07 | S5-T13 |
-| A11Y-12 — Inconsistent paired-toggle labelling | §07 | S5-T16 |
-| A11Y-13 — Page-title separator middot read literally | §07 | S5-T14 |
-| A11Y-14 — Framer pulses not gated by `prefers-reduced-motion` | §07 | S5-T12 |
-| A11Y-15 — Forms missing `autocomplete` tokens | §07 | S5-T10 |
-| A11Y-16 — Touch targets below 44×44 | §07 | S5-T17 |
-| RESP-06 — Landscape orientation handling | §07 | S5-T18 |
-| RESP-07 — Hover-only interactions without touch parity | §07 | S5-T17 |
+| F1, No persistent nav chrome on non-feed pages | §04 | S5-T1, S5-T2 |
+| F2, Chevron-left hamburger is misleading | §04 | S5-T1 |
+| F3, Two header treatments, brittle pointer-events | §04 | S5-T2 |
+| F4, `/feed` URL never reflects visible clip; no share affordance | §04, §02 | S5-T3, S5-T5 |
+| F12, Snippet permalink lacks prev/next/share | §04 | S5-T5 |
+| F13, `/feed` back-nav loses activeIndex | §04 | S5-T3 |
+| F14, `usePathname()` exact match brittle on trailing slash | §04 | S5-T2 |
+| F15, No cross-promo from leaderboard/browse back to feed | §04 | S5-T6 |
+| F16, No `sitemap.ts` / `robots.ts` | §04 | S5-T19 |
+| F20, `/feed/[id]` uses opaque CUID | §04 | S5-T4 |
+| F8, Service-worker route list drift | §04 | S5-T20 |
+| A11Y-01, `#3AAFA9` text fails AA contrast | §07 | S5-T15 |
+| A11Y-02, Color-only correctness signal | §07 | S5-T9 |
+| A11Y-03, Post-submit panel swap not announced | §07 | S5-T9 |
+| A11Y-04, Skip-link target missing `tabIndex={-1}` | §07 | S5-T16 |
+| A11Y-06, Species input has placeholder-as-label | §07 | S5-T10 |
+| A11Y-10, `SideMenu` lacks focus trap (and `MapModal`) | §07 | S5-T11 |
+| A11Y-11, `/feed` has no `<h1>`; hierarchy audit needed | §07 | S5-T13 |
+| A11Y-12, Inconsistent paired-toggle labelling | §07 | S5-T16 |
+| A11Y-13, Page-title separator middot read literally | §07 | S5-T14 |
+| A11Y-14, Framer pulses not gated by `prefers-reduced-motion` | §07 | S5-T12 |
+| A11Y-15, Forms missing `autocomplete` tokens | §07 | S5-T10 |
+| A11Y-16, Touch targets below 44×44 | §07 | S5-T17 |
+| RESP-06, Landscape orientation handling | §07 | S5-T18 |
+| RESP-07, Hover-only interactions without touch parity | §07 | S5-T17 |
 | Per-card metadata not surfaced (site, depth, date) | §02 | S5-T7 |
 | Locale-aware date formatting / `lang` audit | §07, sprint scope item 18 | S5-T14 |
 | Image alt-text audit | sprint scope item 19 | S5-T8 |
@@ -110,20 +110,20 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - **Sprint 1**: Tokens are in `tailwind.config.ts`. T15's contrast sweep assumes `text-primary-dark` / `text-foreground` utilities exist or that semantic colour aliases (`--text-on-dark-small`) are available. If Sprint 1 only landed CSS-var aliases without Tailwind utilities, T15 falls back to inline `text-[color:var(...)]` writes. Sprint 1 also owns `error.tsx` / `not-found.tsx` scaffolds; T21 only polishes the visual treatment.
 - **Sprint 1**: `axe-core` + Lighthouse CI scaffolding was installed in Sprint 1. T22 here only adds the route list, budget thresholds, and the CI step that fails the build. If Sprint 1 deferred this, T22 expands to full install.
 - **Sprint 2**: Quiz pipeline alignment. T9 (aria-live + non-color cue) assumes the post-submit panel still exists in `FeedCard.tsx`. If Sprint 2 has converted to multiple-choice, T9 retargets the new component but the same semantics apply (status region, paired icon+text).
-- **Sprint 3**: Auth + compliance. T6's "Sign in" pill in non-overlay header only renders when no session — depends on the existing NextAuth `useSession()` hook (already present).
-- **Sprint 4**: Perf work. T3's `history.replaceState` on IntersectionObserver active-index change is safe regardless of whether `/feed` is `force-dynamic` or `revalidate=60` (URL rewrites don't trigger refetch). T19's sitemap query uses `prisma.snippet.findMany({ select: { externalId: true, updatedAt: true } })` — if Sprint 4 added `updatedAt` indexing, sitemap benefits but does not require it.
+- **Sprint 3**: Auth + compliance. T6's "Sign in" pill in non-overlay header only renders when no session, depends on the existing NextAuth `useSession()` hook (already present).
+- **Sprint 4**: Perf work. T3's `history.replaceState` on IntersectionObserver active-index change is safe regardless of whether `/feed` is `force-dynamic` or `revalidate=60` (URL rewrites don't trigger refetch). T19's sitemap query uses `prisma.snippet.findMany({ select: { externalId: true, updatedAt: true } })`, if Sprint 4 added `updatedAt` indexing, sitemap benefits but does not require it.
 - **Sprint 4**: `loading.tsx` scaffolds. T21 is `not-found.tsx` polish only; `loading.tsx` is out of scope here.
 
 ## Tickets
 
 ---
 
-### S5-T1 — Replace chevron-left hamburger with a real menu icon, extract a `NavTrigger` primitive
+### S5-T1: Replace chevron-left hamburger with a real menu icon, extract a `NavTrigger` primitive
 
 **Audit refs:** §04 F1, F2.
 
 **Files:**
-- `src/components/Header.tsx` (lines 45-54 — swap SVG path)
+- `src/components/Header.tsx` (lines 45-54, swap SVG path)
 - New: `src/components/nav/NavTrigger.tsx` (extract reusable button)
 
 **Acceptance:**
@@ -137,7 +137,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T2 — Persistent navigation: desktop horizontal bar, mobile bottom tab-bar
+### S5-T2: Persistent navigation: desktop horizontal bar, mobile bottom tab-bar
 
 **Audit refs:** §04 F1, F3, F14.
 
@@ -150,19 +150,19 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 **Acceptance:**
 - At `≥768px` (`md:` breakpoint and up) the header renders an inline `<nav aria-label="Primary">` containing three links: **Live feed** (`/feed`), **Archive** (`/feed/browse`), **Leaderboard** (`/leaderboard`). The mobile hamburger button is hidden at this breakpoint.
-- At `<768px` a `MobileTabBar` sits fixed to the bottom of the viewport (above `env(safe-area-inset-bottom)`) with the same three destinations as 44×44 icon+label tiles. The hamburger remains as a fourth tab labelled "More" (opens `SideMenu`) — discoverable but not the only path.
+- At `<768px` a `MobileTabBar` sits fixed to the bottom of the viewport (above `env(safe-area-inset-bottom)`) with the same three destinations as 44×44 icon+label tiles. The hamburger remains as a fourth tab labelled "More" (opens `SideMenu`), discoverable but not the only path.
 - The active route is indicated by:
   - Desktop: a 2px bottom-border in `var(--primary)` plus `aria-current="page"` on the active link.
   - Mobile: a filled background pill on the active tab plus `aria-current="page"`.
 - Visible focus ring on all nav items, `:focus-visible` outline 2px `var(--primary)` offset 2px.
-- The `/feed` overlay header continues to work — `PrimaryNav` inherits `variant="overlay"` from `Header` and uses light text + `text-shadow` for legibility against video.
+- The `/feed` overlay header continues to work, `PrimaryNav` inherits `variant="overlay"` from `Header` and uses light text + `text-shadow` for legibility against video.
 - Pathname comparison uses a helper `normalisePath(p)` that strips trailing slashes (fixes F14). All three call sites in `SideMenu.tsx` migrate to the helper.
 
 **Non-goals:** Changing the marketing landing layout at `/`.
 
 ---
 
-### S5-T3 — Deep-link feed by clip: sync visible clip to URL via `history.replaceState`
+### S5-T3: Deep-link feed by clip: sync visible clip to URL via `history.replaceState`
 
 **Audit refs:** §04 F4, F13.
 
@@ -174,22 +174,22 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - On mount, `FeedPlayer` reads `window.location.pathname` and if it matches `/feed/{externalId}`, sets `activeIndex` to that clip's index and calls `scrollToIndex` after layout (use `requestAnimationFrame`).
 - Refreshing on `/feed/{externalId}` is handled by T4's slug route, which renders the live `<FeedPlayer>` (not the single-clip page) when the request is to `/feed/{externalId}` *and* the user-agent supports the feed (i.e. the same component as `/feed` but with `initialClipExternalId` prop). See T4 for the routing.
 - The activeIndex is persisted to `sessionStorage` keyed `feed:active:{count}` as a fallback for browsers that block `replaceState` in PWAs; on mount, sessionStorage wins only if no externalId is in the URL.
-- Forward / back browser buttons do not refetch — `replaceState`, not `pushState`.
+- Forward / back browser buttons do not refetch, `replaceState`, not `pushState`.
 
 **Non-goals:** Building the share button (S5-T5) or the slug routing (S5-T4).
 
 ---
 
-### S5-T4 — Switch `/feed/[id]` from CUID to `externalId` with 301 redirect for legacy URLs
+### S5-T4: Switch `/feed/[id]` from CUID to `externalId` with 301 redirect for legacy URLs
 
 **Audit refs:** §04 F20.
 
 **Files:**
 - Rename: `src/app/feed/[id]/page.tsx` → `src/app/feed/[slug]/page.tsx`
 - `src/app/feed/[slug]/page.tsx` (lookup by `externalId`, fallback to CUID with `permanentRedirect()`)
-- `prisma/schema.prisma` (confirm `Snippet.externalId` has `@unique` — add if missing)
+- `prisma/schema.prisma` (confirm `Snippet.externalId` has `@unique`, add if missing)
 - Migration: `prisma/migrations/*` for unique index if added
-- All internal `href={\`/feed/${snippet.id}\`}` callers — replace with `externalId`:
+- All internal `href={\`/feed/${snippet.id}\`}` callers, replace with `externalId`:
   - `src/app/feed/browse/page.tsx`
   - `src/components/FeedCard.tsx` (any future share button)
   - `src/components/FeedPlayer.tsx` (T3 already uses externalId)
@@ -206,7 +206,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T5 — Share button on feed cards + prev/next/share on `/feed/[externalId]`
+### S5-T5: Share button on feed cards + prev/next/share on `/feed/[externalId]`
 
 **Audit refs:** §04 F4, F12.
 
@@ -226,11 +226,11 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - Existing "← Back to live feed" link stays but moves into the same strip.
 - All four controls have visible focus rings and ≥44×44 hit areas.
 
-**Non-goals:** Open Graph / Twitter Card metadata — out of scope; flagged for Sprint 6.
+**Non-goals:** Open Graph / Twitter Card metadata, out of scope; flagged for Sprint 6.
 
 ---
 
-### S5-T6 — Cross-promotion CTAs: leaderboard and archive each link back to the feed
+### S5-T6: Cross-promotion CTAs: leaderboard and archive each link back to the feed
 
 **Audit refs:** §04 F15.
 
@@ -249,7 +249,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T7 — Per-card metadata surface: site, depth, recording date
+### S5-T7: Per-card metadata surface: site, depth, recording date
 
 **Audit refs:** §02 (Card information hierarchy section).
 
@@ -264,14 +264,14 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - Tokens are space-separated by a `·` (middle-dot, but inside a `<span aria-hidden>` and joined with " " for the AT name).
 - The strip wraps in a small `<div role="group" aria-label="Clip context">` with a visually-hidden full sentence: `"Clip from {site}, {depthM} metres depth, recorded {date}"`.
 - Background: `bg-[#17252A]/72` with `text-[color:#DEF2F1]` at 11px (T15-compatible contrast).
-- Tap on the strip opens the existing `MapModal` (already wired for lat/lon) — adds discoverability for the map feature.
+- Tap on the strip opens the existing `MapModal` (already wired for lat/lon), adds discoverability for the map feature.
 - Strip is hidden on the desktop centred panel layout when it would collide with the floating panel; mobile always shows it (top-left, above safe-area).
 
 **Non-goals:** Building a separate sites/deployments taxonomy page.
 
 ---
 
-### S5-T8 — Image alt-text audit across all components
+### S5-T8: Image alt-text audit across all components
 
 **Audit refs:** §07 A11Y-17 (logos), §07 A11Y context for `SpeciesGallery`, sprint scope item 19.
 
@@ -284,9 +284,9 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - `src/app/page.tsx`
 
 **Acceptance:**
-- Every `<img>` / `next/image` either has a meaningful `alt` describing content, or `alt=""` + `aria-hidden="true"` if purely decorative — never both, never missing.
+- Every `<img>` / `next/image` either has a meaningful `alt` describing content, or `alt=""` + `aria-hidden="true"` if purely decorative, never both, never missing.
 - PEBL wordmark in Header + SideMenu: keep `alt=""` + `aria-hidden` (the parent link already carries `aria-label="PEBL FishSpotter home"`).
-- Species photos in `SpeciesGallery`: `alt` is `{scientificName} ({attribution})` — current pattern verified or updated.
+- Species photos in `SpeciesGallery`: `alt` is `{scientificName} ({attribution})`, current pattern verified or updated.
 - Archive grid thumbnails: `alt` is the same sentence as the metadata strip from T7.
 - Video posters: `alt=""` because the `<video>` already carries `aria-label`.
 - A grep test (`tests/a11y/img-alt.spec.ts`) parses every `<img` and `<Image` JSX usage with a Babel AST walk and fails if `alt` is absent (the build will already fail on bare `<img>` thanks to ESLint, but extend the rule to `next/image`).
@@ -295,7 +295,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T9 — aria-live region for quiz feedback + non-color cue (icon + text label)
+### S5-T9: aria-live region for quiz feedback + non-color cue (icon + text label)
 
 **Audit refs:** §07 A11Y-02, A11Y-03; Theme C.
 
@@ -305,9 +305,9 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 **Acceptance:**
 - The post-submit result block is wrapped in `<div role="status" aria-live="polite" aria-atomic="true">`.
 - The result sentence is rewritten to always lead with a non-color textual cue:
-  - Correct: `"Correct — {commonName}"`, preceded by a filled-circle `✓` icon (inline SVG, `aria-hidden`).
-  - Incorrect: `"Not quite — was {staffAnswer}"`, preceded by an outlined-circle `✕` icon (inline SVG, `aria-hidden`).
-- The two icons differ in **shape** (filled vs outlined), not just colour. Verified by switching to greyscale in DevTools — outcome is still distinguishable.
+  - Correct: `"Correct, {commonName}"`, preceded by a filled-circle `✓` icon (inline SVG, `aria-hidden`).
+  - Incorrect: `"Not quite, was {staffAnswer}"`, preceded by an outlined-circle `✕` icon (inline SVG, `aria-hidden`).
+- The two icons differ in **shape** (filled vs outlined), not just colour. Verified by switching to greyscale in DevTools, outcome is still distinguishable.
 - The error path at line 833-839 keeps `role="alert"` (unchanged); the success path uses `role="status"` so the two announcements don't conflict.
 - The shake animation (line 973) and panel pulse (line 734) remain as enhancements, gated by reduced-motion (T12).
 
@@ -315,17 +315,17 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T10 — Real `<label>` for species input + autocomplete tokens on auth form
+### S5-T10: Real `<label>` for species input + autocomplete tokens on auth form
 
 **Audit refs:** §07 A11Y-06, A11Y-15.
 
 **Files:**
 - `src/components/FeedCard.tsx:844-874` (species input)
-- `src/components/IdGuideChat.tsx:42` (chat textarea — same pattern)
+- `src/components/IdGuideChat.tsx:42` (chat textarea, same pattern)
 - `src/app/auth/signin/page.tsx` (email + password inputs)
 
 **Acceptance:**
-- Species input has a visually-hidden `<label htmlFor="species-answer-{cardId}">Species name</label>` immediately before the `<input>` (no `aria-label` substitute — a real label is more robust).
+- Species input has a visually-hidden `<label htmlFor="species-answer-{cardId}">Species name</label>` immediately before the `<input>` (no `aria-label` substitute, a real label is more robust).
 - Placeholder stays as `"e.g. ballan wrasse"` (an example, not a label).
 - `autoComplete="off"` is retained.
 - `IdGuideChat` textarea gets the same treatment: hidden `<label>` "Message" + visible placeholder.
@@ -337,7 +337,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T11 — Focus trap on `SideMenu` and `MapModal` (port the `SpeciesGallery` pattern)
+### S5-T11: Focus trap on `SideMenu` and `MapModal` (port the `SpeciesGallery` pattern)
 
 **Audit refs:** §07 A11Y-10.
 
@@ -345,21 +345,21 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - Extract: `src/lib/hooks/useFocusTrap.ts` (port the in-line implementation from `SpeciesGallery.tsx:207-223`)
 - `src/components/SideMenu.tsx` (apply hook)
 - `src/components/MapModal.tsx` and/or `MapModalInner.tsx` (apply hook)
-- `src/components/SpeciesGallery.tsx` (refactor to use the new shared hook — behaviour-preserving)
+- `src/components/SpeciesGallery.tsx` (refactor to use the new shared hook, behaviour-preserving)
 
 **Acceptance:**
 - A `useFocusTrap(active: boolean, containerRef: RefObject<HTMLElement>)` hook is exported from `src/lib/hooks/useFocusTrap.ts`. It handles: focus into the first focusable on open, Tab/Shift-Tab cycle, Escape returns focus to the trigger.
 - `SideMenu`: when `open`, Tab cycles only within the drawer; focus on the previously-focused element (the `NavTrigger`) is restored on close.
 - `MapModal`: identical contract. Backdrop click + Escape close the modal and restore focus.
-- `SpeciesGallery` is refactored to call the new hook — its existing tests pass unchanged.
+- `SpeciesGallery` is refactored to call the new hook, its existing tests pass unchanged.
 - Background elements behind an open dialog get `inert` attribute (with a polyfill fallback for Firefox <125; React 18 doesn't support `inert` as a prop natively until React 19, so apply via `ref.setAttribute`).
-- The drag handle on the floating panel (A11Y-09) is out of scope — flagged in §07 but not in this sprint.
+- The drag handle on the floating panel (A11Y-09) is out of scope, flagged in §07 but not in this sprint.
 
 **Non-goals:** Building a generic `<Dialog>` primitive (Sprint 1's design system owns that).
 
 ---
 
-### S5-T12 — Reduced-motion guards across Framer Motion usage
+### S5-T12: Reduced-motion guards across Framer Motion usage
 
 **Audit refs:** §07 A11Y-14.
 
@@ -384,14 +384,14 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T13 — Heading hierarchy: every route has exactly one `<h1>`
+### S5-T13: Heading hierarchy: every route has exactly one `<h1>`
 
 **Audit refs:** §07 A11Y-11.
 
 **Files:**
 - `src/app/feed/page.tsx` (add `<h1 className="sr-only">Live FishSpotter feed</h1>`)
 - `src/app/feed/[slug]/page.tsx` (add visible `<h1>` "Sighting: {site} {deployment}" or sr-only equivalent)
-- `src/app/feed/browse/page.tsx` (audit — likely already has an `<h1>`)
+- `src/app/feed/browse/page.tsx` (audit, likely already has an `<h1>`)
 - `src/app/leaderboard/page.tsx` (audit)
 - `src/app/page.tsx` (audit)
 - `src/app/auth/signin/page.tsx` (audit)
@@ -407,7 +407,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T14 — Page titles, meta descriptions, locale-aware date formatting, `lang` audit
+### S5-T14: Page titles, meta descriptions, locale-aware date formatting, `lang` audit
 
 **Audit refs:** §07 A11Y-13, sprint scope items 15 + 18.
 
@@ -417,19 +417,19 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - New: `src/lib/format/date.ts` (`formatRecordingDate(d: Date): string` returning `d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })`)
 
 **Acceptance:**
-- `<html lang="en-GB">` (en-GB, not en — matches UK CIC operating context).
-- Title template in `layout.tsx` becomes `"%s - PEBL FishSpotter"` (hyphen, not middle-dot — A11Y-13 + user's banned em-dash rule respected).
+- `<html lang="en-GB">` (en-GB, not en, matches UK CIC operating context).
+- Title template in `layout.tsx` becomes `"%s - PEBL FishSpotter"` (hyphen, not middle-dot, A11Y-13 + user's banned em-dash rule respected).
 - Each route exports a `metadata` (or `generateMetadata`) with:
   - `title`: short, route-specific (e.g. "Live feed", "Archive", "Leaderboard", "Sign in", "{site} {deployment}").
-  - `description`: 140–160 chars, plain-English, no emoji.
-- All snippet recording dates render via `formatRecordingDate` — used by T7 (per-card strip), T5 (snippet detail header), and `/feed/browse` archive grid.
+  - `description`: 140-160 chars, plain-English, no emoji.
+- All snippet recording dates render via `formatRecordingDate`, used by T7 (per-card strip), T5 (snippet detail header), and `/feed/browse` archive grid.
 - A grep test asserts no `new Date(...).toLocaleString()` without explicit locale + options anywhere in `src/`.
 
 **Non-goals:** OpenGraph / Twitter Cards (Sprint 6).
 
 ---
 
-### S5-T15 — Color contrast sweep: `#3AAFA9` no longer used as small text
+### S5-T15: Color contrast sweep: `#3AAFA9` no longer used as small text
 
 **Audit refs:** §07 A11Y-01, contrast matrix; Theme C; user's colorblind preference.
 
@@ -440,9 +440,9 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - Anywhere else grep finds `text-\[#3AAFA9\]` or `text-\[color:var\(--primary\)\]` at `text-[10px]` / `text-[11px]` / `text-xs`
 
 **Acceptance:**
-- For text on **dark navy** (`#17252A`), small annotations (<14px) use `#DEF2F1` (light teal — 14.21:1). `#3AAFA9` is reserved for headings ≥14px.
-- For text on **white** or **light teal**, small text uses `#17252A` (foreground) or `#2B7A78` (dark teal — 5.05:1 on white). `#3AAFA9` is never used as text on white/light-teal regardless of size.
-- `pebl-button-primary` (teal background) keeps `#17252A` text — already correct in `globals.css:95-98`. No change.
+- For text on **dark navy** (`#17252A`), small annotations (<14px) use `#DEF2F1` (light teal, 14.21:1). `#3AAFA9` is reserved for headings ≥14px.
+- For text on **white** or **light teal**, small text uses `#17252A` (foreground) or `#2B7A78` (dark teal, 5.05:1 on white). `#3AAFA9` is never used as text on white/light-teal regardless of size.
+- `pebl-button-primary` (teal background) keeps `#17252A` text, already correct in `globals.css:95-98`. No change.
 - A new section is appended to `CLAUDE.md` (project root, not user-global) under "PEBL Brand Guidelines" → "Color × text-size matrix" reproducing the contrast matrix from §07 with bolded "DO / DON'T" rules.
 - `axe-core` `color-contrast` rule passes on all six audited routes.
 
@@ -450,7 +450,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T16 — Skip-link target focus + paired toggle accessible names
+### S5-T16: Skip-link target focus + paired toggle accessible names
 
 **Audit refs:** §07 A11Y-04, A11Y-05, A11Y-12.
 
@@ -461,7 +461,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 **Acceptance:**
 - Every `<main id="main">` carries `tabIndex={-1}` and a `:focus-visible` outline.
-- Skip link is visibly distinct against any background — solid `--foreground` background, white text — verified on `/feed` over video.
+- Skip link is visibly distinct against any background, solid `--foreground` background, white text, verified on `/feed` over video.
 - Panel collapse/expand is either:
   - A single button with `aria-expanded={isOpen}` and one label "Identification panel", or
   - Two distinct elements with paired labels: "Show identification panel" / "Hide identification panel".
@@ -471,25 +471,25 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T17 — Touch target + hover-parity sweep (44×44, `active:` siblings, `focus-visible:`)
+### S5-T17: Touch target + hover-parity sweep (44×44, `active:` siblings, `focus-visible:`)
 
 **Audit refs:** §07 A11Y-16, RESP-07.
 
 **Files (per audit citations):**
-- `src/components/FeedCard.tsx:875-883` (Skip button — `min-h-[44px]`)
-- `src/components/FeedCard.tsx:768-777` (collapse caret — `min-h-[44px] min-w-[44px]`)
-- Repo grep for `hover:` without adjacent `focus-visible:` or `active:` — apply pairs
+- `src/components/FeedCard.tsx:875-883` (Skip button, `min-h-[44px]`)
+- `src/components/FeedCard.tsx:768-777` (collapse caret, `min-h-[44px] min-w-[44px]`)
+- Repo grep for `hover:` without adjacent `focus-visible:` or `active:`, apply pairs
 
 **Acceptance:**
 - No interactive control on any audited route is below 44×44 CSS pixels (`axe-core` `target-size` rule passes, AAA-2.2 best practice).
-- Every `hover:` utility class in `src/components/` and `src/app/` is paired with either `focus-visible:` (same visual treatment) and `active:scale-[0.98]` (or equivalent tactile cue). A lint rule in `eslint-plugin-tailwindcss` config could enforce this — out of scope to add the rule, but the manual pass clears existing usage.
+- Every `hover:` utility class in `src/components/` and `src/app/` is paired with either `focus-visible:` (same visual treatment) and `active:scale-[0.98]` (or equivalent tactile cue). A lint rule in `eslint-plugin-tailwindcss` config could enforce this, out of scope to add the rule, but the manual pass clears existing usage.
 - `whileTap={{ scale: 0.98 }}` is added to every Framer `motion.button` that lacks it.
 
 **Non-goals:** Adding gesture libraries.
 
 ---
 
-### S5-T18 — Landscape orientation handling for portrait phones (RESP-06)
+### S5-T18: Landscape orientation handling for portrait phones (RESP-06)
 
 **Audit refs:** §07 RESP-06.
 
@@ -499,15 +499,15 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 **Acceptance:**
 - A new "Fullscreen" icon button is added to the floating panel, ≥44×44, calling `videoRef.current.requestFullscreen()` (with the `webkitRequestFullscreen` fallback for Safari/iOS). On iOS Safari that returns void: gracefully degrade to a toast "Use the iOS fullscreen control on the video".
-- A "Fit video" toggle in `SettingsMenu` flips between `object-cover` (default — current behaviour) and `object-contain` (letterboxed). Persisted via `localStorage` key `fs:video-fit`. Read in `FeedCard` and applied as a className.
-- On `orientationchange`, the `FeedPlayer` does *not* auto-rotate — leaves user in control.
+- A "Fit video" toggle in `SettingsMenu` flips between `object-cover` (default, current behaviour) and `object-contain` (letterboxed). Persisted via `localStorage` key `fs:video-fit`. Read in `FeedCard` and applied as a className.
+- On `orientationchange`, the `FeedPlayer` does *not* auto-rotate, leaves user in control.
 - A landscape-aware test in Playwright at 932×430 (iPhone Pro Max landscape) confirms the floating panel does not collide with the metadata strip (T7).
 
 **Non-goals:** Implementing a custom video controls UI.
 
 ---
 
-### S5-T19 — `sitemap.ts` + `robots.ts`
+### S5-T19: `sitemap.ts` + `robots.ts`
 
 **Audit refs:** §04 F16.
 
@@ -529,14 +529,14 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T20 — Service-worker route allowlist drift CI guard
+### S5-T20: Service-worker route allowlist drift CI guard
 
 **Audit refs:** §04 F8, sprint scope item 23.
 
 **Files:**
 - New: `scripts/test-sw-routes.ts`
 - `package.json` (add `"test:sw-routes": "tsx scripts/test-sw-routes.ts"`)
-- `.github/workflows/ci.yml` (or wherever CI runs) — add a step
+- `.github/workflows/ci.yml` (or wherever CI runs), add a step
 - `public/sw.js:18-24` (add a header comment documenting the contract)
 
 **Acceptance:**
@@ -544,11 +544,11 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - CI runs `npm run test:sw-routes` on every PR. A new top-level route added without updating `sw.js` fails the build.
 - `public/sw.js` has a comment block above `isPersonalisedRoute` explaining the contract and pointing at the script.
 
-**Non-goals:** Generating the SW list at build time (audit's option (b) — flagged for Sprint 6 if drift becomes painful).
+**Non-goals:** Generating the SW list at build time (audit's option (b), flagged for Sprint 6 if drift becomes painful).
 
 ---
 
-### S5-T21 — `not-found.tsx` polish (assuming Sprint 1 added the scaffold)
+### S5-T21: `not-found.tsx` polish (assuming Sprint 1 added the scaffold)
 
 **Audit refs:** §04 F5.
 
@@ -567,7 +567,7 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 
 ---
 
-### S5-T22 — axe-core CI gate + Lighthouse CI a11y budget
+### S5-T22: axe-core CI gate + Lighthouse CI a11y budget
 
 **Audit refs:** §07 testing plan (automated section); Theme C ("baseline axe-core + Lighthouse CI from day one").
 
@@ -584,6 +584,6 @@ Critical path: T1 → T2 → T6, and T4 → T3 → T5. Everything else is parall
 - Local developers can run `npm run test:a11y` against `npm run dev`.
 - A baseline run on the current `claude/angry-allen-76508d` branch is recorded as the pre-Sprint-5 violation count for comparison.
 
-**Non-goals:** Visual regression (out of scope — Sprint 1).
+**Non-goals:** Visual regression (out of scope, Sprint 1).
 
 ---

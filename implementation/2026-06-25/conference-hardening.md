@@ -25,22 +25,22 @@ Work branch: `hardening/conference-prep` (off `main`). Nothing ships to `main` w
 ## Code fixes (this repo)
 
 ### Done (verified green)
-- [x] **Whole-feed crash guard** — `safeParseJson` per row in `src/app/feed/page.tsx`; one corrupt `bboxJson`/`manualTrackJson` no longer takes the feed down.
-- [x] **Stuck "Scoring…" spinner guard** — `loadStats`/`loadMyAnswer` in `src/lib/useCreatureQuiz.ts` now `try/catch` + `res.ok`; stats failure falls back to an empty breakdown so the reveal renders.
+- [x] **Whole-feed crash guard**: `safeParseJson` per row in `src/app/feed/page.tsx`; one corrupt `bboxJson`/`manualTrackJson` no longer takes the feed down.
+- [x] **Stuck "Scoring…" spinner guard**: `loadStats`/`loadMyAnswer` in `src/lib/useCreatureQuiz.ts` now `try/catch` + `res.ok`; stats failure falls back to an empty breakdown so the reveal renders.
 
 ### Critical (do before launch)
-- [ ] **Dead video card recovery** — `FeedCard.tsx:~968` `<video onError>` only `console.error`s. Add a `videoErrored` state + inline "couldn't load, Skip" overlay so a bad clip URL isn't a frozen card.
-- [ ] **DB statement timeout** — no query timeout anywhere; a slow DB hangs functions into spinners. Append `&statement_timeout=8000&pool_timeout=10` to the pooled `POSTGRES_PRISMA_URL` (Vercel) **[ops]**, and/or a Supabase role-level `statement_timeout`.
-- [ ] **`Answer(snippetId)` index** — `prisma/schema.prisma` add `@@index([snippetId])`; the composite unique can't serve `WHERE snippetId=?`, so the hottest reads seq-scan the fastest-growing table. Then `npm run db:push` + `npm run db:enable-rls` **[ops to run]**.
-- [ ] **Histogram `findMany` -> `groupBy`** — `src/app/api/snippets/[id]/stats/route.ts:41` and `src/app/api/answers/preview/route.ts:55` load every answer row per clip. Count in SQL.
+- [ ] **Dead video card recovery**: `FeedCard.tsx:~968` `<video onError>` only `console.error`s. Add a `videoErrored` state + inline "couldn't load, Skip" overlay so a bad clip URL isn't a frozen card.
+- [ ] **DB statement timeout**: no query timeout anywhere; a slow DB hangs functions into spinners. Append `&statement_timeout=8000&pool_timeout=10` to the pooled `POSTGRES_PRISMA_URL` (Vercel) **[ops]**, and/or a Supabase role-level `statement_timeout`.
+- [ ] **`Answer(snippetId)` index**: `prisma/schema.prisma` add `@@index([snippetId])`; the composite unique can't serve `WHERE snippetId=?`, so the hottest reads seq-scan the fastest-growing table. Then `npm run db:push` + `npm run db:enable-rls` **[ops to run]**.
+- [ ] **Histogram `findMany` -> `groupBy`**: `src/app/api/snippets/[id]/stats/route.ts:41` and `src/app/api/answers/preview/route.ts:55` load every answer row per clip. Count in SQL.
 
 ### High
-- [ ] **Cache the demo URL + feed** — landing `src/app/page.tsx` (5 uncached queries/hit) and `src/app/feed/page.tsx` are `force-dynamic`. Switch landing to `revalidate=60`; cache the feed snippet `findMany` (`unstable_cache`/ISR). Biggest spike-load win.
-- [ ] **Drop per-card `/api/answers/my` fan-out** — `useCreatureQuiz.ts:173` fires on all ~48 mounted cards. Pass each card's answer down from the page (already has `answeredIds`).
-- [ ] **Bound the unbounded per-user scans** — `take: 60, orderBy createdAt desc` on the streak/history `findMany`s in `src/app/api/answers/route.ts:89`, `src/app/u/[id]/page.tsx:91`, `src/app/api/streak/route.ts:15`.
-- [ ] **Strip `bboxJson` from the feed payload** — 316 KB shipped to the client per load though only the active card draws it; lazy-load via the existing `/api/snippets/[id]/bbox`.
-- [ ] **ID-guide chat stream timeout** — `IdGuideChat.tsx` + `src/app/api/idguide/chat/route.ts` have no idle/abort timeout; a stalled Anthropic stream shows "thinking…" forever. Add a ~15-20s client idle abort -> existing `onFallback`, and `AbortSignal.timeout()` server-side.
-- [ ] **Feed windowing** (decision needed) — all ~48 cards mount at once. Window to active +/-2-3; also removes most of the fan-out + thumbnail load. Bigger change, behavior review first.
+- [ ] **Cache the demo URL + feed**: landing `src/app/page.tsx` (5 uncached queries/hit) and `src/app/feed/page.tsx` are `force-dynamic`. Switch landing to `revalidate=60`; cache the feed snippet `findMany` (`unstable_cache`/ISR). Biggest spike-load win.
+- [ ] **Drop per-card `/api/answers/my` fan-out**: `useCreatureQuiz.ts:173` fires on all ~48 mounted cards. Pass each card's answer down from the page (already has `answeredIds`).
+- [ ] **Bound the unbounded per-user scans**: `take: 60, orderBy createdAt desc` on the streak/history `findMany`s in `src/app/api/answers/route.ts:89`, `src/app/u/[id]/page.tsx:91`, `src/app/api/streak/route.ts:15`.
+- [ ] **Strip `bboxJson` from the feed payload**: 316 KB shipped to the client per load though only the active card draws it; lazy-load via the existing `/api/snippets/[id]/bbox`.
+- [ ] **ID-guide chat stream timeout**: `IdGuideChat.tsx` + `src/app/api/idguide/chat/route.ts` have no idle/abort timeout; a stalled Anthropic stream shows "thinking…" forever. Add a ~15-20s client idle abort -> existing `onFallback`, and `AbortSignal.timeout()` server-side.
+- [ ] **Feed windowing** (decision needed), all ~48 cards mount at once. Window to active +/-2-3; also removes most of the fan-out + thumbnail load. Bigger change, behavior review first.
 
 ### Medium
 - [ ] try/catch + safe default on hot read routes (`stats`, `bbox`, `quiz`, `snippets/[id]`, `streak`, `me/pebbles`) so a pool blip returns a default, not a 500.
@@ -50,32 +50,32 @@ Work branch: `hardening/conference-prep` (off `main`). Nothing ships to `main` w
 
 ---
 
-## Ops / infra (Christian — Vercel / Supabase / DNS / SendGrid)
+## Ops / infra (Christian: Vercel / Supabase / DNS / SendGrid)
 
 These mostly **fail silently** (no error, no log), so verify each.
 
 ### Vercel production env vars
 Boot-critical (app won't start without):
-- [ ] `NEXTAUTH_URL=https://www.fishspotter.app` — else every verify/reset email links to the dead `fish-spotter.vercel.app`. A wrong-but-present value passes validation, so eyeball it.
+- [ ] `NEXTAUTH_URL=https://www.fishspotter.app`, else every verify/reset email links to the dead `fish-spotter.vercel.app`. A wrong-but-present value passes validation, so eyeball it.
 - [ ] `POSTGRES_PRISMA_URL` (pooled, `...pooler.supabase.com:6543?pgbouncer=true`) + `POSTGRES_URL_NON_POOLING`, `NEXTAUTH_SECRET`, `SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 
 Silent-degrade if missing:
-- [ ] `CRON_SECRET` — else all 5 crons 401 and silently stop.
-- [ ] `SENDGRID_API_KEY` + `EMAIL_FROM_ADDRESS` (on an authenticated domain) — else signup/reset emails silently skip.
-- [ ] `SENTRY_DSN` — error tracking is dormant until set.
-- [ ] `ANTHROPIC_API_KEY` — ID-guide chat (degrades to manual if absent).
+- [ ] `CRON_SECRET`, else all 5 crons 401 and silently stop.
+- [ ] `SENDGRID_API_KEY` + `EMAIL_FROM_ADDRESS` (on an authenticated domain), else signup/reset emails silently skip.
+- [ ] `SENTRY_DSN`, error tracking is dormant until set.
+- [ ] `ANTHROPIC_API_KEY`, ID-guide chat (degrades to manual if absent).
 - [ ] `NEXT_PUBLIC_SITE_URL=https://www.fishspotter.app` (build-baked -> redeploy after change) for clean share cards.
 
 ### Other ops
-- [ ] **Videos onto a CDN** — all 48 clips serve from Supabase Storage with no CDN; a QR crowd = hundreds of Mbps of origin egress, the #1 spike risk. Re-consolidate onto R2 (`scripts/reupload-snippets-hq.ts` + R2 creds + `STORAGE_PROVIDER=r2`) or enable Supabase CDN on the `snippets` bucket.
-- [ ] **Run `npm run db:enable-rls`** — newest tables (`Event`, `UnlockedSpecies`, `ConsensusEvent`) likely landed RLS-off; the public anon key can read any unprotected table. Use a plain `postgres://` URL or the check silently no-ops.
-- [ ] **Apex -> www redirect preserves path + query** — verify `https://fishspotter.app/auth/verify?token=x` lands on `https://www.fishspotter.app/auth/verify?token=x` intact.
+- [ ] **Videos onto a CDN**: all 48 clips serve from Supabase Storage with no CDN; a QR crowd = hundreds of Mbps of origin egress, the #1 spike risk. Re-consolidate onto R2 (`scripts/reupload-snippets-hq.ts` + R2 creds + `STORAGE_PROVIDER=r2`) or enable Supabase CDN on the `snippets` bucket.
+- [ ] **Run `npm run db:enable-rls`**: newest tables (`Event`, `UnlockedSpecies`, `ConsensusEvent`) likely landed RLS-off; the public anon key can read any unprotected table. Use a plain `postgres://` URL or the check silently no-ops.
+- [ ] **Apex -> www redirect preserves path + query**: verify `https://fishspotter.app/auth/verify?token=x` lands on `https://www.fishspotter.app/auth/verify?token=x` intact.
 - [ ] **Run the demo from the production URL** (not a preview) or auth emails route to the catch-all.
 - [ ] End-to-end test a real verification + password-reset email on prod after env is set.
 
 ---
 
-## Detection (July–Aug)
+## Detection (July-Aug)
 - [ ] Add `/api/health` (200, optional DB check -> 503).
 - [ ] External uptime monitor (UptimeRobot / BetterStack) on `https://fishspotter.app/api/health`, 1-min, email/Slack alerts + history.
 - [ ] Switch Sentry on (`SENTRY_DSN`) + cron-monitors around the daily crons.

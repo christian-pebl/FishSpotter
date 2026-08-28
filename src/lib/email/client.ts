@@ -1,7 +1,7 @@
 /**
  * Email provider key accessor (S3-03).
  *
- * Provider: SendGrid (switched from Resend after the Wix DNS pivot —
+ * Provider: SendGrid (switched from Resend after the Wix DNS pivot,
  * Resend required a subdomain MX record that Wix's DNS editor can't add,
  * whereas SendGrid authenticates the domain with CNAME records Wix can
  * add). Sending is done via SendGrid's v3 REST API in ./send.ts, so no

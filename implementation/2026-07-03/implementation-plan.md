@@ -1,17 +1,17 @@
-# FishSpotter growth — detailed implementation plan (2026-07-03)
+# FishSpotter growth: detailed implementation plan (2026-07-03)
 
 Companion to [`engagement-strategy.md`](./engagement-strategy.md). That doc is
-the *why*; this is the *how* — file-by-file, sequenced into shippable PRs, with
+the *why*; this is the *how*, file-by-file, sequenced into shippable PRs, with
 data models, copy, config, tests, and effort. Sales stays **light-touch**: we
 never sell hardware in the game; we link people to the seaweed farm the footage
 came from, to PEBL's website, and to PEBL's Linktree (the same one in the
 [@pebl_cic](https://www.instagram.com/pebl_cic/) Instagram bio).
 
-Effort key: **S** ≈ a day · **M** ≈ 2–4 days · **L** ≈ a week+.
+Effort key: **S** ≈ a day · **M** ≈ 2-4 days · **L** ≈ a week+.
 
 ---
 
-## 0. Sequencing — five PRs
+## 0. Sequencing: five PRs
 
 Each PR is independently shippable and independently valuable. Build order is
 chosen so the foundation lands first and every later PR reuses it.
@@ -21,7 +21,7 @@ chosen so the foundation lands first and every later PR reuses it.
 | **PR-A** | Shared foundation | `pebl-links.ts`, `farms.ts`, `useShare` hook, `?ref=` attribution, `Event` types | M |
 | **PR-B** | Viral loop | Share buttons (reveal / profile / leaderboard / milestone) + challenge-a-friend deep link | M |
 | **PR-C** | Rendered share cards | Dynamic OG images for spotter / species / clip; fill profile OG gap | M |
-| **PR-D** | Mission in the loop | Reveal provenance line, `/about` (`/why-seaweed`) page, onboarding "why" beat, farm links | M–L |
+| **PR-D** | Mission in the loop | Reveal provenance line, `/about` (`/why-seaweed`) page, onboarding "why" beat, farm links | M-L |
 | **PR-E** | Retention & light CTAs | Web-push, weekly "species of the week", referral Pebbles, PEBL/Linktree CTAs in digest + about | M |
 
 Ship A→B→C→D→E. If only one PR ships this month, it's **PR-D's reveal
@@ -31,12 +31,12 @@ seaweed-farm message with every share.
 
 ---
 
-## PR-A — Shared foundation
+## PR-A: Shared foundation
 
 Everything else depends on these. No user-visible change on its own (except the
 farm data becoming available).
 
-### A1. Central external-links config — `src/data/pebl-links.ts` (new)
+### A1. Central external-links config: `src/data/pebl-links.ts` (new)
 
 One source of truth for every off-app destination, so links are never
 hard-coded at call-sites and the Linktree/urls can be updated in one place.
@@ -65,15 +65,15 @@ export const PEBL_LINKS = {
 > broken.
 
 Refactor the existing landing/footer/email links (`src/app/page.tsx` 252/277,
-`src/lib/email/templates/_Layout.tsx` 65–75) to import from here. (S)
+`src/lib/email/templates/_Layout.tsx` 65-75) to import from here. (S)
 
-### A2. Farm/site provenance data — `src/data/farms.ts` (new)
+### A2. Farm/site provenance data: `src/data/farms.ts` (new)
 
 The load-bearing new model for "where this footage comes from". Every `Snippet`
 already has a `site` string plus `externalId` (e.g. `ALG_SC_11_…`),
 `deployment`, `lat`, `lon`, `depthM`. **Two real farms today** (confirmed by
-Christian): **Algapelago** (the `ALG_` footage — kelp farm in North Devon) and
-**Kelp Crofters** (the kelp footage — Isle of Skye). Resolve a clip → farm from
+Christian): **Algapelago** (the `ALG_` footage, kelp farm in North Devon) and
+**Kelp Crofters** (the kelp footage, Isle of Skye). Resolve a clip → farm from
 its `externalId`/`site` prefix.
 
 ```ts
@@ -91,7 +91,7 @@ export const FARMS: Record<string, Farm> = {
   algapelago: {
     key: "algapelago",
     name: "Algapelago",
-    blurb: "Europe's most-offshore kelp farm — a de-facto marine sanctuary off Lundy.",
+    blurb: "Europe's most-offshore kelp farm, a de-facto marine sanctuary off Lundy.",
     location: "Bideford Bay, North Devon",
     url: "https://www.algapelago.com/",
     kind: "kelp",
@@ -128,16 +128,16 @@ mis-attribute a clip to the wrong farm. (S)
 > **Open question for Christian:** the `ALG` prefix is confirmed for Algapelago.
 > What prefix do the **Kelp Crofters** (Skye) clips carry in their
 > `externalId`/`site`? Give me that string and the map is complete. (Any clips
-> that aren't from either farm — e.g. reef control sites — just render without a
+> that aren't from either farm, e.g. reef control sites, just render without a
 > farm link.)
 
-### A3. Share attribution — `src/lib/share.ts` (new)
+### A3. Share attribution: `src/lib/share.ts` (new)
 
 - `withRef(url, source)` → appends `?ref=<source>` (e.g. `reveal`, `profile`,
   `leaderboard`, `challenge`, `card`) for attribution.
 - `shareTargets` copy templates per context (see B). Pure + tested.
 
-### A4. `Event` types for share funnel — extend `src/lib/engagement.ts`
+### A4. `Event` types for share funnel: extend `src/lib/engagement.ts`
 
 Add two consent-gated event types to the existing data-minimal pipeline:
 `share_click` (with a `source` tag) and `ref_land` (a visit carrying `?ref=`).
@@ -146,15 +146,15 @@ No new PII; reuses the existing `POST /api/events` zod route, rate-limit, and
 
 ---
 
-## PR-B — The viral loop
+## PR-B: The viral loop
 
 Depends on PR-A. The single highest-leverage user-visible change.
 
-### B1. `useShare` hook + `ShareButton` — `src/lib/useShare.ts`, `src/components/ShareButton.tsx` (new)
+### B1. `useShare` hook + `ShareButton`: `src/lib/useShare.ts`, `src/components/ShareButton.tsx` (new)
 
 - `useShare()` wraps `navigator.share` with a `navigator.clipboard.writeText`
   fallback and a "Link copied" toast; fires the `share_click` event (A4).
-- `<ShareButton source="reveal" url=… text=… />` — a 44×44 icon+label control
+- `<ShareButton source="reveal" url=… text=… />`, a 44×44 icon+label control
   using design tokens (no emoji-as-icon; stroked SVG in `text-teal-500` per the
   UI rules). Respects reduced-motion.
 
@@ -167,7 +167,7 @@ Depends on PR-A. The single highest-leverage user-visible change.
 | Own profile | `src/app/u/[id]/page.tsx` | `/u/[id]?ref=profile` | *"My FishSpotter collection: {k} species IDed on UK kelp farms {url}"* |
 | Leaderboard (self row) | `src/app/leaderboard/page.tsx` | `/leaderboard?ref=leaderboard` | *"I'm #{rank} on FishSpotter this week {url}"* |
 
-`RevealResult` already receives `firstSighting`, `streakCurrent`, `unlock` — the
+`RevealResult` already receives `firstSighting`, `streakCurrent`, `unlock`, the
 share copy can be milestone-aware with no new props beyond the snippet
 `id`/species already available in the parent (`FeedCard`).
 
@@ -175,7 +175,7 @@ share copy can be milestone-aware with no new props beyond the snippet
 
 The reveal/profile share for a specific clip already links to
 `/feed/[id]?ref=challenge`. Add a logged-out landing nudge on `/feed/[id]`:
-*"A friend challenged you to ID this one — guess, then see how you did against
+*"A friend challenged you to ID this one, guess, then see how you did against
 the crowd."* Uses the existing public per-clip route; copy + a small banner
 only.
 
@@ -184,7 +184,7 @@ building; ShareButton renders a token-compliant control (lint:tokens).
 
 ---
 
-## PR-C — Rendered share cards
+## PR-C: Rendered share cards
 
 Depends on PR-A. Makes shared links *look* worth clicking. Uses Next's
 `ImageResponse` (already proven by `src/app/opengraph-image.tsx`).
@@ -206,11 +206,11 @@ unfurls with the Vercel preview + a couple of real posts. (S)
 
 ---
 
-## PR-D — Put the mission in the product
+## PR-D: Put the mission in the product
 
 Depends on PR-A. The belief-moving PR, and where the farm links live.
 
-### D1. Reveal provenance line — `src/components/idflow/RevealResult.tsx` (M)
+### D1. Reveal provenance line: `src/components/idflow/RevealResult.tsx` (M)
 
 Add a compact, dismissible line under the community histogram. Needs the
 snippet `externalId`/`site` (already on the snippet in the parent) →
@@ -228,23 +228,23 @@ snippet `externalId`/`site` (already on the snippet in the parent) →
   reappears for new sessions. Fires a lightweight `share_click`-adjacent
   `provenance_click` event for the belief metric.
 
-### D2. `/why-seaweed` page — `src/app/why-seaweed/page.tsx` (+ nav + sitemap) (M)
+### D2. `/why-seaweed` page: `src/app/why-seaweed/page.tsx` (+ nav + sitemap) (M)
 
 A proper public, indexable, shareable page (the destination journalists and
 funders link to; the reveal's [Why →] target). Sections:
 
-1. **What you're looking at** — these clips are real footage from cameras on
+1. **What you're looking at**: these clips are real footage from cameras on
    working UK kelp farms.
-2. **Why farms help** — nurseries, shelter, feeding grounds; more abundance and
+2. **Why farms help**: nurseries, shelter, feeding grounds; more abundance and
    diversity than bare seabed. Cite PEBL's own
    [research](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1) and
    the [MBA](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/)
    findings.
-3. **The farms** — a card per source farm from `FARMS`:
+3. **The farms**: a card per source farm from `FARMS`:
    **[Algapelago](https://www.algapelago.com/)** (Bideford Bay, North Devon) and
    **[Kelp Crofters](https://kelpcrofters.com/)** (Isle of Skye). Each with its
    one-line blurb + link.
-4. **Who made this** — PEBL CIC, one soft line about PEBL's monitoring work with
+4. **Who made this**: PEBL CIC, one soft line about PEBL's monitoring work with
    a link to the Linktree/website. **No hardware pitch.**
 5. A **one-tap micro-poll**: *"Did you know seaweed farms boost biodiversity?
    [I do now]"* → feeds the belief metric for funder reporting.
@@ -253,28 +253,28 @@ Add to `src/app/sitemap.ts`, header/footer nav, and a "Why these clips matter"
 entry point from `/feed`. Reuse `landing/UnderwaterBackdrop` + `MarinePattern`
 for on-brand visuals.
 
-### D3. Onboarding "why" beat — `src/components/onboarding/OnboardingTour.tsx` (S)
+### D3. Onboarding "why" beat: `src/components/onboarding/OnboardingTour.tsx` (S)
 
 Add a 4th `STEPS` entry after Spot/Compare/Streak:
 
-> **4 · Why** — *"Every clip is real footage from a UK kelp farm. Spotting the
-> life on them helps show these farms are alive — [see why]."*
+> **4 · Why**: *"Every clip is real footage from a UK kelp farm. Spotting the
+> life on them helps show these farms are alive, [see why]."*
 
 One slide; `[see why]` deep-links to `/why-seaweed`. Update the "Step n of N"
 counter automatically (it's derived from `STEPS.length`).
 
-### D4. Farm chip on clip/browse surfaces — `src/app/feed/[id]/page.tsx`,
+### D4. Farm chip on clip/browse surfaces: `src/app/feed/[id]/page.tsx`,
 `src/app/feed/browse/page.tsx` (S)
 
 A small farm chip (e.g. "Algapelago" / "Kelp Crofters", token-styled with the
-wave silhouette — not emoji-as-icon) from `farmForSnippet`, linking to the farm,
+wave silhouette, not emoji-as-icon) from `farmForSnippet`, linking to the farm,
 so provenance is visible even outside the reveal.
 
 ---
 
-## PR-E — Retention & light-touch CTAs
+## PR-E: Retention & light-touch CTAs
 
-Depends on A–D. Deepens the loop; keeps sales soft.
+Depends on A-D. Deepens the loop; keeps sales soft.
 
 ### E1. Web-push for milestones (M)
 The PWA is installable (`src/app/manifest.ts`, `PwaRegister`) but has no push.
@@ -283,7 +283,7 @@ Add a VAPID web-push subscription (opt-in, same consent gate as email), a
 "consensus reached on your ID" trigger to push as well as email. Reuses the
 cron logic in `src/app/api/cron/streak-nudge`.
 
-### E2. "Species of the week" (S–M)
+### E2. "Species of the week" (S-M)
 Pick the week's rarest consensus sighting (existing consensus + OBIS
 `SpeciesProbability` rarity). Surface in the `WeeklyDigestEmail` and as a
 shareable species card (C1). Gives regulars a fresh reason to return + post.
@@ -298,7 +298,7 @@ acquisition. Idempotent per referred user.
   `PEBL_LINKS.linktree`; *"The cameras behind these clips"* →
   `PEBL_LINKS.products` (informational, one line, no pitch).
 - Landing "About PEBL" section: add the Instagram/Linktree links from
-  `PEBL_LINKS`. That's the whole sales surface — a link, never a sell.
+  `PEBL_LINKS`. That's the whole sales surface, a link, never a sell.
 
 ---
 
@@ -315,7 +315,7 @@ acquisition. Idempotent per referred user.
 Every schema touch follows the load-bearing rule: `prisma db push` then
 `npm run db:enable-rls` (new tables land with RLS off).
 
-## Metrics — proving it worked (ties to `/admin/metrics`)
+## Metrics: proving it worked (ties to `/admin/metrics`)
 
 All consent-gated, data-minimal, via the existing `Event` pipeline + CSV export:
 
@@ -323,7 +323,7 @@ All consent-gated, data-minimal, via the existing `Event` pipeline + CSV export:
 - **Virality:** `share_click` per active user; K-factor = referred signups ÷
   sharers (E3 gives the signup attribution).
 - **Belief:** `/why-seaweed` views, `provenance_click`, and the micro-poll
-  "[I do now]" rate — the attitude-change number for the Climate Action Fund.
+  "[I do now]" rate, the attitude-change number for the Climate Action Fund.
 - **Pipeline (soft):** outbound clicks to `PEBL_LINKS.*` and `farm.url`,
   tagged `?ref=fishspotter`.
 
@@ -339,15 +339,15 @@ the `verify` skill on any PR with a runtime surface (B, C, D, E). New pure libs
    completes `SITE_TO_FARM`. (Any non-farm/reef-control clips just render
    without a farm link.)
 3. A courtesy heads-up to **Algapelago** and **Kelp Crofters** before we drive
-   traffic to them — both are education-forward, so almost certainly welcome,
+   traffic to them, both are education-forward, so almost certainly welcome,
    but worth a note (and a chance to agree the exact link/wording they'd like).
 4. Web-push (E1): worth the VAPID setup now, or defer until share loop proves
-   the audience is returning? (Recommend defer — ship A–D first, measure, then E.)
+   the audience is returning? (Recommend defer, ship A-D first, measure, then E.)
 
 ---
 
 ### Sources
-- PEBL — [pebl-cic.co.uk](https://www.pebl-cic.co.uk/) · [@pebl_cic](https://www.instagram.com/pebl_cic/) · [Products](https://www.pebl-cic.co.uk/products)
-- Source farms — [Algapelago](https://www.algapelago.com/) (Bideford Bay, North Devon) · [Kelp Crofters](https://kelpcrofters.com/) (Isle of Skye)
-- PEBL — [bioRxiv: monitoring + seaweed farming](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
-- [Marine Biological Association](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/) — farms as fish habitat
+- PEBL, [pebl-cic.co.uk](https://www.pebl-cic.co.uk/) · [@pebl_cic](https://www.instagram.com/pebl_cic/) · [Products](https://www.pebl-cic.co.uk/products)
+- Source farms, [Algapelago](https://www.algapelago.com/) (Bideford Bay, North Devon) · [Kelp Crofters](https://kelpcrofters.com/) (Isle of Skye)
+- PEBL, [bioRxiv: monitoring + seaweed farming](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
+- [Marine Biological Association](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/), farms as fish habitat

@@ -3,13 +3,13 @@
  *
  * Two providers are supported, selected by the STORAGE_PROVIDER env var:
  *
- *   supabase  (default)  — Supabase Storage. ~$0/mo storage on free tier
+ *   supabase  (default) , Supabase Storage. ~$0/mo storage on free tier
  *                          but charges egress past 5 GB/mo. Used today.
- *   r2                   — Cloudflare R2. Zero egress fees. 10 GB free
+ *   r2                  , Cloudflare R2. Zero egress fees. 10 GB free
  *                          storage. The target for production at any scale.
  *
  * Switching providers is a deploy-time concern only; the Next.js runtime
- * never imports this module — it just reads Snippet.videoUrl as an opaque
+ * never imports this module, it just reads Snippet.videoUrl as an opaque
  * URL. Provisioning + migration is documented in CLAUDE.md.
  *
  * Both providers expose the same three operations:
@@ -130,7 +130,7 @@ function createR2Driver(): StorageDriver {
           Body: body,
           ContentType: contentType,
           // 30-day browser cache. Object content is immutable per key (we never
-          // overwrite — snippet re-encodes get a new externalId, and species
+          // overwrite, snippet re-encodes get a new externalId, and species
           // WebP derivatives are keyed by a content hash), so this is safe.
           CacheControl: "public, max-age=2592000, immutable",
         }),

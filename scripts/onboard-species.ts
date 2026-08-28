@@ -1,11 +1,11 @@
 /**
  * One-command species onboarding: runs every per-species DATA step in order so a
  * newly-added catalogue species lands with photos, a vetted gallery, provenance,
- * AND diagnostic-mark rings — the bits that used to be a 5-script manual chain
+ * AND diagnostic-mark rings, the bits that used to be a 5-script manual chain
  * (and that whiting fell through, shipping with reference photos but no ID rings
  * because nobody ran the marks step for it).
  *
- * It orchestrates the existing, individually-tested scripts — it does NOT
+ * It orchestrates the existing, individually-tested scripts, it does NOT
  * re-implement them:
  *   1. refresh-images          fetch iNat photos + apply any curated override
  *   2. build-species-galleries Gemini-vet the gallery + set the teaching hero   [GEMINI]
@@ -21,7 +21,7 @@
  *
  * Needs .env.local (DB) and, for the Gemini steps, GEMINI_API_KEY. The marks
  * step only runs for a species that has a draft in scripts/data/p2-mark-drafts.ts
- * — add one there first (label + description per feature); the add-a-species
+ *, add one there first (label + description per feature); the add-a-species
  * runbook explains. Without a draft the species is onboarded with photos but the
  * marks step is skipped with a clear notice (so it can't silently no-op).
  */
@@ -74,7 +74,7 @@ function buildSteps(species: string, opts: { skipGallery: boolean; skipMarks: bo
       });
     } else {
       console.warn(
-        `\n  ⚠  No mark draft for "${species}" in scripts/data/p2-mark-drafts.ts — skipping the marks step.\n` +
+        `\n  ⚠  No mark draft for "${species}" in scripts/data/p2-mark-drafts.ts, skipping the marks step.\n` +
           `     Add a draft (label + description per diagnostic feature) and re-run, or the species\n` +
           `     will have reference photos but no ID rings. See docs/runbooks/add-a-species.md.\n`,
       );
@@ -104,13 +104,13 @@ function main() {
   if (!(species in CATALOGUE)) {
     console.error(
       `"${species}" is not in the catalogue (src/data/species-traits.json). Add the trait entry first ` +
-        `(docs/runbooks/add-a-species.md) — onboarding only runs the DATA steps, not the in-repo edits.`,
+        `(docs/runbooks/add-a-species.md), onboarding only runs the DATA steps, not the in-repo edits.`,
     );
     process.exit(2);
   }
 
   const steps = buildSteps(species, { skipGallery, skipMarks });
-  console.log(`Onboarding "${species}" (${CATALOGUE[species]?.commonName ?? species}) — ${steps.length} step(s):`);
+  console.log(`Onboarding "${species}" (${CATALOGUE[species]?.commonName ?? species}), ${steps.length} step(s):`);
   steps.forEach((s, i) => console.log(`  ${i + 1}. ${s.name}`));
 
   if (dryRun) {

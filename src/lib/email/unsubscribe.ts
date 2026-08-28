@@ -1,7 +1,7 @@
 /**
  * Stable per-user unsubscribe-token derivation (S3-16, PECR Reg. 22).
  * Token = HMAC-SHA256(NEXTAUTH_SECRET, `digest:{userId}`). No DB rows
- * per email — links survive forever per user, which is fine because
+ * per email, links survive forever per user, which is fine because
  * the recipient owns their inbox.
  */
 

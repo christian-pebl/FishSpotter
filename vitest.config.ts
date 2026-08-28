@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => ({
     // loadEnv (unlike Vite's default) is not prefix-filtered, so this pulls
     // in .env/.env.local as-is. Needed because src/lib/auth.ts throws at
     // import time without NEXTAUTH_SECRET, and any test touching admin.ts
-    // (or auth.ts itself) transitively imports it — a bare `vitest run`
+    // (or auth.ts itself) transitively imports it, a bare `vitest run`
     // otherwise fails module collection in a fresh checkout / CI.
     env: loadEnv(mode, process.cwd(), ""),
   },

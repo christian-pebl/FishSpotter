@@ -3,10 +3,10 @@
  * production + preview targets.
  *
  * Vercel REST API surface used:
- *   GET    /v9/projects/{idOrName}/env       — list existing
- *   POST   /v10/projects/{idOrName}/env      — create
- *   PATCH  /v9/projects/{idOrName}/env/{id}  — update
- *   DELETE /v9/projects/{idOrName}/env/{id}  — remove
+ *   GET    /v9/projects/{idOrName}/env      , list existing
+ *   POST   /v10/projects/{idOrName}/env     , create
+ *   PATCH  /v9/projects/{idOrName}/env/{id} , update
+ *   DELETE /v9/projects/{idOrName}/env/{id} , remove
  *
  * For tests we accept a `fetch` impl as a dependency.
  */
@@ -17,7 +17,7 @@ export interface VercelEnvSpec {
   key: string;
   value: string;
   targets?: VercelTarget[];
-  /** "encrypted" (default) | "plain" — only relevant for non-secret values like the public URL. */
+  /** "encrypted" (default) | "plain", only relevant for non-secret values like the public URL. */
   type?: "encrypted" | "plain";
 }
 
@@ -35,7 +35,7 @@ export interface VercelClientOptions {
   teamId?: string;
   /** Override for tests. */
   fetchImpl?: typeof fetch;
-  /** Override for tests — defaults to Vercel API. */
+  /** Override for tests, defaults to Vercel API. */
   baseUrl?: string;
 }
 

@@ -16,7 +16,7 @@ import {
 
 interface LoadedFreezes {
   state: FreezeState;
-  /** Ids of the held (unspent) freezes, oldest first — the order they're spent. */
+  /** Ids of the held (unspent) freezes, oldest first, the order they're spent. */
   availableIds: string[];
 }
 

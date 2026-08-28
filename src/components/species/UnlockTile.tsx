@@ -10,7 +10,7 @@
  *   1. the grey silhouette dissolves out (opacity + a touch of scale),
  *   2. the real photo settles in over the top (fade + gentle scale settle), and
  *   3. a single thin teal shockwave ring expands once from the tile centre
- *      (matches the existing .fs-radar look — 2px teal border + a faint glow —
+ *      (matches the existing .fs-radar look, 2px teal border + a faint glow,
  *      but rendered as a one-shot Framer ring so we don't touch globals.css or
  *      borrow the infinite .fs-radar-ring keyframe).
  *
@@ -43,7 +43,7 @@ export type UnlockTileProps = {
 
 /**
  * The collected tile. Visually identical to the static unlocked tile that
- * `SpeciesCollection` rendered inline before — it just adds the reveal when
+ * `SpeciesCollection` rendered inline before, it just adds the reveal when
  * `justUnlocked` is set.
  */
 export function UnlockTile({
@@ -121,7 +121,7 @@ export function UnlockTile({
  * A single teal ring that expands once from the tile centre, then fades. Thin
  * teal border + the named `shadow-glow` token (the same faint teal halo the
  * radar ping uses), scaled with transform only so it stays cheap. Fires once and
- * resolves to nothing — not perpetual, so no off-screen-pause needed.
+ * resolves to nothing, not perpetual, so no off-screen-pause needed.
  */
 function ShockwaveRing() {
   return (

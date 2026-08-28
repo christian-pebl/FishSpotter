@@ -9,7 +9,7 @@
  *
  * Why two-tier:
  *   - The first card a user sees should be one they haven't labelled.
- *   - But we don't want a dead end when they've answered everything —
+ *   - But we don't want a dead end when they've answered everything,
  *     they can keep scrolling and revisit past clips.
  *
  * Seed contract:
@@ -19,17 +19,17 @@
  *
  * Difficulty ramp (optional `readiness` param): within the unanswered tier,
  * after the plain shuffle, softly re-weight toward easy clips for brand-new
- * spotters and toward harder ones as they gain experience — see
+ * spotters and toward harder ones as they gain experience, see
  * src/lib/difficulty.ts for the band logic. This is additive and backward
  * compatible: if `readiness` is omitted, or a snippet has no
  * `difficultyScore`, ordering is exactly the plain shuffle as before.
  * `difficultyScore` is currently seeded intrinsically (apparent organism
- * size — see scripts/seed-difficulty.ts); migrating it toward an empirical,
+ * size, see scripts/seed-difficulty.ts); migrating it toward an empirical,
  * answer-accuracy-derived score is a natural follow-up once there's enough
- * per-clip answer volume to trust (there isn't yet — most snippets have a
+ * per-clip answer volume to trust (there isn't yet, most snippets have a
  * handful of answers at most).
  *
- * Pure module — no Prisma, no Next, no DOM — so it's trivial to test.
+ * Pure module (no Prisma, no Next, no DOM), so it's trivial to test.
  */
 
 import { hashStringToSeed, mulberry32, shuffle } from "@/lib/shuffle";
@@ -65,7 +65,7 @@ export function orderFeed<T extends OrderableSnippet>(
   // One RNG instance, consumed in order across both shuffles. This means
   // shifting a snippet from "unanswered" to "answered" (after the user
   // submits) doesn't reshuffle the unanswered tail in a way that would
-  // jumble the user's mental position — the unanswered shuffle is
+  // jumble the user's mental position, the unanswered shuffle is
   // computed against the same seed regardless of the answered set size.
   const rng = mulberry32(hashStringToSeed(seed));
   const shuffledUnanswered = shuffle(unanswered, rng);

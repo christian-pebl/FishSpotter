@@ -1,4 +1,4 @@
-# FishSpotter — Remaining Feedback Work: Detailed Plan (11 Jun 2026)
+# FishSpotter: Remaining Feedback Work: Detailed Plan (11 Jun 2026)
 
 Closes out the initial feedback round. ~11 items shipped (PR #56); this plans the
 5 genuinely-open ones + the enabler that makes the pokedex non-hollow. Build via
@@ -10,7 +10,7 @@ commit on a working branch off updated `main` (after #56 merges), gated by
 ## Open items (what this plan covers)
 | Item | Feedback | Size | Why it's still open |
 |---|---|---|---|
-| A. Admin reference editor | (#16 enabler) | **L** | Pokedex can't fill — no species-level references exist in any clip |
+| A. Admin reference editor | (#16 enabler) | **L** | Pokedex can't fill, no species-level references exist in any clip |
 | B. Non-skippable tutorial | #10/#13 (+#3) | **L** | Targets are state-dependent; needs careful coach-mark engineering |
 | C. next-trait wiring | #11 | M | Info-gain picker built but unwired |
 | D. Gurnard apply | #4 | M (content) | Drafted; needs enum decisions + sign-off |
@@ -19,28 +19,28 @@ commit on a working branch off updated `main` (after #56 merges), gated by
 
 ## Priority + sequencing
 1. **E + F first** (quick, low-risk, clear value): a11y skip-link/region + nav link. ~half a day.
-2. **A: Admin reference editor** — unlocks the pokedex's whole point; also lets us
+2. **A: Admin reference editor**: unlocks the pokedex's whole point; also lets us
    add the species-level refs that B's tutorial and the catalogue lean on.
-3. **B: Non-skippable tutorial** — the biggest UX ask; closes #3 too.
+3. **B: Non-skippable tutorial**: the biggest UX ask; closes #3 too.
 4. **C: next-trait wiring**, then **D: gurnard** (content + sign-off cadence).
 
 ---
 
 ## A. Admin snippet reference editor  [L]
 **Goal:** let PEBL staff set a clip's reference to a catalogue species where they
-can, and explicitly mark "indeterminate to species" where they can't — then
+can, and explicitly mark "indeterminate to species" where they can't, then
 retro-score existing answers + retro-unlock the pokedex. This is what makes the
 collection fill (today every clip is `functional_group`-only).
 
 **Architecture** (mirror the existing `admin/species/[name]` editor pattern):
-- `src/app/admin/snippets/page.tsx` — list all snippets: thumbnail, site/date,
+- `src/app/admin/snippets/page.tsx`, list all snippets: thumbnail, site/date,
   current `staffAnswer` + whether it's species-level (resolves via
   `scientificFromLocalName`) or coarse, and answer count. Filter: "coarse only".
-- `src/app/admin/snippets/[id]/page.tsx` — per-clip editor: the clip player +
+- `src/app/admin/snippets/[id]/page.tsx`, per-clip editor: the clip player +
   bbox, current reference, a catalogue species picker (reuse `SpeciesSuggestions`),
-  a confidence note, and an explicit **"Indeterminate to species — keep as {group}"**
+  a confidence note, and an explicit **"Indeterminate to species, keep as {group}"**
   toggle (first-class state, not a failure).
-- `src/app/admin/snippets/[id]/actions.ts` — `setSnippetReference(snippetId, value)`:
+- `src/app/admin/snippets/[id]/actions.ts`, `setSnippetReference(snippetId, value)`:
   gated by `requireAdminSession()`; in a transaction:
   1. update `Snippet.staffAnswer`,
   2. **retro-rescore** every `Answer` on that snippet via the alias-aware
@@ -52,7 +52,7 @@ collection fill (today every clip is `functional_group`-only).
   already set there.
 
 **Edge cases:** changing a reference can make a previously-correct answer wrong
-(points drop) — that's correct; log it. Indeterminate clips keep a coarse
+(points drop), that's correct; log it. Indeterminate clips keep a coarse
 `staffAnswer` (shape-class scoring stays valid). A one-shot
 `scripts/backfill-unlocked-species.ts` (already exists) re-syncs after a batch.
 
@@ -74,13 +74,13 @@ brightness, "show on screen", and the leaderboard. Replaces the 3-slide
 docked "Show on screen" bar and the post-submit leaderboard link only exist in
 certain states). A naive anchored coach-mark points at absent elements.
 
-**Recommended approach — driven coach-marks with graceful fallback:**
+**Recommended approach, driven coach-marks with graceful fallback:**
 - A `CoachMarks` client component driven by an ordered step list. Each step:
   `{ key, target: string (data-coach attr), title, body, prepare?: () => void,
   placement }`.
 - `prepare()` drives the feed into the state where the target exists (e.g. expand
   the active card's panel before the "Identify" step). Coupling the tutorial to
-  feed state via a tiny shared store or custom events (`window.dispatchEvent`) —
+  feed state via a tiny shared store or custom events (`window.dispatchEvent`),
   decide at build (a Zustand-less `useSyncExternalStore` ping is enough).
 - Spotlight = one positioned `div` over the target rect with
   `box-shadow: 0 0 0 9999px rgba(0,0,0,.7)` (dims everything else) + a tooltip
@@ -130,7 +130,7 @@ the body-shape bucket (bottom-scooter vs elongated) and a likely new
 The loop flags `region` + `skip-link` on every page. Fix once in the root layout
 (`src/app/layout.tsx`): a visually-hidden, focusable "Skip to content" link
 targeting `#main`, and ensure each route's top element is a `<main id="main">`
-landmark (profile/species index use plain `<main>` — add `id`). Re-run axe to 0.
+landmark (profile/species index use plain `<main>`, add `id`). Re-run axe to 0.
 **Effort:** ~2 hours.
 
 ## F. /species nav link  [S]
@@ -150,11 +150,11 @@ the global nav/menu (the hamburger), and a link from the pokedex header. **Effor
   one idempotent `reupload-snippets-hq.ts` run under `STORAGE_PROVIDER=r2`.
 
 ## Decisions
-1. **Tutorial approach — LOCKED:** driven coach-marks (prepare() drives feed state)
+1. **Tutorial approach, LOCKED:** driven coach-marks (prepare() drives feed state)
    with an illustrated centered-card fallback when a target can't be reached. ~2 days.
-2. **Admin editor scope — LOCKED:** full in-app `admin/snippets` editor + retro-score
+2. **Admin editor scope, LOCKED:** full in-app `admin/snippets` editor + retro-score
    + retro-unlock on save. ~1.5 days.
 3. **Gurnard (still open):** the body-shape bucket + whether to add the
-   `free-pectoral-rays` feature enum — needs Christian's marine-bio call.
+   `free-pectoral-rays` feature enum, needs Christian's marine-bio call.
 4. **Merge #56 first (recommended):** large branch (feedback + loop + profile +
    pokedex + cache + coarse-submit). Merge before stacking A/B to keep PRs reviewable.

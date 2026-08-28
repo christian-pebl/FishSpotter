@@ -1,4 +1,4 @@
-# Runbook — Add a trait, or extend the rung flow
+# Runbook: Add a trait, or extend the rung flow
 
 Two related but distinct tasks: adding a **trait value** (vocabulary the ID flow
 can discriminate on) vs adding a **rung** (a step in the funnel). Read
@@ -19,7 +19,7 @@ and the narrowing engine all derive from these, so this is the one place to edit
    there too; add it to `TraitSelection` and (if it should be scored) to the
    trait keys the narrowing engine reads in `narrow.ts`.
 3. **Add the question copy** in `src/lib/idflow/trait-questions.ts` (and keep the
-   coverage test `trait-questions.test.ts` green — it asserts every enum value
+   coverage test `trait-questions.test.ts` green, it asserts every enum value
    has a question).
 4. **Tag species** with the new value in `species-traits.json`.
 5. Gate: `npx tsc --noEmit && npm test`. The catalogue schema + the trait-question
@@ -28,7 +28,7 @@ and the narrowing engine all derive from these, so this is the one place to edit
 
 > A trait is only useful if it *discriminates*. Adding a value that every species
 > in a bucket shares buys nothing. The Rung-3 picker (`next-trait.ts`) ranks
-> traits by information gain — a new trait earns its place by splitting a crowded
+> traits by information gain, a new trait earns its place by splitting a crowded
 > bucket (e.g. the over-stuffed `fusiform` fish pool).
 
 ---
@@ -63,7 +63,7 @@ Before adding a 4th boolean flag to `FeedCard`, lift the flow into a small
   rung becomes adding a registry entry.
 - A **flow reducer** (`useReducer`) holding `selectedShape`, the accumulated
   `mustHave` / `mustNotHave` / `askedKeys` trait filters, the current rung, and
-  the breadcrumb — instead of scattered booleans. The live `CandidateGate`
+  the breadcrumb, instead of scattered booleans. The live `CandidateGate`
   currently re-derives candidates from `{shape, seed}` only and can't accumulate
   a chain of answers; a reducer is what unblocks "deeper trait trees."
 - Keep using the good primitives as-is: `TileGate` (gate chrome),
@@ -81,4 +81,4 @@ the final answer string). Tiers are `Answer.points` integers: species = 2, shape
 class = 1, miss = 0. Note there's deliberately no value between 1 and 2 (it would
 break the consensus-pioneer invariant: pending 1 + bonus 2 must out-rank a
 referenced correct 2). A new intermediate rung does **not** automatically get its
-own score tier — changing the tiers ripples through `consensus.ts` and its tests.
+own score tier, changing the tiers ripples through `consensus.ts` and its tests.

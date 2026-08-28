@@ -1,4 +1,4 @@
-# Grey gurnard (Eutrigla gurnardus) — onboarding DRAFT
+# Grey gurnard (Eutrigla gurnardus): onboarding DRAFT
 
 Staged 10 Jun 2026 (remote). NOT yet applied: adding a species touches the live
 catalogue/gate AND `catalogue.test.ts` requires a curated photo + alias + (for
@@ -26,7 +26,7 @@ on sand), 344347060 (cc-by).
 
 ## 2. Trait entry DRAFT for `src/data/species-traits.json`
 Values marked (verify) must be checked against the `as const` enums in
-`src/lib/idguide/traits.ts` — `catalogue.test.ts` will reject anything invalid.
+`src/lib/idguide/traits.ts`, `catalogue.test.ts` will reject anything invalid.
 
 - commonName: "Grey gurnard"
 - shapeClass: "fish"
@@ -36,14 +36,14 @@ Values marked (verify) must be checked against the `as const` enums in
   than those, so confirm whether it belongs in that bucket or just "elongated".
 - size: "medium"  (typically ~30 cm, to ~45 cm)
 - bodyDepth: "slender" (verify)
-- lateralLine: "pale-straight" (verify) — whitish, lined with small white spots
+- lateralLine: "pale-straight" (verify), whitish, lined with small white spots
 - coloration: greyish-brown above, paler below (map to existing enum value)
 - markings: "spots" + a conspicuous **dark blotch on the FIRST DORSAL fin**
-  (diagnostic for grey gurnard). There may be no "dorsal-spot" markings value —
+  (diagnostic for grey gurnard). There may be no "dorsal-spot" markings value,
   if not, this is a candidate new enum value (verify).
 - finShape: large fan-shaped pectoral fins (map to existing value, verify)
 - **features: free finger-like lower pectoral rays used to "walk"/taste the
-  seabed — THE diagnostic.** Likely needs a NEW feature enum value
+  seabed, THE diagnostic.** Likely needs a NEW feature enum value
   (e.g. "free-pectoral-rays"); none of the current fish feature values
   (caudal-spot / finlets / pelvic-sucker / lateral-scutes) fit.
 - behavior: rests and "walks" on the seabed on its free pectoral rays; can grunt.
@@ -61,13 +61,13 @@ Values marked (verify) must be checked against the `as const` enums in
   "aliases": ["grey gurnard", "gray gurnard", "gurnard", "grey gurnet"]
 }
 ```
-(NB "gurnard" alone also covers tub/red/streaked — fine as a coarse alias while
+(NB "gurnard" alone also covers tub/red/streaked, fine as a coarse alias while
 grey is the only gurnard in the catalogue; revisit if more gurnards are added.)
 
 ## 4. Diagnostic marks DRAFT (3 rings, for sign-off)
 On the curated photo above:
-1. **Free pectoral rays** — the finger-like lower rays it walks on (primary).
-2. **Dark first-dorsal blotch** — the grey-gurnard giveaway.
+1. **Free pectoral rays**: the finger-like lower rays it walks on (primary).
+2. **Dark first-dorsal blotch**: the grey-gurnard giveaway.
 3. **Armoured, spiny head + white-spotted lateral line.**
 Place via the usual flow (`place-diagnostic-marks.ts` author mode or the admin
 annotator), then render-verify on-animal.

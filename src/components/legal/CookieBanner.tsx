@@ -68,7 +68,7 @@ export function CookieBanner() {
     >
       <p className="text-navy-900">
         FishSpotter keeps one strictly-necessary cookie to sign you in. May we also
-        count anonymous usage — clips watched, species spotted — to show our funder
+        count anonymous usage (clips watched, species spotted) to show our funder
         the project&apos;s impact? No third-party tracking, ever. See our{" "}
         <Link href="/privacy" className="text-teal-700 underline">
           privacy policy

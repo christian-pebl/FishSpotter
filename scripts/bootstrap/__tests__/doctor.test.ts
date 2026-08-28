@@ -34,7 +34,7 @@ describe("staticChecks", () => {
   });
 });
 
-describe("doctor — live probes", () => {
+describe("doctor, live probes", () => {
   it("skips API probes when tokens are missing", async () => {
     const checks = await doctor({ tokens: emptyTokens() });
     const skips = checks.filter((c) => c.status === "skipped").map((c) => c.name);

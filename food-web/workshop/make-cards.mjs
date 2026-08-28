@@ -1,10 +1,10 @@
 // Build the 40 workshop species cards (front + back) as a colour, PEBL-branded
-// contact sheet for review — grouped by table, one page-pair per deck.
+// contact sheet for review, grouped by table, one page-pair per deck.
 // Real photography (print-safe licence only) from the live SpeciesImage cache
 // via card-photos.json (run fetch-card-photos.mjs first), real scannable QR
 // codes, and the real PEBL logo. I EAT / EATS ME are hand-written per species
 // (see DIET below) from the full 72-species food web plus each species' own
-// catalogue fieldNote — general biology, not restricted to the 8 cards on that
+// catalogue fieldNote, general biology, not restricted to the 8 cards on that
 // species' own workshop table (that restriction was a game-table artifact, not
 // a scientific fact, so it does not belong on a species-reference card).
 //   node food-web/workshop/make-cards.mjs
@@ -21,7 +21,7 @@ const SIL = join(HERE, '..', '..', 'public', 'silhouettes');
 const OUT = join(HERE, 'cards.html');
 const CAT = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data', 'species-traits.json'), 'utf8'));
 const PHOTOS = existsSync(join(HERE, 'card-photos.json')) ? JSON.parse(readFileSync(join(HERE, 'card-photos.json'), 'utf8')) : {};
-// real PEBL wordmark, dark-navy colourway — embedded byte-for-byte as a data
+// real PEBL wordmark, dark-navy colourway, embedded byte-for-byte as a data
 // URI so the exact brand artwork prints, not a hand-reconstructed approximation
 const LOGO_SVG = readFileSync(join(HERE, '..', '..', 'public', 'branding', 'PEBL Logo-1.svg'));
 const LOGO_URI = `data:image/svg+xml;base64,${LOGO_SVG.toString('base64')}`;
@@ -70,7 +70,7 @@ const TIERLABEL = { 2: 'Grazer / filter feeder', 3: 'Planktivore / invertivore',
 // where it belongs. It is a facilitator's reference, not a claim on a handout.
 
 // Same 5 decks as make-decks.mjs (kept independent/literal so this script has
-// no import-order coupling — cross-checked against it by the report below).
+// no import-order coupling, cross-checked against it by the report below).
 //
 // Deck names are deliberately NEUTRAL ("Group 1", not "The kelp canopy"). Reviewer
 // feedback, Aug 2026: the zone names read as an ecological claim about where each
@@ -86,7 +86,7 @@ const DECKS = [
 ];
 
 // Plain, informative one-liners written from each species' own catalogue
-// fieldNote (never invented traits) — a factual descriptor, not a tagline.
+// fieldNote (never invented traits), a factual descriptor, not a tagline.
 const NICK = {
   'Common Limpet': 'Grazes algae off bare rock, always returning to the same spot', 'Edible sea urchin': "Britain's largest sea urchin, grazing kelp and rock algae",
   'Painted Top Shell': 'A glossy, cone-shaped shell marbled in pink and white', 'Ballan wrasse': 'A stocky wrasse that crushes shellfish with strong teeth',
@@ -133,7 +133,7 @@ const HABITAT_OVERRIDE = {
 
 // General, species-level diet, written from (a) the full 72-species food web
 // (verified 0 errors by food-web/verify.mjs) and (b) each species' own
-// catalogue fieldNote — not restricted to the 8 species dealt to its table,
+// catalogue fieldNote, not restricted to the 8 species dealt to its table,
 // which is a workshop-table artifact, not a fact about the animal. Where the
 // full web lists many prey/predators (e.g. cod, seals, cormorant) this is
 // condensed to a representative, accurate summary rather than a long dump.
@@ -246,8 +246,8 @@ for (const deck of DECKS) {
         <div class="tier-stripe" style="background:${tierColor}"></div>
         <div class="tierline"><span class="tierchip" style="background:${tierColor}">T${sp.tier}</span> ${TIERLABEL[sp.tier]}</div>
         <div class="field"><b>I LIVE</b><span>${esc(HABITAT_OVERRIDE[name] || cap(habitatText(e)))}</span></div>
-        <div class="field"><b>I EAT</b><span>${esc(diet?.eat || '—')}</span></div>
-        <div class="field"><b>EATS ME</b><span>${esc(diet?.by || '—')}</span></div>
+        <div class="field"><b>I EAT</b><span>${esc(diet?.eat || '-')}</span></div>
+        <div class="field"><b>EATS ME</b><span>${esc(diet?.by || '-')}</span></div>
         <div class="qrrow">
           <img class="qr" src="${qrUri}">
           <div class="qrtext"><b>Scan for the full story.</b> Depth, range, what eats it, and the references behind every line on this card.</div>
@@ -279,7 +279,7 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .reviewnote b{color:var(--navy)}
 /* 2 pairs (front+back) per row: 4 x 44mm cards + 2 x 2mm within-pair gaps +
    1 x 4mm column gap = 184mm, inside the 190mm usable width (A4 less 2x10mm
-   page margin) — leaves 6mm of slack. Card ratio 44:62 matches true A6 (105:148)
+   page margin), leaves 6mm of slack. Card ratio 44:62 matches true A6 (105:148)
    so this preview is proportionally honest, not just a rough thumbnail. */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm 4mm}
 .pair{display:flex;gap:2mm;min-width:0;break-inside:avoid;page-break-inside:avoid}
@@ -337,7 +337,7 @@ ${DECKS.map((d, i) => `
 <svg width="0" height="0" style="position:absolute">${SPRITE}</svg>`;
 
 writeFileSync(OUT, html);
-console.log(`wrote ${OUT} — ${DECKS.reduce((n,d)=>n+d.cards.length,0)} cards`);
+console.log(`wrote ${OUT}, ${DECKS.reduce((n,d)=>n+d.cards.length,0)} cards`);
 console.log(`\nPHOTO SOURCING: ${report.photo.length} real photo, ${report.silhouette.length} silhouette fallback (no print-safe licence cached):`);
 console.log('  ' + report.silhouette.join(', '));
 if (report.dietMissing.length) console.log(`\n!! DIET MISSING for ${report.dietMissing.length}: ` + report.dietMissing.join(', '));

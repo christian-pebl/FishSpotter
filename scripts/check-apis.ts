@@ -21,7 +21,7 @@ const GBIF = "https://api.gbif.org/v1";
 
 async function fetchJson(url: string): Promise<unknown> {
   const res = await fetch(url, { headers: { Accept: "application/json" } });
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText} — ${url}`);
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}, ${url}`);
   return res.json();
 }
 
@@ -79,9 +79,9 @@ const PROBES: Probe[] = [
         : true;
       const hasCursor = first ? "id" in first : true;
       const warn = !hasSpecies
-        ? "first row lacks species/scientificName — aggregation will be empty"
+        ? "first row lacks species/scientificName, aggregation will be empty"
         : !hasCursor
-          ? "first row lacks id — pagination cursor won't advance"
+          ? "first row lacks id, pagination cursor won't advance"
           : undefined;
       return {
         detail: `total=${total}, sample keys: ${keys.slice(0, 8).join(", ")}${keys.length > 8 ? "…" : ""}`,

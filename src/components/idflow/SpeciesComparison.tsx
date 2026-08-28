@@ -37,7 +37,7 @@ export function SpeciesComparison({
    * month, via /api/snippets/[id]/probability): the bucket-wide record total
    * plus per-species record count + 0..1 share. The likelihood UI hides itself
    * when this is absent, the bucket is too thin (< MIN_LOCAL_RECORDS), or no
-   * member is recorded — so a noisy/empty bucket never asserts a false prior. */
+   * member is recorded, so a noisy/empty bucket never asserts a false prior. */
   local?: {
     totalRecords: number;
     byScientific: Record<string, { count: number; probability: number }>;
@@ -76,7 +76,7 @@ export function SpeciesComparison({
     };
   }, [group]);
 
-  // Per-member depth band for the "why" info panel (from /api/species/depth —
+  // Per-member depth band for the "why" info panel (from /api/species/depth,
   // OBIS range-wide, >=8 readings, e.g. "5-25 m"). Fetched lazily once; missing
   // data just drops the depth bullet. This is a SOUNDER per-species statement
   // than the bucket share, which is why it earns its own bullet.
@@ -144,7 +144,7 @@ export function SpeciesComparison({
   if (!mounted || typeof document === "undefined") return null;
 
   // Local likelihood (OBIS record share in this clip's bucket). Shown only when
-  // the bucket has enough records to be meaningful — below the floor a single
+  // the bucket has enough records to be meaningful, below the floor a single
   // survey haul can make one species read "100%", so we keep the authored order
   // and hide the likelihood UI entirely. When shown, sort most-likely-here first.
   const bySci = local?.byScientific ?? {};
@@ -191,9 +191,9 @@ export function SpeciesComparison({
               honestly so it never overrides what the user actually saw. */}
           {hasProb && (
             <p className="mb-3 rounded-modal border border-teal-500/20 bg-teal-500/5 px-3 py-2 text-[10px] leading-snug text-white/55">
-              <span className="font-semibold text-teal-200/90">Local likelihood</span> — from{" "}
+              <span className="font-semibold text-teal-200/90">Local likelihood</span>, from{" "}
               {totalRecords.toLocaleString()} survey records around here at this time of year
-              (OBIS). A rough hint from the data, not the answer — trust what you actually saw.
+              (OBIS). A rough hint from the data, not the answer. Trust what you actually saw.
               Tap <span className="font-semibold text-white/70">i</span> for why.
             </p>
           )}
@@ -306,7 +306,7 @@ export function SpeciesComparison({
                           </li>
                           <li className="pt-0.5 text-white/40">
                             Survey records reflect how much an area is sampled, not just how common a
-                            species is — treat it as a hint.
+                            species is. Treat it as a hint.
                           </li>
                         </ul>
                       )}

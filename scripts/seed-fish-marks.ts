@@ -12,7 +12,7 @@
  * specific curated photo named in each entry's _photo note. Admins tune them in
  * /admin/species/[name].
  *
- * Pollack (Pollachius pollachius) is intentionally absent here — it was seeded
+ * Pollack (Pollachius pollachius) is intentionally absent here, it was seeded
  * by scripts/seed-gadoid-marks.ts. Idempotent: skips species that already have
  * >=1 DiagnosticMark.
  *
@@ -462,14 +462,14 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Bony scute ridge",
-        description: "A row of hard, bony, keel-like scutes runs along the full length of the lateral line — unmistakable once you know to look.",
+        description: "A row of hard, bony, keel-like scutes runs along the full length of the lateral line, unmistakable once you know to look.",
         overlayX: 0.5,
         overlayY: 0.45,
         overlayRadius: 0.18,
       },
       {
         label: "Two separate dorsal fins",
-        description: "First dorsal is short and spiny; second is long and soft — two clearly separate fins unlike mackerel's continuous one.",
+        description: "First dorsal is short and spiny; second is long and soft, two clearly separate fins unlike mackerel's continuous one.",
         overlayX: 0.42,
         overlayY: 0.28,
         overlayRadius: 0.14,
@@ -490,7 +490,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Wavy green-blue bars",
-        description: "Bold, wavy, tiger-stripe bars across a metallic blue-green back — the most eye-catching fish in UK waters.",
+        description: "Bold, wavy, tiger-stripe bars across a metallic blue-green back, the most eye-catching fish in UK waters.",
         overlayX: 0.45,
         overlayY: 0.3,
         overlayRadius: 0.18,
@@ -504,7 +504,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
       {
         label: "Silver-white belly",
-        description: "A plain silver-white belly with no bars (the bars only run down the back) — sharp contrast with the coloured back.",
+        description: "A plain silver-white belly with no bars (the bars only run down the back), sharp contrast with the coloured back.",
         overlayX: 0.45,
         overlayY: 0.6,
         overlayRadius: 0.14,
@@ -518,7 +518,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Keel of spiny scutes on belly",
-        description: "A row of small, sharp scutes runs along the belly keel — run your finger along it and you feel them. The most reliable sprat tell.",
+        description: "A row of small, sharp scutes runs along the belly keel, run your finger along it and you feel them. The most reliable sprat tell.",
         overlayX: 0.5,
         overlayY: 0.62,
         overlayRadius: 0.16,
@@ -546,7 +546,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Bright silver lateral stripe",
-        description: "A very bright, solid silver stripe runs the whole length of the flank — the sand smelt's most conspicuous feature.",
+        description: "A very bright, solid silver stripe runs the whole length of the flank, the sand smelt's most conspicuous feature.",
         overlayX: 0.44,
         overlayY: 0.48,
         overlayRadius: 0.2,
@@ -560,7 +560,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
       {
         label: "Two small dorsal fins",
-        description: "Two small, separate dorsal fins — the first is tiny and spiny; both are set well back on the body.",
+        description: "Two small, separate dorsal fins, the first is tiny and spiny; both are set well back on the body.",
         overlayX: 0.35,
         overlayY: 0.3,
         overlayRadius: 0.1,
@@ -574,7 +574,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Two separate dorsal fins",
-        description: "A spiny first dorsal fin and a longer soft second dorsal fin, clearly separated — a perch-family hallmark.",
+        description: "A spiny first dorsal fin and a longer soft second dorsal fin, clearly separated, a perch-family hallmark.",
         overlayX: 0.38,
         overlayY: 0.28,
         overlayRadius: 0.14,
@@ -588,7 +588,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
       {
         label: "Spiny gill cover",
-        description: "Two flat spines on the rear edge of the gill cover (preopercle) — a prick-check confirms it quickly.",
+        description: "Two flat spines on the rear edge of the gill cover (preopercle), a prick-check confirms it quickly.",
         overlayX: 0.6,
         overlayY: 0.42,
         overlayRadius: 0.08,
@@ -602,7 +602,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Thick upper lip",
-        description: "The upper lip is very thick (nearly as deep as the eye diameter) and warty-looking — the give-away vs thin-lipped and golden-grey mullet.",
+        description: "The upper lip is very thick (nearly as deep as the eye diameter) and warty-looking, the give-away vs thin-lipped and golden-grey mullet.",
         overlayX: 0.62,
         overlayY: 0.52,
         overlayRadius: 0.07,
@@ -639,7 +639,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
       {
         label: "Dorsal fin starts forward",
-        description: "The long dorsal fin begins just behind the pectoral fin and runs to the tail — much further forward than in the common eel.",
+        description: "The long dorsal fin begins just behind the pectoral fin and runs to the tail, much further forward than in the common eel.",
         overlayX: 0.45,
         overlayY: 0.3,
         overlayRadius: 0.16,
@@ -660,7 +660,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Flat-bottomed, sits on sand",
-        description: "A flattened body that lies pressed to the sand, with eyes set high on top of the head — a scooter, not a free-swimmer.",
+        description: "A flattened body that lies pressed to the sand, with eyes set high on top of the head, a scooter, not a free-swimmer.",
         overlayX: 0.45,
         overlayY: 0.6,
         overlayRadius: 0.16,
@@ -688,7 +688,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Bright orange spots",
-        description: "Scattered bright orange-red spots over a smooth brown upper side — the plaice's signature, separating it from dab and flounder.",
+        description: "Scattered bright orange-red spots over a smooth brown upper side, the plaice's signature, separating it from dab and flounder.",
         overlayX: 0.45,
         overlayY: 0.5,
         overlayRadius: 0.2,
@@ -702,7 +702,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
       },
       {
         label: "Bony ridge behind eyes",
-        description: "A short row of 4-7 bony knobs runs from behind the eyes — smooth skin otherwise.",
+        description: "A short row of 4-7 bony knobs runs from behind the eyes, smooth skin otherwise.",
         overlayX: 0.38,
         overlayY: 0.42,
         overlayRadius: 0.07,
@@ -716,7 +716,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Many small dark spots",
-        description: "Densely peppered with small dark brown spots over a sandy-buff body — a small (to ~75 cm) shark, not a fish.",
+        description: "Densely peppered with small dark brown spots over a sandy-buff body, a small (to ~75 cm) shark, not a fish.",
         overlayX: 0.5,
         overlayY: 0.5,
         overlayRadius: 0.22,
@@ -744,7 +744,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Two long chin barbels",
-        description: "A pair of long sensory barbels under the chin, used to probe the sand for food — the red mullet's standout feature.",
+        description: "A pair of long sensory barbels under the chin, used to probe the sand for food, the red mullet's standout feature.",
         overlayX: 0.2,
         overlayY: 0.6,
         overlayRadius: 0.12,
@@ -772,7 +772,7 @@ const FISH_DRAFTS: SpeciesDraft[] = [
     marks: [
       {
         label: "Extremely long, thin body",
-        description: "An exceptionally slender, elongated body tapering to a long pointed snout — quite unlike any other small UK fish.",
+        description: "An exceptionally slender, elongated body tapering to a long pointed snout, quite unlike any other small UK fish.",
         overlayX: 0.45,
         overlayY: 0.45,
         overlayRadius: 0.2,

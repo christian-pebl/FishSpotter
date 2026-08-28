@@ -33,7 +33,7 @@ async function main() {
     console.log("[dry-run] No writes will be made.");
   }
 
-  // Load alias table once — only 26 rows, cheaper than per-answer queries.
+  // Load alias table once, only 26 rows, cheaper than per-answer queries.
   const aliases = await loadAliases();
   console.log(`Loaded ${aliases.length} alias entries.`);
 
@@ -75,7 +75,7 @@ async function main() {
 
   for (const snippet of snippets) {
     // staffAnswer is guaranteed non-null by the query filter above,
-    // but TypeScript doesn't know that — assert it.
+    // but TypeScript doesn't know that, assert it.
     const staffAnswer = snippet.staffAnswer as string;
     const pending = snippet.answers;
 
@@ -93,7 +93,7 @@ async function main() {
     const updates: UpdateRow[] = pending.map((answer) => {
       const result = matchWithAliases(staffAnswer, answer.chosenOption, aliases);
       // matchWithAliases with a non-null staffAnswer always returns a
-      // boolean isCorrect (never null), but the type allows null — narrow it.
+      // boolean isCorrect (never null), but the type allows null, narrow it.
       const isCorrect = result.isCorrect === true;
       return {
         id: answer.id,

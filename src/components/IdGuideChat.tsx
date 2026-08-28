@@ -32,7 +32,7 @@ export function IdGuideChat({
   ]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
-  // The assistant has accepted the turn but no tokens have arrived yet —
+  // The assistant has accepted the turn but no tokens have arrived yet,
   // distinct from "streaming" so we can show "thinking…" vs "typing".
   const [awaitingFirstToken, setAwaitingFirstToken] = useState(false);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -158,7 +158,7 @@ export function IdGuideChat({
         // shows, instead of a misleading "(stopped)" or a stuck "thinking…".
         setError("The guide stalled. Try again, or use the manual filter below.");
       } else if (controller.signal.aborted) {
-        // User pressed Stop — surface the cancellation in the assistant bubble.
+        // User pressed Stop, surface the cancellation in the assistant bubble.
         setMessages((prev) => {
           const copy = [...prev];
           const last = copy[copy.length - 1];

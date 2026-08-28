@@ -3,7 +3,7 @@
  *
  * Drops three first-draft marks per pilot gadoid (pollack, bib, cod) onto
  * the species' first cached reference photo. Coords are sensible defaults
- * for a left-facing lateral fish shot — admins are expected to drag them
+ * for a left-facing lateral fish shot, admins are expected to drag them
  * into place in /admin/species/[name] after seeding.
  *
  * Idempotent: skips any species that already has >=1 DiagnosticMark row.
@@ -54,7 +54,7 @@ const GADOID_DRAFTS: SpeciesDraft[] = [
       {
         label: "Kinked lateral line",
         description:
-          "The dark line down the flank bends sharply upward over the pectoral fin — pollack's most reliable single ID against bib and cod.",
+          "The dark line down the flank bends sharply upward over the pectoral fin, pollack's most reliable single ID against bib and cod.",
         overlayX: 0.42,
         overlayY: 0.42,
         overlayRadius: 0.08,
@@ -70,7 +70,7 @@ const GADOID_DRAFTS: SpeciesDraft[] = [
       {
         label: "No chin barbel",
         description:
-          "Smooth chin — no whisker. This rules out cod and bib at a glance; both gadoids have a clear chin barbel.",
+          "Smooth chin, no whisker. This rules out cod and bib at a glance; both gadoids have a clear chin barbel.",
         overlayX: 0.18,
         overlayY: 0.68,
         overlayRadius: 0.05,
@@ -84,7 +84,7 @@ const GADOID_DRAFTS: SpeciesDraft[] = [
       {
         label: "Single chin barbel",
         description:
-          "A short whisker under the chin — present on bib and cod, absent on pollack and whiting. Cod's is noticeably longer.",
+          "A short whisker under the chin, present on bib and cod, absent on pollack and whiting. Cod's is noticeably longer.",
         overlayX: 0.18,
         overlayY: 0.70,
         overlayRadius: 0.05,
@@ -100,7 +100,7 @@ const GADOID_DRAFTS: SpeciesDraft[] = [
       {
         label: "Deep, tall body",
         description:
-          "Bib is much deeper-bodied than pollack or whiting — almost a bream-like profile. Body depth is roughly a third of body length.",
+          "Bib is much deeper-bodied than pollack or whiting, almost a bream-like profile. Body depth is roughly a third of body length.",
         overlayX: 0.50,
         overlayY: 0.50,
         overlayRadius: 0.14,
@@ -114,7 +114,7 @@ const GADOID_DRAFTS: SpeciesDraft[] = [
       {
         label: "Prominent chin barbel",
         description:
-          "Long single whisker under the chin — distinctly longer than bib's. The most reliable feature for separating cod from a deep-bodied pouting.",
+          "Long single whisker under the chin, distinctly longer than bib's. The most reliable feature for separating cod from a deep-bodied pouting.",
         overlayX: 0.18,
         overlayY: 0.70,
         overlayRadius: 0.06,
@@ -122,7 +122,7 @@ const GADOID_DRAFTS: SpeciesDraft[] = [
       {
         label: "Pale lateral line",
         description:
-          "A distinct off-white stripe runs along the flank, easiest to see against cod's mottled olive-brown back. Curves only gently — no sharp kink as in pollack.",
+          "A distinct off-white stripe runs along the flank, easiest to see against cod's mottled olive-brown back. Curves only gently, no sharp kink as in pollack.",
         overlayX: 0.50,
         overlayY: 0.42,
         overlayRadius: 0.08,
@@ -155,13 +155,13 @@ async function main() {
     });
     if (existingCount > 0) {
       console.log(
-        `  ${commonName} (${scientificName}) — ${existingCount} mark(s) already authored, skipping.`,
+        `  ${commonName} (${scientificName}), ${existingCount} mark(s) already authored, skipping.`,
       );
       skippedExisting++;
       continue;
     }
 
-    // Pick the lowest-ordering SpeciesImage row — the same photo that
+    // Pick the lowest-ordering SpeciesImage row, the same photo that
     // AnnotatedSpeciesPhoto renders in the wizard. If there's no image
     // cached, the marks would have nowhere to attach; warn and skip.
     const photo = await prisma.speciesImage.findFirst({
@@ -171,7 +171,7 @@ async function main() {
     });
     if (!photo) {
       console.log(
-        `  ${commonName} (${scientificName}) — no SpeciesImage rows cached. Run \`npm run db:refresh-images -- --species "${scientificName}"\` first.`,
+        `  ${commonName} (${scientificName}), no SpeciesImage rows cached. Run \`npm run db:refresh-images -- --species "${scientificName}"\` first.`,
       );
       skippedNoPhoto++;
       continue;
@@ -191,7 +191,7 @@ async function main() {
 
     await prisma.diagnosticMark.createMany({ data: rows });
     inserted += rows.length;
-    console.log(`  ${commonName} (${scientificName}) — inserted ${rows.length} draft mark(s).`);
+    console.log(`  ${commonName} (${scientificName}), inserted ${rows.length} draft mark(s).`);
   }
 
   console.log(

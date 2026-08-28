@@ -1,9 +1,9 @@
-# Fish reference-photo head-to-head — final verdicts (APPLIED)
+# Fish reference-photo head-to-head: final verdicts (APPLIED)
 
 **Date:** 2026-06-03
 **Method:** agentic team, one judge agent per species. Each judge downloaded and *visually
-viewed* three sources — the committed photo, an independent workflow pick, and a fresh sweep of
-the current top research-grade CC iNaturalist candidates — then chose the single best-fit teaching
+viewed* three sources, the committed photo, an independent workflow pick, and a fresh sweep of
+the current top research-grade CC iNaturalist candidates, then chose the single best-fit teaching
 reference. Tie-breakers, in order: (1) correct single-specimen view & right species; (2) sharpness
 + frame fill; (3) uncluttered/natural, live in-situ over dead/hand/deck; (4) clarity of diagnostic
 features; (5) more permissive licence.
@@ -18,13 +18,13 @@ features; (5) more permissive licence.
 
 ### Two real errors the panel caught (both missed by the earlier passes)
 
-- **Trachurus trachurus** — the committed photo (which the first workflow had *also* independently
+- **Trachurus trachurus**: the committed photo (which the first workflow had *also* independently
   picked, so it was a false "agreement") is labelled **Trachurus picturatus** (blue jack mackerel)
   on iNat, i.e. **wrong species**. Replaced with a genuine T. trachurus (IHUNTA, obs 243503722).
-- **Scomber scombrus** — committed pick was **multiple fish in a tub**, useless as an annotation
+- **Scomber scombrus**: committed pick was **multiple fish in a tub**, useless as an annotation
   base. Replaced with a clean single lateral (Julien Renoult, cc-by, obs 7496873).
 
-## Changed (13) — now live
+## Changed (13): now live
 
 | Species | New obs | Licence | Why it won |
 |---|---|---|---|
@@ -42,7 +42,7 @@ features; (5) more permissive licence.
 | Atherina presbyter | 64310889 (Klaus Kevin Kristensen) | cc-by | Live in-situ lateral, silver stripe; committed was a hand-held out-of-water shot. CC-BY. |
 | Taurulus bubalis | 365505710 (lucane) | cc-by-nc | Sharp 2048px lateral on clean rock; committed was only 640px on red-on-red weed. |
 
-## Kept (14) — committed pick confirmed best after viewing alternatives
+## Kept (14): committed pick confirmed best after viewing alternatives
 
 Trisopterus luscus, Trisopterus minutus, Labrus mixtus, Conger conger, Pholis gunnellus,
 Pomatoschistus microps, Gobius paganellus, Pomatoschistus minutus, Callionymus lyra,
@@ -60,7 +60,7 @@ the committed in-situ shot held.
 - The 26 invertebrates and pollack (Pollachius pollachius) were already curated and were out of
   scope for this head-to-head.
 - Catalogue species added today and NOT covered here: Callionymus maculatus (spotted dragonet),
-  Limanda limanda (dab), Platichthys flesus (flounder) — they have iNat buckets but no curated
+  Limanda limanda (dab), Platichthys flesus (flounder), they have iNat buckets but no curated
   override yet; a future pass should give them the same treatment.
 - This file supersedes the pre-decision cross-check; the per-pick reasoning + runner-up notes live
   in workflow run wf_86005d19-c73.

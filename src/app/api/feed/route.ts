@@ -1,5 +1,5 @@
 /**
- * GET /api/feed?cursor=&take= — feed pagination endpoint (S4-11).
+ * GET /api/feed?cursor=&take=, feed pagination endpoint (S4-11).
  *
  * The /feed page renders the first ~5 snippets server-side; this
  * endpoint hands the rest in batches. The cursor is the `id` of the

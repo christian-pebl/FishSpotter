@@ -7,7 +7,7 @@
  * Tapping a tile sets shapeClass and shows the live candidate count from
  * narrowCandidates(). "Skip to guess" closes the gate to the MCQ fast path.
  * "Not sure" activates the strip with no shape filter (narrows the whole
- * catalogue) rather than dead-ending — the murky-safe path.
+ * catalogue) rather than dead-ending, the murky-safe path.
  *
  * Assets (UX-5): real PhyloPic silhouettes (CC0 / Public Domain, fetched by
  * scripts/fetch-silhouettes.cjs into public/silhouettes/; credits in
@@ -29,7 +29,7 @@ const HAS_SILHOUETTE = new Set(Object.keys(silhouetteCredits));
 
 
 // ---------------------------------------------------------------------------
-// Fallback silhouettes — one inline SVG per shape class.
+// Fallback silhouettes, one inline SVG per shape class.
 // All are single-path stroked art in `currentColor` so they inherit the
 // parent's text-teal-500 class. Used only when SILHOUETTES has no PhyloPic
 // asset for a class (see the UX-5 note above).
@@ -121,11 +121,11 @@ function SilUrchin() {
 }
 
 function SilOtherWildlife() {
-  // A diving seabird — the top-level tile icon (10 Jul 2026: swapped from a
+  // A diving seabird, the top-level tile icon (10 Jul 2026: swapped from a
   // merged bird/seal blob to a clean bird, easier to read at icon size); the
   // bird/mammal sub-split at Rung 2 gets its own pair of silhouettes
   // (public/silhouettes/forms/). Used only if public/silhouettes/other.svg is
-  // ever missing — the live tile renders that file (a copy of forms/bird.svg).
+  // ever missing, the live tile renders that file (a copy of forms/bird.svg).
   return (
     <svg viewBox="0 0 40 44" fill="none" aria-hidden="true" className="w-full h-full">
       <path
@@ -205,7 +205,7 @@ export function ShapeGate({
   const candidateCounts = useMemo(() => {
     const out: Partial<Record<ShapeClass, number>> = {};
     for (const sc of SHAPE_CLASS) {
-      // limit: 100 so the tile badge shows the TRUE count — narrowCandidates
+      // limit: 100 so the tile badge shows the TRUE count, narrowCandidates
       // defaults to 12, which undercounted the fish tile as "12".
       out[sc] = narrowCandidates({ catalogue: CATALOGUE, shapeClass: sc, limit: 100 }).length;
     }

@@ -6,7 +6,7 @@
  * so there's no extra dependency.
  *
  * Output shape matches what `web-push` library expects:
- *   { publicKey, privateKey }  — both base64url strings
+ *   { publicKey, privateKey } , both base64url strings
  */
 
 import { webcrypto } from "node:crypto";
