@@ -18,11 +18,14 @@
  * silhouette (no PhyloPic UUID) registered in bodyform-silhouette-credits.json.
  */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { TileGate, MaskSilhouette, type TileSpec, type Crumb } from "@/components/idflow/TileGate";
 import { BodyFormExampleList } from "@/components/idflow/BodyFormExampleList";
 import { SpeciesComparison } from "@/components/idflow/SpeciesComparison";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
+import { narrowCandidates } from "@/lib/idguide/narrow";
+import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { SHAPE_CLASS_PLURAL_NOUN } from "@/components/ShapeGate";
 import { comparisonGroupForShapeClass } from "@/lib/idflow/comparisons";
 import type { ShapeClass } from "@/lib/idguide/traits";
 import type { TraitKey } from "@/lib/idguide/narrow";
@@ -85,6 +88,15 @@ export function BodyShapeGate({
   const comparison = comparisonGroupForShapeClass(shapeClass);
   const [comparing, setComparing] = useState(false);
 
+  // Everything in this shape class, counted the way Rung 3 counts it (so the
+  // number promised on the button is the number of tiles the user then gets).
+  // NB not the sum of the per-form counts: a species can carry two form values
+  // (a goby is both `elongated` and `bottom-scooter`) and would be counted twice.
+  const classTotal = useMemo(
+    () => narrowCandidates({ catalogue: CATALOGUE, shapeClass, limit: 500 }).length,
+    [shapeClass],
+  );
+
   // FeedCard only opens this gate when a config exists; guard anyway.
   if (!config) return null;
 
@@ -125,7 +137,18 @@ export function BodyShapeGate({
             ? { label: "Compare side by side", onClick: () => setComparing(true) }
             : undefined
         }
-        notSure={{ label: "Not sure", onClick: () => onSelectForm(config.key, null) }}
+        notSure={{
+          // Same reframe as Rung 1: this opens every species in the class as a
+          // photo grid, so say so. Suppressed to the plain footer link when the
+          // class already offers a curated side-by-side compare (starfish),
+          // which is the better version of the same move.
+          label:
+            comparison && onPickSpecies
+              ? "Not sure"
+              : `Not sure? Compare all ${classTotal} ${SHAPE_CLASS_PLURAL_NOUN[shapeClass]}`,
+          prominent: !(comparison && onPickSpecies),
+          onClick: () => onSelectForm(config.key, null),
+        }}
         skip={{ label: "Skip to guess", onClick: onSkip }}
       />
       {comparing && comparison && onPickSpecies && (

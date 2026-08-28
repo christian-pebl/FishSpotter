@@ -26,7 +26,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, useDragControls } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { DURATION, EASE } from "@/lib/motion";
 
 /** A teal-tinted silhouette from a static SVG, via CSS mask + bg-current (zero
@@ -73,6 +73,94 @@ export type TileSpec = {
 
 export type Crumb = { label: string; onClick?: () => void };
 
+/**
+ * Desktop docking (28 Aug 2026). On a wide screen the gate no longer floats
+ * centred over the clip. It docks to the LEFT edge, full height, capped at half
+ * the width, so the video keeps playing (and stays watchable) beside it rather
+ * than underneath it. The user can drag the panel's right edge to resize; the
+ * width persists across clips and sessions.
+ *
+ * MAX_WIDTH_PCT is the load-bearing number: it is what guarantees "at least half
+ * the clip is always visible", so raising it defeats the point of docking.
+ * MIN_WIDTH_REM keeps a 3-column tile grid legible on a narrow laptop.
+ *
+ * Below the breakpoint (phones, the primary surface) nothing changes: the card
+ * stays the centred, draggable, bottom-anchored sheet it already was.
+ */
+const DOCK_MEDIA_QUERY = "(min-width: 768px)";
+const MIN_WIDTH_PCT = 28;
+const MAX_WIDTH_PCT = 50;
+// Roughly a third of a wide screen by default: enough for a 3-column tile grid,
+// and it leaves the clip the larger share. The user can widen it to half.
+const DEFAULT_WIDTH_PCT = 36;
+const MIN_WIDTH_REM = 20;
+const WIDTH_STORAGE_KEY = "fs-gate-width-pct";
+
+/**
+ * Phone sizing (28 Aug 2026). A phone has no room to put the panel beside the
+ * clip, so it goes UNDER it: a 50/50 split, video on top, options below. The
+ * sheet is anchored to the bottom and sized by its top grip. Drag the grip and
+ * the split moves live, let go and it stays. Below COMPACT_HEIGHT_PCT the tile
+ * grid reflows denser so a short sheet still shows whole tiles rather than a
+ * sliver of the first row.
+ *
+ * The other half of the deal is the "Full video" button on the sheet's top
+ * edge: one tap drops the sheet to the dock bubble so the clip plays full
+ * screen, and the bubble brings it back with the rung intact. Between them, a
+ * phone user never has to choose between watching and identifying.
+ *
+ * This replaces the old free-drag-the-card-around behaviour, which moved the
+ * card without ever giving back any space.
+ */
+// Low enough to uncover most of the clip, high enough that the tile grid is
+// still a grid at the bottom of the range rather than a clipped sliver. Going
+// all the way to "no panel" is the Full video button's job, not the grip's.
+const MIN_HEIGHT_PCT = 34;
+const MAX_HEIGHT_PCT = 92;
+// A straight 50/50 split by default: clip on top, options underneath. Both
+// halves are then always live, so you can watch the animal and read the tiles
+// without moving anything, and the grip re-balances it from there.
+const DEFAULT_HEIGHT_PCT = 50;
+const COMPACT_HEIGHT_PCT = 46;
+const HEIGHT_STORAGE_KEY = "fs-gate-height-pct";
+
+const clampWidthPct = (v: number) =>
+  Math.min(MAX_WIDTH_PCT, Math.max(MIN_WIDTH_PCT, v));
+
+const clampHeightPct = (v: number) =>
+  Math.min(MAX_HEIGHT_PCT, Math.max(MIN_HEIGHT_PCT, v));
+
+const readStoredPct = (key: string, fallback: number) => {
+  try {
+    const stored = Number(window.localStorage.getItem(key));
+    return Number.isFinite(stored) && stored > 0 ? stored : fallback;
+  } catch {
+    return fallback; // storage unavailable (private window, blocked site data)
+  }
+};
+
+const writeStoredPct = (key: string, value: number) => {
+  try {
+    window.localStorage.setItem(key, String(value));
+  } catch {
+    /* storage unavailable, so the size still applies only for this session */
+  }
+};
+
+/** True on a wide viewport. SSR-safe (false first paint, corrected on mount),
+ *  and live: dragging a desktop window narrow re-flows back to the sheet. */
+function useDocked(): boolean {
+  const [docked, setDocked] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(DOCK_MEDIA_QUERY);
+    const sync = () => setDocked(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return docked;
+}
+
 export function TileGate({
   ariaLabel,
   title,
@@ -103,7 +191,12 @@ export function TileGate({
   onBack?: () => void;
   /** Prior picks, newest last; each can jump back to its rung. */
   breadcrumb?: Crumb[];
-  notSure?: { label: string; onClick: () => void };
+  /** The "can't call it" escape hatch. `prominent` renders it as a full-width
+   *  outline button above the footer instead of the small footer text link,
+   *  used by Rungs 1 + 2, where it no longer reads as a dead end ("Not sure")
+   *  but as the action it actually performs ("Not sure? Compare all 33 fish"),
+   *  landing on the whole-bucket photo grid. */
+  notSure?: { label: string; onClick: () => void; prominent?: boolean };
   skip?: { label: string; onClick: () => void };
   /** A primary "submit the coarse shape class" action ("It's just a Fish"),
    *  rendered as a full-width button above the notSure/skip row. Lets a user
@@ -164,82 +257,121 @@ export function TileGate({
     };
   }, []);
   const dialogRef = useRef<HTMLDivElement>(null);
-  const dragControls = useDragControls();
   const constraintsRef = useRef<HTMLDivElement>(null);
 
+  // Left-docked resizable panel on desktop; bottom-anchored resizable sheet on
+  // a phone (see useDocked / the sizing constants above).
+  const docked = useDocked();
+  const [widthPct, setWidthPct] = useState(DEFAULT_WIDTH_PCT);
+  const [heightPct, setHeightPct] = useState(DEFAULT_HEIGHT_PCT);
+  const [resizing, setResizing] = useState(false);
+  const widthRef = useRef(widthPct);
+  widthRef.current = widthPct;
+  const heightRef = useRef(heightPct);
+  heightRef.current = heightPct;
+
+  // Announce that a gate is up. The sheet now covers the bottom half of a
+  // phone, which is exactly where the feed's "swipe up for next" nudge floats,
+  // so FeedPlayer listens for this and stands down while a gate is open.
   useEffect(() => {
-    // While minimized the card is gone and only the bubble (a single button) is
-    // up, so we release the focus trap + scroll lock and let the clip behind be
-    // fully interactive. Restoring re-runs this effect and re-engages both.
-    if (minimized) return;
-    const lastFocused = document.activeElement as HTMLElement | null;
-    const dialog = dialogRef.current;
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    if (!suspendKeyboard) {
-      dialog
-        ?.querySelector<HTMLElement>(
-          "button:not([disabled]), [tabindex]:not([tabindex='-1'])",
-        )
-        // preventScroll: the gate renders inline inside the feed, so the nearest
-        // scrollable ancestor is the snap-mandatory feed container. A plain
-        // focus() would scroll that container to reveal the focused control,
-        // cross a snap boundary, and bounce the feed to the previous clip.
-        ?.focus({ preventScroll: true });
-    }
-
-    const onKey = (e: KeyboardEvent) => {
-      if (suspendKeyboard) return;
-      // A true modal (the inline gallery's photo lightbox sets
-      // aria-modal="true") is open on top — yield all keys to it. The gate is
-      // aria-modal="false", so it never matches itself.
-      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
-      if (e.key === "Escape") {
-        // Collapse an open examples panel first; only then close the gate.
-        if (expandedKeyRef.current !== null) {
-          setExpandedKey(null);
-          return;
-        }
-        onClose();
-        return;
-      }
-      if (e.key !== "Tab" || !dialog) return;
-      const focusables = dialog.querySelectorAll<HTMLElement>(
-        "button:not([disabled]), [tabindex]:not([tabindex='-1'])",
-      );
-      if (focusables.length === 0) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    window.addEventListener("keydown", onKey);
+    window.dispatchEvent(new CustomEvent("fs-gate", { detail: { open: true } }));
     return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-      // preventScroll: see the mount focus-grab above. Restoring focus on
-      // unmount must not scroll the snap feed (esp. on rung-advance, where the
-      // captured element may be a mid-exit trigger anchored to the card bottom).
-      lastFocused?.focus?.({ preventScroll: true });
+      window.dispatchEvent(new CustomEvent("fs-gate", { detail: { open: false } }));
     };
-  }, [onClose, suspendKeyboard, minimized]);
+  }, []);
+
+  // Restore the viewer's last size once, on mount.
+  useEffect(() => {
+    setWidthPct(clampWidthPct(readStoredPct(WIDTH_STORAGE_KEY, DEFAULT_WIDTH_PCT)));
+    setHeightPct(clampHeightPct(readStoredPct(HEIGHT_STORAGE_KEY, DEFAULT_HEIGHT_PCT)));
+  }, []);
+
+  // Below this the sheet is too short for the full-size tile grid, so the grid
+  // reflows denser (an extra column, shorter tiles) instead of clipping row one.
+  const compact = !docked && heightPct < COMPACT_HEIGHT_PCT;
+
+  /** One pointer-drag resize for both axes: docked drags the right edge (width),
+   *  a sheet drags the top grip (height). Live while the finger is down, banked
+   *  to localStorage on release. */
+  const startResize = (e: React.PointerEvent) => {
+    const card = dialogRef.current;
+    const track = constraintsRef.current;
+    if (!card || !track) return;
+    e.preventDefault();
+    const cardRect = card.getBoundingClientRect();
+    const trackRect = track.getBoundingClientRect();
+    if (trackRect.width <= 0 || trackRect.height <= 0) return;
+    setResizing(true);
+
+    // Banked here rather than read back off the state ref on release: a flick
+    // where the last move and the release land in the same frame would persist
+    // the pre-drag value, because React has not re-rendered the ref yet.
+    let latest = docked ? widthRef.current : heightRef.current;
+
+    const onMove = (ev: PointerEvent) => {
+      if (docked) {
+        latest = clampWidthPct(((ev.clientX - cardRect.left) / trackRect.width) * 100);
+        setWidthPct(latest);
+      } else {
+        // Bottom-anchored: the sheet grows upward, so its height is the gap
+        // between the pointer and the sheet's (fixed) bottom edge.
+        latest = clampHeightPct(((cardRect.bottom - ev.clientY) / trackRect.height) * 100);
+        setHeightPct(latest);
+      }
+    };
+    const onUp = () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      setResizing(false);
+      writeStoredPct(docked ? WIDTH_STORAGE_KEY : HEIGHT_STORAGE_KEY, latest);
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+  };
+
+  /** Keyboard resize. A pointer drag must never be the only way to work a
+   *  control (WCAG 2.1.1). Arrows step 2%, Home/End snap to the bounds. */
+  const onResizeKey = (e: React.KeyboardEvent) => {
+    const [less, more] = docked
+      ? ["ArrowLeft", "ArrowRight"]
+      : ["ArrowDown", "ArrowUp"];
+    const current = docked ? widthRef.current : heightRef.current;
+    const min = docked ? MIN_WIDTH_PCT : MIN_HEIGHT_PCT;
+    const max = docked ? MAX_WIDTH_PCT : MAX_HEIGHT_PCT;
+    let next: number | null = null;
+    if (e.key === less) next = current - 2;
+    else if (e.key === more) next = current + 2;
+    else if (e.key === "Home") next = min;
+    else if (e.key === "End") next = max;
+    if (next === null) return;
+    e.preventDefault();
+    if (docked) {
+      const v = clampWidthPct(next);
+      setWidthPct(v);
+      writeStoredPct(WIDTH_STORAGE_KEY, v);
+    } else {
+      const v = clampHeightPct(next);
+      setHeightPct(v);
+      writeStoredPct(HEIGHT_STORAGE_KEY, v);
+    }
+  };
 
   // React 18.3 needs `inert` spread as a string for Framer compatibility.
   const inertProps = suspendKeyboard
     ? ({ inert: "" } as Record<string, string>)
     : {};
 
+  // Compact (a short sheet the user has dragged down): one more column of
+  // shorter tiles, so the grid reflows into the space that is left instead of
+  // showing a clipped first row. Capped at 4 across to stay tappable.
+  const gridColumns = compact ? Math.min(columns + 1, 4) : columns;
+
   const grid = (
     <div
       className="grid gap-1.5"
-      style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+      style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}
     >
       {tiles.map((tile) => {
         const isEmpty = !!tile.disabled;
@@ -267,7 +399,11 @@ export function TileGate({
               }
               className={[
                 "relative flex flex-col items-center justify-center rounded-modal border transition-colors",
-                hasMedia ? "gap-1 p-1" : "min-h-[128px] gap-2 p-2.5",
+                hasMedia
+                  ? "gap-1 p-1"
+                  : compact
+                    ? "min-h-[84px] gap-1 p-1.5"
+                    : "min-h-[128px] gap-2 p-2.5",
                 isEmpty
                   ? "cursor-not-allowed border-white/10 opacity-35"
                   : committing === tile.key || hovered === tile.key
@@ -280,11 +416,21 @@ export function TileGate({
                   {tile.media}
                 </span>
               ) : (
-                <span className="flex h-16 w-16 items-center justify-center">
+                <span
+                  className={[
+                    "flex items-center justify-center",
+                    compact ? "h-9 w-9" : "h-16 w-16",
+                  ].join(" ")}
+                >
                   {tile.icon}
                 </span>
               )}
-              <span className="text-center text-[11px] font-semibold uppercase leading-tight tracking-wider text-white/70">
+              <span
+                className={[
+                  "text-center font-semibold uppercase leading-tight tracking-wider text-white/70",
+                  compact ? "text-[9px]" : "text-[11px]",
+                ].join(" ")}
+              >
                 {tile.label}
               </span>
               {!!tile.badge && tile.badge > 0 && (
@@ -402,20 +548,30 @@ export function TileGate({
     <>
     <div
       ref={constraintsRef}
-      className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center p-3"
+      className={[
+        "pointer-events-none absolute inset-0 z-30 flex",
+        // Docked: hard left, stretched top to bottom, inset from the edges.
+        // Sheet: flush to the bottom (a real bottom sheet), so shrinking it
+        // uncovers the clip ABOVE it (where the animal is) rather than a
+        // useless strip under the footer.
+        docked
+          // pt-14 clears the feed's transparent overlay header (z-40, sits above
+          // the gate), which the full-height panel otherwise runs its title into.
+          ? "items-stretch justify-start p-3 pt-14"
+          : "items-end justify-center",
+      ].join(" ")}
     >
         <AnimatePresence>
         {!minimized && (
         <motion.div
           ref={dialogRef}
-          drag
-          dragControls={dragControls}
-          dragListener={false}
-          dragMomentum={false}
-          dragElastic={0.05}
-          dragConstraints={constraintsRef}
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          // Free-dragging is gone: the panel is edge-anchored on both surfaces
+          // and its grip/edge now RESIZES it, which is what the user actually
+          // wanted from moving it (to see the clip behind).
+          initial={
+            reduceMotion ? false : docked ? { opacity: 0, x: -16 } : { opacity: 0, y: 12 }
+          }
+          animate={{ opacity: 1, x: 0, y: 0 }}
           exit={
             reduceMotion
               ? { opacity: 0, transition: { duration: 0 } }
@@ -432,28 +588,116 @@ export function TileGate({
               ? { duration: 0 }
               : { duration: DURATION.standard, ease: EASE.enter }
           }
-          className="pointer-events-auto relative flex max-h-full w-[min(38rem,100%)] flex-col rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 pt-7 shadow-menu backdrop-blur"
+          className={[
+            "pointer-events-auto relative flex max-h-full flex-col rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 shadow-menu backdrop-blur",
+            docked
+              ? // Full height, and never wider than half the clip (the guarantee
+                // that the video stays watchable beside the panel).
+                "h-full pt-4"
+              : "w-full max-w-[38rem] rounded-b-none pt-7",
+            // Skip the height/width transition while the finger is down, or the
+            // sheet eases along behind the drag instead of tracking it.
+            resizing ? "select-none" : "",
+          ].join(" ")}
           style={{
             paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
-            transformOrigin: "bottom center",
+            transformOrigin: docked ? "left center" : "bottom center",
+            ...(docked
+              ? {
+                  width: `${widthPct}%`,
+                  minWidth: `${MIN_WIDTH_REM}rem`,
+                  maxWidth: `${MAX_WIDTH_PCT}%`,
+                }
+              : { height: `${heightPct}%` }),
           }}
           role="dialog"
           aria-modal="false"
           aria-label={ariaLabel}
           {...inertProps}
         >
-          {/* Drag handle — drag only starts here (dragListener=false). */}
-          <button
-            type="button"
-            onPointerDown={(e) => dragControls.start(e)}
-            aria-label="Drag to move this box"
-            className="absolute left-1/2 top-0 flex h-7 w-12 -translate-x-1/2 cursor-grab touch-none items-center justify-center text-white/35 hover:text-white/70 active:cursor-grabbing"
-          >
-            <svg width="16" height="6" viewBox="0 0 16 6" fill="currentColor" aria-hidden="true">
-              <circle cx="3" cy="1.5" r="1" /><circle cx="8" cy="1.5" r="1" /><circle cx="13" cy="1.5" r="1" />
-              <circle cx="3" cy="4.5" r="1" /><circle cx="8" cy="4.5" r="1" /><circle cx="13" cy="4.5" r="1" />
-            </svg>
-          </button>
+          {/* The grip (sheet mode). Same dots the card has always shown at the
+              top, but it now RESIZES rather than moves: drag it down and the
+              sheet shrinks live under the finger, uncovering the clip above;
+              release and it stays. The hit area is a full-width 28px strip so
+              it is grabbable without aiming. */}
+          {!docked && (
+            <div
+              role="separator"
+              aria-orientation="horizontal"
+              aria-label="Drag to resize this panel and see more of the clip"
+              aria-valuemin={MIN_HEIGHT_PCT}
+              aria-valuemax={MAX_HEIGHT_PCT}
+              aria-valuenow={Math.round(heightPct)}
+              tabIndex={0}
+              onPointerDown={startResize}
+              onKeyDown={onResizeKey}
+              className="group absolute inset-x-0 top-0 flex h-7 cursor-ns-resize touch-none items-center justify-center text-white/35 hover:text-white/70 focus:outline-none focus-visible:text-teal-300 active:cursor-grabbing"
+            >
+              <svg
+                width="16"
+                height="6"
+                viewBox="0 0 16 6"
+                fill="currentColor"
+                aria-hidden="true"
+                className={resizing ? "text-teal-400" : ""}
+              >
+                <circle cx="3" cy="1.5" r="1" /><circle cx="8" cy="1.5" r="1" /><circle cx="13" cy="1.5" r="1" />
+                <circle cx="3" cy="4.5" r="1" /><circle cx="8" cy="4.5" r="1" /><circle cx="13" cy="4.5" r="1" />
+              </svg>
+            </div>
+          )}
+
+          {/* "Full video", the explicit way out to the clip on a phone, sat on
+              the sheet's top edge where the video meets it. Drops the sheet to
+              the dock bubble (rung state intact) so the clip plays full screen;
+              the bubble restores it. Labelled, not an icon: this is the control
+              a first-time user needs to find without hunting, and it replaces
+              the header's icon-only minimise on this surface. */}
+          {!docked && (
+            <button
+              type="button"
+              onClick={() => setMinimized(true)}
+              className="absolute right-2 top-0 z-20 inline-flex h-7 items-center gap-1 rounded-full px-2 text-[10px] font-semibold uppercase tracking-wider text-teal-300/90 hover:text-teal-200"
+            >
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+                <path
+                  d="M6 2H2v4M10 2h4v4M6 14H2v-4M10 14h4v-4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Full video
+            </button>
+          )}
+
+          {/* Resize edge (docked only). Same control on the other axis: drag the
+              right edge to set how much of the clip the panel covers. */}
+          {docked && (
+            <div
+              role="separator"
+              aria-orientation="vertical"
+              aria-label="Resize this panel"
+              aria-valuemin={MIN_WIDTH_PCT}
+              aria-valuemax={MAX_WIDTH_PCT}
+              aria-valuenow={Math.round(widthPct)}
+              tabIndex={0}
+              onPointerDown={startResize}
+              onKeyDown={onResizeKey}
+              className="group absolute inset-y-0 -right-1.5 z-10 flex w-3 cursor-col-resize touch-none items-center justify-center focus:outline-none"
+            >
+              <span
+                aria-hidden="true"
+                className={[
+                  "h-16 w-1 rounded-full transition-colors",
+                  resizing
+                    ? "bg-teal-400"
+                    : "bg-white/25 group-hover:bg-teal-400/80 group-focus-visible:bg-teal-400",
+                ].join(" ")}
+              />
+            </div>
+          )}
 
           {/* Header row: back (arrow only), the title, then minimise + close.
               A flex row so the controls never overlap the title (they used to
@@ -480,6 +724,7 @@ export function TileGate({
             </p>
 
             <div className="flex shrink-0 items-center gap-1">
+              {docked && (
               <button
                 type="button"
                 onClick={() => setMinimized(true)}
@@ -493,6 +738,7 @@ export function TileGate({
                   <path d="M4 11h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </button>
+              )}
               <button
                 type="button"
                 onClick={onClose}
@@ -552,6 +798,26 @@ export function TileGate({
               )}
             </div>
 
+            {/* The prominent "compare them all" escape hatch (Rungs 1 + 2). Same
+                outline treatment as `compare`, but it opens the full candidate
+                grid for this bucket rather than a curated look-alike set, so it
+                is always available where `compare` is not. */}
+            {notSure?.prominent && (
+              <button
+                type="button"
+                onClick={notSure.onClick}
+                className="mt-3 inline-flex min-h-[44px] w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 text-center text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:border-teal-400 hover:bg-teal-500/15 hover:text-teal-100"
+              >
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" aria-hidden="true">
+                  <rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                  <rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                  <rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                  <rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                </svg>
+                {notSure.label}
+              </button>
+            )}
+
             {compare && (
               <button
                 type="button"
@@ -580,9 +846,9 @@ export function TileGate({
               </button>
             )}
 
-            {(notSure || skip) && (
+            {((notSure && !notSure.prominent) || skip) && (
               <div className="mt-3 flex shrink-0 items-center justify-between">
-                {notSure ? (
+                {notSure && !notSure.prominent ? (
                   <button
                     type="button"
                     onClick={notSure.onClick}

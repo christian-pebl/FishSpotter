@@ -39,10 +39,16 @@ import bodyformCredits from "@/data/bodyform-silhouette-credits.json";
 const HAS_SILHOUETTE = new Set(Object.keys(silhouetteCredits));
 const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 
-// Cap the photo grid so a wide path ("Not sure" → whole catalogue) stays a
-// bounded, performant grid; narrowCandidates orders by likelihood, so the cap
-// keeps the most probable species. The "Pick from a list" fallback covers the
-// rest.
+// Cap the photo grid on a NARROWED path, so an unexpectedly wide candidate set
+// stays a bounded, performant grid; narrowCandidates orders by likelihood, so
+// the cap keeps the most probable species. The "Pick from a list" fallback
+// covers the rest.
+//
+// The cap is lifted on the deliberate "compare them all" path (see `compareAll`
+// below): there the count is a PROMISE made on the button the user just tapped
+// ("Compare all 33 fish"), so silently showing 24 of them would be a lie. The
+// widest such set is the whole catalogue (~72), each tile one edge-cached
+// `?limit=1` photo lookup and a lazily-loaded image.
 const MAX_TILES = 24;
 
 /** The OBIS-backed local likelihood for a clip's bucket: the bucket-wide record
@@ -181,19 +187,24 @@ export function CandidateGate({
     [local],
   );
 
-  const candidates = useMemo(
-    () =>
-      narrowCandidates({
-        catalogue: CATALOGUE,
-        shapeClass: shapeClass ?? undefined,
-        mustHave: seed?.value
-          ? ({ [seed.key]: [seed.value] } as TraitSelection)
-          : {},
-        probabilityByScientific: probByScientific ?? undefined,
-        limit: 100,
-      }).slice(0, MAX_TILES),
-    [shapeClass, seed?.key, seed?.value, probByScientific],
-  );
+  // The user got here by asking to see everything in a bucket rather than by
+  // narrowing into it: either "Compare all N species" at Rung 1 (no shape) or
+  // "Compare all N crabs" at Rung 2 (a shape, but the form deliberately left
+  // unset). Both are the only routes that produce these shapes of input, so the
+  // flag is derived here rather than threaded through FeedCard.
+  const compareAll = shapeClass === null || (!!seed && seed.value === null);
+  const candidates = useMemo(() => {
+    const ranked = narrowCandidates({
+      catalogue: CATALOGUE,
+      shapeClass: shapeClass ?? undefined,
+      mustHave: seed?.value
+        ? ({ [seed.key]: [seed.value] } as TraitSelection)
+        : {},
+      probabilityByScientific: probByScientific ?? undefined,
+      limit: 500,
+    });
+    return compareAll ? ranked : ranked.slice(0, MAX_TILES);
+  }, [shapeClass, seed?.key, seed?.value, probByScientific, compareAll]);
 
   // The species whose guide popup is open (tap a tile -> preview -> confirm).
   // null = grid view. Tapping a tile no longer commits instantly; the popup's
@@ -272,7 +283,13 @@ export function CandidateGate({
     <>
       <TileGate
         ariaLabel="Which species is it?"
-        title={candidates.length > 0 ? "Which one is it? Tap to compare" : "No matches"}
+        title={
+          candidates.length === 0
+            ? "No matches"
+            : compareAll
+              ? `All ${candidates.length}, most likely here first. Tap one to look closer`
+              : "Which one is it? Tap to compare"
+        }
         tiles={tiles}
         columns={2}
         suspendKeyboard={!!preview}
@@ -287,10 +304,15 @@ export function CandidateGate({
         breadcrumb={breadcrumb}
         bubbleLabel="Reopen the species picker"
         emptyMessage="No matches left — go back a step or pick from a list."
-        // An explicit "none of these match" exit at the decision point (the
-        // grid can hold up to 24 near-lookalikes). "None look right" steps back
-        // to re-narrow; "Pick from a list" jumps to the full MCQ.
-        notSure={onBack ? { label: "None look right", onClick: onBack } : undefined}
+        // An explicit "none of these match" exit at the decision point. "None
+        // look right" steps back to re-narrow; "Pick from a list" jumps to the
+        // full MCQ. On the compare-them-all path there is nothing left to
+        // re-narrow to, so it reads as a plain step back instead.
+        notSure={
+          onBack
+            ? { label: compareAll ? "Go back a step" : "None look right", onClick: onBack }
+            : undefined
+        }
         skip={onSkipToMCQ ? { label: "Pick from a list", onClick: onSkipToMCQ } : undefined}
         compare={
           comparison
