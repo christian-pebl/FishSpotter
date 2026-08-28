@@ -11,7 +11,7 @@ Date: 2026-05-14
 
 | # | Route | Source | Notes |
 |---|---|---|---|
-| R1 | `/` | `src/app/page.tsx` | Landing — hero + 3-card feature grid |
+| R1 | `/` | `src/app/page.tsx` | Landing, hero + 3-card feature grid |
 | R2 | `/feed` | `src/app/feed/page.tsx` | Main game, vertical snap feed, `force-dynamic`, requires DB |
 | R3 | `/feed/browse` | `src/app/feed/browse/page.tsx` | Archive grid (1/2/3 cols responsive), `force-dynamic` |
 | R4 | `/feed/[id]` | `src/app/feed/[id]/page.tsx` | Single-snippet detail |
@@ -39,7 +39,7 @@ For each route × viewport: resize, screenshot, snapshot (a11y tree), targeted i
   - R2 header: `text-lg` → 18px
   - R2 FeedCard h2: `text-2xl` → 24px
   - R3/R5/R6: `text-3xl` → 30px
-- Eyebrow labels: `tracking-[0.2em]`–`[0.26em]`, text-xs (12px), font-semibold, color `var(--primary)` `#2b7a78`
+- Eyebrow labels: `tracking-[0.2em]`-`[0.26em]`, text-xs (12px), font-semibold, color `var(--primary)` `#2b7a78`
 - Body: text-sm/base (14/16px), leading-6/7
 - Buttons: text-sm (14px), font-semibold, pill (rounded-full)
 
@@ -61,40 +61,40 @@ For each route × viewport: resize, screenshot, snapshot (a11y tree), targeted i
 ### Hover / focus
 - `.pebl-button-primary:hover` → bg `#2b9d97`
 - Cards: `hover:-translate-y-0.5 hover:border-[color:var(--primary)]`
-- No global `:focus-visible` rule — expected finding
+- No global `:focus-visible` rule, expected finding
 
 ## 4. Layout glitch checklist
 
-1. Horizontal scroll — `document.documentElement.scrollWidth - clientWidth` must be ≤ 0
-2. Overlap detection — Header z-stack vs first content child
-3. Touch targets — flag any < 44px on mobile (likely sound toggle ~30px)
-4. Responsive breakpoints — md=768px
-5. Z-index — nav hint pill z-30 over video
-6. Video player chrome — `<video>` has no controls attr (correct)
-7. Snap scroll — verify snap-mandatory works
-8. Long text — set 60-char display name on leaderboard, verify truncation
-9. Empty states — feed/browse/leaderboard with 0 entries
-10. iOS safe-area — no `env(safe-area-inset-*)` in CSS; bottom-3 hint may collide with home indicator
+1. Horizontal scroll, `document.documentElement.scrollWidth - clientWidth` must be ≤ 0
+2. Overlap detection, Header z-stack vs first content child
+3. Touch targets, flag any < 44px on mobile (likely sound toggle ~30px)
+4. Responsive breakpoints, md=768px
+5. Z-index, nav hint pill z-30 over video
+6. Video player chrome, `<video>` has no controls attr (correct)
+7. Snap scroll, verify snap-mandatory works
+8. Long text, set 60-char display name on leaderboard, verify truncation
+9. Empty states, feed/browse/leaderboard with 0 entries
+10. iOS safe-area, no `env(safe-area-inset-*)` in CSS; bottom-3 hint may collide with home indicator
 
 ## 5. User flow scripts
 
-- **Flow A** — Landing to feed: `/` → click "Start spotting" → wait for video ready → screenshot
-- **Flow B** — Submit guess (unauth): /feed → fill species input → click confirm → capture POST /api/answers
-- **Flow C** — Signup + submit + streak: /auth/signin → toggle signup → fill → submit → verify streak increments
-- **Flow D** — Scroll feed: verify only one video plays at a time after IntersectionObserver swap
-- **Flow E** — Confetti on correct answer + verify reduced-motion respect
-- **Flow F** — Archive → detail → back
-- **Flow G** — Leaderboard
-- **Flow H** — Sounds toggle (localStorage flip + event)
-- **Flow I** — PWA: manifest validity, sw.js registration
-- **Flow J** — Error states: /feed/nonexistent → 404; direct /api/snippets → JSON
+- **Flow A**: Landing to feed: `/` → click "Start spotting" → wait for video ready → screenshot
+- **Flow B**: Submit guess (unauth): /feed → fill species input → click confirm → capture POST /api/answers
+- **Flow C**: Signup + submit + streak: /auth/signin → toggle signup → fill → submit → verify streak increments
+- **Flow D**: Scroll feed: verify only one video plays at a time after IntersectionObserver swap
+- **Flow E**: Confetti on correct answer + verify reduced-motion respect
+- **Flow F**: Archive → detail → back
+- **Flow G**: Leaderboard
+- **Flow H**: Sounds toggle (localStorage flip + event)
+- **Flow I**: PWA: manifest validity, sw.js registration
+- **Flow J**: Error states: /feed/nonexistent → 404; direct /api/snippets → JSON
 
 ## 6. Accessibility audit (DOM-level)
 
 ### 6.1 Document-level
 - `document.documentElement.lang` must be "en"
 - `document.title` non-empty per route
-- Exactly one `<main>` per page (note: /feed has no `<main>` — finding)
+- Exactly one `<main>` per page (note: /feed has no `<main>`, finding)
 
 ### 6.2 Headings
 - Exactly one h1 per route; no skips
@@ -105,7 +105,7 @@ For each route × viewport: resize, screenshot, snapshot (a11y tree), targeted i
 
 ### 6.4 Images
 - Header logo `alt="PEBL FishSpotter"` ✓
-- Browse thumbnails `alt=""` — decorative, OK given card text
+- Browse thumbnails `alt=""`, decorative, OK given card text
 
 ### 6.6 Forms
 - /auth/signin inputs have htmlFor ✓
@@ -115,9 +115,9 @@ For each route × viewport: resize, screenshot, snapshot (a11y tree), targeted i
 - Tab through; verify no focus trap; Enter submits in species input
 
 ### 6.8 Focus-visible
-- No global :focus-visible rule — expected finding for pill buttons
+- No global :focus-visible rule, expected finding for pill buttons
 
-### 6.9 Color contrast — compute via eval
+### 6.9 Color contrast: compute via eval
 
 ```js
 function L(rgb){const [r,g,b]=rgb.match(/\d+/g).map(Number).map(c=>{c/=255;return c<=.03928?c/12.92:((c+.055)/1.055)**2.4});return .2126*r+.7152*g+.0722*b}
@@ -125,16 +125,16 @@ function ratio(fg,bg){const a=L(fg),b=L(bg);return (Math.max(a,b)+.05)/(Math.min
 ```
 
 Suspect pairs:
-- primary `#2b7a78` on background `#def2f1` — ~4.0:1 (likely fails AA-normal)
-- button-primary text `#17252a` on `#3aafa9` accent — ~3.6:1 (likely fails AA-normal)
-- White on `#3aafa9` confirm button — ~2.5:1 (fails)
+- primary `#2b7a78` on background `#def2f1`, ~4.0:1 (likely fails AA-normal)
+- button-primary text `#17252a` on `#3aafa9` accent, ~3.6:1 (likely fails AA-normal)
+- White on `#3aafa9` confirm button, ~2.5:1 (fails)
 
 ### 6.10 Reduced motion
-- `matchMedia('(prefers-reduced-motion: reduce)').matches` — code uses framer-motion + canvas-confetti with no `useReducedMotion` guard. Finding.
+- `matchMedia('(prefers-reduced-motion: reduce)').matches`, code uses framer-motion + canvas-confetti with no `useReducedMotion` guard. Finding.
 
 ## 7. Security observations (live app)
 
-### 7.1 Response headers — assert presence on `/`, `/feed`, `/api/snippets`, `/api/auth/session`
+### 7.1 Response headers: assert presence on `/`, `/feed`, `/api/snippets`, `/api/auth/session`
 
 | Header | Expected | Likely default |
 |---|---|---|
@@ -150,13 +150,13 @@ Suspect pairs:
 - next-auth.session-token: HttpOnly, SameSite, Secure (prod), Path=/
 
 ### 7.4 Exposed API routes
-- /api/snippets — returns staffAnswer (gameplay-security finding)
-- /api/answers — must require auth
-- /api/leaderboard — public OK, but verify no emails leak
-- /api/streak — auth-only, caller's data only
+- /api/snippets, returns staffAnswer (gameplay-security finding)
+- /api/answers, must require auth
+- /api/leaderboard, public OK, but verify no emails leak
+- /api/streak, auth-only, caller's data only
 
 ### 7.7 Auth implementation
-- signin/page.tsx passes `password: password || " "` — empty allowed
+- signin/page.tsx passes `password: password || " "`, empty allowed
 - isSignUp flag passed as form field
 - No rate limiting
 

@@ -9,7 +9,7 @@ import { useModalFocus } from "@/lib/useModalFocus";
 /**
  * Zero-friction entry: when a signed-out spotter reaches the feed, ask only for
  * a username. Submitting mints a guest account (guest branch in src/lib/auth.ts)
- * so their guesses persist and they appear on the leaderboard immediately — no
+ * so their guesses persist and they appear on the leaderboard immediately, no
  * email, no password. Dismissable ("just watch") and remembered per tab so it
  * doesn't nag; existing users get a sign-in link.
  */
@@ -33,7 +33,7 @@ export function GuestGate() {
     try {
       already = sessionStorage.getItem(DISMISS_KEY) === "1";
     } catch {
-      /* private mode / disabled storage — just show it */
+      /* private mode / disabled storage, just show it */
     }
     setDismissed(already);
   }, [status]);

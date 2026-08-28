@@ -1,4 +1,4 @@
-# Pre-launch security hardening — 15 Jul 2026
+# Pre-launch security hardening: 15 Jul 2026
 
 Plan + implementation record for the hardening pass before FishSpotter goes public.
 Driven by a full functional test (live) + three deep code-reading security passes
@@ -14,10 +14,10 @@ one real abuse vector + defense-in-depth + hygiene.
 
 ## Fixes implemented this pass (all low-risk, gated by tsc+test+lint)
 
-1. **F1 — `POST /api/vitals` abuse (the one real pre-launch fix).** Only
+1. **F1, `POST /api/vitals` abuse (the one real pre-launch fix).** Only
    unauthenticated, no-same-origin, no-rate-limit DB-write route. Anon could
    loop-insert unbounded `Vital` rows with attacker-controlled `ua`/`path`.
-   Fix: add `assertSameOrigin()` (primary defense — a non-browser flood has no
+   Fix: add `assertSameOrigin()` (primary defense, a non-browser flood has no
    Origin/Referer and is rejected) + a per-IP rate limit (secondary). Over-limit
    drops silently to 204 to preserve the "a beacon never blocks the client"
    contract.
@@ -34,7 +34,7 @@ one real abuse vector + defense-in-depth + hygiene.
    `object-src 'none'`, `frame-ancestors 'none'`, `form-action 'self'`. These
    harden clickjacking / base-tag / plugin / form-hijack injection without
    touching `script-src`/`img-src`/`style-src` (a full source-list CSP needs
-   violation-report testing first — deferred, see below).
+   violation-report testing first, deferred, see below).
 6. **Move `react-email` (dev CLI) to devDependencies.** Zero runtime imports
    (verified). Drops socket.io / ws / vite out of the production install →
    smaller prod attack surface, resolves several dev-only npm-audit highs from
@@ -43,10 +43,10 @@ one real abuse vector + defense-in-depth + hygiene.
    `MCQCandidatePicker.tsx`, `landing/UnderwaterBackdrop.tsx`. Reduces surface /
    reviewer confusion; tsc+build confirm nothing referenced them.
 
-## Deferred — need a decision or dedicated effort (NOT done this pass)
+## Deferred: need a decision or dedicated effort (NOT done this pass)
 
 - **Next.js 16 migration.** `14.2.35` is the last 14.2.x; only DoS-class
-  advisories apply (no anon RCE/auth-bypass — those are 15.x regressions),
+  advisories apply (no anon RCE/auth-bypass, those are 15.x regressions),
   several Vercel-mitigated. Major-version migration = its own project, not a
   launch gate.
 - **Email-verification enforcement (policy).** Currently never enforced →
@@ -61,7 +61,7 @@ one real abuse vector + defense-in-depth + hygiene.
   Do as `Content-Security-Policy-Report-Only` first.
 - **Orphaned narrowing engine** (`CandidateStrip.tsx` + `trait-questions.ts` +
   `next-trait.ts` + their tests, ~656 lines). Revive-or-remove product decision.
-- **`restore-database.sql`** at repo root — stale pre-rename schema. Move to
+- **`restore-database.sql`** at repo root, stale pre-rename schema. Move to
   `backups/`/`docs/` or delete (DR-adjacent, needs the call).
 
 ## Gate

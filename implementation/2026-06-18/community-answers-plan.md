@@ -5,7 +5,7 @@ Goal: regular users see only ANONYMOUS aggregate stats on a clip; PEBL staff
 answers; leaderboard names link to profiles.
 
 (Revised mid-build from an earlier "all users see each other's answers, answer-
-first gated" design — see git history of this file.)
+first gated" design, see git history of this file.)
 
 ## The model
 
@@ -24,21 +24,21 @@ sees their own answers on their own profile.
 
 ## Files
 
-- `src/app/api/snippets/[id]/answers/route.ts` (new) — GET, **admin-only** via
+- `src/app/api/snippets/[id]/answers/route.ts` (new), GET, **admin-only** via
   `getAdminSession()`; non-admin -> `{ gated: true }`. Returns each spotter's
   name + pick + verdict, ordered correct/high-points first. No public cache.
-- `src/components/SnippetAnswers.tsx` (new) — client panel; renders nothing
+- `src/components/SnippetAnswers.tsx` (new), client panel; renders nothing
   unless the API returns the list (so it's a staff-only overlay). "Staff view"
   chip; names link to `/u/[id]`; verdict chips via `correct`/`incorrect`/
   `pending` tokens; "You" badge.
-- `src/app/feed/[id]/page.tsx` — mounts `<SnippetAnswers>` only when
+- `src/app/feed/[id]/page.tsx`, mounts `<SnippetAnswers>` only when
   `getAdminSession()` is non-null.
-- `src/app/admin/snippets/[id]/page.tsx` — mounts `<SnippetAnswers>` (the staff
+- `src/app/admin/snippets/[id]/page.tsx`, mounts `<SnippetAnswers>` (the staff
   review home; already admin-gated).
-- `src/app/u/[id]/page.tsx` — "Recent identifications" gated to owner-or-admin;
+- `src/app/u/[id]/page.tsx`, "Recent identifications" gated to owner-or-admin;
   stats + collection stay public.
-- `src/app/leaderboard/page.tsx` — spotter names are links to `/u/[id]`.
-- `src/components/idflow/RevealResult.tsx` — community histogram now shows the
+- `src/app/leaderboard/page.tsx`, spotter names are links to `/u/[id]`.
+- `src/components/idflow/RevealResult.tsx`, community histogram now shows the
   raw count alongside the percent ("3 · 60%"), per "how many people answered
   each answer".
 

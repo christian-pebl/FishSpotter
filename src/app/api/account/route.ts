@@ -1,6 +1,6 @@
 /**
- * PATCH /api/account     — update display name (S3-12)
- * DELETE /api/account    — GDPR Art. 17 erasure (S3-12)
+ * PATCH /api/account    , update display name (S3-12)
+ * DELETE /api/account   , GDPR Art. 17 erasure (S3-12)
  */
 
 import { NextResponse } from "next/server";

@@ -1,5 +1,5 @@
 /**
- * Gemini-powered MOTION critique — the "eyes" for validating animations.
+ * Gemini-powered MOTION critique, the "eyes" for validating animations.
  *
  * The sibling ui-critique.ts judges a single SETTLED screenshot: perfect for
  * "does this screen look right", structurally blind to motion. An animation
@@ -31,14 +31,14 @@ export type MotionCritique = {
   verdict: MotionVerdict;
   /** 0..100 overall motion quality vs the brief + the house aesthetic. */
   score: number;
-  /** 0..100 — does it progress in even, intentional steps (high) or stutter/jump (low)? */
+  /** 0..100, does it progress in even, intentional steps (high) or stutter/jump (low)? */
   smoothness: number;
-  /** 0..100 — how SUBTLE / non-distracting it is. High = recedes behind the
+  /** 0..100, how SUBTLE / non-distracting it is. High = recedes behind the
    * content (good). Low = flashy/busy/long, pulls the eye off the clip (bad). */
   subtlety: number;
   /** The last motion frame is a calm, legible resting state (not mid-motion). */
   landsOnEndState: boolean;
-  /** Thin teal line-art, colorblind-safe, flat — on the house aesthetic. */
+  /** Thin teal line-art, colorblind-safe, flat, on the house aesthetic. */
   onBrand: boolean;
   /** Amplitude + duration fit the moment (micro-feedback tiny; celebration brief). */
   amplitudeOk: boolean;
@@ -123,7 +123,7 @@ function buildMotionPrompt(
     `t = ${seq} after the moment was triggered.` ,
     hasReducedFrame
       ? "The FINAL image is a separate capture of the SAME moment with the OS"
-        + " 'reduce motion' setting on — i.e. the resting state a motion-averse"
+        + " 'reduce motion' setting on, i.e. the resting state a motion-averse"
         + " user sees. Judge it for whether it still conveys the outcome."
       : "No reduced-motion frame was supplied; return null for"
         + " reducedMotionInformative.",

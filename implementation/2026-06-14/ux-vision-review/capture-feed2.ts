@@ -1,4 +1,4 @@
-// Phase 1 capture (refinement) — drive the rungs by explicit label to reach the
+// Phase 1 capture (refinement), drive the rungs by explicit label to reach the
 // candidate tiles, the species flash-card (Rung-3 teaching popup), and the feed
 // reveal with the guest "save your finds" nudge. Best-effort map modal.
 import { chromium, type Page } from "playwright";

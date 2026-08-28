@@ -1,5 +1,5 @@
 /**
- * PATCH /api/account/digest — toggle digestOptIn (S3-12 / S3-16).
+ * PATCH /api/account/digest, toggle digestOptIn (S3-12 / S3-16).
  */
 
 import { NextResponse } from "next/server";

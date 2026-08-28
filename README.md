@@ -86,21 +86,21 @@ Install behavior depends on the browser:
 
 ## Scripts
 
-- `npm run dev` – start dev server
-- `npm run build` – production build
-- `npm run start` – run production server
-- `npm run db:push` – push Prisma schema to the database
-- `npm run db:seed` – import snippet data and upload media
-- `npm run db:check-apis` – probe OBIS, GBIF, and DB connectivity (run before any backfill)
-- `npm run db:backfill` – fill missing/errored OBIS probability buckets + GBIF name resolution
-- `npm run db:refresh-images` – populate `SpeciesImage` cache from iNaturalist (~90s for 26 species)
+- `npm run dev`, start dev server
+- `npm run build`, production build
+- `npm run start`, run production server
+- `npm run db:push`, push Prisma schema to the database
+- `npm run db:seed`, import snippet data and upload media
+- `npm run db:check-apis`, probe OBIS, GBIF, and DB connectivity (run before any backfill)
+- `npm run db:backfill`, fill missing/errored OBIS probability buckets + GBIF name resolution
+- `npm run db:refresh-images`, populate `SpeciesImage` cache from iNaturalist (~90s for 26 species)
 
 ## Stack
 
 - **Next.js 14** (App Router), **React 18**, **TypeScript**
 - **Tailwind CSS**
 - **Prisma** + **Supabase Postgres**
-- **Supabase Storage** (or **Cloudflare R2** — see `CLAUDE.md` for the migration path)
+- **Supabase Storage** (or **Cloudflare R2**: see `CLAUDE.md` for the migration path)
 - **NextAuth.js** credentials auth
 - **PWA manifest + service worker**
 

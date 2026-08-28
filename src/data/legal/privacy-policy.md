@@ -17,12 +17,12 @@ We are the data controller for the personal data described in this policy. We pr
 | Email address | Account creation, login, transactional emails | Contract (UK GDPR Art. 6(1)(b)) |
 | Display name | Leaderboard, community stats | Contract |
 | Hashed password | Authentication (bcrypt; your plain-text password is never stored) | Contract |
-| Quiz answers (species guesses, timestamps) | Score calculation, streak, community identification statistics, ecological research | Contract; Legitimate interests — generating anonymised, aggregated species-distribution datasets for UK marine biodiversity science (Art. 6(1)(f)) |
-| Comments you post on clips, and any comment you report | Running the public discussion threads; improving clips, tracking overlays and our species catalogue; moderating the service | Legitimate interests — operating a community identification service and keeping it safe (Art. 6(1)(f)) |
-| IP address | Rate-limiting and abuse prevention (held in memory only; never persisted; cleared on server restart) | Legitimate interests — preventing abuse and protecting service availability |
+| Quiz answers (species guesses, timestamps) | Score calculation, streak, community identification statistics, ecological research | Contract; Legitimate interests, generating anonymised, aggregated species-distribution datasets for UK marine biodiversity science (Art. 6(1)(f)) |
+| Comments you post on clips, and any comment you report | Running the public discussion threads; improving clips, tracking overlays and our species catalogue; moderating the service | Legitimate interests, operating a community identification service and keeping it safe (Art. 6(1)(f)) |
+| IP address | Rate-limiting and abuse prevention (held in memory only; never persisted; cleared on server restart) | Legitimate interests, preventing abuse and protecting service availability |
 | Server access logs (IP, User-Agent, request path, timestamp) | Security, debugging, abuse prevention | Legitimate interests |
 | Cookies (see Cookies section) | Keeping you signed in; stable personalised feed ordering | Strictly necessary (session); Consent (functional) |
-| Anonymous usage events (session start, clips viewed, active watch-time) | Showing our funder the project engages people; improving the app | Consent (analytics) — only if you choose "Accept" on the banner |
+| Anonymous usage events (session start, clips viewed, active watch-time) | Showing our funder the project engages people; improving the app | Consent (analytics), only if you choose "Accept" on the banner |
 
 We do not collect payment data, precise device location, or any special-category data.
 
@@ -53,7 +53,7 @@ We share data only with the processors listed below, each under a contract that 
 | Processor | Role | Location | International transfer mechanism |
 |-----------|------|----------|----------------------------------|
 | **Vercel** | Application hosting and edge delivery | US | UK International Data Transfer Agreement (IDTA), incorporated into the Vercel DPA, layered with the EU Standard Contractual Clauses (Commission Decision 2021/914) |
-| **Supabase** | Database and video/thumbnail file storage | West EU (AWS eu-west-1, Dublin, Republic of Ireland) — personal data stays within the EU/EEA | No transfer outside the UK/EEA |
+| **Supabase** | Database and video/thumbnail file storage | West EU (AWS eu-west-1, Dublin, Republic of Ireland), personal data stays within the EU/EEA | No transfer outside the UK/EEA |
 | **Twilio SendGrid** | Transactional email delivery | US | EU Standard Contractual Clauses (Commission Decision 2021/914) as amended by the UK Addendum (UK International Data Transfer Addendum), incorporated into the Twilio SendGrid DPA |
 | **Anthropic** | ID-guide chat (processes user-typed free-text questions) | US | UK International Data Transfer Agreement (IDTA), Standard Contractual Clauses |
 
@@ -102,12 +102,12 @@ Separately, if you make an erasure request, we will respond and delete your pers
 
 You have the right to:
 
-- **Access** — request a copy of the data we hold about you (available at [/api/account/export](/api/account/export) when signed in, or by emailing us).
-- **Rectification** — correct inaccurate or incomplete data.
-- **Erasure** — ask us to delete your account and associated personal data (Art. 17). Email [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) with the subject "Erasure request".
-- **Portability** — receive your quiz answers in a machine-readable format.
-- **Object** — object to processing we carry out under legitimate interests (for example, the research use of quiz answers, or abuse-prevention use of your IP address and access logs). If you object, we will stop that processing unless we can show compelling legitimate grounds that override your interests, rights, and freedoms, or that the processing is needed to establish, exercise, or defend legal claims.
-- **Restrict processing** — ask us to pause processing while a dispute is resolved.
+- **Access**, request a copy of the data we hold about you (available at [/api/account/export](/api/account/export) when signed in, or by emailing us).
+- **Rectification**, correct inaccurate or incomplete data.
+- **Erasure**, ask us to delete your account and associated personal data (Art. 17). Email [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) with the subject "Erasure request".
+- **Portability**, receive your quiz answers in a machine-readable format.
+- **Object**, object to processing we carry out under legitimate interests (for example, the research use of quiz answers, or abuse-prevention use of your IP address and access logs). If you object, we will stop that processing unless we can show compelling legitimate grounds that override your interests, rights, and freedoms, or that the processing is needed to establish, exercise, or defend legal claims.
+- **Restrict processing**, ask us to pause processing while a dispute is resolved.
 
 Where processing relies on your consent (currently only the **fs.anon_seed** functional cookie), you can withdraw that consent at any time through the site's cookie controls or by clearing your cookies; this does not affect the lawfulness of processing before withdrawal.
 

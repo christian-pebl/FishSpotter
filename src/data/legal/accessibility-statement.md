@@ -1,6 +1,6 @@
 # Accessibility Statement
 
-**Last updated:** 2026-05-21 · **Version:** v0.1 (engineering draft — pending legal review)
+**Last updated:** 2026-05-21 · **Version:** v0.1 (engineering draft, pending legal review)
 
 PEBL FishSpotter is committed to making this experience usable by as many people as possible. This page documents our current accessibility posture and the known gaps we're working on.
 
@@ -10,7 +10,7 @@ We target **WCAG 2.1 Level AA** for all user-facing surfaces.
 
 ## Audio descriptions and captions (WCAG 1.2.2 / 1.2.5)
 
-FishSpotter underwater snippets are **silent video** — they contain no spoken audio, no music, and no sound effects. Under WCAG 1.2.2, silent video is exempt from the captions success criterion: there is no audio content to caption.
+FishSpotter underwater snippets are **silent video**: they contain no spoken audio, no music, and no sound effects. Under WCAG 1.2.2, silent video is exempt from the captions success criterion: there is no audio content to caption.
 
 We still surface relevant scene context (site, deployment, recording date, depth, and the post-answer staff identification) in text alongside each clip so screen-reader users get the same information visual viewers do.
 

@@ -2,7 +2,7 @@
  * Playwright capture helper for the remote build loop.
  *
  * Renders a route on the running dev server (default http://localhost:3000),
- * pauses any autoplaying video (the feed autoplays — this is why the preview
+ * pauses any autoplaying video (the feed autoplays, this is why the preview
  * MCP screenshot timed out), screenshots full-page or a single element to a PNG
  * file, returns the base64 for Gemini, and optionally runs an axe-core a11y
  * scan. Used by scripts/ui-review.ts.

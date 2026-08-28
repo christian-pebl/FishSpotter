@@ -29,7 +29,7 @@ export interface HistogramBucket {
 
 /**
  * Count-aware variant. Use this when you already have grouped counts
- * (e.g. from a Prisma `groupBy`) — avoids expanding back to one row
+ * (e.g. from a Prisma `groupBy`), avoids expanding back to one row
  * per answer. (S4-02 leaderboard path.)
  */
 export function bucketCountsByNormalized(
@@ -78,7 +78,7 @@ export function bucketCountsByNormalized(
 }
 
 /**
- * Row-by-row variant — convenient when the input is the raw Answer
+ * Row-by-row variant, convenient when the input is the raw Answer
  * rows. Internally maps to bucketCountsByNormalized with count=1.
  */
 export function bucketAnswersByNormalized(

@@ -16,7 +16,7 @@ export interface PebbleEarnDetail {
   earned: number;
   /** The user's new running total (the bag's absolute count). */
   total: number;
-  /** True when this action was a First Sighting — a bigger, brighter burst. */
+  /** True when this action was a First Sighting, a bigger, brighter burst. */
   firstSighting?: boolean;
 }
 

@@ -111,7 +111,7 @@ export const JustUnlockedReducedMotion: Story = {
   ),
 };
 
-/** A normal, already-collected tile (no reveal) — the steady-state look. */
+/** A normal, already-collected tile (no reveal), the steady-state look. */
 export const AtRest: Story = {
   render: () => (
     <ul className="m-0 list-none p-0 w-full max-w-[220px]">

@@ -1,7 +1,7 @@
 /**
  * Bootstrap orchestrator. Reads tokens.json, .env.local, and runs the
  * requested set of modules in the right order. Designed to be safely
- * idempotent — re-running it does no harm.
+ * idempotent, re-running it does no harm.
  *
  * Usage:
  *   npm run bootstrap                      # run the full sequence
@@ -116,14 +116,14 @@ async function main(): Promise<void> {
   const args = parseArgv(process.argv.slice(2));
   const { tokens, source, warnings } = loadTokens();
   if (source === "empty") {
-    warn("Running with empty tokens.json — most steps will be skipped.");
+    warn("Running with empty tokens.json, most steps will be skipped.");
     for (const w of warnings) dim(w);
   } else {
     info("tokens.json loaded.");
   }
 
   // Pre-compute generated values (CRON_SECRET, VAPID). We don't write
-  // them to tokens.json — those are output values, not inputs. Just
+  // them to tokens.json, those are output values, not inputs. Just
   // hold them in memory so multiple modules can push them.
   const cronSecret = generateCronSecret();
   const vapid = await generateVapidKeys();
@@ -146,7 +146,7 @@ async function main(): Promise<void> {
     for (const c of checks) {
       const fmt =
         c.status === "ok" ? ok : c.status === "missing" ? err : (m: string) => dim(m);
-      fmt(`${c.name}${c.detail ? ` — ${c.detail}` : ""}`);
+      fmt(`${c.name}${c.detail ? `, ${c.detail}` : ""}`);
     }
     return;
   }
@@ -198,7 +198,7 @@ async function main(): Promise<void> {
         const results = await client.setMany(filtered);
         for (const r of results) ok(`set ${r.name}`);
         if (skipped > 0) {
-          warn(`${skipped} GH secret(s) skipped — values not in tokens.json or .env.local.`);
+          warn(`${skipped} GH secret(s) skipped, values not in tokens.json or .env.local.`);
         }
       }
     }
@@ -228,11 +228,11 @@ async function main(): Promise<void> {
             ok(`${r.action} ${r.type} ${r.name}`);
           }
         } else {
-          warn(`${tokens.resendDomain} is not hosted on Cloudflare — paste these records at your registrar:`);
+          warn(`${tokens.resendDomain} is not hosted on Cloudflare, paste these records at your registrar:`);
           printDnsChecklist(specs);
         }
       } else {
-        warn(`No cloudflareApiToken — paste these records at your registrar:`);
+        warn(`No cloudflareApiToken, paste these records at your registrar:`);
         printDnsChecklist(specs);
       }
     }

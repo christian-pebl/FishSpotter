@@ -78,7 +78,7 @@ describe("orderFeed", () => {
 
     // The unanswered tail's relative order is preserved against the seed.
     // (Specifically: the unanswered shuffle is computed on a 4-item list
-    // post-answer vs a 5-item list pre-answer — different inputs, so
+    // post-answer vs a 5-item list pre-answer, different inputs, so
     // we don't assert ordering equality, just position of 'c'.)
     expect(before).toHaveLength(5);
     expect(after).toHaveLength(5);

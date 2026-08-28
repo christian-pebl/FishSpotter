@@ -1,5 +1,5 @@
 /**
- * GET /api/account/export — GDPR Art. 20 right-to-portability
+ * GET /api/account/export, GDPR Art. 20 right-to-portability
  * (S6-T14). Authenticated. Returns a JSON file with everything we
  * hold on the signed-in user. Streaming a ZIP would be nicer but
  * JSON is plenty for the scope (account + answers only, no

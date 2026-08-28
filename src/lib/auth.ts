@@ -20,7 +20,7 @@ const BCRYPT_ROUNDS = 12;
 // Credentials provider keeps working unchanged. The adapter is dormant
 // for credentials users (no rows in Account / Session); it activates
 // the moment a future ticket drops an OAuth provider into `providers`.
-// Build optional OAuth providers — only added when credentials are present so
+// Build optional OAuth providers, only added when credentials are present so
 // the app boots cleanly in dev/CI without them configured.
 const oauthProviders: NextAuthOptions["providers"] = [
   ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
@@ -126,7 +126,7 @@ export const authOptions: NextAuthOptions = {
             },
           });
           // S3-06: fire-and-forget verification email. Failure (email
-          // provider outage, missing API key) doesn't block signup — the user
+          // provider outage, missing API key) doesn't block signup, the user
           // can resend from /account later.
           void sendVerificationEmail(user.id, email, user.displayName ?? user.name ?? "Spotter");
           return { id: user.id, name: user.displayName ?? user.name, isGuest: false };

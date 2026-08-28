@@ -14,6 +14,7 @@ import {
   FEATURES,
   FIN_SHAPE,
   FISH_GROUP,
+  FISH_ZONE,
   HABITAT,
   LATERAL_LINE,
   MARKINGS,
@@ -29,6 +30,7 @@ import type { TraitKey } from "@/lib/idguide/narrow";
 // traitQuestion expects. If a new trait value lands without curated copy, the
 // coverage test below fails instead of shipping `Does it look "none"?` to users.
 const ALL_VALUES: Record<TraitKey, readonly string[]> = {
+  fishZone: FISH_ZONE,
   fishGroup: FISH_GROUP,
   bodyShape: BODY_SHAPE,
   bodyDepth: BODY_DEPTH,
@@ -69,7 +71,7 @@ describe("traitQuestion", () => {
     for (const key of Object.keys(ALL_VALUES) as TraitKey[]) {
       for (const value of ALL_VALUES[key]) {
         const q = traitQuestion(key, value);
-        // The fallback is `Does it look <de-kebabed>?` — a curated entry never
+        // The fallback is `Does it look <de-kebabed>?`, a curated entry never
         // matches that shape AND always ends in "?". Treat a fallback hit as a gap.
         if (q === `Does it look ${value.replace(/-/g, " ")}?`) uncovered.push(`${key}=${value}`);
       }

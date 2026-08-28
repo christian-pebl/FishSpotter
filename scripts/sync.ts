@@ -4,7 +4,7 @@
  * Reads the Fish Spotter Snips folders (SNIPS_DIR env, or ./Fish Spotter Snips)
  * and, for each folder that is NEW or CHANGED since the last run:
  *   - re-uploads snippet.mp4 + thumbnail.jpg to the active storage provider and
- *     cache-busts the DB URL — but ONLY when the video bytes actually changed
+ *     cache-busts the DB URL, but ONLY when the video bytes actually changed
  *     (a re-cut). When only bbox_data.json / metadata.json changed (the editor's
  *     in-place "rewrite manual track" path), the media is left untouched.
  *   - upserts the Snippet row (site/.../bboxJson/manualTrackJson) on externalId.
@@ -17,10 +17,17 @@
  * seed.ts remains the one-time, upload-everything bootstrap; sync.ts is the
  * cheap, idempotent, repeat-after-every-export path.
  *
+ * Two gates hold a snip back rather than publishing it: incomplete metadata
+ * (REQUIRED_META below) and a burnt-in detector overlay in the pixels
+ * (scripts/lib/burn-in.ts). Neither writes a manifest entry, so a corrected
+ * re-export is picked up on the next run.
+ *
  * Run:
  *   npm run db:sync
  *   SNIPS_DIR="G:\\...\\Fish Spotter Snips" npm run db:sync
- * Flags: --all (ignore manifest, resync everything), --dry-run, --limit N
+ *
+ * Flags: --all (ignore manifest, resync everything), --dry-run, --limit N,
+ *        --allow-incomplete, --allow-burned-in
  */
 import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
@@ -32,6 +39,7 @@ import {
   uploadVideo,
 } from "./lib/storage";
 import { isSnippetExcluded } from "../src/lib/snippet-blocklist";
+import { checkSnipBurnIn } from "./lib/burn-in";
 
 const prisma = new PrismaClient();
 
@@ -41,6 +49,14 @@ const MANIFEST_PATH = path.join(process.cwd(), ".sync-manifest.json");
 
 const DRY = process.argv.includes("--dry-run");
 const ALL = process.argv.includes("--all");
+/** Upload a snip even though its metadata.json is missing required fields. Off
+ *  by default: see REQUIRED_META below for why. */
+const ALLOW_INCOMPLETE = process.argv.includes("--allow-incomplete");
+/** Publish a clip that has the detector's own overlay burned into the pixels.
+ *  Deliberately a SEPARATE flag from --allow-incomplete: forcing a snip through
+ *  with thin metadata is a judgement call, shipping the machine's answer drawn
+ *  on the animal is never one. See the pixel gate below. */
+const ALLOW_BURNED_IN = process.argv.includes("--allow-burned-in");
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
   return i !== -1 ? process.argv[i + 1] : undefined;
@@ -91,6 +107,38 @@ function getReferenceAnswer(meta: Metadata): string {
     meta.functional_group ??
     "Unknown"
   );
+}
+
+/**
+ * Metadata fields a snip must carry before it may go live.
+ *
+ * On 25 Aug 2026 twelve NORF-1 clips synced with every one of these empty,
+ * because TRDesk4's metadata.json had no deployment record and the `??`
+ * fallbacks below happily wrote "Unknown" / null. The cost is invisible at
+ * upload time and expensive afterwards: `deployment` is the join key to the
+ * farm catalogue, so the clips detach from their farm page, and lat/lon/depth/
+ * month are what `bucketFor()` needs for the OBIS probability bucket, without
+ * which the Pebbles consensus payout is stuck at rarity x1 -- and consensus
+ * freezes each payout permanently on first credit.
+ *
+ * So an incomplete snip is now HELD rather than uploaded. Fix it at source in
+ * TRDesk4 and re-export; `--allow-incomplete` is the deliberate override.
+ */
+const REQUIRED_META = [
+  "site",
+  "deployment",
+  "depth_m",
+  "latitude",
+  "longitude",
+  "recording_datetime",
+] as const;
+
+/** Empty string counts as missing: `??` would let "" through as a real value. */
+function missingMeta(meta: Metadata): string[] {
+  return REQUIRED_META.filter((k) => {
+    const v = (meta as Record<string, unknown>)[k];
+    return v === null || v === undefined || (typeof v === "string" && v.trim() === "");
+  });
 }
 
 function statSig(p: string | null): string {
@@ -178,6 +226,9 @@ async function main() {
   let processed = 0;
   let skipped = 0;
   const failures: { folder: string; error: string }[] = [];
+  const held: { folder: string; missing: string[] }[] = [];
+  const burnedIn: { folder: string; reason: string }[] = [];
+  let uninspected = 0;
 
   for (const folderName of dirs) {
     if (processed >= LIMIT) break;
@@ -244,12 +295,43 @@ async function main() {
         console.log(`${DRY ? "DRY  " : "HIDE "}${folderName} (fishspotter_excluded)`);
         processed++;
       } else {
-        // Never synced and already flagged — nothing to upload or hide.
+        // Never synced and already flagged, nothing to upload or hide.
         console.log(`SKIP (excluded, not in DB) ${folderName}`);
         skipped++;
       }
       manifest[folderName] = sig;
       continue;
+    }
+
+    // Metadata gate: never publish a snip that would land without its farm
+    // join or its probability bucket (see REQUIRED_META). Deliberately NOT
+    // added to the manifest, so a corrected re-export is picked up next run.
+    const missing = missingMeta(meta);
+    if (missing.length > 0 && !ALLOW_INCOMPLETE) {
+      console.warn(`HOLD ${folderName}: metadata.json missing ${missing.join(", ")}`);
+      held.push({ folder: folderName, missing });
+      continue;
+    }
+
+    // Pixel gate: never publish a clip with the ML detector's own output drawn
+    // into it. TRDesk4 falls back to cutting from `*_unified_tracked.mp4` when
+    // it cannot resolve the raw footage, which bakes the HUD and the detection
+    // boxes into the frames. On 25 Aug 2026 that shipped 11 NORF-1 clips whose
+    // metadata and codec were all perfectly valid, because nothing looked at the
+    // image. Like REQUIRED_META this deliberately does NOT record a manifest
+    // entry, so a corrected re-export is picked up on the next run.
+    //
+    // `unknown` (no ffmpeg on PATH) does not block: the limiter fails open so a
+    // missing toolchain degrades to a warning rather than freezing every sync.
+    const burnIn = checkSnipBurnIn(videoPath, meta as unknown as Record<string, unknown>);
+    if (burnIn.status === "burned-in" && !ALLOW_BURNED_IN) {
+      console.warn(`HOLD ${folderName}: burnt-in detector overlay (${burnIn.reason})`);
+      burnedIn.push({ folder: folderName, reason: burnIn.reason });
+      continue;
+    }
+    if (burnIn.status === "unknown") {
+      console.warn(`WARN ${folderName}: burn-in check did not run (${burnIn.reason})`);
+      uninspected++;
     }
 
     // Re-upload media only for genuinely new snips, or when a PRIOR signature
@@ -335,7 +417,28 @@ async function main() {
   }
 
   saveManifest(manifest);
-  console.log(`\nSync complete. processed=${processed} skipped=${skipped} failed=${failures.length}`);
+  console.log(
+    `\nSync complete. processed=${processed} skipped=${skipped} ` +
+      `held=${held.length} burntIn=${burnedIn.length} failed=${failures.length}`,
+  );
+  if (held.length > 0) {
+    console.log("\nHELD for missing metadata (fix the deployment record in TRDesk4, re-export,");
+    console.log("then re-run; these were NOT uploaded and are NOT in the manifest):");
+    for (const h of held) console.log(`  - ${h.folder}: missing ${h.missing.join(", ")}`);
+  }
+  if (burnedIn.length > 0) {
+    console.log("\nHELD for a BURNT-IN DETECTOR OVERLAY. These were cut from an ML pipeline");
+    console.log("render rather than the raw footage, so the detector's answer is drawn on the");
+    console.log("animal. Re-export from the original in TRDesk4 (confirm the source video");
+    console.log("resolves via data/clip_registry.json), then re-run:");
+    for (const b of burnedIn) console.log(`  - ${b.folder}: ${b.reason}`);
+  }
+  if (uninspected > 0) {
+    console.log(
+      `\nWARNING: the burn-in check could not run on ${uninspected} snip(s) ` +
+        "(is ffmpeg/ffprobe on PATH?).",
+    );
+  }
   if (failures.length > 0) {
     console.log("Failed folders (left out of the manifest; re-run to retry):");
     for (const f of failures) console.log(`  - ${f.folder}: ${f.error}`);

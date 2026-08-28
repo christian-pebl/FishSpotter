@@ -37,11 +37,11 @@ All agree on every load-bearing cue:
 
 ## Build
 
-- `src/lib/idflow/comparisons.ts` — generic `COMPARISON_GROUPS` + `comparisonGroupForCandidates()` (offers a group only when all its members are present AND the candidate set is small, so the whole-catalogue path does not surface it). Flatfish group populated; structure ready for more (gadoids, gurnards) later.
-- `src/components/idflow/SpeciesComparison.tsx` — portaled modal, 3 self-contained cards side by side (photo + name + killer cue + supporting cue), quickest-check tip, caveat, cited sources. Tap a card to commit. Colour is never the only link between a cue and a photo (owner is colour-blind). WCAG focus contract inline.
-- `src/components/idflow/TileGate.tsx` — optional `compare` affordance (outline button below the grid), mirroring `coarse`/`notSure`/`skip`.
-- `src/components/idflow/CandidateGate.tsx` — computes the group from the candidates, passes the affordance, renders the comparison.
-- `src/lib/idflow/comparisons.test.ts` — guards that every member is a real catalogue species with a matching common name, plus the threshold logic.
+- `src/lib/idflow/comparisons.ts`, generic `COMPARISON_GROUPS` + `comparisonGroupForCandidates()` (offers a group only when all its members are present AND the candidate set is small, so the whole-catalogue path does not surface it). Flatfish group populated; structure ready for more (gadoids, gurnards) later.
+- `src/components/idflow/SpeciesComparison.tsx`, portaled modal, 3 self-contained cards side by side (photo + name + killer cue + supporting cue), quickest-check tip, caveat, cited sources. Tap a card to commit. Colour is never the only link between a cue and a photo (owner is colour-blind). WCAG focus contract inline.
+- `src/components/idflow/TileGate.tsx`, optional `compare` affordance (outline button below the grid), mirroring `coarse`/`notSure`/`skip`.
+- `src/components/idflow/CandidateGate.tsx`, computes the group from the candidates, passes the affordance, renders the comparison.
+- `src/lib/idflow/comparisons.test.ts`, guards that every member is a real catalogue species with a matching common name, plus the threshold logic.
 
 ## Verified
 

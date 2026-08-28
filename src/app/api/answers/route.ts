@@ -15,7 +15,7 @@ const MAX_ANSWER_LENGTH = 80;
 // picker (S2-T14) eliminates the spelling ambiguity it existed to
 // solve, and the alias system (S2-T01) catches the residual common
 // synonyms when the DEGENERATE free-text fallback fires. `skipCorrection`
-// stays in the schema for backwards-compat — clients can still send it
+// stays in the schema for backwards-compat, clients can still send it
 // during transitional deploys; we just ignore it.
 const AnswerSchema = z.object({
   snippetId: z.string().min(1).max(64),
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Snippet not found" }, { status: 404 });
   }
 
-  // Sea-currency redesign: there is no PEBL reference answer any more — the
+  // Sea-currency redesign: there is no PEBL reference answer any more, the
   // crowd is the authority. Every submission is a community hypothesis. At
   // submit time we award the DISCOVERY pillar only (base sighting + the
   // First-Sighting / early-spotter bonus, knowable now); the CONSENSUS payout
@@ -79,14 +79,14 @@ export async function POST(req: Request) {
   });
   const hasMine = priorSpotters.some((p) => p.userId === session.user.id);
   // Arrival order on the clip (0 = first ever). Only meaningful on a first
-  // submission; a re-guess (hasMine) keeps its original award — re-submitting
+  // submission; a re-guess (hasMine) keeps its original award, re-submitting
   // can't farm Pebbles.
   const ordinal = priorSpotters.length;
   const award = hasMine ? null : immediateAward(ordinal);
 
   // S2-T04: compute the streak inline so the client doesn't have to make
   // a follow-up GET /api/streak. (Day-streak is a re-engagement badge only; it
-  // does NOT award Pebbles — the "Tide" multiplier was cut from the economy.)
+  // does NOT award Pebbles, the "Tide" multiplier was cut from the economy.)
   const beforeAnswers = await prisma.answer.findMany({
     where: { userId: session.user.id },
     select: { createdAt: true },

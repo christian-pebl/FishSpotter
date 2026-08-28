@@ -159,9 +159,22 @@
     "commonName": "Harbour Crab",
     "aliases": ["blue-leg swimming crab", "Liocarcinus"]
   },
-  "Hyas araneus": {
-    "commonName": "Great Spider Crab",
-    "aliases": ["spider crab", "Hyas"]
+  "Majoidea": {
+    "commonName": "Spider Crab",
+    "aliases": [
+      "great spider crab",
+      "spiny spider crab",
+      "common spider crab",
+      "scorpion spider crab",
+      "toad crab",
+      "Hyas",
+      "Hyas araneus",
+      "Maja",
+      "Maja squinado",
+      "Maja brachydactyla",
+      "Inachus",
+      "Majidae"
+    ]
   },
   "Pagurus bernhardus": {
     "commonName": "Hermit Crab",

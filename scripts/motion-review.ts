@@ -11,7 +11,7 @@
  * motion).
  *
  * Needs: dev server running (npm run dev), `npx playwright install chromium`,
- * and GEMINI_API_KEY in .env.local (free tier ~20 req/day — this spends ONE call
+ * and GEMINI_API_KEY in .env.local (free tier ~20 req/day, this spends ONE call
  * per run, both viewports share nothing, so a two-viewport run is two calls).
  *
  *   npx tsx --env-file=.env.local scripts/motion-review.ts \

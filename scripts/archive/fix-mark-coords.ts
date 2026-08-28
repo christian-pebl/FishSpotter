@@ -38,11 +38,11 @@ const FIXES: { sci: string; order: number; x: number; y: number; r: number }[] =
   // Rock goby: dorsal ring sat above the fish; caudal fan is at the right, so head/blunt-snout is at the left
   { sci: "Gobius paganellus", order: 0, x: 0.44, y: 0.40, r: 0.08 },
   { sci: "Gobius paganellus", order: 2, x: 0.31, y: 0.51, r: 0.08 },
-  // Sea bass: NEW curated photo (144311743, georgedros) — single fish held head-LEFT, tail right
+  // Sea bass: NEW curated photo (144311743, georgedros), single fish held head-LEFT, tail right
   { sci: "Dicentrarchus labrax", order: 0, x: 0.48, y: 0.38, r: 0.12 },
   { sci: "Dicentrarchus labrax", order: 1, x: 0.45, y: 0.50, r: 0.15 },
   { sci: "Dicentrarchus labrax", order: 2, x: 0.27, y: 0.52, r: 0.08 },
-  // Thick-lipped mullet: NEW curated photo (158973980, Luca Boscain) — single fish head-right over sand
+  // Thick-lipped mullet: NEW curated photo (158973980, Luca Boscain), single fish head-right over sand
   { sci: "Chelon labrosus", order: 0, x: 0.90, y: 0.55, r: 0.06 },
   { sci: "Chelon labrosus", order: 1, x: 0.50, y: 0.52, r: 0.16 },
   { sci: "Chelon labrosus", order: 2, x: 0.62, y: 0.38, r: 0.11 },

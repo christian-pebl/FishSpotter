@@ -254,7 +254,7 @@ export async function refreshNameMap(opts: {
   const distinct = new Set<string>();
   for (const s of snippets) {
     // S7-T1: staffAnswer is now nullable (snippets without a reference
-    // identification yet). Skip them — there's nothing to resolve.
+    // identification yet). Skip them, there's nothing to resolve.
     if (!s.staffAnswer) continue;
     const n = normaliseCommonName(s.staffAnswer);
     if (n) distinct.add(n);

@@ -1,4 +1,4 @@
-# Diagnostic-mark placement QA — pass 2 (4 Jun 2026)
+# Diagnostic-mark placement QA: pass 2 (4 Jun 2026)
 
 Follows the pass-1 fix of the 15 "gap" species. This pass clears the remaining
 backlog from `species-image-fix-report.md` (the parallel session's "24 still need
@@ -27,9 +27,9 @@ supervisor eyeball.
     photo) and Cancer pagurus duplicate "Pie-crust shell edge". Remaining marks
     re-sequenced 0..N-1.
 - Supervisor pass caught two agent errors and hand-fixed them:
-  - **Butterfish** — agent traced the ribbon backwards; head is on the RIGHT, so
+  - **Butterfish**: agent traced the ribbon backwards; head is on the RIGHT, so
     the "head" ring had landed on the body. Re-placed all 3.
-  - **Sand goby** — rings sat left of the body; nudged onto the mid-body.
+  - **Sand goby**: rings sat left of the body; nudged onto the mid-body.
 - All marks now on-feature. DB live on prod. Census: 57 marked species, **0
   duplicate labels**.
 - Review artifact: `mark-renders-2/_CONTACT-SHEET.png`.

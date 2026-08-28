@@ -23,14 +23,14 @@ type FlyingPebble = {
 
 type Burst = { id: number; pebbles: FlyingPebble[] };
 
-/** A "collect" signal — bump `nonce` to fire a fresh fly-in burst. */
+/** A "collect" signal, bump `nonce` to fire a fresh fly-in burst. */
 export interface PebbleEarn {
   earned: number;
   firstSighting: boolean;
   nonce: number;
 }
 
-/** A single minimalist outline pebble — inherits colour via currentColor. */
+/** A single minimalist outline pebble, inherits colour via currentColor. */
 function PebbleGlyph({ size }: { size: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -39,7 +39,7 @@ function PebbleGlyph({ size }: { size: number }) {
   );
 }
 
-/** A minimalist outline cairn — three balanced pebbles, the PEBL stack. */
+/** A minimalist outline cairn, three balanced pebbles, the PEBL stack. */
 function Cairn({ onFeed }: { onFeed: boolean }) {
   return (
     <svg
@@ -61,12 +61,12 @@ function Cairn({ onFeed }: { onFeed: boolean }) {
 
 /**
  * Presentational pouch with the collect-into-bag animation. Stateless about WHERE
- * Pebbles come from — driven entirely by `total` (animated count-up) and `earn`
+ * Pebbles come from, driven entirely by `total` (animated count-up) and `earn`
  * (a nonce-bumped signal that fires a fly-in burst). Reused by the live container
  * and the Storybook story, so the animation can be watched/tuned in isolation.
  *
  * Smoothness contract: every animated property is transform (x/y/scale/rotate) or
- * opacity — compositor-only, no layout thrash — and the whole thing collapses to a
+ * opacity (compositor-only, no layout thrash) and the whole thing collapses to a
  * plain count-up under prefers-reduced-motion.
  */
 export function PebbleBagView({
@@ -142,7 +142,7 @@ export function PebbleBagView({
         <motion.span animate={pouchControls} className="inline-flex">
           <Cairn onFeed={onFeed} />
         </motion.span>
-        {/* Fly-in burst layer — absolutely centred over the pouch. */}
+        {/* Fly-in burst layer, absolutely centred over the pouch. */}
         <span className="pointer-events-none absolute left-1/2 top-1/2">
           {bursts.map((burst) =>
             burst.pebbles.map((p, i) => (

@@ -1,4 +1,4 @@
-# FishSpotter — Visual / UX Design Audit (multi-agent deep sweep)
+# FishSpotter: Visual / UX Design Audit (multi-agent deep sweep)
 
 **Date:** 2 June 2026
 **Scope:** Visual & UX polish, audited against the PEBL brand guidelines and the design-system rules documented in `CLAUDE.md`.
@@ -60,24 +60,24 @@
 
 ---
 
-## P1 — fix first
+## P1: fix first
 
 ### F-MODAL-FOCUS · `MapModal` has no focus trap or focus restore **[P1, accessibility]**
 `MapModal` only handles Escape + a body-scroll lock. It has **no Tab focus trap, no restore of the previously-focused element on close, and no `inert`/`aria-hidden` on the page behind it**. Its structural sibling `IdGuideSheet` already implements all of this (and even comments the WCAG 2.1.2 concern). Because the map opens over the **active FeedCard**, keyboard and screen-reader users can tab straight out of the dialog onto the live feed and MCQ controls underneath.
 
-- Evidence: [`MapModal.tsx:24`](src/components/MapModal.tsx:24)–`:36` (no trap) vs [`IdGuideSheet.tsx:65`](src/components/IdGuideSheet.tsx:65)–`:71` + `:105`–`:124` (the pattern to copy).
+- Evidence: [`MapModal.tsx:24`](src/components/MapModal.tsx:24)-`:36` (no trap) vs [`IdGuideSheet.tsx:65`](src/components/IdGuideSheet.tsx:65)-`:71` + `:105`-`:124` (the pattern to copy).
 - This is the only finding that breaks a documented accessibility contract on a primary surface rather than being cosmetic.
 - **Fix:** extract `IdGuideSheet`'s focus block into a shared `useModalFocus` hook (remember `activeElement` on open → move focus in → trap Tab → restore on close) and apply it to `MapModal`, so every future dialog inherits the contract.
 
 ---
 
-## P2 — systemic patterns (the bulk of the polish budget)
+## P2: systemic patterns (the bulk of the polish budget)
 
 ### F-GLYPH-ICONS · Unicode glyphs used as UI icons instead of stroked SVG **[P2, systemic]**
 The rule bans emoji/dingbats as UI icons. The core `FeedCard` reveal already does it correctly with inline SVG, but ~a dozen other surfaces still draw check/cross/star/caret/arrow glyphs, so it's also a same-app inconsistency. Status-icon cases are highest value; decorative nav arrows are lower.
 
 - Evidence: [`u/[id]/page.tsx:132`](src/app/u/[id]/page.tsx:132) (✓/✗/★ verdict pills), [`RarityPanel.tsx:107`](src/components/RarityPanel.tsx:107), [`SnippetPlayer.tsx:167`](src/components/SnippetPlayer.tsx:167), [`IdGuideChat.tsx:300`](src/components/IdGuideChat.tsx:300) (typing dots), [`feed/browse/page.tsx:235`](src/app/feed/browse/page.tsx:235) (✓ Answered), [`SpeciesAnnotator.tsx:399`](src/app/admin/species/[name]/SpeciesAnnotator.tsx:399).
-- **Fix:** port the existing `FeedCard` verdict SVGs ([`:1200`](src/components/FeedCard.tsx:1200)–`:1252`) + a small stroked chevron/arrow set into a shared icon module; swap status-icon call-sites first, decorative arrows second. Leave genuine textual key-references ("press ↵") alone.
+- **Fix:** port the existing `FeedCard` verdict SVGs ([`:1200`](src/components/FeedCard.tsx:1200)-`:1252`) + a small stroked chevron/arrow set into a shared icon module; swap status-icon call-sites first, decorative arrows second. Leave genuine textual key-references ("press ↵") alone.
 
 ### F-RADIUS-DRIFT · `rounded-2xl` / `rounded-lg` / retiring `rounded-hero` instead of `rounded-card` / `rounded-modal` **[P2, systemic]**
 The single most-repeated token issue: spans global chrome, the primary feed panel + MCQ tiles, auth inputs, the guidance modals + chat bubbles, the leaderboard/browse/account/profile hero cards, the error/404/legal cards, and the admin tool. `CLAUDE.md` itself files this as a deferred opportunistic migration, hence P2, but it's visible wherever a `rounded-hero` (28px) card stacks directly above `rounded-card` (24px) sections.
@@ -88,7 +88,7 @@ The single most-repeated token issue: spans global chrome, the primary feed pane
 ### F-STOCK-PALETTE · Stock `amber`/`emerald`/`rose`/`zinc` instead of the verdict/`danger` tokens **[P2, systemic]**
 Semantic states should use the `correct`/`incorrect`/`pending` tokens (each has a `DEFAULT` bg + `ink` shade) and `danger`, not stock utilities. The colourblind risk is **mitigated in most cases** by a text label, glyph, or rank numeral, so the load-bearing issue is token discipline, **except the leaderboard medals**, where three pale near-white tints carry the gold/silver/bronze intent on colour alone.
 
-- Evidence: [`u/[id]/page.tsx:124`](src/app/u/[id]/page.tsx:124) (amber pending pill), [`RarityPanel.tsx:153`](src/components/RarityPanel.tsx:153), [`admin/species/page.tsx:120`](src/app/admin/species/page.tsx:120), [`leaderboard/page.tsx:211`](src/app/leaderboard/page.tsx:211)–`:227` (`amber-50`/`zinc-100`/`orange-50` medal rows), [`SpeciesAnnotator.tsx:456`](src/app/admin/species/[name]/SpeciesAnnotator.tsx:456) (rose Delete), [`IdGuideChat.tsx:237`](src/components/IdGuideChat.tsx:237).
+- Evidence: [`u/[id]/page.tsx:124`](src/app/u/[id]/page.tsx:124) (amber pending pill), [`RarityPanel.tsx:153`](src/components/RarityPanel.tsx:153), [`admin/species/page.tsx:120`](src/app/admin/species/page.tsx:120), [`leaderboard/page.tsx:211`](src/app/leaderboard/page.tsx:211)-`:227` (`amber-50`/`zinc-100`/`orange-50` medal rows), [`SpeciesAnnotator.tsx:456`](src/app/admin/species/[name]/SpeciesAnnotator.tsx:456) (rose Delete), [`IdGuideChat.tsx:237`](src/components/IdGuideChat.tsx:237).
 - **Fix:** swap verdict/semantic cases to the named tokens at call-sites. For the medals, replace the three pale tints with one `surface-muted` highlight + a visible non-colour cue (a rendered "Gold/Silver/Bronze" label or a stroked medal/numeral SVG). Pair the Delete action with a stroked trash SVG so destructive intent isn't red-only.
 
 ### F-TOUCH-TARGETS · Sub-44px interactive elements on chrome + overlay controls **[P2, systemic]**
@@ -98,10 +98,10 @@ The 44px rule is already enforced on primary CTAs (the signed-out "Sign in" link
 - **Fix:** add `min-h-[44px]` (and `min-w-[44px]` for icon buttons) to those controls, mirroring [`IdGuideTrigger.tsx:228`](src/components/IdGuideTrigger.tsx:228). Verify at 390px.
 
 ### F-LOWCONTRAST-META · Informational meta text at `text-white/35` fails AA on dark panels **[P2, systemic, contrast]**
-Several **load-bearing** labels (not decoration) render at `white/35` over the `navy-900/72` blur panel — roughly 2.5–3:1, below the 4.5:1 small-text floor. The 10px size is documented-legitimate; the `/35` opacity is the violation. (The team already fixed this exact class of bug on the landing page, comment `P-11`.)
+Several **load-bearing** labels (not decoration) render at `white/35` over the `navy-900/72` blur panel, roughly 2.5-3:1, below the 4.5:1 small-text floor. The 10px size is documented-legitimate; the `/35` opacity is the violation. (The team already fixed this exact class of bug on the landing page, comment `P-11`.)
 
 - Evidence: [`FeedCard.tsx:1303`](src/components/FeedCard.tsx:1303) (CC photo credit), [`RarityPanel.tsx:122`](src/components/RarityPanel.tsx:122) (OBIS provenance) + `:164` ("Reference not matched"), [`CandidateStrip.tsx:265`](src/components/idflow/CandidateStrip.tsx:265) (scoring hint), [`IdGuideWizard.tsx:408`](src/components/IdGuideWizard.tsx:408) (the **interactive** "All traits" button).
-- **Fix:** floor informational meta text at `white/55`–`/65`; reserve `≤white/40` for true ornament. Treat the "All traits" label as a control, not muted prose.
+- **Fix:** floor informational meta text at `white/55`-`/65`; reserve `≤white/40` for true ornament. Treat the "All traits" label as a control, not muted prose.
 
 ### F-EMPTY-AUTH-STATES · Auth / error / 404 pages are bare cards on a blank viewport **[P2, systemic, states]**
 The rule: auth/empty pages need editorial content in the unused viewport, never a lone `max-w-md` card centred on blank. All four auth screens + the three terminal states violate it. Low-traffic with working recovery CTAs, so presentational, but reads as a framework default rather than the product.
@@ -116,14 +116,14 @@ The page-H1 role uses four different sizes across five primary pages: account + 
 - **Fix:** standardise page H1 on `text-h1` (convert leaderboard + signin); replace `text-2xl font-bold` section headings with `text-h2`.
 
 ### F-CSSVAR-COLORS · Leaderboard + signin route colours through `:root` vars instead of Tailwind aliases **[P2, tokens]**
-Colour source of truth is the Tailwind aliases in `className`; `:root` vars are for the few `[color:var(--x)]` theming hooks + `pebl-*` classes. Leaderboard + signin use `text-[color:var(--foreground)]` etc. pervasively, while landing/account/profile already use aliases. Same hexes, so no contrast impact — pure drift-narrowing.
+Colour source of truth is the Tailwind aliases in `className`; `:root` vars are for the few `[color:var(--x)]` theming hooks + `pebl-*` classes. Leaderboard + signin use `text-[color:var(--foreground)]` etc. pervasively, while landing/account/profile already use aliases. Same hexes, so no contrast impact, pure drift-narrowing.
 
 - Evidence: [`leaderboard/page.tsx:167`](src/app/leaderboard/page.tsx:167) + `:261`, [`auth/signin/page.tsx:73`](src/app/auth/signin/page.tsx:73) + `:99`.
 - **Fix:** migrate both pages to `text-navy-900` / `text-teal-700` / `text-navy-900/72` / `border-navy-900/12`.
 
 ---
 
-## P2 — surface-specific
+## P2: surface-specific
 
 ### F-PRESUBMIT-CTAS · Feed pre-submit panel stacks 4+ competing ID affordances with no clear primary **[P2, hierarchy, core loop]**
 Before any answer the panel renders the MCQ grid, a Skip pill, a "Spot It" button, the "Help me identify" trigger, and "Where is this?" at once. "Spot It" and "Help me identify" use **byte-identical** pill styling and both open an identification flow (shape gate vs wizard), side by side as near-equal CTAs → choice paralysis on the most important surface.
@@ -132,13 +132,13 @@ Before any answer the panel renders the MCQ grid, a Skip pill, a "Spot It" butto
 - **Fix:** make the MCQ grid the clear default; merge/demote one of the two guided entries into a single secondary "Help me identify"; visually group utility actions (Skip, Where) apart from ID actions.
 
 ### F-PROFILE-METRICS · Profile ignores the points model the rest of the app ranks by **[P2, hierarchy]**
-Profile shows Identifications / Accuracy / Streak with **no Score**, while the leaderboard ranks by `sum(Answer.points)`. Worse, profile Accuracy = `correct / total` over **all** answers including pending (`isCorrect=null`) ones, which are bonus-awarded not wrong — so the denominator silently drags accuracy down, unlabelled. A user can't reconcile their profile with their rank.
+Profile shows Identifications / Accuracy / Streak with **no Score**, while the leaderboard ranks by `sum(Answer.points)`. Worse, profile Accuracy = `correct / total` over **all** answers including pending (`isCorrect=null`) ones, which are bonus-awarded not wrong, so the denominator silently drags accuracy down, unlabelled. A user can't reconcile their profile with their rank.
 
-- Evidence: [`u/[id]/page.tsx:44`](src/app/u/[id]/page.tsx:44) + `:65`–`:66` vs [`leaderboard/page.tsx:61`](src/app/leaderboard/page.tsx:61)–`:73` + `:261`.
+- Evidence: [`u/[id]/page.tsx:44`](src/app/u/[id]/page.tsx:44) + `:65`-`:66` vs [`leaderboard/page.tsx:61`](src/app/leaderboard/page.tsx:61)-`:73` + `:261`.
 - **Fix:** add a Score tile; compute Accuracy over resolved (non-null) answers only, or relabel the tile to say it excludes pending clips.
 
 ### F-BROWSE-BADGE-CONTRAST · "Open" badge contrast not guaranteed over arbitrary thumbnails **[P2, contrast]**
-`text-white/80` on `bg-black/45` at 10px, over an unpredictable `object-cover` thumbnail — over a bright sand frame it can drop below AA. Text label, so no colourblind issue, but the floor isn't deterministic.
+`text-white/80` on `bg-black/45` at 10px, over an unpredictable `object-cover` thumbnail, over a bright sand frame it can drop below AA. Text label, so no colourblind issue, but the floor isn't deterministic.
 
 - Evidence: [`feed/browse/page.tsx:229`](src/app/feed/browse/page.tsx:229) + `:232`.
 - **Fix:** full `text-white` + denser scrim (`bg-black/60`), or a solid teal/navy chip.
@@ -157,14 +157,14 @@ Every server-action catch in `SpeciesAnnotator` logs to console with no UI surfa
 
 ---
 
-## P3 — polish / trivia
+## P3: polish / trivia
 
-- **F-HERO-CTA-DILUTION** [hierarchy] — landing hero pairs a filled + outline CTA at identical shape then two sub-line links; mild dilution. The primary does carry a glow. Consider demoting "Create your spotter profile" to a ghost/text link. [`page.tsx:103`](src/app/page.tsx:103)–`:126`.
-- **F-COOKIE-COPY** [copy] — cookie banner primary button says "Dismiss" but writes the consent cookie. **Not a dark pattern** (no toggles, always privacy-protective, copy explains it), so verified down to P3. Relabel "Got it". [`CookieBanner.tsx:62`](src/components/legal/CookieBanner.tsx:62)–`:68`.
-- **F-REDUCED-MOTION-SKELETON** [motion] — browse + leaderboard loading skeletons `animate-pulse` with no `motion-reduce` guard. Add `motion-reduce:animate-none`. [`feed/browse/loading.tsx:10`](src/app/feed/browse/loading.tsx:10), [`leaderboard/loading.tsx:10`](src/app/leaderboard/loading.tsx:10).
-- **F-SHEET-TITLE-HIERARCHY** [typography] — in `IdGuideSheet` the static chrome out-ranks the taught species/step in size. Promote the wizard question to the `h3` token. [`IdGuideSheet.tsx:221`](src/components/IdGuideSheet.tsx:221), [`IdGuideWizard.tsx:232`](src/components/IdGuideWizard.tsx:232).
-- **F-BODY-LEADING** [typography] — same-role `text-sm` body uses `leading-7` on landing but `leading-6` on leaderboard/signin. Pick one. [`page.tsx:99`](src/app/page.tsx:99), [`leaderboard/page.tsx:173`](src/app/leaderboard/page.tsx:173), [`auth/signin/page.tsx:78`](src/app/auth/signin/page.tsx:78).
-- **Extra (initial pass, verifiable):** `teal-800` (#2b9d97) is **lighter** than `teal-600`/`700` in [`tailwind.config.ts:20`](tailwind.config.ts:20) — an out-of-order ramp. Rename it (e.g. `teal-accentHover`) rather than leaving it mis-numbered.
+- **F-HERO-CTA-DILUTION** [hierarchy], landing hero pairs a filled + outline CTA at identical shape then two sub-line links; mild dilution. The primary does carry a glow. Consider demoting "Create your spotter profile" to a ghost/text link. [`page.tsx:103`](src/app/page.tsx:103)-`:126`.
+- **F-COOKIE-COPY** [copy], cookie banner primary button says "Dismiss" but writes the consent cookie. **Not a dark pattern** (no toggles, always privacy-protective, copy explains it), so verified down to P3. Relabel "Got it". [`CookieBanner.tsx:62`](src/components/legal/CookieBanner.tsx:62)-`:68`.
+- **F-REDUCED-MOTION-SKELETON** [motion], browse + leaderboard loading skeletons `animate-pulse` with no `motion-reduce` guard. Add `motion-reduce:animate-none`. [`feed/browse/loading.tsx:10`](src/app/feed/browse/loading.tsx:10), [`leaderboard/loading.tsx:10`](src/app/leaderboard/loading.tsx:10).
+- **F-SHEET-TITLE-HIERARCHY** [typography], in `IdGuideSheet` the static chrome out-ranks the taught species/step in size. Promote the wizard question to the `h3` token. [`IdGuideSheet.tsx:221`](src/components/IdGuideSheet.tsx:221), [`IdGuideWizard.tsx:232`](src/components/IdGuideWizard.tsx:232).
+- **F-BODY-LEADING** [typography], same-role `text-sm` body uses `leading-7` on landing but `leading-6` on leaderboard/signin. Pick one. [`page.tsx:99`](src/app/page.tsx:99), [`leaderboard/page.tsx:173`](src/app/leaderboard/page.tsx:173), [`auth/signin/page.tsx:78`](src/app/auth/signin/page.tsx:78).
+- **Extra (initial pass, verifiable):** `teal-800` (#2b9d97) is **lighter** than `teal-600`/`700` in [`tailwind.config.ts:20`](tailwind.config.ts:20), an out-of-order ramp. Rename it (e.g. `teal-accentHover`) rather than leaving it mis-numbered.
 
 ---
 
@@ -172,7 +172,7 @@ Every server-action catch in `SpeciesAnnotator` logs to console with no UI surfa
 - **3 findings refuted outright** by their verifiers (cited line didn't hold or the issue was already mitigated nearby).
 - Multiple radius/chrome findings raised as **P1 were re-graded to P2** (cosmetic radius delta, documented as deferred work).
 - The cookie-banner copy was **re-graded P2→P3** after the verifier confirmed it isn't a consent dark pattern.
-- The colourblind-medal alarm was **re-framed from "information loss" to "token hygiene"** because rank numerals + sr-only labels already carry the tier non-visually — except the pale tints themselves.
+- The colourblind-medal alarm was **re-framed from "information loss" to "token hygiene"** because rank numerals + sr-only labels already carry the tier non-visually, except the pale tints themselves.
 
 *(Infra note: 3 of the per-finding verifier agents failed to emit structured output and were dropped; this affected individual findings, not the synthesis, which ran on the 61 that verified cleanly.)*
 
@@ -181,28 +181,28 @@ Every server-action catch in `SpeciesAnnotator` logs to console with no UI surfa
 ## Prioritised action list
 
 **Quick wins (low risk, high consistency payoff):**
-1. F-COOKIE-COPY — "Dismiss" → "Got it".
-2. F-REDUCED-MOTION-SKELETON — `motion-reduce:animate-none` on the two skeletons.
-3. F-GLYPH-ICONS (status cases) — swap profile/RarityPanel/SnippetPlayer/browse glyphs to the existing FeedCard SVGs.
-4. F-STOCK-PALETTE — swap profile pending pill + admin status pills + admin Delete to the named tokens.
-5. F-LOWCONTRAST-META — raise the `white/35` informational labels to `white/55`–`65`.
-6. F-BROWSE-BADGE-CONTRAST — drop the `/80`, densen the scrim.
-7. F-CSSVAR-COLORS — alias-migrate leaderboard + signin.
+1. F-COOKIE-COPY, "Dismiss" → "Got it".
+2. F-REDUCED-MOTION-SKELETON, `motion-reduce:animate-none` on the two skeletons.
+3. F-GLYPH-ICONS (status cases), swap profile/RarityPanel/SnippetPlayer/browse glyphs to the existing FeedCard SVGs.
+4. F-STOCK-PALETTE, swap profile pending pill + admin status pills + admin Delete to the named tokens.
+5. F-LOWCONTRAST-META, raise the `white/35` informational labels to `white/55`-`65`.
+6. F-BROWSE-BADGE-CONTRAST, drop the `/80`, densen the scrim.
+7. F-CSSVAR-COLORS, alias-migrate leaderboard + signin.
 8. teal-800 rename so the ramp is monotonic.
 
 **Core loop (the feed):**
-9. F-MODAL-FOCUS — the shared focus-trap hook on MapModal (also the one P1).
-10. F-PRESUBMIT-CTAS — one clear primary; merge/demote the duplicate guided entry; group utility vs ID actions.
-11. F-LOWCONTRAST-META + F-GLYPH-ICONS — bring SnippetPlayer/RarityPanel reveals in line with FeedCard.
-12. F-RADIUS-DRIFT (feed) — panel → `rounded-card`, MCQ tiles → `rounded-modal`.
+9. F-MODAL-FOCUS, the shared focus-trap hook on MapModal (also the one P1).
+10. F-PRESUBMIT-CTAS, one clear primary; merge/demote the duplicate guided entry; group utility vs ID actions.
+11. F-LOWCONTRAST-META + F-GLYPH-ICONS, bring SnippetPlayer/RarityPanel reveals in line with FeedCard.
+12. F-RADIUS-DRIFT (feed), panel → `rounded-card`, MCQ tiles → `rounded-modal`.
 
 **Bigger bets (editorial / structural):**
-13. F-MODAL-FOCUS — extract `useModalFocus` (trap + restore + inert) and apply app-wide.
-14. F-GLYPH-ICONS — shared stroked-SVG icon module; retire Unicode icons everywhere.
-15. F-RADIUS-DRIFT — run the full deferred radius consolidation, then delete `rounded-hero`.
-16. F-EMPTY-AUTH-STATES — one reusable editorial auth/empty/error layout across all 7 screens.
-17. F-PROFILE-METRICS — add Score, fix the accuracy denominator, so profile and leaderboard tell one story.
-18. F-TYPE-TOKENS — lock page H1/H2 to the tokens across all five primary pages.
+13. F-MODAL-FOCUS, extract `useModalFocus` (trap + restore + inert) and apply app-wide.
+14. F-GLYPH-ICONS, shared stroked-SVG icon module; retire Unicode icons everywhere.
+15. F-RADIUS-DRIFT, run the full deferred radius consolidation, then delete `rounded-hero`.
+16. F-EMPTY-AUTH-STATES, one reusable editorial auth/empty/error layout across all 7 screens.
+17. F-PROFILE-METRICS, add Score, fix the accuracy denominator, so profile and leaderboard tell one story.
+18. F-TYPE-TOKENS, lock page H1/H2 to the tokens across all five primary pages.
 
 ---
 

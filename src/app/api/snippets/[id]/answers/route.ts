@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 // and verdict.
 //
 // ADMIN-ONLY (@pebl-cic.co.uk). The public surfaces (reveal card, leaderboard)
-// show only ANONYMOUS aggregate stats — how many answered each option, the most
+// show only ANONYMOUS aggregate stats, how many answered each option, the most
 // popular calls. Seeing WHICH spotter said WHAT is a staff review tool, so
 // non-admins get { gated: true } and the UI renders nothing. No public
 // Cache-Control: the payload is identity-bearing and per-request gated.

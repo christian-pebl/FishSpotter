@@ -4,7 +4,7 @@
 // all 72 catalogue species onto it as square tiles by trophic tier + farm
 // proximity, with food-web arrows and the two farm-subsidy directions.
 import { readFileSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join, dirname } from 'node:path';
 
 // Paths resolve relative to this script, so it rebuilds anywhere in the repo.
@@ -12,7 +12,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));      // <repo>/food-web
 const SIL = join(HERE, '..', 'public', 'silhouettes');    // reads the PEBL silhouettes
 const OUT = join(HERE, '..', 'public', 'food-web.html');  // self-contained, served at /food-web.html
 
-const FORMS = {
+export const FORMS = {
   'cod-like':'forms/cod-like.svg','wrasse':'forms/wrasse.svg','long-skinny':'forms/long-skinny.svg',
   'bottom-sitter':'forms/bottom-sitter.svg','bottom-other':'forms/bottom-other.svg',
   'silver-shoaler':'forms/silver-shoaler.svg','shark':'forms/shark.svg','flatfish':'flatfish.svg',
@@ -34,40 +34,40 @@ const SPRITE = Object.keys(FORMS).map(symbolFor).join('\n');
 
 // ---- Species catalogue (72) -------------------------------------------------
 const S=(name,short,form,tier,zone,prox)=>({name,short,form,tier,zone,prox});
-const SPECIES = [
-  // SURFACE — apex divers & seals
+export const SPECIES = [
+  // SURFACE, apex divers & seals
   S('European shag','Shag','bird',5,'surface','core'),
   S('Great cormorant','Cormorant','bird',5,'surface','core'),
   S('Common eider','Eider','bird',5,'surface','core'),
   S('Grey seal','Grey seal','seal',5,'surface','core'),
   S('Harbour seal','Harbour seal','seal',5,'surface','core'),
-  // MUSSEL LINES (left) — shellfish predators + patrolling fish/cephalopods
+  // MUSSEL LINES (left), shellfish predators + patrolling fish/cephalopods
   S('Common Starfish','Common starfish','long-smooth',3,'mussel','core'),
   S('Spiny Starfish','Spiny starfish','long-spiny',3,'mussel','core'),
   S('Dog Whelk','Dog whelk','pointed-cone',3,'mussel','core'),
   S('Velvet Swimming Crab','Velvet crab','swimming',3,'mussel','core'),
   S('Common Cuttlefish','Cuttlefish','cuttlefish',4,'mussel','core'),
-  S('Cuckoo wrasse','Cuckoo wrasse','wrasse',3,'mussel','footprint'),
+  S('Cuckoo wrasse','Cuckoo wrasse','wrasse',3,'mussel','core'),
   S('Bib','Bib','cod-like',3,'mussel','core'),
   S('Poor cod','Poor cod','cod-like',3,'mussel','core'),
   S('Pollack','Pollack','cod-like',4,'mussel','core'),
   S('Saithe','Saithe','cod-like',4,'mussel','core'),
   S('Atlantic cod','Atlantic cod','cod-like',4,'mussel','core'),
   S('European sea bass','Sea bass','silver-shoaler',4,'mussel','core'),
-  // SEAWEED CANOPY (right) — grazers, epifauna, nursery fish
+  // SEAWEED CANOPY (right), grazers, epifauna, nursery fish
   S('Common Limpet','Limpet','flat-cone',2,'canopy','core'),
   S('Painted Top Shell','Painted top','pointed-cone',2,'canopy','core'),
-  S('Flat Top Shell','Flat top','rounded-squat',2,'canopy','footprint'),
+  S('Flat Top Shell','Flat top','rounded-squat',2,'canopy','core'),
   S('Edible sea urchin','Edible urchin','round-spiny',2,'canopy','core'),
   S('Green sea urchin','Green urchin','round-spiny',2,'canopy','core'),
-  S('Great Spider Crab','Spider crab','spider',3,'canopy','core'),
+  S('Spider Crab','Spider crab','spider',3,'canopy','core'),
   S('Two-spotted goby','2-spot goby','bottom-sitter',3,'canopy','core'),
   S('Fifteen-spined stickleback','15-spine stickle','long-skinny',3,'canopy','core'),
   S('Corkwing wrasse','Corkwing','wrasse',3,'canopy','core'),
   S('Goldsinny wrasse','Goldsinny','wrasse',3,'canopy','core'),
   S('Thick-lipped mullet','Thick-lip mullet','silver-shoaler',2,'canopy','footprint'),
   S('Ballan wrasse','Ballan wrasse','wrasse',4,'canopy','core'),
-  // OPEN — pass-through pelagics & drifting jellyfish
+  // OPEN, pass-through pelagics & drifting jellyfish
   S('Sprat','Sprat','silver-shoaler',3,'open','passing'),
   S('Sand smelt','Sand smelt','silver-shoaler',3,'open','passing'),
   S('Atlantic mackerel','Mackerel','silver-shoaler',3,'open','passing'),
@@ -80,14 +80,14 @@ const SPECIES = [
   S('Barrel Jellyfish','Barrel jelly','frilly-arms',3,'open','passing'),
   S('Mauve Stinger','Mauve stinger','saucer',3,'open','passing'),
   S("Lion's Mane Jellyfish","Lion's mane",'trailing-mass',4,'open','passing'),
-  // SEABED — scavengers, deposit feeders, benthic predators (biodeposit footprint)
+  // SEABED, scavengers, deposit feeders, benthic predators (biodeposit footprint)
   S('Shore Crab','Shore crab','broad-carapace',3,'seabed','core'),
   S('Edible Crab','Edible crab','broad-carapace',4,'seabed','core'),
   S('Harbour Crab','Harbour crab','swimming',3,'seabed','footprint'),
   S('Hermit Crab','Hermit crab','hermit',3,'seabed','core'),
-  S('Cushion Star','Cushion star','short-stubby',2,'seabed','footprint'),
+  S('Cushion Star','Cushion star','short-stubby',2,'seabed','core'),
   S('Common Brittlestar','Brittlestar','thin-whippy',2,'seabed','core'),
-  S('Purple sea urchin','Purple urchin','round-spiny',2,'seabed','footprint'),
+  S('Purple sea urchin','Purple urchin','round-spiny',2,'seabed','core'),
   S('Sea potato','Sea potato','heart-shaped',2,'seabed','footprint'),
   S('Purple heart urchin','Heart urchin','heart-shaped',2,'seabed','footprint'),
   S('Plaice','Plaice','flatfish',3,'seabed','footprint'),
@@ -111,11 +111,11 @@ const SPECIES = [
   S('Atlantic Bobtail','Bobtail','bobtail',3,'seabed','footprint'),
   S('Curled Octopus','Curled octopus','octopus',4,'seabed','core'),
   S('Common Octopus','Common octopus','octopus',4,'seabed','core'),
-  S('Conger eel','Conger eel','long-skinny',4,'seabed','footprint'),
+  S('Conger eel','Conger eel','long-skinny',4,'seabed','core'),
 ];
 
 // ---- Resource / energy inputs (placed on the farm features) -----------------
-const RES = {
+export const RES = {
   'Kelp canopy':   {label:'Kelp / seaweed', sub:'seaweed & the life on it', col:'#8FA93E', zone:'canopy', farm:'created'},
   'Farmed mussels':{label:'Farmed mussels',  sub:'filter feeders on the ropes', col:'#8E7FB0', zone:'mussel', farm:'created'},
   'Plankton':      {label:'Plankton',        sub:'phyto- & zooplankton', col:'#7FB4CE', zone:'open', farm:'anyway'},
@@ -128,28 +128,47 @@ const RES = {
 // 'harmed'   = actually MORE abundant without the farm (biodeposits suppress it)
 // default 'anyway' = a soft-sediment / open-water native, ~unchanged.
 // Grounded in the artificial-reef, canopy-nursery and biodeposition literature.
-const FARM = {
-  // reef / weed / crevice obligates + canopy & mussel dependents -> gone at the site
-  'Bib':'created','Ballan wrasse':'created','Cuckoo wrasse':'created','Corkwing wrasse':'created',
+//
+// 'created' is deliberately RESTRICTED to species that physically cannot occupy
+// bare soft sediment: hard-substrate obligates (limpets, top shells, urchins,
+// whelks, the two big starfish) and small, site-attached crevice/weed fish with
+// home ranges of metres (blennies, rock goby, sea scorpion, the weed gobies and
+// stickleback). For those, "no hard surface" really does mean "not here".
+//
+// It is NOT applied to large, wide-ranging animals that the farm merely draws in
+// from surrounding ground, the attraction-vs-production distinction in the
+// artificial-reef literature. Ballan and cuckoo wrasse and both octopuses were
+// reclassified 'created' -> 'enhanced' on exactly that ground (2026-08-03): all
+// four range over hundreds of metres, occupy any nearby reef or debris, and are
+// concentrated by the farm rather than brought into existence by it. Claiming
+// them as farm-built overstates what a farm demonstrably does.
+export const FARM = {
+  // hard-substrate + weed/crevice obligates -> genuinely nowhere to live on bare sand
+  'Bib':'created','Corkwing wrasse':'created',
   'Goldsinny wrasse':'created','Conger eel':'created','Butterfish':'created','Two-spotted goby':'created',
   'Rock goby':'created','Poor cod':'created','Long-spined sea scorpion':'created','Shanny':'created',
-  'Fifteen-spined stickleback':'created','Velvet Swimming Crab':'created','Curled Octopus':'created',
-  'Common Octopus':'created','Cushion Star':'created','Spiny Starfish':'created','Common Limpet':'created',
+  'Fifteen-spined stickleback':'created','Velvet Swimming Crab':'created',
+  'Cushion Star':'created','Spiny Starfish':'created','Common Limpet':'created',
   'Dog Whelk':'created','Painted Top Shell':'created','Flat Top Shell':'created','Edible sea urchin':'created',
   'Green sea urchin':'created','Purple sea urchin':'created',
-  // present anyway, boosted by the structure / mussels / prey aggregation
-  'Pollack':'enhanced','Saithe':'enhanced','Atlantic cod':'enhanced','Great Spider Crab':'enhanced',
+  // present anyway, boosted by the structure / mussels / prey aggregation. The
+  // wrasses and octopuses sit here because the farm concentrates them, not because
+  // it creates them (see the note above).
+  'Pollack':'enhanced','Saithe':'enhanced','Atlantic cod':'enhanced','Spider Crab':'enhanced',
   'Common Starfish':'enhanced','Common Brittlestar':'enhanced','Common eider':'enhanced',
+  'Ballan wrasse':'enhanced','Cuckoo wrasse':'enhanced',
+  'Curled Octopus':'enhanced','Common Octopus':'enhanced',
   // clean-sand specialist that heavy biodeposition suppresses -> does better without
   'Sea potato':'harmed',
 };
-const farmOf = n => FARM[n] || 'anyway';
+export const farmOf = n => FARM[n] || 'anyway';
 
 // ---- Food-web edges: [prey/resource, predator/consumer] ---------------------
-const E=[]; const link=(to,...froms)=>froms.forEach(f=>E.push([f,to]));
+export const E=[];
+const link=(to,...froms)=>froms.forEach(f=>E.push([f,to]));
 link('Common Limpet','Kelp canopy'); link('Painted Top Shell','Kelp canopy'); link('Flat Top Shell','Kelp canopy');
 link('Edible sea urchin','Kelp canopy'); link('Green sea urchin','Kelp canopy'); link('Purple sea urchin','Kelp canopy');
-link('Great Spider Crab','Kelp canopy'); link('Thick-lipped mullet','Kelp canopy');
+link('Spider Crab','Kelp canopy'); link('Thick-lipped mullet','Kelp canopy');
 link('Common Brittlestar','Kelp canopy','Plankton','Seabed biodeposits');
 link('Cushion Star','Seabed biodeposits','Kelp canopy'); link('Sea potato','Seabed biodeposits'); link('Purple heart urchin','Seabed biodeposits');
 link('Hermit Crab','Seabed biodeposits'); link('Shore Crab','Seabed biodeposits'); link('Harbour Crab','Seabed biodeposits');
@@ -162,19 +181,19 @@ link('Barrel Jellyfish','Plankton'); link('Mauve Stinger','Plankton');
 link('Dog Whelk','Farmed mussels'); link('Common Starfish','Farmed mussels'); link('Spiny Starfish','Farmed mussels');
 link('Edible Crab','Farmed mussels'); link('Velvet Swimming Crab','Farmed mussels'); link('Common eider','Farmed mussels');
 link('Curled Octopus','Farmed mussels'); link('Common Octopus','Farmed mussels');
-link('Ballan wrasse','Common Limpet','Painted Top Shell','Flat Top Shell','Edible sea urchin','Green sea urchin','Purple sea urchin','Great Spider Crab','Dog Whelk');
+link('Ballan wrasse','Common Limpet','Painted Top Shell','Flat Top Shell','Edible sea urchin','Green sea urchin','Purple sea urchin','Spider Crab','Dog Whelk');
 link('Common Starfish','Common Brittlestar'); link('Plaice','Common Brittlestar','Sea potato','Purple heart urchin');
 link('Dab','Common Brittlestar'); link('Flounder','Common Brittlestar','Sea potato');
 link('Lesser-spotted catshark','Common Brittlestar','Hermit Crab','Shore Crab','Harbour Crab','Sea potato');
 link('Grey gurnard','Common Brittlestar','Shore Crab'); link('Red gurnard','Common Brittlestar','Hermit Crab');
 link('Tub gurnard','Shore Crab','Common Brittlestar'); link('Streaked gurnard','Common Brittlestar');
-link('Common Cuttlefish','Great Spider Crab','Hermit Crab','Shore Crab','Harbour Crab');
-link('Curled Octopus','Great Spider Crab','Hermit Crab','Shore Crab','Velvet Swimming Crab');
-link('Common Octopus','Great Spider Crab','Hermit Crab','Shore Crab','Velvet Swimming Crab','Edible Crab');
+link('Common Cuttlefish','Spider Crab','Hermit Crab','Shore Crab','Harbour Crab');
+link('Curled Octopus','Spider Crab','Hermit Crab','Shore Crab','Velvet Swimming Crab');
+link('Common Octopus','Spider Crab','Hermit Crab','Shore Crab','Velvet Swimming Crab','Edible Crab');
 link('European sea bass','Sprat','Sand smelt','Two-spotted goby','Atlantic mackerel','Atlantic horse mackerel','Corkwing wrasse','Goldsinny wrasse','Red mullet');
 link('Pollack','Sprat','Two-spotted goby','Fifteen-spined stickleback','Sand smelt','Poor cod');
 link('Saithe','Sprat','Poor cod');
-link('Atlantic cod','Sprat','Poor cod','Whiting','Bib','Sand goby','Shore Crab','Velvet Swimming Crab','Great Spider Crab','Common Cuttlefish','Corkwing wrasse');
+link('Atlantic cod','Sprat','Poor cod','Whiting','Bib','Sand goby','Shore Crab','Velvet Swimming Crab','Spider Crab','Common Cuttlefish','Corkwing wrasse');
 link('Long-spined sea scorpion','Fifteen-spined stickleback','Sand goby','Common goby');
 link('Veined Squid','Sprat','Atlantic mackerel'); link('European Squid','Sprat');
 link('Conger eel','Shore Crab','Velvet Swimming Crab','Edible Crab','Butterfish','Shanny','Poor cod','Whiting','Bib','Corkwing wrasse','Curled Octopus','Common Octopus','Lesser-spotted catshark');
@@ -193,7 +212,7 @@ link('Dragonet','Seabed biodeposits','Common Brittlestar'); link('Spotted dragon
 link('Red mullet','Seabed biodeposits','Common Brittlestar');            // barbel-feeder on benthic inverts
 link('Shanny','Seabed biodeposits'); link('Rock goby','Seabed biodeposits');
 link('Corkwing wrasse','Kelp canopy'); link('Goldsinny wrasse','Kelp canopy'); // pick inverts off the weed
-link('Cuckoo wrasse','Great Spider Crab','Hermit Crab','Common Brittlestar');
+link('Cuckoo wrasse','Spider Crab','Hermit Crab','Common Brittlestar');
 link('Fifteen-spined stickleback','Plankton');
 link('Grey gurnard','Sand goby'); link('Tub gurnard','Sand goby','Common goby');
 link('Atlantic cod','Grey gurnard','Streaked gurnard','Red gurnard','Dragonet','Rock goby','Atlantic Bobtail');
@@ -209,9 +228,14 @@ link('European sea bass','Thick-lipped mullet');
 // accuracy additions found during the verification sweep (all real, well-documented):
 link('Atlantic mackerel','Sprat'); link('Atlantic horse mackerel','Sprat'); // pelagic piscivory on small fish
 link('Ballan wrasse','Farmed mussels');                                       // wrasse crush mussels (raid the ropes)
-link('Common eider','Shore Crab','Dog Whelk','Great Spider Crab','Green sea urchin'); // eider: crabs, whelks, urchins (all documented)
+link('Common eider','Shore Crab','Dog Whelk','Spider Crab','Green sea urchin'); // eider: crabs, whelks, urchins (all documented)
 link('Common Cuttlefish','Sprat');                                            // cuttlefish take small fish, not just crabs
 link('Conger eel','Common Cuttlefish');                                       // conger take cuttlefish/squid too
+// verification sweep 2: these three survive the no-farm baseline, so they must have
+// non-farm food as well (each is a documented detritus feeder / generalist scavenger).
+link('Thick-lipped mullet','Seabed biodeposits');   // mullet graze surface sediment & its organic film
+link('Spider Crab','Seabed biodeposits');           // spider crabs scavenge & browse benthic material
+link('Edible Crab','Seabed biodeposits','Shore Crab'); // generalist predator/scavenger, takes smaller crabs
 
 const NAMES = new Set(SPECIES.map(s=>s.name));
 const valid = new Set([...NAMES, ...Object.keys(RES)]);
@@ -542,6 +566,11 @@ const body = `<div class="wrap" data-mode="farm">
   setMode('farm');
 </script>`;
 
-const css = readFileSync(new URL('./foodweb.css', import.meta.url),'utf8');
-writeFileSync(OUT, `<style>${css}</style>\n${body}`);
-console.log('wrote', OUT, '·', SPECIES.length,'species,',E.length,'edges, canvas',CW+'x'+Math.round(CH));
+// Only write when run directly (`node food-web/build-foodweb.mjs`), so verify.mjs
+// can import the data without rewriting the committed page.
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if(isMain){
+  const css = readFileSync(new URL('./foodweb.css', import.meta.url),'utf8');
+  writeFileSync(OUT, `<style>${css}</style>\n${body}`);
+  console.log('wrote', OUT, '·', SPECIES.length,'species,',E.length,'edges, canvas',CW+'x'+Math.round(CH));
+}

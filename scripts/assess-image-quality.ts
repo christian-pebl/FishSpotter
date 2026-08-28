@@ -1,7 +1,7 @@
 /**
  * Fish-image quality assessment CLI. Claude orchestrates; Gemini does the
  * vision (see src/lib/biodiversity/gemini-vision.ts). Reports how suitable a
- * candidate photo is as a FishSpotter teaching reference — the gap iNat's
+ * candidate photo is as a FishSpotter teaching reference, the gap iNat's
  * "research grade" flag does not measure.
  *
  * Read-only: it never writes to the DB. Use it to decide which cached photo to
@@ -162,7 +162,7 @@ async function assessSpecies(
 
   if (!json) {
     console.log(
-      `\n=== ${commonNameFor(sci) ?? sci} (${sci}) — ${rows.length} cached` +
+      `\n=== ${commonNameFor(sci) ?? sci} (${sci}), ${rows.length} cached` +
         `${opts.fetchFresh ? ` + up to ${opts.fetchN} fresh from iNaturalist` : ""} ===`,
     );
   }
@@ -193,7 +193,7 @@ async function assessSpecies(
     if (!json) printCand(c);
   }
 
-  // 2. Fresh iNaturalist candidates (--fetch) — the "can we do better?" pass.
+  // 2. Fresh iNaturalist candidates (--fetch), the "can we do better?" pass.
   if (opts.fetchFresh) {
     const cachedSources = new Set(rows.map((r) => r.sourceUrl));
     let fresh: Awaited<ReturnType<typeof fetchPhotosForSpecies>> = [];
@@ -240,7 +240,7 @@ async function assessSpecies(
 
   if (!json) {
     if (ranked.length === 0) {
-      console.log(`\n  (no usable assessment — all photos errored or none found)`);
+      console.log(`\n  (no usable assessment, all photos errored or none found)`);
     } else {
       const best = ranked[0];
       const tag = best.cached
@@ -249,10 +249,10 @@ async function assessSpecies(
           : "cached, not yet curated"
         : "FRESH from iNat (not yet in the DB)";
       console.log(
-        `\n  >>> Best for teaching: score ${best.q!.teachingScore} (${best.q!.recommendation}) — ${tag}`,
+        `\n  >>> Best for teaching: score ${best.q!.teachingScore} (${best.q!.recommendation}), ${tag}`,
       );
       if (best.q!.recommendation === "reject") {
-        console.log(`      WARNING: even the best is a reject — source a photo manually.`);
+        console.log(`      WARNING: even the best is a reject, source a photo manually.`);
       } else if (!(best.cached && best.curated)) {
         console.log(overrideBlock(sci, best));
       }

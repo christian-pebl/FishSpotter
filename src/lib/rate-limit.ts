@@ -99,7 +99,7 @@ export async function checkChatRateLimit(userId: string): Promise<boolean> {
 }
 
 // S6-T6: anti-cheat rate-limit on answer submission. Caps a single
-// user at 200 submissions per hour — generous for legitimate spotting
+// user at 200 submissions per hour, generous for legitimate spotting
 // (one per ~18s) but tight enough to flag bots that rip the feed.
 const ANSWER_WINDOW_MS = 60 * 60 * 1000;
 const ANSWER_MAX_PER_HOUR = 200;
@@ -109,7 +109,7 @@ export async function checkAnswerRateLimit(userId: string): Promise<boolean> {
 }
 
 // Engagement-event ingest (POST /api/events). Beacons are batched, so this caps
-// the number of REQUESTS per key/hour — 600 (~one flush every 6s) is far above
+// the number of REQUESTS per key/hour, 600 (~one flush every 6s) is far above
 // real usage but stops a loose client or bot from flooding the Event table.
 const EVENT_WINDOW_MS = 60 * 60 * 1000;
 const EVENT_MAX_PER_HOUR = 600;
@@ -132,7 +132,7 @@ export async function checkVitalsRateLimit(ipKey: string): Promise<boolean> {
 
 // Signed-out reveal preview (POST /api/answers/preview). Read-only + same-origin
 // gated, but runs a DB read per call, so cap per IP. 200/hour matches the authed
-// answer cap — well above a real guest's identify cadence.
+// answer cap, well above a real guest's identify cadence.
 const PREVIEW_WINDOW_MS = 60 * 60 * 1000;
 const PREVIEW_MAX_PER_HOUR = 200;
 

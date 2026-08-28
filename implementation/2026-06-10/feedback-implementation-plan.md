@@ -145,9 +145,9 @@ the single consistent entry (type-in still reachable via CandidateGate -> MCQ +
 DEGENERATE fallback). Backend engines (depth, distribution) + GBIF polish done
 earlier. Gurnard photo curated + onboarding drafted.
 
-### WS-D build spec (staged — needs your eyes / interactive verify)
+### WS-D build spec (staged: needs your eyes / interactive verify)
 Coarse "Not sure -> submit as just a [Fish]" at the BODY gate (Rung 2, where the
-shape class is already chosen — cleanest spot vs Rung 1 which has no class yet):
+shape class is already chosen, cleanest spot vs Rung 1 which has no class yet):
 1. `BodyShapeGate` footer: add an action "Submit as just a {shapeLabel}" (e.g.
    "Submit as just a Fish") alongside the existing notSure/skip.
 2. FeedCard: pass the chosen shapeClass label + a `onSubmitShapeClass` callback

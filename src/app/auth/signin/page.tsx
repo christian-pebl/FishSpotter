@@ -32,7 +32,7 @@ function PwReqMark({ met }: { met: boolean }) {
 
 // Brand glyphs for the OAuth buttons. Recognisable logos, not decorative UI
 // icons, so the multi-colour Google G is intentional (and the colour carries
-// no information — the label says which provider).
+// no information, the label says which provider).
 function GoogleGlyph() {
   return (
     <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true" className="shrink-0">
@@ -74,7 +74,7 @@ function SignInForm() {
   const [loading, setLoading] = useState(false);
   // One-tap providers, surfaced only when configured server-side (Google/Apple
   // are env-gated in lib/auth.ts). If none are set, the block renders nothing
-  // and the email/password form is the whole page — no empty "or" divider.
+  // and the email/password form is the whole page, no empty "or" divider.
   const [oauthProviders, setOauthProviders] = useState<{ id: string; name: string }[]>([]);
   useEffect(() => {
     let active = true;

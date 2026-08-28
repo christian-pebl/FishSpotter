@@ -26,7 +26,7 @@ describe("rescoreAnswers", () => {
     expect(out[2]).toMatchObject({ isCorrect: false, unlockSpecies: null });
   });
 
-  it("never emits points — Pebbles are live currency the rescore must not touch", () => {
+  it("never emits points, Pebbles are live currency the rescore must not touch", () => {
     // The P0 (2026-07-06): writing the matcher's retired 0/1/2 points scale
     // over live Pebbles balances. The result type has no `points`; this guards
     // against it creeping back in.

@@ -49,7 +49,7 @@ export async function createMark(input: CreateMarkInput) {
   if (!label) throw new Error("Label is required");
   const description = cleanText(input.description, MAX_DESCRIPTION);
 
-  // Confirm the photo belongs to this species — prevents cross-species
+  // Confirm the photo belongs to this species, prevents cross-species
   // mark assignment via a tampered ID.
   const photo = await prisma.speciesImage.findUnique({
     where: { id: input.speciesImageId },

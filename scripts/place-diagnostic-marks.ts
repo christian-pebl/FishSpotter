@@ -122,7 +122,7 @@ type LocalizeMark = {
 type Feature = { label: string; description: string };
 
 function localizePrompt(common: string, sci: string, features: Feature[]): string {
-  const list = features.map((f, i) => `  ${i + 1}. "${f.label}" — ${f.description}`).join("\n");
+  const list = features.map((f, i) => `  ${i + 1}. "${f.label}", ${f.description}`).join("\n");
   return [
     `You are placing labelled circles on a reference photo of ${common} (${sci}) for an`,
     `underwater species-ID teaching tool. For each diagnostic feature below, return the`,
@@ -164,7 +164,7 @@ function correctionPrompt(
   const list = bad
     .map((b) => {
       const f = features[b.number - 1];
-      return `  ${b.number}. "${f?.label}" — ${f?.description}\n     Reviewer said: ${b.note}`;
+      return `  ${b.number}. "${f?.label}", ${f?.description}\n     Reviewer said: ${b.note}`;
     })
     .join("\n");
   return [
@@ -506,8 +506,8 @@ async function main() {
         );
     } catch (e) {
       // One species erroring (e.g. a persistent CDN 429) must not abort the
-      // sweep — log and move on; a later --all re-run picks it up (skip-aligned).
-      console.error(`ERROR (${(e as Error).message}) — skipped`);
+      // sweep, log and move on; a later --all re-run picks it up (skip-aligned).
+      console.error(`ERROR (${(e as Error).message}), skipped`);
       results.push({
         scientificName: sci,
         commonName: commonNameFor(sci),

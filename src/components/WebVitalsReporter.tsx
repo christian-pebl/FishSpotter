@@ -8,7 +8,7 @@ const SAMPLE_RATE = 0.1; // 10% of sessions report to /api/vitals.
  * Web-vitals sampler (S4-16). Loads `web-vitals` dynamically so it
  * doesn't bloat the initial JS bundle. Reports LCP / CLS / INP for
  * a 10% slice of sessions. The receiving route writes nothing to
- * the DB yet — a future ticket can persist to a `Vital` table.
+ * the DB yet, a future ticket can persist to a `Vital` table.
  */
 export function WebVitalsReporter() {
   useEffect(() => {

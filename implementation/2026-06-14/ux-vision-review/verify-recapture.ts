@@ -19,7 +19,7 @@ async function dump(page: Page, label: string) {
 (async () => {
   const browser = await chromium.launch();
 
-  // (1) Landing demo card — wait long for the hero video to load + play.
+  // (1) Landing demo card, wait long for the hero video to load + play.
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
     const page = await ctx.newPage();

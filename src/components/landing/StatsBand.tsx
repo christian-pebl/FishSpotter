@@ -12,7 +12,7 @@ type Stat = { value: number; label: string; suffix?: string };
 
 function useCountUp(target: number, run: boolean, durationMs = 1100) {
   // Baseline is the REAL value, so the server render, no-JS clients, crawlers,
-  // link-preview bots, and a never-firing observer all show the true number —
+  // link-preview bots, and a never-firing observer all show the true number,
   // never a dead 0. The count-up is a pure enhancement that only runs once
   // `run` flips true (the band scrolled into view from below); see StatsBand.
   const [n, setN] = useState(target);
@@ -52,7 +52,7 @@ export function StatsBand({ clips, species, idsMade, speciesLabel = "species to 
     const el = ref.current;
     if (!el) return;
     // Already visible at mount (e.g. short viewport / desktop above-the-fold)?
-    // Leave the real numbers the server rendered — kicking off the count-up
+    // Leave the real numbers the server rendered, kicking off the count-up
     // would flash them down to 0 first. The animation is reserved for when the
     // band is genuinely scrolled INTO view from below.
     if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;

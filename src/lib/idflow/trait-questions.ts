@@ -18,7 +18,7 @@ import type { TraitKey } from "@/lib/idguide/narrow";
 const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
   size: {
     small: "Is it small (under about 10 cm)?",
-    medium: "Is it medium-sized (roughly 10–50 cm across)?",
+    medium: "Is it medium-sized (roughly 10-50 cm across)?",
     large: "Is it large (over about 50 cm, bigger than a dinner plate)?",
   },
   crabFeatures: {
@@ -28,12 +28,12 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "lives-in-shell": "Is it living inside an empty snail shell?",
     "red-eyes": "Does it have bright red eyes?",
     "dark-claw-tips": "Are the pincer tips black?",
-    none: "Is it a plain crab — no swimming paddle, long spider legs, shell home or red eyes?",
+    none: "Is it a plain crab: no swimming paddle, long spider legs, shell home or red eyes?",
   },
   crabForm: {
     "broad-carapace": "Is it a broad oval crab with a wide shell and short legs?",
     swimming: "Does the last pair of legs end in flattened swimming paddles?",
-    spider: "Is it a spider crab — triangular shell with long spindly legs?",
+    spider: "Is it a spider crab, triangular shell with long spindly legs?",
     hermit: "Is it a hermit crab, living inside an empty snail shell?",
   },
   carapaceTexture: {
@@ -109,17 +109,23 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     drifting: "Is it drifting passively with the current?",
     crawl: "Is it crawling along the bottom?",
   },
+  fishZone: {
+    seabed:
+      "Is it working the seabed, resting on it, walking or rooting over it, or threading along the bottom?",
+    "water-column":
+      "Is it up off the bottom, hanging or swimming in open water?",
+  },
   fishGroup: {
     "cod-like": "Is it a chunky, blunt-nosed fish hanging over the seabed, with three separate fins along its back?",
     wrasse: "Is it a deep, thick-lipped fish pottering in the rocks, with one long fin down its back?",
     "silver-shoaler": "Is it a slim, bright-silver fish out in open water (often in a shoal)?",
     "bottom-sitter": "Is it a small, smooth goby or dragonet perched on the seabed, darting in short hops?",
-    "bottom-other": "Is it a chunkier or odd-looking bottom fish — a gurnard, red mullet, sea scorpion or blenny — rather than a small goby or dragonet?",
-    "long-skinny": "Is the body eel-like — much longer than it is deep?",
+    "bottom-other": "Is it a chunkier or odd-looking bottom fish (a gurnard, red mullet, sea scorpion or blenny) rather than a small goby or dragonet?",
+    "long-skinny": "Is the body eel-like, much longer than it is deep?",
     shark: "Does it look like a little shark?",
   },
   bodyShape: {
-    fusiform: "Is it a normal fish silhouette — torpedo or deep-bodied (not eel, flat, or bottom-hugging)?",
+    fusiform: "Is it a normal fish silhouette, torpedo or deep-bodied (not eel, flat, or bottom-hugging)?",
     elongated: "Is the body long and slender?",
     "flat-dorsoventral": "Is the body flattened top-to-bottom, lying flat?",
     "eel-like": "Is the body eel-like?",
@@ -127,7 +133,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
   },
   bodyDepth: {
     deep: "Is it a deep-bodied, tall fish (clearly taller than a torpedo)?",
-    medium: "Is it a medium-built fish — neither slim nor especially deep?",
+    medium: "Is it a medium-built fish, neither slim nor especially deep?",
     slender: "Is it a slim, slender-bodied fish?",
   },
   lateralLine: {
@@ -161,7 +167,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     "pelvic-sucker": "Does it have a round sucker on its belly (fins fused into a disc)?",
     "lateral-scutes": "Is there a row of bony plates along the side?",
     "frilly-fins": "Does it have frilly or feathery fins?",
-    none: "Is it plain-headed — no barbel, spines, fleshy lips or frilly fins?",
+    none: "Is it plain-headed: no barbel, spines, fleshy lips or frilly fins?",
   },
 };
 

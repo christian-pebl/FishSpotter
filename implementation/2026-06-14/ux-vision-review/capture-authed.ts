@@ -1,4 +1,4 @@
-// Phase 1 capture — signed-in states. Creates ONE throwaway test account
+// Phase 1 capture, signed-in states. Creates ONE throwaway test account
 // (@example.com, which silently discards mail) and captures the new-user authed
 // journey: onboarding tour, authed feed, authed reveal (points/streak), and the
 // profile / pokedex. Writes ~1 user + ~1 answer row to the shared prod DB.

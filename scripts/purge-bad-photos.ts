@@ -10,7 +10,7 @@
  * Safety guards (a flagged photo is SKIPPED, never deleted, if any apply):
  *   - it has DiagnosticMark rows (deleting would orphan the teaching guide),
  *   - it is the species' only photo (don't leave a species with zero),
- *   - it is `curated` (a human pinned it — surface for manual review instead),
+ *   - it is `curated` (a human pinned it, surface for manual review instead),
  *     unless --include-curated is passed.
  *
  * DRY-RUN BY DEFAULT. Pass --apply to actually delete. This is a prod DB write,
@@ -102,7 +102,7 @@ async function main() {
   console.log("=== WOULD DELETE ===");
   for (const d of toDelete) console.log(`  [${d.reason}] ${d.sci}  ${d.url}`);
   console.log("\n=== SKIPPED (need manual review) ===");
-  for (const s of skipped) console.log(`  [${s.reason}] ${s.why} — ${s.sci}  ${s.url}`);
+  for (const s of skipped) console.log(`  [${s.reason}] ${s.why}, ${s.sci}  ${s.url}`);
 
   if (!args.apply) {
     console.log(`\nDRY-RUN. Re-run with --apply to delete the ${toDelete.length} SAFE rows.`);

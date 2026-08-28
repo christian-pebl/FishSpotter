@@ -1,8 +1,8 @@
-# FishSpotter — engagement, distribution & brand-bridge strategy (2026-07-03)
+# FishSpotter: engagement, distribution & brand-bridge strategy (2026-07-03)
 
 A strategy note for turning FishSpotter from a well-built game into a growth
 engine for PEBL CIC: more players, more sharing, a visible bridge from the app
-to PEBL's brand and hardware/monitoring sales, and — underneath all of it —
+to PEBL's brand and hardware/monitoring sales, and, underneath all of it,
 more people who understand that seaweed and shellfish farms are *good* for
 marine biodiversity.
 
@@ -22,17 +22,17 @@ owns that a member of the public will *choose* to spend five minutes with.
 That reframes the growth question. We are not optimising a game's DAU. We are
 using a game to move three needles that PEBL actually cares about:
 
-1. **Reach** — how many people PEBL can show the Climate Action Fund it engaged.
-2. **Belief** — how many of them come away understanding that seaweed farming
+1. **Reach**: how many people PEBL can show the Climate Action Fund it engaged.
+2. **Belief**: how many of them come away understanding that seaweed farming
    *increases* biodiversity (the counter-intuitive, brand-defining message).
-3. **Pipeline** — how many funders, operators, students, and partners end up
+3. **Pipeline**: how many funders, operators, students, and partners end up
    one click from PEBL's products, papers, and mailing list.
 
 Everything below is judged against those three, not against vanity metrics.
 
 ## 2. What we already have (and it's a lot)
 
-The app is in a genuinely strong position to grow — the foundations that are
+The app is in a genuinely strong position to grow, the foundations that are
 expensive to build later are already here:
 
 - **Public, indexable, unfurl-ready URLs** for every clip (`/feed/[id]`), every
@@ -40,10 +40,10 @@ expensive to build later are already here:
   sitemap, all with per-page OpenGraph metadata. This is the hard part of
   shareability and it's done.
 - **A real retention stack**: the Pebbles economy, the day-streak ("Tide"),
-  UnlockedSpecies collection, a public leaderboard, and — notably — *working
+  UnlockedSpecies collection, a public leaderboard, and (notably) *working
   email re-engagement* (SendGrid weekly digest + streak-nudge crons with
   opt-in/unsubscribe). Most apps at this stage have none of this.
-- **A consensus/crowd-authority scoring model** — the community is the
+- **A consensus/crowd-authority scoring model**: the community is the
   authority, not a staff answer key. This is philosophically perfect for a
   citizen-science brand and is a story in itself.
 - **An installable PWA** and a data-minimal, consent-gated engagement-metrics
@@ -54,7 +54,7 @@ expensive to build later are already here:
 Four gaps, in priority order. The first is the single highest-leverage thing
 the app is missing.
 
-### Gap 1 — there is no viral loop at all
+### Gap 1: there is no viral loop at all
 
 There is **no share button, no Web Share, no copy-link, no invite/referral
 anywhere in the app.** We have built share-ready URLs and OG metadata and then
@@ -66,7 +66,7 @@ This is the difference between linear growth (we acquire every user by hand)
 and compounding growth (players bring players). It is also cheap: the URLs and
 metadata already exist.
 
-### Gap 2 — the shareable moments aren't *worth* sharing yet
+### Gap 2: the shareable moments aren't *worth* sharing yet
 
 Even with a share button, a raw `/u/[id]` profile or a thumbnail-only clip card
 doesn't make a compelling post. The species OG image is a raw iNaturalist
@@ -74,15 +74,15 @@ photo; the profile OG has no image at all. We have no **rendered share card**
 that turns a win ("I spotted 12 species this week", "17-day Tide", "First
 Sighting of a John Dory") into an image someone is proud to post.
 
-### Gap 3 — the mission is nearly invisible in the product
+### Gap 3: the mission is nearly invisible in the product
 
 This is the one that matters most for PEBL specifically. A player currently
 learns *zero* about **why the footage exists**. The clips come from cameras on
-real UK kelp farms — [Algapelago](https://www.algapelago.com/) in North Devon
-and [Kelp Crofters](https://kelpcrofters.com/) on the Isle of Skye — and the
-whole scientific point — the thing PEBL's [bioRxiv paper](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
+real UK kelp farms, [Algapelago](https://www.algapelago.com/) in North Devon
+and [Kelp Crofters](https://kelpcrofters.com/) on the Isle of Skye, and the
+whole scientific point, the thing PEBL's [bioRxiv paper](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
 and the [Marine Biological Association](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/)
-work show — is that **these farms create habitat: nurseries, shelter, and
+work show, is that **these farms create habitat: nurseries, shelter, and
 feeding grounds that increase the abundance and diversity of marine life.** The
 app is a live demonstration of that thesis and never says so. "Kelp" appears
 only as flavour text in a loading spinner.
@@ -91,7 +91,7 @@ If a player never connects "this fish I'm looking at is living *on a seaweed
 farm*, and that's the point", we've spent all our engagement and taught them
 nothing PEBL needs them to believe.
 
-### Gap 4 — re-engagement is email-only
+### Gap 4: re-engagement is email-only
 
 The digest and streak-nudge emails are good, but they're opt-in email. There's
 no web-push (despite the installable PWA), so most re-engagement leans on a
@@ -113,7 +113,7 @@ channel users increasingly ignore.
 ```
 
 The bridge to sales is deliberately *soft*. FishSpotter's audience is the
-public, not sea-farm operators — but it contains the students, volunteers,
+public, not sea-farm operators, but it contains the students, volunteers,
 journalists, funders, and future-employees who make PEBL's brand real, and the
 occasional operator/investor who *is* a customer. The job of the app is not to
 sell a SubCam on the reveal screen; it's to make thousands of people
@@ -125,14 +125,14 @@ CTAs (newsletter, products page, contact) always one tap away.
 Effort is rough (S = a day, M = a few days, L = a week+). Impact is judged
 against Reach / Belief / Pipeline from §1.
 
-### P0 — Ship the viral loop (the un-ship-able gap)
+### P0: Ship the viral loop (the un-ship-able gap)
 
 **5.1 Share affordance on every win. (M, mostly reuses existing URLs.)**
 Add a share control using the Web Share API (`navigator.share`) with a
 clipboard-copy fallback, on: the reveal card after a correct/consensus ID, the
 profile page, the leaderboard row (self), and the streak milestone. Share text
 is templated per context ("I just spotted a *Labrus mixtus* on a UK kelp
-farm 🌊 — can you? {url}"). Every shared URL carries a `?ref=` param for
+farm 🌊, can you? {url}"). Every shared URL carries a `?ref=` param for
 attribution and a soft invite. *This is the one item that, if we ship nothing
 else, changes the growth curve.*
 
@@ -150,11 +150,11 @@ straight onto that clip. Uses the existing per-clip route; it's mostly copy +
 a landing nudge for logged-out visitors ("Guess this one, then see how you did
 against the crowd").
 
-### P1 — Make the mission the product, not a footnote
+### P1: Make the mission the product, not a footnote
 
 **5.4 "Where this comes from" in the core loop. (M.)** On the reveal card, add
 a small, dismissible provenance line: *"Filmed on a kelp farm · Algapelago,
-North Devon. Farms like this shelter more fish than the open seabed —
+North Devon. Farms like this shelter more fish than the open seabed,
 [why →]"* (farm resolved per-clip; Skye clips read Kelp Crofters). The
 `[why →]` opens a short, beautiful explainer (see 5.5). This is
 the single most important belief-moving change: it attaches the message to the
@@ -163,7 +163,7 @@ moment of delight, every clip.
 **5.5 A real `/about` (or `/why-seaweed`) page. (M.)** Today "About PEBL" is a
 paragraph on the landing page. Build a proper, public, indexable, shareable
 page that tells the story: what a kelp farm is, the cameras that shot this
-footage, and the evidence that farms boost biodiversity — cite PEBL's own
+footage, and the evidence that farms boost biodiversity, cite PEBL's own
 [research](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1) and the
 source farms ([Algapelago](https://www.algapelago.com/),
 [Kelp Crofters](https://kelpcrofters.com/)). This is the page journalists and
@@ -172,7 +172,7 @@ as SEO surface for "does seaweed farming help biodiversity".
 
 **5.6 Onboarding gains a "why" beat. (S.)** The 3-step tour (Spot / Compare /
 Streak) is pure mechanics. Add a fourth: *"Every clip is real footage from a
-UK kelp farm — you're helping show these farms are alive."* One screen,
+UK kelp farm, you're helping show these farms are alive."* One screen,
 big impact on framing.
 
 **5.7 PEBL CTAs that convert belief into pipeline. (S.)** Once someone cares,
@@ -182,14 +182,14 @@ page](https://www.pebl-cic.co.uk/products) linked as "The cameras behind these
 clips", and a light "Work with PEBL / bring cameras to your farm" contact link.
 Soft, honest, always present.
 
-### P2 — Deepen retention & reach
+### P2: Deepen retention & reach
 
 **5.8 Web-push for streaks & milestones. (M.)** The PWA is installable; add
 web-push so the streak-nudge and "the crowd reached consensus on your ID" moments
 can reach opted-in users without email. Pairs with the existing cron logic.
 
-**5.9 Weekly community moments. (S–M.)** A "Species of the week" or "Rarest
-sighting this week" surfaced in the digest and as a shareable card — gives
+**5.9 Weekly community moments. (S-M.)** A "Species of the week" or "Rarest
+sighting this week" surfaced in the digest and as a shareable card, gives
 regulars a reason to return and a fresh thing to post. Rides the existing
 consensus + rarity (OBIS `SpeciesProbability`) data.
 
@@ -225,7 +225,7 @@ already captures reach/engagement/learning, consent-gated):
 
 ## 7. Recommended first move
 
-If PEBL does one thing this month: **ship 5.1 + 5.2 + 5.4 together** — the share
+If PEBL does one thing this month: **ship 5.1 + 5.2 + 5.4 together**: the share
 button, a proud rendered card to share, and the "filmed on a seaweed farm"
 provenance line on the reveal. That single slice closes the virality gap *and*
 staples the mission to the shared moment, so every share carries PEBL's message
@@ -237,12 +237,12 @@ self-propelling story about seaweed farming.
 
 ### Sources
 
-- PEBL CIC — [Ocean data, made accessible](https://www.pebl-cic.co.uk/) ·
+- PEBL CIC, [Ocean data, made accessible](https://www.pebl-cic.co.uk/) ·
   [Products](https://www.pebl-cic.co.uk/products) · [@pebl_cic](https://www.instagram.com/pebl_cic/)
-- Source farms — [Algapelago](https://www.algapelago.com/) (Bideford Bay, North
+- Source farms, [Algapelago](https://www.algapelago.com/) (Bideford Bay, North
   Devon) · [Kelp Crofters](https://kelpcrofters.com/) (Isle of Skye)
 - Rippin et al., *Integrating environmental and ecological monitoring with
-  seaweed farming* — [bioRxiv 2024](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
-- Marine Biological Association — [Shellfish and seaweed farms as fish
+  seaweed farming*, [bioRxiv 2024](https://www.biorxiv.org/content/10.1101/2024.02.15.580450v1)
+- Marine Biological Association, [Shellfish and seaweed farms as fish
   habitat](https://www.mba.ac.uk/british-shellfish-and-seaweed-farms-could-provide-valuable-habitats-for-coastal-fish-species-according-to-new-research/)
-- WWF — [Helping Scottish Kelp](https://www.wwf.org.uk/what-we-do/projects/helping-scottish-kelp)
+- WWF, [Helping Scottish Kelp](https://www.wwf.org.uk/what-we-do/projects/helping-scottish-kelp)

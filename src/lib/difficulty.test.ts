@@ -87,7 +87,7 @@ describe("weightedBandOrder", () => {
   });
 
   it("skews easy clips toward the front for a brand-new spotter", () => {
-    // 3 easy, 3 medium, 3 hard, repeated across many seeds — at readiness 0
+    // 3 easy, 3 medium, 3 hard, repeated across many seeds, at readiness 0
     // the average position of easy items should be earlier than hard items.
     const items = [
       item("e1", 0.95), item("e2", 0.9), item("e3", 0.85),

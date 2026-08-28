@@ -1,8 +1,8 @@
 /**
- * POST /api/auth/forgot — password-reset request (S3-04).
+ * POST /api/auth/forgot, password-reset request (S3-04).
  *
  * Returns 200 with the same `{ ok: true }` body regardless of whether
- * the email exists — standard email-enumeration mitigation. Real users
+ * the email exists, standard email-enumeration mitigation. Real users
  * receive an email with a one-time, hash-at-rest token (1h TTL).
  * If SENDGRID_API_KEY isn't configured, the token is still persisted; an
  * operator can read the DB row to construct the URL during the

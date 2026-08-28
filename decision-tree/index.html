@@ -220,7 +220,7 @@
 <body>
 
 <header>
-  <h1>Species ID — Decision Tree</h1>
+  <h1>Species ID, Decision Tree</h1>
   <p class="intro">
     Read top-down. You assign a <b>Shape Class</b> in the first second (no marine-biology knowledge needed),
     then narrow by sub-class, and within every branch you also filter by
@@ -255,15 +255,15 @@ const TREE = [
     shape: "Crab", worked: true,
     groups: [
       { title: "Shell on back?", note: "first split",
-        condition: "Yes — shell carried on back",
+        condition: "Yes, shell carried on back",
         species: [{ n: "Hermit Crab", d: "soft abdomen tucked in a borrowed spiral shell; larger right pincer seals the shell mouth" }] },
-      { title: "Shell on back?", note: "no shell — continue",
+      { title: "Shell on back?", note: "no shell, continue",
         condition: "No shell → Body ratio sub-class",
         species: [] },
       { title: "Body ratio sub-class", note: "leg : body length",
         condition: "Legs longer than body + round body",
         species: [{ n: "Spider Crab", d: "spiny domed shell, often weed-decorated" }] },
-      { title: "Body ratio sub-class", note: "legs ≤ body — continue",
+      { title: "Body ratio sub-class", note: "legs ≤ body, continue",
         showContext: true, showMovement: true,
         species: [
           { n: "Shore / Green Crab", d: "5 spines + 3 lobes between the eyes; green, variable" },
@@ -306,7 +306,7 @@ const TREE = [
           { n: "Conger Eel", d: "grey, continuous dorsal-tail-anal fin; head in crevice" },
           { n: "Butterfish", d: "ribbon body, row of dark-pale ocelli on dorsal" }
         ] },
-      { title: "Gobies", note: "pelvic fins fused into sucker disc — ID the goby first, then species",
+      { title: "Gobies", note: "pelvic fins fused into sucker disc, ID the goby first, then species",
         species: [
           { n: "Rock Goby", d: "pale orange/yellow band along top of first dorsal; rocky/kelp substrate" },
           { n: "Sand Goby", d: "near-translucent, rows of fine spots; vanishes on sand" },
@@ -436,7 +436,7 @@ function render() {
           <div class="sp-name">${s.n}</div>
           <div class="sp-diag">${s.d}</div>
         </div>`).join('');
-      const note = g.note ? ` <small>— ${g.note}</small>` : '';
+      const note = g.note ? ` <small>- ${g.note}</small>` : '';
       return `
         <div class="subclass">
           <div class="subclass-title">${g.title}${note}</div>

@@ -229,5 +229,19 @@
     "attribution": "Jakovche, via PhyloPic",
     "license": "CC-BY-SA 3.0",
     "source": "https://www.phylopic.org/images/64c27f60-ffbf-4ee8-ae1e-726042c477ff"
+  },
+  "seabed": {
+    "taxon": "Generic bottom fish (gobies, gurnards, catshark, conger)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
+  },
+  "water-column": {
+    "taxon": "Generic mid-water fish (gadoids, wrasses, silver swimmers)",
+    "imageUuid": null,
+    "attribution": "PEBL CIC (original silhouette)",
+    "license": "CC0 1.0",
+    "source": "https://fish-spotter.vercel.app"
   }
 }

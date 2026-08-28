@@ -1,3 +1,4 @@
+# FishSpotter: Changelog
 # FishSpotter Changelog
 
 > Dated, session-by-session shipping log. Moved out of CLAUDE.md on 2026-06-04 so the
@@ -11,6 +12,20 @@
 - Species quiz with community stats working
 - BBox tracking overlay (Catmull-Rom smooth trail) working
 - Debug strip has been removed (was temporary diagnostic tool)
+- Species image gallery feature **activated 18 May 2026**: `SpeciesImage` table populated (113 rows across 26 species), `CRON_SECRET` set in Vercel, weekly cron live.
+- **Invert photo cache populated 2 Jun 2026** (Section 2a, `implementation/2026-06-02/section-2-invert-content.md`), ran `db:refresh-images --stale-only` so all 26 Workstream-C inverts (crab/squid/starfish/gastropod/jellyfish) now carry 3-5 `SpeciesImage` rows each (iNat, with Wikimedia top-up where iNat was thin). 0 inverts with zero rows; verified via the `/api/species-images/<sci>` route. This unblocks invert MCQ thumbnails + reveal gallery. Invert *snippets/footage* in the feed are still outstanding (Section 2b, footage-dependent). Photos live in the DB, not git.
+- **Landing page redesigned 2 Jun 2026** (`implementation/2026-06-02/landing-redesign.md`), the flat text-only `/` page became an "underwater" hero: a real looping snippet with a self-playing species-pick overlay, drifting CC0 silhouettes + light shafts + bubbles, a live clips/species/spotters count-up, a real-photo species marquee, and visual Spot→Compare→Streak step cards. Server component pulls live Prisma data; distractors are shape-class-aware; all motion is reduced-motion-safe and pauses off-screen (`src/lib/useInView.ts`). Verified: `tsc` clean, `lint:tokens` exit 0, `build` clean. Known follow-up: only 2/54 species have a curated reference photo, so marquee/MCQ photo quality is editorial debt (tracked separately).
+- **Visual/UX design audit + fixes + marine auth background, 2 Jun 2026** (`implementation/2026-06-02/design-audit.md`, commit `4a74a2d`), a multi-agent audit (12 finder lenses, per-finding adversarial verification, 61 confirmed findings → 21 themes) drove three things, all shipped + `tsc`/`build` green: (1) the one **P1**, a shared `src/lib/useModalFocus.ts` hook (trap + restore + scroll-lock) applied to `MapModal`, which previously let keyboard users tab onto the live feed behind the open map; (2) **8 quick wins**: Unicode status glyphs → stroked SVGs (profile/RarityPanel/SnippetPlayer/browse/admin), verdict + `danger` tokens for semantic pills, `white/35`→`/60` contrast lifts on the dark feed panels, `motion-reduce:animate-none` on every skeleton, deterministic browse "Open" badge contrast, leaderboard+signin CSS-var→Tailwind-alias, `teal-800` (lighter than 600) renamed to `teal-hover`, cookie button "Dismiss"→"Got it"; (3) **core-loop hierarchy**: demoted the duplicate "Help me identify" CTA so "Spot It" is the single guided entry, separated the "Where is this?" utility action, and moved the feed panel + MCQ tiles to `rounded-card`/`rounded-modal`. Plus a **WhatsApp-doodle marine background** behind all `/auth` pages (`src/app/auth/layout.tsx` + `MarinePattern`): a seamless tile of **21 UK** CC0/PD PhyloPic silhouettes (non-UK like turtle + ink-blobs excluded), tinted teal via `mask` + `currentColor`, gentle `fs-pattern-sway` wave, 80% translucent card, fixing the audit's bare-auth-page finding (F-EMPTY-AUTH-STATES). Remaining systemic P2s (full glyph/radius/touch-target sweeps, type-token + editorial-auth work) tracked in the audit doc.
+- **Wikimedia top-up false-positive found + remediated 2 Jun 2026**: while curating for 2c, the `Aurelia aurita` cache held a Wikimedia photo of a *person* (file `Aurelia_Aurita_..._Fnac` named after someone called Aurélia, not the species). Root cause: `fetchPhotosFromWikimedia` searches by filename/description text, so it can return wrong-subject photos, historical engravings (Haeckel/Iconographia plates) and non-web `.tif`s. Fixes: (1) added `looksNonPhotographic()` to `src/lib/biodiversity/wikimedia.ts` (rejects `.tif/.svg/.pdf/...` + plate/engraving/print/lithograph/old-year titles; 3 unit tests); (2) **purged all 40 Wikimedia invert rows** so every shipped invert photo is now iNat research-grade (content-verified by community ID), every invert still has >=1 iNat photo. The text-match filter still cannot catch a wrong-subject *modern photo*, which is why teaching content (`DiagnosticMark`) is gated to `curated` photos. Going forward, prefer **viewed curated overrides** in `species-images.json` for inverts over the Wikimedia top-up.
+- **2c invert DiagnosticMark pilot started 2 Jun 2026**. Proved the full pipeline on Moon Jellyfish: pinned a viewed CC-BY-SA Luc Viatour photo as a `curated` override, then seeded 3 starter marks (four gonad rings / four frilly oral arms / short tentacle fringe) via `scripts/seed-invert-marks.ts` (sibling of `seed-gadoid-marks.ts`; attaches to the lowest-ordering *curated* photo, idempotent). Verified the `/api/species-images/Aurelia aurita` route returns the curated photo first with all 3 marks (so `AnnotatedSpeciesPhoto` renders them in the wizard). - **Jellyfish tile fully marked 2 Jun 2026**. Extended the pilot to the whole tile: viewed iNat candidates and pinned a curated lead photo for all 6 jellyfish (Moon = Luc Viatour CC-BY-SA; the other 5 = curated CC-BY-NC iNat observations in `species-images.json` overrides), then seeded draft marks via `seed-invert-marks.ts` (Moon 3, Compass 3, Lion's Mane 2, Barrel 2, Blue 2, Mauve 3 = 15 marks). All 6 verified via `/api/species-images` returning the curated photo first with its marks. Coords are starter drafts for `/admin/species` tuning.
+- **Fish DiagnosticMarks: 21 species seeded, 2 Jun 2026** (commits `e2d8933`, `3229c46`, `057d8de`, `e3246de`), `scripts/seed-fish-marks.ts` authored draft marks for 4 batches: **gadoids** (Saithe, Bib/Pouting, Poor Cod, Atlantic Cod, completing the S9-T1 pilot), **wrasses** (Ballan, Cuckoo, Corkwing, Goldsinny), **gobies/benthic** (Two-spotted Goby, Common Goby, Rock Goby, Sand Goby, Butterfish, Shanny, Long-spined Sea Scorpion), and **pelagic/schooling** (Horse Mackerel, Atlantic Mackerel, Sprat, Sand Smelt, Sea Bass, Thick-lipped Grey Mullet). Each batch required curated iNat photo overrides in `species-images.json`. Draft mark coords are starters; tune in `/admin/species/[name]`. Combined with the S9-T1 gadoid pilot (Pollack seeded earlier) this brings the admin-authored fish set to **22 species** with draft marks in the DB.
+- **Remaining 20 inverts (crab/squid/starfish/gastropod) follow the same steps:** view cached photos -> pin the best as a curated override in `species-images.json` -> add a draft to `INVERT_DRAFTS` in `scripts/seed-invert-marks.ts` -> `db:refresh-images --species` -> run the seeder -> tune coords in `/admin/species`.
+- Bootstrap kit **shipped 22 May 2026** (`26bbf10`), one-command operator setup for all infra tokens, env vars, DNS, R2, Resend. See `scripts/bootstrap/README.md`.
+- Resend email domain `pebl-cic.co.uk` **registered and DNS live 26 May 2026**: DKIM + SPF records added to Wix DNS; domain status `pending` (sending already enabled). Run `npm run bootstrap -- --doctor` to check verification status.
+- **S3-01 schema drift fixed 27 May 2026**: `prisma db push` applied the auth-lifecycle columns + tables (`User.emailVerified`, `Account`, `Session`, `VerificationToken`, `PasswordResetToken`) that had been merged in code but never pushed to prod. Backfilled existing users with `emailVerified = createdAt`. Forgot-password + the rest of the S3 flows are now functional in prod.
+- **S7-T1 shipped 27 May 2026**: nullable references + points-based scoring + contrast pass. See "Scoring model" section above. UI copy across the onboarding tour, landing page, reveal panel, and rarity panel retired the "PEBL staff" branding in favour of "reference ID (when available)", references can come from PEBL, academic partners, fisheries bodies, or be temporarily absent. The reveal pills (Correct/Wrong/Pending) are solid-bg + dark text so they read against any video background.
+- **S7-T3 (IdGuide sheet expansion, 27 May 2026)**: the "How to spot a X next time" / wizard / chat sheet now opens at `96vw × 94vh` (capped at `max-w-7xl` / 1280px) instead of the previous `max-w-2xl × 88vh`. Two-column desktop layout on the field-note view (gallery left, prose + traits right) so the extra real estate gets used; mobile layout unchanged.
+- **S8-T1 (per-user random feed ordering, 27 May 2026)**: `/feed` no longer shows everyone the same reverse-chronological list. The default card is now the first **unanswered** snippet for the viewer, with the rest of the list shuffled deterministically.
 - Species image gallery feature **activated 18 May 2026**, `SpeciesImage` table populated (113 rows across 26 species), `CRON_SECRET` set in Vercel, weekly cron live.
 - **Invert photo cache populated 2 Jun 2026** (Section 2a, `implementation/2026-06-02/section-2-invert-content.md`), ran `db:refresh-images --stale-only` so all 26 Workstream-C inverts (crab/squid/starfish/gastropod/jellyfish) now carry 3-5 `SpeciesImage` rows each (iNat, with Wikimedia top-up where iNat was thin). 0 inverts with zero rows; verified via the `/api/species-images/<sci>` route. This unblocks invert MCQ thumbnails + reveal gallery. Invert *snippets/footage* in the feed are still outstanding (Section 2b, footage-dependent). Photos live in the DB, not git.
 - **Landing page redesigned 2 Jun 2026** (`implementation/2026-06-02/landing-redesign.md`), the flat text-only `/` page became an "underwater" hero: a real looping snippet with a self-playing species-pick overlay, drifting CC0 silhouettes + light shafts + bubbles, a live clips/species/spotters count-up, a real-photo species marquee, and visual Spot→Compare→Streak step cards. Server component pulls live Prisma data; distractors are shape-class-aware; all motion is reduced-motion-safe and pauses off-screen (`src/lib/useInView.ts`). Verified: `tsc` clean, `lint:tokens` exit 0, `build` clean. Known follow-up: only 2/54 species have a curated reference photo, so marquee/MCQ photo quality is editorial debt (tracked separately).
@@ -29,6 +44,8 @@
   - **Anonymous:** shuffle seed = `fs.anon_seed` cookie minted by `src/middleware.ts` on first hit to `/` or `/feed/*`. Stable per browser, fresh per browser.
   - **Exhausted feed:** once a user has answered everything, the answered snippets remain visible at the back of the shuffle so they can scroll back / edit.
   - Pure ordering logic in `src/lib/feed-ordering.ts` + `src/lib/shuffle.ts` (PRNG lifted out of `candidates.ts` and shared). 8 unit tests in `feed-ordering.test.ts`.
+  - **Optimistic move-to-back on submit deferred**. Current behaviour: a card answered mid-session stays in its scroll position; reload re-evaluates and pushes it to the answered tail. Wire client-side reorder if user testing surfaces it as a pain point.
+- **S9-T1 (admin-authored diagnostic marks, 27 May 2026)**: turns the existing `IdGuideWizard` from a guessing aid into a teaching tool. Admins (`@pebl-cic.co.uk` email suffix) can author "diagnostic marks" via a new `/admin` interface; those marks render as numbered SVG rings on a reference photo in the wizard's final reveal so a spotter sees exactly *where* on the fish to look for the chin barbel / pectoral spot / projecting jaw / etc.
   - **Optimistic move-to-back on submit deferred**, current behaviour: a card answered mid-session stays in its scroll position; reload re-evaluates and pushes it to the answered tail. Wire client-side reorder if user testing surfaces it as a pain point.
 - **S9-T1 (admin-authored diagnostic marks, 27 May 2026)**, turns the existing `IdGuideWizard` from a guessing aid into a teaching tool. Admins (`@pebl-cic.co.uk` email suffix) can author "diagnostic marks" via a new `/admin` interface; those marks render as numbered SVG rings on a reference photo in the wizard's final reveal so a spotter sees exactly *where* on the fish to look for the chin barbel / pectoral spot / projecting jaw / etc.
   - **DiagnosticMark schema** (`prisma/schema.prisma`): one row per labelled ring. Normalised (0..1) `overlayX` / `overlayY` and `overlayRadius` (radius is fraction of `min(width, height)` so rings stay circular across aspect ratios). FK to `SpeciesImage`. `createdBy` audit field. No separate status flag, a species counts as published once it has >=1 mark.
@@ -38,6 +55,7 @@
   - **Server actions** (`src/app/admin/species/[name]/actions.ts`): `createMark` / `updateMark` / `deleteMark` / `swapMarkOrder`. All gated by `requireAdminSession()`. Coords clamped to 0..1 and radius to 0.01..0.5 before persisting. `createMark` verifies the `speciesImageId` belongs to the species being edited (no cross-species mark assignment via tampered IDs). `swapMarkOrder` runs in a Prisma transaction so the list can't end up with duplicate `order` values mid-swap.
   - **Wizard integration** (`src/components/AnnotatedSpeciesPhoto.tsx` + `IdGuideWizard.tsx`): the species-images API now includes `marks` per photo (Prisma `include`, no new round-trip). `AnnotatedSpeciesPhoto` renders the first photo with marks as numbered rings + a legend listing label + description. Returns null when no marks exist, so the existing thumb-strip + field-note path keeps working for the unauthored long tail.
   - **"Why ask this?" hints**: each `STEPS` entry in `IdGuideWizard.tsx` now carries a `whyHint` surfaced behind a small disclosure under the question. Explains the marine biologist's rationale at each rung, body shape locks family, size eliminates lookalikes, habitat is often as diagnostic as morphology, single marks settle three-way ambiguity, behaviour is the clincher.
+  - **Authoring is the bottleneck, not the build**: the framework + admin UI ship in this release but mark content is editorial work in `/admin/species`, no further deploys required. Author the remaining gadoid pilot (bib, pollack, cod, haddock) first, then expand to the wider catalogue.
   - **Authoring is the bottleneck, not the build**, the framework + admin UI ship in this release but mark content is editorial work in `/admin/species`, no further deploys required. Author the remaining gadoid pilot (bib, pollack, cod, haddock) first, then expand to the wider catalogue.
 - **S9-T1 follow-up (27 May 2026, evening session)**: fins/tail wizard step, image preload hardening, and the gadoid pilot is partially seeded.
   - **IdGuideWizard Stage 2 (fins/tail)**: new step inserted between `size` and `habitat` in `src/components/IdGuideWizard.tsx`. Asks about dorsal layout and tail shape with four options (split-dorsal, single-dorsal, forked-tail, rounded-tail). `lyre-shaped` and `long-anal` from `FIN_SHAPE` stay in the predicate engine but are not surfaced as wizard options (too niche for citizen-science phrasing). Carries the same "Why ask this?" disclosure pattern as the other steps. Note: whiting (`Merlangius merlangus`) and haddock (`Melanogrammus aeglefinus`) are listed in the pilot in `/admin/species/page.tsx` but are NOT in the 26-species `src/data/species-traits.json` catalogue, so the pilot effectively reduces to 3 species (pollack, bib, cod).
@@ -52,6 +70,16 @@
   - `createMark` server action throws if the target photo is non-curated. The admin UI surfaces this proactively: species with photos cached but none curated get an amber notice + curation instructions instead of the annotator.
   - Migration: `scripts/migrate-curated-flag.ts` (run via `npm run db:migrate-curated-flag`) flips any photo that already hosts authored marks to `curated = true`. Run once on 27 May; flipped 1 photo (pollack's iNat reference) so the existing 3 marks didn't go dark when the gate shipped. Idempotent.
   - Net effect: iNat photos can't be silently promoted to "this is the canonical reference for teaching" just because they were the first thing the cron fetched. Add to `src/data/species-images.json` overrides (with `curated: true`) and re-run `db:refresh-images` before authoring marks.
+- **Rung 2 as a draggable dark gate + "Examples" (3 Jun 2026)** (`implementation/2026-06-03/rung2-bodyshape-examples-plan.md`, commit `f15a780`, merged to main), the body-shape sub-split (Rung 2) was lifted out of the inline `CandidateStrip` box and made a draggable dark card that matches the Rung-1 shape gate. The gate chrome (draggable floating card, drag-from-grip, "Hide", focus trap, body-scroll lock, tile grid + Not-sure/Skip footer) was **extracted into a reusable `src/components/idflow/TileGate.tsx`** (+ `MaskSilhouette`); `ShapeGate` now renders from it (Rung 1 behaviour unchanged) and the new `src/components/idflow/BodyShapeGate.tsx` renders Rung 2 from it. Each Rung-2 tile is a body-form silhouette (the existing PhyloPic `public/silhouettes/forms/<value>.svg` assets, tinted via mask-image; **bespoke art drops in over the same filenames, no code change**: the 2 forms without an asset, `flat-dorsoventral` + `no-shell`, show a neutral placeholder) with a per-tile **"Examples" button** → `src/components/idflow/BodyFormExamples.tsx`, a focus-trapped portaled popup of real CC-attributed photos of catalogue species with that body form (reuses `SpeciesGallery`; teaching aid only, never commits a guess; the gate `suspendKeyboard`s while it's open so the two focus traps don't fight). The `SUB_SPLITS` table + helpers were lifted to **`src/lib/idflow/body-forms.ts`** (one source of truth; `bodyFormConfigFor`, `exampleSpeciesForForm`). `FeedCard` routes Rung1 → Rung2 (only for classes whose sub-split discriminates, i.e. not crab/flatfish/scooter) → strip, `seed`ing the chosen form into the strip's narrowing and suppressing its now-redundant inline sub-split. Validated: tsc, lint, lint:tokens, prod build, 205 tests (4 new in `body-forms.test.ts` prove every form maps to ≥1 photographed species so no Examples button is ever empty). NB the live interactive preview couldn't be driven (the feed's IntersectionObserver scroll container doesn't respond to the eval harness); static gates + the user's on-device check are the verification path.
+
+- **Rung 3 species-tile guide popup (3 Jun 2026)**: tapping a species tile in the Rung-3 `CandidateGate` no longer commits the guess instantly. It now opens **`src/components/idflow/SpeciesGuidePopup.tsx`**, a portaled focus-trapped "flash card" that surfaces, in one place, the three things we author per species: (1) the diagnostic guide (`AnnotatedSpeciesPhoto` numbered circles on the curated photo, renders nothing if the species has no marks), (2) a `SpeciesGallery size="large"` photo gallery + lightbox, (3) the `fieldNote` prose from the trait catalogue. A **"This is my pick"** button commits via the existing `onPick` path; "Back"/"Keep looking" dismisses without committing. This is what makes the diagnostic-mark guide reachable in the live app (previously only the post-submit reveal + the wizard's FinalReveal rendered it, so most users never saw it). Focus management is inline (mirrors `useModalFocus`) but **guards Escape/Tab while the gallery's own lightbox (z-[100], `aria-modal="true"`) is open** so one keypress can't close both; `CandidateGate` passes `suspendKeyboard` to the gate so it goes `inert` underneath. Decided entry point = the live ID-flow tiles (not a separate dex page); MCQ tiles still commit instantly (fast path preserved). Validated: tsc, eslint, prod build, `/feed` route compiles + 200. Interactive tap-through is on-device (harness can't drive the feed's IntersectionObserver). Photo-quality curation to feed better gallery images is gated on Gemini quota (see the image-analysis tool section: free tier ~20 req/day).
+- **Marks-on-bad-photo fix (3 Jun 2026, `scripts/reauthor-quality-flagged-marks.ts`)**: the Gemini sweep found 7 species whose CURATED, mark-bearing photo was a dead/poor/multi specimen (so the wizard drew rings on a dead fish). Each already had a good curated lead photo at `ordering=1` with 0 marks; `AnnotatedSpeciesPhoto` renders "the first photo WITH marks", so it showed the bad one. The script moves each species' marks onto the good lead photo with fresh coordinates (placed by viewing each photo, orientation-verified, then render-checked), keeps the label/description text, and deletes the old dead photo (all 7 are already in `photo-blocklist.json`, so deletion is durable). Species: Bib, Shanny, Poor cod, Veined squid, Painted top shell, Barrel jelly, Cuckoo wrasse. Verified via `/api/species-images` (each now returns the good lead photo with its marks first). Idempotent (skips a species whose good photo already has marks). DB changes are live on prod. (Two borderline species, Common Limpet + Moon Jelly, "usable" multi-specimen, left as acceptable.)
+- **Diagnostic-ring polish + alignment fix + Gemini verification (3 Jun 2026)**. Three things: (1) `AnnotatedSpeciesPhoto.tsx` rings are now thinner (`ringStroke` `S*0.006`→`S*0.004`) and the numbered badge sits just OUTSIDE the ring on the first in-frame diagonal (UR→UL→LR→LL) instead of on the ring edge, so a number never covers the feature and never clips off-frame near an edge. (2) **Latent alignment bug fixed**: `AnnotatedSpeciesPhoto` builds its SVG viewBox from the stored `width`/`height` and falls back to a 1000×1000 square (4/3 container) when null, skewing every ring on non-square photos. `scripts/backfill-image-dims.ts` (`npm run db:backfill-image-dims`) reads true pixel size from each JPEG/PNG header and backfilled **33 SpeciesImage rows** that had null dims (incl. portrait crab/whelk/limpet photos that were badly skewed). The admin annotator places coords as fractions of an `object-cover` container at the stored aspect, so once true dims are set the public component matches the authoring intent. (3) **Verification via Gemini 3.5 Flash**: rendered each annotated photo with the exact component geometry and had Gemini check, per mark, that the ring is centered on its labelled feature and the badge doesn't obscure it; iterated coords until clean. The 7 re-authored species verify 19/20 (the one residual (Barrel jelly's frilly arms) is `onFeature=True`, badge just clips a frame-filling feature). NB the **parallel-authored marks on the other ~14 null-dim species** (Edible Crab pie-crust, Horse Mackerel eye, Dog Whelk aperture-not-visible-in-dorsal-view, Hyas ring clutter, etc.) have their own pre-existing placement imprecision that the dim fix surfaced; they want the same Gemini verify+fix pass. The reusable verify recipe: render with component geometry, send to Gemini with a per-mark `{onFeature, badgeClear, note}` schema.
+- **Reference galleries built out to 6-8 vetted photos/species (4 Jun 2026, `scripts/build-species-galleries.ts`)**: the photo strip a user sees when they tap a species at the Rung-3 decision point (`SpeciesGuidePopup` → `SpeciesGallery`) was previously whatever the iNat cron grabbed unfiltered (1-5 rows/species, some dead/mixed-school). The new builder fills each gallery to a TARGET of 8 Gemini-vetted teaching photos: the `curated` diagnostic-mark reference stays first (marks intact), then the best alive/in-frame/single-specimen CC photos from a pooled iNat-vote + Wikimedia top-up sweep, ordered by Gemini teachingScore. It deletes the non-curated mark-free junk that didn't make the cut and blocklists the dead/wrong/drawing rejects. **First full run: 57 species, +306 photos, 86 rows deleted, 392 new `photo-blocklist.json` entries (490 total), 385 gallery rows (~6.75 avg).** Verified end-to-end (API returns curated-first 8-photo payloads, all photo URLs 200, all CC-licensed with attribution intact). Photos live in the DB (not git). Genuine open-source ceilings left short (mostly-dead-specimen food fish, 20+ rejects each): Sprat (2), Atlantic mackerel (2), Barrel jelly (3); several more at 4 (saithe, conger, horse mackerel, poor cod, veined squid, dragonet, sand smelt). The builder is idempotent + re-runnable, so coverage improves as iNat gains live photos.
+- **Catalogue-wide diagnostic-mark verification + fix (4 Jun 2026)**: ran the Gemini-3.5-Flash verify recipe across ALL 42 marked species (render each curated lead photo with the exact `AnnotatedSpeciesPhoto` geometry; per-mark `{onFeature, badgeClear, featureVisible, correctX, correctY}` schema; sort flags by how far Gemini wants to move each ring). Outcome on **98 marks**: auto-applied Gemini's corrected centre for **17 clear misplacements** (delta ≥0.13, with a backup + re-verify gate; 7 species went green), hand-fixed the egregious ones by viewing the photo (Pollack's lateral-line ring was floating in open water on the murky pilot photo; catshark "dorsal fins" ring was on sand), and **deleted 6 feature-not-visible marks** (octopus ×2 sucker rows on the hidden underside, dog-whelk aperture under a dorsal-up shell, catshark nostril flaps, and 2 male-only dragonet marks on a female photo). Restored Dog Whelk after mistakenly deleting its curated marks (re-authored "Pointed spire" + "Colour varies"). Final state: **only sub-0.15 noise-level flags remain** (Gemini's single-run spatial verdict is noisy (e.g. Bib/Poor cod flip OK↔BAD between runs), so chasing 100% green is a moving target; ground-truth is viewing the render). All DB changes live on prod. KEY LESSON: trust the categorical flags (featureVisible / drawing / dead) and large position deltas; treat small deltas as noise; always view the render before/after a hand-fix (orientation footgun).
+- **Gallery quality re-check + photo-provenance 'i' popover (4 Jun 2026)**: second pass over every gallery photo with the builder now ranking on a 50/50 `teachingScore`+`diagnosticFeaturesVisible` blend (the user ask: images must "show off the key traits"); it re-assessed all + swapped in trait-richer photos -> **403 rows (~7/species)**, only Sprat + Atlantic mackerel still short (genuine dead-specimen ceilings). Added two nullable `SpeciesImage` columns `observedOn` + `placeGuess`, captured from iNat at fetch time and backfilled onto older/curated rows by `scripts/enrich-image-meta.ts` (322 rows enriched; 320/320 iNat obs had date+place). The `/api/species-images` payload now carries them, and `SpeciesGallery` renders a per-thumbnail **'i' button** -> portaled `InfoPopover` (reference + location + year + subject + source link + license chip); the lightbox shows a location·year line too. Verified end-to-end in the dev preview (popover renders the real provenance), `tsc` + `eslint` + `lint:tokens` + prod `build` all green. Fixed a latent crash found during verification: the 'i' handler must capture `getBoundingClientRect()` before `setInfo` (reading the synthetic event inside the updater throws on React's reducer replay). Photos + metadata live in the DB; schema + code committed.
+
+## Activation history: 18 May 2026
 - **Rung 2 as a draggable dark gate + "Examples" (3 Jun 2026)** (`implementation/2026-06-03/rung2-bodyshape-examples-plan.md`, commit `f15a780`, merged to main), the body-shape sub-split (Rung 2) was lifted out of the inline `CandidateStrip` box and made a draggable dark card that matches the Rung-1 shape gate. The gate chrome (draggable floating card, drag-from-grip, "Hide", focus trap, body-scroll lock, tile grid + Not-sure/Skip footer) was **extracted into a reusable `src/components/idflow/TileGate.tsx`** (+ `MaskSilhouette`); `ShapeGate` now renders from it (Rung 1 behaviour unchanged) and the new `src/components/idflow/BodyShapeGate.tsx` renders Rung 2 from it. Each Rung-2 tile is a body-form silhouette (the existing PhyloPic `public/silhouettes/forms/<value>.svg` assets, tinted via mask-image; **bespoke art drops in over the same filenames, no code change**, the 2 forms without an asset, `flat-dorsoventral` + `no-shell`, show a neutral placeholder) with a per-tile **"Examples" button** → `src/components/idflow/BodyFormExamples.tsx`, a focus-trapped portaled popup of real CC-attributed photos of catalogue species with that body form (reuses `SpeciesGallery`; teaching aid only, never commits a guess; the gate `suspendKeyboard`s while it's open so the two focus traps don't fight). The `SUB_SPLITS` table + helpers were lifted to **`src/lib/idflow/body-forms.ts`** (one source of truth; `bodyFormConfigFor`, `exampleSpeciesForForm`). `FeedCard` routes Rung1 → Rung2 (only for classes whose sub-split discriminates, i.e. not crab/flatfish/scooter) → strip, `seed`ing the chosen form into the strip's narrowing and suppressing its now-redundant inline sub-split. Validated: tsc, lint, lint:tokens, prod build, 205 tests (4 new in `body-forms.test.ts` prove every form maps to ≥1 photographed species so no Examples button is ever empty). NB the live interactive preview couldn't be driven (the feed's IntersectionObserver scroll container doesn't respond to the eval harness); static gates + the user's on-device check are the verification path.
 
 - **Rung 3 species-tile guide popup (3 Jun 2026)**, tapping a species tile in the Rung-3 `CandidateGate` no longer commits the guess instantly. It now opens **`src/components/idflow/SpeciesGuidePopup.tsx`**, a portaled focus-trapped "flash card" that surfaces, in one place, the three things we author per species: (1) the diagnostic guide (`AnnotatedSpeciesPhoto` numbered circles on the curated photo, renders nothing if the species has no marks), (2) a `SpeciesGallery size="large"` photo gallery + lightbox, (3) the `fieldNote` prose from the trait catalogue. A **"This is my pick"** button commits via the existing `onPick` path; "Back"/"Keep looking" dismisses without committing. This is what makes the diagnostic-mark guide reachable in the live app (previously only the post-submit reveal + the wizard's FinalReveal rendered it, so most users never saw it). Focus management is inline (mirrors `useModalFocus`) but **guards Escape/Tab while the gallery's own lightbox (z-[100], `aria-modal="true"`) is open** so one keypress can't close both; `CandidateGate` passes `suspendKeyboard` to the gate so it goes `inert` underneath. Decided entry point = the live ID-flow tiles (not a separate dex page); MCQ tiles still commit instantly (fast path preserved). Validated: tsc, eslint, prod build, `/feed` route compiles + 200. Interactive tap-through is on-device (harness can't drive the feed's IntersectionObserver). Photo-quality curation to feed better gallery images is gated on Gemini quota (see the image-analysis tool section: free tier ~20 req/day).
@@ -75,6 +103,7 @@ Activation steps performed on 18 May:
 ### Deferred to v2 (not blocking)
 - Wikimedia Commons fallback for species iNat returns thin photos for (mainly larval plaice).
 - Manual `overrides` in `species-images.json`, currently empty; can be populated editorially.
+- `IntersectionObserver`-staggered fetches on the candidate grid (likely premature, typical narrow returns 3-5 candidates).
 - `IntersectionObserver`-staggered fetches on the candidate grid (likely premature, typical narrow returns 3,5 candidates).
 - Retry-on-429 in the iNat client.
 
@@ -84,6 +113,7 @@ Activation steps performed on 18 May:
 - **Tooling:** extracted the overlay/compositing/validation into `scripts/lib/mark-overlay.ts`; built `scripts/place-diagnostic-marks.ts`, Gemini localises each feature via its native `box_2d` detection format (converted to a centred ring), then a verify-and-correct loop re-prompts any ring graded off-target. Modes: `relocate` (re-place existing marks; skips already-aligned) and `author` (create from `scripts/data/p2-mark-drafts.ts`). Dry-run default; `--apply` writes; marks tagged `createdBy=gemini-place@pebl-cic.co.uk` (drafts). `scripts/render-hero.ts` renders a hero composite to PNG for human ground-truthing.
 - **Results (`implementation/2026-06-04/species-image-fix-report.md`):** guide-heroes 42 -> **57/57** (gap closed); heroes graded keep 8 -> **16**; photo-replacement needed 3 -> **0** (Dragonet + Edible Crab swapped to IDEAL photos, old ones blocklisted); **32 species improved**, 2 regressions reverted to baseline. All marks remain drafts pending expert sign-off. 24 species still have >=1 off ring or redundant marks (many-mark fish, multi-specimen or murky photos, duplicate labels) and are listed for a manual `/admin/species/[name]` pass in the fix report.
 - **Continuation (same day):** improved the auto-placer (`scripts/place-diagnostic-marks.ts`), Gemini now classifies each feature point vs region and point features (eye/barbel/spot) are capped to a small ring so they stop reading as oversized; the verify loop corrects every off/near ring over 4 rounds with a final fresh re-localise; `loadImage` retries CDN 429s and one species erroring no longer aborts a sweep. Added `scripts/data/mark-redraft.ts` + an author `--redraft` path that deletes a species' draft marks and recreates a clean set: **trimmed 7 over-marked species** (sea bass, butterfish, rock goby, great spider crab, velvet swimming crab, horse mackerel, dog whelk) to 3 distinct marks each, and **re-anchored 2 photo-limited species** (Flat Top Shell, Dragonet) onto features their photo actually shows. Re-audit: **keep 16 -> 26, aligned 17 -> 28, over-marked species -> 0, total off-marks 47 -> 20 (0.35/hero), stragglers 24 -> 15**. The 15 residual are mostly one borderline ring on a good hero or genuinely-hard photos (Pollack head, Poor cod, Flounder, the spider/velvet crabs); listed for a manual admin pass. `tsc`/`test`/`lint` green.
+- **Upside-down photo fix (Ballan wrasse):** the curated Ballan hero (iNat 231750633) was uploaded upside-down with no EXIF flag, so it rendered belly-up in the wizard. Swapped to an upright green-morph shot (iNat 266328776, score 88 IDEAL), demoted + blocklisted the old one, and re-placed the marks. Added `scripts/check-photo-orientation.ts` (Gemini-based) to sweep all heroes for inverted/rotated photos. **Caveat: that checker is noisy**. It false-positived the 3 jellyfish (no fixed "up") + the held-vertical plaice and false-negatived this Ballan, so its flags are human-review candidates only. Visually triaged all 7 of its flags; none were genuine problems. The Ballan fix is DB-backed and already live in prod (verified via the species-images API).
 - **Upside-down photo fix (Ballan wrasse):** the curated Ballan hero (iNat 231750633) was uploaded upside-down with no EXIF flag, so it rendered belly-up in the wizard. Swapped to an upright green-morph shot (iNat 266328776, score 88 IDEAL), demoted + blocklisted the old one, and re-placed the marks. Added `scripts/check-photo-orientation.ts` (Gemini-based) to sweep all heroes for inverted/rotated photos. **Caveat: that checker is noisy**, it false-positived the 3 jellyfish (no fixed "up") + the held-vertical plaice and false-negatived this Ballan, so its flags are human-review candidates only. Visually triaged all 7 of its flags; none were genuine problems. The Ballan fix is DB-backed and already live in prod (verified via the species-images API).
 
 ## Engagement: play before the signup wall + UX fixes (12 Jun 2026, commit `5180822`)
@@ -185,6 +215,16 @@ prod test accounts (created for signed-in captures) were deleted afterward.
   plans + draft SVGs live in `implementation/2026-06-18/fish-silhouettes/` (README has
   the cross-cutting findings). Applied 6 redraws (shark left as-is, it already scored
   90/"strong"):
+  - **cod-like**: three dorsal sails now rise ~7-9 units with deep V-notches of true
+    negative space, so the cod give-away ("three separate fins on the back") survives
+    downsampling instead of slurring into a "bumpy back" (was readsAs "Fish with fins").
+  - **wrasse**: the single long dorsal is lifted off the back (negative-space gap) so it
+    reads as ONE continuous fin vs cod's three humps; sharper thick-lipped pointed snout;
+    bold rounded (unforked) paddle tail. Targets the cod-confusion that capped it at 73.
+  - **silver-shoaler**: switched from the 2-fish shoal (readsAs "Two fish") to a single
+    slim fish with a deep symmetric fork, matching the other single-subject fish tiles and
+    the "Silver swimmers" relabel.
+  - **bottom-sitter** vs **bottom-other**: the 18-Jun split left these two near-identical
   - **cod-like**, three dorsal sails now rise ~7-9 units with deep V-notches of true
     negative space, so the cod give-away ("three separate fins on the back") survives
     downsampling instead of slurring into a "bumpy back" (was readsAs "Fish with fins").
@@ -199,6 +239,7 @@ prod test accounts (created for signed-in captures) were deleted afterward.
     two-goby cluster, bottom-other = big/armoured/spiky gurnard with a spread wing pectoral
     + walking finger-rays, so the icon (the sole disambiguator, since labels carry no shape
     hint) actually separates them.
+  - **long-skinny**: replaced the potrace "boomerang" (the lone non-hand-authored icon)
   - **long-skinny**, replaced the potrace "boomerang" (the lone non-hand-authored icon)
     with a clean hand-drawn slender eel: gentle S, a negative-space eye, a small symmetric
     tail fin; no longer reads as a boomerang/snake.
@@ -369,6 +410,7 @@ the handoff doc for the exact checklist.
 ## Difficulty ladder for the feed (17 Jul 2026, SHIPPED LIVE via PR #105, main `31ddf8b`)
 
 New spotters get clear, easy clips first; harder/more cryptic ones mix in as they gain
+experience. Built in two phases (validate the signal, then commit to a schema change) per
 experience. Built in two phases, validate the signal, then commit to a schema change, per
 Christian's steer.
 
@@ -454,6 +496,7 @@ held back for one big merge.
   repeatedly (three separate pushes were rejected mid-session by other sessions landing first).
   Every recovery followed the same pattern: disposable worktree, re-fetch, re-verify the actual
   merge target, push immediately.
+- **Leaderboard accessibility fix, 20 Jul 2026**: `MIN_ANSWERS_FOR_RANKING` dropped from 10 to 1
 - **Leaderboard accessibility fix, 20 Jul 2026**, `MIN_ANSWERS_FOR_RANKING` dropped from 10 to 1
   (`src/lib/leaderboard.ts`): every spotter with at least one submitted answer now qualifies for
   the ranking, including a brand-new guest's very first guess. An audit against the live DB found
@@ -502,6 +545,8 @@ held back for one big merge.
   **and** a direct run against real production data (bypassing the cron's `CRON_SECRET`, which isn't
   in local `.env.local`) confirmed all 3 seeds pinned at exactly `100.00`, one active guest account
   picked up a genuine non-degenerate `47.57`, everyone else `0.00`, zero `NaN` anywhere. Shipped
+  alongside a large concurrent "Pebbles shop" session building `/pebbles`, wallet, and purchases,
+  coordinated rather than clashed: confirmed via `git diff` that shared-file edits
   alongside a large concurrent "Pebbles shop" session building `/pebbles`, wallet, and purchases, coordinated rather than clashed: confirmed via `git diff` that shared-file edits
   (`prisma/schema.prisma`'s new `PebblePurchase` model, `consensus.ts`) landed side by side cleanly,
   and staged only this feature's 10 files by explicit path for the commit (never `git add -A`).
@@ -538,6 +583,7 @@ held back for one big merge.
   after deploy. Built alongside the concurrent trust session above; staged by explicit path (never
   `git add -A`). **Not built yet:** more shop inventory; a live end-to-end purchase click on the
   deployed build (logic is DB-integration-tested, but no funded account was signed into via the UI).
+- **Traffic-source observability, 20 Jul 2026**: prompted by the first Reddit share of
 - **Traffic-source observability, 20 Jul 2026**, prompted by the first Reddit share of
   fishspotter.app; goal was to see whether a channel is converting without adding any user-facing
   friction. Added `@vercel/analytics` to the root layout (pageviews/referrers/geo/device, no
@@ -550,6 +596,332 @@ held back for one big merge.
   Zero incremental friction: the capture only fires for spotters who already accepted analytics
   consent; nothing new is asked of anyone. Prod DB migrated (`prisma db push`, additive-only), RLS
   reconfirmed 19/19. Verified: `tsc`, 463 tests, `lint`, `lint:tokens`.
+- **Community-launch seeding, 20-22 Jul 2026** (full status in memory `project_community_launch.md`):
+  first public outreach push for FishSpotter, honest-builder voice with an AI-tell QA pass on
+  every draft (no em/en dashes, no corporate register, a real founder detail like the pipefish
+  clip). **Live and verified**: r/uknature, r/CitizenScience, r/WebGames (Reddit, anon account
+  u/No-Front-6594; r/WebGames has genuine engagement, a feature-suggestion thread already
+  answered), BMLSS and ID Please (Facebook, Christian's real identity, both mod-approved and
+  visible). A SciStarter project listing was drafted, filled in across all form sections, and
+  submitted by Christian (22 Jul), pending SciStarter editorial review. **Attempted, not yet
+  confirmed live**: Fish Identification UK Facebook post (text staged in the composer, submission
+  not verified) and a Snorkelling in Britain post (built around the seal clip, not yet drafted in
+  the composer). **Still open**: r/UKecosystem modmail sent, awaiting a mod reply before posting;
+  the send-yourself outreach drafts (MarineMumbles, The Rock Pool Project, MBS Plymouth, Free Range
+  Ocean, Sea Tales, The Marine Biologist Podcast) are written but not sent, per the house rule that
+  outbound emails/DMs are always drafted, never sent, by the assistant. **Hard constraint
+  discovered**: the browser-automation tool cannot upload local files by any path (OneDrive, a
+  session-scratch copy, or a pasted-into-chat attachment all rejected with "only files the user has
+  shared with this session"), so any post that needs a specific photo/video attached (not just the
+  auto-generated link-preview card) has to be attached by Christian himself.
+- **Social share card rebuilt around real footage, 21-22 Jul 2026** (`scripts/og-card.ts`,
+  `src/app/opengraph-image.jpg`, `public/og/hero.jpg`, `src/app/og-fonts/`): the previous
+  `opengraph-image.png` was a dead text-only card (wordmark on a plain dark box); every link share
+  to Reddit/Facebook/directories was leading with it. Replaced with a Playwright-rendered JPEG built
+  around a real seabed-camera frame (a velvet swimming crab off Skye, extracted from a Kelp Crofters
+  clip) plus the "by PEBL" logo lockup (same asset/treatment as the app header) and the FishSpotter
+  wordmark. Iterated with the existing Gemini 3.5 Flash `ui-critique` loop until PASS 95/90. A real
+  bug surfaced and got fixed along the way: Facebook's **comment**-level link preview is a small
+  center-cropped square, not the full 1200x630 card, and the original left-anchored text sliced
+  "FishSpotter" to "hSpotter" in that crop. `og-card.ts` now renders and Gemini-critiques that exact
+  square crop on every run (not just the full card), so this class of bug can't ship silently again.
+  Also fixed `metadataBase`'s fallback domain in `src/app/layout.tsx` from the stale
+  `fish-spotter.vercel.app` to the canonical `fishspotter.app`. **Not yet committed to git** (working
+  tree has the new/changed files staged but uncommitted), needs a commit + push to deploy, then a
+  Facebook Sharing Debugger re-scrape so the two already-live Facebook posts pick up the new card.
+
+## 2026-08-01: Spider crab generalised from species to group level
+
+`Hyas araneus` / "Great Spider Crab" is now `Majoidea` / "Spider Crab". Christian's call:
+the UK spider crabs (great, spiny, scorpion) can't reliably be told apart on a video clip,
+so asking a spotter to pick the great one was a distinction the footage doesn't support.
+The card no longer claims a species-level ID it can't back.
+
+- **Catalogue** (`species-traits.json`, `species-aliases.json`, `species-images.json`) re-keyed
+  to `Majoidea`. Field note rewritten group-wide and now says outright that the UK spider crabs
+  are lumped here. Aliases widened to absorb the old label plus `Hyas` / `Maja` / `Inachus` /
+  `Majidae` surface forms, so historical and free-text answers still match.
+- **New `fetchName` manifest field** + `src/lib/biodiversity/fetch-name.ts`. A superfamily-level
+  query to iNaturalist / Wikimedia / OBIS returns the whole clade worldwide (Japanese spider crab,
+  Libinia), which would poison the gallery and the distribution map, so photo and OBIS pulls for
+  `Majoidea` are pinned to `Hyas araneus`. Applied in `refresh-images.ts`,
+  `build-species-galleries.ts`, and `species-cache.ts` (depth + distribution). Rows are still
+  stored under the catalogue key.
+- **DB migrated** via `scripts/rename-spider-crab.ts --apply` (idempotent, re-runs clean):
+  5 `SpeciesImage`, 3 `DiagnosticMark`, 6 `UnlockedSpecies`, 11 `Answer.chosenOption`,
+  1 `ConsensusEvent` re-normalised, stale depth/distribution cache rows dropped so they refetch.
+  The three authored rings (pear-shaped carapace / two rostral horns / long spindly legs) were
+  already worded group-wide, so they carried over unchanged.
+- Food web rebuilt (`node food-web/build-foodweb.mjs`, 72 species / 234 links unchanged);
+  photo-blocklist annotations re-keyed.
+- **Note:** the species profile URL moved from `/species/hyas-araneus` to `/species/majoidea`;
+  no redirect was added.
+
+## 2026-08-03 - Workshop deck rebuilt: real photography, a narrower farm-built claim, drawn master solutions
+
+Full pass over the "Who lives on a seaweed farm?" workshop deliverables (species cards,
+facilitator guide, food-web classification) for the St Davids seaweed festival. Two commits,
+plus an unfinished A1-mat thread.
+
+- **Species cards rewritten** (`2d4e1d0`, `food-web/workshop/make-cards.mjs` + `card-photos.json`).
+  Removed the Welsh-name field (coverage was inconsistent across the deck, 28 of 40). Replaced
+  around 13 bad photos (hand-held, wrong species, dead/beach-cast, occluded) with Gemini-vision-scored
+  alternatives found via the DB cache plus fresh iNaturalist/Wikimedia search; every final photo now
+  scores USABLE or better on whole-body visibility. Found a real data bug along the way: the cached
+  Atlantic cod photo in FishSpotter's own `SpeciesImage` table is a misidentified different fish (no
+  cod features at all); the workshop card was re-pointed to a verified genuine cod, but **the live
+  app's DB cache still has the wrong photo** (flagged to Christian, not yet fixed, no response yet).
+  Corrected "Curled Octopus" to "Common Octopus" after confirming with Christian these are genuinely
+  different species (Eledone cirrhosa vs Octopus vulgaris, single vs double row of suckers); the
+  card's biology, photo and diet text were rebuilt for the real species, done locally in
+  `make-cards.mjs` via a `CARD_OVERRIDE` shim rather than touching the live catalogue. Added the
+  scientific name in grey italic under the common name. Rewrote all 40 nicknames from punchy taglines
+  to plain factual one-liners. One accepted caveat: the Sprat photo is the only living-specimen
+  option in the entire worldwide print-safe pool (8 of 9 candidates were dead or beach-cast); the one
+  usable option is a New Zealand observation.
+- **Farm-impact classification narrowed, master-solution answer sheets added** (`e68559b`,
+  `food-web/build-foodweb.mjs`, `food-web/workshop/guide.html`, new `food-web/workshop/build-mats.mjs`).
+  Re-graded the `FARM` map on an attraction-vs-production test: `created` (farm-built) is now
+  restricted to animals that cannot physically occupy bare sediment (hard-substrate obligates plus
+  small site-attached crevice fish); large mobile animals a farm merely draws in (ballan wrasse,
+  cuckoo wrasse, both octopuses) moved to `enhanced`. Baseline flips from 72->47 species / 238->133
+  links to **72->51 species / 238->151 links**; the honest claim on feeding connections is now "just
+  over a third", not "just under a half". `public/food-web.html` regenerated from the same data;
+  `food-web/verify.mjs` clean, 0 errors. Also found and fixed a genuine blocker: the guide's minute-24
+  reveal tells people to "turn over the card with the filled circle" but no card printed a farm-status
+  symbol at all, so the reveal could not physically run. Cards now carry a farm badge
+  (created/enhanced/anyway/harmed) above the QR code. The facilitator guide's page 10 expanded into 5
+  master-solution page-pairs, one per table: a generated SVG of the finished A1 mat with every card
+  placed and every arrow drawn, a numbered why-this-arrow key, per-card placement reasoning, and a
+  second small mat showing the same table after the reveal. Every arrow drawn is cross-checked
+  programmatically against the real food-web edge list (a build-time assertion, not a visual guess),
+  which caught one real error (table 4 was missing the `plankton -> farmed mussels` arrow) before it
+  shipped. Guide grew from 11 to 21 pages, verified page by page against the 271mm printable-height
+  limit.
+- **A1 print mat: two parallel builds exist, neither committed.** `food-web/workshop/build-mat-a1.mjs`
+  (new, untracked) generates a true-size 841x594mm print PDF locally, iterated against a Gemini
+  vision critique loop (`scripts/critique-image.ts`, also new, a general local-image counterpart to
+  the existing `ui-review.ts`) across 4 rounds to a 96/100 pass. Separately, at Christian's request,
+  the same mat was built directly inside the Claude Design portal (claude.ai/design, project
+  "diagram seaweed") as `Workshop Mat A1.html`, reusing the actual "Biodiversity Mechanisms"
+  diagram's artwork; that build independently found and fixed the same right-edge anchor collision
+  the local version had, plus a real pre-existing fill bug in the Mechanisms diagram's anchor symbol.
+  The portal version came out over-desaturated relative to the original diagram's character; a
+  follow-up prompt to fix saturation was drafted but not sent (the Claude Design session was at 90%
+  of its quota, resets 1:10pm). **Open decision: which build becomes the real asset**, or whether to
+  reconcile the two. Also still open from the original guide spec: 5 mats printed vs. 6 tables
+  planned for at high attendance (the kit budgets a spare card deck for a 6th table but not a 6th
+  mat, roughly £20 to close), and the encapsulation gauge is unspecified (250 micron gloss
+  suggested, not confirmed).
+- Christian test-printed the guide, species-cards and evidence-cards PDFs on 2026-08-03; all three
+  were rebuilt from source and byte-verified against the committed versions before sending (result
+  of the test print not yet reported back).
+
+
+## 2026-08-28: Fish Rung-2 re-cut to two zone tiles (seabed vs water column)
+
+The fish gate's second rung asked "What kind of fish was it?" and offered **seven**
+family-gestalt tiles (Cod-shaped / Wrasses / Silver swimmers / Small bottom fish /
+Bigger bottom fish / Long and skinny / Shark-shaped). Two problems with that, both
+raised from use: seven tiles is a lot of reading before the first photo, and every
+one of them asks a beginner to name a **family** off a short clip, which is the
+hardest thing on the screen rather than the easiest.
+
+It now asks **"Where was the fish?"** and offers **two** tiles:
+
+| Tile | Species | What moved in |
+|---|---|---|
+| Moving along the seabed | 15 | small bottom fish + bigger bottom fish + the catshark (it lies on the sand, it is not a mid-water shark) + the conger and the butterfish (both thread along the bottom) |
+| Moving above the seabed | 18 | cod-shaped + wrasses + silver swimmers + the fifteen-spined stickleback (it hangs in the weed above the bottom) + the two-spotted goby (the one goby that hovers in mid-water over the kelp) |
+
+Both tiles then open the Rung-3 photo grid, which is where users are strongest.
+
+- **New trait `fishZone` (`seabed` / `water-column`)** in `src/lib/idguide/traits.ts`,
+  on all 33 fish in `species-traits.json`, wired through `narrow.ts`, the catalogue
+  zod schema and `trait-questions.ts`. It is its own trait rather than a bundle of
+  `fishGroup` values because the `long-skinny` group splits across both zones.
+- **`fishGroup` is NOT retired.** It stays the authoritative family grouping behind
+  the scenes: silhouettes, comparison sets, the food web, the (orphaned) yes/no
+  narrowing engine. `fishZone` is a presentation cut layered over it, so a future
+  re-grouping does not need a data migration.
+- **Coarse commit** now reads "It's just a fish on the seabed" / "...up in the water"
+  (`FISH_ZONE_COARSE_NOUN`), and both nouns resolve to the fish shape class in
+  `answer-matching`, so a zone-level commit still earns shape-class credit.
+- **Two new tile silhouettes** (`public/silhouettes/forms/seabed.svg`,
+  `water-column.svg`, PEBL CC0). They deliberately draw the same seabed line in the
+  same place, so the only difference between the icons is the gap of open water
+  under the fish.
+- **The 10-species Rung-2 ceiling no longer applies to fish.** That rule (17 Jun)
+  was about how many *named things* a node may ask a user to choose between; this
+  node offers two. The tests now enforce the ceiling where it still means
+  something: max 10 options at any node, max 24 species per bucket (the Rung-3
+  photo-grid cap, beyond which species become unreachable), and the old 10-species
+  ceiling still holds for every non-fish class.
+- Verified in the running app: both tiles reachable, every species in each bucket
+  renders at Rung 3, breadcrumb and coarse-commit copy correct. `tsc`, 465 tests,
+  `lint` and `lint:tokens` all green.
+
+**Two-spotted goby, settled the same day:** it first came over with the whole
+bottom-sitter group into "Moving along the seabed", but it is the one goby that
+genuinely hovers in mid-water above the kelp (the catalogue already noted this and
+the food web places it in the canopy). Christian's call: it moved to "Moving above
+the seabed", making the buckets 15 / 18. Its `fishGroup` stays `bottom-sitter`.
+
+## 2026-08-28: Burnt-in detector overlays, 11 clips re-cut and two gates added
+
+**The bug.** Eleven NORF-1 (Blakeney Overfalls) clips exported on 25 Aug shipped with
+the ML detector's own output burned into the pixels: a black HUD bar across the
+top-left reading `FUSED TRACKS (n) Frame N` on 100% of frames, plus red RT-DETR
+boxes on 2 to 82% of frames. A species-ID game showing the player the machine's
+answer, drawn on the animal, defeats the point of the exercise.
+
+**Root cause.** TRDesk4's `_resolve_snip_source()` silently falls back to cutting
+from the pipeline's own render (`*_unified_tracked.mp4`) when it cannot resolve the
+raw footage. TRDesk4's own log said so at the time: `[TRACKBUILD] Original not on
+disk; cutting from NORF-1_..._unified_tracked.mp4`. A fix on 26 Aug (DesktopML
+`56b42f0`) routed resolution through `data/clip_registry.json`, but **that fix never
+worked**: it referenced `REPO_ROOT`, which was not imported in that module, so every
+lookup raised `NameError`, was swallowed by a bare `except`, and cached an empty
+registry. TRDesk4's log was still printing
+`Could not read clip_registry.json: name 'REPO_ROOT' is not defined` on 28 Aug.
+
+**The repair.** The raw sources are frame-for-frame 1:1 with the annotated render
+(proved from the HUD's own counter, which reads `clip_start + k` exactly), so all 11
+were re-cut from the originals over the same `clip_start..clip_end` ranges via
+`reexport_snippets_hq.py`, re-uploaded with `reupload-snippets-hq.ts` (`?v=3`), and
+the canonical G: snips folder was brought in step. Verified on every frame at three
+stages (local re-cut, G: folder, and the bytes Supabase actually serves): 0 HUD
+frames, 0 box frames, 1920x1080, H.264/yuv420p, frame counts identical to the
+originals. The 1088-tall render is a vertical *stretch*, not a pad (tested both
+hypotheses), so normalised `bboxJson` / `manualTrackJson` coordinates transfer 1:1
+and needed no correction.
+
+**Gate 1, FishSpotter (`scripts/lib/burn-in.ts`).** New detector wired into both
+`sync.ts` (HOLD, with its own `--allow-burned-in` override kept separate from
+`--allow-incomplete`) and `snip-preflight.ts` (HOLD verdict). Two independent
+signals: the provenance TRDesk4 now records in `metadata.source_video_used`, and a
+pixel check on the top-left band. **A "is the top-left dark?" test is not usable** and
+was rejected during development after it false-positived a clean live Skye clip;
+a HUD verdict requires a near-black background *and* white glyph pixels together.
+Measured populations separated with no overlap (burnt-in black 0.67-0.71 / white
+0.047-0.051; clean 0.00 / 0.000). Validated against all 11 burnt-in clips and their
+11 clean re-cuts, plus 12 live clips across 8 sites: 0 false negatives, 0 false
+positives. Fails open (`unknown`) when ffmpeg is absent.
+
+**Gate 2, DesktopML (`track_review_app.py`).** Fixed the dead `REPO_ROOT` import so
+the registry lookup actually resolves (verified: 12/12 of the affected videos now
+find their clean original, where every one previously returned `None`). Routed the
+snip editor's own source list through the registry too, which the 26 Aug fix had not
+covered, and labelled a render-backed entry `[video: BURNED-IN]`. The manual /
+track-builder export now stamps `source_video_used` + `source_is_original`, which it
+previously never recorded, so an affected snip is self-identifying downstream.
+
+**Scope check.** A sweep of all 163 clips found exactly these 11, all already hidden
+via the TRDesk4 exclusion toggle, so nothing burnt-in was ever publicly visible.
+`NORF-1_2026-06-18_08-01` was excluded too but was always clean (no pipeline render
+existed for it yet), so it was left untouched.
+
+## 2026-08-28: Crab Rung-2 merged to three tiles, and the spider-crab answer merge
+
+**Crab gate.** "Broad oval crab" (2 species) and "Paddle back legs (swimmer)"
+(2 species) are now one **"Broad oval crabs"** tile (4). The old cut asked the user
+to spot a flattened rear leg on a moving crab in a short clip, which is a detail
+rather than a gestalt; all four read as broad oval crabs to a beginner, and the
+paddle is better found in the Rung-3 photo comparison. The crab gate is now three
+tiles: Broad oval crabs (4) / Triangular, long legs (spider) (1) / In a shell
+(hermit) (1).
+
+Implemented as a **presentation bundle, not a data change**: a `SubSplit` option can
+now declare `values: string[]`, so one tile covers several trait values while the
+species keep their own. `crabForm: swimming` and `crabFeatures: swimming-paddle`
+are untouched, so the swimmer distinction survives in the trait data, the
+silhouettes and the narrowing engine. Threaded through `FormSeed.values` →
+`CandidateGate`'s `mustHave`, and a new test asserts a bundled tile's identity value
+is one of the values it covers (it drives the silhouette and the breadcrumb).
+
+**Spider crab.** The catalogue was renamed `Hyas araneus` / "Great Spider Crab" →
+`Majoidea` / "Spider Crab" on 1 Aug, but the production `Answer` rows were never
+migrated, so the two names were competing as separate community answers on the same
+clips. Ran `scripts/rename-spider-crab.ts --apply` against production:
+
+- **7 answers** moved from "Great Spider Crab" to "Spider Crab" (now 18 total on the
+  one label, 0 on the old one). Backup of the pre-change rows in
+  `backups/spider-crab-merge-2026-08-28.json`.
+- 2 stale `Hyas araneus` cache rows (depth, distribution) dropped so they refetch
+  under the new key. `SpeciesImage` / `DiagnosticMark` / `UnlockedSpecies` /
+  `Snippet.staffAnswer` were already migrated (0 rows each).
+- Then ran `rescoreConsensus` by hand rather than waiting for the 07:00 cron, since
+  the merge changes who is in which camp: **8 answers credited, 711 pebbles, 6
+  species unlocked, 1 new consensus event**. Four answers on the main spider-crab
+  clip flipped `isCorrect` false → true, which is the point: people who said "Great
+  Spider Crab" had been scored as disagreeing with a community that had settled on
+  "Spider Crab" for the same animal.
+
+"great spider crab" stays in `species-aliases.json`, so anyone typing the old name
+still matches. The rename is in the working tree but **not yet committed or
+deployed**, so the live site still shows the old label until it ships.
+
+## 2026-08-28: snip uploads gated on complete metadata, Ramsey Sound split farm/control
+
+**The failure this fixes.** Twelve NORF-1 clips synced on 25 Aug with `site`,
+`deployment`, `depthM`, `lat`, `lon` and `recordingDatetime` all empty, and nothing
+noticed for three days. Root cause confirmed by reading the source: TRDesk4's
+`metadata.json` carried no deployment record at all (only track and frame data), and
+`sync.ts`'s `?? "Unknown"` / `?? null` fallbacks wrote the blanks without complaint.
+Blank geo is invisible at upload time and expensive after: `Snippet.deployment` is the
+join key to the farm catalogue, so the clips detached from their farm page, and
+lat/lon/depth/month are what `bucketFor()` needs for the OBIS probability bucket,
+without which the Pebbles consensus payout is stuck at rarity x1. Consensus freezes
+each payout permanently on first credit, so the window to fix it silently closes.
+
+**The gate.** `sync.ts` now HOLDS a snip whose `metadata.json` is missing any of
+`REQUIRED_META` rather than uploading it, names the missing fields, and deliberately
+leaves it out of the manifest so a corrected re-export is retried next run.
+`--allow-incomplete` is the override. The gate lives in `sync.ts`, not in the weekly
+runner, so a manual `npm run db:sync` is protected too. (Later the same day another
+session added a second, independent pixel gate for burnt-in detector overlays; the two
+coexist, see the burn-in entry above.)
+
+**New tooling.** `scripts/snip-preflight.ts` (`npm run snips:check`) reports the same
+READY / HOLD / SKIP / SYNCED verdicts without touching anything.
+`scripts/weekly-snip-sync.ps1` wires the pair into a Windows task
+(`PEBL-FishSpotter-SnipSync`, Mondays 07:00) that uploads what is complete and prints
+what needs a human, exiting 3 when anything is held so Task Scheduler's last-result
+column shows it. It has to be a Windows task rather than a Vercel cron because it needs
+the G: Drive snips folder, the local repo and `.env.local`.
+
+**Source repairs** (`scripts/fix-cym-metadata.py`, backs up every file it touches):
+
+- Every Car-y-Mor snip declared `deployment: "Ramsey Sound"` whether it came from the
+  farm array or the control site, so the farm-versus-control comparison could not be
+  made at all. Split into **"Ramsey Sound Farm" (36)** and **"Ramsey Sound Control"
+  (16)**, and `car-y-mor`'s `deploymentNames` went from `[]` to both, attaching 52
+  previously orphaned clips to its farm page. Car-y-Mor is now the largest farm on the
+  site by clip count.
+- Eleven snips had `recording_datetime: null`, exactly those whose name uses an
+  underscore after the year (`2026_05-11`) rather than a hyphen (`2026-05-10`).
+  **TRDesk4's date parser only handles the hyphen form.** The timestamps were
+  recoverable from the filenames so nothing was lost, but the parser bug is still live
+  and will recur on the next export.
+- The twelve NORF-1 sources were repaired the same way. Their DB rows had been
+  backfilled by hand, but the source was still blank, so a re-export would have
+  silently re-blanked them.
+
+**Corpus after the run.** 64 snips synced (`processed=64 skipped=101 held=0 failed=0`),
+zero missing fields across all live rows, `seed-difficulty` scored 140 of 143 (the 3
+have no bbox signal), and `backfill-probability` took bucket coverage from 3 of 13 to
+**17 needed / 19 cached / 0 missing**, so rarity multipliers now work corpus-wide
+rather than only on Algapelago clips.
+
+**Two diagnostics that were wrong, both worth knowing.** `npm run db:check-apis` probe
+D reports GBIF failing, but it queries the vernacular `"pollack"`, which GBIF returns
+`matchType: NONE` for; the binomial resolves fine at confidence 99. It is a false alarm
+and should query a binomial. Separately, two throwaway verification scripts written
+this session gave wrong answers and the data was fine both times: one re-implemented
+the depth-bucket rule (`Math.round` instead of `Math.floor`, local instead of UTC
+month) rather than importing `bucketFor`, and one split a file on `\n` when Windows had
+written `\r\n`, so only the last line ever matched and it wrongly reported clean. Import
+the real function; do not re-implement the thing you are checking.
 
 - **Shop removed; the Pebbles page becomes one leaderboard with a real prize (20 Jul 2026)**, the Phase-1 shop (gold nameplate, coral accent, Tide Freeze) was retired the day it shipped,
   per Christian's steer that cosmetics read as gimmicky. In its place: `/pebbles` is now a single

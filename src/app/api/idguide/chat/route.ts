@@ -53,7 +53,7 @@ const ChatRequestSchema = z.object({
 const NARROW_TOOL: Anthropic.Tool = {
   name: "narrow_candidates",
   description:
-    "Filter the locally plausible species catalogue by traits the user has described. Returns matching species ranked by trait match and local ecological probability. Use this whenever the user gives a new observable trait — do not reason about the catalogue from memory.",
+    "Filter the locally plausible species catalogue by traits the user has described. Returns matching species ranked by trait match and local ecological probability. Use this whenever the user gives a new observable trait, do not reason about the catalogue from memory.",
   // The tool schema is the second-largest stable chunk of input on every
   // call. Mark it as cacheable so the prefix (system + tools) is one big
   // cache hit after the first request in a 5-minute window.
@@ -147,7 +147,7 @@ async function loadEcologicalContext(snippetId: string): Promise<{
             .slice(0, 10);
         }
       } catch {
-        // Bad cache row — fall back to an empty list rather than 500.
+        // Bad cache row, fall back to an empty list rather than 500.
       }
     }
   }
@@ -240,7 +240,7 @@ export async function POST(req: Request) {
         const send = (obj: unknown) => controller.enqueue(encodeSse(obj));
         send({
           type: "text",
-          text: "We've covered a lot — open a fresh chat to keep narrowing. Your earlier suggestions stay visible in this one.",
+          text: "We've covered a lot. Open a fresh chat to keep narrowing. Your earlier suggestions stay visible in this one.",
         });
         send({ type: "done" });
         controller.close();
@@ -351,7 +351,7 @@ export async function POST(req: Request) {
               };
             }
             const rawInput = (tu.input ?? {}) as Record<string, unknown>;
-            // narrowCandidates() sanitises must_have / must_not_have internally —
+            // narrowCandidates() sanitises must_have / must_not_have internally,
             // pass the raw input through so unknown keys can't blow up.
             const candidates = narrowCandidates({
               catalogue: ctxBundle.localCatalogue,
@@ -377,7 +377,7 @@ export async function POST(req: Request) {
           // silently after a list of candidate chips appears.
           send({
             type: "text",
-            text: "I've narrowed the candidates above. Could you tell me one more thing — colour, markings, or how it was moving?",
+            text: "I've narrowed the candidates above. Could you tell me one more thing: colour, markings, or how it was moving?",
           });
         }
         send({ type: "done" });

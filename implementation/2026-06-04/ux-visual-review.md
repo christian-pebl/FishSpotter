@@ -1,4 +1,4 @@
-# FishSpotter — Whole-App UX & Visual Review
+# FishSpotter: Whole-App UX & Visual Review
 
 **Date:** 2026-06-04
 **Method:** Exhaustive multi-agent review (20 finders across 14 surfaces + 6 cross-cutting lenses; 2 adversarial verifiers per finding; completeness critic + top-ups; synthesis). 336 agents, ~14M tokens across two passes.
@@ -30,10 +30,10 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 ---
 
-## P1 (was Blocker — corrected + fixed by live pass)
+## P1 (was Blocker: corrected + fixed by live pass)
 
-### T1 · Legal / accessibility long-form pages clip on iOS Safari (no bounded scroll container) — `S` · new · ✅ FIXED 2026-06-04
-**Lenses L2/L6/L5 · /terms, /privacy, /accessibility.** `LegalLayout` rendered `<main>` as a `flex-1 flex flex-col` child with **neither `min-h-0` nor `overflow-y-auto`** inside the `h-[100dvh] overflow-hidden` body. **Live correction (390px, Chromium):** the content (`scrollHeight 8998px` in an `881px` viewport) is in fact *reachable* — the html element absorbs the overflow and `window.scrollTo` reaches `scrollY 8178` with the last element visible. So the source-read "unreachable on all mobile" inference was **overstated**: this is not a universal Blocker. **However**, on iOS Safari `body overflow-hidden` does suppress html-level scroll, and `main` has no internal scroller, so statutory content genuinely clips there. Profile (`/u/[id]:85-89`) shares the identical structure (same latent risk). Reclassified P1 (statutory content, mobile-Safari-specific) rather than Blocker.
+### T1 · Legal / accessibility long-form pages clip on iOS Safari (no bounded scroll container): `S` · new · ✅ FIXED 2026-06-04
+**Lenses L2/L6/L5 · /terms, /privacy, /accessibility.** `LegalLayout` rendered `<main>` as a `flex-1 flex flex-col` child with **neither `min-h-0` nor `overflow-y-auto`** inside the `h-[100dvh] overflow-hidden` body. **Live correction (390px, Chromium):** the content (`scrollHeight 8998px` in an `881px` viewport) is in fact *reachable*, the html element absorbs the overflow and `window.scrollTo` reaches `scrollY 8178` with the last element visible. So the source-read "unreachable on all mobile" inference was **overstated**: this is not a universal Blocker. **However**, on iOS Safari `body overflow-hidden` does suppress html-level scroll, and `main` has no internal scroller, so statutory content genuinely clips there. Profile (`/u/[id]:85-89`) shares the identical structure (same latent risk). Reclassified P1 (statutory content, mobile-Safari-specific) rather than Blocker.
 - Evidence: `LegalLayout.tsx:17-21` (no `min-h-0`/`overflow-y-auto`); `app/layout.tsx:51` (body `h-[100dvh] overflow-hidden`) + `:56` (children wrapper is correctly `flex-1 min-h-0`); live DOM probe 2026-06-04.
 - **Fix applied:** added `min-h-0 overflow-y-auto` to the `LegalLayout` `<main>` so it owns a bounded scroll container (robust on iOS Safari, and the `#main` skip-link target is now the scroller). Verified live: `main` overflow-y `auto`, `clientH 783`, `scrollH 8998`, reaches bottom within `main`. **Follow-up (not yet done):** apply the same one-liner to `/u/[id]` profile, which shares the structure.
 
@@ -41,30 +41,30 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 ## P1
 
-### T2 · Recurring sub-44px touch targets across 7 surfaces — `M` · still-open (3rd review) · 🟡 MOSTLY FIXED 2026-06-04
+### T2 · Recurring sub-44px touch targets across 7 surfaces: `M` · still-open (3rd review) · 🟡 MOSTLY FIXED 2026-06-04
 **Fixed 2026-06-04:** `pebl-button-secondary` now bakes in `min-h-[44px]` + inline-flex centring (clears the onboarding Skip, cookie "Read policy", and all secondary buttons at once); the FeedCard "Hide" pill (B12) got a transparent `before:-inset` 44px hit area; idflow TileGate Back/Hide and SpeciesGuidePopup "Back" went `min-h-[40px]`→`44px`. **Residual:** the IdGuideWizard inline "More/Less" disclosure + skip targets (inline-flow, bundle with the T7 glyph at `:140`).
 
 **L6/L2 · OnboardingTour, FeedCard reveal, idflow TileGate, IdGuideWizard, CookieBanner, SpeciesGuidePopup.** The 44px minimum (project rule + WCAG 2.5.8) is missed on many secondary/escape/chrome controls. `pebl-button-secondary` has **no `min-h` baked in** (unlike primary), so the tour Skip and cookie button land at ~28px. The feed "Hide" pill is 32px (**this exact control was 27 May's B12, still unfixed**); reveal "Edit answer"/"Archive"/"Where is this?" links are ≤36px; idflow gate Back/Hide are 40px; the wizard skip, More/Less disclosure, and footer links are ≤36px.
 - Evidence: `globals.css:107-119` (secondary, no `min-h`) vs `:95` (primary has it); `OnboardingTour.tsx:86`; `CookieBanner.tsx:56-61`; `FeedCard.tsx:1101` (Hide `h-8`), `:1481`, `:1493/:1503`; `TileGate.tsx:394,409`; `IdGuideWizard.tsx:139,251,388`.
 - Fix: add `min-h-[44px]` to `pebl-button-secondary` (fixes tour + cookie at once); raise FeedCard Hide to `h-11`; bump idflow/wizard chrome using the transparent-44px-hit-area pattern already shipped at `TileGate.tsx:527-535`.
 
-### T3 · Admin annotator: marks unplaceable without dragging — `L` · new
+### T3 · Admin annotator: marks unplaceable without dragging: `L` · new
 **L6/L2 · /admin/species/[name].** Mark geometry is exposed only through pointer events (create `onPointerDown`, move/resize via `setPointerCapture` drag loops, resize via a ~16-20px SVG handle). No `onKeyDown`, `tabIndex`, arrow-nudge, or X/Y/radius spinner, so a keyboard-only (2.1.1) or no-drag motor-impaired (2.5.7) user **cannot author marks at all**. Rings expose no name/role/value and signal selection by near-identical teal stroke only (colour-only). Server actions already clamp coords, so the fix is client-side. Internal staff tool, hence P1 not Blocker.
 - Evidence: `SpeciesAnnotator.tsx:307,350,376` (pointer-only); `:119-167` (drag loops sole path); `:367-378` (~16-20px handle); `:341-352` (bare `<g>/<circle>`, selection by stroke colour).
 - Fix: add X/Y/radius number spinners to the Edit panel (satisfies 2.1.1 + 2.5.7 together), make the canvas focusable with arrow-key nudge, add an `aria-live` "Mark N at x%, y%, r z%" status, mark the decorative SVG `aria-hidden`, give the selected ring a dashed (non-colour) cue.
 
-### T4 · Onboarding + marquee miss focus/pause contracts the app already ships — `M` · new
+### T4 · Onboarding + marquee miss focus/pause contracts the app already ships: `M` · new
 **L6/L8 · OnboardingTour, SpeciesMarquee.** The first-run tour declares `role=dialog aria-modal=true` but does **zero focus management** (no initial focus, Tab trap, Escape, scroll-lock, or background `inert`) despite `useModalFocus` existing and being applied to MapModal + SpeciesGuidePopup; a keyboard user can Tab onto the live feed behind it. Separately the landing `SpeciesMarquee` auto-scrolls infinitely and only pauses on hover/focus-within, but its figures hold no focusable children, so **touch/keyboard/motion-sensitive users cannot pause it** (WCAG 2.2.2 Level A requires an in-content pause independent of the OS reduced-motion setting).
 - Evidence: `OnboardingTour.tsx:59-65`; `useModalFocus.ts` (the contract); `SpeciesMarquee.tsx:56-65`; `globals.css:349-351` (pause on hover/focus only).
 - Fix: apply `useModalFocus` + `inert` to OnboardingTour (mirror MapModal); add a visible ≥44px pause/play toggle to the marquee, or start it paused.
 
-### T5 · Anon mid-ID bounce lands on sign-IN; no post-signup verification prompt — `M` · new · 🟡 PARTIAL 2026-06-04
+### T5 · Anon mid-ID bounce lands on sign-IN; no post-signup verification prompt: `M` · new · 🟡 PARTIAL 2026-06-04
 **Fixed 2026-06-04:** the mid-ID bounce (`useCreatureQuiz.ts:205`) now appends `&isSignUp=1`, so a brand-new spotter lands on the sign-up form (the page has a toggle for returning users who signed out). **Residual:** the post-signup "check your inbox" verification banner is still not shown.
 **L5/L9 · /auth/signin, useCreatureQuiz, /feed.** A brand-new anon user who submits their first ID is bounced to `/auth/signin` **with no `isSignUp=1`**, so they see a password sign-in form for an account they do not have. Separately, the verification email is fire-and-forget and the user is pushed straight to `/feed` with **no "check your inbox" prompt**, while both re-engagement crons silently exclude unverified users. (Note: the landing "Start spotting" → `/feed` is intentional anon-first design and should **not** be rerouted to a sign-up wall.)
 - Evidence: `useCreatureQuiz.ts:205` + `FeedCard.tsx:1238` (bounce, no `isSignUp`); `signin/page.tsx:26,222`; `auth.ts:103` (fire-and-forget) + `signin/page.tsx:75`; `cron/digest/route.ts:44` + `streak-nudge/route.ts:43` (exclude unverified).
 - Fix: append `&isSignUp=1` to the mid-ID bounce; after sign-up show a dismissible feed banner "We have emailed you a link to verify your account" with a resend affordance (the route exists). Do not hard-gate `/feed`.
 
-### T6 · Spot-It Rung 3 dumps 24 tiles with no "None look right"; the narrowing engine is dead code — `M` · new
+### T6 · Spot-It Rung 3 dumps 24 tiles with no "None look right"; the narrowing engine is dead code: `M` · new
 **L5/L1 · idflow CandidateGate.** Rung 3 caps at 24 tiles and passes **no `notSure`** prop (unlike Rung 1/2). A novice who picks "fish" then skips the Rung-2 form lands on up to 24 near-identical thumbnails with no in-context "none of these" cut, the opposite of the stated narrow-to-3 goal. The only escape is a footer "Pick from a list" to the MCQ (another long list). Related: the adaptive yes/no narrowing loop the spec called "the engagement engine" is now **orphaned dead code** (CandidateStrip + trait-questions, imported nowhere), and CLAUDE.md still claims it is live.
 - Evidence: `CandidateGate.tsx:43` (MAX 24), `:184` (no `notSure`); `ShapeGate.tsx:173` + `BodyShapeGate.tsx:106` (siblings pass it); `CandidateStrip.tsx:1-22` + `trait-questions.ts:4-7` (ORPHANED); `CLAUDE.md:389` (stale claim).
 - Fix: add a "None look right" affordance routing to the MCQ or one discriminating cut; reintroduce one information-gain trait cut before rendering >~8 tiles. Either delete the orphan trio or wire one cut back in, and fix `CLAUDE.md:389`.
@@ -73,43 +73,43 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 ## P2
 
-### T7 · Token/glyph drift the 2 Jun sweep missed — `M` · still-open (partial)
+### T7 · Token/glyph drift the 2 Jun sweep missed: `M` · still-open (partial)
 **L7/L6 · IdGuideChat, /account, /auth/signin, RarityPanel, /leaderboard.** Unicode dingbats persist as the chat typing indicator (`●●●`), the account "Email sent"/"Saved" states, and the sign-up password meter; stock palettes persist for the chat error chip (`red-400`), the RarityPanel rare badge (`amber-300`), and the leaderboard medal tints (`amber/zinc/orange`). **All carry redundant non-colour cues, so these are brand-consistency, not colourblind failures.** Evidence: `IdGuideChat.tsx:299-301,233`; `AccountClient.tsx:123,163`; `signin/page.tsx:153,156,159`; `RarityPanel.tsx:153` + `tailwind.config.ts:66-68` (no rarity token); `leaderboard/page.tsx:230-260`.
 - Fix: swap dingbats for the stroked-SVG icons (`u/[id]/page.tsx:160-162` is the reference); chat error → `danger` token + warning SVG; add a **dedicated rarity token** (not the verdict tokens) and named medal tokens, preserving contrast so it is a pure rename.
 
-### T8 · Low-opacity white text below AA on dark panels — `S` · still-open (partial)
+### T8 · Low-opacity white text below AA on dark panels: `S` · still-open (partial)
 **L4/L6 · FeedCard reveal, RarityPanel, TileGate, CandidateStrip.** The 2 Jun audit lifted `white/35→/60` but did not finish: community-stat percentages and RarityPanel meta use `white/40-60` at 9-11px on a `navy-900/95` (not fully opaque) panel, so a bright seabed bleeds through; the `white/40` no-data notice clearly fails. In the idflow gates the resting "Not sure" escape and inactive crumbs use `white/45` (~3:1), and "Not sure" is the murky-safe path for exactly the uncertain/low-vision user. (Bars are exempt: each has an adjacent % label.) Evidence: `FeedCard.tsx:1416` on `:1074` `bg-navy-900/95`; `RarityPanel.tsx:92,119,122,174`; `TileGate.tsx:441,468`; `CandidateStrip.tsx:222,230`.
 - Fix: lift secondary small text to ≥`white/70`, raise the "Not sure" resting state, and make the feed panel fully opaque `navy-900` to remove video-bleed variability.
 
-### T9 · Banned `rounded-xl` on wizard cards + catalogue browser — `S` · still-open
+### T9 · Banned `rounded-xl` on wizard cards + catalogue browser: `S` · still-open
 **L7 · IdGuideWizard, IdGuideSheet CatalogueBrowser.** `rounded-xl` (12px, not a PEBL token) on wizard options/skip/details and the catalogue search input + result rows; policy is card/modal/full. Sibling IdGuideChat already uses `rounded-modal`. Evidence: `IdGuideWizard.tsx:240,251,313`; `IdGuideSheet.tsx:383,394`; `tailwind.config.ts:71-74`. Fix: `rounded-xl` → `rounded-modal`.
 
-### T10 · Hamburger-only nav, no bottom bar, no in-page back, no always-visible active-route cue — `L` · still-open (P17)
+### T10 · Hamburger-only nav, no bottom bar, no in-page back, no always-visible active-route cue: `L` · still-open (P17)
 **L5/L1 · Header, SideMenu, leaderboard, account.** All primary nav is behind one top-left hamburger (worst right-thumb zone), avatar top-right (also outside the arc), no bottom tab bar. Secondary pages carry zero in-page back-to-feed link, so the only return path is the drawer (invisible in installed PWA). Active-route state lives only inside the closed drawer. Not broken (recognised pattern, 44px targets), so ergonomic polish for one-handed mobile. Evidence: `Header.tsx:34-57`; `AvatarMenu.tsx:69`; no `BottomNav` component; `leaderboard/page.tsx:177-198` + `account/page.tsx:33-48`; `SideMenu.tsx:233-247`.
 - Fix: a persistent mobile bottom tab bar (Feed/Archive/Leaderboard/Account) with `aria-current`; cheap interim: a "Back to feed" link under each secondary page's eyebrow.
 
-### T11 · Header logo navigates off-site behind a `window.confirm` — `S` · new
+### T11 · Header logo navigates off-site behind a `window.confirm`: `S` · new
 **L9/L5 · Header.** The masthead logo links to pebl-cic.co.uk (`target=_blank`) behind a native `window.confirm`, breaking the logo=home convention; app-home is buried in the drawer. Evidence: `Header.tsx:61-84`; `SideMenu.tsx:162`. Fix: point the logo to `/`; move the outbound link to the drawer footer; drop the confirm.
 
-### T12 · Verify-link expired/error states dead-end signed-out users — `M` · new
+### T12 · Verify-link expired/error states dead-end signed-out users: `M` · new
 **L5 · /auth/verify.** Expired/missing-token states route to `/account`, which hard-redirects session-less visitors to `/auth/signin` (no resend affordance); the generic-error branch offers no link at all. Evidence: `VerifyClient.tsx:60-65,69-78`; `verify/page.tsx:29`; `account/page.tsx`; `signin/page.tsx:216-231`. Fix: a signed-out-friendly resend page (wrap `/api/auth/verify-request`); give the error branch a "Back to sign in" link.
 
-### T13 · Legal docs: draft banner, overclaimed conformance, wrong company number, no wayfinding — `M` · new
+### T13 · Legal docs: draft banner, overclaimed conformance, wrong company number, no wayfinding: `M` · new
 **L9/L1 · /accessibility, /privacy, /terms.** ⚠️ **Company-number claim was a FALSE POSITIVE** (verified 2026-06-04): the repo uses **12076622** consistently (legal docs, landing, email, DPIA/LIA) and that IS canonical per the project record; there is no `12082722` anywhere. No change made. The "overclaim" finding is also weak: the statement scopes its keyboard claim to *user-facing* surfaces (the only sub-44px gap, the admin annotator, is staff-only) and already carries an honest "Known gaps" section with a "Last updated" date. The genuine residual is **wayfinding**: the three pages had no back-link. Evidence: `accessibility-statement.md:3,36-39`; `LegalLayout.tsx`. **Fixed 2026-06-04:** added a "Back to FishSpotter" link to `LegalLayout` (covers all three pages). The "v0.1 engineering draft" banner is a content/legal call left for the owner.
 
-### T14 · OnboardingTour progress is colour-only, no step-of-N for SR — `S` · new
+### T14 · OnboardingTour progress is colour-only, no step-of-N for SR: `S` · new
 **L6 · OnboardingTour.** Three progress pips in an `aria-hidden` container differ only by background colour at identical size; the dialog `aria-label` has no step indication. Evidence: `OnboardingTour.tsx:71-81,63`. Fix: visually-hidden "Step {n} of {N}" + a non-colour cue on the active pip.
 
-### T15 · Reveal panel capped at 50vh buries the Next CTA below an internal scroll (mobile) — `M` · new
+### T15 · Reveal panel capped at 50vh buries the Next CTA below an internal scroll (mobile): `M` · new
 **L2/L5 · FeedCard reveal (mobile).** The bottom-docked reveal is capped at `max-h-[min(50vh,...)]` (~422px); the reveal stack (verdict, 4 bars, RarityPanel, annotated photo, gallery, trigger, edit/archive/next, end-card) exceeds it, so the canonical "Next" advance sits at the bottom of an internal scroll. The verdict shows in-place (B4 holds) and Next is 44px, but continuing the loop requires discovering a scroll. Evidence: `FeedCard.tsx:1074,1108,1334-1535,1507`. Fix: full docked height on mobile, or pin the edit/archive/next row as a sticky footer inside the scroll.
 
-### T16 · Chat LLM channel has no off-topic/safety deflection rule for under-18s — `S` · new
+### T16 · Chat LLM channel has no off-topic/safety deflection rule for under-18s: `S` · new
 **L6/L9 · IdGuideChat.** The open free-text channel's `HARD_RULES` constrain only species output, with no instruction to refuse/redirect non-marine, unsafe, or personal input, and no age gate. For a service likely accessed by under-18s, ICO expects explicit scope/safety framing on an LLM channel. Evidence: `idguide/prompt.ts:17-24`; `IdGuideChat.tsx:245-263`; chat route (login + rate-limit + length cap, no safety rule). Fix: add a HARD_RULE deflecting off-topic/unsafe/personal input; a one-line scope notice near the textarea; confirm min-age vs chat availability with a policy owner.
 
-### T17 · Wizard jargon + high reading-age copy undercut the novice/teen audience — `M` · still-open (partial)
+### T17 · Wizard jargon + high reading-age copy undercut the novice/teen audience: `M` · still-open (partial)
 **L9/L1 · IdGuideWizard.** An always-visible option label reads "An eye-spot (ocellus)" (Latin on the recognition surface); whyHint disclosures use unglossed terms ("a gadoid signature", "what fisheries scientists actually look for"), contradicting the component's stated everyday-vocabulary intent. Evidence: `IdGuideWizard.tsx:93,62-63,89,17-18`. Fix: drop "(ocellus)"; replace "gadoid signature" with plain wording; aim whyHints at ~reading age 12.
 
-### T18 · Admin annotator small targets + invalid button-in-button — `S` · new
+### T18 · Admin annotator small targets + invalid button-in-button: `S` · new
 **L2/L6 · SpeciesAnnotator.** Resize handle renders ~16-20px; sidebar reorder arrows ~18-20px tall and are **nested inside a parent button** (invalid HTML). Evidence: `SpeciesAnnotator.tsx:367-378,423-450` (nested in `:414`). Fix: enlarge the resize hit area, pad reorder buttons to 44×44, fix the nested-button structure. Bundle with T3.
 
 ---
@@ -124,13 +124,13 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 
 ## What's already good (do not regress)
 
-1. **Reveal-in-place loop is solid** — verdict shows immediately at the top of the panel on submit (27 May B4 stays fixed); Next is 44px.
-2. **Reduced-motion architecture is genuinely well-built** — a global `globals.css:206-215` kill-switch + per-component JS guards (`FeedPlayer.tsx:222`); no rogue infinite pulse remains. The 27 May vestibular finding is properly resolved.
+1. **Reveal-in-place loop is solid**: verdict shows immediately at the top of the panel on submit (27 May B4 stays fixed); Next is 44px.
+2. **Reduced-motion architecture is genuinely well-built**: a global `globals.css:206-215` kill-switch + per-component JS guards (`FeedPlayer.tsx:222`); no rogue infinite pulse remains. The 27 May vestibular finding is properly resolved.
 3. **The shared `useModalFocus` hook is a clean reusable WCAG 2.1.2 contract** correctly applied to MapModal + SpeciesGuidePopup; it just needs extending to OnboardingTour.
 4. **Leaderboard medals carry multi-channel cues** (SVG icon + sr-only label + rank number), so colourblind/SR users are well served even though the tints are off-token.
 5. **idflow Rung 1/2 gates offer distinct "Not sure" + "Skip" escapes**, and TileGate ships the transparent-44px-hit-area pattern (a reusable fix template).
-6. **Stat/likelihood bars are never colour-only** — each carries an adjacent % label, the right call for the colourblind owner.
-7. **Sensible anon-first design** — "Start spotting" routes to `/feed` without a sign-up wall; per-user deterministic feed shuffle is in place.
+6. **Stat/likelihood bars are never colour-only**: each carries an adjacent % label, the right call for the colourblind owner.
+7. **Sensible anon-first design**: "Start spotting" routes to `/feed` without a sign-up wall; per-user deterministic feed shuffle is in place.
 8. **Admin surfaces carry `robots:noindex` + a clean `@pebl-cic.co.uk` gate**, and the annotator sidebar list is a partly-accessible text mirror of the canvas.
 
 ---
@@ -199,7 +199,7 @@ Other recurring themes: the **admin annotator is keyboard-inaccessible** (drag-o
 | T4 Onboarding focus + marquee pause | P1 | ✅ Done | `useModalFocus` on OnboardingTour; 44px pause/play toggle on SpeciesMarquee. |
 | T6 Rung-3 "None look right" + dead engine | P1 | 🟢 Mostly | CandidateGate "None look right" exit added; CLAUDE.md corrected. Orphan strip left for a revive/remove product call. |
 | T3 Admin annotator keyboard | P1 | ✅ Done | X/Y/Size number inputs (arrow-key placement), aria-hidden SVG, aria-live status, dashed selection cue. |
-| T7 Token/glyph drift | P2 | 🟢 Mostly | All dingbats/glyphs → SVG/CSS (chat dots, account, password meter, wizard ▶). Stock-palette tints (chat-error red, rarity amber, medals) kept — they carry non-colour cues (brand-only, not a11y). |
+| T7 Token/glyph drift | P2 | 🟢 Mostly | All dingbats/glyphs → SVG/CSS (chat dots, account, password meter, wizard ▶). Stock-palette tints (chat-error red, rarity amber, medals) kept, they carry non-colour cues (brand-only, not a11y). |
 | T8 Low-opacity white text | P2 | ✅ Done | TileGate/RarityPanel/FeedCard small text → `white/70+`; reveal panel fully opaque. |
 | T15 Reveal Next below mobile scroll | P2 | ✅ Done | Advance row pinned as a sticky footer when a next clip exists. |
 | T13 Legal copy + wayfinding | P2 | ✅ Done | Company-number finding was a FALSE POSITIVE (no change). Added "Back to FishSpotter" link. Draft-banner left to owner. |

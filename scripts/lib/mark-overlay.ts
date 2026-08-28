@@ -149,7 +149,7 @@ const VALIDATION_SCHEMA = {
 } as const;
 
 function buildValidationPrompt(common: string, sci: string, marks: MarkRow[]): string {
-  const list = marks.map((m, i) => `  ${i + 1}. "${m.label}" — ${m.description}`).join("\n");
+  const list = marks.map((m, i) => `  ${i + 1}. "${m.label}", ${m.description}`).join("\n");
   return [
     `You are a marine-biology ID editor reviewing an ANNOTATED reference photo`,
     `for an underwater species-identification game. The species is ${common} (${sci}).`,

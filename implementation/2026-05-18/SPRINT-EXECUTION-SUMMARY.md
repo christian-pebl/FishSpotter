@@ -6,12 +6,12 @@ Six sprints, 114 planned tickets. **Shipped 95+ tickets across 25 PRs to `main`*
 
 | Sprint | Planned | Shipped | Deferred (and why) |
 |---|---|---|---|
-| **1 Foundations** | 17 | **17 / 17 ✅** | — |
-| **2 Quiz pipeline** | 20 | **20 / 20 ✅** | — |
-| **3 Onboarding & compliance** | 18 | **17 / 18 ✅** | T18 Playwright e2e suite — existing test infra from S1 Lane D covers it; specific specs can be added incrementally. |
-| **4 Performance** | 18 | **14 / 18 ✅** | T12 feed pagination, T13 coalesced ±1 preload, T14 virtualisation, T18 poster preload — premature at the current 30-snippet corpus. Cursor + bbox endpoints land here as scaffolding. |
+| **1 Foundations** | 17 | **17 / 17 ✅** | - |
+| **2 Quiz pipeline** | 20 | **20 / 20 ✅** | - |
+| **3 Onboarding & compliance** | 18 | **17 / 18 ✅** | T18 Playwright e2e suite, existing test infra from S1 Lane D covers it; specific specs can be added incrementally. |
+| **4 Performance** | 18 | **14 / 18 ✅** | T12 feed pagination, T13 coalesced ±1 preload, T14 virtualisation, T18 poster preload, premature at the current 30-snippet corpus. Cursor + bbox endpoints land here as scaffolding. |
 | **5 Navigation & a11y** | 22 | **~10 / 22 ✅** | T2 persistent nav (UX decision), T3 history.replaceState, T4-T5 externalId routing + share, T6 cross-promo, T7 metadata strip, T8 alt-text audit, T12 reduced-motion sweep, T13 H1 audit (already passes), T14 locale dates, T16 paired toggle labels, T17 touch targets, T18 landscape, T20 SW drift test, T21 not-found polish (already shipped in S1), T22 axe-core CI gate (already wired in S1). |
-| **6 Advanced** | 19 | **4 / 19 ✅** | OAuth providers, Web Push, Plausible analytics, Whisper captions, multi-locale i18n, admin role, journal — each needs external provider credentials or a separate UX decision. |
+| **6 Advanced** | 19 | **4 / 19 ✅** | OAuth providers, Web Push, Plausible analytics, Whisper captions, multi-locale i18n, admin role, journal, each needs external provider credentials or a separate UX decision. |
 
 **Conservative net: ~82 tickets fully shipped + ~10 partial / already-shipped-via-earlier-sprint. The rest are deferred for reasons that are explicit in each PR.**
 
@@ -25,7 +25,7 @@ Sprint 3: #20 (S3-01+02 schema), #21 (S3-03 to S3-07 email + token flows), #22 (
 
 Sprint 4: #23 (indexes + groupBy + archive filter + cursor scaffold + web-vitals + SW bump).
 
-Sprint 5: #24 (a11y / nav polish — hamburger, aria-live, focus trap, sitemap).
+Sprint 5: #24 (a11y / nav polish, hamburger, aria-live, focus trap, sitemap).
 
 Sprint 6: #25 (accessibility statement, /u/[id] profile, GDPR export, answer rate-limit).
 
@@ -58,29 +58,29 @@ Sprint 6: #25 (accessibility statement, /u/[id] profile, GDPR export, answer rat
 
 - **60 vitest tests** passing on main (was 0 before Sprint 2).
 - Build / lint / typecheck green on every commit.
-- Playwright + axe + Lighthouse CI scaffolded in Sprint 1; workflows gate on the `POSTGRES_PRISMA_URL` secret being configured — they skip cleanly today (per Sprint 1's PR #9 CI-stabilisation work) and start asserting once the operator lands the secrets.
+- Playwright + axe + Lighthouse CI scaffolded in Sprint 1; workflows gate on the `POSTGRES_PRISMA_URL` secret being configured, they skip cleanly today (per Sprint 1's PR #9 CI-stabilisation work) and start asserting once the operator lands the secrets.
 
 ## Outstanding operator actions to realise the value
 
 Combined RESIDUAL-ACTIONS across sprints:
 
-1. **R2 storage cutover** (Sprint 1, #6 — saves ~$25/mo). Cloudflare R2 bucket + API token + Vercel env + run `npm run db:migrate-to-r2`.
+1. **R2 storage cutover** (Sprint 1, #6, saves ~$25/mo). Cloudflare R2 bucket + API token + Vercel env + run `npm run db:migrate-to-r2`.
 2. **Schema migration** (Sprint 3, #20). `npm run db:push` to apply the auth-lifecycle additions and Sprint 4's indexes.
 3. **Seed aliases** (Sprint 2, #11). `npm run db:seed-aliases` after migration so the matcher accepts synonyms.
 4. **Resend wiring** (Sprint 3, #21). `RESEND_API_KEY` + DKIM/SPF/DMARC on `pebl-cic.co.uk` + the `EMAIL_*` env vars.
 5. **Optional Anthropic Haiku swap** (Sprint 1, #5). `ANTHROPIC_MODEL=claude-haiku-4-5` in Vercel for an extra ~$5/mo saving.
 6. **GitHub Actions secrets** (Sprint 1, #4). Populate the secrets the Playwright / Lighthouse / codec-guard workflows reference so they do real work.
 7. **PEBL legal copy** (Sprint 3, #22). Replace the placeholder text in `src/data/legal/privacy-policy.md` and `terms-of-service.md`.
-8. **CRON_SECRET in Vercel** (Sprint 3, #22) — protects the new digest + streak-nudge crons.
+8. **CRON_SECRET in Vercel** (Sprint 3, #22), protects the new digest + streak-nudge crons.
 
 ## Deferred tickets requiring external providers (not blocking launch)
 
-- **Sprint 6 T13**: Google + Apple OAuth — adapter scaffolded (S3-02), needs provider credentials + provider config in `authOptions`.
-- **Sprint 6 T16**: Web Push notifications — needs VAPID keys + SW push handlers + Apple-specific iOS 16.4+ permission UX.
-- **Sprint 6 T18**: Plausible (or similar) analytics — needs domain provisioning at the analytics provider.
-- **Sprint 6 T19**: Whisper VTT captions pipeline — only relevant if you reverse the silent-media-exemption posture decision (the chosen default is exemption, documented in `/accessibility`).
-- **Sprint 6 T15**: full `next-intl` i18n scaffold — material refactor; English-only is the documented default.
-- **Sprint 6 T17**: Admin route — needs a `User.role` column + admin UX.
+- **Sprint 6 T13**: Google + Apple OAuth, adapter scaffolded (S3-02), needs provider credentials + provider config in `authOptions`.
+- **Sprint 6 T16**: Web Push notifications, needs VAPID keys + SW push handlers + Apple-specific iOS 16.4+ permission UX.
+- **Sprint 6 T18**: Plausible (or similar) analytics, needs domain provisioning at the analytics provider.
+- **Sprint 6 T19**: Whisper VTT captions pipeline, only relevant if you reverse the silent-media-exemption posture decision (the chosen default is exemption, documented in `/accessibility`).
+- **Sprint 6 T15**: full `next-intl` i18n scaffold, material refactor; English-only is the documented default.
+- **Sprint 6 T17**: Admin route, needs a `User.role` column + admin UX.
 
 ## Cost projection (50 casual users, 5 min/day)
 

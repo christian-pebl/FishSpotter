@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Species guide popup — the "flash card" a user sees when they tap a species
+ * Species guide popup, the "flash card" a user sees when they tap a species
  * tile in the live ID flow (Rung 3 CandidateGate). It renders the SHARED
  * SpeciesGuideContent (the exact same detail shown on the /species/[slug]
  * profile page reached from the menu), so the two never drift apart. The ONLY

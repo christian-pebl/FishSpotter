@@ -1,4 +1,4 @@
-# Sprint 2 — Quiz Pipeline Alignment
+# Sprint 2: Quiz Pipeline Alignment
 
 ## Product decision required (flag prominently)
 
@@ -24,7 +24,7 @@ Align the implementation with the brief. Replace the free-text quiz with a multi
 4. Confetti fires exactly once per snippet per session, regardless of edit-resubmit or rare-find rarity tier.
 5. Anonymous users typing an answer (or tapping a candidate) are redirected to signin and their selection is rehydrated on return.
 6. `normalizeAnswer` accepts scientific-name synonyms and per-species aliases; the community histogram and leaderboard "most common answers" panel both group by canonical key.
-7. The quiz panel does not commit the user to an answer before the clip has played one loop (a watch-first gate is in place — either deferred panel open, or auto-shrink to pill).
+7. The quiz panel does not commit the user to an answer before the clip has played one loop (a watch-first gate is in place, either deferred panel open, or auto-shrink to pill).
 8. `RarityPanel` no longer labels the staff scientific name "Your answer:".
 9. `/api/snippets/[id]/stats` and `/api/snippets/[id]/probability` are answer-gated so the pre-answer MCQ candidate fetch does not leak the staff answer (depends on Sprint 1's E-theme fix; see "Dependencies on Sprint 1").
 10. End-of-feed terminal card has a non-dead-end CTA.
@@ -35,29 +35,29 @@ Align the implementation with the brief. Replace the free-text quiz with a multi
 
 | Audit ref | Severity | Sprint 2 ticket |
 |---|---|---|
-| §03 F1 — no MCQ, free-text + fuzzy match | High | S2-T05, S2-T06, S2-T07 |
-| §03 F2 — quiz appears before clip is watched | Med | S2-T11 |
-| §03 F3 — synonyms / scientific names marked wrong | High | S2-T01 |
-| §03 F4 — `findMany` over Snippet table on every wrong answer | Med | S2-T02 (obviated by MCQ; correction lane removed) |
-| §03 F8 — SpeciesGallery hidden behind ID-guide sheet | Med | S2-T08 |
-| §03 F9 — gallery silently renders nothing for thin species | Med | S2-T17 |
-| §03 F10 — lightbox lacks swipe / attribution clarity | Low | S2-T18 |
-| §03 F11 — `editAnswer` doesn't refocus input | Low | S2-T09 (rolled into confetti/edit ticket) |
-| §03 F12 — confetti double-fires on rare-find correct | Low | S2-T09 |
-| §03 F13 — streak follow-up GET race | Low | S2-T13 |
-| §03 F14 — typed answer lost on auth redirect | Med | S2-T10 |
-| §03 F19 — stats histogram grouped by raw `chosenOption` | Med | S2-T02 |
-| §03 F22 — edit + resubmit re-fires confetti | Low | S2-T09 |
-| §03 F23 — last-clip terminal state stranded | Low | S2-T15 |
-| §03 F24 — "Your answer:" mislabel on staff name | Med | S2-T12 |
-| §03 F25 — license attribution weak inside thumb strip | Low | S2-T18 |
-| §05 F-LB-02 — scoring rewards wrong answers (P0) | P0 | S2-T03 |
-| §05 F-LB-06 — rank ties not handled | P2 | S2-T03 |
-| §05 F-LB-08 — `chosenOption` bucketed by raw string | P1 | S2-T02 |
-| §03 edge-case — degenerate bucket (single candidate) | — | S2-T07 |
-| §03 edge-case — `staffAnswerScientific=null` | — | S2-T06 (graceful fallback) |
-| §03 edge-case — ID-guide chat MAX_TURNS hard error | — | S2-T19 |
-| §03 edge-case — chat closure bug (F15) | Low | S2-T19 |
+| §03 F1, no MCQ, free-text + fuzzy match | High | S2-T05, S2-T06, S2-T07 |
+| §03 F2, quiz appears before clip is watched | Med | S2-T11 |
+| §03 F3, synonyms / scientific names marked wrong | High | S2-T01 |
+| §03 F4, `findMany` over Snippet table on every wrong answer | Med | S2-T02 (obviated by MCQ; correction lane removed) |
+| §03 F8, SpeciesGallery hidden behind ID-guide sheet | Med | S2-T08 |
+| §03 F9, gallery silently renders nothing for thin species | Med | S2-T17 |
+| §03 F10, lightbox lacks swipe / attribution clarity | Low | S2-T18 |
+| §03 F11, `editAnswer` doesn't refocus input | Low | S2-T09 (rolled into confetti/edit ticket) |
+| §03 F12, confetti double-fires on rare-find correct | Low | S2-T09 |
+| §03 F13, streak follow-up GET race | Low | S2-T13 |
+| §03 F14, typed answer lost on auth redirect | Med | S2-T10 |
+| §03 F19, stats histogram grouped by raw `chosenOption` | Med | S2-T02 |
+| §03 F22, edit + resubmit re-fires confetti | Low | S2-T09 |
+| §03 F23, last-clip terminal state stranded | Low | S2-T15 |
+| §03 F24, "Your answer:" mislabel on staff name | Med | S2-T12 |
+| §03 F25, license attribution weak inside thumb strip | Low | S2-T18 |
+| §05 F-LB-02, scoring rewards wrong answers (P0) | P0 | S2-T03 |
+| §05 F-LB-06, rank ties not handled | P2 | S2-T03 |
+| §05 F-LB-08, `chosenOption` bucketed by raw string | P1 | S2-T02 |
+| §03 edge-case, degenerate bucket (single candidate) | - | S2-T07 |
+| §03 edge-case, `staffAnswerScientific=null` | - | S2-T06 (graceful fallback) |
+| §03 edge-case, ID-guide chat MAX_TURNS hard error | - | S2-T19 |
+| §03 edge-case, chat closure bug (F15) | Low | S2-T19 |
 
 ## Dependency graph
 
@@ -118,9 +118,9 @@ Align the implementation with the brief. Replace the free-text quiz with a multi
 
 These S1 tickets **must land before S2-T05** ships (otherwise the new MCQ endpoint inherits the same spoiler leak):
 
-- **S1 Theme E fix on `/api/snippets/[id]/stats`** — `staffAnswer` must be gated on an existing `Answer` row from the requester. The new MCQ endpoint (S2-T05) reuses the same gating pattern. (Audit §03 F6, §00 Theme E.)
-- **S1 Theme E fix on `/api/snippets/[id]/probability`** — `staffAnswerScientific` must be gated on an existing `Answer` row OR the response must omit it pre-answer. S2-T05 needs an authenticated, server-side path that *can* see the staff answer (to ensure it's included as one of the candidates) without leaking it to the unauth client. (Audit §03 F7.)
-- **S1 `callbackUrl` redirect lock** — S2-T10 (preserve typed answer through signin) depends on the validated callback URL surface; without it, the rehydration query param becomes an open-redirect vector.
+- **S1 Theme E fix on `/api/snippets/[id]/stats`**: `staffAnswer` must be gated on an existing `Answer` row from the requester. The new MCQ endpoint (S2-T05) reuses the same gating pattern. (Audit §03 F6, §00 Theme E.)
+- **S1 Theme E fix on `/api/snippets/[id]/probability`**: `staffAnswerScientific` must be gated on an existing `Answer` row OR the response must omit it pre-answer. S2-T05 needs an authenticated, server-side path that *can* see the staff answer (to ensure it's included as one of the candidates) without leaking it to the unauth client. (Audit §03 F7.)
+- **S1 `callbackUrl` redirect lock**: S2-T10 (preserve typed answer through signin) depends on the validated callback URL surface; without it, the rehydration query param becomes an open-redirect vector.
 
 If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 must internalise the gating (server-side fetch of staff answer never exposed to client) and add a regression test that the public `/probability` endpoint stops returning `staffAnswerScientific` to anonymous callers.
 
@@ -128,7 +128,7 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 
 ## Tickets
 
-### S2-T01 — Synonym + alias support in `normalizeAnswer`
+### S2-T01: Synonym + alias support in `normalizeAnswer`
 
 **Priority:** P1 · **Effort:** M · **Audit refs:** §03 F3
 
@@ -136,7 +136,7 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 - `src/app/api/answers/route.ts` (lines 16-26 `normalizeAnswer`, lines 121-123 equality check)
 - `prisma/schema.prisma` (new `SpeciesAlias` table or extend `SpeciesNameMap` with `aliases String[]`)
 - `src/lib/biodiversity/` (new `species-aliases.ts` helper)
-- `src/data/species-aliases.json` (new — editorial alias list)
+- `src/data/species-aliases.json` (new, editorial alias list)
 
 **Current:** `normalizeAnswer` lowercases, strips diacritics, removes punctuation, drops articles. `isCorrect = normalizedStaffAnswer === normalizedOption`. A user typing `Pollachius pollachius` is marked wrong; `cuckoo-wrasse` vs `cuckoo wrasse` is OK (punctuation stripped) but `Labrus mixtus` is wrong.
 
@@ -157,13 +157,13 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 
 **Testing:** unit tests for alias matrix; integration test that POSTs each of the 26 staff species' scientific name and gets `isCorrect: true`.
 
-**Risk:** alias drift — if `SpeciesNameMap` re-resolves a species to a different canonical scientific name later, stale aliases persist. Mitigate by refreshing aliases in the same weekly cron that touches `SpeciesNameMap`.
+**Risk:** alias drift, if `SpeciesNameMap` re-resolves a species to a different canonical scientific name later, stale aliases persist. Mitigate by refreshing aliases in the same weekly cron that touches `SpeciesNameMap`.
 
 **Dependencies:** none. Safe to land first under either MCQ or free-text product decision (still useful for the autocomplete in MCQ-with-search variants).
 
 ---
 
-### S2-T02 — Group community histograms by `normalizeAnswer` everywhere
+### S2-T02: Group community histograms by `normalizeAnswer` everywhere
 
 **Priority:** P1 · **Effort:** S · **Audit refs:** §03 F19, §05 F-LB-08
 
@@ -179,7 +179,7 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 1. Extract `normalizeAnswer` from `api/answers/route.ts` into `src/lib/normalize-answer.ts` (no behaviour change).
 2. In stats route, reduce `answers` into `Map<normalizedKey, { count, surfaceForms: Map<string, count> }>`, pick canonical surface as `staffAnswer` if normalized match, else most frequent.
 3. Same pattern in leaderboard page reduction.
-4. Add an optional `+N variants` tooltip surface for hover (deferred polish — not blocking).
+4. Add an optional `+N variants` tooltip surface for hover (deferred polish, not blocking).
 
 **Acceptance criteria:**
 - Seeding 5× `"Pollack"`, 3× `"pollack"`, 1× `"the pollack"` yields a single row with count 9 and surface `"Pollack"`.
@@ -193,14 +193,14 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 
 ---
 
-### S2-T03 — Fix leaderboard scoring formula + ties + rule transparency
+### S2-T03: Fix leaderboard scoring formula + ties + rule transparency
 
 **Priority:** P0 · **Effort:** S · **Audit refs:** §05 F-LB-02 (P0), F-LB-06, F-LB-04, F-LB-07
 
 **Files:**
 - `src/app/leaderboard/page.tsx:40-52, 79-89`
 
-**Current:** `score = correct * 1 + (total - correct) * 0.5` — every wrong answer is worth 0.5. Ties broken by `Object.entries` insertion order. No rule explanation visible. No self-row highlight. No empty-state for users with 0 answers.
+**Current:** `score = correct * 1 + (total - correct) * 0.5`, every wrong answer is worth 0.5. Ties broken by `Object.entries` insertion order. No rule explanation visible. No self-row highlight. No empty-state for users with 0 answers.
 
 **Target:**
 - Score = `correct` (pure count) with a minimum-volume gate of `≥10 answers` for ranking eligibility. Rationale: aligns with the brief's "celebrate accurate observations".
@@ -230,7 +230,7 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 
 ---
 
-### S2-T04 — Return streak in `POST /api/answers` response (kill the follow-up GET)
+### S2-T04: Return streak in `POST /api/answers` response (kill the follow-up GET)
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** §03 F13
 
@@ -261,13 +261,13 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 
 ---
 
-### S2-T05 — `GET /api/snippets/[id]/quiz` (new endpoint, MCQ candidate set)
+### S2-T05: `GET /api/snippets/[id]/quiz` (new endpoint, MCQ candidate set)
 
 **Priority:** P1 · **Effort:** M · **Audit refs:** §03 F1, F8
 
 **Files:**
 - `src/app/api/snippets/[id]/quiz/route.ts` (new)
-- `src/lib/biodiversity/candidates.ts` (new — candidate selection logic)
+- `src/lib/biodiversity/candidates.ts` (new, candidate selection logic)
 - `src/lib/auth.ts` (no change; consumed)
 
 **Current:** No MCQ endpoint exists. `/probability` returns the full OBIS species ranking and (audit §03 F7) leaks `staffAnswerScientific` to anonymous callers.
@@ -275,7 +275,7 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 **Target:** New authenticated endpoint that returns 3-5 species candidates for the quiz UI. Candidates = staff answer **plus** top OBIS species at the snippet's bucket, shuffled, with iNat thumbnail + scientific name. Endpoint does NOT separately disclose which candidate is the staff answer (the client is supposed to be guessing). Endpoint is authenticated so it can legitimately include the staff option without leaking against the public `/probability` route.
 
 **Approach:**
-1. Auth gate: require `session.user.id`. (Anonymous users go through the signin flow before they see candidates — see S2-T10. Pre-signin they see a teaser pill.)
+1. Auth gate: require `session.user.id`. (Anonymous users go through the signin flow before they see candidates, see S2-T10. Pre-signin they see a teaser pill.)
 2. Resolve snippet, bucket, cached `SpeciesProbability`. If `INSUFFICIENT_DATA` or `ERROR`, fall back to S2-T07 logic.
 3. Build candidate pool:
    - Always include the staff answer (resolved via `SpeciesNameMap` for scientific name + common name).
@@ -296,7 +296,7 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
      fallback: "OBIS" | "CATALOGUE" | "DEGENERATE";
    }
    ```
-6. Cache the candidate set in a new `SnippetQuizCandidates` table keyed by `snippetId` (so the same user sees the same candidates on reload — the shuffle is deterministic per snippet) **or** seed with a snippet-keyed PRNG (simpler, no migration). Recommend the PRNG path for sprint 2.
+6. Cache the candidate set in a new `SnippetQuizCandidates` table keyed by `snippetId` (so the same user sees the same candidates on reload, the shuffle is deterministic per snippet) **or** seed with a snippet-keyed PRNG (simpler, no migration). Recommend the PRNG path for sprint 2.
 
 **Acceptance criteria:**
 - Endpoint returns 3-5 candidates for any snippet with a populated `SpeciesProbability` row.
@@ -306,20 +306,20 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 - Fallback `"CATALOGUE"` path returns candidates from the 26-species catalogue when bucket data is missing.
 - Fallback `"DEGENERATE"` path: if only the staff answer is available (no plausible distractors), the endpoint flags it so the UI can degrade gracefully (S2-T07).
 
-**Testing:** Vitest with seeded buckets — assert candidate count, staff inclusion, determinism, anonymous rejection. Contract test asserting `staffAnswerScientific` is not separately surfaced (the staff option is just one of the candidate objects).
+**Testing:** Vitest with seeded buckets, assert candidate count, staff inclusion, determinism, anonymous rejection. Contract test asserting `staffAnswerScientific` is not separately surfaced (the staff option is just one of the candidate objects).
 
-**Risk:** core new endpoint — get the determinism right. Use a stable hash of `snippetId` as the PRNG seed.
+**Risk:** core new endpoint, get the determinism right. Use a stable hash of `snippetId` as the PRNG seed.
 
 **Dependencies:** Sprint 1 spoiler-leak fix on `/probability` (so the public endpoint stops leaking; this one is the authenticated replacement for the candidate use-case).
 
 ---
 
-### S2-T06 — Candidate selection algorithm + `staffAnswerScientific=null` fallback
+### S2-T06: Candidate selection algorithm + `staffAnswerScientific=null` fallback
 
 **Priority:** P1 · **Effort:** S · **Audit refs:** §03 F1; edge case "what happens when `staffAnswerScientific` is null"
 
 **Files:**
-- `src/lib/biodiversity/candidates.ts` (new — implementation for S2-T05)
+- `src/lib/biodiversity/candidates.ts` (new, implementation for S2-T05)
 
 **Current:** No selection logic.
 
@@ -336,15 +336,15 @@ If S1 has not yet landed Theme E fixes by the time Sprint 2 starts, S2-T05/T06 m
 - Given a bucket with 0 photo-having distractors, returns `{candidates:[staff], fallback:"DEGENERATE"}`.
 - Same `(snippetId, n)` always yields the same shuffle.
 
-**Testing:** Vitest property tests — for any seed, candidates always include the staff answer, length is in `[1, n]`, no duplicates.
+**Testing:** Vitest property tests, for any seed, candidates always include the staff answer, length is in `[1, n]`, no duplicates.
 
-**Risk:** low — pure function.
+**Risk:** low, pure function.
 
 **Dependencies:** S2-T05.
 
 ---
 
-### S2-T07 — Degenerate-bucket UI fallback (single-candidate + catalogue mode)
+### S2-T07: Degenerate-bucket UI fallback (single-candidate + catalogue mode)
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** §03 F1; edge case "degenerate single-candidate buckets"
 
@@ -371,7 +371,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T08 — Inline `SpeciesGallery` in the reveal stats card
+### S2-T08: Inline `SpeciesGallery` in the reveal stats card
 
 **Priority:** P1 · **Effort:** S · **Audit refs:** §03 F8
 
@@ -391,18 +391,18 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 **Acceptance criteria:**
 - Inline gallery visible on every snippet where `SpeciesImage` rows exist for the staff species (24 of 26 species per `CLAUDE.md`).
-- Empty species (plaice larva, catshark egg case) do not render a broken strip — they fall through to the existing "How to spot a X" sheet path (still useful for the field-note text).
+- Empty species (plaice larva, catshark egg case) do not render a broken strip, they fall through to the existing "How to spot a X" sheet path (still useful for the field-note text).
 - Clicking a thumb opens the lightbox; closing returns focus to the originating thumb.
 
 **Testing:** Playwright: answer a clip → assert 3 `<img>` tags visible in reveal card → click first → lightbox opens.
 
-**Risk:** layout — the reveal card is already dense on mobile. Verify on 375px viewport; the gallery's existing 3-up grid should fit.
+**Risk:** layout, the reveal card is already dense on mobile. Verify on 375px viewport; the gallery's existing 3-up grid should fit.
 
-**Dependencies:** decision on whether to gate `staffAnswerScientific` in `/probability` behind an answer check (Sprint 1 E theme). If gated, the inline gallery only renders post-answer (which is exactly what we want — it IS the reveal).
+**Dependencies:** decision on whether to gate `staffAnswerScientific` in `/probability` behind an answer check (Sprint 1 E theme). If gated, the inline gallery only renders post-answer (which is exactly what we want, it IS the reveal).
 
 ---
 
-### S2-T09 — Confetti / sound / edit-resubmit dedupe + edit refocus
+### S2-T09: Confetti / sound / edit-resubmit dedupe + edit refocus
 
 **Priority:** P1 · **Effort:** S · **Audit refs:** §03 F11, F12, F22
 
@@ -425,7 +425,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 1. Add `celebratedSnippetIds: Set<string>` in `useCreatureQuiz` (ref, not state).
 2. Remove confetti / `playCorrect` from `handleSubmit`'s correct branch. Move the trigger into a `useEffect` keyed on `(myAnswer?.isCorrect, rarityTier)` where `rarityTier` is fed in from `RarityPanel` via a callback (or compute rarity inside the hook by lifting the probability fetch).
 3. The effect calls `playCorrect()` + `triggerCorrectConfetti(tier)` exactly once, then adds `snippet.id` to the celebrated set.
-4. `editAnswer` clears `myAnswer` but does NOT clear `celebratedSnippetIds` — resubmit is silent.
+4. `editAnswer` clears `myAnswer` but does NOT clear `celebratedSnippetIds`, resubmit is silent.
 5. `editAnswer` schedules `requestAnimationFrame(() => inputRef.current?.focus())`. Pass the ref into the hook or expose an `onEditAnswer` callback.
 
 **Acceptance criteria:**
@@ -436,13 +436,13 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 **Testing:** Playwright with confetti DOM observer (mock `triggerCorrectConfetti` to a spy in test mode); assert call count == 1 across the scenarios.
 
-**Risk:** rarity tier coupling — currently `RarityPanel` owns the rarity check. Either lift it or expose a callback. Lifting is cleaner but touches `useCreatureQuiz` shape. Prefer lifting since the data is already fetched by `RarityPanel` and the hook owns celebration logic.
+**Risk:** rarity tier coupling, currently `RarityPanel` owns the rarity check. Either lift it or expose a callback. Lifting is cleaner but touches `useCreatureQuiz` shape. Prefer lifting since the data is already fetched by `RarityPanel` and the hook owns celebration logic.
 
 **Dependencies:** S2-T04 (streak diff arrives inline so the celebration effect can subsume the streak ping in the same orchestrator).
 
 ---
 
-### S2-T10 — Preserve typed / tapped answer through signin redirect
+### S2-T10: Preserve typed / tapped answer through signin redirect
 
 **Priority:** P1 · **Effort:** S · **Audit refs:** §03 F14; Theme D
 
@@ -469,13 +469,13 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 **Testing:** Playwright with a clean session: open `/feed`, type, submit, complete signin flow, assert reveal card visible.
 
-**Risk:** auto-submit on return could surprise users who changed their mind. Alternative: rehydrate the input but require an explicit confirm click. Pick that if PEBL prefers "no surprise auto-actions" — flag in the PR.
+**Risk:** auto-submit on return could surprise users who changed their mind. Alternative: rehydrate the input but require an explicit confirm click. Pick that if PEBL prefers "no surprise auto-actions", flag in the PR.
 
-**Dependencies:** Sprint 1 `callbackUrl` lock (§04 F11) — without it, the rehydration path becomes an open-redirect vector. If S1 hasn't landed, gate this ticket behind a strict allowlist (`/feed`, `/feed/[id]`, `/feed/browse`).
+**Dependencies:** Sprint 1 `callbackUrl` lock (§04 F11), without it, the rehydration path becomes an open-redirect vector. If S1 hasn't landed, gate this ticket behind a strict allowlist (`/feed`, `/feed/[id]`, `/feed/browse`).
 
 ---
 
-### S2-T11 — Watch-first gate before MCQ appears
+### S2-T11: Watch-first gate before MCQ appears
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** §03 F2
 
@@ -490,7 +490,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 1. Track `hasCompletedFirstLoop: boolean` in `FeedCard` state.
 2. In the rVFC loop, when `videoRef.current.currentTime` resets to <0.1s and `firstLoopElapsed >= duration`, set true.
 3. Gate the "expanded panel" render on `(hasCompletedFirstLoop || userHasExpandedManually)`.
-4. The collapsed pill stays interactive — user can manually expand at any time. Add subtle "Watching..." copy on the pill until the first loop completes.
+4. The collapsed pill stays interactive, user can manually expand at any time. Add subtle "Watching..." copy on the pill until the first loop completes.
 
 **Acceptance criteria:**
 - Fresh card paint: pill is visible, MCQ buttons are not.
@@ -500,13 +500,13 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 **Testing:** Playwright with a mocked short video (e.g. 2s clip) to keep test runtime sane; assert MCQ buttons appear after first loop ends.
 
-**Risk:** UX trade-off — power users may find the gate annoying. Consider an optional setting in Sprint 5. Defaults must be confirmed with PEBL.
+**Risk:** UX trade-off, power users may find the gate annoying. Consider an optional setting in Sprint 5. Defaults must be confirmed with PEBL.
 
 **Dependencies:** S2-T14 (MCQ render lands first).
 
 ---
 
-### S2-T12 — Fix `RarityPanel` "Your answer:" label
+### S2-T12: Fix `RarityPanel` "Your answer:" label
 
 **Priority:** P2 · **Effort:** XS · **Audit refs:** §03 F24
 
@@ -529,7 +529,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T13 — Remove `sharedBaselineStreak` race
+### S2-T13: Remove `sharedBaselineStreak` race
 
 **Priority:** P2 · **Effort:** XS · **Audit refs:** §03 F13
 
@@ -548,7 +548,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T14 — MCQ render in `FeedCard` (replaces free-text input)
+### S2-T14: MCQ render in `FeedCard` (replaces free-text input)
 
 **Priority:** P0 · **Effort:** M · **Audit refs:** §03 F1; Theme D
 
@@ -564,7 +564,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 1. Add a `useQuizCandidates(snippetId)` hook that fetches the new endpoint and handles loading / `INSUFFICIENT_DATA` / `DEGENERATE`.
 2. Render candidates as a 2x2 grid (or 1xN on mobile) of tappable cards. Style: PEBL teal border on hover, slightly elevated card, focus ring for keyboard nav.
 3. Tap → `handleSubmit({ answerText: candidate.commonName })`. The submission still uses common-name string so the existing API contract (with S2-T01 alias support) does the right thing.
-4. Replace the input only — keep the panel chrome (drag handle, collapse pill, "Where is this?" link). The "Help me identify" link is now redundant for the MCQ case but still useful for fallback — keep it.
+4. Replace the input only, keep the panel chrome (drag handle, collapse pill, "Where is this?" link). The "Help me identify" link is now redundant for the MCQ case but still useful for fallback, keep it.
 5. Keyboard: 1-5 number keys select candidates; Enter confirms; Esc skips.
 
 **Acceptance criteria:**
@@ -582,7 +582,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T15 — End-of-feed terminal CTA card
+### S2-T15: End-of-feed terminal CTA card
 
 **Priority:** P2 · **Effort:** XS · **Audit refs:** §03 F23
 
@@ -605,7 +605,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T16 — Retire the correction chip + free-text dead code
+### S2-T16: Retire the correction chip + free-text dead code
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** §03 F18 (correction chip auto-focus bug); §03 F4 (`findMany` on every wrong answer)
 
@@ -631,13 +631,13 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 **Testing:** ensure existing tests that asserted the correction branch are updated/removed.
 
-**Risk:** if the free-text fallback (S2-T07 degenerate path) ever re-enters, we lose the spelling forgiveness. Acceptable — degenerate is rare and the alias system (S2-T01) catches most synonyms.
+**Risk:** if the free-text fallback (S2-T07 degenerate path) ever re-enters, we lose the spelling forgiveness. Acceptable, degenerate is rare and the alias system (S2-T01) catches most synonyms.
 
 **Dependencies:** S2-T14 must land first (so MCQ is the active path before this is removed).
 
 ---
 
-### S2-T17 — `SpeciesGallery` empty / error UX
+### S2-T17: `SpeciesGallery` empty / error UX
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** §03 F9, F20
 
@@ -647,10 +647,10 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 **Current:** Empty status → `return null` silently. Error status in thumb mode → `return null`. Error in large mode → "Photos unavailable right now." with no retry.
 
 **Target:**
-- Field-note view, empty: render "Photos coming soon — iNaturalist has no community CC photos for this life stage yet." with a small fallback link to the parent species' adult photos if a parent mapping exists.
+- Field-note view, empty: render "Photos coming soon, iNaturalist has no community CC photos for this life stage yet." with a small fallback link to the parent species' adult photos if a parent mapping exists.
 - Error mode: render a "Retry" button that re-triggers the fetch; auto-retry once with 1s backoff for transient 5xx.
 
-**Approach:** add a "retry" callback that re-runs the existing fetch effect; render a placeholder block in empty mode. Don't touch thumb mode (still silent — fine for the inline reveal).
+**Approach:** add a "retry" callback that re-runs the existing fetch effect; render a placeholder block in empty mode. Don't touch thumb mode (still silent, fine for the inline reveal).
 
 **Acceptance criteria:**
 - Plaice-larva field note shows the placeholder copy, not a blank gap.
@@ -664,7 +664,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T18 — Lightbox swipe navigation + caption attribution
+### S2-T18: Lightbox swipe navigation + caption attribution
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** §03 F10, F25
 
@@ -693,7 +693,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T19 — ID-guide chat: soften MAX_TURNS + fix `awaitingFirstToken` closure
+### S2-T19: ID-guide chat: soften MAX_TURNS + fix `awaitingFirstToken` closure
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** §03 F15, F16
 
@@ -701,7 +701,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 - `src/app/api/idguide/chat/route.ts:223-228, 328-336`
 - `src/components/IdGuideChat.tsx:120-130, 158, 261`
 
-**Current:** Hitting `MAX_TURNS=8` returns a 400; client surfaces as an error with disabled input — user must close & reopen to continue. `awaitingFirstToken` is read from a stale closure inside the stream loop; `useCallback` deps include it, churning identity.
+**Current:** Hitting `MAX_TURNS=8` returns a 400; client surfaces as an error with disabled input, user must close & reopen to continue. `awaitingFirstToken` is read from a stale closure inside the stream loop; `useCallback` deps include it, churning identity.
 
 **Target:**
 - Server: at MAX_TURNS, return a 200 with a final "Open a fresh chat to keep narrowing" assistant message rather than a 400.
@@ -721,7 +721,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 
 ---
 
-### S2-T20 — Vitest coverage for normalize / scoring / candidate selection / dedupe
+### S2-T20: Vitest coverage for normalize / scoring / candidate selection / dedupe
 
 **Priority:** P2 · **Effort:** S · **Audit refs:** all of the above
 
@@ -752,7 +752,7 @@ When `fallback: "CATALOGUE"`, render normally but show a discreet "candidates dr
 | Effort | Count | Tickets |
 |---|---|---|
 | XS | 3 | T12, T13, T15 |
-| S | 12 | T01–04 (partial), T06, T07, T08, T09, T10, T11, T16, T17, T18, T19, T20 |
+| S | 12 | T01-04 (partial), T06, T07, T08, T09, T10, T11, T16, T17, T18, T19, T20 |
 | M | 4 | T01, T02 shared module pull, T05, T14 |
 
 Total: 20 tickets. Realistic two-week sprint with one engineer if S2-T05 / S2-T14 are sequenced first; faster with two.

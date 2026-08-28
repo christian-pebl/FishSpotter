@@ -23,7 +23,7 @@ function sp(over: Partial<SpeciesTraits>): SpeciesTraits {
   };
 }
 
-describe("narrowCandidates — shapeClass hard filter", () => {
+describe("narrowCandidates, shapeClass hard filter", () => {
   const catalogue: SpeciesCatalogue = {
     "Fish one": sp({ commonName: "Fish one", shapeClass: "fish", bodyShape: ["fusiform"] }),
     "Fish two": sp({ commonName: "Fish two", shapeClass: "fish", bodyShape: ["eel-like"] }),
@@ -55,7 +55,7 @@ describe("narrowCandidates — shapeClass hard filter", () => {
   });
 });
 
-describe("narrowCandidates — movement scored as a normal trait", () => {
+describe("narrowCandidates, movement scored as a normal trait", () => {
   const catalogue: SpeciesCatalogue = {
     "Hover fish": sp({ commonName: "Hover fish", movement: ["water-column"] }),
     "Bottom fish": sp({ commonName: "Bottom fish", movement: ["stationary", "fits-and-starts"] }),
@@ -72,7 +72,7 @@ describe("narrowCandidates — movement scored as a normal trait", () => {
   });
 });
 
-describe("narrowCandidates — crab vocabulary (carapaceTexture / crabFeatures)", () => {
+describe("narrowCandidates, crab vocabulary (carapaceTexture / crabFeatures)", () => {
   const catalogue: SpeciesCatalogue = {
     Swimmer: sp({
       commonName: "Swimmer",
@@ -113,7 +113,7 @@ describe("narrowCandidates — crab vocabulary (carapaceTexture / crabFeatures)"
   });
 });
 
-describe("narrowCandidates — real catalogue crab branch", () => {
+describe("narrowCandidates, real catalogue crab branch", () => {
   it("the crab gate lands on at least the seeded subtidal six", () => {
     const res = narrowCandidates({ catalogue: REAL_CATALOGUE, shapeClass: "crab", limit: 50 });
     expect(res.length).toBeGreaterThanOrEqual(6);

@@ -39,7 +39,7 @@ None of this is a rewrite. This is roughly two to three focused weeks of work to
 
 Effort key: **S** = hours, **M** = a day or two, **L** = several days. Severity: **P1** = highest.
 
-### Wave 1 — Safety net + cheap high-value (about 1-2 days)
+### Wave 1: Safety net + cheap high-value (about 1-2 days)
 
 Low-risk, high-leverage, several are correctness/legal/security. Do the CI gate first; it protects everything after.
 
@@ -55,7 +55,7 @@ Low-risk, high-leverage, several are correctness/legal/security. Do the CI gate 
 | 1.8 | Complete `.env.example` to parity with the real ~20 vars, grouped + commented | Prod | P2 | S |
 | 1.9 | Remove dead `resend` dependency | Prod/Arch | P3 | S |
 
-### Wave 2 — The flagship: feed render path (about 3-5 days)
+### Wave 2: The flagship: feed render path (about 3-5 days)
 
 This single change fixes TTFB/LCP/memory/INP on the core surface, stops the page degrading as the clip library grows, and bundles the top item from three separate reviews. It pairs naturally with starting the `FeedCard` refactor.
 
@@ -68,7 +68,7 @@ This single change fixes TTFB/LCP/memory/INP on the core surface, stops the page
 | 2.5 | **Video error/retry state**: a clip that fails to load currently shows a silent black box. Add `videoError` + in-card fallback + Retry + Skip (mirror `SpeciesGallery`) | UX | P1 | S-M |
 | 2.6 | Extract `useBboxTrail` hook out of `FeedCard` (the camera-follow render loop + 6 geometry helpers) | Arch | P1 | M |
 
-### Wave 3 — Observability, so you stop flying blind (about 2-3 days)
+### Wave 3: Observability, so you stop flying blind (about 2-3 days)
 
 | # | Item | Dim | Sev | Effort |
 |---|---|---|---|---|
@@ -78,7 +78,7 @@ This single change fixes TTFB/LCP/memory/INP on the core surface, stops the page
 | 3.4 | Cron failure alerting: `captureException` + return 500 when `failed > 0` so Vercel cron alerts fire | Prod | P2 | S |
 | 3.5 | `src/lib/env.ts` zod env schema, parsed at boot, fail-fast with a clear message | Prod | P2 | M |
 
-### Wave 4 — Maintainability + the test unlock (about 3-4 days)
+### Wave 4: Maintainability + the test unlock (about 3-4 days)
 
 | # | Item | Dim | Sev | Effort |
 |---|---|---|---|---|
@@ -89,7 +89,7 @@ This single change fixes TTFB/LCP/memory/INP on the core surface, stops the page
 | 4.5 | **Delete dead code**: `MCQCandidatePicker`, `CandidateStrip`, `trait-questions`, `next-trait` (~700 lines); fix the now-misleading "MCQ tile grid" comments + CLAUDE.md | Arch/UX | P2 | S |
 | 4.6 | Move shared payload/DTO types out of route files into `src/types/` | Arch | P3 | S |
 
-### Wave 5 — Hardening + polish (ongoing, pick off opportunistically)
+### Wave 5: Hardening + polish (ongoing, pick off opportunistically)
 
 | # | Item | Dim | Sev | Effort |
 |---|---|---|---|---|

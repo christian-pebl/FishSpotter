@@ -33,7 +33,7 @@ export interface StreakResult {
  * Compute the streak from a set of date strings (YYYY-MM-DD). Caller is
  * responsible for deriving the date set from Answer rows.
  *
- * `now` is an optional override for testing — when not supplied, the
+ * `now` is an optional override for testing, when not supplied, the
  * current UTC date is used.
  */
 export function computeStreakFromDates(
@@ -80,7 +80,7 @@ export function computeStreakFromAnswers(
 }
 
 // ---------------------------------------------------------------------------
-// Tide Freeze — freeze-aware streak (retired shop consumable; held freezes still honoured)
+// Tide Freeze, freeze-aware streak (retired shop consumable; held freezes still honoured)
 // ---------------------------------------------------------------------------
 
 function prevDay(key: string): string {
@@ -107,7 +107,7 @@ export interface FreezeStreakResult extends StreakResult {
  * protected (a freeze was spent on it before) or by spending one of the held
  * `availableFreezes`. Greedy from the most recent day: it first reconnects the
  * latest activity to the today/yesterday window, then bridges internal gaps,
- * stopping when a missed day cannot be covered. Pure — persistence of the
+ * stopping when a missed day cannot be covered. Pure, persistence of the
  * spent freezes is the caller's job (via newlyProtectedDates).
  */
 export function computeStreakWithFreezes(

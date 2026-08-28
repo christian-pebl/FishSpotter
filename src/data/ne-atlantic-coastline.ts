@@ -1,6 +1,6 @@
 /**
- * Simplified NE-Atlantic coastline for the species distribution basemap —
- * Great Britain, Ireland, and the NW European continent — as [lon, lat] rings.
+ * Simplified NE-Atlantic coastline for the species distribution basemap,
+ * Great Britain, Ireland, and the NW European continent, as [lon, lat] rings.
  *
  * Hand-simplified to a RECOGNISABLE outline calibrated to real headland
  * coordinates (Land's End, John o' Groats, Brest, Malin Head, …); it's for
@@ -70,7 +70,7 @@ const IRELAND: LonLat[] = [
   [-8.45, 55.2], // Donegal NW
 ];
 
-// NW European continent — coast drawn south→north, then closed along the map's
+// NW European continent, coast drawn south→north, then closed along the map's
 // SE edges so the landmass fills (everything east of the coast).
 const CONTINENT: LonLat[] = [
   [-1.2, 45.0], // SW France at the bottom edge

@@ -21,53 +21,76 @@ import type { ShapeClass } from "@/lib/idguide/traits";
 export type SubSplit = {
   key: TraitKey;
   prompt: string;
-  options: { value: string; label: string }[];
+  options: {
+    /** The tile's identity: its seed value, its silhouette filename, and what
+     * the breadcrumb/coarse-commit look up. Must be one of `values`. */
+    value: string;
+    label: string;
+    /** Trait values this ONE tile covers, when a tile deliberately bundles more
+     * than one form (e.g. the crab gate shows broad-carapace + swimming as a
+     * single "Broad oval crabs" tile). Defaults to [value]. The underlying trait
+     * values stay intact on the species; this is a presentation grouping only,
+     * so a re-grouping never needs a data migration. */
+    values?: string[];
+  }[];
 };
 
 // Branch-specific first cut. flatfish has one species so it gets no sub-split
-// (and so no Rung-2 gate); fish splits on `fishGroup`, a plain-English family
-// gestalt (cod-shaped / wrasse / silver swimmer / bottom-sitter / long-skinny /
-// shark) that a beginner can read off a clip, replacing the old `bodyShape` cut
-// whose merged "Torpedo or deep-bodied" bucket held 20 species. Each invert
-// class splits on its own "form" trait.
+// (and so no Rung-2 gate); fish splits on `fishZone` (seabed vs water column),
+// the one cut a beginner can read straight off a clip without naming a family.
+// Each invert class splits on its own "form" trait.
 export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
   crab: {
     key: "crabForm",
     prompt: "What was the body shape?",
     options: [
-      { value: "broad-carapace", label: "Broad oval crab" },
-      { value: "swimming", label: "Paddle back legs (swimmer)" },
+      // Merged 28 Aug 2026. "Broad oval crab" and "Paddle back legs (swimmer)"
+      // were two tiles of two species each, and the cut between them asked the
+      // user to spot a flattened rear leg on a moving crab in a short clip,
+      // which is a detail, not a gestalt. All four are broad oval crabs to a
+      // beginner, so they now share one tile and the paddle becomes a Rung-3
+      // detail (it survives as `crabFeatures: swimming-paddle` and as the
+      // `swimming` crabForm value, both untouched).
+      {
+        value: "broad-carapace",
+        values: ["broad-carapace", "swimming"],
+        label: "Broad oval crabs",
+      },
       { value: "spider", label: "Triangular, long legs (spider)" },
       { value: "hermit", label: "In a shell (hermit)" },
     ],
   },
   fish: {
-    // Family-gestalt cut (17 Jun 2026), replacing the old body-shape split whose
-    // merged "Torpedo or deep-bodied" bucket held 20 species. Each option keeps
-    // its Rung-3 grid <=10 with no further rung. Grounded in UK field guides +
-    // a 28-photo vision pass (implementation/2026-06-17/).
-    key: "fishGroup",
-    prompt: "What kind of fish was it?",
+    // Zone cut (28 Aug 2026), replacing the seven-way family-gestalt split
+    // (cod-shaped / wrasses / silver swimmers / small bottom fish / bigger
+    // bottom fish / long and skinny / shark-shaped). Two reasons it went:
+    // seven tiles is a lot of reading before the first photo, and every one of
+    // them asked a beginner to name a FAMILY off a short clip. This asks the
+    // one thing the clip actually shows: was it working the seabed, or up off
+    // it? So the gate is a single glance and the real identification happens
+    // in the Rung-3 photo grid, which is where users are strongest.
+    //
+    // The trade: each bucket is now 16-17 species rather than <=10, so the
+    // beginner-legibility ceiling from 17 Jun no longer applies to fish. That
+    // ceiling was about how many OPTIONS a decision node may offer (still 2
+    // here); the Rung-3 grid is a scan of photos, capped at 24 tiles, not a
+    // decision between named things. See body-forms.test.ts.
+    //
+    // The old family groups live on as `fishGroup` (silhouettes, comparison
+    // sets, the food web). This is a presentation cut over them, not a
+    // replacement for them.
+    key: "fishZone",
+    prompt: "Where was the fish?",
     options: [
-      { value: "cod-like", label: "Cod-shaped" },
-      { value: "wrasse", label: "Wrasses" },
-      // Label is appearance-based, NOT behaviour-based: bass (and adult mullet)
-      // are not reliable shoalers, so "shoalers" mis-cued field testers. The
-      // value stays `silver-shoaler` (the trait/silhouette are unchanged); only
-      // the user-facing tile label reads "Silver swimmers".
-      { value: "silver-shoaler", label: "Silver swimmers" },
-      // bottom-sitter was split on 18 Jun 2026 (it had hit the 10-species
-      // ceiling). The split now cuts on SIZE, which a beginner can judge off a
-      // clip far more reliably than "is this a goby or a gurnard?": the small
-      // smooth perch-and-darters (gobies + dragonets, all ~4-8 cm) stay here as
-      // "Small bottom fish"; the chunkier seabed fish (gurnards, red mullet, and
-      // the bigger sea scorpion + shanny, all medium-plus) are "Bigger bottom
-      // fish". Sea scorpion + shanny were re-tagged small -> medium so the size
-      // cut is clean (they're 12-17 cm, genuinely bigger than a goby).
-      { value: "bottom-sitter", label: "Small bottom fish" },
-      { value: "bottom-other", label: "Bigger bottom fish" },
-      { value: "long-skinny", label: "Long and skinny" },
-      { value: "shark", label: "Shark-shaped" },
+      // Includes the catshark (a small shark that lies on the sand) and the two
+      // long-skinny fish that thread along the bottom, the conger and the
+      // butterfish.
+      { value: "seabed", label: "Moving along the seabed" },
+      // Includes the fifteen-spined stickleback (the one long-skinny fish that
+      // hangs in the weed above the bottom rather than in it) and the
+      // two-spotted goby, the one goby that hovers in mid-water over the kelp
+      // instead of perching on the seabed like the rest of its group.
+      { value: "water-column", label: "Moving above the seabed" },
     ],
   },
   squid: {
@@ -127,7 +150,13 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
   },
 };
 
-export type BodyFormOption = { value: string; label: string; count: number };
+export type BodyFormOption = {
+  value: string;
+  label: string;
+  /** Every trait value this tile covers (>1 when the tile bundles forms). */
+  values: string[];
+  count: number;
+};
 export type BodyFormConfig = {
   key: TraitKey;
   prompt: string;
@@ -138,15 +167,25 @@ function classCandidates(shapeClass: ShapeClass): Candidate[] {
   return narrowCandidates({ catalogue: CATALOGUE, shapeClass, limit: 100 });
 }
 
-function countForValue(
+function matchesAny(
+  scientificName: string,
+  key: TraitKey,
+  values: readonly string[],
+): boolean {
+  const t = CATALOGUE[scientificName];
+  if (!t) return false;
+  const own = speciesValuesFor(t, key);
+  return values.some((v) => own.includes(v));
+}
+
+// Counts SPECIES, not (species x value) pairs, so a species carrying two of a
+// bundled tile's values is still one tile at Rung 3.
+function countForValues(
   candidates: Candidate[],
   key: TraitKey,
-  value: string,
+  values: readonly string[],
 ): number {
-  return candidates.filter((c) => {
-    const t = CATALOGUE[c.scientificName];
-    return t ? speciesValuesFor(t, key).includes(value) : false;
-  }).length;
+  return candidates.filter((c) => matchesAny(c.scientificName, key, values)).length;
 }
 
 /**
@@ -160,7 +199,15 @@ export function bodyFormConfigFor(shapeClass: ShapeClass): BodyFormConfig | null
   if (!config) return null;
   const cands = classCandidates(shapeClass);
   const options: BodyFormOption[] = config.options
-    .map((o) => ({ ...o, count: countForValue(cands, config.key, o.value) }))
+    .map((o) => {
+      const values = o.values ?? [o.value];
+      return {
+        value: o.value,
+        label: o.label,
+        values,
+        count: countForValues(cands, config.key, values),
+      };
+    })
     .filter((o) => o.count > 0);
   return options.length >= 2
     ? { key: config.key, prompt: config.prompt, options }
@@ -169,18 +216,19 @@ export function bodyFormConfigFor(shapeClass: ShapeClass): BodyFormConfig | null
 
 export type ExampleSpecies = { scientificName: string; commonName: string };
 
-/** Catalogue species in this class that have the given body form — the
+/** Catalogue species in this class that have the given body form, the
  * "Examples" set. Capped; ordering follows narrowCandidates' weighting. */
 export function exampleSpeciesForForm(
   shapeClass: ShapeClass,
   key: TraitKey,
-  value: string,
+  /** One trait value, or every value a bundled tile covers. */
+  value: string | readonly string[],
   limit = 6,
 ): ExampleSpecies[] {
+  const values = typeof value === "string" ? [value] : value;
   const out: ExampleSpecies[] = [];
   for (const c of classCandidates(shapeClass)) {
-    const t = CATALOGUE[c.scientificName];
-    if (t && speciesValuesFor(t, key).includes(value)) {
+    if (matchesAny(c.scientificName, key, values)) {
       out.push({ scientificName: c.scientificName, commonName: c.commonName });
       if (out.length >= limit) break;
     }

@@ -66,8 +66,10 @@ export function BodyShapeGate({
 }: {
   shapeClass: ShapeClass;
   /** Pick a body form (value) or skip it (null). The trait key is passed back
-   * so FeedCard can seed the strip's narrowing without re-deriving it. */
-  onSelectForm: (key: TraitKey, value: string | null) => void;
+   * so FeedCard can seed the strip's narrowing without re-deriving it, and
+   * `values` carries every trait value the chosen tile covers (>1 when the tile
+   * bundles forms, e.g. the merged broad-oval-crab tile). */
+  onSelectForm: (key: TraitKey, value: string | null, values?: string[]) => void;
   /** Commit a species directly by common name (used by the class-level compare
    * view, where each starfish IS its arm-form, so tapping one is the guess). */
   onPickSpecies?: (commonName: string) => void;
@@ -114,7 +116,7 @@ export function BodyShapeGate({
       <BodyFormExampleList
         shapeClass={shapeClass}
         formKey={config.key}
-        formValue={o.value}
+        formValue={o.values}
       />
     ),
   }));
@@ -127,7 +129,13 @@ export function BodyShapeGate({
         tiles={tiles}
         variant="list"
         suspendKeyboard={comparing}
-        onSelect={(value) => onSelectForm(config.key, value)}
+        onSelect={(value) =>
+          onSelectForm(
+            config.key,
+            value,
+            config.options.find((o) => o.value === value)?.values,
+          )
+        }
         onClose={onClose}
         onBack={onBack}
         breadcrumb={breadcrumb}
@@ -155,7 +163,7 @@ export function BodyShapeGate({
         <SpeciesComparison
           group={comparison}
           submitting={submitting}
-          // Close the comparison as the pick commits — this gate has no
+          // Close the comparison as the pick commits, this gate has no
           // !myAnswer unmount of its own, so a pick made from here would
           // otherwise leave the comparison (and the gate under it) covering
           // the reveal.

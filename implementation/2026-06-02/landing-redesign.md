@@ -1,4 +1,4 @@
-# Landing page redesign — "underwater" hero (2 Jun 2026)
+# Landing page redesign: "underwater" hero (2 Jun 2026)
 
 Full visual redesign of the marketing landing page (`/`, `src/app/page.tsx`).
 The previous page was correct but flat: three text blocks on a pale-teal
@@ -25,7 +25,7 @@ composes six client/presentational pieces under `src/components/landing/`:
 - **Featured snippet**: `findMany(take:25)` of snippets with a `staffAnswer`,
   ordered `recordingDatetime desc, id desc` (deterministic), then pick the
   first whose label resolves to a catalogue species (skips junk like "Fish").
-- **Distractors**: shape-aware — prefer catalogue species of the *same*
+- **Distractors**: shape-aware, prefer catalogue species of the *same*
   `shapeClass` as the answer (so a Pollack never gets "Scooter" as a chip),
   falling back to the wider catalogue only when a class is too small. Derived
   from `src/data/species-traits.json`; fully deterministic (no `Math.random`),

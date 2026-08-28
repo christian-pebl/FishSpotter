@@ -1,0 +1,22 @@
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- "Moving above the seabed". Paired with seabed.svg: both tiles draw the
+       SAME seabed line in the SAME place, so the only thing that differs between
+       the two icons is how much open water sits under the fish. That gap is the
+       whole question the tile asks, so it gets a third of the box and nothing is
+       allowed to reach down into it (no planted fin, no trailing tail).
+       The fish is deliberately generic (mid-depth body, clean sail dorsal, deep
+       forked tail) because this bucket holds cod, wrasses and mackerel alike. -->
+  <!-- generic mid-water fish, held high and clear of the bottom -->
+  <path d="M6 13
+           C10 7.5 17 5 25 5.3
+           C33 5.6 40 8 44 11.4
+           C44.6 12.1 44.6 13.9 44 14.6
+           C40 18 33 20.4 25 20.7
+           C17 21 10 18.5 6 13 Z"/>
+  <!-- dorsal as a distinct sail clearing the back, not a bump merged into it -->
+  <path d="M18 6.6 L25 1.8 L33.5 7.6 C28.5 6.4 23 6.2 18 6.6 Z"/>
+  <!-- deep forked tail -->
+  <path d="M44 13 L60 3 L49 13 L60 23 Z"/>
+  <!-- the seabed, a long way below it -->
+  <path d="M2 34 L62 34 L62 35.6 L2 35.6 Z"/>
+</svg>

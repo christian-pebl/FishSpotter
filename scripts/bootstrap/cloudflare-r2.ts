@@ -2,11 +2,11 @@
  * Cloudflare R2 bucket provisioning.
  *
  * R2's API surface here:
- *   GET    /accounts/{id}/r2/buckets          — list
- *   POST   /accounts/{id}/r2/buckets          — create
+ *   GET    /accounts/{id}/r2/buckets         , list
+ *   POST   /accounts/{id}/r2/buckets         , create
  *
  * R2 S3-compatible Access Keys are minted via the dashboard (one-time
- * shown) so this script doesn't try to generate them — it expects them
+ * shown) so this script doesn't try to generate them, it expects them
  * to already be in tokens.json. The script's job is to make sure the
  * bucket exists and surface the public-URL pattern for the env var.
  */

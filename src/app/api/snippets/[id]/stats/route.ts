@@ -44,7 +44,7 @@ export async function GET(
   });
 
   const total = answers.length;
-  // No PEBL reference any more — the crowd is the authority. The histogram is
+  // No PEBL reference any more, the crowd is the authority. The histogram is
   // pure community answers.
   const stats = bucketAnswersByNormalized(answers)
     .map(({ option, count }) => ({

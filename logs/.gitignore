@@ -1,0 +1,5 @@
+# Run logs from scripts/weekly-snip-sync.ps1 (and anything else that logs here).
+# Self-ignoring directory: keeps the folder in git without tracking its contents,
+# so the shared root .gitignore does not need an entry for it.
+*
+!.gitignore

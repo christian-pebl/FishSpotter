@@ -1,4 +1,4 @@
-# Live-testing feedback (round 2) — 18 Jun 2026
+# Live-testing feedback (round 2): 18 Jun 2026
 
 Four items from Anjali + Christian's live testing, all fixed and gated.
 Branch `improvements-2026-06-12`. NOT yet committed (awaiting go).

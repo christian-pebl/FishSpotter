@@ -12,6 +12,7 @@ import {
   FEATURES,
   FIN_SHAPE,
   FISH_GROUP,
+  FISH_ZONE,
   HABITAT,
   LATERAL_LINE,
   MARKINGS,
@@ -38,6 +39,7 @@ export type Candidate = {
 // (see narrowCandidates), not a weighted trait. movement is a normal scored
 // trait, surfaced by the adaptive picker only when it discriminates.
 export const TRAIT_KEYS = [
+  "fishZone",
   "fishGroup",
   "bodyShape",
   "bodyDepth",
@@ -64,6 +66,7 @@ export const TRAIT_KEYS = [
 export type TraitKey = (typeof TRAIT_KEYS)[number];
 
 const ALLOWED_VALUES: Record<TraitKey, ReadonlySet<string>> = {
+  fishZone: new Set(FISH_ZONE),
   fishGroup: new Set(FISH_GROUP),
   bodyShape: new Set(BODY_SHAPE),
   bodyDepth: new Set(BODY_DEPTH),
@@ -157,7 +160,7 @@ export function narrowCandidates(args: {
     }
 
     if (excluded) continue;
-    // Require at least half of considered traits to match — anything weaker
+    // Require at least half of considered traits to match, anything weaker
     // makes a single overlap enough to surface unrelated species.
     if (considered > 0 && matched * 2 < considered) continue;
 

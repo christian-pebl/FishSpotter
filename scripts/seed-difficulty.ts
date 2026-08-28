@@ -1,12 +1,12 @@
 /**
  * Difficulty ladder (Jul 2026): seed Snippet.difficultyScore from apparent
- * organism size — the strongest intrinsic signal available today (Phase 0
+ * organism size, the strongest intrinsic signal available today (Phase 0
  * validation: 73/77 active clips have a real bbox track, 262x spread in
- * median box area, and the ranking passes a gut check — small crabs/
+ * median box area, and the ranking passes a gut check, small crabs/
  * gastropods sink to the bottom, larger/closer subjects rise to the top).
  * Confusability (confusion-matrix.ts) was considered too, but with only
  * ~24 wrong answers recorded so far and half the references still coarse
- * placeholders ("Fish"/"Crab"), it isn't a reliable signal yet — this is
+ * placeholders ("Fish"/"Crab"), it isn't a reliable signal yet, this is
  * revisited once there's real per-clip answer volume (see
  * src/lib/feed-ordering.ts doc comment).
  *
@@ -15,14 +15,14 @@
  * only zero-size points, or neither) are left at the schema default (0.5,
  * neutral) rather than guessed.
  *
- * Writes via $executeRaw rather than the typed Prisma Client API — this
+ * Writes via $executeRaw rather than the typed Prisma Client API, this
  * script was authored while the generated client hadn't yet been
  * regenerated for the new column (a native-binary file lock from other
  * concurrent dev processes blocked `prisma generate`). Raw SQL sidesteps
  * that entirely and remains correct once the client catches up; fold this
  * back to `prisma.snippet.update()` then if you're touching this file again.
  *
- * Idempotent — safe to re-run any time (e.g. after `npm run db:sync` adds
+ * Idempotent, safe to re-run any time (e.g. after `npm run db:sync` adds
  * new clips); recomputes percentiles fresh across the full active corpus.
  *
  * Run: npx tsx --env-file=.env.local scripts/seed-difficulty.ts
@@ -94,11 +94,11 @@ async function main() {
 
   console.log(
     `\n${snippets.length} active snippets: ${updates.length} scored from bbox size, ` +
-      `${noSignal} left at the neutral default (0.5) — no usable bbox signal.\n`,
+      `${noSignal} left at the neutral default (0.5), no usable bbox signal.\n`,
   );
 
   if (dryRun) {
-    console.log("Dry run — sample of computed scores:\n");
+    console.log("Dry run, sample of computed scores:\n");
     for (const u of updates.slice(0, 10)) {
       console.log(`  ${u.difficultyScore.toFixed(3)}  ${u.externalId}`);
     }

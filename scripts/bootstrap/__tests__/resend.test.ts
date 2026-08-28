@@ -32,7 +32,7 @@ function makeMockFetch(handlers: Array<(req: MockCall) => Response | Promise<Res
 describe("ResendClient.ensureDomainAndGetDnsRecords", () => {
   it("creates the domain when it doesn't exist + returns DNS records", async () => {
     const { fetchImpl, calls } = makeMockFetch([
-      // list — empty
+      // list, empty
       () => jsonRes(200, { data: [] }),
       // create
       () => jsonRes(200, { id: "dom_xxx", name: "pebl-cic.co.uk", status: "pending" }),

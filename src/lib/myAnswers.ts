@@ -2,7 +2,7 @@
  * Shared, request-coalescing loader for the signed-in user's own answers.
  *
  * The feed mounts every card at once (no windowing yet), and each card's quiz
- * hook used to fetch `/api/answers/my?snippetId=X` on mount — an N+1 that scaled
+ * hook used to fetch `/api/answers/my?snippetId=X` on mount, an N+1 that scaled
  * with the number of cards on screen (~38 requests per feed load). This module
  * collapses that into a SINGLE `/api/answers/my` call: the first card to ask
  * kicks off one fetch of the whole answer set, every other concurrent card
@@ -49,7 +49,7 @@ function ensureUser(userId: string) {
 /**
  * Resolve one snippet's answer for `userId`, sharing a single underlying fetch
  * across all concurrent callers. Returns null when the user hasn't answered it
- * (or on a transient fetch failure — the caller stays answerable).
+ * (or on a transient fetch failure, the caller stays answerable).
  */
 export async function getMyAnswer(
   userId: string,

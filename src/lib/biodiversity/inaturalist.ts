@@ -37,7 +37,7 @@ const SEX_VALUES: Record<string, number> = {
 };
 
 export type InatPhoto = {
-  url: string;        // small (max 240px) — we'll rewrite to medium below
+  url: string;        // small (max 240px), we'll rewrite to medium below
   mediumUrl: string;  // medium (max 500px)
   largeUrl: string;   // large (max 1024px)
   attribution: string;
@@ -51,7 +51,7 @@ export type InatPhoto = {
   placeGuess: string | null; // human-readable location string
 };
 
-// iNat photo URLs are versioned by size — the API returns the `square`
+// iNat photo URLs are versioned by size, the API returns the `square`
 // thumbnail but the same path with `medium` / `large` works.
 function rewriteSize(url: string, size: "medium" | "large" | "square"): string {
   return url.replace(/\/(square|small|medium|large|original)\.(jpe?g|png|webp)/i, `/${size}.$2`);
@@ -218,7 +218,7 @@ export async function fetchPhotosForSpecies(args: {
   lifeStage?: keyof typeof LIFE_STAGE_VALUES;
   sex?: keyof typeof SEX_VALUES;
 }): Promise<InatPhoto[]> {
-  // iNat's term_id parameter is single-valued — we can't ask for "adult AND
+  // iNat's term_id parameter is single-valued, we can't ask for "adult AND
   // male" in one call. When the caller wants both, query with sex (rarer,
   // more discriminating) and post-filter on the lifeStage annotation
   // returned in each observation. Bump perPage to soak up the rejection

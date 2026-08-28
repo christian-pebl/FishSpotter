@@ -499,7 +499,7 @@ a {
 }
 
 /* Single short "ping" for a single-point mark (no path to follow): one quick
- * expand + fade, then gone — used instead of the ~3s follow ring on those
+ * expand + fade, then gone, used instead of the ~3s follow ring on those
  * clips. The container animation carries the motion, so the rings inside don't
  * run their own infinite pulse. */
 @keyframes fs-fish-ping {
@@ -548,7 +548,7 @@ a {
   }
   50% {
     /* Mid-crossing waypoint pulled off the straight chord so the path bows into
-     * a shallow curve — drifting on an eddy, not tracking a ruler line. */
+     * a shallow curve, drifting on an eddy, not tracking a ruler line. */
     transform: translate(50vw, var(--fs-dy-mid, 0px));
   }
   88% {
@@ -578,7 +578,7 @@ a {
 }
 /* Master envelope over the WHOLE silhouette field: it opens on the bare
  * background (opacity 0), the cast fades up, holds while it drifts, then fades
- * back out as the loadbar fill reaches the end — reading as one slick arc that
+ * back out as the loadbar fill reaches the end, reading as one slick arc that
  * dissolves into the page behind it. Looped (synced to fs-loadfill below) so a
  * slow load just repeats the breath instead of stranding an empty screen. The
  * per-creature drift/bob/edge-fade run underneath and multiply with this. */

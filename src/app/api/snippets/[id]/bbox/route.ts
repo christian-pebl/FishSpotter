@@ -1,5 +1,5 @@
 /**
- * GET /api/snippets/[id]/bbox — lazy bbox payload (S4-11/12).
+ * GET /api/snippets/[id]/bbox, lazy bbox payload (S4-11/12).
  *
  * The /feed initial payload omits Snippet.bboxJson; the FeedPlayer
  * fetches per-card bbox here only when the card enters the ±1

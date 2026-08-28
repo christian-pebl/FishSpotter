@@ -12,7 +12,7 @@ import { useInView } from "@/lib/useInView";
  *
  * The layout is deterministic (seeded PRNG) so the server and client agree on
  * every value, EXCEPT that Math.cos/Math.sin aren't spec-guaranteed
- * bit-identical across engines — round() below normalises that away before
+ * bit-identical across engines, round() below normalises that away before
  * the numbers get stringified into `style`, so there is no hydration
  * mismatch. Decorative -> aria-hidden, and the global prefers-reduced-motion
  * block freezes every drifter.
@@ -53,7 +53,7 @@ function mulberry32(a: number) {
 }
 
 // Math.cos/Math.sin (used below for dx/dy) aren't guaranteed bit-identical
-// across JS engines for the same input — Node's SSR and the browser's
+// across JS engines for the same input, Node's SSR and the browser's
 // hydration pass can differ in the last float bit. React's hydration check
 // compares the stringified style attribute, so an unrounded value like
 // -4.930483214042849 vs ...48 trips a mismatch warning on every page load.

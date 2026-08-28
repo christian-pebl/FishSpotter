@@ -19,7 +19,7 @@ const VB_H = 340;
 // land + cells + graticule all share one projection.
 const VIEW_BBOX = { minLat: 45, maxLat: 62, minLon: -16, maxLon: 6 };
 
-// PEBL filming site (all current footage), for orientation — North Devon coast.
+// PEBL filming site (all current footage), for orientation, North Devon coast.
 const SITE = { lat: 51.05, lon: -4.4 };
 
 const GRATICULE_LAT = [55, 50]; // labelled parallels inside the bbox
@@ -48,7 +48,7 @@ export function DistributionMap({ grid }: { grid: DistributionGrid | null }) {
 
   // Cell footprint = the real geohash cell span projected into the viewBox, so
   // cells tile edge-to-edge at any precision instead of overlapping. The fills
-  // are semi-transparent, so we size to exactly one cell span (no overdraw) —
+  // are semi-transparent, so we size to exactly one cell span (no overdraw),
   // any overlap would compound into dark seams.
   const { lonDeg, latDeg } = geohashCellDegrees(grid?.precision ?? 3);
   const cw = (lonDeg / (bbox.maxLon - bbox.minLon)) * VB_W;

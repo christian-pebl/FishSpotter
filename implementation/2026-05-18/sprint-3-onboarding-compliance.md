@@ -1,4 +1,4 @@
-# Sprint 3 — Onboarding & Compliance
+# Sprint 3: Onboarding & Compliance
 
 ## Goal
 
@@ -15,16 +15,16 @@ A cold visitor in incognito can:
 5. Visit `/account` to see their email, display name, streak, email-verified status, weekly-digest opt-in toggle, and a Sign Out button. Edit display name. Delete account (GDPR Article 17), with a typed-confirm step that cascades all `Answer` rows.
 6. See a header avatar / initials chip across every authenticated route surfacing their identity and streak without opening the side menu.
 7. Sign-in / sign-up forms reflect typed-quiz-answer context (carried in via the Sprint 2 redirect contract) so the user does not lose their answer.
-8. Cookie banner appears on first visit (PECR disclosure) with a dismiss action; consent state stored in a first-party cookie. No tracking cookies are set without consent (currently moot — the app sets only the auth JWT, which is strictly necessary, but the banner future-proofs analytics work).
+8. Cookie banner appears on first visit (PECR disclosure) with a dismiss action; consent state stored in a first-party cookie. No tracking cookies are set without consent (currently moot, the app sets only the auth JWT, which is strictly necessary, but the banner future-proofs analytics work).
 9. Prisma schema is extended with `User.emailVerified`, `User.onboardedAt`, `User.digestOptIn`, `VerificationToken`, `PasswordResetToken`, and the NextAuth `Account` model. Existing user data is preserved (additive migration, all new columns nullable / defaulted).
 10. All transactional emails (verify, reset, weekly digest) render via React Email templates with PEBL brand tokens. Resend is wired with `RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME` env vars; sandbox-mode for preview deploys, production-mode for `fish-spotter.vercel.app`.
 11. Playwright e2e suite covers: signup → verify → first answer → onboarding seen → sign-out; forgot password happy path; account deletion cascades.
 
-## Compliance scope (UK CIC, UK GDPR, PECR — confirm with PEBL legal)
+## Compliance scope (UK CIC, UK GDPR, PECR: confirm with PEBL legal)
 
 This sprint plans the engineering work for compliance, **not** the legal copy itself. The privacy / T&Cs text must be confirmed by Christian / PEBL legal before launch. Engineering scope:
 
-- **UK GDPR Art. 13 (information at collection):** privacy policy linked from sign-up form and footer, explaining lawful basis (consent for digest emails; legitimate interest for the auth session and basic analytics if added later), data categories (email, hashed password, IP for rate-limit, quiz answers), retention period (TBC with PEBL — engineering needs a number), and rights.
+- **UK GDPR Art. 13 (information at collection):** privacy policy linked from sign-up form and footer, explaining lawful basis (consent for digest emails; legitimate interest for the auth session and basic analytics if added later), data categories (email, hashed password, IP for rate-limit, quiz answers), retention period (TBC with PEBL, engineering needs a number), and rights.
 - **UK GDPR Art. 15 (right of access):** out of scope this sprint; flagged for Sprint 6+. A manual export-on-request via support email is acceptable interim posture per ICO guidance for small CICs.
 - **UK GDPR Art. 17 (right to erasure):** in scope. `DELETE /api/account` cascades `Answer` rows (already `onDelete: Cascade` on the schema) and revokes the session.
 - **UK GDPR Art. 7 (consent):** weekly digest is opt-in (unticked by default), with a one-click unsubscribe link in every digest email (PECR Reg. 22 requirement for unsolicited marketing).
@@ -39,22 +39,22 @@ From `audit/ux-2026-05/06-onboarding-auth.md`:
 
 | Finding | Severity | Ticket |
 |---|---|---|
-| F1 — no password reset flow | High | S3-04, S3-05 |
-| F2 — no email verification | High | S3-03, S3-06 |
-| F3 — no OAuth options | Medium | S3-02 (schema scaffolding only; provider wiring deferred to Sprint 6+) |
-| F4 — landing page has no sign-up CTA or value explainer | Medium | S3-10 |
-| F5 — auth gate is jarring (full-page redirect) | Medium | Owned by Sprint 2; S3-15 closes the loop on form side |
-| F6 — no first-time-user onboarding | Medium | S3-11 |
-| F7 — sign-in error message hides real cause | Medium | S3-15 |
-| F8 — no privacy / T&Cs / cookie consent | High (legal) | S3-08, S3-09 |
-| F9 — sign-out has no confirm / no toast | Low | S3-13 |
-| F10 — account state weak outside side menu | Low | S3-13 |
-| F11 — no profile editing UI | Low | S3-12 |
-| F12 — empty leaderboard text assumes auth | Low | S3-14 |
-| F13 — leaderboard unbounded fetch | Medium | Deferred to Sprint 4 (perf) — out of this sprint's scope |
-| F14 — display-name fallback exposes email local-part | Low | S3-15 (Spotter-{shortId} fallback) |
-| F15 — zero email touchpoints / no re-engagement | Medium | S3-16 (digest), S3-17 (streak nudge) |
-| F16 — `window.location.href` redirect on sign-in | Low | S3-15 |
+| F1, no password reset flow | High | S3-04, S3-05 |
+| F2, no email verification | High | S3-03, S3-06 |
+| F3, no OAuth options | Medium | S3-02 (schema scaffolding only; provider wiring deferred to Sprint 6+) |
+| F4, landing page has no sign-up CTA or value explainer | Medium | S3-10 |
+| F5, auth gate is jarring (full-page redirect) | Medium | Owned by Sprint 2; S3-15 closes the loop on form side |
+| F6, no first-time-user onboarding | Medium | S3-11 |
+| F7, sign-in error message hides real cause | Medium | S3-15 |
+| F8, no privacy / T&Cs / cookie consent | High (legal) | S3-08, S3-09 |
+| F9, sign-out has no confirm / no toast | Low | S3-13 |
+| F10, account state weak outside side menu | Low | S3-13 |
+| F11, no profile editing UI | Low | S3-12 |
+| F12, empty leaderboard text assumes auth | Low | S3-14 |
+| F13, leaderboard unbounded fetch | Medium | Deferred to Sprint 4 (perf), out of this sprint's scope |
+| F14, display-name fallback exposes email local-part | Low | S3-15 (Spotter-{shortId} fallback) |
+| F15, zero email touchpoints / no re-engagement | Medium | S3-16 (digest), S3-17 (streak nudge) |
+| F16, `window.location.href` redirect on sign-in | Low | S3-15 |
 
 Also addresses cross-cutting Theme F (Compliance & lifecycle gaps) from `00-README.md`.
 
@@ -87,14 +87,14 @@ Critical path: S3-01 → S3-03 → S3-04/06 → S3-05/07 → S3-15 → S3-18. Th
 
 - **Sprint 1 design tokens (Theme A):** every new page (`/auth/forgot`, `/auth/reset/[token]`, `/auth/verify`, `/account`, `/privacy`, `/terms`, onboarding tour) must consume the tokens-in-code Tailwind theme landed in Sprint 1. If Sprint 1 has not shipped, tickets must still use the `pebl-surface` / `pebl-button-primary` / `pebl-eyebrow` class scaffolding visible in the current `/auth/signin` page so the codemod can sweep them later without touching new code.
 - **Sprint 1 error.tsx / loading.tsx scaffolding:** the new auth routes pick up the per-route error boundary added in Sprint 1. No new boundaries should be added in this sprint outside of the route-group level.
-- **Sprint 2 quiz-pipeline alignment:** the redirect contract for "preserve typed answer through auth redirect" (audit F14 in section 03; F5 in section 06) is owned by Sprint 2. S3-15 in this sprint hooks the form side: read `pendingAnswer` from `searchParams` and surface it in the post-auth callback redirect so Sprint 2's machinery can replay it. If Sprint 2 chooses MCQ instead of free-text, S3-15's "preserve answer" copy needs to read "preserve selected option ID" — confirm before building.
+- **Sprint 2 quiz-pipeline alignment:** the redirect contract for "preserve typed answer through auth redirect" (audit F14 in section 03; F5 in section 06) is owned by Sprint 2. S3-15 in this sprint hooks the form side: read `pendingAnswer` from `searchParams` and surface it in the post-auth callback redirect so Sprint 2's machinery can replay it. If Sprint 2 chooses MCQ instead of free-text, S3-15's "preserve answer" copy needs to read "preserve selected option ID", confirm before building.
 - **Sprint 2 anonymous-first answer (open question 1 in the audit):** if product decides to allow one anonymous answer before the auth gate, S3-15's flow changes from "sign-in interrupts submit" to "sign-in is offered after submit". Confirm with product before Ticket S3-15.
 
 ## Tickets
 
 ---
 
-### S3-01 — Schema migration: emailVerified, onboardedAt, digestOptIn, VerificationToken, PasswordResetToken
+### S3-01: Schema migration: emailVerified, onboardedAt, digestOptIn, VerificationToken, PasswordResetToken
 
 **Priority:** P0 (blocks every email-flow ticket)
 **Effort:** S (2-3h, mostly safety + verification)
@@ -102,7 +102,7 @@ Critical path: S3-01 → S3-03 → S3-04/06 → S3-05/07 → S3-15 → S3-18. Th
 **Files:**
 - `prisma/schema.prisma`
 - `scripts/backup-pre-drop.ts` (re-use pattern; this migration is additive but run a defensive dump anyway)
-- `CLAUDE.md` (project root — update schema summary section)
+- `CLAUDE.md` (project root, update schema summary section)
 
 **Current:** `User` has only `id, email, passwordHash, name, displayName, createdAt, answers`. No verification token, no reset token, no email-verified timestamp, no onboarding flag, no digest opt-in.
 
@@ -168,7 +168,7 @@ model PasswordResetToken {
 
 ---
 
-### S3-02 — NextAuth `Account` model scaffolding (no OAuth providers yet)
+### S3-02: NextAuth `Account` model scaffolding (no OAuth providers yet)
 
 **Priority:** P1
 **Effort:** S (1-2h)
@@ -180,7 +180,7 @@ model PasswordResetToken {
 
 **Current:** NextAuth is credentials-only with no database adapter; sessions are JWT, accounts are not persisted to a table. Adding Google / Apple / Magic Link later will require a migration in a hot path. Audit F3 flags this as a future-proofing gap.
 
-**Target:** Land the NextAuth-canonical `Account` and `Session` model shapes so a future ticket can drop `GoogleProvider({...})` into the providers array with no schema work. **Do not wire any OAuth provider in this sprint** — that is a product / branding decision (logos, T&Cs implications, Apple developer cost) and is explicitly deferred to Sprint 6+ by the audit roadmap.
+**Target:** Land the NextAuth-canonical `Account` and `Session` model shapes so a future ticket can drop `GoogleProvider({...})` into the providers array with no schema work. **Do not wire any OAuth provider in this sprint**: that is a product / branding decision (logos, T&Cs implications, Apple developer cost) and is explicitly deferred to Sprint 6+ by the audit roadmap.
 
 ```prisma
 model Account {
@@ -213,7 +213,7 @@ model Session {
 }
 ```
 
-Wire `PrismaAdapter(prisma)` into `authOptions` but keep `session: { strategy: "jwt" }` — JWT remains the active strategy. The adapter is dormant until an OAuth provider is added; this keeps the door open.
+Wire `PrismaAdapter(prisma)` into `authOptions` but keep `session: { strategy: "jwt" }`, JWT remains the active strategy. The adapter is dormant until an OAuth provider is added; this keeps the door open.
 
 **Approach:**
 1. Add fields to `prisma/schema.prisma`.
@@ -234,7 +234,7 @@ Wire `PrismaAdapter(prisma)` into `authOptions` but keep `session: { strategy: "
 
 ---
 
-### S3-03 — Resend transactional email service + React Email template scaffolding
+### S3-03: Resend transactional email service + React Email template scaffolding
 
 **Priority:** P0 (blocks reset / verify flows)
 **Effort:** M (4-5h including domain DKIM / SPF setup)
@@ -254,7 +254,7 @@ Wire `PrismaAdapter(prisma)` into `authOptions` but keep `session: { strategy: "
 **Current:** Zero email infrastructure. Audit F15 quantifies this as the single biggest re-engagement gap.
 
 **Target:**
-- **Provider:** Resend (per CLAUDE.md root note "Resend (Recommended - simple, modern, good free tier)"). **Confirm with PEBL product before merging.** Resend's free tier is 100 emails/day, 3000/month — comfortable for verify + reset traffic at FishSpotter's expected scale, but the weekly digest will exhaust it once user count exceeds ~420. Plan to upgrade to the $20/month tier before public launch.
+- **Provider:** Resend (per CLAUDE.md root note "Resend (Recommended - simple, modern, good free tier)"). **Confirm with PEBL product before merging.** Resend's free tier is 100 emails/day, 3000/month, comfortable for verify + reset traffic at FishSpotter's expected scale, but the weekly digest will exhaust it once user count exceeds ~420. Plan to upgrade to the $20/month tier before public launch.
 - **Sender domain:** `noreply@pebl-cic.co.uk` (requires DKIM + SPF records on pebl-cic.co.uk; Christian to coordinate with whoever holds DNS).
 - **Templates:** React Email components rendered server-side. Brand tokens (PEBL teal #3AAFA9, dark navy #17252A) wired via inline styles per CLAUDE.md root brand guidelines. Plain-text fallback auto-generated by React Email.
 - **Sandbox mode for preview deploys:** detect `process.env.VERCEL_ENV !== "production"` and route to a `christian.n.berger+fishspotter-preview@gmail.com`-style catchall, or short-circuit and log to console. Avoids spamming real users from preview branches.
@@ -293,7 +293,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-04 — Password reset request: `POST /api/auth/forgot` + `/auth/forgot` page
+### S3-04: Password reset request: `POST /api/auth/forgot` + `/auth/forgot` page
 
 **Priority:** P0
 **Effort:** M (3-4h)
@@ -302,15 +302,15 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 - `src/app/auth/forgot/page.tsx`
 - `src/app/api/auth/forgot/route.ts`
 - `src/lib/email/templates/PasswordResetEmail.tsx` (lands in S3-03; this ticket consumes it)
-- `src/lib/auth/tokens.ts` (new — random + sha256 helpers shared with S3-06)
+- `src/lib/auth/tokens.ts` (new, random + sha256 helpers shared with S3-06)
 
 **Current:** No flow exists. Audit F1: "A user who forgets their password is permanently locked out."
 
 **Target:**
-- **Page `/auth/forgot`:** PEBL-branded form, single field (email), submit button, success state ("If an account exists for this address, a reset link has been sent. Check your inbox."). Returns the same success state regardless of whether the user exists — standard email-enumeration mitigation.
+- **Page `/auth/forgot`:** PEBL-branded form, single field (email), submit button, success state ("If an account exists for this address, a reset link has been sent. Check your inbox."). Returns the same success state regardless of whether the user exists, standard email-enumeration mitigation.
 - **API `POST /api/auth/forgot`:**
   1. Rate-limit per IP and per email (re-use `checkAuthRateLimit` from `src/lib/rate-limit.ts`; 3 attempts / 15 min is appropriate for reset given the email cost).
-  2. `prisma.user.findUnique({ where: { email } })` — if no match, return 200 with the same body to avoid enumeration.
+  2. `prisma.user.findUnique({ where: { email } })`, if no match, return 200 with the same body to avoid enumeration.
   3. If match: generate `crypto.randomBytes(32).toString('hex')` token; store sha256 of token in `PasswordResetToken` with `expiresAt = now + 1h`; send the **plain** token by email (the DB only stores the hash so a DB leak does not enable resets).
   4. Email links to `https://fish-spotter.vercel.app/auth/reset/[plainToken]`.
   5. Always return `200 { ok: true }`.
@@ -334,7 +334,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-05 — Password reset consume: `/auth/reset/[token]` page + `POST /api/auth/reset`
+### S3-05: Password reset consume: `/auth/reset/[token]` page + `POST /api/auth/reset`
 
 **Priority:** P0
 **Effort:** M (3h)
@@ -352,7 +352,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
   2. Re-validate token (race-condition window between page-render and POST).
   3. `bcrypt.hash(newPassword, 12)` (match the BCRYPT_ROUNDS const at `src/lib/auth.ts:12`).
   4. Update `User.passwordHash`. Set `PasswordResetToken.consumedAt = now`.
-  5. **Invalidate all existing sessions for that user.** Because session strategy is JWT and JWTs are stateless, this is a limitation we explicitly accept for Sprint 3 — document in CLAUDE.md that reset does not revoke active sessions on other devices until JWT expiry. A proper fix needs the Session table (S3-02) wired in active mode, which is Sprint 6+ work.
+  5. **Invalidate all existing sessions for that user.** Because session strategy is JWT and JWTs are stateless, this is a limitation we explicitly accept for Sprint 3, document in CLAUDE.md that reset does not revoke active sessions on other devices until JWT expiry. A proper fix needs the Session table (S3-02) wired in active mode, which is Sprint 6+ work.
   6. Return 200; client redirects to `/auth/signin?reset=success` which shows a success banner.
 
 **Approach:** Mirror S3-04's hashing-at-rest convention.
@@ -365,7 +365,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 **Testing:**
 - Playwright e2e (lands in S3-18).
-- Manual: race the token — open the link twice in two tabs, confirm only one POST succeeds.
+- Manual: race the token, open the link twice in two tabs, confirm only one POST succeeds.
 
 **Risk:** Low.
 
@@ -373,7 +373,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-06 — Email verification on sign-up: `POST /api/auth/verify-request` + send-on-signup wiring
+### S3-06: Email verification on sign-up: `POST /api/auth/verify-request` + send-on-signup wiring
 
 **Priority:** P0
 **Effort:** M (3h)
@@ -390,11 +390,11 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
   1. After `prisma.user.create`, generate a verification token (same crypto + sha256 helpers as S3-04, 24h TTL).
   2. Store hashed token in `VerificationToken`.
   3. Send `VerificationEmail` via the S3-03 email service. Failure does not block sign-up; user can resend later.
-  4. Allow the user to sign in immediately (do not block on verification) — but UI surfaces (account page header, banner on `/feed`) flag the unverified state.
+  4. Allow the user to sign in immediately (do not block on verification), but UI surfaces (account page header, banner on `/feed`) flag the unverified state.
 - **Resend endpoint `POST /api/auth/verify-request`:** authenticated route. If the calling user has `emailVerified IS NULL`, generate a fresh token, invalidate prior unconsumed tokens (set `consumedAt = now` to keep history), send email. Rate-limit: 3 per hour per user.
 - **Soft gating:** for Sprint 3, no action is blocked by `emailVerified IS NULL` other than receiving the weekly digest (S3-16). The intent is to land verification infrastructure without breaking existing users. A future ticket can tighten this once data shows verify rate.
 
-**Approach:** Minimal touch to `src/lib/auth.ts` — the verification email is a fire-and-forget after `prisma.user.create`. The dev experience matters: do not throw if Resend fails, just log.
+**Approach:** Minimal touch to `src/lib/auth.ts`, the verification email is a fire-and-forget after `prisma.user.create`. The dev experience matters: do not throw if Resend fails, just log.
 
 **Acceptance:**
 - New sign-ups receive a verification email within 30s.
@@ -410,7 +410,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-07 — Email verification consume: `/auth/verify?token=...` route
+### S3-07: Email verification consume: `/auth/verify?token=...` route
 
 **Priority:** P0
 **Effort:** S (2h)
@@ -424,8 +424,8 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 **Target:**
 - `/auth/verify?token=...` is a server component. It POSTs to `/api/auth/verify` from the server (or hands off to a client effect that POSTs once).
 - `POST /api/auth/verify` validates the token (sha256 lookup, not consumed, not expired), sets `User.emailVerified = now`, marks token consumed. Returns 200 with the user ID.
-- Page renders success state ("Your email is verified — welcome.") with a CTA "Continue spotting" → `/feed`.
-- Invalid / expired token shows a friendly error with a "Resend verification email" button (requires the user to be signed in to use it — explain that they need to sign in first).
+- Page renders success state ("Your email is verified, welcome.") with a CTA "Continue spotting" → `/feed`.
+- Invalid / expired token shows a friendly error with a "Resend verification email" button (requires the user to be signed in to use it, explain that they need to sign in first).
 
 **Approach:** Symmetric to S3-05 (consume-token-via-page-route).
 
@@ -442,7 +442,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-08 — Privacy policy and Terms of Service page scaffolding
+### S3-08: Privacy policy and Terms of Service page scaffolding
 
 **Priority:** P0 (legal blocker for public launch)
 **Effort:** S (2h scaffolding; legal copy is out-of-scope writing work)
@@ -450,14 +450,14 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 **Files:**
 - `src/app/privacy/page.tsx`
 - `src/app/terms/page.tsx`
-- `src/data/legal/privacy-policy.md` (or `.mdx` — confirm preference)
+- `src/data/legal/privacy-policy.md` (or `.mdx`, confirm preference)
 - `src/data/legal/terms-of-service.md`
 - `src/components/legal/LegalLayout.tsx`
 
 **Current:** No `/privacy`, no `/terms`. Audit F8: "PEBL CIC is a UK-registered Community Interest Company collecting personal data... no privacy policy page, no T&Cs, no GDPR data-subject-access route."
 
 **Target:**
-- Both pages share a `LegalLayout` shell: PEBL header, branded title, `last_updated` date, version tag (`v1.0 — 2026-05-...`), section TOC sidebar on desktop, prose body.
+- Both pages share a `LegalLayout` shell: PEBL header, branded title, `last_updated` date, version tag (`v1.0-2026-05-...`), section TOC sidebar on desktop, prose body.
 - Source content lives in `src/data/legal/*.md` so legal updates can be done by editing markdown without touching React.
 - Both pages link to each other in the footer and include CIC details (company number 12076622, registered email `hello@pebl-cic.co.uk`, link to `pebl-cic.co.uk`).
 - The privacy policy file ships with **placeholder section headers** that match UK ICO's "Privacy notice checklist": identity, contact, data collected, lawful basis, retention, third parties (Resend, Vercel, Supabase, iNaturalist, OBIS, GBIF), rights, complaints (ICO contact). Legal copy itself: **Christian / PEBL legal to write**. Engineering deliverable here is the scaffolding and the placeholder.
@@ -475,13 +475,13 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 - Both routes return 200 in incognito.
 - Lighthouse SEO score ≥ 90 on both pages.
 
-**Risk:** Low engineering risk. The *legal* risk is real — explicitly call out in the PR description that the placeholder text must be replaced before public launch.
+**Risk:** Low engineering risk. The *legal* risk is real, explicitly call out in the PR description that the placeholder text must be replaced before public launch.
 
 **Deps:** None.
 
 ---
 
-### S3-09 — Cookie banner (PECR Reg. 6 disclosure)
+### S3-09: Cookie banner (PECR Reg. 6 disclosure)
 
 **Priority:** P1
 **Effort:** S (2-3h)
@@ -495,7 +495,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 **Target:**
 - Banner appears on first visit if the consent cookie is not set. Bottom-fixed, PEBL-branded, two buttons: "Got it" (sets consent cookie, dismisses) and "Read policy" (links to `/privacy`).
-- Consent stored in a first-party cookie `pebl_consent={"v":1,"ts":...,"essential":true,"analytics":false}` for 12 months. Essential is always true. Analytics is a placeholder for future granularity — for Sprint 3 the banner is informational, not granular, because no non-essential cookies exist yet.
+- Consent stored in a first-party cookie `pebl_consent={"v":1,"ts":...,"essential":true,"analytics":false}` for 12 months. Essential is always true. Analytics is a placeholder for future granularity, for Sprint 3 the banner is informational, not granular, because no non-essential cookies exist yet.
 - Banner is dismissable; consent state is read on every page load by a server component to decide whether to render.
 - Future-proof: the consent shape can absorb a granular toggle in a later sprint without breaking the cookie format.
 
@@ -516,31 +516,31 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-10 — Landing page (`/`) value-prop redesign + sample clip + sign-up CTA
+### S3-10: Landing page (`/`) value-prop redesign + sample clip + sign-up CTA
 
 **Priority:** P1
 **Effort:** M (4-5h)
 **Audit refs:** F4
 **Files:**
 - `src/app/page.tsx` (substantial rewrite)
-- `src/components/landing/SampleClip.tsx` (new — autoplay-muted 8s sample)
-- `src/components/landing/HowItWorks.tsx` (new — 3-step explainer)
-- `src/components/landing/AboutPEBL.tsx` (new — CIC trust panel)
-- `src/components/Footer.tsx` (new or extended — privacy / terms links)
+- `src/components/landing/SampleClip.tsx` (new, autoplay-muted 8s sample)
+- `src/components/landing/HowItWorks.tsx` (new, 3-step explainer)
+- `src/components/landing/AboutPEBL.tsx` (new, CIC trust panel)
+- `src/components/Footer.tsx` (new or extended, privacy / terms links)
 
 **Current:** Two CTAs ("Start spotting" → `/feed`, "Explore archive" → `/feed/browse`). No sign-up CTA. No quiz-mechanic explainer. No PEBL-CIC trust signalling. Audit F4 calls all of this out specifically.
 
 **Target:**
 - **Hero:** Keep existing copy. Add a tertiary CTA "Create your spotter profile" → `/auth/signin?isSignUp=1` next to "Start spotting".
-- **Sample clip:** 8-12s muted autoplay loop of an iconic snippet (Christian to nominate — e.g. one of the wrasse or thornback ray clips), shown inline below the hero. Demonstrates the product without requiring a sign-up. Falls back to a poster image if autoplay is blocked.
-- **How it works:** 3 cards: (1) "Spot the species in 5s" (the typed-answer mechanic), (2) "Compare with PEBL staff" (the staff-answer reveal — explains the documented mismatch in audit Theme D between brief and implementation, so users understand what they're comparing against), (3) "Build a streak" (daily-return mechanic).
+- **Sample clip:** 8-12s muted autoplay loop of an iconic snippet (Christian to nominate, e.g. one of the wrasse or thornback ray clips), shown inline below the hero. Demonstrates the product without requiring a sign-up. Falls back to a poster image if autoplay is blocked.
+- **How it works:** 3 cards: (1) "Spot the species in 5s" (the typed-answer mechanic), (2) "Compare with PEBL staff" (the staff-answer reveal, explains the documented mismatch in audit Theme D between brief and implementation, so users understand what they're comparing against), (3) "Build a streak" (daily-return mechanic).
 - **About PEBL:** Trust panel with CIC number (12076622), tagline ("Protecting Ecology Beyond Land"), 2-3 sentences on the mission, link to `pebl-cic.co.uk`.
 - **Footer:** Privacy, Terms, About PEBL, hello@ contact, copyright year. Lands sitewide via `app/layout.tsx`.
-- **Sign-up CTA copy:** explicit about account requirement — "Submit answers and join the leaderboard. Free, no card required." (Avoid GDPR-redundant phrases like "we never share your data" — that lives in the privacy policy.)
+- **Sign-up CTA copy:** explicit about account requirement, "Submit answers and join the leaderboard. Free, no card required." (Avoid GDPR-redundant phrases like "we never share your data", that lives in the privacy policy.)
 
 **Approach:**
 1. Sketch the section order in markdown first (Christian to approve).
-2. Build the sample-clip player as a thin wrapper around `<video autoPlay muted loop playsInline poster={...} />` — same H.264 invariant as the feed; do not introduce a new codec path.
+2. Build the sample-clip player as a thin wrapper around `<video autoPlay muted loop playsInline poster={...} />`, same H.264 invariant as the feed; do not introduce a new codec path.
 3. Wire the sign-up CTA to `/auth/signin?isSignUp=1` so S3-15's form opens in sign-up mode by default when arriving from the landing.
 
 **Acceptance:**
@@ -559,7 +559,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-11 — First-run onboarding tour (3 steps, persisted in `User.onboardedAt`)
+### S3-11: First-run onboarding tour (3 steps, persisted in `User.onboardedAt`)
 
 **Priority:** P1
 **Effort:** M (5-6h)
@@ -574,11 +574,11 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 **Target:**
 - A modal-sheet tour that appears once, immediately after a new user's first sign-in, with three slides:
-  1. **"Spot the species" —** illustration of the typed-answer input, explainer of free-text + fuzzy match.
-  2. **"Compare with PEBL staff" —** illustration of the reveal card, explainer of the staff-answer concept (audit Theme D context).
-  3. **"Build a streak" —** the daily-return mechanic, with the explicit note that the streak is visible in the header avatar popover (S3-13).
+  1. **"Spot the species" -** illustration of the typed-answer input, explainer of free-text + fuzzy match.
+  2. **"Compare with PEBL staff" -** illustration of the reveal card, explainer of the staff-answer concept (audit Theme D context).
+  3. **"Build a streak" -** the daily-return mechanic, with the explicit note that the streak is visible in the header avatar popover (S3-13).
 - Trigger logic: on `/feed` mount, if `session?.user.id` and `User.onboardedAt IS NULL`, show the tour. "Skip" or "Got it" on the last slide POSTs `/api/account/onboarding`, which sets `onboardedAt = now`.
-- Dismissal is recorded server-side, not in `localStorage` — so a user who clears storage does not see the tour again from a second device.
+- Dismissal is recorded server-side, not in `localStorage`, so a user who clears storage does not see the tour again from a second device.
 - Sprint-2 dependency: if Sprint 2 changes the quiz mechanic to MCQ, slide 1's illustration changes. Coordinate copy with Sprint 2 before building the asset.
 
 **Approach:** Use framer-motion (already in the project) for slide transitions. Re-use the `pebl-surface` shell pattern from the auth pages.
@@ -599,7 +599,7 @@ EMAIL_PREVIEW_CATCHALL=christian.n.berger+fishspotter-preview@gmail.com  # only 
 
 ---
 
-### S3-12 — `/account` page: profile, verification status, digest opt-in, delete account
+### S3-12: `/account` page: profile, verification status, digest opt-in, delete account
 
 **Priority:** P0 (delete-account is GDPR Art. 17)
 **Effort:** L (6-8h)
@@ -637,20 +637,20 @@ A single page with four sections:
 - Manual: delete a seed test user, verify in Supabase studio that Answer rows are gone.
 - Playwright: full delete flow.
 
-**Risk:** Medium. Cascade-delete is irreversible — make sure the typed-confirm prompt is unambiguous, and consider a 30-day soft-delete window in a future sprint. For Sprint 3 the immediate hard delete is sufficient and matches Art. 17 expectations.
+**Risk:** Medium. Cascade-delete is irreversible, make sure the typed-confirm prompt is unambiguous, and consider a 30-day soft-delete window in a future sprint. For Sprint 3 the immediate hard delete is sufficient and matches Art. 17 expectations.
 
 **Deps:** S3-01, S3-06 (resend verify CTA).
 
 ---
 
-### S3-13 — Header avatar / initials chip + Sign-Out confirm + toast
+### S3-13: Header avatar / initials chip + Sign-Out confirm + toast
 
 **Priority:** P1
 **Effort:** M (3-4h)
 **Audit refs:** F9, F10
 **Files:**
 - `src/components/Header.tsx`
-- `src/components/AvatarMenu.tsx` (new — popover with display name, streak, account link, sign out)
+- `src/components/AvatarMenu.tsx` (new, popover with display name, streak, account link, sign out)
 - `src/components/SideMenu.tsx` (update sign-out call)
 
 **Current:** Identity is only visible inside the SideMenu (`src/components/SideMenu.tsx:160-174`). Audit F10: "On the /feed overlay header the logo is rendered at 30% opacity, so even brand presence is muted." Audit F9: sign-out has no confirm, no toast, no callbackUrl.
@@ -662,14 +662,14 @@ A single page with four sections:
   - "Account settings" → `/account`
   - "Sign out" → confirm prompt → `signOut({ callbackUrl: "/" })` → success toast on landing
 - Unauthenticated header right slot shows "Sign in" link to `/auth/signin`.
-- The chip uses the first two letters of `displayName` on a PEBL-teal background (#3AAFA9) — keeps it brand-coherent without needing user avatars.
+- The chip uses the first two letters of `displayName` on a PEBL-teal background (#3AAFA9), keeps it brand-coherent without needing user avatars.
 
 **Approach:** Re-use framer-motion popover patterns from existing components. The streak fetch is the only new data call; cache it client-side for the session.
 
 **Acceptance:**
 - Avatar visible on every authenticated route (feed, archive, leaderboard, account).
 - Sign-out asks "Sign out of PEBL FishSpotter?" before executing.
-- Post-sign-out toast on landing page: "Signed out — see you next time."
+- Post-sign-out toast on landing page: "Signed out, see you next time."
 
 **Testing:**
 - Playwright: sign in, assert avatar; click avatar, click sign out, confirm, assert redirect to `/` and toast.
@@ -680,7 +680,7 @@ A single page with four sections:
 
 ---
 
-### S3-14 — Empty states for new (0-answer) users across feed, archive, leaderboard
+### S3-14: Empty states for new (0-answer) users across feed, archive, leaderboard
 
 **Priority:** P2
 **Effort:** S (2-3h)
@@ -695,11 +695,11 @@ A single page with four sections:
 
 **Target:**
 - Leaderboard empty state branches on `getServerSession`:
-  - Guest: "No spotters yet — sign in to be first." with `/auth/signin?callbackUrl=/feed` link.
+  - Guest: "No spotters yet, sign in to be first." with `/auth/signin?callbackUrl=/feed` link.
   - Signed-in with 0 answers: "Submit your first sighting on the feed to claim a rank." with `/feed` link.
   - Signed-in with answers but no peers: "You're the only spotter so far. Invite a friend." (low priority polish.)
 - Community-guesses panel similarly branches.
-- Feed: if the user has just signed up, show a one-line welcome banner above the first card ("Welcome, {displayName}. Your streak starts with your first answer.") — dismissable. Persisted via a `localStorage` flag is fine here (low-stakes).
+- Feed: if the user has just signed up, show a one-line welcome banner above the first card ("Welcome, {displayName}. Your streak starts with your first answer."), dismissable. Persisted via a `localStorage` flag is fine here (low-stakes).
 
 **Approach:** Pure presentational change.
 
@@ -716,7 +716,7 @@ A single page with four sections:
 
 ---
 
-### S3-15 — Sign-in / sign-up form polish: distinct errors, sane fallbacks, T&Cs checkbox, router.replace
+### S3-15: Sign-in / sign-up form polish: distinct errors, sane fallbacks, T&Cs checkbox, router.replace
 
 **Priority:** P0
 **Effort:** M (4h)
@@ -738,7 +738,7 @@ A single page with four sections:
   - includes a number (recommended)
   - The only hard rule remains ≥ 8 chars (matches `src/lib/auth.ts:11`).
 - **Router instead of full reload:** replace `window.location.href = callbackUrl` (line 38) with `router.replace(callbackUrl); router.refresh();`. Preserves SPA state and avoids the white-flash audit F16 flags.
-- **Carry pending-answer state through redirect:** read `?pendingAnswer=...` and `?snippetId=...` from `searchParams`; surface "We saved your answer — finish signing in to submit it." copy above the form; pass them forward in the post-auth client effect so Sprint 2's machinery can replay. **Coordinate with Sprint 2's redirect-contract ticket before building this half** — the parameter names must match.
+- **Carry pending-answer state through redirect:** read `?pendingAnswer=...` and `?snippetId=...` from `searchParams`; surface "We saved your answer, finish signing in to submit it." copy above the form; pass them forward in the post-auth client effect so Sprint 2's machinery can replay. **Coordinate with Sprint 2's redirect-contract ticket before building this half**: the parameter names must match.
 
 **Approach:** Re-shape `authorize` to throw, client-side `.catch(e => mapErrorCode(e.message))`. NextAuth surfaces thrown errors via `res.error`, so the existing form structure works.
 
@@ -753,13 +753,13 @@ A single page with four sections:
 - Playwright (lands in S3-18).
 - Unit test the error mapping function.
 
-**Risk:** Medium. The `authorize`-throws pattern is documented but not the default — verify it propagates to `res.error` correctly across NextAuth's client SDK.
+**Risk:** Medium. The `authorize`-throws pattern is documented but not the default, verify it propagates to `res.error` correctly across NextAuth's client SDK.
 
 **Deps:** S3-01, S3-04, S3-06, S3-08. Coordinate with Sprint 2.
 
 ---
 
-### S3-16 — Weekly digest cron (`/api/cron/digest`) — Mon 08:00 UTC
+### S3-16: Weekly digest cron (`/api/cron/digest`): Mon 08:00 UTC
 
 **Priority:** P2
 **Effort:** M (4h)
@@ -798,7 +798,7 @@ A single page with four sections:
 
 ---
 
-### S3-17 — Streak-nudge cron (`/api/cron/streak-nudge`) — daily 09:00 UTC
+### S3-17: Streak-nudge cron (`/api/cron/streak-nudge`): daily 09:00 UTC
 
 **Priority:** P2
 **Effort:** S (2-3h)
@@ -813,11 +813,11 @@ A single page with four sections:
 **Target:**
 - Cron at `0 9 * * *` (daily 09:00 UTC).
 - For each user with `digestOptIn = true` AND `emailVerified IS NOT NULL` AND a streak ≥ 3 days AND no answer in the last 20 hours:
-  - Send a one-line email: "Your {streak}-day streak is in danger — log a sighting today to keep it alive."
+  - Send a one-line email: "Your {streak}-day streak is in danger, log a sighting today to keep it alive."
   - Cap: one streak-nudge per user per week (track in a `User.lastStreakNudgeAt` column? **Add this to S3-01 if cheap.** Otherwise compute from a small denormalised cache. For Sprint 3 simplicity, add the column.)
 - Same unsubscribe shape as S3-16.
 
-**Approach:** Same cron contract pattern. The "20 hours since last answer" window is judgemental — verify with Christian before merging that 09:00 UTC is the right local hour for a UK / Ireland audience (it is 09:00 UK in winter, 10:00 in summer; consider 17:00 UTC if the goal is evening engagement).
+**Approach:** Same cron contract pattern. The "20 hours since last answer" window is judgemental, verify with Christian before merging that 09:00 UTC is the right local hour for a UK / Ireland audience (it is 09:00 UK in winter, 10:00 in summer; consider 17:00 UTC if the goal is evening engagement).
 
 **Acceptance:**
 - Cron fires daily.
@@ -826,13 +826,13 @@ A single page with four sections:
 
 **Testing:** Manual cron trigger + DB inspection.
 
-**Risk:** Low. Highest risk is email fatigue — the cap is the key control.
+**Risk:** Low. Highest risk is email fatigue, the cap is the key control.
 
-**Deps:** S3-01 (add `lastStreakNudgeAt` column — fold into S3-01 if not already there), S3-03, S3-16 (unsubscribe handler).
+**Deps:** S3-01 (add `lastStreakNudgeAt` column, fold into S3-01 if not already there), S3-03, S3-16 (unsubscribe handler).
 
 ---
 
-### S3-18 — Playwright e2e suite for the Sprint 3 surface
+### S3-18: Playwright e2e suite for the Sprint 3 surface
 
 **Priority:** P0 (validates the sprint)
 **Effort:** L (6-8h)
@@ -843,19 +843,19 @@ A single page with four sections:
 - `e2e/onboarding/account-delete.spec.ts`
 - `e2e/onboarding/signout-toast.spec.ts`
 - `e2e/onboarding/cookie-banner.spec.ts`
-- `playwright.config.ts` (if not already set up by Sprint 1 — coordinate)
+- `playwright.config.ts` (if not already set up by Sprint 1, coordinate)
 
 **Current:** Audit section 06 lists 6 suggested specs; none exist.
 
 **Target:** Implement the named specs, all running against a preview deploy in CI:
 
-1. **`signup-verify-onboarding.spec`** — sign up; intercept the verification email via Resend's test mode or a Mailpit local container; click the token URL; assert `User.emailVerified` set; first-`/feed` visit shows tour; dismiss tour; reload, tour does not reappear.
-2. **`forgot-password.spec`** — request reset; consume token; sign in with new password.
-3. **`account-delete.spec`** — sign in; visit `/account`; type-confirm delete; assert redirect to `/?deleted=1`; assert Answer rows cascaded.
-4. **`signout-toast.spec`** — sign in; click avatar; confirm sign out; assert toast on landing.
-5. **`cookie-banner.spec`** — incognito visit; banner visible; dismiss; reload; banner not visible.
+1. **`signup-verify-onboarding.spec`**: sign up; intercept the verification email via Resend's test mode or a Mailpit local container; click the token URL; assert `User.emailVerified` set; first-`/feed` visit shows tour; dismiss tour; reload, tour does not reappear.
+2. **`forgot-password.spec`**: request reset; consume token; sign in with new password.
+3. **`account-delete.spec`**: sign in; visit `/account`; type-confirm delete; assert redirect to `/?deleted=1`; assert Answer rows cascaded.
+4. **`signout-toast.spec`**: sign in; click avatar; confirm sign out; assert toast on landing.
+5. **`cookie-banner.spec`**: incognito visit; banner visible; dismiss; reload; banner not visible.
 
-Email assertion strategy: spin up Mailpit (`docker run -d -p 1025:1025 -p 8025:8025 axllent/mailpit`) for CI; point Resend's `Resend` client at it via a custom URL override in test mode, OR use Resend's actual sandbox with a dedicated test domain. Confirm the chosen approach with Christian — Mailpit is simpler.
+Email assertion strategy: spin up Mailpit (`docker run -d -p 1025:1025 -p 8025:8025 axllent/mailpit`) for CI; point Resend's `Resend` client at it via a custom URL override in test mode, OR use Resend's actual sandbox with a dedicated test domain. Confirm the chosen approach with Christian, Mailpit is simpler.
 
 **Approach:** Build on whatever Playwright scaffolding Sprint 1 lands; if Sprint 1 has not run yet, this ticket installs Playwright and the axe-core / visual-regression baselines.
 

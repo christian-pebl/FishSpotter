@@ -43,7 +43,7 @@ const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 // so the inline sub-split here is suppressed and only the gate-less paths
 // (e.g. crab, or "Not sure") fall back to rendering it inline.
 
-// Distinct values a trait takes across the candidate set — used to decide
+// Distinct values a trait takes across the candidate set, used to decide
 // whether a sub-split (or any option) would actually discriminate.
 function candidatesHaveValue(candidates: Candidate[], key: TraitKey, value: string): boolean {
   return candidates.some((c) => {
@@ -90,7 +90,7 @@ export function CandidateStrip({
   seed,
 }: {
   /** null = the user tapped "Not sure" at the gate: narrow the whole catalogue
-   *  (the weighted best-guess set) instead of dead-ending — the murky-safe path. */
+   *  (the weighted best-guess set) instead of dead-ending, the murky-safe path. */
   shapeClass: ShapeClass | null;
   submitting: boolean;
   /** Commit a guess by common name (same path as the MCQ picker). */
@@ -110,8 +110,8 @@ export function CandidateStrip({
   const [mustNotHave, setMustNotHave] = useState<TraitSelection>({});
   const [askedKeys, setAskedKeys] = useState<TraitKey[]>([]);
 
-  // Reset (and seed) the trait loop whenever the shape class — or the Rung-2
-  // seed — changes. seedSig is a primitive so this doesn't re-run (and wipe the
+  // Reset (and seed) the trait loop whenever the shape class, or the Rung-2
+  // seed, changes. seedSig is a primitive so this doesn't re-run (and wipe the
   // user's in-progress answers) on every render from the object identity churn.
   const seedSig = seed ? `${seed.key}:${seed.value ?? ""}` : "";
   useEffect(() => {
@@ -167,7 +167,7 @@ export function CandidateStrip({
 
   const answeredAny = askedKeys.length > 0;
 
-  // Off-class with no seeded species yet (jellyfish/starfish/etc.) — the gate
+  // Off-class with no seeded species yet (jellyfish/starfish/etc.), the gate
   // already disables those tiles, but guard anyway so we never show "0".
   if (candidates.length === 0 && !answeredAny) return null;
 
@@ -204,7 +204,7 @@ export function CandidateStrip({
       <div className="mb-1.5 flex items-center justify-between gap-2">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-teal-300/90">
           {candidates.length === 0
-            ? "No matches — try start over"
+            ? "No matches. Try start over"
             : `${candidates.length} ${countLabel} left`}
         </p>
         <div className="flex shrink-0 items-center gap-3">
@@ -262,7 +262,7 @@ export function CandidateStrip({
           >
             {subSplit.options.map((o) =>
               HAS_FORM_SILHOUETTE.has(o.value) ? (
-                /* Silhouette tile — mirrors ShapeGate's tile pattern */
+                /* Silhouette tile, mirrors ShapeGate's tile pattern */
                 <button
                   key={o.value}
                   type="button"
@@ -363,7 +363,7 @@ export function CandidateStrip({
                 chips stuck in this horizontal overflow-x-auto flex (3 in render
                 state, 6 mounted). The safe path is layout-only: dropped chips
                 simply unmount (React removes them, no exit), and the survivors
-                carry `layout` so they slide left to close the gap — most of the
+                carry `layout` so they slide left to close the gap, most of the
                 "tightening" payoff, zero stuck-node risk. Guarded by
                 reduceMotion. */}
             {candidates.map((c) => (

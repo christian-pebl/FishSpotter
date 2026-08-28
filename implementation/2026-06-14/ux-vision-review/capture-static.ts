@@ -1,4 +1,4 @@
-// Phase 1 capture — static/content pages of the LIVE app, full-page, mobile +
+// Phase 1 capture, static/content pages of the LIVE app, full-page, mobile +
 // desktop. Robust per-shot try/catch so one failure never aborts the run.
 import { chromium, type Page } from "playwright";
 

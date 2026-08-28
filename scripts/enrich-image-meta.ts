@@ -1,6 +1,6 @@
 /**
  * Backfill observedOn (date/year) + placeGuess (location) onto SpeciesImage
- * rows that were cached before those columns existed — chiefly the `curated`
+ * rows that were cached before those columns existed, chiefly the `curated`
  * reference photos, which the gallery builder never re-fetches.
  *
  * Only iNaturalist observation rows can be enriched (Wikimedia file pages and

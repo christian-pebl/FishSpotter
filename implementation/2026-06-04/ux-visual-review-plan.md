@@ -1,4 +1,4 @@
-# FishSpotter — Whole-App UX & Visual Review: PLAN
+# FishSpotter: Whole-App UX & Visual Review: PLAN
 
 **Date:** 2026-06-04
 **Depth:** Exhaustive (per-persona walkthroughs, 2-3 independent verifiers per finding, screenshot evidence for capturable surfaces, completeness-critic pass).
@@ -13,7 +13,7 @@ This is a **current-state, whole-app, end-to-end, all-abilities** review. It doe
 
 1. **Re-verify** that the fixes from prior reviews have **not regressed** (a real risk: this branch has had concurrent sessions overwrite committed work).
 2. **Audit the new surfaces** shipped since 2 Jun that **no UX review has covered**: the Spot-It rung flow, the Gemini-built reference galleries + `SpeciesGuidePopup`/`SpeciesGallery`, `MarineBackdrop`, the **ICO age-gate** at sign-up, profile/account changes.
-3. **Judge the holistic flow** — not just per-component correctness, but whether the *journeys* are simple, intuitive, well-spaced, readable, non-overlapping, and sensible **for all abilities**.
+3. **Judge the holistic flow**: not just per-component correctness, but whether the *journeys* are simple, intuitive, well-spaced, readable, non-overlapping, and sensible **for all abilities**.
 
 ## 2. What we logged in the past (this review reconciles against all of it)
 
@@ -49,7 +49,7 @@ This is a **current-state, whole-app, end-to-end, all-abilities** review. It doe
 | L3 | Spacing & rhythm | Nicely spaced? | density, grouping, whitespace, vertical rhythm |
 | L4 | Readability | Clear to read? | type scale, contrast, line-length (45-75ch), reading age |
 | L5 | Flow & navigation | Sensible flow? | dead-ends, back-affordances, wayfinding, session persistence, Nielsen #3 (user control) |
-| L6 | Accessibility (all abilities) | Suitable for all abilities? | **WCAG 2.2 AA** — keyboard, SR semantics, colourblind, 200% zoom, **44px touch**, reduced-motion, cognitive load, **ICO age-appropriate (children/teens)** |
+| L6 | Accessibility (all abilities) | Suitable for all abilities? | **WCAG 2.2 AA**: keyboard, SR semantics, colourblind, 200% zoom, **44px touch**, reduced-motion, cognitive load, **ICO age-appropriate (children/teens)** |
 | L7 | Brand & token consistency | (regression guard) | the documented design system in CLAUDE.md |
 | L8 | Motion & feedback | (regression + new surfaces) | `src/lib/motion.ts`, reduced-motion, immediate feedback |
 | L9 | Microcopy & content design | (clarity, jargon, tone) | plain English, no jargon, consistent voice |
@@ -60,11 +60,11 @@ P1 first-time novice (cognitive load, jargon) · P2 daily-driver (efficiency) ·
 
 ## 6. Methodology (Exhaustive)
 
-1. **Walk** — capture a screenshot evidence set for every *capturable* (anon-accessible) surface at 390/768/1440 + key states; index by path. Auth-gated surfaces (signed-in feed, profile, account, admin) are reviewed via code + component analysis (the preview can't authenticate), and that coverage gap is stated explicitly.
-2. **Find** — parallel finders across three axes: **per-surface** (each route/flow), **per-dimension** (L1-L9), **per-persona** (P1-P10 journey walkthroughs). Each emits structured findings: `surface, lens, persona, severity, evidence (file:line and/or screenshot), recommendation, effort, past-log status`.
-3. **Verify** — **2-3 independent adversarial verifiers per finding**: re-open the cited evidence, refute by default, and reconcile against the past logs (fixed/open/regressed/new). Majority-confirm to keep.
-4. **Completeness critic** — a pass that asks "what surface/state/persona/lens was under-covered?" and spawns top-ups.
-5. **Synthesize** — dedup -> themes -> severity + effort -> prioritised fix order -> "what's already good" -> dimension-coverage note -> reconciliation matrix vs past logs -> proposed CLAUDE.md anti-patterns.
+1. **Walk**: capture a screenshot evidence set for every *capturable* (anon-accessible) surface at 390/768/1440 + key states; index by path. Auth-gated surfaces (signed-in feed, profile, account, admin) are reviewed via code + component analysis (the preview can't authenticate), and that coverage gap is stated explicitly.
+2. **Find**: parallel finders across three axes: **per-surface** (each route/flow), **per-dimension** (L1-L9), **per-persona** (P1-P10 journey walkthroughs). Each emits structured findings: `surface, lens, persona, severity, evidence (file:line and/or screenshot), recommendation, effort, past-log status`.
+3. **Verify**: **2-3 independent adversarial verifiers per finding**: re-open the cited evidence, refute by default, and reconcile against the past logs (fixed/open/regressed/new). Majority-confirm to keep.
+4. **Completeness critic**: a pass that asks "what surface/state/persona/lens was under-covered?" and spawns top-ups.
+5. **Synthesize**: dedup -> themes -> severity + effort -> prioritised fix order -> "what's already good" -> dimension-coverage note -> reconciliation matrix vs past logs -> proposed CLAUDE.md anti-patterns.
 
 ## 7. Severity & effort
 
@@ -73,7 +73,7 @@ P1 first-time novice (cognitive load, jargon) · P2 daily-driver (efficiency) ·
 ## 8. Deliverables
 
 - This plan (committed).
-- `implementation/2026-06-04/ux-visual-review.md` — the report: executive summary, findings by surface **and** by lens, severity + effort, prioritised order, "what's already good", **reconciliation matrix** (every past finding's current status), dimension/persona coverage note, screenshot references.
+- `implementation/2026-06-04/ux-visual-review.md`, the report: executive summary, findings by surface **and** by lens, severity + effort, prioritised order, "what's already good", **reconciliation matrix** (every past finding's current status), dimension/persona coverage note, screenshot references.
 - Proposed CLAUDE.md design-rule additions if new anti-patterns emerge.
 - A prioritised, actionable backlog.
 
