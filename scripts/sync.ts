@@ -17,9 +17,10 @@
  * seed.ts remains the one-time, upload-everything bootstrap; sync.ts is the
  * cheap, idempotent, repeat-after-every-export path.
  *
- * Two gates hold a snip back rather than publishing it: incomplete metadata
- * (REQUIRED_META below) and a burnt-in detector overlay in the pixels
- * (scripts/lib/burn-in.ts). Neither writes a manifest entry, so a corrected
+ * Three gates hold a snip back rather than publishing it: incomplete metadata
+ * (REQUIRED_META below), a burnt-in detector overlay in the pixels
+ * (scripts/lib/burn-in.ts), and a video codec no browser can decode
+ * (scripts/lib/video-codec.ts). None writes a manifest entry, so a corrected
  * re-export is picked up on the next run.
  *
  * Run:
@@ -27,7 +28,7 @@
  *   SNIPS_DIR="G:\\...\\Fish Spotter Snips" npm run db:sync
  *
  * Flags: --all (ignore manifest, resync everything), --dry-run, --limit N,
- *        --allow-incomplete, --allow-burned-in
+ *        --allow-incomplete, --allow-burned-in, --allow-bad-codec
  */
 import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
@@ -40,6 +41,7 @@ import {
 } from "./lib/storage";
 import { isSnippetExcluded } from "../src/lib/snippet-blocklist";
 import { checkSnipBurnIn } from "./lib/burn-in";
+import { checkSnipCodec } from "./lib/video-codec";
 
 const prisma = new PrismaClient();
 
@@ -57,6 +59,10 @@ const ALLOW_INCOMPLETE = process.argv.includes("--allow-incomplete");
  *  with thin metadata is a judgement call, shipping the machine's answer drawn
  *  on the animal is never one. See the pixel gate below. */
 const ALLOW_BURNED_IN = process.argv.includes("--allow-burned-in");
+/** Publish a clip whose video stream is not H.264. Off by default: a non-H.264
+ *  clip is not "lower quality", it simply does not play in Chrome, so there is
+ *  no case for shipping one. See the codec gate below. */
+const ALLOW_BAD_CODEC = process.argv.includes("--allow-bad-codec");
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
   return i !== -1 ? process.argv[i + 1] : undefined;
@@ -228,6 +234,7 @@ async function main() {
   const failures: { folder: string; error: string }[] = [];
   const held: { folder: string; missing: string[] }[] = [];
   const burnedIn: { folder: string; reason: string }[] = [];
+  const badCodec: { folder: string; reason: string }[] = [];
   let uninspected = 0;
 
   for (const folderName of dirs) {
@@ -334,6 +341,30 @@ async function main() {
       uninspected++;
     }
 
+    // Codec gate: never publish a clip a browser cannot decode. TRDesk4 encodes
+    // with `ffmpeg -c:v libx264`, but only when `shutil.which("ffmpeg")`
+    // resolves inside its own process; otherwise it logs a warning and falls
+    // back to `cv2.VideoWriter('mp4v')`, i.e. MPEG-4 Part 2, which Chrome has
+    // no decoder for. On 28 Aug 2026 that shipped all 52 Car-Y-Mor clips as
+    // "This clip didn't load." They uploaded fine, served a healthy 206, and
+    // carried complete metadata and clean pixels; only the codec was wrong.
+    //
+    // `npm run check:codecs` already guards this, but it probes live DB URLs,
+    // so it can only report the breakage after the public has seen it. Like the
+    // two gates above this records no manifest entry, so a re-encoded export is
+    // picked up on the next run, and `unknown` (no ffprobe) warns rather than
+    // blocks.
+    const codec = checkSnipCodec(videoPath);
+    if (codec.status === "unplayable" && !ALLOW_BAD_CODEC) {
+      console.warn(`HOLD ${folderName}: unplayable video codec (${codec.reason})`);
+      badCodec.push({ folder: folderName, reason: codec.reason });
+      continue;
+    }
+    if (codec.status === "unknown") {
+      console.warn(`WARN ${folderName}: codec check did not run (${codec.reason})`);
+      uninspected++;
+    }
+
     // Re-upload media only for genuinely new snips, or when a PRIOR signature
     // shows the clip bytes changed (a re-cut). When the row already exists but
     // we have no prior signature (the first sync after deploy), assume the live
@@ -419,7 +450,8 @@ async function main() {
   saveManifest(manifest);
   console.log(
     `\nSync complete. processed=${processed} skipped=${skipped} ` +
-      `held=${held.length} burntIn=${burnedIn.length} failed=${failures.length}`,
+      `held=${held.length} burntIn=${burnedIn.length} badCodec=${badCodec.length} ` +
+      `failed=${failures.length}`,
   );
   if (held.length > 0) {
     console.log("\nHELD for missing metadata (fix the deployment record in TRDesk4, re-export,");
@@ -433,10 +465,19 @@ async function main() {
     console.log("resolves via data/clip_registry.json), then re-run:");
     for (const b of burnedIn) console.log(`  - ${b.folder}: ${b.reason}`);
   }
+  if (badCodec.length > 0) {
+    console.log("\nHELD for an UNPLAYABLE VIDEO CODEC. These are not H.264, so they upload and");
+    console.log("serve normally but show as \"This clip didn't load.\" in the feed. TRDesk4 fell");
+    console.log("back to its cv2 mp4v writer because ffmpeg was not on its PATH: put ffmpeg on");
+    console.log("PATH, restart TRDesk4, re-export, then re-run:");
+    for (const b of badCodec) console.log(`  - ${b.folder}: ${b.reason}`);
+  }
   if (uninspected > 0) {
+    // Counts both fail-open gates: a snip can be uninspected by the burn-in
+    // check, the codec check, or both, and all three mean the same thing here.
     console.log(
-      `\nWARNING: the burn-in check could not run on ${uninspected} snip(s) ` +
-        "(is ffmpeg/ffprobe on PATH?).",
+      `\nWARNING: ${uninspected} pixel/codec check(s) could not run ` +
+        "(is ffmpeg/ffprobe on PATH?). Those snips were published unverified.",
     );
   }
   if (failures.length > 0) {

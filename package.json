@@ -21,6 +21,7 @@
     "db:enable-rls": "tsx --env-file=.env.local scripts/enable-rls.ts",
     "db:seed": "tsx --env-file=.env.local scripts/seed.ts",
     "db:sync": "tsx --env-file=.env.local scripts/sync.ts",
+    "db:fix-codecs": "tsx --env-file=.env.local scripts/fix-unplayable-snippets.ts",
     "snips:check": "tsx --env-file=.env.local scripts/snip-preflight.ts",
     "db:check-apis": "tsx --env-file=.env.local scripts/check-apis.ts",
     "db:backfill": "tsx --env-file=.env.local scripts/backfill-probability.ts",
