@@ -96,6 +96,19 @@ function TilePhoto({ src }: { src: string }) {
   );
 }
 
+/** Which trait supplies a species' fallback silhouette. Normally the class's
+ * Rung-2 sub-split trait, because that IS the shape the user just picked.
+ *
+ * Fish are the exception. Their Rung-2 cut moved to `fishZone` (seabed vs water
+ * column) on 28 Aug 2026, and zone is a position, not a shape: keying off it
+ * collapsed every photo-less fish onto one of two generic silhouettes, so a
+ * catshark and a butterfish both drew the same bottom-fish blob. `fishGroup` is
+ * the family gestalt and stays the authoritative source here, exactly as
+ * CLAUDE.md records. */
+function silhouetteTraitFor(shapeClass: ShapeClass): TraitKey | undefined {
+  return shapeClass === "fish" ? "fishGroup" : SUB_SPLITS[shapeClass]?.key;
+}
+
 /** The best simple silhouette for a species when it has no cached photo:
  * its body-form silhouette, else its shape-class silhouette, else none. */
 function fallbackSilhouetteSrc(
@@ -103,7 +116,7 @@ function fallbackSilhouetteSrc(
   scientificName: string,
 ): string | null {
   if (!shapeClass) return null;
-  const formKey = SUB_SPLITS[shapeClass]?.key;
+  const formKey = silhouetteTraitFor(shapeClass);
   const traits = CATALOGUE[scientificName];
   if (formKey && traits) {
     const v = speciesValuesFor(traits, formKey)[0];
