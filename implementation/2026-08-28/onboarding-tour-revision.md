@@ -408,3 +408,27 @@ concurrent session that breaks `scripts/_depth-coverage.ts` (2 TS errors) and on
 case in `src/lib/biodiversity/depth.test.ts`. Nothing under `src/components/onboarding`
 or `src/lib/tour-bus.ts` is implicated: the onboarding tests, `next lint` and
 `lint:tokens` are all clean, and the suite was green earlier in the same session.
+
+---
+
+## 10. Shipped
+
+Committed as **`c5c3569`** on `fix/snip-metadata-gate`, pushed to origin.
+20 files, +2007 / -445, `TourPreview.tsx` deleted.
+
+**Staged surgically, on purpose.** `FeedCard.tsx` and `TileGate.tsx` both carried
+a concurrent session's uncommitted work (420 and 54 lines respectively, the
+gate-aware video insets among it). Committing those files wholesale would have
+swept up someone else's half-finished changes under this message. Instead the
+committed blobs are HEAD-plus-only-the-tour-anchors, built and staged via
+`git hash-object -w` + `git update-index --cacheinfo`, so the working tree still
+holds their work untouched. `git status` still shows both files modified, which
+is correct and expected.
+
+**Verified against the pushed commit, not the working tree.** A detached worktree
+at `c5c3569` typechecks clean, passes the tour tests, and passes `next lint` and
+`lint:tokens`. That also confirmed the `depth.ts` breakage noted in section 9 is
+purely the other session's uncommitted work: it does not exist in the commit.
+(Four render tests fail in that worktree, but only because jest-dom's matchers do
+not register through a junctioned `node_modules`, `Invalid Chai property:
+toBeInTheDocument`. The same tests pass in the main checkout.)
