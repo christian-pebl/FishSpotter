@@ -1,121 +1,147 @@
 import { describe, it, expect } from "vitest";
 import {
-  BADGES,
-  awardBadge,
-  awardBadges,
-  tierFor,
-  rarityRank,
-  atLeastAsRare,
-  rarerOf,
-  RARITY_ORDER,
-  DEEP_PIONEER_MIN_RARITY,
-  type BadgeCounts,
+  CATEGORIES,
+  CATEGORY_ORDER,
+  milestonesReached,
+  nextMilestone,
+  milestoneProgress,
+  rankWithin,
+  ZERO_COUNTS,
+  type CategoryId,
 } from "@/lib/badges";
 
-const NONE: BadgeCounts = {
-  confirmed: 0,
-  pathfinder: 0,
-  current: 0,
-  pioneer: 0,
-  "deep-pioneer": 0,
-};
-
-describe("tierFor", () => {
-  it("is 0 below the first threshold", () => {
-    expect(tierFor(0, [1, 5, 10])).toBe(0);
+describe("category definitions", () => {
+  it("has exactly three categories", () => {
+    expect(CATEGORY_ORDER).toHaveLength(3);
+    expect(Object.keys(CATEGORIES)).toHaveLength(3);
   });
 
-  it("awards on reaching a threshold exactly", () => {
-    expect(tierFor(1, [1, 5, 10])).toBe(1);
-    expect(tierFor(5, [1, 5, 10])).toBe(2);
-    expect(tierFor(10, [1, 5, 10])).toBe(3);
+  it("leads with pioneer, the hardest one", () => {
+    expect(CATEGORY_ORDER[0]).toBe("pioneer");
   });
 
-  it("does not overrun the top tier", () => {
-    expect(tierFor(9999, [1, 5, 10])).toBe(3);
-  });
-});
-
-describe("awardBadge", () => {
-  it("returns null when the ladder has not been started", () => {
-    expect(awardBadge("pioneer", 0)).toBeNull();
-  });
-
-  it("reports the next threshold while one remains", () => {
-    const b = awardBadge("pioneer", 1);
-    expect(b?.tier).toBe(1);
-    expect(b?.nextAt).toBe(3);
-    expect(b?.maxTier).toBe(BADGES.pioneer.tiers.length);
-  });
-
-  it("reports nextAt null once maxed", () => {
-    expect(awardBadge("pioneer", 10)?.nextAt).toBeNull();
-  });
-
-  it("carries the raw count through for display", () => {
-    expect(awardBadge("confirmed", 26)?.count).toBe(26);
-  });
-});
-
-describe("awardBadges", () => {
-  it("returns nothing for a spotter who has earned nothing", () => {
-    expect(awardBadges(NONE)).toEqual([]);
-  });
-
-  it("leads with the rarest credential, not the biggest number", () => {
-    // A spotter with lots of volume but one elite call: the elite badge leads.
-    const awarded = awardBadges({
-      ...NONE,
-      confirmed: 100,
-      pathfinder: 25,
-      "deep-pioneer": 1,
-    });
-    expect(awarded[0]?.id).toBe("deep-pioneer");
-  });
-
-  it("omits ladders that are still at zero", () => {
-    const ids = awardBadges({ ...NONE, confirmed: 3 }).map((b) => b.id);
-    expect(ids).toEqual(["confirmed"]);
-  });
-});
-
-describe("ladder design invariants", () => {
-  it("keeps every ladder ascending", () => {
-    for (const def of Object.values(BADGES)) {
-      const sorted = [...def.tiers].sort((a, b) => a - b);
-      expect(def.tiers).toEqual(sorted);
+  it("gives every category exactly three ascending milestones", () => {
+    for (const id of CATEGORY_ORDER) {
+      const m = CATEGORIES[id].milestones;
+      expect(m).toHaveLength(3);
+      expect([...m].sort((a, b) => a - b)).toEqual([...m]);
     }
   });
 
-  it("makes pioneer scarcer than raw volume at the top", () => {
-    // The whole point: being first AND right must be harder than piling up
-    // confirmations, so the pioneer ladder must top out lower.
-    const topPioneer = BADGES.pioneer.tiers.at(-1)!;
-    const topConfirmed = BADGES.confirmed.tiers.at(-1)!;
-    expect(topPioneer).toBeLessThan(topConfirmed);
+  it("defines nine milestones in total", () => {
+    const all = CATEGORY_ORDER.flatMap((id) => [...CATEGORIES[id].milestones]);
+    expect(all).toHaveLength(9);
   });
 
-  it("gates Deep Water Pioneer above the midpoint of the rarity scale", () => {
-    expect(rarityRank(DEEP_PIONEER_MIN_RARITY)).toBeGreaterThanOrEqual(
-      Math.floor(RARITY_ORDER.length / 2),
-    );
+  it("keeps the ladders Christian set", () => {
+    expect(CATEGORIES.pioneer.milestones).toEqual([10, 25, 50]);
+    expect(CATEGORIES.consensus.milestones).toEqual([20, 50, 100]);
+    expect(CATEGORIES.pathfinder.milestones).toEqual([30, 75, 150]);
+  });
+
+  it("makes pioneer the scarcest ladder at every rung", () => {
+    // Being first AND right must never be easier than the other two.
+    for (let i = 0; i < 3; i++) {
+      expect(CATEGORIES.pioneer.milestones[i]).toBeLessThan(
+        CATEGORIES.consensus.milestones[i],
+      );
+      expect(CATEGORIES.consensus.milestones[i]).toBeLessThan(
+        CATEGORIES.pathfinder.milestones[i],
+      );
+    }
+  });
+
+  it("has a zero for every category in ZERO_COUNTS", () => {
+    for (const id of CATEGORY_ORDER) {
+      expect(ZERO_COUNTS[id as CategoryId]).toBe(0);
+    }
   });
 });
 
-describe("rarity helpers", () => {
-  it("orders the tiers common through legendary", () => {
-    expect(rarityRank("common")).toBeLessThan(rarityRank("legendary"));
-    expect(rarityRank("rare")).toBeLessThan(rarityRank("epic"));
+describe("milestonesReached", () => {
+  const m = [10, 25, 50] as const;
+
+  it("is 0 below the first rung", () => {
+    expect(milestonesReached(0, m)).toBe(0);
+    expect(milestonesReached(9, m)).toBe(0);
   });
 
-  it("treats a tier as at least as rare as itself", () => {
-    expect(atLeastAsRare("rare", "rare")).toBe(true);
-    expect(atLeastAsRare("uncommon", "rare")).toBe(false);
-    expect(atLeastAsRare("legendary", "rare")).toBe(true);
+  it("counts a rung on reaching it exactly", () => {
+    expect(milestonesReached(10, m)).toBe(1);
+    expect(milestonesReached(25, m)).toBe(2);
+    expect(milestonesReached(50, m)).toBe(3);
   });
 
-  it("picks the rarer of two tiers", () => {
-    expect(rarerOf("common", "epic")).toBe("epic");
-    expect(rarerOf("legendary", "rare")).toBe("legendary");
+  it("never exceeds three", () => {
+    expect(milestonesReached(9999, m)).toBe(3);
+  });
+});
+
+describe("nextMilestone", () => {
+  const m = [20, 50, 100] as const;
+
+  it("points at the first unmet rung", () => {
+    expect(nextMilestone(0, m)).toBe(20);
+    expect(nextMilestone(20, m)).toBe(50);
+    expect(nextMilestone(99, m)).toBe(100);
+  });
+
+  it("is null once all three are held", () => {
+    expect(nextMilestone(100, m)).toBeNull();
+  });
+});
+
+describe("milestoneProgress", () => {
+  const m = [10, 25, 50] as const;
+
+  it("measures from the previous rung, not from zero", () => {
+    // 17 is 7 of the way through the 10 -> 25 span, not 17/25.
+    expect(milestoneProgress(17, m)).toBeCloseTo(7 / 15, 5);
+  });
+
+  it("is 0 at the start and 1 when complete", () => {
+    expect(milestoneProgress(0, m)).toBe(0);
+    expect(milestoneProgress(50, m)).toBe(1);
+    expect(milestoneProgress(9999, m)).toBe(1);
+  });
+
+  it("resets after crossing a rung rather than staying near full", () => {
+    // The reason for measuring from the floor: crossing 10 must not leave the
+    // bar at 40% of the way to 25 looking almost done.
+    expect(milestoneProgress(10, m)).toBe(0);
+    expect(milestoneProgress(9, m)).toBeCloseTo(0.9, 5);
+  });
+
+  it("stays within 0..1", () => {
+    for (const n of [0, 1, 10, 24, 25, 49, 50, 500]) {
+      const p = milestoneProgress(n, m);
+      expect(p).toBeGreaterThanOrEqual(0);
+      expect(p).toBeLessThanOrEqual(1);
+    }
+  });
+});
+
+describe("rankWithin", () => {
+  it("ranks a spotter among those with a non-zero count", () => {
+    expect(rankWithin(26, [26, 20, 16, 14])).toEqual({ rank: 1, of: 4 });
+    expect(rankWithin(16, [26, 20, 16, 14])).toEqual({ rank: 3, of: 4 });
+  });
+
+  it("shares a rank on a tie rather than breaking it arbitrarily", () => {
+    expect(rankWithin(20, [26, 20, 20, 14])).toEqual({ rank: 2, of: 4 });
+  });
+
+  it("excludes zero-count spotters from the field", () => {
+    // Being told you are 48th of 48 for having done nothing is a punishment,
+    // not a credential, so they are not counted in the denominator.
+    expect(rankWithin(5, [5, 3, 0, 0, 0])).toEqual({ rank: 1, of: 2 });
+  });
+
+  it("returns null for a spotter with nothing on this category", () => {
+    expect(rankWithin(0, [5, 3])).toBeNull();
+  });
+
+  it("returns null when nobody has anything", () => {
+    expect(rankWithin(0, [0, 0])).toBeNull();
   });
 });

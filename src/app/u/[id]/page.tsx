@@ -11,9 +11,6 @@ import { BackToFeed } from "@/components/BackToFeed";
 import { SpeciesCollection } from "@/components/species/SpeciesCollection";
 import { SpotterRecord } from "@/components/profile/SpotterRecord";
 import { readSpotterRecord } from "@/lib/spotter-record";
-import { readCosmetics } from "@/lib/cosmetics-service";
-import { backdropWash, frameStyle } from "@/components/profile/cosmetic-styles";
-import { AppearancePicker } from "@/components/profile/AppearancePicker";
 
 export const dynamic = "force-dynamic";
 
@@ -99,18 +96,11 @@ export default async function ProfilePage({
         take: 1000,
       }),
       prisma.answer.aggregate({ where: { userId: id }, _sum: { points: true } }),
-      // The consensus record behind the badges AND the Confirmed tile below.
+      // The three-category record, and the Confirmed rate in the tile below.
       readSpotterRecord(prisma, id),
     ]);
 
-  // Cosmetics need the record's badge counts to derive the earned frame, so
-  // this runs after the Promise.all rather than inside it.
-  const [streak, cosmetics] = await Promise.all([
-    readStreak(prisma, id, datesFromAnswers(allAnswerDates)),
-    readCosmetics(prisma, id, record.counts),
-  ]);
-  const frame = frameStyle(cosmetics.frame);
-  const wash = backdropWash(cosmetics.backdropSite);
+  const streak = await readStreak(prisma, id, datesFromAnswers(allAnswerDates));
   const displayName = user.displayName ?? user.name ?? "Spotter";
   // Score mirrors the leaderboard (sum of Answer.points) so the two pages
   // reconcile.
@@ -122,9 +112,9 @@ export default async function ProfilePage({
   // shows that. The rate is still withheld below MIN_RESOLVED_FOR_RATE (T-02:
   // never show a blunt "0%" at n=1).
   const confirmationRate =
-    record.confirmationRate === null
-      ? null
-      : `${Math.round(record.confirmationRate * 100)}%`;
+    record.resolvedCalls >= 5
+      ? `${Math.round((record.counts.consensus / record.resolvedCalls) * 100)}%`
+      : null;
 
   return (
     <MarineBackdrop>
@@ -134,45 +124,9 @@ export default async function ProfilePage({
       className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-10 min-h-0 overflow-y-auto"
     >
       <BackToFeed />
-      <section
-        className={`pebl-surface relative overflow-hidden rounded-card p-6 md:p-8 ${frame.ring}`}
-      >
-        {wash && (
-          <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${wash}`} />
-        )}
-        {frame.bar && (
-          <div
-            aria-hidden="true"
-            className={`absolute inset-x-0 top-0 h-1.5 ${frame.bar}`}
-          />
-        )}
-        <div className="relative">
+      <section className="pebl-surface overflow-hidden rounded-card p-6 md:p-8">
         <p className="pebl-eyebrow">Spotter profile</p>
-        <div className="mt-2 flex items-center gap-3">
-          {cosmetics.crest && (
-            <span
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-muted text-teal-600"
-              title={`Crest: ${cosmetics.crest.commonName}`}
-            >
-              <span
-                aria-hidden="true"
-                className="block h-7 w-7 bg-current"
-                style={{
-                  maskImage: `url(/silhouettes/${cosmetics.crest.shapeClass}.svg)`,
-                  WebkitMaskImage: `url(/silhouettes/${cosmetics.crest.shapeClass}.svg)`,
-                  maskSize: "contain",
-                  WebkitMaskSize: "contain",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskPosition: "center",
-                  WebkitMaskPosition: "center",
-                }}
-              />
-              <span className="sr-only">Crest: {cosmetics.crest.commonName}</span>
-            </span>
-          )}
-          <h1 className="font-brand text-h1 text-navy-900">{displayName}</h1>
-        </div>
+        <h1 className="mt-2 font-brand text-h1 text-navy-900">{displayName}</h1>
         <p className="mt-1 text-xs text-navy-900/55">
           Joined {user.createdAt.toLocaleDateString()}
         </p>
@@ -188,13 +142,8 @@ export default async function ProfilePage({
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Confirmed</dt>
             <dd className="mt-1 text-2xl font-bold text-navy-900">
-              {record.confirmedCalls}
+              {confirmationRate ?? "-"}
             </dd>
-            {confirmationRate && (
-              <p className="text-[10px] text-navy-900/50">
-                {confirmationRate} of resolved
-              </p>
-            )}
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Streak</dt>
@@ -206,25 +155,9 @@ export default async function ProfilePage({
             Your {totalAnswers} {totalAnswers === 1 ? "identification feeds" : "identifications feed"} PEBL&apos;s UK seabed monitoring record.
           </p>
         )}
-        {cosmetics.backdropLabel && (
-          <p className="mt-2 text-[11px] text-navy-900/50">
-            Flying the colours of {cosmetics.backdropLabel}.
-          </p>
-        )}
-        </div>
       </section>
 
       <SpotterRecord record={record} />
-
-      {isOwner && (
-        <AppearancePicker
-          frame={cosmetics.frame}
-          crest={cosmetics.crest}
-          crestOptions={cosmetics.crestOptions}
-          backdropSite={cosmetics.backdropSite}
-          backdropOptions={cosmetics.backdropOptions}
-        />
-      )}
 
       <SpeciesCollection userId={id} />
 
