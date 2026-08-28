@@ -97,6 +97,8 @@ async function main() {
   const SHARD_KEYS = [
     "fish-1", "fish-2", "fish-3", "flatfish",
     "crab", "squid", "starfish", "gastropod", "jellyfish", "urchin", "other",
+    // The gap-filling pass, sharded by claim TYPE rather than by species.
+    "gap-traits", "gap-diet", "gap-edges",
   ];
   const shardFiles = SHARD_KEYS.map((k) => `${k}.json`).filter((f) => entries.includes(f));
   const verdictFiles = entries.filter((f) => f.endsWith(".json") && f.includes("verify"));
