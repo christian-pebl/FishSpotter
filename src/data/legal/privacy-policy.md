@@ -102,12 +102,12 @@ Separately, if you make an erasure request, we will respond and delete your pers
 
 You have the right to:
 
-- **Access**: request a copy of the data we hold about you (available at [/api/account/export](/api/account/export) when signed in, or by emailing us).
-- **Rectification**: correct inaccurate or incomplete data.
-- **Erasure**: ask us to delete your account and associated personal data (Art. 17). Email [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) with the subject "Erasure request".
-- **Portability**: receive your quiz answers in a machine-readable format.
-- **Object**: object to processing we carry out under legitimate interests (for example, the research use of quiz answers, or abuse-prevention use of your IP address and access logs). If you object, we will stop that processing unless we can show compelling legitimate grounds that override your interests, rights, and freedoms, or that the processing is needed to establish, exercise, or defend legal claims.
-- **Restrict processing**: ask us to pause processing while a dispute is resolved.
+- **Access**, request a copy of the data we hold about you (available at [/api/account/export](/api/account/export) when signed in, or by emailing us).
+- **Rectification**, correct inaccurate or incomplete data.
+- **Erasure**, ask us to delete your account and associated personal data (Art. 17). Email [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) with the subject "Erasure request".
+- **Portability**, receive your quiz answers in a machine-readable format.
+- **Object**, object to processing we carry out under legitimate interests (for example, the research use of quiz answers, or abuse-prevention use of your IP address and access logs). If you object, we will stop that processing unless we can show compelling legitimate grounds that override your interests, rights, and freedoms, or that the processing is needed to establish, exercise, or defend legal claims.
+- **Restrict processing**, ask us to pause processing while a dispute is resolved.
 
 Where processing relies on your consent (currently only the **fs.anon_seed** functional cookie), you can withdraw that consent at any time through the site's cookie controls or by clearing your cookies; this does not affect the lawfulness of processing before withdrawal.
 

@@ -82,8 +82,8 @@
 | `src/app/admin/species/[name]/page.tsx` | Per-species editor shell. Loads SpeciesImage rows + DiagnosticMark rows in parallel, hands them to the client annotator. Shows the canonical `db:refresh-images` command if no photos are cached yet. |
 | `src/app/admin/species/[name]/SpeciesAnnotator.tsx` | Click-to-add / drag-to-move / edge-handle-resize annotator. Img + absolute SVG overlay with normalised (0..1) coords. Save-on-blur for label/description; optimistic local updates with `useTransition` for the server actions. |
 | `src/app/admin/species/[name]/actions.ts` | Server actions for DiagnosticMark CRUD (`createMark` / `updateMark` / `deleteMark` / `swapMarkOrder`). All gated by `requireAdminSession()`. Coords clamped to 0..1, radius to 0.01..0.5. Cross-species mark assignment is rejected. `swapMarkOrder` runs in a Prisma transaction so the order list can't end up with duplicates mid-swap. |
-| `src/app/admin/prizes/page.tsx` | **Prize fulfilment desk (1 Aug 2026).** Everyone at/over `PRIZE_TARGET_PEBBLES`, ordered by what needs doing (to post → not claimed → unreachable → posted). Claiming only writes a zero-cost `PebblePurchase`; nothing emails PEBL, so this page IS the work queue. Shows the contact email with a copy button, the `isPrizeEligible` verdict, and a "Mark posted" toggle (`actions.ts` → `PebblePurchase.fulfilledAt`/`fulfilledBy`). **Guests are surfaced as "no real address"**: guest accounts carry a synthetic placeholder in `User.email`, so a populated column is not a reachable one; the only route to them is the in-app save prompt (`POST /api/guest/claim`). Row derivation is pure in `src/lib/prize.ts` (`buildPrizeWinnerRows`) and unit-tested. Remote access (Claude Code, no browser): see "Prize desk via Claude Code" below. |
-| `src/app/api/admin/prize-desk/summary/route.ts` | **Remote-safe prize desk (1 Aug 2026).** `GET`, token-gated on `PRIZE_DESK_TOKEN` (own secret, separate from `METRICS_TOKEN`/`CRON_SECRET` so it rotates independently), 12 req/hour (`checkPrizeDeskRateLimit`). **Unlike `/api/metrics/summary` this is NOT aggregate-only**: it returns the same rows `/admin/prizes` shows, including real spotter emails, because contacting a specific winner is the entire point. Serialization is `toPrizeDeskSummary()` in `src/lib/prize-desk.ts`, an explicit allow-list (never `...row`) so a future field added to `PrizeWinnerRow` can't leak into the response without a deliberate, reviewed change; pinned by a unit test. Treat `PRIZE_DESK_TOKEN` like a password. |
+| `src/app/admin/prizes/page.tsx` | **Prize fulfilment desk (1 Aug 2026).** Everyone at/over `PRIZE_TARGET_PEBBLES`, ordered by what needs doing (to post → not claimed → unreachable → posted). Claiming only writes a zero-cost `PebblePurchase`; nothing emails PEBL, so this page IS the work queue. Shows the contact email with a copy button, the `isPrizeEligible` verdict, and a "Mark posted" toggle (`actions.ts` → `PebblePurchase.fulfilledAt`/`fulfilledBy`). **Guests are surfaced as "no real address"**, guest accounts carry a synthetic placeholder in `User.email`, so a populated column is not a reachable one; the only route to them is the in-app save prompt (`POST /api/guest/claim`). Row derivation is pure in `src/lib/prize.ts` (`buildPrizeWinnerRows`) and unit-tested. Remote access (Claude Code, no browser): see "Prize desk via Claude Code" below. |
+| `src/app/api/admin/prize-desk/summary/route.ts` | **Remote-safe prize desk (1 Aug 2026).** `GET`, token-gated on `PRIZE_DESK_TOKEN` (own secret, separate from `METRICS_TOKEN`/`CRON_SECRET` so it rotates independently), 12 req/hour (`checkPrizeDeskRateLimit`). **Unlike `/api/metrics/summary` this is NOT aggregate-only**, it returns the same rows `/admin/prizes` shows, including real spotter emails, because contacting a specific winner is the entire point. Serialization is `toPrizeDeskSummary()` in `src/lib/prize-desk.ts`, an explicit allow-list (never `...row`) so a future field added to `PrizeWinnerRow` can't leak into the response without a deliberate, reviewed change; pinned by a unit test. Treat `PRIZE_DESK_TOKEN` like a password. |
 | `.github/workflows/bootstrap-image-cache.yml` | One-click GitHub Actions workflow that runs `prisma db push` + populates the cache; requires `POSTGRES_PRISMA_URL` + `POSTGRES_URL_NON_POOLING` repo secrets |
 | `public/sw.js` | Service worker (network-first; only caches app-shell icons) |
 
@@ -475,7 +475,7 @@ curl -sS -H "Authorization: Bearer $FISHSPOTTER_METRICS_TOKEN" \
 Token-gated on `METRICS_TOKEN` (Vercel prod env, deliberately separate from
 `CRON_SECRET` so it rotates independently), rate-limited at 60 req/hour on
 the token (`checkMetricsRateLimit` in `src/lib/rate-limit.ts`), aggregate-only
-- no user id/email/name ever appears in the response. This requires the
+, no user id/email/name ever appears in the response. This requires the
 remote environment's network policy to allow `www.fishspotter.app` (the
 canonical domain, see "Live URL" above); if the call fails at the
 connection level (not a 401/429), that's the network policy blocking the
@@ -505,7 +505,7 @@ correctly returned 401. If a session still can't reach the endpoint, the
 blocker is that session's network policy or a missing/wrong
 `FISHSPOTTER_METRICS_TOKEN` locally, not the server.
 
-The response/CLI output covers `reach`, `discovery` (First Sighting,
+The response/CLI output covers `reach`, `discovery` (First Sighting ,
 clips-with-a-first-spot, the unspotted backlog, time-to-first-spot, spotter
 concentration, the `[25, 12, 6]` taper fill, discovery-vs-total Pebble split;
 this needs no dedicated instrumentation, arrival order reconstructs exactly
@@ -540,7 +540,7 @@ threads races).
 
 **Whenever asked who's reached the Pebbles prize target, whether someone's
 guide has been posted, or for a spotter's contact email to fulfil the prize
-- use this, never eyeball `/admin/prizes` from memory or guess an email.**
+, use this, never eyeball `/admin/prizes` from memory or guess an email.**
 This is the same "remote-safe endpoint" pattern as the stats roundup above,
 extended to `/admin/prizes`, built because a remote Claude Code session has
 no browser and no DB credentials, so it otherwise has no way to answer "can I
@@ -556,7 +556,7 @@ curl -sS -H "Authorization: Bearer $FISHSPOTTER_PRIZE_DESK_TOKEN" \
 (Reuses `$FISHSPOTTER_METRICS_URL`, it's the same app, just a different
 token and path.) Token-gated on `PRIZE_DESK_TOKEN` (Vercel prod env, its own
 secret so it rotates independently of `METRICS_TOKEN`/`CRON_SECRET`),
-rate-limited at 12 req/hour on the token (tighter than metrics' 60/hour,
+rate-limited at 12 req/hour on the token (tighter than metrics' 60/hour ,
 see below for why).
 
 **This is NOT the aggregate-only metrics endpoint, read this before using
@@ -576,7 +576,7 @@ response accordingly:
   cannot yet claim.
 - `status` is the actionable field: `to-post` (claimed, needs a book in the
   post), `reached-unclaimed` (hasn't claimed yet), `unreachable` (guest, over
-  target, no route to them but the in-app prompt), `posted` (done,
+  target, no route to them but the in-app prompt), `posted` (done ,
   `fulfilledBy` says which admin).
 
 No local/CLI path exists for this one (unlike the stats roundup), the desk
