@@ -67,17 +67,33 @@ async function readJson<T>(name: string): Promise<T | null> {
 async function main() {
   const file: ReferenceFile = referenceFileSchema.parse(JSON.parse(await fs.readFile(REFS, "utf8")));
 
-  // Everything the challenger overturned, across all shards.
+  /**
+   * Everything the challenger overturned.
+   *
+   * Read ONLY `challenge-<shard>.json`. An earlier version globbed anything
+   * matching /challenge|verify/, which swept in the trawl pass's own
+   * `*-verify.json` files: a different pass, about different claims. It found
+   * 26 coincidental matches and MISSED 28 of the 54 real overturns, so claims
+   * the challenger had rejected were marked confirmed. Name the files.
+   */
   const overturned = new Map<string, string>();
   const entries = await fs.readdir(PROPOSALS).catch(() => [] as string[]);
-  for (const f of entries.filter((f) => /challenge|verify/i.test(f) && f.endsWith(".json"))) {
+  const challengeFiles = SHARDS.map((s) => `challenge-${s}.json`).filter((f) => entries.includes(f));
+  if (challengeFiles.length !== SHARDS.length) {
+    // Without a challenge file a shard has had no adversarial pass, and its
+    // confirmations must not be applied at all.
+    console.warn(
+      `WARNING: challenge file missing for ${SHARDS.filter((s) => !challengeFiles.includes(`challenge-${s}.json`)).join(", ")}`,
+    );
+  }
+  for (const f of challengeFiles) {
     const c = await readJson<Challenge>(f);
     for (const o of c?.overturned ?? []) {
       if (o.species && o.claimKey) overturned.set(key(o.species, o.claimKey), o.reason ?? "overturned");
     }
   }
 
-  const stats = { confirmed: 0, blockedByChallenger: 0, notVerbatim: 0, downgraded: 0, conflicts: 0, rebound: 0, missing: 0 };
+  const stats = { confirmed: 0, blockedByChallenger: 0, noChallenge: 0, notVerbatim: 0, downgraded: 0, conflicts: 0, rebound: 0, missing: 0 };
   const notes: string[] = [];
 
   for (const shard of SHARDS) {
@@ -95,8 +111,14 @@ async function main() {
       }
 
       if (d.action === "confirm") {
+        if (!challengeFiles.includes(`challenge-${shard}.json`)) {
+          stats.noChallenge++;
+          claim.claimSupported = false;
+          continue;
+        }
         if (overturned.has(key(d.species, d.claimKey))) {
           stats.blockedByChallenger++;
+          claim.claimSupported = false;
           continue;
         }
         // A confirmation that did not check the words on the page is an

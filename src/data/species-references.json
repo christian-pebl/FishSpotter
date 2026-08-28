@@ -4775,7 +4775,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "edge:Sea potato->Plaice": {
           "sourceIds": [
@@ -4949,7 +4949,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpz9k4kx000j7igsr3mw0jur": {
           "sourceIds": [
@@ -5304,7 +5304,7 @@
             {
               "sourceId": "fishbase:Pollachius-pollachius",
               "locator": "marlin:9 > Additional information (add this source to the claim)",
-              "quote": "This species... can be observed hanging above or within kelp forests and wrecks. This species hunts singly or in small groups by lying close to the sea bed watching sand eels shoaling above them.",
+              "quote": "This species ... can be observed hanging above or within kelp forests and wrecks. This species hunts singly or in small groups by lying close to the sea bed watching sand eels shoaling above them.",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             }
@@ -5434,7 +5434,7 @@
             {
               "sourceId": "fishbase:Pollachius-virens",
               "locator": "fishbase-fooditems:Pollachius-virens > Food items table, nekton > finfish > bony fish row",
-              "quote": "bony fish | Sprattus sprattus | UK Scotland | juv./adults",
+              "quote": "nekton | finfish | bony fish | Sprattus sprattus | UK Scotland | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -5749,7 +5749,7 @@
             {
               "sourceId": "fishbase:Trisopterus-luscus",
               "locator": "FishBase food items for Trisopterus luscus (vstockcode=1385), reached from the 'Food items (preys)' link the summary page publishes; add it as fishbase-fooditems:Trisopterus-luscus",
-              "quote": "bony fish | Sprattus sprattus | Netherlands | juv./adults",
+              "quote": "nekton | finfish | bony fish | Sprattus sprattus | Netherlands | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -6052,7 +6052,7 @@
             {
               "sourceId": "fishbase:Merlangius-merlangus",
               "locator": "FishBase food items for Merlangius merlangus (vstockcode=39), nekton > finfish > bony fish row",
-              "quote": "bony fish | Sprattus sprattus | Isle of Man | adults",
+              "quote": "nekton | finfish | bony fish | Sprattus sprattus | Isle of Man | adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -6067,7 +6067,7 @@
             {
               "sourceId": "fishbase:Merlangius-merlangus",
               "locator": "FishBase food items for Merlangius merlangus (vstockcode=39), nekton > finfish > bony fish row",
-              "quote": "bony fish | Pomatoschistus minutus | Germany | juv./adults",
+              "quote": "nekton | finfish | bony fish | Pomatoschistus minutus | Germany | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -7848,7 +7848,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "farm:role": {
           "sourceIds": [
@@ -8525,7 +8525,7 @@
             {
               "sourceId": "marlin:1202",
               "locator": "Additional information",
-              "quote": "Pomatoschistus microps was once confused with the sand goby Pomatoschistus minutus... It resides throughout the British Isles in estuaries, saltmarshes, along the coastline and in intertidal pools.",
+              "quote": "Pomatoschistus microps was once confused with the sand goby Pomatoschistus minutus ... It resides throughout the British Isles in estuaries, saltmarshes, along the coastline and in intertidal pools.",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             },
@@ -10157,7 +10157,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpx2rulx000a7i0k0fcq2g07": {
           "sourceIds": [
@@ -10414,7 +10414,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpz9k8yz000l7igsxg1i6n2x": {
           "sourceIds": [
@@ -10444,7 +10444,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpz9k8yz000m7igsc6m592qf": {
           "sourceIds": [
@@ -10611,7 +10611,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "farm:role": {
           "sourceIds": [
@@ -10980,7 +10980,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "bony fish | Sprattus sprattus | Germany | juv./adults",
+              "quote": "nekton | finfish | bony fish | Sprattus sprattus | Germany | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -10995,7 +10995,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "bony fish | Trisopterus minutus | (not available) | juv./adults",
+              "quote": "nekton | finfish | bony fish | Trisopterus minutus | (not available) | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -11010,7 +11010,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "bony fish | Merlangius merlangus | Norway | juv./adults",
+              "quote": "nekton | finfish | bony fish | Merlangius merlangus | Norway | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -11025,7 +11025,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "bony fish | Pomatoschistus minutus | Germany | juv./adults",
+              "quote": "nekton | finfish | bony fish | Pomatoschistus minutus | Germany | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -11040,7 +11040,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "crabs | Carcinus maenas | (not available) | juv./adults",
+              "quote": "zoobenthos | benth. crust. | crabs | Carcinus maenas | (not available) | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -11055,7 +11055,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "bony fish | Eutrigla gurnardus | Norway | juv./adults",
+              "quote": "nekton | finfish | bony fish | Eutrigla gurnardus | Norway | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -11070,7 +11070,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "bony fish | Callionymus lyra | Ireland | juv./adults",
+              "quote": "nekton | finfish | bony fish | Callionymus lyra | Ireland | juv./adults",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -11085,7 +11085,7 @@
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "crabs | Inachus sp. | UK Scotland | recruits/juv.",
+              "quote": "zoobenthos | benth. crust. | crabs | Inachus sp. | UK Scotland | recruits/juv.",
               "readBy": "refs:diet (FishBase food-item records)",
               "readOn": "2026-08-28"
             }
@@ -11467,7 +11467,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "trait:habitat": {
           "sourceIds": [
@@ -11686,7 +11686,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpzcu69k00047i6o4rp0uejx": {
           "sourceIds": [
@@ -12577,7 +12577,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpz9m1fz00107igsv26hb0no": {
           "sourceIds": [
@@ -12607,7 +12607,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpz9m1fz00117igs60qi11py": {
           "sourceIds": [
@@ -13964,7 +13964,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpwkpy8f00017i30r5w90a7d": {
           "sourceIds": [
@@ -14281,7 +14281,7 @@
             {
               "sourceId": "marlin:1179",
               "locator": "marlin:1179, Biology review > Biology (parameter table), and Biology information > Feeding",
-              "quote": "Some prey is also ambushed from shelters under rocks (Lawton, 1989).",
+              "quote": "Environmental position | Epibenthic | ... Some prey is also ambushed from shelters under rocks (Lawton, 1989).",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             }
@@ -14659,7 +14659,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "edge:Farmed mussels->Velvet Swimming Crab": {
           "sourceIds": [
@@ -14962,7 +14962,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "farm:role": {
           "sourceIds": [
@@ -15063,7 +15063,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmpzcv8pv000a7i6o8gbs7zvn": {
           "sourceIds": [
@@ -15398,7 +15398,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "trait:size": {
           "sourceIds": [
@@ -15413,7 +15413,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "trait:behavior": {
           "sourceIds": [
@@ -15682,7 +15682,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "diet:eats": {
           "sourceIds": [
@@ -15692,7 +15692,7 @@
             {
               "sourceId": "marlin:1098",
               "locator": "ices:crr325, Section 6.7.1 Prey, p. 62",
-              "quote": "its diet includes crustaceans, bony fish, molluscs, polychaetes, and nemertean worms (Nixon, 1987; Castro and Guerra, 1990; Pinczon du Sel et al., 2000).",
+              "quote": "Sepia officinalis is a trophic opportunist: its diet includes crustaceans, bony fish, molluscs, polychaetes, and nemertean worms (Nixon, 1987; Castro and Guerra, 1990; Pinczon du Sel et al., 2000).",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             }
@@ -16034,7 +16034,7 @@
             {
               "sourceId": "ices:crr325",
               "locator": "ices:crr325, Table 12.3, pp. 149-150 (Osteichthyes > Clupeidae and > Scombridae)",
-              "quote": "Clupea harengus (Atlantic herring)2,4,5,6, Sardina pilchardus (European sardine or pilchard)3, Sprattus sprattus (European sprat)2,5, indet.2,4,5,8... Scombridae: Scomber scombrus (Atlantic mackerel)4, Scomber spp.4",
+              "quote": "Clupeidae: Clupea harengus (Atlantic herring)2,4,5,6, Sardina pilchardus (European sardine or pilchard)3, Sprattus sprattus (European sprat)2,5, indet.2,4,5,8 ... Scombridae: Scomber scombrus (Atlantic mackerel)4, Scomber spp.4",
               "readBy": "refs:trawl (squid)",
               "readOn": "2026-08-28"
             }
@@ -16169,7 +16169,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true,
+          "claimSupported": false,
           "conflict": "The app says: Long rear fins: Two triangular fins at the tail run about 70% of the body length (longer than the European squid). The source says: Cefas p. 18 gives rhomboidal fins of ~70-75% ML for L. forbesii and p. 19 gives ~55-65% ML for L. vulgaris, so the proportion and the comparison with the European squid are right but the shape word is wrong and the measure is MANTLE length, not body length. A 70% of body length reading would be roughly 110% of mantle length."
         },
         "trophic:tier": {
@@ -16200,7 +16200,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "farm:role": {
           "sourceIds": [
@@ -16279,7 +16279,7 @@
             {
               "sourceId": "marlin:1111",
               "locator": "cefas:ceph-uk-2017, p. 19 (Loligo vulgaris, Description) with p. 18 (Loligo forbesii, Description)",
-              "quote": "A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML. [p.18, L. forbesii:]... with rhomboidal fins of ~70-75% ML.",
+              "quote": "A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML. [p.18, L. forbesii:] ... with rhomboidal fins of ~70-75% ML.",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             },
@@ -16385,7 +16385,7 @@
             {
               "sourceId": "ices:crr325",
               "locator": "ices:crr325, Table 11.2, p. 129 (Osteichthyes > Clupeidae)",
-              "quote": "Clupea harengus (Atlantic herring)2, Sardina pilchardus (European pilchard)3, Sprattus sprattus (European sprat)1, indet.1,2",
+              "quote": "Clupeidae: Clupea harengus (Atlantic herring)2, Sardina pilchardus (European pilchard)3, Sprattus sprattus (European sprat)1, indet.1,2",
               "readBy": "refs:trawl (squid)",
               "readOn": "2026-08-28"
             }
@@ -17321,7 +17321,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "trophic:tier": {
           "sourceIds": [
@@ -17861,7 +17861,7 @@
             {
               "sourceId": "marlin:1194",
               "locator": "Biology review > Biology information > Feeding",
-              "quote": "Asterias rubens preys upon bivalve molluscs by forcing the bivalve's shell open with its tube feet... positive rheotaxis... is enhanced in the presence of living prey such as Mytilus edulis",
+              "quote": "Asterias rubens preys upon bivalve molluscs by forcing the bivalve's shell open with its tube feet ... positive rheotaxis ... is enhanced in the presence of living prey such as Mytilus edulis",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             },
@@ -18129,7 +18129,7 @@
             {
               "sourceId": "marlin:1198",
               "locator": "Summary > Habitat, plus Biology review > Biology information",
-              "quote": "In the intertidal the species is found in crevices and under boulders.... This species can be found in very high densities of up to 2000 individuals per square metre (Davoult, 1989).",
+              "quote": "In the intertidal the species is found in crevices and under boulders. ... This species can be found in very high densities of up to 2000 individuals per square metre (Davoult, 1989).",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             },
@@ -18218,7 +18218,7 @@
             {
               "sourceId": "marlin:1198",
               "locator": "Summary > Habitat, and Biology review > Biology information",
-              "quote": "In the intertidal the species is found in crevices and under boulders.... it avoids visual predation through sheltering in crevices etc. and cryptic colouration",
+              "quote": "In the intertidal the species is found in crevices and under boulders. ... it avoids visual predation through sheltering in crevices etc. and cryptic colouration",
               "readBy": "refs:extract (deterministic section parse)",
               "readOn": "2026-08-28"
             }
@@ -20088,7 +20088,7 @@
             {
               "sourceId": "doi:10.7717-peerj.1110",
               "locator": "wildlife-trusts:lions-mane-jellyfish > About",
-              "quote": "fish and other smaller jellyfish",
+              "quote": "these tentacles are packed with stinging cells and are used to catch their favourite prey: fish and other smaller jellyfish",
               "readBy": "refs:trawl (jellyfish)",
               "readOn": "2026-08-28"
             },
@@ -21126,7 +21126,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "diet:eats": {
           "sourceIds": [
@@ -21322,7 +21322,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "trait:habitat": {
           "sourceIds": [
@@ -21418,7 +21418,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "diet:eats": {
           "sourceIds": [
@@ -23059,7 +23059,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "edge:Butterfish->European shag": {
           "sourceIds": [
@@ -23720,7 +23720,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "mark:cmr981txq00007is42kfswyrd": {
           "sourceIds": [
@@ -23871,7 +23871,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "farm:role": {
           "sourceIds": [
@@ -24482,7 +24482,7 @@
               "readOn": "2026-08-28"
             }
           ],
-          "claimSupported": true
+          "claimSupported": false
         },
         "diet:eats": {
           "sourceIds": [
