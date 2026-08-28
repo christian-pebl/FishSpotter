@@ -9,6 +9,8 @@ import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
 import { SpeciesCollection } from "@/components/species/SpeciesCollection";
+import { SpotterRecord } from "@/components/profile/SpotterRecord";
+import { readSpotterRecord } from "@/lib/spotter-record";
 
 export const dynamic = "force-dynamic";
 
@@ -67,15 +69,13 @@ export default async function ProfilePage({
 
   const [
     totalAnswers,
-    correctAnswers,
     recentAnswers,
     allAnswerDates,
     pointsAgg,
-    resolvedAnswers,
+    record,
   ] =
     await Promise.all([
       prisma.answer.count({ where: { userId: id } }),
-      prisma.answer.count({ where: { userId: id, isCorrect: true } }),
       prisma.answer.findMany({
         where: { userId: id },
         orderBy: { createdAt: "desc" },
@@ -96,22 +96,25 @@ export default async function ProfilePage({
         take: 1000,
       }),
       prisma.answer.aggregate({ where: { userId: id }, _sum: { points: true } }),
-      prisma.answer.count({ where: { userId: id, isCorrect: { not: null } } }),
+      // The consensus record behind the badges AND the Confirmed tile below.
+      readSpotterRecord(prisma, id),
     ]);
 
   const streak = await readStreak(prisma, id, datesFromAnswers(allAnswerDates));
   const displayName = user.displayName ?? user.name ?? "Spotter";
   // Score mirrors the leaderboard (sum of Answer.points) so the two pages
-  // reconcile. Accuracy is over RESOLVED answers only (isCorrect not null):
-  // pending answers on no-reference clips earn a bonus and must not count as
-  // wrong, which would silently drag the percentage down.
+  // reconcile.
   const score = pointsAgg._sum.points ?? 0;
-  // T-02: never show "0%" to a newcomer (a blunt, often-wrong judgement at n=1).
-  // Withhold accuracy until there are at least 5 scored answers.
-  const accuracy =
-    resolvedAnswers >= 5
-      ? `${Math.round((correctAnswers / resolvedAnswers) * 100)}%`
-      : "-";
+  // The old "Accuracy" tile read persisted Answer.isCorrect, which only updates
+  // when the consensus-rescore cron runs, so it lagged reality between ticks
+  // (measured 28 Aug 2026: it showed 16 of 21 for a spotter whose live figure
+  // was 14 of 18). The Record derives the same quantity live, so the tile now
+  // shows that. The rate is still withheld below MIN_RESOLVED_FOR_RATE (T-02:
+  // never show a blunt "0%" at n=1).
+  const confirmationRate =
+    record.confirmationRate === null
+      ? null
+      : `${Math.round(record.confirmationRate * 100)}%`;
 
   return (
     <MarineBackdrop>
@@ -137,8 +140,15 @@ export default async function ProfilePage({
             <dd className="mt-1 text-2xl font-bold text-navy-900">{score}</dd>
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
-            <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Accuracy</dt>
-            <dd className="mt-1 text-2xl font-bold text-navy-900">{accuracy}</dd>
+            <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Confirmed</dt>
+            <dd className="mt-1 text-2xl font-bold text-navy-900">
+              {record.confirmedCalls}
+            </dd>
+            {confirmationRate && (
+              <p className="text-[10px] text-navy-900/50">
+                {confirmationRate} of resolved
+              </p>
+            )}
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Streak</dt>
@@ -151,6 +161,8 @@ export default async function ProfilePage({
           </p>
         )}
       </section>
+
+      <SpotterRecord record={record} />
 
       <SpeciesCollection userId={id} />
 
