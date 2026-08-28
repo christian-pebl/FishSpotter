@@ -59,6 +59,16 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hintVisible, setHintVisible] = useState(false);
   const [hintIsTouch, setHintIsTouch] = useState(false);
+  // A Spot It gate is open (it announces itself on mount/unmount). The gate's
+  // phone layout is a bottom sheet, which lands exactly where this hint floats.
+  const [gateOpen, setGateOpen] = useState(false);
+  useEffect(() => {
+    const onGate = (e: Event) => {
+      setGateOpen(!!(e as CustomEvent<{ open: boolean }>).detail?.open);
+    };
+    window.addEventListener("fs-gate", onGate);
+    return () => window.removeEventListener("fs-gate", onGate);
+  }, []);
   const reduceMotion = useReducedMotion();
   // Q3A-T7: session-local set of snippet IDs the user answered in this
   // page lifetime. Used to push them to the back of the feed without
@@ -223,7 +233,7 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
         ))}
       </div>
       <AnimatePresence>
-        {hintVisible && (
+        {hintVisible && !gateOpen && (
           // Float ABOVE FeedCard's docked "Watching… tap to identify" bar.
           // That bar is absolute bottom-0 h-14 (3.5rem) and is present on the
           // first card during the exact window this onboarding hint shows (the

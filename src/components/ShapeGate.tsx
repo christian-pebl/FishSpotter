@@ -171,6 +171,24 @@ export const SHAPE_CLASS_COMMIT_NOUN: Record<ShapeClass, string> = {
   other: "bird or mammal",
 };
 
+/**
+ * ShapeClass -> a plural noun for the "compare all N ___" escape hatch on
+ * Rung 2. Kept separate from SHAPE_CLASS_COMMIT_NOUN because several of these
+ * pluralise irregularly (fish, starfish) or read badly pluralised from the tile
+ * label ("Snail / slugs").
+ */
+export const SHAPE_CLASS_PLURAL_NOUN: Record<ShapeClass, string> = {
+  fish: "fish",
+  flatfish: "flatfish",
+  crab: "crabs",
+  jellyfish: "jellyfish",
+  starfish: "starfish",
+  gastropod: "snails and slugs",
+  squid: "cephalopods",
+  urchin: "sea urchins",
+  other: "birds and mammals",
+};
+
 // ---------------------------------------------------------------------------
 
 export function ShapeGate({
@@ -193,6 +211,14 @@ export function ShapeGate({
     }
     return out;
   }, []);
+
+  // The size of the whole-catalogue escape hatch. Counted the same way Rung 3
+  // will count it (narrowCandidates with no shape filter), so the promised
+  // number is exactly the number of tiles the user then gets.
+  const totalCandidates = useMemo(
+    () => narrowCandidates({ catalogue: CATALOGUE, limit: 500 }).length,
+    [],
+  );
 
   const tiles: TileSpec[] = TILES.map(({ key, label, Icon }) => {
     const count = candidateCounts[key] ?? 0;
@@ -220,7 +246,15 @@ export function ShapeGate({
       onSelect={(key) => onSelectShape(key as ShapeClass)}
       onClose={onClose}
       bubbleLabel="Reopen the shape selector"
-      notSure={{ label: "Not sure", onClick: () => onSelectShape(null) }}
+      notSure={{
+        // A bare "Not sure" read as a dead end, when it in fact opens the whole
+        // catalogue as a browsable photo grid. Name the destination and make it
+        // a real button, so being unsure is a route forward rather than a
+        // confession (Christian, 28 Aug 2026).
+        label: `Not sure? Compare all ${totalCandidates} species`,
+        prominent: true,
+        onClick: () => onSelectShape(null),
+      }}
       skip={{ label: "Skip to guess", onClick: onSkip }}
     />
   );
