@@ -1,29 +1,26 @@
 /**
- * A spotter's RECORD, what they actually did, derived from the consensus layer.
+ * A spotter's RECORD: the three categories on their profile, each with a count,
+ * a rank on that category's leaderboard, and the species behind it.
  *
- * This is the data behind the profile's badges (src/lib/badges.ts). Nothing here
- * is stored: every figure is derived from Answer + the reached consensus leader,
- * so it can never drift out of sync with the payouts and there is no table to
- * backfill. The leader for a clip is determined with the exact same
- * `groupPendingAnswers` / `pickLeaderGroup` pair the rescore cron uses, so a
- * badge can never disagree with the pebbles that were paid.
+ * Nothing here is stored. Every figure is derived from Answer plus the reached
+ * consensus leader, using the exact same `groupPendingAnswers` / `pickLeaderGroup`
+ * pair the rescore cron uses, so a milestone can never disagree with the Pebbles
+ * that were paid, and there is no table to backfill.
  *
- * Definitions, which are deliberately stricter than the payout tiers:
+ * Definitions, deliberately stricter than the payout tiers:
  *
- *   confirmed   an answer of yours on a clip whose community consensus landed on
- *               the same animal you named.
+ *   consensus   your answer on a clip whose community consensus landed on the
+ *               same animal you named.
  *   pioneer     you were the FIRST person to name that animal on that clip, and
- *               three or more spotters later independently arrived at it. Note
- *               this is stricter than `consensusTier`'s "pioneer" payout, which
- *               only requires being among the first three to answer the clip at
- *               all. Being early is not the same as being first AND right.
+ *               the community then converged on it. Stricter than
+ *               `consensusTier`'s "pioneer" payout, which only requires being
+ *               among the first three to answer the clip at all. Being early is
+ *               not the same as being first AND right.
  *   pathfinder  you were the very first spotter to answer a clip nobody had
- *               touched. This is the exploration counterweight: consensus alone
- *               would reward only piling onto clips other people already found.
- *   current     your live reliability streak (see reliabilityStreak).
- *   firstToName the first spotter ever, anywhere on FishSpotter, to put a name
- *               to that animal with the crowd behind you. One holder per animal,
- *               forever.
+ *               touched, whatever it later turned out to be.
+ *
+ * Ranks are computed across every spotter in the same pass, which costs nothing
+ * extra because the whole Answer table is already in memory.
  *
  * Cost note: this walks every Answer row, the same stance the rescore cron takes
  * (464 rows as of 28 Aug 2026). If the table balloons, both need the same
@@ -32,61 +29,62 @@
 
 import type { PrismaClient } from "@prisma/client";
 import {
-  reliabilityStreak,
-  rarityForProbability,
-  type RarityTier,
-} from "@/lib/pebbles";
-import {
-  groupPendingAnswers,
-  pickLeaderGroup,
-} from "@/lib/consensus";
+  CATEGORIES,
+  CATEGORY_ORDER,
+  milestoneProgress,
+  milestonesReached,
+  nextMilestone,
+  rankWithin,
+  ZERO_COUNTS,
+  type CategoryCounts,
+  type CategoryId,
+} from "@/lib/badges";
+import { groupPendingAnswers, pickLeaderGroup } from "@/lib/consensus";
 import {
   CATALOGUE_ALIASES,
   loadAliases,
   scientificFromLocalName,
 } from "@/lib/answer-matching";
 import { normalizeForMatch } from "@/lib/normalize-answer";
-import { bucketFor } from "@/lib/biodiversity/buckets";
-import { rarityDataAvailable } from "@/lib/rarity-scope";
-import {
-  atLeastAsRare,
-  rarityRank,
-  DEEP_PIONEER_MIN_RARITY,
-  type BadgeCounts,
-} from "@/lib/badges";
 
-/**
- * Confirmation rate is withheld below this many resolved calls, for the same
- * reason the profile withholds accuracy: a percentage at n=2 is a coin flip
- * dressed up as a judgement.
- */
-export const MIN_RESOLVED_FOR_RATE = 5;
-
-export interface FirstNamed {
-  /** Display label, as the spotter actually typed/picked it. */
-  label: string;
-  /** Resolved binomial, when the alias table could resolve one. */
+/** One species entry in a category's expandable list. */
+export interface RecordSpecies {
+  /** Resolved binomial when the alias table could resolve one. */
   scientificName: string | null;
+  /** Display label, as the spotter or the community named it. */
+  label: string;
+  /** Curated thumbnail, when the species has one cached. */
+  thumbUrl: string | null;
+  /** How many clips in this category carry this species. */
+  count: number;
+}
+
+export interface CategoryRecord {
+  id: CategoryId;
+  name: string;
+  blurb: string;
+  detail: string;
+  count: number;
+  /** 1-based rank among spotters with a non-zero count, or null at zero. */
+  rank: number | null;
+  /** How many spotters have a non-zero count on this category. */
+  rankOf: number;
+  milestones: readonly number[];
+  /** How many of the three are held. */
+  reached: number;
+  /** The next target, or null once all three are held. */
+  nextAt: number | null;
+  /** 0..1 towards the next milestone, measured from the previous one. */
+  progress: number;
+  species: RecordSpecies[];
 }
 
 export interface SpotterRecord {
-  /** Calls the community agreed with. */
-  confirmedCalls: number;
-  /** Calls on clips that have reached consensus at all (the rate denominator). */
+  counts: CategoryCounts;
+  categories: CategoryRecord[];
+  /** Clips of yours the community has resolved either way (the honesty line). */
   resolvedCalls: number;
-  /** 0..1, or null while below MIN_RESOLVED_FOR_RATE. */
-  confirmationRate: number | null;
-  pioneerCalls: number;
-  deepPioneerCalls: number;
-  pathfinderClips: number;
-  current: number;
-  rarestFind: { tier: RarityTier; label: string } | null;
-  firstToName: FirstNamed[];
-  counts: BadgeCounts;
 }
-
-/** Parsed SpeciesProbability.speciesJson entry (mirrors consensus.ts). */
-type ProbEntry = { scientificName: string; count: number; probability: number };
 
 export async function readSpotterRecord(
   prisma: PrismaClient,
@@ -104,6 +102,11 @@ export async function readSpotterRecord(
   });
 
   type Raw = (typeof rawAnswers)[number];
+  const byArrival = (a: Raw, b: Raw) => {
+    const t = a.createdAt.getTime() - b.createdAt.getTime();
+    return t !== 0 ? t : a.id.localeCompare(b.id);
+  };
+
   const bySnippet = new Map<string, Raw[]>();
   for (const a of rawAnswers) {
     const list = bySnippet.get(a.snippetId);
@@ -111,241 +114,157 @@ export async function readSpotterRecord(
     else bySnippet.set(a.snippetId, [a]);
   }
 
-  const byArrival = (a: Raw, b: Raw) => {
-    const t = a.createdAt.getTime() - b.createdAt.getTime();
-    return t !== 0 ? t : a.id.localeCompare(b.id);
-  };
-
-  /** snippetId -> winning normalised name (only where consensus was reached). */
-  const reachedLeaderBySnippet = new Map<string, string>();
+  /** snippetId -> winning normalised name, only where consensus was reached. */
+  const leaderBySnippet = new Map<string, string>();
   /** snippetId -> the winning camp's answers, earliest first. */
-  const winningCampBySnippet = new Map<string, Raw[]>();
-  /** snippetId -> the userId of the very first spotter to answer it at all. */
-  const firstAnswererBySnippet = new Map<string, string>();
+  const campBySnippet = new Map<string, Raw[]>();
+  /** snippetId -> the first spotter to answer it at all. */
+  const firstAnswererBySnippet = new Map<string, Raw>();
 
   for (const [snippetId, answers] of bySnippet) {
     const ordered = [...answers].sort(byArrival);
-    if (ordered[0]) firstAnswererBySnippet.set(snippetId, ordered[0].userId);
+    if (ordered[0]) firstAnswererBySnippet.set(snippetId, ordered[0]);
 
     const leader = pickLeaderGroup(groupPendingAnswers(answers.map((a) => ({ ...a }))));
     if (!leader) continue;
-    reachedLeaderBySnippet.set(snippetId, leader.normalisedName);
+    leaderBySnippet.set(snippetId, leader.normalisedName);
     const winningIds = new Set(leader.answers.map((a) => a.id));
-    winningCampBySnippet.set(
+    campBySnippet.set(
       snippetId,
       ordered.filter((a) => winningIds.has(a.id)),
     );
   }
 
-  // --- the spotter's own tallies -------------------------------------------
-  const mine = rawAnswers.filter((a) => a.userId === userId);
+  // --- counts for EVERY spotter, so ranks come free -------------------------
+  const countsByUser = new Map<string, CategoryCounts>();
+  const bump = (uid: string, key: CategoryId) => {
+    const c = countsByUser.get(uid) ?? { ...ZERO_COUNTS };
+    c[key]++;
+    countsByUser.set(uid, c);
+  };
 
+  /** The clips backing this spotter's own three categories. */
+  const mySnippets: Record<CategoryId, string[]> = {
+    pioneer: [],
+    consensus: [],
+    pathfinder: [],
+  };
   let resolvedCalls = 0;
-  let confirmedCalls = 0;
-  let pioneerCalls = 0;
-  /** Snippets where this spotter's call was confirmed, for the rarity pass. */
-  const confirmedSnippetIds: string[] = [];
-  /** Of those, the ones they pioneered. */
-  const pioneeredSnippetIds = new Set<string>();
 
-  for (const a of mine) {
-    const leader = reachedLeaderBySnippet.get(a.snippetId);
+  for (const a of rawAnswers) {
+    const leader = leaderBySnippet.get(a.snippetId);
     if (leader === undefined) continue;
-    resolvedCalls++;
+    if (a.userId === userId) resolvedCalls++;
     if (normalizeForMatch(a.chosenOption) !== leader) continue;
-    confirmedCalls++;
-    confirmedSnippetIds.push(a.snippetId);
-    const camp = winningCampBySnippet.get(a.snippetId);
-    if (camp && camp[0]?.userId === userId) {
-      pioneerCalls++;
-      pioneeredSnippetIds.add(a.snippetId);
+
+    bump(a.userId, "consensus");
+    if (a.userId === userId) mySnippets.consensus.push(a.snippetId);
+
+    const camp = campBySnippet.get(a.snippetId);
+    if (camp && camp[0]?.id === a.id) {
+      bump(a.userId, "pioneer");
+      if (a.userId === userId) mySnippets.pioneer.push(a.snippetId);
     }
   }
 
-  let pathfinderClips = 0;
-  for (const first of firstAnswererBySnippet.values()) {
-    if (first === userId) pathfinderClips++;
+  for (const [snippetId, first] of firstAnswererBySnippet) {
+    bump(first.userId, "pathfinder");
+    if (first.userId === userId) mySnippets.pathfinder.push(snippetId);
   }
 
-  // --- Current (live reliability streak) -----------------------------------
-  const myNewestFirst = mine
-    .slice()
-    .sort((a, b) => byArrival(b, a))
-    .map((a) => ({
-      snippetId: a.snippetId,
-      matchKey: normalizeForMatch(a.chosenOption),
-    }));
-  const current = reliabilityStreak(myNewestFirst, reachedLeaderBySnippet);
+  const counts = countsByUser.get(userId) ?? { ...ZERO_COUNTS };
 
-  // --- first-ever to name each animal --------------------------------------
-  // Across every clip that reached consensus, the earliest confirmed call on a
-  // given name anywhere on the app. Exactly one spotter can ever hold each.
-  const earliestByName = new Map<string, Raw>();
-  for (const [snippetId, camp] of winningCampBySnippet) {
-    const name = reachedLeaderBySnippet.get(snippetId);
-    const first = camp[0];
-    if (!name || !first) continue;
-    const held = earliestByName.get(name);
-    if (!held || byArrival(first, held) < 0) earliestByName.set(name, first);
-  }
-
+  // --- species behind each category ----------------------------------------
   const aliases = [...CATALOGUE_ALIASES, ...(await loadAliases())];
+  const myAnswerBySnippet = new Map<string, Raw>();
+  for (const a of rawAnswers) {
+    if (a.userId === userId) myAnswerBySnippet.set(a.snippetId, a);
+  }
 
-  const firstToName: FirstNamed[] = [];
-  for (const [, first] of earliestByName) {
-    if (first.userId !== userId) continue;
-    firstToName.push({
-      label: first.chosenOption,
-      scientificName: scientificFromLocalName(first.chosenOption, aliases),
+  /**
+   * The animal a clip represents for this spotter. Prefer the community's
+   * verdict; fall back to what the spotter themselves said, which matters for
+   * pathfinder clips that have not reached consensus yet.
+   */
+  const labelFor = (snippetId: string): string => {
+    const camp = campBySnippet.get(snippetId);
+    if (camp?.[0]) return camp[0].chosenOption;
+    return myAnswerBySnippet.get(snippetId)?.chosenOption ?? "";
+  };
+
+  const grouped: Record<CategoryId, Map<string, { label: string; count: number }>> = {
+    pioneer: new Map(),
+    consensus: new Map(),
+    pathfinder: new Map(),
+  };
+  for (const id of CATEGORY_ORDER) {
+    for (const snippetId of mySnippets[id]) {
+      const label = labelFor(snippetId);
+      if (!label) continue;
+      const key = normalizeForMatch(label) || label;
+      const entry = grouped[id].get(key);
+      if (entry) entry.count++;
+      else grouped[id].set(key, { label, count: 1 });
+    }
+  }
+
+  // Thumbnails for every species mentioned, in one query.
+  const sciByKey = new Map<string, string>();
+  for (const id of CATEGORY_ORDER) {
+    for (const [key, { label }] of grouped[id]) {
+      if (sciByKey.has(key)) continue;
+      const sci = scientificFromLocalName(label, aliases);
+      if (sci) sciByKey.set(key, sci);
+    }
+  }
+  const wantedSci = Array.from(new Set(sciByKey.values()));
+  const thumbBySci = new Map<string, string>();
+  if (wantedSci.length > 0) {
+    const images = await prisma.speciesImage.findMany({
+      where: { scientificName: { in: wantedSci }, curated: true },
+      select: { scientificName: true, url: true, webpUrl: true, ordering: true },
+      orderBy: { ordering: "asc" },
     });
-  }
-  firstToName.sort((a, b) => a.label.localeCompare(b.label));
-
-  // --- rarity of the confirmed calls ---------------------------------------
-  const rarityBySnippet = await rarityTiers(
-    prisma,
-    confirmedSnippetIds,
-    winningCampBySnippet,
-    aliases,
-  );
-
-  let rarestFind: { tier: RarityTier; label: string } | null = null;
-  let bestRank = -1;
-  let deepPioneerCalls = 0;
-  for (const snippetId of confirmedSnippetIds) {
-    const tier = rarityBySnippet.get(snippetId);
-    if (!tier) continue;
-    const rank = rarityRank(tier);
-    if (rank > bestRank) {
-      bestRank = rank;
-      rarestFind = {
-        tier,
-        label: winningCampBySnippet.get(snippetId)?.[0]?.chosenOption ?? "",
-      };
-    }
-    if (
-      pioneeredSnippetIds.has(snippetId) &&
-      atLeastAsRare(tier, DEEP_PIONEER_MIN_RARITY)
-    ) {
-      deepPioneerCalls++;
-    }
-  }
-
-  const counts: BadgeCounts = {
-    confirmed: confirmedCalls,
-    pathfinder: pathfinderClips,
-    current,
-    pioneer: pioneerCalls,
-    "deep-pioneer": deepPioneerCalls,
-  };
-
-  return {
-    confirmedCalls,
-    resolvedCalls,
-    confirmationRate:
-      resolvedCalls >= MIN_RESOLVED_FOR_RATE ? confirmedCalls / resolvedCalls : null,
-    pioneerCalls,
-    deepPioneerCalls,
-    pathfinderClips,
-    current,
-    rarestFind,
-    firstToName,
-    counts,
-  };
-}
-
-/**
- * Rarity tier per snippet for the winning species, batched. Mirrors the lookup
- * in rescoreConsensus (OBIS SpeciesProbability at the clip's lat/lon/depth/month
- * bucket) but resolves every bucket in one query rather than one per clip, since
- * this runs on a page render rather than in a nightly cron.
- */
-async function rarityTiers(
-  prisma: PrismaClient,
-  snippetIds: string[],
-  winningCampBySnippet: Map<string, Array<{ chosenOption: string }>>,
-  aliases: Awaited<ReturnType<typeof loadAliases>>,
-): Promise<Map<string, RarityTier>> {
-  const out = new Map<string, RarityTier>();
-  if (snippetIds.length === 0) return out;
-
-  const snippets = await prisma.snippet.findMany({
-    where: { id: { in: Array.from(new Set(snippetIds)) } },
-    select: { id: true, lat: true, lon: true, depthM: true, recordingDatetime: true },
-  });
-
-  const bucketBySnippet = new Map<string, ReturnType<typeof bucketFor>>();
-  const wanted: Array<{
-    latBucket: number;
-    lonBucket: number;
-    depthBucket: number;
-    month: number;
-  }> = [];
-  const seen = new Set<string>();
-  for (const s of snippets) {
-    const bucket = bucketFor(s);
-    bucketBySnippet.set(s.id, bucket);
-    if (!bucket) continue;
-    const key = `${bucket.latBucket}|${bucket.lonBucket}|${bucket.depthBucket}|${bucket.month}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    wanted.push(bucket);
-  }
-  if (wanted.length === 0) return out;
-
-  const rows = await prisma.speciesProbability.findMany({
-    where: { OR: wanted },
-    select: {
-      latBucket: true,
-      lonBucket: true,
-      depthBucket: true,
-      month: true,
-      status: true,
-      totalRecords: true,
-      speciesJson: true,
-    },
-  });
-  const rowByKey = new Map(
-    rows.map((r) => [
-      `${r.latBucket}|${r.lonBucket}|${r.depthBucket}|${r.month}`,
-      r,
-    ]),
-  );
-
-  for (const snippetId of new Set(snippetIds)) {
-    const bucket = bucketBySnippet.get(snippetId);
-    if (!bucket) continue;
-    const row = rowByKey.get(
-      `${bucket.latBucket}|${bucket.lonBucket}|${bucket.depthBucket}|${bucket.month}`,
-    );
-    const repOption = winningCampBySnippet.get(snippetId)?.[0]?.chosenOption ?? "";
-    const sci = scientificFromLocalName(repOption, aliases);
-    // See rarity-scope.ts: OBIS is fish-only, so an invertebrate's absence from
-    // the bucket is a fact about the data source, not a rare sighting.
-    const bucketHasData =
-      !!row &&
-      row.status === "OK" &&
-      row.totalRecords > 0 &&
-      rarityDataAvailable(sci, true);
-
-    let probability: number | null = null;
-    if (bucketHasData && row && sci) {
-      try {
-        const entries = JSON.parse(row.speciesJson) as ProbEntry[];
-        const match = entries.find((e) => e.scientificName === sci);
-        probability = match ? match.probability : null;
-      } catch {
-        probability = null;
+    for (const img of images) {
+      if (!thumbBySci.has(img.scientificName)) {
+        thumbBySci.set(img.scientificName, img.webpUrl ?? img.url);
       }
     }
-    // No resolvable species means we cannot claim it is absent from the bucket,
-    // so it must not inflate to legendary: treat it as unknown (common).
-    if (!sci) {
-      out.set(snippetId, "common");
-      continue;
-    }
-    out.set(snippetId, rarityForProbability(probability, bucketHasData).tier);
   }
 
-  return out;
+  const categories: CategoryRecord[] = CATEGORY_ORDER.map((id) => {
+    const def = CATEGORIES[id];
+    const count = counts[id];
+    const allCounts = Array.from(countsByUser.values()).map((c) => c[id]);
+    const rank = rankWithin(count, allCounts);
+
+    const species: RecordSpecies[] = Array.from(grouped[id].entries())
+      .map(([key, { label, count: n }]) => {
+        const sci = sciByKey.get(key) ?? null;
+        return {
+          scientificName: sci,
+          label,
+          thumbUrl: sci ? (thumbBySci.get(sci) ?? null) : null,
+          count: n,
+        };
+      })
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+
+    return {
+      id,
+      name: def.name,
+      blurb: def.blurb,
+      detail: def.detail,
+      count,
+      rank: rank?.rank ?? null,
+      rankOf: rank?.of ?? 0,
+      milestones: def.milestones,
+      reached: milestonesReached(count, def.milestones),
+      nextAt: nextMilestone(count, def.milestones),
+      progress: milestoneProgress(count, def.milestones),
+      species,
+    };
+  });
+
+  return { counts, categories, resolvedCalls };
 }
