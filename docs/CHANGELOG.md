@@ -1182,3 +1182,38 @@ the real function; do not re-implement the thing you are checking.
     CSS and the styling is silently invisible while the markup still looks completely correct.
     Caught by grepping the built bundle for `.from-navy-600\/25` and finding zero matches. Verify a
     new visual by grepping `.next/static/css/*.css` with `grep -F`, not by trusting the HTML.
+
+- **Rung-3 tile picture becomes a comparison viewer, 28 Aug 2026.** The species tile in the Spot It
+  gate did one thing with the picture: tap anywhere, open the guide. It now does the thing the gate
+  is actually for. **Tap the left or right half of the photo to flick through that species' other
+  reference shots**, against the clip that is still playing beside it (docked) or above it (phone),
+  so a user can compare six angles of a catshark without ever leaving the grid. Up to six photos per
+  tile, the same one `?limit=N` request per species that was already being made, and only the
+  visible frame is mounted, so a 24-tile grid still loads 24 images rather than 150. Wraps at both
+  ends (a dead end on a viewer this small reads as a broken tap), dots show position, Left/Right
+  arrows do the same job from the keyboard, and each flick is announced through the existing
+  rule-out live region.
+  - **The name row underneath is now the select control**, at the 44px mobile minimum. Picture to
+    look, name to choose. A species with only one cached photo has nothing to flick to, so its
+    picture still selects: a tap that does nothing is worse than a slightly uneven rule.
+  - **The rule-out control became a cut-off top-right corner of the photo**, replacing the disc that
+    floated over it. The disc had to be opaque to survive dark footage (`7e42060`), which made "I do
+    not want this one" the loudest thing on a grid whose whole job is looking at fish. The clip path
+    is on the button, not just the fill, so the hit area is exactly the triangle you can see: a
+    plain 44px square behind it would put half its area over open photo, an invisible trap sitting
+    inside the "next photo" half. Contrast is carried by three separable cues (dark fill, white fold
+    line, white glyph) so no single photo can hide it.
+  - **Tile photos went 4:3, from square.** Almost every reference photo is landscape and almost
+    every animal here is wider than it is tall, so a square centre-crop was cutting off the head and
+    tail, exactly what the user is being asked to compare. It also buys back more height than the
+    new name row costs, so the phone's default half-and-half sheet still shows a whole tile, name
+    included, without scrolling (measured: tile bottom 716px, sheet bottom 716px, with a two-line
+    species name).
+  - Verified in a real browser on both surfaces, 21 checks: flick forward/back/wrap by mouse and by
+    touch, arrow keys, the announcement, the name row opening the guide, the corner ruling a species
+    out, that the area under the fold is photo and not a hidden rule-out target, the 44px name row,
+    the whole-tile fit, and axe clean in the gate. Eight of those are now a CI test
+    (`TileGate.test.tsx`); the rest needed a live browser.
+  - **Known gap, unchanged by this work but multiplied by it:** tiles show CC-licensed photos with no
+    visible attribution (the credit is one tap away in the guide). One photo or six, the posture is
+    the same, but six is a better reason to fix it.
