@@ -9,6 +9,7 @@ interface Props {
   emailVerified: boolean;
   displayName: string;
   digestOptIn: boolean;
+  newClipsOptIn: boolean;
   leaderboardOptIn: boolean;
   createdAt: string;
 }
@@ -18,6 +19,7 @@ export function AccountClient({
   emailVerified,
   displayName: initialDisplayName,
   digestOptIn: initialDigest,
+  newClipsOptIn: initialNewClips,
   leaderboardOptIn: initialLeaderboardOptIn,
   createdAt,
 }: Props) {
@@ -25,6 +27,7 @@ export function AccountClient({
   const [displayName, setDisplayName] = useState(initialDisplayName);
   const [savedName, setSavedName] = useState(initialDisplayName);
   const [digestOptIn, setDigestOptIn] = useState(initialDigest);
+  const [newClipsOptIn, setNewClipsOptIn] = useState(initialNewClips);
   const [leaderboardOptIn, setLeaderboardOptIn] = useState(initialLeaderboardOptIn);
   const [verificationSendStatus, setVerificationSendStatus] = useState<"idle" | "sending" | "sent" | "rate-limited">("idle");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -57,6 +60,15 @@ export function AccountClient({
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ digestOptIn: next }),
+    });
+  };
+
+  const toggleNewClips = async (next: boolean) => {
+    setNewClipsOptIn(next);
+    await fetch("/api/account/new-clips", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ newClipsOptIn: next }),
     });
   };
 
@@ -201,6 +213,29 @@ export function AccountClient({
             </span>
           </span>
         </label>
+        <label className="mt-4 flex items-start gap-3 text-sm">
+          <input
+            type="checkbox"
+            checked={newClipsOptIn}
+            onChange={(e) => toggleNewClips(e.target.checked)}
+            className="mt-1 h-4 w-4 rounded border-navy-900/20"
+          />
+          <span>
+            <span className="block font-medium text-navy-900">
+              Tell me when new clips are added
+            </span>
+            <span className="block text-xs text-navy-900/55">
+              A short email the day new footage lands, so you get first go at
+              identifying it. Nothing is sent when there is nothing new.
+            </span>
+          </span>
+        </label>
+        {!emailVerified && (
+          <p className="mt-3 rounded-modal border border-warn/30 bg-warn/5 p-3 text-xs text-navy-900">
+            Verify your email above to start receiving these. We only send to
+            confirmed addresses.
+          </p>
+        )}
       </section>
 
       <section className="pebl-surface rounded-card p-6">

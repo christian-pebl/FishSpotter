@@ -31,6 +31,24 @@ model User {
   // can change this later in account settings.
   leaderboardOptIn    Boolean              @default(true)
   lastStreakNudgeAt   DateTime? // one streak-nudge per user per week (S3-17)
+  // New-clip notification (2026-08-13). Separate opt-in from digestOptIn, and
+  // OFF by default for the same PECR Reg. 22 reason: this is an unsolicited
+  // outbound email, so it needs affirmative consent, not a pre-ticked box.
+  // Kept distinct from the weekly digest deliberately, because a spotter who
+  // has cleared the feed wants to hear the moment footage lands, which is a
+  // different (and much rarer) email than a Monday roundup.
+  newClipsOptIn          Boolean   @default(false)
+  // Watermark for the outbound email: the cron only counts clips added since
+  // this stamp, so a spotter is never told about the same batch twice. Null
+  // until the first notification, where it falls back to the opt-in baseline.
+  lastNewClipsNotifiedAt DateTime?
+  // Watermark for the IN-APP "new clips since your last visit" banner. Distinct
+  // from the email stamp above: the banner is dismissed by the spotter in the
+  // feed, the email is stamped by the cron, and conflating them would make
+  // dismissing the banner silently suppress the email (or vice versa).
+  // Null for pre-existing users, so the feed falls back to User.createdAt and
+  // nobody is greeted with "73 new clips" on their first load.
+  lastFeedSeenAt         DateTime?
   // Pebbles anti-gaming: Plan 1 Phase 1 (docs/pebbles-anti-gaming-and-prizes-plan.md).
   // isTrustSeed marks a handful of manually-vetted, known-real accounts that
   // anchor the trust graph; trustScore is a hidden reputation (0..200, seeds
@@ -50,6 +68,8 @@ model User {
   sessions            Session[]
   verificationTokens  VerificationToken[]
   passwordResetTokens PasswordResetToken[]
+  comments            Comment[]
+  commentReports      CommentReport[]
 }
 
 // NextAuth-canonical Account / Session shapes. Scaffolded ahead of any
@@ -142,6 +162,7 @@ model Snippet {
   difficultyScore   Float    @default(0.5)
   createdAt         DateTime @default(now())
   answers           Answer[]
+  comments          Comment[]
 
   // S4-06: indexes for archive filter / sort / search.
   @@index([createdAt])
@@ -328,9 +349,19 @@ model PebblePurchase {
   // (not just a used-flag) is what keeps a spent freeze permanently covering
   // that gap when the streak is recomputed. See src/lib/streak.ts.
   consumedForDate String?
-  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Manual fulfilment of the Seasearch guide prize (itemId = SEASEARCH_GUIDE_ID).
+  // A claim only records that the spotter asked for the book; PEBL still has to
+  // post it. `fulfilledAt` is stamped when an admin marks it posted on
+  // /admin/prizes, `fulfilledBy` records which admin, so a two-person team can
+  // see a guide is already on its way. Null on every non-prize purchase.
+  fulfilledAt     DateTime?
+  fulfilledBy     String?
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  // /admin/prizes scans every claim across all users, so the prize lookup is
+  // itemId-first rather than userId-first.
+  @@index([itemId])
 }
 
 // Pokedex: one row per species a user has correctly identified at least once.
@@ -397,9 +428,20 @@ model Event {
   id         String   @id @default(cuid())
   userId     String? // null for signed-out spotters; set when authed
   sessionId  String // random per-tab id, NOT a cross-visit fingerprint
-  type       String // "session_start" | "clip_view" | "clip_watch"
+  type       String // "session_start" | "clip_view" | "clip_watch" | "cta_click"
   snippetId  String? // the clip this event is about, when relevant
   value      Float? // generic numeric payload (clip_watch: active seconds)
+  // Which CTA was clicked, for type="cta_click" only (e.g. "provenance_pebl",
+  // "pro_door", "share", "digest_optin"). A fixed short code, not free text.
+  //
+  // NB (2026-08-01): this column ALREADY EXISTS in production and holds data,
+  // but was never committed to main — it was pushed from an uncommitted schema
+  // during the engagement-flywheel work. It is declared here so `prisma db push`
+  // from this branch leaves it alone instead of dropping it. The app code that
+  // populates it (EVENT_TYPES "cta_click" + CTA_LABELS in src/lib/events.ts)
+  // still lives uncommitted in the primary checkout and is NOT part of this
+  // branch. Expect a trivial schema.prisma conflict when that work lands.
+  label      String?
   // Traffic-source attribution, captured once on session_start only (from
   // document.referrer + the landing URL's query string). Never a fingerprint —
   // just where the tab's first pageview came from.
@@ -412,4 +454,65 @@ model Event {
 
   @@index([type, createdAt])
   @@index([userId, createdAt])
+}
+
+// Public per-clip discussion thread + PEBL feedback inbox (2026-08-01).
+//
+// Visibility is gated on the VIEWER having answered this clip, mirroring
+// GET /api/snippets/[id]/stats. That gate is load-bearing: src/lib/consensus.ts
+// pays Pebbles for INDEPENDENT convergence, so a thread readable before you
+// commit would make consensus measure copying instead of agreement.
+//
+// Serialisation for any client goes through toPublicComment() in
+// src/lib/comments.ts. adminNote and the author's email must never leave the
+// server.
+model Comment {
+  id            String    @id @default(cuid())
+  userId        String
+  snippetId     String
+  parentId      String?   // one level of replies; deeper replies flatten to this
+  reason        String    @default("note") // REASON_CODES in src/lib/comments.ts
+  body          String    // <= MAX_BODY chars, URLs rejected
+  suggestedName String?   // for reason "not-listed" / "disagree"
+
+  // Moderation
+  hiddenAt     DateTime?
+  hiddenBy     String?   // admin email
+  hiddenReason String?   // internal; never serialised to a non-admin
+  reportCount  Int       @default(0) // auto-hides at AUTO_HIDE_REPORTS
+
+  // Staff triage
+  status    String    @default("new") // new | acknowledged | resolved | dismissed
+  outcome   String?   // OUTCOME_CODES; set on resolve
+  adminNote String?   // INTERNAL ONLY. Never serialised to any client.
+  handledBy String?   // admin email (same audit pattern as DiagnosticMark.createdBy)
+  handledAt DateTime?
+  readAt    DateTime? // first admin open; drives the unread badge
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  snippet Snippet         @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  parent  Comment?        @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies Comment[]       @relation("CommentReplies")
+  reports CommentReport[]
+
+  @@index([snippetId, createdAt])
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+  @@index([parentId])
+}
+
+model CommentReport {
+  id        String   @id @default(cuid())
+  commentId String
+  userId    String
+  reason    String   // abusive | spam | off-topic | personal-info | other
+  createdAt DateTime @default(now())
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userId]) // one report per person per comment
+  @@index([commentId])
 }

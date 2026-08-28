@@ -12,6 +12,8 @@ import { orderFeed } from "@/lib/feed-ordering";
 import { readinessFromAnsweredCount } from "@/lib/difficulty";
 import { safeParseJson } from "@/lib/safe-json";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
+import { countNewClipsSince, newClipBaseline } from "@/lib/new-clips";
+import type { FeedCompleteProps } from "@/components/feed/FeedComplete";
 
 export const dynamic = "force-dynamic";
 
@@ -80,13 +82,17 @@ export default async function FeedPage() {
   // (minted by src/middleware.ts on first request).
   let seed: string;
   let answeredIds = new Set<string>();
+  let pebbleTotal = 0;
   if (session?.user?.id) {
     seed = session.user.id;
     const answers = await prisma.answer.findMany({
       where: { userId: session.user.id },
-      select: { snippetId: true },
+      // points rides along for the end-of-feed card's Pebble total, which
+      // would otherwise need a second aggregate over the same rows.
+      select: { snippetId: true, points: true },
     });
     answeredIds = new Set(answers.map((a) => a.snippetId));
+    pebbleTotal = answers.reduce((sum, a) => sum + a.points, 0);
   } else {
     // Read the middleware-set cookie. Defensive fallback: if the cookie
     // is somehow missing (middleware miss / direct API hit), fall back
@@ -111,11 +117,40 @@ export default async function FeedPage() {
 
   let needsTour = false;
   let unverified = false;
+  // End-of-feed + new-clip notification state (2026-08-13). Only meaningful for
+  // a signed-in spotter: a signed-out visitor has no server-side answer history,
+  // so they can neither clear the feed nor have a "last visit" to measure from.
+  let unansweredCount: number | undefined;
+  let completion: FeedCompleteProps | undefined;
+  let newClipCount = 0;
   if (session?.user?.id) {
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { onboardedAt: true, emailVerified: true, isGuest: true },
+      select: {
+        onboardedAt: true,
+        emailVerified: true,
+        isGuest: true,
+        newClipsOptIn: true,
+        lastFeedSeenAt: true,
+        createdAt: true,
+      },
     });
+    // Counted against the SERVED snippet list, not the raw answer count: a
+    // spotter may hold answers on clips that have since been excluded from the
+    // feed, and those must not make the feed look finished when it isn't.
+    unansweredCount = snippets.filter((s) => !answeredIds.has(s.id)).length;
+    if (user) {
+      completion = {
+        totalClips: snippets.length,
+        pebbles: pebbleTotal,
+        notifyOptIn: user.newClipsOptIn,
+        // A guest holds a placeholder address and an unverified user's may
+        // belong to someone else, so neither can be mailed. The card offers
+        // verification instead of a checkbox that would never fire.
+        canReceiveEmail: !user.isGuest && !!user.emailVerified,
+      };
+      newClipCount = await countNewClipsSince(prisma, newClipBaseline(user));
+    }
     needsTour = !!user && user.onboardedAt === null;
     // T5: nudge brand-new users to verify (they land here straight after signup
     // with no "check your inbox" confirmation). Guests have only a placeholder
@@ -141,7 +176,12 @@ export default async function FeedPage() {
 
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
-      <FeedPlayer snippets={feedSnippets} />
+      <FeedPlayer
+        snippets={feedSnippets}
+        unansweredCount={unansweredCount}
+        completion={completion}
+        newClipCount={newClipCount}
+      />
       <OnboardingTour needsTour={needsTour} />
       <VerificationBanner unverified={unverified} />
       {/* Zero-friction guest flow: username prompt for signed-out spotters,

@@ -87,8 +87,8 @@ export async function SpeciesCollection({
         <p className="pebl-eyebrow">Collection</p>
         <p className="text-xs font-medium text-navy-900/60">
           {collected === 0
-            ? `${total} species to discover`
-            : `${collected} discovered · ${total - collected} to find`}
+            ? "Nothing discovered yet"
+            : `${collected} discovered`}
         </p>
       </div>
 

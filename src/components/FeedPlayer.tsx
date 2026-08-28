@@ -3,6 +3,8 @@
 import { useCallback, useMemo, useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FeedCard } from "./FeedCard";
+import { FeedComplete, type FeedCompleteProps } from "./feed/FeedComplete";
+import { NewClipsBanner } from "./feed/NewClipsBanner";
 import { TRANSITION } from "@/lib/motion";
 import { useEngagementTracker } from "@/lib/useEngagement";
 
@@ -52,9 +54,27 @@ export interface FeedSnippet {
 
 interface FeedPlayerProps {
   snippets: FeedSnippet[];
+  /**
+   * Clips this spotter had not yet answered at page load. Undefined when signed
+   * out (a signed-out visitor has no server-side answer history, so they can
+   * never "clear" the feed).
+   */
+  unansweredCount?: number;
+  /**
+   * Payload for the end-of-feed card. Rendered once the spotter has nothing
+   * left to identify. Undefined when signed out.
+   */
+  completion?: FeedCompleteProps;
+  /** Feed-visible clips added since this spotter's last visit. 0 hides the banner. */
+  newClipCount?: number;
 }
 
-export function FeedPlayer({ snippets }: FeedPlayerProps) {
+export function FeedPlayer({
+  snippets,
+  unansweredCount,
+  completion,
+  newClipCount = 0,
+}: FeedPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [hintVisible, setHintVisible] = useState(false);
@@ -88,6 +108,16 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
 
   // Engagement measurement (consent-gated): track the active clip + watch-time.
   useEngagementTracker(orderedSnippets[activeIndex]?.id ?? null);
+
+  // Has this spotter run out of clips? Derived live rather than read once from
+  // the server, so someone who identifies their LAST clip in this session gets
+  // the completion card immediately instead of only after a reload. Each entry
+  // in recentlyAnswered is necessarily a fresh answer: FeedCard only renders
+  // the quiz when the viewer has no answer for that clip.
+  const cleared =
+    !!completion &&
+    unansweredCount !== undefined &&
+    unansweredCount - recentlyAnswered.size <= 0;
 
   const markAnswered = useCallback((snippetId: string) => {
     window.setTimeout(() => {
@@ -146,7 +176,10 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, [snippets.length]);
+    // `cleared` is a dependency because the completion card is an extra
+    // [data-feed-index] section that appears mid-session; without it the
+    // observer would never watch the card the user just scrolled onto.
+  }, [snippets.length, cleared]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -225,13 +258,30 @@ export function FeedPlayer({ snippets }: FeedPlayerProps) {
               snippet={snippet}
               isActive={activeIndex === index}
               preload={Math.abs(activeIndex - index) <= 1}
-              hasNext={index < orderedSnippets.length - 1}
+              // The completion card is a real scroll target, so the last clip
+              // still has a "next" when it's present.
+              hasNext={index < orderedSnippets.length - 1 || cleared}
               onAdvance={() => scrollToIndex(index + 1)}
               onAnswered={() => markAnswered(snippet.id)}
             />
           </motion.section>
         ))}
+        {cleared && completion && (
+          <motion.section
+            key="feed-complete"
+            layout={reduceMotion ? false : "position"}
+            transition={reduceMotion ? { duration: 0 } : TRANSITION.layout}
+            data-feed-index={orderedSnippets.length}
+            {...(activeIndex === orderedSnippets.length
+              ? {}
+              : ({ inert: "" } as unknown as { inert?: boolean }))}
+            className="h-full snap-start snap-always flex flex-col bg-slate-900"
+          >
+            <FeedComplete {...completion} />
+          </motion.section>
+        )}
       </div>
+      <NewClipsBanner count={newClipCount} />
       <AnimatePresence>
         {hintVisible && !gateOpen && (
           // Float ABOVE FeedCard's docked "Watching… tap to identify" bar.

@@ -5,11 +5,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { isAdminUser } from "@/lib/admin";
 import { datesFromAnswers, readStreak } from "@/lib/streak-service";
-import { ownedCosmeticKinds } from "@/lib/shop/catalogue";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
 import { SpeciesCollection } from "@/components/species/SpeciesCollection";
+import { SpotterRecord } from "@/components/profile/SpotterRecord";
+import { readSpotterRecord } from "@/lib/spotter-record";
 
 export const dynamic = "force-dynamic";
 
@@ -68,16 +69,13 @@ export default async function ProfilePage({
 
   const [
     totalAnswers,
-    correctAnswers,
     recentAnswers,
     allAnswerDates,
     pointsAgg,
-    resolvedAnswers,
-    purchases,
+    record,
   ] =
     await Promise.all([
       prisma.answer.count({ where: { userId: id } }),
-      prisma.answer.count({ where: { userId: id, isCorrect: true } }),
       prisma.answer.findMany({
         where: { userId: id },
         orderBy: { createdAt: "desc" },
@@ -98,29 +96,25 @@ export default async function ProfilePage({
         take: 1000,
       }),
       prisma.answer.aggregate({ where: { userId: id }, _sum: { points: true } }),
-      prisma.answer.count({ where: { userId: id, isCorrect: { not: null } } }),
-      prisma.pebblePurchase.findMany({ where: { userId: id }, select: { itemId: true } }),
+      // The consensus record behind the badges AND the Confirmed tile below.
+      readSpotterRecord(prisma, id),
     ]);
-
-  // Cosmetics the spotter has unlocked in the Pebbles shop. These are public, so
-  // everyone viewing the profile sees them (that's the point of a cosmetic).
-  const cosmetics = ownedCosmeticKinds(purchases.map((p) => p.itemId));
-  const hasNameplate = cosmetics.has("nameplate");
-  const hasAccent = cosmetics.has("profile-accent");
 
   const streak = await readStreak(prisma, id, datesFromAnswers(allAnswerDates));
   const displayName = user.displayName ?? user.name ?? "Spotter";
   // Score mirrors the leaderboard (sum of Answer.points) so the two pages
-  // reconcile. Accuracy is over RESOLVED answers only (isCorrect not null):
-  // pending answers on no-reference clips earn a bonus and must not count as
-  // wrong, which would silently drag the percentage down.
+  // reconcile.
   const score = pointsAgg._sum.points ?? 0;
-  // T-02: never show "0%" to a newcomer (a blunt, often-wrong judgement at n=1).
-  // Withhold accuracy until there are at least 5 scored answers.
-  const accuracy =
-    resolvedAnswers >= 5
-      ? `${Math.round((correctAnswers / resolvedAnswers) * 100)}%`
-      : "-";
+  // The old "Accuracy" tile read persisted Answer.isCorrect, which only updates
+  // when the consensus-rescore cron runs, so it lagged reality between ticks
+  // (measured 28 Aug 2026: it showed 16 of 21 for a spotter whose live figure
+  // was 14 of 18). The Record derives the same quantity live, so the tile now
+  // shows that. The rate is still withheld below MIN_RESOLVED_FOR_RATE (T-02:
+  // never show a blunt "0%" at n=1).
+  const confirmationRate =
+    record.confirmationRate === null
+      ? null
+      : `${Math.round(record.confirmationRate * 100)}%`;
 
   return (
     <MarineBackdrop>
@@ -131,31 +125,8 @@ export default async function ProfilePage({
     >
       <BackToFeed />
       <section className="pebl-surface overflow-hidden rounded-card p-6 md:p-8">
-        {hasAccent && (
-          <div
-            aria-hidden="true"
-            className="-mx-6 -mt-6 mb-5 h-2 bg-gradient-to-r from-orange-400 via-orange-300 to-teal-400 md:-mx-8 md:-mt-8"
-          />
-        )}
         <p className="pebl-eyebrow">Spotter profile</p>
-        <h1
-          className={`mt-2 flex items-center gap-2 font-brand text-h1 ${
-            hasNameplate ? "text-amber-500" : "text-navy-900"
-          }`}
-        >
-          {displayName}
-          {hasNameplate && (
-            <svg
-              viewBox="0 0 14 14"
-              className="h-4 w-4 shrink-0"
-              fill="currentColor"
-              aria-label="Gold nameplate"
-              role="img"
-            >
-              <path d="M7 1l1.6 3.5 3.8.4-2.8 2.6.8 3.7L7 9.4 3.4 11.8l.8-3.7L1.4 5.5l3.8-.4z" />
-            </svg>
-          )}
-        </h1>
+        <h1 className="mt-2 font-brand text-h1 text-navy-900">{displayName}</h1>
         <p className="mt-1 text-xs text-navy-900/55">
           Joined {user.createdAt.toLocaleDateString()}
         </p>
@@ -169,8 +140,15 @@ export default async function ProfilePage({
             <dd className="mt-1 text-2xl font-bold text-navy-900">{score}</dd>
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
-            <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Accuracy</dt>
-            <dd className="mt-1 text-2xl font-bold text-navy-900">{accuracy}</dd>
+            <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Confirmed</dt>
+            <dd className="mt-1 text-2xl font-bold text-navy-900">
+              {record.confirmedCalls}
+            </dd>
+            {confirmationRate && (
+              <p className="text-[10px] text-navy-900/50">
+                {confirmationRate} of resolved
+              </p>
+            )}
           </div>
           <div className="rounded-card border border-navy-900/12 p-3">
             <dt className="text-[10px] uppercase tracking-eyebrow text-navy-900/55">Streak</dt>
@@ -183,6 +161,8 @@ export default async function ProfilePage({
           </p>
         )}
       </section>
+
+      <SpotterRecord record={record} />
 
       <SpeciesCollection userId={id} />
 

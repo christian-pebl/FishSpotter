@@ -18,6 +18,7 @@ We are the data controller for the personal data described in this policy. We pr
 | Display name | Leaderboard, community stats | Contract |
 | Hashed password | Authentication (bcrypt; your plain-text password is never stored) | Contract |
 | Quiz answers (species guesses, timestamps) | Score calculation, streak, community identification statistics, ecological research | Contract; Legitimate interests, generating anonymised, aggregated species-distribution datasets for UK marine biodiversity science (Art. 6(1)(f)) |
+| Comments you post on clips, and any comment you report | Running the public discussion threads; improving clips, tracking overlays and our species catalogue; moderating the service | Legitimate interests, operating a community identification service and keeping it safe (Art. 6(1)(f)) |
 | IP address | Rate-limiting and abuse prevention (held in memory only; never persisted; cleared on server restart) | Legitimate interests, preventing abuse and protecting service availability |
 | Server access logs (IP, User-Agent, request path, timestamp) | Security, debugging, abuse prevention | Legitimate interests |
 | Cookies (see Cookies section) | Keeping you signed in; stable personalised feed ordering | Strictly necessary (session); Consent (functional) |
@@ -87,6 +88,7 @@ With your consent (the **Accept** option on the banner), we record a small amoun
 
 - **Account data** (email, display name, hashed password): retained while your account is active and for **24 months after your last sign-in**, after which we prompt you or delete it.
 - **Quiz answers linked to your account**: retained for the same period as your account data.
+- **Comments you post**: retained for the same period as your account data, and deleted with your account. Comments are **public** to other spotters who have identified the same clip. If your leaderboard visibility is switched on, they are shown with your display name; if it is switched off (the default for spotters aged 13-17), other spotters see an anonymised handle instead, though PEBL staff can still identify you internally to moderate the service. Records of moderation decisions (for example that a comment was hidden, and why) may be kept for a reasonable period after deletion where we need them to meet our legal obligations.
 - **Anonymised aggregates** derived from quiz answers: retained indefinitely for ecological research purposes; they cannot be used to identify you.
 - **IP addresses**: held in memory only, never persisted, cleared on server restart.
 - **Server access logs**: retained by Vercel, our hosting sub-processor, per Vercel's log-retention period (see "What data we collect and why").
@@ -100,12 +102,12 @@ Separately, if you make an erasure request, we will respond and delete your pers
 
 You have the right to:
 
-- **Access**: request a copy of the data we hold about you (available at [/api/account/export](/api/account/export) when signed in, or by emailing us).
-- **Rectification**: correct inaccurate or incomplete data.
-- **Erasure**: ask us to delete your account and associated personal data (Art. 17). Email [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) with the subject "Erasure request".
-- **Portability**: receive your quiz answers in a machine-readable format.
-- **Object**: object to processing we carry out under legitimate interests (for example, the research use of quiz answers, or abuse-prevention use of your IP address and access logs). If you object, we will stop that processing unless we can show compelling legitimate grounds that override your interests, rights, and freedoms, or that the processing is needed to establish, exercise, or defend legal claims.
-- **Restrict processing**: ask us to pause processing while a dispute is resolved.
+- **Access**, request a copy of the data we hold about you (available at [/api/account/export](/api/account/export) when signed in, or by emailing us).
+- **Rectification**, correct inaccurate or incomplete data.
+- **Erasure**, ask us to delete your account and associated personal data (Art. 17). Email [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk) with the subject "Erasure request".
+- **Portability**, receive your quiz answers in a machine-readable format.
+- **Object**, object to processing we carry out under legitimate interests (for example, the research use of quiz answers, or abuse-prevention use of your IP address and access logs). If you object, we will stop that processing unless we can show compelling legitimate grounds that override your interests, rights, and freedoms, or that the processing is needed to establish, exercise, or defend legal claims.
+- **Restrict processing**, ask us to pause processing while a dispute is resolved.
 
 Where processing relies on your consent (currently only the **fs.anon_seed** functional cookie), you can withdraw that consent at any time through the site's cookie controls or by clearing your cookies; this does not affect the lawfulness of processing before withdrawal.
 

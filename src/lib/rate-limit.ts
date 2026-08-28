@@ -140,7 +140,7 @@ export async function checkPreviewRateLimit(ipKey: string): Promise<boolean> {
   return consume(`preview:${ipKey}`, PREVIEW_WINDOW_MS, PREVIEW_MAX_PER_HOUR);
 }
 
-// Pebbles shop purchases (POST /api/shop/purchase). A real spotter buys a
+// Pebbles prize claims (POST /api/prize/claim). A real spotter claims a
 // handful of items ever; 60/hour/user is far above genuine use but stops a
 // scripted client from hammering the purchase path.
 const SHOP_WINDOW_MS = 60 * 60 * 1000;
@@ -148,6 +148,57 @@ const SHOP_MAX_PER_HOUR = 60;
 
 export async function checkShopRateLimit(userId: string): Promise<boolean> {
   return consume(`shop:${userId}`, SHOP_WINDOW_MS, SHOP_MAX_PER_HOUR);
+}
+
+// Clip comments (POST /api/comments). A spotter leaving genuine feedback writes
+// a handful an hour at most, and src/lib/comments.ts already caps them at
+// MAX_PER_CLIP per clip; this is the cross-clip flood guard. 20/hour/user is far
+// above real use but stops a scripted client from filling the thread table.
+const COMMENT_WINDOW_MS = 60 * 60 * 1000;
+const COMMENT_MAX_PER_HOUR = 20;
+
+export async function checkCommentRateLimit(userId: string): Promise<boolean> {
+  return consume(`comment:${userId}`, COMMENT_WINDOW_MS, COMMENT_MAX_PER_HOUR);
+}
+
+// NOT a request limiter: this throttles the OUTBOUND instant-notification email
+// to a single admin (see src/lib/email/comment-notify.ts). Comments notify PEBL
+// staff instantly, which is the right default at launch volume but would turn a
+// spam run — or simply a busy afternoon — into a pager. Over the cap the email is
+// skipped silently; the comment is still in the /admin/comments inbox, so nothing
+// is lost. Keyed on the recipient's address, not the commenter.
+const COMMENT_MAIL_WINDOW_MS = 60 * 60 * 1000;
+const COMMENT_MAIL_MAX_PER_HOUR = 20;
+
+export async function checkCommentMailRateLimit(adminEmail: string): Promise<boolean> {
+  return consume(
+    `comment-mail:${adminEmail.toLowerCase()}`,
+    COMMENT_MAIL_WINDOW_MS,
+    COMMENT_MAIL_MAX_PER_HOUR,
+  );
+}
+
+// GET /api/metrics/summary. Token-gated (METRICS_TOKEN), so callers are
+// trusted, but the aggregation queries a dozen tables — cap requests per
+// token so a misconfigured cron/agent loop can't hammer the DB. 60/hour is
+// generous for a dashboard poll or a Claude Code session pulling numbers a
+// few times an hour, well below anything a real reporting workflow needs.
+const METRICS_WINDOW_MS = 60 * 60 * 1000;
+const METRICS_MAX_PER_HOUR = 60;
+
+export async function checkMetricsRateLimit(key: string): Promise<boolean> {
+  return consume(`metrics:${key}`, METRICS_WINDOW_MS, METRICS_MAX_PER_HOUR);
+}
+
+// GET /api/admin/prize-desk/summary. Token-gated (PRIZE_DESK_TOKEN), and
+// unlike metrics this response carries real spotter emails — a tighter cap
+// than metrics (12/hour vs 60/hour) reflects that a leaked/misused token
+// here is a PII exposure, not just a wasted query.
+const PRIZE_DESK_WINDOW_MS = 60 * 60 * 1000;
+const PRIZE_DESK_MAX_PER_HOUR = 12;
+
+export async function checkPrizeDeskRateLimit(key: string): Promise<boolean> {
+  return consume(`prize-desk:${key}`, PRIZE_DESK_WINDOW_MS, PRIZE_DESK_MAX_PER_HOUR);
 }
 
 // Only needed for the in-memory fallback -- Redis keys expire on their own.

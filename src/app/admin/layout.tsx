@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { requireAdminSession } from "@/lib/admin";
+import { prisma } from "@/lib/prisma";
 import { AdminNav } from "./AdminNav";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const { email } = await requireAdminSession();
+  // This layout is already force-dynamic and already hits the DB for the gate,
+  // so the unread badge is close to free.
+  const unreadComments = await prisma.comment.count({ where: { status: "new" } });
 
   return (
     // The root <body> is h-[100dvh] overflow-hidden (for the feed), so the
@@ -34,7 +38,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               </Link>
             </div>
           </div>
-          <AdminNav />
+          <AdminNav unreadComments={unreadComments} />
         </div>
       </header>
       <main id="main" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto">
