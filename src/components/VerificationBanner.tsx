@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSplitFrame } from "@/lib/split-screen";
 
 const DISMISS_KEY = "fs.verify_banner_dismissed";
 
@@ -20,6 +21,7 @@ const DISMISS_KEY = "fs.verify_banner_dismissed";
  * effect keeps the first client render identical to the server's.
  */
 export function VerificationBanner({ unverified }: { unverified: boolean }) {
+  const split = useSplitFrame();
   const [dismissed, setDismissed] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "rate-limited" | "error">("idle");
 
@@ -55,7 +57,26 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
   return (
     <div
       role="status"
-      className="pointer-events-auto fixed inset-x-2 bottom-2 z-[55] mx-auto flex max-w-md items-start gap-3 rounded-card border border-navy-900/12 bg-[color:var(--surface)] p-3 text-xs text-navy-900 shadow-card"
+      className="pointer-events-auto fixed z-[55] mx-auto flex max-w-md items-start gap-3 rounded-card border border-navy-900/12 bg-[color:var(--surface)] p-3 text-xs text-navy-900 shadow-card"
+      // Stay OUT of the working half of the split. Bottom-centred, this landed
+      // straight on the phone sheet's action row (and straddled the desktop
+      // seam), covering the controls the spotter was mid-way through using.
+      // Docked: sit in the clip half. Sheet: float above it. With nothing
+      // split the `--fs-panel-*` fallbacks resolve to 0px and this is the
+      // `inset-x-2 bottom-2` it has always been.
+      style={
+        split.open && split.docked
+          ? {
+              left: "calc(var(--fs-panel-x, 0px) + var(--fs-panel-w, 0px) + 0.5rem)",
+              right: "0.5rem",
+              bottom: "0.5rem",
+            }
+          : {
+              left: "0.5rem",
+              right: "0.5rem",
+              bottom: "calc(var(--fs-panel-h, 0px) + 0.5rem)",
+            }
+      }
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="mt-0.5 shrink-0 text-teal-600">
         <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.8" />

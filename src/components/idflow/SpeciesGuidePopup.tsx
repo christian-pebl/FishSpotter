@@ -14,7 +14,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { PanelOverlay } from "@/components/idflow/PanelOverlay";
 import { SpeciesGuideContent } from "@/components/species/SpeciesGuideContent";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 
@@ -102,20 +102,13 @@ export function SpeciesGuidePopup({
 
   if (!mounted || typeof document === "undefined") return null;
 
-  return createPortal(
-    <div
-      className="fixed inset-x-0 top-0 z-[90] flex h-[100dvh] items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4"
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) close();
-      }}
+  return (
+    <PanelOverlay
+      dialogRef={dialogRef}
+      ariaLabel={`About ${commonName}`}
+      onDismiss={close}
+      surfaceClassName="bg-surface text-navy-900"
     >
-      <div
-        ref={dialogRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`About ${commonName}`}
-        className="flex max-h-[92dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface text-navy-900 shadow-menu sm:rounded-card"
-      >
         <div className="flex items-start justify-between gap-3 border-b border-navy-900/10 px-4 py-3">
           <div className="min-w-0">
             {traits && (
@@ -186,8 +179,6 @@ export function SpeciesGuidePopup({
             </button>
           )}
         </div>
-      </div>
-    </div>,
-    document.body,
+    </PanelOverlay>
   );
 }

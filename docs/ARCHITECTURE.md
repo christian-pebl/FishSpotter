@@ -105,10 +105,16 @@ Shared chrome (draggable card, focus trap, scroll-lock, tile grid) is
 > (replaced by `CandidateGate` on 3 Jun, which dropped the adaptive questions).
 > **If you are adding "deeper trait trees", reconnect this, do not rebuild it.**
 
-> **Note, legacy wizard.** `src/components/IdGuideWizard.tsx` is a separate,
-> older 5-step funnel. It is now reachable ONLY post-submit as a teaching surface
-> (via `IdGuideTrigger` → `IdGuideSheet`), not as a live ID path. Treat it as
-> teaching content, not as the ID flow.
+> **Note, the legacy wizard is GONE (28 Aug 2026).** The post-submit "How to
+> spot a [X] next time" button was the only thing that could still open the old
+> 5-step funnel, so removing it orphaned the whole subsystem, and it went with
+> it: `IdGuideTrigger`, `IdGuideSheet`, `IdGuideWizard`, `IdGuideChat`,
+> `IdGuideChipFallback`, `GroupGuide`, `src/data/shape-class-guides.ts` and
+> `src/lib/idguide/shape-class-ref.ts`. The teaching it carried for a SPECIES
+> reference is already inline on the reveal (`AnnotatedSpeciesPhoto` rings +
+> `SpeciesGallery`) and on `/species/[slug]`. What did NOT survive is the
+> group-level guide for a COARSE reference ("Crab", "Fish"), which had no other
+> home. `POST /api/idguide/chat` still exists but now has no caller.
 
 ### 4.3 Scoring (`src/lib/answer-matching.ts`)
 

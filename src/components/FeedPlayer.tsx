@@ -7,6 +7,7 @@ import { FeedComplete, type FeedCompleteProps } from "./feed/FeedComplete";
 import { NewClipsBanner } from "./feed/NewClipsBanner";
 import { TRANSITION } from "@/lib/motion";
 import { useEngagementTracker } from "@/lib/useEngagement";
+import { useSplitFrame } from "@/lib/split-screen";
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // Q3A-T7: delay the move-to-back reorder until AFTER FeedCard's
@@ -79,16 +80,9 @@ export function FeedPlayer({
   const [activeIndex, setActiveIndex] = useState(0);
   const [hintVisible, setHintVisible] = useState(false);
   const [hintIsTouch, setHintIsTouch] = useState(false);
-  // A Spot It gate is open (it announces itself on mount/unmount). The gate's
+  // The working half of the split is up (the rung tiles, the reveal, ...). Its
   // phone layout is a bottom sheet, which lands exactly where this hint floats.
-  const [gateOpen, setGateOpen] = useState(false);
-  useEffect(() => {
-    const onGate = (e: Event) => {
-      setGateOpen(!!(e as CustomEvent<{ open: boolean }>).detail?.open);
-    };
-    window.addEventListener("fs-gate", onGate);
-    return () => window.removeEventListener("fs-gate", onGate);
-  }, []);
+  const gateOpen = useSplitFrame().open;
   const reduceMotion = useReducedMotion();
   // Q3A-T7: session-local set of snippet IDs the user answered in this
   // page lifetime. Used to push them to the back of the feed without
