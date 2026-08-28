@@ -33,7 +33,7 @@
 | File | Purpose |
 |------|---------|
 | `src/components/FeedCard.tsx` | Main video card: video playback, bbox tracking overlay (prefers `manualTrackJson` over `bboxJson` for the trail), species quiz. `getBoxAtProgress` positions a track ABSOLUTELY when its points carry `t_norm`, and stretches it across the whole clip only as the fallback for tracks without one. |
-| `src/lib/trackCoverage.ts` | Where a track actually has data inside its clip, and how strongly to draw it (`trackCoverage` / `coverageAlpha` / `inCoverage`). Exists because the 28 Aug 2026 minimum-duration re-cut gave 53 clips padding either side of their tracked window; the old stretch-to-fit renderer would have dragged the trace through frames the animal was never marked in. Points without `t_norm` return null coverage, which preserves the original behaviour for every older clip. See "Minimum clip duration" below. |
+| `src/lib/trackCoverage.ts` | Where a track actually has data inside its clip, and how strongly to draw it (`trackCoverage` / `coverageAlpha` / `inCoverage`). Exists because the 28 Aug 2026 minimum-duration re-cut gave 69 clips padding either side of their tracked window; the old stretch-to-fit renderer would have dragged the trace through frames the animal was never marked in. Points without `t_norm` return null coverage, which preserves the original behaviour for every older clip. See "Minimum clip duration" below. |
 | `src/components/FeedPlayer.tsx` | IntersectionObserver scroll container; sets activeIndex |
 | `src/app/feed/page.tsx` | Live feed page (server component, fetches snippets) |
 | `src/app/feed/browse/page.tsx` | Archive grid page |
@@ -139,13 +139,19 @@ intermediate, dropping ~1.8-3.0 Mbps source footage to a mushy ~1.5 Mbps.
 - Canonical `Fish Spotter Snips` folder on G: was re-exported too, so the
   source-of-record matches what's live.
 
-### Minimum clip duration (28 Aug 2026): 53 clips widened to >= 7s
+### Minimum clip duration (28 Aug 2026): 69 clips widened to >= 7s
 
 An audit of all 163 live clips found **57 under 6 seconds, the shortest 1.77s**.
 Not a codec or export bug: the frame ranges in the folder names match the
 durations exactly, so the manual tracks were simply cut tight around the animal.
 A 2 second clip loops before a spotter can look at it. 31 of the 57 were the
 Car-Y-Mor batch, i.e. about 60% of that one export.
+
+**The 6 second audit threshold was itself the bug.** Fixing those 57 left 16
+more clips sitting between 6 and 7 seconds, which the first sweep never looked
+at. They were re-cut in a second round on the same machinery, so the real total
+is 69. `npm run check:durations` now takes `--min` precisely so the bar and the
+audit can never drift apart again; it defaults to 7.
 
 Each clip was widened EQUALLY either side of its existing window and re-cut from
 the raw footage in a single `libx264 -crf 16` pass. For the CYM batch that is a
