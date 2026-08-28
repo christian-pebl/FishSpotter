@@ -6,6 +6,7 @@ import {
   nextMilestone,
   milestoneProgress,
   rankWithin,
+  visibleMilestones,
   ZERO_COUNTS,
   type CategoryId,
 } from "@/lib/badges";
@@ -143,5 +144,51 @@ describe("rankWithin", () => {
 
   it("returns null when nobody has anything", () => {
     expect(rankWithin(0, [0, 0])).toBeNull();
+  });
+});
+
+describe("visibleMilestones", () => {
+  const m = [10, 25, 50] as const;
+
+  it("hides rungs nobody could reach with today's clips", () => {
+    // Measured 28 Aug 2026: only 40 clips had reached consensus, so a rung at
+    // 50 was not a stretch goal, it was a target no effort could reach.
+    expect(visibleMilestones(m, 40, 0)).toEqual([10, 25]);
+  });
+
+  it("shows the whole ladder once the ceiling covers it", () => {
+    expect(visibleMilestones(m, 200, 0)).toEqual([10, 25, 50]);
+  });
+
+  it("never hides a rung the spotter has already passed", () => {
+    // A ceiling can fall (clips excluded, consensus flipping) and must not
+    // retract a milestone somebody already holds.
+    expect(visibleMilestones(m, 5, 50)).toEqual([10, 25, 50]);
+  });
+
+  it("can legitimately show nothing when even the first rung is out of reach", () => {
+    // The card then says milestones open up as clips are added, rather than
+    // dangling an impossible target.
+    expect(visibleMilestones(m, 5, 0)).toEqual([]);
+  });
+
+  it("keeps the shown rungs in ascending order", () => {
+    const shown = visibleMilestones([20, 50, 100], 60, 0);
+    expect(shown).toEqual([20, 50]);
+  });
+});
+
+describe("aiming at a visible rung", () => {
+  it("targets the next SHOWN milestone, not a hidden one", () => {
+    // The progress bar must never chase a target the spotter cannot see.
+    const shown = visibleMilestones([20, 50, 100], 40, 26);
+    expect(shown).toEqual([20]);
+    expect(nextMilestone(26, shown)).toBeNull();
+    expect(milestoneProgress(26, shown)).toBe(1);
+  });
+
+  it("still aims correctly when rungs remain visible", () => {
+    const shown = visibleMilestones([10, 25, 50], 40, 6);
+    expect(nextMilestone(6, shown)).toBe(10);
   });
 });

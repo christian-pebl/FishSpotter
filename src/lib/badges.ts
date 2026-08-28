@@ -103,6 +103,28 @@ export function nextMilestone(
 }
 
 /**
+ * The milestones worth SHOWING a spotter right now.
+ *
+ * The ladders are long-horizon on purpose: they are sized for a clip library
+ * that keeps growing, so the upper rungs are meant to sit out of reach for a
+ * while. What must not happen is a spotter being shown a target that nobody can
+ * reach with today's footage, which is the same discouraging fiction as telling
+ * them there are "59 to find" when we do not know all 59 are in the clips.
+ *
+ * So a rung is shown when it is within the current ceiling (the most any spotter
+ * could hold given today's data, see recordCeilings in spotter-record.ts), or
+ * when this spotter has already passed it. Everything above that is hidden until
+ * more clips land, and the UI says so rather than silently truncating.
+ */
+export function visibleMilestones(
+  milestones: readonly number[],
+  ceiling: number,
+  count: number,
+): number[] {
+  return milestones.filter((m) => m <= ceiling || count >= m);
+}
+
+/**
  * Progress towards the next milestone as 0..1, measured from the previous
  * milestone rather than from zero, so a bar does not sit almost-full for the
  * whole of a long rung. Returns 1 once every milestone is held.

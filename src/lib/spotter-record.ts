@@ -35,6 +35,7 @@ import {
   milestonesReached,
   nextMilestone,
   rankWithin,
+  visibleMilestones,
   ZERO_COUNTS,
   type CategoryCounts,
   type CategoryId,
@@ -69,7 +70,12 @@ export interface CategoryRecord {
   rank: number | null;
   /** How many spotters have a non-zero count on this category. */
   rankOf: number;
+  /** The full ladder, always three. */
   milestones: readonly number[];
+  /** The rungs worth showing today (see visibleMilestones). */
+  visible: number[];
+  /** Rungs held back until the clip library grows. */
+  hidden: number;
   /** How many of the three are held. */
   reached: number;
   /** The next target, or null once all three are held. */
@@ -232,9 +238,33 @@ export async function readSpotterRecord(
     }
   }
 
+  // --- what is actually reachable with today's clips -----------------------
+  // A rung above these is not a stretch goal, it is a fiction: no spotter could
+  // reach it however hard they worked, until more footage lands.
+  //
+  //   pioneer/consensus  bounded by how many clips have reached consensus at
+  //                      all, since you cannot be confirmed on a clip the crowd
+  //                      has not settled.
+  //   pathfinder         bounded by the clips still unclaimed plus the best
+  //                      run anyone has already put together, since a clip's
+  //                      first answerer is fixed history.
+  const totalClips = await prisma.snippet.count();
+  const consensusClips = leaderBySnippet.size;
+  const unclaimedClips = Math.max(0, totalClips - firstAnswererBySnippet.size);
+  const bestPathfinder = Math.max(
+    0,
+    ...Array.from(countsByUser.values()).map((c) => c.pathfinder),
+  );
+  const ceilings: Record<CategoryId, number> = {
+    pioneer: consensusClips,
+    consensus: consensusClips,
+    pathfinder: unclaimedClips + bestPathfinder,
+  };
+
   const categories: CategoryRecord[] = CATEGORY_ORDER.map((id) => {
     const def = CATEGORIES[id];
     const count = counts[id];
+    const visible = visibleMilestones(def.milestones, ceilings[id], count);
     const allCounts = Array.from(countsByUser.values()).map((c) => c[id]);
     const rank = rankWithin(count, allCounts);
 
@@ -259,9 +289,13 @@ export async function readSpotterRecord(
       rank: rank?.rank ?? null,
       rankOf: rank?.of ?? 0,
       milestones: def.milestones,
+      visible,
+      hidden: def.milestones.length - visible.length,
       reached: milestonesReached(count, def.milestones),
-      nextAt: nextMilestone(count, def.milestones),
-      progress: milestoneProgress(count, def.milestones),
+      // Aim at the next rung the spotter can actually see, so the bar never
+      // chases a target that has been hidden from them.
+      nextAt: nextMilestone(count, visible),
+      progress: milestoneProgress(count, visible),
       species,
     };
   });
