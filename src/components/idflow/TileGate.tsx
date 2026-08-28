@@ -18,6 +18,15 @@
  * the `label` below and an optional count `badge`. An optional `extra` node
  * renders beneath the button (legacy grid use).
  *
+ * PHOTO TILES (28 Aug 2026) split that one button in two, because a species
+ * tile has two different jobs. When a tile carries `photos`, its picture becomes
+ * a comparison viewer (tap the left or right half to flick through that
+ * species' other reference shots, against the clip still playing beside it) and
+ * the NAME ROW underneath becomes the select control. Picture to look, name to
+ * choose. A tile with one photo has nothing to flick through, so its picture
+ * selects too, exactly as before, rather than swallowing the tap. Every other
+ * rung keeps the single-button tile untouched.
+ *
  * `variant="list"` (Rung 2) lays tiles out as full-width rows with a 2x
  * silhouette and a per-row chevron that drops an inline `renderExpanded` panel
  * (the body-form examples) directly below that row. Single-open accordion: only
@@ -25,7 +34,7 @@
  * once. `variant="grid"` (default, Rung 1 + Rung 3) is unchanged.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { DURATION, EASE } from "@/lib/motion";
 
@@ -50,6 +59,214 @@ export function MaskSilhouette({ src }: { src: string }) {
   );
 }
 
+/** A lazy tile photo that starts transparent and fades in over ~180ms
+ * (DURATION.micro) once it actually paints, so tiles pop in as their photos
+ * arrive instead of snapping. A cached image can finish loading before React
+ * attaches onLoad (notably on a remount), which would strand it at opacity 0,
+ * so the ref callback checks img.complete on mount and reveals it synchronously.
+ * Moved here from CandidateGate when the tile picture became a viewer. */
+function TilePhoto({ src }: { src: string }) {
+  const reduce = useReducedMotion();
+  const [loaded, setLoaded] = useState(false);
+  const onRef = useCallback((img: HTMLImageElement | null) => {
+    if (img?.complete) setLoaded(true);
+  }, []);
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      ref={onRef}
+      src={src}
+      alt=""
+      loading="lazy"
+      decoding="async"
+      onLoad={() => setLoaded(true)}
+      className={[
+        "h-full w-full object-cover",
+        // duration-[180ms] mirrors DURATION.micro (0.18s); CSS can't import the
+        // JS token, so it's inlined here with this note.
+        reduce ? "opacity-100" : "opacity-0 transition-opacity duration-[180ms] ease-out",
+        loaded ? "opacity-100" : "",
+      ].join(" ")}
+    />
+  );
+}
+
+/** The chevron shown at the middle of each tap half. Deliberately small and
+ * low-contrast: it is a hint that the halves are live, not a button competing
+ * with the photo. It sits on its own dark disc so it reads over a pale sandy
+ * seabed and a black midwater shot alike, and it brightens on hover. */
+function NavChevron({ dir }: { dir: "prev" | "next" }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={[
+        "pointer-events-none absolute top-1/2 z-10 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full",
+        "bg-navy-900/45 text-white/70 transition-all duration-150",
+        "group-hover/nav:bg-navy-900/80 group-hover/nav:text-white group-active/nav:scale-90",
+        "group-focus-visible/nav:bg-navy-900/80 group-focus-visible/nav:text-white",
+        dir === "prev" ? "left-1" : "right-1",
+      ].join(" ")}
+    >
+      <svg viewBox="0 0 16 16" fill="none" className="h-3 w-3">
+        <path
+          d={dir === "prev" ? "M10 3.5 5.5 8l4.5 4.5" : "M6 3.5 10.5 8 6 12.5"}
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
+
+/**
+ * The tile picture as a small comparison viewer: one photo at a time, with the
+ * left half stepping back and the right half stepping forward through the rest
+ * of that species' cached reference shots.
+ *
+ * Two decisions worth keeping:
+ *  - it WRAPS at both ends. On a viewer this small a dead end reads as a broken
+ *    tap; wrapping plus the dot row (which says exactly where you are) never
+ *    does.
+ *  - only the visible frame is mounted, so a grid of 24 tiles still loads 24
+ *    images, not 150. The rest are fetched the moment the user asks for them.
+ *
+ * The halves are `aria-hidden` and out of the tab order on purpose: three extra
+ * tab stops per tile across a 24-tile grid is a worse keyboard experience than
+ * the Left/Right arrow route the name button provides, which is the ordinary
+ * carousel pattern.
+ */
+function TilePhotoFrames({
+  srcs,
+  index,
+  label,
+  onStep,
+}: {
+  srcs: string[];
+  index: number;
+  label: string;
+  onStep: (delta: number) => void;
+}) {
+  const src = srcs[index] ?? srcs[0];
+  return (
+    <>
+      <TilePhoto key={src} src={src} />
+      <button
+        type="button"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={() => onStep(-1)}
+        className="group/nav absolute inset-y-0 left-0 z-10 w-1/2 cursor-pointer"
+      >
+        <NavChevron dir="prev" />
+      </button>
+      <button
+        type="button"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={() => onStep(1)}
+        className="group/nav absolute inset-y-0 right-0 z-10 w-1/2 cursor-pointer"
+      >
+        <NavChevron dir="next" />
+      </button>
+      {/* Position readout. Scrim first so the dots survive a bright photo. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex h-6 items-end justify-center gap-1 bg-gradient-to-t from-navy-900/70 to-transparent pb-1"
+      >
+        {srcs.map((s, i) => (
+          <span
+            key={s}
+            className={[
+              "h-1 w-1 rounded-full transition-colors",
+              i === index ? "bg-white" : "bg-white/40",
+            ].join(" ")}
+          />
+        ))}
+      </span>
+      <span className="sr-only">{`${label}, photo ${index + 1} of ${srcs.length}`}</span>
+    </>
+  );
+}
+
+/**
+ * The rule-out control, drawn as a cut-off top-right corner of the picture.
+ *
+ * It replaced a solid disc floating over the photo (28 Aug 2026). The disc had
+ * to be opaque to survive dark footage, which made an "I do not want this one"
+ * control the loudest thing on a grid whose whole job is looking at fish. A
+ * folded corner is quiet at rest and still unmistakably a control.
+ *
+ * The clip path is on the BUTTON, not just the fill, so the hit area is exactly
+ * the triangle you can see. A 44px square hit box behind a 44px triangle would
+ * put half its area over plain photo, i.e. an invisible trap sitting inside the
+ * "next photo" half. Legs of 44 (36 when the sheet is compact) give a target of
+ * ~970px2 in the easiest corner of the tile to hit with a thumb, and the action
+ * is reversible from the "ruled out" row under the grid.
+ *
+ * Contrast is the other lesson already paid for: too subtle got fixed once
+ * before (commit 7e42060, "strengthen the rule-out disc so it holds over dark
+ * photos"). So the wedge carries three separable cues, and a photo would have
+ * to defeat all three at once to hide it: a dark fill for pale seabeds, a white
+ * hairline along the fold, and a white glyph.
+ */
+function RuleOutCorner({
+  label,
+  compact,
+  onClick,
+}: {
+  label: string;
+  compact: boolean;
+  onClick: () => void;
+}) {
+  const size = compact ? 36 : 44;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={"Rule out " + label}
+      title={"Rule out " + label}
+      className="group/cut absolute right-0 top-0 z-20 focus:outline-none"
+      style={{
+        height: size,
+        width: size,
+        clipPath: "polygon(0 0, 100% 0, 100% 100%)",
+      }}
+    >
+      <svg
+        viewBox="0 0 44 44"
+        fill="none"
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full"
+      >
+        <path
+          d="M0 0H44V44Z"
+          className="fill-navy-900/55 transition-colors group-hover/cut:fill-navy-900/85 group-focus-visible/cut:fill-navy-900/85"
+        />
+        <path
+          d="M0 0 44 44"
+          className="stroke-white/30 transition-colors group-hover/cut:stroke-teal-300"
+          strokeWidth="1.5"
+        />
+        {/* Eye with a slash: the same "rule out" glyph the species popup and
+            the ruled-out chips use, so the action reads as one thing. */}
+        <g
+          transform="translate(24 5) scale(0.9)"
+          className="stroke-white/85 transition-colors group-hover/cut:stroke-teal-200 group-focus-visible/cut:stroke-teal-200"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M1.4 7S3.6 3.6 7 3.6 12.6 7 12.6 7s-2.2 3.4-5.6 3.4S1.4 7 1.4 7Z" />
+          <circle cx="7" cy="7" r="1.5" />
+          <path d="M2.4 11.4 11.6 2.6" />
+        </g>
+      </svg>
+    </button>
+  );
+}
+
 export type TileSpec = {
   key: string;
   label: string;
@@ -62,6 +279,11 @@ export type TileSpec = {
   /** Full-width square media (Rung-3 photos / silhouette fallback). Takes
    * precedence over `icon`. */
   media?: React.ReactNode;
+  /** Rung-3 only. Every cached reference photo for this species, best first.
+   * When present the tile's picture becomes a small comparison viewer: tap its
+   * left or right half to flick between shots without leaving the grid (see
+   * TilePhotoFrames). `media` is then the loading / no-photo fallback only. */
+  photos?: string[];
   /** Optional node under the select button (legacy grid use). */
   extra?: React.ReactNode;
   /** List variant only: lazily-rendered panel shown inline below the row when
@@ -425,6 +647,21 @@ export function TileGate({
     if (ruleOutCount === 0) setRuledOutOpen(false);
   }, [ruleOutCount]);
 
+  // Which reference photo each photo-tile is showing. Kept in a ref as well as
+  // state so a fast run of taps on "next" cannot read a stale index and drop a
+  // step: React batches the renders, the ref does not.
+  const [frameByTile, setFrameByTile] = useState<Record<string, number>>({});
+  const frameRef = useRef<Record<string, number>>({});
+  const stepFrame = (key: string, count: number, delta: number, label: string) => {
+    if (count < 2) return;
+    const next = ((((frameRef.current[key] ?? 0) + delta) % count) + count) % count;
+    frameRef.current = { ...frameRef.current, [key]: next };
+    setFrameByTile(frameRef.current);
+    // Reuse the rule-out live region: flicking a photo is silent to a screen
+    // reader otherwise, so a keyboard user would move through the set blind.
+    setAnnounce(`${label}, photo ${next + 1} of ${count}`);
+  };
+
   const grid = (
     <div
       className="grid gap-1.5"
@@ -432,9 +669,151 @@ export function TileGate({
     >
       {tiles.map((tile, index) => {
         const isEmpty = !!tile.disabled;
+        const frames = tile.photos ?? [];
         // Photo tiles get a thin frame so the image fills the tile; silhouette
         // tiles keep a little breathing room for the centred icon + label.
-        const hasMedia = !!tile.media;
+        const hasMedia = !!tile.media || frames.length > 0;
+        // Split the tile only when there is genuinely something to flick to.
+        // One photo keeps the picture as a select target rather than turning it
+        // into a tap that does nothing.
+        const canFlip = frames.length > 1 && !isEmpty;
+        const frame = Math.min(frameByTile[tile.key] ?? 0, Math.max(frames.length - 1, 0));
+        const active = committing === tile.key || hovered === tile.key;
+
+        const chrome = [
+          "relative flex flex-col items-center justify-center rounded-modal border transition-colors",
+          hasMedia
+            ? "gap-1 p-1"
+            : compact
+              ? "min-h-[84px] gap-1 p-1.5"
+              : "min-h-[128px] gap-2 p-2.5",
+          isEmpty
+            ? "cursor-not-allowed border-white/10 opacity-35"
+            : active
+              ? "border-teal-400 bg-teal-500/20 text-teal-300"
+              : "border-white/15 bg-white/5 text-teal-500 hover:border-teal-400 hover:bg-teal-500/20 hover:text-teal-300",
+        ].join(" ");
+
+        const labelClass = [
+          "text-center font-semibold uppercase leading-tight tracking-wider text-white/70",
+          compact ? "text-[9px]" : "text-[11px]",
+        ].join(" ");
+
+        const commitAnimate =
+          committing === tile.key && !reduceMotion ? { scale: [1, 0.95, 1] } : { scale: 1 };
+        const commitTransition =
+          committing === tile.key && !reduceMotion
+            ? { duration: 0.16, ease: EASE.enter, times: [0, 0.45, 1] }
+            : { duration: 0 };
+
+        const badge = !!tile.badge && tile.badge > 0 && (
+          <span className="absolute right-1.5 top-1.5 rounded-full bg-teal-600/80 px-1 text-[10px] font-bold text-white">
+            {tile.badge}
+          </span>
+        );
+
+        const ruleOut = onRuleOut && !isEmpty && (
+          <RuleOutCorner
+            label={tile.label}
+            compact={compact}
+            onClick={() => {
+              refocusIndex.current = index;
+              setAnnounce(
+                tile.label + " ruled out. " + (ruleOutCount + 1) + " ruled out.",
+              );
+              onRuleOut(tile.key);
+            }}
+          />
+        );
+
+        // MEDIA TILE (Rung 3). Picture on top, name row underneath, both inside
+        // one card. The picture never nests a button inside a button: the
+        // select overlay, the two flick halves and the rule-out corner are all
+        // siblings inside the picture's own rounded, overflow-hidden box, which
+        // is also what clips the corner wedge to the photo's rounded edge.
+        if (hasMedia) {
+          return (
+            <motion.div
+              key={tile.key}
+              animate={commitAnimate}
+              transition={commitTransition}
+              onMouseEnter={() => setHovered(tile.key)}
+              onMouseLeave={() => setHovered(null)}
+              className={chrome + " focus-within:border-teal-400"}
+            >
+              {/* 4:3, not square (28 Aug 2026). Two reasons, and they point the same
+                  way: almost every reference photo is landscape and almost every
+                  animal in this catalogue is wider than it is tall, so a square
+                  centre-crop of a fish throws away its head and tail, which are
+                  exactly what the user is being asked to compare. The shorter
+                  frame also buys back more height than the new name row costs,
+                  so the phone's default half-and-half sheet still shows a whole
+                  tile, name included, without scrolling. */}
+              <div className="relative block aspect-[4/3] w-full overflow-hidden rounded-modal bg-white/5">
+                {frames.length > 0 ? (
+                  canFlip ? (
+                    <TilePhotoFrames
+                      srcs={frames}
+                      index={frame}
+                      label={tile.label}
+                      onStep={(d) => stepFrame(tile.key, frames.length, d, tile.label)}
+                    />
+                  ) : (
+                    // Not `frames[0]`: `canFlip` also goes false while a guess
+                    // is submitting, and snapping back to photo 1 at that exact
+                    // moment would flash a different animal under the finger.
+                    <TilePhoto key={frames[frame] ?? frames[0]} src={frames[frame] ?? frames[0]} />
+                  )
+                ) : (
+                  tile.media
+                )}
+                {/* One photo (or a silhouette fallback): the picture keeps its
+                    old job and selects, so no tap is ever wasted. Hidden from
+                    the tab order because the name row below carries the same
+                    action with the accessible label. */}
+                {!canFlip && !isEmpty && (
+                  <button
+                    type="button"
+                    aria-hidden="true"
+                    tabIndex={-1}
+                    onClick={() => commitSelect(tile.key)}
+                    className="absolute inset-0 z-10 cursor-pointer"
+                  />
+                )}
+                {ruleOut}
+              </div>
+              <button
+                ref={(el: HTMLButtonElement | null) => {
+                  tileRefs.current.set(tile.key, el);
+                }}
+                type="button"
+                disabled={isEmpty}
+                onClick={() => commitSelect(tile.key)}
+                onKeyDown={(e) => {
+                  if (!canFlip) return;
+                  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+                  e.preventDefault();
+                  stepFrame(tile.key, frames.length, e.key === "ArrowLeft" ? -1 : 1, tile.label);
+                }}
+                aria-label={tile.ariaLabel ?? tile.label}
+                aria-keyshortcuts={canFlip ? "ArrowLeft ArrowRight" : undefined}
+                className={[
+                  "flex min-h-[44px] w-full items-center justify-center rounded-modal px-1 py-1 transition-colors",
+                  labelClass,
+                  isEmpty
+                    ? "cursor-not-allowed"
+                    : "hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300",
+                ].join(" ")}
+              >
+                {tile.label}
+              </button>
+              {badge}
+              {tile.extra}
+            </motion.div>
+          );
+        }
+
+        // SILHOUETTE TILE (Rungs 1 & 2). One button, exactly as before.
         return (
           <div key={tile.key} className="relative flex flex-col gap-1">
             <motion.button
@@ -447,94 +826,22 @@ export function TileGate({
               onMouseEnter={() => setHovered(tile.key)}
               onMouseLeave={() => setHovered(null)}
               aria-label={tile.ariaLabel ?? tile.label}
-              animate={
-                committing === tile.key && !reduceMotion
-                  ? { scale: [1, 0.95, 1] }
-                  : { scale: 1 }
-              }
-              transition={
-                committing === tile.key && !reduceMotion
-                  ? { duration: 0.16, ease: EASE.enter, times: [0, 0.45, 1] }
-                  : { duration: 0 }
-              }
-              className={[
-                "relative flex flex-col items-center justify-center rounded-modal border transition-colors",
-                hasMedia
-                  ? "gap-1 p-1"
-                  : compact
-                    ? "min-h-[84px] gap-1 p-1.5"
-                    : "min-h-[128px] gap-2 p-2.5",
-                isEmpty
-                  ? "cursor-not-allowed border-white/10 opacity-35"
-                  : committing === tile.key || hovered === tile.key
-                    ? "border-teal-400 bg-teal-500/20 text-teal-300"
-                    : "border-white/15 bg-white/5 text-teal-500 hover:border-teal-400 hover:bg-teal-500/20 hover:text-teal-300",
-              ].join(" ")}
+              animate={commitAnimate}
+              transition={commitTransition}
+              className={chrome}
             >
-              {tile.media ? (
-                <span className="block aspect-square w-full overflow-hidden rounded-modal bg-white/5">
-                  {tile.media}
-                </span>
-              ) : (
-                <span
-                  className={[
-                    "flex items-center justify-center",
-                    compact ? "h-9 w-9" : "h-16 w-16",
-                  ].join(" ")}
-                >
-                  {tile.icon}
-                </span>
-              )}
               <span
                 className={[
-                  "text-center font-semibold uppercase leading-tight tracking-wider text-white/70",
-                  compact ? "text-[9px]" : "text-[11px]",
+                  "flex items-center justify-center",
+                  compact ? "h-9 w-9" : "h-16 w-16",
                 ].join(" ")}
               >
-                {tile.label}
+                {tile.icon}
               </span>
-              {!!tile.badge && tile.badge > 0 && (
-                <span className="absolute right-1.5 top-1.5 rounded-full bg-teal-600/80 px-1 text-[10px] font-bold text-white">
-                  {tile.badge}
-                </span>
-              )}
+              <span className={labelClass}>{tile.label}</span>
+              {badge}
             </motion.button>
-            {onRuleOut && !isEmpty && (
-              // A SIBLING of the tile button, never a child: the tile is itself
-              // a <button>, and nesting one inside it is invalid markup and
-              // would swallow this click. 44px hit area (the mobile minimum)
-              // around a smaller disc, so it stays tappable without covering
-              // much of the photo.
-              <button
-                type="button"
-                onClick={() => {
-                  refocusIndex.current = index;
-                  setAnnounce(
-                    tile.label +
-                      " ruled out. " +
-                      (ruleOutCount + 1) +
-                      " ruled out.",
-                  );
-                  onRuleOut(tile.key);
-                }}
-                aria-label={"Rule out " + tile.label}
-                title={"Rule out " + tile.label}
-                className="absolute right-0 top-0 z-10 flex h-11 w-11 items-center justify-center text-white/90 transition-colors hover:text-teal-200 focus-visible:text-teal-200"
-              >
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy-900/85 ring-1 ring-white/35 shadow-sm backdrop-blur-[2px]">
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-4 w-4">
-                    <path
-                      d="M2.2 8S4.4 4.4 8 4.4 13.8 8 13.8 8s-2.2 3.6-5.8 3.6S2.2 8 2.2 8Z"
-                      stroke="currentColor"
-                      strokeWidth="1.3"
-                      strokeLinejoin="round"
-                    />
-                    <circle cx="8" cy="8" r="1.7" stroke="currentColor" strokeWidth="1.3" />
-                    <path d="M3.2 12.8 12.8 3.2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                  </svg>
-                </span>
-              </button>
-            )}
+            {ruleOut}
             {tile.extra}
           </div>
         );
