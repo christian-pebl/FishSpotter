@@ -1120,3 +1120,65 @@ the real function; do not re-implement the thing you are checking.
   12th request. Verified: `tsc`, 546 tests (13 new), `lint`, `lint:tokens`. **Still needs**: `PRIZE_DESK_TOKEN`
   set in Vercel prod env, and, per the metrics entry above, a redeploy after setting it, since new env
   vars don't apply to an already-built deployment.
+
+- **Profile Record: three categories, ranks and milestones, 28 Aug 2026** (PRs #130 `cc065f6`,
+  #135 `025f189`, #137 `c93e50f`). The profile now says what a spotter is actually good at, on the
+  principle that **rewards follow consensus, not volume**: naming an animal and having other
+  spotters independently arrive at the same answer is the thing worth marking, and the profile
+  never said so. `/u/[id]` gained a **Record** block with three categories, each showing the count,
+  that spotter's **rank on the category's leaderboard**, and a tap-to-open list of the species
+  behind it with curated thumbnails. Three milestones each, nine in total: Pioneer 10/25/50,
+  Consensus 20/50/100, Pathfinder 30/75/150.
+  - **Pioneer is deliberately stricter than the payout tier.** `consensusTier` calls you a pioneer
+    for being among the first three to answer a clip at all; the category needs you to be first to
+    name the animal the crowd then converged on. Baseline at ship: 48 of 86 spotters had a
+    confirmed call, only 19 had ever pioneered one.
+  - **Pathfinder is the exploration counterweight.** 72 of 163 clips had no answer at all, and
+    consensus alone only ever rewards piling onto clips other people already found.
+  - **Unreachable rungs are hidden** (#137). The ladders are long-horizon on purpose, but showing a
+    target nobody can reach with today's footage is the same discouraging fiction as "59 to find".
+    A rung shows when it is within the category ceiling or the spotter already passed it (a falling
+    ceiling must never retract a held milestone). Ceilings derive per render, so rungs reveal
+    themselves as clips land: pioneer/consensus are bounded by clips that have reached consensus
+    (40 of 163 at ship), pathfinder by unclaimed clips plus the best run anyone holds (72 + 27).
+    Four of nine were hidden at ship.
+  - **No join-date badge, by decision.** It rewards a calendar accident and permanently shuts the
+    door on anyone who finds the app later. Every milestone stays winnable by someone signing up
+    today. The same reasoning removed the `N to find` denominator from the collection header: we do
+    not know every catalogue species appears in the clips.
+  - **Zero-count spotters are excluded from a category's rank field.** Being told you are 48th of 48
+    for having done nothing is a punishment, not a credential. Ties share a rank.
+  - Derived live from `Answer` plus the reached consensus leader using the same
+    `groupPendingAnswers` / `pickLeaderGroup` pair the rescore cron uses, so a milestone can never
+    disagree with the Pebbles that were paid. No new tables. Ranks cost nothing extra because the
+    whole Answer table is already in memory. New: `src/lib/badges.ts` (pure ladders),
+    `src/lib/spotter-record.ts` (derivation), `src/components/profile/SpotterRecord.tsx`.
+  - The old **Accuracy tile was stale** and is now the live Confirmed rate: it read persisted
+    `Answer.isCorrect`, which only updates when the cron runs, and showed 16 of 21 for a spotter
+    whose live figure was 14 of 18.
+
+- **Rarity bug: every invertebrate ID had been paying a 5x legendary multiplier, 28 Aug 2026**
+  (PR #130 `3b8ab6e`, `src/lib/rarity-scope.ts`). The OBIS occurrence pull is scoped to
+  `FISH_CLASS_NAMES = ["Actinopterygii", "Chondrichthyes"]` (`src/lib/biodiversity/obis.ts`), so no
+  invertebrate, seabird or seal is ever requested and none can appear in a `SpeciesProbability`
+  bucket. `rarityForProbability` read that absence as a genuinely off-the-charts sighting and
+  returned legendary at x5. Measured against prod: 19 populated buckets, 39 distinct species, every
+  one a fish; `Aurelia aurita`, `Necora puber` and `Asterias rubens` all absent, as they
+  structurally must be. Roughly half the catalogue was affected. The fix does not touch
+  `rarityForProbability`, whose contract already says it must not inflate on missing data; it stops
+  lying to it about whether data exists. **Not retroactive**: the cron never recomputes a credited
+  amount, so Pebbles already paid at x5 stand. Widen `OBIS_VISIBLE_SHAPE_CLASSES` if the OBIS pull
+  is ever widened.
+
+- **Profile cosmetics: built, then removed the same day, 28 Aug 2026** (PR #132 `0f94fca` added,
+  PR #135 `025f189` removed). Frames, site backdrops and species crests, all as unlocks rather than
+  purchases. Removed on sight as gimmicky. Recorded because the reasoning is durable: **do not
+  rebuild frames, backdrops or crests without asking.** The `User.crestSpecies` and
+  `User.backdropSite` columns were added and then dropped, in that order relative to the deploys, so
+  live code never selected a column that was gone; schema and prod verified back in sync and RLS at
+  21 of 21.
+  - **Trap worth keeping: Tailwind never scans `src/lib`.** `tailwind.config.ts` lists only
+    `src/pages`, `src/components` and `src/app`, so a class string written in `src/lib` generates no
+    CSS and the styling is silently invisible while the markup still looks completely correct.
+    Caught by grepping the built bundle for `.from-navy-600\/25` and finding zero matches. Verify a
+    new visual by grepping `.next/static/css/*.css` with `grep -F`, not by trusting the HTML.
