@@ -122,12 +122,17 @@ export const RES = {
   'Seabed biodeposits':{label:'Detritus & seabed life', sub:'the rain-down landing zone', col:'#B08A5C', zone:'seabed', farm:'anyway'},
 };
 
-// ---- Farm impact: presence AT THIS SITE (soft-sediment + open-water baseline) --
-// 'created'  = would be absent without the farm's structure / kelp / mussels
-// 'enhanced' = present anyway, but fewer without the farm
-// 'harmed'   = actually MORE abundant without the farm (biodeposits suppress it)
-// default 'anyway' = a soft-sediment / open-water native, ~unchanged.
-// Grounded in the artificial-reef, canopy-nursery and biodeposition literature.
+// ---- Farm impact: WITHDRAWN 28 Aug 2026 -------------------------------------
+// This map used to classify each species as created / enhanced / harmed /
+// anyway by the farm, and it drove a with-and-without-farm toggle on the page.
+// The classification was checked species by species against the published
+// literature and withdrawn. What follows is kept as the record of what the
+// categories meant, so nobody reinstates them without reading why they went.
+//
+//   'created'  = would be absent without the farm's structure / kelp / mussels
+//   'enhanced' = present anyway, but fewer without the farm
+//   'harmed'   = actually MORE abundant without the farm
+//   'anyway'   = a soft-sediment / open-water native, roughly unchanged
 //
 // 'created' is deliberately RESTRICTED to species that physically cannot occupy
 // bare soft sediment: hard-substrate obligates (limpets, top shells, urchins,
@@ -143,23 +148,29 @@ export const RES = {
 // concentrated by the farm rather than brought into existence by it. Claiming
 // them as farm-built overstates what a farm demonstrably does.
 export const FARM = {
-  // hard-substrate + weed/crevice obligates -> genuinely nowhere to live on bare sand
-  'Bib':'created','Corkwing wrasse':'created',
-  'Goldsinny wrasse':'created','Conger eel':'created','Butterfish':'created','Two-spotted goby':'created',
-  'Rock goby':'created','Poor cod':'created','Long-spined sea scorpion':'created','Shanny':'created',
-  'Fifteen-spined stickleback':'created','Velvet Swimming Crab':'created',
-  'Cushion Star':'created','Spiny Starfish':'created','Common Limpet':'created',
-  'Dog Whelk':'created','Painted Top Shell':'created','Flat Top Shell':'created','Edible sea urchin':'created',
-  'Green sea urchin':'created','Purple sea urchin':'created',
-  // present anyway, boosted by the structure / mussels / prey aggregation. The
-  // wrasses and octopuses sit here because the farm concentrates them, not because
-  // it creates them (see the note above).
-  'Pollack':'enhanced','Saithe':'enhanced','Atlantic cod':'enhanced','Spider Crab':'enhanced',
-  'Common Starfish':'enhanced','Common Brittlestar':'enhanced','Common eider':'enhanced',
-  'Ballan wrasse':'enhanced','Cuckoo wrasse':'enhanced',
-  'Curled Octopus':'enhanced','Common Octopus':'enhanced',
-  // clean-sand specialist that heavy biodeposition suppresses -> does better without
-  'Sea potato':'harmed',
+  // DELIBERATELY EMPTY. See the note above.
+  //
+  // Every entry that used to sit here (21 'created', 11 'enhanced', 1 'harmed')
+  // was removed on 28 Aug 2026 after each was checked against the published
+  // literature. Not one of the 21 'created' assignments had a source that
+  // supported it: 10 were actively CONTRADICTED by the source found for them,
+  // 9 had a source attached that nobody had confirmed says any such thing, and
+  // 2 had no source at all. Of the 11 'enhanced', exactly one (common starfish
+  // aggregating on mussel lines) was evidenced.
+  //
+  // "The farm built this species" is the strongest ecological claim FishSpotter
+  // could make, and it was the least supported thing in the catalogue. One
+  // evidenced case out of thirty-three is not a basis for classifying a
+  // community, so the classification is gone rather than reduced to n=1.
+  //
+  // The same call was already made for the workshop cards, for the same reason:
+  // printing "gone without the farm" states as fact the very thing PEBL cannot
+  // demonstrate.
+  //
+  // To reinstate any entry: bind a `farm:role` claim in
+  // src/data/species-references.json to a passage that actually says the farm
+  // creates or enhances that species at a site like PEBL's, get it past
+  // `npm run refs:verify`, and add it back here citing that source by id.
 };
 export const farmOf = n => FARM[n] || 'anyway';
 
@@ -427,33 +438,18 @@ for(const s of SPECIES){ const i=idOf(s.name); NAMEBY[i]=s.name; TIERBY[i]=`${TI
 for(const k of Object.keys(RES)){ const i=idOf(k); NAMEBY[i]=RES[k].label; TIERBY[i]='Energy source'; }
 const legendTiers = Object.keys(TIER).map(t=>`<span class="lg"><span class="sw" style="background:${TIER[t]}"></span>T${t} &middot; ${TIERLABEL[t]}</span>`).join('');
 
-// ---- farm-impact page data (drives the with/without-farm toggle) ------------
-const CREATED_IDS = [
-  ...SPECIES.filter(s=>farmOf(s.name)==='created').map(s=>idOf(s.name)),
-  ...Object.keys(RES).filter(k=>RES[k].farm==='created').map(k=>idOf(k)),
-];
-const createdSet = new Set(CREATED_IDS);
-const createdSpeciesN = SPECIES.filter(s=>farmOf(s.name)==='created').length;
-const enhancedN = SPECIES.filter(s=>farmOf(s.name)==='enhanced').length;
-const harmedN = SPECIES.filter(s=>farmOf(s.name)==='harmed').length;
-const baseSpeciesN = SPECIES.length - createdSpeciesN;
-const baseLinks = EDIR.filter(([a,b])=>!createdSet.has(a)&&!createdSet.has(b)).length;
-console.log(`FARM IMPACT: created ${createdSpeciesN}, enhanced ${enhancedN}, harmed ${harmedN} | with-farm ${SPECIES.length}sp/${E.length}lk -> baseline ${baseSpeciesN}sp/${baseLinks}lk`);
-
-const body = `<div class="wrap" data-mode="farm">
+// ---- farm-impact page data: REMOVED 28 Aug 2026 ----------------------------
+// The with/without-farm toggle was driven by the FARM map, which is now empty
+// because not one of its 21 'created' assignments survived a check against the
+// published literature. A toggle whose "without" view is identical to its
+// "with" view would be theatre, and one that ghosted only the farm's own crop
+// would invite the same inference with none of the evidence. See FARM above.
+const body = `<div class="wrap">
   <header>
     <p class="eyebrow">PEBL &middot; FishSpotter &middot; biodiversity mechanisms</p>
     <h1>The food web of a seaweed &amp; shellfish farm</h1>
-    <p class="stand">All <strong>${SPECIES.length} species</strong> in the FishSpotter catalogue, joined to what they eat and what eats them. Toggle the farm on and off to see how much of this web the seaweed and shellfish actually build, and click any species to trace its links.</p>
-    <div class="controls">
-      <div class="toggle" role="tablist" aria-label="Farm present or absent">
-        <button class="tg active" type="button" data-set="farm" role="tab" aria-selected="true">With the farm</button>
-        <button class="tg" type="button" data-set="baseline" role="tab" aria-selected="false">Without the farm</button>
-      </div>
-      <p class="modestat"><span class="ms-sp"></span> &middot; <span class="ms-lk"></span></p>
-    </div>
-    <p class="explain" data-for="farm">The farm gives a bare seabed four things it lacks: <strong>hard structure</strong> (an artificial reef of ropes, floats and anchors), a <strong>kelp-canopy nursery</strong>, a rain of <strong>detritus and mussel biodeposits</strong> that enriches the seabed, and a standing crop of <strong>mussels</strong> as food. Together they let reef fish, wrasse, blennies, urchins, snails and shellfish-eaters colonise a patch of open sand.</p>
-    <p class="explain" data-for="baseline">Strip the farm away and the site is bare soft sediment and open water. The structure, kelp and mussels are gone, and with them <strong>${createdSpeciesN} reef, weed and shellfish specialists</strong> that only the farm supports (ghosted); <strong>${enhancedN} more</strong> thin out (faded). What remains is the natural sand-and-open-water community, plus clean-sand animals like the sea potato (marked <span class="plus-inline">+</span>) that the biodeposits had been suppressing. The gap between the two views is the biodiversity the farm creates.</p>
+    <p class="stand">All <strong>${SPECIES.length} species</strong> in the FishSpotter catalogue, joined to what they eat and what eats them. Click any species to trace what it eats and what eats it.</p>
+    <p class="explain">A seaweed and shellfish farm adds hard structure, a kelp canopy, a rain of detritus and biodeposits, and a standing crop of mussels. What that does to the wider community at a given site is genuinely uncertain, and this diagram no longer tries to answer it. An earlier version let you toggle the farm on and off and claimed it built 21 of these 72 species; every one of those assignments was checked against the published literature in August 2026 and none of them held up, so the claim was withdrawn rather than restated more softly.</p>
     <div class="keys">
       <div class="keyrow">${legendTiers}</div>
       <div class="keyrow">
@@ -462,11 +458,6 @@ const body = `<div class="wrap" data-mode="farm">
         <span class="lg"><span class="dot pass"></span>Passing through</span>
         <span class="lg"><span class="sw" style="background:#2A6394"></span>Click a tile: blue = its prey</span>
         <span class="lg"><span class="sw" style="background:#B5762E"></span>amber = its predators</span>
-      </div>
-      <div class="keyrow baseline-key">
-        <span class="lg"><span class="ghost-key"></span>Gone without the farm</span>
-        <span class="lg"><span class="fade-key"></span>Fewer without the farm</span>
-        <span class="lg"><span class="plus-key">+</span>More abundant without the farm</span>
       </div>
     </div>
   </header>
@@ -494,15 +485,13 @@ const body = `<div class="wrap" data-mode="farm">
     <p class="ic-hint">Tap a name to jump to it. Esc or Clear to reset.</p>
   </aside>
   <footer>
-    <p>Rebuilt from PEBL's Biodiversity Mechanisms diagram and the live <code>species-traits.json</code> catalogue. Trophic placement and farm-impact are indicative, drawn from published UK / NE-Atlantic diet records and shellfish- &amp; seaweed-aquaculture ecology (artificial-reef, canopy-nursery and biodeposition studies): a teaching schematic, not a quantified survey. <span class="count">${SPECIES.length} species &middot; ${E.length} feeding links with the farm</span></p>
+    <p>Rebuilt from PEBL's Biodiversity Mechanisms diagram and the live <code>species-traits.json</code> catalogue. Feeding links are drawn from published UK and north-east Atlantic diet records; each species' own guide on FishSpotter shows which of its links are backed by a published record and which are not. This is a teaching schematic, not a quantified survey, and it makes no claim about which species the farm does or does not bring to a site. <span class="count">${SPECIES.length} species &middot; ${E.length} feeding links</span></p>
   </footer>
 </div>
 <script>
   const EDIR=${JSON.stringify(EDIR)};        // [preyId, predatorId]
   const NAME=${JSON.stringify(NAMEBY)};
   const TIERN=${JSON.stringify(TIERBY)};
-  const CREATED=new Set(${JSON.stringify(CREATED_IDS)});   // absent without the farm
-  const STAT={farm:{sp:${SPECIES.length},lk:${E.length}},baseline:{sp:${baseSpeciesN},lk:${baseLinks}}};
   const EATS={}, EATEN={};                    // EATS[x] = what x eats; EATEN[x] = what eats x
   for(const [a,b] of EDIR){ (EATS[b]??=[]).push(a); (EATEN[a]??=[]).push(b); }
   const NAME2ID={}; for(const k in NAME) NAME2ID[NAME[k]]=k;
@@ -511,8 +500,7 @@ const body = `<div class="wrap" data-mode="farm">
   const card=document.querySelector('.infocard');
   const byId={}; document.querySelectorAll('.tile,.res').forEach(n=>byId[n.dataset.id]=n);
   let locked=null;
-  const mode=()=>wrap.dataset.mode;
-  const present=id=> mode()==='farm' || !CREATED.has(id);
+  const present=()=>true;   // no with/without-farm mode any more
   function reset(){ document.querySelectorAll('.sel,.prey,.pred,.on').forEach(n=>n.classList.remove('sel','prey','pred','on')); }
   function paint(id){
     reset(); scene.classList.add('focusing');
@@ -551,19 +539,8 @@ const body = `<div class="wrap" data-mode="farm">
     if(e.target.closest('.ic-close')) return clearAll();
     const lnk=e.target.closest('.ic-lnk'); if(lnk){ const id=NAME2ID[lnk.dataset.n]; if(id&&present(id)){ select(id); const t=byId[id]; if(t&&t.scrollIntoView) t.scrollIntoView({block:'center',behavior:'smooth'}); } }
   });
-  document.addEventListener('click',e=>{ if(!e.target.closest('.tile,.res,.infocard,.toggle')) clearAll(); });
+  document.addEventListener('click',e=>{ if(!e.target.closest('.tile,.res,.infocard')) clearAll(); });
   window.addEventListener('keydown',e=>{ if(e.key==='Escape') clearAll(); });
-  // ---- with / without farm toggle ----
-  function setMode(m){
-    wrap.dataset.mode=m;
-    document.querySelectorAll('.tg').forEach(b=>{ const on=b.dataset.set===m; b.classList.toggle('active',on); b.setAttribute('aria-selected',on?'true':'false'); });
-    document.querySelectorAll('.edge').forEach(e=>{ e.classList.toggle('edge-off', m==='baseline' && (CREATED.has(e.dataset.a)||CREATED.has(e.dataset.b))); });
-    document.querySelector('.ms-sp').textContent = STAT[m].sp+' species at the site'+(m==='baseline'?' ('+${createdSpeciesN}+' lost, '+${enhancedN}+' reduced)':'');
-    document.querySelector('.ms-lk').textContent = STAT[m].lk+' feeding links';
-    clearAll();
-  }
-  document.querySelectorAll('.tg').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.set)));
-  setMode('farm');
 </script>`;
 
 // Only write when run directly (`node food-web/build-foodweb.mjs`), so verify.mjs

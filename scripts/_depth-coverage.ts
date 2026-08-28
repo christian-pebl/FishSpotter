@@ -27,14 +27,19 @@ async function main() {
   for (const [sci, sp] of entries) {
     const common = (sp as { commonName?: string }).commonName ?? "";
     try {
-      const depths = await fetchSpeciesDepths(sci, { maxPages: 2 });
-      const s = summariseDepths(depths);
+      const { depths, totalRecords } = await fetchSpeciesDepths(sci, { maxPages: 2 });
+      const s = summariseDepths(depths, totalRecords);
       if (s) {
         withBand++;
         rows.push(`OK    ${sci} (${common}) -> ${s.label}  [n=${s.n}, median ${Math.round(s.medianM)} m]`);
       } else {
         thin++;
-        rows.push(`THIN  ${sci} (${common}) -> only ${depths.length} usable readings`);
+        // Suppressed by too few readings, too thin a share of records, or no
+        // spread at all. All three mean a number here would mislead.
+        const pct = totalRecords > 0 ? Math.round((depths.length / totalRecords) * 100) : 0;
+        rows.push(
+          `THIN  ${sci} (${common}) -> ${depths.length} usable of ${totalRecords} records (${pct}%)`,
+        );
       }
     } catch (e) {
       rows.push(`ERR   ${sci} (${common}) -> ${(e as Error).message}`);

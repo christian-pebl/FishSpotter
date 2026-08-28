@@ -1,0 +1,1772 @@
+{
+  "bhl:mortensen-1927": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "title is \"Handbook of the echinoderms of the British Isles : Mortensen, Theodor, 1868-1952\", which names neither the binomial nor the common name"
+  },
+  "bhl:mortensen-1927-echinoderms": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "title is \"Handbook of the echinoderms of the British Isles : Mortensen, Theodor, 1868-1952\", which names neither the binomial nor the common name"
+  },
+  "bto:cormorant": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cormorant",
+    "checkedOn": "2026-08-28"
+  },
+  "bto:eider": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eider",
+    "checkedOn": "2026-08-28"
+  },
+  "bto:shag": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Shag",
+    "checkedOn": "2026-08-28"
+  },
+  "buyse:2023-owf-flatfish": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "cefas:ceph-uk-2017": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "doi:10.1002-ecy.3341": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "DOI is real (\"Ocean warming and species range shifts affect rates of ecosystem functioning by altering c\") but neither its title nor abstract names Steromphala umbilicalis | Gibbula umbilicalis"
+  },
+  "doi:10.1006-jmsc.1994.1034": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Loligo forbesi",
+    "checkedOn": "2026-08-28"
+  },
+  "doi:10.1007-s00227-016-2892-0": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "DOI is real (\"Temporal dietary shift in jellyfish revealed by stable isotope analysis\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
+  },
+  "doi:10.1007-s00227-018-3433-9": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Phalacrocorax aristotelis",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Pronounced long-term trends in year-round diet composition of the European shag Phalacrocorax aristotelis\""
+  },
+  "doi:10.1007-s00227-023-04236-x": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "DOI is real (\"Stomach content analysis of North Sea cephalopods: often-overlooked predators with direct \") but neither its title nor abstract names Loligo forbesii | Loligo vulgaris | Sepiola atlantica | Eledone cirrhosa"
+  },
+  "doi:10.1016-j.fishres.2005.04.013": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "ballan wrasse, Labrus bergylta, in the Azores",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Feeding ecology of the white seabream, Diplodus sargus, and the ballan wrasse, Labrus bergylta, in the Azores\""
+  },
+  "doi:10.1016-j.tree.2018.09.001": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "doi:10.1017-s0025315499001332": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eledone cirrhosa",
+    "checkedOn": "2026-08-28"
+  },
+  "doi:10.1038-s43247-025-02253-w": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "DOI is real (\"Offshore wind farms modify coastal food web dynamics by enhancing suspension feeder pathwa\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
+  },
+  "doi:10.1080-00063657.2024.2311080": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "doi:10.1093-g3journal-jkaf182": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Nucella lapillus",
+    "checkedOn": "2026-08-28"
+  },
+  "doi:10.1093-icesjms-fsw157": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "doi:10.1093-icesjms-fsy183": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "goldsinny wrasse (Ctenolabrus rupestris)",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Potential for managing life history diversity in a commercially exploited intermediate predator, the goldsinny wrasse (C\""
+  },
+  "doi:10.1098-rsos.171421": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "DOI is real (\"Jellyfish on the menu: mtDNA assay reveals scyphozoan predation in the Irish Sea\") but neither its title nor abstract names Aurelia aurita | Pelagia noctiluca | Merlangius merlangus"
+  },
+  "doi:10.1111-jfb.13926": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scomber scombrus",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Cryptic diets of forage fish: jellyfish consumption observed in the Celtic Sea and western English Channel\""
+  },
+  "doi:10.1371-journal.pone.0037216": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Phoca vitulina",
+    "checkedOn": "2026-08-28"
+  },
+  "doi:10.1371-journal.pone.0193078": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "DOI is real (\"Mannitol oxidase and polyol dehydrogenases in the digestive gland of gastropods: Correlati\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
+  },
+  "doi:10.2960-J.v35.m494": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "doi:10.3354-aei00478": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "title is \"Plymouth Marine Science Electronic Archive (PlyMSEA)\", which names neither the binomial nor the common name"
+  },
+  "doi:10.3354-meps031087": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Liocarcinus puber",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Natural diet and feeding habits of the crabs Liocarcinus puber and L. holsatus (Decapoda, Brachyura, Portunidae)\""
+  },
+  "doi:10.3354-meps119139": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Necora puber",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Feeding ecology of the velvet swimming crab Necora puber in mussel raft areas of the Ría de Arousa (Galicia, NW Spain)\""
+  },
+  "doi:10.3354-meps144063": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "hermit crab feeding patterns",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Changes in hermit crab feeding patterns in response to trawling disturbance\""
+  },
+  "doi:10.3390-md20080025": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pelagia noctiluca",
+    "checkedOn": "2026-08-28"
+  },
+  "doi:10.3989-scimar.2012.76n1009": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Marthasterias glacialis",
+    "checkedOn": "2026-08-28",
+    "note": "Crossref: \"Role of food availability in the bathymetric distribution  of the starfish Marthasterias glacialis (Lamk.)  on reefs of \""
+  },
+  "doi:10.7489-1798-1": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "doi:10.7489-1799-1": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "doi:10.7717-peerj.1110": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "DOI is real (\"Not all jellyfish are equal: isotopic evidence for inter- and intraspecific variation in j\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
+  },
+  "eifca:skerritt-2010-flounder": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "fao:a0150e11": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "fao:a0150e18": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "fao:i1920e": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "fao:i3489e": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "fishbase-dietcompo:Platichthys-flesus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Platichthys flesus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Callionymus-lyra": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus lyra",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Chelon-labrosus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelon labrosus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Dicentrarchus-labrax": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Dicentrarchus labrax",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Gobius-paganellus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gobius paganellus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Pomatoschistus-microps": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus microps",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Pomatoschistus-minutus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Scyliorhinus-canicula": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scyliorhinus canicula",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-food:Trisopterus-minutus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trisopterus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-fooditems:Conger-conger": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Food Items",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-fooditems:Ctenolabrus-rupestris": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Food Items",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-fooditems:Gadus-morhua": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Food Items",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-fooditems:Platichthys-flesus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Platichthys flesus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-fooditems:Pleuronectes-platessa": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pleuronectes platessa",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-fooditems:Pollachius-virens": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Food Items",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-fooditems:Symphodus-melops": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Food Items",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Callionymus-lyra": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus lyra",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Callionymus-maculatus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus maculatus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Chelon-labrosus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelon labrosus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Dicentrarchus-labrax": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Dicentrarchus labrax",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Gadus-morhua": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gadus morhua",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Gobius-paganellus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gobius paganellus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Mullus-surmuletus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Mullus surmuletus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Pomatoschistus-minutus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-pred:Scyliorhinus-canicula": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scyliorhinus canicula",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-predators:Limanda-limanda": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Limanda limanda",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-predators:Platichthys-flesus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Platichthys flesus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase-predators:Pleuronectes-platessa": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pleuronectes platessa",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Atherina-presbyter": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Atherina presbyter",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Callionymus-lyra": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus lyra",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Callionymus-maculatus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus maculatus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Chelidonichthys-cuculus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys cuculus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Chelidonichthys-lastoviza": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys lastoviza",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Chelidonichthys-lucerna": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys lucerna",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Chelon-labrosus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelon labrosus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Conger-conger": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Conger conger",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Ctenolabrus-rupestris": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Ctenolabrus rupestris",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Dicentrarchus-labrax": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Dicentrarchus labrax",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:dietcompo-Eutrigla-gurnardus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eutrigla gurnardus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:dietcompo-Trachurus-trachurus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trachurus trachurus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Eutrigla-gurnardus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eutrigla gurnardus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:fooditems-Atherina-presbyter": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Atherina presbyter",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:fooditems-Lipophrys-pholis": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Lipophrys pholis",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:fooditems-Scomber-scombrus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scomber scombrus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:fooditems-Spinachia-spinachia": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Spinachia spinachia",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:fooditems-Sprattus-sprattus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sprattus sprattus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:fooditems-Trachurus-trachurus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trachurus trachurus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Gadus-morhua": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gadus morhua",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Gobius-paganellus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gobius paganellus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Labrus-bergylta": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Labrus bergylta",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Labrus-bergylta-food-items": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Labrus bergylta",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Labrus-mixtus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Labrus mixtus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Limanda-limanda": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Limanda limanda",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Lipophrys-pholis": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Lipophrys pholis",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Merlangius-merlangus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Merlangius merlangus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Mullus-surmuletus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Mullus surmuletus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Pholis-gunnellus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pholis gunnellus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Platichthys-flesus": {
+    "status": "unreachable",
+    "httpStatus": 500,
+    "checkedOn": "2026-08-28",
+    "note": "http 500"
+  },
+  "fishbase:Pleuronectes-platessa": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pleuronectes platessa",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Pollachius-pollachius": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pollachius pollachius",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Pollachius-virens": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pollachius virens",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Pomatoschistus-flavescens": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus flavescens",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Pomatoschistus-microps": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus microps",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Pomatoschistus-minutus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Chelidonichthys-cuculus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys cuculus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Chelidonichthys-lucerna": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys lucerna",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Eutrigla-gurnardus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eutrigla gurnardus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Lipophrys-pholis": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Lipophrys pholis",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Spinachia-spinachia": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Spinachia spinachia",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Sprattus-sprattus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sprattus sprattus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Taurulus-bubalis": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Taurulus bubalis",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:predators-Trachurus-trachurus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trachurus trachurus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Scomber-scombrus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scomber scombrus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Scyliorhinus-canicula": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scyliorhinus canicula",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Spinachia-spinachia": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Spinachia spinachia",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Sprattus-sprattus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sprattus sprattus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Symphodus-melops": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Symphodus melops",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Taurulus-bubalis": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Taurulus bubalis",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Trachurus-trachurus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trachurus trachurus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Trisopterus-luscus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trisopterus luscus",
+    "checkedOn": "2026-08-28"
+  },
+  "fishbase:Trisopterus-minutus": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trisopterus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "guide-pdf:cefas-cephalopods-uk": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "ices:crr325": {
+    "status": "unreachable",
+    "httpStatus": 0,
+    "checkedOn": "2026-08-28",
+    "note": "Crossref has no record for DOI 10.17895/ices.pub.5493"
+  },
+  "liv:howells-2018-thesis": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "marlin-biotope:111": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Paracentrotus lividus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1098": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sepia officinalis",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1103": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sepiola atlantica",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1110": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Loligo forbesii",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1111": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Loligo vulgaris",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1116": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eledone cirrhosa",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1117": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Octopus vulgaris",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1169": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pagurus bernhardus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1175": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Polybius depurator",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1179": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cancer pagurus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1181": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Necora puber",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1189": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Psammechinus miliaris",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1191": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Spatangus purpureus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1194": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Asterias rubens",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1198": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Ophiothrix fragilis",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1202": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus microps",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1204": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1311": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Echinus esculentus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1371": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Patella vulgata",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1417": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Echinocardium cordatum",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1481": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Steromphala umbilicalis",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1493": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scyliorhinus canicula",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1495": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Platichthys flesus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1497": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Carcinus maenas",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1499": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Paracentrotus lividus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1501": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Nucella lapillus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1527": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Ctenolabrus rupestris",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:155": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelon labrosus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1563": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Asterina gibbosa",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:162": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eutrigla gurnardus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:163": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys lastoviza",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1647": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Calliostoma zizyphinum",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1658": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Symphodus melops",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1670": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Labrus mixtus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1688": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Marthasterias glacialis",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1739": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Labrus bergylta",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1753": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Hyas araneus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1818": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Lipophrys pholis",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1871": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus flavescens",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1876": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trisopterus luscus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:1995": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Halichoerus grypus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2020": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chrysaora hysoscella",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2025": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cyanea lamarckii",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2038": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Taurulus bubalis",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2078": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus lyra",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2080": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pholis gunnellus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2081": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Spinachia spinachia",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2088": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Phoca vitulina",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2089": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Aurelia aurita",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2090": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cyanea capillata",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2095": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gadus morhua",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2106": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pelagia noctiluca",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2126": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Conger conger",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2127": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Dicentrarchus labrax",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2129": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gobius paganellus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2171": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trisopterus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2172": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pleuronectes platessa",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2174": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Limanda limanda",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2215": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gulosus aristotelis",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2225": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Maja brachydactyla",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:2330": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Rhizostoma octopus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:44": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scomber scombrus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:81": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Mullus surmuletus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:82": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sprattus sprattus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:83": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys cuculus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:84": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pollachius virens",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:9": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pollachius pollachius",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:96": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Merlangius merlangus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:97": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trachurus trachurus",
+    "checkedOn": "2026-08-28"
+  },
+  "marlin:habitat-1068": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Ophiothrix fragilis",
+    "checkedOn": "2026-08-28"
+  },
+  "ne:rp2952": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "page has no title to identify it by"
+  },
+  "nrw:400": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "nrw:591": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "nrw:evidence-report-591": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "sawc:2025": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Biology of ballan wrasse",
+    "checkedOn": "2026-08-28"
+  },
+  "scos:2025": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "shetland-bap:eider": {
+    "status": "mismatch",
+    "httpStatus": 200,
+    "checkedOn": "2026-08-28",
+    "note": "page has no title to identify it by"
+  },
+  "sifca:spider-crab-2021": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "sifca:velvet-crab-2021": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "swt:cormorant": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cormorant",
+    "checkedOn": "2026-08-28"
+  },
+  "swt:eider": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eider",
+    "checkedOn": "2026-08-28"
+  },
+  "swt:shag": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Shag",
+    "checkedOn": "2026-08-28"
+  },
+  "ukmsac:1998-kelp-reefbiotopes": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "PDF retrieved",
+    "checkedOn": "2026-08-28",
+    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
+  },
+  "wildlife-trusts:blue-jellyfish": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cyanea lamarckii",
+    "checkedOn": "2026-08-28"
+  },
+  "wildlife-trusts:compass-jellyfish": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chrysaora hysoscella",
+    "checkedOn": "2026-08-28"
+  },
+  "wildlife-trusts:cormorant": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cormorant",
+    "checkedOn": "2026-08-28"
+  },
+  "wildlife-trusts:eider": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eider",
+    "checkedOn": "2026-08-28"
+  },
+  "wildlife-trusts:lions-mane-jellyfish": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cyanea capillata",
+    "checkedOn": "2026-08-28"
+  },
+  "wildlife-trusts:mauve-stinger": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pelagia noctiluca",
+    "checkedOn": "2026-08-28"
+  },
+  "wildlife-trusts:moon-jellyfish": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Aurelia aurita",
+    "checkedOn": "2026-08-28"
+  },
+  "wildlife-trusts:rock-goby": {
+    "status": "blocked",
+    "httpStatus": 403,
+    "checkedOn": "2026-08-28",
+    "note": "publisher refused an automated request (http 403); check this one by hand"
+  },
+  "wildlife-trusts:shag": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Shag",
+    "checkedOn": "2026-08-28"
+  },
+  "worms-traits:141767": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Calliostoma zizyphinum",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:1039850": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Steromphala umbilicalis",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:105814": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scyliorhinus canicula",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:106700": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Majoidea",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:107232": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pagurus bernhardus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:107276": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cancer pagurus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:107322": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Hyas araneus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:107347": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Maja brachydactyla",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:107381": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Carcinus maenas",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:107398": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Necora puber",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:123776": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Asterias rubens",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:123803": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Marthasterias glacialis",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:123987": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Asterina gibbosa",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:124287": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Echinus esculentus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:124316": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Paracentrotus lividus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:124319": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Psammechinus miliaris",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:124392": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Echinocardium cordatum",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:124418": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Spatangus purpureus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:125131": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Ophiothrix fragilis",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126285": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Conger conger",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126425": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sprattus sprattus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126436": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gadus morhua",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126438": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Merlangius merlangus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126440": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pollachius pollachius",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126441": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pollachius virens",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126445": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trisopterus luscus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126446": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trisopterus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126508": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Spinachia spinachia",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126768": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Lipophrys pholis",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126792": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus lyra",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126793": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Callionymus maculatus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126822": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Trachurus trachurus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126893": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gobius paganellus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126927": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus microps",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126928": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus minutus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126964": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Ctenolabrus rupestris",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126965": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Labrus bergylta",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126975": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Dicentrarchus labrax",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126977": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelon labrosus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126986": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Mullus surmuletus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:126996": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pholis gunnellus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127023": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Scomber scombrus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127139": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Limanda limanda",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127141": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Platichthys flesus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127143": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pleuronectes platessa",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127204": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Taurulus bubalis",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127259": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys cuculus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127261": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys lastoviza",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:127262": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chelidonichthys lucerna",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:135301": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cyanea capillata",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:135302": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Cyanea lamarckii",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:135304": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Chrysaora hysoscella",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:135305": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pelagia noctiluca",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:135306": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Aurelia aurita",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:137074": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Somateria mollissima",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:137080": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Halichoerus grypus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:137084": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Phoca vitulina",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:137179": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Phalacrocorax carbo",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:140270": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Loligo forbesii",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:140271": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Loligo vulgaris",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:140403": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Nucella lapillus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:140600": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eledone cirrhosa",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:140605": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Octopus vulgaris",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:140685": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Patella vulgata",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:141444": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sepia officinalis",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:141454": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Sepiola atlantica",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:141767": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Calliostoma zizyphinum",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:150637": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Eutrigla gurnardus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:151501": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Labrus mixtus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:152203": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Rhizostoma octopus",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:1526389": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Pomatoschistus flavescens",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:1704278": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Gulosus aristotelis",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:1750291": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Polybius depurator",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:272030": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Atherina presbyter",
+    "checkedOn": "2026-08-28"
+  },
+  "worms:273571": {
+    "status": "ok",
+    "httpStatus": 200,
+    "matchedOn": "Symphodus melops",
+    "checkedOn": "2026-08-28"
+  }
+}

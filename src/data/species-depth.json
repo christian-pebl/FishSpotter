@@ -1,0 +1,267 @@
+{
+  "Asterias rubens": {
+    "label": "Intertidal to 650 m",
+    "sourceId": "marlin:1194"
+  },
+  "Asterina gibbosa": {
+    "label": "Lower shore to about 100 m",
+    "sourceId": "marlin:1563"
+  },
+  "Atherina presbyter": {
+    "label": "1-10 m",
+    "sourceId": "fishbase:Atherina-presbyter"
+  },
+  "Callionymus lyra": {
+    "label": "5-30 m",
+    "detail": "1-440 m (usually 5-30 m)",
+    "sourceId": "fishbase:Callionymus-lyra"
+  },
+  "Callionymus maculatus": {
+    "label": "45-650 m",
+    "sourceId": "fishbase:Callionymus-maculatus"
+  },
+  "Calliostoma zizyphinum": {
+    "label": "Low water to 300 m",
+    "sourceId": "marlin:1647"
+  },
+  "Cancer pagurus": {
+    "label": "Intertidal to 100 m",
+    "sourceId": "marlin:1179"
+  },
+  "Carcinus maenas": {
+    "label": "Intertidal to 60 m",
+    "sourceId": "marlin:1497"
+  },
+  "Chelidonichthys cuculus": {
+    "label": "30-250 m",
+    "detail": "15-400 m (usually 30-250 m)",
+    "sourceId": "fishbase:Chelidonichthys-cuculus"
+  },
+  "Chelidonichthys lastoviza": {
+    "label": "10-150 m",
+    "sourceId": "fishbase:Chelidonichthys-lastoviza"
+  },
+  "Chelidonichthys lucerna": {
+    "label": "20-318 m",
+    "sourceId": "fishbase:Chelidonichthys-lucerna"
+  },
+  "Chelon labrosus": {
+    "label": "2-15 m",
+    "sourceId": "fishbase:Chelon-labrosus"
+  },
+  "Conger conger": {
+    "label": "0-1171 m",
+    "sourceId": "fishbase:Conger-conger"
+  },
+  "Ctenolabrus rupestris": {
+    "label": "1-20 m",
+    "detail": "1-50 m (usually 1-20 m)",
+    "sourceId": "fishbase:Ctenolabrus-rupestris"
+  },
+  "Dicentrarchus labrax": {
+    "label": "10-100 m",
+    "sourceId": "fishbase:Dicentrarchus-labrax"
+  },
+  "Echinocardium cordatum": {
+    "label": "0-200 m",
+    "sourceId": "marlin:1417"
+  },
+  "Echinus esculentus": {
+    "label": "Low water to about 40 m",
+    "sourceId": "marlin:1311"
+  },
+  "Eledone cirrhosa": {
+    "label": "0-500 m",
+    "sourceId": "marlin:1116"
+  },
+  "Eutrigla gurnardus": {
+    "label": "10-150 m",
+    "detail": "10-340 m (usually 10-150 m)",
+    "sourceId": "fishbase:Eutrigla-gurnardus"
+  },
+  "Gadus morhua": {
+    "label": "150-200 m",
+    "detail": "0-600 m (usually 150-200 m)",
+    "sourceId": "fishbase:Gadus-morhua"
+  },
+  "Gobius paganellus": {
+    "label": "0-15 m",
+    "sourceId": "fishbase:Gobius-paganellus"
+  },
+  "Gobiusculus flavescens": {
+    "label": "0-5 m",
+    "sourceId": "fishbase:Pomatoschistus-flavescens"
+  },
+  "Halichoerus grypus": {
+    "label": "Forages mainly to 100 m",
+    "sourceId": "scos:2025"
+  },
+  "Labrus bergylta": {
+    "label": "2-30 m",
+    "detail": "1-50 m (usually 2-30 m)",
+    "sourceId": "fishbase:Labrus-bergylta"
+  },
+  "Labrus mixtus": {
+    "label": "40-80 m",
+    "detail": "2-200 m (usually 40-80 m)",
+    "sourceId": "fishbase:Labrus-mixtus"
+  },
+  "Limanda limanda": {
+    "label": "20-150 m",
+    "sourceId": "fishbase:Limanda-limanda"
+  },
+  "Liocarcinus depurator": {
+    "label": "5 m to over 300 m",
+    "sourceId": "marlin:1175"
+  },
+  "Lipophrys pholis": {
+    "label": "0-8 m",
+    "sourceId": "fishbase:Lipophrys-pholis"
+  },
+  "Loligo forbesii": {
+    "label": "Under 50 m to over 700 m",
+    "sourceId": "fao:i1920e"
+  },
+  "Loligo vulgaris": {
+    "label": "0-500 m",
+    "sourceId": "marlin:1111"
+  },
+  "Marthasterias glacialis": {
+    "label": "Low water to about 200 m",
+    "sourceId": "marlin:1688"
+  },
+  "Merlangius merlangus": {
+    "label": "30-100 m",
+    "detail": "10-200 m (usually 30-100 m)",
+    "sourceId": "fishbase:Merlangius-merlangus"
+  },
+  "Mullus surmuletus": {
+    "label": "5-409 m",
+    "sourceId": "fishbase:Mullus-surmuletus"
+  },
+  "Nucella lapillus": {
+    "label": "Intertidal",
+    "sourceId": "marlin:1501"
+  },
+  "Octopus vulgaris": {
+    "label": "0-200 m",
+    "sourceId": "marlin:1117"
+  },
+  "Ophiothrix fragilis": {
+    "label": "0-85 m",
+    "sourceId": "marlin:1198"
+  },
+  "Pagurus bernhardus": {
+    "label": "Mid-tide level to 140 m",
+    "sourceId": "marlin:1169"
+  },
+  "Paracentrotus lividus": {
+    "label": "Lower shore to about 3 m",
+    "detail": "Lower shore to about 3 m (sometimes deeper)",
+    "sourceId": "marlin:1499"
+  },
+  "Patella vulgata": {
+    "label": "Intertidal",
+    "sourceId": "marlin:1371"
+  },
+  "Phoca vitulina": {
+    "label": "Dives to 450 m",
+    "sourceId": "marlin:2088"
+  },
+  "Pholis gunnellus": {
+    "label": "0-30 m",
+    "detail": "0-100 m (usually 0-30 m)",
+    "sourceId": "fishbase:Pholis-gunnellus"
+  },
+  "Platichthys flesus": {
+    "label": "1-100 m",
+    "sourceId": "fishbase:Platichthys-flesus"
+  },
+  "Pleuronectes platessa": {
+    "label": "10-50 m",
+    "detail": "0-200 m (usually 10-50 m)",
+    "sourceId": "fishbase:Pleuronectes-platessa"
+  },
+  "Pollachius pollachius": {
+    "label": "40-100 m",
+    "detail": "40-200 m (usually 40-100 m)",
+    "sourceId": "fishbase:Pollachius-pollachius"
+  },
+  "Pollachius virens": {
+    "label": "37-364 m",
+    "sourceId": "fishbase:Pollachius-virens"
+  },
+  "Pomatoschistus microps": {
+    "label": "0-12 m",
+    "sourceId": "fishbase:Pomatoschistus-microps"
+  },
+  "Pomatoschistus minutus": {
+    "label": "4-200 m",
+    "sourceId": "fishbase:Pomatoschistus-minutus"
+  },
+  "Psammechinus miliaris": {
+    "label": "0-100 m",
+    "sourceId": "marlin:1189"
+  },
+  "Scomber scombrus": {
+    "label": "0-200 m",
+    "detail": "0-1000 m (usually 0-200 m)",
+    "sourceId": "fishbase:Scomber-scombrus"
+  },
+  "Scyliorhinus canicula": {
+    "label": "80-100 m",
+    "detail": "10-780 m (usually 80-100 m)",
+    "sourceId": "fishbase:Scyliorhinus-canicula"
+  },
+  "Sepia officinalis": {
+    "label": "0-200 m",
+    "sourceId": "marlin:1098"
+  },
+  "Sepiola atlantica": {
+    "label": "Subtidal to over 400 m",
+    "sourceId": "guide-pdf:cefas-cephalopods-uk"
+  },
+  "Somateria mollissima": {
+    "label": "Dives to about 3 m",
+    "sourceId": "bto:eider"
+  },
+  "Spatangus purpureus": {
+    "label": "Infralittoral fringe to about 900 m",
+    "sourceId": "marlin:1191"
+  },
+  "Spinachia spinachia": {
+    "label": "1-6 m",
+    "sourceId": "fishbase:Spinachia-spinachia"
+  },
+  "Sprattus sprattus": {
+    "label": "10-150 m",
+    "sourceId": "fishbase:Sprattus-sprattus"
+  },
+  "Steromphala umbilicalis": {
+    "label": "Upper shore into the sublittoral",
+    "sourceId": "marlin:1481"
+  },
+  "Symphodus melops": {
+    "label": "1-30 m",
+    "detail": "1-12 m (usually 1-30 m)",
+    "sourceId": "fishbase:Symphodus-melops"
+  },
+  "Taurulus bubalis": {
+    "label": "0-200 m",
+    "sourceId": "fishbase:Taurulus-bubalis"
+  },
+  "Trachurus trachurus": {
+    "label": "100-200 m",
+    "detail": "0-1050 m (usually 100-200 m)",
+    "sourceId": "fishbase:Trachurus-trachurus"
+  },
+  "Trisopterus luscus": {
+    "label": "30-100 m",
+    "sourceId": "fishbase:Trisopterus-luscus"
+  },
+  "Trisopterus minutus": {
+    "label": "15-200 m",
+    "detail": "1-440 m (usually 15-200 m)",
+    "sourceId": "fishbase:Trisopterus-minutus"
+  }
+}

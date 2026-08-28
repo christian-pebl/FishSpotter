@@ -2,10 +2,10 @@
 
 ## Project Overview
 
-**FishSpotter** (www.fishspotter.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
+**FishSpotter** (fish-spotter.vercel.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
 
 - Repo: https://github.com/christian-pebl/FishSpotter
-- Live URL: **https://www.fishspotter.app** (canonical custom domain, confirmed 1 Aug 2026, `fishspotter.app` 308-redirects to it. Both map to the Vercel project `fish-spotter`, so `fish-spotter.vercel.app` / `fishspotter.vercel.app` are the same underlying deployment, just not the domain to link or reference)
+- Live URL: **https://fish-spotter.vercel.app** (canonical, ignore fishspotter.vercel.app, different deployment)
 - Local dev: `npm run dev` runs on **localhost:3000**
 - Database: Supabase Postgres (project ID: `aazxphcrexkggbmmceli`, region: West EU / Ireland)
 - Storage: Supabase Storage bucket `snippets`, public URLs at `https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/{externalId}/snippet.mp4`
@@ -32,23 +32,23 @@
 
 | File | Purpose |
 |------|---------|
-| `src/components/FeedCard.tsx` | Main video card: video playback, bbox tracking overlay (prefers `manualTrackJson` over `bboxJson` for the trail), species quiz, and the **on-clip control stack** (28 Aug 2026): three capsules top-right of the clip for zoom, playback speed and play/pause, shown when the Spot It panel is open, when zoomed, or when speed is off 1x. Speed writes the shared persisted `videoSettings.speed`, never a local copy, so the stack and the side menu cannot disagree. **`autoplayBlocked` and `videoPaused` are two different facts and the split is load-bearing:** the big scrim-and-triangle overlay belongs to `autoplayBlocked` only (the browser refused to start the clip), because throwing it over a frame the user deliberately paused would hide the animal behind the control they just used, and the tap-to-identify catcher gates on the same flag so a paused frame can still be named. Anything new that asks "is it paused" must pick the right one. |
+| `src/components/FeedCard.tsx` | Main video card: video playback, bbox tracking overlay (prefers `manualTrackJson` over `bboxJson` for the trail), species quiz. `getBoxAtProgress` positions a track ABSOLUTELY when its points carry `t_norm`, and stretches it across the whole clip only as the fallback for tracks without one. |
+| `src/lib/trackCoverage.ts` | Where a track actually has data inside its clip, and how strongly to draw it (`trackCoverage` / `coverageAlpha` / `inCoverage`). Exists because the 28 Aug 2026 minimum-duration re-cut gave 53 clips padding either side of their tracked window; the old stretch-to-fit renderer would have dragged the trace through frames the animal was never marked in. Points without `t_norm` return null coverage, which preserves the original behaviour for every older clip. See "Minimum clip duration" below. |
 | `src/components/FeedPlayer.tsx` | IntersectionObserver scroll container; sets activeIndex |
 | `src/app/feed/page.tsx` | Live feed page (server component, fetches snippets) |
 | `src/app/feed/browse/page.tsx` | Archive grid page |
 | `src/app/leaderboard/page.tsx` | Community leaderboard |
 | `prisma/schema.prisma` | DB schema: User, Snippet, Answer |
 | `scripts/seed.ts` | One-time seed: reads local snips folders, uploads to Supabase, inserts DB records (now also ingests `manual_track` -> `manualTrackJson`) |
-| `scripts/sync.ts` | **Incremental snippet sync (`npm run db:sync`).** Reads `SNIPS_DIR`, upserts only NEW/CHANGED folders (tracked via a local `.sync-manifest.json` of size+mtime signatures), re-uploads media + cache-busts ONLY when the clip bytes changed (so the editor's manual-track-only rewrites don't re-upload video), and writes `bboxJson` + `manualTrackJson`. This is what DesktopML's `fishspotter_sync.py` invokes after every export; `seed.ts` stays the upload-everything bootstrap. Two gates HOLD a snip rather than publishing it: incomplete metadata (`REQUIRED_META`) and a burnt-in detector overlay (`scripts/lib/burn-in.ts`); neither writes a manifest entry, so a corrected re-export is picked up next run. Flags: `--all`, `--dry-run`, `--limit N`, `--allow-incomplete`, `--allow-burned-in`. |
+| `scripts/sync.ts` | **Incremental snippet sync (`npm run db:sync`).** Reads `SNIPS_DIR`, upserts only NEW/CHANGED folders (tracked via a local `.sync-manifest.json` of size+mtime signatures), re-uploads media + cache-busts ONLY when the clip bytes changed (so the editor's manual-track-only rewrites don't re-upload video), and writes `bboxJson` + `manualTrackJson`. This is what DesktopML's `fishspotter_sync.py` invokes after every export; `seed.ts` stays the upload-everything bootstrap. Three gates HOLD a snip rather than publishing it: incomplete metadata (`REQUIRED_META`), a burnt-in detector overlay (`scripts/lib/burn-in.ts`), and a video codec no browser can decode (`scripts/lib/video-codec.ts`); none writes a manifest entry, so a corrected re-export is picked up next run. Flags: `--all`, `--dry-run`, `--limit N`, `--allow-incomplete`, `--allow-burned-in`, `--allow-bad-codec`. |
 | `scripts/lib/burn-in.ts` | **Burnt-in overlay detector (28 Aug 2026).** Refuses to publish a clip that has the ML detector's own output drawn INTO the pixels. TRDesk4 falls back to cutting from a pipeline render (`*_unified_tracked.mp4`, `*_yolo_tracked_web.mp4`, `*_step2_motion.mp4`) when it cannot resolve the raw footage; those carry a black HUD bar reading `FUSED TRACKS (n) Frame N` plus detection rectangles, which shows a player the machine's answer. Two independent signals: `pipelineRenderName()` reads `metadata.source_video_used` (cheap, exact, only on exports new enough to record it), and `detectBurnedInOverlay()` samples frames with ffmpeg and measures the top-left 500x26 band. **A "is the top-left dark?" test is NOT usable** (murky green footage trips it; it false-positived a clean live Skye clip), so a HUD verdict requires a near-black background AND white glyph pixels together: measured over 11 burnt-in clips vs 11 clean re-cuts the populations were black 0.67-0.71 / white 0.047-0.051 versus 0.00 / 0.000, no overlap. Returns `unknown` (never `burned-in`) when ffmpeg is absent, so a missing toolchain warns instead of freezing every sync. Used by `sync.ts` and `snip-preflight.ts`. |
+| `scripts/lib/video-codec.ts` | **Codec gate (28 Aug 2026).** Refuses to publish a clip a browser cannot decode. TRDesk4's exporter pipes frames to `ffmpeg -c:v libx264` ONLY when `shutil.which("ffmpeg")` resolves inside its own process; otherwise it falls back to the cv2 `mp4v` writer (MPEG-4 Part 2) and merely logs a warning. On 28 Aug 2026 that shipped all 52 Car-Y-Mor clips as `mpeg4`: they uploaded fine, served a healthy HTTP 206, carried complete metadata and clean pixels, and rendered as "This clip didn't load." in every browser. The existing `npm run check:codecs` catches this, but only by probing live DB URLs, i.e. after the public has seen it; this gate runs before upload. `isPlayableCodec()` is the pure predicate (H.264 only, deliberately: HEVC/AV1 are refused because widening the set is a product decision, not something a sync should infer). `checkSnipCodec()` returns `unknown` (warn, fail open) when ffprobe is absent, but `unplayable` (hold) when ffprobe IS present and cannot parse the file, since that is a truncated or corrupt clip rather than a missing tool. Used by `sync.ts` and `snip-preflight.ts`. |
+| `scripts/fix-unplayable-snippets.ts` | **Codec repair (`npm run db:fix-codecs`, 28 Aug 2026).** The remediation half of the gate above: probes every live `Snippet.videoUrl`, re-encodes any non-H.264 clip to H.264, uploads over the same storage key, and bumps the `?v=` cache-buster so browsers and the CDN drop the undecodable bytes they cached. Prefers re-encoding from `SNIPS_DIR/<externalId>/snippet.mp4` (the exact uploaded bytes) and downloads only when there is no local copy. NB this is a SECOND lossy pass over a weak mp4v intermediate, the very thing the 10 Jun 2026 re-cut existed to stop, so it is the emergency fix, not the best output: the clean fix is to make ffmpeg resolvable to TRDesk4 and re-export from the raw footage (one encode at crf 16). `--dry-run`, `--limit N`, `--external <id>`. Verify with `npm run check:codecs`. |
 | `scripts/transcode-to-h264.ts` | Utility: downloads all mp4v snippets, transcodes to H.264, re-uploads, updates DB URLs |
 | `scripts/reupload-snippets-hq.ts` | Re-uploads the high-quality re-cut clips (from `DesktopML/reexport_snippets_hq.py`, default `--from` the local export dir or pass `--from "<G: Fish Spotter Snips>"`) to the active storage provider and cache-busts the DB `videoUrl`/`thumbnailUrl` with a `?v=` bump. Idempotent: skips rows already on the active provider's host (`--all` to force). `--dry-run` / `--limit N`. Used for the 10 Jun 2026 quality re-cut; also the tool to re-consolidate onto R2 once R2 creds are present. |
 | `scripts/refresh-images.ts` | CLI runner for the species-image cache (thin wrapper around `src/lib/biodiversity/refresh-images.ts`) |
 | `scripts/backup-pre-drop.ts` | Pre-migration safety net: dumps tables/columns about to be dropped by a `prisma db push --accept-data-loss` to `./backups/` as JSON. Edit the table list before running. |
 | `scripts/seed-fish-marks.ts` | Bulk fish DiagnosticMark seeder (2 Jun 2026). Covers **21 fish species** across 4 batches: gadoids (Saithe, Bib/Pouting, Poor Cod, Atlantic Cod), wrasses (Ballan, Cuckoo, Corkwing, Goldsinny), gobies/benthic (Two-spotted Goby, Common Goby, Rock Goby, Sand Goby, Butterfish, Shanny, Long-spined Sea Scorpion), and pelagic/schooling (Horse Mackerel, Atlantic Mackerel, Sprat, Sand Smelt, Sea Bass, Thick-lipped Grey Mullet). Idempotent, skips species that already have marks. Requires a curated `SpeciesImage` row per species (add to `species-images.json` overrides + run `db:refresh-images --species` first). Run via `npx tsx --env-file=.env.local scripts/seed-fish-marks.ts`. |
-| `src/lib/badges.ts` | **The three profile categories and their milestones (28 Aug 2026).** Pure leaf: Pioneer (named it first, community then agreed) 10/25/50, Consensus (calls the community agreed with) 20/50/100, Pathfinder (clips you opened up first) 30/75/150. Also `rankWithin` (zero-count spotters are excluded from a category's rank field, ties share a rank) and `visibleMilestones`, which hides a rung nobody can reach with today's clips. Deliberately NOT here: anything keyed on join date, which rewards a calendar accident and shuts the door on later arrivals. |
-| `src/lib/spotter-record.ts` | Derives the Record from `Answer` plus the reached consensus leader, using the same `groupPendingAnswers` / `pickLeaderGroup` pair the rescore cron uses so a milestone can never disagree with the Pebbles paid. Computes every spotter's counts in one pass (ranks are free), the species behind each category with curated thumbnails, and the per-category ceilings that decide which milestones are visible. No new tables. Walks the whole Answer table, same stance as the cron. |
-| `src/lib/rarity-scope.ts` | **Guards the rarity multiplier against the OBIS fish-only pull (28 Aug 2026).** `FISH_CLASS_NAMES` in `biodiversity/obis.ts` requests Actinopterygii + Chondrichthyes only, so no invertebrate, seabird or seal can ever appear in a `SpeciesProbability` bucket, and `rarityForProbability` was reading that absence as legendary x5. Every invertebrate ID had been paying x5 since the rarity layer shipped. Pass `rarityDataAvailable(sci, bucketHasData)` rather than a raw `bucketHasData`. **Widen `OBIS_VISIBLE_SHAPE_CLASSES` if the OBIS pull is ever widened.** |
 | `scripts/audit-reference-ids.ts` | Q4-B1 diagnostic (read-only). Groups `Snippet.staffAnswer` by normalised label, joins SpeciesNameMap resolution, and proposes a per-label action: `keep` (species-level binomial), `backfill` (identifiable but coarse, needs a human binomial), `nullify` (indeterminate like "Fish"/"Crab" -> should become a no-reference snippet), `none` (already null). Run `npm run db:audit-references` (add `-- --json` for a machine dump). Never writes; the approved backfill/nullify + retro-score is a separate step. |
 | `scripts/confusion-matrix.ts` | Q4-B3 diagnostic (read-only). Ranks `(reference, guessed-as)` pairs from incorrect Answers (`isCorrect=false`), grouped by the live matcher's normalise key, plus a most-confused-reference rollup. This is the authoring brief for mark expansion (where the wizard most needs a discriminating mark). Run `npm run db:confusion-matrix` (`-- --limit N`, `-- --json`). Note: junk references like "Fish"/"Crab" dominate until they're nullified via the audit above. |
 | `src/lib/biodiversity/gemini-vision.ts` | **Gemini vision client (image quality tool).** Claude orchestrates; Gemini 3.6 Flash (override `GEMINI_MODEL`) does the actual vision. `assessImageQuality()` downloads a photo, sends it inline to Gemini with a strict JSON `responseSchema`, and returns a teaching-suitability assessment (subjectType, individualCount, condition, view, nonPhotographic, focus/lighting/framing/occlusion/diagnostic-feature scores 0..100, teachingScore + ideal/usable/poor/reject + a one-line note). Never throws on expected failures (returns `{ok:false,error}`); retries 429/503/500. Reads `GEMINI_API_KEY` from `.env.local` (gitignored, never commit). This is the escape hatch for the photo-curation gap: iNat "research grade" = community ID agreement, not photo composition. **Use this tool whenever a task needs accurate image analysis.** |
@@ -58,17 +58,18 @@
 | `scripts/enrich-image-meta.ts` | Backfills `observedOn` (date/year) + `placeGuess` (location) onto `SpeciesImage` rows cached before those columns existed, chiefly the `curated` reference photos the builder never re-fetches. Extracts the iNat observation id from `sourceUrl`, batch-queries iNat (`fetchObservationMeta`, 30/call), patches the rows. Only enriches iNaturalist rows (Wikimedia/manual have no obs metadata). Idempotent (`observedOn IS NULL` only; `--force` to refresh all). Run `npx tsx --env-file=.env.local scripts/enrich-image-meta.ts`. First run (4 Jun): 322 rows enriched, 320/320 iNat observations had both a date and a place. |
 | `scripts/audit-species-images.ts` | **Guide-hero audit (4 Jun 2026).** Read-only inventory of every species' reference photos + annotated guide-hero (curated photo + `DiagnosticMark` rings). With `-- --validate` it composites each hero's rings via the shared `scripts/lib/mark-overlay.ts` (exact `AnnotatedSpeciesPhoto` geometry) and grades placement/clarity per ring with Gemini 3.5 Flash. Writes `implementation/2026-06-04/species-image-audit-data.json`. Run `npx tsx --env-file=.env.local scripts/audit-species-images.ts -- --validate`. |
 | `scripts/place-diagnostic-marks.ts` | **Auto-placement tool (4 Jun 2026).** Fixes/fills `DiagnosticMark` ring coordinates (the hand-seeded ones were misaligned). Gemini localises each feature via its native `box_2d` format (converted to a centred ring), then a verify-and-correct loop (`validateHero` from `mark-overlay.ts`) re-prompts any ring graded off-target. `--mode relocate` re-places existing marks (skips already-aligned unless `--force`; re-points to the current curated hero, so it also finishes a P1 photo swap); `--mode author` creates marks from `scripts/data/p2-mark-drafts.ts`. Dry-run is the default; `--apply` writes. Tags `createdBy=gemini-place@pebl-cic.co.uk`; all output is a DRAFT pending expert sign-off. Appends before/after coords + grades to `implementation/2026-06-04/placement-log.json`. `scripts/render-hero.ts -- --species "X"` renders a hero composite PNG (DB coords or `--from-log`) for human ground-truthing. |
+| `src/lib/biodiversity/range.ts` | **Species range claim (28 Aug 2026).** Turns an OBIS occurrence grid into a sentence a beginner can read ("Mostly seen in the English Channel, and only here and there elsewhere"), scoring six lay-named seas as common / occasional / notRecorded. **The load-bearing fact: OBIS record counts measure SURVEY EFFORT at least as much as animals, so never shade, rank or weight anything by raw per-cell count.** 51% of every grey seal record in the UK window comes from ONE cell off Brest, so the old per-cell heatmap drew its darkest square in Brittany. What is robust is COVERAGE, the share of a region's surveyed cells holding the species: one huge survey inflates a cell's count but cannot spread a species across a region it does not live in. Records are used only as a floor, based on the MEDIAN region (a floor built on the species total is set by the spike it is meant to defuse, which published thick-lipped grey mullet as "Scarce everywhere"). Thresholds were grid-searched against 16 species with documented ranges and 55 constraints; region `capacity` is a data-derived survey mask from one OBIS `Animalia` pull. Pure and unit-tested; the Brittany and mullet cases are regression tests. |
+| `src/components/species/DistributionMap.tsx` | Renders the range sentence plus a six-region presence map (the sentence is the claim, the map is its evidence). Land draws over the sea shading, three shades on a LIGHTNESS ramp (not hue) for colourblind safety, sea names instead of degree graticules, and all six PEBL filming sites from `FARMS`. Pure SVG, no JS, no map library. |
+| `scripts/build-coastline.mjs` | Generates `src/data/ne-atlantic-coastline.ts` from Natural Earth 50m land (public domain): clips to the map window, simplifies with Douglas-Peucker, drops specks. **Re-run only if the map window changes, and keep it in step with `VIEW` in `DistributionMap.tsx` or land and the sea-region boxes land on different projections.** |
 | `src/lib/biodiversity/refresh.ts` | Shared library for the OBIS/GBIF probability + name-map refresh (used by `db:backfill` and the probabilities cron) |
 | `src/lib/biodiversity/refresh-images.ts` | Shared library for the iNat photo refresh (used by `db:refresh-images` and the images cron) |
 | `src/lib/biodiversity/inaturalist.ts` | iNaturalist v1 API client (CC-licensed photo fetch with optional life-stage / sex annotation filters) |
 | `src/components/SpeciesGallery.tsx` | Photo strip + lightbox for candidate cards and field-note view (portaled, focus-trapped, CC-attributed). Each thumbnail carries a corner **'i' button** (4 Jun 2026) opening an `InfoPopover` (portaled to body so the scroll strip can't clip it, viewport-clamped) with the photo's provenance: reference (author + license), location (`placeGuess`), year (`observedOn`), subject (lifeStage/sex), a "View on iNaturalist/Wikimedia" source link + license-deed chip. The lightbox also shows the location · year line. NB the 'i' onClick captures `getBoundingClientRect()` synchronously into a const before `setInfo`, reading `e.currentTarget` inside the state-updater crashes when React replays the reducer. |
-| `src/components/AnnotatedSpeciesPhoto.tsx` | S9-T1: renders a reference photo with numbered SVG rings + legend for admin-authored diagnostic marks. Shown inline on the reveal (and on `/species/[slug]`) for the reference species; returns null for species without authored marks, so the thumb-strip gallery below it stays the fallback. |
-| `src/lib/split-screen.ts` | **The split screen contract (28 Aug 2026).** One half is always the clip, the other is whatever the app wants to say about it. Owns the sizing constants + the viewer's stored panel size (so the width dragged on the tiles is the width the reveal inherits), the `fs-gate` bus **with a cached snapshot** (an overlay mounting INTO an open split has no event to wait for, and without the cache renders full screen for its whole life), and `--fs-panel-*` custom properties on the document element so PORTALED overlays can occupy the working half in pure CSS. Two traps encoded as tests: the properties are REMOVED not zeroed when nothing is split (overlays fall back via `var(--fs-panel-w, 100vw)`, and `0px` would satisfy the var and collapse them), and the rect is re-measured per frame until it settles, because the panel ENTERS on a transform that moves it without ever changing its size, so a ResizeObserver alone leaves the rect 12px stale and every overlay 12px low. |
-| `src/components/idflow/SplitPanel.tsx` | The working half as a reusable shell (docked panel on desktop, bottom sheet on a phone, one drag control that resizes it). Used by the reveal + guess panel in `FeedCard`; `TileGate` keeps its own copy of the markup because it is welded to its minimise-to-a-bubble animation, but both take their GEOMETRY from `split-screen.ts` so they cannot drift. |
-| `src/components/idflow/PanelOverlay.tsx` | A dialog that lands on the working half instead of over the whole app. Used by `SpeciesComparison`, `SpeciesGuidePopup` and `MapModal`. Falls back to the old centred full-screen card when nothing is split, with no branching at the call site. Deliberate exceptions that stay full-screen: the `SpeciesGallery` lightbox (shrinking a "zoom into this photo" action into a 500px panel defeats it), the guest sign-up wall, and `SideMenu` (leaving the feed). |
+| `src/components/AnnotatedSpeciesPhoto.tsx` | S9-T1: renders a reference photo with numbered SVG rings + legend for admin-authored diagnostic marks (used in the IdGuideWizard's final reveal). Returns null for species without authored marks, so the existing thumb-strip + field-note path keeps working as fallback. |
+| `src/components/IdGuideWizard.tsx` | 5-step trait funnel (body shape → size → habitat → markings → behaviour). Each step now has a "Why ask this?" disclosure surfacing the marine biologist's rationale (S9-T1). FinalReveal renders AnnotatedSpeciesPhoto above the existing gallery + field note. |
 | `src/data/species-images.json` | Per-species fetch manifest: which life-stage / sex buckets to request, plus optional pinned `overrides`. Also carries the optional **`fetchName`** field (1 Aug 2026), read via `src/lib/biodiversity/fetch-name.ts`: for a GROUP-level catalogue entry (`Majoidea`, the UK spider crabs, which are not separable on video) a query at that rank returns the whole clade worldwide, so photo and OBIS pulls are pinned to a representative species (`Hyas araneus`) while rows stay stored under the catalogue key. Honoured by `refresh-images.ts`, `build-species-galleries.ts` and `species-cache.ts` (depth + distribution). Any future group-level entry needs one. |
 | `src/lib/idguide/catalogue.ts` | **Validated catalogue loader (4 Jun 2026).** The single typed entry point for the species catalogue: builds a zod schema from the `as const` trait enums in `traits.ts`, validates `species-traits.json` once, and exports `CATALOGUE`. Every consumer imports `CATALOGUE` from here, the old `speciesTraitsData as unknown as SpeciesCatalogue` cast is gone. `catalogue.test.ts` strict-parses the JSON and cross-checks that every species has an alias entry + a curated photo override, so a malformed or half-onboarded species fails CI instead of degrading silently at runtime. |
-| `src/data/species-traits.json` | Trait catalogue for the Spot It flow (body shape, size, markings, behaviour, habitat, plus the prose `fieldNote`). Read at request time by the wizard's narrowing engine in `src/lib/idguide/narrow.ts`. **57 species as of 4 Jun 2026** (28 fish incl. 2 dragonets, 3 flatfish, 6 crabs, 6 squid/cephalopods, 4 starfish, 4 gastropods, 6 jellyfish). Loaded + zod-validated via `src/lib/idguide/catalogue.ts`, import `CATALOGUE` from there, **never the raw JSON**; `catalogue.test.ts` is the CI gate that rejects an invalid enum value or missing field. Every entry carries `shapeClass` + `movement` (Workstream A). Invert entries carry one optional class-specific "form" trait each: crabs `carapaceTexture` + `crabFeatures`, squid `cephalopodForm` (octopus folded in), starfish `armForm`, gastropods `shellShape`, jellyfish `bellForm` (Workstream C); fish entries omit them. **Fish Rung-3 splitters (3 Jun 2026, `implementation/2026-06-03/fish-silhouette-rung3-review.md`):** two optional fish-only scored traits `bodyDepth` (deep/medium/slender) + `lateralLine` (pale-straight/dark-curved/arched-over-pectoral/indistinct), plus new values `caudal-spot` (markings), `finlets` (finShape), `pelvic-sucker`+`lateral-scutes` (features); duplicate `snake-like` body shape retired (use `eel-like`). Added because 21/26 fish were `fusiform`: re-tagging (deep wrasses/bib → laterally-compressed; gobies → elongated dual-tag; butterfish → eel-like; dragonet/conger trims; sprat → laterally-compressed) + the new traits drop the fusiform bucket to 17 and give the existing `nextBestTrait` Rung-3 picker real discriminating signal (it was already wired in `CandidateStrip`; it just lacked data). **"Bottom scooters" fish Rung-2 bucket (4 Jun 2026):** added a `bottom-scooter` `bodyShape` value + retagged the 2 dragonets (off `flat-dorsoventral`) and the 3 bottom-dwelling gobies (Common/Rock/Sand, added alongside their existing `elongated`/`fusiform`) onto it, so the fish sub-split tile reads "Bottom scooters" (5 species) instead of "Flat, on the bottom" (2). It is an ecology/posture grouping (perch-and-dart seabed fish), per Christian's steer that beginners group gobies with dragonets. `flat-dorsoventral` now belongs only to the 3 flatfish (Plaice/Dab/Flounder). The two-spotted goby stays out (water-column hoverer). Silhouette is an original PEBL filled SVG at `public/silhouettes/forms/bottom-scooter.svg` (no PhyloPic UUID; `fetch-bodyform-silhouettes.cjs` now preserves such hand-authored credits on re-run). All invert content is grounded in `decision-tree/id-guides/` sources: squid from the Cefas cephalopod PDF; starfish/gastropods from Devon WT; jellyfish + every invert name cross-verified against Hayward & Ryland's *Handbook of the Marine Fauna of NW Europe* (2017) on 2 Jun (all 20 names valid; `Steromphala umbilicalis` is the current name for the Handbook's older `Gibbula umbilicalis`; the barrel jelly is `Rhizostoma octopus`, the NE-Atlantic/UK species per WoRMS + MarLIN, not the Handbook's broader-range `R. pulmo`). See `implementation/2026-06-01/`. **Fish Rung-2 family-gestalt restructure (17 Jun 2026, `implementation/2026-06-17/fish-category-review.md`):** the fish Rung-2 gate now cuts on a NEW optional `fishGroup` trait (cod-like / wrasse / silver-shoaler / bottom-sitter / long-skinny / shark), NOT `bodyShape`. Reason: the old `bodyShape` cut piled 20 of 28 fish into one "Torpedo or deep-bodied" bucket (2x the 10-option ceiling) and the deep-vs-torpedo split proved unreliable on a 28-photo vision pass. The six family groups are each <=10 (largest = bottom-sitter, 9) so no fish Rung-3 is needed; `body-forms.test.ts` now enforces the <=10 ceiling + full fish coverage. `bodyShape` stays as a secondary scored descriptor; `fishGroup` is authoritative for the fish gate AND the Rung-3 fallback silhouette. Mis-tags fixed: catshark -> `shark` (off torpedo), sea scorpion grouped `bottom-sitter`, sprat/corkwing `bodyDepth` de-deepened. Six new `public/silhouettes/forms/<fishGroup>.svg` tiles (cod-like + shark authored PEBL CC0; wrasse/silver-shoaler/long-skinny reuse PhyloPic art; bottom-sitter reuses the PEBL gobiid). **Bottom-fish size split (18 Jun 2026):** `bottom-sitter` had hit the 10-species ceiling, so the chunkier seabed fish moved to a new `bottom-other` group, and the two tiles now cut on SIZE (a beginner judges size off a clip far more reliably than goby-vs-gurnard): `bottom-sitter` = **"Small bottom fish"** (6 gobies + dragonets, ~4-8 cm); `bottom-other` = **"Bigger bottom fish"** (gurnards, red mullet, + the bigger sea scorpion + shanny). Long-spined sea scorpion + shanny were re-tagged `size` small→medium so the cut is clean (both 12-17 cm, genuinely bigger than a goby). New `public/silhouettes/forms/bottom-other.svg`; the `cod-like` + `bottom-sitter` silhouettes were redrawn for icon-size clarity (single bold contour, cod's 3 dorsal + 2 anal humps are drawn into the body outline with real negative-space gaps instead of merging into one ridge; the goby is one clean bottom-perched shape instead of a two-fish blob). **SUPERSEDED AT THE GATE, 28 Aug 2026:** the fish Rung-2 tiles no longer cut on `fishGroup` at all. They cut on a new `fishZone` trait (`seabed` / `water-column`), so the gate asks "Where was the fish?" and offers TWO tiles (15 / 18 species) instead of seven family groups. Reason: seven tiles is a lot of reading before the first photo, and each one asked a beginner to name a FAMILY off a short clip, which is the hardest thing on screen rather than the easiest. `fishGroup` is NOT retired: it stays the authoritative family grouping for silhouettes, comparison sets, the food web and `trait-questions.ts`, and `fishZone` is a presentation cut layered over it. It had to be its own trait rather than a bundle of `fishGroup` values because two groups split across both zones: `long-skinny` (conger + butterfish work the bottom, the fifteen-spined stickleback hangs above it) and `bottom-sitter` (the two-spotted goby hovers in mid-water over the kelp). The 10-species Rung-2 ceiling no longer applies to fish; see `body-forms.test.ts`, which now caps OPTIONS at 10 everywhere and BUCKET size at the Rung-3 photo-grid's 24-tile limit. |
+| `src/data/species-traits.json` | Trait catalogue for the IdGuideWizard (body shape, size, markings, behaviour, habitat, plus the prose `fieldNote`). Read at request time by the wizard's narrowing engine in `src/lib/idguide/narrow.ts`. **57 species as of 4 Jun 2026** (28 fish incl. 2 dragonets, 3 flatfish, 6 crabs, 6 squid/cephalopods, 4 starfish, 4 gastropods, 6 jellyfish). Loaded + zod-validated via `src/lib/idguide/catalogue.ts`, import `CATALOGUE` from there, **never the raw JSON**; `catalogue.test.ts` is the CI gate that rejects an invalid enum value or missing field. Every entry carries `shapeClass` + `movement` (Workstream A). Invert entries carry one optional class-specific "form" trait each: crabs `carapaceTexture` + `crabFeatures`, squid `cephalopodForm` (octopus folded in), starfish `armForm`, gastropods `shellShape`, jellyfish `bellForm` (Workstream C); fish entries omit them. **Fish Rung-3 splitters (3 Jun 2026, `implementation/2026-06-03/fish-silhouette-rung3-review.md`):** two optional fish-only scored traits `bodyDepth` (deep/medium/slender) + `lateralLine` (pale-straight/dark-curved/arched-over-pectoral/indistinct), plus new values `caudal-spot` (markings), `finlets` (finShape), `pelvic-sucker`+`lateral-scutes` (features); duplicate `snake-like` body shape retired (use `eel-like`). Added because 21/26 fish were `fusiform`: re-tagging (deep wrasses/bib → laterally-compressed; gobies → elongated dual-tag; butterfish → eel-like; dragonet/conger trims; sprat → laterally-compressed) + the new traits drop the fusiform bucket to 17 and give the existing `nextBestTrait` Rung-3 picker real discriminating signal (it was already wired in `CandidateStrip`; it just lacked data). **"Bottom scooters" fish Rung-2 bucket (4 Jun 2026):** added a `bottom-scooter` `bodyShape` value + retagged the 2 dragonets (off `flat-dorsoventral`) and the 3 bottom-dwelling gobies (Common/Rock/Sand, added alongside their existing `elongated`/`fusiform`) onto it, so the fish sub-split tile reads "Bottom scooters" (5 species) instead of "Flat, on the bottom" (2). It is an ecology/posture grouping (perch-and-dart seabed fish), per Christian's steer that beginners group gobies with dragonets. `flat-dorsoventral` now belongs only to the 3 flatfish (Plaice/Dab/Flounder). The two-spotted goby stays out (water-column hoverer). Silhouette is an original PEBL filled SVG at `public/silhouettes/forms/bottom-scooter.svg` (no PhyloPic UUID; `fetch-bodyform-silhouettes.cjs` now preserves such hand-authored credits on re-run). All invert content is grounded in `decision-tree/id-guides/` sources: squid from the Cefas cephalopod PDF; starfish/gastropods from Devon WT; jellyfish + every invert name cross-verified against Hayward & Ryland's *Handbook of the Marine Fauna of NW Europe* (2017) on 2 Jun (all 20 names valid; `Steromphala umbilicalis` is the current name for the Handbook's older `Gibbula umbilicalis`; the barrel jelly is `Rhizostoma octopus`, the NE-Atlantic/UK species per WoRMS + MarLIN, not the Handbook's broader-range `R. pulmo`). See `implementation/2026-06-01/`. **Fish Rung-2 family-gestalt restructure (17 Jun 2026, `implementation/2026-06-17/fish-category-review.md`):** the fish Rung-2 gate now cuts on a NEW optional `fishGroup` trait (cod-like / wrasse / silver-shoaler / bottom-sitter / long-skinny / shark), NOT `bodyShape`. Reason: the old `bodyShape` cut piled 20 of 28 fish into one "Torpedo or deep-bodied" bucket (2x the 10-option ceiling) and the deep-vs-torpedo split proved unreliable on a 28-photo vision pass. The six family groups are each <=10 (largest = bottom-sitter, 9) so no fish Rung-3 is needed; `body-forms.test.ts` now enforces the <=10 ceiling + full fish coverage. `bodyShape` stays as a secondary scored descriptor; `fishGroup` is authoritative for the fish gate AND the Rung-3 fallback silhouette. Mis-tags fixed: catshark -> `shark` (off torpedo), sea scorpion grouped `bottom-sitter`, sprat/corkwing `bodyDepth` de-deepened. Six new `public/silhouettes/forms/<fishGroup>.svg` tiles (cod-like + shark authored PEBL CC0; wrasse/silver-shoaler/long-skinny reuse PhyloPic art; bottom-sitter reuses the PEBL gobiid). **Bottom-fish size split (18 Jun 2026):** `bottom-sitter` had hit the 10-species ceiling, so the chunkier seabed fish moved to a new `bottom-other` group, and the two tiles now cut on SIZE (a beginner judges size off a clip far more reliably than goby-vs-gurnard): `bottom-sitter` = **"Small bottom fish"** (6 gobies + dragonets, ~4-8 cm); `bottom-other` = **"Bigger bottom fish"** (gurnards, red mullet, + the bigger sea scorpion + shanny). Long-spined sea scorpion + shanny were re-tagged `size` small→medium so the cut is clean (both 12-17 cm, genuinely bigger than a goby). New `public/silhouettes/forms/bottom-other.svg`; the `cod-like` + `bottom-sitter` silhouettes were redrawn for icon-size clarity (single bold contour, cod's 3 dorsal + 2 anal humps are drawn into the body outline with real negative-space gaps instead of merging into one ridge; the goby is one clean bottom-perched shape instead of a two-fish blob). **SUPERSEDED AT THE GATE, 28 Aug 2026:** the fish Rung-2 tiles no longer cut on `fishGroup` at all. They cut on a new `fishZone` trait (`seabed` / `water-column`), so the gate asks "Where was the fish?" and offers TWO tiles (15 / 18 species) instead of seven family groups. Reason: seven tiles is a lot of reading before the first photo, and each one asked a beginner to name a FAMILY off a short clip, which is the hardest thing on screen rather than the easiest. `fishGroup` is NOT retired: it stays the authoritative family grouping for silhouettes, comparison sets, the food web and `trait-questions.ts`, and `fishZone` is a presentation cut layered over it. It had to be its own trait rather than a bundle of `fishGroup` values because two groups split across both zones: `long-skinny` (conger + butterfish work the bottom, the fifteen-spined stickleback hangs above it) and `bottom-sitter` (the two-spotted goby hovers in mid-water over the kelp). The 10-species Rung-2 ceiling no longer applies to fish; see `body-forms.test.ts`, which now caps OPTIONS at 10 everywhere and BUCKET size at the Rung-3 photo-grid's 24-tile limit. |
 | `decision-tree/index.html` (+ `public/decision-tree.html`) | Standalone decision-tree visual built 1 Jun 2026: 8 shape classes -> sub-class -> species with the single best diagnostic per species. The **authoring/teaching artifact** for the Spot It flow, NOT the runtime. View at `http://localhost:3000/decision-tree.html` (served from `public/`). |
 | `food-web/build-foodweb.mjs` (+ `public/food-web.html`, `food-web/README.md`) | **"The Food web" (23 Jul 2026).** Interactive food-web diagram of all 72 catalogue species on a seaweed+shellfish farm, rebuilt from PEBL's "Biodiversity Mechanisms" cross-section. 238 prey->predator links (verified vs UK/NE-Atlantic diet records), trophic-tier colour + farm-proximity, click a species to trace what it eats (blue) / what eats it (amber). Has a **with / without-farm toggle**: a `FARM` map classifies each species (21 `created` = gone without the farm, 11 `enhanced` = faded, 1 `harmed` = sea potato does better without, 39 `anyway`); baseline view ghosts the created species + prunes their links (72->51 species, 238->151 links), mode-aware so a selected species' diet contracts. **`created` is deliberately narrow (3 Aug 2026):** only animals that physically cannot occupy bare sediment (hard-substrate obligates + small site-attached weed/crevice fish). Wide-ranging animals a farm merely draws in are `enhanced`, the attraction-vs-production distinction; ballan + cuckoo wrasse and both octopuses were re-graded down on that basis. Self-contained HTML (inline CSS+JS+silhouette sprite). Rebuild: `node food-web/build-foodweb.mjs` (`DUMP=1` prints all diets + a trophic-direction check). Teaching schematic, not a quantified survey. See `food-web/README.md`. |
 | `decision-tree/id-guides/*.pdf` | UK marine ID sources. 6 free guides downloaded 1 Jun (EA fish key, Merryweather crabs, Cefas cephalopods, Sussex IFCA, ZSL estuarine, Devon WT rocky shore) + Hayward & Ryland's *Handbook of the Marine Fauna of NW Europe* (2017, OUP, 808pp) added 2 Jun, the authoritative academic reference for all phyla, used to verify invert names/traits. NB the Handbook is 107MB, over the Read tool's 100MB limit: extract via PyMuPDF (`fitz`) per page-range, not the Read tool (see TOC: jellyfish/Scyphozoa p91-100, crustacea p306-463, molluscs incl. cephalopods p478-625, echinoderms p662-687, fish p716-763). |
@@ -76,8 +77,7 @@
 | `scripts/fetch-silhouettes.cjs` | Workstream D / UX-5: pulls one PhyloPic silhouette per gate shape-class via the PhyloPic v2 API, refusing NonCommercial licenses (FishSpotter is a PEBL CIC product) by falling back to a non-NC clade image. Sanitises each SVG, writes `public/silhouettes/<class>.svg`, and records author + license in `src/data/silhouette-credits.json`. Re-run to refresh. |
 | `public/silhouettes/*.svg` + `src/data/silhouette-credits.json` | The 8 gate shape-class silhouettes (all CC0 / Public Domain Mark as of 2 Jun 2026) + their attribution. The gate (`ShapeGate.tsx`) tints them via CSS `mask-image` + `bg-current`, so they inherit the tile's brand teal and hover-recolor with zero JS-bundle cost. The hand-drawn inline SVGs in `ShapeGate.tsx` remain as a per-class fallback when a class has no asset (credits-file keys decide which path is used). |
 | `src/components/MarinePattern.tsx` + `scripts/build-marine-pattern.cjs` + `scripts/fetch-pattern-silhouettes.cjs` + `public/patterns/*` + `src/data/pattern-silhouette-credits.json` | Decorative WhatsApp-doodle-style marine background (2 Jun 2026). `fetch-pattern-silhouettes.cjs` pulls ~20 extra UK marine taxa from PhyloPic (commercial-safe / non-NC, into `public/patterns/silhouettes/`); `build-marine-pattern.cjs` scatters a **curated UK-only** pool (ink-blobs + non-UK species like `turtle` listed in its `EXCLUDE` set) into a seamless, edge-wrapped tile and rasterises a cheap PNG via `sharp`. `MarinePattern` tiles the PNG via `mask-image` + `background-color: currentColor` (same technique as `ShapeGate`/`UnderwaterBackdrop`); `animated` adds the `fs-pattern-sway` wave loop. Tune density/size/rotation/excludes via the build-script knobs, then re-run it. Dev-only helpers (archived in `scripts/archive/`): `silhouette-contact-sheet.cjs` (curation grid), `preview-pattern.cjs` (in-context mock). |
-| `src/lib/videoSettings.ts` | Per-device video preferences (sound, trace, speed, brightness, contrast) in localStorage, broadcast on a custom event so every consumer re-renders. `VIDEO_SPEEDS` is the playback-rate ladder (`0.25 / 0.5 / 0.75 / 1 / 1.5 / 2`, ascending, 1 always a member) and `stepSpeed()` walks it one rung per press, clamped at both ends rather than wrapped. Both the on-clip stepper in `FeedCard` and the pills in `VideoSettingsPanel` read the same ladder, so widening it is a one-line change here. Unit-tested in `videoSettings.test.ts`, including that every previously persisted rate stays valid. |
-| `src/lib/useModalFocus.ts` | Shared modal focus-management hook (remember opener + restore, initial focus, Tab trap, Escape, body-scroll lock), the WCAG 2.1.2 contract. Applied to `MapModal` (which had none, so keyboard users could tab onto the live feed behind the open map). |
+| `src/lib/useModalFocus.ts` | Shared modal focus-management hook (remember opener + restore, initial focus, Tab trap, Escape, body-scroll lock), the WCAG 2.1.2 contract, extracted from `IdGuideSheet`'s proven implementation. Applied to `MapModal` (which had none, so keyboard users could tab onto the live feed behind the open map). |
 | `src/app/auth/layout.tsx` | Shared chrome for all `/auth` routes (signin/forgot/reset/verify): renders an animated `MarinePattern` behind the card and drops the card to 80% white (`[&_.pebl-surface]:bg-white/80`) so the water shows through (frosted feel). Fixes the design-audit F-EMPTY-AUTH-STATES bare-card finding. |
 | `implementation/2026-06-02/design-audit.md` | Multi-agent visual/UX design audit (2 Jun 2026) + its implementation status. 12 finder lenses, per-finding adversarial verification, 61 confirmed findings deduped to 21 themes. The one P1 (`MapModal` focus) + 8 quick wins + core-loop fixes are shipped; the remaining systemic P2s (full glyph/radius/touch-target sweeps, editorial auth pages, type tokens) are tracked there. |
 | `src/lib/admin.ts` | S9-T1 admin gate: `isAdminUser()` requires BOTH the `@pebl-cic.co.uk` suffix AND a verified email (`emailVerified` non-null), domain alone is not enough because guest-claim (`POST /api/guest/claim`) can write an unverified, arbitrary email into `User.email` (fixed 2026-07-16 Critical audit finding, was a guest->admin escalation). `getAdminSession()`/`requireAdminSession()` do the lookup and redirect non-admins to `/`. Used by the `/admin` layout + the diagnostic-mark server actions + the private per-user answers view on `/u/[id]`. |
@@ -88,8 +88,6 @@
 | `src/app/admin/species/[name]/page.tsx` | Per-species editor shell. Loads SpeciesImage rows + DiagnosticMark rows in parallel, hands them to the client annotator. Shows the canonical `db:refresh-images` command if no photos are cached yet. |
 | `src/app/admin/species/[name]/SpeciesAnnotator.tsx` | Click-to-add / drag-to-move / edge-handle-resize annotator. Img + absolute SVG overlay with normalised (0..1) coords. Save-on-blur for label/description; optimistic local updates with `useTransition` for the server actions. |
 | `src/app/admin/species/[name]/actions.ts` | Server actions for DiagnosticMark CRUD (`createMark` / `updateMark` / `deleteMark` / `swapMarkOrder`). All gated by `requireAdminSession()`. Coords clamped to 0..1, radius to 0.01..0.5. Cross-species mark assignment is rejected. `swapMarkOrder` runs in a Prisma transaction so the order list can't end up with duplicates mid-swap. |
-| `src/app/admin/prizes/page.tsx` | **Prize fulfilment desk (1 Aug 2026).** Everyone at/over `PRIZE_TARGET_PEBBLES`, ordered by what needs doing (to post → not claimed → unreachable → posted). Claiming only writes a zero-cost `PebblePurchase`; nothing emails PEBL, so this page IS the work queue. Shows the contact email with a copy button, the `isPrizeEligible` verdict, and a "Mark posted" toggle (`actions.ts` → `PebblePurchase.fulfilledAt`/`fulfilledBy`). **Guests are surfaced as "no real address"**, guest accounts carry a synthetic placeholder in `User.email`, so a populated column is not a reachable one; the only route to them is the in-app save prompt (`POST /api/guest/claim`). Row derivation is pure in `src/lib/prize.ts` (`buildPrizeWinnerRows`) and unit-tested. Remote access (Claude Code, no browser): see "Prize desk via Claude Code" below. |
-| `src/app/api/admin/prize-desk/summary/route.ts` | **Remote-safe prize desk (1 Aug 2026).** `GET`, token-gated on `PRIZE_DESK_TOKEN` (own secret, separate from `METRICS_TOKEN`/`CRON_SECRET` so it rotates independently), 12 req/hour (`checkPrizeDeskRateLimit`). **Unlike `/api/metrics/summary` this is NOT aggregate-only**, it returns the same rows `/admin/prizes` shows, including real spotter emails, because contacting a specific winner is the entire point. Serialization is `toPrizeDeskSummary()` in `src/lib/prize-desk.ts`, an explicit allow-list (never `...row`) so a future field added to `PrizeWinnerRow` can't leak into the response without a deliberate, reviewed change; pinned by a unit test. Treat `PRIZE_DESK_TOKEN` like a password. |
 | `.github/workflows/bootstrap-image-cache.yml` | One-click GitHub Actions workflow that runs `prisma db push` + populates the cache; requires `POSTGRES_PRISMA_URL` + `POSTGRES_URL_NON_POOLING` repo secrets |
 | `public/sw.js` | Service worker (network-first; only caches app-shell icons) |
 
@@ -103,7 +101,8 @@ drift narrows as files are edited.
 - **TypeScript:** `strict: true`. No new `as unknown as` casts on data files, add a zod schema instead (zod is already a dependency).
 - **Design tokens:** `npm run lint:tokens` bans arbitrary Tailwind colour/radius values. Use the named tokens (see Design Tokens + UI rules below).
 - **Tests:** co-located `*.test.ts` (vitest). Pure logic (scoring, narrowing, matching) must stay covered.
-- **Before pushing:** `npx tsc --noEmit && npm test && npm run lint && npm run lint:tokens`.
+- **Species-guide claims must be sourced.** Any new user-facing factual statement about a species (field note, diagnostic mark, trait tile, diet, trophic tier, farm role, feeding link) needs a binding in `src/data/species-references.json`. See the "Grounded species guide" section below and `docs/runbooks/ground-a-species-claim.md`.
+- **Before pushing:** `npx tsc --noEmit && npm test && npm run lint && npm run lint:tokens`. Add `npm run refs:verify -- --check` when reference data changed.
 - **No emoji as UI icons; H.264-only video** (see the dedicated sections below, both are load-bearing invariants).
 
 ## Video / Codec Notes (IMPORTANT)
@@ -139,6 +138,59 @@ intermediate, dropping ~1.8-3.0 Mbps source footage to a mushy ~1.5 Mbps.
   encoder anymore).
 - Canonical `Fish Spotter Snips` folder on G: was re-exported too, so the
   source-of-record matches what's live.
+
+### Minimum clip duration (28 Aug 2026): 53 clips widened to >= 7s
+
+An audit of all 163 live clips found **57 under 6 seconds, the shortest 1.77s**.
+Not a codec or export bug: the frame ranges in the folder names match the
+durations exactly, so the manual tracks were simply cut tight around the animal.
+A 2 second clip loops before a spotter can look at it. 31 of the 57 were the
+Car-Y-Mor batch, i.e. about 60% of that one export.
+
+Each clip was widened EQUALLY either side of its existing window and re-cut from
+the raw footage in a single `libx264 -crf 16` pass. For the CYM batch that is a
+quality GAIN, since those clips were mp4v then re-encoded to H.264, two lossy
+passes over a weak intermediate.
+
+**The alignment trap, and the rule it produced.** `clip_start_frame` indexes
+whatever video the snip was cut from, and for CYM that was NOT the raw
+recording: `video_name` reads `CYM_Farm_S_2026-05-27_08-00_wrassepollack00006095`,
+an intermediate cut from `CYM_Farm_S_2026-05-27_08-00.mp4` at about frame 6095.
+Parsing that suffix gets close and is never exactly right (measured offsets sat
+0 to 10 frames out, varying per clip). **So the parse only seeds a search
+window; the true offset is MEASURED** by matching the snip's own frames against
+the raw video at four probe points and requiring the same delta at each. A real
+alignment gives one constant delta; a coincidence does not. The first pass
+refused 8 clips on that test, and a second pass that scanned the whole source
+instead of a hint window recovered all of them at 4/4 agreement, which says the
+refusals were the gate working, not the clips being bad.
+
+**`t_norm`, and why the padding needed a frontend change.** `FeedCard`'s trail
+renderer had no way to know how far through a clip a track ran, so it stretched
+the track across the WHOLE clip. That is right for a tight cut and wrong the
+moment a clip has padding: the trace would smear across footage the animal was
+never marked in. Every re-cut point now carries **`t_norm`**, its position as a
+fraction of the clip's duration, and `src/lib/trackCoverage.ts` turns those into
+a coverage window. Inside it the trail draws normally; outside it fades over
+`TRACK_FADE_FRACTION` rather than asserting a position nobody recorded. Points
+WITHOUT `t_norm` return null coverage, which keeps every older clip on its
+original behaviour. **`manualTrackToBoxes` must keep spreading the point** (it
+used to copy three fields by name, which silently dropped `t_norm`, and manual
+tracks are exactly what the re-cut clips use).
+
+**Three clips could not reach 7s** and are the honest limit, not a failure:
+their source IS the extract (`KEL33_...twospotgobyandstar.mp4` is 85 frames, the
+clip itself), and the parent recordings match at only 1 of 4 probes, so they are
+not simple cuts of it. KEL33 stays 3.55s, KEL37 4.84s, EXO_3 seal 5.03s.
+
+| Tool (in DesktopML) | Purpose |
+|---|---|
+| `reexport_snippets_min_duration.py` | The re-cut. Backs originals up first, re-cuts from raw, shifts `frame_clip`, stamps `t_norm`, rewrites metadata. Idempotent: refuses a snip already re-cut, since a second run would shift its track AGAIN and slide the trace off the animal silently. `--force` resets from the backup first. |
+| `refine_min_duration_alignment.py` | Second pass for clips the first refused. Scans candidate sources end to end, requires 3 of 4 probes to agree, and prefers the aligned source with the MOST footage (stopping at the first match picked a clip's own extract, leaving it zero headroom). |
+| `verify_min_duration_recut.py` | The external gate. Checks the re-cut against the BACKUP of the clip it replaced: if aligned, `new[pad_before + k] == old[k]` for every k. That one identity covers the source lookup, the measured alignment, the window arithmetic and the padding at once. Verifying the new clip against itself could only ever prove self-consistency. |
+
+Backups of every replaced snip live in
+`DesktopML/data/snip_backups_20260828_min_duration/`.
 
 ## Storage provider
 
@@ -186,7 +238,7 @@ with `STORAGE_PROVIDER=r2` (the script is idempotent and cache-busts the DB URLs
    npm run db:migrate-to-r2 -- --limit 3     # spot-check on 3 clips first
    npm run db:migrate-to-r2                  # full migration (idempotent)
    ```
-5. **Verify**: load any snippet on www.fishspotter.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
+5. **Verify**: load any snippet on fish-spotter.vercel.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
 6. **Drop the Supabase objects** only after a few days of production traffic confirm R2 is serving. The Snippet rows now point at R2; the Supabase objects are dead weight but harmless until removed via the Supabase dashboard.
 
 The migration is idempotent: re-running skips any row whose URL already lives under `R2_PUBLIC_URL`. Use `--force` to re-upload anyway.
@@ -204,6 +256,59 @@ Jun 2026.
 - **3.6-flash thinking-budget gotcha (confirmed 22 Jul 2026):** unlike 2.5/3.5-flash, `gemini-3.6-flash` REJECTS `thinkingConfig.thinkingBudget: 0` outright (400 invalid argument), it can't be told to skip thinking. `geminiGenerate()` in `gemini-vision.ts` now auto-detects this 400 and retries once with `thinkingConfig` omitted entirely (letting the model pick its own budget), so callers don't need to change. Side effect: every call now spends real thinking tokens (~600 seen in testing) where 3.5-flash spent ~0, so per-call cost is higher and the free-tier daily cap bites sooner than before.
 - **Why it exists:** the photo-curation gap. iNat "research grade" means the community agrees on the *species*, not that the photo is a clean single living lateral specimen good for *teaching*. This tool reads the pixels (mixed school? dead beach-cast? engraving? wrong subject like the Aurelia-aurita-photo-of-a-person case?) and scores teaching suitability, so curation isn't a manual eyeball pass.
 - **Workflow it slots into:** `db:refresh-images` (populate cache) → `images:assess --species` (find the best photo) → pin it as a `curated` override in `species-images.json` → `db:refresh-images --species` → seed/author diagnostic marks.
+
+## Grounded species guide (provenance)
+
+Every user-facing factual claim on a species guide is traceable to an
+open-access source. The audit counts **992 claims** across the 72 catalogue
+species (72 field notes, 179 diagnostic-mark descriptions, 216 trait tiles, 144
+food-web tier/farm-role claims, 144 workshop-card diet statements, 237 feeding
+links); before this work, none were sourced.
+
+**Two trust levels, deliberately separate.** `linkVerified` is machine: the URL
+resolves and the document says *in its own title* that it is about this species.
+`claimSupported` is only ever set from a passage that was actually read. A
+script that cannot read the source may never set it. A gate that verifies
+against its own subject proves self-consistency and nothing else.
+
+**Only verified sources are shown to a reader.** Unverified citations are held
+back in `getSpeciesProvenance`, never rendered with a caveat.
+
+**Two traps, both hit in practice, both now guarded:**
+- MarLIN's common-mussel page names plaice *and* dab in its body, so a
+  body-containment match bound two flatfish to a bivalve. The identity test is
+  the page `<title>`. BTO is the documented exception (vernacular titles), so it
+  matches title-names-the-bird plus body-names-the-binomial.
+- FishBase's `TrophicEco/FoodItemsList.php` renders its heading from the URL's
+  genus/species but its rows from the stock code, so a constructed URL returns a
+  page headed "Food Items - Pollachius pollachius" listing freshwater African
+  tilapia prey. **Never construct that URL** - `refs:diet` follows only the link
+  FishBase itself publishes, then re-checks the page names the predator.
+
+Also note **FishBase answers in ~30s**, so every fetch of it uses a 90s timeout;
+the default clipped it and showed up as intermittent "http 0" misses.
+
+| Command | Purpose |
+|---|---|
+| `npm run refs:resolve` | WoRMS identity + MarLIN / FishBase / BTO links, each proved by page title. `--fill-gaps` retries only missing sub-sources. |
+| `npm run refs:verify` | The external gate: re-checks every link against the live web. `-- --check` for CI, `-- --stale-only` for links older than 30 days. |
+| `npm run refs:extract` | Binds field notes, marks, traits and diet to read passages by deterministic section parse. |
+| `npm run refs:diet` | Binds individual food-web feeding links to FishBase diet records. |
+| `npm run refs:audit` | The scorecard: bound / evidenced / unbound per surface. `-- --queue` lists the work. |
+
+| File | Purpose |
+|---|---|
+| `src/data/species-references.json` | Source registry + per-species identity and claim bindings. Committed. |
+| `src/data/reference-verification.json` | Machine-written verification results. Committed so CI has a baseline. |
+| `src/lib/references/schema.ts` | Zod schema (source kinds, claims, support passages). |
+| `src/lib/references/catalogue.ts` | Validated loader. **Import `REFERENCES` from here, never the raw JSON.** |
+| `src/lib/references/payload.ts` | Server-side provenance payload (verified sources only). |
+| `src/lib/references/catalogue.test.ts` | Structural CI gate: no dangling ids, no unciteable source, no hollow `claimSupported`. |
+| `src/components/species/SpeciesSources.tsx` | Sources block, taxonomic identity line, superscript markers. |
+| `src/app/api/species/references/route.ts` | Serves provenance so the reference catalogue never ships to the browser. |
+
+Pages are cached to `.refs-cache/` (gitignored). Full detail in
+**[docs/runbooks/ground-a-species-claim.md](docs/runbooks/ground-a-species-claim.md)**.
 
 ## Design Tokens (CSS vars)
 
@@ -365,9 +470,7 @@ Schema summary:
 >   `CONSENSUS_THRESHOLD_USERS=3` distinct spotters converge on a normalised name,
 >   the leader's camp is credited `PEBBLE_CONSENSUS` (pioneer 30 / joiner 15 /
 >   confirmer 8, by arrival tier) × **rarity** (OBIS `SpeciesProbability` at the
->   clip's bucket → `rarityForProbability`, ×1 common … ×5 legendary, but see
->   `src/lib/rarity-scope.ts`: OBIS is fish-only, so an invertebrate's absence from
->   a bucket is NOT a rare sighting and must not grade legendary) × **Current**
+>   clip's bucket → `rarityForProbability`, ×1 common … ×5 legendary) × **Current**
 >   (a reliability streak of consecutive vindicated calls → `currentMultiplier`,
 >   cap ×2.5). Idempotent per-answer credit via `ConsensusEvent.creditedAnswerIds`;
 >   `isCorrect` is re-settled to mean "matched the live community leader".
@@ -462,138 +565,6 @@ user-agent, referrer, or cross-visit device id is ever stored.
   `npm run db:enable-rls` (the `Event` table lands with RLS off until that runs;
   it's Prisma-only/owner-role accessed, so RLS-with-no-policy is correct).
 
-## Getting FishSpotter's stats via Claude Code (1 Aug 2026)
-
-**Whenever asked for FishSpotter's latest stats, a metrics roundup, or "how
-engagement is going," use this, never estimate or reconstruct a number from
-memory.** `/admin/metrics` only covers Reach/Engagement/Learning from the
-consent-gated `Event` log; it says nothing about the Discovery pillar (First
-Sighting), retention, or the consensus machinery. The real source of truth is
-`computeRoundup()` in `src/lib/metrics/roundup.ts`, shared by three consumers
-that must never drift apart: `scripts/stats-roundup.ts` (CLI), `GET
-/api/metrics/summary` (remote-safe), and `/admin/metrics` (browser).
-
-**Path 1, remote endpoint (works from any session, local or web):**
-
-```bash
-curl -sS -H "Authorization: Bearer $FISHSPOTTER_METRICS_TOKEN" \
-  "$FISHSPOTTER_METRICS_URL/api/metrics/summary"        # add ?days=N to change the window (default 30)
-```
-
-Token-gated on `METRICS_TOKEN` (Vercel prod env, deliberately separate from
-`CRON_SECRET` so it rotates independently), rate-limited at 60 req/hour on
-the token (`checkMetricsRateLimit` in `src/lib/rate-limit.ts`), aggregate-only
-, no user id/email/name ever appears in the response. This requires the
-remote environment's network policy to allow `www.fishspotter.app` (the
-canonical domain, see "Live URL" above); if the call fails at the
-connection level (not a 401/429), that's the network policy blocking the
-host, not a missing number, say so explicitly.
-
-**Path 2, local, with `.env.local` present:**
-
-```bash
-npm run db:stats               # human-formatted roundup
-npm run db:stats -- --json     # same data as the endpoint, machine-readable
-npm run db:stats -- --days 7   # change the window
-```
-
-**Neither available?** Say so plainly and name the missing piece
-(`FISHSPOTTER_METRICS_URL`/`FISHSPOTTER_METRICS_TOKEN` not set, and no local
-`.env.local`), do not fall back to a guess. This was the actual failure mode
-that prompted building this path: a remote session with no DB credentials and
-a network policy blocking the app has genuinely no way to know the numbers
-without one of the two paths above.
-
-**Path 1 confirmed working end-to-end, 1 Aug 2026:** `METRICS_TOKEN` is set
-in Vercel Production (added after the fact, it did not ship set, so the
-endpoint 401'd until this). A real request to
-`https://www.fishspotter.app/api/metrics/summary` with the correct bearer
-token returned a full payload (all sections populated); a wrong token
-correctly returned 401. If a session still can't reach the endpoint, the
-blocker is that session's network policy or a missing/wrong
-`FISHSPOTTER_METRICS_TOKEN` locally, not the server.
-
-The response/CLI output covers `reach`, `discovery` (First Sighting ,
-clips-with-a-first-spot, the unspotted backlog, time-to-first-spot, spotter
-concentration, the `[25, 12, 6]` taper fill, discovery-vs-total Pebble split;
-this needs no dedicated instrumentation, arrival order reconstructs exactly
-from `Answer.createdAt`, since the submit-time award already keys off "count
-of prior answers on this clip"), `engagement`, `retention`, `learning`,
-`community` (consensus), `content`, and a `caveats` array, attach the
-relevant caveat to any number before quoting it (Event-derived figures are
-consent-gated and start 19 Jun 2026; `isCorrect` means "matched the community
-leader" not a PEBL reference; `Answer.points` was scaled ×10 by the 18 Jun
-2026 Pebbles migration).
-
-Design notes for anyone extending `roundup.ts`: totals/sums/single-column
-group-bys go through Prisma `count`/`aggregate`/`groupBy` (SQL does the work,
-small results cross the wire); only the genuinely order-dependent maths
-(arrival order, per-snippet distinct-spotter breakdowns) stays in-memory,
-over one narrow `Answer` projection. Full design rationale, rejected
-alternatives (DB credentials in every session, rejected: too much blast
-radius for a reporting feature), and the remaining phases (`MetricSnapshot`
-+ trend deltas, a weekly push Routine) are in
-`implementation/2026-08-01/metrics-access-plan.md`.
-
-**If you touch `roundup.ts`:** `src/lib/metrics/roundup.integration.test.ts`
-runs against a real throwaway Postgres (gated on `METRICS_TEST_DATABASE_URL`,
-same convention as `prize-desk.integration.test.ts`) and is the test that
-actually proves the arrival-order and contested-clip logic, the CI
-"Integration (real Postgres)" job runs it with `--no-file-parallelism`
-(the two integration suites TRUNCATE overlapping tables in `beforeEach`
-against one shared database, so running them in separate vitest worker
-threads races).
-
-## Prize desk via Claude Code (1 Aug 2026)
-
-**Whenever asked who's reached the Pebbles prize target, whether someone's
-guide has been posted, or for a spotter's contact email to fulfil the prize
-, use this, never eyeball `/admin/prizes` from memory or guess an email.**
-This is the same "remote-safe endpoint" pattern as the stats roundup above,
-extended to `/admin/prizes`, built because a remote Claude Code session has
-no browser and no DB credentials, so it otherwise has no way to answer "can I
-contact this winner?" The source of truth is `loadPrizeWinnerRows()` in
-`src/lib/prize-desk.ts`, shared by `/admin/prizes` (browser) and `GET
-/api/admin/prize-desk/summary` (remote-safe).
-
-```bash
-curl -sS -H "Authorization: Bearer $FISHSPOTTER_PRIZE_DESK_TOKEN" \
-  "$FISHSPOTTER_METRICS_URL/api/admin/prize-desk/summary"
-```
-
-(Reuses `$FISHSPOTTER_METRICS_URL`, it's the same app, just a different
-token and path.) Token-gated on `PRIZE_DESK_TOKEN` (Vercel prod env, its own
-secret so it rotates independently of `METRICS_TOKEN`/`CRON_SECRET`),
-rate-limited at 12 req/hour on the token (tighter than metrics' 60/hour ,
-see below for why).
-
-**This is NOT the aggregate-only metrics endpoint, read this before using
-it.** The response contains real spotter emails (`contactEmail`), because
-contacting a specific winner is the entire point of the desk. Handle the
-response accordingly:
-- Never paste a spotter's email into a public place (a GitHub issue, a
-  shared doc, this chat if it might be logged somewhere public), treat it
-  as you would any PII a human handed you in confidence.
-- `contactEmail` is `null` for guests by design (`contact: "guest"`), the
-  stored `email` column for a guest is a synthetic placeholder, never a real
-  address, and the endpoint's `toPrizeDeskSummary()` allow-list doesn't even
-  include the raw `email` field, so there is no way to accidentally surface
-  it.
-- `contact: "unverified"` means a real address the spotter typed but never
-  confirmed, usable for a nudge, but `eligible` will be `false` and they
-  cannot yet claim.
-- `status` is the actionable field: `to-post` (claimed, needs a book in the
-  post), `reached-unclaimed` (hasn't claimed yet), `unreachable` (guest, over
-  target, no route to them but the in-app prompt), `posted` (done ,
-  `fulfilledBy` says which admin).
-
-No local/CLI path exists for this one (unlike the stats roundup), the desk
-was built admin-page-first, and PII over `.env.local` in every session was
-already rejected for the metrics case on the same blast-radius grounds; the
-token-gated endpoint is the only route. If `$FISHSPOTTER_PRIZE_DESK_TOKEN` or
-`$FISHSPOTTER_METRICS_URL` is unset, say so plainly rather than guessing who
-might have reached the target.
-
 ## Probability data flow (OBIS + GBIF)
 
 The fish-probability feature reads from two external APIs at backfill time
@@ -638,7 +609,7 @@ stale rows), trigger a manual run with `?force=1`:
 
 ```
 curl -H "Authorization: Bearer $CRON_SECRET" \
-  https://www.fishspotter.app/api/cron/refresh-images?force=1
+  https://fish-spotter.vercel.app/api/cron/refresh-images?force=1
 ```
 
 Each call processes up to 12 species; for the full catalogue, hit the
@@ -669,12 +640,11 @@ in `implementation/2026-06-01/`, read `session-handoff.md` first, then
   Squid) + one shallow **sub-split** + an **adaptive bag of weighted traits**,
   with **Context as a silent prior** the app already computes from snippet
   metadata (`SpeciesProbability`/OBIS). Movement is a scored trait, not a level.
-- **It is an evolution, not a rewrite.** Runtime = `narrow.ts`
+- **It is an evolution, not a rewrite.** Runtime = `IdGuideWizard` + `narrow.ts`
   + `MCQCandidatePicker` + `AnnotatedSpeciesPhoto` + `DiagnosticMark` +
   `SpeciesProbability`. New code = shape as a hard filter, an information-gain
   next-question picker (`src/lib/idguide/next-trait.ts`, planned), and
-  scored-by-rung in `answer-matching.ts`. (The older `IdGuideWizard` funnel it
-  evolved from was removed on 28 Aug 2026, see docs/ARCHITECTURE.md.)
+  scored-by-rung in `answer-matching.ts`.
 - **The four rungs:** (1) shape gate silhouette grid; (2) visual sub-split;
   (3) **as shipped, a photo-tile candidate grid** (`CandidateGate.tsx`, capped at
   24 tiles, ordered by likelihood), tap a tile to compare, then commit; (4)
@@ -721,9 +691,6 @@ GEMINI_API_KEY=...                # image-quality / vision tool (gemini-vision.t
 GEMINI_MODEL=gemini-3.6-flash     # optional override (default gemini-3.6-flash)
 SENDGRID_API_KEY=...              # transactional email (src/lib/email/client.ts), replaced Resend
 CRON_SECRET=...                   # required in production for /api/cron/*
-METRICS_TOKEN=...                 # gates GET /api/metrics/summary (Vercel prod env only, not in .env.example)
-PRIZE_DESK_TOKEN=...              # gates GET /api/admin/prize-desk/summary, carries real spotter emails,
-                                  # treat like a password (Vercel prod env only, not in .env.example)
 
 # Rate limiter shared store (optional, see "Rate limiting" section below)
 UPSTASH_REDIS_REST_URL=...        # both unset -> falls back to in-memory (per-instance) limiting

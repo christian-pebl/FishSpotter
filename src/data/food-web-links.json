@@ -1,0 +1,1337 @@
+{
+  "generatedFrom": "food-web/build-foodweb.mjs",
+  "species": [
+    {
+      "name": "European shag",
+      "short": "Shag",
+      "tier": 5
+    },
+    {
+      "name": "Great cormorant",
+      "short": "Cormorant",
+      "tier": 5
+    },
+    {
+      "name": "Common eider",
+      "short": "Eider",
+      "tier": 5
+    },
+    {
+      "name": "Grey seal",
+      "short": "Grey seal",
+      "tier": 5
+    },
+    {
+      "name": "Harbour seal",
+      "short": "Harbour seal",
+      "tier": 5
+    },
+    {
+      "name": "Common Starfish",
+      "short": "Common starfish",
+      "tier": 3
+    },
+    {
+      "name": "Spiny Starfish",
+      "short": "Spiny starfish",
+      "tier": 3
+    },
+    {
+      "name": "Dog Whelk",
+      "short": "Dog whelk",
+      "tier": 3
+    },
+    {
+      "name": "Velvet Swimming Crab",
+      "short": "Velvet crab",
+      "tier": 3
+    },
+    {
+      "name": "Common Cuttlefish",
+      "short": "Cuttlefish",
+      "tier": 4
+    },
+    {
+      "name": "Cuckoo wrasse",
+      "short": "Cuckoo wrasse",
+      "tier": 3
+    },
+    {
+      "name": "Bib",
+      "short": "Bib",
+      "tier": 3
+    },
+    {
+      "name": "Poor cod",
+      "short": "Poor cod",
+      "tier": 3
+    },
+    {
+      "name": "Pollack",
+      "short": "Pollack",
+      "tier": 4
+    },
+    {
+      "name": "Saithe",
+      "short": "Saithe",
+      "tier": 4
+    },
+    {
+      "name": "Atlantic cod",
+      "short": "Atlantic cod",
+      "tier": 4
+    },
+    {
+      "name": "European sea bass",
+      "short": "Sea bass",
+      "tier": 4
+    },
+    {
+      "name": "Common Limpet",
+      "short": "Limpet",
+      "tier": 2
+    },
+    {
+      "name": "Painted Top Shell",
+      "short": "Painted top",
+      "tier": 2
+    },
+    {
+      "name": "Flat Top Shell",
+      "short": "Flat top",
+      "tier": 2
+    },
+    {
+      "name": "Edible sea urchin",
+      "short": "Edible urchin",
+      "tier": 2
+    },
+    {
+      "name": "Green sea urchin",
+      "short": "Green urchin",
+      "tier": 2
+    },
+    {
+      "name": "Spider Crab",
+      "short": "Spider crab",
+      "tier": 3
+    },
+    {
+      "name": "Two-spotted goby",
+      "short": "2-spot goby",
+      "tier": 3
+    },
+    {
+      "name": "Fifteen-spined stickleback",
+      "short": "15-spine stickle",
+      "tier": 3
+    },
+    {
+      "name": "Corkwing wrasse",
+      "short": "Corkwing",
+      "tier": 3
+    },
+    {
+      "name": "Goldsinny wrasse",
+      "short": "Goldsinny",
+      "tier": 3
+    },
+    {
+      "name": "Thick-lipped mullet",
+      "short": "Thick-lip mullet",
+      "tier": 2
+    },
+    {
+      "name": "Ballan wrasse",
+      "short": "Ballan wrasse",
+      "tier": 4
+    },
+    {
+      "name": "Sprat",
+      "short": "Sprat",
+      "tier": 3
+    },
+    {
+      "name": "Sand smelt",
+      "short": "Sand smelt",
+      "tier": 3
+    },
+    {
+      "name": "Atlantic mackerel",
+      "short": "Mackerel",
+      "tier": 3
+    },
+    {
+      "name": "Atlantic horse mackerel",
+      "short": "Horse mackerel",
+      "tier": 3
+    },
+    {
+      "name": "Veined Squid",
+      "short": "Veined squid",
+      "tier": 4
+    },
+    {
+      "name": "European Squid",
+      "short": "European squid",
+      "tier": 4
+    },
+    {
+      "name": "Moon Jellyfish",
+      "short": "Moon jelly",
+      "tier": 3
+    },
+    {
+      "name": "Compass Jellyfish",
+      "short": "Compass jelly",
+      "tier": 3
+    },
+    {
+      "name": "Blue Jellyfish",
+      "short": "Blue jelly",
+      "tier": 3
+    },
+    {
+      "name": "Barrel Jellyfish",
+      "short": "Barrel jelly",
+      "tier": 3
+    },
+    {
+      "name": "Mauve Stinger",
+      "short": "Mauve stinger",
+      "tier": 3
+    },
+    {
+      "name": "Lion's Mane Jellyfish",
+      "short": "Lion's mane",
+      "tier": 4
+    },
+    {
+      "name": "Shore Crab",
+      "short": "Shore crab",
+      "tier": 3
+    },
+    {
+      "name": "Edible Crab",
+      "short": "Edible crab",
+      "tier": 4
+    },
+    {
+      "name": "Harbour Crab",
+      "short": "Harbour crab",
+      "tier": 3
+    },
+    {
+      "name": "Hermit Crab",
+      "short": "Hermit crab",
+      "tier": 3
+    },
+    {
+      "name": "Cushion Star",
+      "short": "Cushion star",
+      "tier": 2
+    },
+    {
+      "name": "Common Brittlestar",
+      "short": "Brittlestar",
+      "tier": 2
+    },
+    {
+      "name": "Purple sea urchin",
+      "short": "Purple urchin",
+      "tier": 2
+    },
+    {
+      "name": "Sea potato",
+      "short": "Sea potato",
+      "tier": 2
+    },
+    {
+      "name": "Purple heart urchin",
+      "short": "Heart urchin",
+      "tier": 2
+    },
+    {
+      "name": "Plaice",
+      "short": "Plaice",
+      "tier": 3
+    },
+    {
+      "name": "Dab",
+      "short": "Dab",
+      "tier": 3
+    },
+    {
+      "name": "Flounder",
+      "short": "Flounder",
+      "tier": 3
+    },
+    {
+      "name": "Grey gurnard",
+      "short": "Grey gurnard",
+      "tier": 3
+    },
+    {
+      "name": "Red gurnard",
+      "short": "Red gurnard",
+      "tier": 3
+    },
+    {
+      "name": "Tub gurnard",
+      "short": "Tub gurnard",
+      "tier": 3
+    },
+    {
+      "name": "Streaked gurnard",
+      "short": "Streaked gurnard",
+      "tier": 3
+    },
+    {
+      "name": "Red mullet",
+      "short": "Red mullet",
+      "tier": 3
+    },
+    {
+      "name": "Dragonet",
+      "short": "Dragonet",
+      "tier": 3
+    },
+    {
+      "name": "Spotted dragonet",
+      "short": "Spotted dragonet",
+      "tier": 3
+    },
+    {
+      "name": "Sand goby",
+      "short": "Sand goby",
+      "tier": 3
+    },
+    {
+      "name": "Common goby",
+      "short": "Common goby",
+      "tier": 3
+    },
+    {
+      "name": "Rock goby",
+      "short": "Rock goby",
+      "tier": 3
+    },
+    {
+      "name": "Butterfish",
+      "short": "Butterfish",
+      "tier": 3
+    },
+    {
+      "name": "Shanny",
+      "short": "Shanny",
+      "tier": 3
+    },
+    {
+      "name": "Long-spined sea scorpion",
+      "short": "Sea scorpion",
+      "tier": 3
+    },
+    {
+      "name": "Whiting",
+      "short": "Whiting",
+      "tier": 3
+    },
+    {
+      "name": "Lesser-spotted catshark",
+      "short": "Catshark",
+      "tier": 4
+    },
+    {
+      "name": "Atlantic Bobtail",
+      "short": "Bobtail",
+      "tier": 3
+    },
+    {
+      "name": "Curled Octopus",
+      "short": "Curled octopus",
+      "tier": 4
+    },
+    {
+      "name": "Common Octopus",
+      "short": "Common octopus",
+      "tier": 4
+    },
+    {
+      "name": "Conger eel",
+      "short": "Conger eel",
+      "tier": 4
+    }
+  ],
+  "resources": {
+    "Kelp canopy": {
+      "label": "Kelp / seaweed",
+      "sub": "seaweed & the life on it"
+    },
+    "Farmed mussels": {
+      "label": "Farmed mussels",
+      "sub": "filter feeders on the ropes"
+    },
+    "Plankton": {
+      "label": "Plankton",
+      "sub": "phyto- & zooplankton"
+    },
+    "Seabed biodeposits": {
+      "label": "Detritus & seabed life",
+      "sub": "the rain-down landing zone"
+    }
+  },
+  "edges": [
+    [
+      "Kelp canopy",
+      "Common Limpet"
+    ],
+    [
+      "Kelp canopy",
+      "Painted Top Shell"
+    ],
+    [
+      "Kelp canopy",
+      "Flat Top Shell"
+    ],
+    [
+      "Kelp canopy",
+      "Edible sea urchin"
+    ],
+    [
+      "Kelp canopy",
+      "Green sea urchin"
+    ],
+    [
+      "Kelp canopy",
+      "Purple sea urchin"
+    ],
+    [
+      "Kelp canopy",
+      "Spider Crab"
+    ],
+    [
+      "Kelp canopy",
+      "Thick-lipped mullet"
+    ],
+    [
+      "Kelp canopy",
+      "Common Brittlestar"
+    ],
+    [
+      "Plankton",
+      "Common Brittlestar"
+    ],
+    [
+      "Seabed biodeposits",
+      "Common Brittlestar"
+    ],
+    [
+      "Seabed biodeposits",
+      "Cushion Star"
+    ],
+    [
+      "Kelp canopy",
+      "Cushion Star"
+    ],
+    [
+      "Seabed biodeposits",
+      "Sea potato"
+    ],
+    [
+      "Seabed biodeposits",
+      "Purple heart urchin"
+    ],
+    [
+      "Seabed biodeposits",
+      "Hermit Crab"
+    ],
+    [
+      "Seabed biodeposits",
+      "Shore Crab"
+    ],
+    [
+      "Seabed biodeposits",
+      "Harbour Crab"
+    ],
+    [
+      "Seabed biodeposits",
+      "Common goby"
+    ],
+    [
+      "Seabed biodeposits",
+      "Sand goby"
+    ],
+    [
+      "Plankton",
+      "Farmed mussels"
+    ],
+    [
+      "Plankton",
+      "Sprat"
+    ],
+    [
+      "Plankton",
+      "Sand smelt"
+    ],
+    [
+      "Plankton",
+      "Two-spotted goby"
+    ],
+    [
+      "Plankton",
+      "Atlantic mackerel"
+    ],
+    [
+      "Plankton",
+      "Atlantic horse mackerel"
+    ],
+    [
+      "Plankton",
+      "Atlantic Bobtail"
+    ],
+    [
+      "Plankton",
+      "Moon Jellyfish"
+    ],
+    [
+      "Plankton",
+      "Compass Jellyfish"
+    ],
+    [
+      "Plankton",
+      "Blue Jellyfish"
+    ],
+    [
+      "Plankton",
+      "Barrel Jellyfish"
+    ],
+    [
+      "Plankton",
+      "Mauve Stinger"
+    ],
+    [
+      "Farmed mussels",
+      "Dog Whelk"
+    ],
+    [
+      "Farmed mussels",
+      "Common Starfish"
+    ],
+    [
+      "Farmed mussels",
+      "Spiny Starfish"
+    ],
+    [
+      "Farmed mussels",
+      "Edible Crab"
+    ],
+    [
+      "Farmed mussels",
+      "Velvet Swimming Crab"
+    ],
+    [
+      "Farmed mussels",
+      "Common eider"
+    ],
+    [
+      "Farmed mussels",
+      "Curled Octopus"
+    ],
+    [
+      "Farmed mussels",
+      "Common Octopus"
+    ],
+    [
+      "Common Limpet",
+      "Ballan wrasse"
+    ],
+    [
+      "Painted Top Shell",
+      "Ballan wrasse"
+    ],
+    [
+      "Flat Top Shell",
+      "Ballan wrasse"
+    ],
+    [
+      "Edible sea urchin",
+      "Ballan wrasse"
+    ],
+    [
+      "Green sea urchin",
+      "Ballan wrasse"
+    ],
+    [
+      "Purple sea urchin",
+      "Ballan wrasse"
+    ],
+    [
+      "Spider Crab",
+      "Ballan wrasse"
+    ],
+    [
+      "Dog Whelk",
+      "Ballan wrasse"
+    ],
+    [
+      "Common Brittlestar",
+      "Common Starfish"
+    ],
+    [
+      "Common Brittlestar",
+      "Plaice"
+    ],
+    [
+      "Sea potato",
+      "Plaice"
+    ],
+    [
+      "Purple heart urchin",
+      "Plaice"
+    ],
+    [
+      "Common Brittlestar",
+      "Dab"
+    ],
+    [
+      "Common Brittlestar",
+      "Flounder"
+    ],
+    [
+      "Sea potato",
+      "Flounder"
+    ],
+    [
+      "Common Brittlestar",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Hermit Crab",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Shore Crab",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Harbour Crab",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Sea potato",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Common Brittlestar",
+      "Grey gurnard"
+    ],
+    [
+      "Shore Crab",
+      "Grey gurnard"
+    ],
+    [
+      "Common Brittlestar",
+      "Red gurnard"
+    ],
+    [
+      "Hermit Crab",
+      "Red gurnard"
+    ],
+    [
+      "Shore Crab",
+      "Tub gurnard"
+    ],
+    [
+      "Common Brittlestar",
+      "Tub gurnard"
+    ],
+    [
+      "Common Brittlestar",
+      "Streaked gurnard"
+    ],
+    [
+      "Spider Crab",
+      "Common Cuttlefish"
+    ],
+    [
+      "Hermit Crab",
+      "Common Cuttlefish"
+    ],
+    [
+      "Shore Crab",
+      "Common Cuttlefish"
+    ],
+    [
+      "Harbour Crab",
+      "Common Cuttlefish"
+    ],
+    [
+      "Spider Crab",
+      "Curled Octopus"
+    ],
+    [
+      "Hermit Crab",
+      "Curled Octopus"
+    ],
+    [
+      "Shore Crab",
+      "Curled Octopus"
+    ],
+    [
+      "Velvet Swimming Crab",
+      "Curled Octopus"
+    ],
+    [
+      "Spider Crab",
+      "Common Octopus"
+    ],
+    [
+      "Hermit Crab",
+      "Common Octopus"
+    ],
+    [
+      "Shore Crab",
+      "Common Octopus"
+    ],
+    [
+      "Velvet Swimming Crab",
+      "Common Octopus"
+    ],
+    [
+      "Edible Crab",
+      "Common Octopus"
+    ],
+    [
+      "Sprat",
+      "European sea bass"
+    ],
+    [
+      "Sand smelt",
+      "European sea bass"
+    ],
+    [
+      "Two-spotted goby",
+      "European sea bass"
+    ],
+    [
+      "Atlantic mackerel",
+      "European sea bass"
+    ],
+    [
+      "Atlantic horse mackerel",
+      "European sea bass"
+    ],
+    [
+      "Corkwing wrasse",
+      "European sea bass"
+    ],
+    [
+      "Goldsinny wrasse",
+      "European sea bass"
+    ],
+    [
+      "Red mullet",
+      "European sea bass"
+    ],
+    [
+      "Sprat",
+      "Pollack"
+    ],
+    [
+      "Two-spotted goby",
+      "Pollack"
+    ],
+    [
+      "Fifteen-spined stickleback",
+      "Pollack"
+    ],
+    [
+      "Sand smelt",
+      "Pollack"
+    ],
+    [
+      "Poor cod",
+      "Pollack"
+    ],
+    [
+      "Sprat",
+      "Saithe"
+    ],
+    [
+      "Poor cod",
+      "Saithe"
+    ],
+    [
+      "Sprat",
+      "Atlantic cod"
+    ],
+    [
+      "Poor cod",
+      "Atlantic cod"
+    ],
+    [
+      "Whiting",
+      "Atlantic cod"
+    ],
+    [
+      "Bib",
+      "Atlantic cod"
+    ],
+    [
+      "Sand goby",
+      "Atlantic cod"
+    ],
+    [
+      "Shore Crab",
+      "Atlantic cod"
+    ],
+    [
+      "Velvet Swimming Crab",
+      "Atlantic cod"
+    ],
+    [
+      "Spider Crab",
+      "Atlantic cod"
+    ],
+    [
+      "Common Cuttlefish",
+      "Atlantic cod"
+    ],
+    [
+      "Corkwing wrasse",
+      "Atlantic cod"
+    ],
+    [
+      "Fifteen-spined stickleback",
+      "Long-spined sea scorpion"
+    ],
+    [
+      "Sand goby",
+      "Long-spined sea scorpion"
+    ],
+    [
+      "Common goby",
+      "Long-spined sea scorpion"
+    ],
+    [
+      "Sprat",
+      "Veined Squid"
+    ],
+    [
+      "Atlantic mackerel",
+      "Veined Squid"
+    ],
+    [
+      "Sprat",
+      "European Squid"
+    ],
+    [
+      "Shore Crab",
+      "Conger eel"
+    ],
+    [
+      "Velvet Swimming Crab",
+      "Conger eel"
+    ],
+    [
+      "Edible Crab",
+      "Conger eel"
+    ],
+    [
+      "Butterfish",
+      "Conger eel"
+    ],
+    [
+      "Shanny",
+      "Conger eel"
+    ],
+    [
+      "Poor cod",
+      "Conger eel"
+    ],
+    [
+      "Whiting",
+      "Conger eel"
+    ],
+    [
+      "Bib",
+      "Conger eel"
+    ],
+    [
+      "Corkwing wrasse",
+      "Conger eel"
+    ],
+    [
+      "Curled Octopus",
+      "Conger eel"
+    ],
+    [
+      "Common Octopus",
+      "Conger eel"
+    ],
+    [
+      "Lesser-spotted catshark",
+      "Conger eel"
+    ],
+    [
+      "Plankton",
+      "Sand goby"
+    ],
+    [
+      "Plankton",
+      "Common goby"
+    ],
+    [
+      "Plankton",
+      "Rock goby"
+    ],
+    [
+      "Seabed biodeposits",
+      "Butterfish"
+    ],
+    [
+      "Moon Jellyfish",
+      "Lion's Mane Jellyfish"
+    ],
+    [
+      "Blue Jellyfish",
+      "Lion's Mane Jellyfish"
+    ],
+    [
+      "Pollack",
+      "Grey seal"
+    ],
+    [
+      "Saithe",
+      "Grey seal"
+    ],
+    [
+      "Atlantic cod",
+      "Grey seal"
+    ],
+    [
+      "Atlantic mackerel",
+      "Grey seal"
+    ],
+    [
+      "Atlantic horse mackerel",
+      "Grey seal"
+    ],
+    [
+      "European sea bass",
+      "Grey seal"
+    ],
+    [
+      "Ballan wrasse",
+      "Grey seal"
+    ],
+    [
+      "Common Cuttlefish",
+      "Grey seal"
+    ],
+    [
+      "Veined Squid",
+      "Grey seal"
+    ],
+    [
+      "European Squid",
+      "Grey seal"
+    ],
+    [
+      "Edible Crab",
+      "Grey seal"
+    ],
+    [
+      "Conger eel",
+      "Grey seal"
+    ],
+    [
+      "Lesser-spotted catshark",
+      "Grey seal"
+    ],
+    [
+      "Plaice",
+      "Grey seal"
+    ],
+    [
+      "Curled Octopus",
+      "Grey seal"
+    ],
+    [
+      "Common Octopus",
+      "Grey seal"
+    ],
+    [
+      "Poor cod",
+      "Grey seal"
+    ],
+    [
+      "Whiting",
+      "Grey seal"
+    ],
+    [
+      "European sea bass",
+      "Harbour seal"
+    ],
+    [
+      "Veined Squid",
+      "Harbour seal"
+    ],
+    [
+      "European Squid",
+      "Harbour seal"
+    ],
+    [
+      "Pollack",
+      "Harbour seal"
+    ],
+    [
+      "Sand smelt",
+      "Harbour seal"
+    ],
+    [
+      "Flounder",
+      "Harbour seal"
+    ],
+    [
+      "Dab",
+      "Harbour seal"
+    ],
+    [
+      "Sprat",
+      "European shag"
+    ],
+    [
+      "Sand smelt",
+      "European shag"
+    ],
+    [
+      "Two-spotted goby",
+      "European shag"
+    ],
+    [
+      "Fifteen-spined stickleback",
+      "European shag"
+    ],
+    [
+      "Sand goby",
+      "European shag"
+    ],
+    [
+      "Butterfish",
+      "European shag"
+    ],
+    [
+      "Pollack",
+      "European shag"
+    ],
+    [
+      "Poor cod",
+      "European shag"
+    ],
+    [
+      "Sprat",
+      "Great cormorant"
+    ],
+    [
+      "Sand smelt",
+      "Great cormorant"
+    ],
+    [
+      "Corkwing wrasse",
+      "Great cormorant"
+    ],
+    [
+      "Goldsinny wrasse",
+      "Great cormorant"
+    ],
+    [
+      "Flounder",
+      "Great cormorant"
+    ],
+    [
+      "Plaice",
+      "Great cormorant"
+    ],
+    [
+      "Red mullet",
+      "Great cormorant"
+    ],
+    [
+      "Ballan wrasse",
+      "Great cormorant"
+    ],
+    [
+      "Saithe",
+      "Great cormorant"
+    ],
+    [
+      "Whiting",
+      "Great cormorant"
+    ],
+    [
+      "European sea bass",
+      "Great cormorant"
+    ],
+    [
+      "Sprat",
+      "Whiting"
+    ],
+    [
+      "Sand smelt",
+      "Whiting"
+    ],
+    [
+      "Sand goby",
+      "Whiting"
+    ],
+    [
+      "Common goby",
+      "Whiting"
+    ],
+    [
+      "Sprat",
+      "Bib"
+    ],
+    [
+      "Shore Crab",
+      "Bib"
+    ],
+    [
+      "Plankton",
+      "Poor cod"
+    ],
+    [
+      "Shore Crab",
+      "Poor cod"
+    ],
+    [
+      "Seabed biodeposits",
+      "Dragonet"
+    ],
+    [
+      "Common Brittlestar",
+      "Dragonet"
+    ],
+    [
+      "Seabed biodeposits",
+      "Spotted dragonet"
+    ],
+    [
+      "Seabed biodeposits",
+      "Red mullet"
+    ],
+    [
+      "Common Brittlestar",
+      "Red mullet"
+    ],
+    [
+      "Seabed biodeposits",
+      "Shanny"
+    ],
+    [
+      "Seabed biodeposits",
+      "Rock goby"
+    ],
+    [
+      "Kelp canopy",
+      "Corkwing wrasse"
+    ],
+    [
+      "Kelp canopy",
+      "Goldsinny wrasse"
+    ],
+    [
+      "Spider Crab",
+      "Cuckoo wrasse"
+    ],
+    [
+      "Hermit Crab",
+      "Cuckoo wrasse"
+    ],
+    [
+      "Common Brittlestar",
+      "Cuckoo wrasse"
+    ],
+    [
+      "Plankton",
+      "Fifteen-spined stickleback"
+    ],
+    [
+      "Sand goby",
+      "Grey gurnard"
+    ],
+    [
+      "Sand goby",
+      "Tub gurnard"
+    ],
+    [
+      "Common goby",
+      "Tub gurnard"
+    ],
+    [
+      "Grey gurnard",
+      "Atlantic cod"
+    ],
+    [
+      "Streaked gurnard",
+      "Atlantic cod"
+    ],
+    [
+      "Red gurnard",
+      "Atlantic cod"
+    ],
+    [
+      "Dragonet",
+      "Atlantic cod"
+    ],
+    [
+      "Rock goby",
+      "Atlantic cod"
+    ],
+    [
+      "Atlantic Bobtail",
+      "Atlantic cod"
+    ],
+    [
+      "Atlantic Bobtail",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Common goby",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Dragonet",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Spotted dragonet",
+      "Lesser-spotted catshark"
+    ],
+    [
+      "Rock goby",
+      "Conger eel"
+    ],
+    [
+      "Sand goby",
+      "Conger eel"
+    ],
+    [
+      "Long-spined sea scorpion",
+      "Conger eel"
+    ],
+    [
+      "Sand goby",
+      "European sea bass"
+    ],
+    [
+      "Rock goby",
+      "Great cormorant"
+    ],
+    [
+      "Grey gurnard",
+      "Great cormorant"
+    ],
+    [
+      "Tub gurnard",
+      "Grey seal"
+    ],
+    [
+      "Red gurnard",
+      "Grey seal"
+    ],
+    [
+      "Bib",
+      "Grey seal"
+    ],
+    [
+      "Rock goby",
+      "European shag"
+    ],
+    [
+      "Common goby",
+      "European shag"
+    ],
+    [
+      "Cuckoo wrasse",
+      "Atlantic cod"
+    ],
+    [
+      "Cuckoo wrasse",
+      "Conger eel"
+    ],
+    [
+      "Cuckoo wrasse",
+      "Great cormorant"
+    ],
+    [
+      "Thick-lipped mullet",
+      "Great cormorant"
+    ],
+    [
+      "Cuckoo wrasse",
+      "Grey seal"
+    ],
+    [
+      "Thick-lipped mullet",
+      "Grey seal"
+    ],
+    [
+      "Thick-lipped mullet",
+      "European sea bass"
+    ],
+    [
+      "Sprat",
+      "Atlantic mackerel"
+    ],
+    [
+      "Sprat",
+      "Atlantic horse mackerel"
+    ],
+    [
+      "Farmed mussels",
+      "Ballan wrasse"
+    ],
+    [
+      "Shore Crab",
+      "Common eider"
+    ],
+    [
+      "Dog Whelk",
+      "Common eider"
+    ],
+    [
+      "Spider Crab",
+      "Common eider"
+    ],
+    [
+      "Green sea urchin",
+      "Common eider"
+    ],
+    [
+      "Sprat",
+      "Common Cuttlefish"
+    ],
+    [
+      "Common Cuttlefish",
+      "Conger eel"
+    ],
+    [
+      "Seabed biodeposits",
+      "Thick-lipped mullet"
+    ],
+    [
+      "Seabed biodeposits",
+      "Spider Crab"
+    ],
+    [
+      "Seabed biodeposits",
+      "Edible Crab"
+    ],
+    [
+      "Shore Crab",
+      "Edible Crab"
+    ]
+  ]
+}

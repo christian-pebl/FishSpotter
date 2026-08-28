@@ -23,6 +23,18 @@ const MAX_DEPTH_M = 11_000;
 // (the UI then simply omits the depth line rather than asserting a bad range).
 const MIN_USEFUL_READINGS = 8;
 
+/**
+ * Below this share of records carrying a depth at all, the summary describes an
+ * unrepresentative sliver of the evidence rather than the animal.
+ *
+ * Measured 28 Aug 2026: only 3.5% of Patella vulgata records and 1.2% of
+ * Halichoerus grypus records carry a depth, and the ones that do are the
+ * atypical ones (dive and dredge surveys, not the shore counts that are the
+ * normal encounter). MarLIN states "Intertidal" for the limpet on a source
+ * already cited on the same page.
+ */
+const MIN_DEPTH_COVERAGE = 0.1;
+
 const PAGE_SIZE = 10_000;
 
 export type DepthSummary = {
@@ -55,18 +67,41 @@ function percentile(sorted: number[], p: number): number {
 
 /**
  * Pure: turn raw depth readings (metres) into a typical-depth summary, or null
- * if there aren't enough trustworthy readings.
+ * if the readings cannot honestly support one.
+ *
+ * `totalRecords` is the number of occurrence records the readings were drawn
+ * from, including those with no depth. Pass it wherever it is known: without it
+ * the coverage guard cannot run.
+ *
+ * Three ways this returns null, all of them cases where a number would be worse
+ * than no number (audited 28 Aug 2026):
+ *   - too few readings to say anything;
+ *   - a depth on too small a share of records, so the statistic describes the
+ *     survey method rather than the animal;
+ *   - no spread at all (p10 === p90), which is what produced live pages telling
+ *     the public that a grey seal and a great cormorant are "usually seen at
+ *     ~0 m". Both are diving animals; that figure is the depth of the OBSERVER,
+ *     which is zero by construction for an air-breather seen at the surface.
  */
-export function summariseDepths(depths: number[]): DepthSummary | null {
+export function summariseDepths(depths: number[], totalRecords?: number): DepthSummary | null {
   const xs = depths
     .filter((d) => typeof d === "number" && Number.isFinite(d) && d >= MIN_DEPTH_M && d <= MAX_DEPTH_M)
     .sort((a, b) => a - b);
 
   if (xs.length < MIN_USEFUL_READINGS) return null;
 
+  if (typeof totalRecords === "number" && totalRecords > 0) {
+    if (xs.length / totalRecords < MIN_DEPTH_COVERAGE) return null;
+  }
+
   const median = percentile(xs, 0.5);
   const p10 = percentile(xs, 0.1);
   const p90 = percentile(xs, 0.9);
+
+  // A band with no width is not a band. It means every record in the middle
+  // 80% carries the same value, which for a marine animal is an artefact of how
+  // it was recorded, not a fact about where it lives.
+  if (p10 === p90) return null;
 
   const lo = rounded(p10);
   const hi = rounded(p90);
@@ -112,9 +147,10 @@ export function depthOfRecord(r: ObisDepthRow): number | null {
 export async function fetchSpeciesDepths(
   scientificName: string,
   opts: { maxPages?: number; signal?: AbortSignal } = {},
-): Promise<number[]> {
+): Promise<{ depths: number[]; totalRecords: number }> {
   const maxPages = opts.maxPages ?? 2;
   const depths: number[] = [];
+  let totalRecords = 0;
   let after: string | undefined;
 
   for (let page = 0; page < maxPages; page++) {
@@ -136,6 +172,7 @@ export async function fetchSpeciesDepths(
     const rows = data.results ?? [];
     if (rows.length === 0) break;
 
+    totalRecords += rows.length;
     for (const r of rows) {
       const d = depthOfRecord(r);
       if (d != null) depths.push(d);
@@ -147,7 +184,7 @@ export async function fetchSpeciesDepths(
     after = String(last.id);
   }
 
-  return depths;
+  return { depths, totalRecords };
 }
 
 /** Convenience: fetch + summarise in one call. */
@@ -155,6 +192,6 @@ export async function fetchDepthSummary(
   scientificName: string,
   opts?: { maxPages?: number; signal?: AbortSignal },
 ): Promise<DepthSummary | null> {
-  const depths = await fetchSpeciesDepths(scientificName, opts);
-  return summariseDepths(depths);
+  const { depths, totalRecords } = await fetchSpeciesDepths(scientificName, opts);
+  return summariseDepths(depths, totalRecords);
 }

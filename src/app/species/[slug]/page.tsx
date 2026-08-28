@@ -3,7 +3,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { resolveSpeciesSlug } from "@/lib/species-slug";
-import { getCachedDepth, getCachedDistribution } from "@/lib/biodiversity/species-cache";
+import { getCachedDistribution } from "@/lib/biodiversity/species-cache";
+import { getStatedDepth } from "@/lib/biodiversity/stated-depth";
+import { getSpeciesProvenance } from "@/lib/references/payload";
+import { getSpeciesDiet } from "@/lib/foodweb/diet";
 import { SpeciesGuideContent, type SpeciesDepth } from "@/components/species/SpeciesGuideContent";
 
 // Daily ISR: the OBIS depth/distribution fetches are cached per species for a
@@ -55,13 +58,13 @@ export default async function SpeciesProfilePage({
 
   // OBIS depth + distribution, SSR (ISR-cached, fail-soft) and passed into the
   // shared content so the profile keeps server rendering them.
-  const [depth, distribution] = await Promise.all([
-    getCachedDepth(scientificName),
-    getCachedDistribution(scientificName),
-  ]);
-  const initialDepth: SpeciesDepth = depth
-    ? { label: depth.label, medianM: Math.round(depth.medianM) }
-    : null;
+  const distribution = await getCachedDistribution(scientificName);
+  // Provenance is a pure read of committed data, so it server-renders with the
+  // page rather than arriving in a second round trip.
+  const provenance = getSpeciesProvenance(scientificName);
+  const diet = getSpeciesDiet(scientificName);
+  // Read from a source, not computed: see src/lib/biodiversity/stated-depth.ts
+  const initialDepth: SpeciesDepth = getStatedDepth(scientificName);
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -95,6 +98,8 @@ export default async function SpeciesProfilePage({
         behavior={traits.behavior}
         initialDepth={initialDepth}
         initialDistribution={distribution}
+        initialProvenance={provenance}
+        diet={diet}
       />
 
       {/* T-29: feed the loop - the most educational surface ends with a way back
