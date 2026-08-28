@@ -14,9 +14,17 @@
  * permanently on first credit. Catching it before upload is far cheaper than
  * backfilling afterwards.
  *
+ * It also checks the PIXELS. On 25 Aug 2026 the same batch shipped with the ML
+ * detector's HUD and bounding boxes burned into the frames, because TRDesk4 fell
+ * back to cutting from `*_unified_tracked.mp4` when it could not find the raw
+ * footage. Metadata completeness cannot catch that (those clips were H.264, the
+ * right length, and looked structurally fine); only looking at the image can.
+ * See `scripts/lib/burn-in.ts`.
+ *
  * Verdicts, per folder:
- *   READY   new or changed, metadata complete. Safe to sync.
- *   HOLD    new or changed, but a required field is missing. Names the fields.
+ *   READY   new or changed, metadata complete, no burnt-in overlay. Safe to sync.
+ *   HOLD    new or changed, but a required field is missing, or the clip has a
+ *           detector overlay burned into it. Names the reason.
  *   SKIP    excluded (TRDesk4 toggle or blocklist), or not a complete snip folder.
  *   SYNCED  already on FishSpotter and unchanged since the last sync.
  *
@@ -30,6 +38,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { isSnippetExcluded } from "../src/lib/snippet-blocklist";
+import { checkSnipBurnIn, type BurnInStatus } from "./lib/burn-in";
 
 const SNIPS_DIR = process.env.SNIPS_DIR ?? path.join(process.cwd(), "Fish Spotter Snips");
 const MANIFEST_PATH = path.join(process.cwd(), ".sync-manifest.json");
@@ -65,6 +74,8 @@ interface Result {
   isNew: boolean;
   site?: string;
   deployment?: string;
+  /** Result of the pixel check; absent when the snip never got that far. */
+  burnIn?: BurnInStatus;
 }
 
 interface Signature {
@@ -164,6 +175,21 @@ function inspect(folder: string, manifest: Record<string, Signature>): Result {
     };
   }
 
+  // Pixel gate. Only reached for a snip that is otherwise ready, so the ffmpeg
+  // cost is paid once per new/changed clip rather than on every scan.
+  const burnIn = checkSnipBurnIn(videoPath, meta);
+  if (burnIn.status === "burned-in") {
+    return {
+      ...base,
+      verdict: "HOLD",
+      reason: `detector overlay burned into the clip: ${burnIn.reason}`,
+      isNew,
+      site,
+      deployment,
+      burnIn: burnIn.status,
+    };
+  }
+
   return {
     ...base,
     verdict: "READY",
@@ -171,6 +197,7 @@ function inspect(folder: string, manifest: Record<string, Signature>): Result {
     isNew,
     site,
     deployment,
+    burnIn: burnIn.status,
   };
 }
 
@@ -210,12 +237,19 @@ function main() {
       skip: skip.length,
       synced: synced.length,
     },
-    ready: ready.map((r) => ({ folder: r.folder, deployment: r.deployment, isNew: r.isNew })),
+    ready: ready.map((r) => ({
+      folder: r.folder,
+      deployment: r.deployment,
+      isNew: r.isNew,
+      burnIn: r.burnIn,
+    })),
     hold: hold.map((r) => ({
       folder: r.folder,
       missing: r.missing,
+      reason: r.reason,
       deployment: r.deployment,
       isNew: r.isNew,
+      burnIn: r.burnIn,
     })),
     skip: skip.map((r) => ({ folder: r.folder, reason: r.reason })),
   };
@@ -245,10 +279,13 @@ function main() {
     console.log();
   }
 
-  if (hold.length > 0) {
-    console.log(`HELD (${hold.length}), not uploaded until these are filled in TRDesk4:`);
+  const burned = hold.filter((r) => r.burnIn === "burned-in");
+  const heldForMeta = hold.filter((r) => r.burnIn !== "burned-in");
+
+  if (heldForMeta.length > 0) {
+    console.log(`HELD (${heldForMeta.length}), not uploaded until these are filled in TRDesk4:`);
     const byMissing = new Map<string, string[]>();
-    for (const r of hold) {
+    for (const r of heldForMeta) {
       const k = r.missing.join(", ");
       byMissing.set(k, [...(byMissing.get(k) ?? []), r.folder]);
     }
@@ -258,6 +295,24 @@ function main() {
       if (held.length > 5) console.log(`      ... and ${held.length - 5} more`);
     }
     console.log();
+  }
+
+  if (burned.length > 0) {
+    console.log(`HELD (${burned.length}) with a DETECTOR OVERLAY BURNED INTO THE PIXELS:`);
+    for (const r of burned) console.log(`   - ${r.folder}\n       ${r.reason}`);
+    console.log(
+      "\n   These were cut from an ML pipeline render, not the raw footage, so the\n" +
+        "   detector's answer is drawn on the animal. Re-export from the original in\n" +
+        "   TRDesk4 (check the video resolves via data/clip_registry.json) and re-run.\n",
+    );
+  }
+
+  const unknown = results.filter((r) => r.burnIn === "unknown");
+  if (unknown.length > 0) {
+    console.log(
+      `WARNING: could not inspect the pixels of ${unknown.length} snip(s) ` +
+        "(is ffmpeg/ffprobe on PATH?).\n   The burn-in gate did not run for them.\n",
+    );
   }
 
   if (skip.length > 0) {
