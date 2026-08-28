@@ -14,8 +14,7 @@
  *    body-form (or shape-class) silhouette so a tile is never empty.
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import {
   narrowCandidates,
   speciesValuesFor,
@@ -51,50 +50,15 @@ const HAS_FORM_SILHOUETTE = new Set(Object.keys(bodyformCredits));
 // `?limit=1` photo lookup and a lazily-loaded image.
 const MAX_TILES = 24;
 
+// How many reference photos each tile can flick through. See the fetch below.
+const TILE_PHOTOS = 6;
+
 /** The OBIS-backed local likelihood for a clip's bucket: the bucket-wide record
  * total (for the sample-size gate) plus per-species record count + share. */
 type LocalLikelihood = {
   totalRecords: number;
   byScientific: Record<string, { count: number; probability: number }>;
 };
-
-/** Rung-3 photo tile media: a lazy <img> that starts transparent and fades to
- * full opacity over ~180ms (≈ DURATION.micro) once the image actually paints,
- * so tiles "pop in" as their photos arrive instead of snapping. Pure CSS
- * opacity transition driven by an onLoad flag, GPU-friendly, no layout. The
- * fade is gated by reduced motion: opted-out users get the photo at opacity 1
- * immediately, losing only the flourish. Silhouette / line-art fallbacks use
- * the existing path and are unaffected. */
-function TilePhoto({ src }: { src: string }) {
-  const reduce = useReducedMotion();
-  const [loaded, setLoaded] = useState(false);
-
-  // A cached image can finish loading before React attaches onLoad (notably on
-  // a remount), which would strand it at opacity 0. The ref callback checks
-  // img.complete on mount and reveals it synchronously in that case.
-  const onRef = useCallback((img: HTMLImageElement | null) => {
-    if (img?.complete) setLoaded(true);
-  }, []);
-
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      ref={onRef}
-      src={src}
-      alt=""
-      loading="lazy"
-      decoding="async"
-      onLoad={() => setLoaded(true)}
-      className={[
-        "h-full w-full object-cover",
-        // duration-[180ms] mirrors DURATION.micro (0.18s); CSS can't import the
-        // JS token, so it's inlined here with this note.
-        reduce ? "opacity-100" : "opacity-0 transition-opacity duration-[180ms] ease-out",
-        loaded ? "opacity-100" : "",
-      ].join(" ")}
-    />
-  );
-}
 
 /** Which trait supplies a species' fallback silhouette. Normally the class's
  * Rung-2 sub-split trait, because that IS the shape the user just picked.
@@ -274,27 +238,39 @@ export function CandidateGate({
   );
   const [comparing, setComparing] = useState(false);
 
-  // Lead photo per candidate, fetched once the gate is up. Small set. These
-  // tiles render at ~330px CSS (≈660px on 2× screens), so we use the 500px
-  // `url` (medium) rather than the 240px `thumbUrl`, the thumb visibly
-  // upscales/blurs at this size. Route C makes `url` cheap to serve here: it's
-  // an ~89KB WebP once transcoded, vs the ~340KB source JPEG.
-  const [photos, setPhotos] = useState<Record<string, string | null>>({});
+  // Reference photos per candidate, fetched once the gate is up. These tiles
+  // render at ~330px CSS (≈660px on 2× screens), so we use the 500px `url`
+  // (medium) rather than the 240px `thumbUrl`, the thumb visibly upscales/blurs
+  // at this size. Route C makes `url` cheap to serve here: it's an ~89KB WebP
+  // once transcoded, vs the ~340KB source JPEG.
+  //
+  // TILE_PHOTOS > 1 (28 Aug 2026) is what makes the tile picture a comparison
+  // viewer: tap its halves to flick between shots of the same species while the
+  // clip plays beside it, instead of opening the guide to see a second angle.
+  // It costs no extra requests (the same one call per species, `?limit=N`) and
+  // no extra images up front, because TileGate mounts only the visible frame;
+  // the rest load when the user asks for them. Six is the useful ceiling: the
+  // gallery builder targets 8 per species, and past ~6 the tail is redundant
+  // angles rather than a different look at the animal.
+  const [photos, setPhotos] = useState<Record<string, string[]>>({});
   const sciKey = candidates.map((c) => c.scientificName).join(",");
   useEffect(() => {
     let cancelled = false;
     Promise.all(
       candidates.map((c) =>
-        fetch(`/api/species-images/${encodeURIComponent(c.scientificName)}?limit=1`)
+        fetch(
+          `/api/species-images/${encodeURIComponent(c.scientificName)}?limit=${TILE_PHOTOS}`,
+        )
           .then((r) => (r.ok ? r.json() : null))
-          .then(
-            (d) =>
-              [
-                c.scientificName,
-                d?.images?.[0]?.url ?? d?.images?.[0]?.thumbUrl ?? null,
-              ] as const,
-          )
-          .catch(() => [c.scientificName, null] as const),
+          .then((d) => {
+            const urls: string[] = Array.isArray(d?.images)
+              ? d.images
+                  .map((img: { url?: string; thumbUrl?: string }) => img?.url ?? img?.thumbUrl)
+                  .filter((u: unknown): u is string => typeof u === "string" && u.length > 0)
+              : [];
+            return [c.scientificName, urls] as const;
+          })
+          .catch(() => [c.scientificName, [] as string[]] as const),
       ),
     ).then((entries) => {
       if (!cancelled) setPhotos(Object.fromEntries(entries));
@@ -307,16 +283,18 @@ export function CandidateGate({
   }, [sciKey]);
 
   const tiles: TileSpec[] = visible.map((c) => {
-    const photo = photos[c.scientificName];
+    const strip = photos[c.scientificName] ?? [];
     const sil = fallbackSilhouetteSrc(shapeClass, c.scientificName);
     return {
       key: c.scientificName,
       label: c.commonName,
       ariaLabel: `Pick ${c.commonName}`,
       disabled: submitting,
-      media: photo ? (
-        <TilePhoto src={photo} />
-      ) : sil ? (
+      // TileGate renders the picture from `photos` when there is one, and falls
+      // back to `media` (silhouette / line art) while they load or when the
+      // species has none cached.
+      photos: strip,
+      media: sil ? (
         <span className="flex h-full w-full items-center justify-center p-3 text-teal-500/45">
           <MaskSilhouette src={sil} />
         </span>
