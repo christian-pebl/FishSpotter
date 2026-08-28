@@ -41,6 +41,9 @@ const MANIFEST_PATH = path.join(process.cwd(), ".sync-manifest.json");
 
 const DRY = process.argv.includes("--dry-run");
 const ALL = process.argv.includes("--all");
+/** Upload a snip even though its metadata.json is missing required fields. Off
+ *  by default: see REQUIRED_META below for why. */
+const ALLOW_INCOMPLETE = process.argv.includes("--allow-incomplete");
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
   return i !== -1 ? process.argv[i + 1] : undefined;
@@ -91,6 +94,38 @@ function getReferenceAnswer(meta: Metadata): string {
     meta.functional_group ??
     "Unknown"
   );
+}
+
+/**
+ * Metadata fields a snip must carry before it may go live.
+ *
+ * On 25 Aug 2026 twelve NORF-1 clips synced with every one of these empty,
+ * because TRDesk4's metadata.json had no deployment record and the `??`
+ * fallbacks below happily wrote "Unknown" / null. The cost is invisible at
+ * upload time and expensive afterwards: `deployment` is the join key to the
+ * farm catalogue, so the clips detach from their farm page, and lat/lon/depth/
+ * month are what `bucketFor()` needs for the OBIS probability bucket, without
+ * which the Pebbles consensus payout is stuck at rarity x1 -- and consensus
+ * freezes each payout permanently on first credit.
+ *
+ * So an incomplete snip is now HELD rather than uploaded. Fix it at source in
+ * TRDesk4 and re-export; `--allow-incomplete` is the deliberate override.
+ */
+const REQUIRED_META = [
+  "site",
+  "deployment",
+  "depth_m",
+  "latitude",
+  "longitude",
+  "recording_datetime",
+] as const;
+
+/** Empty string counts as missing: `??` would let "" through as a real value. */
+function missingMeta(meta: Metadata): string[] {
+  return REQUIRED_META.filter((k) => {
+    const v = (meta as Record<string, unknown>)[k];
+    return v === null || v === undefined || (typeof v === "string" && v.trim() === "");
+  });
 }
 
 function statSig(p: string | null): string {
@@ -178,6 +213,7 @@ async function main() {
   let processed = 0;
   let skipped = 0;
   const failures: { folder: string; error: string }[] = [];
+  const held: { folder: string; missing: string[] }[] = [];
 
   for (const folderName of dirs) {
     if (processed >= LIMIT) break;
@@ -249,6 +285,16 @@ async function main() {
         skipped++;
       }
       manifest[folderName] = sig;
+      continue;
+    }
+
+    // Metadata gate: never publish a snip that would land without its farm
+    // join or its probability bucket (see REQUIRED_META). Deliberately NOT
+    // added to the manifest, so a corrected re-export is picked up next run.
+    const missing = missingMeta(meta);
+    if (missing.length > 0 && !ALLOW_INCOMPLETE) {
+      console.warn(`HOLD ${folderName}: metadata.json missing ${missing.join(", ")}`);
+      held.push({ folder: folderName, missing });
       continue;
     }
 
@@ -335,7 +381,15 @@ async function main() {
   }
 
   saveManifest(manifest);
-  console.log(`\nSync complete. processed=${processed} skipped=${skipped} failed=${failures.length}`);
+  console.log(
+    `\nSync complete. processed=${processed} skipped=${skipped} ` +
+      `held=${held.length} failed=${failures.length}`,
+  );
+  if (held.length > 0) {
+    console.log("\nHELD for missing metadata (fix the deployment record in TRDesk4, re-export,");
+    console.log("then re-run; these were NOT uploaded and are NOT in the manifest):");
+    for (const h of held) console.log(`  - ${h.folder}: missing ${h.missing.join(", ")}`);
+  }
   if (failures.length > 0) {
     console.log("Failed folders (left out of the manifest; re-run to retry):");
     for (const f of failures) console.log(`  - ${f.folder}: ${f.error}`);
