@@ -8,7 +8,7 @@
  *
  *   1. Exact normalised match against the staff answer itself
  *   2. Any registered alias from the SpeciesAlias table
- *   3. Singular/plural variants (via normalizeForMatch — see normalize-answer.ts)
+ *   3. Singular/plural variants (via normalizeForMatch, see normalize-answer.ts)
  *
  * When `staffAnswer` is null (no reference identification exists yet),
  * `isCorrect` is null and the user receives a flat participation bonus
@@ -21,7 +21,12 @@
 
 import { normalizeAnswer, normalizeForMatch } from "@/lib/normalize-answer";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
-import { SHAPE_CLASS, FISH_GROUP_COARSE_NOUN, type ShapeClass } from "@/lib/idguide/traits";
+import {
+  SHAPE_CLASS,
+  FISH_GROUP_COARSE_NOUN,
+  FISH_ZONE_COARSE_NOUN,
+  type ShapeClass,
+} from "@/lib/idguide/traits";
 import { CONSENSUS_THRESHOLD_USERS } from "@/lib/pebbles";
 
 // Sea-currency redesign: the consensus threshold now lives in the Pebbles
@@ -37,7 +42,7 @@ export interface AliasEntry {
 /**
  * Scoring constants. Pending is deliberately *less* than correct so a
  * spotter can't farm un-referenced clips at a better rate than referenced
- * ones — pure participation gets a small reward, the bigger payout
+ * ones, pure participation gets a small reward, the bigger payout
  * arrives via the consensus retro-bonus (S7-T2).
  */
 export const POINTS_CORRECT_REF = 2;
@@ -48,13 +53,13 @@ export const POINTS_INCORRECT = 0;
 // "it's a crab" but picked the wrong crab) earns partial credit. Locked at 1:
 // Answer.points is an Int so nothing fits between 1 and 2, and bumping species
 // to 3 would break the consensus-pioneer invariant (1 + bonus 2 must out-rank a
-// referenced species correct = 2). isCorrect stays false — only a species hit
+// referenced species correct = 2). isCorrect stays false, only a species hit
 // is "correct"; the reveal derives a "close" treatment from points === 1 in
 // UX-4 without a schema change.
 export const POINTS_SHAPE_CLASS = 1;
 // Legacy reference-era scoring constants are retained only for the
 // matchWithAliases unit tests and any transitional callers. The live
-// economy (Pebbles) no longer uses a staffAnswer reference — see pebbles.ts
+// economy (Pebbles) no longer uses a staffAnswer reference, see pebbles.ts
 // and src/lib/consensus.ts. CONSENSUS_THRESHOLD_USERS is re-exported above
 // from pebbles.ts (the single source of truth).
 export const POINTS_CONSENSUS_BONUS = 2;
@@ -67,7 +72,7 @@ export interface MatchResult {
 }
 
 /**
- * Pure matcher — given an explicit alias list. Use this for tests and any
+ * Pure matcher, given an explicit alias list. Use this for tests and any
  * caller that wants to control the alias source (e.g. mocking).
  *
  * Match strategy:
@@ -119,7 +124,7 @@ export function matchWithAliases(
   }
 
   // --- Rung 2: shape-class partial credit (Workstream E) ---------------------
-  // Wrong species — but did they at least nail the shape class? The reference's
+  // Wrong species, but did they at least nail the shape class? The reference's
   // species implies its shape class via the catalogue; a coarse reference
   // ("Crab") maps to itself. isCorrect stays false (only a species hit is
   // "correct"); the points carry the partial-credit signal.
@@ -154,8 +159,8 @@ export const CATALOGUE_ALIASES: AliasEntry[] = Object.entries(CATALOGUE).map(
  * using local alias data, or null if it isn't a species the catalogue covers.
  *
  * This is the local-first counterpart to the GBIF name match. GBIF's
- * `species/match` only resolves *scientific* names — it returns NONE for
- * vernaculars ("common whiting", "juvenile cod") — so common-name staff answers
+ * `species/match` only resolves *scientific* names, it returns NONE for
+ * vernaculars ("common whiting", "juvenile cod"), so common-name staff answers
  * never resolved through it. The catalogue already pairs every scientific name
  * with its common name(s), and `species-aliases.json` adds editorial synonyms,
  * so for any species the product actually covers we can resolve offline and
@@ -232,7 +237,10 @@ export function buildShapeClassByForm(
   // resolve to the fish shape class, so a group-level commit earns shape-class
   // credit exactly like the bare "fish" word. Added last so a real species/alias
   // form is never clobbered.
-  for (const noun of Object.values(FISH_GROUP_COARSE_NOUN)) {
+  for (const noun of [
+    ...Object.values(FISH_GROUP_COARSE_NOUN),
+    ...Object.values(FISH_ZONE_COARSE_NOUN),
+  ]) {
     const key = normalizeForMatch(noun);
     if (!map.has(key)) map.set(key, "fish");
   }
@@ -241,7 +249,7 @@ export function buildShapeClassByForm(
 }
 
 /**
- * Legacy boolean shim — kept so test files and any callers that only need
+ * Legacy boolean shim, kept so test files and any callers that only need
  * the boolean continue to work. New callers should use `matchWithAliases`.
  */
 export function isCorrectWithAliases(
@@ -255,7 +263,7 @@ export function isCorrectWithAliases(
 /**
  * Module-scope 5-minute TTL cache so a snippet quiz session doesn't hit
  * Prisma for every submission. Cache is keyed by nothing (single-shot
- * snapshot of the whole alias table — it is small).
+ * snapshot of the whole alias table, it is small).
  */
 const CACHE_TTL_MS = 5 * 60 * 1000;
 let cache: { data: AliasEntry[]; expiresAt: number } | null = null;
@@ -266,7 +274,7 @@ let shapeCache: { data: Map<string, ShapeClass>; expiresAt: number } | null = nu
 /**
  * Loads the alias table from the DB with a 5-min TTL cache. Server-only
  * (imports the Prisma client). Returns [] if the SpeciesAlias table
- * hasn't been seeded yet — match degrades to direct staff-answer
+ * hasn't been seeded yet, match degrades to direct staff-answer
  * comparison, identical to the pre-S2-T01 behaviour.
  */
 export async function loadAliases(): Promise<AliasEntry[]> {
@@ -283,7 +291,7 @@ export async function loadAliases(): Promise<AliasEntry[]> {
 }
 
 /**
- * Production matcher — same logic as matchWithAliases but loads
+ * Production matcher, same logic as matchWithAliases but loads
  * aliases from the DB. Returns the full MatchResult.
  */
 export async function matchAnswer(
@@ -302,7 +310,7 @@ export async function matchAnswer(
 }
 
 /**
- * Boolean shim — used by callers that don't need the points yet.
+ * Boolean shim, used by callers that don't need the points yet.
  * Prefer `matchAnswer` going forward.
  */
 export async function isCorrectAnswer(

@@ -1,5 +1,5 @@
 {
-  "_README": "Per-species image strategy used by scripts/refresh-images.ts. For each species we specify a list of {lifeStage, sex, count} buckets. The script will query iNaturalist with the corresponding filters, take the top N photos per bucket, and persist into SpeciesImage. To pin a specific photo (e.g. the one we KNOW is the best juvenile catshark image), add it to `overrides` as a SpeciesImage row — those are upserted with curated=true and never overwritten by the script.",
+  "_README": "Per-species image strategy used by scripts/refresh-images.ts. For each species we specify a list of {lifeStage, sex, count} buckets. The script will query iNaturalist with the corresponding filters, take the top N photos per bucket, and persist into SpeciesImage. To pin a specific photo (e.g. the one we KNOW is the best juvenile catshark image), add it to `overrides` as a SpeciesImage row, those are upserted with curated=true and never overwritten by the script.",
   "_defaultBuckets": [
     {
       "lifeStage": null,
@@ -8,6 +8,15 @@
     }
   ],
   "species": {
+    "Majoidea": {
+      "_note": "Group-level catalogue entry (UK spider crabs are not separable on video). Superfamily-wide iNat queries would return non-UK majoids (Japanese spider crab, Libinia), so `fetchName` pins the photo pull to the commonest UK representative.",
+      "fetchName": "Hyas araneus",
+      "buckets": [
+        {
+          "count": 4
+        }
+      ]
+    },
     "Pollachius pollachius": {
       "_note": "Juveniles look very different (golden lateral stripe in kelp); show both.",
       "buckets": [
@@ -195,7 +204,7 @@
       ]
     },
     "Scyliorhinus canicula": {
-      "_note": "Egg case is itself an ID target — annotated as 'egg' on iNat.",
+      "_note": "Egg case is itself an ID target, annotated as 'egg' on iNat.",
       "buckets": [
         {
           "lifeStage": "adult",
@@ -497,7 +506,7 @@
         "ordering": 1
       }
     ],
-    "Hyas araneus": [
+    "Majoidea": [
       {
         "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/199155354/medium.jpg",
         "thumbUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/199155354/square.jpg",

@@ -2,7 +2,7 @@ export const BODY_SHAPE = [
   "elongated",
   // `fusiform` is the merged "normal fish silhouette" bucket: torpedoes AND
   // deep-bodied fish. The old `laterally-compressed` ("Tall and thin") value
-  // was retired on 10 Jun 2026 — field testers found the torpedo-vs-tall cut
+  // was retired on 10 Jun 2026, field testers found the torpedo-vs-tall cut
   // too fine-scale (millimetres) for a Rung-2 gate, so both now sit in one
   // tile and the `bodyDepth` Rung-3 splitter (deep/medium/slender) separates
   // them when it actually matters.
@@ -15,7 +15,7 @@ export const BODY_SHAPE = [
 // `eel-like` (no species used it) and would have shown two near-identical Rung-2
 // tiles. `eel-like` is the canonical long-continuous-fin silhouette.
 // `bottom-scooter` (added 4 Jun 2026) is the fish "Bottom scooters" Rung-2
-// bucket: bottom-resting fish that perch then dart in fits and starts —
+// bucket: bottom-resting fish that perch then dart in fits and starts,
 // dragonets and the round-bodied gobies. It is an ecology/posture grouping, not
 // a strict cross-section, so it (deliberately) overlaps with the gobies'
 // `elongated`/`fusiform` tags. Distinct from `flat-dorsoventral`, which stays
@@ -25,11 +25,11 @@ export type BodyShape = (typeof BODY_SHAPE)[number];
 // Fish Rung-2 grouping (added 17 Jun 2026). This is the FIRST cut a beginner
 // makes after tapping "Fish", and it replaces the old `bodyShape` sub-split
 // whose merged `fusiform` ("Torpedo or deep-bodied") bucket held 20 of the 28
-// fish — far past the ~10-option ceiling and, per a 28-photo vision pass, an
+// fish, far past the ~10-option ceiling and, per a 28-photo vision pass, an
 // unreliable cut (deep-vs-torpedo only holds at the extremes). The six values
 // are plain-English family gestalts a novice can read off a short underwater
 // clip, grounded in three UK field guides (ZSL estuarine key, Sussex IFCA,
-// EA/Maitland key) — see implementation/2026-06-17/. Each value keeps its
+// EA/Maitland key), see implementation/2026-06-17/. Each value keeps its
 // bucket <=10 with no further rung needed (largest: bottom-sitter = 9).
 // `fishGroup` is the authoritative fish gate trait; `bodyShape` stays as a
 // secondary scored descriptor. Optional array on SpeciesTraits, present only on
@@ -42,7 +42,7 @@ export const FISH_GROUP = [
   // The other seabed fish, split off bottom-sitter on 18 Jun 2026 when that
   // bucket hit the 10-species Rung-2 ceiling: gurnards, red mullet, sea
   // scorpion, blenny. This is the home for every gurnard (grey/red/tub/streaked)
-  // — chunkier or odder bottom fish that walk, root or lurk rather than dart.
+  //, chunkier or odder bottom fish that walk, root or lurk rather than dart.
   "bottom-other",
   "long-skinny", // eel-like / ribbon body, much longer than deep (conger, butterfish, stickleback)
   "shark", // unmistakable little-shark silhouette (lesser-spotted catshark)
@@ -65,10 +65,43 @@ export const FISH_GROUP_COARSE_NOUN: Record<FishGroup, string> = {
   shark: "shark",
 };
 
+// Fish Rung-2 gate (28 Aug 2026). Replaces the seven-way `fishGroup` cut as the
+// tile set the user actually sees. The seven family groups were each legible on
+// their own but asked a beginner to name a family ("is that a wrasse or a
+// gadoid?") from a short clip, and seven tiles is a lot of reading before the
+// first photo. This cuts on the one thing a beginner CAN read straight off the
+// footage: was the animal working the seabed, or was it up off it? Two tiles,
+// one glance, then straight into the Rung-3 photo grid.
+//
+// `fishGroup` is NOT retired: it stays the authoritative family grouping behind
+// the scenes (silhouettes, comparison sets, the food web, the orphaned yes/no
+// narrowing engine). fishZone is the presentation cut layered over it.
+//
+// NB the two zones do not fall cleanly along fishGroup lines, which is exactly
+// why this is its own trait rather than a bundle of fishGroup values. Two groups
+// split across the zones: `long-skinny` (the conger and the butterfish work the
+// seabed, the fifteen-spined stickleback hangs in the weed above it) and
+// `bottom-sitter` (the two-spotted goby hovers in mid-water over the kelp, which
+// is what makes it the odd one out among the gobies).
+export const FISH_ZONE = [
+  "seabed", // works the bottom: perches, walks, roots, lurks or threads along it
+  "water-column", // up off the bottom: hanging, patrolling or shoaling in open water
+] as const;
+export type FishZone = (typeof FISH_ZONE)[number];
+
+// Singular noun for each zone, used by the Rung-3 coarse "It's just a ___"
+// commit (same contract as FISH_GROUP_COARSE_NOUN, since both map to the fish shape
+// class in answer-matching's buildShapeClassByForm, so a zone-level commit still
+// earns shape-class credit). Keyed exhaustively so a new zone forces a noun.
+export const FISH_ZONE_COARSE_NOUN: Record<FishZone, string> = {
+  seabed: "fish on the seabed",
+  "water-column": "fish up in the water",
+};
+
 export const SIZE = ["small", "medium", "large"] as const; // <10cm, 10-50cm, >50cm
 export type SizeClass = (typeof SIZE)[number];
 
-// Body depth — the Rung-3 splitter for the over-stuffed fusiform pool (added
+// Body depth, the Rung-3 splitter for the over-stuffed fusiform pool (added
 // 3 Jun 2026). Deep-bodied fish (bib, ballan/corkwing wrasse) vs slim torpedoes
 // (pollack, saithe, mackerel) is a question a beginner can answer from the
 // silhouette alone, and it is the single most discriminating cut once shape
@@ -76,7 +109,7 @@ export type SizeClass = (typeof SIZE)[number];
 export const BODY_DEPTH = ["deep", "medium", "slender"] as const;
 export type BodyDepth = (typeof BODY_DEPTH)[number];
 
-// Lateral-line form — a classic field mark, especially for gadoids (pale and
+// Lateral-line form, a classic field mark, especially for gadoids (pale and
 // straight in saithe, dark and curved in pollack) and for the dab (lateral line
 // arched sharply over the pectoral fin). Optional array trait.
 export const LATERAL_LINE = [
@@ -124,7 +157,7 @@ export const FEATURES = [
   "dorsal-spines",
   "fleshy-lips",
   "sucker-mouth",
-  "pelvic-sucker", // fused pelvic-disc sucker on the belly — the gobiid give-away
+  "pelvic-sucker", // fused pelvic-disc sucker on the belly, the gobiid give-away
   "lateral-scutes", // bony plates along the lateral line (horse mackerel, Carangidae)
   "frilly-fins",
   "none",
@@ -153,7 +186,7 @@ export const HABITAT = [
 export type Habitat = (typeof HABITAT)[number];
 
 // Top-level "Spot It" gate. Used as a HARD FILTER (wrong class excluded, not
-// down-weighted) by narrow.ts — see Workstream B. Hermit Crab is folded into
+// down-weighted) by narrow.ts, see Workstream B. Hermit Crab is folded into
 // "crab".
 export const SHAPE_CLASS = [
   "crab",
@@ -165,7 +198,7 @@ export const SHAPE_CLASS = [
   "squid",
   "urchin",
   // Catch-all for the non-invertebrate wildlife the cameras also catch
-  // (diving seabirds, seals) — added 6 Jul 2026 after two Kelp Crofters clips
+  // (diving seabirds, seals), added 6 Jul 2026 after two Kelp Crofters clips
   // (KEL33 urchin, KEL37 shag) surfaced with nowhere to go in the gate. Splits
   // on `wildlifeForm` (bird / seal) at Rung 2, same pattern as every other
   // invert class's "form" splitter.
@@ -176,7 +209,7 @@ export const SHAPE_CLASS = [
 // vision pass) showed beginners reliably group dragonets with bottom-dwelling
 // gobies and tap "Fish", so a hard separate gate made dragonets unreachable for
 // no discriminating gain. The dragonets carry `bodyShape: bottom-scooter`, the
-// fish Rung-2 sub-split "Bottom scooters" (4 Jun 2026) — which now groups them
+// fish Rung-2 sub-split "Bottom scooters" (4 Jun 2026), which now groups them
 // WITH the bottom-dwelling gobies rather than splitting them off, since
 // beginners group all the perch-and-dart seabed fish together. Distinct from
 // the `flatfish` class (asymmetric, eyes-migrated).
@@ -211,7 +244,7 @@ export type CarapaceTexture = (typeof CARAPACE_TEXTURE)[number];
 export const CRAB_FEATURES = [
   "swimming-paddle", // flattened rear-leg paddle (Necora, Liocarcinus)
   "marginal-teeth", // sharp teeth along the carapace edge (Carcinus)
-  "long-legs", // spindly spider-crab legs (Hyas)
+  "long-legs", // spindly spider-crab legs (Majoidea: Hyas, Maja, Inachus)
   "lives-in-shell", // hermit crab, body inside a gastropod shell
   "red-eyes", // velvet swimming crab
   "dark-claw-tips", // black-tipped pincers (Cancer)
@@ -219,14 +252,14 @@ export const CRAB_FEATURES = [
 ] as const;
 export type CrabFeature = (typeof CRAB_FEATURES)[number];
 
-// Crab body outline — the Rung-2 sub-split for the Crab tile (mirrors the
+// Crab body outline, the Rung-2 sub-split for the Crab tile (mirrors the
 // invert "form" enums below). One value per crab so a single silhouette tap
 // narrows the six crabs to one or two before the photo grid.
 export const CRAB_FORM = [
-  "broad-carapace", // true crab — wide oval/hexagonal carapace, short legs (Cancer, Carcinus)
-  "swimming", // portunid — broad carapace, flattened paddle on the rear legs (Necora, Liocarcinus)
-  "spider", // spider crab — triangular carapace, long spindly legs (Hyas)
-  "hermit", // hermit crab — soft body inside a coiled gastropod shell (Pagurus)
+  "broad-carapace", // true crab, wide oval/hexagonal carapace, short legs (Cancer, Carcinus)
+  "swimming", // portunid, broad carapace, flattened paddle on the rear legs (Necora, Liocarcinus)
+  "spider", // spider crab, triangular carapace, long spindly legs (Majoidea: Hyas, Maja, Inachus)
+  "hermit", // hermit crab, soft body inside a coiled gastropod shell (Pagurus)
 ] as const;
 export type CrabForm = (typeof CRAB_FORM)[number];
 
@@ -234,7 +267,7 @@ export type CrabForm = (typeof CRAB_FORM)[number];
 // traits carry no signal here, so each invert gate-class gets one small "form"
 // enum that does the within-tile splitting. All are OPTIONAL on SpeciesTraits.
 
-// Cephalopod body plan (Squid tile — octopus folded in per the 1 Jun decision).
+// Cephalopod body plan (Squid tile, octopus folded in per the 1 Jun decision).
 export const CEPHALOPOD_FORM = [
   "cuttlefish", // broad flattened mantle, fin skirt the full body length
   "squid", // torpedo mantle, triangular fins at the rear
@@ -245,19 +278,19 @@ export type CephalopodForm = (typeof CEPHALOPOD_FORM)[number];
 
 // Echinoderm arm plan (Starfish tile).
 export const ARM_FORM = [
-  "short-stubby", // cushion star — short fat arms, pentagon outline
-  "long-spiny", // spiny starfish — long arms with rows of spines
-  "long-smooth", // common starfish — long tapering arms, no obvious spines
-  "thin-whippy", // brittlestar — small disc, long thread-like arms
+  "short-stubby", // cushion star, short fat arms, pentagon outline
+  "long-spiny", // spiny starfish, long arms with rows of spines
+  "long-smooth", // common starfish, long tapering arms, no obvious spines
+  "thin-whippy", // brittlestar, small disc, long thread-like arms
 ] as const;
 export type ArmForm = (typeof ARM_FORM)[number];
 
 // Gastropod shell plan (Snail / slug tile).
 export const SHELL_SHAPE = [
-  "flat-cone", // limpet — low cone clamped to rock
-  "pointed-cone", // top shells, dog whelk — tall pointed spire
-  "rounded-squat", // periwinkle, flat top shell — squat rounded whorl
-  "no-shell", // sea slug / nudibranch — naked body (future entries)
+  "flat-cone", // limpet, low cone clamped to rock
+  "pointed-cone", // top shells, dog whelk, tall pointed spire
+  "rounded-squat", // periwinkle, flat top shell, squat rounded whorl
+  "no-shell", // sea slug / nudibranch, naked body (future entries)
 ] as const;
 export type ShellShape = (typeof SHELL_SHAPE)[number];
 
@@ -272,13 +305,13 @@ export type BellForm = (typeof BELL_FORM)[number];
 // Echinoid body plan (Sea Urchin tile). The real Regularia/Irregularia split:
 // round spiny grazers versus flattened burrowers that live under the sand.
 export const URCHIN_FORM = [
-  "round-spiny", // regular echinoid — globe-shaped test, spines all round (Echinus, Psammechinus, Paracentrotus)
-  "heart-shaped", // irregular echinoid — flattened, fur-like short spines, burrows in sand/mud (Echinocardium, Spatangus)
+  "round-spiny", // regular echinoid, globe-shaped test, spines all round (Echinus, Psammechinus, Paracentrotus)
+  "heart-shaped", // irregular echinoid, flattened, fur-like short spines, burrows in sand/mud (Echinocardium, Spatangus)
 ] as const;
 export type UrchinForm = (typeof URCHIN_FORM)[number];
 
 // Other Wildlife body plan (the catch-all tile). Bird vs seal is the only cut
-// this shape class needs at Rung 2 — each side is small enough to go straight
+// this shape class needs at Rung 2, each side is small enough to go straight
 // to the Rung-3 photo grid with no further split.
 export const WILDLIFE_FORM = ["bird", "seal"] as const;
 export type WildlifeForm = (typeof WILDLIFE_FORM)[number];
@@ -295,8 +328,12 @@ export type SpeciesTraits = {
   behavior: Behavior[];
   habitat: Habitat[];
   movement: Movement[];
-  // Fish Rung-2 family grouping (optional): the authoritative gate cut for fish,
-  // present on every fish entry, absent on inverts.
+  // Fish Rung-2 gate (optional): seabed vs water column, present on every fish
+  // entry, absent on inverts. This is what the Rung-2 tiles cut on.
+  fishZone?: FishZone[];
+  // Fish family grouping (optional): the authoritative family gestalt for fish,
+  // present on every fish entry, absent on inverts. No longer the gate cut (see
+  // fishZone) but still drives silhouettes, comparison sets and the food web.
   fishGroup?: FishGroup[];
   // Fish Rung-3 splitters (optional): present on fish entries that need them to
   // separate within an over-stuffed body-shape bucket, absent elsewhere.
@@ -329,6 +366,7 @@ export type TraitSelection = {
   behavior?: Behavior[];
   habitat?: Habitat[];
   movement?: Movement[];
+  fishZone?: FishZone[];
   fishGroup?: FishGroup[];
   bodyDepth?: BodyDepth[];
   lateralLine?: LateralLine[];

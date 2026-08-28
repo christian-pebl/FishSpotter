@@ -14,7 +14,7 @@ import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
 import { AnnotatedSpeciesPhoto } from "./AnnotatedSpeciesPhoto";
 import { ShapeGate, SHAPE_CLASS_LABEL, SHAPE_CLASS_COMMIT_NOUN } from "./ShapeGate";
-import { FISH_GROUP_COARSE_NOUN, type FishGroup } from "@/lib/idguide/traits";
+import { FISH_ZONE_COARSE_NOUN, type FishZone } from "@/lib/idguide/traits";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
 import { RevealResult } from "./idflow/RevealResult";
@@ -1971,8 +1971,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       {bodyGateOpen && selectedShape && !myAnswer && (
         <BodyShapeGate
           shapeClass={selectedShape}
-          onSelectForm={(key, value) => {
-            dispatch({ type: "selectForm", seed: { key, value } });
+          onSelectForm={(key, value, values) => {
+            dispatch({ type: "selectForm", seed: { key, value, values } });
           }}
           onPickSpecies={(name) =>
             void submitAndAdvance(() => handleSubmit({ answerText: name }))
@@ -2028,7 +2028,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   // closure stays type-safe (selectedShape is narrowed here).
                   const groupNoun =
                     selectedShape === "fish" && formSeed?.value
-                      ? FISH_GROUP_COARSE_NOUN[formSeed.value as FishGroup]
+                      ? FISH_ZONE_COARSE_NOUN[formSeed.value as FishZone]
                       : undefined;
                   const noun = groupNoun || SHAPE_CLASS_COMMIT_NOUN[selectedShape];
                   return {
