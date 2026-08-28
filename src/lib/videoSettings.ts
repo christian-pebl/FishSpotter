@@ -2,7 +2,18 @@
 
 import { useEffect, useState } from "react";
 
-export type VideoSpeed = 0.5 | 1 | 1.5;
+export type VideoSpeed = 0.25 | 0.5 | 0.75 | 1 | 1.5 | 2;
+
+/**
+ * The playback-rate ladder, ascending. Ordered because the on-clip +/- stepper
+ * walks it one rung at a time, and 1 must stay a member so "normal speed" is
+ * reachable from both directions.
+ *
+ * The slow end matters more than the fast end here: a goby darting across frame
+ * is unreadable at 1x and legible at 0.25x, which is the whole point of putting
+ * the control on the clip rather than only in the side menu.
+ */
+export const VIDEO_SPEEDS: readonly VideoSpeed[] = [0.25, 0.5, 0.75, 1, 1.5, 2];
 
 export interface VideoSettings {
   soundOn: boolean;
@@ -31,7 +42,20 @@ function clampStep(v: number) {
 }
 
 function normalizeSpeed(v: unknown): VideoSpeed {
-  return v === 0.5 || v === 1.5 ? v : 1;
+  return VIDEO_SPEEDS.includes(v as VideoSpeed) ? (v as VideoSpeed) : 1;
+}
+
+/**
+ * One press of the on-clip speed stepper: the next rung up (+1) or down (-1).
+ *
+ * Clamped at both ends rather than wrapped, because wrapping from 2x straight
+ * back to 0.25x on one press is a nasty surprise mid-clip. A press at the limit
+ * is simply a no-op, and the button that would do it is disabled anyway.
+ */
+export function stepSpeed(current: VideoSpeed, direction: 1 | -1): VideoSpeed {
+  const at = VIDEO_SPEEDS.indexOf(current);
+  const next = (at === -1 ? VIDEO_SPEEDS.indexOf(1) : at) + direction;
+  return VIDEO_SPEEDS[Math.max(0, Math.min(VIDEO_SPEEDS.length - 1, next))];
 }
 
 function read(): VideoSettings {
