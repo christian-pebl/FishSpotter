@@ -27,6 +27,69 @@ import { manualTrackToBoxes } from "@/lib/manualTrack";
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 const TRACE_POINT_LIMIT = 40;
+// How far the clip can be magnified. Past ~4x a 1080p source is mush, and the
+// point of this zoom is reading a diagnostic feature, not pixel-peeping.
+const MAX_ZOOM = 4;
+// One press of the +/- buttons. Multiplicative so each press feels the same
+// size at any level, unlike a fixed +0.5 which crawls once you are zoomed in.
+const ZOOM_BUTTON_STEP = 1.4;
+
+/**
+ * The zoom transform for a frame: where it is anchored, and how far the picture
+ * is shifted to bring that anchor to the middle.
+ *
+ * Zooming about the animal alone would magnify it in place, leaving it stuck in
+ * whichever corner it happened to occupy. So the picture is also translated to
+ * carry the anchor toward the centre of the frame, clamped so the video edge is
+ * never pulled inside the frame (which would show a black wedge). At zoom 1 the
+ * translation is zero, so the natural fit is untouched.
+ *
+ * The video's CSS transform and the trail/ring projection are both derived from
+ * this one result, which is what keeps the trace welded to the fish at any zoom.
+ * It is the same invariant that already binds fitGeometry to the trail: if these
+ * two ever disagree, the trace slides off the animal.
+ */
+function zoomTransform(
+  fit: { renderedWidth: number; renderedHeight: number; offsetX: number; offsetY: number },
+  center: { x: number; y: number } | null,
+  frameWidth: number,
+  frameHeight: number,
+  zoom: number,
+): { anchorX: number; anchorY: number; tx: number; ty: number } {
+  const anchorX = center ? fit.offsetX + center.x * fit.renderedWidth : frameWidth / 2;
+  const anchorY = center ? fit.offsetY + center.y * fit.renderedHeight : frameHeight / 2;
+  if (zoom <= 1) return { anchorX, anchorY, tx: 0, ty: 0 };
+
+  // Where the element's edges land after scaling about the anchor, and hence how
+  // far it may be shifted before an edge crosses into the frame.
+  const clampAxis = (anchor: number, extent: number, wanted: number) => {
+    const min = extent - (anchor + (extent - anchor) * zoom); // right/bottom edge
+    const max = -(anchor + (0 - anchor) * zoom); // left/top edge
+    if (min > max) return 0; // scaled smaller than the frame: nothing to give
+    return Math.min(max, Math.max(min, wanted));
+  };
+
+  return {
+    anchorX,
+    anchorY,
+    tx: clampAxis(anchorX, frameWidth, frameWidth / 2 - anchorX),
+    ty: clampAxis(anchorY, frameHeight, frameHeight / 2 - anchorY),
+  };
+}
+
+/** Map a frame-pixel point through the same transform the video is given. */
+function applyZoomToPoint(
+  x: number,
+  y: number,
+  t: { anchorX: number; anchorY: number; tx: number; ty: number },
+  zoom: number,
+): { x: number; y: number } {
+  return {
+    x: t.anchorX + t.tx + (x - t.anchorX) * zoom,
+    y: t.anchorY + t.ty + (y - t.anchorY) * zoom,
+  };
+}
+
 // Bbox smoothing, lower = smoother trail, slightly more lag.
 const BBOX_SMOOTH_ALPHA = 0.15;
 // Min pixel delta before pushing a new point into the trail buffer.
@@ -507,6 +570,23 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // ambient blur fill is then fully occluded, so we skip rendering it.
   const [videoCovers, setVideoCovers] = useState(false);
 
+  // Zoom into the clip, always ANCHORED ON THE ANIMAL. 1 = the natural fit.
+  // Driven by the wheel, a two-finger pinch, or the +/- buttons; every route
+  // ends up here. The ref mirrors it for the per-frame trail/ring loops, which
+  // must not re-subscribe on each zoom step.
+  const [zoom, setZoom] = useState(1);
+  const zoomRef = useRef(1);
+  zoomRef.current = zoom;
+  const frameRef = useRef<HTMLDivElement>(null);
+  // A Spot It gate is open, so the clip is sharing the frame with the panel.
+  // Only tracks open/closed (not the live drag size, which goes straight to CSS
+  // custom properties) so this stays a rare re-render.
+  const [splitMode, setSplitMode] = useState(false);
+
+  const applyZoom = useCallback((next: number) => {
+    setZoom(Math.min(MAX_ZOOM, Math.max(1, next)));
+  }, []);
+
   // Apply the fit (object-fit + object-position) once the intrinsic size is known
   // and whenever the frame resizes or the phone rotates. Landscape clips fill the
   // portrait frame using the full source height, cropped horizontally to the
@@ -525,6 +605,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       const fit = fitGeometry(cw, ch, vw, vh, speciesCenterRef.current);
       video.style.objectFit = fit.cover ? "cover" : "contain";
       video.style.objectPosition = `${(fit.posX * 100).toFixed(2)}% ${(fit.posY * 100).toFixed(2)}%`;
+      // Magnify about the animal, carrying it toward the middle as it grows.
+      // Same transform the trail projection uses, so the trace and the ping ring
+      // stay welded to the fish at any zoom level.
+      const z = zoomRef.current;
+      const t = zoomTransform(fit, speciesCenterRef.current, cw, ch, z);
+      video.style.transformOrigin = `${t.anchorX.toFixed(2)}px ${t.anchorY.toFixed(2)}px`;
+      video.style.transform =
+        z > 1 ? `translate(${t.tx.toFixed(2)}px, ${t.ty.toFixed(2)}px) scale(${z})` : "";
       setVideoCovers(fit.cover);
     };
     apply();
@@ -535,7 +623,67 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       video.removeEventListener("loadedmetadata", apply);
       ro.disconnect();
     };
-  }, [speciesCenter]);
+    // zoom re-runs apply() so the transform tracks it; zoomRef carries the value
+    // so the per-frame loops below never re-subscribe.
+  }, [speciesCenter, zoom]);
+
+  // Zoom input, scoped to the CLIP AREA only (frameRef), so the rest of the
+  // card behaves exactly as before.
+  //
+  // The wheel is deliberately gated on split mode (or an existing zoom): in the
+  // normal full-bleed feed a wheel is how you go to the next clip, and stealing
+  // that would break the core navigation. Once the panel is open you are
+  // inspecting one animal, not browsing, so the wheel becomes a magnifier.
+  // A two-finger pinch is unambiguous and always zooms; a ONE-finger drag is
+  // never intercepted, so swipe-for-next keeps working.
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame || !isActive) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (!splitMode && zoomRef.current <= 1) return;
+      e.preventDefault();
+      applyZoom(zoomRef.current * Math.exp(-e.deltaY * 0.0015));
+    };
+
+    let pinchStartDistance = 0;
+    let pinchStartZoom = 1;
+    const distance = (t: TouchList) =>
+      Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 2) return;
+      pinchStartDistance = distance(e.touches);
+      pinchStartZoom = zoomRef.current;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 2 || pinchStartDistance <= 0) return;
+      e.preventDefault();
+      applyZoom((pinchStartZoom * distance(e.touches)) / pinchStartDistance);
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2) pinchStartDistance = 0;
+    };
+
+    frame.addEventListener("wheel", onWheel, { passive: false });
+    frame.addEventListener("touchstart", onTouchStart, { passive: true });
+    frame.addEventListener("touchmove", onTouchMove, { passive: false });
+    frame.addEventListener("touchend", onTouchEnd, { passive: true });
+    frame.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    return () => {
+      frame.removeEventListener("wheel", onWheel);
+      frame.removeEventListener("touchstart", onTouchStart);
+      frame.removeEventListener("touchmove", onTouchMove);
+      frame.removeEventListener("touchend", onTouchEnd);
+      frame.removeEventListener("touchcancel", onTouchEnd);
+    };
+  }, [isActive, splitMode, applyZoom]);
+
+  // A card scrolled out of view goes back to its natural fit, so returning to it
+  // later never lands on someone else's zoom.
+  useEffect(() => {
+    if (!isActive) setZoom(1);
+  }, [isActive]);
 
   // A single-point mark (1 centre point) has no path to follow, so its ping is
   // one really short pulse rather than the ~3s ring that tracks a moving fish.
@@ -612,10 +760,21 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         vh,
         speciesCenterRef.current,
       );
-      const x = offsetX + (bbox.x_norm + bbox.w_norm / 2) * renderedWidth;
-      const y = offsetY + (bbox.y_norm + bbox.h_norm / 2) * renderedHeight;
+      const zt = zoomTransform(
+        { renderedWidth, renderedHeight, offsetX, offsetY },
+        speciesCenterRef.current,
+        cw,
+        ch,
+        zoomRef.current,
+      );
+      const p = applyZoomToPoint(
+        offsetX + (bbox.x_norm + bbox.w_norm / 2) * renderedWidth,
+        offsetY + (bbox.y_norm + bbox.h_norm / 2) * renderedHeight,
+        zt,
+        zoomRef.current,
+      );
       const el = ringRef.current;
-      if (el) el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (el) el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
     };
     type RVFCMeta = { mediaTime: number };
     type RVFCCallback = (now: number, metadata: RVFCMeta) => void;
@@ -827,10 +986,25 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       if (inReset) return;
 
       // --- Project the normalized trail onto the letterboxed (contained) video ---
-      const screenPoints: Point[] = worldPoints.map((p) => ({
-        x: offsetX + p.x * renderedWidth,
-        y: offsetY + p.y * renderedHeight,
-      }));
+      // Zoom is a scale about the animal, applied here with the same transform
+      // the video is given, so the trace magnifies with the picture instead of
+      // sliding off it.
+      const z = zoomRef.current;
+      const zt = zoomTransform(
+        { renderedWidth, renderedHeight, offsetX, offsetY },
+        speciesCenterRef.current,
+        cw,
+        ch,
+        z,
+      );
+      const screenPoints: Point[] = worldPoints.map((p) =>
+        applyZoomToPoint(
+          offsetX + p.x * renderedWidth,
+          offsetY + p.y * renderedHeight,
+          zt,
+          z,
+        ),
+      );
 
       const pathD = buildSmoothPath(screenPoints);
       trailPath.setAttribute("d", pathD);
@@ -940,13 +1114,62 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const glowGradId = `trail-glow-grad-${snippet.id}`;
   const filterId = `dot-glow-${snippet.id}`;
 
+  // Split screen with an open Spot It gate. The gate broadcasts the share of the
+  // frame it occupies (see TileGate's fs-gate event); we reserve exactly that
+  // much as CSS custom properties on the article, and the video frame below
+  // reads them for its inset. The clip is therefore RESIZED into the space that
+  // is left rather than sitting behind the panel with the animal hidden under
+  // it, which is what a floating overlay did.
+  //
+  // Written straight to the element instead of through React state on purpose:
+  // this fires on every frame of a resize drag, and re-rendering FeedCard (with
+  // its video, trail and overlays) at that rate would judder. Setting a custom
+  // property is a style recalc, which the video's existing ResizeObserver
+  // already picks up to recompute fitGeometry, so the bbox trail stays aligned.
+  useEffect(() => {
+    const onGate = (e: Event) => {
+      const el = articleRef.current;
+      if (!el) return;
+      const d = (e as CustomEvent<{
+        open: boolean;
+        docked?: boolean;
+        widthPct?: number;
+        heightPct?: number;
+      }>).detail;
+      setSplitMode(!!d?.open);
+      if (!d?.open) {
+        el.style.removeProperty("--gate-left");
+        el.style.removeProperty("--gate-bottom");
+        return;
+      }
+      if (d.docked) {
+        el.style.setProperty("--gate-left", `${d.widthPct ?? 0}%`);
+        el.style.removeProperty("--gate-bottom");
+      } else {
+        el.style.setProperty("--gate-bottom", `${d.heightPct ?? 0}%`);
+        el.style.removeProperty("--gate-left");
+      }
+    };
+    window.addEventListener("fs-gate", onGate);
+    return () => window.removeEventListener("fs-gate", onGate);
+  }, []);
+
   return (
     <article ref={articleRef} className="relative h-full min-h-0 overflow-hidden bg-black text-white">
       {/* (3 Jun) Video sits ABOVE a thin 56px docked bar so the clip is never
           overlapped by the identify entry while watching. All video overlays
           (bbox trail, progress, paused, fade) live in this container, so they
           inset together and stay aligned. */}
-      <div className="absolute inset-x-0 top-0 bottom-14 overflow-hidden bg-black">
+      <div
+        ref={frameRef}
+        className="absolute top-0 right-0 overflow-hidden bg-black"
+        style={{
+          // Defaults reproduce the previous `inset-x-0 bottom-14` exactly; the
+          // custom properties are only set while a gate is open (see above).
+          left: "var(--gate-left, 0px)",
+          bottom: "var(--gate-bottom, 3.5rem)",
+        }}
+      >
         {/* Blurred poster fill behind a CONTAINED (letterboxed) clip: a portrait
             clip letterboxes in a taller viewport, so this turns the bars into an
             ambient extension of the scene instead of dead black. A landscape clip
@@ -1174,6 +1397,41 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             </svg>
 
           </>
+        )}
+
+        {/* Zoom controls, top-right of the CLIP (not the card), so they sit over
+            the picture they act on and clear the overlay header above. Shown
+            once the panel is up (or once zoomed), matching where the wheel and
+            pinch become magnifiers, so the idle full-bleed feed stays clean.
+            Each press is multiplicative, and every route zooms about the
+            animal, so the feature you are studying stays centred as it grows. */}
+        {isActive && (splitMode || zoom > 1) && (
+          <div className="absolute right-3 top-16 z-20 flex flex-col overflow-hidden rounded-full border border-white/15 bg-black/55 backdrop-blur-sm">
+            <button
+              type="button"
+              onClick={() => applyZoom(zoom * ZOOM_BUTTON_STEP)}
+              disabled={zoom >= MAX_ZOOM}
+              aria-label="Zoom in on the animal"
+              title="Zoom in"
+              className="inline-flex h-11 w-11 items-center justify-center text-white/85 hover:bg-white/15 hover:text-white disabled:opacity-35 disabled:hover:bg-transparent"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => applyZoom(zoom / ZOOM_BUTTON_STEP)}
+              disabled={zoom <= 1}
+              aria-label={zoom > 1 ? "Zoom out" : "Already at the full frame"}
+              title="Zoom out"
+              className="inline-flex h-11 w-11 items-center justify-center border-t border-white/15 text-white/85 hover:bg-white/15 hover:text-white disabled:opacity-35 disabled:hover:bg-transparent"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            </button>
+          </div>
         )}
 
         {/* Soft "here's the fish" highlight, a gentle concentric ring that

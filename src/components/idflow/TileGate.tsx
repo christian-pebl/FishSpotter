@@ -270,15 +270,30 @@ export function TileGate({
   const heightRef = useRef(heightPct);
   heightRef.current = heightPct;
 
-  // Announce that a gate is up. The sheet now covers the bottom half of a
-  // phone, which is exactly where the feed's "swipe up for next" nudge floats,
-  // so FeedPlayer listens for this and stands down while a gate is open.
+  // Announce the space this gate is taking, live. Two listeners depend on it:
+  // FeedPlayer stands its "swipe up for next" nudge down while a gate is up,
+  // and FeedCard shrinks the VIDEO into the space that is left, so the clip is
+  // resized beside (or above) the panel rather than hidden behind it. Re-fires
+  // on every resize, mid-drag included, so the split tracks the finger.
+  //
+  // Minimized counts as closed: the card is a dock bubble then, and the clip
+  // should go back to full bleed.
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("fs-gate", { detail: { open: true } }));
-    return () => {
+    window.dispatchEvent(
+      new CustomEvent("fs-gate", {
+        detail: minimized
+          ? { open: false }
+          : { open: true, docked, widthPct, heightPct },
+      }),
+    );
+  }, [docked, widthPct, heightPct, minimized]);
+
+  useEffect(
+    () => () => {
       window.dispatchEvent(new CustomEvent("fs-gate", { detail: { open: false } }));
-    };
-  }, []);
+    },
+    [],
+  );
 
   // Restore the viewer's last size once, on mount.
   useEffect(() => {
@@ -550,15 +565,13 @@ export function TileGate({
       ref={constraintsRef}
       className={[
         "pointer-events-none absolute inset-0 z-30 flex",
-        // Docked: hard left, stretched top to bottom, inset from the edges.
-        // Sheet: flush to the bottom (a real bottom sheet), so shrinking it
-        // uncovers the clip ABOVE it (where the animal is) rather than a
-        // useless strip under the footer.
-        docked
-          // pt-14 clears the feed's transparent overlay header (z-40, sits above
-          // the gate), which the full-height panel otherwise runs its title into.
-          ? "items-stretch justify-start p-3 pt-14"
-          : "items-end justify-center",
+        // Both surfaces sit FLUSH against the frame edges, no gutter and no
+        // corner radius, so this reads as an OS-style split screen rather than a
+        // floating window clipped by the bottom of the card. The one inset is
+        // pt-14 when docked, which keeps the panel clear of the feed's
+        // transparent overlay header (the menu button + FishSpotter wordmark,
+        // z-40, which paints over this panel).
+        docked ? "items-stretch justify-start pt-14" : "items-end justify-center",
       ].join(" ")}
     >
         <AnimatePresence>
@@ -589,12 +602,13 @@ export function TileGate({
               : { duration: DURATION.standard, ease: EASE.enter }
           }
           className={[
-            "pointer-events-auto relative flex max-h-full flex-col rounded-card border border-white/12 bg-navy-900/95 px-4 pb-4 shadow-menu backdrop-blur",
+            "pointer-events-auto relative flex max-h-full flex-col bg-navy-900/95 px-4 pb-4 shadow-menu backdrop-blur",
             docked
               ? // Full height, and never wider than half the clip (the guarantee
-                // that the video stays watchable beside the panel).
-                "h-full pt-4"
-              : "w-full max-w-[38rem] rounded-b-none pt-7",
+                // that the video stays watchable beside the panel). One border,
+                // on the side that meets the clip: that edge is the split seam.
+                "h-full border-r border-white/12 pt-4"
+              : "w-full border-t border-white/12 pt-7",
             // Skip the height/width transition while the finger is down, or the
             // sheet eases along behind the drag instead of tracking it.
             resizing ? "select-none" : "",
