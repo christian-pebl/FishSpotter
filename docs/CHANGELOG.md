@@ -1120,3 +1120,75 @@ the real function; do not re-implement the thing you are checking.
   12th request. Verified: `tsc`, 546 tests (13 new), `lint`, `lint:tokens`. **Still needs**: `PRIZE_DESK_TOKEN`
   set in Vercel prod env, and, per the metrics entry above, a redeploy after setting it, since new env
   vars don't apply to an already-built deployment.
+
+## 2026-08-28: Rule a candidate out of the Rung-3 grid
+
+Identification works by elimination: you decide what a clip clearly is NOT, and
+narrow from there. The Rung-3 grid had no way to express that, so a 15 or 18 tile
+bucket stayed that size no matter how much work the user had already done in
+their head.
+
+Each grid tile now carries a corner control that rules that species out. The
+eliminated set is summarised under the grid as "N ruled out", expanding into the
+individual names so any one can be restored, plus a bring-all-back. Ruling out is
+also offered inside the species popup ("Not this one, rule it out"), which is the
+moment it actually happens: the user has just read that species' diagnostic marks.
+
+Purely a view filter. Nothing reaches the server; scoring and consensus untouched.
+
+- The control is a SIBLING of the tile button, never a child. The tile is itself a
+  `<button>`, so nesting one inside it is invalid markup and would swallow the
+  click. 44px hit area around a 28px disc (measured 44x44 on a 168x185 tile at
+  375px wide).
+- The summary sits in the PINNED footer, not the scroll area, so it is reachable
+  without scrolling past 24 tiles and survives the all-ruled-out case, which
+  replaces the grid with the empty message. That empty state now says "You have
+  ruled them all out" instead of the misleading "No matches left".
+- State lives in the flow reducer, because `CandidateGate` unmounts when you step
+  back a rung. Eliminations carry a `bucketKey` (shape class + Rung-2 seed,
+  bundled values included, order-independent), so stepping back to re-read the
+  zone tile and coming forward into the SAME bucket keeps them, while genuinely
+  changing bucket drops them.
+- Filters the already-capped set rather than back-filling from species 25+: new
+  tiles appearing as you eliminate would break the narrowing model.
+- "Compare side by side" is computed from the VISIBLE set, so the look-alike offer
+  withdraws once part of its group has been ruled out.
+- Removing a tile is silent to assistive tech, so there is a polite live region
+  ("Common goby ruled out. 3 ruled out.") and focus moves to the tile that takes
+  its place rather than being dropped on `<body>`.
+
+Shipped in PR #134. Verified on production: 15 tiles to 12 after three
+eliminations, footer "3 RULED OUT", the disclosure expands to three named restore
+chips, restoring one gives 13 tiles, and bring-all-back returns all 15.
+
+## 2026-08-28: The Rung-3 fallback silhouette regressed to the zone, and is fixed
+
+**A regression shipped and was live for roughly an hour before it was caught.**
+Worth recording because of HOW it was caught, not just what it was.
+
+`fallbackSilhouetteSrc` in `CandidateGate` picks a photo-less species' silhouette
+from whatever the class's Rung-2 sub-split trait happens to be. When the fish
+Rung-2 cut moved from `fishGroup` to `fishZone` earlier the same day, that
+silently re-keyed the silhouette too: all 33 fish collapsed from 7 distinct family
+shapes onto 2 zone shapes, so a lesser-spotted catshark and a butterfish both drew
+the same generic bottom-fish blob. `CLAUDE.md` already recorded `fishGroup` as the
+authoritative source for this, so the change contradicted a written invariant.
+
+Fixed with a `silhouetteTraitFor()` helper that keeps `fishGroup` for fish and the
+sub-split key for every other class. **If you ever change a class's Rung-2 trait
+again, check this function**: the coupling is not obvious from either end.
+
+It is cosmetic but not rare: the fallback also renders for the moment before the
+async `/api/species-images` lookups paint, which every user sees on every visit to
+the grid.
+
+**Nothing in the automated gate caught it.** `tsc`, 648 tests, `lint`,
+`lint:tokens` and DOM-level driving of the real flow all passed, because the
+defect is purely what the picture looks like. It surfaced only from a Gemini
+visual critique of a Playwright screenshot that happened to fire before the photos
+loaded. This is the argument for the visual-review loop existing at all.
+
+Verified on production by aborting every `/api/species-images` request to force
+the fallback path, then reading the actual `mask-image` off each tile: the seabed
+bucket renders 4 distinct family silhouettes (shark, long-skinny, bottom-other,
+bottom-sitter) where the bug rendered 1.
