@@ -44,6 +44,7 @@ import {
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { normalizeForMatch } from "@/lib/normalize-answer";
 import { bucketFor } from "@/lib/biodiversity/buckets";
+import { rarityDataAvailable } from "@/lib/rarity-scope";
 
 export type ConsensusRescoreResult = {
   /** Number of (snippet, name) consensus groups inspected. */
@@ -267,7 +268,13 @@ export async function rescoreConsensus(
           },
           select: { status: true, totalRecords: true, speciesJson: true },
         });
-        const bucketHasData = !!row && row.status === "OK" && row.totalRecords > 0;
+        // OBIS only pulls fish, so "absent from the bucket" means nothing for an
+        // invertebrate. rarityDataAvailable stops that reading as legendary.
+        const bucketHasData =
+          !!row &&
+          row.status === "OK" &&
+          row.totalRecords > 0 &&
+          rarityDataAvailable(sci, true);
         let probability: number | null = null;
         if (bucketHasData && row) {
           try {
