@@ -1182,3 +1182,29 @@ the real function; do not re-implement the thing you are checking.
     CSS and the styling is silently invisible while the markup still looks completely correct.
     Caught by grepping the built bundle for `.from-navy-600\/25` and finding zero matches. Verify a
     new visual by grepping `.next/static/css/*.css` with `grep -F`, not by trusting the HTML.
+
+- **On-clip speed and play/pause controls, 28 Aug 2026** (PR #141, `851e448`). The zoom capsule in
+  `FeedCard` gained two siblings below it: a playback-rate stepper and a play/pause button, three
+  capsules rather than one long strip so the stack reads as three tools. Studying an animal on a
+  short clip needs more than magnification; a goby darting across frame is unreadable at 1x and
+  legible at 0.25x, and holding a frame still is how you read a fin. Speed drives the **existing
+  persisted `videoSettings.speed`** rather than a second source of truth, so the clip stepper and
+  the side menu always agree (verified: setting 0.25x on the clip lights the 0.25x pill in the
+  menu). The ladder widened from `0.5 / 1 / 1.5` to `0.25 / 0.5 / 0.75 / 1 / 1.5 / 2`, three rungs
+  being too thin for a stepper and the slow end being the useful one; every previously stored value
+  stays valid, guarded by a test. The rate sits between the two presses so the stepper is never
+  blind, and both buttons grey out at the ends. `VideoSettingsPanel`'s pills moved to a 3-column
+  grid so six of them keep a 44px target at 375px. Visibility matches the zoom control (panel open,
+  or zoomed) plus `speed !== 1`, so a feed left at 0.25x always carries the control that undoes it
+  and the idle full-bleed feed stays clean at defaults.
+  - **`autoplayBlocked` is now split out of `videoPaused`, and the distinction is load-bearing.**
+    The big scrim and centre triangle are the right recovery affordance when the browser refused to
+    start the clip and the user has nothing else to press. They are wrong over a frame someone
+    paused on purpose, because they hide the animal behind the very control just used. The
+    tap-to-identify catcher (and its hint) follow the overlay they were mutually exclusive with, so
+    a deliberately paused frame can still be named, which is the flow you want: freeze a good
+    frame, then say what is on it. Anything gating on "is it paused" must now pick the right one of
+    the two.
+  - The `<video>` reports its own state via `onPlay`/`onPause`, which keeps every route truthful
+    and fixed an existing bug in passing: the space/k key paused the clip without anything on
+    screen saying so.
