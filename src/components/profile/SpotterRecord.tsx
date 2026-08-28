@@ -38,9 +38,10 @@ const ICONS: Record<CategoryId, React.ReactNode> = {
 };
 
 function Milestones({ category }: { category: CategoryRecord }) {
+  if (category.visible.length === 0) return null;
   return (
     <ul className="mt-3 flex items-center gap-1.5" aria-label="Milestones">
-      {category.milestones.map((m, i) => {
+      {category.visible.map((m, i) => {
         const held = i < category.reached;
         return (
           <li
@@ -128,18 +129,22 @@ function CategoryCard({
       </button>
 
       <div className="px-4 pb-4">
-        {/* progress toward the next milestone */}
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-muted">
-          <div
-            className="h-full rounded-full bg-teal-500"
-            style={{ width: `${Math.round(category.progress * 100)}%` }}
-          />
-        </div>
+        {/* progress toward the next milestone, only when one is in reach */}
+        {category.nextAt !== null && (
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-muted">
+            <div
+              className="h-full rounded-full bg-teal-500"
+              style={{ width: `${Math.round(category.progress * 100)}%` }}
+            />
+          </div>
+        )}
         <Milestones category={category} />
         <p className="mt-2 text-[10px] text-navy-900/50">
-          {category.nextAt === null
-            ? "Every milestone reached."
-            : `${category.count} of ${category.nextAt} to the next milestone.`}
+          {category.nextAt !== null
+            ? `${category.count} of ${category.nextAt} to the next milestone.`
+            : category.hidden > 0
+              ? "More milestones open up as new clips are added."
+              : "Every milestone reached."}
         </p>
 
         {open && (
