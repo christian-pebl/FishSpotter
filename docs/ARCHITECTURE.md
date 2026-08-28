@@ -60,6 +60,16 @@ crons (`vercel.json`) and the `scripts/` CLIs.
     `SpeciesAlias` table by `scripts/seed-aliases.ts`).
   - `species-images.json` → iNat fetch manifest + pinned `curated` photo
     overrides (consumed by the image pipeline).
+  - `species-references.json` → the **provenance** layer: a WoRMS taxonomic
+    anchor per species, a registry of open-access sources (MarLIN, FishBase,
+    BTO, WoRMS), and a binding from each addressable claim key (`fieldNote`,
+    `mark:<id>`, `trait:*`, `diet:*`, `trophic:tier`, `farm:role`,
+    `edge:<prey>-><predator>`) to the passages that carry it. Loaded via
+    `src/lib/references/catalogue.ts`, served to the UI by
+    `/api/species/references` so the quotes never ship to the browser.
+    `reference-verification.json` holds the machine link-check results, and
+    only verified sources are ever shown. See
+    `docs/runbooks/ground-a-species-claim.md`.
 
 `catalogue.test.ts` cross-checks that every catalogue species has an alias entry
 and a curated override, so a half-onboarded species fails CI rather than
@@ -105,16 +115,10 @@ Shared chrome (draggable card, focus trap, scroll-lock, tile grid) is
 > (replaced by `CandidateGate` on 3 Jun, which dropped the adaptive questions).
 > **If you are adding "deeper trait trees", reconnect this, do not rebuild it.**
 
-> **Note, the legacy wizard is GONE (28 Aug 2026).** The post-submit "How to
-> spot a [X] next time" button was the only thing that could still open the old
-> 5-step funnel, so removing it orphaned the whole subsystem, and it went with
-> it: `IdGuideTrigger`, `IdGuideSheet`, `IdGuideWizard`, `IdGuideChat`,
-> `IdGuideChipFallback`, `GroupGuide`, `src/data/shape-class-guides.ts` and
-> `src/lib/idguide/shape-class-ref.ts`. The teaching it carried for a SPECIES
-> reference is already inline on the reveal (`AnnotatedSpeciesPhoto` rings +
-> `SpeciesGallery`) and on `/species/[slug]`. What did NOT survive is the
-> group-level guide for a COARSE reference ("Crab", "Fish"), which had no other
-> home. `POST /api/idguide/chat` still exists but now has no caller.
+> **Note, legacy wizard.** `src/components/IdGuideWizard.tsx` is a separate,
+> older 5-step funnel. It is now reachable ONLY post-submit as a teaching surface
+> (via `IdGuideTrigger` → `IdGuideSheet`), not as a live ID path. Treat it as
+> teaching content, not as the ID flow.
 
 ### 4.3 Scoring (`src/lib/answer-matching.ts`)
 

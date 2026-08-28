@@ -136,20 +136,12 @@ footer code{background:var(--panel);border:1px solid var(--hair);border-radius:5
 }
 @media (prefers-reduced-motion:reduce){ .tile use,.tile,.res{transition:none} }
 </style>
-<div class="wrap" data-mode="farm">
+<div class="wrap">
   <header>
     <p class="eyebrow">PEBL &middot; FishSpotter &middot; biodiversity mechanisms</p>
     <h1>The food web of a seaweed &amp; shellfish farm</h1>
-    <p class="stand">All <strong>72 species</strong> in the FishSpotter catalogue, joined to what they eat and what eats them. Toggle the farm on and off to see how much of this web the seaweed and shellfish actually build, and click any species to trace its links.</p>
-    <div class="controls">
-      <div class="toggle" role="tablist" aria-label="Farm present or absent">
-        <button class="tg active" type="button" data-set="farm" role="tab" aria-selected="true">With the farm</button>
-        <button class="tg" type="button" data-set="baseline" role="tab" aria-selected="false">Without the farm</button>
-      </div>
-      <p class="modestat"><span class="ms-sp"></span> &middot; <span class="ms-lk"></span></p>
-    </div>
-    <p class="explain" data-for="farm">The farm gives a bare seabed four things it lacks: <strong>hard structure</strong> (an artificial reef of ropes, floats and anchors), a <strong>kelp-canopy nursery</strong>, a rain of <strong>detritus and mussel biodeposits</strong> that enriches the seabed, and a standing crop of <strong>mussels</strong> as food. Together they let reef fish, wrasse, blennies, urchins, snails and shellfish-eaters colonise a patch of open sand.</p>
-    <p class="explain" data-for="baseline">Strip the farm away and the site is bare soft sediment and open water. The structure, kelp and mussels are gone, and with them <strong>21 reef, weed and shellfish specialists</strong> that only the farm supports (ghosted); <strong>11 more</strong> thin out (faded). What remains is the natural sand-and-open-water community, plus clean-sand animals like the sea potato (marked <span class="plus-inline">+</span>) that the biodeposits had been suppressing. The gap between the two views is the biodiversity the farm creates.</p>
+    <p class="stand">All <strong>72 species</strong> in the FishSpotter catalogue, joined to what they eat and what eats them. Click any species to trace what it eats and what eats it.</p>
+    <p class="explain">A seaweed and shellfish farm adds hard structure, a kelp canopy, a rain of detritus and biodeposits, and a standing crop of mussels. What that does to the wider community at a given site is genuinely uncertain, and this diagram no longer tries to answer it. An earlier version let you toggle the farm on and off and claimed it built 21 of these 72 species; every one of those assignments was checked against the published literature in August 2026 and none of them held up, so the claim was withdrawn rather than restated more softly.</p>
     <div class="keys">
       <div class="keyrow"><span class="lg"><span class="sw" style="background:#63AEB5"></span>T2 &middot; Grazers and filter feeders</span><span class="lg"><span class="sw" style="background:#2E8C9E"></span>T3 &middot; Planktivores and invertivores</span><span class="lg"><span class="sw" style="background:#2A6394"></span>T4 &middot; Predators</span><span class="lg"><span class="sw" style="background:#26324E"></span>T5 &middot; Apex predators</span></div>
       <div class="keyrow">
@@ -158,11 +150,6 @@ footer code{background:var(--panel);border:1px solid var(--hair);border-radius:5
         <span class="lg"><span class="dot pass"></span>Passing through</span>
         <span class="lg"><span class="sw" style="background:#2A6394"></span>Click a tile: blue = its prey</span>
         <span class="lg"><span class="sw" style="background:#B5762E"></span>amber = its predators</span>
-      </div>
-      <div class="keyrow baseline-key">
-        <span class="lg"><span class="ghost-key"></span>Gone without the farm</span>
-        <span class="lg"><span class="fade-key"></span>Fewer without the farm</span>
-        <span class="lg"><span class="plus-key">+</span>More abundant without the farm</span>
       </div>
     </div>
   </header>
@@ -3226,7 +3213,7 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T5</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Cormorant</text>
   </g>
-<g class="tile" data-id="Common_eider" data-farm="enhanced" transform="translate(768 92)" tabindex="0" role="listitem" aria-label="Common eider. Apex predators. Farm core.">
+<g class="tile" data-id="Common_eider" data-farm="anyway" transform="translate(768 92)" tabindex="0" role="listitem" aria-label="Common eider. Apex predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#26324E"/>
     <use href="#f-bird" x="15" y="14" width="48" height="48" style="color:#26324E"/>
@@ -3247,28 +3234,28 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T5</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Harbour seal</text>
   </g>
-<g class="tile" data-id="Common_Starfish" data-farm="enhanced" transform="translate(304 294)" tabindex="0" role="listitem" aria-label="Common Starfish. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Common_Starfish" data-farm="anyway" transform="translate(304 294)" tabindex="0" role="listitem" aria-label="Common Starfish. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-long-smooth" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="87">Common</text><text class="cap" x="39" y="100">starfish</text>
   </g>
-<g class="tile" data-id="Spiny_Starfish" data-farm="created" transform="translate(688 294)" tabindex="0" role="listitem" aria-label="Spiny Starfish. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Spiny_Starfish" data-farm="anyway" transform="translate(688 294)" tabindex="0" role="listitem" aria-label="Spiny Starfish. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-long-spiny" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="87">Spiny</text><text class="cap" x="39" y="100">starfish</text>
   </g>
-<g class="tile" data-id="Dog_Whelk" data-farm="created" transform="translate(496 294)" tabindex="0" role="listitem" aria-label="Dog Whelk. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Dog_Whelk" data-farm="anyway" transform="translate(496 294)" tabindex="0" role="listitem" aria-label="Dog Whelk. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-pointed-cone" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Dog whelk</text>
   </g>
-<g class="tile" data-id="Velvet_Swimming_Crab" data-farm="created" transform="translate(208 418)" tabindex="0" role="listitem" aria-label="Velvet Swimming Crab. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Velvet_Swimming_Crab" data-farm="anyway" transform="translate(208 418)" tabindex="0" role="listitem" aria-label="Velvet Swimming Crab. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-swimming" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
@@ -3282,42 +3269,42 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T4</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Cuttlefish</text>
   </g>
-<g class="tile" data-id="Cuckoo_wrasse" data-farm="enhanced" transform="translate(400 294)" tabindex="0" role="listitem" aria-label="Cuckoo wrasse. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Cuckoo_wrasse" data-farm="anyway" transform="translate(400 294)" tabindex="0" role="listitem" aria-label="Cuckoo wrasse. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-wrasse" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Cuckoo wrasse</text>
   </g>
-<g class="tile" data-id="Bib" data-farm="created" transform="translate(208 294)" tabindex="0" role="listitem" aria-label="Bib. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Bib" data-farm="anyway" transform="translate(208 294)" tabindex="0" role="listitem" aria-label="Bib. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-cod-like" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Bib</text>
   </g>
-<g class="tile" data-id="Poor_cod" data-farm="created" transform="translate(592 294)" tabindex="0" role="listitem" aria-label="Poor cod. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Poor_cod" data-farm="anyway" transform="translate(592 294)" tabindex="0" role="listitem" aria-label="Poor cod. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-cod-like" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Poor cod</text>
   </g>
-<g class="tile" data-id="Pollack" data-farm="enhanced" transform="translate(496 418)" tabindex="0" role="listitem" aria-label="Pollack. Predators. Farm core.">
+<g class="tile" data-id="Pollack" data-farm="anyway" transform="translate(496 418)" tabindex="0" role="listitem" aria-label="Pollack. Predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2A6394"/>
     <use href="#f-cod-like" x="15" y="14" width="48" height="48" style="color:#2A6394"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T4</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Pollack</text>
   </g>
-<g class="tile" data-id="Saithe" data-farm="enhanced" transform="translate(592 418)" tabindex="0" role="listitem" aria-label="Saithe. Predators. Farm core.">
+<g class="tile" data-id="Saithe" data-farm="anyway" transform="translate(592 418)" tabindex="0" role="listitem" aria-label="Saithe. Predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2A6394"/>
     <use href="#f-cod-like" x="15" y="14" width="48" height="48" style="color:#2A6394"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T4</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Saithe</text>
   </g>
-<g class="tile" data-id="Atlantic_cod" data-farm="enhanced" transform="translate(304 418)" tabindex="0" role="listitem" aria-label="Atlantic cod. Predators. Farm core.">
+<g class="tile" data-id="Atlantic_cod" data-farm="anyway" transform="translate(304 418)" tabindex="0" role="listitem" aria-label="Atlantic cod. Predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2A6394"/>
     <use href="#f-cod-like" x="15" y="14" width="48" height="48" style="color:#2A6394"/>
@@ -3331,70 +3318,70 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T4</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Sea bass</text>
   </g>
-<g class="tile" data-id="Common_Limpet" data-farm="created" transform="translate(1265 294)" tabindex="0" role="listitem" aria-label="Common Limpet. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Common_Limpet" data-farm="anyway" transform="translate(1265 294)" tabindex="0" role="listitem" aria-label="Common Limpet. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-flat-cone" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Limpet</text>
   </g>
-<g class="tile" data-id="Painted_Top_Shell" data-farm="created" transform="translate(1361 294)" tabindex="0" role="listitem" aria-label="Painted Top Shell. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Painted_Top_Shell" data-farm="anyway" transform="translate(1361 294)" tabindex="0" role="listitem" aria-label="Painted Top Shell. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-pointed-cone" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Painted top</text>
   </g>
-<g class="tile" data-id="Flat_Top_Shell" data-farm="created" transform="translate(1073 294)" tabindex="0" role="listitem" aria-label="Flat Top Shell. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Flat_Top_Shell" data-farm="anyway" transform="translate(1073 294)" tabindex="0" role="listitem" aria-label="Flat Top Shell. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-rounded-squat" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Flat top</text>
   </g>
-<g class="tile" data-id="Edible_sea_urchin" data-farm="created" transform="translate(977 294)" tabindex="0" role="listitem" aria-label="Edible sea urchin. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Edible_sea_urchin" data-farm="anyway" transform="translate(977 294)" tabindex="0" role="listitem" aria-label="Edible sea urchin. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-round-spiny" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Edible urchin</text>
   </g>
-<g class="tile" data-id="Green_sea_urchin" data-farm="created" transform="translate(1169 294)" tabindex="0" role="listitem" aria-label="Green sea urchin. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Green_sea_urchin" data-farm="anyway" transform="translate(1169 294)" tabindex="0" role="listitem" aria-label="Green sea urchin. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-round-spiny" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Green urchin</text>
   </g>
-<g class="tile" data-id="Spider_Crab" data-farm="enhanced" transform="translate(1265 418)" tabindex="0" role="listitem" aria-label="Spider Crab. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Spider_Crab" data-farm="anyway" transform="translate(1265 418)" tabindex="0" role="listitem" aria-label="Spider Crab. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-spider" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Spider crab</text>
   </g>
-<g class="tile" data-id="Two_spotted_goby" data-farm="created" transform="translate(977 418)" tabindex="0" role="listitem" aria-label="Two-spotted goby. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Two_spotted_goby" data-farm="anyway" transform="translate(977 418)" tabindex="0" role="listitem" aria-label="Two-spotted goby. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-bottom-sitter" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">2-spot goby</text>
   </g>
-<g class="tile" data-id="Fifteen_spined_stickleback" data-farm="created" transform="translate(1457 294)" tabindex="0" role="listitem" aria-label="Fifteen-spined stickleback. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Fifteen_spined_stickleback" data-farm="anyway" transform="translate(1457 294)" tabindex="0" role="listitem" aria-label="Fifteen-spined stickleback. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-long-skinny" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="87">15-spine</text><text class="cap" x="39" y="100">stickle</text>
   </g>
-<g class="tile" data-id="Corkwing_wrasse" data-farm="created" transform="translate(1073 418)" tabindex="0" role="listitem" aria-label="Corkwing wrasse. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Corkwing_wrasse" data-farm="anyway" transform="translate(1073 418)" tabindex="0" role="listitem" aria-label="Corkwing wrasse. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-wrasse" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Corkwing</text>
   </g>
-<g class="tile" data-id="Goldsinny_wrasse" data-farm="created" transform="translate(1169 418)" tabindex="0" role="listitem" aria-label="Goldsinny wrasse. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Goldsinny_wrasse" data-farm="anyway" transform="translate(1169 418)" tabindex="0" role="listitem" aria-label="Goldsinny wrasse. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-wrasse" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
@@ -3408,7 +3395,7 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="none" stroke="#2E8C9E" stroke-width="2"/><text class="cap" x="39" y="87">Thick-lip</text><text class="cap" x="39" y="100">mullet</text>
   </g>
-<g class="tile" data-id="Ballan_wrasse" data-farm="enhanced" transform="translate(1361 418)" tabindex="0" role="listitem" aria-label="Ballan wrasse. Predators. Farm core.">
+<g class="tile" data-id="Ballan_wrasse" data-farm="anyway" transform="translate(1361 418)" tabindex="0" role="listitem" aria-label="Ballan wrasse. Predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2A6394"/>
     <use href="#f-wrasse" x="15" y="14" width="48" height="48" style="color:#2A6394"/>
@@ -3527,33 +3514,33 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Hermit crab</text>
   </g>
-<g class="tile" data-id="Cushion_Star" data-farm="created" transform="translate(499 822)" tabindex="0" role="listitem" aria-label="Cushion Star. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Cushion_Star" data-farm="anyway" transform="translate(499 822)" tabindex="0" role="listitem" aria-label="Cushion Star. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-short-stubby" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Cushion star</text>
   </g>
-<g class="tile" data-id="Common_Brittlestar" data-farm="enhanced" transform="translate(403 822)" tabindex="0" role="listitem" aria-label="Common Brittlestar. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Common_Brittlestar" data-farm="anyway" transform="translate(403 822)" tabindex="0" role="listitem" aria-label="Common Brittlestar. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-thin-whippy" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Brittlestar</text>
   </g>
-<g class="tile" data-id="Purple_sea_urchin" data-farm="created" transform="translate(595 822)" tabindex="0" role="listitem" aria-label="Purple sea urchin. Grazers and filter feeders. Farm core.">
+<g class="tile" data-id="Purple_sea_urchin" data-farm="anyway" transform="translate(595 822)" tabindex="0" role="listitem" aria-label="Purple sea urchin. Grazers and filter feeders. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-round-spiny" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Purple urchin</text>
   </g>
-<g class="tile" data-id="Sea_potato" data-farm="harmed" transform="translate(595 946)" tabindex="0" role="listitem" aria-label="Sea potato. Grazers and filter feeders. Farm footprint.">
+<g class="tile" data-id="Sea_potato" data-farm="anyway" transform="translate(595 946)" tabindex="0" role="listitem" aria-label="Sea potato. Grazers and filter feeders. Farm footprint.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#63AEB5"/>
     <use href="#f-heart-shaped" x="15" y="14" width="48" height="48" style="color:#63AEB5"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T2</text></g>
-    <circle cx="65" cy="13" r="5" fill="none" stroke="#2E8C9E" stroke-width="2"/><g class="hbadge"><circle cx="14" cy="14" r="9" fill="#2E8C9E"/><path d="M14 9.5 L18.5 16.5 L9.5 16.5 Z" fill="#fff"/></g><text class="cap" x="39" y="93">Sea potato</text>
+    <circle cx="65" cy="13" r="5" fill="none" stroke="#2E8C9E" stroke-width="2"/><text class="cap" x="39" y="93">Sea potato</text>
   </g>
 <g class="tile" data-id="Purple_heart_urchin" data-farm="anyway" transform="translate(499 946)" tabindex="0" role="listitem" aria-label="Purple heart urchin. Grazers and filter feeders. Farm footprint.">
     <rect class="card" width="78" height="78" rx="12"/>
@@ -3646,28 +3633,28 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="none" stroke="#2E8C9E" stroke-width="2"/><text class="cap" x="39" y="93">Common goby</text>
   </g>
-<g class="tile" data-id="Rock_goby" data-farm="created" transform="translate(883 822)" tabindex="0" role="listitem" aria-label="Rock goby. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Rock_goby" data-farm="anyway" transform="translate(883 822)" tabindex="0" role="listitem" aria-label="Rock goby. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-bottom-sitter" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Rock goby</text>
   </g>
-<g class="tile" data-id="Butterfish" data-farm="created" transform="translate(691 822)" tabindex="0" role="listitem" aria-label="Butterfish. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Butterfish" data-farm="anyway" transform="translate(691 822)" tabindex="0" role="listitem" aria-label="Butterfish. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-long-skinny" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Butterfish</text>
   </g>
-<g class="tile" data-id="Shanny" data-farm="created" transform="translate(1075 822)" tabindex="0" role="listitem" aria-label="Shanny. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Shanny" data-farm="anyway" transform="translate(1075 822)" tabindex="0" role="listitem" aria-label="Shanny. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-bottom-other" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="93">Shanny</text>
   </g>
-<g class="tile" data-id="Long_spined_sea_scorpion" data-farm="created" transform="translate(979 822)" tabindex="0" role="listitem" aria-label="Long-spined sea scorpion. Planktivores and invertivores. Farm core.">
+<g class="tile" data-id="Long_spined_sea_scorpion" data-farm="anyway" transform="translate(979 822)" tabindex="0" role="listitem" aria-label="Long-spined sea scorpion. Planktivores and invertivores. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2E8C9E"/>
     <use href="#f-bottom-other" x="15" y="14" width="48" height="48" style="color:#2E8C9E"/>
@@ -3695,21 +3682,21 @@ fill="currentColor" stroke="none">
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T3</text></g>
     <circle cx="65" cy="13" r="5" fill="none" stroke="#2E8C9E" stroke-width="2"/><text class="cap" x="39" y="93">Bobtail</text>
   </g>
-<g class="tile" data-id="Curled_Octopus" data-farm="enhanced" transform="translate(1459 822)" tabindex="0" role="listitem" aria-label="Curled Octopus. Predators. Farm core.">
+<g class="tile" data-id="Curled_Octopus" data-farm="anyway" transform="translate(1459 822)" tabindex="0" role="listitem" aria-label="Curled Octopus. Predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2A6394"/>
     <use href="#f-octopus" x="15" y="14" width="48" height="48" style="color:#2A6394"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T4</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="87">Curled</text><text class="cap" x="39" y="100">octopus</text>
   </g>
-<g class="tile" data-id="Common_Octopus" data-farm="enhanced" transform="translate(1267 822)" tabindex="0" role="listitem" aria-label="Common Octopus. Predators. Farm core.">
+<g class="tile" data-id="Common_Octopus" data-farm="anyway" transform="translate(1267 822)" tabindex="0" role="listitem" aria-label="Common Octopus. Predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2A6394"/>
     <use href="#f-octopus" x="15" y="14" width="48" height="48" style="color:#2A6394"/>
     <g class="chip"><rect x="6" y="60" width="21" height="13" rx="3.5"/><text x="16.5" y="70">T4</text></g>
     <circle cx="65" cy="13" r="5" fill="#2E8C9E"/><text class="cap" x="39" y="87">Common</text><text class="cap" x="39" y="100">octopus</text>
   </g>
-<g class="tile" data-id="Conger_eel" data-farm="created" transform="translate(1363 822)" tabindex="0" role="listitem" aria-label="Conger eel. Predators. Farm core.">
+<g class="tile" data-id="Conger_eel" data-farm="anyway" transform="translate(1363 822)" tabindex="0" role="listitem" aria-label="Conger eel. Predators. Farm core.">
     <rect class="card" width="78" height="78" rx="12"/>
     <rect width="78" height="5" rx="2.5" fill="#2A6394"/>
     <use href="#f-long-skinny" x="15" y="14" width="48" height="48" style="color:#2A6394"/>
@@ -3726,15 +3713,13 @@ fill="currentColor" stroke="none">
     <p class="ic-hint">Tap a name to jump to it. Esc or Clear to reset.</p>
   </aside>
   <footer>
-    <p>Rebuilt from PEBL's Biodiversity Mechanisms diagram and the live <code>species-traits.json</code> catalogue. Trophic placement and farm-impact are indicative, drawn from published UK / NE-Atlantic diet records and shellfish- &amp; seaweed-aquaculture ecology (artificial-reef, canopy-nursery and biodeposition studies): a teaching schematic, not a quantified survey. <span class="count">72 species &middot; 238 feeding links with the farm</span></p>
+    <p>Rebuilt from PEBL's Biodiversity Mechanisms diagram and the live <code>species-traits.json</code> catalogue. Feeding links are drawn from published UK and north-east Atlantic diet records; each species' own guide on FishSpotter shows which of its links are backed by a published record and which are not. This is a teaching schematic, not a quantified survey, and it makes no claim about which species the farm does or does not bring to a site. <span class="count">72 species &middot; 238 feeding links</span></p>
   </footer>
 </div>
 <script>
   const EDIR=[["Kelp_canopy","Common_Limpet"],["Kelp_canopy","Painted_Top_Shell"],["Kelp_canopy","Flat_Top_Shell"],["Kelp_canopy","Edible_sea_urchin"],["Kelp_canopy","Green_sea_urchin"],["Kelp_canopy","Purple_sea_urchin"],["Kelp_canopy","Spider_Crab"],["Kelp_canopy","Thick_lipped_mullet"],["Kelp_canopy","Common_Brittlestar"],["Plankton","Common_Brittlestar"],["Seabed_biodeposits","Common_Brittlestar"],["Seabed_biodeposits","Cushion_Star"],["Kelp_canopy","Cushion_Star"],["Seabed_biodeposits","Sea_potato"],["Seabed_biodeposits","Purple_heart_urchin"],["Seabed_biodeposits","Hermit_Crab"],["Seabed_biodeposits","Shore_Crab"],["Seabed_biodeposits","Harbour_Crab"],["Seabed_biodeposits","Common_goby"],["Seabed_biodeposits","Sand_goby"],["Plankton","Farmed_mussels"],["Plankton","Sprat"],["Plankton","Sand_smelt"],["Plankton","Two_spotted_goby"],["Plankton","Atlantic_mackerel"],["Plankton","Atlantic_horse_mackerel"],["Plankton","Atlantic_Bobtail"],["Plankton","Moon_Jellyfish"],["Plankton","Compass_Jellyfish"],["Plankton","Blue_Jellyfish"],["Plankton","Barrel_Jellyfish"],["Plankton","Mauve_Stinger"],["Farmed_mussels","Dog_Whelk"],["Farmed_mussels","Common_Starfish"],["Farmed_mussels","Spiny_Starfish"],["Farmed_mussels","Edible_Crab"],["Farmed_mussels","Velvet_Swimming_Crab"],["Farmed_mussels","Common_eider"],["Farmed_mussels","Curled_Octopus"],["Farmed_mussels","Common_Octopus"],["Common_Limpet","Ballan_wrasse"],["Painted_Top_Shell","Ballan_wrasse"],["Flat_Top_Shell","Ballan_wrasse"],["Edible_sea_urchin","Ballan_wrasse"],["Green_sea_urchin","Ballan_wrasse"],["Purple_sea_urchin","Ballan_wrasse"],["Spider_Crab","Ballan_wrasse"],["Dog_Whelk","Ballan_wrasse"],["Common_Brittlestar","Common_Starfish"],["Common_Brittlestar","Plaice"],["Sea_potato","Plaice"],["Purple_heart_urchin","Plaice"],["Common_Brittlestar","Dab"],["Common_Brittlestar","Flounder"],["Sea_potato","Flounder"],["Common_Brittlestar","Lesser_spotted_catshark"],["Hermit_Crab","Lesser_spotted_catshark"],["Shore_Crab","Lesser_spotted_catshark"],["Harbour_Crab","Lesser_spotted_catshark"],["Sea_potato","Lesser_spotted_catshark"],["Common_Brittlestar","Grey_gurnard"],["Shore_Crab","Grey_gurnard"],["Common_Brittlestar","Red_gurnard"],["Hermit_Crab","Red_gurnard"],["Shore_Crab","Tub_gurnard"],["Common_Brittlestar","Tub_gurnard"],["Common_Brittlestar","Streaked_gurnard"],["Spider_Crab","Common_Cuttlefish"],["Hermit_Crab","Common_Cuttlefish"],["Shore_Crab","Common_Cuttlefish"],["Harbour_Crab","Common_Cuttlefish"],["Spider_Crab","Curled_Octopus"],["Hermit_Crab","Curled_Octopus"],["Shore_Crab","Curled_Octopus"],["Velvet_Swimming_Crab","Curled_Octopus"],["Spider_Crab","Common_Octopus"],["Hermit_Crab","Common_Octopus"],["Shore_Crab","Common_Octopus"],["Velvet_Swimming_Crab","Common_Octopus"],["Edible_Crab","Common_Octopus"],["Sprat","European_sea_bass"],["Sand_smelt","European_sea_bass"],["Two_spotted_goby","European_sea_bass"],["Atlantic_mackerel","European_sea_bass"],["Atlantic_horse_mackerel","European_sea_bass"],["Corkwing_wrasse","European_sea_bass"],["Goldsinny_wrasse","European_sea_bass"],["Red_mullet","European_sea_bass"],["Sprat","Pollack"],["Two_spotted_goby","Pollack"],["Fifteen_spined_stickleback","Pollack"],["Sand_smelt","Pollack"],["Poor_cod","Pollack"],["Sprat","Saithe"],["Poor_cod","Saithe"],["Sprat","Atlantic_cod"],["Poor_cod","Atlantic_cod"],["Whiting","Atlantic_cod"],["Bib","Atlantic_cod"],["Sand_goby","Atlantic_cod"],["Shore_Crab","Atlantic_cod"],["Velvet_Swimming_Crab","Atlantic_cod"],["Spider_Crab","Atlantic_cod"],["Common_Cuttlefish","Atlantic_cod"],["Corkwing_wrasse","Atlantic_cod"],["Fifteen_spined_stickleback","Long_spined_sea_scorpion"],["Sand_goby","Long_spined_sea_scorpion"],["Common_goby","Long_spined_sea_scorpion"],["Sprat","Veined_Squid"],["Atlantic_mackerel","Veined_Squid"],["Sprat","European_Squid"],["Shore_Crab","Conger_eel"],["Velvet_Swimming_Crab","Conger_eel"],["Edible_Crab","Conger_eel"],["Butterfish","Conger_eel"],["Shanny","Conger_eel"],["Poor_cod","Conger_eel"],["Whiting","Conger_eel"],["Bib","Conger_eel"],["Corkwing_wrasse","Conger_eel"],["Curled_Octopus","Conger_eel"],["Common_Octopus","Conger_eel"],["Lesser_spotted_catshark","Conger_eel"],["Plankton","Sand_goby"],["Plankton","Common_goby"],["Plankton","Rock_goby"],["Seabed_biodeposits","Butterfish"],["Moon_Jellyfish","Lion_s_Mane_Jellyfish"],["Blue_Jellyfish","Lion_s_Mane_Jellyfish"],["Pollack","Grey_seal"],["Saithe","Grey_seal"],["Atlantic_cod","Grey_seal"],["Atlantic_mackerel","Grey_seal"],["Atlantic_horse_mackerel","Grey_seal"],["European_sea_bass","Grey_seal"],["Ballan_wrasse","Grey_seal"],["Common_Cuttlefish","Grey_seal"],["Veined_Squid","Grey_seal"],["European_Squid","Grey_seal"],["Edible_Crab","Grey_seal"],["Conger_eel","Grey_seal"],["Lesser_spotted_catshark","Grey_seal"],["Plaice","Grey_seal"],["Curled_Octopus","Grey_seal"],["Common_Octopus","Grey_seal"],["Poor_cod","Grey_seal"],["Whiting","Grey_seal"],["European_sea_bass","Harbour_seal"],["Veined_Squid","Harbour_seal"],["European_Squid","Harbour_seal"],["Pollack","Harbour_seal"],["Sand_smelt","Harbour_seal"],["Flounder","Harbour_seal"],["Dab","Harbour_seal"],["Sprat","European_shag"],["Sand_smelt","European_shag"],["Two_spotted_goby","European_shag"],["Fifteen_spined_stickleback","European_shag"],["Sand_goby","European_shag"],["Butterfish","European_shag"],["Pollack","European_shag"],["Poor_cod","European_shag"],["Sprat","Great_cormorant"],["Sand_smelt","Great_cormorant"],["Corkwing_wrasse","Great_cormorant"],["Goldsinny_wrasse","Great_cormorant"],["Flounder","Great_cormorant"],["Plaice","Great_cormorant"],["Red_mullet","Great_cormorant"],["Ballan_wrasse","Great_cormorant"],["Saithe","Great_cormorant"],["Whiting","Great_cormorant"],["European_sea_bass","Great_cormorant"],["Sprat","Whiting"],["Sand_smelt","Whiting"],["Sand_goby","Whiting"],["Common_goby","Whiting"],["Sprat","Bib"],["Shore_Crab","Bib"],["Plankton","Poor_cod"],["Shore_Crab","Poor_cod"],["Seabed_biodeposits","Dragonet"],["Common_Brittlestar","Dragonet"],["Seabed_biodeposits","Spotted_dragonet"],["Seabed_biodeposits","Red_mullet"],["Common_Brittlestar","Red_mullet"],["Seabed_biodeposits","Shanny"],["Seabed_biodeposits","Rock_goby"],["Kelp_canopy","Corkwing_wrasse"],["Kelp_canopy","Goldsinny_wrasse"],["Spider_Crab","Cuckoo_wrasse"],["Hermit_Crab","Cuckoo_wrasse"],["Common_Brittlestar","Cuckoo_wrasse"],["Plankton","Fifteen_spined_stickleback"],["Sand_goby","Grey_gurnard"],["Sand_goby","Tub_gurnard"],["Common_goby","Tub_gurnard"],["Grey_gurnard","Atlantic_cod"],["Streaked_gurnard","Atlantic_cod"],["Red_gurnard","Atlantic_cod"],["Dragonet","Atlantic_cod"],["Rock_goby","Atlantic_cod"],["Atlantic_Bobtail","Atlantic_cod"],["Atlantic_Bobtail","Lesser_spotted_catshark"],["Common_goby","Lesser_spotted_catshark"],["Dragonet","Lesser_spotted_catshark"],["Spotted_dragonet","Lesser_spotted_catshark"],["Rock_goby","Conger_eel"],["Sand_goby","Conger_eel"],["Long_spined_sea_scorpion","Conger_eel"],["Sand_goby","European_sea_bass"],["Rock_goby","Great_cormorant"],["Grey_gurnard","Great_cormorant"],["Tub_gurnard","Grey_seal"],["Red_gurnard","Grey_seal"],["Bib","Grey_seal"],["Rock_goby","European_shag"],["Common_goby","European_shag"],["Cuckoo_wrasse","Atlantic_cod"],["Cuckoo_wrasse","Conger_eel"],["Cuckoo_wrasse","Great_cormorant"],["Thick_lipped_mullet","Great_cormorant"],["Cuckoo_wrasse","Grey_seal"],["Thick_lipped_mullet","Grey_seal"],["Thick_lipped_mullet","European_sea_bass"],["Sprat","Atlantic_mackerel"],["Sprat","Atlantic_horse_mackerel"],["Farmed_mussels","Ballan_wrasse"],["Shore_Crab","Common_eider"],["Dog_Whelk","Common_eider"],["Spider_Crab","Common_eider"],["Green_sea_urchin","Common_eider"],["Sprat","Common_Cuttlefish"],["Common_Cuttlefish","Conger_eel"],["Seabed_biodeposits","Thick_lipped_mullet"],["Seabed_biodeposits","Spider_Crab"],["Seabed_biodeposits","Edible_Crab"],["Shore_Crab","Edible_Crab"]];        // [preyId, predatorId]
   const NAME={"European_shag":"European shag","Great_cormorant":"Great cormorant","Common_eider":"Common eider","Grey_seal":"Grey seal","Harbour_seal":"Harbour seal","Common_Starfish":"Common Starfish","Spiny_Starfish":"Spiny Starfish","Dog_Whelk":"Dog Whelk","Velvet_Swimming_Crab":"Velvet Swimming Crab","Common_Cuttlefish":"Common Cuttlefish","Cuckoo_wrasse":"Cuckoo wrasse","Bib":"Bib","Poor_cod":"Poor cod","Pollack":"Pollack","Saithe":"Saithe","Atlantic_cod":"Atlantic cod","European_sea_bass":"European sea bass","Common_Limpet":"Common Limpet","Painted_Top_Shell":"Painted Top Shell","Flat_Top_Shell":"Flat Top Shell","Edible_sea_urchin":"Edible sea urchin","Green_sea_urchin":"Green sea urchin","Spider_Crab":"Spider Crab","Two_spotted_goby":"Two-spotted goby","Fifteen_spined_stickleback":"Fifteen-spined stickleback","Corkwing_wrasse":"Corkwing wrasse","Goldsinny_wrasse":"Goldsinny wrasse","Thick_lipped_mullet":"Thick-lipped mullet","Ballan_wrasse":"Ballan wrasse","Sprat":"Sprat","Sand_smelt":"Sand smelt","Atlantic_mackerel":"Atlantic mackerel","Atlantic_horse_mackerel":"Atlantic horse mackerel","Veined_Squid":"Veined Squid","European_Squid":"European Squid","Moon_Jellyfish":"Moon Jellyfish","Compass_Jellyfish":"Compass Jellyfish","Blue_Jellyfish":"Blue Jellyfish","Barrel_Jellyfish":"Barrel Jellyfish","Mauve_Stinger":"Mauve Stinger","Lion_s_Mane_Jellyfish":"Lion's Mane Jellyfish","Shore_Crab":"Shore Crab","Edible_Crab":"Edible Crab","Harbour_Crab":"Harbour Crab","Hermit_Crab":"Hermit Crab","Cushion_Star":"Cushion Star","Common_Brittlestar":"Common Brittlestar","Purple_sea_urchin":"Purple sea urchin","Sea_potato":"Sea potato","Purple_heart_urchin":"Purple heart urchin","Plaice":"Plaice","Dab":"Dab","Flounder":"Flounder","Grey_gurnard":"Grey gurnard","Red_gurnard":"Red gurnard","Tub_gurnard":"Tub gurnard","Streaked_gurnard":"Streaked gurnard","Red_mullet":"Red mullet","Dragonet":"Dragonet","Spotted_dragonet":"Spotted dragonet","Sand_goby":"Sand goby","Common_goby":"Common goby","Rock_goby":"Rock goby","Butterfish":"Butterfish","Shanny":"Shanny","Long_spined_sea_scorpion":"Long-spined sea scorpion","Whiting":"Whiting","Lesser_spotted_catshark":"Lesser-spotted catshark","Atlantic_Bobtail":"Atlantic Bobtail","Curled_Octopus":"Curled Octopus","Common_Octopus":"Common Octopus","Conger_eel":"Conger eel","Kelp_canopy":"Kelp / seaweed","Farmed_mussels":"Farmed mussels","Plankton":"Plankton","Seabed_biodeposits":"Detritus & seabed life"};
   const TIERN={"European_shag":"Apex predators (T5)","Great_cormorant":"Apex predators (T5)","Common_eider":"Apex predators (T5)","Grey_seal":"Apex predators (T5)","Harbour_seal":"Apex predators (T5)","Common_Starfish":"Planktivores and invertivores (T3)","Spiny_Starfish":"Planktivores and invertivores (T3)","Dog_Whelk":"Planktivores and invertivores (T3)","Velvet_Swimming_Crab":"Planktivores and invertivores (T3)","Common_Cuttlefish":"Predators (T4)","Cuckoo_wrasse":"Planktivores and invertivores (T3)","Bib":"Planktivores and invertivores (T3)","Poor_cod":"Planktivores and invertivores (T3)","Pollack":"Predators (T4)","Saithe":"Predators (T4)","Atlantic_cod":"Predators (T4)","European_sea_bass":"Predators (T4)","Common_Limpet":"Grazers and filter feeders (T2)","Painted_Top_Shell":"Grazers and filter feeders (T2)","Flat_Top_Shell":"Grazers and filter feeders (T2)","Edible_sea_urchin":"Grazers and filter feeders (T2)","Green_sea_urchin":"Grazers and filter feeders (T2)","Spider_Crab":"Planktivores and invertivores (T3)","Two_spotted_goby":"Planktivores and invertivores (T3)","Fifteen_spined_stickleback":"Planktivores and invertivores (T3)","Corkwing_wrasse":"Planktivores and invertivores (T3)","Goldsinny_wrasse":"Planktivores and invertivores (T3)","Thick_lipped_mullet":"Grazers and filter feeders (T2)","Ballan_wrasse":"Predators (T4)","Sprat":"Planktivores and invertivores (T3)","Sand_smelt":"Planktivores and invertivores (T3)","Atlantic_mackerel":"Planktivores and invertivores (T3)","Atlantic_horse_mackerel":"Planktivores and invertivores (T3)","Veined_Squid":"Predators (T4)","European_Squid":"Predators (T4)","Moon_Jellyfish":"Planktivores and invertivores (T3)","Compass_Jellyfish":"Planktivores and invertivores (T3)","Blue_Jellyfish":"Planktivores and invertivores (T3)","Barrel_Jellyfish":"Planktivores and invertivores (T3)","Mauve_Stinger":"Planktivores and invertivores (T3)","Lion_s_Mane_Jellyfish":"Predators (T4)","Shore_Crab":"Planktivores and invertivores (T3)","Edible_Crab":"Predators (T4)","Harbour_Crab":"Planktivores and invertivores (T3)","Hermit_Crab":"Planktivores and invertivores (T3)","Cushion_Star":"Grazers and filter feeders (T2)","Common_Brittlestar":"Grazers and filter feeders (T2)","Purple_sea_urchin":"Grazers and filter feeders (T2)","Sea_potato":"Grazers and filter feeders (T2)","Purple_heart_urchin":"Grazers and filter feeders (T2)","Plaice":"Planktivores and invertivores (T3)","Dab":"Planktivores and invertivores (T3)","Flounder":"Planktivores and invertivores (T3)","Grey_gurnard":"Planktivores and invertivores (T3)","Red_gurnard":"Planktivores and invertivores (T3)","Tub_gurnard":"Planktivores and invertivores (T3)","Streaked_gurnard":"Planktivores and invertivores (T3)","Red_mullet":"Planktivores and invertivores (T3)","Dragonet":"Planktivores and invertivores (T3)","Spotted_dragonet":"Planktivores and invertivores (T3)","Sand_goby":"Planktivores and invertivores (T3)","Common_goby":"Planktivores and invertivores (T3)","Rock_goby":"Planktivores and invertivores (T3)","Butterfish":"Planktivores and invertivores (T3)","Shanny":"Planktivores and invertivores (T3)","Long_spined_sea_scorpion":"Planktivores and invertivores (T3)","Whiting":"Planktivores and invertivores (T3)","Lesser_spotted_catshark":"Predators (T4)","Atlantic_Bobtail":"Planktivores and invertivores (T3)","Curled_Octopus":"Predators (T4)","Common_Octopus":"Predators (T4)","Conger_eel":"Predators (T4)","Kelp_canopy":"Energy source","Farmed_mussels":"Energy source","Plankton":"Energy source","Seabed_biodeposits":"Energy source"};
-  const CREATED=new Set(["Spiny_Starfish","Dog_Whelk","Velvet_Swimming_Crab","Bib","Poor_cod","Common_Limpet","Painted_Top_Shell","Flat_Top_Shell","Edible_sea_urchin","Green_sea_urchin","Two_spotted_goby","Fifteen_spined_stickleback","Corkwing_wrasse","Goldsinny_wrasse","Cushion_Star","Purple_sea_urchin","Rock_goby","Butterfish","Shanny","Long_spined_sea_scorpion","Conger_eel","Kelp_canopy","Farmed_mussels"]);   // absent without the farm
-  const STAT={farm:{sp:72,lk:238},baseline:{sp:51,lk:151}};
   const EATS={}, EATEN={};                    // EATS[x] = what x eats; EATEN[x] = what eats x
   for(const [a,b] of EDIR){ (EATS[b]??=[]).push(a); (EATEN[a]??=[]).push(b); }
   const NAME2ID={}; for(const k in NAME) NAME2ID[NAME[k]]=k;
@@ -3743,8 +3728,7 @@ fill="currentColor" stroke="none">
   const card=document.querySelector('.infocard');
   const byId={}; document.querySelectorAll('.tile,.res').forEach(n=>byId[n.dataset.id]=n);
   let locked=null;
-  const mode=()=>wrap.dataset.mode;
-  const present=id=> mode()==='farm' || !CREATED.has(id);
+  const present=()=>true;   // no with/without-farm mode any more
   function reset(){ document.querySelectorAll('.sel,.prey,.pred,.on').forEach(n=>n.classList.remove('sel','prey','pred','on')); }
   function paint(id){
     reset(); scene.classList.add('focusing');
@@ -3783,17 +3767,6 @@ fill="currentColor" stroke="none">
     if(e.target.closest('.ic-close')) return clearAll();
     const lnk=e.target.closest('.ic-lnk'); if(lnk){ const id=NAME2ID[lnk.dataset.n]; if(id&&present(id)){ select(id); const t=byId[id]; if(t&&t.scrollIntoView) t.scrollIntoView({block:'center',behavior:'smooth'}); } }
   });
-  document.addEventListener('click',e=>{ if(!e.target.closest('.tile,.res,.infocard,.toggle')) clearAll(); });
+  document.addEventListener('click',e=>{ if(!e.target.closest('.tile,.res,.infocard')) clearAll(); });
   window.addEventListener('keydown',e=>{ if(e.key==='Escape') clearAll(); });
-  // ---- with / without farm toggle ----
-  function setMode(m){
-    wrap.dataset.mode=m;
-    document.querySelectorAll('.tg').forEach(b=>{ const on=b.dataset.set===m; b.classList.toggle('active',on); b.setAttribute('aria-selected',on?'true':'false'); });
-    document.querySelectorAll('.edge').forEach(e=>{ e.classList.toggle('edge-off', m==='baseline' && (CREATED.has(e.dataset.a)||CREATED.has(e.dataset.b))); });
-    document.querySelector('.ms-sp').textContent = STAT[m].sp+' species at the site'+(m==='baseline'?' ('+21+' lost, '+11+' reduced)':'');
-    document.querySelector('.ms-lk').textContent = STAT[m].lk+' feeding links';
-    clearAll();
-  }
-  document.querySelectorAll('.tg').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.set)));
-  setMode('farm');
 </script>

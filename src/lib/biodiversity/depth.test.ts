@@ -38,9 +38,19 @@ describe("summariseDepths", () => {
     expect(s.label).toBe("60-200 m");
   });
 
-  it("uses a ~single label when the band collapses", () => {
+  it("returns null when the band collapses to a single value", () => {
+    // This used to render "~10 m". That behaviour was REMOVED on 28 Aug 2026:
+    // it is what put "Usually seen at ~0 m" on the grey seal and great
+    // cormorant pages, where every record is the surfacing observation of an
+    // air-breather. A band with no width is not evidence of a depth.
     const flat = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
-    const s = summariseDepths(flat)!;
+    expect(summariseDepths(flat)).toBeNull();
+  });
+
+  it("still uses a ~single label when rounding, not the data, collapses the band", () => {
+    // Genuine spread that happens to round to the same tidy step is fine.
+    const tight = [9.6, 9.7, 9.8, 9.9, 10.0, 10.1, 10.2, 10.3, 10.4, 10.45];
+    const s = summariseDepths(tight)!;
     expect(s.label).toBe("~10 m");
   });
 });
@@ -60,5 +70,42 @@ describe("depthOfRecord precedence", () => {
   it("returns null when nothing usable", () => {
     expect(depthOfRecord({})).toBeNull();
     expect(depthOfRecord({ depth: null, bathymetry: null })).toBeNull();
+  });
+});
+
+/**
+ * Guards added 28 Aug 2026 after an audit found two live species pages telling
+ * the public that a grey seal and a great cormorant are "usually seen at ~0 m".
+ * Each case below is a real measured figure from that audit, not a mock.
+ */
+describe("summariseDepths refuses to publish a misleading band", () => {
+  it("suppresses a band with no spread (the grey seal / cormorant '~0 m' bug)", () => {
+    // Halichoerus grypus: 233 usable readings, every one of them 0, because an
+    // air-breather is recorded at the surface by construction.
+    const allZero = new Array(233).fill(0);
+    expect(summariseDepths(allZero)).toBeNull();
+  });
+
+  it("suppresses when too few records carry a depth at all", () => {
+    // Patella vulgata: 554 usable of 15,815 records (3.5%). The 3.5% that do
+    // carry a depth are dive and dredge surveys, not the shore counts that are
+    // the normal encounter, so the statistic describes the method not the animal.
+    const readings = Array.from({ length: 554 }, (_, i) => 1 + (i % 9));
+    expect(summariseDepths(readings, 15_815)).toBeNull();
+    // The same readings are acceptable when they represent most of the records.
+    expect(summariseDepths(readings, 1_000)).not.toBeNull();
+  });
+
+  it("still summarises a species with real spread and good coverage", () => {
+    // Sprattus sprattus in the UK window: a genuine band.
+    const readings = Array.from({ length: 500 }, (_, i) => 25 + (i % 66));
+    const s = summariseDepths(readings, 600);
+    expect(s).not.toBeNull();
+    expect(s!.p10M).toBeLessThan(s!.p90M);
+  });
+
+  it("applies no coverage guard when the record total is unknown", () => {
+    const readings = Array.from({ length: 50 }, (_, i) => 10 + i);
+    expect(summariseDepths(readings)).not.toBeNull();
   });
 });

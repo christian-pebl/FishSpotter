@@ -39,6 +39,10 @@ Thumbs.db
 # Local DB backups (raw row dumps; never commit)
 backups/
 
+# Engagement dashboard output (contains user emails/PII; regenerate anytime
+# with `npm run report:engagement`, never commit)
+reports/
+
 # playwright
 /test-results/
 /playwright-report/
@@ -90,3 +94,6 @@ implementation/2026-06-04/orientation-audit.json
 # that is genuinely a versioned asset (e.g. a referenced contact sheet).
 implementation/**/shots/
 implementation/**/*.png
+public/og/og-card.jpg
+public/og/og-card-square-check.jpg
+.refs-cache/
