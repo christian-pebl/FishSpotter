@@ -12,6 +12,11 @@ export interface CentrePoint {
   frame_clip: number;
   x_norm: number;
   y_norm: number;
+  /** Position in the clip as a fraction of its duration; see
+   *  src/lib/trackCoverage.ts. Only present on clips re-cut to a minimum
+   *  duration, and it MUST survive this mapping: it is what stops the trail
+   *  being stretched across the padding those clips carry. */
+  t_norm?: number;
 }
 
 export interface CentreBox extends CentrePoint {
@@ -21,9 +26,7 @@ export interface CentreBox extends CentrePoint {
 
 export function manualTrackToBoxes(points: CentrePoint[]): CentreBox[] {
   return points.map((p) => ({
-    frame_clip: p.frame_clip,
-    x_norm: p.x_norm,
-    y_norm: p.y_norm,
+    ...p,
     w_norm: 0,
     h_norm: 0,
   }));

@@ -30,6 +30,7 @@ import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
 import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 import { manualTrackToBoxes } from "@/lib/manualTrack";
+import { coverageAlpha, inCoverage, trackCoverage } from "@/lib/trackCoverage";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -233,6 +234,23 @@ function fitGeometry(
 function getBoxAtProgress(bboxes: BBoxFrame[], progress: number) {
   if (bboxes.length === 0) return null;
   if (bboxes.length === 1) return bboxes[0];
+
+  // Absolute path: the track carries its real position in the clip, so honour
+  // it instead of stretching. Outside the tracked window the nearest end is
+  // held (the caller fades the trail out there, so the held value is never
+  // drawn at full strength as if it were a measurement).
+  const coverage = trackCoverage(bboxes);
+  if (coverage) {
+    const p = clamp01(progress);
+    if (p <= coverage.start) return bboxes[0];
+    if (p >= coverage.end) return bboxes[bboxes.length - 1];
+    const upper = bboxes.findIndex((box) => (box.t_norm ?? 0) >= p);
+    if (upper <= 0) return bboxes[0];
+    const lo = bboxes[upper - 1];
+    const hi = bboxes[upper];
+    const span = (hi.t_norm ?? 0) - (lo.t_norm ?? 0);
+    return interpolateBox(lo, hi, span > 0 ? (p - (lo.t_norm ?? 0)) / span : 0);
+  }
 
   const firstFrame = bboxes[0].frame_clip;
   const lastFrame = bboxes[bboxes.length - 1].frame_clip;
@@ -966,6 +984,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     // follows the camera correctly during pans.
     let worldPoints: Point[] = [];
     let smoothedNorm: Point | null = null;
+    // Where the track actually has data. Null on clips cut tight around the
+    // animal (no padding), which keeps them on the original full-clip path.
+    const coverage = trackCoverage(bboxes);
     let prevTime = 0;
     let resetUntil = 0;
     let lastViewW = 0;
@@ -1038,11 +1059,16 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         : { x: cxNorm, y: cyNorm };
 
       // --- Add new normalized trail point (dedup in normalized distance) ---
+      // Only while the clip is inside the tracked window. Outside it
+      // getBoxAtProgress holds the nearest end, so accumulating here would
+      // pile identical points onto the head of the trail during the lead-in
+      // and lead-out padding of a re-cut clip.
       const normStep = TRAIL_MIN_STEP_PX / Math.max(renderedWidth, renderedHeight);
       const lastWp = worldPoints[worldPoints.length - 1];
       if (
-        !lastWp ||
-        Math.hypot(lastWp.x - smoothedNorm.x, lastWp.y - smoothedNorm.y) > normStep
+        inCoverage(t / dur, coverage) &&
+        (!lastWp ||
+          Math.hypot(lastWp.x - smoothedNorm.x, lastWp.y - smoothedNorm.y) > normStep)
       ) {
         worldPoints = [
           ...worldPoints,
@@ -1050,9 +1076,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         ].slice(-TRACE_POINT_LIMIT);
       }
 
-      // --- Fade overlay during loop reset ---
+      // --- Fade overlay during loop reset, and across the edges of the data ---
       const inReset = performance.now() < resetUntil;
-      overlay.style.opacity = inReset ? "0" : "1";
+      overlay.style.opacity = inReset
+        ? "0"
+        : coverageAlpha(t / dur, coverage).toFixed(3);
       if (inReset) return;
 
       // --- Project the normalized trail onto the letterboxed (contained) video ---

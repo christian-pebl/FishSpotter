@@ -23,6 +23,16 @@ export interface BBoxFrame {
   y_norm: number;
   w_norm: number;
   h_norm: number;
+  /** Where this point sits as a fraction of the clip's DURATION (0..1).
+   *
+   *  Written by DesktopML's min-duration re-cut. Without it the trail renderer
+   *  has no way to know how far through the clip a track runs, so it stretches
+   *  the track across the whole thing (see getBoxAtProgress). That is harmless
+   *  when the clip was cut tight around the animal, and wrong once a clip has
+   *  padding either side: the trace would smear across footage the animal was
+   *  never tracked through. Optional, so the clips cut before the re-cut keep
+   *  their existing behaviour. */
+  t_norm?: number;
 }
 
 /** A single hand-marked fish-centre point (the manual 16-point track authored
@@ -33,6 +43,8 @@ export interface TrackPoint {
   frame_clip: number;
   x_norm: number;
   y_norm: number;
+  /** See BBoxFrame.t_norm. */
+  t_norm?: number;
 }
 
 export interface FeedSnippet {
