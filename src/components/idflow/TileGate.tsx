@@ -176,6 +176,8 @@ export function TileGate({
   coarse,
   compare,
   emptyMessage,
+  onRuleOut,
+  ruledOut,
   suspendKeyboard = false,
   bubbleLabel = "Reopen the selector",
 }: {
@@ -206,6 +208,21 @@ export function TileGate({
    *  full-width outline button below the grid (Rung-3 / class-level confusion
    *  groups). Opens the simplified SpeciesComparison (big photos + bullet cues). */
   compare?: { label: string; onClick: () => void };
+  /** Grid variant only. When set, every tile gets a corner control that
+   *  eliminates it from the grid ("rule out"), the working move of a real
+   *  identification: narrow by removing what it clearly is not. Purely a view
+   *  filter, the caller owns the state. Omit to get the plain grid. */
+  onRuleOut?: (key: string) => void;
+  /** The eliminated tiles, surfaced under the grid so the set is never a dead
+   *  end: a count that expands into the individual names, each restorable, plus
+   *  a restore-all. Rendered in the pinned footer rather than inside the scroll
+   *  area so it survives the case where everything has been ruled out and the
+   *  grid is replaced by `emptyMessage`. */
+  ruledOut?: {
+    items: { key: string; label: string }[];
+    onRestore: (key: string) => void;
+    onRestoreAll: () => void;
+  };
   /** Shown instead of the grid when there are no tiles. */
   emptyMessage?: string;
   /** When true (an Examples popup is open on top), the gate yields keyboard
@@ -368,19 +385,47 @@ export function TileGate({
   // showing a clipped first row. Capped at 4 across to stay tappable.
   const gridColumns = compact ? Math.min(columns + 1, 4) : columns;
 
+  // Rule-out plumbing. `announce` drives a polite live region: removing a tile
+  // is silent to a screen reader otherwise, so the user would just lose things.
+  // `refocusIndex` restores focus after a tile unmounts, which would otherwise
+  // dump focus on <body> and break a run of quick eliminations.
+  const [ruledOutOpen, setRuledOutOpen] = useState(false);
+  const [announce, setAnnounce] = useState("");
+  const tileRefs = useRef(new Map<string, HTMLButtonElement | null>());
+  const refocusIndex = useRef<number | null>(null);
+
+  useEffect(() => {
+    const i = refocusIndex.current;
+    if (i === null) return;
+    refocusIndex.current = null;
+    if (tiles.length === 0) return;
+    const target = tiles[Math.min(i, tiles.length - 1)];
+    tileRefs.current.get(target.key)?.focus();
+  }, [tiles]);
+
+  const ruleOutCount = ruledOut?.items.length ?? 0;
+  // Collapse the disclosure once the last elimination has been restored, so it
+  // does not reopen empty next time.
+  useEffect(() => {
+    if (ruleOutCount === 0) setRuledOutOpen(false);
+  }, [ruleOutCount]);
+
   const grid = (
     <div
       className="grid gap-1.5"
       style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}
     >
-      {tiles.map((tile) => {
+      {tiles.map((tile, index) => {
         const isEmpty = !!tile.disabled;
         // Photo tiles get a thin frame so the image fills the tile; silhouette
         // tiles keep a little breathing room for the centred icon + label.
         const hasMedia = !!tile.media;
         return (
-          <div key={tile.key} className="flex flex-col gap-1">
+          <div key={tile.key} className="relative flex flex-col gap-1">
             <motion.button
+              ref={(el: HTMLButtonElement | null) => {
+                tileRefs.current.set(tile.key, el);
+              }}
               type="button"
               disabled={isEmpty}
               onClick={() => commitSelect(tile.key)}
@@ -439,6 +484,42 @@ export function TileGate({
                 </span>
               )}
             </motion.button>
+            {onRuleOut && !isEmpty && (
+              // A SIBLING of the tile button, never a child: the tile is itself
+              // a <button>, and nesting one inside it is invalid markup and
+              // would swallow this click. 44px hit area (the mobile minimum)
+              // around a smaller disc, so it stays tappable without covering
+              // much of the photo.
+              <button
+                type="button"
+                onClick={() => {
+                  refocusIndex.current = index;
+                  setAnnounce(
+                    tile.label +
+                      " ruled out. " +
+                      (ruleOutCount + 1) +
+                      " ruled out.",
+                  );
+                  onRuleOut(tile.key);
+                }}
+                aria-label={"Rule out " + tile.label}
+                title={"Rule out " + tile.label}
+                className="absolute right-0 top-0 z-10 flex h-11 w-11 items-center justify-center text-white/75 transition-colors hover:text-teal-200 focus-visible:text-teal-200"
+              >
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy-900/70 ring-1 ring-white/25">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-4 w-4">
+                    <path
+                      d="M2.2 8S4.4 4.4 8 4.4 13.8 8 13.8 8s-2.2 3.6-5.8 3.6S2.2 8 2.2 8Z"
+                      stroke="currentColor"
+                      strokeWidth="1.3"
+                      strokeLinejoin="round"
+                    />
+                    <circle cx="8" cy="8" r="1.7" stroke="currentColor" strokeWidth="1.3" />
+                    <path d="M3.2 12.8 12.8 3.2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                  </svg>
+                </span>
+              </button>
+            )}
             {tile.extra}
           </div>
         );
@@ -797,6 +878,78 @@ export function TileGate({
                 grid
               )}
             </div>
+
+
+            {/* Ruled-out summary. Pinned under the grid rather than inside the
+                scroll area, so it is reachable without scrolling past 24 tiles
+                AND still present when everything has been ruled out (which
+                replaces the grid with `emptyMessage`). */}
+            {ruledOut && ruleOutCount > 0 && (
+              <div className="mt-2 shrink-0">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setRuledOutOpen((v) => !v)}
+                    aria-expanded={ruledOutOpen}
+                    className="inline-flex min-h-[44px] flex-1 items-center gap-1.5 rounded-full px-2 text-left text-[11px] font-semibold uppercase tracking-wider text-white/60 hover:text-teal-200"
+                  >
+                    <svg
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      aria-hidden="true"
+                      className={[
+                        "h-3 w-3 shrink-0 transition-transform",
+                        ruledOutOpen ? "rotate-180" : "",
+                      ].join(" ")}
+                    >
+                      <path d="M4 6.5 8 10.5 12 6.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {ruleOutCount} ruled out
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAnnounce("All " + ruleOutCount + " brought back.");
+                      ruledOut.onRestoreAll();
+                    }}
+                    className="inline-flex min-h-[44px] items-center px-2 text-[11px] font-semibold uppercase tracking-wider text-white/60 hover:text-teal-200"
+                  >
+                    Bring all back
+                  </button>
+                </div>
+                {ruledOutOpen && (
+                  <div className="mt-1 max-h-28 overflow-y-auto pb-1 [scrollbar-width:thin]">
+                    <ul className="flex flex-wrap gap-1.5">
+                      {ruledOut.items.map((item) => (
+                        <li key={item.key}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAnnounce(item.label + " brought back.");
+                              ruledOut.onRestore(item.key);
+                            }}
+                            aria-label={"Bring back " + item.label}
+                            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/60 hover:border-teal-400 hover:bg-teal-500/15 hover:text-teal-100"
+                          >
+                            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-3.5 w-3.5 shrink-0">
+                              <path d="M3.5 8a4.5 4.5 0 1 1 1.6 3.45" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                              <path d="M3.2 4.8v3.1h3.1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Rule-out changes are silent to assistive tech otherwise: the
+                tile just vanishes. */}
+            <p aria-live="polite" className="sr-only">
+              {announce}
+            </p>
 
             {/* The prominent "compare them all" escape hatch (Rungs 1 + 2). Same
                 outline treatment as `compare`, but it opens the full candidate

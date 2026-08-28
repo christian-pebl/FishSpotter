@@ -31,6 +31,7 @@ export function SpeciesGuidePopup({
   commonName,
   submitting,
   onConfirm,
+  onRuleOut,
   onClose,
 }: {
   scientificName: string;
@@ -38,6 +39,11 @@ export function SpeciesGuidePopup({
   submitting: boolean;
   /** Commit this species as the user's guess. */
   onConfirm: () => void;
+  /** Eliminate this species and return to the grid. This is the moment a real
+   *  identification rules something out: the user has just opened the species
+   *  and read its diagnostic marks. Making them close the popup and then hunt
+   *  for the tile's corner control would waste that. Omit to hide the action. */
+  onRuleOut?: () => void;
   /** Dismiss without committing (back to the list). */
   onClose: () => void;
 }) {
@@ -159,6 +165,26 @@ export function SpeciesGuidePopup({
           >
             {submitting ? "Saving…" : `This is my pick: ${commonName}`}
           </button>
+          {onRuleOut && (
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={onRuleOut}
+              className="mt-2 inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-full border border-navy-900/15 px-4 text-sm font-semibold text-muted transition-colors hover:border-navy-900/30 hover:text-navy-900 disabled:opacity-60"
+            >
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-4 w-4 shrink-0">
+                <path
+                  d="M2.2 8S4.4 4.4 8 4.4 13.8 8 13.8 8s-2.2 3.6-5.8 3.6S2.2 8 2.2 8Z"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                  strokeLinejoin="round"
+                />
+                <circle cx="8" cy="8" r="1.7" stroke="currentColor" strokeWidth="1.3" />
+                <path d="M3.2 12.8 12.8 3.2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+              </svg>
+              Not this one, rule it out
+            </button>
+          )}
         </div>
       </div>
     </div>,

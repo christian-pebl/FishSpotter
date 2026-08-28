@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { flowReducer, initialFlowState, type FlowState, type FormSeed } from "./flow";
+import {
+  bucketKey,
+  flowReducer,
+  initialFlowState,
+  type FlowState,
+  type FormSeed,
+} from "./flow";
 
 const seed: FormSeed = { key: "bodyShape", value: "fusiform" };
 
@@ -12,6 +18,8 @@ const busy: FlowState = {
   guessMode: true,
   selectedShape: "fish",
   formSeed: seed,
+  ruledOut: ["Pollachius pollachius"],
+  ruledOutKey: bucketKey("fish", seed),
 };
 
 describe("flowReducer", () => {
@@ -23,6 +31,8 @@ describe("flowReducer", () => {
       guessMode: false,
       selectedShape: null,
       formSeed: null,
+      ruledOut: [],
+      ruledOutKey: null,
     });
   });
 
@@ -138,5 +148,94 @@ describe("flowReducer", () => {
     expect(s.bodyGateOpen).toBe(false);
     expect(s.selectedShape).toBe("fish");
     expect(s.formSeed).toEqual(seed);
+  });
+
+  // Rung-3 "rule out" eliminations.
+  describe("ruleOut / restore", () => {
+    const zone = (v: string): FormSeed => ({ key: "fishZone", value: v });
+
+    it("ruleOut adds a name, and is idempotent", () => {
+      const a = flowReducer(initialFlowState, { type: "ruleOut", scientificName: "Gadus morhua" });
+      expect(a.ruledOut).toEqual(["Gadus morhua"]);
+      const b = flowReducer(a, { type: "ruleOut", scientificName: "Gadus morhua" });
+      expect(b.ruledOut).toEqual(["Gadus morhua"]);
+      // no-op returns the same object, so React skips a re-render
+      expect(b).toBe(a);
+    });
+
+    it("restore removes one, restoreAll clears the set", () => {
+      let s = initialFlowState;
+      for (const n of ["Gadus morhua", "Pollachius virens"]) {
+        s = flowReducer(s, { type: "ruleOut", scientificName: n });
+      }
+      expect(flowReducer(s, { type: "restore", scientificName: "Gadus morhua" }).ruledOut).toEqual([
+        "Pollachius virens",
+      ]);
+      expect(flowReducer(s, { type: "restoreAll" }).ruledOut).toEqual([]);
+      // restoring something that was never ruled out changes nothing
+      expect(flowReducer(s, { type: "restore", scientificName: "Nope nope" })).toBe(s);
+    });
+
+    // The case the bucket key exists for: a careful spotter steps back to
+    // re-read the zone tile, then comes forward into the SAME bucket. Their
+    // eliminations still describe that bucket, so they must survive.
+    it("keeps eliminations across a round trip back to the same bucket", () => {
+      let s = flowReducer(initialFlowState, {
+        type: "selectShape",
+        shape: "fish",
+        hasSubSplit: true,
+      });
+      s = flowReducer(s, { type: "selectForm", seed: zone("seabed") });
+      s = flowReducer(s, { type: "ruleOut", scientificName: "Conger conger" });
+      expect(s.ruledOut).toEqual(["Conger conger"]);
+
+      s = flowReducer(s, { type: "goToRung2" });
+      s = flowReducer(s, { type: "selectForm", seed: zone("seabed") });
+      expect(s.ruledOut).toEqual(["Conger conger"]);
+    });
+
+    it("drops eliminations when the bucket actually changes", () => {
+      let s = flowReducer(initialFlowState, {
+        type: "selectShape",
+        shape: "fish",
+        hasSubSplit: true,
+      });
+      s = flowReducer(s, { type: "selectForm", seed: zone("seabed") });
+      s = flowReducer(s, { type: "ruleOut", scientificName: "Conger conger" });
+
+      s = flowReducer(s, { type: "selectForm", seed: zone("water-column") });
+      expect(s.ruledOut).toEqual([]);
+    });
+
+    it("drops eliminations when the shape class changes", () => {
+      let s = flowReducer(initialFlowState, {
+        type: "selectShape",
+        shape: "flatfish",
+        hasSubSplit: false,
+      });
+      s = flowReducer(s, { type: "ruleOut", scientificName: "Pleuronectes platessa" });
+      expect(s.ruledOut).toEqual(["Pleuronectes platessa"]);
+
+      s = flowReducer(s, { type: "selectShape", shape: "crab", hasSubSplit: false });
+      expect(s.ruledOut).toEqual([]);
+    });
+
+    it("bucketKey separates bundled tiles that share a trait key", () => {
+      const broad: FormSeed = {
+        key: "crabForm",
+        value: "broad-carapace",
+        values: ["broad-carapace", "swimming"],
+      };
+      const spider: FormSeed = { key: "crabForm", value: "spider" };
+      expect(bucketKey("crab", broad)).not.toBe(bucketKey("crab", spider));
+      // order of the bundled values must not change the identity
+      expect(bucketKey("crab", broad)).toBe(
+        bucketKey("crab", { ...broad, values: ["swimming", "broad-carapace"] }),
+      );
+      // "compare them all" (null value) is its own bucket, not the same as a tile
+      expect(bucketKey("crab", { key: "crabForm", value: null })).not.toBe(
+        bucketKey("crab", spider),
+      );
+    });
   });
 });

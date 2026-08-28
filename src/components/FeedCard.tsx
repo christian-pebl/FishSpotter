@@ -188,7 +188,15 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // JSX guard + gate prop below is unchanged. selectedShape null = the user
   // chose "Not sure" (Rung 3 narrows the whole catalogue), so it never dead-ends.
   const [flow, dispatch] = useReducer(flowReducer, initialFlowState);
-  const { shapeGateOpen, bodyGateOpen, spotItActive, guessMode, selectedShape, formSeed } = flow;
+  const {
+    shapeGateOpen,
+    bodyGateOpen,
+    spotItActive,
+    guessMode,
+    selectedShape,
+    formSeed,
+    ruledOut,
+  } = flow;
   // (3 Jun) Breadcrumb labels + whether Rung 2 applies, for the gates' Back /
   // breadcrumb nav. Cheap to derive; memoised so playback re-renders don't churn it.
   const rungNav = useMemo(() => {
@@ -2032,6 +2040,10 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           onSkipToMCQ={() => {
             dispatch({ type: "skipToMcq" });
           }}
+          ruledOut={ruledOut}
+          onRuleOut={(scientificName) => dispatch({ type: "ruleOut", scientificName })}
+          onRestore={(scientificName) => dispatch({ type: "restore", scientificName })}
+          onRestoreAll={() => dispatch({ type: "restoreAll" })}
           coarse={
             selectedShape
               ? (() => {
