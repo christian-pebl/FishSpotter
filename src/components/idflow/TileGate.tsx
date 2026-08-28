@@ -504,9 +504,9 @@ export function TileGate({
                 }}
                 aria-label={"Rule out " + tile.label}
                 title={"Rule out " + tile.label}
-                className="absolute right-0 top-0 z-10 flex h-11 w-11 items-center justify-center text-white/75 transition-colors hover:text-teal-200 focus-visible:text-teal-200"
+                className="absolute right-0 top-0 z-10 flex h-11 w-11 items-center justify-center text-white/90 transition-colors hover:text-teal-200 focus-visible:text-teal-200"
               >
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy-900/70 ring-1 ring-white/25">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy-900/85 ring-1 ring-white/35 shadow-sm backdrop-blur-[2px]">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="h-4 w-4">
                     <path
                       d="M2.2 8S4.4 4.4 8 4.4 13.8 8 13.8 8s-2.2 3.6-5.8 3.6S2.2 8 2.2 8Z"
