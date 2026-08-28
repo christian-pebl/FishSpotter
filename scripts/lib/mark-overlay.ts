@@ -23,36 +23,63 @@ export type MarkRow = {
   overlayRadius: number;
 };
 
-/** SVG ring overlay matching AnnotatedSpeciesPhoto.tsx geometry exactly. */
+const clampAxis = (v: number, badgeR: number, max: number) => Math.max(badgeR, Math.min(max - badgeR, v));
+
+/**
+ * Nudge marker centres apart so two never fully overlap, mirrors
+ * AnnotatedSpeciesPhoto.tsx's separateOverlaps exactly (kept in sync by hand,
+ * this file has no import path to the component). Real case that surfaced
+ * this: a handful of species have two authored marks that both describe a
+ * whole-body/radiating feature ("five stubby arms", "pentagon outline")
+ * rather than a single point, so their authored centres land on the same
+ * spot, an opaque dot fully hides an identical dot beneath it.
+ */
+function separateOverlaps(points: Array<{ cx: number; cy: number }>, minSep: number) {
+  const out = points.map((p) => ({ ...p }));
+  for (let i = 0; i < out.length; i++) {
+    for (let j = i + 1; j < out.length; j++) {
+      const dx = out[j].cx - out[i].cx;
+      const dy = out[j].cy - out[i].cy;
+      const dist = Math.hypot(dx, dy);
+      if (dist >= minSep) continue;
+      const [ux, uy] =
+        dist < 0.01
+          ? [Math.cos((j - i) * (Math.PI / 3)), Math.sin((j - i) * (Math.PI / 3))]
+          : [dx / dist, dy / dist];
+      const push = (minSep - dist) / 2;
+      out[i].cx -= ux * push;
+      out[i].cy -= uy * push;
+      out[j].cx += ux * push;
+      out[j].cy += uy * push;
+    }
+  }
+  return out;
+}
+
+/** SVG marker overlay matching AnnotatedSpeciesPhoto.tsx geometry exactly:
+ * one small numbered marker pinned on the feature's centre, no ring/halo,
+ * nudged apart from any near-coincident sibling marker. */
 export function buildOverlaySvg(W: number, H: number, marks: MarkRow[]): string {
   const S = Math.min(W, H);
+  const badgeR = S * 0.026;
+  const strokeW = S * 0.004;
+  const fontSize = S * 0.028;
+  const textOffsetY = fontSize * 0.35;
+  const raw = marks.map((m) => ({
+    cx: clampAxis(m.overlayX * W, badgeR, W),
+    cy: clampAxis(m.overlayY * H, badgeR, H),
+  }));
+  const centres = separateOverlaps(raw, badgeR * 2.4).map((p) => ({
+    cx: clampAxis(p.cx, badgeR, W),
+    cy: clampAxis(p.cy, badgeR, H),
+  }));
   const parts: string[] = [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`,
   ];
-  marks.forEach((m, idx) => {
-    const cx = m.overlayX * W;
-    const cy = m.overlayY * H;
-    const r = m.overlayRadius * S;
-    const badgeR = S * 0.024;
-    const ringStroke = S * 0.004;
-    const fontSize = S * 0.026;
-    const textOffsetY = fontSize * 0.35;
-    const badgeDist = r + badgeR + S * 0.012;
-    const diag = badgeDist * 0.707;
-    const corners: Array<[number, number]> = [
-      [cx + diag, cy - diag],
-      [cx - diag, cy - diag],
-      [cx + diag, cy + diag],
-      [cx - diag, cy + diag],
-    ];
-    const [bx, by] =
-      corners.find(
-        ([tx, ty]) => tx - badgeR >= 0 && tx + badgeR <= W && ty - badgeR >= 0 && ty + badgeR <= H,
-      ) ?? corners[0];
+  centres.forEach(({ cx, cy }, idx) => {
     parts.push(
-      `<circle cx="${cx}" cy="${cy}" r="${r}" fill="rgba(20,184,166,0.18)" stroke="#5eead4" stroke-width="${ringStroke}"/>`,
-      `<circle cx="${bx}" cy="${by}" r="${badgeR}" fill="#0f766e" stroke="#ffffff" stroke-width="${ringStroke}"/>`,
-      `<text x="${bx}" y="${by + textOffsetY}" text-anchor="middle" font-size="${fontSize}" font-weight="700" font-family="sans-serif" fill="#ffffff">${idx + 1}</text>`,
+      `<circle cx="${cx}" cy="${cy}" r="${badgeR}" fill="#0f766e" stroke="#ffffff" stroke-width="${strokeW}"/>`,
+      `<text x="${cx}" y="${cy + textOffsetY}" text-anchor="middle" font-size="${fontSize}" font-weight="700" font-family="sans-serif" fill="#ffffff">${idx + 1}</text>`,
     );
   });
   parts.push(`</svg>`);
@@ -154,16 +181,17 @@ function buildValidationPrompt(common: string, sci: string, marks: MarkRow[]): s
     `You are a marine-biology ID editor reviewing an ANNOTATED reference photo`,
     `for an underwater species-identification game. The species is ${common} (${sci}).`,
     ``,
-    `The photo has numbered teal CIRCLES drawn on it. Each circle is meant to`,
-    `point at one diagnostic feature. The intended feature for each number is:`,
+    `The photo has small numbered teal markers pinned on it (a dot with a number,`,
+    `no ring or halo). Each marker is meant to sit EXACTLY ON TOP of one`,
+    `diagnostic feature, dead-centre. The intended feature for each number is:`,
     list,
     ``,
-    `For EACH numbered circle, judge ONLY from what you can see in the image:`,
-    `- featurePresentAtRing: is the labelled feature actually visible INSIDE (or`,
-    `  immediately under) that circle? true/false.`,
-    `- alignment: "on" if the circle is centred on the feature, "near" if it is`,
-    `  close but off-centre or the wrong size, "off" if it sits on the wrong part`,
-    `  of the animal or on background.`,
+    `For EACH numbered marker, judge ONLY from what you can see in the image:`,
+    `- featurePresentAtRing: is the labelled feature actually visible right under`,
+    `  that marker's dot? true/false.`,
+    `- alignment: "on" if the marker's centre sits exactly on the feature, "near"`,
+    `  if it is close but a little off, "off" if it sits on the wrong part of the`,
+    `  animal or on background.`,
     `- clarity: 0..100, how clearly a beginner could see that feature here.`,
     `- note: one short sentence on what is right or wrong.`,
     ``,
@@ -182,19 +210,25 @@ async function geminiJson(prompt: string, base64: string, mime: string, schema: 
 > {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return { ok: false, error: "GEMINI_API_KEY not set" };
-  const body = {
-    contents: [
-      { role: "user", parts: [{ text: prompt }, { inline_data: { mime_type: mime, data: base64 } }] },
-    ],
-    generationConfig: {
-      temperature: 0,
-      responseMimeType: "application/json",
-      responseSchema: schema,
-      thinkingConfig: { thinkingBudget: 0 },
-    },
-  };
   const url = `${GEMINI_BASE}/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+  // Some model families (confirmed: gemini-3.6-flash) reject
+  // thinkingConfig.thinkingBudget: 0 outright with a 400 "invalid argument"
+  // (they're thinking-only and won't let it be disabled, unlike 2.5/3.5-flash
+  // where budget 0 is the normal cost-saving path). Detect that specific 400
+  // once and retry without thinkingConfig at all, same fix as gemini-vision.ts.
+  let dropThinkingConfig = false;
   for (let attempt = 0; attempt < 4; attempt++) {
+    const body = {
+      contents: [
+        { role: "user", parts: [{ text: prompt }, { inline_data: { mime_type: mime, data: base64 } }] },
+      ],
+      generationConfig: {
+        temperature: 0,
+        responseMimeType: "application/json",
+        responseSchema: schema,
+        ...(dropThinkingConfig ? {} : { thinkingConfig: { thinkingBudget: 0 } }),
+      },
+    };
     let res: Response;
     try {
       res = await fetch(url, {
@@ -206,6 +240,10 @@ async function geminiJson(prompt: string, base64: string, mime: string, schema: 
       if (attempt === 3) return { ok: false, error: `network: ${(e as Error).message}` };
       await new Promise((r) => setTimeout(r, 800 * 2 ** attempt));
       continue;
+    }
+    if (res.status === 400 && !dropThinkingConfig) {
+      dropThinkingConfig = true;
+      continue; // one immediate retry, doesn't count against the attempt budget
     }
     if (res.status === 429 || res.status === 500 || res.status === 503) {
       if (attempt === 3) return { ok: false, error: `gemini ${res.status} after retries` };

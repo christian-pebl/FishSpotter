@@ -25,6 +25,7 @@
  *   npx tsx --env-file=.env.local scripts/place-diagnostic-marks.ts -- --mode relocate --all
  *   ...-- --mode relocate --species "Pollachius pollachius" --apply
  *   ...-- --mode author --all --apply
+ *   ...-- --mode relocate --all --slice 0:20 --apply   # species [0,20) alpha-sorted, sharding for parallel runs
  * Resumable: relocate skips a species already grading overallAligned=true unless --force.
  */
 import { PrismaClient } from "@prisma/client";
@@ -65,6 +66,7 @@ function parseArgs() {
   let force = false;
   let redraft = false;
   let limit: number | undefined;
+  let slice: [number, number] | undefined;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--mode" && argv[i + 1]) mode = argv[++i] as "relocate" | "author";
@@ -74,8 +76,12 @@ function parseArgs() {
     else if (a === "--force") force = true;
     else if (a === "--redraft") redraft = true;
     else if (a === "--limit" && argv[i + 1]) limit = Number(argv[++i]);
+    else if (a === "--slice" && argv[i + 1]) {
+      const [s, e] = argv[++i].split(":").map(Number);
+      slice = [s || 0, Number.isFinite(e) ? e : Number.MAX_SAFE_INTEGER];
+    }
   }
-  return { mode, species, all, apply, force, redraft, limit };
+  return { mode, species, all, apply, force, redraft, limit, slice };
 }
 
 const clamp = (n: number, lo: number, hi: number) =>
@@ -474,12 +480,13 @@ async function main() {
       const g = await prisma.diagnosticMark.groupBy({ by: ["scientificName"] });
       speciesList = g.map((x) => x.scientificName).sort();
     }
+    if (args.slice) speciesList = speciesList.slice(args.slice[0], args.slice[1]);
     if (args.limit) speciesList = speciesList.slice(0, args.limit);
   } else if (args.species) {
     speciesList = [args.species];
   } else {
     console.error(
-      "Usage: --mode relocate|author (--all | --species 'X') [--apply] [--force] [--limit N]",
+      "Usage: --mode relocate|author (--all [--slice a:b] | --species 'X') [--apply] [--force] [--limit N]",
     );
     process.exit(1);
   }

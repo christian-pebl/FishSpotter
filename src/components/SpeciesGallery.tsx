@@ -32,13 +32,22 @@ export function SpeciesGallery({
   commonName,
   size = "thumb",
   layout = "strip",
+  theme = "dark",
 }: {
   scientificName: string;
   commonName: string;
   size?: "thumb" | "large";
   /** "strip" = a row of thumbnails (default). "carousel" = one large image you
-   * swipe left/right through (Anjali's "scroll across the adults" ask). */
-  layout?: "strip" | "carousel";
+   * swipe left/right through (Anjali's "scroll across the adults" ask). "grid"
+   * = a wrapping grid of large square tiles, a proper photo gallery rather
+   * than a thin scroll strip (the species-guide "Reference photos" section). */
+  layout?: "strip" | "carousel" | "grid";
+  /** This component was built for dark reveal surfaces (black/teal overlays on
+   * a photo read fine there). "light" swaps the loading/empty/error chrome
+   * (which otherwise renders near-invisible white-on-white) for the light
+   * species-guide surface; the per-photo overlays stay dark because they sit
+   * on the image itself, not the page background. */
+  theme?: "dark" | "light";
 }) {
   const [images, setImages] = useState<SpeciesImagePayload[]>([]);
   const [status, setStatus] = useState<Status>("idle");
@@ -103,13 +112,32 @@ export function SpeciesGallery({
     [],
   );
 
+  const isLight = theme === "light";
+  const isGrid = layout === "grid";
+  const pulseBg = isLight ? "bg-navy-900/5" : "bg-white/5";
+  const chromeBorder = isLight ? "border-navy-900/10" : "border-white/10";
+  const chromeBg = isLight ? "bg-navy-900/5" : "bg-white/5";
+  const chromeText = isLight ? "text-navy-900/60" : "text-white/55";
+
   if (status === "idle" || status === "loading") {
+    if (isGrid) {
+      return (
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className={`aspect-square animate-pulse motion-reduce:animate-none rounded-xl ${pulseBg}`}
+            />
+          ))}
+        </div>
+      );
+    }
     return (
       <div
         className={
           size === "large"
-            ? "h-32 animate-pulse motion-reduce:animate-none rounded-xl bg-white/5"
-            : "h-14 animate-pulse motion-reduce:animate-none rounded-lg bg-white/5"
+            ? `h-32 animate-pulse motion-reduce:animate-none rounded-xl ${pulseBg}`
+            : `h-14 animate-pulse motion-reduce:animate-none rounded-lg ${pulseBg}`
         }
       />
     );
@@ -121,7 +149,7 @@ export function SpeciesGallery({
     // species with no community photos yet.
     if (size === "large") {
       return (
-        <p className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-white/55">
+        <p className={`rounded-lg border ${chromeBorder} ${chromeBg} px-3 py-2 text-[11px] ${chromeText}`}>
           Photos coming soon. iNaturalist has no community CC-licensed photos for {commonName} yet.
         </p>
       );
@@ -131,12 +159,12 @@ export function SpeciesGallery({
   if (status === "error") {
     if (size === "large") {
       return (
-        <div className="flex items-center justify-between gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-white/55">
+        <div className={`flex items-center justify-between gap-2 rounded-lg border ${chromeBorder} ${chromeBg} px-3 py-2 text-[11px] ${chromeText}`}>
           <span>Photos unavailable right now.</span>
           <button
             type="button"
             onClick={retry}
-            className="rounded-full border border-white/30 px-2 py-0.5 text-[10px] font-semibold text-white hover:border-teal-500"
+            className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold hover:border-teal-500 ${isLight ? "border-navy-900/30 text-navy-900" : "border-white/30 text-white"}`}
           >
             Retry
           </button>
@@ -146,11 +174,12 @@ export function SpeciesGallery({
     return null;
   }
 
-  const tileClass =
-    size === "large"
+  const tileClass = isGrid
+    ? "aspect-square w-full overflow-hidden rounded-xl"
+    : size === "large"
       ? "h-32 w-32 shrink-0 overflow-hidden rounded-xl"
       : "h-14 w-14 shrink-0 overflow-hidden rounded-lg";
-  const infoBtnSize = size === "large" ? "h-7 w-7" : "h-5 w-5";
+  const infoBtnSize = isGrid || size === "large" ? "h-7 w-7" : "h-5 w-5";
 
   // Shared overlays (provenance popover + full-screen lightbox), used by both layouts.
   const overlays = (
@@ -287,13 +316,17 @@ export function SpeciesGallery({
       <ul
         role="list"
         aria-label={`Photos of ${commonName} (${images.length})`}
-        className="-mx-1 flex snap-x snap-mandatory list-none gap-1.5 overflow-x-auto overscroll-x-contain px-1 pb-1"
+        className={
+          isGrid
+            ? "grid grid-cols-3 gap-2 sm:grid-cols-4"
+            : "-mx-1 flex snap-x snap-mandatory list-none gap-1.5 overflow-x-auto overscroll-x-contain px-1 pb-1"
+        }
       >
         {images.map((img, i) => {
           const label = [img.lifeStage, img.sex].filter(Boolean).join(" / ") || null;
           return (
-            <li key={`${img.sourceUrl}-${i}`} role="listitem" className="shrink-0">
-              <div className={`${tileClass} group relative snap-start border border-white/10`}>
+            <li key={`${img.sourceUrl}-${i}`} role="listitem" className={isGrid ? undefined : "shrink-0"}>
+              <div className={`${tileClass} group relative ${isGrid ? "" : "snap-start"} border ${chromeBorder}`}>
                 <button
                   ref={(el) => {
                     thumbRefs.current[i] = el;
@@ -305,7 +338,7 @@ export function SpeciesGallery({
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={size === "large" ? img.url : img.thumbUrl ?? img.url}
+                    src={isGrid || size === "large" ? img.url : img.thumbUrl ?? img.url}
                     alt=""
                     aria-hidden
                     loading="lazy"
@@ -327,7 +360,7 @@ export function SpeciesGallery({
                   aria-expanded={info?.idx === i}
                   className={`${infoBtnSize} absolute right-1 top-1 z-10 flex items-center justify-center rounded-full bg-black/65 text-white/90 backdrop-blur-sm transition hover:bg-black/85 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80`}
                 >
-                  <svg width={size === "large" ? 14 : 11} height={size === "large" ? 14 : 11} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <svg width={isGrid || size === "large" ? 14 : 11} height={isGrid || size === "large" ? 14 : 11} viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4" />
                     <path d="M8 7v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
                     <circle cx="8" cy="4.6" r="0.95" fill="currentColor" />

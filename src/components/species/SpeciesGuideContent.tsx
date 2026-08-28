@@ -194,7 +194,7 @@ export function SpeciesGuideContent({
           on from "how to spot it" rather than sitting at the foot of the page. */}
       <section className="pebl-surface rounded-card p-4">
         <SectionTitle>Reference photos</SectionTitle>
-        <SpeciesGallery scientificName={scientificName} commonName={commonName} size="thumb" />
+        <SpeciesGallery scientificName={scientificName} commonName={commonName} size="large" layout="grid" theme="light" />
         <p className="mt-2 text-[11px] text-navy-900/55">Tap a photo to enlarge.</p>
       </section>
 
