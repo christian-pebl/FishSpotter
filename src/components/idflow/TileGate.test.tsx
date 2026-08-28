@@ -20,6 +20,19 @@ beforeAll(() => {
       dispatchEvent: () => false,
     }),
   });
+
+  // jsdom also ships no ResizeObserver, and split-screen.ts's useSplitPanel
+  // (mounted whenever a tile's split panel is open) constructs one to keep the
+  // panel rect in step. The tests here never assert on that rect, they just
+  // need the mount not to throw.
+  vi.stubGlobal(
+    "ResizeObserver",
+    class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  );
 });
 
 /**
