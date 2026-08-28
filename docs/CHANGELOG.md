@@ -1454,3 +1454,57 @@ literature does not record (an agent judged 66 of 72 genuinely unsourceable rath
 than forcing a family-level match). The 318 confirmations rest on agent reading plus
 an adversarial challenge, not human review, and deserve a spot-check before being
 quoted externally.
+
+## Minimum clip duration: 69 clips widened to >= 7s (28 Aug 2026)
+
+An audit of every live clip found **57 under 6 seconds, the shortest 1.77s**, which
+loops before a spotter can look at it. 31 were the Car-Y-Mor batch, about 60% of that
+one export. Not a codec or export bug: the frame ranges in the folder names match the
+durations exactly, so the manual tracks were simply cut tight around the animal.
+
+Each was widened EQUALLY either side of its tracked window and re-cut from the raw
+footage in one `libx264 -crf 16` pass. For the CYM batch that is a quality GAIN, since
+those clips were mp4v and then re-encoded to H.264, two lossy passes over a weak
+intermediate. Tooling lives in DesktopML: `reexport_snippets_min_duration.py`,
+`refine_min_duration_alignment.py`, `verify_min_duration_recut.py`.
+
+**The 6 second audit threshold was itself the bug.** Fixing the 57 left 16 clips
+sitting between 6 and 7 seconds that the sweep never looked at, found only by re-running
+the check at the real target. Total re-cut: 69. The new `npm run check:durations` takes
+`--min` (default 7) so the bar and the audit cannot drift apart again.
+
+**Alignment had to be measured, not computed.** `clip_start_frame` indexes whatever
+video a snip was cut from, and for CYM that was an intermediate
+(`CYM_Farm_S_2026-05-27_08-00_wrassepollack00006095`, cut from the raw recording near
+frame 6095). Parsing that suffix is always 0 to 10 frames out, varying per clip, so it
+only seeds a search window; the true offset comes from matching the snip's own frames
+against the raw video at four probe points and requiring the same delta at each. That
+gate refused 14 clips, and a second pass scanning candidate sources end to end recovered
+every one at 4/4 agreement, so the refusals were the gate working rather than bad clips.
+Verification compares each re-cut against the BACKUP of the clip it replaced: if aligned,
+`new[pad_before + k] == old[k]` for every k. 69/69 passed, worst frame diff 0.009 against
+a 0.06 threshold. Backups in `DesktopML/data/snip_backups_20260828_min_duration/`.
+
+**Padding forced a renderer change (PR #147); without it padding actively breaks a clip.**
+`FeedCard` had no way to know how far through a clip a track ran, so it stretched the
+track across the WHOLE clip. Right for a tight cut, wrong the moment a clip has padding:
+the trace smears across frames the animal was never marked in. Every re-cut point now
+carries `t_norm`, its position as a fraction of the clip's duration; `src/lib/trackCoverage.ts`
+turns those into a coverage window, solid inside, fading over `TRACK_FADE_FRACTION`
+outside. Points WITHOUT `t_norm` return null coverage, so the 91 clips never re-cut keep
+their exact previous behaviour. `manualTrackToBoxes` was silently dropping `t_norm` by
+copying three fields by name, and manual tracks are exactly what re-cut clips use, so
+that alone would have left the fix inert.
+
+Live after the work: **139 of 143 clips at >= 7s**, all 163 H.264. The four exceptions are
+the honest limit, not a failure: their source IS the extract
+(`KEL33_...twospotgobyandstar.mp4` is 85 frames, the clip itself) and the parent recordings
+match at only 1 of 4 probes. KEL33 3.55s, KEL37 4.84s, EXO_3 seal 5.03s, plus one
+blocklisted ATLMAR that is not user-visible. The fade was confirmed on production by
+driving a re-cut clip's first playback: blank through the lead-in, ramp up, solid across
+the tracked window, ramp down, blank through the lead-out, while two never-re-cut clips
+stayed fully opaque throughout.
+
+**Sequencing mistake worth not repeating:** the re-cut videos were published BEFORE the
+renderer change was on main, so production briefly stretched the new padded clips. Ship
+the renderer first, or together.
