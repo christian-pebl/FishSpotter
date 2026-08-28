@@ -12,6 +12,7 @@ import {
   MOVEMENT,
   SHAPE_CLASS,
   FISH_GROUP,
+  FISH_ZONE,
   BODY_DEPTH,
   LATERAL_LINE,
   CARAPACE_TEXTURE,
@@ -29,7 +30,7 @@ import {
 // Single source of truth for loading + validating the species catalogue.
 //
 // Before this module existed, every consumer imported the raw JSON and wrote
-// `speciesTraitsData as unknown as SpeciesCatalogue` — an unchecked cast that
+// `speciesTraitsData as unknown as SpeciesCatalogue`, an unchecked cast that
 // erased all type information, so a typo'd shapeClass or a trait value placed
 // under the wrong key (e.g. a HABITAT value under `behavior`) was invisible to
 // `tsc` and silently dropped at runtime by narrow.ts's sanitiser.
@@ -61,8 +62,9 @@ const speciesTraitsSchema = z
     behavior: z.array(z.enum(BEHAVIOR)),
     habitat: z.array(z.enum(HABITAT)),
     movement: z.array(z.enum(MOVEMENT)),
-    // Optional Rung-2 / Rung-3 / invert splitters — present only on entries that
+    // Optional Rung-2 / Rung-3 / invert splitters, present only on entries that
     // need them, absent elsewhere (see SpeciesTraits in traits.ts).
+    fishZone: z.array(z.enum(FISH_ZONE)).optional(),
     fishGroup: z.array(z.enum(FISH_GROUP)).optional(),
     bodyDepth: z.array(z.enum(BODY_DEPTH)).optional(),
     lateralLine: z.array(z.enum(LATERAL_LINE)).optional(),
@@ -100,5 +102,5 @@ function loadCatalogue(): SpeciesCatalogue {
   return speciesTraitsData as unknown as SpeciesCatalogue;
 }
 
-/** The validated, typed species catalogue. Import this — never the raw JSON. */
+/** The validated, typed species catalogue. Import this, never the raw JSON. */
 export const CATALOGUE: SpeciesCatalogue = loadCatalogue();

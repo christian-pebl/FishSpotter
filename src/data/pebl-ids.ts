@@ -1,5 +1,5 @@
 /**
- * PEBL internal species IDs — the authoritative reference label PEBL assigns to
+ * PEBL internal species IDs, the authoritative reference label PEBL assigns to
  * a species, shown in the reveal card's "PEBL ID" panel (RevealResult.tsx).
  *
  * HOOK (4 Jun 2026): until the raw IDs are supplied, this map is empty and the

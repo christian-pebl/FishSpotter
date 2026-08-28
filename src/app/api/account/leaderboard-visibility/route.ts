@@ -1,5 +1,5 @@
 /**
- * PATCH /api/account/leaderboard-visibility — toggle leaderboardOptIn.
+ * PATCH /api/account/leaderboard-visibility, toggle leaderboardOptIn.
  *
  * ICO Children's Code: declared 13-17 minors default to OFF the public
  * leaderboard at signup; any user can change their visibility here. Mirrors

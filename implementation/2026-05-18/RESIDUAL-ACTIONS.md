@@ -2,7 +2,7 @@
 
 Everything code-side has shipped to `main`. Three external-infra steps remain to actually realise the cost savings PRs #5 and #6 unlocked. None require code changes.
 
-## 1. Cloudflare R2 cutover (~10 min) — kills the $25/mo Supabase egress line
+## 1. Cloudflare R2 cutover (~10 min): kills the $25/mo Supabase egress line
 
 Full walkthrough is in `CLAUDE.md` under "Cloudflare R2 setup". Short version:
 
@@ -26,9 +26,9 @@ Full walkthrough is in `CLAUDE.md` under "Cloudflare R2 setup". Short version:
 5. **Verify**: load any snippet on the live site; view-source should show the video URL pointing at the R2 domain.
 6. **After a few days of healthy R2 traffic**, drop the Supabase Storage objects via the Supabase dashboard. The DB rows already point at R2; the Supabase objects are dead weight.
 
-## 2. Optional: Anthropic model downgrade (~30 sec) — saves another ~$5/mo on Claude
+## 2. Optional: Anthropic model downgrade (~30 sec): saves another ~$5/mo on Claude
 
-The ID-guide chat is structured tool-orchestration with short replies — Haiku 4.5 handles it well and is ~3× cheaper than Sonnet 4.6.
+The ID-guide chat is structured tool-orchestration with short replies, Haiku 4.5 handles it well and is ~3× cheaper than Sonnet 4.6.
 
 Set in Vercel env (Production + Preview):
 ```
@@ -47,7 +47,7 @@ Required if not already set:
 - `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 
 Optional:
-- `LHCI_GITHUB_APP_TOKEN` — inline PR check comments from Lighthouse CI
+- `LHCI_GITHUB_APP_TOKEN`, inline PR check comments from Lighthouse CI
 
 ---
 
@@ -64,10 +64,10 @@ Optional:
 
 ## What's next, code-wise
 
-Sprint 1 is closed. The plan covers six sprints; pick up Sprint 2 (quiz pipeline, 20 tickets) when you're ready. Before starting, the plan parks 8 product decisions that gate later sprints — most relevantly:
+Sprint 1 is closed. The plan covers six sprints; pick up Sprint 2 (quiz pipeline, 20 tickets) when you're ready. Before starting, the plan parks 8 product decisions that gate later sprints, most relevantly:
 
-- **Q2** Email provider (Resend recommended) — blocks Sprint 3 from S3-T03 onwards
-- **Q3** Anonymous-first answer flow — blocks S2-T11 / S3-T15
-- **Q5** Captions posture — blocks S6-T19
+- **Q2** Email provider (Resend recommended), blocks Sprint 3 from S3-T03 onwards
+- **Q3** Anonymous-first answer flow, blocks S2-T11 / S3-T15
+- **Q5** Captions posture, blocks S6-T19
 
 Decisions table is in [00-README.md](00-README.md) under "Product decisions that gate execution".

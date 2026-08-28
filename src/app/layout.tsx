@@ -23,7 +23,7 @@ const roboto = Roboto({
   display: "swap",
 });
 
-// Super Water (DaFont, fsuarez913) — a rounded bubble cartoon face, free for
+// Super Water (DaFont, fsuarez913), a rounded bubble cartoon face, free for
 // commercial use. Used only for the "FishSpotter" brand wordmark on the landing
 // hero, so it's exposed as its own display variable.
 const superWater = localFont({

@@ -73,7 +73,7 @@ export function IdGuideSheet({
   }, [open]);
 
   // Move focus into the first focusable on open AND whenever the active mode
-  // changes — otherwise focus would stay on the previous mode's element
+  // changes, otherwise focus would stay on the previous mode's element
   // after a chat → chips switch.
   useEffect(() => {
     if (!open) return;
@@ -108,7 +108,7 @@ export function IdGuideSheet({
       }
       // Q4-A-6: Tab focus-trap. Without this, keyboard users tabbing
       // through the sheet eventually walk into the video + MCQ buttons
-      // underneath — which is a WCAG 2.1.2 failure (no keyboard trap on
+      // underneath, which is a WCAG 2.1.2 failure (no keyboard trap on
       // modal dialogs). Mirrors the trap pattern in SideMenu.tsx:103-118.
       if (e.key !== "Tab") return;
       const root = dialogRef.current;
@@ -198,10 +198,10 @@ export function IdGuideSheet({
     mode === "fieldNote"
       ? `How to spot a ${fieldNoteFor?.commonName ?? ""}`
       : mode === "chips"
-        ? "Identification — all traits"
+        ? "Identification: all traits"
         : mode === "chat"
-          ? "Identification — ask the biologist"
-          : "Identification — guided";
+          ? "Identification: ask the biologist"
+          : "Identification: guided";
 
   return (
     <div
@@ -212,7 +212,7 @@ export function IdGuideSheet({
       onClick={onClose}
     >
       {/* S7-T3: the field-note / wizard / chat content is the user's main
-           tool for picking the right species — give it room. Desktop
+           tool for picking the right species, give it room. Desktop
            expands to 96vw (capped at max-w-7xl / 1280px so paragraph line
            lengths stay readable on ultrawide). Mobile stays a
            bottom-anchored full-height sheet. */}
@@ -311,7 +311,7 @@ export function IdGuideSheet({
                   {effectiveFieldNote.scientificName}
                 </p>
                 {/* S7-T3: two-column layout on desktop so the extra
-                     width is actually used — gallery left, prose +
+                     width is actually used, gallery left, prose +
                      traits right. Mobile stacks naturally. */}
                 <div className="grid gap-6 sm:grid-cols-[minmax(0,460px)_1fr] sm:gap-8">
                   <div className="space-y-4">
@@ -421,7 +421,7 @@ function CatalogueBrowser({
         Field notes for “{staffAnswer ?? "this species"}” aren&apos;t in the catalogue yet
       </p>
       <p className="pb-3 text-[12px] text-white/65">
-        Browse the species the biologist tracks on the Welsh coast — pick one
+        Browse the species the biologist tracks on the Welsh coast, pick one
         to see how to spot it.
       </p>
       <input

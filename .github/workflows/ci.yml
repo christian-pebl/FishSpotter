@@ -57,7 +57,7 @@ jobs:
         run: npm run lint:tokens
 
   # The prize desk decides who PEBL posts a real book to, and its logic is a
-  # groupBy/join pipeline plus a write — neither of which a mocked Prisma
+  # groupBy/join pipeline plus a write, neither of which a mocked Prisma
   # proves anything about. This job stands up a throwaway Postgres, pushes the
   # schema (which also proves the schema still applies cleanly from scratch),
   # and runs the tests that are skipped in the offline job above.
@@ -100,7 +100,7 @@ jobs:
       - name: Integration tests
         # --no-file-parallelism: both suites TRUNCATE overlapping tables in
         # beforeEach against the SAME throwaway database, so running the two
-        # files in separate worker threads (vitest's default) races — one
+        # files in separate worker threads (vitest's default) races, one
         # file's truncate can fire mid-test in the other, surfacing as a
         # foreign-key violation. Sequential is a few seconds slower and
         # correct; parallel across files was never actually safe once a

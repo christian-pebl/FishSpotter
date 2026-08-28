@@ -12,10 +12,10 @@ import { loadPrizeWinnerRows, toPrizeDeskSummary } from "@/lib/prize-desk";
 //
 // UNLIKE /api/metrics/summary, this is NOT aggregate-only: the whole point of
 // the desk is contacting a specific spotter, so real emails travel in the
-// response. Treat PRIZE_DESK_TOKEN like a password — anyone holding it can
+// response. Treat PRIZE_DESK_TOKEN like a password, anyone holding it can
 // read every winner's email. That's why the rate limit here (12/hour) is far
 // tighter than metrics' (60/hour), and why this never logs its own response
-// body. requireAdminSession() is NOT used — there is no browser session on a
+// body. requireAdminSession() is NOT used, there is no browser session on a
 // bearer-token request; the token itself is the credential.
 export const dynamic = "force-dynamic";
 export const maxDuration = 30;
@@ -25,7 +25,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Rate-limit on the token itself (not IP — same rationale as metrics: a
+  // Rate-limit on the token itself (not IP, same rationale as metrics: a
   // token-gated route has no meaningful per-visitor identity). Checked after
   // auth so a wrong token can't burn budget probing.
   if (!(await checkPrizeDeskRateLimit(process.env.PRIZE_DESK_TOKEN as string))) {

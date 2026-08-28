@@ -117,12 +117,12 @@ export function SpeciesGallery({
   if (status === "empty") {
     // S2-T17: field-note view (size=large) shows placeholder copy
     // so the gap doesn't look like a layout bug. Inline thumb mode
-    // stays silent — the field-note sheet remains the fallback for
+    // stays silent, the field-note sheet remains the fallback for
     // species with no community photos yet.
     if (size === "large") {
       return (
         <p className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[11px] text-white/55">
-          Photos coming soon — iNaturalist has no community CC-licensed photos for {commonName} yet.
+          Photos coming soon. iNaturalist has no community CC-licensed photos for {commonName} yet.
         </p>
       );
     }
@@ -313,11 +313,11 @@ export function SpeciesGallery({
                     className="h-full w-full object-cover"
                   />
                 </button>
-                {/* 'i' — photo provenance (source, reference, location, year). */}
+                {/* 'i', photo provenance (source, reference, location, year). */}
                 <button
                   type="button"
                   onClick={(e) => {
-                    // Capture the rect synchronously — reading e.currentTarget
+                    // Capture the rect synchronously, reading e.currentTarget
                     // inside the updater crashes when React replays the reducer
                     // (the synthetic event's currentTarget is null by then).
                     const rect = e.currentTarget.getBoundingClientRect();

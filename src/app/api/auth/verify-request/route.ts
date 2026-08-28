@@ -1,5 +1,5 @@
 /**
- * POST /api/auth/verify-request — resend a verification email (S3-06).
+ * POST /api/auth/verify-request, resend a verification email (S3-06).
  *
  * Authenticated. If the calling user's email isn't yet verified,
  * mints a fresh token, marks any prior outstanding tokens consumed

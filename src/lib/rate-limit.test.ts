@@ -140,7 +140,7 @@ describe("clip-comment limiters", () => {
     for (let i = 0; i < 20; i++) {
       expect(await checkCommentMailRateLimit(admin)).toBe(true);
     }
-    // Over the cap the email is skipped, not the comment — the row still lands
+    // Over the cap the email is skipped, not the comment, the row still lands
     // in the inbox, so a busy afternoon can't turn instant notification into a pager.
     expect(await checkCommentMailRateLimit(admin)).toBe(false);
   });

@@ -8,7 +8,7 @@
  * CC-attributed photo strip (reusing SpeciesGallery). Purely a teaching aid:
  * tapping a photo opens SpeciesGallery's own lightbox; nothing here commits a
  * guess. Rendered inside the TileGate "list" accordion, so it carries no chrome
- * of its own (no portal, backdrop or focus trap) — the gate owns those, and the
+ * of its own (no portal, backdrop or focus trap), the gate owns those, and the
  * chevron that mounts it owns the collapse.
  */
 
@@ -24,7 +24,7 @@ export function BodyFormExampleList({
 }: {
   shapeClass: ShapeClass;
   formKey: TraitKey;
-  formValue: string;
+  formValue: string | readonly string[];
 }) {
   const species = exampleSpeciesForForm(shapeClass, formKey, formValue);
 

@@ -1,5 +1,5 @@
 /**
- * Gemini-powered UI visual critique — the "eyes" in the remote build loop.
+ * Gemini-powered UI visual critique, the "eyes" in the remote build loop.
  *
  * Claude builds a component, Playwright screenshots the running app, this sends
  * the screenshot to Gemini 3.5 Flash with the PEBL design system + a per-element
@@ -8,7 +8,7 @@
  * gemini-vision.ts (Claude orchestrates, Gemini does the vision); it reuses that
  * module's `geminiGenerate` client.
  *
- * SCOPE: Gemini judges LOOK only — layout, hierarchy, brand adherence,
+ * SCOPE: Gemini judges LOOK only, layout, hierarchy, brand adherence,
  * readability, crowding, mobile fit, "does it match the brief". It does NOT
  * judge behaviour (scoring, routing, unlock logic); that stays on Playwright
  * assertions + vitest. Treat the critique as advisory.

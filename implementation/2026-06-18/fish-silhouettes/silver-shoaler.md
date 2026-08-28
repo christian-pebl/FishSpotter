@@ -1,6 +1,6 @@
 # `silver-shoaler` silhouette review + redraw plan (18 Jun 2026)
 
-Tile: **`form:fish:silver-shoaler`** — label **"Silver swimmers"** (renamed from
+Tile: **`form:fish:silver-shoaler`**: label **"Silver swimmers"** (renamed from
 "Silver shoalers"; the value/trait/silhouette filename are unchanged).
 Covers: Thick-lipped grey mullet, European sea bass, Atlantic horse mackerel,
 Atlantic mackerel, Sprat, Sand smelt.
@@ -22,7 +22,7 @@ mask** via CSS `mask-image` + `background-color: currentColor`:
 - No stroke colour, no fill colour, no gradient, no shading survives. Only the
   **filled outline** and the **negative space between separate filled paths**
   carry information.
-- `maskSize: contain`, `maskPosition: center` — the art is scaled to fit the
+- `maskSize: contain`, `maskPosition: center`, the art is scaled to fit the
   box and centred; the viewBox aspect ratio is preserved.
 - Rung-2 ("list" variant) renders the icon in a **`h-20 w-20`** box (the "2x"
   size). That is the size to design for. (Rung-1 uses `h-16 w-16`; this tile is
@@ -48,28 +48,28 @@ viewBox="0 0 70 40", fill="currentColor"
 Five paths, composing a small shoal of **two** fish (lead fish lower/larger,
 follower upper/smaller):
 
-1. **Lead body** (`M8 25 C…Z`) — a clean lens/ellipse from x≈8 (snout) to x≈55
+1. **Lead body** (`M8 25 C…Z`), a clean lens/ellipse from x≈8 (snout) to x≈55
    (caudal peduncle), centred on y≈25, max depth ≈7px (y 18→32). Body
-   length:depth ≈ 47:14 ≈ **3.4:1** — properly slim/streamlined. Smooth fusiform
+   length:depth ≈ 47:14 ≈ **3.4:1**: properly slim/streamlined. Smooth fusiform
    curve, blunt-ish rounded snout.
-2. **Lead dorsal** (`M29 18 C…Z`) — a tiny low triangular bump on the top
+2. **Lead dorsal** (`M29 18 C…Z`), a tiny low triangular bump on the top
    contour mid-body. Soft, single, small. Good clupeid/mullet cue and (crucially)
    a non-shark cue.
-3. **Lead tail** (`M55 25 L66 19.5 L61 25 L66 30.5 Z`) — a chevron/arrow: outer
+3. **Lead tail** (`M55 25 L66 19.5 L61 25 L66 30.5 Z`), a chevron/arrow: outer
    tips at (66,19.5) and (66,30.5), inner notch vertex at (61,25). Notch depth =
    66−61 = **5px**; fork half-spread = 5.5px each lobe. A clear, symmetric,
    deeply forked tail. This is the strongest diagnostic path.
-4. **Follower body** (`M9 8 C…Z`) — smaller lens, x 9→35, depth ≈7px, same slim
+4. **Follower body** (`M9 8 C…Z`), smaller lens, x 9→35, depth ≈7px, same slim
    ratio, sitting above and slightly ahead.
-5. **Follower tail** (`M35 9 L42 5.6 L38.5 9 L42 12.4 Z`) — same chevron motif,
+5. **Follower tail** (`M35 9 L42 5.6 L38.5 9 L42 12.4 Z`), same chevron motif,
    scaled down.
 
 **Why it scores 87 (and why it's the best fish tile after shark):**
-- recognizability 90, clarity 95 — the lens body + forked tail is an
+- recognizability 90, clarity 95, the lens body + forked tail is an
   unambiguous "fish", crisply drawn, no clutter.
-- diagnosticAccuracy 85 — the forked tail + slim ratio are exactly the
+- diagnosticAccuracy 85, the forked tail + slim ratio are exactly the
   give-aways for this group, and they're both legible.
-- distinctiveness 80 (the soft spot) — two fish stacked reads as "a shoal" only
+- distinctiveness 80 (the soft spot), two fish stacked reads as "a shoal" only
   weakly; Gemini literally reported `readsAs: "Two fish"`, i.e. it counted them
   rather than naming a group. The two-fish motif buys a little "open-water /
   multiple" feeling but also invites the "why two?" question and slightly muddies
@@ -86,7 +86,7 @@ and snout against small-size collapse.
 The label changed from "Silver shoalers" → **"Silver swimmers"** precisely
 because bass and adult mullet are *not* reliable shoalers (the body-forms.ts
 comment is explicit). So the icon no longer needs to assert "many fish". Its job
-is now **"slim silver fish out in open water"** — a body-shape + posture cue, not
+is now **"slim silver fish out in open water"**: a body-shape + posture cue, not
 a count cue.
 
 ### Recommendation: **switch to a SINGLE clean streamlined fish** (with a soft dorsal).
@@ -99,7 +99,7 @@ Reasoning, weighted:
    `bottom-other` (one fish on a seabed line). A two-fish tile is the odd one
    out in the row and adds a "count" variable the user must interpret ("does the
    number mean something? do the others not shoal?"). A single fish makes the
-   row visually parallel — the user compares **shapes**, which is the actual
+   row visually parallel, the user compares **shapes**, which is the actual
    question being asked.
 
 2. **The label no longer implies plurality.** "Silver *swimmers*" describes the
@@ -116,7 +116,7 @@ Reasoning, weighted:
 4. **Shark-confusion risk is manageable and is the one real argument FOR the
    shoal.** A lone slim torpedo + forked tail *can* drift toward "shark". But the
    `shark` sibling defends itself with a **strongly asymmetric (heterocercal)
-   tail, raked tall dorsal, and pointed snout** — and our defence is the
+   tail, raked tall dorsal, and pointed snout**: and our defence is the
    **symmetric** fork + **small soft** dorsal + **blunt rounded** snout. Those
    are strong enough on their own (the current single lead fish already reads as
    a normal fish, not a shark). I would NOT keep two fish solely as anti-shark
@@ -148,7 +148,7 @@ What this group's identity rests on, in order of how much it must survive the
    wrasse (deep oblong) and cod-like (chunkier).
 3. **Single small SOFT dorsal bump, low and mid-body.** Secondary but
    load-bearing for the anti-shark and anti-cod reads (one bump, not three; soft,
-   not a raked tall triangle). Reads at 80px only as a gentle convexity — keep it
+   not a raked tall triangle). Reads at 80px only as a gentle convexity, keep it
    low and rounded, never a spike.
 4. **Blunt / gently rounded snout.** Mild cue; mostly an anti-shark guard
    (shark = pointed). Easy to lose at small size, so don't rely on it alone.
@@ -170,11 +170,11 @@ For each sibling, the single outline cue that must keep `silver-shoaler` distinc
 |---|---|---|
 | `cod-like` ("Cod-shaped") | Chunky body, **three separate dorsal-fin bumps**, blunt head, weakly forked tail | **One** small dorsal bump (not three) + a slimmer body + a *deeper* tail fork |
 | `wrasse` ("Wrasses") | Deep oblong body, pointed lipped snout, one long-based dorsal, **ROUNDED unforked tail** | **Deeply forked tail** (the wrasse tail is convex/rounded) + slimmer body ratio |
-| `bottom-sitter` ("Gobies & dragonets") | Small fish on a **seabed groundline**, perched posture | **No groundline** — open-water posture, fish drawn level/horizontal in free space |
+| `bottom-sitter` ("Gobies & dragonets") | Small fish on a **seabed groundline**, perched posture | **No groundline**: open-water posture, fish drawn level/horizontal in free space |
 | `bottom-other` ("Other bottom fish") | Armour-headed gurnard on a **seabed groundline**, big head/spread pectorals | **No groundline**, slim even body, small head (no spread pectoral fans) |
 | `long-skinny` ("Long and skinny") | Eel-like, length:depth very high, ~uniform ribbon, no forked tail | Distinct **lens body with a clear caudal peduncle + forked tail** (eel is a continuous ribbon to a point) |
 | `shark` ("Shark-shaped") | **Pointed snout, tall raked dorsal, ASYMMETRIC (heterocercal) tail** | **Symmetric** fork (equal lobes) + **small soft low** dorsal + **blunt** snout |
-| (self) `silver-shoaler` | Slim lens, soft single dorsal, deep symmetric fork, open water | — |
+| (self) `silver-shoaler` | Slim lens, soft single dorsal, deep symmetric fork, open water | - |
 
 The two cells that matter most and must be unmissable in the redraw:
 **vs `wrasse` = the tail fork** and **vs `shark` = tail symmetry + soft small
@@ -191,7 +191,7 @@ dorsal + blunt snout.**
 
 ### Body
 - Smooth fusiform lens, snout at left, caudal peduncle at right.
-- Midline y = 20. Snout tip ≈ (4, 20), blunt/rounded (not pointed — anti-shark).
+- Midline y = 20. Snout tip ≈ (4, 20), blunt/rounded (not pointed, anti-shark).
 - Widest point ≈ x 22 (slightly forward of centre), half-depth ≈ 7.5 (top y≈12.5,
   bottom y≈27.5). Taper to a narrow peduncle at x≈48 (half-depth ≈ 2.5).
 - Keep the dorsal and ventral curves gently asymmetric (back a touch straighter
@@ -201,7 +201,7 @@ dorsal + blunt snout.**
 - A low, rounded triangular bump on the **top** contour, peak at ≈ x 26, rising
   ~3 units above the back line, base ~10 units wide. Soft apex (rounded), NOT a
   raked spike. This is the explicit anti-shark / anti-cod (one, not three) cue.
-- Optional matching tiny anal bump on the belly at ≈ x 34 — only if a quick
+- Optional matching tiny anal bump on the belly at ≈ x 34, only if a quick
   render shows it survives; otherwise omit (belly clutter risks the slim read).
 
 ### Forked tail (the make-or-break feature)
@@ -211,13 +211,13 @@ dorsal + blunt snout.**
 - **Notch vertex at (51, 20)** → notch depth = 62 − 51 = **11 units** (~28% of
   canvas height). Deliberately deeper than the current 5-unit notch so it cannot
   close up at 80px.
-- **Symmetric** lobes (equal top/bottom) — this is what separates it from the
+- **Symmetric** lobes (equal top/bottom), this is what separates it from the
   shark's heterocercal tail. Draw as one closed path:
   `M48 20 L62 9 L51 20 L62 31 Z`, lobes optionally given a slight outward
   concave sweep on the trailing edges for elegance (keep the notch a clean V).
 
 ### Why this reads at small size
-- The tail fork is now ~11/40 of the canvas height — a large, obvious V of
+- The tail fork is now ~11/40 of the canvas height, a large, obvious V of
   negative space that stays open when down-sampled to 80px.
 - A single subject means each feature gets ~2× the pixels it had in the two-fish
   layout.
@@ -233,7 +233,7 @@ dorsal + blunt snout.**
 
 ---
 
-## 6. Proposed redrawn SVG (DRAFT — single clean fish)
+## 6. Proposed redrawn SVG (DRAFT: single clean fish)
 
 ```svg
 <svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
@@ -263,26 +263,26 @@ Notes on the draft:
 - The dorsal bump base sits *on* the back curve so the mask merges them into one
   silhouette (a bump on the contour), not a floating fin.
 - If the optional anal bump is wanted later, mirror the dorsal: e.g.
-  `M30 28.6 C33 31.5 37 31.6 40 28.9 C37 28.8 33 28.7 30 28.6 Z` — render-test
+  `M30 28.6 C33 31.5 37 31.6 40 28.9 C37 28.8 33 28.7 30 28.6 Z`, render-test
   first; omit if it muddies the slim read.
 
 ---
 
 ## 7. Open questions / tradeoffs
 
-1. **1 fish vs 2** — the central call. Recommended: 1 (consistency +
+1. **1 fish vs 2**: the central call. Recommended: 1 (consistency +
    distinctiveness + label no longer implies count). Tradeoff: gives up the
    loose "open-water shoal" connotation. Mitigation: the slim+fork+level posture
    still reads "open-water swimmer". **Decide by scoring both** (§7 verification).
-2. **Shark drift** — a lone slim torpedo is the one place this could regress. The
+2. **Shark drift**: a lone slim torpedo is the one place this could regress. The
    symmetric fork + soft low dorsal + blunt snout are the defences; if the
    re-score reports `readsAs: shark` or confusableWith `shark`, exaggerate the
    dorsal bump and blunt the snout further before falling back to the shoal.
-3. **Posture / groundline** — no groundline is correct (separates from the two
+3. **Posture / groundline**: no groundline is correct (separates from the two
    bottom tiles). No change needed, just don't add one.
-4. **Anal fin** — include only if it survives 80px without muddying the slim
+4. **Anal fin**: include only if it survives 80px without muddying the slim
    read. Default: omit.
-5. **Credits file** — if the art changes from the reused source to PEBL-authored,
+5. **Credits file**: if the art changes from the reused source to PEBL-authored,
    update `src/data/bodyform-silhouette-credits.json` (note in
    fish-category-review.md that `silver-shoaler` currently "reuses" art). Not
    part of this plan's output, but required at ship time.
@@ -302,6 +302,6 @@ Notes on the draft:
    sibling-clean.
 6. Before any push: `npx tsc --noEmit && npm test && npm run lint && npm run lint:tokens`
    (per CLAUDE.md), and confirm `body-forms.test.ts` (the <=10 fish-coverage /
-   ceiling guard) still passes — the trait/value `silver-shoaler` is unchanged,
+   ceiling guard) still passes, the trait/value `silver-shoaler` is unchanged,
    so this should be unaffected, but verify.
 ```

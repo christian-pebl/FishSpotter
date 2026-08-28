@@ -8,7 +8,7 @@
  * handling, `distinct` semantics) rather than a hand-rolled fixture.
  *
  * Skipped unless METRICS_TEST_DATABASE_URL points at a throwaway database
- * with the schema pushed, so CI and normal `npm test` runs are unaffected —
+ * with the schema pushed, so CI and normal `npm test` runs are unaffected,
  * same convention as src/lib/prize-desk.integration.test.ts:
  *
  *   createdb fishspotter_test
@@ -17,7 +17,7 @@
  *     npx prisma db push
  *   METRICS_TEST_DATABASE_URL=postgresql://.../fishspotter_test npm test
  *
- * The database is TRUNCATED between tests — never point this at anything real.
+ * The database is TRUNCATED between tests, never point this at anything real.
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -142,7 +142,7 @@ describe.skipIf(!url)("computeRoundup (integration)", () => {
   it("does not double-count a re-guess as a second spotter or a second Pebble award", async () => {
     // Answer carries @@unique([userId, snippetId]); the real route
     // (POST /api/answers) re-guesses via upsert().update, changing
-    // chosenOption in place rather than inserting a second row — so a
+    // chosenOption in place rather than inserting a second row, so a
     // second `create()` here would itself be the bug this test guards
     // against (caught by the DB constraint the first time this test was
     // written with two `create()` calls). Model the upsert directly.

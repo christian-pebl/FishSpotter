@@ -7,8 +7,8 @@ import { computeRoundup } from "@/lib/metrics/roundup";
 // Token-gated (METRICS_TOKEN, deliberately separate from CRON_SECRET so
 // access can be rotated independently of the crons), aggregate-only JSON
 // dump of the same numbers `npm run db:stats` prints. Built so a remote
-// Claude Code session — no .env.local, no DB credentials, network policy
-// blocks the live app directly — can still answer "what are the latest
+// Claude Code session, no .env.local, no DB credentials, network policy
+// blocks the live app directly, can still answer "what are the latest
 // stats?" without a human opening /admin/metrics by hand. See
 // implementation/2026-08-01/metrics-access-plan.md for the full design.
 //
@@ -25,7 +25,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Rate-limit on the token itself (not IP — a token-gated route has no
+  // Rate-limit on the token itself (not IP, a token-gated route has no
   // meaningful per-visitor identity, and this is deliberately callable from
   // anywhere). Checked after auth so a wrong token can't burn budget probing.
   if (!(await checkMetricsRateLimit(process.env.METRICS_TOKEN as string))) {

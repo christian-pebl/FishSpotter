@@ -1,4 +1,4 @@
-// Phase 1 capture (authed follow-up) — sign back into the test account and grab
+// Phase 1 capture (authed follow-up), sign back into the test account and grab
 // the account/settings page + the public profile/pokedex.
 import { chromium, type Page } from "playwright";
 

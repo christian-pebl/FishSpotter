@@ -6,7 +6,7 @@ import {
 } from "@/lib/biodiversity/refresh";
 
 export const dynamic = "force-dynamic";
-// Vercel serverless function budget — keep the loop bounded so we always exit
+// Vercel serverless function budget, keep the loop bounded so we always exit
 // cleanly even on a slow OBIS day.
 export const maxDuration = 60;
 

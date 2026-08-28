@@ -1,0 +1,1558 @@
+<meta charset="utf-8">
+<title>PEBL Workshop Guide - Who Lives on a Seaweed Farm?</title>
+<style>
+  :root{
+    --ink:#111; --ink2:#4a4a4a; --line:#bbb; --tint:#f2f2f2; --tint2:#e2e2e2;
+  }
+  @page{ size:A4; margin:14mm 14mm 12mm; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Helvetica,Arial,sans-serif;color:var(--ink);font-size:10.2pt;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  /* each page is a flex column the exact height of the printable area (A4 297 less
+     14mm top and 12mm bottom margin), so the footer pins to the bottom instead of
+     bleeding onto the next page */
+  .page{page-break-after:always;display:flex;flex-direction:column;min-height:266mm}
+  .page:last-child{page-break-after:auto}
+  h1{font-size:26pt;line-height:1.05;margin:0 0 6pt;letter-spacing:-.5pt;color:#000}
+  h2{font-size:15pt;margin:0 0 3pt;color:#000;letter-spacing:-.2pt}
+  h3{font-size:11pt;margin:12pt 0 4pt;color:#000;text-transform:uppercase;letter-spacing:.7pt;font-weight:bold}
+  p{margin:0 0 7pt}
+  ul,ol{margin:0 0 7pt;padding-left:15pt}
+  li{margin-bottom:3pt}
+  .eyebrow{font-size:8.5pt;letter-spacing:1.8pt;text-transform:uppercase;color:#000;font-weight:bold;margin:0 0 8pt}
+  .rule{height:2pt;background:#000;border:0;margin:8pt 0 12pt;width:100%}
+  .hdr{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5pt solid #000;padding-bottom:5pt;margin-bottom:12pt}
+  .hdr .step{font-size:8.5pt;letter-spacing:1.4pt;text-transform:uppercase;color:#000;font-weight:bold}
+  .hdr .clock{font-size:8.5pt;color:var(--ink2);font-weight:bold}
+  /* three call-out types, coded by BORDER STRUCTURE + ICON so they survive
+     black & white printing without relying on hue at all:
+       NOTE  = left bar only, light tint fill, filled-dot icon  (fyi)
+       WATCH = full box border + a hazard top-stripe, triangle icon (caution)
+       SAY   = dashed left bar, no fill, quote-mark icon (script to read aloud) */
+  .note,.watch,.say{padding:8pt 10pt;margin:9pt 0;font-size:9.6pt;position:relative}
+  .note{background:var(--tint);border-left:3.5pt solid #000}
+  .watch{background:#fff;border:1.3pt solid #000;padding-top:12pt}
+  .watch::before{content:"";position:absolute;top:0;left:0;right:0;height:4.5pt;
+    background:repeating-linear-gradient(45deg,#000,#000 3px,#fff 3px,#fff 7px)}
+  .say{background:#fff;border-left:2pt dashed #000;font-style:italic}
+  .note b,.watch b,.say b{display:block;font-size:8pt;letter-spacing:1pt;text-transform:uppercase;margin-bottom:3pt;font-style:normal;color:#000}
+  .note b::before{content:"\25CF  "}
+  .watch b::before{content:"\25B2  "}
+  .say b::before{content:"\201C  ";font-size:11pt;font-style:normal}
+  table{width:100%;border-collapse:collapse;font-size:9.4pt;margin:6pt 0 9pt}
+  th{background:#000;color:#fff;text-align:left;padding:5pt 7pt;font-size:8.6pt;letter-spacing:.5pt;text-transform:uppercase}
+  td{padding:5pt 7pt;border-bottom:.6pt solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:var(--tint)}
+  .two{display:flex;gap:14pt}
+  .two>*{flex:1}
+  .cap{font-size:8.4pt;color:var(--ink2);text-align:center;margin-top:3pt;font-style:italic}
+  .sk{border:1pt solid #000;border-radius:2pt;padding:8pt;background:#fff}
+  .foot{margin-top:auto;padding-top:6pt;display:flex;justify-content:space-between;font-size:7.6pt;color:var(--ink2);border-top:.6pt solid var(--line)}
+  .kpi{display:flex;gap:10pt;margin:10pt 0}
+  .kpi div{flex:1;background:var(--tint);border:1pt solid #000;border-radius:2pt;padding:9pt;text-align:center}
+  .kpi .n{font-size:20pt;font-weight:bold;color:#000;line-height:1.1}
+  .kpi .l{font-size:8.2pt;color:var(--ink2);margin-top:2pt}
+  .chk li{list-style:none;margin-left:-10pt;margin-bottom:4pt}
+  .chk li::before{content:"";display:inline-block;width:8pt;height:8pt;border:1.2pt solid #000;margin-right:6pt;vertical-align:-.5pt}
+  .deck{border:1pt solid #000;border-radius:2pt;padding:5.5pt 8pt;margin-bottom:5pt;background:#fff}
+  .deck h4{margin:0 0 1pt;font-size:10pt;color:#000}
+  .deck .story{font-size:8.4pt;color:var(--ink2);font-style:italic;margin-bottom:3pt}
+  .deck ul{columns:2;font-size:8.6pt;line-height:1.34;padding-left:12pt;margin:0}
+  .deck li{margin-bottom:1pt}
+  /* severity of the removal, coded by weight/icon not colour */
+  .tagf{font-size:7.4pt;color:#000;font-weight:bold}
+  .tagf::before{content:"\2B24  "}
+  .tagl{font-size:7.4pt;color:var(--ink2)}
+  .tagp{font-size:7.4pt;color:#000;font-weight:bold}
+  .tagp::before{content:"\2605  "}
+  /* master-solution pages: the answer sheet + the biology behind it */
+  .lead{font-size:10.6pt;margin-bottom:2pt}
+  .msnums{display:flex;gap:7pt;margin:9pt 0 4pt}
+  .msnums div{flex:1;border:1pt solid #000;border-radius:2pt;padding:5pt 4pt;text-align:center;background:var(--tint)}
+  .msnums .n{font-size:14pt;font-weight:bold;line-height:1.05}
+  .msnums .l{font-size:7.4pt;color:var(--ink2);line-height:1.2;margin-top:1pt}
+  table.ms{font-size:8.5pt;margin:5pt 0 7pt}
+  table.ms td{padding:3.4pt 6pt;vertical-align:top}
+  table.ms th{padding:4pt 6pt;font-size:8pt}
+  table.ms .who{white-space:nowrap;font-weight:bold}
+  .arw{font-size:8.5pt}
+  /* the bare-reef mat is a reference thumbnail, not the hero drawing */
+  .sk.mini{padding:5pt 8pt 4pt}
+  .sk.mini svg{width:63%;display:block;margin:0 auto}
+  .sk.mini .cap{margin-top:2pt}
+  table.keytab td{padding:2.6pt 6pt}
+  table.keytab .ky{width:15pt;font-size:10pt;text-align:center;padding-right:0}
+</style>
+
+<!-- ============ COVER ============ -->
+<div class="page">
+  <p class="eyebrow">PEBL CIC &middot; Facilitator guide</p>
+  <h1>Who lives on a<br>seaweed farm?</h1>
+  <hr class="rule">
+  <p style="font-size:12pt;max-width:145mm">A one hour, hands-on workshop for adults. Build the food web of a seaweed and shellfish farm on the table in front of you, then take the farm away and watch what happens.</p>
+
+  <div class="kpi">
+    <div><div class="n">60</div><div class="l">minutes</div></div>
+    <div><div class="n">30-40</div><div class="l">participants</div></div>
+    <div><div class="n">5</div><div class="l">tables of 8</div></div>
+    <div><div class="n">2</div><div class="l">facilitators</div></div>
+  </div>
+
+  <div class="sk" style="margin-top:6pt">
+    <svg viewBox="0 0 560 210" width="100%">
+      <!-- marquee -->
+      <path d="M14 60 L280 16 L546 60" fill="none" stroke="#000" stroke-width="2"/>
+      <rect x="14" y="60" width="532" height="140" fill="none" stroke="#999" stroke-width="1.2"/>
+      <!-- screen -->
+      <rect x="238" y="70" width="84" height="26" rx="3" fill="#f2f2f2" stroke="#000" stroke-width="1.4"/>
+      <text x="280" y="87" font-family="Helvetica" font-size="10" fill="#000" text-anchor="middle">clips</text>
+      <!-- 5 tables with 8 seats -->
+      <g>
+        <g transform="translate(96,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">1</text></g>
+        <g transform="translate(188,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">2</text></g>
+        <g transform="translate(280,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">3</text></g>
+        <g transform="translate(372,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">4</text></g>
+        <g transform="translate(464,140)"><ellipse rx="30" ry="20" fill="#fff" stroke="#000" stroke-width="1.4"/><text y="4" font-family="Helvetica" font-size="11" fill="#000" text-anchor="middle">5</text></g>
+      </g>
+      <!-- seats -->
+      <g fill="#999">
+        <g><circle cx="70" cy="128" r="4.6"/><circle cx="70" cy="152" r="4.6"/><circle cx="96" cy="114" r="4.6"/><circle cx="96" cy="166" r="4.6"/><circle cx="122" cy="128" r="4.6"/><circle cx="122" cy="152" r="4.6"/><circle cx="83" cy="118" r="4.6"/><circle cx="109" cy="162" r="4.6"/></g>
+        <g><circle cx="162" cy="128" r="4.6"/><circle cx="162" cy="152" r="4.6"/><circle cx="188" cy="114" r="4.6"/><circle cx="188" cy="166" r="4.6"/><circle cx="214" cy="128" r="4.6"/><circle cx="214" cy="152" r="4.6"/><circle cx="175" cy="118" r="4.6"/><circle cx="201" cy="162" r="4.6"/></g>
+        <g><circle cx="254" cy="128" r="4.6"/><circle cx="254" cy="152" r="4.6"/><circle cx="280" cy="114" r="4.6"/><circle cx="280" cy="166" r="4.6"/><circle cx="306" cy="128" r="4.6"/><circle cx="306" cy="152" r="4.6"/><circle cx="267" cy="118" r="4.6"/><circle cx="293" cy="162" r="4.6"/></g>
+        <g><circle cx="346" cy="128" r="4.6"/><circle cx="346" cy="152" r="4.6"/><circle cx="372" cy="114" r="4.6"/><circle cx="372" cy="166" r="4.6"/><circle cx="398" cy="128" r="4.6"/><circle cx="398" cy="152" r="4.6"/><circle cx="359" cy="118" r="4.6"/><circle cx="385" cy="162" r="4.6"/></g>
+        <g><circle cx="438" cy="128" r="4.6"/><circle cx="438" cy="152" r="4.6"/><circle cx="464" cy="114" r="4.6"/><circle cx="464" cy="166" r="4.6"/><circle cx="490" cy="128" r="4.6"/><circle cx="490" cy="152" r="4.6"/><circle cx="451" cy="118" r="4.6"/><circle cx="477" cy="162" r="4.6"/></g>
+      </g>
+      <!-- facilitators: L = solid fill, R = outline only, so they read apart by
+           fill-state rather than by two similar hues -->
+      <circle cx="142" cy="188" r="7" fill="#000"/><text x="142" y="192" font-family="Helvetica" font-size="8" fill="#fff" text-anchor="middle" font-weight="bold">L</text>
+      <circle cx="418" cy="188" r="7" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="418" y="192" font-family="Helvetica" font-size="8" fill="#000" text-anchor="middle" font-weight="bold">R</text>
+      <path d="M150 186 C210 176 250 176 300 184" fill="none" stroke="#000" stroke-width="1.1" stroke-dasharray="4 3"/>
+      <path d="M410 186 C360 176 330 176 306 184" fill="none" stroke="#000" stroke-width="1.1" stroke-dasharray="1.5 3"/>
+    </svg>
+    <p class="cap">Room layout. L = Lead (runs the timings and the big moments, solid marker). R = Runner (works the tables, outline marker). Each covers roughly half the room.</p>
+  </div>
+
+  <div class="note"><b>The one thing to get right</b>Everything builds towards minute 30, when the clear farm overlay comes down over a reef the room has already built. Protect that moment. If you are running late, cut the discussion, never the build that precedes it.</div>
+
+  <div class="foot"><span>Plant Ecology Beyond Land (PEBL) CIC &middot; company 12076622</span><span>Protecting Ecology Beyond Land</span></div>
+</div>
+
+<!-- ============ AT A GLANCE ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">At a glance</span><span class="clock">The hour</span></div>
+
+  <div class="sk">
+    <svg viewBox="0 0 560 92" width="100%">
+      <g font-family="Helvetica" font-size="9">
+        <rect x="6"   y="26" width="30"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <rect x="38"  y="26" width="48"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <rect x="88"  y="26" width="56"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <rect x="146" y="26" width="150" height="26" rx="2.5" fill="#777"/>
+        <rect x="298" y="26" width="42"  height="26" rx="2.5" fill="#000"/>
+        <rect x="342" y="26" width="92"  height="26" rx="2.5" fill="#444"/>
+        <rect x="436" y="26" width="66"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <rect x="504" y="26" width="36"  height="26" rx="2.5" fill="#f2f2f2" stroke="#000"/>
+        <text x="21"  y="43" fill="#000" text-anchor="middle">0</text>
+        <text x="62"  y="43" fill="#000" text-anchor="middle">1 WHERE</text>
+        <text x="116" y="43" fill="#000" text-anchor="middle">2 WHO</text>
+        <text x="221" y="43" fill="#fff" text-anchor="middle">3  WHO EATS WHO</text>
+        <text x="319" y="43" fill="#fff" text-anchor="middle">4 FARM</text>
+        <text x="388" y="43" fill="#fff" text-anchor="middle">5  EVALUATE</text>
+        <text x="469" y="43" fill="#000" text-anchor="middle">6 SCIENCE</text>
+        <text x="522" y="43" fill="#000" text-anchor="middle">7</text>
+        <g fill="#555" font-size="8">
+          <text x="6" y="20">0</text><text x="88" y="20">8</text><text x="146" y="20">14</text>
+          <text x="298" y="20">30</text><text x="342" y="20">34</text><text x="436" y="20">44</text><text x="504" y="20">54</text><text x="534" y="20">60</text>
+        </g>
+        <g fill="#555" font-size="7.6">
+          <text x="21"  y="66" text-anchor="middle">hook</text>
+          <text x="319" y="66" text-anchor="middle">flip</text>
+          <text x="522" y="66" text-anchor="middle">close</text>
+        </g>
+      </g>
+    </svg>
+    <p class="cap">Minutes. The black block is the pivot, the moment the acetate comes down. The pale blocks are what you compress if you are behind. Never compress block 3, it is the whole exercise.</p>
+  </div>
+
+  <div class="note"><b>The shape of the session, in one sentence</b>The room builds a natural rocky reef food web with no farm in it at all, and only then does the farm arrive, on a clear sheet laid over the top, so that every change they draw next is a change <i>they</i> predicted rather than one we asserted.</div>
+
+  <h3>Kit list</h3>
+  <div class="two">
+    <ul class="chk">
+      <li>5 &times; A1 base boards, dry-wipe surface</li>
+      <li>5 &times; A1 clear acetate farm overlays, bound at the head</li>
+      <li>1 spare board and overlay (sixth table or damage)</li>
+      <li>5 &times; deck of 8 species cards (40 total)</li>
+      <li>1 spare deck, plus the second set for duplicates</li>
+    </ul>
+    <ul class="chk">
+      <li>12 &times; wipe pens in colour A (the natural web)</li>
+      <li>12 &times; wipe pens in colour B (everything the farm adds)</li>
+      <li>Cloths, one per table</li>
+      <li>Flipchart pad and 4 chunky markers</li>
+      <li>Laptop charged, clips downloaded offline, printed stills as backup</li>
+      <li>Mussel shells, a metre of dropper rope, fresh kelp</li>
+    </ul>
+  </div>
+
+  <div class="watch"><b>The pens</b><b style="display:inline">Two colours is the record, not a nicety.</b> Colour A is the reef as it was, colour B is everything the farm changed. A table that uses one colour throughout cannot be shown what it just did. Check both are on every table before phase 3. <b style="display:inline">And test them on both surfaces beforehand:</b> board and acetate are different materials, a pen that wipes off one may not wipe off the other, and the wrong marker will destroy the mats in ten minutes.</div>
+
+  <h3>The story you are telling</h3>
+  <table>
+    <tr><th style="width:34%">Phase</th><th>What the room learns</th></tr>
+    <tr><td>Who eats who</td><td>A bare rocky reef is already a working, crowded system.</td></tr>
+    <tr><td>Build the farm</td><td>New surfaces, new shelter, new food. Not an empty addition.</td></tr>
+    <tr><td>Evaluate impacts</td><td>They predict the changes themselves, in their own colour.</td></tr>
+    <tr><td>Ground in the science</td><td>Here is what was actually measured, including what went the other way.</td></tr>
+    <tr><td>Take-home</td><td>What they just did is the first step of the scientific method.</td></tr>
+  </table>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 2</span></div>
+</div>
+
+<!-- ============ PREP ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Before the day</span><span class="clock">Prep</span></div>
+
+  <h3>What to print</h3>
+  <table>
+    <tr><th style="width:28%">Item</th><th style="width:46%">Spec</th><th>Cost</th></tr>
+    <tr><td>Base boards &times;6</td><td>A1, colour, <b>dry-wipe / whiteboard laminate</b>. Bare rocky reef in cross-section: three depth bands (surface, midwater, seabed) and the three natural food sources. No farm, no animals</td><td>quote</td></tr>
+    <tr><td>Acetate overlays &times;6</td><td>A1, printed on <b>clear film</b>. Farm infrastructure only: header line and buoys, mussel droppers, kelp lines, anchors. Everything else transparent</td><td>quote</td></tr>
+    <tr><td>Binding</td><td>Spiral or tape hinge along the head, board plus overlay as one unit so the overlay drops square and cannot be lost</td><td>quote</td></tr>
+    <tr><td>Species cards &times;80</td><td>A6, 350gsm, double sided, colour. Two identical sets of 40, so a species can be duplicated onto a second habitat and so the activity survives being given away</td><td>~&pound;90</td></tr>
+    <tr><td>Wipe pens, cloths</td><td>Fine tip, non-permanent, <b>two distinct colours</b></td><td>~&pound;25</td></tr>
+    <tr><td>Flipchart and markers</td><td>Plus tape for the wall</td><td>~&pound;25</td></tr>
+    <tr><td>Props and contingency</td><td>Shells, rope offcut, kelp on the day</td><td>~&pound;25</td></tr>
+  </table>
+  <p class="cap" style="text-align:left;margin:-4pt 0 8pt">Boards, overlays and species cards are the only colour items and go to a print shop; this guide and the evidence cards suit an ordinary office printer. <b>The three "quote" rows are deliberate:</b> the two-layer build replaced a single encapsulated mat late in the design and nobody has quoted it, so a number here would be invented.</p>
+
+  <div class="two">
+    <div class="sk">
+      <svg viewBox="0 0 260 178" width="100%">
+        <g font-family="Helvetica" font-size="7.6">
+          <!-- base board -->
+          <rect x="8" y="16" width="112" height="72" rx="2" fill="#fff" stroke="#000" stroke-width="1.4"/>
+          <text x="64" y="12" text-anchor="middle" font-size="7.4" font-weight="bold">BASE BOARD</text>
+          <line x1="8" y1="34" x2="120" y2="34" stroke="#000" stroke-width=".7"/>
+          <line x1="8" y1="58" x2="120" y2="58" stroke="#999" stroke-width=".6" stroke-dasharray="3 2"/>
+          <line x1="8" y1="76" x2="120" y2="76" stroke="#000" stroke-width=".7"/>
+          <text x="117" y="32" text-anchor="end" font-size="5.6" fill="#666">surface</text>
+          <text x="117" y="56" text-anchor="end" font-size="5.6" fill="#666">midwater</text>
+          <text x="117" y="74" text-anchor="end" font-size="5.6" fill="#666">seabed</text>
+          <path d="M20 76 q8 -9 17 0 M46 76 q11 -12 22 0 M78 76 q7 -8 14 0" fill="#eee" stroke="#000" stroke-width=".9"/>
+          <!-- acetate -->
+          <rect x="140" y="16" width="112" height="72" rx="2" fill="#fafafa" stroke="#000" stroke-width="1.4" stroke-dasharray="4 2.5"/>
+          <text x="196" y="12" text-anchor="middle" font-size="7.4" font-weight="bold">CLEAR OVERLAY</text>
+          <line x1="152" y1="30" x2="240" y2="30" stroke="#000" stroke-width="1.1"/>
+          <g fill="#000"><circle cx="156" cy="27" r="2.4"/><circle cx="176" cy="27" r="2.4"/><circle cx="196" cy="27" r="2.4"/><circle cx="216" cy="27" r="2.4"/><circle cx="236" cy="27" r="2.4"/></g>
+          <g stroke="#000" stroke-width=".9" fill="none"><rect x="158" y="34" width="9" height="22" rx="2"/><rect x="172" y="34" width="9" height="22" rx="2"/><rect x="186" y="34" width="9" height="22" rx="2"/></g>
+          <g stroke="#000" stroke-width=".9" fill="none"><path d="M210 32 q4 12 0 24 M220 32 q-4 12 0 24 M230 32 q4 12 0 24"/></g>
+          <path d="M152 30 L146 84 M240 30 L246 84" stroke="#000" stroke-width=".9"/>
+          <!-- combined -->
+          <rect x="74" y="102" width="112" height="72" rx="2" fill="#fff" stroke="#000" stroke-width="1.6"/>
+          <text x="130" y="98" text-anchor="middle" font-size="7.4" font-weight="bold">FLIPPED DOWN</text>
+          <line x1="74" y1="120" x2="186" y2="120" stroke="#000" stroke-width=".7"/>
+          <line x1="74" y1="162" x2="186" y2="162" stroke="#000" stroke-width=".7"/>
+          <path d="M86 162 q8 -9 17 0 M112 162 q11 -12 22 0 M144 162 q7 -8 14 0" fill="#eee" stroke="#000" stroke-width=".9"/>
+          <line x1="86" y1="116" x2="174" y2="116" stroke="#000" stroke-width="1.1"/>
+          <g fill="#000"><circle cx="90" cy="113" r="2.4"/><circle cx="110" cy="113" r="2.4"/><circle cx="130" cy="113" r="2.4"/><circle cx="150" cy="113" r="2.4"/><circle cx="170" cy="113" r="2.4"/></g>
+          <g stroke="#000" stroke-width=".9" fill="none"><rect x="92" y="120" width="9" height="22" rx="2"/><rect x="106" y="120" width="9" height="22" rx="2"/><rect x="120" y="120" width="9" height="22" rx="2"/></g>
+          <g stroke="#000" stroke-width=".9" fill="none"><path d="M144 118 q4 12 0 24 M154 118 q-4 12 0 24 M164 118 q4 12 0 24"/></g>
+          <path d="M86 116 L80 168 M174 116 L180 168" stroke="#000" stroke-width=".9"/>
+          <g stroke="#000" stroke-width="1"><path d="M120 92 v6 M117 96 l3 4 3 -4"/></g>
+        </g>
+      </svg>
+      <p class="cap">Two layers, bound at the head. The reef is drawn on the board in colour A. The farm arrives on the clear sheet, and everything after that is drawn on the acetate in colour B.</p>
+    </div>
+    <div>
+      <h3>Card rules</h3>
+      <ul>
+        <li><b>Name at 14pt minimum.</b> A marquee is dim and half your room is over 60.</li>
+        <li><b>Scientific name in grey italics</b> under the English, for anyone who knows their species.</li>
+        <li><b>One plain sentence</b>, so nobody has to admit they have never heard of a dragonet.</li>
+        <li><b>A tier chip, T2 to T5.</b> This is the only ordering device on the card and phase 2 leans on it hard.</li>
+        <li><b>Max three fields on the back:</b> I live, I eat, eats me.</li>
+        <li><b>No farm verdict.</b> Nothing on the card says what the farm does to that species. That is the room's job.</li>
+        <li><b>QR on every card</b>, to that species' own page on FishSpotter. The card is the takeaway, so there is no leaflet.</li>
+      </ul>
+      <h3>The tier chips</h3>
+      <table style="font-size:8.6pt">
+        <tr><td style="width:26%"><b>T1</b></td><td>Producers. <i>Not on any card</i>, they are printed on the board</td></tr>
+        <tr><td><b>T2</b></td><td>Grazer or filter feeder, eats the producers</td></tr>
+        <tr><td><b>T3</b></td><td>Planktivore or invertivore</td></tr>
+        <tr><td><b>T4</b></td><td>Predator</td></tr>
+        <tr><td><b>T5</b></td><td>Apex predator</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="note"><b>The tiers are a guide, not a rule</b>The chip tells a table what order to place cards in, nothing more. Mullet are T2 and eat small invertebrates; brittlestars take plant and animal matter. Tell the room to draw a T3 to T3 arrow if they think there is one. <b style="display:inline">And do not laminate the cards</b> &mdash; people take them home, and 350gsm posts through a letterbox.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 3</span></div>
+</div>
+
+<!-- ============ PHASE 1-2 ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Phase 1 &middot; Where are we?</span><span class="clock">0 to 8 min</span></div>
+
+  <p>People are still arriving. Do not wait for them. Start with the clips playing and talk over the top.</p>
+  <p>Play three short clips filmed on working farms, and use the differences between them: <b>Wales</b> on rocky reef, <b>Scotland</b> over sand, <b>Devon</b> offshore in the Bristol Channel over mud. Ask the room to call out what they can see. Take every answer, including the wrong ones.</p>
+
+  <div class="say"><b>Say roughly this</b>"Everything you have just watched was filmed on a seaweed and shellfish farm. Nobody put those animals there. They turned up. And seaweed farms sit in all sorts of places: here in Wales we are on top of rocky reef, up in Scotland it is much sandier, out in Devon the sediment is muddier."</div>
+
+  <p>Then introduce the board, before anyone has a card in hand.</p>
+
+  <div class="say"><b>Say roughly this</b>"Here is a very simple model of a rocky reef. Three bands: surface, midwater, seabed. And there are already food sources here." <i>(point to each)</i> "Plankton in the water column, brought past by the tide. Natural seaweeds and biofilms growing on the rock and the sediment. And detritus, plus the tiny things that eat it, on the bottom and down in the crevices."</div>
+
+  <div class="watch"><b>Get in front of the salmon question</b>Somebody in this room thinks a marine farm means caged salmon, sea lice and chemicals. If you let that sit unspoken you will spend the hour under suspicion. Say it yourself, now, before anyone asks:<br><br><i>"Quick thing, because people always ask. Nothing here is fed, caged or medicated. Seaweed and mussels take food out of the water rather than having it poured in. It is the opposite of a salmon farm. If you want to get into that, grab me at the end."</i><br><br><b style="display:inline">Then stop talking about farms.</b> The board in front of them is a bare reef and you have not said the word "farm" about it. Preview what is coming and you lose the pivot.</div>
+
+
+  <div class="hdr" style="margin-top:16pt"><span class="step">Phase 2 &middot; Who do we have here?</span><span class="clock">8 to 14 min</span></div>
+
+  <p>Runner deals one deck per table, face up. Everyone takes a card, reads it, and introduces their species to the rest of their table.</p>
+
+  <div class="say"><b>Say roughly this</b>"Take a card. You are now in charge of that species. You need to know three things: where you live, what you eat, and what eats you. Go round your table and introduce yours to the others."</div>
+
+  <p>Call everyone back, then do the tiers from the front. This is the bit that makes phase 3 work.</p>
+
+  <div class="say"><b>Say roughly this</b>"On each card there is a chip: T2, T3, T4, T5. There are no T1s in your hands. T1 is the producers, the things that make energy out of sunlight, and they are already printed on your board: the plankton, the algae, the biofilm. Hands up if you have a T2, a primary consumer. <i>(pick one)</i> What have you got? Good. Put the T2s down first, because everything else is going to feed on them."</div>
+
+  <div class="note"><b>Wording matters</b>Say "you are in charge of the cuttlefish", not "you are a cuttlefish". Adults will happily be an expert on an animal, but not pretend to be one.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 4</span></div>
+</div>
+
+<!-- ============ PHASE 3 WHO EATS WHO ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Phase 3 &middot; Who eats who?</span><span class="clock">14 to 30 min</span></div>
+
+  <p>The longest block in the session, and the one everything else rests on. Two moves, in this order: <b>place</b>, then <b>connect</b>.</p>
+
+  <ol>
+    <li><b>Place every card where that animal actually lives</b> on the bare reef. Surface, midwater, or down on the seabed and in the crevices.</li>
+    <li><b>Draw arrows from the eaten to the eater</b>, in colour A. Arrows point the way the energy travels.</li>
+  </ol>
+
+  <div class="say"><b>Give them this example before they start</b>"The limpet lives down here on the rock, and it eats what grows on the rock. So it goes here" <i>(place it)</i> "and then we draw an arrow from the rock straight to the card. That is one link. Now do yours."</div>
+
+  <div class="note"><b>Why the decks are pre-sorted</b>Each table has been given a set of eight species that genuinely eat each other, and that spans T2 up to T5 so a full chain is possible. Do not shuffle the decks together or let tables swap cards. If you do, tables end up drawing arrows to species sitting on a different table, and the activity stalls. <b>The groups are numbered, not named</b>, because they are a dealing convenience and not a claim about where those eight animals live.</div>
+
+  <div class="note"><b>If someone will not take a card</b>Give them the job of counting arrows for the table. They are now the most useful person there, and they usually pick up a card within ten minutes anyway.</div>
+
+  <div class="two">
+    <div>
+      <h3>Prompts that unstick a table</h3>
+      <ul>
+        <li>"Start with the three food sources printed on the board. Who eats straight off those?"</li>
+        <li>"Right, who at this table would eat <i>you</i>?"</li>
+        <li>"Follow it up. Who eats the thing that eats you?"</li>
+        <li>"Anything here eat something on its own level? Draw it."</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Pace</h3>
+      <ul>
+        <li><b>Fast table:</b> "Count your arrows and write the number in the corner. Now find me the longest chain on the board."</li>
+        <li><b>Stalled table:</b> sit down with them and place two cards yourself. Do not narrate, just start.</li>
+        <li><b>Walking the room:</b> ask anyone to explain a link that surprises you. Do not correct it, ask them why.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="watch"><b>Every table writes its arrow count on the board before minute 30</b>That number is the baseline they will compare against after the farm goes down, and without it the next phase has nothing to measure. Runner walks the room at minute 28 and checks every table has one.</div>
+
+  <div class="note"><b>This is a rocky reef and it is already busy</b>If a table finishes early and says "so where is the farm?", that is exactly the right question and the answer is "coming". The point of spending sixteen minutes here is that the room has to believe the bare reef is a real, working, crowded system before anything is added to it. If they think the starting state is empty, the whole comparison is worthless.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 5</span></div>
+</div>
+
+<!-- ============ PHASE 4-5 BUILD THE FARM ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Phase 4 &middot; Build the farm</span><span class="clock">30 to 34 min</span></div>
+
+  <p>The pivot. Keep it short and physical.</p>
+
+  <ol>
+    <li><b>Stop the room.</b> "Pens down, everyone look up." Wait for actual quiet.</li>
+    <li><b>Beat of silence.</b> Do not fill it.</li>
+    <li>"We are going to add a farm. <b>Flip the clear sheet down over the web you have just built.</b>"</li>
+    <li>Let them do it. Let them look at it.</li>
+    <li><b>Now name what arrived</b>, on the flipchart as you say it, three headings: <b>new surfaces</b>, <b>new shelter</b>, <b>new food</b>.</li>
+  </ol>
+
+  <div class="say"><b>Say roughly this</b>"Look at what just landed on your reef. New hard surfaces, and a lot of them: mussel shells, buoys, rope, the anchor blocks. New shelter, in the hanging kelp. And new food that comes with all of it: kelp you can eat, mussels you can eat, and bits of both falling to the bottom as detritus."</div>
+
+  <div class="watch"><b>Say what the structure actually is</b>A mussel line or a kelp line is rope, buoys and shell, not rock and not concrete. Some people in the room will be sceptical that a rope changes anything, and they are asking a fair question. Do not talk them out of it. Say "that is exactly what we are about to find out, and it is a real argument", then let phase 5 and the evidence cards do the work.</div>
+
+  <div class="hdr" style="margin-top:14pt"><span class="step">Phase 5 &middot; Evaluate the impacts</span><span class="clock">34 to 44 min</span></div>
+
+  <p><b>Everything from here is drawn on the acetate, in colour B.</b> Two passes, and give them the first one before the second.</p>
+
+  <p><b>Pass one, habitat, two to three minutes.</b> "Go through your placements. If an animal could now also live somewhere new, write its name there in the second colour. Limpets on the mussel cages, because they can cling to shell and rope. Do that for anything you think could live on the structure." A table with the spare deck can lay a duplicate card in the new place instead of writing.</p>
+
+  <p><b>Pass two, feeding.</b> "Now, with those new places and the new food, draw the new arrows. And where a link you already drew just got stronger, go over it again so it is thicker."</p>
+
+  <div class="note"><b>Let it get messy</b>The mats will get chaotic and that is correct. A tangle in two colours is a better record of a real prediction than a tidy diagram. Walk the room, look at what people have done, and go and sit with any table that looks overwhelmed rather than announcing it from the front.</div>
+
+  <div class="two">
+    <div>
+      <h3>What good looks like</h3>
+      <ul>
+        <li>The hard-surface grazers have moved or duplicated onto the ropes and shells.</li>
+        <li>Small fish have found the kelp as shelter, not just as food.</li>
+        <li>Somebody has drawn an arrow from mussels to a crab or a starfish.</li>
+        <li>Somebody has thickened the detritus arrows, because more is falling.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Questions worth asking a table</h3>
+      <ul>
+        <li>"Did anything get worse? Anybody down there in the mud?"</li>
+        <li>"Is that animal here because it lives here now, or because it came for a feed?"</li>
+        <li>"Count your arrows again. What changed?"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="watch"><b>Do not rush to the moral</b>The temptation at the end of phase 5 is to explain what just happened. Do not. Ask "so what did that just show you?" and let a member of the public say it out loud instead. It lands ten times harder in their words, and it is also the honest way round, because it is their prediction and not your claim.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 6</span></div>
+</div>
+
+<!-- ============ PHASE 6 SCIENCE, COSTS AND GIVES ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Phase 6 &middot; Ground it in the science</span><span class="clock">44 to 54 min</span></div>
+
+  <p>Bring the whole room back together. Open with their observations, not yours.</p>
+
+  <div class="say"><b>Open with this</b>"Can anyone tell me what you noticed about your food web when you added the farm?"</div>
+
+  <p>Take three or four answers honestly, including any that were negative or that found nothing much changed. Then move to the flipchart. Two columns, the room fills them in, and your job is to write rather than to argue.</p>
+
+  <div class="two">
+    <div class="sk">
+      <svg viewBox="0 0 260 190" width="100%">
+        <path d="M40 176 L58 96 M220 176 L202 96" stroke="#000" stroke-width="1.6"/>
+        <rect x="46" y="14" width="168" height="90" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <line x1="130" y1="14" x2="130" y2="104" stroke="#999" stroke-width="1.2"/>
+        <text x="88" y="30" font-family="Helvetica" font-size="9" font-weight="bold" fill="#000" text-anchor="middle">+ WHAT IT GIVES</text>
+        <text x="172" y="30" font-family="Helvetica" font-size="9" font-weight="bold" fill="#000" text-anchor="middle">&#8722; WHAT IT COSTS</text>
+        <g stroke="#999" stroke-width="1.1">
+          <line x1="56" y1="44" x2="120" y2="44"/><line x1="56" y1="56" x2="114" y2="56"/><line x1="56" y1="68" x2="122" y2="68"/><line x1="56" y1="80" x2="108" y2="80"/>
+          <line x1="140" y1="44" x2="204" y2="44"/><line x1="140" y1="56" x2="196" y2="56"/><line x1="140" y1="68" x2="200" y2="68"/>
+        </g>
+      </svg>
+      <p class="cap">Keep it on one sheet so the whole room can see both columns at once.</p>
+    </div>
+    <div>
+      <h3>What usually comes up</h3>
+      <p style="margin-bottom:3pt"><b>Gives.</b> Shelter and nursery space for young fish. Food for crab and lobster. Somewhere for things to settle. Calmer water inside the lines. Food produced without feed, fresh water or fertiliser.</p>
+      <p><b>Costs.</b> Sea space that other people used. Gear and navigation conflict. Enriched mud under the lines that suits fewer clean-sand species. The habitat disappears when the crop is harvested. Anchors and chains scour the seabed around each mooring. Ropes and floats need maintaining or they become litter.</p>
+    </div>
+  </div>
+
+  <div class="note"><b>Hand the pen to the sceptic</b>If there is a fisherman in the room, and at this festival there will be, invite them to fill in the costs column themselves. It is the single highest value thing you can do all hour. It turns the person most likely to dismiss you into the person who helped write the honest version, and everyone else sees you do it.</div>
+
+  <div class="say"><b>Say roughly this to close the step</b>"We are not here to tell you a farm is all upside. We are here because nobody has actually measured this properly in Wales, and that is the job we are doing. Both columns are real."</div>
+
+  <div class="watch"><b>Do not let this become a planning meeting</b>If two people start relitigating a specific local licence application, take it offline: "That is a proper conversation and I want to have it, can we do it at the end so we get through the rest?" Then genuinely do it at the end.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 7</span></div>
+</div>
+
+<!-- ============ PHASE 6b EVIDENCE ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Phase 6b &middot; The evidence cards</span><span class="clock">inside 44 to 54 min</span></div>
+
+  <p><b>The evidence cards are no longer matched to a table.</b> They come out here, in the plenary, and they are discussed with the whole room. Hand them round, or read them from the front, but everybody hears every card. The session stops being your opinion and starts being a measurement.</p>
+
+  <table style="font-size:9pt">
+    <tr><th style="width:12%">Kind</th><th style="width:44%">Card</th><th>The finding</th></tr>
+    <tr><td>For</td><td>The reef that came back after 150 years</td><td>30% more reef in 7 years, Lyme Bay</td></tr>
+    <tr><td>For</td><td>More fish, and young ones settling in</td><td>1.6&times; more fish, larvae of 7 species</td></tr>
+    <tr><td>For</td><td>Crab and lobster do well out of it</td><td>Commercial crustaceans gain</td></tr>
+    <tr><td>For</td><td>A patch of easier water for shellfish</td><td>23% easier shell-building</td></tr>
+    <tr><td><b>Against</b></td><td><b>The mud underneath gets richer</b></td><td>Less oxygen in sediment, out to ~7 m, Scotland</td></tr>
+    <tr><td><b>Against</b></td><td><b>The habitat is a crop</b></td><td>It is removed on a schedule</td></tr>
+    <tr><td><b>Against</b></td><td><b>The anchors have a footprint</b></td><td>Chain scour harms seabed life</td></tr>
+    <tr><td><b>Against</b></td><td><b>A farm is not a wild kelp forest</b></td><td>Fewer species than natural habitat</td></tr>
+  </table>
+
+  <div class="watch"><b>The negative half needs as much air as the positive half, and it is now resourced</b>This exercise is built to surface benefits, because that is what happens when you add structure to a bare board. That bias is real and you must correct for it deliberately. Four of the eight cards run against the story, each carries the discussion question it exists to answer, and every one has a real paper behind it. Do not skim them to save time. If you are running late, cut a "for" card, never an "against" one.</div>
+
+  <h3>Make them guess first</h3>
+  <p>Before you read the Lyme Bay number, stop and ask the whole room:</p>
+  <div class="say"><b>Say roughly this</b>"They watched the seabed under a mussel farm in Lyme Bay for eight years, against control sites nearby. Hands up who thinks the seabed got better. Right, how much more reef after seven years? Shout me a percentage."</div>
+  <p>Take three guesses, then read out <b>30%</b>. A number you have guessed at is a number you remember. This is the cheapest engagement trick in the guide and it works on adults every time.</p>
+
+  <div class="note"><b>Finish on the counterweight, and do not soften it</b>End the evidence round on the Norway study that found kelp farms hold <i>fewer</i> species than natural habitat nearby. Ending on the finding that works against you is the strongest thing you will do all hour. Follow it with: "which is why we think farms belong on bare ground, not on top of something that is already good."</div>
+
+  <div class="watch"><b>Two cards are yours, not the room's</b>The carbon card and the PEBL card stay with the facilitator. Use the carbon card the moment anyone mentions carbon, and the PEBL card to close the session.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 8</span></div>
+</div>
+
+<!-- ============ PHASE 7 TAKE-HOME ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Phase 7 &middot; Take-home remarks</span><span class="clock">54 to 60 min</span></div>
+
+  <p>Six minutes, from the front, to the whole room. There are three things to land and they go in this order.</p>
+
+  <h3>1. Name the uncertainty before anyone else does</h3>
+  <div class="say"><b>Say roughly this</b>"What we just did was an exercise in hypothesising. Making educated guesses about what could happen when you put infrastructure like this into a natural system. This is by no means us saying that what happened on your board is exactly what happens at a UK seaweed farm. As you saw in the evidence cards, the impacts are varied, some positive and some negative, and they depend on the state of the ecosystem you started with, on the individual species, and on a lot of other things."</div>
+
+  <h3>2. Tell them what they actually just did</h3>
+  <div class="say"><b>Say roughly this</b>"What we want to drive home is that what you did here <b>is the first step of the scientific method</b>. You took what you do know, a set of species, where they live, what they eat, and you used it to predict what you do not know: how will they respond to an environment changed by aquaculture? That is the job. Everything after that is going and checking."</div>
+
+  <h3>3. Tell them why their knowledge counts</h3>
+  <div class="say"><b>Say roughly this</b>"That is what we are doing at PEBL, with our farm partners and with WWF. And bringing in what you know makes it stronger. You saw it when you were building: there are links that are not obvious, connections within a level that you only spot if you know the animals. There are habitats we can predict will be great for a species, that people who work on the water know just do not hold up. Fishermen and farmers know this better than anyone, and while we are doing this research it is crucial that we listen to that. So thank you for doing it with us today."</div>
+
+  <div class="note"><b>Then the PEBL card, and the QR</b>Hold up the PEBL evidence card. Almost none of the evidence on those cards was gathered in Wales, and that is precisely the gap PEBL exists to fill. Point at the QR on their species card: it opens that species' own page, and the footage the cameras are collecting. Ten minutes from home genuinely feeds the dataset.</div>
+
+  <div class="watch"><b>Do not end on a request</b>Close on the thank you, not on the QR code. Mention the app, then stop talking about it. A room that has just spent an hour thinking hard does not want to be converted into users in the last thirty seconds, and the card is in their pocket either way.</div>
+
+  <div class="note"><b>If you have run over</b>Cut item 3 down to one sentence and keep items 1 and 2 intact. The uncertainty framing and the scientific-method framing are the two things that make this workshop honest, and neither is optional.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 9</span></div>
+</div>
+<!-- ============ STEP 6 CRIB ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Reference &middot; The questions you will get</span><span class="clock">Any time</span></div>
+  <p>Print this page at A5 and carry one each. These four come up nearly every time.</p>
+
+  <h3>1. "Isn't this the same as a salmon farm?"</h3>
+  <p>No, and it is the opposite in one specific way. Salmon are fed, so a salmon farm puts food, nutrients and sometimes medicines into the water. Seaweed and mussels are not fed anything. They take nutrients out of the water to grow. Different industry, different footprint, and it is fair to judge them separately.</p>
+
+  <h3>2. "Doesn't seaweed lock up loads of carbon?"</h3>
+  <p>It grows fast and it absorbs carbon dioxide while it grows. But if we harvest it and eat it, or put it on a field, or in a bottle of shampoo, that carbon comes back out fairly quickly. Only the fraction that sinks to deep water and stays there counts as storage, and nobody has measured that well yet for UK farms. The strong climate case here is habitat and shelter, not storage.</p>
+  <div class="note"><b>Say this even when nobody asks</b>Somebody in the room will confidently tell their neighbour that seaweed farms are a big carbon solution. Correcting it gently, in public and early, is the single biggest credibility win available to you. People trust an organisation that argues against its own hype.</div>
+
+  <h3>3. "That's my fishing ground you are covering up."</h3>
+  <p>Straight answer: yes, a farm takes sea space, and that is a genuine cost to somebody. What we can say is that the structure feeds and shelters things that crab and lobster eat, and young fish use it as cover. Whether that is worth the space you lose depends on where it goes and how big it is, which is exactly why we put cameras on them instead of guessing.</p>
+  <div class="watch"><b>Do not oversell to a fisherman.</b>They will know more than you about that stretch of coast. Ask where they work and what they see on their gear. Treat it as data collection, because it is.</div>
+
+  <h3>4. "Will this help with the sea warming up?"</h3>
+  <p>Not the temperature itself. It helps things cope. The lines take the energy out of waves so there is calmer water inside. Seaweed photosynthesising raises the pH of the water right around it, which matters because the sea is slowly acidifying and that makes it harder for young mussels, crabs and other shellfish to build their shells. A farm is a small patch of easier conditions.</p>
+
+  <h3>5. "Who pays you?"</h3>
+  <p>PEBL is a community interest company, not a private business with shareholders. Say who actually funded the work, name them, and move on. Evasiveness here costs you the room.</p>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 10</span></div>
+</div>
+
+<!-- ============ DECKS ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">The five groups</span><span class="clock">Reference</span></div>
+  <p>Each group gets eight cards that genuinely eat one another, spanning T2 up to T5 so a full chain is always possible. Keep the decks separate. The next ten pages are the full reference: for each group, the mat as it stands once the farm is down and every arrow is drawn, then the biology behind it, then the bare-reef state the table starts from.</p>
+  <div class="watch"><b>These four symbols are yours alone and appear nowhere in the room</b>The biology tables that follow mark each species <b>&#9679;</b> structure-dependent, <b>&#9681;</b> boosted, <b>&#9675;</b> here anyway, <b>&#10022;</b> better without. Earlier versions printed that verdict on the species cards and the session climaxed with "turn over the filled circle". It was removed on purpose: stating it on a handout asserts the very thing the room is being asked to work out. It survives here so you know what a good prediction looks like, not so you can mark one.</div>
+
+  <table>
+    <tr><th style="width:20%">Group</th><th style="width:22%">Need the structure</th><th style="width:22%">Arrows, bare &rarr; farm</th><th>What it is for</th></tr>
+    <tr><td><b>Group 1</b></td><td>4 of 8</td><td>5 &rarr; 16</td><td>The biggest change. Its whole food chain stands on grazers that need a hard surface.</td></tr>
+    <tr><td><b>Group 2</b></td><td>3 of 8</td><td>7 &rarr; 16</td><td>Competition. Six of eight cards eat the same meal.</td></tr>
+    <tr><td><b>Group 3</b></td><td>3 of 8</td><td>8 &rarr; 18</td><td>A clean four-step chain, and the clearest nursery story.</td></tr>
+    <tr><td><b>Group 4</b></td><td>4 of 8</td><td>5 &rarr; 17</td><td>Cover, not food. The bottom always had detritus; it lacked hiding places.</td></tr>
+    <tr><td><b>Group 5</b></td><td>1 of 8, and 1 does worse</td><td>9 &rarr; 11</td><td>The control. Proof you are not overselling.</td></tr>
+  </table>
+
+  <h3>Two things a farm does, and only one of them counts</h3>
+  <p>This is the bit of marine biology worth carrying in your head, because every hard question in the session comes back to it.</p>
+  <table class="ms">
+    <tr><th style="width:22%">What the farm does</th><th style="width:34%">Which animals</th><th>How we count it</th></tr>
+    <tr><td><b>Builds habitat</b></td><td>Anything that needs a hard surface to grip, or a crevice to hide in. Limpets, top shells, urchins, whelks, the big starfish, blennies, rock goby, conger eel.</td><td><b>&#9679; Structure-dependent.</b> On bare sand there is genuinely nowhere for these to be. Take the structure away and they are not there.</td></tr>
+    <tr><td><b>Attracts visitors</b></td><td>Big, mobile animals with home ranges of hundreds of metres or more. Ballan wrasse, cod, pollack, octopus, eider, seals.</td><td><b>&#9681; Boosted</b> at most. These already live in the surrounding sea. The farm is a feeding stop, not the reason they exist.</td></tr>
+  </table>
+  <p>Building a house versus putting out a bird feeder. We only claim the houses. Four species that a looser reading would have called farm-built &mdash; ballan and cuckoo wrasse, and both octopuses &mdash; are deliberately counted as boosted for exactly this reason.</p>
+
+  <div class="note"><b>Deal table 5 deliberately</b>It is the table that changes least when the farm goes down, and the most important one during the discussion. Put your most talkative or most sceptical group there, because they are the ones who will say "well, hang on, we barely changed" out loud, which is exactly the honesty the session needs.</div>
+
+  <div class="watch"><b>Do not read these pages at the tables</b>They are for you, the night before. A facilitator reciting the correct answer while people are still placing cards kills the activity. Use them to check a finished mat, to answer "why is mine there?", and to keep your nerve when somebody who fishes for a living disagrees with you.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 11</span></div>
+</div>
+
+<!-- ============ MASTER SOLUTION 1 ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 1</span><span class="clock">Group 1</span></div>
+  <p class="lead">Seaweed feeds the grazers, the grazers feed the wrasse, the wrasse feeds the bird. Four clean steps, and the bottom two are built entirely out of animals that need something solid to hold onto.</p>
+
+  <div class="msnums">
+    <div><div class="n">16</div><div class="l">arrows with the farm</div></div>
+    <div><div class="n">5</div><div class="l">arrows on bare reef</div></div>
+    <div><div class="n">4</div><div class="l">cards needing structure</div></div>
+    <div><div class="n">2</div><div class="l">boosted</div></div>
+  </div>
+<!--MAT1-->
+  <div class="sk">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh1" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M455.0 177.2 Q447.5 175.7 440.0 174.1" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<circle cx="448.3" cy="175.8" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="448.3" y="178.2" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">1</text>
+<path d="M495.9 176.5 Q494.6 170.5 493.2 164.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M501.3 176.5 Q544.2 162.2 519.0 124.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M455.0 194.3 Q392.5 206.2 330.0 218.2" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<circle cx="398.8" cy="205.0" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="398.8" y="207.4" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">2</text>
+<path d="M211.0 226.7 Q240.5 225.8 270.0 224.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M466.9 176.5 Q312.6 75.1 128.0 73.2" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<circle cx="321.9" cy="105.4" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="321.9" y="107.8" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">3</text>
+<path d="M163.9 218.5 Q154.3 139.9 104.2 78.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M250.2 69.5 Q270.1 74.2 290.0 78.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<circle cx="268.1" cy="73.7" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="268.1" y="76.1" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">4</text>
+<path d="M187.9 69.5 Q147.3 87.0 106.7 104.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<circle cx="151.4" cy="85.3" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="151.4" y="87.7" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">5</text>
+<path d="M407.1 155.5 Q403.2 139.0 399.4 122.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<circle cx="403.6" cy="140.7" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="403.6" y="143.1" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">6</text>
+<path d="M462.0 137.5 Q444.0 129.5 426.0 121.4" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M496.0 109.6 Q461.0 109.0 426.0 108.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M310.3 211.5 Q347.2 167.0 384.0 122.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M123.0 114.9 Q244.5 111.8 366.0 108.8" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M377.8 95.5 Q345.9 46.9 289.1 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<circle cx="344.1" cy="59.1" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="344.1" y="61.5" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">7</text>
+<path d="M126.0 56.8 Q182.0 42.3 238.0 27.8" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<rect x="169" y="52.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="210" y="62.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="39" y="108.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="80" y="118.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="457" y="178.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="498" y="188.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">KELP</text>
+<rect x="127" y="220.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="168" y="230.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="242" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="245.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="272" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">cormorant</text>
+<rect x="72" y="53.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="75.4" y="61.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="102" y="65.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">thick-lipped</text>
+<text x="102" y="72.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">mullet</text>
+<rect x="294" y="75.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="297.4" y="83.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="324" y="87.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">2-spotted</text>
+<text x="324" y="94.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">goby</text>
+<rect x="370" y="97.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="373.4" y="105.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="400" y="109.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">ballan</text>
+<text x="400" y="116.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">wrasse</text>
+<rect x="464" y="139.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="467.4" y="147.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="494" y="151.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">painted</text>
+<text x="494" y="158.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">top shell</text>
+<rect x="498" y="99.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="501.4" y="107.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="528" y="111.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">edible</text>
+<text x="528" y="118.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sea urchin</text>
+<rect x="274" y="213.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="277.4" y="221.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="304" y="230.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">spider crab</text>
+<rect x="384" y="157.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="387.4" y="165.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="414" y="174.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">limpet</text>
+</svg>
+    <p class="cap">The finished mat for table 1 &mdash; 16 arrows. Numbers key to the list below. Dashed boxes are printed on the A1; solid boxes are the cards.</p>
+  </div>
+
+  <h3>The arrows, and why they exist</h3>
+  <table class="ms keytab">
+    <tr><td class="ky">①</td><td>The three grazers all eat the seaweed itself, or the algal film growing on it.</td></tr>
+    <tr><td class="ky">②</td><td>Browses the weed and scavenges what has fallen. Two arrows in, which is what saves it.</td></tr>
+    <tr><td class="ky">③</td><td>Sieves the organic film off both the weed and the sediment surface.</td></tr>
+    <tr><td class="ky">④</td><td>A planktivore, despite living against the weed.</td></tr>
+    <tr><td class="ky">⑤</td><td>On every mat. The mussels filter plankton, which is why a farm adds no food to the sea.</td></tr>
+    <tr><td class="ky">⑥</td><td>Five arrows into one fish. Its throat teeth crush shell, so almost everything here is on its menu.</td></tr>
+    <tr><td class="ky">⑦</td><td>The bird takes the two biggest fish on the table.</td></tr>
+  </table>
+  <!--/MAT1-->
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 12</span></div>
+</div>
+
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 1</span><span class="clock">Group 1 &middot; the biology</span></div>
+  <h3>Where each card goes, and why</h3>
+  <table class="ms">
+    <tr><th style="width:25%">Card</th><th style="width:19%">Place it</th><th>The reason</th></tr>
+    <tr><td class="who">&#9679; Common limpet</td><td>On the kelp and ropes</td><td>A grazing snail that has to clamp onto something solid and scrape algae off the surface it sits on. Sand offers nothing to clamp to.</td></tr>
+    <tr><td class="who">&#9679; Painted top shell</td><td>On the kelp</td><td>Same job as the limpet, and it climbs the fronds and stipes themselves. A hard-surface grazer with no hard surface has nowhere to be.</td></tr>
+    <tr><td class="who">&#9679; Edible sea urchin</td><td>On the kelp and ropes</td><td>Britain's largest urchin and a heavy kelp grazer. Needs hard ground to hold station on while it feeds.</td></tr>
+    <tr><td class="who">&#9679; Two-spotted goby</td><td>Hovering in the kelp</td><td>The odd one out among gobies: it hangs in midwater beside the weed instead of sitting on the bottom, and eats plankton. The weed is cover, not food &mdash; but no weed, no goby.</td></tr>
+    <tr><td class="who">&#9681; Ballan wrasse</td><td>In the kelp</td><td>Eats the grazers, crushing shells with throat teeth, and raids the mussel ropes. <b>Boosted, not built:</b> adults hold territory over hundreds of metres of rocky ground and live on any nearby reef. The farm concentrates them.</td></tr>
+    <tr><td class="who">&#9681; Spider crab</td><td>Kelp and seabed</td><td>Browses weed and scavenges the bottom. That second food source is why it is on the bare reef at all, when the grazers around it are not.</td></tr>
+    <tr><td class="who">&#9675; Thick-lipped mullet</td><td>Near the surface</td><td>Grazes the film of algae and organic matter off surfaces and sediment. Moves freely between estuaries and open coast.</td></tr>
+    <tr><td class="who">&#9675; Great cormorant</td><td>At the surface</td><td>Dives for fish anywhere along this coast. The farm is one stop on a much larger circuit.</td></tr>
+  </table>
+<!--AFTER1-->
+  <h3>The same mat before the farm goes down, which is where the table starts</h3>
+  <div class="sk mini">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh1" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M455.0 177.2 Q447.5 175.7 440.0 174.1" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M495.9 176.5 Q494.6 170.5 493.2 164.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M501.3 176.5 Q544.2 162.2 519.0 124.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M455.0 194.3 Q392.5 206.2 330.0 218.2" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M211.0 226.7 Q240.5 225.8 270.0 224.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M466.9 176.5 Q312.6 75.1 128.0 73.2" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M163.9 218.5 Q154.3 139.9 104.2 78.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M250.2 69.5 Q270.1 74.2 290.0 78.9" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M187.9 69.5 Q147.3 87.0 106.7 104.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M407.1 155.5 Q403.2 139.0 399.4 122.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M462.0 137.5 Q444.0 129.5 426.0 121.4" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M496.0 109.6 Q461.0 109.0 426.0 108.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M310.3 211.5 Q347.2 167.0 384.0 122.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M123.0 114.9 Q244.5 111.8 366.0 108.8" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M377.8 95.5 Q345.9 46.9 289.1 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<path d="M126.0 56.8 Q182.0 42.3 238.0 27.8" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh1)"/>
+<rect x="169" y="52.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="210" y="62.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="39" y="108.5" width="82" height="15" rx="7" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="80" y="118.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#bbb" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="457" y="178.5" width="82" height="15" rx="7" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="498" y="188.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#bbb" text-anchor="middle">KELP</text>
+<rect x="127" y="220.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="168" y="230.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="242" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="245.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="272" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">cormorant</text>
+<rect x="72" y="53.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="75.4" y="61.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="102" y="65.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">thick-lipped</text>
+<text x="102" y="72.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">mullet</text>
+<rect x="294" y="75.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="297.4" y="83.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="324" y="87.4" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">2-spotted</text>
+<text x="324" y="94.6" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">goby</text>
+<path d="M299 79.5 L341 92.5 M341 79.5 L299 92.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="370" y="97.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="373.4" y="105.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="400" y="109.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">ballan</text>
+<text x="400" y="116.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">wrasse</text>
+<rect x="464" y="139.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="467.4" y="147.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="494" y="151.4" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">painted</text>
+<text x="494" y="158.6" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">top shell</text>
+<path d="M469 143.5 L511 156.5 M511 143.5 L469 156.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="498" y="99.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="501.4" y="107.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="528" y="111.4" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">edible</text>
+<text x="528" y="118.6" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">sea urchin</text>
+<path d="M503 103.5 L545 116.5 M545 103.5 L503 116.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="274" y="213.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="277.4" y="221.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="304" y="230.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">spider crab</text>
+<rect x="384" y="157.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="387.4" y="165.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="414" y="174.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">limpet</text>
+<path d="M389 161.5 L431 174.5 M431 161.5 L389 174.5" stroke="#c4c4c4" stroke-width="1"/>
+</svg>
+    <p class="cap">Group 1 on bare reef, which is what the table builds in phase 3: 5 arrows. Crossed boxes are the species that only arrive once the farm is there, and the faint dashed lines are the 11 extra links that come with it, taking the mat to 16.</p>
+  </div>
+  <!--/AFTER1-->
+
+
+
+  <div class="note"><b>The teaching point</b>Lose the kelp and the ropes and you lose the entire bottom of the chain in one go, because every grazer here needs a hard surface. The wrasse and the cormorant technically survive, but the wrasse has lost four of its five meals. That is why this table drops from sixteen arrows to five while only turning over four cards &mdash; and it is the clearest illustration in the room that habitat matters more than headcount.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 13</span></div>
+</div>
+
+<!-- ============ MASTER SOLUTION 2 ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 2</span><span class="clock">Group 2</span></div>
+  <p class="lead">Six of the eight cards eat the same meal. This is the competition table, and the one where the honest answer is most mixed: three genuinely built, three boosted, two that could not care less.</p>
+
+  <div class="msnums">
+    <div><div class="n">16</div><div class="l">arrows with the farm</div></div>
+    <div><div class="n">7</div><div class="l">arrows on bare reef</div></div>
+    <div><div class="n">3</div><div class="l">cards needing structure</div></div>
+    <div><div class="n">3</div><div class="l">boosted</div></div>
+  </div>
+<!--MAT2-->
+  <div class="sk">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh2" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M150.0 67.5 Q150.0 88.0 150.0 108.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<circle cx="150.0" cy="86.0" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="150.0" y="88.4" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">1</text>
+<path d="M132.1 129.5 Q107.7 142.5 83.3 155.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<circle cx="110.1" cy="141.2" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="110.1" y="143.6" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">2</text>
+<path d="M193.0 117.5 Q224.5 115.6 256.0 113.8" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M167.8 129.5 Q190.3 141.5 212.8 153.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M148.5 129.5 Q145.4 148.5 142.3 167.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M175.5 129.5 Q292.4 149.5 394.0 210.8" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M158.6 110.5 Q192.8 72.5 226.9 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M462.2 71.5 Q453.1 82.5 444.0 93.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<circle cx="454.0" cy="81.4" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="454.0" y="83.8" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">3</text>
+<path d="M193.0 65.6 Q297.5 84.2 402.0 102.7" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M310.6 216.5 Q363.2 169.5 415.8 122.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M257.0 224.6 Q232.5 223.8 208.0 223.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<circle cx="235.0" cy="223.9" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="235.0" y="226.3" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">4</text>
+<path d="M343.0 224.6 Q368.5 223.8 394.0 223.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M404.0 108.8 Q360.0 110.0 316.0 111.2" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<circle cx="364.4" cy="109.9" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="364.4" y="112.3" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">5</text>
+<path d="M206.0 222.0 Q300.0 200.0 394.0 222.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<circle cx="290.6" cy="211.1" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="290.6" y="213.5" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">6</text>
+<path d="M181.8 209.5 Q208.7 122.0 235.5 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<circle cx="206.0" cy="130.8" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="206.0" y="133.2" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">7</text>
+<path d="M71.3 157.5 Q217.5 182.8 222.2 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<rect x="109" y="50.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="150" y="60.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="109" y="112.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="150" y="122.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="429" y="54.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="470" y="64.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">KELP</text>
+<rect x="259" y="218.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="300" y="228.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="214" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="217.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="244" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">eider</text>
+<rect x="260" y="101.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="263.4" y="109.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="290" y="113.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">common</text>
+<text x="290" y="120.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">starfish</text>
+<rect x="214" y="157.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="217.4" y="165.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="244" y="169.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">spiny</text>
+<text x="244" y="176.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">starfish</text>
+<rect x="30" y="159.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="33.4" y="167.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="60" y="176.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">dog whelk</text>
+<rect x="114" y="171.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="117.4" y="179.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="144" y="183.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">velvet</text>
+<text x="144" y="190.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">swim. crab</text>
+<rect x="406" y="97.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="409.4" y="105.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="436" y="114.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">brittlestar</text>
+<rect x="152" y="211.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="155.4" y="219.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="182" y="228.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">shore crab</text>
+<rect x="398" y="211.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="401.4" y="219.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="428" y="228.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">edible crab</text>
+</svg>
+    <p class="cap">The finished mat for table 2 &mdash; 16 arrows. Numbers key to the list below. Dashed boxes are printed on the A1; solid boxes are the cards.</p>
+  </div>
+
+  <h3>The arrows, and why they exist</h3>
+  <table class="ms keytab">
+    <tr><td class="ky">①</td><td>On every mat, and here it is the start of everything: the mussels filter plankton.</td></tr>
+    <tr><td class="ky">②</td><td>Six separate arrows off one food source. This is why a farm concentrates life: a lot of food in a small space.</td></tr>
+    <tr><td class="ky">③</td><td>It filters and deposit-feeds, taking whatever drifts past or settles. Three sources, so it is hard to starve.</td></tr>
+    <tr><td class="ky">④</td><td>Both crabs scavenge the seabed. This is their non-farm food, and it is why they survive.</td></tr>
+    <tr><td class="ky">⑤</td><td>The starfish's other meal. This single arrow is the reason it stays on the table.</td></tr>
+    <tr><td class="ky">⑥</td><td>Bigger crab eats smaller crab. People rarely expect this one.</td></tr>
+    <tr><td class="ky">⑦</td><td>Eider take far more than mussels: crabs and whelks go down whole too.</td></tr>
+  </table>
+  <!--/MAT2-->
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 14</span></div>
+</div>
+
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 2</span><span class="clock">Group 2 &middot; the biology</span></div>
+
+  <h3>Where each card goes, and why</h3>
+  <table class="ms">
+    <tr><th style="width:25%">Card</th><th style="width:19%">Place it</th><th>The reason</th></tr>
+    <tr><td class="who">&#9679; Dog whelk</td><td>On the ropes</td><td>Drills a neat hole through mussel and barnacle shell and rasps the animal out. Needs hard substrate to move over and shellfish to drill.</td></tr>
+    <tr><td class="who">&#9679; Velvet swimming crab</td><td>On the ropes</td><td>A hard-ground crab with paddle-shaped back legs. It lives among rock and structure, and has little use for open sand.</td></tr>
+    <tr><td class="who">&#9679; Spiny starfish</td><td>On the ropes</td><td>Britain's largest starfish and a bivalve specialist, found on rocky and mixed ground. The ropes are a vertical mussel bed.</td></tr>
+    <tr><td class="who">&#9681; Common starfish</td><td>Ropes and seabed</td><td>Also a mussel specialist &mdash; but it occurs naturally right across sediment, and it eats brittlestars too, so it does not vanish. More of them with a farm, not none without.</td></tr>
+    <tr><td class="who">&#9681; Common brittlestar</td><td>On the seabed</td><td>Forms dense natural beds on gravel anyway. Boosted because farm fallout feeds more of them. Three food arrows in, which is why it is the most robust card here.</td></tr>
+    <tr><td class="who">&#9675; Shore crab</td><td>On the seabed</td><td>Britain's commonest crab and a total generalist. Present on every shore, farm or no farm.</td></tr>
+    <tr><td class="who">&#9675; Edible crab</td><td>On the seabed</td><td>Generalist scavenger and predator that also takes smaller crabs. Mobile enough to be here regardless.</td></tr>
+    <tr><td class="who">&#9681; Common eider</td><td>At the surface</td><td>Dives and swallows mussels, whelks and crabs whole. Boosted: eider are on this coast anyway, but a mussel farm is a reliable buffet and they raft up on them.</td></tr>
+  </table>
+<!--AFTER2-->
+  <h3>The same mat before the farm goes down, which is where the table starts</h3>
+  <div class="sk mini">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh2" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M150.0 67.5 Q150.0 88.0 150.0 108.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M132.1 129.5 Q107.7 142.5 83.3 155.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M193.0 117.5 Q224.5 115.6 256.0 113.8" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M167.8 129.5 Q190.3 141.5 212.8 153.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M148.5 129.5 Q145.4 148.5 142.3 167.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M175.5 129.5 Q292.4 149.5 394.0 210.8" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M158.6 110.5 Q192.8 72.5 226.9 34.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M462.2 71.5 Q453.1 82.5 444.0 93.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M193.0 65.6 Q297.5 84.2 402.0 102.7" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M310.6 216.5 Q363.2 169.5 415.8 122.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M257.0 224.6 Q232.5 223.8 208.0 223.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M343.0 224.6 Q368.5 223.8 394.0 223.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M404.0 108.8 Q360.0 110.0 316.0 111.2" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M206.0 222.0 Q300.0 200.0 394.0 222.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M181.8 209.5 Q208.7 122.0 235.5 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh2)"/>
+<path d="M71.3 157.5 Q217.5 182.8 222.2 34.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<rect x="109" y="50.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="150" y="60.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="109" y="112.5" width="82" height="15" rx="7" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="150" y="122.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#bbb" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="429" y="54.5" width="82" height="15" rx="7" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="470" y="64.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#bbb" text-anchor="middle">KELP</text>
+<rect x="259" y="218.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="300" y="228.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="214" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="217.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="244" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">eider</text>
+<rect x="260" y="101.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="263.4" y="109.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="290" y="113.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">common</text>
+<text x="290" y="120.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">starfish</text>
+<rect x="214" y="157.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="217.4" y="165.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="244" y="169.4" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">spiny</text>
+<text x="244" y="176.6" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">starfish</text>
+<path d="M219 161.5 L261 174.5 M261 161.5 L219 174.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="30" y="159.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="33.4" y="167.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="60" y="176.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">dog whelk</text>
+<path d="M35 163.5 L77 176.5 M77 163.5 L35 176.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="114" y="171.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="117.4" y="179.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="144" y="183.4" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">velvet</text>
+<text x="144" y="190.6" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">swim. crab</text>
+<path d="M119 175.5 L161 188.5 M161 175.5 L119 188.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="406" y="97.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="409.4" y="105.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="436" y="114.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">brittlestar</text>
+<rect x="152" y="211.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="155.4" y="219.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="182" y="228.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">shore crab</text>
+<rect x="398" y="211.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="401.4" y="219.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="428" y="228.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">edible crab</text>
+</svg>
+    <p class="cap">Group 2 on bare reef, which is what the table builds in phase 3: 7 arrows. Crossed boxes are the species that only arrive once the farm is there, and the faint dashed lines are the 9 extra links that come with it, taking the mat to 16.</p>
+  </div>
+  <!--/AFTER2-->
+
+
+
+  <div class="note"><b>The teaching point</b>If a table argues the edible crab should be boosted rather than here-anyway, <b>they are right and you should say so</b> &mdash; the research card table 4 reads out says commercial crustaceans do well out of farms. Conceding a point to a table is worth more than defending the pack. The wider lesson: this table barely halves its arrows, because most of its members had a second way to make a living.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 15</span></div>
+</div>
+
+<!-- ============ MASTER SOLUTION 3 ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 3</span><span class="clock">Group 3</span></div>
+  <p class="lead">Plankton to small fish to big fish to a diving bird. The cleanest food chain in the room, and the table where the farm's contribution is a nursery rather than a habitat.</p>
+
+  <div class="msnums">
+    <div><div class="n">18</div><div class="l">arrows with the farm</div></div>
+    <div><div class="n">8</div><div class="l">arrows on bare reef</div></div>
+    <div><div class="n">3</div><div class="l">cards needing structure</div></div>
+    <div><div class="n">2</div><div class="l">boosted</div></div>
+  </div>
+<!--MAT3-->
+  <div class="sk">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh3" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="228" width="556" height="22" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="228" x2="558" y2="228" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="240" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M67.5 130.5 Q96.9 112.5 126.3 94.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<circle cx="94.0" cy="114.3" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="94.0" y="116.7" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">1</text>
+<path d="M95.0 140.0 Q107.5 140.0 120.0 140.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M67.5 149.5 Q96.9 167.5 126.3 185.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M85.3 149.5 Q158.6 170.5 232.0 191.4" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M52.0 149.5 Q52.0 172.0 52.0 194.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<circle cx="52.0" cy="169.8" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="52.0" y="172.2" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">2</text>
+<path d="M178.0 81.0 Q205.0 82.0 232.0 82.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<circle cx="202.3" cy="81.9" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="202.3" y="84.3" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">3</text>
+<path d="M178.0 85.6 Q259.0 101.8 340.0 118.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<circle cx="250.9" cy="100.2" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="250.9" y="102.6" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">4</text>
+<path d="M178.0 138.0 Q259.0 132.1 340.0 126.2" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M178.0 190.3 Q259.0 162.3 340.0 134.4" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M279.8 187.5 Q314.6 163.0 349.4 138.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M173.7 92.5 Q258.1 137.0 342.5 181.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<circle cx="249.7" cy="132.6" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="249.7" y="135.0" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">5</text>
+<path d="M290.0 199.0 Q315.0 198.0 340.0 197.1" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M274.1 96.5 Q315.0 139.0 356.0 181.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M178.0 74.9 Q309.0 51.2 440.0 27.4" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<circle cx="295.9" cy="53.6" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="295.9" y="56.0" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">6</text>
+<path d="M178.0 129.7 Q316.6 102.0 440.0 33.1" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M172.5 187.5 Q308.2 112.0 443.9 36.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M382.3 111.5 Q419.0 74.0 455.8 36.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M276.6 187.5 Q341.4 84.6 453.1 36.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<rect x="11" y="132.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="52" y="142.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="11" y="198.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="52" y="208.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="444" y="11.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="447.4" y="19.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="474" y="28.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">shag</text>
+<rect x="344" y="113.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="347.4" y="121.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="374" y="130.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">pollack</text>
+<rect x="344" y="185.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="347.4" y="193.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="374" y="202.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">Atlantic cod</text>
+<rect x="236" y="73.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="239.4" y="81.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="266" y="90.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">bib</text>
+<rect x="124" y="69.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="127.4" y="77.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="154" y="86.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sprat</text>
+<rect x="124" y="129.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="127.4" y="137.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="154" y="146.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sand smelt</text>
+<rect x="124" y="189.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="127.4" y="197.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="154" y="201.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">15-spined</text>
+<text x="154" y="208.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">stickleback</text>
+<rect x="236" y="189.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="239.4" y="197.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="266" y="206.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">poor cod</text>
+</svg>
+    <p class="cap">The finished mat for table 3 &mdash; 18 arrows. Numbers key to the list below. Dashed boxes are printed on the A1; solid boxes are the cards.</p>
+  </div>
+
+  <h3>The arrows, and why they exist</h3>
+  <table class="ms keytab">
+    <tr><td class="ky">①</td><td>Four planktivores feeding off the base of the chain. None of this depends on the farm.</td></tr>
+    <tr><td class="ky">②</td><td>On every mat. Here it makes the point that the mussels compete with the sprat for the same plankton.</td></tr>
+    <tr><td class="ky">③</td><td>Bib take small fish as well as crustaceans.</td></tr>
+    <tr><td class="ky">④</td><td>Four arrows into the pollack. It is the mid-water generalist and takes anything small enough.</td></tr>
+    <tr><td class="ky">⑤</td><td>Cod eat other gadoids quite happily, including their own smaller relatives.</td></tr>
+    <tr><td class="ky">⑥</td><td>Five arrows into the bird, including a full-grown pollack. This is how much a top predator leans on everything beneath it.</td></tr>
+  </table>
+  <!--/MAT3-->
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 16</span></div>
+</div>
+
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 3</span><span class="clock">Group 3 &middot; the biology</span></div>
+
+  <h3>Where each card goes, and why</h3>
+  <table class="ms">
+    <tr><th style="width:25%">Card</th><th style="width:19%">Place it</th><th>The reason</th></tr>
+    <tr><td class="who">&#9675; Sprat</td><td>Open water</td><td>Filters plankton in big shoals and drifts through. A farm does not make plankton, so the sprat neither needs it nor avoids it.</td></tr>
+    <tr><td class="who">&#9675; Sand smelt</td><td>Near the surface</td><td>Same story &mdash; a slender open-water planktivore that shoals near the top.</td></tr>
+    <tr><td class="who">&#9679; Fifteen-spined stickleback</td><td>In the kelp</td><td>Hovers almost motionless among fronds, so well camouflaged it is nearly invisible. Totally weed-dependent, and a poor swimmer in open water.</td></tr>
+    <tr><td class="who">&#9679; Poor cod</td><td>Around the ropes</td><td>A small gadoid that shoals tight to structure. See the caution below &mdash; this is one of the two least certain calls in the pack.</td></tr>
+    <tr><td class="who">&#9679; Bib</td><td>Around the ropes</td><td>Same again: bib famously pack around wrecks, piers and any structure. Its young settle onto exactly this kind of habitat.</td></tr>
+    <tr><td class="who">&#9681; Pollack</td><td>Midwater by the ropes</td><td>A mid-water hunter that comes in to work the shoal. Textbook attraction &mdash; it lives in the wider sea and visits to feed.</td></tr>
+    <tr><td class="who">&#9681; Atlantic cod</td><td>Around the ropes</td><td>Same: a big mobile predator drawn in by the concentration of prey, not created by it.</td></tr>
+    <tr><td class="who">&#9675; European shag</td><td>At the surface</td><td>Dives for 20 to 40 seconds after small fish, anywhere on a rocky coast.</td></tr>
+  </table>
+
+
+  <div class="watch"><b>Poor cod and bib are the weakest structure-dependent calls in the pack &mdash; know this before someone tells you</b>Both are mobile shoaling fish. An adult could perfectly well pass over open sand, so calling them structure-dependent is a stronger claim here than it is for a limpet. They are marked that way because their <i>young</i> specifically settle onto structure, which is exactly what the nursery evidence card measures. If a biologist or a fisherman challenges it, concede straight away: say you would accept boosted, that the honest answer is somewhere between, and that this is precisely the thing PEBL is putting cameras on farms to settle.</div>
+<!--AFTER3-->
+  <h3>The same mat before the farm goes down, which is where the table starts</h3>
+  <div class="sk mini">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh3" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="228" width="556" height="22" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="228" x2="558" y2="228" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="240" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M67.5 130.5 Q96.9 112.5 126.3 94.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M95.0 140.0 Q107.5 140.0 120.0 140.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M67.5 149.5 Q96.9 167.5 126.3 185.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M85.3 149.5 Q158.6 170.5 232.0 191.4" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M52.0 149.5 Q52.0 172.0 52.0 194.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M178.0 81.0 Q205.0 82.0 232.0 82.9" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M178.0 85.6 Q259.0 101.8 340.0 118.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M178.0 138.0 Q259.0 132.1 340.0 126.2" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M178.0 190.3 Q259.0 162.3 340.0 134.4" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M279.8 187.5 Q314.6 163.0 349.4 138.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M173.7 92.5 Q258.1 137.0 342.5 181.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M290.0 199.0 Q315.0 198.0 340.0 197.1" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M274.1 96.5 Q315.0 139.0 356.0 181.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M178.0 74.9 Q309.0 51.2 440.0 27.4" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M178.0 129.7 Q316.6 102.0 440.0 33.1" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M172.5 187.5 Q308.2 112.0 443.9 36.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M382.3 111.5 Q419.0 74.0 455.8 36.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh3)"/>
+<path d="M276.6 187.5 Q341.4 84.6 453.1 36.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<rect x="11" y="132.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="52" y="142.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="11" y="198.5" width="82" height="15" rx="7" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="52" y="208.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#bbb" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="444" y="11.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="447.4" y="19.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="474" y="28.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">shag</text>
+<rect x="344" y="113.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="347.4" y="121.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="374" y="130.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">pollack</text>
+<rect x="344" y="185.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="347.4" y="193.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="374" y="202.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">Atlantic cod</text>
+<rect x="236" y="73.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="239.4" y="81.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="266" y="90.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">bib</text>
+<path d="M241 77.5 L283 90.5 M283 77.5 L241 90.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="124" y="69.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="127.4" y="77.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="154" y="86.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sprat</text>
+<rect x="124" y="129.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="127.4" y="137.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="154" y="146.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sand smelt</text>
+<rect x="124" y="189.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="127.4" y="197.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="154" y="201.4" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">15-spined</text>
+<text x="154" y="208.6" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">stickleback</text>
+<path d="M129 193.5 L171 206.5 M171 193.5 L129 206.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="236" y="189.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="239.4" y="197.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="266" y="206.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">poor cod</text>
+<path d="M241 193.5 L283 206.5 M283 193.5 L241 206.5" stroke="#c4c4c4" stroke-width="1"/>
+</svg>
+    <p class="cap">Group 3 on bare reef, which is what the table builds in phase 3: 8 arrows. Crossed boxes are the species that only arrive once the farm is there, and the faint dashed lines are the 10 extra links that come with it, taking the mat to 18.</p>
+  </div>
+  <!--/AFTER3-->
+
+
+  <div class="note"><b>The teaching point</b>Nothing the farm does creates the plankton, so the base of this chain is untouched. What the farm adds is shelter for small fish to grow up in, and a reason for big fish to visit. Say that plainly: <i>"the farm didn't make the food here, it made somewhere to hide while you are small enough to be eaten."</i></div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 17</span></div>
+</div>
+
+<!-- ============ MASTER SOLUTION 4 ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 4</span><span class="clock">Group 4</span></div>
+  <p class="lead">What falls off the farm rains down and feeds the bottom, and the anchor blocks give something big a place to live. This table is about cover, not food.</p>
+
+  <div class="msnums">
+    <div><div class="n">17</div><div class="l">arrows with the farm</div></div>
+    <div><div class="n">5</div><div class="l">arrows on bare reef</div></div>
+    <div><div class="n">4</div><div class="l">cards needing structure</div></div>
+    <div><div class="n">1</div><div class="l">boosted</div></div>
+  </div>
+<!--MAT4-->
+  <div class="sk">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh4" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M207.0 217.0 Q143.0 226.2 88.0 192.3" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<circle cx="151.2" cy="216.5" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="151.2" y="218.9" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">1</text>
+<path d="M226.3 216.5 Q203.1 207.3 180.0 198.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M247.6 216.5 Q245.6 208.5 243.6 200.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M269.5 216.5 Q285.9 208.5 302.3 200.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M58.0 109.5 Q58.0 140.5 58.0 171.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<circle cx="58.0" cy="137.4" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="58.0" y="139.8" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">2</text>
+<path d="M80.8 90.5 Q115.6 76.0 150.4 61.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<circle cx="112.1" cy="77.5" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="112.1" y="79.9" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">3</text>
+<path d="M170.0 59.5 Q149.1 84.5 128.1 109.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<circle cx="151.2" cy="82.0" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="151.2" y="84.4" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">4</text>
+<path d="M304.0 178.0 Q225.0 155.3 146.0 132.6" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<circle cx="232.9" cy="157.6" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="232.9" y="160.0" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">5</text>
+<path d="M360.0 177.0 Q387.0 168.3 414.0 159.6" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M169.0 173.5 Q195.5 156.0 222.0 138.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<circle cx="192.8" cy="157.8" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="192.8" y="160.2" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">6</text>
+<path d="M240.8 173.5 Q241.9 156.0 243.1 138.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M86.0 176.7 Q150.0 155.3 214.0 134.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M144.0 124.0 Q179.0 124.0 214.0 124.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M416.0 146.4 Q345.0 137.1 274.0 127.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M250.7 111.5 Q271.5 73.0 292.2 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<circle cx="269.4" cy="76.9" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="269.4" y="79.3" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">7</text>
+<path d="M430.2 137.5 Q373.1 86.0 316.1 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M138.1 111.5 Q206.2 73.0 274.3 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<rect x="17" y="92.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="58" y="102.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="137" y="42.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="178" y="52.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="209" y="218.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="250" y="228.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="274" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="277.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="304" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">grey seal</text>
+<rect x="90" y="113.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="93.4" y="121.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="120" y="125.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">common</text>
+<text x="120" y="132.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">octopus</text>
+<rect x="218" y="113.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="221.4" y="121.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="248" y="130.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">conger eel</text>
+<rect x="418" y="139.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="421.4" y="147.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="448" y="156.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">catshark</text>
+<rect x="32" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="35.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="62" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">rock goby</text>
+<rect x="124" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="127.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="154" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">butterfish</text>
+<rect x="214" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="217.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="244" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">shanny</text>
+<rect x="306" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="309.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="336" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">hermit crab</text>
+</svg>
+    <p class="cap">The finished mat for table 4 &mdash; 17 arrows. Numbers key to the list below. Dashed boxes are printed on the A1; solid boxes are the cards.</p>
+  </div>
+
+  <h3>The arrows, and why they exist</h3>
+  <table class="ms keytab">
+    <tr><td class="ky">①</td><td>The rain-down from the farm (mussel waste, dropped shell, shredded weed) feeds the whole bottom layer.</td></tr>
+    <tr><td class="ky">②</td><td>It takes drifting food as well as picking the bottom, so it has two arrows in.</td></tr>
+    <tr><td class="ky">③</td><td>On every mat. The only arrow here with nothing to do with the seabed.</td></tr>
+    <tr><td class="ky">④</td><td>Octopus raid the ropes and open shellfish with a strong beak.</td></tr>
+    <tr><td class="ky">⑤</td><td>Both are crab specialists. The borrowed shell is no defence against a beak.</td></tr>
+    <tr><td class="ky">⑥</td><td>Five arrows into the conger. It ambushes anything passing the mouth of its hole, including a small shark.</td></tr>
+    <tr><td class="ky">⑦</td><td>Seals take the three biggest animals on the table.</td></tr>
+  </table>
+  <!--/MAT4-->
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 18</span></div>
+</div>
+
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 4</span><span class="clock">Group 4 &middot; the biology</span></div>
+
+  <h3>Where each card goes, and why</h3>
+  <table class="ms">
+    <tr><th style="width:25%">Card</th><th style="width:19%">Place it</th><th>The reason</th></tr>
+    <tr><td class="who">&#9675; Hermit crab</td><td>On the seabed</td><td>Scavenges detritus while wearing a borrowed whelk shell. A sand and mixed-ground native, entirely at home without a farm.</td></tr>
+    <tr><td class="who">&#9679; Butterfish</td><td>Seabed, under cover</td><td>A ribbon-shaped fish that lives wedged under stones and among dropped shell. Its home range is measured in metres.</td></tr>
+    <tr><td class="who">&#9679; Shanny</td><td>Seabed, in crevices</td><td>A blenny that darts in and out of holes. Bare sediment gives it nothing to dart into.</td></tr>
+    <tr><td class="who">&#9679; Rock goby</td><td>Seabed, on hard surfaces</td><td>Its pelvic fins are fused into a sucker for gripping rock. The clue is in the name &mdash; a sucker is no use on sand.</td></tr>
+    <tr><td class="who">&#9681; Common octopus</td><td>Seabed, in a den</td><td>It does need a den, and the farm's structure and dropped shell supply plenty. <b>Boosted, not built:</b> octopus are mobile and will happily den in debris or a burrow on open ground.</td></tr>
+    <tr><td class="who">&#9679; Conger eel</td><td>In the anchor blocks</td><td>An obligate hole-dweller &mdash; it needs a hole big enough to reverse into and hold. Worth knowing: that hole is the <i>mooring gear</i>, not the crop, so a conger's den outlives the harvest.</td></tr>
+    <tr><td class="who">&#9675; Lesser-spotted catshark</td><td>On the seabed</td><td>A sandy-ground shark that curls up on open bottom quite contentedly. No structure required.</td></tr>
+    <tr><td class="who">&#9675; Grey seal</td><td>At the surface</td><td>Ranges tens of kilometres between haul-outs. The farm is a snack stop.</td></tr>
+  </table>
+<!--AFTER4-->
+  <h3>The same mat before the farm goes down, which is where the table starts</h3>
+  <div class="sk mini">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh4" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M207.0 217.0 Q143.0 226.2 88.0 192.3" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M226.3 216.5 Q203.1 207.3 180.0 198.0" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M247.6 216.5 Q245.6 208.5 243.6 200.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M269.5 216.5 Q285.9 208.5 302.3 200.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M58.0 109.5 Q58.0 140.5 58.0 171.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M80.8 90.5 Q115.6 76.0 150.4 61.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M170.0 59.5 Q149.1 84.5 128.1 109.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M304.0 178.0 Q225.0 155.3 146.0 132.6" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M360.0 177.0 Q387.0 168.3 414.0 159.6" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M169.0 173.5 Q195.5 156.0 222.0 138.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M240.8 173.5 Q241.9 156.0 243.1 138.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M86.0 176.7 Q150.0 155.3 214.0 134.0" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M144.0 124.0 Q179.0 124.0 214.0 124.0" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M416.0 146.4 Q345.0 137.1 274.0 127.9" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M250.7 111.5 Q271.5 73.0 292.2 34.5" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M430.2 137.5 Q373.1 86.0 316.1 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<path d="M138.1 111.5 Q206.2 73.0 274.3 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh4)"/>
+<rect x="17" y="92.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="58" y="102.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="137" y="42.5" width="82" height="15" rx="7" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="178" y="52.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#bbb" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="209" y="218.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="250" y="228.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="274" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="277.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="304" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">grey seal</text>
+<rect x="90" y="113.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="93.4" y="121.1" font-family="Helvetica" font-size="7.4" fill="#000">◑</text>
+<text x="120" y="125.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">common</text>
+<text x="120" y="132.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">octopus</text>
+<rect x="218" y="113.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="221.4" y="121.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="248" y="130.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">conger eel</text>
+<path d="M223 117.5 L265 130.5 M265 117.5 L223 130.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="418" y="139.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="421.4" y="147.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="448" y="156.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">catshark</text>
+<rect x="32" y="175.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="35.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="62" y="192.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">rock goby</text>
+<path d="M37 179.5 L79 192.5 M79 179.5 L37 192.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="124" y="175.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="127.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="154" y="192.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">butterfish</text>
+<path d="M129 179.5 L171 192.5 M171 179.5 L129 192.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="214" y="175.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="217.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="244" y="192.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">shanny</text>
+<path d="M219 179.5 L261 192.5 M261 179.5 L219 192.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="306" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="309.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="336" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">hermit crab</text>
+</svg>
+    <p class="cap">Group 4 on bare reef, which is what the table builds in phase 3: 5 arrows. Crossed boxes are the species that only arrive once the farm is there, and the faint dashed lines are the 12 extra links that come with it, taking the mat to 17.</p>
+  </div>
+  <!--/AFTER4-->
+
+
+
+  <div class="note"><b>The teaching point</b>The seabed already had detritus before anyone put a farm above it. What it did not have was anywhere to hide, and three of the four cards that need the structure are small fish wanting a crevice. This is the group that makes the abstract point concrete: <i>habitat is not food</i>. If someone says "surely the seabed was fine before", agree &mdash; it was fed. It just had no cover.</div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 19</span></div>
+</div>
+
+<!-- ============ MASTER SOLUTION 5 ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 5</span><span class="clock">Group 5</span></div>
+  <p class="lead">The control table. This is roughly what the seabed looks like anyway, and it is the single most important deck in the room for your credibility.</p>
+
+  <div class="msnums">
+    <div><div class="n">11</div><div class="l">arrows with the farm</div></div>
+    <div><div class="n">9</div><div class="l">arrows on bare reef</div></div>
+    <div><div class="n">1</div><div class="l">cards needing structure</div></div>
+    <div><div class="n">1</div><div class="l">does better</div></div>
+  </div>
+<!--MAT5-->
+  <div class="sk">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh5" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M162.8 216.5 Q124.4 205.5 86.0 194.6" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<circle cx="128.2" cy="206.6" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="128.2" y="209.0" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">1</text>
+<path d="M184.6 216.5 Q175.0 208.5 165.4 200.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M208.3 216.5 Q218.8 208.5 229.2 200.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M233.1 216.5 Q277.5 205.1 322.0 193.7" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M423.8 75.5 Q392.6 123.5 361.4 171.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<circle cx="395.7" cy="118.7" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="395.7" y="121.1" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">2</text>
+<path d="M387.0 66.0 Q371.0 66.0 355.0 66.0" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<circle cx="372.6" cy="66.0" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="372.6" y="68.4" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">3</text>
+<path d="M68.1 173.5 Q86.0 155.0 104.0 136.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<circle cx="84.2" cy="156.9" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="84.2" y="159.3" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">4</text>
+<path d="M142.1 173.5 Q133.5 155.0 124.8 136.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M84.0 175.8 Q143.0 154.4 202.0 132.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<circle cx="137.1" cy="156.5" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="137.1" y="158.9" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">5</text>
+<path d="M380.0 175.9 Q398.0 169.4 416.0 162.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<circle cx="396.2" cy="170.0" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="396.2" y="172.4" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">6</text>
+<path d="M240.3 109.5 Q247.0 59.8 290.3 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<circle cx="253.8" cy="69.7" r="5.6" fill="#fff" stroke="#000" stroke-width="1"/>
+<text x="253.8" y="72.1" font-family="Helvetica" font-size="7" font-weight="bold" fill="#000" text-anchor="middle">7</text>
+<rect x="389" y="58.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="430" y="68.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="269" y="58.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="310" y="68.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="155" y="218.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="196" y="228.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="274" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="277.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="304" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">harbour seal</text>
+<rect x="92" y="111.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="95.4" y="119.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="122" y="128.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">plaice</text>
+<rect x="206" y="111.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="209.4" y="119.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="236" y="128.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">flounder</text>
+<rect x="420" y="141.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="423.4" y="149.1" font-family="Helvetica" font-size="7.4" fill="#000">●</text>
+<text x="450" y="158.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sea scorpion</text>
+<rect x="30" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="33.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">✦</text>
+<text x="60" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sea potato</text>
+<rect x="122" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="125.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="152" y="187.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">purple</text>
+<text x="152" y="194.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">heart urchin</text>
+<rect x="222" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="225.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="252" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">dragonet</text>
+<rect x="326" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="329.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="356" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sand goby</text>
+</svg>
+    <p class="cap">The finished mat for table 5 &mdash; 11 arrows. Numbers key to the list below. Dashed boxes are printed on the A1; solid boxes are the cards.</p>
+  </div>
+
+  <h3>The arrows, and why they exist</h3>
+  <table class="ms keytab">
+    <tr><td class="ky">①</td><td>Four cards feeding off the seabed directly. Note this food source is not farm-dependent, because sand always has organic matter in it.</td></tr>
+    <tr><td class="ky">②</td><td>It takes drifting food too, giving it a second arrow.</td></tr>
+    <tr><td class="ky">③</td><td>On every mat. One of only two arrows on this mat that the farm adds, along with the sea scorpion&rsquo;s.</td></tr>
+    <tr><td class="ky">④</td><td>Plaice crunch buried urchins, one of the few things that eats a sea potato.</td></tr>
+    <tr><td class="ky">⑤</td><td>Same again for the flounder.</td></tr>
+    <tr><td class="ky">⑥</td><td>The ambush predator&rsquo;s meal, and the only card-to-card arrow the farm adds here.</td></tr>
+    <tr><td class="ky">⑦</td><td>Harbour seals work sandy ground and take flatfish.</td></tr>
+  </table>
+  <!--/MAT5-->
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 20</span></div>
+</div>
+
+<div class="page">
+  <div class="hdr"><span class="step">Master solution &middot; Group 5</span><span class="clock">Group 5 &middot; the biology</span></div>
+
+  <h3>Where each card goes, and why</h3>
+  <table class="ms">
+    <tr><th style="width:25%">Card</th><th style="width:19%">Place it</th><th>The reason</th></tr>
+    <tr><td class="who">&#10022; Sea potato</td><td>Buried in clean sand</td><td>A heart urchin living 10 to 20cm down, sieving organic matter from clean, well-sorted sand. Heavy fallout from a farm clogs and enriches that sediment, which suits it <i>worse</i>. The one card that does better with no farm.</td></tr>
+    <tr><td class="who">&#9675; Purple heart urchin</td><td>Just under the sand</td><td>Same feeding guild as the sea potato but tolerant of coarser, gravellier ground, so the enrichment bothers it far less. Roughly unchanged either way.</td></tr>
+    <tr><td class="who">&#9675; Dragonet</td><td>On the sand</td><td>Picks worms, small crustaceans and brittlestars off the surface. A sand specialist by trade.</td></tr>
+    <tr><td class="who">&#9675; Sand goby</td><td>On the sand</td><td>Near-transparent and vanishes against sediment. Its camouflage only works on sand, so sand is where it stays.</td></tr>
+    <tr><td class="who">&#9679; Long-spined sea scorpion</td><td>On hard cover</td><td>The exception on this table: an ambush predator whose camouflage matches <i>rock</i>, not sand. It needs hard structure to sit against, so the farm is what puts it here.</td></tr>
+    <tr><td class="who">&#9675; Plaice</td><td>On the sand</td><td>A flatfish that eats buried urchins and brittlestars. It belongs on clean sediment.</td></tr>
+    <tr><td class="who">&#9675; Flounder</td><td>On the sand</td><td>Another flatfish, and unusually tolerant of fresh water, so it works estuaries too.</td></tr>
+    <tr><td class="who">&#9675; Harbour seal</td><td>At the surface</td><td>Mobile, and more of an estuary and sandbank animal than the grey seal.</td></tr>
+  </table>
+<!--AFTER5-->
+  <h3>The same mat before the farm goes down, which is where the table starts</h3>
+  <div class="sk mini">
+<svg viewBox="0 0 560 252" width="100%">
+<defs><marker id="mh5" markerWidth="6.5" markerHeight="6.5" refX="5.6" refY="2.6" orient="auto"><path d="M0 0 L6 2.6 L0 5.2 z" fill="#000"/></marker></defs>
+<rect x="2" y="2" width="556" height="248" rx="5" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<rect x="2" y="196" width="556" height="54" fill="#ececec"/>
+<line x1="2" y1="44" x2="558" y2="44" stroke="#aaa" stroke-width="1"/>
+<line x1="2" y1="196" x2="558" y2="196" stroke="#aaa" stroke-width="1"/>
+<text x="8" y="15" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">surface</text>
+<text x="8" y="208" font-family="Helvetica" font-size="7.5" fill="#888" font-style="italic">seabed</text>
+<path d="M162.8 216.5 Q124.4 205.5 86.0 194.6" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M184.6 216.5 Q175.0 208.5 165.4 200.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M208.3 216.5 Q218.8 208.5 229.2 200.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M233.1 216.5 Q277.5 205.1 322.0 193.7" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M423.8 75.5 Q392.6 123.5 361.4 171.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M387.0 66.0 Q371.0 66.0 355.0 66.0" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M68.1 173.5 Q86.0 155.0 104.0 136.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M142.1 173.5 Q133.5 155.0 124.8 136.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M84.0 175.8 Q143.0 154.4 202.0 132.9" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<path d="M380.0 175.9 Q398.0 169.4 416.0 162.9" fill="none" stroke="#c0c0c0" stroke-width="0.9" stroke-dasharray="3 2.5"/>
+<path d="M240.3 109.5 Q247.0 59.8 290.3 34.5" fill="none" stroke="#000" stroke-width="1.1" marker-end="url(#mh5)"/>
+<rect x="389" y="58.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="430" y="68.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">PLANKTON</text>
+<rect x="269" y="58.5" width="82" height="15" rx="7" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="310" y="68.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#bbb" text-anchor="middle">FARMED MUSSELS</text>
+<rect x="155" y="218.5" width="82" height="15" rx="7" fill="#e2e2e2" stroke="#000" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="196" y="228.6" font-family="Helvetica" font-size="6.2" font-weight="bold" fill="#000" text-anchor="middle">DETRITUS ON SEABED</text>
+<rect x="274" y="9.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="277.4" y="17.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="304" y="26.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">harbour seal</text>
+<rect x="92" y="111.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="95.4" y="119.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="122" y="128.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">plaice</text>
+<rect x="206" y="111.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="209.4" y="119.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="236" y="128.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">flounder</text>
+<rect x="420" y="141.5" width="52" height="21" rx="2.5" fill="#f4f4f4" stroke="#c4c4c4" stroke-width="1.2"/>
+<text x="423.4" y="149.1" font-family="Helvetica" font-size="7.4" fill="#bbb">●</text>
+<text x="450" y="158.2" font-family="Helvetica" font-size="6.6" fill="#bbb" text-anchor="middle">sea scorpion</text>
+<path d="M425 145.5 L467 158.5 M467 145.5 L425 158.5" stroke="#c4c4c4" stroke-width="1"/>
+<rect x="30" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="33.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">✦</text>
+<text x="60" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sea potato</text>
+<rect x="122" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="125.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="152" y="187.4" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">purple</text>
+<text x="152" y="194.6" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">heart urchin</text>
+<rect x="222" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="225.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="252" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">dragonet</text>
+<rect x="326" y="175.5" width="52" height="21" rx="2.5" fill="#fff" stroke="#000" stroke-width="1.2"/>
+<text x="329.4" y="183.1" font-family="Helvetica" font-size="7.4" fill="#000">○</text>
+<text x="356" y="192.2" font-family="Helvetica" font-size="6.6" fill="#000" text-anchor="middle">sand goby</text>
+</svg>
+    <p class="cap">Group 5 on bare reef, which is what the table builds in phase 3: 9 arrows. Crossed boxes are the species that only arrive once the farm is there, and the faint dashed lines are the 2 extra links that come with it, taking the mat to 11.</p>
+  </div>
+  <!--/AFTER5-->
+
+
+
+  <div class="note"><b>The teaching point, and why this table is the most valuable one you have</b>Eleven arrows down to nine. Almost nothing happens, and one animal is actively better off. Do not soften that &mdash; lead with it. A session made only of tables 1 and 4 would be a sales pitch; table 5 is what makes the other four believable. When the sea potato is held up, the sentence to reach for is: <i>"a farm is not free. It changes the seabed underneath it, and that suits some things less. We would rather tell you that than have you find out."</i></div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 21</span></div>
+</div>
+
+<!-- ============ CLOSE + TROUBLESHOOT ============ -->
+<div class="page">
+  <div class="hdr"><span class="step">Step 7 &middot; Close</span><span class="clock">50 to 55 min</span></div>
+
+  <div class="say"><b>Say roughly this</b>"Keep your card. The code on the back opens the footage our cameras are collecting on real farms. If you want to know what actually lives on one, you can sit at home and help us identify it. That is not a gimmick, we genuinely use the identifications."</div>
+  <p>Leave five minutes of slack at the end. You will use it. The best conversations of the hour happen after you have officially finished, usually with the person who said the least.</p>
+
+  <h3>If it goes wrong</h3>
+  <table>
+    <tr><th style="width:34%">Problem</th><th>What to do</th></tr>
+    <tr><td>Only 12 people come</td><td>Run tables 1, 4 and 5 only. That keeps the structure-dependent group, the seabed group and the sceptic group. The comparison still works.</td></tr>
+    <tr><td>50 people come</td><td>Deal the spare deck as a sixth table and pair people on cards. Do not add a facilitator job you do not have.</td></tr>
+    <tr><td>No power or wifi</td><td>Clips are already downloaded on the laptop. If the laptop dies, use the printed stills and describe the footage. The activity does not depend on the screen.</td></tr>
+    <tr><td>Running 10 minutes late</td><td>Cut step 5 to three minutes and take questions in the slack. Never cut step 4.</td></tr>
+    <tr><td>A table finishes very early</td><td>"Find the longest food chain on your mat." Then, "which of you could not have been here before the farm went in? Mark them, then argue it out."</td></tr>
+    <tr><td>Someone dominates</td><td>"Let me get a couple of other views and come back to you." Then actually come back to them.</td></tr>
+    <tr><td>Nobody talks at all</td><td>Go table by table rather than asking the open room. Ask the table, not an individual.</td></tr>
+  </table>
+
+  <h3>Afterwards, five minutes while you pack up</h3>
+  <ul class="chk">
+    <li>Photograph one completed mat before wiping it</li>
+    <li>Note the two questions you could not answer well</li>
+    <li>Rough headcount and how many cards went home</li>
+    <li>Wipe mats before the pens set</li>
+  </ul>
+
+  <div class="note"><b>The measure of success</b>Not how many people came. Whether the most sceptical person in the room left still talking to you. If a local fisherman filled in the costs column and stayed behind to argue about siting, that was a good workshop.</div>
+
+  <div style="margin-top:16pt;border-top:2pt solid #000;padding-top:8pt">
+    <p style="margin:0;font-size:9pt;color:#555">Plant Ecology Beyond Land (PEBL) CIC &middot; company number 12076622 &middot; www.pebl-cic.co.uk &middot; hello@pebl-cic.co.uk<br>Species, diets and farm impact generated from the FishSpotter catalogue and the PEBL farm food web. A teaching schematic, not a quantified survey.</p>
+  </div>
+
+  <div class="foot"><span>Who lives on a seaweed farm? &middot; Facilitator guide</span><span>Page 22</span></div>
+</div>

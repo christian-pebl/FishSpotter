@@ -89,7 +89,7 @@ export async function GET(
   });
 
   // Batch-only: buckets are populated by scripts/backfill-probability.ts.
-  // A request that misses the cache surfaces as INSUFFICIENT_DATA — the user
+  // A request that misses the cache surfaces as INSUFFICIENT_DATA, the user
   // sees the same fallback copy and we avoid a fire-and-forget fetch that
   // serverless function termination would kill mid-write.
   if (!cached) {

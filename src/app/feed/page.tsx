@@ -41,7 +41,7 @@ const ANON_SEED_COOKIE = "fs.anon_seed";
 export default async function FeedPage() {
   // S8-T1: fetch snippets, session, AND the signed-in user's answered
   // snippet IDs in parallel. The third query is a no-op when the user
-  // isn't signed in. createdAt-desc is the underlying order — orderFeed
+  // isn't signed in. createdAt-desc is the underlying order, orderFeed
   // shuffles on top of that, so any future tie-break (within the same
   // shuffle bucket) is stable on insert order.
   //
@@ -106,7 +106,7 @@ export default async function FeedPage() {
   // toward easy, clear clips; readiness rises with clips answered, mixing
   // in harder/more cryptic ones (src/lib/difficulty.ts). Anonymous visitors
   // have no answer history to draw on, so they always start at readiness 0
-  // — a reasonable default since a signed-out visitor is, by definition,
+  //, a reasonable default since a signed-out visitor is, by definition,
   // new to this browser's session.
   const readiness = readinessFromAnsweredCount(answeredIds.size);
   const snippetsWithDifficulty = snippets.map((s) => ({
@@ -154,7 +154,7 @@ export default async function FeedPage() {
     needsTour = !!user && user.onboardedAt === null;
     // T5: nudge brand-new users to verify (they land here straight after signup
     // with no "check your inbox" confirmation). Guests have only a placeholder
-    // email, so they're never nagged to verify it — they claim a real one via
+    // email, so they're never nagged to verify it, they claim a real one via
     // the guest-save prompt instead.
     unverified = !!user && !user.isGuest && !user.emailVerified;
   }

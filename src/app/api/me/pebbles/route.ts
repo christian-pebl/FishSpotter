@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 // The signed-in user's Pebble total: what the header's Pebble bag shows on
 // load. With the shop retired (20 Jul 2026) there is no spend, so the one
-// number is lifetime EARNED (sum of Answer.points) — the same total that
+// number is lifetime EARNED (sum of Answer.points), the same total that
 // ranks the leaderboard and fills the prize progress bar. Private, never
 // cached. `total` is the canonical field; `earned` is kept as an alias for
 // any older client.

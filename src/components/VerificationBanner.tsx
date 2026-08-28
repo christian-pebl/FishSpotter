@@ -27,7 +27,7 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
     try {
       setDismissed(window.sessionStorage.getItem(DISMISS_KEY) === "1");
     } catch {
-      // sessionStorage unavailable (private mode quota) — leave dismissed=false.
+      // sessionStorage unavailable (private mode quota), leave dismissed=false.
     }
   }, []);
 
@@ -37,7 +37,7 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
     try {
       window.sessionStorage.setItem(DISMISS_KEY, "1");
     } catch {
-      // sessionStorage unavailable (private mode quota) — dismiss for this view only.
+      // sessionStorage unavailable (private mode quota), dismiss for this view only.
     }
     setDismissed(true);
   };
@@ -80,7 +80,7 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
                 : status === "rate-limited"
                   ? "Try again later"
                   : status === "error"
-                    ? "Could not send — retry"
+                    ? "Could not send. Retry"
                     : "Resend email"}
           </button>
         </div>

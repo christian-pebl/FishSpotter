@@ -2,7 +2,7 @@
  * Client-side species search index for the "Skip to guess" typeahead.
  *
  * The set of valid answers is closed and small (the catalogue), so suggestions
- * are computed locally — instant, free, offline, and always grounded in real
+ * are computed locally, instant, free, offline, and always grounded in real
  * species. No per-keystroke network call (the optional Gemini path is an
  * on-demand fallback, not this hot loop).
  *
@@ -25,7 +25,7 @@ const ALIASES = speciesAliasesRaw as AliasFile;
 
 export interface SpeciesSuggestion {
   scientificName: string;
-  /** Canonical common name — what gets submitted. */
+  /** Canonical common name, what gets submitted. */
   commonName: string;
   /** The acceptable form that actually matched the query (may be an alias). */
   matchedForm: string;

@@ -28,7 +28,7 @@ const OBIS_TOP_10 = [
   { scientificName: "Pleuronectes platessa", probability: 0.005 },
 ];
 
-describe("selectCandidates — OBIS path", () => {
+describe("selectCandidates, OBIS path", () => {
   it("returns 4 candidates including the staff option", () => {
     const result = selectCandidates({
       probability: OBIS_TOP_10,
@@ -75,7 +75,7 @@ describe("selectCandidates — OBIS path", () => {
 
   it("skips species without usable images", () => {
     // Only the staff + 2 species have images. n=4 requested but only 3
-    // candidates are possible — and 3 distractors with images would meet
+    // candidates are possible, and 3 distractors with images would meet
     // the >=2 threshold, so OBIS path stands.
     const idx = imageIndex([
       STAFF_SCIENTIFIC,
@@ -134,7 +134,7 @@ describe("selectCandidates — OBIS path", () => {
   });
 });
 
-describe("selectCandidates — CATALOGUE fallback", () => {
+describe("selectCandidates, CATALOGUE fallback", () => {
   it("falls back to CATALOGUE when probability is null", () => {
     const result = selectCandidates({
       probability: null,
@@ -179,7 +179,7 @@ describe("selectCandidates — CATALOGUE fallback", () => {
   });
 });
 
-describe("selectCandidates — DEGENERATE fallback", () => {
+describe("selectCandidates, DEGENERATE fallback", () => {
   it("returns only the staff candidate when no distractors have images", () => {
     const result = selectCandidates({
       probability: OBIS_TOP_10,
@@ -205,7 +205,7 @@ describe("selectCandidates — DEGENERATE fallback", () => {
   });
 });
 
-describe("selectCandidates — NO_REFERENCE path (S7-T1)", () => {
+describe("selectCandidates, NO_REFERENCE path (S7-T1)", () => {
   it("draws all candidates from OBIS when staffAnswer is null", () => {
     const result = selectCandidates({
       probability: OBIS_TOP_10,
@@ -216,7 +216,7 @@ describe("selectCandidates — NO_REFERENCE path (S7-T1)", () => {
     });
     expect(result.fallback).toBe("NO_REFERENCE");
     expect(result.candidates).toHaveLength(4);
-    // Every candidate must come from the OBIS list — no "staff" slot.
+    // Every candidate must come from the OBIS list, no "staff" slot.
     const obisNames = new Set(OBIS_TOP_10.map((p) => p.scientificName));
     for (const c of result.candidates) {
       expect(obisNames.has(c.scientificName)).toBe(true);
@@ -243,7 +243,7 @@ describe("selectCandidates — NO_REFERENCE path (S7-T1)", () => {
     expect(result.candidates.length).toBeGreaterThanOrEqual(3);
   });
 
-  it("never reserves a 'right answer' slot — every candidate is drawn from the pool", () => {
+  it("never reserves a 'right answer' slot, every candidate is drawn from the pool", () => {
     // Run several seeds and verify no candidate has commonName matching
     // a sentinel "STAFF_ANSWER" string that doesn't exist in the pool.
     for (const seed of ["a", "b", "c"]) {
@@ -278,7 +278,7 @@ describe("selectCandidates — NO_REFERENCE path (S7-T1)", () => {
   });
 });
 
-describe("selectCandidates — invariants", () => {
+describe("selectCandidates, invariants", () => {
   it("never returns duplicates", () => {
     for (const seed of ["a", "b", "c", "d", "e"]) {
       const result = selectCandidates({

@@ -1,5 +1,5 @@
 /**
- * FishSpotter stats roundup — shared aggregation, single source of truth.
+ * FishSpotter stats roundup, shared aggregation, single source of truth.
  *
  * `computeRoundup()` is the one place that knows how to turn the raw tables
  * into the headline numbers. It is called by three consumers that must never
@@ -7,7 +7,7 @@
  * (Phase 2, token-gated remote access), and `/admin/metrics` (browser). See
  * `implementation/2026-08-01/metrics-access-plan.md` for why this exists.
  *
- * SQL-side vs in-memory split (deliberate, not incidental — this runs inside
+ * SQL-side vs in-memory split (deliberate, not incidental, this runs inside
  * a 60s serverless function budget as the tables grow):
  *   - Anything that's just a total, a sum, or a single-column group-by goes
  *     through Prisma's `count` / `aggregate` / `groupBy` so Postgres does the
@@ -16,7 +16,7 @@
  *     need arrival ORDER and per-snippet DISTINCT-spotter breakdowns, neither
  *     of which a single Prisma `groupBy` can express without raw SQL. Those
  *     stay in-memory, but over one narrow `Answer` projection
- *     (`snippetId, userId, chosenOption, createdAt` — no `id`, `points`, or
+ *     (`snippetId, userId, chosenOption, createdAt`, no `id`, `points`, or
  *     `isCorrect`, all of which now come from SQL-side aggregates instead).
  *
  * First-Sighting arrival order needs no dedicated instrumentation: the award
@@ -42,8 +42,8 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 /**
  * Caveats that decide whether a figure means what it looks like. Shipped
- * alongside the numbers (not just printed by the CLI) so a consumer — human
- * or funder report — can't quote a consent-gated or pre-migration number as
+ * alongside the numbers (not just printed by the CLI) so a consumer, human
+ * or funder report, can't quote a consent-gated or pre-migration number as
  * if it were complete.
  */
 export const ROUNDUP_CAVEATS: readonly string[] = [

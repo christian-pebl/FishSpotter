@@ -1,14 +1,14 @@
 /**
- * Pebbles — the FishSpotter community-science economy (sea-currency redesign).
+ * Pebbles, the FishSpotter community-science economy (sea-currency redesign).
  *
  * The old model scored each guess against a PEBL "reference" (Snippet.staffAnswer):
  * correct=2 / pending=1 / wrong=0. That model is retired. PEBL no longer hands
- * down an official correct answer — **the crowd is the authority**. Every ID is a
+ * down an official correct answer, **the crowd is the authority**. Every ID is a
  * community hypothesis, and a spotter earns Pebbles (🪨) on two pillars only:
  *
- *   1. DISCOVERY — being first to ever watch + ID a clip (First Sighting), paid
+ *   1. DISCOVERY, being first to ever watch + ID a clip (First Sighting), paid
  *      immediately at submit time because it is knowable the moment you submit.
- *   2. CONSENSUS — your call matching what the community independently converges
+ *   2. CONSENSUS, your call matching what the community independently converges
  *      on, paid as a retro-credit by the consensus cron once a clip's spotters
  *      agree. Foresight is rewarded: calling it early (pioneer) out-pays joining
  *      a forming consensus, which out-pays confirming a settled one.
@@ -16,8 +16,8 @@
  * Two multipliers shape the consensus payout:
  *   - RARITY (OBIS SpeciesProbability at the clip's site/month/depth bucket): a
  *     rare species the crowd agrees on is worth more.
- *   - CURRENT (a reliability streak): consecutive *vindicated* calls — IDs that
- *     matched the eventual community consensus — build a momentum multiplier.
+ *   - CURRENT (a reliability streak): consecutive *vindicated* calls, IDs that
+ *     matched the eventual community consensus, build a momentum multiplier.
  *
  * Anti-herding note: the histogram of community answers is gated server-side
  * until a spotter has committed their own ID (blind submission), so the consensus
@@ -30,22 +30,22 @@
  */
 
 // ---------------------------------------------------------------------------
-// Pillar 1 — Discovery (immediate, paid at submit)
+// Pillar 1, Discovery (immediate, paid at submit)
 // ---------------------------------------------------------------------------
 
-/** Flat Pebbles every submission earns — you logged an observation. Never zero. */
+/** Flat Pebbles every submission earns, you logged an observation. Never zero. */
 export const PEBBLE_BASE_SIGHTING = 5;
 
 /**
  * Bonus for being early to a clip, indexed by the spotter's 0-based arrival
  * order on that snippet. Index 0 = the **First Sighting** (first person ever to
  * ID the clip); 1 and 2 are the "early spotter" taper. This pays people to clear
- * the backlog of un-watched clips — exactly what a monitoring app wants.
+ * the backlog of un-watched clips, exactly what a monitoring app wants.
  */
 export const PEBBLE_EARLY_SPOTTER = [25, 12, 6] as const;
 
 // ---------------------------------------------------------------------------
-// Pillar 2 — Consensus (retro, paid by the consensus cron)
+// Pillar 2, Consensus (retro, paid by the consensus cron)
 // ---------------------------------------------------------------------------
 
 /** Distinct spotters who must converge on one normalised name to "reach" consensus. */
@@ -65,7 +65,7 @@ export const PEBBLE_CONSENSUS: Record<ConsensusTier, number> = {
 
 /**
  * Classify a winning-group answer into a payout tier by its arrival order on the
- * clip — `arrivalIndex` is how many answers (across ALL options) predate it,
+ * clip, `arrivalIndex` is how many answers (across ALL options) predate it,
  * 0-based and ordered by createdAt. The first `threshold` spotters to call
  * anything are pioneers; the next `threshold` are joiners; the rest confirm.
  */
@@ -79,7 +79,7 @@ export function consensusTier(
 }
 
 // ---------------------------------------------------------------------------
-// Rarity multiplier — from the OBIS SpeciesProbability bucket
+// Rarity multiplier, from the OBIS SpeciesProbability bucket
 // ---------------------------------------------------------------------------
 
 export type RarityTier =
@@ -121,14 +121,14 @@ export function rarityForProbability(
 }
 
 // ---------------------------------------------------------------------------
-// Current — the reliability streak multiplier
+// Current, the reliability streak multiplier
 // ---------------------------------------------------------------------------
 
 /** Cap so a hot streak can't run away on the leaderboard. */
 export const CURRENT_MAX_MULTIPLIER = 2.5;
 
 /**
- * Multiplier for a Current (reliability) streak of length `streak` — the number
+ * Multiplier for a Current (reliability) streak of length `streak`, the number
  * of consecutive vindicated calls. A streak of 0 or 1 is neutral (×1); each
  * further vindicated call adds +0.2, capped at ×2.5 (reached at a streak of 8).
  */
@@ -155,7 +155,7 @@ export function reliabilityStreak(
   let streak = 0;
   for (const a of answersNewestFirst) {
     const leader = reachedLeaderBySnippet.get(a.snippetId);
-    if (leader === undefined) continue; // pending — skip
+    if (leader === undefined) continue; // pending, skip
     if (leader === a.matchKey) streak++;
     else break; // a vindicated streak is broken by a confirmed miss
   }
@@ -197,12 +197,12 @@ export function consensusPayout(
 }
 
 // ---------------------------------------------------------------------------
-// Diversity — contested-clip detection (UI signal, no extra payout in Phase 1)
+// Diversity, contested-clip detection (UI signal, no extra payout in Phase 1)
 // ---------------------------------------------------------------------------
 
 /**
- * A clip is "contested" when the community genuinely splits — the runner-up is
- * within one spotter of the leader, or holds at least 35% of the calls — given
+ * A clip is "contested" when the community genuinely splits, the runner-up is
+ * within one spotter of the leader, or holds at least 35% of the calls, given
  * enough spotters to be meaningful. Contested clips are the scientifically
  * interesting ones (and the candidates for expert footage review); the reveal
  * flags them so disagreement reads as a feature, not noise.

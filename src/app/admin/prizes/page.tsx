@@ -26,7 +26,7 @@ const STATUS_PILL: Record<PrizeStatus, string> = {
 };
 
 function dateOnly(d: Date | null): string {
-  return d ? d.toISOString().slice(0, 10) : "—";
+  return d ? d.toISOString().slice(0, 10) : "-";
 }
 
 /** The contact cell: a real address, or why there isn't one. */
@@ -34,7 +34,7 @@ function Contact({ row }: { row: PrizeWinnerRow }) {
   if (row.contact === "guest") {
     return (
       <span className="text-navy-500">
-        Guest account — no real address.{" "}
+        Guest account, no real address.{" "}
         <span className="text-navy-400">Nudge them to save their finds in-app.</span>
       </span>
     );
@@ -64,7 +64,7 @@ export default async function AdminPrizesPage() {
       <h1 className="font-brand text-xl font-semibold text-navy-900">Prize fulfilment</h1>
       <p className="mt-1 text-sm text-navy-600">
         Spotters at or over {PRIZE_TARGET_PEBBLES.toLocaleString()} lifetime Pebbles. Claiming
-        only records that someone asked for the {PRIZE_NAME} — posting it is manual, and
+        only records that someone asked for the {PRIZE_NAME}, posting it is manual, and
         nothing emails PEBL when a claim lands, so this page is the queue.
       </p>
       <p className="mt-2 text-[12px] text-navy-500">
@@ -116,7 +116,7 @@ export default async function AdminPrizesPage() {
                       // A claimed row can't have failed the gate (the route
                       // checks it), so a "fails" here means either an unclaimed
                       // spotter who isn't allowed to claim yet, or an account
-                      // whose trust has since decayed — worth a look before
+                      // whose trust has since decayed, worth a look before
                       // posting a book.
                       <span title={r.eligibilityReasons.join(", ")}>
                         fails: {r.eligibilityReasons.join(", ") || "unknown"}
@@ -138,7 +138,7 @@ export default async function AdminPrizesPage() {
                         fulfilled={!!r.fulfilledAt}
                       />
                     ) : (
-                      <span className="text-navy-400">—</span>
+                      <span className="text-navy-400">-</span>
                     )}
                   </td>
                 </tr>

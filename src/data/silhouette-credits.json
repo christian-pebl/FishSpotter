@@ -64,7 +64,7 @@
     "source": "https://fish-spotter.vercel.app"
   },
   "other": {
-    "taxon": "Phalacrocorax (cormorants / shags) — reuses the Rung-2 bird silhouette; a diving seabird reads better at tile size than the prior merged bird/seal icon",
+    "taxon": "Phalacrocorax (cormorants / shags), reuses the Rung-2 bird silhouette; a diving seabird reads better at tile size than the prior merged bird/seal icon",
     "imageUuid": "21a3420c-8d7a-4bd2-8ff7-b89fe7f5add5",
     "contributor": "Ferran Sayol",
     "attribution": "Ferran Sayol, via PhyloPic",

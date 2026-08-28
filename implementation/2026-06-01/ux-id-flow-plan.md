@@ -1,4 +1,4 @@
-# UX plan — the visual ID flow ("Spot It")
+# UX plan: the visual ID flow ("Spot It")
 
 Date: 1 June 2026. Companion to `guide-integration-plan.md`.
 
@@ -42,13 +42,13 @@ rewrite** (see "Mapping to existing code").
 
 ## The four rungs
 
-### Rung 1 — Shape gate (silhouette grid)
+### Rung 1: Shape gate (silhouette grid)
 "What is it, roughly?" A grid of 8 shape-class **silhouette tiles** (Crab,
 Fish, Flatfish, Scooter, Jellyfish, Starfish, Gastropod, Squid). One tap. Big,
 knowledge-free, satisfying. A "Not sure" tile is always present. This tap is
 also the **coarse scored answer** (Phase 4 of the integration plan).
 
-### Rung 2 — Sub-split (visual, branch-specific, 0-1 steps)
+### Rung 2: Sub-split (visual, branch-specific, 0-1 steps)
 Shown only when it discriminates. Examples:
 - **Fish:** tap a body-form silhouette (gadoid torpedo / deep wrasse / eel /
   flat bottom-dweller / schooling pelagic).
@@ -57,7 +57,7 @@ Shown only when it discriminates. Examples:
   body?" Spider-crab split.
 Skippable. Many branches will have zero sub-splits.
 
-### Rung 3 — Adaptive trait prompts (the smart bit)
+### Rung 3: Adaptive trait prompts (the smart bit)
 The app asks the **single most-discriminating remaining trait**, shown
 visually: two side-by-side thumbnails to tap between ("kinked vs straight
 lateral line"), or a zoomed diagram ("chin barbel? yes / no / can't see").
@@ -65,7 +65,7 @@ Powered by `narrow.ts` choosing the highest-information-gain trait. Each answer
 shrinks the candidate strip. Stops automatically when <= 3 candidates remain
 (reuse the existing `NARROW_ENOUGH = 3`).
 
-### Rung 4 — Reveal and commit
+### Rung 4: Reveal and commit
 The <= 3 finalists shown as photo cards with **diagnostic-mark rings overlaid**
 (reuse `AnnotatedSpeciesPhoto` + `DiagnosticMark`): "here is the saithe's
 straight lateral line; here is the pollack's kink." Tap your pick. Score by the
@@ -125,16 +125,16 @@ evenly splits it (max entropy reduction). Modest addition on top of
 
 ## Phased build
 
-- **UX-0 — Prototype the gate over a clip.** Static 8-silhouette grid on the
+- **UX-0, Prototype the gate over a clip.** Static 8-silhouette grid on the
   FeedCard, tap sets a `shapeClass` filter, candidate strip shrinks. No sub-
   splits, no adaptive picker yet. Proves the feel. (Placeholder silhouettes ok.)
-- **UX-1 — Wire the candidate strip to `narrow.ts`.** Shape as hard filter;
+- **UX-1, Wire the candidate strip to `narrow.ts`.** Shape as hard filter;
   strip reflects live candidate count. Add "skip to guess" -> existing MCQ.
-- **UX-2 — Information-gain picker + adaptive Rung 3.** The smart trait
+- **UX-2, Information-gain picker + adaptive Rung 3.** The smart trait
   ordering; auto-stop at <= 3.
-- **UX-3 — Branch sub-splits (Rung 2)** for fish / flatfish / crab.
-- **UX-4 — Reveal with diagnostic marks (Rung 4)** + scored-by-rung.
-- **UX-5 — Real silhouette + diagram asset pass.** Replace placeholders.
+- **UX-3, Branch sub-splits (Rung 2)** for fish / flatfish / crab.
+- **UX-4, Reveal with diagnostic marks (Rung 4)** + scored-by-rung.
+- **UX-5, Real silhouette + diagram asset pass.** Replace placeholders.
 
 Each phase ships something testable on the live feed.
 

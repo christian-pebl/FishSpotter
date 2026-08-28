@@ -1,4 +1,4 @@
-# Remote UI build via a Gemini-Flash visual feedback loop — PLAN
+# Remote UI build via a Gemini-Flash visual feedback loop: PLAN
 
 Goal: build the remaining "needs-your-eyes" UI (profiles, pokedex, coach-mark
 tutorial, gate polish, WS-D) **remotely**, by replacing "Christian's eyes" with
@@ -21,11 +21,11 @@ judges the visuals, axe-core judges accessibility, I act on the findings.
   state checks**. Gemini is a second opinion on *look*, never the source of truth
   on *behaviour*. I keep final judgement; Christian reviews before any push.
 
-## Phase 0 — build the harness (one-time, ~half a day)
-1. **`scripts/lib/ui-shot.ts`** — Playwright helper. Launches chromium against the
+## Phase 0: build the harness (one-time, ~half a day)
+1. **`scripts/lib/ui-shot.ts`**: Playwright helper. Launches chromium against the
    running preview (`localhost:3000`), sets viewport (390×844 mobile + 1280×800
    desktop), supports: `goto(route)`, `waitFor(selector)`, `pauseVideo()` (the
-   feed autoplays — pause before shooting, which is why preview_screenshot timed
+   feed autoplays, pause before shooting, which is why preview_screenshot timed
    out), `click`/`fill` to reach a state, screenshot full-page or a single element
    -> PNG under `implementation/<date>/shots/`.
 2. **UI-critique mode in `gemini-vision.ts`** (or new `src/lib/ui-critique.ts`):
@@ -45,12 +45,12 @@ judges the visuals, axe-core judges accessibility, I act on the findings.
 
 ## Per-element build queue (each runs through the loop)
 
-### A. Public species profile  — `/species/[slug]`  (NO schema; ship first)
+### A. Public species profile : `/species/[slug]`  (NO schema; ship first)
 Highest value, fully remote-buildable, exercises both new engines.
 - Route + `SpeciesProfile` component from existing data: `fieldNote`, behaviour/
   habitat/movement traits, `SpeciesImage` gallery, `DiagnosticMark` rings
   (`AnnotatedSpeciesPhoto`), **depth band** (`depth.ts`), **distribution map**.
-- **`DistributionMap` SVG component** — UK/NE-Atlantic coast basemap + density
+- **`DistributionMap` SVG component**: UK/NE-Atlantic coast basemap + density
   cells from `distribution.ts` (intensity shading). This is the most visual piece
   -> ideal Gemini-loop target (does the map read as a range? legible? on-brand?).
 - Depth/distribution fetched on-demand first (cache table comes in step E).
@@ -70,7 +70,7 @@ Highest value, fully remote-buildable, exercises both new engines.
 - Wire the depth band into `SpeciesGuidePopup` / candidate tile ("usually ~5-25 m").
 - Tiny; loop-verify the tile look.
 
-### D. Coarse "submit as just a [Fish]"  (WS-D — spec already written)
+### D. Coarse "submit as just a [Fish]"  (WS-D: spec already written)
 - `BodyShapeGate` footer action -> existing `handleSubmit`. Playwright E2E asserts
   1 pt on a fish-ref clip, 0 on a crab-ref clip; Gemini checks button placement.
 
@@ -91,7 +91,7 @@ Highest value, fully remote-buildable, exercises both new engines.
 1. **Prod schema:** B + E need `prisma db push` to the shared prod DB (additive,
    non-breaking; re-run `db:enable-rls` after). Authorize additive pushes, or
    build the code + stage the migration for you? (A/C/D/F/G need NO schema.)
-2. **Build order / first target** (recommend A: profile + distribution map — no
+2. **Build order / first target** (recommend A: profile + distribution map, no
    schema, biggest visual payoff, exercises the engines).
 3. **Autonomy:** milestone check-ins (recommend) vs run the whole queue unattended.
 
@@ -100,5 +100,5 @@ Highest value, fully remote-buildable, exercises both new engines.
   pre-push; behaviour is gated by Playwright/vitest, not Gemini.
 - Cost: ~4-10 Gemini calls per element per round (paid tier fine).
 - Preview server must be running for Playwright; pause video before feed shots.
-- **Nothing deploys until you push** — except a prod `prisma db push` (shared DB),
+- **Nothing deploys until you push**: except a prod `prisma db push` (shared DB),
   which is exactly why decision 1 is gated on your OK.

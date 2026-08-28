@@ -4,7 +4,7 @@
  *
  * Uses OBIS's server-side gridded endpoint (`/occurrence/grid/{precision}`),
  * which returns a GeoJSON FeatureCollection of geohash cells each carrying a
- * count (`properties.n`) — already aggregated, so one request per species
+ * count (`properties.n`), already aggregated, so one request per species
  * instead of paging tens of thousands of raw points.
  *
  * The transforms (`cellFromFeature`, `gridFromFeatureCollection`) are pure and

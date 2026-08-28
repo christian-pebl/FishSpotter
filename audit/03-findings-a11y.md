@@ -1,4 +1,4 @@
-# FishSpotter Next.js App — Accessibility Audit Report
+# FishSpotter Next.js App: Accessibility Audit Report
 
 **Date:** 2026-05-14
 

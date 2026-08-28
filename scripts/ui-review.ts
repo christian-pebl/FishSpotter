@@ -5,7 +5,7 @@
  * and saves the PNGs. The build loop is: edit -> ui-review -> fix high-severity
  * issues + brand/axe violations -> repeat until verdict=pass.
  *
- * Behaviour (scoring/routing/unlock) is NOT judged here — that stays on
+ * Behaviour (scoring/routing/unlock) is NOT judged here, that stays on
  * Playwright assertions + vitest. Gemini judges look only; advisory.
  *
  * Needs the dev server running (preview) + `npx playwright install chromium` +

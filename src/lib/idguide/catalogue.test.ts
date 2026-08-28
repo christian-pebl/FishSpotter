@@ -5,7 +5,7 @@ import speciesImagesData from "@/data/species-images.json";
 import { SpeciesCatalogueSchema } from "./catalogue";
 
 // The hard gate. Any invalid enum value, missing required field, or unknown key
-// in species-traits.json fails CI here — long before it can silently corrupt
+// in species-traits.json fails CI here, long before it can silently corrupt
 // the ID flow at runtime.
 describe("species-traits.json schema", () => {
   it("every species entry conforms to the catalogue schema (strict)", () => {

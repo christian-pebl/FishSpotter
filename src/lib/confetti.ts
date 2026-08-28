@@ -4,12 +4,12 @@ export function triggerCorrectConfetti(): void {
   if (typeof window === "undefined") return;
   if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
 
-  // PEBL brand palette — colorblind-safe (no orange). Teal scale + brand whites.
+  // PEBL brand palette, colorblind-safe (no orange). Teal scale + brand whites.
   const colors = ["#3AAFA9", "#2B7A78", "#DEF2F1", "#FFFFFF", "#1F5F5D"];
 
   const origin = { x: 0.5, y: 0.6 };
 
-  // First burst — big central explosion
+  // First burst, big central explosion
   confetti({
     particleCount: 120,
     spread: 90,

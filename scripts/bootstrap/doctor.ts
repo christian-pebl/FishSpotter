@@ -3,7 +3,7 @@
  * automated surface so the operator can see what's actually
  * configured vs what tokens.json wants.
  *
- * Designed to be safe to run as often as you like — pure read-only.
+ * Designed to be safe to run as often as you like, pure read-only.
  */
 
 import { CloudflareDnsClient } from "./cloudflare-dns";
@@ -88,7 +88,7 @@ export async function doctor(opts: DoctorOptions): Promise<CheckResult[]> {
       out.push(
         zoneId
           ? { name: `DNS zone ${t.resendDomain}`, status: "ok" }
-          : { name: `DNS zone ${t.resendDomain}`, status: "missing", detail: "Zone not on Cloudflare — handle DNS manually" },
+          : { name: `DNS zone ${t.resendDomain}`, status: "missing", detail: "Zone not on Cloudflare, handle DNS manually" },
       );
     } catch (err) {
       out.push({

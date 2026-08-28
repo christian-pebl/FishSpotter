@@ -1,5 +1,5 @@
 /**
- * GET /api/cron/digest — weekly digest cron (S3-16).
+ * GET /api/cron/digest, weekly digest cron (S3-16).
  *
  * Runs Mon 08:00 UTC per vercel.json. Authorization: Bearer CRON_SECRET
  * (same pattern as the existing biodiversity crons). For each user

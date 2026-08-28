@@ -8,7 +8,7 @@
  * reach on a phone. The spotter opts in to reading.
  *
  * The server gates the content (GET /api/comments returns { gated: true } until
- * the caller has answered this clip — see the route's INV-1 note), so this
+ * the caller has answered this clip, see the route's INV-1 note), so this
  * component simply renders whatever it is allowed to see.
  */
 
@@ -237,7 +237,7 @@ export function CommentThread({
     void load();
   }, [load]);
 
-  // Gated: the viewer hasn't made their own call yet. Say so plainly — it reads
+  // Gated: the viewer hasn't made their own call yet. Say so plainly, it reads
   // as an incentive to commit rather than as a wall.
   if (data && data.gated) {
     return (

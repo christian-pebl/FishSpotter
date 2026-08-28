@@ -1,6 +1,6 @@
-# FishSpotter Vision UX Review — Consolidated Findings
+# FishSpotter Vision UX Review: Consolidated Findings
 
-**Synthesis of a 7-agent visual UX review** (lenses A–G). 88 raw findings deduped
+**Synthesis of a 7-agent visual UX review** (lenses A-G). 88 raw findings deduped
 and recalibrated into 38 consolidated themes. Severity has been re-graded against
 a disciplined P0 bar (a casual user is blocked, bounced, or the funnel breaks) and
 against three orchestrator re-verifications of the live app (see "Severity
@@ -15,10 +15,10 @@ recalibration notes" below).
 > **Errata (see `03-completeness-critique.md` + the Errata section of
 > `02-implementation-plan.md`):** the verdict colour tokens (`correct`/`incorrect`/
 > `pending`) ALREADY exist in `tailwind.config.ts` and are used in `RevealResult.tsx`
-> — the "off-palette amber" in **T-06/T-11** is actually the named `pending` token,
+>, the "off-palette amber" in **T-06/T-11** is actually the named `pending` token,
 > so those fixes are call-site/token-value + a visible non-colour cue, not token
 > creation. **T-07** needs `/api/answers` extended to return an unlock flag. A live
-> em-dash exists on the protected `feed-05` ("Save my finds — sign up free") and
+> em-dash exists on the protected `feed-05` ("Save my finds, sign up free") and
 > must be fixed. Minor: **T-09** (guest reveal omits the user's guess; authed
 > includes it), **T-04** ("blank panels" overstated on desktop).
 
@@ -27,7 +27,7 @@ recalibration notes" below).
 ## 1. Executive summary
 
 FishSpotter is, at the component level, a **credible science product, not a
-hackathon prototype** — and every reviewer said so independently. There is one
+hackathon prototype**: and every reviewer said so independently. There is one
 coherent brand language (navy/teal palette, uppercase tracked eyebrow + bold
 heading, "pebl-surface" cards, the right-aligned PEBL wordmark), the legal and
 accessibility pages are a genuine asset, the species education pages are
@@ -39,27 +39,27 @@ moment's framing, and a missing reason-for-being.
 
 Six cross-cutting themes emerged across multiple reviewers:
 
-**Theme 1 — No "real science" contribution narrative (the missing reason-for-being).**
+**Theme 1, No "real science" contribution narrative (the missing reason-for-being).**
 The single highest-leverage gap. Nowhere in the journey does the app tell a member
 of the public that their ID helps monitor a real reef or feeds a real dataset. The
 landing sells "spot the species", the reveal says "PEBL ID", the pokédex frames a
 personal "collection", the leaderboard explains only points maths. A visitor
 completes the whole loop believing they played fish-ID trivia. **Converged:** G
 (G-01, the lead P0), reinforced by E (community framing) and D (the one place it is
-done well — the sign-up card's "join the marine monitoring community" copy proves
+done well, the sign-up card's "join the marine monitoring community" copy proves
 the app *can* say it, it just doesn't say it anywhere it matters).
 
-**Theme 2 — Demotivating empty / first-run states (the activation→retention leak).**
+**Theme 2, Demotivating empty / first-run states (the activation→retention leak).**
 Every retention surface a newcomer first sees is empty by construction and frames
 the product as something you have already lost at: the pokédex opens on "0 of 57"
 above a ~57-tile grey "Locked" wall, the profile reads "SCORE 0 / ACCURACY 0% /
 STREAK 1", and the leaderboard advertises a 10-ID gate with one real spotter on the
 board and no progress-to-entry cue. Because zero unlocks exist in the database,
-this all-locked state is what **every** current user sees — it is the de-facto
+this all-locked state is what **every** current user sees, it is the de-facto
 design, not an edge case. **Converged hard:** E (E-01, E-02, E-05, E-13), G (G-02,
 G-09), F (F-12). The most-cited theme in the review.
 
-**Theme 3 — The reward moment under-celebrates and never accumulates progress.**
+**Theme 3, The reward moment under-celebrates and never accumulates progress.**
 The reveal is the dopamine engine and it is too quiet and disconnected. The verdict
 is a small chip (an "≈ Close · +1" amber pill with an obscure maths glyph, no
 focal hierarchy, no animation), the signed-in reveal surfaces only the verdict pill
@@ -69,7 +69,7 @@ and find. **Converged:** C (C-04), G (G-06, G-07), reinforced by the orchestrato
 verified note that the authed reveal shows no progress accumulation, and B (B-14, no
 progress cue during the loop either).
 
-**Theme 4 — Two visual "worlds" + a weaker, inconsistent secondary reveal.**
+**Theme 4, Two visual "worlds" + a weaker, inconsistent secondary reveal.**
 The app oscillates between near-black dark feed sheets and pale-teal light pages
 with no shared bridge (radius, shadow, button, type, and verdict-colour language
 all differ). The sharpest instance is the single-snippet detail page (`/feed/[id]`,
@@ -79,17 +79,17 @@ type-in identify path instead of the guided rungs, bbox tracking dots rendering
 pill, points, teaching link and sign-up card the feed reveal has. **Converged:**
 F (F-05, F-07, F-10), B (B-05, B-06), C (C-02, C-08).
 
-**Theme 5 — Meaning carried by colour alone + an off-palette amber (acute, owner is colour-blind).**
+**Theme 5, Meaning carried by colour alone + an off-palette amber (acute, owner is colour-blind).**
 The reward verdict, the leaderboard mini-bars, and the species OBIS heat-map all
 lean on colour (sometimes plus a faint glyph) with no redundant text/shape cue, so
-a red/green colour-blind user cannot reliably tell correct from close from wrong —
+a red/green colour-blind user cannot reliably tell correct from close from wrong,
 the whole reward signal. The "Close" verdict chip and the account verify banner are
 rendered in an **amber/gold that is outside the documented PEBL palette and the
-named verdict tokens** — the brief bans stock amber for semantic states, and the
+named verdict tokens**: the brief bans stock amber for semantic states, and the
 product owner is colour-blind. **Converged:** F (F-01, F-02, F-14), C (C-04), with
 the colour-only legibility also feeding F-03.
 
-**Theme 6 — Auth friction + the blank-canvas problem.**
+**Theme 6, Auth friction + the blank-canvas problem.**
 Every entry route is a password form: no one-tap OAuth, no passwordless magic link,
 and sign-up is a five-field gate at the soft ask. Sign-in and forgot-password are
 exactly the bare `max-w-md` card on empty teal the design rules forbid (two-thirds
@@ -101,16 +101,16 @@ and dead-space variants of the same blank-canvas instinct).
 
 Two further systemic threads cut across the above and are worth naming even though
 they fold into the themes: **low-contrast secondary text on every light page**
-(captions, credits, legal/footer — F-03, D-06) and **sub-44px touch targets in the
+(captions, credits, legal/footer, F-03, D-06) and **sub-44px touch targets in the
 dense list/strip surfaces** (species photo strip, leaderboard rows, browse
-pagination — F-04, D-07).
+pagination, F-04, D-07).
 
 **Net:** the funnel's mouth (landing) and its single best screen (guest reveal) are
 healthy; the product leaks at activation→retention because the first surfaces a
 newcomer explores are empty, the reward never visibly accumulates, and the entire
 arc never tells them their effort feeds real science. Fixing first-run framing, the
-reward's progress beat, and the contribution narrative — all largely copy and
-state-logic, not rebuilds — is where the public-engagement goal moves most.
+reward's progress beat, and the contribution narrative, all largely copy and
+state-logic, not rebuilds, is where the public-engagement goal moves most.
 
 ---
 
@@ -128,7 +128,7 @@ Three reviewer P0s were re-verified against the live app and overridden:
   primary feed reveal is good and shows the verdict prominently. Folded into the
   secondary-reveal parity theme **T-08**.
 - **B-01 (two vague first-action prompts): P0 → P1.** A casual user is not blocked
-  or bounced — there is a clear tappable affordance; the issue is redundant,
+  or bounced, there is a clear tappable affordance; the issue is redundant,
   reward-free, inconsistent wording. Real comprehension friction, but not a P0 by
   the disciplined bar. **T-12.**
 
@@ -148,9 +148,9 @@ makes the primary discovery surface a dead database dump (T-03, T-04).
 Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / L
 (multi-day or cross-cutting).
 
-### P0 — fix first (de-facto experience fails a casual user)
+### P0: fix first (de-facto experience fails a casual user)
 
-#### T-01 — No "real science" contribution narrative anywhere in the journey
+#### T-01: No "real science" contribution narrative anywhere in the journey
 - **Severity:** P0 · **Theme:** Reason-for-being (1)
 - **Screens:** landing, feed idle, feed reveal, authed reveal, profile/pokédex, leaderboard
 - **Merges:** G-01 (+ supporting framing in E-12, G-08, D's sign-up copy)
@@ -166,7 +166,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   identified N species across M clips this month") on the leaderboard header. Copy
   first; a real impact view is a later phase. **Effort: M**
 
-#### T-02 — First-run retention surfaces greet the newcomer with their own failure
+#### T-02: First-run retention surfaces greet the newcomer with their own failure
 - **Severity:** P0 · **Theme:** Empty/first-run states (2)
 - **Screens:** profile/pokédex (m+d), leaderboard (m+d)
 - **Merges:** E-01, E-02, E-13, G-02, G-09, F-12
@@ -176,8 +176,8 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   copy leads with a caveat about what *won't* unlock. Because zero unlocks exist in
   the DB, this is what 100% of current users see. "0% accuracy" at n=1 is a blunt,
   arguably-wrong judgement on someone who has tried once.
-- **Fix:** (1) Suppress accuracy until ≥5 scored answers (show "—"); never show 0%.
-  (2) Reframe the collection header from deficit to momentum ("1 species discovered —
+- **Fix:** (1) Suppress accuracy until ≥5 scored answers (show "-"); never show 0%.
+  (2) Reframe the collection header from deficit to momentum ("1 species discovered,
   56 to find") with a filling progress bar; show unlocked species first/large, not
   the locked wall. (3) Collapse the locked grid to a small "likely at your site"
   preview (from the OBIS probability cache) behind a "Show all 57" expander; give the
@@ -186,22 +186,22 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   tooltip and lead with the goal. (5) Purpose-built empty states with one clear next
   action on collection, leaderboard and recent-IDs. **Effort: M**
 
-#### T-03 — Browse/archive grid is an unscannable wall of identical cards
+#### T-03: Browse/archive grid is an unscannable wall of identical cards
 - **Severity:** P0 · **Theme:** Two-worlds / discovery (4, 2)
 - **Screens:** browse (m+d)
 - **Merges:** E-03, E-12 (intro copy)
 - **Observation:** Every card shows the identical eyebrow "ALGAPELAGO" and title
   "Bideford Bay, North Devon, UK"; only a small grey date differs. No species name,
-  no ID status, no depth — nothing to tell 30 clips apart. Mobile is a single column
+  no ID status, no depth, nothing to tell 30 clips apart. Mobile is a single column
   ~16,500px tall. The primary discovery surface reads as a database dump, not a
   library worth exploring; the "ALGAPELAGO" internal codename is unglossed.
-- **Fix:** Give each card identity — lead with the species/reference ID if known (or
-  "Unidentified — be the first" if not), demote location/date to secondary, add a
+- **Fix:** Give each card identity, lead with the species/reference ID if known (or
+  "Unidentified, be the first" if not), demote location/date to secondary, add a
   status chip (Identified / Needs ID / You got this). Add discovery filters that
   matter (by species, by "needs an ID", by site) instead of Site/Sort-only. Warm the
   intro copy and gloss or replace the "ALGAPELAGO" eyebrow. **Effort: M**
 
-#### T-04 — Browse thumbnails are blank panels or subjectless murk (looks broken)
+#### T-04: Browse thumbnails are blank panels or subjectless murk (looks broken)
 - **Severity:** P0 · **Theme:** Empty states / trust (2)
 - **Screens:** browse (m+d)
 - **Merges:** E-04, F-11
@@ -214,22 +214,22 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   `bboxJson`) so the subject is visible. (3) Fallback to a branded placeholder
   (silhouette + "clip" label), never a bare panel. Pairs with T-03. **Effort: M**
 
-### P1 — fix soon (significant friction or clear engagement/comprehension miss)
+### P1: fix soon (significant friction or clear engagement/comprehension miss)
 
-#### T-05 — Hero demo clip shows empty water with nothing to spot
+#### T-05: Hero demo clip shows empty water with nothing to spot
 - **Severity:** P1 (was A-01 P0; content, not a bug) · **Theme:** First impression (1)
 - **Screens:** landing (m+d)
 - **Merges:** A-01
 - **Observation:** The hero demo video plays fine, but its clip frames show empty
   green murk with no visible fish and the faux species-pick overlay is only
-  intermittent — so the one element doing the most persuasive work demonstrates
+  intermittent, so the one element doing the most persuasive work demonstrates
   "nothing to spot."
 - **Fix:** Use a hand-picked demo clip with a clearly visible subject in the first
   second (or hold on a subject frame / set a curated poster), and keep the faux-pick
   overlay persistent over a visible creature. Optionally a faint ring on the subject
   so even a static frame reads "here's the thing you identify." **Effort: S**
 
-#### T-06 — Reward verdict is too quiet; obscure "≈" glyph; off-palette amber
+#### T-06: Reward verdict is too quiet; obscure "≈" glyph; off-palette amber
 - **Severity:** P1 · **Theme:** Reward moment (3) + colour (5)
 - **Screens:** feed reveal
 - **Merges:** C-04, F-01 (verdict half), part of F-02
@@ -238,12 +238,12 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   "≈" maths symbol won't read as "close" to non-experts, the "+1" is buried inside
   the pill, and the amber is outside the PEBL palette and the named verdict tokens.
 - **Fix:** Promote the verdict to the focal element: larger pill in the named
-  `pending` token, plain-language label ("Close match" / "Partial — shape right"),
+  `pending` token, plain-language label ("Close match" / "Partial, shape right"),
   points called out distinctly ("+1 pt"). Drop or word-pair the "≈". Add a
   reduced-motion-safe scale-in + points count-up (motion tokens + the animation skill
   already exist). **Effort: M**
 
-#### T-07 — Reward moment never accumulates progress (points/streak/collection)
+#### T-07: Reward moment never accumulates progress (points/streak/collection)
 - **Severity:** P1 (orchestrator-verified addition) · **Theme:** Reward moment (3)
 - **Screens:** authed reveal, feed reveal
 - **Merges:** G-06, G-07 (reward half), C-06 (signed-in reward state), B-14
@@ -251,20 +251,20 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   shows no points earned, no running score, no streak tick, and no "added to your
   collection" beat at the moment of the win. The pokédex fills silently in a screen
   the user must go and find; the unlock is never felt where it is earned. The authed
-  reveal is thinner than the guest reveal — the converted user gets the poorer
+  reveal is thinner than the guest reveal, the converted user gets the poorer
   payoff.
 - **Fix:** On a correct/close ID, surface a compact progress beat on both reveals: an
-  "Added to your collection — N of 57" line (brief unlock animation for a *new*
+  "Added to your collection, N of 57" line (brief unlock animation for a *new*
   species), the streak tick, and the running points total. For coarse-only credit,
-  show the partial ("shape unlocked — name it to add the species"). Reuse the
+  show the partial ("shape unlocked, name it to add the species"). Reuse the
   `fishspotter-animations` species-unlock pattern. **Effort: M**
 
-#### T-08 — Single-snippet `/feed/[id]` reveal is a weaker, inconsistent second reveal
+#### T-08: Single-snippet `/feed/[id]` reveal is a weaker, inconsistent second reveal
 - **Severity:** P1 (rescoped per caveat) · **Theme:** Two-worlds / secondary reveal (4)
 - **Screens:** snippet challenge, snippet reveal-correct
 - **Merges:** C-01 (rescoped), C-02, B-05, B-06
-- **Observation:** The shareable single-snippet page — the entry point most likely to
-  be a new visitor's first impression — is a materially weaker version of the reward:
+- **Observation:** The shareable single-snippet page, the entry point most likely to
+  be a new visitor's first impression, is a materially weaker version of the reward:
   light card, raw native HTML5 video chrome ("0:00 / 0:09", browser controls), a
   harder free-text type-in identify path instead of the guided rungs, and a reveal
   that omits the verdict pill, points, teaching link and sign-up card the feed reveal
@@ -277,36 +277,36 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   points and sign-up nudge. Alternatively, redirect deep-links into the feed
   experience. **Effort: L**
 
-#### T-09 — Community split is thin/lonely and excludes the user's own guess
+#### T-09: Community split is thin/lonely and excludes the user's own guess
 - **Severity:** P1 (orchestrator-verified) · **Theme:** Reward moment (3) / community
 - **Screens:** feed reveal
 - **Merges:** C-05
-- **Observation:** "COMMUNITY · 2 SPOTTERS" shows Saithe 50% / Poor cod 50% — two
+- **Observation:** "COMMUNITY · 2 SPOTTERS" shows Saithe 50% / Poor cod 50%, two
   equal bars on n=2, neither the user's guess (Pollack), which is nowhere on the
   board. Verified that the split is often n=1 (e.g. "Saithe · you 100%"). The
   social-proof feature reads as statistically meaningless and subtly isolating.
-- **Fix:** (1) Always include the user's own guess, highlighted ("Pollack — you").
-  (2) For low n, label honestly and frame as opportunity ("Only 2 spotters so far —
+- **Fix:** (1) Always include the user's own guess, highlighted ("Pollack, you").
+  (2) For low n, label honestly and frame as opportunity ("Only 2 spotters so far,
   your ID helps build consensus") instead of a hard percentage; hide the bar chart
   below a small threshold and show a "be the first to help ID this" state. (3) When
-  the top two are tied/close, add "Spotters disagree on this one — these two look
+  the top two are tied/close, add "Spotters disagree on this one, these two look
   alike" to turn the split into a teaching beat. **Effort: M**
 
-#### T-10 — "PEBL ID: Fish" headline reads as an anticlimax with no framing
+#### T-10: "PEBL ID: Fish" headline reads as an anticlimax with no framing
 - **Severity:** P1 · **Theme:** Reward moment (3) / comprehension
 - **Screens:** feed reveal
 - **Merges:** C-03
 - **Observation:** After the verdict, the largest text is the coarse word "Fish"
-  under a small "PEBL ID" eyebrow — to a user who guessed the specific "Pollack" this
+  under a small "PEBL ID" eyebrow, to a user who guessed the specific "Pollack" this
   reads as a let-down or a bug ("I was more specific than the official answer?"),
   with nothing explaining that the clip is deliberately unresolved to species. The
   community then names two species, making "Fish" look like a placeholder.
 - **Fix:** Frame the coarse reference positively, e.g. eyebrow "Closest confirmed ID"
-  + "Fish" + a one-line subtext "This clip isn't confirmed to species yet — your
+  + "Fish" + a one-line subtext "This clip isn't confirmed to species yet, your
   'Pollack' guess is logged and counts toward the community ID", with a small "why?"
   affordance. Lean into the citizen-science invitation. **Effort: M**
 
-#### T-11 — Meaning carried by colour alone elsewhere (a11y; owner is colour-blind)
+#### T-11: Meaning carried by colour alone elsewhere (a11y; owner is colour-blind)
 - **Severity:** P1 · **Theme:** Colour (5) / accessibility
 - **Screens:** feed reveal, leaderboard, species OBIS map
 - **Merges:** F-02 (non-verdict parts), F-14 (semantic-token system)
@@ -323,20 +323,20 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   value labels or a coarse texture and a lightest step distinguishable from the card.
   **Effort: M**
 
-#### T-12 — First-action prompt is doubled, vague, and reward-free
+#### T-12: First-action prompt is doubled, vague, and reward-free
 - **Severity:** P1 (was B-01 P0) · **Theme:** Core loop comprehension (1)
 - **Screens:** feed idle (m+d)
 - **Merges:** B-01, G-12
 - **Observation:** The idle feed presents the entry action twice, worded differently
   ("Tap the clip to identify" floating pill vs "Tap to name species" bottom bar),
-  neither says what the user gets, and there's no one-line "what is this / why" — the
+  neither says what the user gets, and there's no one-line "what is this / why", the
   user lands on murky green with two competing taps.
 - **Fix:** One primary prompt, one verb everywhere ("Identify"). E.g. a single bottom
   CTA "Identify this species →" plus a first-time-only subtitle that carries both
-  confidence and meaning: "No expertise needed — just pick what looks closest. Every
+  confidence and meaning: "No expertise needed, just pick what looks closest. Every
   guess helps." Drop the redundant pill. **Effort: S**
 
-#### T-13 — Two visual worlds (dark feed vs light pages) with no shared bridge
+#### T-13: Two visual worlds (dark feed vs light pages) with no shared bridge
 - **Severity:** P1 · **Theme:** Two-worlds (4) / design system
 - **Screens:** feed sheets vs landing, sign-in, leaderboard, browse, species, account
 - **Merges:** F-05, F-07
@@ -345,18 +345,18 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   (light pages use a heavy display H1; feed sheet "titles" are small uppercase
   labels). A user moving feed → leaderboard → species → account gets a hard theme
   switch each time; the two halves don't read as one component library.
-- **Fix:** Treat dark and light as one documented system — shared `rounded-card` /
+- **Fix:** Treat dark and light as one documented system, shared `rounded-card` /
   `rounded-modal` scale, shared shadow tokens, shared control shapes, one
   verdict-colour set that works on both backgrounds, and map feed modal headings onto
   the same named type tokens (`h2`/`h3`, not an ad-hoc small label). Carry one
   bridging element (eyebrow + heading treatment, primary-button shape) across so it
   reads "same app, different surface." **Effort: M**
 
-#### T-14 — No one-tap / passwordless sign-in anywhere
+#### T-14: No one-tap / passwordless sign-in anywhere
 - **Severity:** P1 · **Theme:** Auth friction (6)
 - **Screens:** sign-in (m+d), sign-up
 - **Merges:** D-01
-- **Observation:** Every auth route is an email + password form — no "Continue with
+- **Observation:** Every auth route is an email + password form, no "Continue with
   Google/Apple", no magic link. Password creation is the highest-abandonment step in
   any consumer funnel, and the app already runs the email infra (verification +
   reset) that a magic link would need.
@@ -365,7 +365,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   is out of short-term scope, add a passwordless email magic-link primary path and
   demote password to a "use a password instead" disclosure. **Effort: L**
 
-#### T-15 — Sign-in and forgot-password are the forbidden bare card on a blank canvas
+#### T-15: Sign-in and forgot-password are the forbidden bare card on a blank canvas
 - **Severity:** P1 · **Theme:** Auth friction / blank canvas (6)
 - **Screens:** sign-in (m+d), forgot-password
 - **Merges:** D-02
@@ -373,20 +373,20 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   forbid. On desktop ~two-thirds of the 1280px viewport is empty water beside the
   card; forgot-password is the emptiest of all. Prime real estate to show what the
   user signs up for is wasted.
-- **Fix:** Fill the unused viewport with editorial content — reuse the landing's
+- **Fix:** Fill the unused viewport with editorial content, reuse the landing's
   existing `HeroPreview` / `StatsBand` / `SpeciesMarquee` components: desktop
   two-column (form one side, looping snippet + live stats the other); mobile a compact
   still/silhouette/stat strip; forgot-password at minimum a reassuring still or line.
   **Effort: M**
 
-#### T-16 — Signed-in menu has no Account / Settings / Sign out, and buries IA under video sliders
+#### T-16: Signed-in menu has no Account / Settings / Sign out, and buries IA under video sliders
 - **Severity:** P1 · **Theme:** Auth friction / IA (6)
 - **Screens:** menu, account
 - **Merges:** D-03
 - **Observation:** The slide-in menu shows the display name "UX Review" as inert text,
   then nav + a "UI sounds" toggle + a large "LIVE VIDEO" block of playback controls
   (Video sound, Highlight trace, Playback speed, Brightness, Contrast). There is no
-  visible Account / Settings / Profile entry and no Sign out — yet the rich account
+  visible Account / Settings / Profile entry and no Sign out, yet the rich account
   page clearly exists. On a shared device, no findable sign-out is a real problem;
   playback tuning outranking account/sign-out is wrong IA.
 - **Fix:** Make the display-name row a tappable account entry (name + email + chevron
@@ -394,12 +394,12 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   group, and demote the per-clip LIVE VIDEO sliders out of the global menu into an
   in-player controls sheet. **Effort: M**
 
-#### T-17 — Low-contrast secondary text across every light page
+#### T-17: Low-contrast secondary text across every light page
 - **Severity:** P1 · **Theme:** Accessibility (5/6)
 - **Screens:** landing, leaderboard, browse, species, account, dark menu
 - **Merges:** F-03, D-06
 - **Observation:** Whole-app light-mode pattern: secondary/meta text is muted
-  teal-grey on pale-teal or white, at small sizes — footer/company-number, catalogue
+  teal-grey on pale-teal or white, at small sizes, footer/company-number, catalogue
   photo-credit line, browse card captions and search controls, leaderboard
   scoring-explainer, species attribution and the "USUALLY SEEN AT / SIZE / HABITAT"
   eyebrows. The same shortfall recurs in the dark menu (inactive nav labels, "LIVE
@@ -411,7 +411,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   with a teal-tinted off-white. Audit every `text-*-400/500` grey on a light surface
   at its actual size. **Effort: M**
 
-#### T-18 — Sub-44px touch targets in dense list/strip surfaces
+#### T-18: Sub-44px touch targets in dense list/strip surfaces
 - **Severity:** P1 · **Theme:** Accessibility / mobile (5/6)
 - **Screens:** species photo strip, leaderboard rows, browse pagination, account Save
 - **Merges:** F-04, D-07
@@ -426,7 +426,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   primary-teal fill at full opacity when dirty, ≥44px height, and a "Saved" tick. Add
   save-on-blur as a fallback. Re-check all at 390px. **Effort: M**
 
-#### T-19 — Rung-3 candidate tiles are uneven; some render dark/unlabelled
+#### T-19: Rung-3 candidate tiles are uneven; some render dark/unlabelled
 - **Severity:** P1 · **Theme:** Core loop (1) / trust
 - **Screens:** feed Rung-3 candidates
 - **Merges:** B-03
@@ -440,7 +440,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   gate to reject dark/low-contrast/unlabelled images from the candidate pool, falling
   back to a silhouette + name rather than shipping a dark cell. **Effort: M**
 
-#### T-20 — Panel question headers truncate mid-word on mobile
+#### T-20: Panel question headers truncate mid-word on mobile
 - **Severity:** P1 · **Theme:** Core loop (1) / copy
 - **Screens:** feed Rung-2, Rung-3
 - **Merges:** B-02
@@ -453,12 +453,12 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   to a subline; reserve the top row for icons only and put the question on its own
   full-width line. Pairs with T-21 (drop all-caps). **Effort: S**
 
-#### T-21 — Single-snippet bbox overlay dots render over the metadata text (visual bug)
+#### T-21: Single-snippet bbox overlay dots render over the metadata text (visual bug)
 - **Severity:** P1 · **Theme:** Two-worlds / trust (4)
 - **Screens:** snippet reveal-correct
 - **Merges:** C-08
 - **Observation:** In the "PEBL OBSERVATION DETAILS" panel the video's tracking-overlay
-  dots are painted across the metadata text — the heading and "Site: Bideford Bay…"
+  dots are painted across the metadata text, the heading and "Site: Bideford Bay…"
   are occluded by scattered teal blobs and read as garbled. Overlay graphics are
   bleeding outside the video frame onto the card beneath. A clear rendering bug on the
   shareable entry page.
@@ -467,22 +467,22 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   card. Verify on the single-snippet layout specifically (panels sit closer there than
   in the feed sheet). **Effort: S**
 
-#### T-22 — Landing leads with "6 spotters" social proof, signalling an empty product
+#### T-22: Landing leads with "6 spotters" social proof, signalling an empty product
 - **Severity:** P1 · **Theme:** First impression / empty states (1/2)
 - **Screens:** landing
 - **Merges:** A-06, G-04
-- **Observation:** The stats band gives three equal-weight numbers — "30 underwater
-  clips / 57 identifiable species / 6 spotters" — and the leaderboard corroborates one
+- **Observation:** The stats band gives three equal-weight numbers, "30 underwater
+  clips / 57 identifiable species / 6 spotters", and the leaderboard corroborates one
   ranked spotter. A literal "6 spotters" as a headline metric tells every visitor the
   community is essentially empty, the opposite of social proof, at the first
   impression.
-- **Fix:** Swap the third stat for one that grows fast and reads positively — "N IDs
+- **Fix:** Swap the third stat for one that grows fast and reads positively, "N IDs
   made", "N species spotted this week", or a site count ("footage from N UK sites").
   Reintroduce a spotter count once it's in the hundreds. **Effort: S**
 
-### P2 — meaningful polish / consistency / clarity
+### P2: meaningful polish / consistency / clarity
 
-#### T-23 — All-caps tracked headers used for primary rung questions (shouty, hurts readability)
+#### T-23: All-caps tracked headers used for primary rung questions (shouty, hurts readability)
 - **Severity:** P2 · **Theme:** Core loop / design system
 - **Screens:** feed Rung-1/2/3
 - **Merges:** B-08
@@ -494,7 +494,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   shape is it, roughly?"); keep uppercase tracked styling for eyebrows and badges
   only. **Effort: S**
 
-#### T-24 — Escape-hatch labels are ambiguous and overlap in meaning
+#### T-24: Escape-hatch labels are ambiguous and overlap in meaning
 - **Severity:** P2 · **Theme:** Core loop / copy
 - **Screens:** feed Rung-1/2/3
 - **Merges:** B-09, plus B-10 (missing partial-credit path at Rung 2)
@@ -506,28 +506,28 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
 - **Fix:** Rename for intent ("Skip to guess" → "Just pick the species →"), reserve
   "Skip" for skipping the clip, make "Not sure" clearly "help me narrow / step back",
   and use the same two escape verbs consistently across rungs. Surface the "It's just
-  a Fish — lock in 1 pt" action at Rung 2 as well. **Effort: S**
+  a Fish, lock in 1 pt" action at Rung 2 as well. **Effort: S**
 
-#### T-25 — Minimised resume control is an unlabelled "magnifier" colliding with the scroll hint
+#### T-25: Minimised resume control is an unlabelled "magnifier" colliding with the scroll hint
 - **Severity:** P2 · **Theme:** Core loop / affordance
 - **Screens:** feed minimized
 - **Merges:** B-04
 - **Observation:** After minimising, the only way back into the ID flow is a small
   teal-outlined magnifier circle with no label (a magnifier conventionally means
   "search", not "resume identifying"), sitting right under/beside the "USE ↑/↓ OR
-  SCROLL FOR NEXT" pill and the progress line — three controls crowding one corner. A
+  SCROLL FOR NEXT" pill and the progress line, three controls crowding one corner. A
   user who minimised by accident has no obvious way back in.
 - **Fix:** Change the glyph to a fish-tag/target icon, add a small "Resume ID" label
   (or a one-time tooltip on first minimise), and separate it spatially from the scroll
   hint so the resume control owns the bottom-right corner. **Effort: S**
 
-#### T-26 — Verify-email banner intrudes on the reward / play surface and stacks on other overlays
+#### T-26: Verify-email banner intrudes on the reward / play surface and stacks on other overlays
 - **Severity:** P2 · **Theme:** Reward / onboarding overload
 - **Screens:** authed reveal, authed feed, menu, onboarding
 - **Merges:** C-07, E-11, D-04, A-04 (stacked-overlay variant), G-07 (banner half), G-10
 - **Observation:** A persistent "Check your inbox / Verify to enable the weekly digest
   / Resend email" banner is pinned at the bottom of the play/reveal area for a fresh
-  user — the most prominent message right when they should be having fun. It also
+  user, the most prominent message right when they should be having fun. It also
   overlaps the open menu (covering lower nav, possibly the very Account/Sign-out items
   of T-16), competes with the onboarding tour in the same frame on first sign-in, and
   greets the converted user with an admin chore at the reward moment.
@@ -537,11 +537,11 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   prefer a quiet inline chip on the account/identity area; soften copy to a perk
   ("Optional: verify to get the weekly digest"). **Effort: S**
 
-#### T-27 — Onboarding teaches the mechanic but not the meaning, and is text-dense
+#### T-27: Onboarding teaches the mechanic but not the meaning, and is text-dense
 - **Severity:** P2 · **Theme:** First impression / reason-for-being (1)
-- **Screens:** onboarding steps 1–3
+- **Screens:** onboarding steps 1-3
 - **Merges:** A-07, G-10 (purpose half), A-03 (em-dash copy)
-- **Observation:** Each tour card is a heading + a 2–3 line paragraph with no
+- **Observation:** Each tour card is a heading + a 2-3 line paragraph with no
   supporting visual; step 2 front-loads OBIS, references and scoring rationale in
   prose before the user has seen any of it. It explains "Spot / Compare / Streak" but
   never says *why it matters* (no "you're helping monitor real reefs"), and the body
@@ -552,7 +552,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   purpose beat ("Your IDs help PEBL track what lives on UK reefs"), defer the
   OBIS/scoring nuance to the in-product reveal, and strip every em dash. **Effort: M**
 
-#### T-28 — Leaderboard is competitive-only and exclusionary to newcomers (no progress-to-entry, no collective frame)
+#### T-28: Leaderboard is competitive-only and exclusionary to newcomers (no progress-to-entry, no collective frame)
 - **Severity:** P2 · **Theme:** Empty states / community (2)
 - **Screens:** leaderboard (m+d)
 - **Merges:** E-05, G-08, E-13 (leaderboard half)
@@ -560,30 +560,30 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   with no progress cue for a 1-answer newcomer, and the rest of the page is a
   "most-named species" stats list (data, not competition). There's no collective
   framing ("the community has identified N species together"), no recent-finds strip,
-  no "you" row — so it reads dead and exclusionary at n=6.
+  no "you" row, so it reads dead and exclusionary at n=6.
 - **Fix:** Always show a "You" row with a progress chip ("3 / 10 answers to join");
   lead with a collective banner (clips identified / species found / sites covered) and
   keep the ranked table as one section below; add a "recent finds" / "newest spotters"
   strip; relabel the species-frequency list as "Community trends" and tie it into the
   impact narrative (T-01). **Effort: M**
 
-#### T-29 — Species page teaches then dead-ends (no path back into playing/collecting)
+#### T-29: Species page teaches then dead-ends (no path back into playing/collecting)
 - **Severity:** P2 · **Theme:** Discovery → loop (2)
 - **Screens:** species (dragonet/crab/starfish, m+d)
 - **Merges:** E-09
-- **Observation:** The (excellent) species pages terminate at "← Back to the feed" —
+- **Observation:** The (excellent) species pages terminate at "← Back to the feed",
   no "find a clip with this species", no collection-status line, no "go unlock it." The
   most educational surface doesn't feed the core loop or the collection.
 - **Fix:** Add a footer CTA band: a primary "Spot this in the feed" (deep-link/filter
   to clips where the species is plausible per the probability cache) and a
-  collection-status line ("Locked — name it in a clip to unlock" / "✓ In your
+  collection-status line ("Locked, name it in a clip to unlock" / "✓ In your
   collection"). **Effort: M**
 
-#### T-30 — Pokédex group counters use jargon + don't match the gate + aren't tappable filters
+#### T-30: Pokédex group counters use jargon + don't match the gate + aren't tappable filters
 - **Severity:** P2 · **Theme:** Empty states / consistency (2)
 - **Screens:** profile/pokédex
 - **Merges:** E-08
-- **Observation:** Group chips read "Crab 0/6, Fish 0/28, … Gastropod 0/4 …" —
+- **Observation:** Group chips read "Crab 0/6, Fish 0/28, … Gastropod 0/4 …",
   "Gastropod" is jargon the brief flags as off-tone, the labels don't obviously line
   up with the shape-class gate the user just used, and they're plain text where users
   will expect tapping "Fish 0/28" to filter the grid.
@@ -591,44 +591,44 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   make each chip a filter that scrolls the grid to that group, and show each group's
   progress as a tiny bar. **Effort: S**
 
-#### T-31 — "Edit answer" after scoring is ambiguous and risks undermining the reward
+#### T-31: "Edit answer" after scoring is ambiguous and risks undermining the reward
 - **Severity:** P2 · **Theme:** Reward / comprehension (3)
 - **Screens:** feed reveal
 - **Merges:** C-10
 - **Observation:** The post-reveal footer offers "EDIT ANSWER" (pencil) and "ARCHIVE"
   in low-contrast grey beside the bright "Next →". After points are awarded, "Edit
-  answer" is ambiguous — does it re-score (making +1 meaningless)? — and "Archive"
+  answer" is ambiguous, does it re-score (making +1 meaningless)?, and "Archive"
   reads as an admin/dataset action a public player won't understand here.
 - **Fix:** If re-scoring isn't allowed, relabel to "Change my guess (won't rescore)"
   or remove "Edit answer" from the post-reveal state; make "Next →" the unambiguous
   primary; demote/relocate "Archive". **Effort: S**
 
-#### T-32 — Teaching link is underweighted and targets the wrong comparison
+#### T-32: Teaching link is underweighted and targets the wrong comparison
 - **Severity:** P2 · **Theme:** Reward / learning loop (3)
 - **Screens:** feed reveal
 - **Merges:** C-09
 - **Observation:** "HOW TO SPOT A FISH NEXT TIME" is small low-contrast grey text on a
-  utility row beside "WHERE IS THIS?" — same weight as a secondary action, yet it's
+  utility row beside "WHERE IS THIS?", same weight as a secondary action, yet it's
   the learning payoff that makes the next guess better. It's also generic ("a Fish")
   rather than targeting the actual confusion (Pollack vs Saithe vs Poor cod).
 - **Fix:** Raise its prominence after a near-miss (teal text, "See how to tell these
   apart", more separation from "Where is this?") and target it at the user-vs-top-
   community look-alike comparison. **Effort: M**
 
-#### T-33 — Map modal truncates the site name and is a dead-end lookup
+#### T-33: Map modal truncates the site name and is a dead-end lookup
 - **Severity:** P2 · **Theme:** Reward / place (3)
 - **Screens:** feed map modal
 - **Merges:** C-11
 - **Observation:** The "Where is this?" header reads "BIDEFORD BAY, NORTH DEVON, UK ·
   ALGAP…" (deployment cut mid-word), subtitle is raw coordinates "51.0605, -4.3611",
-  and there's no scale bar, no human framing, and no onward action — the modal closes
+  and there's no scale bar, no human framing, and no onward action, the modal closes
   back to the reveal. Place is a credibility/wonder lever wasted.
 - **Fix:** Don't truncate the site/deployment name (wrap or move the code to the
   subtitle); replace/supplement raw coordinates with human context ("North Devon, ~20m
   depth"); add a scale indicator and one onward action ("More clips from Bideford
   Bay"). **Effort: M**
 
-#### T-34 — Primary-button styling is inconsistent across screens
+#### T-34: Primary-button styling is inconsistent across screens
 - **Severity:** P2 · **Theme:** Two-worlds / design system (4)
 - **Screens:** landing, sign-in/up, reveal, 404, account
 - **Merges:** F-06, A-05/G-05 (landing twin-CTA), B-13 (flashcard BACK), C-13 (reveal title)
@@ -644,7 +644,7 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   a quiet text link. Demote the flash-card "BACK" to a ghost/chevron. Add a "Your
   result" eyebrow to the reveal sheet. **Effort: M**
 
-#### T-35 — Header chrome and back-link wording vary across the app
+#### T-35: Header chrome and back-link wording vary across the app
 - **Severity:** P2 · **Theme:** Two-worlds / consistency (4)
 - **Screens:** all
 - **Merges:** F-10, A-09 (desktop hamburger-only + ghost logo), B-12 (orphan "SHOW ON SCREEN")
@@ -656,15 +656,15 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   right.
 - **Fix:** Standardise one header system: persistent wordmark right (lift to full brand
   colour); a single left-affordance rule (menu on top-level surfaces, one consistently
-  worded back-link — e.g. always "Back to feed" — on detail pages); render proper
+  worded back-link, e.g. always "Back to feed", on detail pages); render proper
   desktop nav/CTA instead of hamburger-only; label or remove "SHOW ON SCREEN".
   **Effort: M**
 
-#### T-36 — Legal copy surfaces a `.vercel.app` URL; long legal pages have no navigation
+#### T-36: Legal copy surfaces a `.vercel.app` URL; long legal pages have no navigation
 - **Severity:** P2 · **Theme:** Trust / legal
 - **Screens:** terms, privacy, accessibility
 - **Merges:** F-08, F-09
-- **Observation:** Terms states "available at fish-spotter.vercel.app" — a hosting URL
+- **Observation:** Terms states "available at fish-spotter.vercel.app", a hosting URL
   in published legal copy reads as staging/temporary (the intended canonical domain is
   a real domain). Privacy renders ~18,850px tall and Terms ~10,390px with no table of
   contents, jump-links or "back to top", so a user with a specific GDPR question must
@@ -675,12 +675,12 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   persistent "back to top" / "Back to FishSpotter", and standardise the support-contact
   treatment. **Effort: M**
 
-#### T-37 — Sign-up form is a five-field gate with "profile" framing at the soft ask
+#### T-37: Sign-up form is a five-field gate with "profile" framing at the soft ask
 - **Severity:** P2 · **Theme:** Auth friction (6)
 - **Screens:** sign-up, signup-filled
 - **Merges:** D-08, D-05 (duplicate 8-char hint)
 - **Observation:** Sign-up stacks five decisions (email, display name, password +
-  3-item checklist, age, terms) plus the under-18 explainer — a tall "play → paperwork"
+  3-item checklist, age, terms) plus the under-18 explainer, a tall "play → paperwork"
   register shift right after the reveal. "Create your spotting profile" oversells a
   standard account (no avatar/bio collected). The "(at least 8 characters)" hint is
   also duplicated (inline label + first checklist item) and is mis-placed on sign-in
@@ -691,9 +691,9 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
   one source for the 8-char rule and remove it from sign-in. Pairs with T-14.
   **Effort: M**
 
-### P3 — minor nits / nice-to-haves
+### P3: minor nits / nice-to-haves
 
-#### T-38 — Assorted small polish
+#### T-38: Assorted small polish
 - **Severity:** P3 · **Theme:** various
 - **Merges:** C-12 (depth chip uses a download glyph), B-15 (squid/eel silhouettes hard
   to parse), B-11 (unlabelled drag/minimise/close controls + destructive-close risk),
@@ -718,48 +718,48 @@ Severity order: P0 → P1 → P2 → P3. Effort: S (hours) / M (a day or two) / 
 
 ## 4. What's genuinely good (keep / protect)
 
-A consolidated list from all reviewers — do not regress these:
+A consolidated list from all reviewers, do not regress these:
 
 - **The guest reveal sequence** (`feed-05`): play → score in place → PEBL reference →
-  community split → *then* a soft "Save my finds — sign up free" card. Best-practice
+  community split → *then* a soft "Save my finds, sign up free" card. Best-practice
   citizen-science activation. The strongest screen in the app. (A, C, G)
-- **Reward fires in place and immediately** — verdict, reference and community land on
+- **Reward fires in place and immediately**: verdict, reference and community land on
   the same card the moment the user commits; no navigating to find a score. (C, G)
-- **The species education pages** — dark "How to spot it" card with numbered teal rings
-  over a real annotated photo + 2–3 plain-English diagnostic bullets, the "Usually seen
+- **The species education pages**: dark "How to spot it" card with numbered teal rings
+  over a real annotated photo + 2-3 plain-English diagnostic bullets, the "Usually seen
   at / Size / Habitat / Behaviour" chip row, the OBIS occurrence map, and correct
   visible CC attribution. A finished, on-brand asset; keep the template wholesale.
   (E, F)
-- **The shape-class-first identify gate** — the correct cognitive altitude for the
+- **The shape-class-first identify gate**: the correct cognitive altitude for the
   public ("it's a fish" before "it's a pollack"), large tiles, clean teal line-art
   silhouettes, species-count badges that teach scope, a real breadcrumb, and graduated
   escape hatches at every rung so nobody dead-ends. (B)
-- **The species flash-card** — binomial, "usually seen ~7–130 m", a diagnostic-mark
+- **The species flash-card**: binomial, "usually seen ~7-130 m", a diagnostic-mark
   ring on a real photo, the lateral-line explainer, a CC-attributed reference strip, one
   decisive "This is my pick" CTA. The teaching payload done well. (B)
-- **Honest, generous scoring on display** — "Close · +1" for a coarse-but-reasonable
+- **Honest, generous scoring on display**: "Close · +1" for a coarse-but-reasonable
   guess tells a newcomer the game is forgiving and lowers the barrier. (G)
-- **The auth copy + consent/safeguarding layer** — the sign-up value framing ("Join the
+- **The auth copy + consent/safeguarding layer**: the sign-up value framing ("Join the
   PEBL marine monitoring community…"), the age band + under-18 guardian/leaderboard
   handling, inline password-strength feedback with "(recommended)" framing. Rare to see
   done this well; keep verbatim. (D)
-- **The account/settings page** — identity, email-verification status, a public-
+- **The account/settings page**: identity, email-verification status, a public-
   leaderboard privacy toggle, a named Danger Zone, a GDPR Art. 20 JSON data export, and
   a legal block. Reads as a lawful, credible product. (D)
-- **The legal + accessibility pages** — proper structure, company number 12076622,
+- **The legal + accessibility pages**: proper structure, company number 12076622,
   registered address, and an unusually honest Accessibility Statement that names a WCAG
   2.1 AA target AND a candid "Known gaps" section. A genuine trust asset. (F)
-- **One consistent brand system + no emoji icons in the core chrome** — the wordmark,
+- **One consistent brand system + no emoji icons in the core chrome**: the wordmark,
   the uppercase tracked teal eyebrow + bold navy H1, the pebl-surface cards, line/
   silhouette art not emoji. The single biggest "this is a real product" signal. (F)
-- **The 404 page** — keeps the marine-silhouette background, a clear headline, and two
+- **The 404 page**: keeps the marine-silhouette background, a clear headline, and two
   real recovery actions. (F)
 - **Play-before-signup is implemented** and the landing removes the obvious blockers
   ("Free, no card required" + a primary CTA that doesn't demand an account). (A, G)
 - **The persistent metadata HUD** (depth / location / month) on the feed and the
-  reveal's "Where is this?" — grounds each clip in real provenance. (B, C)
+  reveal's "Where is this?", grounds each clip in real provenance. (B, C)
 - **The retention scaffolding exists at all** (pokédex, streak, leaderboard,
-  most-named-species) — the right set of mechanics; the problems are framing and
+  most-named-species), the right set of mechanics; the problems are framing and
   first-run state, not whether to have them. (G)
 
 ---
@@ -770,11 +770,11 @@ Ranked by how much each moves the public-engagement goal per unit of effort.
 
 1. **Thread the real-science contribution narrative through landing → reveal → profile
    → leaderboard (T-01).** The missing reason-for-being; mostly copy. *M.*
-2. **Convert the first-run retention states from deficit to momentum (T-02)** — hide
+2. **Convert the first-run retention states from deficit to momentum (T-02)**: hide
    0% accuracy, reframe "0 of 57" as "1 discovered, 56 to find" with a filling bar,
    collapse the locked wall, seed a guaranteed first unlock in onboarding. *M.*
-3. **Make the reward visibly accumulate progress on both reveals (T-07)** — points +
-   streak tick + "added to your collection — N of 57" / unlock beat at the moment of
+3. **Make the reward visibly accumulate progress on both reveals (T-07)**: points +
+   streak tick + "added to your collection, N of 57" / unlock beat at the moment of
    the win. *M.*
 4. **Fix the browse grid: real poster frames + per-card identity/status + discovery
    filters (T-03 + T-04).** Turns a dead database dump into a library worth exploring.

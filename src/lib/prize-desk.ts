@@ -1,8 +1,8 @@
 /**
  * Data layer for the prize fulfilment desk (/admin/prizes).
  *
- * Split out of the page so the query pipeline — which decides who PEBL owes a
- * book and which address to write to — is exercised by integration tests
+ * Split out of the page so the query pipeline, which decides who PEBL owes a
+ * book and which address to write to, is exercised by integration tests
  * against a real Postgres rather than eyeballed against production. The page
  * renders; this assembles. src/lib/prize.ts stays the pure leaf underneath
  * (status/contact derivation, sorting).
@@ -131,7 +131,7 @@ export interface PrizeDeskSummaryWinner {
 }
 
 /**
- * Serialize desk rows for GET /api/admin/prize-desk/summary — Dates become
+ * Serialize desk rows for GET /api/admin/prize-desk/summary, Dates become
  * ISO strings, and the field list here is the explicit, tested contract for
  * what a PRIZE_DESK_TOKEN holder can see. This endpoint (unlike metrics) is
  * NOT aggregate-only: contactEmail is real PII. Keep this an allow-list

@@ -20,7 +20,7 @@ export default defineConfig({
   projects: [
     // Both projects run Chromium. Mobile uses the Pixel 7 device descriptor
     // (Chromium-backed) instead of iPhone 14 Pro (which is WebKit and
-    // requires `playwright install webkit` — CI only installs Chromium for
+    // requires `playwright install webkit`, CI only installs Chromium for
     // speed). The H.264 codec invariant is Chrome-specific anyway, so
     // standardising on Chromium also matches the production-browser of
     // concern.

@@ -107,7 +107,7 @@ export async function replyToComment(id: string, reply: string) {
       where: { id },
       data: {
         // NB the reply lives in the thread as its own Comment row (above), not
-        // in a field here — so the schema's legacy `adminReply` column stays
+        // in a field here, so the schema's legacy `adminReply` column stays
         // unused. Kept rather than dropped to avoid a needless prod migration.
         ...(advance ? { status: "acknowledged" } : {}),
         handledBy: email,

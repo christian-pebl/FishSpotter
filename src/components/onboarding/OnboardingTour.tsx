@@ -50,14 +50,14 @@ export function OnboardingTour({ needsTour }: Props) {
     try {
       await fetch("/api/account/onboarding", { method: "POST" });
     } catch {
-      // No-op — refreshing the page on a future session sees the
+      // No-op, refreshing the page on a future session sees the
       // same `needsTour=true` and re-prompts.
     }
   }, []);
 
   // WCAG 2.1.2: trap focus inside the dialog, restore to the opener on close,
   // Escape-to-close, lock body scroll. (Was declared aria-modal with none of
-  // these — a keyboard user could Tab onto the live feed behind it.)
+  // these, a keyboard user could Tab onto the live feed behind it.)
   useModalFocus(open, dialogRef, close);
 
   if (!open) return null;

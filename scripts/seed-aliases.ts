@@ -2,7 +2,7 @@
  * Seed the SpeciesAlias table from src/data/species-aliases.json plus
  * auto-resolved scientific names from SpeciesNameMap.
  *
- * Idempotent — upserts each row by `canonical`. Safe to run repeatedly
+ * Idempotent, upserts each row by `canonical`. Safe to run repeatedly
  * (e.g. after editing the JSON to add a new alias).
  *
  * Run: npm run db:seed-aliases

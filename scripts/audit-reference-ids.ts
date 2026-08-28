@@ -40,7 +40,7 @@ const prisma = new PrismaClient();
 // exactly the SHAPE_CLASS enum values that buildShapeClassByForm() maps to
 // themselves in answer-matching.ts, so a guess of the right shape earns
 // POINTS_SHAPE_CLASS (+1) against them. Under scored-by-rung these are NOT
-// nullify candidates — they are kept as coarse references. Keep this in sync
+// nullify candidates, they are kept as coarse references. Keep this in sync
 // with the enum (importing it guarantees that).
 const SHAPE_CLASS_WORDS = new Set(SHAPE_CLASS.map((s) => normalizeAnswer(s)));
 
@@ -84,11 +84,11 @@ function classify(
   if (SHAPE_CLASS_WORDS.has(norm)) {
     return {
       action: "keep-coarse",
-      reason: `shape-class reference ("${norm}") — scores +1 for a correct-shape guess; optionally backfill to a species for +2`,
+      reason: `shape-class reference ("${norm}"), scores +1 for a correct-shape guess; optionally backfill to a species for +2`,
     };
   }
   if (norm === "" || TRULY_INDETERMINATE.has(norm)) {
-    return { action: "nullify", reason: "indeterminate label, no shape class — make it a no-reference snippet" };
+    return { action: "nullify", reason: "indeterminate label, no shape class, make it a no-reference snippet" };
   }
 
   const sci = resolved?.scientificName ?? null;
@@ -206,7 +206,7 @@ async function main() {
     "\nNext: `keep` and `keep-coarse` need no action (coarse refs already score\n" +
       "+1 by shape under scored-by-rung). Review the `backfill` rows (supply a\n" +
       "species binomial to unlock +2) and `nullify` rows (set staffAnswer = NULL,\n" +
-      "then retro-score the existing Answer rows — see CLAUDE.md > Scoring model).\n",
+      "then retro-score the existing Answer rows, see CLAUDE.md > Scoring model).\n",
   );
 }
 

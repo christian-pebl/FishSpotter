@@ -1,5 +1,5 @@
 /**
- * GET /api/account/digest/unsubscribe?u={userId}&t={hmac} — one-click
+ * GET /api/account/digest/unsubscribe?u={userId}&t={hmac}, one-click
  * unsubscribe from the weekly digest (S3-16, PECR Reg. 22).
  *
  * No session required by design: the user is in their email client.

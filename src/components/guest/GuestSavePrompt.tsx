@@ -7,7 +7,7 @@ import { useModalFocus } from "@/lib/useModalFocus";
 import { GUEST_MILESTONE_EVENT } from "@/lib/guest";
 
 /**
- * After a guest has spotted a few clips (GUEST_SAVE_PROMPT_AT — the quiz hook
+ * After a guest has spotted a few clips (GUEST_SAVE_PROMPT_AT, the quiz hook
  * fires GUEST_MILESTONE_EVENT), invite them to save their run with an email.
  * Email-only by design: POST /api/guest/claim attaches the address to their
  * existing account (points already persist) and mails a set-password link.

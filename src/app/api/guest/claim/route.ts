@@ -1,5 +1,5 @@
 /**
- * POST /api/guest/claim — a guest attaches a real email to save their account.
+ * POST /api/guest/claim, a guest attaches a real email to save their account.
  *
  * Zero-friction play mints a username-only guest (see the guest branch in
  * src/lib/auth.ts). Their Answer rows + leaderboard rank already persist; this
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Account not found." }, { status: 404 });
   }
   if (!me.isGuest) {
-    // Already a full account — nothing to claim.
+    // Already a full account, nothing to claim.
     return NextResponse.json({ ok: true, alreadyClaimed: true });
   }
 
@@ -98,7 +98,7 @@ export async function POST(req: Request) {
   });
 
   // Mail a one-time link to set a password (finishes the account). Fire-and-
-  // forget style: a mail-provider blip shouldn't lose the claim — the email is
+  // forget style: a mail-provider blip shouldn't lose the claim, the email is
   // now saved and they can use "forgot password" to finish later.
   try {
     const plain = generateToken();

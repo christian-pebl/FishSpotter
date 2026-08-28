@@ -5,7 +5,7 @@
   "cloudflareApiToken": "",
   "cloudflareAccountId": "",
 
-  "_r2": "Mint R2 S3-API credentials at dash.cloudflare.com → R2 → Manage R2 API Tokens. The secret is shown ONCE — paste it here right after.",
+  "_r2": "Mint R2 S3-API credentials at dash.cloudflare.com → R2 → Manage R2 API Tokens. The secret is shown ONCE, paste it here right after.",
   "r2AccessKeyId": "",
   "r2SecretAccessKey": "",
   "r2BucketName": "fishspotter-snippets",
@@ -20,7 +20,7 @@
   "resendApiKey": "",
   "resendDomain": "pebl-cic.co.uk",
 
-  "_github": "githubToken optional — gh CLI auth is used by default. Set only if you want the kit to run unattended without gh CLI.",
+  "_github": "githubToken optional, gh CLI auth is used by default. Set only if you want the kit to run unattended without gh CLI.",
   "githubToken": "",
   "githubRepo": "",
 

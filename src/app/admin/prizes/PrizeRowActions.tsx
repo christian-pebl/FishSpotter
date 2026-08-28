@@ -35,7 +35,7 @@ export function CopyEmailButton({ email }: { email: string }) {
 
 /**
  * The one write on this page: mark a claimed guide posted, or undo a mis-click.
- * Optimistic — the row flips immediately and reverts if the action throws, so a
+ * Optimistic, the row flips immediately and reverts if the action throws, so a
  * slow round-trip can't tempt an admin into double-marking.
  */
 export function PostedToggle({
@@ -60,7 +60,7 @@ export function PostedToggle({
         await setPrizeFulfilled(userId, next);
       } catch {
         setPosted(!next);
-        setError("Could not save — try again.");
+        setError("Could not save. Try again.");
       }
     });
   };

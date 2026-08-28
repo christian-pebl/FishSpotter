@@ -3,7 +3,7 @@
  * provider (R2 in production) and cache-bust the DB URLs.
  *
  * Context: the live clips were exported via OpenCV's mp4v encoder and then
- * re-encoded to H.264 — two lossy passes. The TRDesk4 export now writes H.264
+ * re-encoded to H.264, two lossy passes. The TRDesk4 export now writes H.264
  * once, straight from source (see reexport_snippets_hq.py). This script pushes
  * those improved files over the existing R2 objects.
  *
@@ -99,7 +99,7 @@ async function main() {
 
     if (!FORCE_ALL && row.videoUrl.includes(providerHost)) {
       skipped++;
-      continue; // already on the active provider — nothing to do
+      continue; // already on the active provider, nothing to do
     }
 
     const dir = path.join(FROM, row.externalId);

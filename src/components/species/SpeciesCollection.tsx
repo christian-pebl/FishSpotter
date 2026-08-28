@@ -16,7 +16,7 @@ import { UnlockTile, ProgressBadge } from "@/components/species/UnlockTile";
  * collect" hook: when the caller knows it (e.g. a `?unlocked=<scientificName>`
  * param on the profile after a correct ID), that one tile dissolves in and its
  * shape-class badge ticks up by one. Left undefined, everything renders at rest
- * (no animation). Deliberately not wired into routing here — that is the
+ * (no animation). Deliberately not wired into routing here, that is the
  * caller's call.
  */
 export async function SpeciesCollection({
@@ -110,7 +110,7 @@ export async function SpeciesCollection({
         ))}
       </div>
 
-      {/* How collecting works — and an honest note that some clips the PEBL team
+      {/* How collecting works, and an honest note that some clips the PEBL team
           can only identify to group level, so they score but never unlock a
           species (no species-level reference exists for them). */}
       <p className="mt-3 text-[10px] leading-relaxed text-navy-900/45">

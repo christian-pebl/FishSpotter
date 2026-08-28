@@ -10,7 +10,7 @@ import { useReducedMotion } from "framer-motion";
  * (≈ DURATION.micro) on the lazy <img>'s onLoad; reduced motion shows the
  * photo at opacity 1 immediately. `TilePhoto` is private to CandidateGate, so
  * this story re-creates the exact same markup + fade classes (a faithful
- * stand-in) and mocks the photo arrival so the fade is observable on demand —
+ * stand-in) and mocks the photo arrival so the fade is observable on demand,
  * no /api fetch, no DB, no network. The fetch / ordering logic in
  * CandidateGate is intentionally NOT exercised here; this story is only the
  * micro-animation.
@@ -170,7 +170,7 @@ export const ReducedMotion: Story = {
     // Storybook can't force the OS media query per-story, so this variant
     // documents the intended static end state: every tile at full opacity,
     // no transition. (Toggle your OS "Reduce motion" to see PhotoFadeIn behave
-    // identically — the component reads useReducedMotion().)
+    // identically, the component reads useReducedMotion().)
     docs: {
       description: {
         story:
@@ -209,7 +209,7 @@ export const ReducedMotion: Story = {
         </div>
       </Frame>
       <p className="max-w-xs text-center text-[11px] text-navy-900/60">
-        Static end state (opacity 1, no transition) — what a reduced-motion user
+        Static end state (opacity 1, no transition), what a reduced-motion user
         sees.
       </p>
     </div>

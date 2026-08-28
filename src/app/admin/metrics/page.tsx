@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 // National Lottery Climate Action Fund: reach, engagement depth, and learning
 // outcomes. Engagement counts come from the consent-gated Event log; learning /
 // identification counts are derived from the existing Answer / UnlockedSpecies
-// tables (not duplicated). All aggregate — no individual is profiled here.
+// tables (not duplicated). All aggregate, no individual is profiled here.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "Metrics · FishSpotter admin" };
@@ -161,7 +161,7 @@ export default async function MetricsPage() {
           />
           <StatCard
             label="Consensus accuracy"
-            value={accuracy == null ? "—" : `${accuracy}%`}
+            value={accuracy == null ? "-" : `${accuracy}%`}
             sub="IDs matching the community"
           />
         </div>

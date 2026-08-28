@@ -101,7 +101,7 @@ describe("buildPrizeWinnerRows", () => {
   });
 
   it("keeps a claimed row even if the total somehow falls below target", () => {
-    // PEBL still owes them a book — a claim must never silently vanish.
+    // PEBL still owes them a book, a claim must never silently vanish.
     const rows = buildPrizeWinnerRows([winner({ pebbles: 10, claimedAt: new Date() })]);
     expect(rows).toHaveLength(1);
     expect(rows[0].status).toBe("to-post");

@@ -53,7 +53,7 @@ describe("toPrizeDeskSummary", () => {
 
   it("is an explicit allow-list: only the documented fields ever appear", () => {
     // This is the actual security contract. PrizeWinnerRow carries `email`
-    // and `displayName`/`name` too (raw User columns) — if toPrizeDeskSummary
+    // and `displayName`/`name` too (raw User columns), if toPrizeDeskSummary
     // ever changed to `...row` those would leak into a PII-carrying response
     // without a deliberate review. Pin the exact key set.
     const { winners } = toPrizeDeskSummary([row()]);

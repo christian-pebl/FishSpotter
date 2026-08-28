@@ -2,8 +2,8 @@
  * Deterministic shuffle utilities (S2-T06 + S8-T1).
  *
  * Lifted out of `biodiversity/candidates.ts` so quiz-candidate selection
- * and feed-ordering can share one PRNG. Pure module — no Prisma, no DOM,
- * no Node-only APIs — so it's importable from middleware, server
+ * and feed-ordering can share one PRNG. Pure module, no Prisma, no DOM,
+ * no Node-only APIs, so it's importable from middleware, server
  * components, client components, and unit tests alike.
  */
 

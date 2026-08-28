@@ -1,4 +1,4 @@
-# FishSpotter launch config — domain + email runbook
+# FishSpotter launch config: domain + email runbook
 
 Decided 4 Jun 2026. Two intertwined workstreams: register the domain, then
 authenticate transactional email on it. The "cleaner approach": SendGrid is

@@ -7,7 +7,7 @@ import { DURATION, EASE, spring } from "@/lib/motion";
 /**
  * The onboarding tour's "here's exactly what you'll see" panel: the SAME real,
  * muted, looping clip used on the landing hero (a velvet crab at Pabay, Isle of
- * Skye — see HeroPreview.tsx / the pinned hero clip in src/app/page.tsx), with a
+ * Skye, see HeroPreview.tsx / the pinned hero clip in src/app/page.tsx), with a
  * guided cursor walking through one real identification: watch a beat of the
  * clip, tap Identify, pick the highlighted option, see it lock in. Steps 2 and 3
  * layer the reveal (reference + community histogram + Pebbles) and the streak
@@ -21,7 +21,7 @@ const POSTER_URL =
   "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/KEL33_2026-04-23_08-01_velvetcrab_track_manual_0-696_20260629_112902/thumbnail.jpg?v=3";
 const SITE = "Pabay, Inner Sound, Isle of Skye, UK";
 const CHIPS = ["Velvet crab", "Brown crab", "Hermit crab", "Spider crab"];
-const TARGET_INDEX = 0; // "Velvet crab" — the animal actually in this clip.
+const TARGET_INDEX = 0; // "Velvet crab", the animal actually in this clip.
 
 // Percent-of-card positions the cursor visits. Tuned by eye against the
 // rendered 3:4 card; not measured from the DOM since the layout is fixed.
@@ -47,7 +47,7 @@ export function TourPreview({ step }: { step: 0 | 1 | 2 }) {
 
   // Step 1 owns a self-playing watch -> tap -> pick -> lock sequence, looped
   // a couple of times then held at rest (never perpetual). Steps 2/3 don't
-  // need the sequence — they render their own static-reached state directly.
+  // need the sequence, they render their own static-reached state directly.
   useEffect(() => {
     if (step !== 0) return;
     if (reduce) {
@@ -97,7 +97,7 @@ export function TourPreview({ step }: { step: 0 | 1 | 2 }) {
     };
   }, [step, reduce]);
 
-  // Step 3 (streak) is a different, unrelated moment — the crab pick chip
+  // Step 3 (streak) is a different, unrelated moment, the crab pick chip
   // from step 1 shouldn't linger behind it (it painted on top since it comes
   // later in JSX than the streak panel, with no z-index between them).
   const showChips =
@@ -131,7 +131,7 @@ export function TourPreview({ step }: { step: 0 | 1 | 2 }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-900/88 via-navy-900/15 to-navy-900/35" />
 
-        {/* Corner reticle — matches the landing hero preview's frame language. */}
+        {/* Corner reticle, matches the landing hero preview's frame language. */}
         <div className="pointer-events-none absolute inset-3" aria-hidden="true">
           {(["left-0 top-0", "right-0 top-0", "left-0 bottom-0", "right-0 bottom-0"] as const).map((pos, i) => (
             <span
@@ -294,7 +294,7 @@ export function TourPreview({ step }: { step: 0 | 1 | 2 }) {
           )}
         </AnimatePresence>
 
-        {/* The guided cursor — the "here's where to tap" motion. */}
+        {/* The guided cursor, the "here's where to tap" motion. */}
         <AnimatePresence>
           {showCursor && (
             <motion.div

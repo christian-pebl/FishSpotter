@@ -29,7 +29,7 @@ describe("CommentBox guest gate (INV-4 at the UI layer)", () => {
 
     expect(screen.getByText(/create a free profile/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /sign up free/i })).toBeInTheDocument();
-    // The composer must not be reachable at all — not merely disabled.
+    // The composer must not be reachable at all, not merely disabled.
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
   });
 

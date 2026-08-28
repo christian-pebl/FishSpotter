@@ -1,5 +1,5 @@
 /**
- * Consensus scoring — the core of the Pebbles economy (sea-currency redesign).
+ * Consensus scoring, the core of the Pebbles economy (sea-currency redesign).
  *
  * There is no PEBL "reference" answer any more: the crowd is the authority.
  * Every clip accumulates community IDs, and once CONSENSUS_THRESHOLD_USERS
@@ -7,9 +7,9 @@
  * leader. The `consensus-rescore` cron then retro-credits every spotter in the
  * winning camp, paying foresight over bandwagoning:
  *
- *   - pioneer  (among the first spotters on the clip)        — PEBBLE_CONSENSUS.pioneer
- *   - joiner   (matched while the consensus was forming)     — PEBBLE_CONSENSUS.joiner
- *   - confirmer(agreed after it was the clear leader)        — PEBBLE_CONSENSUS.confirmer
+ *   - pioneer  (among the first spotters on the clip)       , PEBBLE_CONSENSUS.pioneer
+ *   - joiner   (matched while the consensus was forming)    , PEBBLE_CONSENSUS.joiner
+ *   - confirmer(agreed after it was the clear leader)       , PEBBLE_CONSENSUS.confirmer
  *
  * each scaled by RARITY (the winning species' OBIS probability at the clip's
  * site/month/depth bucket) and the spotter's CURRENT reliability streak.

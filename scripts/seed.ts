@@ -64,7 +64,7 @@ function getReferenceAnswer(meta: Metadata) {
 function shouldUseLocalFallback(): boolean {
   // Local fallback only kicks in when storage env vars for the chosen
   // provider are missing entirely. With a provider configured, we always
-  // upload — even on dev — because the DB row points at a public URL.
+  // upload (even on dev), because the DB row points at a public URL.
   try {
     getStorageDriver();
     return false;

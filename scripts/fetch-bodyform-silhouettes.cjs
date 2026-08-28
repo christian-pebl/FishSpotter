@@ -13,7 +13,7 @@ const path = require("path");
 
 const ACCEPT = { Accept: "application/vnd.phylopic.v2+json" };
 
-// Pinned image UUIDs — one per sub-split option value.
+// Pinned image UUIDs, one per sub-split option value.
 // File names match the trait values used in CandidateStrip SUB_SPLITS so
 // the component can construct the URL as /silhouettes/forms/<value>.svg.
 const TARGETS = [
@@ -227,7 +227,7 @@ async function main() {
   const outDir = path.join(process.cwd(), "public", "silhouettes", "forms");
   fs.mkdirSync(outDir, { recursive: true });
 
-  // Preserve any hand-authored (non-PhyloPic) credits — entries with no
+  // Preserve any hand-authored (non-PhyloPic) credits, entries with no
   // imageUuid are original PEBL silhouettes (e.g. bottom-scooter) and their SVGs
   // are not re-fetched here, so re-running this script must not drop them.
   const creditsPath = path.join(process.cwd(), "src", "data", "bodyform-silhouette-credits.json");
@@ -238,7 +238,7 @@ async function main() {
       if (v && v.imageUuid == null) credits[k] = v;
     }
   } catch {
-    // first run — no existing credits file
+    // first run, no existing credits file
   }
   let ok = 0;
 

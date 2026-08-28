@@ -16,14 +16,14 @@ import {
 /**
  * PebblePurchase.itemId of the RETIRED Tide Freeze shop consumable (the shop
  * was removed 20 Jul 2026). Freezes bought before retirement are still
- * honoured here — a held freeze keeps protecting a missed day; there is just
+ * honoured here, a held freeze keeps protecting a missed day; there is just
  * no way to buy more. The id must never be reused.
  */
 export const TIDE_FREEZE_ID = "tide-freeze";
 
 interface LoadedFreezes {
   state: FreezeState;
-  /** Ids of the held (unspent) freezes, oldest first — the order they're spent. */
+  /** Ids of the held (unspent) freezes, oldest first, the order they're spent. */
   availableIds: string[];
 }
 
@@ -75,7 +75,7 @@ export async function settleStreak(
     // `select` is load-bearing, not tidiness: without it Prisma emits
     // `UPDATE ... RETURNING` every scalar column, so spending a freeze starts
     // failing the moment schema.prisma gains a column prod hasn't migrated
-    // yet — and this runs inside POST /api/answers, the core loop. (Bit us on
+    // yet, and this runs inside POST /api/answers, the core loop. (Bit us on
     // 1 Aug 2026 when PebblePurchase gained fulfilledAt/fulfilledBy.) The
     // results are discarded, so ask for one column.
     await prisma.$transaction(

@@ -4,7 +4,7 @@
  * Returns the multiple-choice candidate set for the quiz UI (S2-T05).
  *
  * Auth-gated so the response can legitimately include the staff answer
- * as one of the candidates — anonymous callers get 401. This is the
+ * as one of the candidates, anonymous callers get 401. This is the
  * private replacement for `/probability`'s public OBIS species list
  * (which is spoiler-gated after S1-T11). The client never knows which
  * of the returned candidates is the staff answer.
@@ -16,7 +16,7 @@
  *     fallback: "OBIS" | "CATALOGUE" | "DEGENERATE",
  *   }
  *
- * Candidate count is deterministic per snippetId — the shuffle is
+ * Candidate count is deterministic per snippetId, the shuffle is
  * seeded on the snippet id so reloading the page doesn't reshuffle.
  */
 
@@ -83,7 +83,7 @@ export async function GET(
   }
 
   // Resolve the staff scientific name. May be null when GBIF lookup
-  // hasn't run or failed — the candidate selector handles that path
+  // hasn't run or failed, the candidate selector handles that path
   // by falling back to the catalogue. S7-T1: also null when the snippet
   // has no reference identification yet (snippet.staffAnswer === null).
   const nameMap = snippet.staffAnswer
@@ -94,7 +94,7 @@ export async function GET(
     : null;
   const staffScientific = nameMap?.scientificName ?? null;
 
-  // OBIS probability lookup for the bucket. Null is fine — selector
+  // OBIS probability lookup for the bucket. Null is fine, selector
   // falls back to catalogue.
   let probability: ProbabilityRow[] | null = null;
   const bucket = bucketFor(snippet);
@@ -118,7 +118,7 @@ export async function GET(
   }
 
   // Build the image lookup. We need thumbs for the staff option AND for
-  // every potential distractor — fetch the union (probability species ∪
+  // every potential distractor, fetch the union (probability species ∪
   // staffScientific ∪ catalogue when in fallback territory). One DB hit.
   //
   // Cheap shortcut: pull the SpeciesImage rows for everything that could

@@ -11,7 +11,7 @@ implemented yet.
 | 1 | "Spot it" not intuitive | Rename the entry button to **"Identify"** |
 | 2 | "Streamlined" vs "tall and thin" too fine (mm-scale) | **Merge fully**: collapse `fusiform` + `laterally-compressed` into one body-shape value everywhere; retire the Rung-3 `bodyDepth` splitter |
 | 3 | Can't X out of "learn how to ID" (not computer-optimised) | Add corner-X + Esc + click-outside to **every** modal; repro to confirm which dialog the tester hit (likely OnboardingTour) |
-| 4a | Gurnards missing | Onboard **Grey gurnard** (Eutrigla gurnardus) — content task |
+| 4a | Gurnards missing | Onboard **Grey gurnard** (Eutrigla gurnardus), content task |
 | 4b | Gobies under streamlined AND scoochers | Drop the `fusiform`/`elongated` tags from Common/Rock/Sand goby; **scoocher only** |
 | 5 | No way to submit unsure / coarse guesses | **"Not sure / it's just a [Fish]" button** at Rung 1/2 that commits the shape class for the existing 1-pt shape-class credit |
 | 6 | Menu sometimes tiles, sometimes type-in list | **Always photo tiles** at Rung 3; type-in demoted to a search box inside the grid |
@@ -22,17 +22,17 @@ implemented yet.
 | 11 | Anjali: bring depth + location as overlay into the video | Add a **toggleable depth/location chip** overlaid on the clip |
 | 12 | Anjali: depth/location in the species tile | **Folded into the pokedex species profile** (below) |
 | 13 | Anjali: less AI-based leaderboard + unique pokedex | Pokedex (below) + copy rewrite (#9) |
-| 14 | Anjali: lots of features hard to ID by | **Content review with Anjali** — which wizard traits are unreliable; not codeable blind |
+| 14 | Anjali: lots of features hard to ID by | **Content review with Anjali**: which wizard traits are unreliable; not codeable blind |
 
 ## Pokedex (decision #13, the big one)
 
 - **Collectable species grid:** all catalogue species; correctly-ID'd ones unlock (photo + count), rest greyed/locked.
 - **Higher-rung badges:** award when a user collects N distinct species within a shape-class (e.g. "3 different crabs"). Reflects rung-above achievements, not just per-species.
-- **Per-species profile** (each tile opens one): behaviour, where typically seen + **distribution map if findable**, typical **depth**, **substrate** — simple SVG drawings where possible.
+- **Per-species profile** (each tile opens one): behaviour, where typically seen + **distribution map if findable**, typical **depth**, **substrate**: simple SVG drawings where possible.
 
 Notes / dependencies:
 - Distribution map: render from our `SpeciesProbability` (OBIS) cache or pull a GBIF/OBIS occurrence map; check map-tile licensing before shipping.
-- Profile prose (behaviour/depth/substrate) is **content** — needs marine-bio sign-off, same gate as gurnard onboarding.
+- Profile prose (behaviour/depth/substrate) is **content**: needs marine-bio sign-off, same gate as gurnard onboarding.
 
 ## Build order
 

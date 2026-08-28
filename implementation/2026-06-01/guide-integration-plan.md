@@ -1,4 +1,4 @@
-# Plan — turning the ID guides into FishSpotter knowledge
+# Plan: turning the ID guides into FishSpotter knowledge
 
 Date: 1 June 2026. Author: design session with Christian.
 
@@ -8,10 +8,10 @@ FishSpotter already contains the engine this decision-tree work has been
 sketching. It is not a greenfield build. The gap is that the existing system
 is **fish-only** and **missing two layers** of the tree Christian drew:
 
-1. **Shape class** — the instant, zero-knowledge top-level filter
+1. **Shape class**: the instant, zero-knowledge top-level filter
    (Crab, Hermit Crab, Fish, Flatfish, Scooter, Jellyfish, Starfish,
    Gastropod, Squid).
-2. **Movement** — stationary / fits-and-starts / undulating /
+2. **Movement**: stationary / fits-and-starts / undulating /
    water-column / drifting (+ crawl for crabs).
 
 What already exists and maps directly:
@@ -68,17 +68,17 @@ All saved under `decision-tree/id-guides/`.
 
 | Guide | Type | Feeds |
 |---|---|---|
-| `ea-fish-key.pdf` (Maitland & Herdson) | Dichotomous key | **Branch logic** for Fish/Flatfish/Scooter classes — the fork characters become wizard step order + `narrow.ts` predicates. The single most structurally useful guide. |
+| `ea-fish-key.pdf` (Maitland & Herdson) | Dichotomous key | **Branch logic** for Fish/Flatfish/Scooter classes, the fork characters become wizard step order + `narrow.ts` predicates. The single most structurally useful guide. |
 | `merryweather-crabs-slef.pdf` | Key | The **Crab + Hermit Crab branches** (new shape classes, new sub-traits: leg:body ratio, carapace shape, claw, tucked-vs-fanned tail). |
 | `cefas-cephalopods-uk.pdf` | Key | The **Squid class** (cuttlebone shape, tentacular club, funnel). |
-| `sussex-ifca-fish-id.pdf` | Field guide | **Life-stage variants** (juveniles look nothing like adults — important for video) + inshore fish trait data. |
-| `zsl-estuarine-fish.pdf` | Field guide | Gobies, juvenile gadoids/flatfish, pipefish — the small-inshore long tail. |
+| `sussex-ifca-fish-id.pdf` | Field guide | **Life-stage variants** (juveniles look nothing like adults, important for video) + inshore fish trait data. |
+| `zsl-estuarine-fish.pdf` | Field guide | Gobies, juvenile gadoids/flatfish, pipefish, the small-inshore long tail. |
 | `devon-wt-rocky-shore.pdf` | Habitat guide | Cross-class common species, habitat grounding (Plymouth-area). |
-| *(British Sea Fishing confusion pages — web, free)* | Pairwise | The **diagnostic-mark content** for the confusion-matrix pairs (pollack/saithe/cod/whiting, plaice/flounder/dab). |
+| *(British Sea Fishing confusion pages, web, free)* | Pairwise | The **diagnostic-mark content** for the confusion-matrix pairs (pollack/saithe/cod/whiting, plaice/flounder/dab). |
 
 ---
 
-## Phase 0 — Reconcile the two models (design decision, no code)
+## Phase 0: Reconcile the two models (design decision, no code)
 
 The current wizard starts at `bodyShape` (6 fish-body values). The tree starts
 at `shapeClass`. Proposed reconciliation:
@@ -96,12 +96,12 @@ at `shapeClass`. Proposed reconciliation:
   unset traits, so this is mostly a UI/authoring concern, not an engine rewrite.
 
 **Decision for Christian:** does Shape class also become a *coarse reference
-tier* for scoring? (See Phase 4 — this directly reframes the parked
+tier* for scoring? (See Phase 4, this directly reframes the parked
 nullify/backfill audit.)
 
 ---
 
-## Phase 1 — Extend the trait schema (small, well-scoped code)
+## Phase 1: Extend the trait schema (small, well-scoped code)
 
 In `src/lib/idguide/traits.ts`:
 
@@ -123,7 +123,7 @@ unset traits. ~1-2 new hard-filter lines + enum additions.
 
 ---
 
-## Phase 2 — Extract guide content into the catalogue (the big content task)
+## Phase 2: Extract guide content into the catalogue (the big content task)
 
 Goal: grow `species-traits.json` from 26 fish to the full common-species set
 across all 9 shape classes, each entry tagged to the (extended) schema with a
@@ -136,7 +136,7 @@ prose `fieldNote`.
 - A cross-check agent verifies each draft against MarLIN / British Sea Fishing
   (catches mis-keyed traits, confirms binomials).
 - **Christian (marine biologist) signs off** before anything is written to
-  `species-traits.json`. This is the editorial gate — same principle as the
+  `species-traits.json`. This is the editorial gate, same principle as the
   curated-photo gate.
 
 Sequence by leverage: **Crab first** (Merryweather key is clean and it's the
@@ -145,17 +145,17 @@ then the rest of Fish, then the inverts.
 
 ---
 
-## Phase 3 — Author diagnostic marks for the confusion pairs
+## Phase 3: Author diagnostic marks for the confusion pairs
 
 The guides hand us exactly the "what rules out the lookalike" content the
 `DiagnosticMark` system was built for, and the confusion matrix already tells
 us where it's most needed:
 
-- **whiting ↔ saithe / cod, pollack ↔ saithe** — lateral-line shape
+- **whiting ↔ saithe / cod, pollack ↔ saithe**: lateral-line shape
   (kinked vs straight) + chin-barbel present/absent + jaw projection. All in
   the EA key + British Sea Fishing pages and already half-written in the
   `fieldNote`s.
-- **flatfish ↔ dragonet ("scooter")**, **plaice ↔ flounder ↔ dab** —
+- **flatfish ↔ dragonet ("scooter")**, **plaice ↔ flounder ↔ dab**,
   eyed-side features, left-vs-right-eyed, lateral-line curve.
 
 Author these at `/admin/species/[name]` once Phase 2 has curated reference
@@ -163,17 +163,17 @@ photos for the species. This retires items from the 28-May handoff backlog.
 
 ---
 
-## Phase 4 — Wire Shape class into scoring + reference tiers (reframes the audit)
+## Phase 4: Wire Shape class into scoring + reference tiers (reframes the audit)
 
 The parked reference-ID audit wanted to **nullify** "Fish / Crab / Jellyfish"
 as references because they aren't species-level. The decision tree **reframes
 them as legitimate Shape-class-level answers.** This is a real design fork:
 
-- **Option A — coarse reference tier.** A spotter who gets "Crab" right but
+- **Option A, coarse reference tier.** A spotter who gets "Crab" right but
   not the species earns partial credit (e.g. shape-class match = 1pt,
   species match = 2pt). Shape class becomes a first-class scoring rung. The
-  "Fish/Crab/Jellyfish" labels stay as valid coarse references — no nullify.
-- **Option B — keep the audit as-is.** Nullify the coarse labels; Shape class
+  "Fish/Crab/Jellyfish" labels stay as valid coarse references, no nullify.
+- **Option B, keep the audit as-is.** Nullify the coarse labels; Shape class
   is only an ID-aid funnel, never a scored answer.
 
 Recommendation: **Option A.** It matches how identification actually works

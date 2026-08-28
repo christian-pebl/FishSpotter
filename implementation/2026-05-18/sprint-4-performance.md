@@ -1,4 +1,4 @@
-# Sprint 4 — Performance & List Pages
+# Sprint 4: Performance & List Pages
 
 ## Goal
 
@@ -38,16 +38,16 @@ Test gates (lean on Sprint 1's testing infrastructure):
 
 From `02-feed-experience.md`: H1 (full-table on every visit), H2 (uncoalesced ±1 preload), H3 (`<video>` `src` not stripped → memory growth), end-of-feed state missing, per-card metadata not rendered, `force-dynamic` CDN bypass, service worker drift risk, H.264 codec invariant not enforced, debounce + virtualisation recommendations.
 
-From `05-browse-leaderboard.md`: F-ARC-01 (full-table on every visit), F-ARC-02 (no filter / sort / search), F-ARC-03 (`recordingDatetime` selected but not rendered), F-ARC-04 (inline type cast hides fields), F-ARC-05 (developer empty-state copy), F-ARC-06 (no end-of-results indicator), F-ARC-08 (no species hint — punted to Sprint 2's spoiler policy decision but the data plumbing lands here), F-ARC-11 (back-link target). F-LB-01 (full Answer scan), F-LB-03 (no timeframe filter), F-LB-04 (no self-row highlight), F-LB-06 (rank ties), F-LB-07 (personal empty state), F-LB-11 (no in-page anchors). F-X-01 (session-aware variants), F-X-02 (both pages `force-dynamic`).
+From `05-browse-leaderboard.md`: F-ARC-01 (full-table on every visit), F-ARC-02 (no filter / sort / search), F-ARC-03 (`recordingDatetime` selected but not rendered), F-ARC-04 (inline type cast hides fields), F-ARC-05 (developer empty-state copy), F-ARC-06 (no end-of-results indicator), F-ARC-08 (no species hint, punted to Sprint 2's spoiler policy decision but the data plumbing lands here), F-ARC-11 (back-link target). F-LB-01 (full Answer scan), F-LB-03 (no timeframe filter), F-LB-04 (no self-row highlight), F-LB-06 (rank ties), F-LB-07 (personal empty state), F-LB-11 (no in-page anchors). F-X-01 (session-aware variants), F-X-02 (both pages `force-dynamic`).
 
 From `07-accessibility-responsive-perf.md`: PERF-05 (service worker overly conservative), PERF-06 (`?v=3` cache-busting), PERF-07 (LCP poster preload), PERF-10 (full Answer scan), PERF-11 (`force-dynamic` disables ISR), PERF-15 (web-vitals not monitored).
 
 Out of scope for this sprint, deferred elsewhere:
 
-- F-LB-02 scoring formula (Sprint 2 — quiz alignment).
+- F-LB-02 scoring formula (Sprint 2, quiz alignment).
 - F-LB-05 / F-LB-10 identity model + profile pages (Sprint 6).
 - F-ARC-07 / F-ARC-09 / RESP-10 / A11Y items not directly on the list-page surface (Sprint 5 polish).
-- `error.tsx` / `loading.tsx` / `not-found.tsx` (Sprint 1 — already shipped).
+- `error.tsx` / `loading.tsx` / `not-found.tsx` (Sprint 1, already shipped).
 - Tap-to-pause, tap-to-unmute, panel default-collapsed (Sprint 5 navigation & polish).
 
 ## Dependency graph
@@ -93,7 +93,7 @@ S4-01, S4-06, S4-11, S4-16, S4-17 can start in parallel. The leaderboard chain (
 
 ## Tickets
 
-### S4-01 — Add `Answer.createdAt` index, confirm uniqueness, prep schema for timeframe filter
+### S4-01: Add `Answer.createdAt` index, confirm uniqueness, prep schema for timeframe filter
 
 **Severity:** P1 (precondition for leaderboard timeframe filter)
 **Audit refs:** §05 F-LB-03 (open question 6), §05 F-LB-12 (open question 7)
@@ -133,7 +133,7 @@ Confirm `Answer.createdAt` exists and is indexed for time-bucket filtering. Conf
 
 ---
 
-### S4-02 — Convert `/leaderboard` to SQL `groupBy` + ISR
+### S4-02: Convert `/leaderboard` to SQL `groupBy` + ISR
 
 **Severity:** P0 (audit §05 F-LB-01, §07 PERF-10)
 **Audit refs:** §05 F-LB-01, §07 PERF-10, §07 PERF-11, §05 F-X-02
@@ -194,7 +194,7 @@ Replace `prisma.answer.findMany()` + JS reduction with two `prisma.answer.groupB
 
 ---
 
-### S4-03 — Leaderboard timeframe filter (week / month / all)
+### S4-03: Leaderboard timeframe filter (week / month / all)
 
 **Severity:** P1 (audit §05 F-LB-03)
 **Audit refs:** §05 F-LB-03
@@ -227,7 +227,7 @@ Add a `?range=week|month|all` query param. Render three tabs (radio-group semant
 
 ---
 
-### S4-04 — Self-row highlight + personal empty state on leaderboard
+### S4-04: Self-row highlight + personal empty state on leaderboard
 
 **Severity:** P1 (audit §05 F-LB-04, §05 F-LB-07, §05 F-X-01)
 **Audit refs:** §05 F-LB-04, §05 F-LB-07, §05 F-X-01
@@ -244,7 +244,7 @@ When a signed-in user views the leaderboard:
 
 - `auth()` is called server-side; anonymous users see no self-row affordance and no personal empty state.
 - Highlight uses `bg-[color:var(--surface-muted)]` + `aria-label` annotation so SR users hear "Your row, rank 12, 14 points".
-- Self-row computation does not require fetching all rows — `getLeaderboardSnapshot` returns `selfRank: number | null` for the requested `userId`.
+- Self-row computation does not require fetching all rows, `getLeaderboardSnapshot` returns `selfRank: number | null` for the requested `userId`.
 - Personal empty state is distinct from the global "No entries yet" state.
 
 **Plan**
@@ -261,7 +261,7 @@ When a signed-in user views the leaderboard:
 
 ---
 
-### S4-05 — Rank ties + species histogram groupBy + chart honesty fix
+### S4-05: Rank ties + species histogram groupBy + chart honesty fix
 
 **Severity:** P2 (audit §05 F-LB-06, §05 F-LB-08, §05 F-LB-09)
 **Audit refs:** §05 F-LB-06, §05 F-LB-08, §05 F-LB-09
@@ -270,7 +270,7 @@ When a signed-in user views the leaderboard:
 **Goal**
 
 - Compute rank with shared positions on tied scores (1, 2, 2, 4).
-- Replace `Math.max(2, percent)` minimum bar width with a 0–2% dot marker so a 1-count answer doesn't visually equal a 5-count.
+- Replace `Math.max(2, percent)` minimum bar width with a 0-2% dot marker so a 1-count answer doesn't visually equal a 5-count.
 - The species histogram already moved to SQL `groupBy` in S4-02; here, normalise via `lower(trim(chosenOption))` to dedupe casing.
 
 **Acceptance**
@@ -292,7 +292,7 @@ When a signed-in user views the leaderboard:
 
 ---
 
-### S4-06 — Add Snippet indexes for filter / sort columns
+### S4-06: Add Snippet indexes for filter / sort columns
 
 **Severity:** P1 (precondition for S4-07)
 **Audit refs:** §05 F-ARC-02
@@ -319,7 +319,7 @@ Back the new archive filters with indexes so `WHERE site = … AND recordingDate
 
 ---
 
-### S4-07 — Archive filter / sort / search UI with URL state
+### S4-07: Archive filter / sort / search UI with URL state
 
 **Severity:** P0 (audit §05 F-ARC-02; hero copy currently promises filtering that doesn't exist)
 **Audit refs:** §05 F-ARC-02, §05 F-ARC-03, §05 F-ARC-04
@@ -327,7 +327,7 @@ Back the new archive filters with indexes so `WHERE site = … AND recordingDate
 
 **Goal**
 
-Add a filter strip above the grid: site chips, deployment chips, depth-bucket chips (`≤5m`, `5–15m`, `15–30m`, `30m+`), date range, free-text search across `site`/`deployment`/`staffAnswer`, sort dropdown (`newest`, `oldest`, `site`, `depth`). All state in URL search params.
+Add a filter strip above the grid: site chips, deployment chips, depth-bucket chips (`≤5m`, `5-15m`, `15-30m`, `30m+`), date range, free-text search across `site`/`deployment`/`staffAnswer`, sort dropdown (`newest`, `oldest`, `site`, `depth`). All state in URL search params.
 
 **Acceptance**
 
@@ -356,7 +356,7 @@ Add a filter strip above the grid: site chips, deployment chips, depth-bucket ch
 
 ---
 
-### S4-08 — Archive cursor pagination + `/api/browse?cursor=` endpoint
+### S4-08: Archive cursor pagination + `/api/browse?cursor=` endpoint
 
 **Severity:** P1 (audit §05 F-ARC-01, §07 PERF-11)
 **Audit refs:** §05 F-ARC-01, §05 F-ARC-06
@@ -364,7 +364,7 @@ Add a filter strip above the grid: site chips, deployment chips, depth-bucket ch
 
 **Goal**
 
-Cap initial server payload at `pageSize = 24`. Provide a `Load more` button (chosen over infinite scroll per §05 open question 4 — research audience prefers explicit boundaries; also better for SR users).
+Cap initial server payload at `pageSize = 24`. Provide a `Load more` button (chosen over infinite scroll per §05 open question 4, research audience prefers explicit boundaries; also better for SR users).
 
 **Acceptance**
 
@@ -387,7 +387,7 @@ Cap initial server payload at `pageSize = 24`. Provide a `Load more` button (cho
 
 ---
 
-### S4-09 — Archive ISR + `revalidate = 60`
+### S4-09: Archive ISR + `revalidate = 60`
 
 **Severity:** P1 (audit §05 F-X-02, §07 PERF-11)
 **Audit refs:** §05 F-X-02, §07 PERF-11
@@ -414,7 +414,7 @@ Drop `force-dynamic`; adopt `export const revalidate = 60`. Each combination of 
 
 ---
 
-### S4-10 — Archive: empty state, end state, count, public copy, back-link fix
+### S4-10: Archive: empty state, end state, count, public copy, back-link fix
 
 **Severity:** P1 (audit §05 F-ARC-05, §05 F-ARC-06, §05 F-ARC-11)
 **Audit refs:** §05 F-ARC-05, §05 F-ARC-06, §05 F-ARC-11
@@ -429,7 +429,7 @@ Drop `force-dynamic`; adopt `export const revalidate = 60`. Each combination of 
 **Acceptance**
 
 - Empty state: "The PEBL archive is currently empty. Check back soon, or visit the live feed for the latest deployments." + button to `/feed`.
-- End footer: "You've reached the end — {totalCount} clips in the archive."
+- End footer: "You've reached the end, {totalCount} clips in the archive."
 - Detail-page back link: dynamic text `← Back to archive` when `?from=browse`, falls back to `← Back to live feed` otherwise.
 
 **Plan**
@@ -443,7 +443,7 @@ Drop `force-dynamic`; adopt `export const revalidate = 60`. Each combination of 
 
 ---
 
-### S4-11 — `/api/feed?cursor=` pagination + `/api/feed/[id]/bboxes` lazy endpoint
+### S4-11: `/api/feed?cursor=` pagination + `/api/feed/[id]/bboxes` lazy endpoint
 
 **Severity:** High (audit §02 H1)
 **Audit refs:** §02 H1, §07 PERF-11
@@ -457,7 +457,7 @@ Server endpoints that the new `/feed` page (S4-12) and FeedPlayer (S4-13) will l
 
 - `GET /api/feed?cursor=<createdAtIso>` returns the next 5 snippets sans `bboxJson`, plus a `hasBboxes: boolean` flag and `nextCursor: string | null`.
 - `GET /api/feed/{id}/bboxes` returns `{ bboxes: BBoxFrame[] } | { bboxes: null }`. Cached `s-maxage=86400, immutable` (snippet bboxes don't change post-seed).
-- Both endpoints are public (no auth required — same data as the current SSR payload).
+- Both endpoints are public (no auth required, same data as the current SSR payload).
 
 **Plan**
 
@@ -471,7 +471,7 @@ Server endpoints that the new `/feed` page (S4-12) and FeedPlayer (S4-13) will l
 
 ---
 
-### S4-12 — `/feed` page: paginate, strip bbox from initial payload, ISR shell
+### S4-12: `/feed` page: paginate, strip bbox from initial payload, ISR shell
 
 **Severity:** High (audit §02 H1, §07 PERF-11)
 **Audit refs:** §02 H1, §07 PERF-11
@@ -503,7 +503,7 @@ Initial server render ships first 5 snippets (no bbox). FeedPlayer fetches subse
 
 ---
 
-### S4-13 — FeedPlayer: debounced/coalesced ±1 preload + explicit `<video>` resource release
+### S4-13: FeedPlayer: debounced/coalesced ±1 preload + explicit `<video>` resource release
 
 **Severity:** High (audit §02 H2, §02 H3)
 **Audit refs:** §02 H2 (preload H), §02 H3 (memory M)
@@ -538,14 +538,14 @@ Stop the uncoalesced preload churn on fast scroll. Strip `<video>` `src` and cal
 
 **Verification**
 
-- Manual DevTools Network throttling Slow 4G: fast fling 10 cards, assert only 1–2 video requests show in waterfall, not 10.
+- Manual DevTools Network throttling Slow 4G: fast fling 10 cards, assert only 1-2 video requests show in waterfall, not 10.
 - DevTools Performance: 30-card scroll session, heap snapshot diff < 50 MB.
 
 ---
 
-### S4-14 — Virtualise FeedPlayer once `snippets.length > 30`
+### S4-14: Virtualise FeedPlayer once `snippets.length > 30`
 
-**Severity:** Medium (audit §02 "Performance notes" — virtualise once > 30)
+**Severity:** Medium (audit §02 "Performance notes", virtualise once > 30)
 **Audit refs:** §02 performance notes, §02 H3
 **Files:** `src/components/FeedPlayer.tsx`, new `src/components/FeedVirtualWindow.tsx`
 
@@ -556,7 +556,7 @@ Mount only `[activeIndex - 1, activeIndex + 2]` `FeedCard` instances. Other slot
 **Acceptance**
 
 - DOM contains at most 4 `<article>` elements regardless of `items.length`.
-- Snap scroll still works — placeholder sections retain `snap-start` and the same height (`100dvh`).
+- Snap scroll still works, placeholder sections retain `snap-start` and the same height (`100dvh`).
 - Scroll position is preserved across mount/unmount of windows (`scrollTo` on activeIndex on mount, then no programmatic scroll during regular scroll).
 - Virtualisation activates only when `items.length > 30`; below that, all cards mount (avoids over-engineering at current scale per §02 open question 1).
 
@@ -571,7 +571,7 @@ Mount only `[activeIndex - 1, activeIndex + 2]` `FeedCard` instances. Other slot
 
 ---
 
-### S4-15 — End-of-feed terminal card + per-card metadata strip
+### S4-15: End-of-feed terminal card + per-card metadata strip
 
 **Severity:** Medium (audit §02 "no end-of-feed state", §02 "card info hierarchy")
 **Audit refs:** §02 (end-of-feed state, metadata hierarchy), §05 F-ARC-03
@@ -601,7 +601,7 @@ Mount only `[activeIndex - 1, activeIndex + 2]` `FeedCard` instances. Other slot
 
 ---
 
-### S4-16 — `web-vitals` production sampler + `/api/vitals` + `Vital` Prisma table
+### S4-16: `web-vitals` production sampler + `/api/vitals` + `Vital` Prisma table
 
 **Severity:** Low (audit §07 PERF-15)
 **Audit refs:** §07 PERF-15, §07 testing plan ("web-vitals production sampler")
@@ -645,7 +645,7 @@ Sample 10% of sessions for LCP / CLS / INP / TTFB / FCP and POST to `/api/vitals
 
 ---
 
-### S4-17 — Service worker review: cache hashed assets, version bump, drift guard
+### S4-17: Service worker review: cache hashed assets, version bump, drift guard
 
 **Severity:** Low (audit §02 SW note, §07 PERF-05)
 **Audit refs:** §02 (SW verification), §07 PERF-05
@@ -692,7 +692,7 @@ Sample 10% of sessions for LCP / CLS / INP / TTFB / FCP and POST to `/api/vitals
 
 ---
 
-### S4-18 — LCP poster preload + Lighthouse CI budget tightening + `?v=N` cache-bust replacement strategy
+### S4-18: LCP poster preload + Lighthouse CI budget tightening + `?v=N` cache-bust replacement strategy
 
 **Severity:** Medium (audit §07 PERF-06, §07 PERF-07)
 **Audit refs:** §07 PERF-06, §07 PERF-07, §02 H1 (LCP)

@@ -40,6 +40,7 @@
     "lateralLine": [
       "dark-curved"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "cod-like"
     ]
@@ -83,6 +84,7 @@
     "lateralLine": [
       "pale-straight"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "cod-like"
     ]
@@ -123,6 +125,7 @@
     "bodyDepth": [
       "deep"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "cod-like"
     ]
@@ -163,6 +166,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "cod-like"
     ]
@@ -206,6 +210,7 @@
     "bodyDepth": [
       "deep"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "wrasse"
     ]
@@ -245,6 +250,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "wrasse"
     ]
@@ -286,6 +292,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "wrasse"
     ]
@@ -328,6 +335,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "wrasse"
     ]
@@ -361,6 +369,7 @@
       "stationary"
     ],
     "fieldNote": "Massive grey-brown eel with continuous dorsal-tail-anal fin; usually only the head visible peering from a crevice.",
+    "fishZone": ["seabed"],
     "fishGroup": [
       "long-skinny"
     ]
@@ -396,6 +405,7 @@
       "stationary"
     ],
     "fieldNote": "Slippery ribbon-like fish with a row of dark-and-pale ocelli along the dorsal fin.",
+    "fishZone": ["seabed"],
     "fishGroup": [
       "long-skinny"
     ]
@@ -439,6 +449,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -479,6 +490,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -520,6 +532,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -560,6 +573,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -596,6 +610,7 @@
       "stationary"
     ],
     "fieldNote": "Flat-headed sand-dweller; males flare a tall first dorsal and lyre-shaped tail in display.",
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -633,6 +648,7 @@
       "stationary"
     ],
     "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m.",
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -696,7 +712,7 @@
       "stationary",
       "fits-and-starts"
     ],
-    "fieldNote": "Right-eyed flatfish on sandy bottoms, sandpapery rough scales (the only common UK flatfish with this texture) and a distinctly concave arch in the lateral line above the pectoral fin. No orange spots — plainer than plaice.",
+    "fieldNote": "Right-eyed flatfish on sandy bottoms, sandpapery rough scales (the only common UK flatfish with this texture) and a distinctly concave arch in the lateral line above the pectoral fin. No orange spots, plainer than plaice.",
     "lateralLine": [
       "arched-over-pectoral"
     ]
@@ -731,7 +747,7 @@
       "stationary",
       "fits-and-starts"
     ],
-    "fieldNote": "A dull brown flatfish of estuaries and tidal rivers, tolerating fresh water — unusual for a flatfish. Rough bony tubercles run along the bases of the dorsal and anal fins and along the lateral line; any orange spots are pale and scattered, unlike the vivid orange of plaice."
+    "fieldNote": "A dull brown flatfish of estuaries and tidal rivers, tolerating fresh water, unusual for a flatfish. Rough bony tubercles run along the bases of the dorsal and anal fins and along the lateral line; any orange spots are pale and scattered, unlike the vivid orange of plaice."
   },
   "Scyliorhinus canicula": {
     "commonName": "Lesser-spotted catshark",
@@ -772,6 +788,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "shark"
     ]
@@ -812,6 +829,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-other"
     ]
@@ -851,6 +869,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "cod-like"
     ]
@@ -893,6 +912,7 @@
     "lateralLine": [
       "arched-over-pectoral"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "cod-like"
     ]
@@ -933,6 +953,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -972,6 +993,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1012,6 +1034,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1052,6 +1075,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1089,6 +1113,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1126,6 +1151,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1167,6 +1193,7 @@
     "bodyDepth": [
       "medium"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-other"
     ]
@@ -1205,6 +1232,7 @@
       "stationary"
     ],
     "fieldNote": "Tubby blenny with a continuous spiny dorsal and a long anal fin; no head tentacles (unlike tompot blenny). Pops in and out of crevices and rockpool gullies.",
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-other"
     ]
@@ -1243,6 +1271,7 @@
     "bodyDepth": [
       "slender"
     ],
+    "fishZone": ["water-column"],
     "fishGroup": [
       "long-skinny"
     ]
@@ -1397,8 +1426,8 @@
     ],
     "fieldNote": "A small swimming crab of muddy sand. Reddish overall with five teeth down each side of the shell; the give-away is the flattened, paddle-shaped back legs, their tips tinged violet."
   },
-  "Hyas araneus": {
-    "commonName": "Great Spider Crab",
+  "Majoidea": {
+    "commonName": "Spider Crab",
     "shapeClass": "crab",
     "bodyShape": [],
     "size": "medium",
@@ -1433,7 +1462,7 @@
     "crabForm": [
       "spider"
     ],
-    "fieldNote": "A bulky spider crab with a teardrop-shaped shell and a forked, pointed snout. Often so coated in seaweed, hydroids and tubeworms that its outline is hard to make out. Long-legged and reddish brown."
+    "fieldNote": "A long-legged crab with a teardrop or triangular shell that narrows to a forked, pointed snout. The legs are far longer and thinner than on any other crab here, and the shell is usually so coated in seaweed, hydroids and tubeworms that its outline disappears. Several very similar spider crabs live in UK waters (great, spiny, scorpion) and cannot reliably be told apart on video, so they are all logged here as spider crab."
   },
   "Pagurus bernhardus": {
     "commonName": "Hermit Crab",
@@ -2141,6 +2170,7 @@
     "lateralLine": [
       "pale-straight"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-other"
     ]
@@ -2180,6 +2210,7 @@
     "lateralLine": [
       "pale-straight"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-other"
     ]
@@ -2219,6 +2250,7 @@
     "lateralLine": [
       "pale-straight"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-other"
     ]
@@ -2258,6 +2290,7 @@
     "lateralLine": [
       "pale-straight"
     ],
+    "fishZone": ["seabed"],
     "fishGroup": [
       "bottom-other"
     ]

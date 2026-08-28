@@ -13,7 +13,7 @@ import { isPrizeEligible } from "@/lib/trust";
 
 /**
  * Claim the Seasearch guide prize. The prize is a GIFT for reaching
- * PRIZE_TARGET_PEBBLES lifetime earned Pebbles — claiming records a
+ * PRIZE_TARGET_PEBBLES lifetime earned Pebbles, claiming records a
  * PebblePurchase row with pebbleCost 0, so nothing is deducted and the
  * leaderboard rank is untouched. One claim per spotter, ever.
  *
@@ -90,7 +90,7 @@ export async function POST(req: Request) {
   );
   if (!eligibility.eligible) {
     const message = eligibility.reasons.includes("email not verified")
-      ? "Verify your email first — prizes are posted to real spotters."
+      ? "Verify your email first. Prizes are posted to real spotters."
       : "Prize claims unlock with a bit more spotting history across more days. Keep at it!";
     return NextResponse.json({ error: message, code: "not-eligible" }, { status: 403 });
   }
@@ -98,7 +98,7 @@ export async function POST(req: Request) {
   // `select` is load-bearing, not tidiness: without it Prisma emits
   // `INSERT ... RETURNING` every scalar column, so this route starts failing
   // the moment schema.prisma gains a column that prod hasn't migrated yet.
-  // That happened on 1 Aug 2026 — adding PebblePurchase.fulfilledAt/fulfilledBy
+  // That happened on 1 Aug 2026, adding PebblePurchase.fulfilledAt/fulfilledBy
   // for /admin/prizes broke this claim button in the window between deploy and
   // `prisma db push`. We discard the row anyway, so ask for one column.
   await prisma.pebblePurchase.create({

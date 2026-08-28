@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   }
 
   // Manual triggers can pass `?force=1` to refresh every species regardless
-  // of freshness — useful for the initial population. The weekly cron leaves
+  // of freshness, useful for the initial population. The weekly cron leaves
   // it unset and relies on stale-only.
   const url = new URL(req.url);
   const force = url.searchParams.get("force") === "1";

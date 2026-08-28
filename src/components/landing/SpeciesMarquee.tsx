@@ -49,7 +49,7 @@ export type MarqueeSpecies = {
 export function SpeciesMarquee({ species }: { species: MarqueeSpecies[] }) {
   const [ref, inView] = useInView<HTMLDivElement>();
   // WCAG 2.2.2 (Level A): auto-scrolling content needs an explicit, always-
-  // reachable pause control — hover/focus alone excludes touch and keyboard
+  // reachable pause control, hover/focus alone excludes touch and keyboard
   // users and ignores anyone who simply wants it to stop.
   const [paused, setPaused] = useState(false);
   if (species.length === 0) return null;

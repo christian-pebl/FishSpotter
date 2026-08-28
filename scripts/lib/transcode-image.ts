@@ -30,7 +30,7 @@ export const DEFAULT_WEBP_QUALITY = 80;
 /**
  * Stable content key for a source photo. We hash the source URL (not the DB
  * row id) so re-transcoding the same photo overwrites the same object rather
- * than orphaning storage. Truncated to 32 hex chars — collision risk across a
+ * than orphaning storage. Truncated to 32 hex chars, collision risk across a
  * few-hundred-row catalogue is negligible and the key stays short.
  */
 export function sourceHash(sourceUrl: string): string {

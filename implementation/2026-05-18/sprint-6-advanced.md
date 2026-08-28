@@ -1,4 +1,4 @@
-# Sprint 6 — Captions, Re-engagement & Advanced
+# Sprint 6: Captions, Re-engagement & Advanced
 
 > **Status flag.** Sprint 6 is the v2 surface. It bundles features that drive
 > retention (digests, profiles, journals, notifications), close out remaining
@@ -40,7 +40,7 @@ policy, analytics).
   notification centre for users who decline push.
 - Personal "Your sightings" journal at `/u/me/sightings` surfaces the
   iNat photo cache per species the user has correctly identified (closes the
-  graduate-from-§03 F8 win — gallery is now also a personal trophy case).
+  graduate-from-§03 F8 win, gallery is now also a personal trophy case).
 - PWA install prompt appears once per device after 3 returning visits,
   dismissible permanently. SW scope verified safe after Sprint 4's audit.
 - `next-intl` (or equivalent) wired into `[locale]` route segment; English
@@ -99,7 +99,7 @@ than Sprint 6 day 1; several tickets are blocked on each.
 | Finding 3 (OAuth) | §06 | Med | T-13 |
 | Finding 15 (email digests) | §06 | Med | T-2 |
 | Finding 8 (GDPR delete/export) | §06 | High | T-14 |
-| Finding 6 (onboarding gap) | §06 | Med | partial — covered in Sprint 3; T-9 closes the journal/trophy gap |
+| Finding 6 (onboarding gap) | §06 | Med | partial, covered in Sprint 3; T-9 closes the journal/trophy gap |
 | Cross-page §05 F-X-01 (session-aware) | §05 | P1 | T-3, T-9 |
 | Theme F (CIC compliance) | §00 README | n/a | T-2, T-14, T-15 |
 | Theme B / PERF-05 (SW aggressiveness follow-up) | §07 | Low | T-22 |
@@ -134,18 +134,18 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
 
 ## Dependencies on Sprints 1-5
 
-- **Sprint 1** — design tokens, error boundaries, axe-core CI. Profile
+- **Sprint 1**: design tokens, error boundaries, axe-core CI. Profile
   page (T-3), admin (T-17), sightings journal (T-9) all rely on the
   tokenised component library.
-- **Sprint 2** — quiz-flow alignment (multiple choice or free text fixed).
+- **Sprint 2**: quiz-flow alignment (multiple choice or free text fixed).
   Affects `Answer.chosenOption` semantics used by leaderboard + anti-cheat
   (T-5) + sightings journal (T-9).
-- **Sprint 3** — `Account`, `VerificationToken`, `emailVerified` columns,
+- **Sprint 3**: `Account`, `VerificationToken`, `emailVerified` columns,
   Resend wired, password reset live. T-2 (digests), T-13 (OAuth), T-14
   (export), T-16 (push) all directly depend.
-- **Sprint 4** — `revalidate` ISR on `/feed/browse`, `/leaderboard`. T-11
+- **Sprint 4**: `revalidate` ISR on `/feed/browse`, `/leaderboard`. T-11
   share, T-19 search, T-22 SW polish hang off this.
-- **Sprint 5** — persistent nav, deep-link parity, focus trap on
+- **Sprint 5**: persistent nav, deep-link parity, focus trap on
   `SideMenu`, real `<label>` on species input, `aria-live` for quiz.
   T-3 profile route and T-9 journal both consume the persistent nav.
 
@@ -153,7 +153,7 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
 
 ## Tickets
 
-### T-1 — WCAG 1.2.2 caption posture: ship the chosen path
+### T-1: WCAG 1.2.2 caption posture: ship the chosen path
 
 - **Severity:** High (§07 A11Y-08 closes the open question; product decision 1)
 - **Blocked on:** product decision 1 (silent-exemption vs VTT)
@@ -164,13 +164,13 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
     (link in footer), `CLAUDE.md` (conformance note).
   - **(b) VTT path)** `prisma/schema.prisma` (add `Snippet.captionsVttUrl`),
     `src/components/FeedCard.tsx:540-575` (add `<track kind="captions" srclang="en" default>`),
-    `scripts/generate-captions.ts` (new — see T-23), Supabase Storage
+    `scripts/generate-captions.ts` (new, see T-23), Supabase Storage
     bucket `captions` (new).
 - **Definition of done:**
   - Path (a): `/accessibility` page live, footer link from every layout,
     every FeedCard renders a collapsed "Clip description" `<details>`,
     SR users get a scene description on demand. CLAUDE.md gains a "WCAG
-    1.2.2 — silent media exemption" subsection.
+    1.2.2, silent media exemption" subsection.
   - Path (b): `Snippet.captionsVttUrl` column on every row (back-fill
     via T-23), `<track>` element present and validates against an
     automated `pa11y` rule, "CC" indicator visible on FeedCard.
@@ -178,7 +178,7 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
 - **Notes:** Estimates below assume **path (a)**. Path (b) shifts T-23
   into-scope and adds ~3d.
 
-### T-2 — Weekly digest email + streak-break nudge
+### T-2: Weekly digest email + streak-break nudge
 
 - **Severity:** Medium (§06 Finding 15)
 - **Blocked on:** Sprint 3 Resend wired + `User.emailVerified`
@@ -188,7 +188,7 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - `src/app/api/cron/weekly-digest/route.ts` (Vercel cron, Sun 09:00 UTC)
   - `src/app/api/cron/streak-nudge/route.ts` (daily 18:00 UTC)
   - `vercel.json` (register two crons under `CRON_SECRET`)
-  - `prisma/schema.prisma` — add `User.emailPrefs Json @default("{}")`
+  - `prisma/schema.prisma`, add `User.emailPrefs Json @default("{}")`
     (keys: `weeklyDigest: boolean`, `streakNudge: boolean`, both
     opt-in default `false`)
   - `src/app/account/notifications/page.tsx` (UI toggle)
@@ -200,10 +200,10 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Streak-break: fires when last answer was 23-25h ago and streak ≥3.
     Self-throttled to once per streak (don't spam users who genuinely
     quit). One-click unsubscribe token signed with `NEXTAUTH_SECRET`.
-  - Opt-in only — emails do not fire until user enables in `/account`.
+  - Opt-in only, emails do not fire until user enables in `/account`.
 - **Effort:** **3d** (template design 1d + cron + signed unsubscribe + UI 2d)
 
-### T-3 — Profile route `/u/[id]`
+### T-3: Profile route `/u/[id]`
 
 - **Severity:** Medium (§05 F-LB-10, closes social hook)
 - **Files:**
@@ -212,7 +212,7 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - `src/app/u/me/page.tsx` → redirect to current user's id
   - `src/components/profile/AccuracyChart.tsx` (small recharts inline)
   - `src/components/profile/SpeciesSeenStrip.tsx` (uses `SpeciesImage` cache)
-  - `src/app/leaderboard/page.tsx:79-89` — wrap display name in `<Link>`
+  - `src/app/leaderboard/page.tsx:79-89`, wrap display name in `<Link>`
 - **Definition of done:**
   - Renders for any user with `appearOnLeaderboard != false` (per
     Sprint 5's privacy toggle). 404s for users who opted out.
@@ -223,12 +223,12 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Linked from every leaderboard row.
 - **Effort:** **2d**
 
-### T-4 — Share-this-clip (Web Share API + og:image)
+### T-4: Share-this-clip (Web Share API + og:image)
 
 - **Severity:** Low-Medium
 - **Files:**
   - `src/components/feed/ShareButton.tsx` (new)
-  - `src/components/FeedCard.tsx` — mount in panel
+  - `src/components/FeedCard.tsx`, mount in panel
   - `src/app/feed/[id]/opengraph-image.tsx` (Next 14 dynamic OG)
 - **Definition of done:**
   - Share button visible in FeedCard panel + on `/feed/[id]`.
@@ -239,35 +239,35 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Spoiler-safe: OG image does **not** include staff answer.
 - **Effort:** **1.5d**
 
-### T-5 — Leaderboard anti-cheat signal
+### T-5: Leaderboard anti-cheat signal
 
 - **Severity:** P2 (§05 F-LB-12)
 - **Blocked on:** T-6 (rate-limit metadata needed)
 - **Files:**
-  - `src/app/leaderboard/page.tsx:79-89` — render a flag icon next to flagged rows
+  - `src/app/leaderboard/page.tsx:79-89`, render a flag icon next to flagged rows
   - `src/lib/leaderboard/anti-cheat.ts` (heuristic computation)
-  - `prisma/schema.prisma` — add `Answer.responseMs Int?` (time from clip
+  - `prisma/schema.prisma`, add `Answer.responseMs Int?` (time from clip
     play to submit, captured client-side and trusted as a hint not a proof)
-  - `src/lib/useCreatureQuiz.ts` — record `responseMs`
+  - `src/lib/useCreatureQuiz.ts`, record `responseMs`
 - **Definition of done:**
   - Heuristic: a user is flagged if EITHER (a) ≥30% of their answers
     in the last 7 days have `responseMs < 2000`, OR (b) their daily
     answer rate exceeds 3σ above the cohort median for ≥2 days.
   - Flagged rows render a small badge with tooltip "Activity under
-    review" (deliberately vague — moderation copy).
+    review" (deliberately vague, moderation copy).
   - `/admin/leaderboard-flags` lists flagged users for staff review.
   - Heuristic is documented on the leaderboard page in a "How scoring
     works" expandable.
 - **Effort:** **2d**
 
-### T-6 — Server-side answer rate-limit
+### T-6: Server-side answer rate-limit
 
 - **Severity:** Medium (backs T-5 + §05 F-LB-12)
 - **Files:**
-  - `src/app/api/answers/route.ts` — call `rateLimit({ key: 'answer:${userId}', limit: 60, windowMs: 60_000 })`
-  - `src/lib/rate-limit.ts` — extend with per-user keys
+  - `src/app/api/answers/route.ts`, call `rateLimit({ key: 'answer:${userId}', limit: 60, windowMs: 60_000 })`
+  - `src/lib/rate-limit.ts`, extend with per-user keys
   - Reject with 429 + retry-after header. Front-end shows
-    "Slow down — try again in N seconds".
+    "Slow down, try again in N seconds".
 - **Definition of done:**
   - 60 answers/minute hard cap per user.
   - 401 still returned for unauthenticated requests (Sprint 1 fix).
@@ -276,33 +276,33 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Unit test in `tests/unit/rate-limit.test.ts` covers the per-user key.
 - **Effort:** **0.5d**
 
-### T-7 — Notifications: in-app inbox
+### T-7: Notifications: in-app inbox
 
 - **Severity:** Medium
 - **Blocked on:** product decision 2
 - **Files:**
-  - `prisma/schema.prisma` — `Notification { id, userId, type, payload Json, readAt, createdAt }`
-  - `src/app/api/notifications/route.ts` — list + mark-read
+  - `prisma/schema.prisma`, `Notification { id, userId, type, payload Json, readAt, createdAt }`
+  - `src/app/api/notifications/route.ts`, list + mark-read
   - `src/components/notifications/NotificationBell.tsx` (header right slot)
-  - `src/lib/notifications/emit.ts` — server-side emitter called from
+  - `src/lib/notifications/emit.ts`, server-side emitter called from
     answer route, snippet-upload route, leaderboard recompute
 - **Definition of done:**
   - Bell icon in header, badge with unread count.
   - Drawer lists last 20 notifications. Click → relevant route
-    (e.g. "You're now rank 12 — view leaderboard").
+    (e.g. "You're now rank 12, view leaderboard").
   - Types: `STREAK_RISK`, `OVERTAKEN`, `NEW_SNIPPET`,
     `ANSWER_REVIEWED`, `PROFILE_VIEWED` (last only if T-3 ships analytics).
 - **Effort:** **2.5d**
 
-### T-8 — Notifications: Web Push (enhancement)
+### T-8: Notifications: Web Push (enhancement)
 
 - **Severity:** Low (enhancement on T-7)
 - **Blocked on:** T-7, product decision 2, Sprint 4 SW review (T-22)
 - **Files:**
-  - `public/sw.js` — add `push` + `notificationclick` handlers
-  - `src/lib/push/subscribe.ts` — VAPID subscribe flow
-  - `prisma/schema.prisma` — `PushSubscription { endpoint, p256dh, auth, userId }`
-  - `src/app/account/notifications/page.tsx` — enable-push toggle
+  - `public/sw.js`, add `push` + `notificationclick` handlers
+  - `src/lib/push/subscribe.ts`, VAPID subscribe flow
+  - `prisma/schema.prisma`, `PushSubscription { endpoint, p256dh, auth, userId }`
+  - `src/app/account/notifications/page.tsx`, enable-push toggle
 - **Definition of done:**
   - Enable-push toggle prompts browser permission.
   - Subscriptions stored; emitter from T-7 also calls `webpush.sendNotification`
@@ -311,13 +311,13 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
     (iOS 16.4+) supported.
 - **Effort:** **2d**
 
-### T-9 — Sightings journal `/u/me/sightings`
+### T-9: Sightings journal `/u/me/sightings`
 
 - **Severity:** Medium
 - **Blocked on:** T-3 (uses profile-route plumbing), Sprint 2 (`isCorrect` semantics)
 - **Files:**
   - `src/app/u/me/sightings/page.tsx`
-  - `src/components/sightings/SpeciesTile.tsx` — uses `SpeciesImage` cache
+  - `src/components/sightings/SpeciesTile.tsx`, uses `SpeciesImage` cache
 - **Definition of done:**
   - Lists every species the user has answered correctly at least once.
   - Each tile shows iNat photo (from `SpeciesImage`), common name,
@@ -325,7 +325,7 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Empty state nudges to `/feed`.
 - **Effort:** **1.5d**
 
-### T-10 — PWA install prompt polish
+### T-10: PWA install prompt polish
 
 - **Severity:** Low
 - **Blocked on:** Sprint 4 SW review (T-22)
@@ -340,7 +340,7 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
     `navigator.standalone === false` and UA matches.
 - **Effort:** **1d**
 
-### T-11 — Share-only social (no follow)
+### T-11: Share-only social (no follow)
 
 - **Severity:** Low
 - **Blocked on:** product decision 3
@@ -348,14 +348,14 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   Documented explicitly so a future ticket can revisit.
 - **Effort:** 0d (documentation only; flagged in `CLAUDE.md`)
 
-### T-12 — i18n scaffold
+### T-12: i18n scaffold
 
 - **Severity:** Medium
 - **Blocked on:** product decision 4
 - **Files:**
   - `npm i next-intl`
-  - `src/middleware.ts` — locale detection
-  - `src/app/[locale]/...` — restructure under locale segment
+  - `src/middleware.ts`, locale detection
+  - `src/app/[locale]/...`, restructure under locale segment
   - `src/i18n/en.json`, `cy.json` (Welsh stub), `fr.json` (French stub)
   - Codemod all user-facing strings to `t('key')`
 - **Definition of done:**
@@ -366,32 +366,32 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Date formatting uses `Intl.DateTimeFormat(locale)`.
 - **Effort:** **3d** (codemod is the bulk)
 
-### T-13 — Google + Apple OAuth
+### T-13: Google + Apple OAuth
 
 - **Severity:** Medium (§06 Finding 3)
 - **Blocked on:** Sprint 3 `Account` table + `emailVerified`
 - **Files:**
-  - `src/lib/auth.ts` — add `GoogleProvider`, `AppleProvider`
-  - `.env.local.example` — document required env vars
-  - `src/app/auth/signin/page.tsx:118-124` — add provider buttons
-  - `src/app/account/page.tsx` — list linked providers; allow link/unlink
+  - `src/lib/auth.ts`, add `GoogleProvider`, `AppleProvider`
+  - `.env.local.example`, document required env vars
+  - `src/app/auth/signin/page.tsx:118-124`, add provider buttons
+  - `src/app/account/page.tsx`, list linked providers; allow link/unlink
 - **Definition of done:**
   - Sign in with Google works end-to-end on web + iOS PWA.
   - Apple sign in works on iOS Safari + macOS Safari (Apple
-    developer account + Service ID required — flag as prerequisite).
+    developer account + Service ID required, flag as prerequisite).
   - First-time OAuth user is auto-`emailVerified` (provider asserts).
   - Existing email user signing in with same-email OAuth is **linked**,
     not duplicated.
 - **Effort:** **2d** (after Apple developer cert is in hand)
 
-### T-14 — GDPR data export
+### T-14: GDPR data export
 
-- **Severity:** High (§06 Finding 8 — completes the right-to-portability gap)
+- **Severity:** High (§06 Finding 8, completes the right-to-portability gap)
 - **Blocked on:** Sprint 3 `/account` + Resend
 - **Files:**
-  - `src/app/api/account/export/route.ts` — generates a ZIP buffer
+  - `src/app/api/account/export/route.ts`, generates a ZIP buffer
     with `user.json`, `answers.json`, `notifications.json`, `email-prefs.json`
-  - `src/app/account/data/page.tsx` — "Export my data" + "Delete my account"
+  - `src/app/account/data/page.tsx`, "Export my data" + "Delete my account"
     buttons
   - Resend email "Your data is ready" link (signed, 24h expiry)
 - **Definition of done:**
@@ -403,13 +403,13 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
     (User, Answer, Notification, PushSubscription, emailPrefs).
 - **Effort:** **1.5d**
 
-### T-15 — Unified search across snippet metadata
+### T-15: Unified search across snippet metadata
 
 - **Severity:** Medium (extends Sprint 4 filtering)
 - **Blocked on:** Sprint 4 filter chips on `/feed/browse`
 - **Files:**
-  - `src/app/feed/browse/page.tsx` — accept `?q=...&site=...&depth=...&species=...&from=...&to=...`
-  - `src/lib/search/snippets.ts` — Postgres `to_tsvector` query over
+  - `src/app/feed/browse/page.tsx`, accept `?q=...&site=...&depth=...&species=...&from=...&to=...`
+  - `src/lib/search/snippets.ts`, Postgres `to_tsvector` query over
     `site || ' ' || deployment || ' ' || staffAnswer`
   - `src/components/browse/SearchBar.tsx`
 - **Definition of done:**
@@ -419,31 +419,31 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Empty-result state distinct from empty-archive state.
 - **Effort:** **2d**
 
-### T-16 — Plausible (or similar) analytics
+### T-16: Plausible (or similar) analytics
 
 - **Severity:** Low
 - **Files:**
   - `src/components/analytics/Plausible.tsx` (script tag, conditional on env)
-  - `src/app/privacy/page.tsx` — disclose
-  - `next.config.mjs` — CSP allow
+  - `src/app/privacy/page.tsx`, disclose
+  - `next.config.mjs`, CSP allow
 - **Definition of done:**
   - Plausible script loaded in production only.
-  - Cookie-less — no consent banner change needed.
+  - Cookie-less, no consent banner change needed.
   - Custom events: `quiz_submit`, `quiz_correct`, `share_click`,
     `digest_open` (tracked via UTM in the email link).
 - **Effort:** **0.5d**
 
-### T-17 — Admin / staff route `/admin/snippets`
+### T-17: Admin / staff route `/admin/snippets`
 
-- **Severity:** Medium (§00 Theme — replaces CLI-only flow)
+- **Severity:** Medium (§00 Theme, replaces CLI-only flow)
 - **Blocked on:** product decision 5
 - **Files:**
-  - `prisma/schema.prisma` — `User.role String @default("user")`
-  - `src/middleware.ts` — gate `/admin/**` to `role === 'staff'`
-  - `src/app/admin/snippets/page.tsx` — list + upload form
-  - `src/app/admin/snippets/[id]/page.tsx` — edit staff answer, bbox JSON
-  - `src/app/admin/leaderboard-flags/page.tsx` — anti-cheat review (T-5)
-  - `src/app/api/admin/snippets/route.ts` — handles upload to Supabase
+  - `prisma/schema.prisma`, `User.role String @default("user")`
+  - `src/middleware.ts`, gate `/admin/**` to `role === 'staff'`
+  - `src/app/admin/snippets/page.tsx`, list + upload form
+  - `src/app/admin/snippets/[id]/page.tsx`, edit staff answer, bbox JSON
+  - `src/app/admin/leaderboard-flags/page.tsx`, anti-cheat review (T-5)
+  - `src/app/api/admin/snippets/route.ts`, handles upload to Supabase
     Storage + `Snippet` row insert; reuses logic from `scripts/seed.ts`
 - **Definition of done:**
   - Staff user can upload a new MP4 + thumbnail + metadata + bbox JSON
@@ -452,19 +452,19 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - Staff user can edit staff answer of an existing snippet.
   - Staff user can soft-delete a snippet (hides from feed but keeps
     answers for leaderboard integrity).
-  - Non-staff users get 404 (not 403 — don't advertise the route).
+  - Non-staff users get 404 (not 403, don't advertise the route).
 - **Effort:** **3d**
 
-### T-18 — Performance follow-ups from Sprint 4
+### T-18: Performance follow-ups from Sprint 4
 
 - **Severity:** Low-Medium
 - **Blocked on:** Sprint 4 ship + web-vitals data
 - **Files:**
-  - `public/sw.js` — adopt stale-while-revalidate for `/_next/static/*`
+  - `public/sw.js`, adopt stale-while-revalidate for `/_next/static/*`
     (deferred from Sprint 4 per §07 PERF-05)
-  - `src/components/FeedPlayer.tsx` — virtualise once catalogue > 50
+  - `src/components/FeedPlayer.tsx`, virtualise once catalogue > 50
     (deferred from Sprint 4 per §02)
-  - `src/app/api/vitals/route.ts` (new) — accept web-vitals beacons
+  - `src/app/api/vitals/route.ts` (new), accept web-vitals beacons
     started in Sprint 4
 - **Definition of done:**
   - SW caches hashed Next assets stale-while-revalidate;
@@ -474,19 +474,19 @@ T-15 i18n scaffold blocks every user-facing string; ship early in sprint.
   - p75 LCP, INP, CLS reviewed and any regression > 10% fixed.
 - **Effort:** **2d**
 
-### T-19 — (Conditional, ships only if T-1 path (b) chosen) Captions production pipeline
+### T-19: (Conditional, ships only if T-1 path (b) chosen) Captions production pipeline
 
 - **Severity:** Medium (conditional)
 - **Blocked on:** T-1 path (b)
 - **Files:**
-  - `scripts/generate-captions.ts` — Whisper API call, outputs VTT
-  - `scripts/upload-captions.ts` — uploads to Supabase `captions` bucket,
+  - `scripts/generate-captions.ts`, Whisper API call, outputs VTT
+  - `scripts/upload-captions.ts`, uploads to Supabase `captions` bucket,
     updates `Snippet.captionsVttUrl`
-  - `src/app/api/admin/snippets/[id]/captions/route.ts` — admin re-run
+  - `src/app/api/admin/snippets/[id]/captions/route.ts`, admin re-run
 - **Definition of done:**
   - One CLI invocation captions all 30 existing snippets in
     "behavioural description" mode (Whisper output edited for
-    underwater context — script appends scene metadata from staff
+    underwater context, script appends scene metadata from staff
     answer + site).
   - Per-snippet regeneration available from the admin route (T-17).
   - VTT files validate against W3C VTT validator.

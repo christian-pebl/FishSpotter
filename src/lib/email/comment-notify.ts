@@ -13,7 +13,7 @@
  *    add @vercel/functions and switch to waitUntil.
  *
  * 2. FLOOD CAP. Instant notification is right at launch volume but would turn a
- *    spam run — or simply a busy afternoon — into a pager. Each recipient is
+ *    spam run, or simply a busy afternoon, into a pager. Each recipient is
  *    throttled via the existing rate limiter; over the cap the EMAIL is skipped,
  *    never the comment, which is still sitting in /admin/comments.
  *
@@ -47,7 +47,7 @@ export interface NotifyDecisionInput {
  *
  * Top-level comments notify. Replies notify only when they answer a PEBL
  * comment, because ordinary spotter-to-spotter chat would drown the signal
- * within a week and staff would start ignoring the channel — which is worse
+ * within a week and staff would start ignoring the channel, which is worse
  * than not having it.
  */
 export function shouldNotify(input: NotifyDecisionInput): boolean {

@@ -16,7 +16,7 @@ import { z } from "zod";
 const BootstrapTokensSchema = z.object({
   /** Cloudflare API token with `Account.Cloudflare R2 Storage:Edit`. */
   cloudflareApiToken: z.string().min(1).optional(),
-  /** Cloudflare account ID — visible top-right of every dashboard URL. */
+  /** Cloudflare account ID, visible top-right of every dashboard URL. */
   cloudflareAccountId: z.string().min(1).optional(),
   /** R2 S3-API access key (dashboard-only mint). */
   r2AccessKeyId: z.string().min(1).optional(),
@@ -35,10 +35,10 @@ const BootstrapTokensSchema = z.object({
 
   /** Resend API key (re_…). Account signup is manual; this comes after. */
   resendApiKey: z.string().min(1).optional(),
-  /** Sending domain — e.g. pebl-cic.co.uk. */
+  /** Sending domain, e.g. pebl-cic.co.uk. */
   resendDomain: z.string().min(1).optional(),
 
-  /** GitHub PAT for setting Actions secrets. Optional — falls back to gh CLI. */
+  /** GitHub PAT for setting Actions secrets. Optional, falls back to gh CLI. */
   githubToken: z.string().min(1).optional(),
   /** Repo in owner/name format. Defaults to the project's git remote. */
   githubRepo: z.string().regex(/^[^/]+\/[^/]+$/).optional(),
@@ -64,7 +64,7 @@ export interface LoadResult {
 /**
  * Loads tokens.json if present, returns parsed config plus any
  * non-fatal warnings about missing fields. Hard-fails only on
- * malformed JSON / type errors — missing fields are a runtime
+ * malformed JSON / type errors, missing fields are a runtime
  * concern that each module raises when it needs the value.
  */
 export function loadTokens(jsonPath: string = tokensPath()): LoadResult {

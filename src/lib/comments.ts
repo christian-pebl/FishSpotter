@@ -1,5 +1,5 @@
 /**
- * Clip comments — the public per-clip discussion thread + the PEBL feedback inbox.
+ * Clip comments, the public per-clip discussion thread + the PEBL feedback inbox.
  *
  * A spotter can leave a comment on a clip after committing their own ID: the
  * species isn't in the list, the clip is too murky to call, that one looks like a
@@ -22,7 +22,7 @@
  *
  *   2. SERIALISATION HAS EXACTLY ONE DOOR. `toPublicComment` is the only way a
  *      comment becomes a client payload, and it builds its result by explicit
- *      field construction — never by spreading a Prisma row. `adminNote` (internal
+ *      field construction, never by spreading a Prisma row. `adminNote` (internal
  *      staff commentary) and the author's email address therefore cannot leak by
  *      someone adding a column later and forgetting to strip it. The author's
  *      email is not even a parameter here: routes resolve `isPebl` via
@@ -33,7 +33,7 @@
  */
 
 // ---------------------------------------------------------------------------
-// Code lists — fixed vocabularies, never free text, so the inbox stays
+// Code lists, fixed vocabularies, never free text, so the inbox stays
 // filterable and a hostile client can't invent a status.
 // ---------------------------------------------------------------------------
 
@@ -199,14 +199,14 @@ export function containsUrl(body: string): boolean {
  * human instead of silently losing a spotter's contribution.
  *
  * Matching tokenises the body into words and does exact set lookups, so it is
- * structurally immune to the Scunthorpe problem — a substring matcher on a
+ * structurally immune to the Scunthorpe problem, a substring matcher on a
  * marine app would reject "bass", "cockle", "assess" and "Scunthorpe" itself,
  * all of which are things a UK spotter will genuinely type. comments.test.ts
  * pins that behaviour.
  *
  * SOURCE (2026-08-01): merged from the original 20-word hand-picked set with
  * the LDNOOBW "List of Dirty, Naughty, Obscene, and Otherwise Bad Words"
- * English list — https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words
+ * English list, https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words
  * (MIT licensed; a widely-used, actively-maintained open-source moderation
  * list, e.g. the basis of the popular npm `bad-words` package). This closes
  * most of the original "no slur coverage" gap (plan open decision 3):
@@ -222,15 +222,15 @@ export function containsUrl(body: string): boolean {
  *      the Report flow than bolted onto this matcher.
  *   2. AN EXPLICIT EXCLUDE SET removes ~40 single words that are either (a)
  *      ordinary marine-biology/anatomy vocabulary a genuine spotter comment
- *      will use — "sex" ("the sex of the crab"), "sexual"/"sexuality" ("sexual
+ *      will use, "sex" ("the sex of the crab"), "sexual"/"sexuality" ("sexual
  *      dimorphism" is standard ID-guide language), "anus", "penis" (real
- *      crustacean/cephalopod anatomy terms) — (b) a real fishing activity
+ *      crustacean/cephalopod anatomy terms), (b) a real fishing activity
  *      ("shrimping"), (c) a near-universal UK texting sign-off and inherently
- *      low-precision 2-3 letter token ("xx"/"xxx" — "nice spot! xx"), or (d)
+ *      low-precision 2-3 letter token ("xx"/"xxx"-"nice spot! xx"), or (d)
  *      not unambiguous profanity by this module's own stated bar ("sucks"
  *      overwhelmingly means "disappointing", not sexual; "sexy" is mild
  *      admiring hyperbole, not hostility). The full exclude list is the
- *      literal EXCLUDE set used to regenerate this array — see
+ *      literal EXCLUDE set used to regenerate this array, see
  *      implementation/2026-08-01/user-comments-plan.md for the build script.
  *
  * STILL A GAP, NOT A COMPLETE SOLUTION: this is a general-purpose open-source
@@ -238,13 +238,13 @@ export function containsUrl(body: string): boolean {
  * The real backstop for the categories a static list cannot fully cover
  * (coded language, emerging slurs, context-dependent harassment) is the
  * Report control on every comment (Phase 2), auto-hide at 3 reports, and
- * admin removal — all content-agnostic and effective where a wordlist is
+ * admin removal, all content-agnostic and effective where a wordlist is
  * not. A maintained moderation API (e.g. a hate-speech classifier) is the
  * natural next step but needs a vendor and cost decision, which is
  * Christian's call, not something to bolt on silently here.
  *
  * Still makes no attempt at evasion handling (spaced-out or leetspeak
- * variants) — an arms race in a regex is not worth having; the report path
+ * variants), an arms race in a regex is not worth having; the report path
  * is the real backstop for that too.
  */
 const BLOCKLIST: readonly string[] = [
@@ -320,7 +320,7 @@ export const POST_BLOCK_REASONS = [
 export type PostBlockReason = (typeof POST_BLOCK_REASONS)[number];
 
 export interface PosterState {
-  /** User.isGuest — a username-only account with a synthetic, unverified email. */
+  /** User.isGuest, a username-only account with a synthetic, unverified email. */
   isGuest: boolean;
   /** Has this user submitted an Answer on this clip? */
   hasAnsweredClip: boolean;
@@ -430,7 +430,7 @@ export interface CommentAuthorLike {
   isPebl: boolean;
   /**
    * User.leaderboardOptIn. Declared minors (13-17) default this to false at
-   * signup — a deliberate ICO Children's Code "high privacy by default"
+   * signup, a deliberate ICO Children's Code "high privacy by default"
    * choice that already hides their real name from the public leaderboard.
    *
    * Comments extend the SAME signal: an opted-out author (which includes
@@ -438,12 +438,12 @@ export interface CommentAuthorLike {
    * OTHER spotters under an anonymised handle instead of their real name.
    * Without this, a minor protected from public leaderboard exposure would
    * still have their real display name shown publicly on every comment they
-   * post — a real inconsistency, not a hypothetical one.
+   * post, a real inconsistency, not a hypothetical one.
    *
    * This affects PUBLIC serialisation only (toPublicComment /
    * authorDisplayNameFor). It does NOT affect staff moderation: the admin
    * inbox resolves names independently and needs full identification to
-   * moderate and to act on repeat-offender patterns — a distinct legal basis
+   * moderate and to act on repeat-offender patterns, a distinct legal basis
    * (operating and moderating the service) already covered in the Privacy
    * Policy, not the public-display basis this gates.
    */
@@ -487,7 +487,7 @@ const anonymisedHandle = (author: CommentAuthorLike) => `Spotter ${author.id.sli
 /**
  * The name PUBLIC readers see. Reuses the existing "Spotter <id6>" convention
  * (already the null-name fallback in authorDisplayName) so an anonymised
- * author reads exactly like a spotter who just never set a display name —
+ * author reads exactly like a spotter who just never set a display name,
  * no separate visual language, no "anonymous" stigma.
  *
  * `viewer` lets the author see their OWN real name on their own comment (the
@@ -498,7 +498,7 @@ const anonymisedHandle = (author: CommentAuthorLike) => `Spotter ${author.id.sli
 export function publicAuthorName(author: CommentAuthorLike, viewer: Viewer): string {
   if (author.leaderboardOptIn) return authorDisplayName(author);
   // Staff need real identification to moderate and to spot repeat-offender
-  // patterns — a distinct legal basis from the public-display protection
+  // patterns, a distinct legal basis from the public-display protection
   // this function otherwise enforces (see CommentAuthorLike.leaderboardOptIn).
   if (viewer.isAdmin) return authorDisplayName(author);
   if (viewer.userId === author.id) return authorDisplayName(author);

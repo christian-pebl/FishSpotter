@@ -5,7 +5,7 @@ describe("scoreSpotter", () => {
   it("falls back to correct count when points isn't provided (legacy callers)", () => {
     // 100 random answers with 50% accuracy under the OLD formula would have
     // scored 50 + 50 * 0.5 = 75. The S2-T03 formula scored 50. The S7-T1
-    // formula scores by Answer.points sum — but when callers don't pass
+    // formula scores by Answer.points sum, but when callers don't pass
     // points, we keep the S2-T03 semantics for back-compat.
     expect(scoreSpotter({ userId: "u", correct: 50, total: 100 })).toBe(50);
     expect(scoreSpotter({ userId: "u", correct: 0, total: 100 })).toBe(0);
@@ -79,7 +79,7 @@ describe("rankSpotters", () => {
     expect(ranked[0].rank).toBe(1);
   });
 
-  it("ranks by points sum when supplied — a user with pending answers beats a user with the same correct count and no pending (S7-T1)", () => {
+  it("ranks by points sum when supplied, a user with pending answers beats a user with the same correct count and no pending (S7-T1)", () => {
     // Spotter A: 10 correct, 0 pending → 20 pts
     // Spotter B: 10 correct, 5 pending → 25 pts (beats A)
     const ranked = rankSpotters([

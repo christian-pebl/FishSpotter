@@ -10,7 +10,7 @@ three UK field guides and a vision pass over all 28 fish reference photos.
 
 - **One node broke the rules: Fish.** Its Rung-2 cut ("What was the overall body
   shape?": Torpedo-or-deep / Long-and-slender / Eel-like / Bottom-scooters) put
-  **20 of 28 fish into the single "Torpedo or deep-bodied" bucket** — double the
+  **20 of 28 fish into the single "Torpedo or deep-bodied" bucket**: double the
   ceiling, and (per the vision pass) an unreliable cut: deep-vs-torpedo only
   holds at the extremes.
 - **Fix: re-cut the fish Rung-2 by plain-English family gestalt** (a new
@@ -21,14 +21,14 @@ three UK field guides and a vision pass over all 28 fish reference photos.
 
 ## How the review was done
 
-1. **Ground truth** — enumerated every shape class + Rung-2 bucket from the live
+1. **Ground truth**: enumerated every shape class + Rung-2 bucket from the live
    catalogue. Only Fish (28) exceeds 10 at Rung 1; its "fusiform" Rung-2 bucket
    held 20.
-2. **Reference grounding** — read the ZSL estuarine beginner key, Sussex IFCA
+2. **Reference grounding**: read the ZSL estuarine beginner key, Sussex IFCA
    guide, and EA/Maitland key (`decision-tree/id-guides/`). All three lead a
    novice on **shape/posture + family gestalt**, not fin-ray detail. The ZSL key
    branches shape-first, then "three dorsal fins?" (cod-like).
-3. **Vision pass** — downloaded and looked at all 28 fish reference photos.
+3. **Vision pass**: downloaded and looked at all 28 fish reference photos.
    Confirmed: (a) deep-vs-torpedo is mushy in the mid-range; (b) gobies +
    dragonets + blenny + sea scorpion genuinely read as one "small bottom fish"
    group; (c) the catshark is unmistakably a shark and must leave the torpedo
@@ -64,9 +64,9 @@ short underwater clip. `bodyShape` is retained as a secondary scored descriptor;
 
 ## Catalogue mis-tags corrected (from the vision pass)
 
-- **Lesser-spotted catshark** — was in the torpedo bucket; now `fishGroup: shark`
+- **Lesser-spotted catshark**: was in the torpedo bucket; now `fishGroup: shark`
   (its own group). It reads as a shark instantly.
-- **Long-spined sea scorpion** — grouped with the gobies/dragonets as a
+- **Long-spined sea scorpion**: grouped with the gobies/dragonets as a
   `bottom-sitter` (it is a big-headed seabed ambusher, not a torpedo).
 - **Sprat** `bodyDepth` deep -> slender; **Corkwing wrasse** `bodyDepth` deep ->
   medium (both reference photos read slimmer than "deep").
@@ -90,7 +90,7 @@ under Bottom-sitters so a beginner finds it with the other gobies.)
 ## Verification
 
 - `npx tsc --noEmit` clean; **336 tests pass**; `npm run lint` + `npm run lint:tokens` clean.
-- All 6 tile silhouettes rasterised and eyeballed — each reads as its label.
+- All 6 tile silhouettes rasterised and eyeballed, each reads as its label.
 - Live walk (dev server, Playwright): Rung 2 shows the six groups with correct
   counts; tapping Cod-shaped narrows Rung 3 to exactly the 5 cod species.
 
@@ -99,7 +99,7 @@ under Bottom-sitters so a beginner finds it with the other gobies.)
 - **Bottom-sitters (9)** is within the ceiling but heterogeneous. An optional
   Rung-3 head-shape cut (flat-headed dragonets/scorpion vs rounded-head
   gobies/shanny/red-mullet) would tighten it if desired.
-- **Catshark Rung-1 tile** — a beginner seeing a dogfish may tap nothing and look
+- **Catshark Rung-1 tile**: a beginner seeing a dogfish may tap nothing and look
   for "Shark" at Rung 1. Considered out of scope (it is correctly a fish; the
   Shark-shaped Rung-2 tile catches it). Revisit if telemetry shows misses.
 - **Dead asset** `public/silhouettes/forms/laterally-compressed.svg` (retired

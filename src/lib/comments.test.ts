@@ -362,7 +362,7 @@ describe("isVisibleTo", () => {
 describe("toPublicComment", () => {
   it("never emits an internal or identifying field (INV-2)", () => {
     // A row carrying every internal column the schema has. If someone adds a
-    // column and forgets to strip it, this fails — that is the whole point of
+    // column and forgets to strip it, this fails, that is the whole point of
     // routing all serialisation through one explicitly-constructed function.
     const fullRow = {
       ...row(),
@@ -439,11 +439,11 @@ describe("toPublicComment", () => {
   });
 });
 
-describe("publicAuthorName / isAnonymised — leaderboardOptIn extended to comments", () => {
+describe("publicAuthorName / isAnonymised, leaderboardOptIn extended to comments", () => {
   // Declared minors (13-17) default leaderboardOptIn=false at signup, which
   // already hides their real name from the public leaderboard. This closes the
   // gap: without it, that same minor's real name would still be shown publicly
-  // on every comment they post — an inconsistency, not a hypothetical one.
+  // on every comment they post, an inconsistency, not a hypothetical one.
 
   it("shows the real name to strangers when the author is opted in (the common case)", () => {
     expect(publicAuthorName(AUTHOR, STRANGER)).toBe("Ffion");

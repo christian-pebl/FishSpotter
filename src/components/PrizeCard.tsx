@@ -79,7 +79,7 @@ function probeSlot(srcs: readonly string[], alt: string): Promise<GalleryImage |
 
 /**
  * Flick-through gallery of the guide: front cover first, then inside pages.
- * Slots are probed with detached Image() objects in an effect — NOT via
+ * Slots are probed with detached Image() objects in an effect, NOT via
  * onError on the rendered <img>, because with SSR'd markup a fast 404 can
  * fire before hydration attaches React's handler, leaving broken-image
  * icons on screen. Until the probe settles (and whenever nothing loads) the
@@ -178,12 +178,12 @@ type Note = { kind: "error" | "success"; text: string };
  * The single goal of the Pebbles page: your progress toward winning the
  * Seasearch guide, and the claim action once you're there. The prize is a
  * gift (claiming deducts nothing); POST /api/prize/claim enforces the target
- * + the anti-gaming eligibility gate server-side — `eligibility` here is the
+ * + the anti-gaming eligibility gate server-side, `eligibility` here is the
  * precomputed copy so the card can pre-warn instead of surprising a spotter
  * at 1,000 Pebbles.
  *
  * Imagery is a flick-through gallery (front cover + inside pages) driven by
- * the PRIZE_GALLERY manifest — drop screenshots into public/shop/guide/ with
+ * the PRIZE_GALLERY manifest, drop screenshots into public/shop/guide/ with
  * the manifest filenames and they appear with no code change; until then the
  * committed PEBL illustration stands in.
  */
@@ -295,7 +295,7 @@ export function PrizeCard({
                       <AnimatedCount value={Math.min(earned, PRIZE_TARGET_PEBBLES)} /> of{" "}
                       {PRIZE_TARGET_PEBBLES.toLocaleString()}
                     </span>
-                    {!reached && <span>— keep spotting</span>}
+                    {!reached && <span>· keep spotting</span>}
                   </p>
                 </div>
 

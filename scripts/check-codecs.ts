@@ -26,7 +26,7 @@ async function main() {
   // operator has configured GitHub Actions secrets). Reports skipped rather
   // than failing so the workflow stays green in the no-secret state.
   if (!process.env.POSTGRES_PRISMA_URL) {
-    console.log("POSTGRES_PRISMA_URL not set — codec guard skipped.");
+    console.log("POSTGRES_PRISMA_URL not set, codec guard skipped.");
     return;
   }
 
@@ -44,7 +44,7 @@ async function main() {
       if (c !== "h264") bad.push(`${s.externalId} (${s.id}): ${c}`);
     } catch (err) {
       bad.push(
-        `${s.externalId} (${s.id}): ffprobe failed — ${(err as Error).message}`,
+        `${s.externalId} (${s.id}): ffprobe failed, ${(err as Error).message}`,
       );
     }
   }

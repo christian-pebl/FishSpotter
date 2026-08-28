@@ -12,7 +12,7 @@ import { notifyStaffOfComment } from "@/lib/email/comment-notify";
  * Report a comment.
  *
  * An accessible reporting route is a specific Online Safety Act duty for a
- * user-to-user service, not optional polish — it is the mechanism that turns
+ * user-to-user service, not optional polish, it is the mechanism that turns
  * moderation from "we watch it" into "anyone can flag it and we act".
  *
  * One report per person per comment (enforced by the @@unique on

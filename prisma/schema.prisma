@@ -26,7 +26,7 @@ model User {
   // ICO Children's Code (UK Age Appropriate Design Code): self-declared age
   // band at signup. We store a coarse BAND, not date of birth, to minimise
   // personal data. Null for pre-existing users (declared at signup only).
-  ageBracket          String? // "13_17" | "18_plus" — null for pre-existing users
+  ageBracket          String? // "13_17" | "18_plus", null for pre-existing users
   // Declared minors (13-17) default to OFF the public leaderboard; any user
   // can change this later in account settings.
   leaderboardOptIn    Boolean              @default(true)
@@ -83,7 +83,7 @@ model User {
 // OAuth provider (S3-02) so a future ticket can drop GoogleProvider /
 // AppleProvider into the providers array with no migration.
 // PrismaAdapter is wired in src/lib/auth.ts but session strategy stays
-// `jwt` — these tables stay empty until an OAuth provider is added.
+// `jwt`, these tables stay empty until an OAuth provider is added.
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -129,7 +129,7 @@ model VerificationToken {
 }
 
 // Password-reset tokens (S3-04). Same hash-at-rest pattern. Shorter TTL
-// (1h) because the threat model is different — a stale reset link is a
+// (1h) because the threat model is different, a stale reset link is a
 // privilege-escalation vector, a stale verify link only wastes time.
 model PasswordResetToken {
   id         String    @id @default(cuid())
@@ -160,12 +160,12 @@ model Snippet {
   excluded          Boolean  @default(false) // deselected via TRDesk4's "Exclude from FishSpotter" toggle (metadata.fishspotter_excluded). Set by scripts/sync.ts; hidden from every user-facing surface by excludeBlockedSnippetsWhere(). Reversible: un-exclude in TRDesk4 + re-sync.
   // Difficulty ladder (Jul 2026): 0 = hardest, 1 = easiest, corpus-relative
   // percentile. Seeded from apparent organism size (median bbox area from
-  // bboxJson — the strongest signal available with near-zero answer volume
+  // bboxJson, the strongest signal available with near-zero answer volume
   // today) by scripts/seed-difficulty.ts. Default 0.5 covers unseeded rows
   // (new clips before the next seed run, or clips with no bbox signal) so a
   // fresh clip sits at neutral difficulty rather than skewing the ramp.
   // Intended to migrate toward an empirical (answer-accuracy-derived) score
-  // once there's enough traffic per clip — see feed-ordering.ts.
+  // once there's enough traffic per clip, see feed-ordering.ts.
   difficultyScore   Float    @default(0.5)
   createdAt         DateTime @default(now())
   answers           Answer[]
@@ -420,11 +420,11 @@ model Vital {
   @@index([name, createdAt])
 }
 
-// Engagement event log — Climate Action Fund impact measurement (first-party,
+// Engagement event log, Climate Action Fund impact measurement (first-party,
 // privacy-first). We deliberately store the MINIMUM: no IP, no user-agent, no
 // referrer, no persistent cross-visit device id. It captures only what can't be
-// derived from the Answer / UnlockedSpecies tables — sessions, active
-// watch-time, and clip views — so identifications, accuracy and species-learned
+// derived from the Answer / UnlockedSpecies tables, sessions, active
+// watch-time, and clip views, so identifications, accuracy and species-learned
 // stay derived, not duplicated.
 //
 // `sessionId` is a random per-TAB id (sessionStorage), so nothing follows a
@@ -442,7 +442,7 @@ model Event {
   // "pro_door", "share", "digest_optin"). A fixed short code, not free text.
   //
   // NB (2026-08-01): this column ALREADY EXISTS in production and holds data,
-  // but was never committed to main — it was pushed from an uncommitted schema
+  // but was never committed to main, it was pushed from an uncommitted schema
   // during the engagement-flywheel work. It is declared here so `prisma db push`
   // from this branch leaves it alone instead of dropping it. The app code that
   // populates it (EVENT_TYPES "cta_click" + CTA_LABELS in src/lib/events.ts)
@@ -450,7 +450,7 @@ model Event {
   // branch. Expect a trivial schema.prisma conflict when that work lands.
   label      String?
   // Traffic-source attribution, captured once on session_start only (from
-  // document.referrer + the landing URL's query string). Never a fingerprint —
+  // document.referrer + the landing URL's query string). Never a fingerprint,
   // just where the tab's first pageview came from.
   referrer   String? // e.g. "reddit.com" (hostname only, not the full URL)
   utmSource  String?

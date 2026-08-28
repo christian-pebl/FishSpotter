@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 /**
  * The single Pebbles destination (the old Shop | Leaderboard tabs collapsed
  * into one page, 20 Jul 2026): your totals, your progress toward winning the
- * Seasearch guide, and the community ranking — one streamlined view.
+ * Seasearch guide, and the community ranking, one streamlined view.
  */
 export default async function PebblesHubPage({
   searchParams,
@@ -78,7 +78,7 @@ export default async function PebblesHubPage({
         reason: result.eligible
           ? null
           : result.reasons.includes("email not verified")
-            ? "Verify your email to claim the guide — prizes are posted to real spotters."
+            ? "Verify your email to claim the guide. Prizes are posted to real spotters."
             : "Prize claims unlock with more spotting history across more days.",
       };
     }
@@ -118,7 +118,7 @@ export default async function PebblesHubPage({
               </dl>
             ) : (
               <p className="mt-2 text-sm text-navy-900/72">
-                Earn Pebbles by identifying clips in the feed — they count toward the prize below
+                Earn Pebbles by identifying clips in the feed. They count toward the prize below
                 and your leaderboard rank.
               </p>
             )}

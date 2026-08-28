@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Shared species detail content — the single source of truth for "what a species
+ * Shared species detail content, the single source of truth for "what a species
  * looks like, where it's seen, and how to spot it". Rendered identically by:
  *   - the menu path: the /species/[slug] profile page, and
  *   - the rung path: the SpeciesGuidePopup (which only adds a "This is my pick"
@@ -26,7 +26,7 @@ export type SpeciesDepth = { label: string; medianM: number } | null;
 
 const SIZE_LABEL: Record<string, string> = {
   small: "Small (under 10 cm)",
-  medium: "Medium (10–50 cm)",
+  medium: "Medium (10-50 cm)",
   large: "Large (over 50 cm)",
 };
 const prettify = (v: string) => {
@@ -108,7 +108,7 @@ export function SpeciesGuideContent({
 
   return (
     <div className="space-y-5">
-      {/* How to spot it — annotated reference (only when marks exist). Dark card
+      {/* How to spot it, annotated reference (only when marks exist). Dark card
           because the annotated legend is white. */}
       {marked && (
         <section className="rounded-card bg-navy-900 p-4">

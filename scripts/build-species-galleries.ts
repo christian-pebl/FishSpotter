@@ -3,7 +3,7 @@
  *
  * The runtime gallery (SpeciesGallery -> /api/species-images/[name]) shows
  * every SpeciesImage row for a species, curated first. Until now that pool was
- * whatever the iNat cron grabbed by vote count, unfiltered — so most species
+ * whatever the iNat cron grabbed by vote count, unfiltered, so most species
  * had 1-5 rows and some were dead/mixed-school/off-subject shots. This script
  * fills each gallery to a clean TARGET (default 8) of teaching-grade photos:
  *
@@ -13,7 +13,7 @@
  *      vote-ranked pull (+ a Wikimedia top-up when iNat is thin), deduped by
  *      observation and minus anything already blocklisted.
  *   3. Assess EVERY candidate with Gemini (src/lib/biodiversity/gemini-vision).
- *      Claude orchestrates; Gemini does the vision — same tool as images:assess.
+ *      Claude orchestrates; Gemini does the vision, same tool as images:assess.
  *   4. Keep the best (alive, photographic, in-frame, diagnostic features legible)
  *      up to TARGET total, written as curated=false rows ordered by score.
  *   5. Delete the non-curated, mark-free rows that didn't make the cut (junk
@@ -27,7 +27,7 @@
  *   npx tsx --env-file=.env.local scripts/build-species-galleries.ts --all
  *   ... --species "Gadus morhua"
  *   ... --all --limit 10            # first 10 species (alpha by key)
- *   ... --all --slice 0:20          # species [0,20) — sharding for parallel runs
+ *   ... --all --slice 0:20          # species [0,20), sharding for parallel runs
  *   ... --target 8 --pool 24 --min 4
  *   ... --dry-run                   # assess + report, write nothing
  *   ... --no-delete                 # add photos but keep existing rows

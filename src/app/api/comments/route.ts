@@ -26,8 +26,8 @@ import {
 /**
  * Public per-clip comment thread.
  *
- * GET  — the thread, GATED on the caller having answered this clip (INV-1).
- * POST — leave a comment (or a one-level reply).
+ * GET , the thread, GATED on the caller having answered this clip (INV-1).
+ * POST, leave a comment (or a one-level reply).
  *
  * THE GATE IS LOAD-BEARING, NOT POLITENESS. src/lib/consensus.ts pays Pebbles for
  * INDEPENDENT convergence and src/lib/trust.ts propagates reputation through the
@@ -36,7 +36,7 @@ import {
  * GET /api/snippets/[id]/stats already does with the community histogram.
  *
  * Every response body is built by toPublicComment() (src/lib/comments.ts), which
- * constructs its fields explicitly and never spreads a Prisma row — so adminNote
+ * constructs its fields explicitly and never spreads a Prisma row, so adminNote
  * and author emails cannot leak (INV-2).
  */
 export const dynamic = "force-dynamic";
@@ -92,7 +92,7 @@ async function hasAnswered(userId: string, snippetId: string): Promise<boolean> 
 }
 
 // ---------------------------------------------------------------------------
-// GET — the gated thread
+// GET, the gated thread
 // ---------------------------------------------------------------------------
 
 export async function GET(req: Request) {
@@ -145,7 +145,7 @@ export async function GET(req: Request) {
 }
 
 // ---------------------------------------------------------------------------
-// POST — leave a comment
+// POST, leave a comment
 // ---------------------------------------------------------------------------
 
 const PostSchema = z.object({
@@ -190,7 +190,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Clip not found" }, { status: 404 });
   }
 
-  // Posting eligibility: guests are blocked (INV-4 — a guest account is a free,
+  // Posting eligibility: guests are blocked (INV-4, a guest account is a free,
   // unlimited, unverified identity), and you must have made your own call first.
   const [me, answered, existingOnClip] = await Promise.all([
     prisma.user.findUnique({
@@ -290,7 +290,7 @@ export async function POST(req: Request) {
 
   // Instant staff notification. Awaited (Next 14 has no after()/waitUntil here)
   // but timeout-wrapped and never-throwing, so it cannot fail or hang the post.
-  // Ordinary spotter-to-spotter replies deliberately stay quiet — see shouldNotify.
+  // Ordinary spotter-to-spotter replies deliberately stay quiet, see shouldNotify.
   let parentIsPebl = false;
   if (parentId) {
     const parentAuthor = await prisma.comment.findUnique({

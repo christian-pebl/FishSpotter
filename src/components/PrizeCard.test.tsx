@@ -41,7 +41,7 @@ describe("PrizeCard", () => {
       initialEarned: 2400,
       eligibility: {
         eligible: false,
-        reason: "Verify your email to claim the guide — prizes are posted to real spotters.",
+        reason: "Verify your email to claim the guide. Prizes are posted to real spotters.",
       },
     });
     expect(screen.getByRole("button", { name: "Claim your guide" })).toBeDisabled();
@@ -55,7 +55,7 @@ describe("PrizeCard", () => {
   });
 
   it("shows the fallback illustration while no gallery file loads", () => {
-    // jsdom's Image() never fires onload/onerror, so the probe never settles —
+    // jsdom's Image() never fires onload/onerror, so the probe never settles,
     // the same rendered state as production before any screenshot is uploaded.
     renderCard();
     expect(
@@ -68,7 +68,7 @@ describe("PrizeCard", () => {
 
   it("shows the guide gallery and flicks to the next page once files load", async () => {
     // Probing uses detached Image() objects; stub them to load instantly so
-    // every manifest slot resolves — production once screenshots exist.
+    // every manifest slot resolves, production once screenshots exist.
     class InstantImage {
       onload: (() => void) | null = null;
       onerror: (() => void) | null = null;
@@ -80,11 +80,11 @@ describe("PrizeCard", () => {
 
     renderCard();
     expect(
-      await screen.findByRole("img", { name: "Seasearch guide — front cover" }),
+      await screen.findByRole("img", { name: "Seasearch guide, front cover" }),
     ).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Next page" }));
     expect(
-      await screen.findByRole("img", { name: "Seasearch guide — inside page 1" }),
+      await screen.findByRole("img", { name: "Seasearch guide, inside page 1" }),
     ).toBeInTheDocument();
   });
 

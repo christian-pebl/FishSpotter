@@ -17,7 +17,7 @@ export interface NewCommentPayload {
  * Instant staff notification for a new clip comment (or the first report of one).
  *
  * This is an internal operational email to PEBL staff, not marketing, so it
- * carries no unsubscribe link — the throttle in comment-notify.ts is what keeps
+ * carries no unsubscribe link, the throttle in comment-notify.ts is what keeps
  * it from becoming a pager.
  */
 export function NewCommentEmail(p: NewCommentPayload) {
@@ -26,7 +26,7 @@ export function NewCommentEmail(p: NewCommentPayload) {
     : `New comment: ${p.reasonLabel}`;
 
   return (
-    <EmailLayout preview={`${heading} — ${p.body.slice(0, 80)}`}>
+    <EmailLayout preview={`${heading}, ${p.body.slice(0, 80)}`}>
       <Text style={{ fontSize: 20, fontWeight: 700, color: "#17252A", marginTop: 16 }}>
         {heading}
       </Text>

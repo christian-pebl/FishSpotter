@@ -1,5 +1,5 @@
 /**
- * POST /api/auth/reset — consume a password-reset token (S3-05).
+ * POST /api/auth/reset, consume a password-reset token (S3-05).
  *
  * Body: { token, newPassword }. Validates the SHA-256 hash exists in
  * PasswordResetToken with consumedAt IS NULL and expiresAt > now,

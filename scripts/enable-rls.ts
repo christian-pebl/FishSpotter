@@ -22,8 +22,8 @@ import { PrismaClient } from "@prisma/client";
 // schema.prisma's `url` reads POSTGRES_PRISMA_URL, which in some environments
 // is a Prisma Accelerate `prisma://` URL the query engine can't validate for
 // raw SQL (and with Accelerate a `datasources` constructor override is
-// ignored). Prefer the direct (non-pooling) URL — the same one `prisma db
-// push` uses for DDL — and rewrite the env var the client resolves from BEFORE
+// ignored). Prefer the direct (non-pooling) URL, the same one `prisma db
+// push` uses for DDL, and rewrite the env var the client resolves from BEFORE
 // constructing it. If neither env var is a usable postgres:// URL (e.g. CI
 // where only an Accelerate secret is configured), skip with a loud, non-failing
 // notice rather than red-flagging the scheduled audit: the real guard is the
@@ -70,7 +70,7 @@ async function main() {
     console.log(`  ${r.rls ? "RLS ON " : "RLS OFF"}  public.${r.table}`);
   }
   console.log(
-    `\n${rows.length} public tables — ${rows.length - unprotected.length} protected, ${unprotected.length} unprotected.`,
+    `\n${rows.length} public tables, ${rows.length - unprotected.length} protected, ${unprotected.length} unprotected.`,
   );
 
   if (unprotected.length > 0) {

@@ -14,7 +14,7 @@ export type FulfilResult = {
 /**
  * Mark a spotter's Seasearch guide posted (or undo it).
  *
- * Fulfilment is manual and off-platform — this only records that a human put a
+ * Fulfilment is manual and off-platform, this only records that a human put a
  * book in the post, so a two-person team doesn't send it twice. It never
  * touches Pebbles, the claim itself, or the spotter's rank; un-marking is
  * always available because the only thing it can be is a mis-click.

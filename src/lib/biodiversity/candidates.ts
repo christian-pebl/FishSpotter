@@ -9,14 +9,14 @@
  * `(snippetId, n)` always yields the same shuffle.
  *
  * Four fallbacks:
- *   - "OBIS"         — full path, distractors come from OBIS top species
- *   - "CATALOGUE"    — OBIS missing or staff scientific name unresolved;
+ *   - "OBIS"        , full path, distractors come from OBIS top species
+ *   - "CATALOGUE"   , OBIS missing or staff scientific name unresolved;
  *                      distractors come from the species catalogue
- *   - "NO_REFERENCE" — staff answer is null; all candidates drawn from
+ *   - "NO_REFERENCE", staff answer is null; all candidates drawn from
  *                      OBIS (preferred) or catalogue. No "right answer"
- *                      slot is reserved — every option is a community
+ *                      slot is reserved, every option is a community
  *                      hypothesis (S7-T1)
- *   - "DEGENERATE"   — fewer than 2 photo-having candidates available;
+ *   - "DEGENERATE"  , fewer than 2 photo-having candidates available;
  *                      return what we have so the UI can degrade
  *                      gracefully (S2-T07)
  *
@@ -49,7 +49,7 @@ export interface SelectionInput {
     | null;
   /**
    * The snippet's `staffAnswer` field (display label). When null the
-   * snippet has no reference identification yet — all candidates are
+   * snippet has no reference identification yet, all candidates are
    * drawn from the probability pool, no "right answer" is reserved.
    */
   staffAnswer: string | null;
@@ -69,7 +69,7 @@ export interface SelectionResult {
 }
 
 /* --------------------------- helpers --------------------------- */
-// PRNG + shuffle live in @/lib/shuffle (S8-T1 — shared with feed-ordering).
+// PRNG + shuffle live in @/lib/shuffle (S8-T1, shared with feed-ordering).
 
 function commonNameForScientific(scientific: string): string {
   const entry = CATALOGUE[scientific];
@@ -108,7 +108,7 @@ export function selectCandidates(input: SelectionInput): SelectionResult {
 
   /* --------------------- S7-T1: NO_REFERENCE path --------------------- */
   // Snippet has no reference identification yet. Draw all `n` candidates
-  // from the probability pool — there's no canonical answer to slot in.
+  // from the probability pool, there's no canonical answer to slot in.
   if (staffAnswer === null) {
     const obisUsable = !!probability && probability.length > 0;
     const pool: Array<{ scientificName: string; weight: number }> = obisUsable

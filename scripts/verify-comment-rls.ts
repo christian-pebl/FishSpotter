@@ -51,7 +51,7 @@ async function main() {
     createdId = created.id;
     console.log(`Inserted canary comment ${createdId} via Prisma (owner role).`);
 
-    // Prisma can see it — proves the row really is in the table.
+    // Prisma can see it, proves the row really is in the table.
     const viaPrisma = await prisma.comment.count({ where: { body: CANARY } });
     console.log(`Prisma sees it: ${viaPrisma} row(s). ${viaPrisma === 1 ? "OK" : "UNEXPECTED"}`);
     if (viaPrisma !== 1) ok = false;

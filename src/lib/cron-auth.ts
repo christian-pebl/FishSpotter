@@ -4,7 +4,7 @@ import { timingSafeEqual } from "crypto";
  * Constant-time `Authorization: Bearer <secret>` check, shared by every
  * token-gated route that isn't behind a user session (/api/cron/*,
  * /api/metrics/summary). Returns false (never throws) when the secret is
- * unset, the header is missing, or the lengths differ — the length check
+ * unset, the header is missing, or the lengths differ, the length check
  * has to happen before the timing-safe compare because `timingSafeEqual`
  * throws on mismatched buffer lengths rather than returning false.
  */

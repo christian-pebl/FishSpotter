@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
 // inside the single Pebbles page (/pebbles) below the prize-progress card.
 // Returns the sections only; the page owns the MarineBackdrop + <main> +
 // BackToFeed chrome. Ranking is lifetime EARNED Pebbles (sum of Answer.points)
-// — the same number that fills the prize progress bar.
+//, the same number that fills the prize progress bar.
 
 type LeaderRow = {
   userId: string;
@@ -20,7 +20,7 @@ type LeaderRow = {
   rank: number;
 };
 
-/** Rows per leaderboard page — keeps the Stats page from growing endlessly. */
+/** Rows per leaderboard page, keeps the Stats page from growing endlessly. */
 export const LEADERBOARD_PAGE_SIZE = 20;
 
 export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {

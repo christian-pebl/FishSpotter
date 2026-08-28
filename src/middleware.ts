@@ -1,10 +1,10 @@
 /**
- * S8-T1 — anonymous-shuffle seed cookie.
+ * S8-T1, anonymous-shuffle seed cookie.
  *
  * Mints `fs.anon_seed` on the first request to `/` or `/feed/*` if the
  * visitor doesn't already have one. The seed is just a stable random
  * string used as input to the deterministic shuffle in
- * `src/lib/feed-ordering.ts` — no secrets, no PII, no need for httpOnly.
+ * `src/lib/feed-ordering.ts`, no secrets, no PII, no need for httpOnly.
  *
  * Signed-in users ignore this cookie (their seed is `session.user.id`),
  * but we still mint it so a sign-out → anon transition doesn't suddenly
@@ -21,7 +21,7 @@ const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
 // PECR consent gate. `fs.anon_seed` is a FUNCTIONAL (non-essential) cookie:
 // it personalises feed ordering but is not strictly necessary for the app to
-// work (the feed has a defensive default seed when it's absent — see
+// work (the feed has a defensive default seed when it's absent, see
 // src/app/feed/page.tsx). The privacy policy states it is "covered by the
 // consent banner; we only set it where consent permits", so we must not write
 // it until the visitor has affirmatively accepted optional cookies.
@@ -57,7 +57,7 @@ function hasOptionalCookieConsent(req: NextRequest): boolean {
 // Q4-A-3: NextAuth sets one of these cookies once the user is signed in
 // (the prefix differs depending on whether the deployment uses secure
 // cookies, e.g. on Vercel). We can't call `getServerSession` from edge
-// middleware without pulling in the auth handler — checking for the
+// middleware without pulling in the auth handler, checking for the
 // cookie's existence is a cheap, accurate proxy. False positives just
 // mean an already-expired session bounces to /feed and then to /auth,
 // which is the same UX as before.
@@ -80,7 +80,7 @@ export function middleware(req: NextRequest) {
   // Q4-A-3: when a signed-in user hits the marketing homepage, redirect
   // them straight to /feed. Without this they land on the landing page
   // every visit and have to click "Start spotting" to get back into the
-  // app — kills the daily-driver habit per the journey review.
+  // app, kills the daily-driver habit per the journey review.
   if (req.nextUrl.pathname === "/" && hasSession(req)) {
     const dest = req.nextUrl.clone();
     dest.pathname = "/feed";
@@ -94,7 +94,7 @@ export function middleware(req: NextRequest) {
   // PECR gate: only mint the functional seed cookie once the visitor has
   // accepted optional cookies via the consent banner. Until then, the feed
   // falls back to its default ordering for this request (no 500, just the
-  // shared default seed) — see src/app/feed/page.tsx.
+  // shared default seed), see src/app/feed/page.tsx.
   if (!hasOptionalCookieConsent(req)) return NextResponse.next();
 
   const res = NextResponse.next();
@@ -108,7 +108,7 @@ export function middleware(req: NextRequest) {
 }
 
 // Narrow matcher so middleware only fires on the two routes that
-// actually consume the seed — keeps cold-start cost off API + asset
+// actually consume the seed, keeps cold-start cost off API + asset
 // paths.
 export const config = {
   matcher: ["/", "/feed/:path*"],

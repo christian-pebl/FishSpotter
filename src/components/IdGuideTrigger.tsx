@@ -128,7 +128,7 @@ export function IdGuideTrigger({
   submitted: boolean;
   /**
    * Reference identification for the snippet. Null when the snippet
-   * has no reference yet (S7-T1) — in that case the "How to spot a X
+   * has no reference yet (S7-T1), in that case the "How to spot a X
    * next time" hint is suppressed because there's no species to teach.
    */
   staffAnswer: string | null;
@@ -140,7 +140,7 @@ export function IdGuideTrigger({
   staffScientific?: string | null;
   /** Called when the user picks a candidate from the guide. Should write the value into the quiz input. */
   onSuggest: (commonName: string) => void;
-  /** When false, the chat path is replaced with a sign-in nudge — the manual
+  /** When false, the chat path is replaced with a sign-in nudge, the manual
    *  trait filter is still available because it doesn't hit the chat API. */
   isLoggedIn: boolean;
 }) {
@@ -187,7 +187,7 @@ export function IdGuideTrigger({
     );
   }
 
-  // S7-T1: submitted but no reference yet — no field-note shortcut. The
+  // S7-T1: submitted but no reference yet, no field-note shortcut. The
   // user can still open the guide via "Help me identify" if not yet
   // submitted; once submitted on a no-reference snippet we render nothing.
   if (submitted) {

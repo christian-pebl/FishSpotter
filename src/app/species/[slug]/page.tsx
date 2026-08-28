@@ -84,7 +84,7 @@ export default async function SpeciesProfilePage({
         <p className="mt-0.5 text-sm italic text-navy-900/80">{scientificName}</p>
       </header>
 
-      {/* Shared species content — identical to the rung guide (which only adds a
+      {/* Shared species content, identical to the rung guide (which only adds a
           "This is my pick" button around the very same component). */}
       <SpeciesGuideContent
         scientificName={scientificName}

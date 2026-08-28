@@ -1,4 +1,4 @@
-# FishSpotter — Architecture
+# FishSpotter: Architecture
 
 A map of how the app fits together, for humans and for Claude Code sessions
 picking up cold. CLAUDE.md is the reference index (stack, key files, conventions,
@@ -43,15 +43,15 @@ crons (`vercel.json`) and the `scripts/` CLIs.
 
 ---
 
-## 3. The catalogue (subsystem C) — source of truth for species
+## 3. The catalogue (subsystem C): source of truth for species
 
-- **`src/data/species-traits.json`** — the catalogue. One entry per species,
+- **`src/data/species-traits.json`**: the catalogue. One entry per species,
   keyed by scientific binomial: `commonName`, `shapeClass`, trait arrays
   (`bodyShape`, `markings`, `behavior`, `movement`, …), plus optional Rung-3 /
   invert "form" splitters and a prose `fieldNote`.
-- **`src/lib/idguide/traits.ts`** — the *vocabulary*: every trait enum as an
+- **`src/lib/idguide/traits.ts`**: the *vocabulary*: every trait enum as an
   `as const` array, the `ShapeClass` union, and the `SpeciesTraits` type.
-- **`src/lib/idguide/catalogue.ts`** — the *loader*: builds a zod schema **from**
+- **`src/lib/idguide/catalogue.ts`**: the *loader*: builds a zod schema **from**
   those enum arrays, validates the JSON once, and exports the typed `CATALOGUE`.
   Import `CATALOGUE` from here; never import the raw JSON. `catalogue.test.ts` is
   the CI gate.
@@ -85,7 +85,7 @@ degrading silently. See `docs/runbooks/add-a-species.md`.
 ### 4.2 The "Spot It" rung flow
 
 The guided funnel. Today's control flow lives in **`FeedCard.tsx`** as boolean
-state flags (there is no central router yet — see "Extending" below).
+state flags (there is no central router yet, see "Extending" below).
 
 | Rung | Component | What it does | Data source |
 |------|-----------|--------------|-------------|
@@ -98,14 +98,14 @@ Shared chrome (draggable card, focus trap, scroll-lock, tile grid) is
 `idflow/TileGate.tsx`. The narrowing engine is `idguide/narrow.ts`:
 `shapeClass` is a HARD filter (wrong class excluded), other traits soft-score.
 
-> **Note — orphaned adaptive engine.** `src/lib/idguide/next-trait.ts` (an
+> **Note, orphaned adaptive engine.** `src/lib/idguide/next-trait.ts` (an
 > information-gain "best next question" picker) and `src/lib/idflow/trait-questions.ts`
-> are fully implemented and unit-tested but currently wired to nothing live —
+> are fully implemented and unit-tested but currently wired to nothing live,
 > their only importer is the dead `src/components/idflow/CandidateStrip.tsx`
 > (replaced by `CandidateGate` on 3 Jun, which dropped the adaptive questions).
-> **If you are adding "deeper trait trees", reconnect this — do not rebuild it.**
+> **If you are adding "deeper trait trees", reconnect this, do not rebuild it.**
 
-> **Note — legacy wizard.** `src/components/IdGuideWizard.tsx` is a separate,
+> **Note, legacy wizard.** `src/components/IdGuideWizard.tsx` is a separate,
 > older 5-step funnel. It is now reachable ONLY post-submit as a teaching surface
 > (via `IdGuideTrigger` → `IdGuideSheet`), not as a live ID path. Treat it as
 > teaching content, not as the ID flow.
@@ -132,7 +132,7 @@ converge on the same name for a no-reference snippet.
 ## 5. The offline data pipeline (subsystem B)
 
 Runs only via crons (`vercel.json`, guarded by `CRON_SECRET`) and `scripts/`
-CLIs. Shared libraries are reused by both the cron route and the CLI — never
+CLIs. Shared libraries are reused by both the cron route and the CLI, never
 copy-pasted (see `src/lib/biodiversity/refresh-images.ts` header for the pattern).
 
 | Cache table | Filled from | By |
@@ -144,7 +144,7 @@ copy-pasted (see `src/lib/biodiversity/refresh-images.ts` header for the pattern
 | `DiagnosticMark` | hand-authored in `/admin/species`, or seeded | admin UI / `seed-*-marks.ts` |
 
 **Gemini vision** (`src/lib/biodiversity/gemini-vision.ts`) is the image-quality
-judge: Claude orchestrates, Gemini reads the pixels. Free tier is ~20 req/day —
+judge: Claude orchestrates, Gemini reads the pixels. Free tier is ~20 req/day,
 a full catalogue sweep must be spread across days or run on a billed key.
 
 ---
@@ -158,7 +158,7 @@ Core: `Snippet` (the clip + nullable `staffAnswer` reference), `Answer`
 
 > **Known structural debt.** Species are identified by a free `scientificName`
 > string across `SpeciesImage`, `DiagnosticMark`, `SpeciesAlias`, the probability
-> blob, and the in-repo JSON — joined *by convention, not by foreign key*. There
+> blob, and the in-repo JSON, joined *by convention, not by foreign key*. There
 > is no canonical `Species` table. A typo creates a silent orphan. A `Species`
 > table (FK'd from the above) is the recommended next structural investment as
 > the catalogue grows; it would make "add a species" a single insert. A full safe migration plan is in docs/runbooks/migrate-to-species-table.md.

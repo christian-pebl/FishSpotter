@@ -14,7 +14,7 @@
  *     npx prisma db push
  *   PRIZE_TEST_DATABASE_URL=postgresql://.../fishspotter_test npm test
  *
- * The database is TRUNCATED between tests — never point this at anything real.
+ * The database is TRUNCATED between tests, never point this at anything real.
  */
 
 import { PrismaClient } from "@prisma/client";
@@ -61,7 +61,7 @@ async function seedUser(opts: {
   const total = opts.pebbles ?? 0;
   if (total > 0 || days > 0) {
     // Spread the points across the answers so the desk has to SUM them, not
-    // read one row — the bug this guards is summing wrong, not fetching wrong.
+    // read one row, the bug this guards is summing wrong, not fetching wrong.
     const per = Math.floor(total / days);
     const remainder = total - per * days;
     for (let i = 0; i < days; i++) {
@@ -126,7 +126,7 @@ describe.skipIf(!url)("prize desk (integration)", () => {
     });
     const rows = await loadPrizeWinnerRows(prisma, NOW);
     expect(rows).toHaveLength(1);
-    // The sum must come back exact — a rounding slip here posts a book to
+    // The sum must come back exact, a rounding slip here posts a book to
     // someone who never earned it (or withholds one from someone who did).
     expect(rows[0].pebbles).toBe(PRIZE_TARGET_PEBBLES);
     expect(rows[0].spotter).toBe("Reef");
@@ -167,7 +167,7 @@ describe.skipIf(!url)("prize desk (integration)", () => {
 
   it("keeps a claimant with zero answers on the desk", async () => {
     // Defensive: a claim without any Answer rows must not crash the groupBy
-    // join or silently vanish — PEBL still owes them a book.
+    // join or silently vanish, PEBL still owes them a book.
     await seedUser({ id: "u1", email: "a@x.test", pebbles: 0, answerDays: 0 });
     await seedClaim("u1");
     const rows = await loadPrizeWinnerRows(prisma, NOW);
@@ -195,7 +195,7 @@ describe.skipIf(!url)("prize desk (integration)", () => {
     expect(row.contact).toBe("unverified");
     expect(row.contactEmail).toBe("real@x.test");
     // The claim gate requires a verified email, so this row must not read as
-    // eligible — otherwise the desk would invite posting to an unconfirmed
+    // eligible, otherwise the desk would invite posting to an unconfirmed
     // address.
     expect(row.eligible).toBe(false);
     expect(row.eligibilityReasons).toContain("email not verified");
@@ -271,7 +271,7 @@ describe.skipIf(!url)("prize desk (integration)", () => {
    * On 1 Aug 2026 that took out POST /api/prize/claim (the claim button) and
    * the Tide Freeze spend inside POST /api/answers. These tests drop the two
    * columns, replay the exact query shapes from those paths, and put the
-   * columns back — so a future `select`-less write is caught here rather than
+   * columns back, so a future `select`-less write is caught here rather than
    * in production.
    */
   describe("survives a pre-migration database (deploy-order safety)", () => {

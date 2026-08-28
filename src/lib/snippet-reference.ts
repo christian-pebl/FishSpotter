@@ -5,8 +5,8 @@
  * reference unlocks that species in the spotter's pokedex.
  *
  * IMPORTANT (Pebbles invariant): this re-judges the VERDICT (`isCorrect`) and
- * unlocks ONLY — it must never touch `Answer.points`. Since the 18 Jun sea-
- * currency redesign, `points` holds live Pebbles (5–31 at submit, consensus
+ * unlocks ONLY, it must never touch `Answer.points`. Since the 18 Jun sea-
+ * currency redesign, `points` holds live Pebbles (5-31 at submit, consensus
  * credits up to ~375), and the matcher's 0/1/2 scale is the retired reference
  * model. Writing matcher points here silently slashed real balances and
  * corrupted the leaderboard (2026-07-06 P0, ux-review-round2.md).
@@ -32,7 +32,7 @@ export type RescoredAnswer = {
  * indeterminate clip -> all pending). A now-correct answer on a reference that
  * resolves to a catalogue species unlocks that species (the reference's
  * species, since isCorrect means the pick matched it). Pebbles (`points`) are
- * deliberately not part of the result — see the module doc.
+ * deliberately not part of the result, see the module doc.
  */
 export function rescoreAnswers(
   answers: Array<{ id: string; userId: string; chosenOption: string }>,

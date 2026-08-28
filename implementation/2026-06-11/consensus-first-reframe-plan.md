@@ -1,4 +1,4 @@
-# FishSpotter: community-consensus-first reframe — app changes (11 Jun 2026)
+# FishSpotter: community-consensus-first reframe: app changes (11 Jun 2026)
 
 From the `/pebl-ask` call: make community-consensus the DEFAULT (most clips carry
 no PEBL answer), keep a thin verified layer, and gate the flip behind a small user
@@ -32,7 +32,7 @@ dissolves the blocker we hit this week (staff often cannot ID to species).
 
 ## Phased changes
 
-### Phase 1 — Consensus-first reveal (the engagement core)  [M]
+### Phase 1: Consensus-first reveal (the engagement core)  [M]
 - **Live consensus read:** extend `/api/snippets/[id]/stats` (already loaded at
   reveal) with, for no-reference clips, the distinct-user counts per normalised
   name (reuse `groupPendingAnswers`). No new cron; computed on read.
@@ -42,7 +42,7 @@ dissolves the blocker we hit this week (staff often cannot ID to species).
   *minority view*. Keep the existing expert reveal for Verified clips.
 - **Copy:** community clips read as "help build the record", never wrong/right.
 
-### Phase 2 — Pokedex unlock on consensus  [M]
+### Phase 2: Pokedex unlock on consensus  [M]
 - Extend `rescoreConsensus` (and a submit-time check when consensus is already met)
   to upsert `UnlockedSpecies` for the matching users, resolving the normalised name
   to a catalogue species via `scientificFromLocalName`. Collections now fill from
@@ -51,7 +51,7 @@ dissolves the blocker we hit this week (staff often cannot ID to species).
 - Collection copy: "collected by your own correct ID, or by joining the community
   consensus."
 
-### Phase 3 — Quality / crowd-to-ML confirm (admin)  [M]
+### Phase 3: Quality / crowd-to-ML confirm (admin)  [M]
 - The admin reference editor (from `remaining-work-plan.md`) shifts ROLE: its main
   job becomes **confirming consensus** ("community says X, N agree, confirm as a
   verified reference?") so a biologist cheaply promotes a strong crowd label to a
@@ -59,14 +59,14 @@ dissolves the blocker we hit this week (staff often cannot ID to species).
   crowd-to-ML wiring. Plus setting the Verified minority directly. Show a
   confidence/agreement indicator.
 
-### Phase 4 — Validation gate (BEFORE the irreversible flip)  [test]
+### Phase 4: Validation gate (BEFORE the irreversible flip)  [test]
 - Small user test of consensus-mode engagement at current scale. Watch: do people
   still contribute and return when most clips give "bonus + emerging consensus"
   instead of "correct vs the expert"? Does the "first / with the pack" reveal land
   with a tiny crowd? Only run Phase 5 if this passes ([[10-Decision-Frameworks]]:
   speculative bets pass a validation gate).
 
-### Phase 5 — Flip the default (data migration, gated + reversible)  [S]
+### Phase 5: Flip the default (data migration, gated + reversible)  [S]
 - Run `audit-reference-ids.ts`, null the coarse/indeterminate staffAnswers (->
   Community), keep verified species. Reversible (functional_group preserved). This
   is the actual "drop the PEBL answer as the default" step; it goes last, after the

@@ -1,15 +1,15 @@
-# Rung 3 (final pick) redesign — visual narrowing, silhouettes → species photos
+# Rung 3 (final pick) redesign: visual narrowing, silhouettes → species photos
 
 **Status: PLANNED 3 Jun 2026.** Decisions locked with Christian (below). Brings
 Rung 3 into line with the Rung-1/2 gates: a draggable dark card, every step
-visual — silhouettes while a shape trait still splits the set, real species
+visual, silhouettes while a shape trait still splits the set, real species
 photos once we're at species level. Tap commits; Back is easy on every rung.
 
 ## Decisions (3 Jun 2026)
 
 1. **Drop the text yes/no questions.** No more "Does it have a chin barbel?
    Yes/No". Narrowing becomes visual.
-2. **Tap commits**, but **going back is easy on all rungs** — a consistent Back
+2. **Tap commits**, but **going back is easy on all rungs**: a consistent Back
    affordance Rung3 → Rung2 → Rung1, and easy re-do after committing.
 3. **Silhouette vs photo by level:** if the remaining split is still a
    morphological/shape trait → show **silhouette tiles** (Rung-2 style); once
@@ -23,7 +23,7 @@ species as **text chips** that commit on tap. The narrowing brain
 (`narrowCandidates` / `nextBestTrait` / `mustHave` / `seed` from Rung 2) is
 correct and stays; the text-question UI and text chips are what change.
 
-## Target model — one funnel, always visual
+## Target model: one funnel, always visual
 
 After Rung 1 (shape class) and Rung 2 (body form), Rung 3 repeatedly asks:
 "is there still a *shape* trait that splits the remaining set, and do we have a
@@ -52,7 +52,7 @@ trait keys are shape-able:
   (same mask-image + manifest mechanism as Rungs 1/2; drop-in, no code change).
 - **Reality today:** `bodyShape` is consumed at Rung 2, so until trait-silhouette
   art exists, Rung 3 is almost always the **species photo grid**. The
-  silhouette-split branch is wired and waiting for that art — it is the forward
+  silhouette-split branch is wired and waiting for that art, it is the forward
   hook, not blocking.
 
 ## Species photo grid (the common Rung-3 case)
@@ -61,12 +61,12 @@ trait keys are shape-able:
   + the common name. Prefetch photos when the gate enters this stage (small set,
   ~3-8). No-photo species fall back to their body-form silhouette so a tile is
   never empty.
-- Tiles drop out as earlier rungs change (keep the shrink animation — the
+- Tiles drop out as earlier rungs change (keep the shrink animation, the
   "dopamine engine").
 - **Tap commits** the species (existing `onPick` path; scoring + consensus
   untouched).
 
-## Navigation — easy Back on every rung (decision #2)
+## Navigation: easy Back on every rung (decision #2)
 
 A single, consistent model across all three gates:
 
@@ -77,7 +77,7 @@ A single, consistent model across all three gates:
   targets.
 - **Re-do after commit:** the reveal panel already exists; add a clear "Change
   my answer" that re-opens the flow at Rung 1 with prior picks pre-filled. (Note:
-  changing a committed `Answer` re-scores — confirm the scoring/consensus
+  changing a committed `Answer` re-scores, confirm the scoring/consensus
   implications before building this part; the in-flow Back, pre-commit, is the
   cheap win and ships first.)
 
@@ -98,7 +98,7 @@ A single, consistent model across all three gates:
 
 1. Enumerate shape-able traits + confirm which (if any) get silhouette art now;
    add the `Back` + breadcrumb to `TileGate`; wire Rung1/2 Back.
-2. `CandidateGate`: species photo grid (the common case) — gate chrome, photo
+2. `CandidateGate`: species photo grid (the common case), gate chrome, photo
    tiles, prefetch, shrink, commit, photo-less fallback. This is the bulk of the
    visible win and ships first.
 3. Silhouette-split branch in `CandidateGate` for any shape-able trait with art
@@ -120,8 +120,8 @@ A single, consistent model across all three gates:
 
 ## Risks
 
-- Live core loop — keep the narrowing identical; re-skin + re-route only.
-- Photo latency at the species stage — prefetch + silhouette fallback.
-- Re-do-after-commit touches scoring — gate it behind sign-off; ship in-flow Back
+- Live core loop, keep the narrowing identical; re-skin + re-route only.
+- Photo latency at the species stage, prefetch + silhouette fallback.
+- Re-do-after-commit touches scoring, gate it behind sign-off; ship in-flow Back
   first.
 - Don't lose the shrink-to-narrow animation.

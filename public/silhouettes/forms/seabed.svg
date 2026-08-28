@@ -1,0 +1,30 @@
+<svg width="100%" height="100%" aria-hidden="true" fill="currentColor" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- "Moving along the seabed". Paired with water-column.svg: same line, same
+       place, but the belly is down ON it with no water underneath. Generic
+       bottom-fish gestalt (blunt head, long low body, rounded paddle tail, one
+       big pectoral fanned forward and planted THROUGH the sand line) because
+       this bucket holds gobies, gurnards, the catshark and the conger alike.
+       The planted fin is the cue that reads fastest at icon size, so it has to
+       break the body outline rather than merge into it. -->
+  <!-- body + tail in one contour, belly flat along the sand -->
+  <path d="M7 27
+           C6.5 23.5 9.5 20.5 15 20
+           C21 19.3 27 19.2 33 20
+           C39 20.8 44 22.5 47 24.5
+           C49.5 24 52 22.5 54.5 21
+           C57 24 57 29 54.5 32
+           C52 30.5 49.5 29 47 28.5
+           C41 31.5 33 33 25 33.2
+           C17 33.4 11 32 9 30
+           C7.5 29 7 28 7 27 Z"/>
+  <!-- dorsal, based well inside the body so it merges into the back as one
+       contour instead of floating off it as a hairline crescent -->
+  <path d="M17 25 L26 17 L35 24 C29 22 22 23.5 17 25 Z"/>
+  <!-- pectoral fanned forward and planted into the sand -->
+  <path d="M20 29.5
+           C15 31 11 33 11.5 35.5
+           C17 34 22 32 24 30.2
+           C22.8 29.9 21.2 29.6 20 29.5 Z"/>
+  <!-- the seabed it is working -->
+  <path d="M2 34 L62 34 L62 35.6 L2 35.6 Z"/>
+</svg>

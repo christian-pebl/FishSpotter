@@ -12,7 +12,7 @@
  *   npx tsx --env-file=.env.local scripts/migrate-points-to-pebbles.ts           # dry run
  *   npx tsx --env-file=.env.local scripts/migrate-points-to-pebbles.ts --apply   # write
  *
- * NOT idempotent — running --apply twice would scale by 100. Run it exactly once,
+ * NOT idempotent, running --apply twice would scale by 100. Run it exactly once,
  * after deploying the new economy, and only on a database whose Answer.points are
  * still on the legacy 0/1/2 scale.
  */
@@ -40,7 +40,7 @@ async function main() {
 
     if (maxBefore > 50) {
       console.warn(
-        `\n⚠️  A row already has ${maxBefore} points — that's above the legacy ` +
+        `\n⚠️  A row already has ${maxBefore} points, that's above the legacy ` +
           `0/1/2 scale. This DB may already be migrated or on the new economy. ` +
           `Aborting to avoid double-scaling. Inspect before forcing.`,
       );
@@ -49,7 +49,7 @@ async function main() {
     }
 
     if (!apply) {
-      console.log("\nDry run — re-run with --apply to write.");
+      console.log("\nDry run, re-run with --apply to write.");
       return;
     }
 

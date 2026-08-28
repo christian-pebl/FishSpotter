@@ -124,7 +124,7 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
     const t = window.setTimeout(() => closeBtnRef.current?.focus(), 30);
 
     // Remember what had focus before the drawer opened so we can
-    // restore it on close — same pattern SpeciesGallery uses.
+    // restore it on close, same pattern SpeciesGallery uses.
     const previouslyFocused = document.activeElement as HTMLElement | null;
 
     const onKey = (e: KeyboardEvent) => {

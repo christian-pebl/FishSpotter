@@ -1,10 +1,10 @@
 /**
- * FishSpotter stats roundup — the "how are we doing?" one-pager.
+ * FishSpotter stats roundup, the "how are we doing?" one-pager.
  *
  * Read-only diagnostic: this script never writes. It's a thin CLI formatter
  * over `computeRoundup()` (src/lib/metrics/roundup.ts), which is the single
  * source of truth shared with `GET /api/metrics/summary` and `/admin/metrics`
- * — see `implementation/2026-08-01/metrics-access-plan.md` for why the
+ *, see `implementation/2026-08-01/metrics-access-plan.md` for why the
  * aggregation itself doesn't live here.
  *
  * Run: npm run db:stats               (human roundup)
@@ -30,12 +30,12 @@ const windowDays = daysArg >= 0 ? Number(args[daysArg + 1]) || 30 : 30;
 
 const n = (v: number) => v.toLocaleString("en-GB");
 const pct = (part: number, whole: number) =>
-  whole === 0 ? "—" : `${Math.round((part / whole) * 1000) / 10}%`;
-const pctOrNull = (ratio: number | null) => (ratio == null ? "—" : `${Math.round(ratio * 1000) / 10}%`);
+  whole === 0 ? "-" : `${Math.round((part / whole) * 1000) / 10}%`;
+const pctOrNull = (ratio: number | null) => (ratio == null ? "-" : `${Math.round(ratio * 1000) / 10}%`);
 
 /** Humanise a duration given in milliseconds. */
 function duration(ms: number | null): string {
-  if (ms == null) return "—";
+  if (ms == null) return "-";
   const hours = ms / (60 * 60 * 1000);
   if (hours < 1) return `${Math.round(ms / 60000)} min`;
   if (hours < 48) return `${Math.round(hours * 10) / 10} h`;
@@ -53,14 +53,14 @@ function row(label: string, value: string, note?: string) {
 }
 
 function printRoundup(r: Roundup) {
-  console.log(`\n\x1b[1mFishSpotter — stats roundup\x1b[0m`);
+  console.log(`\n\x1b[1mFishSpotter, stats roundup\x1b[0m`);
   console.log(
     `\x1b[2m${r.generatedAt.slice(0, 16).replace("T", " ")} UTC · recent window = ${r.windowDays} days\x1b[0m`,
   );
 
   heading("Reach");
   row("Spotters (total)", n(r.reach.totalUsers));
-  row("— registered / guest", `${n(r.reach.registered)} / ${n(r.reach.guests)}`);
+  row("- registered / guest", `${n(r.reach.registered)} / ${n(r.reach.guests)}`);
   row("Email verified", n(r.reach.verified), pct(r.reach.verified, r.reach.registered) + " of registered");
   row("Completed onboarding", n(r.reach.onboarded), pct(r.reach.onboarded, r.reach.totalUsers));
   row(
@@ -73,10 +73,10 @@ function printRoundup(r: Roundup) {
     "Age brackets",
     Object.entries(r.reach.ageBrackets)
       .map(([k, v]) => `${k}: ${v}`)
-      .join(", ") || "—",
+      .join(", ") || "-",
   );
 
-  heading("Discovery — First Sighting");
+  heading("Discovery, First Sighting");
   row(
     "Clips with a first sighting",
     n(r.discovery.firstSightingsAwarded),
@@ -104,13 +104,13 @@ function printRoundup(r: Roundup) {
 
   heading(`Engagement (consent-gated · ${n(r.engagement.eventLogRows)} event rows)`);
   if (r.engagement.eventLogRows === 0) {
-    console.log("  \x1b[2mNo events logged — either no analytics consent yet, or the\x1b[0m");
+    console.log("  \x1b[2mNo events logged, either no analytics consent yet, or the\x1b[0m");
     console.log("  \x1b[2minstrumentation post-dates all current traffic.\x1b[0m");
   } else {
     row("Sessions (all / window)", `${n(r.engagement.sessions)} / ${n(r.engagement.sessionsInWindow)}`);
     row("Active spotters (window)", n(r.engagement.activeUsersInWindow));
     row("Clip views", n(r.engagement.clipViews));
-    row("Median clips per session", r.engagement.medianClipsPerSession?.toString() ?? "—");
+    row("Median clips per session", r.engagement.medianClipsPerSession?.toString() ?? "-");
     row(
       "Watch time (all / window)",
       `${n(r.engagement.watchMinutesAllTime)} min / ${n(r.engagement.watchMinutesInWindow)} min`,
@@ -133,7 +133,7 @@ function printRoundup(r: Roundup) {
     n(r.retention.spottersWithMoreThanOneDay),
     pctOrNull(r.retention.returnRate) + " return rate",
   );
-  row("Median active days", r.retention.medianActiveDays?.toString() ?? "—");
+  row("Median active days", r.retention.medianActiveDays?.toString() ?? "-");
   row("Most active days by one spotter", n(r.retention.maxActiveDays));
   row(
     "Live streaks right now",
@@ -149,7 +149,7 @@ function printRoundup(r: Roundup) {
     `${n(r.learning.distinctSpeciesUnlocked)} / ${n(r.learning.catalogueSize)}`,
     "of the catalogue",
   );
-  row("Median species per spotter", r.learning.medianSpeciesPerSpotter?.toString() ?? "—");
+  row("Median species per spotter", r.learning.medianSpeciesPerSpotter?.toString() ?? "-");
   row(
     "Consensus accuracy",
     pctOrNull(r.learning.consensusAccuracy),
@@ -177,7 +177,7 @@ function printRoundup(r: Roundup) {
     "Sites",
     Object.entries(r.content.sites)
       .map(([k, v]) => `${k} (${v})`)
-      .join(", ") || "—",
+      .join(", ") || "-",
   );
   row("Catalogue species", n(r.learning.catalogueSize));
   for (const [name, v] of Object.entries(r.content.vitals)) {
@@ -205,7 +205,7 @@ function printRoundup(r: Roundup) {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  // Fail with the fix rather than a Prisma stack trace — this script is run
+  // Fail with the fix rather than a Prisma stack trace, this script is run
   // ad-hoc by whoever wants the numbers, not from a configured CI job.
   if (!process.env.POSTGRES_PRISMA_URL) {
     console.error(

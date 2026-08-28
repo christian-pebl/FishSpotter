@@ -4,12 +4,12 @@
  * Findings from reviewing the three iNat reference photos that the
  * seed script picked (lowest-ordering SpeciesImage per species):
  *
- *   - Pollachius pollachius — fish faces RIGHT, not LEFT. The seed
+ *   - Pollachius pollachius, fish faces RIGHT, not LEFT. The seed
  *     script's left-facing default coords are mirrored. Update the
  *     three marks with corrected right-facing coords (head at the
  *     RIGHT side of the frame, ~x=0.75).
  *
- *   - Trisopterus luscus — the cached photo is a mixed school of
+ *   - Trisopterus luscus, the cached photo is a mixed school of
  *     ~7-8 fish in habitat. Can't anchor a "single chin barbel" or
  *     "deep tall body" mark on any specific fish without ambiguity.
  *     Delete the seeded marks. The user should curate a clean
@@ -17,7 +17,7 @@
  *     manual override, re-run db:refresh-images, then re-run the
  *     seed script.
  *
- *   - Gadus morhua — the cached photo is a dead, decomposed,
+ *   - Gadus morhua, the cached photo is a dead, decomposed,
  *     beach-cast specimen on pebbles. No visible lateral line, body
  *     bleached pale, mottling gone. Species ID itself is uncertain
  *     without the colour cues. Delete the seeded marks. Same curation
@@ -54,7 +54,7 @@ const POLLACK_UPDATES: CoordUpdate[] = [
   {
     label: "Projecting lower jaw",
     // Snout / jaw is the leading edge of the head on the right side.
-    // Slightly larger radius — the feature is subtle in this profile.
+    // Slightly larger radius, the feature is subtle in this profile.
     overlayX: 0.78,
     overlayY: 0.48,
     overlayRadius: 0.07,
@@ -86,7 +86,7 @@ async function main() {
       },
     });
     pollackUpdated += res.count;
-    console.log(`  "${u.label}" — ${res.count} row(s) updated`);
+    console.log(`  "${u.label}", ${res.count} row(s) updated`);
   }
 
   /* ------------------------------- Bib ------------------------------- */
@@ -125,7 +125,7 @@ async function main() {
     "  3. Run `npm run db:refresh-images -- --species \"Trisopterus luscus\"` (and again for Gadus morhua).",
   );
   console.log(
-    "  4. Re-run `npm run db:seed-gadoid-marks` — it'll re-insert the bib + cod drafts onto the new photos.",
+    "  4. Re-run `npm run db:seed-gadoid-marks`, it'll re-insert the bib + cod drafts onto the new photos.",
   );
 }
 

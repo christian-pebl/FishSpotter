@@ -8,7 +8,7 @@
  * level), the user's own pick highlighted, animated bars, and the spotter
  * count.
  *
- * The PEBL-reference / "PEBL ID" + "Closest confirmed ID" panel was removed —
+ * The PEBL-reference / "PEBL ID" + "Closest confirmed ID" panel was removed,
  * the reveal is community-answers only.
  *
  * Reveals as a staggered sequence with a teal confetti burst on a correct call;
@@ -101,7 +101,7 @@ export function RevealResult({
 
       {/* Sea-currency: the Pebbles this submission banked, landed in place at the
           moment of the reveal (it also flies into the header pouch). First
-          Sighting gets brighter copy — you were the first to ever log this clip. */}
+          Sighting gets brighter copy, you were the first to ever log this clip. */}
       {!!pebblesEarned && pebblesEarned > 0 && (
         <motion.div variants={item} className="mt-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-500/15 px-3 py-1 text-xs font-semibold text-teal-200">
@@ -120,7 +120,7 @@ export function RevealResult({
         </motion.div>
       )}
 
-      {/* Community answers — how many spotters gave each answer (species or
+      {/* Community answers, how many spotters gave each answer (species or
           higher level). Sole panel: the PEBL-reference panel was removed. */}
       <motion.div variants={item} className="mt-2">
         <div className="rounded-modal border border-white/10 bg-white/[0.06] p-3">
@@ -137,7 +137,7 @@ export function RevealResult({
             {isContested(stats, total) && (
               <span
                 className="ml-auto inline-flex items-center gap-1 rounded-full bg-pending/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-pending"
-                title="The community is split on this one — a tricky clip worth a closer look."
+                title="The community is split on this one, a tricky clip worth a closer look."
               >
                 <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
                   <path d="M6 1v6M6 9.5v1.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />

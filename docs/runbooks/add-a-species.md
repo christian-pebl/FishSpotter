@@ -1,4 +1,4 @@
-# Runbook — Add a species
+# Runbook: Add a species
 
 The catalogue is the source of truth (`src/data/species-traits.json`). Adding a
 species is mostly editing in-repo data; `catalogue.test.ts` will tell you when
@@ -14,7 +14,7 @@ you've done it correctly. Photos and marks are DB-side and need a script run.
 
 Edit **`src/data/species-traits.json`**. Add one entry keyed by the scientific
 binomial. Every field below is validated against the enums in
-`src/lib/idguide/traits.ts` — an invalid value or a missing required field fails
+`src/lib/idguide/traits.ts`, an invalid value or a missing required field fails
 `catalogue.test.ts`.
 
 ```jsonc
@@ -37,7 +37,7 @@ binomial. Every field below is validated against the enums in
 }
 ```
 
-Rule of thumb: if a trait value isn't in `traits.ts`, it's not allowed — add the
+Rule of thumb: if a trait value isn't in `traits.ts`, it's not allowed, add the
 value to the enum **first** (that's the other runbook) or pick an existing one.
 
 ## 2. Add an alias entry (required)
@@ -88,10 +88,10 @@ npx tsc --noEmit && npm test && npm run lint && npm run lint:tokens
 **Before running:** add the species' diagnostic-mark draft (label + description
 per feature, grounded in its `fieldNote` + the UK guides) to
 **`scripts/data/p2-mark-drafts.ts`**. Without it the species onboards with photos
-but **no ID rings** — this is exactly the gap that left whiting with reference
+but **no ID rings**: this is exactly the gap that left whiting with reference
 photos and no circles. The draft is what makes the marks step auto-author.
 
-Then run the single onboarding command — it chains every per-species data step
+Then run the single onboarding command, it chains every per-species data step
 (refresh photos → Gemini-vet gallery + hero → Gemini-place the mark rings from
 your draft → backfill provenance → sync aliases):
 
@@ -103,7 +103,7 @@ npm run db:onboard-species -- --species "Genus species"
 
 Needs `GEMINI_API_KEY` for the gallery + marks steps (free tier ~20 req/day, so
 do one species at a time). The placed rings are **DRAFTS pending expert
-sign-off** — review them in **`/admin/species/Genus%20species`** (admin = a
+sign-off**: review them in **`/admin/species/Genus%20species`** (admin = a
 `@pebl-cic.co.uk` login): click to add/move/relabel rings on the curated photo.
 A species counts as "published" by the wizard once it has ≥1 mark.
 
@@ -119,4 +119,4 @@ A brand-new `shapeClass` (rare) also needs: the value in `SHAPE_CLASS`
 (`traits.ts`), a gate tile + silhouette in `ShapeGate.tsx` / `public/silhouettes/`,
 and a `SUB_SPLITS` entry in `idflow/body-forms.ts` if it should sub-split. The
 `ShapeClass` union drives exhaustive `Record`s, so `tsc` will list everywhere
-that needs updating — follow the compiler.
+that needs updating, follow the compiler.

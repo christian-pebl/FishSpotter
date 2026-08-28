@@ -22,7 +22,13 @@ import type { TraitKey } from "@/lib/idguide/narrow";
  * (the candidate gate then narrows the whole catalogue).
  */
 
-export type FormSeed = { key: TraitKey; value: string | null };
+export type FormSeed = {
+  key: TraitKey;
+  value: string | null;
+  /** Every trait value the chosen tile covers. >1 when the tile bundles forms
+   * (see body-forms' SubSplit options); undefined/null means just `value`. */
+  values?: string[] | null;
+};
 
 export type FlowState = {
   shapeGateOpen: boolean; // Rung 1 visible
@@ -49,7 +55,7 @@ export type FlowAction =
   // form gate (Rung 2)? If so go to Rung 2, else straight to Rung 3.
   | { type: "selectShape"; shape: ShapeClass | null; hasSubSplit: boolean }
   | { type: "closeShapeGate" }
-  // Rung 2 pick — seed Rung 3's narrowing with the chosen body form.
+  // Rung 2 pick, seed Rung 3's narrowing with the chosen body form.
   | { type: "selectForm"; seed: FormSeed }
   | { type: "closeBodyGate" }
   | { type: "closeCandidates" }
@@ -125,7 +131,7 @@ export function flowReducer(state: FlowState, action: FlowAction): FlowState {
       };
 
     default: {
-      // Exhaustiveness guard — a new action type without a case is a compile error.
+      // Exhaustiveness guard, a new action type without a case is a compile error.
       const _never: never = action;
       return state;
     }

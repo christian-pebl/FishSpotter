@@ -34,7 +34,7 @@ function fmtTime(seconds: number): string {
   return `${m}:${s.toFixed(1).padStart(4, "0")}`;
 }
 
-// Box at a given frame, interpolating between surrounding keyframes — mirrors
+// Box at a given frame, interpolating between surrounding keyframes, mirrors
 // how the feed draws the trail so the editor preview matches the live render.
 function boxAtFrame(frames: TrackFrame[], frame: number): TrackFrame | null {
   if (frames.length === 0) return null;
@@ -252,7 +252,7 @@ export function SnippetTrackEditor({
     startTransition(async () => {
       try {
         const res = await saveSnippetTrack(snippetId, out);
-        setMessage(`Saved — ${res.frames} frame(s) written to the track.`);
+        setMessage(`Saved. ${res.frames} frame(s) written to the track.`);
         setDirty(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Save failed");
@@ -284,7 +284,7 @@ export function SnippetTrackEditor({
       </div>
       <p className="mt-1 text-[11px] text-navy-500">
         Scrub to where the creature is, then drag a box around it to drop a keyframe. Add a few
-        across the clip — the feed draws a smooth trail between them. On a phone, turn on{" "}
+        across the clip, the feed draws a smooth trail between them. On a phone, turn on{" "}
         <span className="font-medium text-navy-700">Draw on clip</span> first (otherwise swiping the
         clip just scrolls the page).
       </p>
@@ -302,7 +302,7 @@ export function SnippetTrackEditor({
                 : "border border-teal-600 text-teal-700 hover:bg-teal-50"
             }`}
           >
-            {drawMode ? "Done drawing — scroll the page" : "Draw on clip"}
+            {drawMode ? "Done drawing, scroll the page" : "Draw on clip"}
           </button>
           <div
             ref={wrapperRef}
@@ -393,7 +393,7 @@ export function SnippetTrackEditor({
             </div>
           </div>
 
-          {/* Transport — 44px tall controls for thumbs */}
+          {/* Transport, 44px tall controls for thumbs */}
           <div className="mt-2 flex items-center gap-2">
             <button
               type="button"

@@ -20,7 +20,7 @@ async function main() {
     i++;
     const [depth, dist] = await Promise.all([getCachedDepth(sci), getCachedDistribution(sci)]);
     console.log(
-      `[${i}/${names.length}] ${sci}: depth ${depth ? depth.label : "—"}, dist ${dist ? `${dist.cells.length} cells` : "—"}`,
+      `[${i}/${names.length}] ${sci}: depth ${depth ? depth.label : "-"}, dist ${dist ? `${dist.cells.length} cells` : "-"}`,
     );
     await sleep(300);
   }

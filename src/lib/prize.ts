@@ -5,7 +5,7 @@
  * day they shipped): one visible goal on the leaderboard page beats a
  * storefront.
  *
- * The prize is a GIFT, not a spend — claiming records a PebblePurchase row
+ * The prize is a GIFT, not a spend, claiming records a PebblePurchase row
  * with pebbleCost 0, so the spotter's Pebbles (and leaderboard rank) are
  * untouched. Claims are gated by `isPrizeEligible` (src/lib/trust.ts) in
  * POST /api/prize/claim per docs/pebbles-anti-gaming-and-prizes-plan.md.
@@ -26,7 +26,7 @@ export const PRIZE_TARGET_PEBBLES = 2000;
 export const PRIZE_NAME = "Seasearch marine life ID guide";
 
 export const PRIZE_BLURB =
-  "Earn 2,000 Pebbles spotting clips and PEBL will post you the Seasearch guide to the marine life of Britain and Ireland — the book the pros carry.";
+  "Earn 2,000 Pebbles spotting clips and PEBL will post you the Seasearch guide to the marine life of Britain and Ireland, the book the pros carry.";
 
 /** True once a spotter's lifetime earned Pebbles reach the target. */
 export function hasReachedPrizeTarget(earned: number): boolean {
@@ -34,7 +34,7 @@ export function hasReachedPrizeTarget(earned: number): boolean {
 }
 
 // ---------------------------------------------------------------------------
-// Fulfilment desk (/admin/prizes) — pure row derivation
+// Fulfilment desk (/admin/prizes), pure row derivation
 // ---------------------------------------------------------------------------
 
 /**
@@ -43,7 +43,7 @@ export function hasReachedPrizeTarget(earned: number): boolean {
  * `guest` matters: zero-friction guest accounts carry a SYNTHETIC PLACEHOLDER
  * address in User.email (see the guest branch in src/lib/auth.ts), so the
  * column looks populated but nothing can be posted to it. Never show a guest's
- * email as a contact — the only route to them is nudging the in-app "save your
+ * email as a contact, the only route to them is nudging the in-app "save your
  * finds" prompt, which runs POST /api/guest/claim.
  *
  * `unverified` is a real address the spotter typed at guest-claim but never
@@ -62,10 +62,10 @@ export function prizeContactState(user: {
 
 /**
  * Where a winner sits in the fulfilment pipeline.
- *   to-post           — claimed, not yet posted. THE work queue.
- *   posted            — claimed and marked posted by an admin.
- *   reached-unclaimed — over the target but hasn't tapped claim; reachable.
- *   unreachable       — over the target, but a guest with no real address.
+ *   to-post          , claimed, not yet posted. THE work queue.
+ *   posted           , claimed and marked posted by an admin.
+ *   reached-unclaimed, over the target but hasn't tapped claim; reachable.
+ *   unreachable      , over the target, but a guest with no real address.
  */
 export type PrizeStatus = "to-post" | "reached-unclaimed" | "posted" | "unreachable";
 
@@ -95,7 +95,7 @@ export interface PrizeWinnerInput {
   pebbles: number;
   /** PebblePurchase.purchasedAt for SEASEARCH_GUIDE_ID, or null if never claimed. */
   claimedAt: Date | null;
-  /** PebblePurchase.fulfilledAt — set once an admin marks the book posted. */
+  /** PebblePurchase.fulfilledAt, set once an admin marks the book posted. */
   fulfilledAt: Date | null;
   fulfilledBy: string | null;
   /** isPrizeEligible()'s verdict, so the desk can flag a suspect claim. */
@@ -137,7 +137,7 @@ export function toPrizeWinnerRow(input: PrizeWinnerInput): PrizeWinnerRow {
  * doing (see PRIZE_STATUS_ORDER), then by Pebbles descending within a status.
  *
  * A claim is honoured even if the spotter's total later dips below the target
- * (it can't today — Pebbles are never deducted — but a claimed row must never
+ * (it can't today, Pebbles are never deducted, but a claimed row must never
  * silently vanish from the desk while PEBL still owes someone a book).
  */
 export function buildPrizeWinnerRows(
@@ -161,7 +161,7 @@ export function buildPrizeWinnerRows(
  * runtime and drops the slot if none load, falling back to
  * PRIZE_FALLBACK_IMAGE when nothing loads at all. So shipping the real
  * screenshots is just: drop files with these names (either extension) into
- * public/shop/guide/ — no code change needed. Cover first; pages in
+ * public/shop/guide/, no code change needed. Cover first; pages in
  * reading order.
  */
 export interface PrizeGallerySlot {
@@ -176,10 +176,10 @@ const slotSources = (name: string): readonly string[] => [
 ];
 
 export const PRIZE_GALLERY: ReadonlyArray<PrizeGallerySlot> = [
-  { srcs: slotSources("cover"), alt: "Seasearch guide — front cover" },
+  { srcs: slotSources("cover"), alt: "Seasearch guide, front cover" },
   ...Array.from({ length: 6 }, (_, i) => ({
     srcs: slotSources(`page-${i + 1}`),
-    alt: `Seasearch guide — inside page ${i + 1}`,
+    alt: `Seasearch guide, inside page ${i + 1}`,
   })),
 ];
 
