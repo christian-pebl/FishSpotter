@@ -37,7 +37,30 @@ export type FlowState = {
   guessMode: boolean; // MCQ fast path visible
   selectedShape: ShapeClass | null;
   formSeed: FormSeed | null;
+  /** Rung-3 "rule out" set: scientific names the user has eliminated from the
+   * candidate grid for THIS clip. A pure view filter, never sent to the server,
+   * with no effect on scoring or consensus. */
+  ruledOut: string[];
+  /** Which candidate bucket `ruledOut` belongs to (see `bucketKey`). Eliminations
+   * survive a round trip back to an earlier rung and forward again into the SAME
+   * bucket, which is exactly what a careful spotter does; they are dropped only
+   * when the bucket actually changes and the old names no longer apply. */
+  ruledOutKey: string | null;
 };
+
+/** Identity of the candidate set behind Rung 3: shape class plus the Rung-2 seed
+ * (including its bundled values, so two tiles sharing a trait key still key
+ * apart). A null shape is the whole-catalogue "Not sure" path; a null seed value
+ * is the "compare them all" path within one shape class. */
+export function bucketKey(
+  shape: ShapeClass | null,
+  seed: FormSeed | null,
+): string {
+  const base = shape ?? "all";
+  if (!seed || seed.value === null) return base + ":any";
+  const values = seed.values?.length ? seed.values : [seed.value];
+  return base + ":" + seed.key + ":" + [...values].sort().join("|");
+}
 
 export const initialFlowState: FlowState = {
   shapeGateOpen: false,
@@ -46,6 +69,8 @@ export const initialFlowState: FlowState = {
   guessMode: false,
   selectedShape: null,
   formSeed: null,
+  ruledOut: [],
+  ruledOutKey: null,
 };
 
 export type FlowAction =
@@ -65,15 +90,32 @@ export type FlowAction =
   | { type: "enterMcq" }
   // Breadcrumb back-navigation.
   | { type: "goToRung1" }
-  | { type: "goToRung2" };
+  | { type: "goToRung2" }
+  // Rung-3 elimination: rule one candidate out of the grid, put one back, or put
+  // them all back. `ruleOut` is idempotent.
+  | { type: "ruleOut"; scientificName: string }
+  | { type: "restore"; scientificName: string }
+  | { type: "restoreAll" };
+
+/** Stamp the bucket a set of eliminations belongs to, clearing them when the
+ * bucket changed. Same bucket = the user stepped back to look at an earlier rung
+ * and came forward again, so their eliminations still mean something and are
+ * kept. */
+function applyBucket(state: FlowState, key: string): FlowState {
+  return key === state.ruledOutKey
+    ? state
+    : { ...state, ruledOut: [], ruledOutKey: key };
+}
 
 export function flowReducer(state: FlowState, action: FlowAction): FlowState {
   switch (action.type) {
     case "openShapeGate":
       return { ...state, shapeGateOpen: true };
 
-    case "selectShape":
-      return {
+    case "selectShape": {
+      // With no sub-split this lands straight on Rung 3, so the bucket is
+      // settled here; with one, selectForm settles it.
+      const next = {
         ...state,
         selectedShape: action.shape,
         formSeed: null,
@@ -81,17 +123,24 @@ export function flowReducer(state: FlowState, action: FlowAction): FlowState {
         bodyGateOpen: action.hasSubSplit,
         spotItActive: !action.hasSubSplit,
       };
+      return action.hasSubSplit
+        ? next
+        : applyBucket(next, bucketKey(action.shape, null));
+    }
 
     case "closeShapeGate":
       return { ...state, shapeGateOpen: false };
 
     case "selectForm":
-      return {
-        ...state,
-        formSeed: action.seed,
-        bodyGateOpen: false,
-        spotItActive: true,
-      };
+      return applyBucket(
+        {
+          ...state,
+          formSeed: action.seed,
+          bodyGateOpen: false,
+          spotItActive: true,
+        },
+        bucketKey(state.selectedShape, action.seed),
+      );
 
     case "closeBodyGate":
       return { ...state, bodyGateOpen: false };
@@ -129,6 +178,22 @@ export function flowReducer(state: FlowState, action: FlowAction): FlowState {
         formSeed: null,
         bodyGateOpen: true,
       };
+
+    case "ruleOut":
+      return state.ruledOut.includes(action.scientificName)
+        ? state
+        : { ...state, ruledOut: [...state.ruledOut, action.scientificName] };
+
+    case "restore":
+      return state.ruledOut.includes(action.scientificName)
+        ? {
+            ...state,
+            ruledOut: state.ruledOut.filter((n) => n !== action.scientificName),
+          }
+        : state;
+
+    case "restoreAll":
+      return state.ruledOut.length === 0 ? state : { ...state, ruledOut: [] };
 
     default: {
       // Exhaustiveness guard, a new action type without a case is a compile error.

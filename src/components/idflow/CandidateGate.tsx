@@ -96,6 +96,19 @@ function TilePhoto({ src }: { src: string }) {
   );
 }
 
+/** Which trait supplies a species' fallback silhouette. Normally the class's
+ * Rung-2 sub-split trait, because that IS the shape the user just picked.
+ *
+ * Fish are the exception. Their Rung-2 cut moved to `fishZone` (seabed vs water
+ * column) on 28 Aug 2026, and zone is a position, not a shape: keying off it
+ * collapsed every photo-less fish onto one of two generic silhouettes, so a
+ * catshark and a butterfish both drew the same bottom-fish blob. `fishGroup` is
+ * the family gestalt and stays the authoritative source here, exactly as
+ * CLAUDE.md records. */
+function silhouetteTraitFor(shapeClass: ShapeClass): TraitKey | undefined {
+  return shapeClass === "fish" ? "fishGroup" : SUB_SPLITS[shapeClass]?.key;
+}
+
 /** The best simple silhouette for a species when it has no cached photo:
  * its body-form silhouette, else its shape-class silhouette, else none. */
 function fallbackSilhouetteSrc(
@@ -103,7 +116,7 @@ function fallbackSilhouetteSrc(
   scientificName: string,
 ): string | null {
   if (!shapeClass) return null;
-  const formKey = SUB_SPLITS[shapeClass]?.key;
+  const formKey = silhouetteTraitFor(shapeClass);
   const traits = CATALOGUE[scientificName];
   if (formKey && traits) {
     const v = speciesValuesFor(traits, formKey)[0];
@@ -124,6 +137,10 @@ export function CandidateGate({
   breadcrumb,
   onSkipToMCQ,
   coarse,
+  ruledOut = [],
+  onRuleOut,
+  onRestore,
+  onRestoreAll,
 }: {
   /** The clip being identified, keys the ecological-likelihood lookup (OBIS
    * probability for this clip's location/depth/month bucket). */
@@ -141,6 +158,14 @@ export function CandidateGate({
   /** "It's just a {Fish}", commit the coarse shape class (FeedCard supplies it
    *  only when a shape was chosen, i.e. not the "Not sure" whole-catalogue path). */
   coarse?: { label: string; onClick: () => void };
+  /** Scientific names the user has eliminated from this bucket (owned by the
+   *  flow reducer so they survive a step back to an earlier rung and forward
+   *  again). A pure view filter: nothing here reaches the server, and scoring
+   *  and consensus are untouched. */
+  ruledOut?: string[];
+  onRuleOut?: (scientificName: string) => void;
+  onRestore?: (scientificName: string) => void;
+  onRestoreAll?: () => void;
 }) {
   // Ecological likelihood for THIS clip's bucket (location · depth · month),
   // from the OBIS-backed probability cache. null until it resolves / when the
@@ -213,6 +238,24 @@ export function CandidateGate({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shapeClass, seed?.key, seed?.value, seedValuesKey, probByScientific, compareAll]);
 
+  // What the user has not eliminated. Deliberately filters the ALREADY-CAPPED
+  // set rather than back-filling from species 25+: new tiles appearing as you
+  // eliminate would break the "narrow it down" model, and "Pick from a list"
+  // remains the escape hatch to the full catalogue.
+  const ruledOutSet = useMemo(() => new Set(ruledOut), [ruledOut]);
+  const visible = useMemo(
+    () => candidates.filter((c) => !ruledOutSet.has(c.scientificName)),
+    [candidates, ruledOutSet],
+  );
+  // Names for the footer chips, in the order the grid had them.
+  const ruledOutItems = useMemo(
+    () =>
+      candidates
+        .filter((c) => ruledOutSet.has(c.scientificName))
+        .map((c) => ({ key: c.scientificName, label: c.commonName })),
+    [candidates, ruledOutSet],
+  );
+
   // The species whose guide popup is open (tap a tile -> preview -> confirm).
   // null = grid view. Tapping a tile no longer commits instantly; the popup's
   // "This is my pick" does.
@@ -223,9 +266,11 @@ export function CandidateGate({
 
   // Look-alike "compare side by side" view (e.g. the three right-eyed flatfish).
   // Offered only when the remaining candidates are a known confusion group.
+  // Computed from the VISIBLE set: once you have ruled out one of a look-alike
+  // group, "compare these three side by side" is no longer the offer being made.
   const comparison = useMemo(
-    () => comparisonGroupForCandidates(candidates.map((c) => c.scientificName)),
-    [candidates],
+    () => comparisonGroupForCandidates(visible.map((c) => c.scientificName)),
+    [visible],
   );
   const [comparing, setComparing] = useState(false);
 
@@ -261,7 +306,7 @@ export function CandidateGate({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sciKey]);
 
-  const tiles: TileSpec[] = candidates.map((c) => {
+  const tiles: TileSpec[] = visible.map((c) => {
     const photo = photos[c.scientificName];
     const sil = fallbackSilhouetteSrc(shapeClass, c.scientificName);
     return {
@@ -291,17 +336,23 @@ export function CandidateGate({
       <TileGate
         ariaLabel="Which species is it?"
         title={
-          candidates.length === 0
+          visible.length === 0
             ? "No matches"
             : compareAll
-              ? `All ${candidates.length}, most likely here first. Tap one to look closer`
+              ? `All ${visible.length}, most likely here first. Tap one to look closer`
               : "Which one is it? Tap to compare"
         }
         tiles={tiles}
         columns={2}
         suspendKeyboard={!!preview}
+        onRuleOut={onRuleOut}
+        ruledOut={
+          onRestore && onRestoreAll && ruledOutItems.length > 0
+            ? { items: ruledOutItems, onRestore, onRestoreAll }
+            : undefined
+        }
         onSelect={(sci) => {
-          const c = candidates.find((x) => x.scientificName === sci);
+          const c = visible.find((x) => x.scientificName === sci);
           // Tap opens the guide popup (gallery + diagnostic marks + field note)
           // so the user can compare before committing; the popup commits.
           if (c && !submitting) setPreview({ scientificName: c.scientificName, commonName: c.commonName });
@@ -310,7 +361,11 @@ export function CandidateGate({
         onBack={onBack}
         breadcrumb={breadcrumb}
         bubbleLabel="Reopen the species picker"
-        emptyMessage="No matches left. Go back a step or pick from a list."
+        emptyMessage={
+          ruledOutItems.length > 0
+            ? "You have ruled them all out. Bring some back below, go back a step, or pick from a list."
+            : "No matches left. Go back a step or pick from a list."
+        }
         // An explicit "none of these match" exit at the decision point. "None
         // look right" steps back to re-narrow; "Pick from a list" jumps to the
         // full MCQ. On the compare-them-all path there is nothing left to
@@ -334,6 +389,14 @@ export function CandidateGate({
           commonName={preview.commonName}
           submitting={submitting}
           onConfirm={() => onPick(preview.commonName)}
+          onRuleOut={
+            onRuleOut
+              ? () => {
+                  onRuleOut(preview.scientificName);
+                  setPreview(null);
+                }
+              : undefined
+          }
           onClose={() => setPreview(null)}
         />
       )}
