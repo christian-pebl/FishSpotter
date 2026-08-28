@@ -17,6 +17,7 @@ import { ShapeGate, SHAPE_CLASS_LABEL, SHAPE_CLASS_COMMIT_NOUN } from "./ShapeGa
 import { FISH_ZONE_COARSE_NOUN, type FishZone } from "@/lib/idguide/traits";
 import { BodyShapeGate } from "./idflow/BodyShapeGate";
 import { CandidateGate } from "./idflow/CandidateGate";
+import { CommentThread } from "./idflow/CommentThread";
 import { RevealResult } from "./idflow/RevealResult";
 import { bodyFormConfigFor } from "@/lib/idflow/body-forms";
 import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
@@ -26,7 +27,7 @@ import { manualTrackToBoxes } from "@/lib/manualTrack";
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 const TRACE_POINT_LIMIT = 40;
-// Bbox smoothing — lower = smoother trail, slightly more lag.
+// Bbox smoothing, lower = smoother trail, slightly more lag.
 const BBOX_SMOOTH_ALPHA = 0.15;
 // Min pixel delta before pushing a new point into the trail buffer.
 const TRAIL_MIN_STEP_PX = 3;
@@ -180,7 +181,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   // button. Tapping the site name inside it opens the MapModal.
   const [metaOpen, setMetaOpen] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
-  // UX-0: the "Spot It" rung flow — shape gate (Rung 1) → body-shape gate
+  // UX-0: the "Spot It" rung flow, shape gate (Rung 1) → body-shape gate
   // (Rung 2) → candidate gate (Rung 3), with the MCQ tile grid as the
   // "skip to guess" fast path. Transitions live in the tested pure reducer
   // (src/lib/idflow/flow.ts); the booleans are destructured back out so every
@@ -204,7 +205,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   const goToRung2 = useCallback(() => dispatch({ type: "goToRung2" }), []);
   // Soft "here's the fish" highlight: a gentle concentric ring that FOLLOWS the
   // creature along its bbox track (synced to playback) for ~1.5s. It is shown
-  // ONLY when the user taps the radar "locate the fish" ping (handlePing) — it
+  // ONLY when the user taps the radar "locate the fish" ping (handlePing), it
   // never auto-appears. During the first loop the centre-track trace already
   // shows where the fish is, so an automatic ring on top would double up.
   // `key` restarts the CSS fade/pulse; the per-frame position is driven
@@ -318,7 +319,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   }, []);
 
   // Keyboard shortcut: press H while the active card is in view to
-  // toggle the identification panel — gives users a fast way to flip
+  // toggle the identification panel, gives users a fast way to flip
   // between looking at the video (for shape, markings, behaviour) and
   // the candidate picker without hunting for the minimize button.
   // Skip when focus is in a text input so typing "h" still works.
@@ -390,14 +391,14 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     // Defer to the localStorage preference once it's loaded.
     setPanelCollapsed(true);
     // We deliberately don't persist this transient collapse to
-    // localStorage — it's the watch-first gate, not a user preference.
+    // localStorage, it's the watch-first gate, not a user preference.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // (3 Jun fix) The identify panel no longer auto-expands after the first
   // video loop. The clip loops indefinitely and the panel opens ONLY on an
-  // explicit user action — tapping the collapsed "tap to identify" pill or
-  // the H shortcut — so watching is never interrupted by a popup. The
+  // explicit user action, tapping the collapsed "tap to identify" pill or
+  // the H shortcut, so watching is never interrupted by a popup. The
   // first-loop signal is still tracked (it softens the pill hint text), it
   // just no longer forces the panel open.
 
@@ -457,7 +458,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   } = useCreatureQuiz(snippet, "/feed");
 
   // S2-T09: tell the hook how to refocus the input on edit. Only used
-  // when the DEGENERATE fallback renders the legacy input — otherwise
+  // when the DEGENERATE fallback renders the legacy input, otherwise
   // the inputRef is null and the callback is a harmless no-op.
   useEffect(() => {
     setEditFocusCallback(() => {
@@ -467,7 +468,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   }, [setEditFocusCallback]);
 
   const bboxes = useMemo(() => {
-    // Prefer the hand-marked manual track when present — a far cleaner signal
+    // Prefer the hand-marked manual track when present, a far cleaner signal
     // than the auto RT-DETR/motion boxes. Centre points map to zero-size boxes
     // so the trail renderer below treats (x_norm, y_norm) as the fish centre
     // with no other change (centre = x_norm + w_norm/2 = x_norm when w_norm=0).
@@ -709,7 +710,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     const glowGrad = glowGradRef.current;
     const progress = progressRef.current;
 
-    // NB: object-fit / object-position belong to the fit effect above — never
+    // NB: object-fit / object-position belong to the fit effect above, never
     // reset them here. Clearing objectPosition on teardown snapped a
     // cover-cropped clip off the species the moment the trail retired (first
     // loop) and left every rewatch mis-cropped, with the "locate" ping ring
@@ -732,7 +733,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
     if (!drawTrail && overlay) overlay.style.opacity = "0";
 
     let cancelled = false;
-    // Trail stored in WORLD (normalized) space — re-projected each frame so it
+    // Trail stored in WORLD (normalized) space, re-projected each frame so it
     // follows the camera correctly during pans.
     let worldPoints: Point[] = [];
     let smoothedNorm: Point | null = null;
@@ -885,8 +886,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
   }, [bboxes, isActive, showTracking]);
 
   // Q4-A-10: the design review's #1 finding (signup + daily-driver
-  // journeys, +AI-smell auditor) was that the reveal panel — the best
-  // teaching moment in the app — is invisible because we auto-advance
+  // journeys, +AI-smell auditor) was that the reveal panel, the best
+  // teaching moment in the app, is invisible because we auto-advance
   // 450ms after submit. First-time users submit and never find their
   // result. Fix: do nothing on submit beyond rendering the reveal.
   // The user reads the reveal in-place, then explicitly taps Next
@@ -898,7 +899,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       if (submitting) return;
       await submit();
       // No setTimeout. No onAdvance. No onAnswered. The reveal panel
-      // is the destination — not a step. handleAdvanceFromReveal below
+      // is the destination, not a step. handleAdvanceFromReveal below
       // owns the transition out.
     },
     [submitting]
@@ -1015,9 +1016,9 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         />
         {/* Depth + location + date HUD has moved out of the top-left to the
             bottom-left (below the progress bar), and only appears after the
-            first identify tap — see the metadata block just below the video
+            first identify tap, see the metadata block just below the video
             frame. Keeps the idle clip clean: just "Tap to name species". */}
-        {/* Playback progress bar — pulses on loop so the reset moment is visible */}
+        {/* Playback progress bar, pulses on loop so the reset moment is visible */}
         {hasBboxes && (
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
             <div
@@ -1067,13 +1068,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         )}
 
         {/* Tap the clip itself to start identifying. A transparent catcher over
-            the playing video opens the Spot It flow — only in the idle "watching"
+            the playing video opens the Spot It flow, only in the idle "watching"
             state (not paused, not answered, no gate/strip already open), and
             at z-10 so the panel (z-20) and docked bar (z-30) still take their own
             taps. Mutually exclusive with the tap-to-play overlay above.
             In guess mode the catcher stays OFF while the input panel is visible
             (a stray tap must not yank the user out of typing) but comes BACK when
-            the panel is hidden — otherwise guessMode + Hide left the card with no
+            the panel is hidden, otherwise guessMode + Hide left the card with no
             touch affordance to answer at all (the only toggle was the desktop-only
             H key). */}
         {isActive &&
@@ -1090,7 +1091,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 setShowTapHint(false);
                 setHasTappedIdentify(true);
                 togglePanel(false);
-                // Mid-guess (type-a-name) the user's context is the input panel —
+                // Mid-guess (type-a-name) the user's context is the input panel,
                 // restore it rather than stacking the shape gate on top of it.
                 if (!guessMode) dispatch({ type: "openShapeGate" });
                 try {
@@ -1175,7 +1176,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
           </>
         )}
 
-        {/* Soft "here's the fish" highlight — a gentle concentric ring that
+        {/* Soft "here's the fish" highlight, a gentle concentric ring that
             follows the creature along its bbox track for ~3s, then fades. No
             centre dot, so the fish stays visible inside it. The container is
             positioned each frame via translate3d (ringRef); the inner box
@@ -1197,11 +1198,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       </div>
 
       {/* Clip metadata (depth · site · date) + the map now live in the idle
-          bottom bar's LEFT "info pin" — see the docked bar below. */}
+          bottom bar's LEFT "info pin", see the docked bar below. */}
 
       {/* Soft bottom gradient so the floating panel always reads over the video.
           Desktop centres the panel mid-screen so the bottom gradient just
-          obscures the seabed — only render it on mobile, and keep it
+          obscures the seabed, only render it on mobile, and keep it
           subtler so species near the lower edge stay visible. */}
       {!panelCollapsed && !isDesktop && (
         <div
@@ -1223,7 +1224,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         />
       )}
 
-      {/* Collapsed pill — replaces the panel when minimized. Also hidden while a
+      {/* Collapsed pill, replaces the panel when minimized. Also hidden while a
           gate is open so the gate is the only box on screen. */}
       <AnimatePresence>
         {panelCollapsed && !hasTappedIdentify && !myAnswer && !shapeGateOpen && !bodyGateOpen && !(spotItActive && !myAnswer) && (
@@ -1238,7 +1239,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             // the radar "locate the fish" ping (right).
             className="absolute inset-x-0 bottom-0 z-30 flex h-14 items-stretch border-t border-white/10 bg-navy-900/95 backdrop-blur"
           >
-            {/* Clip-info pin (LEFT) — tap for depth · site · date; tap the place
+            {/* Clip-info pin (LEFT), tap for depth · site · date; tap the place
                 name inside for the small map. */}
             {(snippet.depthM != null || snippet.site || snippet.recordingDatetime) && (
               <div className="relative flex shrink-0 items-stretch border-r border-white/10">
@@ -1355,7 +1356,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                 <path d="M3 7.5L6 4.5L9 7.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Radar ping (RIGHT) — only after first loop when trace has gone */}
+            {/* Radar ping (RIGHT), only after first loop when trace has gone */}
             {hasCompletedFirstLoop && bboxes.length > 0 && (
               <button
                 type="button"
@@ -1380,7 +1381,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
         )}
       </AnimatePresence>
 
-      {/* Floating glass panel — Claude-style input or stats card. Hidden while a
+      {/* Floating glass panel, Claude-style input or stats card. Hidden while a
           gate (shape or body) is open so only the gate box shows, not two. */}
       <AnimatePresence>
         {!panelCollapsed && !shapeGateOpen && !(bodyGateOpen && !myAnswer) && !(spotItActive && !myAnswer) && (
@@ -1443,7 +1444,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               type="button"
               onClick={() => togglePanel(true)}
               aria-label="Minimize panel to see video (press H)"
-              title="Minimize — press H to toggle"
+              title="Minimize, press H to toggle"
               className="absolute right-1.5 top-1 z-10 inline-flex h-8 items-center gap-1 rounded-full bg-white/5 px-2 text-[10px] font-medium uppercase tracking-wider text-white/70 transition-colors hover:bg-white/15 hover:text-white before:absolute before:-inset-x-2 before:-inset-y-1.5 before:content-['']"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -1456,8 +1457,8 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
               {!myAnswer ? (
                 <>
                   {/* Clearance for the absolute header controls (drag grip +
-                      Hide pill). Without it the first content row — the Skip /
-                      "Where is this?" cluster, or guess-mode's submit arrow —
+                      Hide pill). Without it the first content row, the Skip /
+                      "Where is this?" cluster, or guess-mode's submit arrow,
                       rendered straight into the top-right corner and stacked
                       under the Hide button. */}
                   <div className="h-8 shrink-0" aria-hidden="true" />
@@ -1472,13 +1473,13 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   )}
 
                   {/* S2-T14 / (3 Jun): the MCQ candidate picker is now the
-                       "skip to guess" fallback, gated behind guessMode — it is
+                       "skip to guess" fallback, gated behind guessMode, it is
                        no longer the first thing shown. The default identify path
                        is the step-by-step Spot It shape flow. The legacy free-text
                        input is still retained inside it via the DEGENERATE fallback. */}
                   {/* "Skip to guess" / "Pick from a list": a type-to-search box
                        with live, catalogue-grounded suggestions (SpeciesSuggestions
-                       below) — replaces the old OBIS MCQ photo grid. */}
+                       below), replaces the old OBIS MCQ photo grid. */}
                   {guessMode && (
                       <>
                         <div className="flex items-center gap-2 pb-2">
@@ -1583,7 +1584,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                   )}
                   {status !== "loading" && (
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 pb-1.5">
-                      {/* UX-0: "Spot It" gate entry — opens the shape-class
+                      {/* UX-0: "Spot It" gate entry, opens the shape-class
                           silhouette grid. Sits alongside (not replacing) the
                           existing "Help me identify" wizard trigger. */}
                       <button
@@ -1598,7 +1599,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         Identify
                       </button>
                       {/* (10 Jun) WS-E: removed the standalone "Pick from a list"
-                          entry. Field testers found the menu inconsistent — it
+                          entry. Field testers found the menu inconsistent, it
                           opened as photo tiles via Identify but as a type-in list
                           via this button. "Identify" (shape gate -> photo tiles)
                           is now the single, consistent entry. The type-in is still
@@ -1607,7 +1608,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                           degrades to free-text only when OBIS returns <2 candidates. */}
                       {/* (3 Jun fix) Single guided-ID entry is "Spot It" (above).
                           The older pre-submit "Help me identify" wizard trigger was
-                          removed here — having both opened two concurrent guided
+                          removed here, having both opened two concurrent guided
                           flows (ShapeGate + IdGuideSheet) that could stack. The
                           trait funnel / field-note teaching still lives in the
                           post-submit reveal trigger below (submitted={true}). */}
@@ -1650,7 +1651,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
 
                   {/* UX-1 (3 Jun): Rung 3 moved out of the panel into its own
                       draggable gate (CandidateGate), rendered at the article
-                      level below — so the panel is hidden while it's open. */}
+                      level below, so the panel is hidden while it's open. */}
                 </>
               ) : !stats ? (
                 // Answer recorded but the community stats haven't arrived yet
@@ -1702,7 +1703,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                       firstSighting={rewardProgress?.firstSighting}
                     />
                     {/* S7-T1: the reference species-gallery only makes sense
-                         when a reference ID exists — it shows the staff answer's
+                         when a reference ID exists, it shows the staff answer's
                          photos + diagnostic marks. On no-reference clips we skip
                          the whole pane and let the +1 bonus chip carry the
                          messaging. The headless resolver fetches the reference's
@@ -1718,7 +1719,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                             snippetId={snippet.id}
                             onResolve={setStaffScientific}
                           />
-                          {/* S2-T08 inline gallery — sits between the staff
+                          {/* S2-T08 inline gallery, sits between the staff
                                answer line and the IdGuide trigger row.
                                SpeciesGallery hides itself silently when the
                                scientificName has no images (plaice larva,
@@ -1746,7 +1747,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </>
                       );
                     })()}
-                    {/* P0: guest "play before the wall" — the reveal lands
+                    {/* P0: guest "play before the wall", the reveal lands
                         first, THEN a soft, non-blocking ask to save it. The
                         guesses are already queued locally and carry in on
                         signup, so nothing is lost. */}
@@ -1835,6 +1836,17 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
                         </button>
                       )}
                     </div>
+                    {/* Public clip discussion. Sits ABOVE the sticky advance row
+                        so "Next" is never pushed out of reach, and renders
+                        collapsed by default so reading it is opt-in. The server
+                        gates the content on this spotter having answered (see
+                        GET /api/comments, INV-1), so mounting it here is safe. */}
+                    <CommentThread
+                      snippetId={snippet.id}
+                      signedIn={!!session}
+                      isGuest={!!(session?.user as { isGuest?: boolean } | undefined)?.isGuest}
+                      signUpHref={signUpHref}
+                    />
                     <div
                       className={`mt-2 flex items-center justify-between gap-2 ${
                         hasNext
@@ -1931,11 +1943,11 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
       )}
 
       {/* UX-0: Shape-class gate overlay. Sits above z-20 panel at z-30.
-          onSelectShape activates the candidate strip — with a shape, or null
+          onSelectShape activates the candidate strip, with a shape, or null
           ("Not sure" → strip narrows the whole catalogue, never dead-ends).
           onSkip closes the gate to the MCQ fast path ("skip to guess").
           onClose dismisses AND collapses the panel (togglePanel(true), same
-          as the panel's own Hide button) — otherwise panelCollapsed was still
+          as the panel's own Hide button), otherwise panelCollapsed was still
           false underneath, so the floating Identify/Where-is-this/Skip panel
           reappeared right after Close, reading as a stray box left behind.
           Collapsing here leaves a clean clip with the tap-to-identify catcher
@@ -1953,7 +1965,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             });
           }}
           onSkip={() => {
-            // "Skip to guess" — reveal the MCQ tile grid as the fallback.
+            // "Skip to guess", reveal the MCQ tile grid as the fallback.
             dispatch({ type: "skipToMcq" });
           }}
           onClose={() => {

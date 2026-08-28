@@ -1,5 +1,5 @@
 /**
- * GET /api/cron/digest — weekly digest cron (S3-16).
+ * GET /api/cron/digest, weekly digest cron (S3-16).
  *
  * Runs Mon 08:00 UTC per vercel.json. Authorization: Bearer CRON_SECRET
  * (same pattern as the existing biodiversity crons). For each user
@@ -14,6 +14,7 @@ import { WeeklyDigestEmail } from "@/lib/email/templates/WeeklyDigestEmail";
 import { digestUnsubscribeUrl } from "@/lib/email/unsubscribe";
 import { sendEmail } from "@/lib/email/send";
 import { isAuthorisedCron } from "@/lib/cron-auth";
+import { countNewClipsSince } from "@/lib/new-clips";
 import { prisma } from "@/lib/prisma";
 import { log } from "@/lib/log";
 
@@ -29,9 +30,11 @@ export async function GET(req: Request) {
   const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
-  const newSnippetCount = await prisma.snippet.count({
-    where: { createdAt: { gte: weekAgo } },
-  });
+  // Via the shared helper so this matches what the feed actually serves. The
+  // raw Snippet.count here previously included blocklisted / TRDesk4-excluded
+  // clips (24 of the 97 rows today), so a quiet week could still advertise
+  // "new sightings on the feed" that the recipient would never be shown.
+  const newSnippetCount = await countNewClipsSince(prisma, weekAgo);
 
   const recipients = await prisma.user.findMany({
     where: {

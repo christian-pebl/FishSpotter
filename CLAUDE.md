@@ -2,10 +2,10 @@
 
 ## Project Overview
 
-**FishSpotter** (fish-spotter.vercel.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
+**FishSpotter** (www.fishspotter.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
 
 - Repo: https://github.com/christian-pebl/FishSpotter
-- Live URL: **https://fish-spotter.vercel.app** (canonical, ignore fishspotter.vercel.app, different deployment)
+- Live URL: **https://www.fishspotter.app** (canonical custom domain, confirmed 1 Aug 2026, `fishspotter.app` 308-redirects to it. Both map to the Vercel project `fish-spotter`, so `fish-spotter.vercel.app` / `fishspotter.vercel.app` are the same underlying deployment, just not the domain to link or reference)
 - Local dev: `npm run dev` runs on **localhost:3000**
 - Database: Supabase Postgres (project ID: `aazxphcrexkggbmmceli`, region: West EU / Ireland)
 - Storage: Supabase Storage bucket `snippets`, public URLs at `https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/{externalId}/snippet.mp4`
@@ -82,6 +82,8 @@
 | `src/app/admin/species/[name]/page.tsx` | Per-species editor shell. Loads SpeciesImage rows + DiagnosticMark rows in parallel, hands them to the client annotator. Shows the canonical `db:refresh-images` command if no photos are cached yet. |
 | `src/app/admin/species/[name]/SpeciesAnnotator.tsx` | Click-to-add / drag-to-move / edge-handle-resize annotator. Img + absolute SVG overlay with normalised (0..1) coords. Save-on-blur for label/description; optimistic local updates with `useTransition` for the server actions. |
 | `src/app/admin/species/[name]/actions.ts` | Server actions for DiagnosticMark CRUD (`createMark` / `updateMark` / `deleteMark` / `swapMarkOrder`). All gated by `requireAdminSession()`. Coords clamped to 0..1, radius to 0.01..0.5. Cross-species mark assignment is rejected. `swapMarkOrder` runs in a Prisma transaction so the order list can't end up with duplicates mid-swap. |
+| `src/app/admin/prizes/page.tsx` | **Prize fulfilment desk (1 Aug 2026).** Everyone at/over `PRIZE_TARGET_PEBBLES`, ordered by what needs doing (to post → not claimed → unreachable → posted). Claiming only writes a zero-cost `PebblePurchase`; nothing emails PEBL, so this page IS the work queue. Shows the contact email with a copy button, the `isPrizeEligible` verdict, and a "Mark posted" toggle (`actions.ts` → `PebblePurchase.fulfilledAt`/`fulfilledBy`). **Guests are surfaced as "no real address"**: guest accounts carry a synthetic placeholder in `User.email`, so a populated column is not a reachable one; the only route to them is the in-app save prompt (`POST /api/guest/claim`). Row derivation is pure in `src/lib/prize.ts` (`buildPrizeWinnerRows`) and unit-tested. Remote access (Claude Code, no browser): see "Prize desk via Claude Code" below. |
+| `src/app/api/admin/prize-desk/summary/route.ts` | **Remote-safe prize desk (1 Aug 2026).** `GET`, token-gated on `PRIZE_DESK_TOKEN` (own secret, separate from `METRICS_TOKEN`/`CRON_SECRET` so it rotates independently), 12 req/hour (`checkPrizeDeskRateLimit`). **Unlike `/api/metrics/summary` this is NOT aggregate-only**: it returns the same rows `/admin/prizes` shows, including real spotter emails, because contacting a specific winner is the entire point. Serialization is `toPrizeDeskSummary()` in `src/lib/prize-desk.ts`, an explicit allow-list (never `...row`) so a future field added to `PrizeWinnerRow` can't leak into the response without a deliberate, reviewed change; pinned by a unit test. Treat `PRIZE_DESK_TOKEN` like a password. |
 | `.github/workflows/bootstrap-image-cache.yml` | One-click GitHub Actions workflow that runs `prisma db push` + populates the cache; requires `POSTGRES_PRISMA_URL` + `POSTGRES_URL_NON_POOLING` repo secrets |
 | `public/sw.js` | Service worker (network-first; only caches app-shell icons) |
 
@@ -178,7 +180,7 @@ with `STORAGE_PROVIDER=r2` (the script is idempotent and cache-busts the DB URLs
    npm run db:migrate-to-r2 -- --limit 3     # spot-check on 3 clips first
    npm run db:migrate-to-r2                  # full migration (idempotent)
    ```
-5. **Verify**: load any snippet on fish-spotter.vercel.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
+5. **Verify**: load any snippet on www.fishspotter.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
 6. **Drop the Supabase objects** only after a few days of production traffic confirm R2 is serving. The Snippet rows now point at R2; the Supabase objects are dead weight but harmless until removed via the Supabase dashboard.
 
 The migration is idempotent: re-running skips any row whose URL already lives under `R2_PUBLIC_URL`. Use `--force` to re-upload anyway.
@@ -452,6 +454,138 @@ user-agent, referrer, or cross-visit device id is ever stored.
   `npm run db:enable-rls` (the `Event` table lands with RLS off until that runs;
   it's Prisma-only/owner-role accessed, so RLS-with-no-policy is correct).
 
+## Getting FishSpotter's stats via Claude Code (1 Aug 2026)
+
+**Whenever asked for FishSpotter's latest stats, a metrics roundup, or "how
+engagement is going," use this, never estimate or reconstruct a number from
+memory.** `/admin/metrics` only covers Reach/Engagement/Learning from the
+consent-gated `Event` log; it says nothing about the Discovery pillar (First
+Sighting), retention, or the consensus machinery. The real source of truth is
+`computeRoundup()` in `src/lib/metrics/roundup.ts`, shared by three consumers
+that must never drift apart: `scripts/stats-roundup.ts` (CLI), `GET
+/api/metrics/summary` (remote-safe), and `/admin/metrics` (browser).
+
+**Path 1, remote endpoint (works from any session, local or web):**
+
+```bash
+curl -sS -H "Authorization: Bearer $FISHSPOTTER_METRICS_TOKEN" \
+  "$FISHSPOTTER_METRICS_URL/api/metrics/summary"        # add ?days=N to change the window (default 30)
+```
+
+Token-gated on `METRICS_TOKEN` (Vercel prod env, deliberately separate from
+`CRON_SECRET` so it rotates independently), rate-limited at 60 req/hour on
+the token (`checkMetricsRateLimit` in `src/lib/rate-limit.ts`), aggregate-only
+- no user id/email/name ever appears in the response. This requires the
+remote environment's network policy to allow `www.fishspotter.app` (the
+canonical domain, see "Live URL" above); if the call fails at the
+connection level (not a 401/429), that's the network policy blocking the
+host, not a missing number, say so explicitly.
+
+**Path 2, local, with `.env.local` present:**
+
+```bash
+npm run db:stats               # human-formatted roundup
+npm run db:stats -- --json     # same data as the endpoint, machine-readable
+npm run db:stats -- --days 7   # change the window
+```
+
+**Neither available?** Say so plainly and name the missing piece
+(`FISHSPOTTER_METRICS_URL`/`FISHSPOTTER_METRICS_TOKEN` not set, and no local
+`.env.local`), do not fall back to a guess. This was the actual failure mode
+that prompted building this path: a remote session with no DB credentials and
+a network policy blocking the app has genuinely no way to know the numbers
+without one of the two paths above.
+
+**Path 1 confirmed working end-to-end, 1 Aug 2026:** `METRICS_TOKEN` is set
+in Vercel Production (added after the fact, it did not ship set, so the
+endpoint 401'd until this). A real request to
+`https://www.fishspotter.app/api/metrics/summary` with the correct bearer
+token returned a full payload (all sections populated); a wrong token
+correctly returned 401. If a session still can't reach the endpoint, the
+blocker is that session's network policy or a missing/wrong
+`FISHSPOTTER_METRICS_TOKEN` locally, not the server.
+
+The response/CLI output covers `reach`, `discovery` (First Sighting,
+clips-with-a-first-spot, the unspotted backlog, time-to-first-spot, spotter
+concentration, the `[25, 12, 6]` taper fill, discovery-vs-total Pebble split;
+this needs no dedicated instrumentation, arrival order reconstructs exactly
+from `Answer.createdAt`, since the submit-time award already keys off "count
+of prior answers on this clip"), `engagement`, `retention`, `learning`,
+`community` (consensus), `content`, and a `caveats` array, attach the
+relevant caveat to any number before quoting it (Event-derived figures are
+consent-gated and start 19 Jun 2026; `isCorrect` means "matched the community
+leader" not a PEBL reference; `Answer.points` was scaled ×10 by the 18 Jun
+2026 Pebbles migration).
+
+Design notes for anyone extending `roundup.ts`: totals/sums/single-column
+group-bys go through Prisma `count`/`aggregate`/`groupBy` (SQL does the work,
+small results cross the wire); only the genuinely order-dependent maths
+(arrival order, per-snippet distinct-spotter breakdowns) stays in-memory,
+over one narrow `Answer` projection. Full design rationale, rejected
+alternatives (DB credentials in every session, rejected: too much blast
+radius for a reporting feature), and the remaining phases (`MetricSnapshot`
++ trend deltas, a weekly push Routine) are in
+`implementation/2026-08-01/metrics-access-plan.md`.
+
+**If you touch `roundup.ts`:** `src/lib/metrics/roundup.integration.test.ts`
+runs against a real throwaway Postgres (gated on `METRICS_TEST_DATABASE_URL`,
+same convention as `prize-desk.integration.test.ts`) and is the test that
+actually proves the arrival-order and contested-clip logic, the CI
+"Integration (real Postgres)" job runs it with `--no-file-parallelism`
+(the two integration suites TRUNCATE overlapping tables in `beforeEach`
+against one shared database, so running them in separate vitest worker
+threads races).
+
+## Prize desk via Claude Code (1 Aug 2026)
+
+**Whenever asked who's reached the Pebbles prize target, whether someone's
+guide has been posted, or for a spotter's contact email to fulfil the prize
+- use this, never eyeball `/admin/prizes` from memory or guess an email.**
+This is the same "remote-safe endpoint" pattern as the stats roundup above,
+extended to `/admin/prizes`, built because a remote Claude Code session has
+no browser and no DB credentials, so it otherwise has no way to answer "can I
+contact this winner?" The source of truth is `loadPrizeWinnerRows()` in
+`src/lib/prize-desk.ts`, shared by `/admin/prizes` (browser) and `GET
+/api/admin/prize-desk/summary` (remote-safe).
+
+```bash
+curl -sS -H "Authorization: Bearer $FISHSPOTTER_PRIZE_DESK_TOKEN" \
+  "$FISHSPOTTER_METRICS_URL/api/admin/prize-desk/summary"
+```
+
+(Reuses `$FISHSPOTTER_METRICS_URL`, it's the same app, just a different
+token and path.) Token-gated on `PRIZE_DESK_TOKEN` (Vercel prod env, its own
+secret so it rotates independently of `METRICS_TOKEN`/`CRON_SECRET`),
+rate-limited at 12 req/hour on the token (tighter than metrics' 60/hour,
+see below for why).
+
+**This is NOT the aggregate-only metrics endpoint, read this before using
+it.** The response contains real spotter emails (`contactEmail`), because
+contacting a specific winner is the entire point of the desk. Handle the
+response accordingly:
+- Never paste a spotter's email into a public place (a GitHub issue, a
+  shared doc, this chat if it might be logged somewhere public), treat it
+  as you would any PII a human handed you in confidence.
+- `contactEmail` is `null` for guests by design (`contact: "guest"`), the
+  stored `email` column for a guest is a synthetic placeholder, never a real
+  address, and the endpoint's `toPrizeDeskSummary()` allow-list doesn't even
+  include the raw `email` field, so there is no way to accidentally surface
+  it.
+- `contact: "unverified"` means a real address the spotter typed but never
+  confirmed, usable for a nudge, but `eligible` will be `false` and they
+  cannot yet claim.
+- `status` is the actionable field: `to-post` (claimed, needs a book in the
+  post), `reached-unclaimed` (hasn't claimed yet), `unreachable` (guest, over
+  target, no route to them but the in-app prompt), `posted` (done,
+  `fulfilledBy` says which admin).
+
+No local/CLI path exists for this one (unlike the stats roundup), the desk
+was built admin-page-first, and PII over `.env.local` in every session was
+already rejected for the metrics case on the same blast-radius grounds; the
+token-gated endpoint is the only route. If `$FISHSPOTTER_PRIZE_DESK_TOKEN` or
+`$FISHSPOTTER_METRICS_URL` is unset, say so plainly rather than guessing who
+might have reached the target.
+
 ## Probability data flow (OBIS + GBIF)
 
 The fish-probability feature reads from two external APIs at backfill time
@@ -496,7 +630,7 @@ stale rows), trigger a manual run with `?force=1`:
 
 ```
 curl -H "Authorization: Bearer $CRON_SECRET" \
-  https://fish-spotter.vercel.app/api/cron/refresh-images?force=1
+  https://www.fishspotter.app/api/cron/refresh-images?force=1
 ```
 
 Each call processes up to 12 species; for the full catalogue, hit the
@@ -578,6 +712,9 @@ GEMINI_API_KEY=...                # image-quality / vision tool (gemini-vision.t
 GEMINI_MODEL=gemini-3.6-flash     # optional override (default gemini-3.6-flash)
 SENDGRID_API_KEY=...              # transactional email (src/lib/email/client.ts), replaced Resend
 CRON_SECRET=...                   # required in production for /api/cron/*
+METRICS_TOKEN=...                 # gates GET /api/metrics/summary (Vercel prod env only, not in .env.example)
+PRIZE_DESK_TOKEN=...              # gates GET /api/admin/prize-desk/summary, carries real spotter emails,
+                                  # treat like a password (Vercel prod env only, not in .env.example)
 
 # Rate limiter shared store (optional, see "Rate limiting" section below)
 UPSTASH_REDIS_REST_URL=...        # both unset -> falls back to in-memory (per-instance) limiting

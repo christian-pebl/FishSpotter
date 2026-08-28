@@ -122,6 +122,55 @@ describe("checkChatRateLimit / checkAnswerRateLimit (separate namespaces)", () =
   });
 });
 
+describe("clip-comment limiters", () => {
+  it("allows 20 comments per hour then blocks the 21st", async () => {
+    const { checkCommentRateLimit } = await loadModule();
+    const id = "commenter";
+
+    for (let i = 0; i < 20; i++) {
+      expect(await checkCommentRateLimit(id)).toBe(true);
+    }
+    expect(await checkCommentRateLimit(id)).toBe(false);
+  });
+
+  it("allows 20 notification emails per admin per hour then throttles", async () => {
+    const { checkCommentMailRateLimit } = await loadModule();
+    const admin = "staff@pebl-cic.co.uk";
+
+    for (let i = 0; i < 20; i++) {
+      expect(await checkCommentMailRateLimit(admin)).toBe(true);
+    }
+    // Over the cap the email is skipped, not the comment, the row still lands
+    // in the inbox, so a busy afternoon can't turn instant notification into a pager.
+    expect(await checkCommentMailRateLimit(admin)).toBe(false);
+  });
+
+  it("throttles each admin recipient independently", async () => {
+    const { checkCommentMailRateLimit } = await loadModule();
+
+    for (let i = 0; i < 20; i++) await checkCommentMailRateLimit("a@pebl-cic.co.uk");
+    expect(await checkCommentMailRateLimit("a@pebl-cic.co.uk")).toBe(false);
+    expect(await checkCommentMailRateLimit("b@pebl-cic.co.uk")).toBe(true);
+  });
+
+  it("treats an admin address case-insensitively, so one inbox is one bucket", async () => {
+    const { checkCommentMailRateLimit } = await loadModule();
+
+    for (let i = 0; i < 20; i++) await checkCommentMailRateLimit("Staff@PEBL-cic.co.uk");
+    expect(await checkCommentMailRateLimit("staff@pebl-cic.co.uk")).toBe(false);
+  });
+
+  it("namespaces the comment and comment-mail buckets apart", async () => {
+    const { checkCommentRateLimit, checkCommentMailRateLimit } = await loadModule();
+
+    const id = "same-raw-id";
+    for (let i = 0; i < 20; i++) await checkCommentRateLimit(id);
+    expect(await checkCommentRateLimit(id)).toBe(false);
+    // The mail limiter prefixes differently, so it must still have headroom.
+    expect(await checkCommentMailRateLimit(id)).toBe(true);
+  });
+});
+
 describe("MAX_BUCKETS eviction path", () => {
   // MAX_BUCKETS is 10000. evictIfFull() runs only on the new-bucket branch:
   // when size >= MAX_BUCKETS it first drops expired entries, then (if still

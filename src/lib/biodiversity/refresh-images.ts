@@ -197,7 +197,7 @@ async function refreshOneSpecies(
   let rowsUpserted = 0;
   let emptyBuckets = 0;
 
-  // 1. Apply explicit overrides first — they're upserted curated=true and the
+  // 1. Apply explicit overrides first, they're upserted curated=true and the
   //    iNat path below never overwrites them.
   const overrides = (MANIFEST.overrides[scientificName] ?? []).filter(
     (row): row is OverrideRow => typeof row === "object" && !!row.url && !!row.sourceUrl,

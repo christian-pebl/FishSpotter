@@ -6,13 +6,13 @@
  * Privacy-first and deliberately minimal:
  *   - Does NOTHING unless the visitor opted into analytics (hasAnalyticsConsent).
  *   - The session id is random and lives in sessionStorage, so it dies with the
- *     tab — nothing follows a person across visits.
+ *     tab, nothing follows a person across visits.
  *   - Watch-time is the ACTIVE clip's on-screen, tab-visible time, flushed in
  *     short segments via navigator.sendBeacon so a crash/close loses ~nothing.
  *
  * Three event types only (see src/lib/events.ts): session_start, clip_view,
  * clip_watch. Everything else the funder needs (IDs, accuracy, species learned)
- * is derived from existing tables — not tracked here. session_start also
+ * is derived from existing tables, not tracked here. session_start also
  * carries a one-time referrer hostname + UTM params (landing-page attribution
  * only, never a fingerprint) so a traffic source can be tied to the funnel.
  */
@@ -41,7 +41,7 @@ function truncate(value: string): string {
   return value.slice(0, MAX_ATTR_LEN);
 }
 
-/** Hostname only (e.g. "reddit.com") — never the full referrer URL, which can carry a source page's own query/path. */
+/** Hostname only (e.g. "reddit.com"), never the full referrer URL, which can carry a source page's own query/path. */
 function referrerHostname(): string | undefined {
   try {
     if (!document.referrer) return undefined;
@@ -128,7 +128,7 @@ function flush(useBeacon = false) {
       keepalive: true,
     }).catch(() => {});
   } catch {
-    /* non-essential — drop silently */
+    /* non-essential, drop silently */
   }
 }
 
@@ -178,7 +178,7 @@ function bindListeners() {
   intervalId.unref?.();
 }
 
-/** Idempotent init — safe to call on every mount. */
+/** Idempotent init, safe to call on every mount. */
 export function initEngagement() {
   if (!hasAnalyticsConsent()) return;
   bindListeners();

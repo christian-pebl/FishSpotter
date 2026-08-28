@@ -35,6 +35,25 @@ We reserve the right to suspend or permanently remove accounts that breach these
 
 ---
 
+## Comments and discussion
+
+Each video clip has a discussion thread. You can open it once you have submitted your own identification for that clip, and anything you post there is **public** to other spotters who have done the same, shown alongside your display name.
+
+Comments exist so you can flag things we need to know (a species missing from our list, a clip too unclear to call, a tracking overlay following the wrong animal) and discuss what you are seeing. When posting, you must not:
+
+- Post anything unlawful, threatening, abusive, harassing, hateful, or obscene.
+- Post personal information about yourself or anyone else, including contact details, addresses, or workplaces.
+- Post links, advertising, or promotional material of any kind. Links are automatically rejected.
+- Post content that is deliberately misleading about a species identification.
+
+**Moderation.** We may hide, remove, or edit any comment, and suspend or remove accounts, at our discretion and without notice where content is unlawful or seriously harmful. Every comment carries a **Report** control; reported content is reviewed by PEBL staff, and content reaching a small number of independent reports is hidden automatically pending that review. Automated filtering may hold a comment for review before it appears.
+
+You are responsible for what you post. You retain your rights in your comments, and grant PEBL CIC a non-exclusive, royalty-free licence to display, store, and moderate them as part of operating the service.
+
+If you believe a comment breaches these terms or the law, please use the Report control, or contact us at [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk).
+
+---
+
 ## Your contributions
 
 When you submit a species identification:

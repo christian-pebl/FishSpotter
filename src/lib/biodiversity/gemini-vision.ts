@@ -1,5 +1,5 @@
 /**
- * Gemini vision client — image feature extraction / quality assessment.
+ * Gemini vision client, image feature extraction / quality assessment.
  *
  * Claude orchestrates; Gemini does the actual vision work because it is the
  * stronger image model. We use it to score how SUITABLE a candidate photo is
@@ -13,7 +13,7 @@
  * of a person. Gemini reads the pixels and tells us.
  *
  * Auth: reads GEMINI_API_KEY from the environment (set in .env.local, which is
- * gitignored — never commit the key). Model is overridable via GEMINI_MODEL.
+ * gitignored, never commit the key). Model is overridable via GEMINI_MODEL.
  *
  * REST docs: https://ai.google.dev/api/generate-content
  */
@@ -129,7 +129,7 @@ function buildPrompt(scientificName: string, commonName?: string): string {
     `You are a marine-biology photo editor curating reference photos for an`,
     `underwater-species identification game. The target species is ${name}.`,
     ``,
-    `Assess THIS photo's suitability as a TEACHING reference — a clear photo a`,
+    `Assess THIS photo's suitability as a TEACHING reference, a clear photo a`,
     `beginner can study to learn how to recognise the species, and on which an`,
     `expert can annotate diagnostic features (fins, markings, barbels, etc.).`,
     ``,
@@ -141,7 +141,7 @@ function buildPrompt(scientificName: string, commonName?: string): string {
     `dead or beach-cast specimens, preserved/museum specimens, mixed schools or`,
     `multiple individuals, blur, heavy occlusion, extreme crop, and any frame`,
     `whose main subject is NOT this kind of animal (e.g. a person, a landscape,`,
-    `a map) — set subjectType to wrong-subject for those.`,
+    `a map), set subjectType to wrong-subject for those.`,
     ``,
     `Score each 0..100. teachingScore is your overall judgement. Map`,
     `recommendation: ideal (>=80), usable (60-79), poor (35-59), reject (<35`,
@@ -398,7 +398,7 @@ export async function assessSilhouette(args: {
 /**
  * Assess a single image (by URL or already-decoded base64) for teaching
  * suitability. Never throws for an expected failure (bad key, fetch error,
- * model error) — returns { ok: false, error } so batch callers can continue.
+ * model error), returns { ok: false, error } so batch callers can continue.
  */
 export async function assessImageQuality(args: {
   scientificName: string;
@@ -428,7 +428,7 @@ export async function assessImageQuality(args: {
     return { ok: false, error: `download failed: ${(e as Error).message}`, model };
   }
 
-  // This is a scored-rubric triage, not open-ended reasoning — thinkingBudget 0
+  // This is a scored-rubric triage, not open-ended reasoning, thinkingBudget 0
   // cut output tokens ~8x in testing (847 -> 0) with no quality loss.
   const result = await geminiGenerate({
     parts: [

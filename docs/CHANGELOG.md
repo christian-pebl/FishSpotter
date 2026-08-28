@@ -1,4 +1,4 @@
-# FishSpotter: Changelog
+# FishSpotter Changelog
 
 > Dated, session-by-session shipping log. Moved out of CLAUDE.md on 2026-06-04 so the
 > instruction file stays a stable reference (CLAUDE.md is re-read every session; this is not).
@@ -11,7 +11,7 @@
 - Species quiz with community stats working
 - BBox tracking overlay (Catmull-Rom smooth trail) working
 - Debug strip has been removed (was temporary diagnostic tool)
-- Species image gallery feature **activated 18 May 2026**: `SpeciesImage` table populated (113 rows across 26 species), `CRON_SECRET` set in Vercel, weekly cron live.
+- Species image gallery feature **activated 18 May 2026**, `SpeciesImage` table populated (113 rows across 26 species), `CRON_SECRET` set in Vercel, weekly cron live.
 - **Invert photo cache populated 2 Jun 2026** (Section 2a, `implementation/2026-06-02/section-2-invert-content.md`), ran `db:refresh-images --stale-only` so all 26 Workstream-C inverts (crab/squid/starfish/gastropod/jellyfish) now carry 3-5 `SpeciesImage` rows each (iNat, with Wikimedia top-up where iNat was thin). 0 inverts with zero rows; verified via the `/api/species-images/<sci>` route. This unblocks invert MCQ thumbnails + reveal gallery. Invert *snippets/footage* in the feed are still outstanding (Section 2b, footage-dependent). Photos live in the DB, not git.
 - **Landing page redesigned 2 Jun 2026** (`implementation/2026-06-02/landing-redesign.md`), the flat text-only `/` page became an "underwater" hero: a real looping snippet with a self-playing species-pick overlay, drifting CC0 silhouettes + light shafts + bubbles, a live clips/species/spotters count-up, a real-photo species marquee, and visual Spot→Compare→Streak step cards. Server component pulls live Prisma data; distractors are shape-class-aware; all motion is reduced-motion-safe and pauses off-screen (`src/lib/useInView.ts`). Verified: `tsc` clean, `lint:tokens` exit 0, `build` clean. Known follow-up: only 2/54 species have a curated reference photo, so marquee/MCQ photo quality is editorial debt (tracked separately).
 - **Visual/UX design audit + fixes + marine auth background, 2 Jun 2026** (`implementation/2026-06-02/design-audit.md`, commit `4a74a2d`), a multi-agent audit (12 finder lenses, per-finding adversarial verification, 61 confirmed findings → 21 themes) drove three things, all shipped + `tsc`/`build` green: (1) the one **P1**, a shared `src/lib/useModalFocus.ts` hook (trap + restore + scroll-lock) applied to `MapModal`, which previously let keyboard users tab onto the live feed behind the open map; (2) **8 quick wins**: Unicode status glyphs → stroked SVGs (profile/RarityPanel/SnippetPlayer/browse/admin), verdict + `danger` tokens for semantic pills, `white/35`→`/60` contrast lifts on the dark feed panels, `motion-reduce:animate-none` on every skeleton, deterministic browse "Open" badge contrast, leaderboard+signin CSS-var→Tailwind-alias, `teal-800` (lighter than 600) renamed to `teal-hover`, cookie button "Dismiss"→"Got it"; (3) **core-loop hierarchy**: demoted the duplicate "Help me identify" CTA so "Spot It" is the single guided entry, separated the "Where is this?" utility action, and moved the feed panel + MCQ tiles to `rounded-card`/`rounded-modal`. Plus a **WhatsApp-doodle marine background** behind all `/auth` pages (`src/app/auth/layout.tsx` + `MarinePattern`): a seamless tile of **21 UK** CC0/PD PhyloPic silhouettes (non-UK like turtle + ink-blobs excluded), tinted teal via `mask` + `currentColor`, gentle `fs-pattern-sway` wave, 80% translucent card, fixing the audit's bare-auth-page finding (F-EMPTY-AUTH-STATES). Remaining systemic P2s (full glyph/radius/touch-target sweeps, type-token + editorial-auth work) tracked in the audit doc.
@@ -20,11 +20,11 @@
 - **Fish DiagnosticMarks: 21 species seeded, 2 Jun 2026** (commits `e2d8933`, `3229c46`, `057d8de`, `e3246de`), `scripts/seed-fish-marks.ts` authored draft marks for 4 batches: **gadoids** (Saithe, Bib/Pouting, Poor Cod, Atlantic Cod, completing the S9-T1 pilot), **wrasses** (Ballan, Cuckoo, Corkwing, Goldsinny), **gobies/benthic** (Two-spotted Goby, Common Goby, Rock Goby, Sand Goby, Butterfish, Shanny, Long-spined Sea Scorpion), and **pelagic/schooling** (Horse Mackerel, Atlantic Mackerel, Sprat, Sand Smelt, Sea Bass, Thick-lipped Grey Mullet). Each batch required curated iNat photo overrides in `species-images.json`. Draft mark coords are starters; tune in `/admin/species/[name]`. Combined with the S9-T1 gadoid pilot (Pollack seeded earlier) this brings the admin-authored fish set to **22 species** with draft marks in the DB.
 - **Remaining 20 inverts (crab/squid/starfish/gastropod) follow the same steps:** view cached photos -> pin the best as a curated override in `species-images.json` -> add a draft to `INVERT_DRAFTS` in `scripts/seed-invert-marks.ts` -> `db:refresh-images --species` -> run the seeder -> tune coords in `/admin/species`.
 - Bootstrap kit **shipped 22 May 2026** (`26bbf10`), one-command operator setup for all infra tokens, env vars, DNS, R2, Resend. See `scripts/bootstrap/README.md`.
-- Resend email domain `pebl-cic.co.uk` **registered and DNS live 26 May 2026**: DKIM + SPF records added to Wix DNS; domain status `pending` (sending already enabled). Run `npm run bootstrap -- --doctor` to check verification status.
-- **S3-01 schema drift fixed 27 May 2026**: `prisma db push` applied the auth-lifecycle columns + tables (`User.emailVerified`, `Account`, `Session`, `VerificationToken`, `PasswordResetToken`) that had been merged in code but never pushed to prod. Backfilled existing users with `emailVerified = createdAt`. Forgot-password + the rest of the S3 flows are now functional in prod.
-- **S7-T1 shipped 27 May 2026**: nullable references + points-based scoring + contrast pass. See "Scoring model" section above. UI copy across the onboarding tour, landing page, reveal panel, and rarity panel retired the "PEBL staff" branding in favour of "reference ID (when available)", references can come from PEBL, academic partners, fisheries bodies, or be temporarily absent. The reveal pills (Correct/Wrong/Pending) are solid-bg + dark text so they read against any video background.
-- **S7-T3 (IdGuide sheet expansion, 27 May 2026)**: the "How to spot a X next time" / wizard / chat sheet now opens at `96vw × 94vh` (capped at `max-w-7xl` / 1280px) instead of the previous `max-w-2xl × 88vh`. Two-column desktop layout on the field-note view (gallery left, prose + traits right) so the extra real estate gets used; mobile layout unchanged.
-- **S8-T1 (per-user random feed ordering, 27 May 2026)**: `/feed` no longer shows everyone the same reverse-chronological list. The default card is now the first **unanswered** snippet for the viewer, with the rest of the list shuffled deterministically.
+- Resend email domain `pebl-cic.co.uk` **registered and DNS live 26 May 2026**, DKIM + SPF records added to Wix DNS; domain status `pending` (sending already enabled). Run `npm run bootstrap -- --doctor` to check verification status.
+- **S3-01 schema drift fixed 27 May 2026**, `prisma db push` applied the auth-lifecycle columns + tables (`User.emailVerified`, `Account`, `Session`, `VerificationToken`, `PasswordResetToken`) that had been merged in code but never pushed to prod. Backfilled existing users with `emailVerified = createdAt`. Forgot-password + the rest of the S3 flows are now functional in prod.
+- **S7-T1 shipped 27 May 2026**, nullable references + points-based scoring + contrast pass. See "Scoring model" section above. UI copy across the onboarding tour, landing page, reveal panel, and rarity panel retired the "PEBL staff" branding in favour of "reference ID (when available)", references can come from PEBL, academic partners, fisheries bodies, or be temporarily absent. The reveal pills (Correct/Wrong/Pending) are solid-bg + dark text so they read against any video background.
+- **S7-T3 (IdGuide sheet expansion, 27 May 2026)**, the "How to spot a X next time" / wizard / chat sheet now opens at `96vw × 94vh` (capped at `max-w-7xl` / 1280px) instead of the previous `max-w-2xl × 88vh`. Two-column desktop layout on the field-note view (gallery left, prose + traits right) so the extra real estate gets used; mobile layout unchanged.
+- **S8-T1 (per-user random feed ordering, 27 May 2026)**, `/feed` no longer shows everyone the same reverse-chronological list. The default card is now the first **unanswered** snippet for the viewer, with the rest of the list shuffled deterministically.
   - **Signed-in:** shuffle seed = `session.user.id`, so each user has their own stable order. Reload = same first card until they answer something.
   - **Anonymous:** shuffle seed = `fs.anon_seed` cookie minted by `src/middleware.ts` on first hit to `/` or `/feed/*`. Stable per browser, fresh per browser.
   - **Exhausted feed:** once a user has answered everything, the answered snippets remain visible at the back of the shuffle so they can scroll back / edit.
@@ -38,7 +38,7 @@
   - **Server actions** (`src/app/admin/species/[name]/actions.ts`): `createMark` / `updateMark` / `deleteMark` / `swapMarkOrder`. All gated by `requireAdminSession()`. Coords clamped to 0..1 and radius to 0.01..0.5 before persisting. `createMark` verifies the `speciesImageId` belongs to the species being edited (no cross-species mark assignment via tampered IDs). `swapMarkOrder` runs in a Prisma transaction so the list can't end up with duplicate `order` values mid-swap.
   - **Wizard integration** (`src/components/AnnotatedSpeciesPhoto.tsx` + `IdGuideWizard.tsx`): the species-images API now includes `marks` per photo (Prisma `include`, no new round-trip). `AnnotatedSpeciesPhoto` renders the first photo with marks as numbered rings + a legend listing label + description. Returns null when no marks exist, so the existing thumb-strip + field-note path keeps working for the unauthored long tail.
   - **"Why ask this?" hints**: each `STEPS` entry in `IdGuideWizard.tsx` now carries a `whyHint` surfaced behind a small disclosure under the question. Explains the marine biologist's rationale at each rung, body shape locks family, size eliminates lookalikes, habitat is often as diagnostic as morphology, single marks settle three-way ambiguity, behaviour is the clincher.
-  - **Authoring is the bottleneck, not the build**: the framework + admin UI ship in this release but mark content is editorial work in `/admin/species`, no further deploys required. Author the remaining gadoid pilot (bib, pollack, cod, haddock) first, then expand to the wider catalogue.
+  - **Authoring is the bottleneck, not the build**, the framework + admin UI ship in this release but mark content is editorial work in `/admin/species`, no further deploys required. Author the remaining gadoid pilot (bib, pollack, cod, haddock) first, then expand to the wider catalogue.
 - **S9-T1 follow-up (27 May 2026, evening session)**: fins/tail wizard step, image preload hardening, and the gadoid pilot is partially seeded.
   - **IdGuideWizard Stage 2 (fins/tail)**: new step inserted between `size` and `habitat` in `src/components/IdGuideWizard.tsx`. Asks about dorsal layout and tail shape with four options (split-dorsal, single-dorsal, forked-tail, rounded-tail). `lyre-shaped` and `long-anal` from `FIN_SHAPE` stay in the predicate engine but are not surfaced as wizard options (too niche for citizen-science phrasing). Carries the same "Why ask this?" disclosure pattern as the other steps. Note: whiting (`Merlangius merlangus`) and haddock (`Melanogrammus aeglefinus`) are listed in the pilot in `/admin/species/page.tsx` but are NOT in the 26-species `src/data/species-traits.json` catalogue, so the pilot effectively reduces to 3 species (pollack, bib, cod).
   - **MCQ candidate picker preload** (`src/components/MCQCandidatePicker.tsx`): after the `/api/snippets/[id]/quiz` fetch resolves, the picker now warms every thumbnail via `new Image()` and only flips to `ready` once all have loaded (capped at 1500ms so a dead URL can't stall). `<img>` switched from `loading="lazy"` to `loading="eager"` + `decoding="async"`. Candidates with no `thumbUrl` (typically the staff slot when a species like jellyfish has no `SpeciesImage` row cached) now render a fish silhouette placeholder instead of an empty grey box.
@@ -52,7 +52,7 @@
   - `createMark` server action throws if the target photo is non-curated. The admin UI surfaces this proactively: species with photos cached but none curated get an amber notice + curation instructions instead of the annotator.
   - Migration: `scripts/migrate-curated-flag.ts` (run via `npm run db:migrate-curated-flag`) flips any photo that already hosts authored marks to `curated = true`. Run once on 27 May; flipped 1 photo (pollack's iNat reference) so the existing 3 marks didn't go dark when the gate shipped. Idempotent.
   - Net effect: iNat photos can't be silently promoted to "this is the canonical reference for teaching" just because they were the first thing the cron fetched. Add to `src/data/species-images.json` overrides (with `curated: true`) and re-run `db:refresh-images` before authoring marks.
-- **Rung 2 as a draggable dark gate + "Examples" (3 Jun 2026)** (`implementation/2026-06-03/rung2-bodyshape-examples-plan.md`, commit `f15a780`, merged to main), the body-shape sub-split (Rung 2) was lifted out of the inline `CandidateStrip` box and made a draggable dark card that matches the Rung-1 shape gate. The gate chrome (draggable floating card, drag-from-grip, "Hide", focus trap, body-scroll lock, tile grid + Not-sure/Skip footer) was **extracted into a reusable `src/components/idflow/TileGate.tsx`** (+ `MaskSilhouette`); `ShapeGate` now renders from it (Rung 1 behaviour unchanged) and the new `src/components/idflow/BodyShapeGate.tsx` renders Rung 2 from it. Each Rung-2 tile is a body-form silhouette (the existing PhyloPic `public/silhouettes/forms/<value>.svg` assets, tinted via mask-image; **bespoke art drops in over the same filenames, no code change**: the 2 forms without an asset, `flat-dorsoventral` + `no-shell`, show a neutral placeholder) with a per-tile **"Examples" button** → `src/components/idflow/BodyFormExamples.tsx`, a focus-trapped portaled popup of real CC-attributed photos of catalogue species with that body form (reuses `SpeciesGallery`; teaching aid only, never commits a guess; the gate `suspendKeyboard`s while it's open so the two focus traps don't fight). The `SUB_SPLITS` table + helpers were lifted to **`src/lib/idflow/body-forms.ts`** (one source of truth; `bodyFormConfigFor`, `exampleSpeciesForForm`). `FeedCard` routes Rung1 → Rung2 (only for classes whose sub-split discriminates, i.e. not crab/flatfish/scooter) → strip, `seed`ing the chosen form into the strip's narrowing and suppressing its now-redundant inline sub-split. Validated: tsc, lint, lint:tokens, prod build, 205 tests (4 new in `body-forms.test.ts` prove every form maps to ≥1 photographed species so no Examples button is ever empty). NB the live interactive preview couldn't be driven (the feed's IntersectionObserver scroll container doesn't respond to the eval harness); static gates + the user's on-device check are the verification path.
+- **Rung 2 as a draggable dark gate + "Examples" (3 Jun 2026)** (`implementation/2026-06-03/rung2-bodyshape-examples-plan.md`, commit `f15a780`, merged to main), the body-shape sub-split (Rung 2) was lifted out of the inline `CandidateStrip` box and made a draggable dark card that matches the Rung-1 shape gate. The gate chrome (draggable floating card, drag-from-grip, "Hide", focus trap, body-scroll lock, tile grid + Not-sure/Skip footer) was **extracted into a reusable `src/components/idflow/TileGate.tsx`** (+ `MaskSilhouette`); `ShapeGate` now renders from it (Rung 1 behaviour unchanged) and the new `src/components/idflow/BodyShapeGate.tsx` renders Rung 2 from it. Each Rung-2 tile is a body-form silhouette (the existing PhyloPic `public/silhouettes/forms/<value>.svg` assets, tinted via mask-image; **bespoke art drops in over the same filenames, no code change**, the 2 forms without an asset, `flat-dorsoventral` + `no-shell`, show a neutral placeholder) with a per-tile **"Examples" button** → `src/components/idflow/BodyFormExamples.tsx`, a focus-trapped portaled popup of real CC-attributed photos of catalogue species with that body form (reuses `SpeciesGallery`; teaching aid only, never commits a guess; the gate `suspendKeyboard`s while it's open so the two focus traps don't fight). The `SUB_SPLITS` table + helpers were lifted to **`src/lib/idflow/body-forms.ts`** (one source of truth; `bodyFormConfigFor`, `exampleSpeciesForForm`). `FeedCard` routes Rung1 → Rung2 (only for classes whose sub-split discriminates, i.e. not crab/flatfish/scooter) → strip, `seed`ing the chosen form into the strip's narrowing and suppressing its now-redundant inline sub-split. Validated: tsc, lint, lint:tokens, prod build, 205 tests (4 new in `body-forms.test.ts` prove every form maps to ≥1 photographed species so no Examples button is ever empty). NB the live interactive preview couldn't be driven (the feed's IntersectionObserver scroll container doesn't respond to the eval harness); static gates + the user's on-device check are the verification path.
 
 - **Rung 3 species-tile guide popup (3 Jun 2026)**: tapping a species tile in the Rung-3 `CandidateGate` no longer commits the guess instantly. It now opens **`src/components/idflow/SpeciesGuidePopup.tsx`**, a portaled focus-trapped "flash card" that surfaces, in one place, the three things we author per species: (1) the diagnostic guide (`AnnotatedSpeciesPhoto` numbered circles on the curated photo, renders nothing if the species has no marks), (2) a `SpeciesGallery size="large"` photo gallery + lightbox, (3) the `fieldNote` prose from the trait catalogue. A **"This is my pick"** button commits via the existing `onPick` path; "Back"/"Keep looking" dismisses without committing. This is what makes the diagnostic-mark guide reachable in the live app (previously only the post-submit reveal + the wizard's FinalReveal rendered it, so most users never saw it). Focus management is inline (mirrors `useModalFocus`) but **guards Escape/Tab while the gallery's own lightbox (z-[100], `aria-modal="true"`) is open** so one keypress can't close both; `CandidateGate` passes `suspendKeyboard` to the gate so it goes `inert` underneath. Decided entry point = the live ID-flow tiles (not a separate dex page); MCQ tiles still commit instantly (fast path preserved). Validated: tsc, eslint, prod build, `/feed` route compiles + 200. Interactive tap-through is on-device (harness can't drive the feed's IntersectionObserver). Photo-quality curation to feed better gallery images is gated on Gemini quota (see the image-analysis tool section: free tier ~20 req/day).
 - **Marks-on-bad-photo fix (3 Jun 2026, `scripts/reauthor-quality-flagged-marks.ts`)**: the Gemini sweep found 7 species whose CURATED, mark-bearing photo was a dead/poor/multi specimen (so the wizard drew rings on a dead fish). Each already had a good curated lead photo at `ordering=1` with 0 marks; `AnnotatedSpeciesPhoto` renders "the first photo WITH marks", so it showed the bad one. The script moves each species' marks onto the good lead photo with fresh coordinates (placed by viewing each photo, orientation-verified, then render-checked), keeps the label/description text, and deletes the old dead photo (all 7 are already in `photo-blocklist.json`, so deletion is durable). Species: Bib, Shanny, Poor cod, Veined squid, Painted top shell, Barrel jelly, Cuckoo wrasse. Verified via `/api/species-images` (each now returns the good lead photo with its marks first). Idempotent (skips a species whose good photo already has marks). DB changes are live on prod. (Two borderline species, Common Limpet + Moon Jelly, "usable" multi-specimen, left as acceptable.)
@@ -61,7 +61,7 @@
 - **Catalogue-wide diagnostic-mark verification + fix (4 Jun 2026)**: ran the Gemini-3.5-Flash verify recipe across ALL 42 marked species (render each curated lead photo with the exact `AnnotatedSpeciesPhoto` geometry; per-mark `{onFeature, badgeClear, featureVisible, correctX, correctY}` schema; sort flags by how far Gemini wants to move each ring). Outcome on **98 marks**: auto-applied Gemini's corrected centre for **17 clear misplacements** (delta ≥0.13, with a backup + re-verify gate; 7 species went green), hand-fixed the egregious ones by viewing the photo (Pollack's lateral-line ring was floating in open water on the murky pilot photo; catshark "dorsal fins" ring was on sand), and **deleted 6 feature-not-visible marks** (octopus ×2 sucker rows on the hidden underside, dog-whelk aperture under a dorsal-up shell, catshark nostril flaps, and 2 male-only dragonet marks on a female photo). Restored Dog Whelk after mistakenly deleting its curated marks (re-authored "Pointed spire" + "Colour varies"). Final state: **only sub-0.15 noise-level flags remain** (Gemini's single-run spatial verdict is noisy (e.g. Bib/Poor cod flip OK↔BAD between runs), so chasing 100% green is a moving target; ground-truth is viewing the render). All DB changes live on prod. KEY LESSON: trust the categorical flags (featureVisible / drawing / dead) and large position deltas; treat small deltas as noise; always view the render before/after a hand-fix (orientation footgun).
 - **Gallery quality re-check + photo-provenance 'i' popover (4 Jun 2026)**: second pass over every gallery photo with the builder now ranking on a 50/50 `teachingScore`+`diagnosticFeaturesVisible` blend (the user ask: images must "show off the key traits"); it re-assessed all + swapped in trait-richer photos -> **403 rows (~7/species)**, only Sprat + Atlantic mackerel still short (genuine dead-specimen ceilings). Added two nullable `SpeciesImage` columns `observedOn` + `placeGuess`, captured from iNat at fetch time and backfilled onto older/curated rows by `scripts/enrich-image-meta.ts` (322 rows enriched; 320/320 iNat obs had date+place). The `/api/species-images` payload now carries them, and `SpeciesGallery` renders a per-thumbnail **'i' button** -> portaled `InfoPopover` (reference + location + year + subject + source link + license chip); the lightbox shows a location·year line too. Verified end-to-end in the dev preview (popover renders the real provenance), `tsc` + `eslint` + `lint:tokens` + prod `build` all green. Fixed a latent crash found during verification: the 'i' handler must capture `getBoundingClientRect()` before `setInfo` (reading the synthetic event inside the updater throws on React's reducer replay). Photos + metadata live in the DB; schema + code committed.
 
-## Activation history: 18 May 2026
+## Activation history, 18 May 2026
 
 Species image gallery shipped across commits `5c38274` → `1958d35` → `0760106` → `2ec503b` → `cf2187c`.
 
@@ -75,7 +75,7 @@ Activation steps performed on 18 May:
 ### Deferred to v2 (not blocking)
 - Wikimedia Commons fallback for species iNat returns thin photos for (mainly larval plaice).
 - Manual `overrides` in `species-images.json`, currently empty; can be populated editorially.
-- `IntersectionObserver`-staggered fetches on the candidate grid (likely premature, typical narrow returns 3-5 candidates).
+- `IntersectionObserver`-staggered fetches on the candidate grid (likely premature, typical narrow returns 3,5 candidates).
 - Retry-on-429 in the iNat client.
 
 ## Guide-hero audit + auto-placement fix (4 Jun 2026)
@@ -185,21 +185,21 @@ prod test accounts (created for signed-in captures) were deleted afterward.
   plans + draft SVGs live in `implementation/2026-06-18/fish-silhouettes/` (README has
   the cross-cutting findings). Applied 6 redraws (shark left as-is, it already scored
   90/"strong"):
-  - **cod-like**: three dorsal sails now rise ~7-9 units with deep V-notches of true
+  - **cod-like**, three dorsal sails now rise ~7-9 units with deep V-notches of true
     negative space, so the cod give-away ("three separate fins on the back") survives
     downsampling instead of slurring into a "bumpy back" (was readsAs "Fish with fins").
-  - **wrasse**: the single long dorsal is lifted off the back (negative-space gap) so it
+  - **wrasse**, the single long dorsal is lifted off the back (negative-space gap) so it
     reads as ONE continuous fin vs cod's three humps; sharper thick-lipped pointed snout;
     bold rounded (unforked) paddle tail. Targets the cod-confusion that capped it at 73.
-  - **silver-shoaler**: switched from the 2-fish shoal (readsAs "Two fish") to a single
+  - **silver-shoaler**, switched from the 2-fish shoal (readsAs "Two fish") to a single
     slim fish with a deep symmetric fork, matching the other single-subject fish tiles and
     the "Silver swimmers" relabel.
-  - **bottom-sitter** vs **bottom-other**: the 18-Jun split left these two near-identical
+  - **bottom-sitter** vs **bottom-other**, the 18-Jun split left these two near-identical
     seabed silhouettes; pulled them to opposite poles, bottom-sitter = small/plump/smooth
     two-goby cluster, bottom-other = big/armoured/spiky gurnard with a spread wing pectoral
     + walking finger-rays, so the icon (the sole disambiguator, since labels carry no shape
     hint) actually separates them.
-  - **long-skinny**: replaced the potrace "boomerang" (the lone non-hand-authored icon)
+  - **long-skinny**, replaced the potrace "boomerang" (the lone non-hand-authored icon)
     with a clean hand-drawn slender eel: gentle S, a negative-space eye, a small symmetric
     tail fin; no longer reads as a boomerang/snake.
   - Attribution: `long-skinny` was a reused PhyloPic potrace and is now a PEBL-original CC0
@@ -454,7 +454,7 @@ held back for one big merge.
   repeatedly (three separate pushes were rejected mid-session by other sessions landing first).
   Every recovery followed the same pattern: disposable worktree, re-fetch, re-verify the actual
   merge target, push immediately.
-- **Leaderboard accessibility fix, 20 Jul 2026**: `MIN_ANSWERS_FOR_RANKING` dropped from 10 to 1
+- **Leaderboard accessibility fix, 20 Jul 2026**, `MIN_ANSWERS_FOR_RANKING` dropped from 10 to 1
   (`src/lib/leaderboard.ts`): every spotter with at least one submitted answer now qualifies for
   the ranking, including a brand-new guest's very first guess. An audit against the live DB found
   the old 10-answer bar wasn't filtering noise, it was hiding real performance: two spotters (9 and
@@ -502,8 +502,7 @@ held back for one big merge.
   **and** a direct run against real production data (bypassing the cron's `CRON_SECRET`, which isn't
   in local `.env.local`) confirmed all 3 seeds pinned at exactly `100.00`, one active guest account
   picked up a genuine non-degenerate `47.57`, everyone else `0.00`, zero `NaN` anywhere. Shipped
-  alongside a large concurrent "Pebbles shop" session building `/pebbles`, wallet, and purchases,
-  coordinated rather than clashed: confirmed via `git diff` that shared-file edits
+  alongside a large concurrent "Pebbles shop" session building `/pebbles`, wallet, and purchases, coordinated rather than clashed: confirmed via `git diff` that shared-file edits
   (`prisma/schema.prisma`'s new `PebblePurchase` model, `consensus.ts`) landed side by side cleanly,
   and staged only this feature's 10 files by explicit path for the commit (never `git add -A`).
   **Not built yet** (later phases per the plan doc): trust-weighting the actual consensus payout,
@@ -539,7 +538,7 @@ held back for one big merge.
   after deploy. Built alongside the concurrent trust session above; staged by explicit path (never
   `git add -A`). **Not built yet:** more shop inventory; a live end-to-end purchase click on the
   deployed build (logic is DB-integration-tested, but no funded account was signed into via the UI).
-- **Traffic-source observability, 20 Jul 2026**: prompted by the first Reddit share of
+- **Traffic-source observability, 20 Jul 2026**, prompted by the first Reddit share of
   fishspotter.app; goal was to see whether a channel is converting without adding any user-facing
   friction. Added `@vercel/analytics` to the root layout (pageviews/referrers/geo/device, no
   cookies, no consent required). Separately, extended the existing consent-gated `Event` pipeline:
@@ -551,6 +550,121 @@ held back for one big merge.
   Zero incremental friction: the capture only fires for spotters who already accepted analytics
   consent; nothing new is asked of anyone. Prod DB migrated (`prisma db push`, additive-only), RLS
   reconfirmed 19/19. Verified: `tsc`, 463 tests, `lint`, `lint:tokens`.
+
+- **Shop removed; the Pebbles page becomes one leaderboard with a real prize (20 Jul 2026)**, the Phase-1 shop (gold nameplate, coral accent, Tide Freeze) was retired the day it shipped,
+  per Christian's steer that cosmetics read as gimmicky. In its place: `/pebbles` is now a single
+  streamlined page, your totals, a **prize-progress card** (reach **1,000 lifetime earned
+  Pebbles** and PEBL posts you the **Seasearch marine life ID guide**), and the community
+  leaderboard, no tabs. The prize is a **gift, not a spend**: claiming records a `PebblePurchase`
+  row with `pebbleCost 0` via the new `POST /api/prize/claim`, so Pebbles and rank are untouched
+  (the whole earned/wallet split is gone, one number rules the bag, the rank, and the progress
+  bar; `/api/me/pebbles` now returns lifetime earned). Claims are the first consumer of the
+  Plan-1 **`isPrizeEligible` anti-gaming gate** (verified email + trust bar + account age +
+  non-bursty activity), enforced server-side and precomputed on the page so the card pre-warns
+  ("verify your email") instead of surprising a spotter at 1,000. Fulfilment is manual:
+  claimed rows are `PebblePurchase` entries for `seasearch-guide`; PEBL emails the spotter.
+  Prize imagery prefers a real photo at `public/shop/seasearch-guide.jpg` (drop-in, no code
+  change) over the committed PEBL SVG illustration. Retired shop item ids must never be reused
+  (prod may hold their purchase rows); `TIDE_FREEZE_ID` moved into `streak-service.ts`, which
+  still honours held freezes. Deleted: `ShopPanel`/`ShopGrid`, `src/lib/shop/*`,
+  `POST /api/shop/purchase`. New: `src/lib/prize.ts`, `PrizeCard`, claim route + tests.
+  Verified: `tsc`, 461 tests, `lint`, `lint:tokens`.
+
+- **Prize target 1,000 → 2,000 Pebbles; nav renamed to "Stats" (21 Jul 2026)**, the Seasearch
+  guide now takes 2,000 lifetime earned Pebbles (`PRIZE_TARGET_PEBBLES`), and the side-menu entry
+  + page title for `/pebbles` are simply "Stats".
+
+- **Prize fulfilment desk at `/admin/prizes` (1 Aug 2026)**, the first spotter reached 2,000
+  Pebbles and there was no way to find out who, or to reach them. `POST /api/prize/claim` writes a
+  zero-cost `PebblePurchase` and returns `{ok:true}`; nothing notified PEBL, no admin view existed,
+  and `/admin/trust` sorts by trust score and doesn't show Pebbles at all, so a claim sat unnoticed
+  until someone thought to run SQL. New admin page lists everyone at/over `PRIZE_TARGET_PEBBLES`
+  ordered by what needs doing (to post → not claimed → unreachable → posted), with the contact
+  email + copy button, the `isPrizeEligible` verdict, and a "Mark posted" toggle. Two new nullable
+  columns on `PebblePurchase` (`fulfilledAt`, `fulfilledBy`) record who posted a book so a
+  two-person team can't send it twice; plus an `@@index([itemId])` since the desk scans claims
+  across all users. **Guests are called out as unreachable:** they carry a *synthetic placeholder*
+  in `User.email`, so the column looks populated but nothing can be posted to it, the only route
+  is the in-app save prompt. Row derivation is pure (`buildPrizeWinnerRows` in `src/lib/prize.ts`),
+  10 new unit tests. Requires `npm run db:push` before deploy (the page 500s until the columns
+  exist); column adds keep RLS, but re-run `npm run db:enable-rls -- --check` to confirm.
+  Verified: `tsc`, 465 tests, `lint`, `lint:tokens`, `build` compiles.
+
+- **Deploy-order hardening: `select`-less Prisma writes on `PebblePurchase` (1 Aug 2026)**, the
+  `/admin/prizes` schema change above landed in prod as merge-then-migrate, and a Vercel deploy
+  always beats a manual `prisma db push`. In that window the new code talked to a database without
+  `fulfilledAt`/`fulfilledBy`, and two writes that passed no explicit `select` emitted
+  `RETURNING <every scalar column>` and 500'd: **`POST /api/prize/claim`** (the claim button, for
+  the very spotter who had just reached the target) and the **Tide Freeze spend inside
+  `settleStreak`**, which runs on `POST /api/answers`. Reads that already passed an explicit
+  `select` were unaffected. Both call sites now select `{ id: true }` (the rows were discarded
+  anyway) with a comment explaining the `select` is load-bearing, not tidiness. Two integration
+  tests drop the two columns, replay those exact query shapes, and restore them, so a future
+  `select`-less write fails CI instead of production. Lesson for the next additive column: push the
+  schema FIRST, a nullable column add is backward-compatible with the old code, so that ordering
+  has no window at all.
+
+- **Streamlined metrics access via Claude Code (1 Aug 2026, PRs #117, #121)**, "what are the
+  latest FishSpotter stats?" used to mean opening `/admin/metrics` by hand; that dashboard only
+  covers Reach/Engagement/Learning from the consent-gated `Event` log and says nothing about the
+  Discovery pillar (First Sighting), retention, or the consensus machinery. Three pieces:
+  `npm run db:stats` (`scripts/stats-roundup.ts`) is a read-only CLI one-pager covering all seven
+  sections; `src/lib/metrics/roundup.ts` (`computeRoundup()`) is the shared aggregation lib behind
+  it, splitting SQL-side totals (`count`/`aggregate`/`groupBy`) from the genuinely order-dependent
+  First-Sighting/contested-clip maths, which runs over a narrow 4-column `Answer` projection;
+  `GET /api/metrics/summary` exposes the same data remotely, gated on a new `METRICS_TOKEN`
+  (deliberately separate from `CRON_SECRET`) and rate-limited at 60/hour. First-Sighting numbers
+  needed no new instrumentation, arrival order reconstructs exactly from `Answer.createdAt`
+  ordering, since the submit-time award already keys off "count of prior answers on this clip."
+  `src/lib/cron-auth.ts` generalised into `isAuthorisedBearer(req, secret)` with `isAuthorisedCron`
+  kept as a wrapper, zero behaviour change to the five existing crons.
+  **Two real bugs surfaced by testing against a genuine throwaway Postgres, not a mocked Prisma**
+  (`src/lib/metrics/roundup.integration.test.ts`): a re-guess test written as two `Answer.create()`
+  calls failed on `Answer`'s actual `@@unique([userId, snippetId])` constraint before it even
+  reached the code under test, fixed to model the real `upsert().update` path the answers route
+  uses; and running this suite alongside `prize-desk.integration.test.ts` (both `TRUNCATE`
+  overlapping tables in `beforeEach` against one shared CI database) raced across vitest's parallel
+  file workers the moment a second integration suite existed, surfacing as a foreign-key violation, fixed with `--no-file-parallelism` on the CI integration step.
+  **Also corrected a standing doc error**: `CLAUDE.md` said `fish-spotter.vercel.app` was canonical
+  and to ignore `fishspotter.vercel.app` as "a different deployment", backwards. The actual
+  production domain, confirmed by Christian and by checking the Vercel project's Domains tab, is
+  the custom domain **`www.fishspotter.app`** (weeks of real traffic; `fishspotter.app` 308s to it).
+  Every hardcoded reference in `CLAUDE.md` was corrected.
+  **Verified live end-to-end, not just deployed**: since this kind of remote/web Claude Code
+  session cannot reach `www.fishspotter.app` directly (its network policy denies the host at the
+  proxy, confirmed repeatedly with `curl`/`WebFetch`, both 403), the live check was done via
+  Claude in Chrome operating a real browser: `METRICS_TOKEN` generated and set in Vercel
+  Production, a redeploy triggered (new env vars don't apply to an already-built deployment, worth remembering for the next one), then `GET /api/metrics/summary` with the correct token
+  returned a full payload and a wrong token correctly 401'd.
+  **Still open**: the network-policy allowlist for `www.fishspotter.app` was never actually added
+  to this kind of session's environment, so "ask Claude Code right here" for the numbers still
+  fails from a remote/web session specifically, it works from a local session with `.env.local`,
+  or from any session/browser with normal internet access. Full design rationale + the remaining
+  phases (`MetricSnapshot` + trend deltas, a weekly push Routine) are in
+  `implementation/2026-08-01/metrics-access-plan.md`.
+
+- **Remote-safe prize desk: `GET /api/admin/prize-desk/summary` (1 Aug 2026)**, Christian used the new
+  `/admin/prizes` page from his browser via Claude in Chrome and asked to reach the same data from a
+  Claude Code session directly (no browser, no DB credentials, network policy blocks the live app, the
+  exact gap the metrics roundup endpoint above was built for). Unlike `/api/metrics/summary`, this one is
+  **not aggregate-only**: the entire point of the desk is a specific spotter's email, so real PII travels
+  in the response. Deliberately asked which posture Christian wanted rather than assuming; he chose a
+  token-gated endpoint over a local-only CLI. Mirrors the metrics pattern closely: own secret
+  (`PRIZE_DESK_TOKEN`, separate from `METRICS_TOKEN`/`CRON_SECRET`), `checkPrizeDeskRateLimit` in
+  `rate-limit.ts` (12 req/hour, tighter than metrics' 60, reflecting the PII stakes of a leaked token),
+  `isAuthorisedBearer` for the check. New `toPrizeDeskSummary()` in `src/lib/prize-desk.ts` is an explicit
+  allow-list (never `...row`) so a future field added to `PrizeWinnerRow` can't leak into the response
+  without a deliberate, reviewed change, pinned by a unit test that snapshots the exact key set and
+  asserts a guest's placeholder address never appears anywhere in the serialized body. `CLAUDE.md` gained
+  a "Prize desk via Claude Code" section mirroring the stats-roundup one, with explicit PII-handling
+  guidance (never paste a spotter's email somewhere public) since this is the first remote-access
+  endpoint in the codebase that isn't aggregate-only. Verified against a live dev server + real Postgres:
+  401 with no/wrong token, real email in the body for a verified spotter, `null` for a guest with their
+  placeholder domain absent from the response entirely, and the rate limit tripping to 429 on exactly the
+  12th request. Verified: `tsc`, 546 tests (13 new), `lint`, `lint:tokens`. **Still needs**: `PRIZE_DESK_TOKEN`
+  set in Vercel prod env, and, per the metrics entry above, a redeploy after setting it, since new env
+  vars don't apply to an already-built deployment.
+
 - **Community-launch seeding, 20-22 Jul 2026** (full status in memory `project_community_launch.md`):
   first public outreach push for FishSpotter, honest-builder voice with an AI-tell QA pass on
   every draft (no em/en dashes, no corporate register, a real founder detail like the pipefish
@@ -611,6 +725,57 @@ The card no longer claims a species-level ID it can't back.
   photo-blocklist annotations re-keyed.
 - **Note:** the species profile URL moved from `/species/hyas-araneus` to `/species/majoidea`;
   no redirect was added.
+
+## 2026-08-01: Public clip comments + PEBL feedback inbox (SHIPPED LIVE, PR #119, main `0ad167f`)
+
+Spotters can now leave a comment on a clip after committing their own ID: the species isn't in
+the list, the clip is too murky to call, it looks like a juvenile, or anything else. Comments
+form a **public thread** per clip, and land in a staff triage + moderation inbox at
+`/admin/comments` with instant email to verified `@pebl-cic.co.uk` accounts. Full design record
+in `implementation/2026-08-01/user-comments-plan.md`.
+
+- **The load-bearing rule: the thread is invisible until you have answered that clip.** Not
+  politeness. `src/lib/consensus.ts` pays Pebbles for INDEPENDENT convergence and
+  `src/lib/trust.ts` propagates reputation through the winning camps, so a thread readable
+  before you commit would quietly turn consensus into a measurement of copying. Mirrors the
+  gate `GET /api/snippets/[id]/stats` already applies to the histogram.
+- **New tables** `Comment` + `CommentReport` (pushed to prod, RLS enabled and verified). Also
+  carried forward the `Event.label` column DECLARATION: it already existed in production but was
+  never committed to `main`, so a `db push` from a fresh branch would have DROPPED it and its
+  data. Confirmed purely additive via `prisma migrate diff` first; `--accept-data-loss` never used.
+- **One serialisation door.** `toPublicComment()` in `src/lib/comments.ts` names every field
+  explicitly and never spreads a Prisma row, so `adminNote` and author emails cannot leak. The
+  author's email is not even a parameter to that module. Mutation-tested.
+- **Blocklist** merged with the LDNOOBW open-source English list (MIT; basis of the `bad-words`
+  npm package): 403 entries filtered to 250. **44 words deliberately excluded** because they
+  collide with this app's own content: `sex`/`sexual` ("sexual dimorphism" is standard
+  field-guide language), `anus`/`penis` (real crustacean + cephalopod anatomy), `shrimping` (a
+  real fishing activity), `xx`/`xxx` (near-universal UK texting sign-off), `sucks`/`sexy` (not
+  unambiguous profanity by the module's own bar). Matcher is word-level, so it stays immune to
+  the Scunthorpe problem ("bass", "cockle", "assess"). A hit HOLDS for review, never rejects.
+- **Minors' names protected.** Declared 13-17 accounts default `leaderboardOptIn: false`, which
+  already hid their name from the leaderboard; comments now honour the same signal via
+  `publicAuthorName()`, showing an anonymised `Spotter <id6>` handle to other spotters. Staff
+  still see the real name for moderation. This closed a real inconsistency, not a hypothetical.
+- **Moderation:** report control on every comment (5 reasons, one per person per comment),
+  auto-hide at 3 distinct reporters, admin hide/unhide/delete, canned one-tap replies, outcome
+  codes on resolve. Hard link rejection at post time. Rate limits 20/hr/user, 3 top-level per
+  clip (replies exempt, so a conversation can't be cut off).
+- **OSA risk assessments** in `docs/safety/` (illegal-content s.10 + children's s.12 + ICO
+  Children's Code cross-reference), written against the actual implementation and **adopted by
+  Christian Berger on 2026-08-01**. The children's assessment records an explicit decision NOT
+  to build age-segregated comment threads, with reasoning: segregation built on self-declared
+  age would only protect users who declared honestly, adding complexity and false assurance
+  without reducing real risk. Structural mitigations (no private messaging anywhere, the
+  answer-gate, public-only visibility, reactive reports) do not depend on declared age.
+- Terms of Service gained a "Comments and discussion" section; Privacy Policy gained a
+  collection row + retention line describing the public nature and the anonymisation behaviour.
+- **Bug found by live validation, not tests:** the per-clip cap was also blocking REPLIES, so a
+  spotter with 3 comments on a clip could never answer anyone there again. Fixed + regression
+  tested. Also fixed from a Gemini 3.5-flash visual pass: composer reason chips wrapped to four
+  rows and pushed Post off a 390px screen, admin controls were 36px against the repo's 44px rule.
+- Verified on the live domain after deploy: anonymous `GET /api/comments` returns exactly
+  `{"gated":true}` with no leaked fields, bare GET is 400, anonymous POST refused, RLS 21/21.
 
 ## 2026-08-03 - Workshop deck rebuilt: real photography, a narrower farm-built claim, drawn master solutions
 
@@ -673,6 +838,56 @@ plus an unfinished A1-mat thread.
   of the test print not yet reported back).
 
 
+## 2026-08-13: End-of-feed state + new-clip notifications
+
+**Triggered by a user report, not a test.** DilutedTea (the app's top spotter) emailed to say they
+had "suddenly stopped being able to vote on any video, on any browser". Nothing was broken. They
+had answered all **73 of 73** clips the feed serves, and they were the only spotter in that
+position (next highest had 43 left). Because `FeedCard` renders the quiz only when the viewer has
+no answer for that clip, a spotter with nothing left sees a reveal on every card, no vote
+affordance anywhere, and no explanation. Finishing the feed was indistinguishable from a crash.
+
+Ruled out first: last deploy was 1 Aug (12 days earlier), other spotters voted successfully after
+their last vote, and the answer path was healthy.
+
+Shipped:
+
+- **End-of-feed card** (`src/components/feed/FeedComplete.tsx`). A final feed section, shown once a
+  spotter has identified everything: confirms the count and their Pebble total, says plainly that
+  nothing is broken, and carries the notification opt-in inline (the moment they most want it).
+  `cleared` is derived live from `unansweredCount - recentlyAnswered.size`, so someone who finishes
+  their last clip mid-session gets the card immediately rather than after a reload.
+- **New-clip email opt-in**, mirroring the existing `digestOptIn` pattern: `User.newClipsOptIn`
+  (default **false**, PECR Reg. 22), `lastNewClipsNotifiedAt` as the outbound watermark, a PATCH
+  route, an account-settings checkbox, an HMAC one-click unsubscribe on its own token namespace
+  (so it can never silence the weekly digest), a `NewClipsEmail` template, and
+  `/api/cron/new-clips` daily at 10:00 UTC. Sends only when something is genuinely new.
+- **In-app banner** (`src/components/feed/NewClipsBanner.tsx`): "N new clips since your last visit",
+  measured from `User.lastFeedSeenAt` and dismissed explicitly (never stamped on page load, so an
+  accidental reload cannot burn the notice). Falls back to `User.createdAt` when null, so nobody is
+  greeted with "73 new clips" on their first load.
+- **Shared `src/lib/new-clips.ts`** is the single definition of "a new clip" for all three
+  consumers. It applies `excludeBlockedSnippetsWhere()`, which is load-bearing: 24 of the 97
+  Snippet rows are hidden from every user-facing surface, so counting raw `createdAt` would promise
+  footage the spotter can never be shown. 18 unit tests.
+- **Fixed an adjacent bug in the weekly digest cron**, which counted new snippets *without* the
+  blocklist filter and could therefore advertise hidden clips.
+
+**Deliberately NOT shipped: a "change my ID" button on an answered clip.** It looked like a cheap
+way to give exhausted spotters something to do, but `consensus.ts` groups on the CURRENT
+`chosenOption` and credits per (clip, name) event via `creditedAnswerIds`. An answer sitting in a
+losing camp has never been credited, so switching it to the leader after reading the community
+histogram would collect the consensus payout. That defeats the blind-submission anti-herding
+design the whole Pebbles economy rests on. Revisit only with the consensus camp frozen at first
+submission.
+
+Prod: `prisma db push` applied (3 additive columns, verified by `migrate diff` beforehand as
+add-only), RLS re-checked 21/21. `tsc` clean, 576 tests pass, `lint` + `lint:tokens` clean.
+
+**Operational finding:** only **3** accounts are currently verified and non-guest, so only 3 people
+can receive this email at all. 19 real accounts are unverified and 44 are guests. DilutedTea is
+among the unverified, so they see the verify-your-email prompt rather than the checkbox. Email
+verification, not the opt-in, is the binding constraint on this feature's reach.
 ## 2026-08-28: Fish Rung-2 re-cut to two zone tiles (seabed vs water column)
 
 The fish gate's second rung asked "What kind of fish was it?" and offered **seven**

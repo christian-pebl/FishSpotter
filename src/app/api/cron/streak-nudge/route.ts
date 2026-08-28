@@ -1,5 +1,5 @@
 /**
- * GET /api/cron/streak-nudge — daily streak-protection cron (S3-17).
+ * GET /api/cron/streak-nudge, daily streak-protection cron (S3-17).
  *
  * Runs 09:00 UTC daily. For each opted-in user with a streak ≥ 3
  * days AND no answer in the last 20 hours AND no nudge in the last
