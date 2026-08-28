@@ -12,7 +12,9 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join, dirname } from 'node:path';
 import QRCode from 'qrcode';
-import { SPECIES, FORMS, farmOf } from '../build-foodweb.mjs';
+// farmOf() is deliberately NOT imported any more: the cards no longer print a
+// farm-status verdict. See the note where FARMBADGE used to be defined.
+import { SPECIES, FORMS } from '../build-foodweb.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SIL = join(HERE, '..', '..', 'public', 'silhouettes');
@@ -27,37 +29,60 @@ const LOGO_URI = `data:image/svg+xml;base64,${LOGO_SVG.toString('base64')}`;
 const byName = Object.fromEntries(SPECIES.map(s => [s.name, s]));
 const byCommon = new Map(Object.entries(CAT).map(([sci, v]) => [v.commonName, { sci, ...v }]));
 
-// Manual override for cards that intentionally diverge from FishSpotter's live
-// catalogue/food-web (out of scope for a workshop-card fix): the catalogue
-// currently lists Eledone cirrhosa ("Curled Octopus"), but Octopus vulgaris
-// (Common Octopus) is the more recognisable species for a general workshop
-// audience. Provided directly here rather than looked up.
-const CARD_OVERRIDE = {
-  'Common Octopus': { sci: 'Octopus vulgaris', tier: 4, habitat: ['rocky-crevice'] },
-};
+// The CARD_OVERRIDE shim that used to live here (pinning Octopus vulgaris for a
+// workshop audience while the catalogue still only had Eledone cirrhosa) is gone:
+// the live catalogue now carries BOTH octopuses as real entries, and the food web
+// resolves farmOf('Common Octopus') on its own. Keeping the shim would have frozen
+// a stale habitat (['rocky-crevice'] only) over the catalogue's real one, and would
+// have hidden a genuine miss if either entry were ever removed. Verified 26 Aug 2026.
+
+// Site root for the card QR codes. Every card deep-links to its own species guide
+// page, so the app reads as "this card, extrapolated" -- see QR_TARGET below.
+const SITE = 'https://fish-spotter.vercel.app';
+// Must match speciesSlug() in src/lib/species-slug.ts exactly, or the QR 404s.
+// That route resolves the slug from the SCIENTIFIC name via resolveSpeciesSlug(),
+// so pass e.sci here and never the common name.
+const speciesSlug = s => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const QR_TARGET = sci => `${SITE}/species/${speciesSlug(sci)}`;
 
 const TIER = { 2: '#63AEB5', 3: '#2E8C9E', 4: '#2A6394', 5: '#26324E' };
 const TIERLABEL = { 2: 'Grazer / filter feeder', 3: 'Planktivore / invertivore', 4: 'Predator', 5: 'Apex predator' };
 
-// Farm-impact badge. This is the mechanism the whole minute-24 reveal runs on —
-// the facilitator says "turn over the filled circle", so the glyph has to be ON
-// the card. Symbol AND word, never colour alone (a marquee is dim and half the
-// room is over 60), matching the four symbols defined in the facilitator guide.
-const FARMBADGE = {
-  created:  { sym: '●', label: 'FARM-BUILT',     hint: 'gone without the farm' },
-  enhanced: { sym: '◑', label: 'BOOSTED',        hint: 'fewer without the farm' },
-  anyway:   { sym: '○', label: 'HERE ANYWAY',    hint: 'barely changes' },
-  harmed:   { sym: '✦', label: 'BETTER WITHOUT', hint: 'more without the farm' },
-};
+// The FARMBADGE block that used to live here (a ●/◑/○/✦ glyph plus FARM-BUILT /
+// BOOSTED / HERE ANYWAY / BETTER WITHOUT and a hint like "gone without the farm")
+// has been REMOVED, deliberately. Two independent reasons, Aug 2026:
+//
+//   1. It asserted the answer. A reviewer challenged the FARM-BUILT premise on the
+//      grounds that a mussel or seaweed line is rope and buoys, not rock, so it is
+//      not obvious a limpet or top shell would genuinely vanish without it. Printing
+//      "gone without the farm" on the card states as fact the very thing we cannot
+//      demonstrate, and states it in the participant's hand.
+//   2. The revised workshop has no reveal step for it to serve. The old run-of-show
+//      called "turn over the filled circle" at minute 24, which is what put the glyph
+//      on the card in the first place. In the revised design the participants build
+//      the natural web first, then flip a clear farm-infrastructure overlay onto it
+//      and draw the new links THEMSELVES. A printed verdict would let the room
+//      reverse-engineer the answer instead of reasoning to it, which is the entire
+//      point of the exercise.
+//
+// The created/enhanced/anyway/harmed classification is NOT gone: it still lives in
+// build-foodweb.mjs and still drives the facilitator guide's master-solution sheets,
+// where it belongs. It is a facilitator's reference, not a claim on a handout.
 
 // Same 5 decks as make-decks.mjs (kept independent/literal so this script has
 // no import-order coupling — cross-checked against it by the report below).
+//
+// Deck names are deliberately NEUTRAL ("Group 1", not "The kelp canopy"). Reviewer
+// feedback, Aug 2026: the zone names read as an ecological claim about where each
+// animal lives, which is more than the deck is doing -- the decks are a dealing
+// convenience that guarantees every table can build a chain, not a habitat survey.
+// The species' actual habitat is on the card's own I LIVE line and on its guide page.
 const DECKS = [
-  { table: 1, title: 'The kelp canopy', cards: ['Common Limpet','Edible sea urchin','Painted Top Shell','Ballan wrasse','Two-spotted goby','Spider Crab','Thick-lipped mullet','Great cormorant'] },
-  { table: 2, title: 'The mussel ropes', cards: ['Dog Whelk','Velvet Swimming Crab','Spiny Starfish','Common Starfish','Common Brittlestar','Shore Crab','Edible Crab','Common eider'] },
-  { table: 3, title: 'The rope shoal', cards: ['Sprat','Sand smelt','Fifteen-spined stickleback','Poor cod','Bib','Pollack','Atlantic cod','European shag'] },
-  { table: 4, title: 'The seabed crew', cards: ['Hermit Crab','Butterfish','Shanny','Rock goby','Common Octopus','Conger eel','Lesser-spotted catshark','Grey seal'] },
-  { table: 5, title: 'The open sand', cards: ['Sea potato','Purple heart urchin','Dragonet','Sand goby','Long-spined sea scorpion','Plaice','Flounder','Harbour seal'] },
+  { table: 1, title: 'Group 1', cards: ['Common Limpet','Edible sea urchin','Painted Top Shell','Ballan wrasse','Two-spotted goby','Spider Crab','Thick-lipped mullet','Great cormorant'] },
+  { table: 2, title: 'Group 2', cards: ['Dog Whelk','Velvet Swimming Crab','Spiny Starfish','Common Starfish','Common Brittlestar','Shore Crab','Edible Crab','Common eider'] },
+  { table: 3, title: 'Group 3', cards: ['Sprat','Sand smelt','Fifteen-spined stickleback','Poor cod','Bib','Pollack','Atlantic cod','European shag'] },
+  { table: 4, title: 'Group 4', cards: ['Hermit Crab','Butterfish','Shanny','Rock goby','Common Octopus','Conger eel','Lesser-spotted catshark','Grey seal'] },
+  { table: 5, title: 'Group 5', cards: ['Sea potato','Purple heart urchin','Dragonet','Sand goby','Long-spined sea scorpion','Plaice','Flounder','Harbour seal'] },
 ];
 
 // Plain, informative one-liners written from each species' own catalogue
@@ -89,6 +114,23 @@ const HAB_LABEL = { 'kelp': 'the kelp canopy', 'rocky-crevice': 'rocky crevices'
   'midwater': 'open midwater', 'near-surface': 'near the surface', 'open-water': 'the open water' };
 const habitatText = e => (e.habitat || []).map(h => HAB_LABEL[h] || h).join(' and ') || 'the farm';
 
+// The HAB_LABEL vocabulary above was written for animals that live IN the water, so
+// generating an I LIVE line from the catalogue's habitat tags makes an air-breather
+// read like a fish: the grey seal came out as "rocky crevices and near the surface",
+// and the cormorant as "near the surface and the open water and rocky crevices".
+// Reviewer comment (Aug 2026) flagged this on the cormorant; auditing the rest found
+// the same fault on all five birds and seals. These get a hand-written line, exactly
+// as NICK and DIET already are, rather than a fix to the shared tag vocabulary --
+// the tags themselves are right for the 35 underwater species that use them, and
+// "where a seal hauls out" is not a thing the tag set is trying to express.
+const HABITAT_OVERRIDE = {
+  'Great cormorant': 'Coastal cliffs and rocky shores, diving inshore to hunt',
+  'European shag':   'Sea cliffs and rocky ledges, diving close inshore',
+  'Common eider':    'Sheltered rocky coasts, diving for mussels',
+  'Grey seal':       'Rocky shores and skerries, hauled out between dives',
+  'Harbour seal':    'Sandbanks and sheltered shores, hauled out between dives',
+};
+
 // General, species-level diet, written from (a) the full 72-species food web
 // (verified 0 errors by food-web/verify.mjs) and (b) each species' own
 // catalogue fieldNote — not restricted to the 8 species dealt to its table,
@@ -102,8 +144,17 @@ const DIET = {
   'Ballan wrasse': { eat: 'Limpets, top shells, urchins, mussels and small crabs, crushed with strong pharyngeal teeth', by: 'Grey seals and cormorants' },
   'Two-spotted goby': { eat: 'Plankton', by: 'Sea bass, pollack and shags' },
   'Spider Crab': { eat: 'Kelp and seabed detritus', by: 'Wrasse, cuttlefish, octopus, cod and eider' },
-  'Thick-lipped mullet': { eat: 'Algae and the organic film on sediment, sieved through the gills', by: 'Cormorants, grey seals and sea bass' },
-  'Great cormorant': { eat: 'A wide range of inshore fish, especially wrasse and mullet', by: 'No natural predators as an adult' },
+  // Reviewer, Aug 2026: "algae" alone undersells this fish. Adult Chelon labrosus
+  // takes benthic diatoms, epiphytic algae, detritus AND small invertebrates, with
+  // juveniles on zooplankton. Anjali's facilitator script independently says the
+  // mullet "will happily eat tiny animals like invertebrates", so the old line also
+  // contradicted the script the room is being read from.
+  'Thick-lipped mullet': { eat: 'Diatoms, algae and detritus sieved from the sediment, plus small invertebrates', by: 'Cormorants, grey seals and sea bass' },
+  // Reviewer, Aug 2026: "especially wrasse and mullet" was unsourced specificity.
+  // UK diet studies show the great cormorant is an opportunist that concentrates on
+  // whatever is locally abundant, and takes mostly small fish. That generalist habit
+  // is the honest claim, and it is also the more interesting one.
+  'Great cormorant': { eat: 'A wide range of inshore fish, mostly small ones, whatever is locally common', by: 'No natural predators as an adult' },
   'Dog Whelk': { eat: 'Mussels and barnacles, drilled through with a rasping tongue', by: 'Wrasse and eider' },
   'Velvet Swimming Crab': { eat: 'Mussels and other shellfish', by: 'Octopus, cod and conger eel' },
   'Spiny Starfish': { eat: 'Mussels and other bivalves', by: 'No common predator, well defended by spines' },
@@ -161,15 +212,15 @@ const report = { photo: [], silhouette: [], dietMissing: [] };
 
 for (const deck of DECKS) {
   for (const name of deck.cards) {
-    const sp = byName[name] || CARD_OVERRIDE[name];
-    const e = byCommon.get(name) || CARD_OVERRIDE[name];
+    const sp = byName[name];
+    const e = byCommon.get(name);
     if (!sp || !e) { console.warn('MISSING catalogue entry for', name); continue; }
     const diet = DIET[name];
     if (!diet) report.dietMissing.push(name);
     const tierColor = TIER[sp.tier];
     const photo = PHOTOS[name];
     photo ? report.photo.push(name) : report.silhouette.push(name);
-    const qrUri = await qr('https://fish-spotter.vercel.app');
+    const qrUri = await qr(QR_TARGET(e.sci));
 
     const media = photo
       ? `<img class="photo" src="${esc(photo.url)}" alt="${esc(name)}">`
@@ -177,7 +228,6 @@ for (const deck of DECKS) {
     const creditLine = photo
       ? `${esc(photo.attribution)} &middot; ${esc(photo.license.toUpperCase())} &middot; via ${esc(photo.source)}`
       : `PEBL / FishSpotter silhouette &mdash; no print-safe photo cached yet`;
-    const badge = FARMBADGE[farmOf(name)] || FARMBADGE.anyway;
 
     cardsHtml.push(`
     <div class="pair" data-id="${idOf(name)}">
@@ -195,13 +245,12 @@ for (const deck of DECKS) {
       <div class="card back">
         <div class="tier-stripe" style="background:${tierColor}"></div>
         <div class="tierline"><span class="tierchip" style="background:${tierColor}">T${sp.tier}</span> ${TIERLABEL[sp.tier]}</div>
-        <div class="field"><b>I LIVE</b><span>${esc(cap(habitatText(e)))}</span></div>
+        <div class="field"><b>I LIVE</b><span>${esc(HABITAT_OVERRIDE[name] || cap(habitatText(e)))}</span></div>
         <div class="field"><b>I EAT</b><span>${esc(diet?.eat || '—')}</span></div>
         <div class="field"><b>EATS ME</b><span>${esc(diet?.by || '—')}</span></div>
-        <div class="farmbadge"><span class="fsym">${badge.sym}</span><span class="flab">${badge.label}</span><span class="fhint">${badge.hint}</span></div>
         <div class="qrrow">
           <img class="qr" src="${qrUri}">
-          <div class="qrtext"><b>Keep spotting.</b> Scan to help ID real footage on fishspotter.app</div>
+          <div class="qrtext"><b>Scan for the full story.</b> Depth, range, what eats it, and the references behind every line on this card.</div>
         </div>
         <div class="cardfoot">
           <img class="pebl-logo small" src="${LOGO_URI}" alt="PEBL">
@@ -253,11 +302,9 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .field{margin-bottom:2mm;min-width:0}
 .field b{display:block;font-size:5pt;letter-spacing:.5pt;color:var(--dteal);text-transform:uppercase;margin-bottom:0.3mm}
 .field span{display:block;font-size:6.1pt;line-height:1.3;color:var(--navy);overflow-wrap:break-word}
-/* farm-impact badge — the glyph the minute-24 reveal is called off */
-.farmbadge{display:flex;align-items:baseline;gap:1.1mm;margin:0 0 1.2mm;min-width:0}
-.fsym{font-size:8pt;line-height:1;color:var(--navy);flex:0 0 auto}
-.flab{font-size:5.4pt;font-weight:bold;letter-spacing:.4pt;color:var(--navy);flex:0 0 auto}
-.fhint{font-size:4.8pt;color:#9aa7ab;min-width:0;overflow-wrap:break-word}
+/* .farmbadge / .fsym / .flab / .fhint removed with the farm-status glyph itself
+   (see the note where FARMBADGE used to be defined). The freed vertical space on
+   the card back is left to the three content fields rather than reclaimed. */
 .qrrow{margin-top:auto;display:flex;align-items:center;gap:1.4mm;border-top:0.5pt solid var(--hair);padding-top:1.2mm;min-width:0}
 .qr{width:8mm;height:8mm;flex:0 0 auto}
 .qrtext{font-size:4.6pt;line-height:1.2;color:var(--soft);min-width:0}
