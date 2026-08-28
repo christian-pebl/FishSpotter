@@ -49,6 +49,13 @@ model User {
   // Null for pre-existing users, so the feed falls back to User.createdAt and
   // nobody is greeted with "73 new clips" on their first load.
   lastFeedSeenAt         DateTime?
+  // Profile cosmetics (28 Aug 2026). Both are CHOICES among things already
+  // unlocked, never purchases: FishSpotter has no currency. Validated server-
+  // side on write (src/lib/cosmetics.ts) because each is a public claim, a
+  // crest says "I found this animal" and a backdrop says "I worked this site".
+  // Null means the spotter has not picked one, which is the default look.
+  crestSpecies           String? // catalogue binomial, must be in UnlockedSpecies
+  backdropSite           String? // Snippet.site verbatim, must be an unlocked site
   // Pebbles anti-gaming: Plan 1 Phase 1 (docs/pebbles-anti-gaming-and-prizes-plan.md).
   // isTrustSeed marks a handful of manually-vetted, known-real accounts that
   // anchor the trust graph; trustScore is a hidden reputation (0..200, seeds

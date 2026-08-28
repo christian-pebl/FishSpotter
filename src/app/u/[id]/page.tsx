@@ -11,6 +11,9 @@ import { BackToFeed } from "@/components/BackToFeed";
 import { SpeciesCollection } from "@/components/species/SpeciesCollection";
 import { SpotterRecord } from "@/components/profile/SpotterRecord";
 import { readSpotterRecord } from "@/lib/spotter-record";
+import { readCosmetics } from "@/lib/cosmetics-service";
+import { backdropWash, frameStyle } from "@/components/profile/cosmetic-styles";
+import { AppearancePicker } from "@/components/profile/AppearancePicker";
 
 export const dynamic = "force-dynamic";
 
@@ -100,7 +103,14 @@ export default async function ProfilePage({
       readSpotterRecord(prisma, id),
     ]);
 
-  const streak = await readStreak(prisma, id, datesFromAnswers(allAnswerDates));
+  // Cosmetics need the record's badge counts to derive the earned frame, so
+  // this runs after the Promise.all rather than inside it.
+  const [streak, cosmetics] = await Promise.all([
+    readStreak(prisma, id, datesFromAnswers(allAnswerDates)),
+    readCosmetics(prisma, id, record.counts),
+  ]);
+  const frame = frameStyle(cosmetics.frame);
+  const wash = backdropWash(cosmetics.backdropSite);
   const displayName = user.displayName ?? user.name ?? "Spotter";
   // Score mirrors the leaderboard (sum of Answer.points) so the two pages
   // reconcile.
@@ -124,9 +134,45 @@ export default async function ProfilePage({
       className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-4 py-10 min-h-0 overflow-y-auto"
     >
       <BackToFeed />
-      <section className="pebl-surface overflow-hidden rounded-card p-6 md:p-8">
+      <section
+        className={`pebl-surface relative overflow-hidden rounded-card p-6 md:p-8 ${frame.ring}`}
+      >
+        {wash && (
+          <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${wash}`} />
+        )}
+        {frame.bar && (
+          <div
+            aria-hidden="true"
+            className={`absolute inset-x-0 top-0 h-1.5 ${frame.bar}`}
+          />
+        )}
+        <div className="relative">
         <p className="pebl-eyebrow">Spotter profile</p>
-        <h1 className="mt-2 font-brand text-h1 text-navy-900">{displayName}</h1>
+        <div className="mt-2 flex items-center gap-3">
+          {cosmetics.crest && (
+            <span
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-surface-muted text-teal-600"
+              title={`Crest: ${cosmetics.crest.commonName}`}
+            >
+              <span
+                aria-hidden="true"
+                className="block h-7 w-7 bg-current"
+                style={{
+                  maskImage: `url(/silhouettes/${cosmetics.crest.shapeClass}.svg)`,
+                  WebkitMaskImage: `url(/silhouettes/${cosmetics.crest.shapeClass}.svg)`,
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  WebkitMaskPosition: "center",
+                }}
+              />
+              <span className="sr-only">Crest: {cosmetics.crest.commonName}</span>
+            </span>
+          )}
+          <h1 className="font-brand text-h1 text-navy-900">{displayName}</h1>
+        </div>
         <p className="mt-1 text-xs text-navy-900/55">
           Joined {user.createdAt.toLocaleDateString()}
         </p>
@@ -160,9 +206,25 @@ export default async function ProfilePage({
             Your {totalAnswers} {totalAnswers === 1 ? "identification feeds" : "identifications feed"} PEBL&apos;s UK seabed monitoring record.
           </p>
         )}
+        {cosmetics.backdropLabel && (
+          <p className="mt-2 text-[11px] text-navy-900/50">
+            Flying the colours of {cosmetics.backdropLabel}.
+          </p>
+        )}
+        </div>
       </section>
 
       <SpotterRecord record={record} />
+
+      {isOwner && (
+        <AppearancePicker
+          frame={cosmetics.frame}
+          crest={cosmetics.crest}
+          crestOptions={cosmetics.crestOptions}
+          backdropSite={cosmetics.backdropSite}
+          backdropOptions={cosmetics.backdropOptions}
+        />
+      )}
 
       <SpeciesCollection userId={id} />
 
