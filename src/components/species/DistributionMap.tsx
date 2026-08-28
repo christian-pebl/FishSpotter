@@ -1,149 +1,181 @@
 import type { DistributionGrid } from "@/lib/biodiversity/distribution";
+import { summariseRange, rangeSentence, type RegionStatus } from "@/lib/biodiversity/range";
 import { COASTLINE_RINGS } from "@/data/ne-atlantic-coastline";
+import { FARMS } from "@/lib/farms/catalogue";
 
 /**
- * Occurrence-density map for the species profile + guide ("where is it seen").
- * Pure SVG: a recognisable UK / NE-Atlantic basemap (simplified coastline) with
- * OBIS record density shaded over the seas in brand teal, a graticule + corner
- * labels for orientation, and the PEBL filming site marked. On-brand, no JS.
+ * "Where you'd find it": a plain-English range sentence, with a six-region
+ * presence map underneath as its supporting evidence.
  *
- * The basemap always renders (so the reader can orient even when a species has
- * little OBIS data); the density cells overlay only when present.
+ * This replaced a per-cell OBIS density heatmap, which failed in two ways at
+ * once. It was unreadable (counts are heavy-tailed, so 93-97% of cells rendered
+ * at the minimum opacity and the "fewer / more records" legend described a
+ * gradient that did not exist on screen), and where it did show a hotspot the
+ * hotspot was survey effort rather than the animal: 51% of every grey seal
+ * record in-window came from a single cell off Brest. See `range.ts` for why
+ * region coverage is the honest signal and raw cell density is not.
+ *
+ * Still pure SVG, no JS, no map library.
  */
 
-// viewBox sized to the bbox's distortion-corrected aspect (lon * cos(lat) : lat).
-const VB_W = 264;
+// viewBox width carries the cos(midLat) correction for the window below, so a
+// degree of longitude is not drawn as wide as a degree of latitude at 54N.
+const VB_W = 290;
 const VB_H = 340;
 
-// The fixed geographic window. Matches UK_NE_ATLANTIC and the coastline data, so
-// land + cells + graticule all share one projection.
-const VIEW_BBOX = { minLat: 45, maxLat: 62, minLon: -16, maxLon: 6 };
+// The fixed geographic window. MUST match the window the coastline was
+// generated for (see the header of ne-atlantic-coastline.ts): land, region
+// boxes and site pins all share this one projection.
+const VIEW = { minLat: 47, maxLat: 62, minLon: -16, maxLon: 6 };
 
-// PEBL filming site (all current footage), for orientation, North Devon coast.
-const SITE = { lat: 51.05, lon: -4.4 };
+// Three steps on a LIGHTNESS ramp, not a hue ramp, so the map still reads for
+// colourblind viewers (house rule). Deliberately only three: a reader can count
+// three shades against a legend, but cannot read a continuous opacity scale.
+const FILL: Record<RegionStatus, { fill: string; opacity: number }> = {
+  common: { fill: "#2B7A78", opacity: 0.82 },
+  occasional: { fill: "#3AAFA9", opacity: 0.3 },
+  notRecorded: { fill: "#8C9EA0", opacity: 0.14 },
+};
 
-const GRATICULE_LAT = [55, 50]; // labelled parallels inside the bbox
-const GRATICULE_LON = [-10, 0]; // labelled meridians
+const STATUS_LABEL: Record<RegionStatus, string> = {
+  common: "Often seen",
+  occasional: "Now and then",
+  notRecorded: "Not recorded",
+};
 
-const fmtLat = (l: number) => `${Math.abs(l)}°${l >= 0 ? "N" : "S"}`;
-const fmtLon = (l: number) => `${Math.abs(l)}°${l >= 0 ? "E" : "W"}`;
-
-/**
- * Geohash cell size in degrees for a given precision. OBIS returns the density
- * grid as geohash cells, so the on-screen footprint must match the real cell
- * span (lon° × lat°) or the squares overlap horizontally / gap vertically.
- * Bits alternate lon, lat starting with lon, 5 bits per character.
- */
-function geohashCellDegrees(precision: number): { lonDeg: number; latDeg: number } {
-  const bits = Math.max(1, Math.round(precision)) * 5;
-  const lonBits = Math.ceil(bits / 2);
-  const latBits = Math.floor(bits / 2);
-  return { lonDeg: 360 / 2 ** lonBits, latDeg: 180 / 2 ** latBits };
-}
+// PEBL's filming sites, from the farm catalogue rather than a hardcoded point
+// (the map previously marked one North Devon spot and called it "the PEBL
+// filming site"; there are six, from Norfolk to Skye).
+const SITES = Object.values(FARMS)
+  .filter((f) => typeof f.location.lat === "number" && typeof f.location.lon === "number")
+  .map((f) => ({ name: f.name, lat: f.location.lat as number, lon: f.location.lon as number }));
 
 export function DistributionMap({ grid }: { grid: DistributionGrid | null }) {
-  const bbox = grid?.bbox ?? VIEW_BBOX;
-  const x = (lon: number) => ((lon - bbox.minLon) / (bbox.maxLon - bbox.minLon)) * VB_W;
-  const y = (lat: number) => ((bbox.maxLat - lat) / (bbox.maxLat - bbox.minLat)) * VB_H;
+  const summary = summariseRange(grid);
+  const sentence = rangeSentence(summary);
 
-  // Cell footprint = the real geohash cell span projected into the viewBox, so
-  // cells tile edge-to-edge at any precision instead of overlapping. The fills
-  // are semi-transparent, so we size to exactly one cell span (no overdraw),
-  // any overlap would compound into dark seams.
-  const { lonDeg, latDeg } = geohashCellDegrees(grid?.precision ?? 3);
-  const cw = (lonDeg / (bbox.maxLon - bbox.minLon)) * VB_W;
-  const ch = (latDeg / (bbox.maxLat - bbox.minLat)) * VB_H;
-
-  const cells = grid?.cells ?? [];
-  const hasData = cells.length > 0;
+  const x = (lon: number) => ((lon - VIEW.minLon) / (VIEW.maxLon - VIEW.minLon)) * VB_W;
+  const y = (lat: number) => ((VIEW.maxLat - lat) / (VIEW.maxLat - VIEW.minLat)) * VB_H;
 
   const landPath = (ring: [number, number][]) =>
     ring.map((p, i) => `${i ? "L" : "M"}${x(p[0]).toFixed(1)} ${y(p[1]).toFixed(1)}`).join(" ") + " Z";
 
-  const label = hasData
-    ? `Where it's seen: ${grid!.total.toLocaleString()} records across ${cells.length} areas of UK and north-east Atlantic waters.`
-    : "Map of UK and north-east Atlantic waters, with the PEBL filming site marked. Occurrence data for this species is not available yet.";
+  // Only show the legend steps this species actually uses, so a species found
+  // everywhere does not carry a "Not recorded" key it never demonstrates.
+  const usedStatuses = (["common", "occasional", "notRecorded"] as RegionStatus[]).filter((s) =>
+    summary.regions.some((r) => r.status === s),
+  );
+
+  const altText = summary.assessable
+    ? `${sentence} Map of the seas around Britain and Ireland, shaded by how often this species is recorded in each: ${summary.regions
+        .map((r) => `${r.region.short}, ${STATUS_LABEL[r.status].toLowerCase()}`)
+        .join("; ")}.`
+    : "Map of the seas around Britain and Ireland. There are not enough survey records for this species to shade them.";
 
   return (
     <figure className="m-0">
-      <svg
-        viewBox={`0 0 ${VB_W} ${VB_H}`}
-        className="h-auto w-full max-w-[300px] rounded-modal"
-        role="img"
-        aria-label={label}
-      >
-        <defs>
-          <clipPath id="distmap-frame">
-            <rect x={0} y={0} width={VB_W} height={VB_H} rx={10} />
-          </clipPath>
-        </defs>
+      {/* The sentence IS the claim. The map below is its evidence, not a puzzle
+          the reader has to solve to find out what the page is telling them. */}
+      <p className="mb-3 text-sm leading-relaxed text-navy-900">{sentence}</p>
 
-        {/* sea */}
-        <rect x={0} y={0} width={VB_W} height={VB_H} rx={10} fill="#D7EDEF" />
+      <div className="flex justify-center">
+        <svg
+          viewBox={`0 0 ${VB_W} ${VB_H}`}
+          className="h-auto w-full max-w-[300px] rounded-modal"
+          role="img"
+          aria-label={altText}
+        >
+          <defs>
+            <clipPath id="rangemap-frame">
+              <rect x={0} y={0} width={VB_W} height={VB_H} rx={10} />
+            </clipPath>
+          </defs>
 
-        {/* land + graticule + density, clipped to the rounded frame so nothing
-            spills past the corners */}
-        <g clipPath="url(#distmap-frame)">
-          {/* land (simplified coastline) */}
-          {COASTLINE_RINGS.map((ring, i) => (
-            <path key={i} d={landPath(ring)} fill="#ECE7D7" stroke="#BFD0CE" strokeWidth={0.8} strokeLinejoin="round" />
-          ))}
+          <rect x={0} y={0} width={VB_W} height={VB_H} rx={10} fill="#EAF4F5" />
 
-          {/* graticule */}
-          <g stroke="#2B7A78" strokeOpacity={0.16} strokeWidth={0.5}>
-            {GRATICULE_LAT.map((lat) => (
-              <line key={`la${lat}`} x1={0} x2={VB_W} y1={y(lat)} y2={y(lat)} />
+          <g clipPath="url(#rangemap-frame)">
+            {/* Sea regions, drawn as the exact boxes the classifier used. */}
+            {summary.assessable &&
+              summary.regions.flatMap(({ region, status }) => {
+                const style = FILL[status];
+                return region.boxes.map((b, bi) => (
+                  <rect
+                    key={`${region.id}-${bi}`}
+                    x={x(b.lon[0])}
+                    y={y(b.lat[1])}
+                    width={x(b.lon[1]) - x(b.lon[0])}
+                    height={y(b.lat[0]) - y(b.lat[1])}
+                    fill={style.fill}
+                    fillOpacity={style.opacity}
+                  />
+                ));
+              })}
+
+            {/* Land LAST of the fills, so the sea shading never prints over
+                Britain (the old map drew density cells on top of the coast). */}
+            {COASTLINE_RINGS.map((ring, i) => (
+              <path
+                key={i}
+                d={landPath(ring)}
+                fill="#F2EEE2"
+                stroke="#9FB5B3"
+                strokeWidth={0.9}
+                strokeLinejoin="round"
+              />
             ))}
-            {GRATICULE_LON.map((lon) => (
-              <line key={`lo${lon}`} y1={0} y2={VB_H} x1={x(lon)} x2={x(lon)} />
-            ))}
+
+            {/* Region names, each with a halo (paintOrder puts the stroke behind
+                the glyphs) so a name stays readable whether it lands on pale sea
+                or on the darkest "often seen" fill. */}
+            <g fontSize={8.5} fontWeight={600} textAnchor="middle">
+              {summary.regions.map(({ region }) => (
+                <text
+                  key={region.id}
+                  x={x(region.labelAt[0])}
+                  y={y(region.labelAt[1])}
+                  fill="#17252A"
+                  stroke="#EAF4F5"
+                  strokeWidth={2.2}
+                  strokeLinejoin="round"
+                  paintOrder="stroke"
+                >
+                  {region.short}
+                </text>
+              ))}
+            </g>
+
+            {/* PEBL filming sites. */}
+            <g>
+              {SITES.map((s) => (
+                <g key={s.name}>
+                  <circle cx={x(s.lon)} cy={y(s.lat)} r={3.6} fill="#FFFFFF" fillOpacity={0.9} />
+                  <circle cx={x(s.lon)} cy={y(s.lat)} r={3.6} fill="none" stroke="#17252A" strokeWidth={1.4} />
+                </g>
+              ))}
+            </g>
           </g>
+        </svg>
+      </div>
 
-          {/* density cells (teal, opacity by intensity) */}
-          {cells.map((c, i) => (
-            <rect
-              key={i}
-              x={x(c.lon) - cw / 2}
-              y={y(c.lat) - ch / 2}
-              width={cw}
-              height={ch}
-              rx={2}
-              fill="#2B7A78"
-              fillOpacity={0.3 + 0.65 * c.intensity}
-            />
+      <figcaption className="mt-2.5 text-[11px] leading-relaxed text-navy-900/55">
+        <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          {usedStatuses.map((s) => (
+            <span key={s} className="inline-flex items-center gap-1.5">
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-sm"
+                style={{ backgroundColor: FILL[s].fill, opacity: FILL[s].opacity }}
+              />
+              {STATUS_LABEL[s]}
+            </span>
           ))}
-        </g>
-
-        {/* PEBL filming site marker */}
-        <g>
-          <circle cx={x(SITE.lon)} cy={y(SITE.lat)} r={4.5} fill="none" stroke="#17252A" strokeWidth={1.6} />
-          <circle cx={x(SITE.lon)} cy={y(SITE.lat)} r={1.5} fill="#17252A" />
-        </g>
-
-        {/* corner + graticule labels */}
-        <g fill="#17252A" fillOpacity={0.5} fontSize={9}>
-          {GRATICULE_LAT.map((lat) => (
-            <text key={`tla${lat}`} x={3} y={y(lat) - 2}>{fmtLat(lat)}</text>
-          ))}
-          {GRATICULE_LON.map((lon) => (
-            <text key={`tlo${lon}`} x={x(lon) + 2} y={VB_H - 4}>{fmtLon(lon)}</text>
-          ))}
-        </g>
-      </svg>
-      <figcaption className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-navy-900/55">
-        {hasData ? (
-          <span className="inline-flex items-center gap-1">
-            <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: "#2B7A78", opacity: 0.35 }} />
-            fewer
-            <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: "#2B7A78" }} />
-            more records
+          <span className="inline-flex items-center gap-1.5">
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-white ring-1 ring-navy-900" />
+            Where PEBL films
           </span>
-        ) : (
-          <span>Occurrence data not available yet</span>
-        )}
-        <span aria-hidden>·</span>
-        <span className="inline-flex items-center gap-1">
-          <span className="inline-block h-2 w-2 rounded-full ring-1 ring-navy-900" /> PEBL site
+        </span>
+        <span className="mt-1.5 block">
+          Based on marine survey records (OBIS). Blank seas can mean nobody has
+          looked there, not that the animal is absent.
         </span>
       </figcaption>
     </figure>
