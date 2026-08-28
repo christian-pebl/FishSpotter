@@ -71,6 +71,32 @@ describe("summariseRange", () => {
     expect(statusOf(grid(cells), "northsea")).toBe("occasional");
   });
 
+  /**
+   * REGRESSION. Thick-lipped grey mullet shipped as "Scarce everywhere", which
+   * is false: it is a common British coastal fish. Its North Sea cell holds 97%
+   * of its records, and the old floor (5% of the species TOTAL) was therefore
+   * set by that one spike at 545, which the well-covered Channel (225 records
+   * over 15 of 18 cells) and Irish Sea (38 over 5 of 6) both failed. A floor
+   * built on the median region is immune to the spike.
+   */
+  it("does not let one survey spike raise the floor for every other region", () => {
+    // Thick-lipped grey mullet's real measured shape, 28 Aug 2026.
+    const cells: [number, number, number][] = [
+      ...fill("northsea", 7, 1511), // 10,577 records over 7 of 44 cells: the spike
+      ...fill("channel", 15, 15), //     225 records over 15 of 18 cells
+      ...fill("irishsea", 5, 8), //       40 records over 5 of 6 cells
+      ...fill("wscotland", 4, 11), //     44 records over 4 of 45 cells
+      ...fill("celtic", 4, 2), //          8 records over 4 of 21 cells
+      ...fill("wireland", 3, 2), //        6 records over 3 of 12 cells
+    ];
+    const s = summariseRange(grid(cells));
+    expect(statusOf(grid(cells), "channel")).toBe("common");
+    expect(statusOf(grid(cells), "irishsea")).toBe("common");
+    // The spike itself has poor coverage, so it is not a range claim.
+    expect(statusOf(grid(cells), "northsea")).toBe("occasional");
+    expect(rangeSentence(s)).not.toMatch(/Scarce everywhere/);
+  });
+
   it("refuses to assess when OBIS has almost nothing", () => {
     const s = summariseRange(grid(fill("celtic", 1, 3)));
     expect(s.assessable).toBe(false);

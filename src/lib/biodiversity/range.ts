@@ -89,7 +89,19 @@ export const SEA_REGIONS: SeaRegion[] = [
  */
 const COVERAGE_MIN = 0.25;
 const RECORD_FLOOR_ABS = 800;
-const RECORD_FLOOR_SHARE = 0.05;
+/**
+ * The floor scales off the MEDIAN region's record count, not the species total.
+ *
+ * The first version used 5% of the total, and that quietly reimported the very
+ * effort bias this module exists to defuse: a species whose total is dominated
+ * by one survey spike gets a floor set BY that spike, so every honestly-covered
+ * region fails it. Thick-lipped grey mullet is the case that caught it. Its
+ * North Sea cell holds 10,579 of its 10,899 records (97%), which set a floor of
+ * 545, so the Channel (15 of 18 cells covered, 225 records) and the Irish Sea
+ * (5 of 6 cells, 38 records) both fell below it, and a common British coastal
+ * fish was published as "Scarce everywhere". A median is unmoved by one spike.
+ */
+const RECORD_FLOOR_SHARE = 0.5;
 const RECORD_FLOOR_MIN = 10;
 
 /** Below this the honest answer is "we cannot say", not a confident-looking map. */
@@ -138,7 +150,15 @@ export function summariseRange(grid: DistributionGrid | null): RangeSummary {
     total += c.n;
   }
 
-  const floor = Math.min(RECORD_FLOOR_ABS, Math.max(RECORD_FLOOR_MIN, RECORD_FLOOR_SHARE * total));
+  // Median over regions that hold anything, so one huge survey cannot raise the
+  // bar for every other region (see RECORD_FLOOR_SHARE).
+  const present = SEA_REGIONS.map((r) => agg.get(r.id)?.records ?? 0).filter((v) => v > 0).sort((a, b) => a - b);
+  const median = present.length
+    ? present.length % 2
+      ? present[(present.length - 1) / 2]
+      : (present[present.length / 2 - 1] + present[present.length / 2]) / 2
+    : 0;
+  const floor = Math.min(RECORD_FLOOR_ABS, Math.max(RECORD_FLOOR_MIN, RECORD_FLOOR_SHARE * median));
 
   const regions: RegionAssessment[] = SEA_REGIONS.map((region) => {
     const a = agg.get(region.id) ?? { cells: 0, records: 0 };
