@@ -2551,63 +2551,6 @@
         "Superfamily"
       ]
     },
-    "doi:10.3354-meps031087": {
-      "kind": "journal",
-      "title": "Natural diet and feeding habits of the crabs Liocarcinus puber and L. holsatus (Decapoda, Brachyura, Portunidae)",
-      "authors": [
-        "Choy, S.C."
-      ],
-      "publisher": "Inter-Research (Marine Ecology Progress Series 31:87-99)",
-      "year": 1986,
-      "url": "https://www.int-res.com/articles/meps/31/m031p087.pdf",
-      "licence": "Publisher labels the article OPEN ACCESS on its own abstract page",
-      "identifier": "DOI:10.3354/meps031087; publisher abstract page https://www.int-res.com/abstracts/meps/v31/p87-99/ . WARNING: int-res.com serves a JavaScript bot challenge, so a scripted GET (curl, WebFetch, refs:verify) gets HTTP 401 while a real browser gets 200. The PDF returned 200 and was read in full once the browser session cookie was carried.",
-      "expectText": [
-        "Liocarcinus puber",
-        "Natural diet and feeding habits",
-        "Gower Peninsula, South Wales"
-      ],
-      "verifyMode": "pdf"
-    },
-    "doi:10.3354-meps119139": {
-      "kind": "journal",
-      "title": "Feeding ecology of the velvet swimming crab Necora puber in mussel raft areas of the Ria de Arousa (Galicia, NW Spain)",
-      "authors": [
-        "Freire, J.",
-        "Gonzalez-Gurriaran, E."
-      ],
-      "publisher": "Inter-Research (Marine Ecology Progress Series 119:139-154)",
-      "year": 1995,
-      "url": "https://www.int-res.com/articles/meps/119/m119p139.pdf",
-      "licence": "Publisher labels the article FREE ACCESS on its own abstract page",
-      "identifier": "DOI:10.3354/meps119139; publisher abstract page https://www.int-res.com/abstracts/meps/v119/p139-154/ . Same int-res bot challenge: 401 to a scripted GET, 200 in a browser.",
-      "expectText": [
-        "Necora puber",
-        "mussel raft areas",
-        "Mytilus galloprovincialis"
-      ],
-      "verifyMode": "pdf"
-    },
-    "doi:10.3354-meps144063": {
-      "kind": "journal",
-      "title": "Changes in hermit crab feeding patterns in response to trawling disturbance",
-      "authors": [
-        "Ramsay, K.",
-        "Kaiser, M.J.",
-        "Hughes, R.N."
-      ],
-      "publisher": "Inter-Research (Marine Ecology Progress Series 144:63-72)",
-      "year": 1996,
-      "url": "https://www.int-res.com/articles/meps/144/m144p063.pdf",
-      "licence": "Publisher-hosted PDF, free to download",
-      "identifier": "DOI:10.3354/meps144063; publisher abstract page https://www.int-res.com/abstracts/meps/v144/p63-72/ . Same int-res bot challenge: 401 to a scripted GET, 200 in a browser.",
-      "expectText": [
-        "Pagurus bernhardus",
-        "hermit crab feeding patterns",
-        "Anglesey"
-      ],
-      "verifyMode": "pdf"
-    },
     "doi:10.2960-J.v35.m494": {
       "kind": "journal",
       "title": "Trophic Relations of Lesser-Spotted Catshark (Scyliorhinus canicula) and Blackmouth Catshark (Galeus melastomus) in the Cantabrian Sea",
@@ -2784,25 +2727,6 @@
       "expectCommonName": "Veined Squid",
       "verifyMode": "pdf"
     },
-    "doi:10.1007-s00227-023-04236-x": {
-      "kind": "journal",
-      "title": "Stomach content analysis of North Sea cephalopods: often-overlooked predators with direct impact on commercially used fish species?",
-      "authors": [
-        "Oesterwind, D.",
-        "Piatkowski, U."
-      ],
-      "publisher": "Springer, Marine Biology 170:101",
-      "year": 2023,
-      "url": "https://link.springer.com/article/10.1007/s00227-023-04236-x",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1007/s00227-023-04236-x",
-      "expectText": [
-        "Loligo forbesii",
-        "Loligo vulgaris",
-        "Sepiola atlantica",
-        "Eledone cirrhosa"
-      ]
-    },
     "doi:10.1006-jmsc.1994.1034": {
       "kind": "journal",
       "title": "Diet of the squid Loligo forbesi Steenstrup (Cephalopoda: Loliginidae) in Irish waters",
@@ -2906,29 +2830,6 @@
       "identifier": "AphiaID:141767",
       "expectText": [
         "Calliostoma zizyphinum"
-      ]
-    },
-    "doi:10.1371-journal.pone.0193078": {
-      "kind": "journal",
-      "title": "Mannitol oxidase and polyol dehydrogenases in the digestive gland of gastropods: Correlations with phylogeny and diet",
-      "authors": [
-        "Lobo-da-Cunha, A.",
-        "Amaral-de-Carvalho, D.",
-        "Oliveira, E.",
-        "Alves, A.",
-        "Costa, V.",
-        "Calado, G."
-      ],
-      "publisher": "PLOS ONE",
-      "year": 2018,
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5846779/",
-      "licence": "CC BY 4.0",
-      "identifier": "10.1371/journal.pone.0193078",
-      "expectText": [
-        "Calliostoma zizyphinum",
-        "Steromphala umbilicalis",
-        "Patella vulgata",
-        "Nucella lapillus"
       ]
     },
     "doi:10.1002-ecy.3341": {
@@ -3043,25 +2944,6 @@
         "Cyanea capillata"
       ]
     },
-    "doi:10.1093-icesjms-fsw157": {
-      "kind": "journal",
-      "title": "Balancing fishery and conservation: a case study of the barrel jellyfish Rhizostoma octopus in South Wales",
-      "authors": [
-        "Elliott, A.",
-        "Hobson, V.",
-        "Tang, K.W."
-      ],
-      "publisher": "ICES Journal of Marine Science (OUP); author-produced version in Cronfa, Swansea University Open Access Repository",
-      "year": 2017,
-      "url": "https://cronfa.swan.ac.uk/Record/cronfa29636/Download/0029636-06022017093525.pdf",
-      "licence": "Swansea University repository licence (author-produced accepted version)",
-      "identifier": "doi:10.1093/icesjms/fsw157",
-      "expectText": [
-        "Rhizostoma octopus",
-        "Carmarthen Bay"
-      ],
-      "verifyMode": "pdf"
-    },
     "doi:10.1016-j.tree.2018.09.001": {
       "kind": "journal",
       "title": "A Paradigm Shift in the Trophic Importance of Jellyfish?",
@@ -3096,26 +2978,6 @@
       "expectText": [
         "Pelagia noctiluca"
       ]
-    },
-    "wildlife-trusts:compass-jellyfish": {
-      "kind": "web",
-      "title": "Compass jellyfish (Chrysaora hysoscella) - The Wildlife Trusts wildlife explorer",
-      "publisher": "The Wildlife Trusts",
-      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/jellyfish/compass-jellyfish",
-      "expectText": [
-        "Chrysaora hysoscella"
-      ],
-      "expectCommonName": "Compass Jellyfish"
-    },
-    "wildlife-trusts:lions-mane-jellyfish": {
-      "kind": "web",
-      "title": "Lion's mane jellyfish (Cyanea capillata) - The Wildlife Trusts wildlife explorer",
-      "publisher": "The Wildlife Trusts",
-      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/jellyfish/lions-mane-jellyfish",
-      "expectText": [
-        "Cyanea capillata"
-      ],
-      "expectCommonName": "Lion's Mane Jellyfish"
     },
     "wildlife-trusts:blue-jellyfish": {
       "kind": "web",
@@ -3275,48 +3137,6 @@
       ],
       "expectCommonName": "Grey seal",
       "verifyMode": "pdf"
-    },
-    "doi:10.1007-s00227-018-3433-9": {
-      "kind": "journal",
-      "title": "Pronounced long-term trends in year-round diet composition of the European shag Phalacrocorax aristotelis",
-      "authors": [
-        "Howells, R.J.",
-        "Burthe, S.J.",
-        "Green, J.A.",
-        "Harris, M.P.",
-        "Newell, M.A.",
-        "Butler, A.",
-        "Wanless, S.",
-        "Daunt, F."
-      ],
-      "publisher": "Marine Biology 165:188, Springer",
-      "year": 2018,
-      "url": "https://link.springer.com/article/10.1007/s00227-018-3433-9",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1007/s00227-018-3433-9",
-      "expectText": [
-        "Phalacrocorax aristotelis",
-        "European shag"
-      ]
-    },
-    "doi:10.1371-journal.pone.0037216": {
-      "kind": "journal",
-      "title": "Spatial Variation in Foraging Behaviour of a Marine Top Predator (Phoca vitulina) Determined by a Large-Scale Satellite Tagging Program",
-      "authors": [
-        "Sharples, R.J.",
-        "Moss, S.E.",
-        "Patterson, T.A.",
-        "Hammond, P.S."
-      ],
-      "publisher": "PLoS ONE 7(5): e37216",
-      "year": 2012,
-      "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0037216",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1371/journal.pone.0037216",
-      "expectText": [
-        "Phoca vitulina",
-        "harbour seal"
-      ]
     },
     "nrw:591": {
       "kind": "web",
@@ -5305,21 +5125,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Limanda-limanda"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Biology",
-              "quote": "Adults live mainly on sandy bottoms, from a few meters to about 100 m. Feed mainly on crustaceans and small fishes. Batch spawner. Marketed fresh, dried or salted, smoked and frozen; eaten steamed, fried,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-predators:Limanda-limanda"
@@ -5759,21 +5564,6 @@
               "quote": "Found in inshore waters but also down to 200 m depth, in areas with hard bottoms.",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:9"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:9",
-              "locator": "Additional information (fifth paragraph)",
-              "quote": "Pollachius pollachius feeds on deep sea prawns, Clupea harengus, Ammodytes tobianus, Sprattus sprattus, Mallotus villosus and other open water fish",
-              "readBy": "refs:trawl (gap-diet)",
-              "readOn": "2026-08-28"
             }
           ],
           "claimSupported": true
@@ -6571,21 +6361,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Trisopterus-luscus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "fishbase:Trisopterus-luscus > Biology",
-              "quote": "Feeds on benthic crustaceans but also on small fish, mollusks and polychaetes (Ref. 3663).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -7305,21 +7080,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Labrus-bergylta"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Biology",
-              "quote": "Feed on crustaceans and mollusks.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -7685,21 +7445,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Labrus-mixtus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "fishbase:Labrus-mixtus > Biology",
-              "quote": "Feed mainly on crustaceans but also fishes and mollusks (Ref. 4742) and worms (Ref. 35388).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -8023,21 +7768,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Symphodus-melops"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Symphodus-melops",
-              "locator": "Biology",
-              "quote": "Feed on mollusks, hydroids, bryozoans, worms and various crustaceans.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -8450,43 +8180,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Ctenolabrus-rupestris"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Ctenolabrus-rupestris",
-              "locator": "Biology",
-              "quote": "On rocky, weed-covered shores (1-50 m); larger specimens deeper than young. Feed on bryozoans, crustaceans and gastropods. Spawning takes place in summer when the male defends a territory. Used in salmon...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "doi:10.1093-icesjms-fsy183"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1093-icesjms-fsy183",
-              "locator": "Introduction, manuscript lines 51 to 52 (the self-archived accepted version interleaves line numbers; removed from the quote)",
-              "quote": "these intermediate predators may also play a key role in structuring coastal marine ecosystems, as prey for apex carnivores and predators on planktivorous and benthic herbivores",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1093-icesjms-fsy183",
-              "locator": "Study system, manuscript lines 114 to 115 (line numbers removed from the quote)",
-              "quote": "Atlantic cod (Gadus morhua), the latter being a potential predator on wrasses (Hop, 1992).",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "trait:depth": {
           "sourceIds": [
@@ -8934,21 +8627,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Biology",
-              "quote": "A nocturnal predator of fish, crustaceans, and cephalopods.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -9388,21 +9066,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Pholis-gunnellus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Biology",
-              "quote": "Facultative air-breathing; Occurs in shallow waters (seashore, tide pools), but descends (especially in winter) to 100 m or more. May remain out of water under rocks or seaweeds. Feeds on small crustaceans,...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -9766,21 +9429,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Pomatoschistus-flavescens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Biology",
-              "quote": "Suprabenthic. Found inshore in groups around over-grown structures and among Laminaria or Zostera beds. Adults feed on small crustaceans (copepods, amphipods, mysids) and chaetognaths. Eggs are about 1 mm...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "marlin:1871",
@@ -10126,21 +9774,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1202"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1202",
-              "locator": "Biology",
-              "quote": "Predator; Typically feeds on: Amphipods, isopods, polychaetes and chironomid larvae.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "marlin:1202"
@@ -10484,21 +10117,6 @@
               "quote": "Adults occur inshore in intertidal waters, under stones and in pools on sheltered rocky shores with much weed cover.",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Gobius-paganellus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gobius-paganellus",
-              "locator": "Biology",
-              "quote": "Macrobenthos feeder on hard substrates (Ref. 92840), they feed on crustaceans (larger amphipods, isopods, small crabs) and polychaetes",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
             }
           ],
           "claimSupported": true
@@ -10892,29 +10510,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Pomatoschistus-minutus",
-            "marlin:1204"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Biology",
-              "quote": "This occasionally schooling species is found in inshore sandy and muddy areas. Also found in ecotones near hard bottoms. Juveniles found in lower estuaries. Mainly diurnal, this species feeds on small...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1204",
-              "locator": "Biology",
-              "quote": "Predator; Typically feeds on: Small polychaetes, cumaceans, amphipods and mysids.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -11314,21 +10909,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Callionymus-lyra"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Biology",
-              "quote": "Occurs on sand and muddy bottoms from sublittoral to 200 m and to 400 m or more. Feeds on small invertebrates, mainly worms and crustaceans. Territorial, males aggressive with each other. Complex courtship...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-pred:Callionymus-lyra"
@@ -11614,21 +11194,6 @@
               "quote": "Benthic on sandy bottoms. Feeds on small bottom invertebrates mainly worms, snails and crustaceans. Eggs and larvae pelagic (Ref. 5968 ).",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Callionymus-maculatus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-maculatus",
-              "locator": "Biology",
-              "quote": "Benthic on sandy bottoms. Feeds on small bottom invertebrates mainly worms, snails and crustaceans. Eggs and larvae pelagic.",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
             }
           ],
           "claimSupported": true
@@ -12114,18 +11679,10 @@
         },
         "diet:eats": {
           "sourceIds": [
-            "fishbase:Platichthys-flesus",
             "eifca:skerritt-2010-flounder",
             "fishbase-fooditems:Platichthys-flesus"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Platichthys-flesus",
-              "locator": "Biology",
-              "quote": "Juveniles of less than a year old feed on plankton and larvae of insects, juveniles of more than a year and adults feed on benthic fauna (Ref. 51442), including small fishes and invertebrates (Ref. 30193).",
-              "readBy": "refs:trawl (flatfish)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "eifca:skerritt-2010-flounder",
               "locator": "Feeding, p. 2 (citing Summers 1979, Summers 1980, Pihl 1982, Westberg 1997)",
@@ -12459,21 +12016,6 @@
               "quote": "Detect weak electric fields generated by other organisms (e.g. potential prey) (Ref. 10311 ).",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Scyliorhinus-canicula"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Biology",
-              "quote": "Feed on a variety of benthic invertebrates, including mollusks, crustaceans, small cephalopods, polychaete worms, and small bony fishes.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
             }
           ],
           "claimSupported": true
@@ -12899,21 +12441,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Mullus-surmuletus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Biology",
-              "quote": "Adults occur on broken and rough grounds but also found over sand and soft bottoms at depths less than 100 m. Depth range from 5-60 m and from 305-409 m in the eastern Ionian Sea. Feed on benthic organisms...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-pred:Mullus-surmuletus"
@@ -13292,21 +12819,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Trisopterus-minutus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Biology",
-              "quote": "Occurs mostly from 15 to 200 m in the Atlantic on muddy or sandy bottoms. Feeds on crustaceans, small fish, and polychaetes. Used in the production of fish meal, and in southern Europe as a human food.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -14229,21 +13741,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Chelon-labrosus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelon-labrosus",
-              "locator": "Biology",
-              "quote": "Adults feed mainly on benthic diatoms, epiphytic algae, small invertebrates and detritus (Ref. 2804), juveniles only feed on zooplankton (Ref. 59043).",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-pred:Chelon-labrosus"
@@ -14616,21 +14113,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Dicentrarchus-labrax"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Dicentrarchus-labrax",
-              "locator": "Biology",
-              "quote": "Feed chiefly on shrimps and mollusks, also on fishes (Ref. 5990). Juveniles feed on invertebrates, taking increasingly more fish with age. Adults piscivorous",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-pred:Dicentrarchus-labrax"
@@ -14963,21 +14445,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Trachurus-trachurus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trachurus-trachurus",
-              "locator": "Biology",
-              "quote": "Adults form large schools in coastal areas with sandy substrate. They feed on fish, crustaceans, and cephalopods. Are batch spawners. Females lay 140,000 eggs, which hatch into 5mm long larvae. Eggs are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -15699,21 +15166,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Sprattus-sprattus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Sprattus-sprattus",
-              "locator": "Biology",
-              "quote": "Moves to the surface at night. Feeds on planktonic crustaceans (Ref. 9900).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Sprattus-sprattus"
@@ -16105,21 +15557,6 @@
               "quote": "This species is captured near surface in the littoral zone, mainly with beach seines and liftnets.",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Atherina-presbyter"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Biology",
-              "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae. Reproduces in spring and summer.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
             }
           ],
           "claimSupported": true
@@ -16934,21 +16371,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Lipophrys-pholis"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Biology",
-              "quote": "Feeds on small benthic invertebrates, especially gastropods, barnacles and amphipods, and algae.",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Lipophrys-pholis"
@@ -17318,21 +16740,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Spinachia-spinachia"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Biology",
-              "quote": "Adults live solitary or in pairs in weedy, shallow coastal areas. Feed on small invertebrates. Males build a nest from algae and debris, using kidney excrete as glue. Spawning season is May to June. Females...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Spinachia-spinachia"
@@ -17459,7 +16866,6 @@
         "fishbase-fooditems:Conger-conger",
         "fishbase-fooditems:Gadus-morhua",
         "habitas:S26900",
-        "marlin:1179",
         "marlin:1497",
         "seasearch:carcinus-maenas",
         "worms:107381"
@@ -17613,26 +17019,10 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1497"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1497",
-              "locator": "Biology",
-              "quote": "Predator, Scavenger; Typically feeds on: Any animal or plant material (see additional information below).; Diet/food source: Omnivore",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-fooditems:Gadus-morhua",
-            "fishbase-fooditems:Conger-conger",
-            "marlin:1179"
+            "fishbase-fooditems:Conger-conger"
           ],
           "support": [
             {
@@ -17646,13 +17036,6 @@
               "sourceId": "fishbase-fooditems:Conger-conger",
               "locator": "Food items table, row 'Carcinus maenas' (locality Portugal)",
               "quote": "crabs Carcinus maenas Portugal recruits/juv.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1179",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "It is an active predator and consumes a variety of crustaceans (e.g. the green shore crab Carcinus maenas, the broad clawed porcelain crab Porcellana platycheles",
               "readBy": "refs:trawl (crab)",
               "readOn": "2026-08-28"
             }
@@ -18029,34 +17412,11 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1179"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1179",
-              "locator": "Biology",
-              "quote": "Predator; Typically feeds on: A variety of live molluscs and crustaceans as well as carrion; Diet/food source: Planktotroph",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
-            "marlin:1179",
             "fishbase-fooditems:Conger-conger"
           ],
           "support": [
-            {
-              "sourceId": "marlin:1179",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Cancer pagurus is mainly nocturnal, presumably to reduce predation by wolffish, seals and cod (Skajaa et al., 1998).",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "fishbase-fooditems:Conger-conger",
               "locator": "Food items table, row 'Cancer pagurus' (locality Ireland)",
@@ -18228,8 +17588,6 @@
         "biotic:6177",
         "doi:10.1080-00063657.2024.2311080",
         "doi:10.1093-icesjms-fss200",
-        "doi:10.3354-meps031087",
-        "doi:10.3354-meps119139",
         "habitas:S26720",
         "ices:crr325",
         "marlin:1181",
@@ -18501,29 +17859,13 @@
         },
         "diet:eats": {
           "sourceIds": [
-            "doi:10.3354-meps031087",
-            "sifca:velvet-crab-2021",
-            "doi:10.3354-meps119139"
+            "sifca:velvet-crab-2021"
           ],
           "support": [
-            {
-              "sourceId": "doi:10.3354-meps031087",
-              "locator": "Abstract, p.87",
-              "quote": "The next 2 major groups in their diet were crustaceans (anomuran crabs) and molluscs (M. edulis).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "sifca:velvet-crab-2021",
               "locator": "p.1 Summary > Description",
               "quote": "Velvet crabs are fast-moving, agile hunters that can catch prey such as prawns and small fish, but much of their diet consists of algal material (Norman, 1989).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.3354-meps119139",
-              "locator": "Abstract, p.139",
-              "quote": "Other important food components were brachyuran crabs, the mussel Mytilus galloprovincialis and other bivalves, gastropods, egg cases of the gastropod Nassa spp., the echinoid Psammechinus miliaris and fishes.",
               "readBy": "refs:confirm (crab-ceph), adversarially checked",
               "readOn": "2026-08-28"
             }
@@ -18539,13 +17881,6 @@
               "sourceId": "doi:10.1080-00063657.2024.2311080",
               "locator": "Abstract",
               "quote": "The most frequent prey was Velvet Swimming Crab Necora puber, while the highest number of otoliths were from Saithe Pollachius virens",
-              "readBy": "refs:trawl (gap-diet)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1080-00063657.2024.2311080",
-              "locator": "Results, and Table 1 (Velvet Swimming Crab Necora puber: 76.0% frequency of occurrence, N = 31 of 41 samples)",
-              "quote": "The majority of faecal samples contained crustaceans, predominantly from Velvet Swimming Crabs Necora puber and Edible Crabs Cancer pagurus and unidentified lobster",
               "readBy": "refs:trawl (gap-diet)",
               "readOn": "2026-08-28"
             }
@@ -19004,36 +18339,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1175"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1175",
-              "locator": "Biology",
-              "quote": "Predator, Scavenger; Typically feeds on: Polychaetes, crustaceans, molluscs, ophiuroids and fishes constitute most of the diet (Freire, 1996).; Diet/food source: Omnivore",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "doi:10.2960-J.v35.m494"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.2960-J.v35.m494",
-              "locator": "Table 2, p.488 (diet, % volume, of lesser-spotted catshark by length-class)",
-              "quote": "TABLE 2. Diet (% volume) of lesser-spotted catshark and blackmouth catshark by length-class (cm).... Liocarcinus depurator 2.0 3.0 2.2 2.5",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "trait:depth": {
           "sourceIds": [
@@ -19519,14 +18824,6 @@
           ],
           "claimSupported": false
         },
-        "identity": {
-          "sourceIds": [
-            "worms:106700"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: The catalogue key is the superfamily Majoidea, but species-references.json resolves the identity line to \"Hyas araneus\" (AphiaID 107322, family Oregoniidae) and species-images.json pins fetchName to Hyas araneus. The source says: WoRMS holds \"Majoidea Samouelle, 1819\" as an accepted Superfamily with its own AphiaID 106700, and Hyas araneus sits inside it. The clade is right and the RANK is wrong: a superfamily entry is being asserted as one species."
-        },
         "trait:habitat": {
           "sourceIds": [
             "marlin:1753",
@@ -19696,7 +18993,6 @@
       "sourceIds": [
         "adw:Pagurus-bernhardus",
         "biotic:6173",
-        "doi:10.3354-meps144063",
         "fishbase-food:Scyliorhinus-canicula",
         "fishbase-fooditems:Gadus-morhua",
         "fishbase-fooditems:Merlangius-merlangus",
@@ -19910,28 +19206,6 @@
               "quote": "Occasionally hosts parasitic anemone Calliactis parasitica or the hydroid Hydractinia echinata on the shell.",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "doi:10.3354-meps144063"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3354-meps144063",
-              "locator": "Abstract, p.63",
-              "quote": "The diets of the 2 species were similar, including crustaceans, polychaetes and molluscs",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.3354-meps144063",
-              "locator": "Introduction, p.63",
-              "quote": "P bernhardus apparently exhibits a variety of feeding methods including scavenging..., deposit feeding (Orton 1927) and filter feeding...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
             }
           ],
           "claimSupported": true
@@ -20340,21 +19614,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1098"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1098",
-              "locator": "ices:crr325, Section 6.7.1 Prey, p. 62",
-              "quote": "Sepia officinalis is a trophic opportunist: its diet includes crustaceans, bony fish, molluscs, polychaetes, and nemertean worms (Nixon, 1987; Castro and Guerra, 1990; Pinczon du Sel et al., 2000).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -20791,36 +20050,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "ices:crr325, Table 12.3, pp. 149-150 (Osteichthyes > Clupeidae and > Scombridae)",
-              "quote": "Clupeidae: Clupea harengus (Atlantic herring)2,4,5,6, Sardina pilchardus (European sardine or pilchard)3, Sprattus sprattus (European sprat)2,5, indet.2,4,5,8 ... Scombridae: Scomber scombrus (Atlantic mackerel)4, Scomber spp.4",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "ices:crr325, Section 12.6.2 Predators, p. 151 (and Table 12.4, pp. 151-152)",
-              "quote": "Pierce and Santos (1996) note that the species is also eaten by grey seals (Halichoerus grypus) and harbour seals (Phoca vitulina) and suggested that marine mammals could consume a greater amount than is taken by fisheries in Scotland.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "trait:behavior": {
           "sourceIds": [
@@ -21355,21 +20584,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "ices:crr325, Table 11.2, p. 129 (Osteichthyes > Clupeidae)",
-              "quote": "Clupeidae: Clupea harengus (Atlantic herring)2, Sardina pilchardus (European pilchard)3, Sprattus sprattus (European sprat)1, indet.1,2",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "ices:crr325"
@@ -21568,7 +20782,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1007-s00227-023-04236-x",
         "fao:a0150e18",
         "guide-pdf:cefas-cephalopods-uk",
         "ices:crr325",
@@ -21793,51 +21006,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "ices:crr325",
-            "doi:10.1007-s00227-023-04236-x"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Section 10.7.1 Prey, p. 112",
-              "quote": "The main prey species of S. atlantica are mysids and decapod shrimps. Foraging primarily takes place at dawn and dusk, and prey are taken above the seabed (Yau, 1994).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1007-s00227-023-04236-x",
-              "locator": "Results > Others",
-              "quote": "The stomach contents of twenty-three specimens of S. atlantica (Atlantic bobtail squid) caught during winter and with a mean length of 16 mm (+/- 3 mm) were investigated. In twenty stomachs, crustaceans were identified",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Section 10.7.2 Predators, p. 112",
-              "quote": "Sepiola atlantica is the most frequently recorded cephalopod in the diet of harbour porpoise in Scottish waters.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 10.2 Known predators of Sepiola atlantica, p. 112",
-              "quote": "Chondrichthyes Lesser spotted dogfish (Scyliorhinus canicula) Ellis et al. (1996)",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "trait:depth": {
           "sourceIds": [
@@ -23172,7 +22340,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "bhl:mortensen-1927",
         "biotic:4250",
         "doi:10.3989-scimar.2012.76n1009",
         "fishbase-fooditems:Gadus-morhua",
@@ -23322,37 +22489,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "bhl:mortensen-1927"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927",
-              "locator": "p. 144, Marthasterias glacialis (Linnaeus)",
-              "quote": "It is a very voracious animal, which feeds on all sorts of larger marine organisms, living or dead: fishes, crustaceans, echinoderms, but especially molluscs; it is reported as doing harm on the oyster banks.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "marlin:1194"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Other species of the benthic fauna, including prey species Marthasterias glacialis, Buccinum undatum and several species of ophiuroids, demonstrate avoidance reactions in the presence of the predatory starfish Asterias rubens",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: The 'Eats me' column is empty, so the app prints 'Nothing else in this 72-species food web preys on Spiny Starfish. That does not mean it has no predators, only that none of them are in the catalogue.' The source says: marlin:1194 (Asterias rubens), Biology review > Feeding, verified verbatim: 'Other species of the benthic fauna, including prey species Marthasterias glacialis , Buccinum undatum and several species of ophiuroids, demonstrate avoidance reactions in the presence of the predatory starfish Asterias rubens'."
         },
         "trait:depth": {
           "sourceIds": [
@@ -23512,7 +22648,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "bhl:mortensen-1927",
         "biotic:4137",
         "fishbase-fooditems:Gadus-morhua",
         "habitas:ZB1900",
@@ -23773,13 +22908,6 @@
           "support": [
             {
               "sourceId": "marlin:1194",
-              "locator": "Biology",
-              "quote": "Predator; Typically feeds on: Bivalves, polychaetes, small crustaceans, other echinoderms and carrion.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1194",
               "locator": "Biology review > Biology information > Feeding",
               "quote": "Asterias rubens preys upon bivalve molluscs by forcing the bivalve's shell open with its tube feet, the tips of which attach to the bivalve shell by suction.",
               "readBy": "refs:trawl (starfish)",
@@ -23787,21 +22915,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "bhl:mortensen-1927"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927",
-              "locator": "p. 141, Asterias rubens Linnaeus",
-              "quote": "It is eaten itself only by other sea-stars (Solaster, Luidia ciliaris).",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "trait:depth": {
           "sourceIds": [
@@ -24002,7 +23115,6 @@
       },
       "sourceIds": [
         "adw:Ophiothrix_fragilis",
-        "bhl:mortensen-1927",
         "biotic:4139",
         "buyse:2023-owf-flatfish",
         "fishbase-food:Gobius-paganellus",
@@ -24249,13 +23361,6 @@
           "support": [
             {
               "sourceId": "marlin:1198",
-              "locator": "Biology",
-              "quote": "Passive suspension feeder; Typically feeds on: Phytoplankton; Diet/food source: Omnivore",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1198",
               "locator": "Biology review > Biology (table)",
               "quote": "Typically feeds on Phytoplankton",
               "readBy": "refs:trawl (starfish)",
@@ -24266,29 +23371,13 @@
         },
         "diet:eatenBy": {
           "sourceIds": [
-            "marlin:1198",
-            "bhl:mortensen-1927",
-            "marlin:habitat-1068"
+            "marlin:1198"
           ],
           "support": [
             {
               "sourceId": "marlin:1198",
               "locator": "Biology review > Biology information",
               "quote": "Although not an important dietary component, Ophiothrix fragilis may be found in the stomach contents of most common predators (Warner, 1971).",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "bhl:mortensen-1927",
-              "locator": "p. 175, Ophiothrix fragilis (Abildgaard)",
-              "quote": "It is eaten specially by Luidia ciliaris.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:habitat-1068",
-              "locator": "Description",
-              "quote": "Large mobile animals commonly found on Ophiothrix beds include the starfish Asterias rubens, Crossaster papposus and Luidia ciliaris",
               "readBy": "refs:trawl (starfish)",
               "readOn": "2026-08-28"
             }
@@ -24821,13 +23910,6 @@
           "support": [
             {
               "sourceId": "marlin:1371",
-              "locator": "Biology",
-              "quote": "Grazer; Typically feeds on: Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.; Diet/food source: Herbivore",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1371",
               "locator": "Biology review > Biology table, 'Typically feeds on'",
               "quote": "Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.",
               "readBy": "refs:trawl (gastropod)",
@@ -24871,14 +23953,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "marlin:1371"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Eats me: Ballan wrasse, the only predator the food web gives the limpet The source says: 'Individuals unattached to the substratum are very vulnerable to desiccation and to predation by birds and crabs', and 'Patella vulgata has a low risk of predation because of its hard shell'. MarLIN names birds and crabs, never a wrasse."
         },
         "trait:depth": {
           "sourceIds": [
@@ -25329,13 +24403,6 @@
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "Biology",
-              "quote": "Predator; Typically feeds on: Barnacles and mussels (see Crothers, 1985).; Diet/food source: Carnivore",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1501",
               "locator": "Biology review > Biology table, 'Typically feeds on'",
               "quote": "Barnacles and mussels (see Crothers, 1985).",
               "readBy": "refs:trawl (gastropod)",
@@ -25595,9 +24662,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1371-journal.pone.0193078",
-        "fishbase:Labrus-bergylta",
-        "fishbase:Labrus-bergylta-food-items",
         "ices:crr325",
         "marinvert:calliostoma-zizyphinum",
         "marinvert:steromphala-umbilicalis",
@@ -25734,36 +24798,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "fishbase:Labrus-bergylta-food-items",
-            "fishbase:Labrus-bergylta"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-bergylta-food-items",
-              "locator": "Food items reported for Labrus bergylta, row zoobenthos > mollusks > gastropods",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Summary > Biology",
-              "quote": "Feed on crustaceans and mollusks (Ref. 4742).",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "doi:10.1371-journal.pone.0193078"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: I eat: Kelp canopy (the node renders as 'Kelp / seaweed - seaweed & the life on it') The source says: Carnivore, 'predator > on sessile prey'. If the link is kept it can only mean the sessile animals living ON the weed, not the weed itself. No source found records C. zizyphinum eating algae."
         },
         "trait:depth": {
           "sourceIds": [
@@ -26152,21 +25186,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "doi:10.1002-ecy.3341"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1002-ecy.3341",
-              "locator": "Abstract",
-              "quote": "Experiments were carried out using three common kelp consumers (the urchin Echinus esculentus, gastropod Steromphala umbilicalis [previously Gibbula umbilicalis], and amphipod Gammarus spp.)",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "marinvert:steromphala-umbilicalis",
@@ -26204,14 +25223,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "doi:10.1371-journal.pone.0023068"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Eats me: Ballan wrasse (the only predator edge on the Flat Top Shell). The source says: Two mismatches. (1) The documented UK predator of this snail is the shore crab Carcinus maenas, which is a catalogue species but has no edge to the flat topshell in the food web. (2) The Irish ballan-wrasse gut-content study the Scottish Government summarises names the gastropods eaten - Littorina spp., Calliostoma zizyphinum, Bittium reticulatum, Lacuna vincta - and Steromphala/Gibbula is not among them, despite being abundant in the same shore."
         },
         "trait:size": {
           "sourceIds": [
@@ -26693,20 +25704,6 @@
           "support": [
             {
               "sourceId": "doi:10.1098-rsos.171421",
-              "locator": "Results 3.1 (2008 survey)",
-              "quote": "All positive samples were identified as moon jellyfish (Aurelia aurita)",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1098-rsos.171421",
-              "locator": "Discussion 4.1 (Jellyfish consumption among common species)",
-              "quote": "Dragonet (Callionymidae sp.), grey gurnard (Eutrigla gurnardus), poor cod (Trisopterus minutus), lesser-spotted dogfish (Scyliorhinus canicula), squid, herring, whiting, Dover sole and sprat were identified as taxa that consume jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1098-rsos.171421",
               "locator": "Abstract (caveat on life stage)",
               "quote": "we suggest that the predation was probably targeting juvenile stages of the jellyfish life cycle",
               "readBy": "refs:trawl (jellyfish)",
@@ -26928,7 +25925,6 @@
         "adw:Chrysaora-hysoscella",
         "doi:10.7717-peerj.9260",
         "marlin:2020",
-        "wildlife-trusts:compass-jellyfish",
         "worms:135304"
       ],
       "claims": {
@@ -27117,22 +26113,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "wildlife-trusts:compass-jellyfish"
-          ],
-          "support": [
-            {
-              "sourceId": "wildlife-trusts:compass-jellyfish",
-              "locator": "About",
-              "quote": "the compass jellyfish feeds on small fish, crabs and even other jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Eats: Plankton The source says: wildlife-trusts:compass-jellyfish About: 'the compass jellyfish feeds on small fish, crabs and even other jellyfish'"
         },
         "trait:behavior": {
           "sourceIds": [
@@ -27327,7 +26307,6 @@
         "marlin:2090",
         "mcs:lions-mane-jellyfish",
         "wildlife-trusts:blue-jellyfish",
-        "wildlife-trusts:lions-mane-jellyfish",
         "worms:135301"
       ],
       "claims": {
@@ -27668,21 +26647,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "wildlife-trusts:lions-mane-jellyfish"
-          ],
-          "support": [
-            {
-              "sourceId": "wildlife-trusts:lions-mane-jellyfish",
-              "locator": "About",
-              "quote": "fish and other smaller jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "worms:135301",
@@ -27852,7 +26816,6 @@
       },
       "sourceIds": [
         "doi:10.1016-j.tree.2018.09.001",
-        "doi:10.1093-icesjms-fsw157",
         "doi:10.1098-rspb.2011.0978",
         "marlin:2330",
         "mcs:barrel-jellyfish",
@@ -27987,21 +26950,13 @@
         },
         "diet:eatenBy": {
           "sourceIds": [
-            "marlin:2330",
-            "doi:10.1093-icesjms-fsw157"
+            "marlin:2330"
           ],
           "support": [
             {
               "sourceId": "marlin:2330",
               "locator": "Summary > Additional information",
               "quote": "This species is eaten by sea turtles and is commonly known to host Merlangius merlangus (whiting) between the oral arms.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1093-icesjms-fsw157",
-              "locator": "Introduction, p. 235 (leatherback turtle)",
-              "quote": "It is known to visit UK waters and feed on R. octopus",
               "readBy": "refs:trawl (jellyfish)",
               "readOn": "2026-08-28"
             }
@@ -28857,17 +27812,9 @@
         },
         "diet:eatenBy": {
           "sourceIds": [
-            "doi:10.1098-rsos.171421",
             "doi:10.1111-jfb.13926"
           ],
           "support": [
-            {
-              "sourceId": "doi:10.1098-rsos.171421",
-              "locator": "Results 3.2 (2009 survey)",
-              "quote": "Whiting had mainly consumed mauve-stinger jellyfish (Pelagia noctiluca) (n = 16)",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "doi:10.1111-jfb.13926",
               "locator": "Results 3.1 > Table 2 (Atlantic mackerel, station 59)",
@@ -28879,13 +27826,6 @@
               "sourceId": "doi:10.1111-jfb.13926",
               "locator": "Results 3.1 > Table 2 (sprat, station 118)",
               "quote": "Sprattus sprattus 118 P. noctiluca 91",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1111-jfb.13926",
-              "locator": "Results 3.1",
-              "quote": "Predation was common in S. scombrus, with 23.2% stomachs containing jellyfish DNA.",
               "readBy": "refs:trawl (jellyfish)",
               "readOn": "2026-08-28"
             }
@@ -29162,21 +28102,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Eutrigla-gurnardus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Eutrigla-gurnardus",
-              "locator": "Biology",
-              "quote": "Common on sandy grounds, sometimes on rocky bottoms, and also on mud between coastline to 140 m depth. Up to depth of 340 m in the eastern Ionian Sea. Feeds on crustaceans, mostly shrimps and shore crabs;...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Eutrigla-gurnardus"
@@ -29435,21 +28360,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-cuculus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Biology",
-              "quote": "Occasionally forms schools. Found over sand and gravel, crag, and rocks in the continental shelf. Feeds on benthic crustaceans, other invertebrates and bottom-dwelling fishes.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Chelidonichthys-cuculus"
@@ -29687,21 +28597,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-lucerna"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelidonichthys-lucerna",
-              "locator": "Biology",
-              "quote": "Occurs at temperatures ranging from 8.0-24.0 °C. Inhabits sand, muddy sand or gravel bottoms. Up to depth of 318 m in the eastern Ionian Sea. Feeds on fish, crustaceans and mollusks. Has three isolated rays...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -29984,21 +28879,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-lastoviza"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelidonichthys-lastoviza",
-              "locator": "Biology",
-              "quote": "Found over rocks and sand, from the coast down to a depth of about 150 m.. Feeds on crustaceans. Minimum depth from Ref. 12382.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "fieldNote": {
           "sourceIds": [
@@ -30358,21 +29238,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1311"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1311",
-              "locator": "Biology",
-              "quote": "Grazer, Scavenger; Typically feeds on: Recorded feeding on; worms, barnacles (e.g. Balanus spp.), hydroids, tunicates, bryozoans (e.g. Membranipora spp.), macroalgae (e.g. Laminaria spp.), bottom...",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "marlin:1311"
@@ -30720,21 +29585,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1189"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1189",
-              "locator": "Biology",
-              "quote": "Active suspension feeder; Typically feeds on: Macroalgae, hydroids, bryozoans, boring sponges, barnacles, mussels, cockles and worms (see Lawrence, 1975).; Diet/food source: Omnivore",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:habitat": {
           "sourceIds": [
             "marlin:1189",
@@ -30757,22 +29607,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "diet:eatenBy": {
-          "sourceIds": [
-            "marlin:1189"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1189",
-              "locator": "Importance review > Importance information",
-              "quote": "Psammechinus miliaris is predated upon by starfish, crabs and some fish, e.g. the wolf fish Anarhichas lupus. Populations at low tide can be subject to predation by birds such as gulls and oyster catchers.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true,
-          "conflict": "The app says: Eaten by ballan wrasse and common eider, the two inbound food-web edges. The source says: MarLIN names starfish, crabs, some fish such as the wolf fish Anarhichas lupus, and at low tide gulls and oystercatchers. Neither ballan wrasse nor eider is named."
         },
         "trait:depth": {
           "sourceIds": [
@@ -31598,21 +30432,6 @@
           ],
           "claimSupported": true
         },
-        "diet:eats": {
-          "sourceIds": [
-            "marlin:1417"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1417",
-              "locator": "Biology",
-              "quote": "Sub-surface deposit feeder; Typically feeds on: Detritus; Diet/food source: Detritivore",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "marlin:1417"
@@ -32283,7 +31102,6 @@
       "sourceIds": [
         "adw:Phalacrocorax-aristotelis",
         "bto:shag",
-        "doi:10.1007-s00227-018-3433-9",
         "doi:10.1080-00063657.2024.2311080",
         "doi:10.3389-fmars.2022.852033",
         "liv:howells-2018-thesis",
@@ -32632,18 +31450,10 @@
         },
         "diet:eats": {
           "sourceIds": [
-            "doi:10.1007-s00227-018-3433-9",
             "marlin:2215",
             "doi:10.1080-00063657.2024.2311080"
           ],
           "support": [
-            {
-              "sourceId": "doi:10.1007-s00227-018-3433-9",
-              "locator": "Abstract",
-              "quote": "the frequencies of Gadidae, Cottidae, Pleuronectidae and Gobiidae all increased, resulting in a doubling in annual prey richness from 6 prey types per year in 1988 to 12 in 2014.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:2215",
               "locator": "Additional information",
@@ -33722,34 +32532,63 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:137080",
+        "doi:10.1111-1365-2656.70152",
+        "doi:10.7489-1798-1",
         "marlin:1995",
         "scos:2025",
-        "doi:10.7489-1798-1",
-        "doi:10.1111-1365-2656.70152"
+        "worms:137080"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
+            "scos:2025",
             "marlin:1995"
           ],
           "support": [
             {
-              "sourceId": "marlin:1995",
-              "locator": "marlin:1995 > Description",
-              "quote": "The coat is dark grey on the back and light grey underneath and has irregular pattern of spots or blotches.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "Grey seals are the larger of the two resident UK seal species. Adult males can weigh over 300 kg while the females weigh around 150-200 kg.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1995",
               "locator": "Description",
-              "quote": "The grey seal is a medium sized, robust bodied, seal with a rectangular horse-like head and small widely separated eyes. The nostrils form a W-pattern due to them being parallel and wide apart. They have a long muzzle, wide at the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The grey seal is a medium sized, robust bodied, seal with a rectangular horse-like head and small widely separated eyes. The nostrils form a W-pattern due to them being parallel and wide apart.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1995",
+              "locator": "Description",
+              "quote": "They have a long muzzle, wide at the end, with a fleshy area around the whiskers that obscures the lower jaw. In adult males the top of the muzzle is convex, whereas in adult females and pups it is flat.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1995",
+              "locator": "Description",
+              "quote": "The coat is dark grey on the back and light grey underneath and has irregular pattern of spots or blotches.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1995",
+              "locator": "Habitat",
+              "quote": "Halichoerus grypus feeds in inshore benthic habitats, on a wide variety of fishes and invertebrates. Grey seals use remote islands, bays and caves as 'haul out' areas to give birth to their pups or between foraging trips for food.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 15)",
+              "quote": "UK grey seals breed in the autumn, but there is a clockwise cline in the mean birth date around the UK.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr97ovrx00007iekhgaqa8gv": {
           "sourceIds": [
@@ -33758,39 +32597,61 @@
           "support": [
             {
               "sourceId": "marlin:1995",
-              "locator": "Identifying features",
-              "quote": "Rectangular horse-like head. Widely separated nostrils, almost parallel forming W-pattern. Short and wide foreflippers. Small eyes relative to head size. Long distinctive muzzle, wide at the end. Top of muzzle is convex in adult males.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "They have a long muzzle, wide at the end, with a fleshy area around the whiskers that obscures the lower jaw. In adult males the top of the muzzle is convex, whereas in adult females and pups it is flat.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1995",
               "locator": "Description",
-              "quote": "The grey seal is a medium sized, robust bodied, seal with a rectangular horse-like head and small widely separated eyes. The nostrils form a W-pattern due to them being parallel and wide apart. They have a long muzzle, wide at the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The grey seal is a medium sized, robust bodied, seal with a rectangular horse-like head and small widely separated eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1995",
+              "locator": "Identifying features",
+              "quote": "Long distinctive muzzle, wide at the end. Top of muzzle is convex in adult males.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1995",
+              "locator": "Additional information",
+              "quote": "Can be confused with other smaller seals, but Halichoerus grypus has a characteristic head shape which makes them relatively easy to identify.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr97ovrx00017iekiykaqsqa": {
           "sourceIds": [
-            "marlin:1995"
+            "marlin:1995",
+            "worms:137080"
           ],
           "support": [
             {
               "sourceId": "marlin:1995",
-              "locator": "Identifying features",
-              "quote": "Rectangular horse-like head. Widely separated nostrils, almost parallel forming W-pattern. Short and wide foreflippers. Small eyes relative to head size. Long distinctive muzzle, wide at the end. Top of muzzle is convex in adult males.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The grey seal is a medium sized, robust bodied, seal with a rectangular horse-like head and small widely separated eyes. The nostrils form a W-pattern due to them being parallel and wide apart.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1995",
-              "locator": "Description",
-              "quote": "The grey seal is a medium sized, robust bodied, seal with a rectangular horse-like head and small widely separated eyes. The nostrils form a W-pattern due to them being parallel and wide apart. They have a long muzzle, wide at the...",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Rectangular horse-like head. Widely separated nostrils, almost parallel forming W-pattern.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:137080",
+              "locator": "Attributes > Morphology (distinguishing characteristics)",
+              "quote": "medium size seal, long head (\"horsehead\"), W-shaped nostrils, coat is mottled",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -33802,71 +32663,63 @@
           "support": [
             {
               "sourceId": "marlin:1995",
-              "locator": "Identifying features",
-              "quote": "Rectangular horse-like head. Widely separated nostrils, almost parallel forming W-pattern. Short and wide foreflippers. Small eyes relative to head size. Long distinctive muzzle, wide at the end. Top of muzzle is convex in adult males.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1995",
               "locator": "Description",
-              "quote": "The grey seal is a medium sized, robust bodied, seal with a rectangular horse-like head and small widely separated eyes. The nostrils form a W-pattern due to them being parallel and wide apart. They have a long muzzle, wide at the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Blotchy grey coat ring: 'a big, heavy seal (bulls up to 2.5 m)' The source says: marlin:1995 Description: 'Adults can grow up to 2.3 m long, with newborn pups being ca 1 m long.'"
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:1995"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1995",
-              "locator": "Habitat",
-              "quote": "Halichoerus grypus feeds in inshore benthic habitats, on a wide variety of fishes and invertebrates. Grey seals use remote islands, bays and caves as 'haul out' areas to give birth to their pups or between foraging trips for food. The...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "scos:2025",
-            "marlin:1995"
-          ],
-          "support": [
-            {
-              "sourceId": "scos:2025",
-              "locator": "Background information on British seals > Grey seals",
-              "quote": "Grey seals are the larger of the two resident UK seal species. Adult males can weigh over 300 kg while the females weigh around 150-200 kg.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "The coat is dark grey on the back and light grey underneath and has irregular pattern of spots or blotches.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1995",
               "locator": "Description",
               "quote": "Adults can grow up to 2.3 m long, with newborn pups being ca 1 m long. Adult males are much bigger and heavier than females, have a bigger broader head and are also darker in colour.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
+        "trait:habitat": {
           "sourceIds": [
-            "doi:10.7489-1798-1"
+            "marlin:1995",
+            "scos:2025"
           ],
           "support": [
             {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Section 2 Introduction",
-              "quote": "This difference in breeding and foraging chronology may partially reflect how these sympatric high level predators partition their niches on an annual basis.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1995",
+              "locator": "Habitat",
+              "quote": "Halichoerus grypus feeds in inshore benthic habitats, on a wide variety of fishes and invertebrates. Grey seals use remote islands, bays and caves as 'haul out' areas to give birth to their pups or between foraging trips for food.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "Grey seals forage in the open sea and return regularly to haul out on land where they rest, moult and breed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:1995",
+            "scos:2025"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1995",
+              "locator": "Description",
+              "quote": "Adults can grow up to 2.3 m long, with newborn pups being ca 1 m long. Adult males are much bigger and heavier than females, have a bigger broader head and are also darker in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "Grey seals are the larger of the two resident UK seal species. Adult males can weigh over 300 kg while the females weigh around 150-200 kg.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -33894,231 +32747,6 @@
           ],
           "claimSupported": true
         },
-        "edge:Saithe->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, gadid rows (columns: Southern North Sea, SE Scotland, Moray Firth, Orkney, Shetland, Outer Hebrides, Inner Hebrides, TOTAL)",
-              "quote": "Saithe 0 4 22 777 550 71 72 1,496",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Atlantic cod->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, gadid rows (7 regional columns then TOTAL)",
-              "quote": "Cod 40 68 44 503 70 48 97 870",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Whiting->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, gadid rows (7 regional columns then TOTAL)",
-              "quote": "Whiting 370 408 16 106 13 52 85 1,050",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Poor cod->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, Trisopterus rows (7 regional columns then TOTAL)",
-              "quote": "Poor cod 21 18 97 1,045 310 446 643 2,580",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Bib->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, Trisopterus rows (7 regional columns then TOTAL)",
-              "quote": "Pout whiting 26 0 0 1 0 0 1 28",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Pollack->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, gadid rows (7 regional columns then TOTAL)",
-              "quote": "Pollock 0 0 0 1 1 7 0 9",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plaice->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, flatfish rows (7 regional columns then TOTAL)",
-              "quote": "Plaice 76 207 52 329 21 14 29 728",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Atlantic mackerel->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, pelagic rows (7 regional columns then TOTAL)",
-              "quote": "Mackerel 0 1 2 44 8 21 3 79",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Atlantic horse mackerel->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, pelagic rows (7 regional columns then TOTAL)",
-              "quote": "Horse mackerel 0 0 0 11 4 2 1 18",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Ballan wrasse->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, 'Other' rows (7 regional columns then TOTAL)",
-              "quote": "Ballan wrasse 0 0 1 11 7 6 14 39",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Cuckoo wrasse->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, 'Other' rows (7 regional columns then TOTAL)",
-              "quote": "Cuckoo wrasse 0 0 0 8 0 4 6 18",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Conger eel->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, 'Other' rows (7 regional columns then TOTAL)",
-              "quote": "Conger eel 0 0 0 1 0 5 11 17",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Curled Octopus->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, cephalopod rows (7 regional columns then TOTAL)",
-              "quote": "Eledone 0 0 0 33 9 34 73 149",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Veined Squid->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, cephalopod rows (7 regional columns then TOTAL)",
-              "quote": "Loligo 2 5 2 106 15 26 23 179",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:European Squid->Grey seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(B) Grey seal, cephalopod rows (7 regional columns then TOTAL)",
-              "quote": "Loligo 2 5 2 106 15 26 23 179",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
             "scos:2025"
@@ -34126,10 +32754,10 @@
           "support": [
             {
               "sourceId": "scos:2025",
-              "locator": "p. 14, 'Grey seals' section",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
               "quote": "They are generalist feeders, foraging mainly on the seabed at depths of up to 100 m, although they are capable of feeding at all the depths found across the UK continental shelf.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -34150,13 +32778,147 @@
           "claimSupported": false,
           "conflict": "The app says: The Grey seal card has an empty \"Eats me\" column, rendered as \"Nothing else in this 72-species food web preys on Grey seal.\" The source says: Adult male grey seals are documented predating other grey seals (infanticide and cannibalism), geographically widespread across Scottish subpopulations and apparently increasing: \"adult male grey seals have been observed predating both grey seals and harbour seals\". The predator here IS a catalogue species (itself), so the food web could carry a self-edge Grey seal -> Grey seal."
         },
-        "edge:European sea bass->Grey seal": {
+        "trait:behavior": {
           "sourceIds": [
+            "scos:2025"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "They may range widely to forage and frequently travel over 100 km between haul-out sites. Foraging trips can last anywhere between 1 and 30 days.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "Grey seals forage in the open sea and return regularly to haul out on land where they rest, moult and breed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 15)",
+              "quote": "UK grey seals breed in the autumn, but there is a clockwise cline in the mean birth date around the UK.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "scos:2025",
             "doi:10.7489-1798-1"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Grey seal eats European sea bass The source says: Table 2 of the Marine Scotland scat study splits its prey tallies into (A) harbour seal and (B) grey seal. 'Bass' appears only in Table 2A, the HARBOUR seal table, as a single otolith from the Southern North Sea. No bass row appears anywhere in Table 2B, the grey seal table."
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "They take a wide variety of prey including sandeels, gadoids (cod, whiting, haddock, ling), and flatfish (plaice, sole, flounder, dab). Amongst these, sandeels are typically the predominant prey species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1798-1",
+              "locator": "4.1 Dietary comparison eastern UK / North Sea (p. 12)",
+              "quote": "Grey seal diet was dominated by sandeel in all regions of the North Sea (southern North Sea, south east Scotland and the Moray Firth).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "scos:2025",
+            "doi:10.7489-1798-1"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "They take a wide variety of prey including sandeels, gadoids (cod, whiting, haddock, ling), and flatfish (plaice, sole, flounder, dab). Amongst these, sandeels are typically the predominant prey species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1798-1",
+              "locator": "4.3 Dietary Comparison West of Scotland (p. 16)",
+              "quote": "Large gadid prey were important in the diet of both harbour and grey seals west of Scotland.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "scos:2025",
+            "doi:10.1111-1365-2656.70152"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Grey seals (p. 14)",
+              "quote": "They take a wide variety of prey including sandeels, gadoids (cod, whiting, haddock, ling), and flatfish (plaice, sole, flounder, dab). Amongst these, sandeels are typically the predominant prey species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-1365-2656.70152",
+              "locator": "Abstract",
+              "quote": "Grey seals ( Halichoerus grypus ) and harbour seals ( Phoca vitulina ) are marine top predators with similar diets of a broad range of fish and cephalopods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1111-1365-2656.70152"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1111-1365-2656.70152",
+              "locator": "Abstract",
+              "quote": "IGP was geographically widespread, involving multiple, seemingly specialist adult males across distinct subpopulations.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-1365-2656.70152",
+              "locator": "Results > 3.1 Analysis of strandings data",
+              "quote": "Juvenile grey seals, including everything from weaned pups to subadults, and adult harbour seals had the highest odds of grey seal predation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-1365-2656.70152",
+              "locator": "Discussion",
+              "quote": "In one previously published case study, a single adult male was linked to 14 grey seal pup carcasses over a 10‐day period",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "scos:2025"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "SCOS-BP 25/03, regional summary of grey seal trends (p. 207)",
+              "quote": "For grey seals ... pup production, with the exception of Shetland which was predicted to be in decline. This may be associated with the levels of Killer whale predation",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -34174,36 +32936,71 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:137084",
+        "adw:Phoca-vitulina",
+        "doi:10.1111-1365-2656.70152",
+        "doi:10.7489-1798-1",
         "marlin:2088",
         "scos:2025",
-        "doi:10.1371-journal.pone.0037216",
-        "doi:10.7489-1798-1",
-        "adw:Phoca-vitulina",
-        "doi:10.1111-1365-2656.70152"
+        "worms:137084"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2088"
+            "marlin:2088",
+            "scos:2025"
           ],
           "support": [
             {
               "sourceId": "marlin:2088",
-              "locator": "Identifying features",
-              "quote": "Lacking external ear flaps. Colouration variable but generally coat is grey or brownish grey with small spots. Head rounded with nostrils forming 'v' shape when animal viewed head on. Eyes equidistant between ear and nose. 3 front...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "Common seals have a rounded head with eyes equidistant between the nose and the ears. The nostril slits form a characteristic 'v' shape when viewed from the front.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2088",
               "locator": "Description",
-              "quote": "Common seals have a rounded head with eyes equidistant between the nose and the ears. The nostril slits form a characteristic 'v' shape when viewed from the front. Adult common seals grow up to 1.2 to 2 metres long, and weigh around...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The coat is grey to brownish-grey with a uniform pattern of small darker spots, although the pattern varies geographically.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2088",
+              "locator": "Habitat",
+              "quote": "The common seal lives mainly along shorelines and in estuaries. It is commonly seen resting on sandbanks, easily accessible beaches, reefs and protected tidal rocks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2088",
+              "locator": "Additional information",
+              "quote": "May be confused with the grey seal ( Halichoerus grypus ) that has a much longer muzzle and their nostril slits are nearly parallel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "Harbour seals come ashore in sheltered waters, often on sandbanks and in estuaries, but also in rocky areas. They give birth to their pups in June and July and moult in August.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "harbour seals haul out on land regularly in a temporal pattern that is often related to the tidal cycle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "Because of their smaller size, harbour seals eat less food than grey seals, typically 3-5 kg per adult seal per day depending on the prey species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr982qwq00007ii0hddutqi6": {
           "sourceIds": [
@@ -34212,95 +33009,119 @@
           "support": [
             {
               "sourceId": "marlin:2088",
-              "locator": "Identifying features",
-              "quote": "Lacking external ear flaps. Colouration variable but generally coat is grey or brownish grey with small spots. Head rounded with nostrils forming 'v' shape when animal viewed head on. Eyes equidistant between ear and nose. 3 front...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "Common seals have a rounded head with eyes equidistant between the nose and the ears. The nostril slits form a characteristic 'v' shape when viewed from the front.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2088",
-              "locator": "Description",
-              "quote": "Common seals have a rounded head with eyes equidistant between the nose and the ears. The nostril slits form a characteristic 'v' shape when viewed from the front. Adult common seals grow up to 1.2 to 2 metres long, and weigh around...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "May be confused with the grey seal ( Halichoerus grypus ) that has a much longer muzzle and their nostril slits are nearly parallel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2088",
+              "locator": "Identifying features",
+              "quote": "Colouration variable but generally coat is grey or brownish grey with small spots. Head rounded with nostrils forming 'v' shape when animal viewed head on. Eyes equidistant between ear and nose.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr982qwq00017ii0o8spfons": {
           "sourceIds": [
-            "marlin:2088"
+            "marlin:2088",
+            "scos:2025"
           ],
           "support": [
             {
               "sourceId": "marlin:2088",
-              "locator": "Identifying features",
-              "quote": "Lacking external ear flaps. Colouration variable but generally coat is grey or brownish grey with small spots. Head rounded with nostrils forming 'v' shape when animal viewed head on. Eyes equidistant between ear and nose. 3 front...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The coat is grey to brownish-grey with a uniform pattern of small darker spots, although the pattern varies geographically.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2088",
-              "locator": "Description",
-              "quote": "Common seals have a rounded head with eyes equidistant between the nose and the ears. The nostril slits form a characteristic 'v' shape when viewed from the front. Adult common seals grow up to 1.2 to 2 metres long, and weigh around...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Colouration variable but generally coat is grey or brownish grey with small spots. Head rounded with nostrils forming 'v' shape when animal viewed head on. Eyes equidistant between ear and nose.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "Because of their smaller size, harbour seals eat less food than grey seals, typically 3-5 kg per adult seal per day depending on the prey species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:2088"
+            "marlin:2088",
+            "adw:Phoca-vitulina",
+            "scos:2025"
           ],
           "support": [
             {
               "sourceId": "marlin:2088",
               "locator": "Habitat",
               "quote": "The common seal lives mainly along shorelines and in estuaries. It is commonly seen resting on sandbanks, easily accessible beaches, reefs and protected tidal rocks.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "scos:2025",
-            "marlin:2088"
-          ],
-          "support": [
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Habitat",
+              "quote": "Harbor seals populate the shallow waters of coastal areas, bays, rocky islets, estuaries, and even freshwater lakes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "scos:2025",
               "locator": "Background information on British seals > Harbour seals",
-              "quote": "Adult harbour seals typically weigh 80-100 kg. Males are slightly larger than females. Like grey seals, harbour seals are long-lived with individuals living up to 20-30 years.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2088",
-              "locator": "Description",
-              "quote": "Adult common seals grow up to 1.2 to 2 metres long, and weigh around 65-140 kg. Males are slightly bigger than females.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Harbour seals come ashore in sheltered waters, often on sandbanks and in estuaries, but also in rocky areas. They give birth to their pups in June and July and moult in August.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
+        "trait:size": {
           "sourceIds": [
-            "doi:10.1371-journal.pone.0037216"
+            "marlin:2088",
+            "scos:2025",
+            "adw:Phoca-vitulina"
           ],
           "support": [
             {
-              "sourceId": "doi:10.1371-journal.pone.0037216",
-              "locator": "Article title",
-              "quote": "Spatial Variation in Foraging Behaviour of a Marine Top Predator (Phoca vitulina) Determined by a Large-Scale Satellite Tagging Program",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2088",
+              "locator": "Description",
+              "quote": "Adult common seals grow up to 1.2 to 2 metres long, and weigh around 65-140 kg. Males are slightly bigger than females.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "Adult harbour seals typically weigh 80-100 kg. Males are slightly larger than females. Like grey seals, harbour seals are long-lived with individuals living up to 20-30 years.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Physical Description",
+              "quote": "Adult males are typically larger than females, measuring 160 to 190 cm in length, and weighing 80 to 170 kg. Females range from 160 to 170 cm long and weigh 60 to 145 kg.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -34317,125 +33138,73 @@
           ],
           "claimSupported": true
         },
-        "edge:European sea bass->Harbour seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(A) Harbour seal, 'Other' rows (columns: Southern North Sea, SE Scotland, Moray Firth, Orkney, Shetland, Outer Hebrides, Inner Hebrides, TOTAL)",
-              "quote": "Bass 1 0 0 0 0 0 0 1",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Pollack->Harbour seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(A) Harbour seal, gadid rows (7 regional columns then TOTAL)",
-              "quote": "Pollock 0 0 0 0 0 0 2 2",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Flounder->Harbour seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(A) Harbour seal, flatfish rows (7 regional columns then TOTAL)",
-              "quote": "Flounder 41 23 67 12 0 0 0 143",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Dab->Harbour seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(A) Harbour seal, flatfish rows (7 regional columns then TOTAL)",
-              "quote": "Dab 279 186 359 63 5 0 38 930",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Veined Squid->Harbour seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(A) Harbour seal, cephalopod rows (7 regional columns then TOTAL)",
-              "quote": "Loligo 5 34 24 2 1 0 16 82",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:European Squid->Harbour seal": {
-          "sourceIds": [
-            "doi:10.7489-1798-1"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7489-1798-1",
-              "locator": "Table 2(A) Harbour seal, cephalopod rows (7 regional columns then TOTAL)",
-              "quote": "Loligo 5 34 24 2 1 0 16 82",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
-            "marlin:2088"
+            "marlin:2088",
+            "adw:Phoca-vitulina"
           ],
           "support": [
             {
               "sourceId": "marlin:2088",
-              "locator": "MarLIN species information review > Biology review > General biology",
+              "locator": "Additional information",
               "quote": "Phoca vitulina can dive to 450 m and remain submerged for up to 30 minutes.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Habitat",
+              "quote": "They forage at an average depth of 91 m, but can go as deep as 427 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Behavior",
+              "quote": "Harbor seals can dive to depths of 427 m and remain underwater for nearly 30 minutes without resurfacing. However, the average dive lasts a few minutes and is 91 m deep.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "adw:Phoca-vitulina"
+            "scos:2025",
+            "adw:Phoca-vitulina",
+            "marlin:2088"
           ],
           "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "harbour seals haul out on land regularly in a temporal pattern that is often related to the tidal cycle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "adw:Phoca-vitulina",
               "locator": "Behavior",
               "quote": "Harbor seals are diurnal pinnipeds that are usually solitary. They form small mixed groups of males, females, and pups around the pupping season and during molting, but these groups do not exhibit social organization.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2088",
+              "locator": "Additional information",
+              "quote": "Common seals give birth to pups in June and July and moult in August.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2088",
+              "locator": "Additional information",
+              "quote": "The Common or harbour seal has been reported as non-migratory and littoral in distribution and as exhibiting a diurnal haul-out pattern (Evans & Raga, 2001).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -34459,6 +33228,164 @@
           ],
           "claimSupported": false,
           "conflict": "The app says: The Harbour seal card has an empty \"Eats me\" column, rendered as \"Nothing else in this 72-species food web preys on Harbour seal.\" The source says: Grey seals - which ARE in the 72-species catalogue - are documented predators of harbour seals in Scotland, with predation concentrated on adults in the breeding season and projected to drive 7-11% annual declines in a southeast Scotland population. The app's statement is therefore wrong for this species, not merely incomplete: the missing edge is Harbour seal -> Grey seal."
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "scos:2025",
+            "doi:10.7489-1798-1",
+            "adw:Phoca-vitulina"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "They take a wide variety of prey including sandeels, gadoids, herring and sprat, flatfish, octopus, and squid. Diet varies seasonally and from region to region.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1798-1",
+              "locator": "Executive Summary",
+              "quote": "Sandeel were also dominant in the diet of harbour seals in the Moray Firth but, to the south, their diet was more varied and also included flatfish, sandy benthic and large gadid prey.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1798-1",
+              "locator": "Executive Summary",
+              "quote": "West of Scotland, large gadids were the main prey in the diet of both harbour and grey seals.  Pelagic fish were also important in harbour seal diet",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Food Habits",
+              "quote": "Adults eat mostly fish, consuming the fish whole or head first. Preferred medium-sized fish species include codfish ( Gadus ), hake ( Merluccius merluccius ), mackerel ( Scombridae ), and herring ( Clupea harengus ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "scos:2025",
+            "adw:Phoca-vitulina",
+            "doi:10.1111-1365-2656.70152"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Background information on British seals > Harbour seals",
+              "quote": "They take a wide variety of prey including sandeels, gadoids, herring and sprat, flatfish, octopus, and squid. Diet varies seasonally and from region to region.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Food Habits",
+              "quote": "They also eat octopus ( Octopoda ) or squid ( Teuthida ), as well as crustaceans ( Crustacea ) such as crabs ( Brachyura ) and shrimp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-1365-2656.70152",
+              "locator": "Abstract",
+              "quote": "Grey seals ( Halichoerus grypus ) and harbour seals ( Phoca vitulina ) are marine top predators with similar diets of a broad range of fish and cephalopods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "adw:Phoca-vitulina"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Food Habits",
+              "quote": "They also eat octopus ( Octopoda ) or squid ( Teuthida ), as well as crustaceans ( Crustacea ) such as crabs ( Brachyura ) and shrimp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Food Habits",
+              "quote": "Because newly weaned pups have poorly developed diving abilities, their primary diet consists of crustaceans that are easier to catch.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "scos:2025",
+            "doi:10.1111-1365-2656.70152"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "SCOS-BP 25/05, harbour seals in The Wash",
+              "quote": "Grey seals are known predators of adult harbour seals and presumably pose a threat to harbour seal pups.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-1365-2656.70152",
+              "locator": "Abstract",
+              "quote": "However, in recent years, adult male grey seals have been observed predating both grey seals and harbour seals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-1365-2656.70152",
+              "locator": "Abstract",
+              "quote": "Predation was most pronounced on adult harbour seals during the breeding season, amplifying the population level impact of each predation event through the loss of future reproductive potential.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "adw:Phoca-vitulina"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Predation",
+              "quote": "Predators of harbor seals inlcude larger species like sharks ( Selachimorpha ), killer whales ( Orcinus orca ), and polar bears ( Ursus maritimus ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "adw:Phoca-vitulina"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Predation",
+              "quote": "Humans ( Homo sapiens ) also prey on harbor seals in some areas of the Arctic.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phoca-vitulina",
+              "locator": "Economic Importance for Humans: Positive",
+              "quote": "Harbor seals are hunted for their blubber, meat, fur, and skin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     }

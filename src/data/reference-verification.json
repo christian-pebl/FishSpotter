@@ -91,19 +91,6 @@
     "matchedOn": "Loligo forbesi",
     "checkedOn": "2026-08-28"
   },
-  "doi:10.1007-s00227-018-3433-9": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Phalacrocorax aristotelis",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Pronounced long-term trends in year-round diet composition of the European shag Phalacrocorax aristotelis\""
-  },
-  "doi:10.1007-s00227-023-04236-x": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Stomach content analysis of North Sea cephalopods: often-overlooked predators with direct \") but neither its title nor abstract names Loligo forbesii | Loligo vulgaris | Sepiola atlantica | Eledone cirrhosa"
-  },
   "doi:10.1016-j.fishres.2005.04.013": {
     "status": "ok",
     "httpStatus": 200,
@@ -144,13 +131,6 @@
     "checkedOn": "2026-08-28",
     "note": "Crossref: \"Prey preferences of adult sea bass Dicentrarchus labrax in the northeastern Atlantic: implications for bycatch of common\""
   },
-  "doi:10.1093-icesjms-fsw157": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "PDF retrieved",
-    "checkedOn": "2026-08-28",
-    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
-  },
   "doi:10.1093-icesjms-fsy183": {
     "status": "ok",
     "httpStatus": 200,
@@ -184,45 +164,12 @@
     "checkedOn": "2026-08-28",
     "note": "DOI is real (\"Susceptibility to Predation Affects Trait-Mediated Indirect Interactions by Reversing Inte\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
   },
-  "doi:10.1371-journal.pone.0037216": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Phoca vitulina",
-    "checkedOn": "2026-08-28"
-  },
-  "doi:10.1371-journal.pone.0193078": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Mannitol oxidase and polyol dehydrogenases in the digestive gland of gastropods: Correlati\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
   "doi:10.2960-J.v35.m494": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "PDF retrieved",
     "checkedOn": "2026-08-28",
     "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
-  },
-  "doi:10.3354-meps031087": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Liocarcinus puber",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Natural diet and feeding habits of the crabs Liocarcinus puber and L. holsatus (Decapoda, Brachyura, Portunidae)\""
-  },
-  "doi:10.3354-meps119139": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Necora puber",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Feeding ecology of the velvet swimming crab Necora puber in mussel raft areas of the Ría de Arousa (Galicia, NW Spain)\""
-  },
-  "doi:10.3354-meps144063": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "hermit crab feeding patterns",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Changes in hermit crab feeding patterns in response to trawling disturbance\""
   },
   "doi:10.3389-fmars.2022.852033": {
     "status": "ok",
@@ -1335,12 +1282,6 @@
     "matchedOn": "Cyanea lamarckii",
     "checkedOn": "2026-08-28"
   },
-  "wildlife-trusts:compass-jellyfish": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Chrysaora hysoscella",
-    "checkedOn": "2026-08-28"
-  },
   "wildlife-trusts:cormorant": {
     "status": "ok",
     "httpStatus": 200,
@@ -1351,12 +1292,6 @@
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Eider",
-    "checkedOn": "2026-08-28"
-  },
-  "wildlife-trusts:lions-mane-jellyfish": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Cyanea capillata",
     "checkedOn": "2026-08-28"
   },
   "wildlife-trusts:mauve-stinger": {

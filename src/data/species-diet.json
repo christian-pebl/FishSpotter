@@ -1627,11 +1627,49 @@
     ]
   },
   "Halichoerus grypus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Sandeels, typically the predominant prey species"
+      },
+      {
+        "text": "Gadoids, including cod, whiting, haddock and ling"
+      },
+      {
+        "text": "Flatfish such as plaice, sole, flounder and dab, and cephalopods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "A few specialist adult male grey seals, which kill and eat pups and juveniles"
+      },
+      {
+        "text": "Killer whales; their predation may be linked to the predicted decline in pup production in Shetland"
+      }
+    ]
   },
   "Phoca vitulina": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "A wide range of fish: sandeels, gadoids, herring and sprat, and flatfish, with the mix varying by season and region"
+      },
+      {
+        "text": "Cephalopods: octopus and squid"
+      },
+      {
+        "text": "Crustaceans such as crabs and shrimp, which are the main food of newly weaned pups"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose adult males prey on adult harbour seals, most of all during the breeding season",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Sharks, killer whales and polar bears"
+      },
+      {
+        "text": "People, who prey on them in some areas of the Arctic and hunt them for blubber, meat, fur and skin"
+      }
+    ]
   }
 }

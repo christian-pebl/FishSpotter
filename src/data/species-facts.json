@@ -975,12 +975,30 @@
   },
   "Halichoerus grypus": {
     "depth": {
-      "text": "Forages mainly to 100 m"
+      "text": "Forages mainly on the seabed down to about 100 m, and can feed at all depths across the UK continental shelf"
+    },
+    "size": {
+      "text": "Adults up to about 2.3 m long; males over 300 kg, females around 150-200 kg"
+    },
+    "habitat": {
+      "text": "Feeds in inshore benthic habitats and the open sea, hauling out on remote islands, bays and caves to rest, moult and breed"
+    },
+    "behaviour": {
+      "text": "Ranges widely to forage, often over 100 km between haul-out sites, on trips of 1 to 30 days; breeds ashore in autumn"
     }
   },
   "Phoca vitulina": {
     "depth": {
-      "text": "Dives to 450 m"
+      "text": "Forages at around 91 m on average and dives to 427 to 450 m, staying down up to 30 minutes"
+    },
+    "size": {
+      "text": "1.2 to 2 m long and 65 to 140 kg, adults typically 80 to 100 kg; males slightly bigger than females"
+    },
+    "habitat": {
+      "text": "Shallow coastal water, bays and estuaries; comes ashore on sandbanks, beaches, reefs and tidal rocks"
+    },
+    "behaviour": {
+      "text": "Hauls out on land on a pattern tied to the tide; usually solitary, gathering in small mixed groups to pup in June and July and moult in August"
     }
   }
 }
