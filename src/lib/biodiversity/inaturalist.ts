@@ -143,6 +143,11 @@ async function fetchWithRetry(url: string): Promise<Response> {
   }
 }
 
+/** iNat caps `/observations` at 200 results per request. */
+const INAT_MAX_PER_PAGE = 200;
+/** Safety stop so a bad filter can't walk the whole 10k result window. */
+const INAT_MAX_PAGES = 6;
+
 async function fetchObservationPage(params: URLSearchParams): Promise<InatObservation[]> {
   const url = new URL(`${INAT_BASE}/observations`);
   for (const [k, v] of params) url.searchParams.set(k, v);
@@ -225,7 +230,7 @@ export async function fetchPhotosForSpecies(args: {
   // rate from the client-side filter.
   const wantBoth = !!args.lifeStage && !!args.sex;
   const perPage = args.perPage ?? 12;
-  const apiPerPage = wantBoth ? Math.min(perPage * 3, 30) : perPage;
+  const apiPerPage = wantBoth ? Math.min(perPage * 3, INAT_MAX_PER_PAGE) : Math.min(perPage, INAT_MAX_PER_PAGE);
 
   const params = new URLSearchParams({
     taxon_name: args.scientificName,
@@ -243,14 +248,28 @@ export async function fetchPhotosForSpecies(args: {
     params.set("term_value_id", String(LIFE_STAGE_VALUES[args.lifeStage]));
   }
 
-  const obs = await fetchObservationPage(params);
+  // Page until the caller has as many photos as it asked for.
+  //
+  // A single page was enough while callers wanted a handful of thumbnails, but
+  // the gallery builder now needs a deep candidate pool: it discards most of
+  // what it is shown, and `order_by=votes` puts the most-favourited photos
+  // first, which for a food fish means dead-on-the-slab catch shots. Whiting
+  // has 223 research-grade CC observations and the first 40 yielded ONE
+  // teaching-grade photo, so depth, not the filter, was the binding
+  // constraint. Stops early when a page comes back short, so a species with
+  // twelve observations still costs one request.
   let photos: InatPhoto[] = [];
-  for (const o of obs) photos.push(...obsToPhotos(o));
+  for (let page = 1; page <= INAT_MAX_PAGES; page++) {
+    params.set("page", String(page));
+    const obs = await fetchObservationPage(params);
+    for (const o of obs) photos.push(...obsToPhotos(o));
+    if (obs.length < apiPerPage) break; // last page
+    if (!wantBoth && photos.length >= perPage) break;
+  }
 
   if (wantBoth) {
     const wantedStage = args.lifeStage!;
     photos = photos.filter((p) => p.lifeStage === wantedStage);
-    photos = photos.slice(0, perPage);
   }
-  return photos;
+  return photos.slice(0, perPage);
 }

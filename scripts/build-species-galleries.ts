@@ -10,7 +10,7 @@
  *   1. Keep every CURATED row untouched (the diagnostic-mark reference photo +
  *      any editorial pins stay first, with their marks intact).
  *   2. Build a candidate pool: existing non-curated cached rows + a fresh iNat
- *      vote-ranked pull (+ a Wikimedia top-up when iNat is thin), deduped by
+ *      vote-ranked pull (paged) + a Wikimedia Commons pull, deduped by
  *      observation and minus anything already blocklisted.
  *   3. Assess EVERY candidate with Gemini (src/lib/biodiversity/gemini-vision).
  *      Claude orchestrates; Gemini does the vision, same tool as images:assess.
@@ -29,6 +29,7 @@
  *   ... --all --limit 10            # first 10 species (alpha by key)
  *   ... --all --slice 0:20          # species [0,20), sharding for parallel runs
  *   ... --target 8 --pool 24 --min 4
+ *   ... --all --extra 8            # 8 GALLERY photos on top of the curated hero
  *   ... --dry-run                   # assess + report, write nothing
  *   ... --no-delete                 # add photos but keep existing rows
  *
@@ -41,10 +42,25 @@ import speciesTraitsData from "../src/data/species-traits.json";
 import { assessImageQuality, type ImageQuality } from "../src/lib/biodiversity/gemini-vision";
 import { fetchPhotosForSpecies, type InatPhoto } from "../src/lib/biodiversity/inaturalist";
 import { fetchPhotosFromWikimedia, type WikimediaPhoto } from "../src/lib/biodiversity/wikimedia";
+import { fetchNameFor } from "../src/lib/biodiversity/fetch-name";
 
 const prisma = new PrismaClient();
 
 const BLOCKLIST_PATH = path.join(process.cwd(), "src", "data", "photo-blocklist.json");
+
+/**
+ * Above this share of unscorable candidates, a species is HELD (left exactly as
+ * found) rather than rebuilt. Set well above the handful of dead links and
+ * oversized files a healthy run drops, and far below the 100% a model or key
+ * outage produces. See the "HOLD rather than write" note in buildOne.
+ */
+const MAX_ASSESS_FAIL_RATE = 0.4;
+
+/**
+ * Below this pool size, a 100% rejection rate is unremarkable (three photos,
+ * all bad), so the blanket-block guard above does not apply.
+ */
+const MIN_POOL_FOR_BLANKET_CHECK = 6;
 
 type Catalogue = Record<string, { commonName?: string; shapeClass?: string }>;
 const CATALOGUE = speciesTraitsData as unknown as Catalogue;
@@ -58,6 +74,13 @@ function parseArgs() {
     limit: undefined as number | undefined,
     slice: undefined as [number, number] | undefined,
     target: 8,
+    // `--extra N` asks for N GALLERY photos on top of whatever curated rows a
+    // species already has, instead of a flat total. Curated counts vary 1..4
+    // across the catalogue, so a flat `--target` quietly leaves the most
+    // heavily curated species with the fewest reference photos. "Eight photos
+    // besides the main one" is the promise the guide page makes, so that is
+    // the number the script should optimise.
+    extra: undefined as number | undefined,
     pool: 24, // max fresh iNat observations to assess per species
     min: 4, // floor: if too few pass the strict bar, relax to reach this many
     dryRun: false,
@@ -74,6 +97,7 @@ function parseArgs() {
       const [s, e] = argv[++i].split(":").map(Number);
       o.slice = [s || 0, Number.isFinite(e) ? e : Number.MAX_SAFE_INTEGER];
     } else if (a === "--target" && argv[i + 1]) o.target = Number(argv[++i]);
+    else if (a === "--extra" && argv[i + 1]) o.extra = Number(argv[++i]);
     else if (a === "--pool" && argv[i + 1]) o.pool = Number(argv[++i]);
     else if (a === "--min" && argv[i + 1]) o.min = Number(argv[++i]);
     else if (a === "--dry-run") o.dryRun = true;
@@ -140,6 +164,21 @@ type Cand = {
 };
 
 const REC_RANK: Record<string, number> = { ideal: 0, usable: 1, poor: 2, reject: 3 };
+
+/**
+ * Which rendition of a candidate to send to the vision model.
+ *
+ * iNat's `url` is already the ~500px "medium" render, the right size. Wikimedia's
+ * is the archive ORIGINAL, routinely 10-20MB, over the vision tool's 8MB inline
+ * cap: those candidates failed to download and were silently dropped, so
+ * Commons was effectively contributing nothing on the species that needed it
+ * most. Its `thumbUrl` is a 600px server-side render of the same frame, which
+ * is what the model should read. The full-resolution `url` is still what gets
+ * stored, so the lightbox is unaffected.
+ */
+function assessUrl(c: Cand): string {
+  return c.source === "wikimedia" ? c.thumbUrl ?? c.url : c.url;
+}
 
 function inatToCand(p: InatPhoto): Cand {
   return {
@@ -227,6 +266,14 @@ type SpeciesReport = {
   deleted: number;
   blocklisted: number;
   finalTotal: number;
+  /** Candidates the vision model could not score (download or API failure). */
+  assessFailed: number;
+  /** Candidates in the pool before assessment. */
+  poolSize: number;
+  /** True when the species was skipped to protect the rows it already had. */
+  held: boolean;
+  /** Of `added`, how many only cleared the relaxed bar, not the strict one. */
+  relaxedFills: number;
   note: string;
 };
 
@@ -244,6 +291,10 @@ async function buildOne(
     deleted: 0,
     blocklisted: 0,
     finalTotal: 0,
+    assessFailed: 0,
+    poolSize: 0,
+    held: false,
+    relaxedFills: 0,
     note: "",
   };
 
@@ -287,7 +338,10 @@ async function buildOne(
   }
   // (b) fresh iNat vote-ranked pull
   try {
-    const fresh = await fetchPhotosForSpecies({ scientificName: sci, perPage: opts.pool });
+    const fresh = await fetchPhotosForSpecies({
+      scientificName: fetchNameFor(sci),
+      perPage: opts.pool,
+    });
     for (const p of fresh) {
       if (keepSourceUrls.has(p.sourceUrl) || blocked.has(p.sourceUrl)) continue;
       if (!poolMap.has(p.sourceUrl)) poolMap.set(p.sourceUrl, inatToCand(p));
@@ -295,10 +349,15 @@ async function buildOne(
   } catch (e) {
     log(`  iNat fetch failed: ${(e as Error).message}`);
   }
-  // (c) Wikimedia top-up only if the pool is thin
-  if (poolMap.size < opts.target * 2) {
+  // (c) Wikimedia top-up. Always pulled, not just when iNat comes back thin:
+  // Commons is a genuinely different pool (published dive photography, field
+  // plates) rather than more of the same. Gating it on a thin iNat pool meant
+  // the species with the most iNat noise, food fish whose most-favourited
+  // shots are all dead catches, were exactly the ones that never got a
+  // second source.
+  {
     try {
-      const wm = await fetchPhotosFromWikimedia({ scientificName: sci, limit: 8 });
+      const wm = await fetchPhotosFromWikimedia({ scientificName: fetchNameFor(sci), limit: 20 });
       for (const p of wm) {
         if (keepSourceUrls.has(p.sourceUrl) || blocked.has(p.sourceUrl)) continue;
         if (!poolMap.has(p.sourceUrl)) poolMap.set(p.sourceUrl, wmToCand(p));
@@ -316,19 +375,54 @@ async function buildOne(
   }
 
   // --- assess every candidate with Gemini ---
+  rep.poolSize = pool.length;
   await mapPool(pool, opts.assessConc, async (c) => {
-    const r = await assessImageQuality({ scientificName: sci, commonName, imageUrl: c.url });
+    const r = await assessImageQuality({ scientificName: sci, commonName, imageUrl: assessUrl(c) });
     if (r.ok) c.q = r.quality;
     else c.err = r.error;
     return null;
   });
+  const failed = pool.filter((c) => !c.q);
+  rep.assessFailed = failed.length;
+  if (failed.length > 0) {
+    const tally = new Map<string, number>();
+    for (const c of failed) {
+      const k = (c.err ?? "unknown").slice(0, 80);
+      tally.set(k, (tally.get(k) ?? 0) + 1);
+    }
+    for (const [k, n] of tally) log(`  assess failed x${n}: ${k}`);
+  }
   pool = pool.filter((c) => c.q); // drop download/model errors
 
+  // HOLD rather than write when the vision pass mostly failed.
+  //
+  // Unscored candidates are dropped, and the write step then deletes every
+  // non-curated row that wasn't chosen. Those two behaviours compose into a
+  // silent gallery wipe: on 29 Aug 2026 `gemini-3.6-flash` rejected the
+  // `thinkingBudget: 0` this tool sends, so EVERY candidate errored, every
+  // error was dropped, nothing was chosen, and a non-dry run would have
+  // deleted all existing photos and reported a clean "+0 new". A vision
+  // outage must never be able to empty a gallery, so an unreliable pass
+  // leaves the species exactly as it was found.
+  const failRate = rep.poolSize > 0 ? failed.length / rep.poolSize : 0;
+  if (rep.poolSize > 0 && failRate > MAX_ASSESS_FAIL_RATE) {
+    rep.held = true;
+    rep.finalTotal = existing.length;
+    rep.note =
+      `HELD: ${failed.length}/${rep.poolSize} candidates could not be scored ` +
+      `(${Math.round(failRate * 100)}%); left untouched`;
+    return rep;
+  }
+
   // --- choose the keepers ---
-  const slots = Math.max(0, opts.target - curatedRows.length);
+  const slots =
+    opts.extra !== undefined ? opts.extra : Math.max(0, opts.target - curatedRows.length);
   let chosen = pool.filter((c) => passesStrict(c.q!)).sort(rankCands).slice(0, slots);
   // Relax to hit the floor if strict came up short.
-  const floor = Math.max(0, opts.min - curatedRows.length);
+  const floor =
+    opts.extra !== undefined
+      ? Math.min(opts.min, opts.extra)
+      : Math.max(0, opts.min - curatedRows.length);
   if (chosen.length < floor) {
     const chosenUrls = new Set(chosen.map((c) => c.sourceUrl));
     const extra = pool
@@ -336,15 +430,39 @@ async function buildOne(
       .sort(rankCands)
       .slice(0, floor - chosen.length);
     chosen = [...chosen, ...extra];
+    rep.relaxedFills = extra.length;
   }
 
   // --- rejects -> blocklist (only clear, durable junk) ---
-  for (const c of pool) {
-    const { reject, reason } = isReject(c.q!);
-    if (reject && reason !== "low-quality") {
-      pendingBlocks.push({ sourceUrl: c.sourceUrl, reason, scientificName: sci });
-      rep.blocklisted++;
+  //
+  // Refuse to blocklist a species' ENTIRE pool. A 100% rejection rate is a
+  // statement about the rubric, not about the photos: Echinocardium cordatum
+  // ("sea potato") is a burrowing heart urchin whose whole open-licence record
+  // is empty tests washed up on a beach, so every candidate scores
+  // "dead-or-beachcast" and a blanket block would permanently bar the weekly
+  // cron from the only images of the animal that exist. Leave those species
+  // untouched and name them, so a human decides whether the animal or the
+  // rubric is the odd one out.
+  const rejects = pool.filter((c) => isReject(c.q!).reject);
+  const allRejected = pool.length >= MIN_POOL_FOR_BLANKET_CHECK && rejects.length === pool.length;
+  if (allRejected) {
+    rep.note =
+      `every one of ${pool.length} candidates scored as a reject; ` +
+      `blocklist skipped and gallery left as found (check the rubric fits this species)`;
+    rep.finalTotal = existing.length;
+    return rep;
+  }
+  // A dry run reports; it must not edit a committed data file.
+  if (!opts.dryRun) {
+    for (const c of rejects) {
+      const { reason } = isReject(c.q!);
+      if (reason !== "low-quality") {
+        pendingBlocks.push({ sourceUrl: c.sourceUrl, reason, scientificName: sci });
+        rep.blocklisted++;
+      }
     }
+  } else {
+    rep.blocklisted = rejects.filter((c) => isReject(c.q!).reason !== "low-quality").length;
   }
 
   if (opts.dryRun) {
@@ -432,8 +550,12 @@ async function main() {
     process.exit(1);
   }
 
+  const goal =
+    opts.extra !== undefined
+      ? `${opts.extra} gallery photos on top of each curated hero`
+      : `target ${opts.target} total`;
   console.log(
-    `Building galleries for ${speciesList.length} species (target ${opts.target}, pool ${opts.pool}, ` +
+    `Building galleries for ${speciesList.length} species (${goal}, pool ${opts.pool}, ` +
       `${opts.dryRun ? "DRY-RUN" : "writing"})\n`,
   );
 
@@ -452,12 +574,17 @@ async function main() {
         deleted: 0,
         blocklisted: 0,
         finalTotal: -1,
+        assessFailed: 0,
+        poolSize: 0,
+        held: false,
+        relaxedFills: 0,
         note: `ERROR: ${(e as Error).message}`,
       };
     }
+    const failNote = rep.assessFailed > 0 ? `, ${rep.assessFailed}/${rep.poolSize} unscored` : "";
     console.log(
       `[${rep.commonName}] kept ${rep.curatedKept} curated, +${rep.added} new, -${rep.deleted} del, ` +
-        `${rep.blocklisted} blocked -> ${rep.finalTotal} total${rep.note ? "  " + rep.note : ""}`,
+        `${rep.blocklisted} blocked${failNote} -> ${rep.finalTotal} total${rep.note ? "  " + rep.note : ""}`,
     );
     if (lines.length) console.log(lines.join("\n"));
     return rep;
@@ -467,15 +594,36 @@ async function main() {
 
   // Summary.
   const totalFinal = reports.reduce((s, r) => s + Math.max(0, r.finalTotal), 0);
-  const under = reports.filter((r) => r.finalTotal >= 0 && r.finalTotal < opts.min);
+  const under = reports.filter((r) => r.finalTotal >= 0 && !r.held && r.finalTotal < opts.min);
   const errored = reports.filter((r) => r.finalTotal < 0);
+  const held = reports.filter((r) => r.held);
   console.log(`\n=== SUMMARY ===`);
   console.log(`Species processed: ${reports.length}`);
   console.log(`Photos added: ${reports.reduce((s, r) => s + r.added, 0)}`);
   console.log(`Rows deleted: ${reports.reduce((s, r) => s + r.deleted, 0)}`);
   console.log(`Blocklist entries added: ${added}`);
   console.log(`Total gallery rows now: ${totalFinal}`);
+  console.log(`Candidates unscored: ${reports.reduce((s, r) => s + r.assessFailed, 0)}`);
+  // The relaxed bar keeps a merely-weak photo to reach the floor. Naming the
+  // species it was used on keeps "eight photos everywhere" from reading as
+  // "eight GOOD photos everywhere": for a food fish whose entire open-licence
+  // record is dead-on-the-slab catch shots, the last slots are the best that
+  // exists, not the best that could exist.
+  const relaxed = reports.filter((r) => r.relaxedFills > 0);
+  if (relaxed.length) {
+    console.log(
+      `Relaxed bar used to reach the floor: ` +
+        relaxed.map((r) => `${r.commonName}(${r.relaxedFills})`).join(", "),
+    );
+  }
   if (under.length) console.log(`Still under ${opts.min}: ${under.map((r) => `${r.commonName}(${r.finalTotal})`).join(", ")}`);
+  if (held.length) {
+    console.log(
+      `HELD (left untouched, vision pass unreliable): ` +
+        held.map((r) => `${r.commonName} (${r.assessFailed}/${r.poolSize})`).join(", "),
+    );
+    console.log(`Re-run those species once the vision tool is healthy.`);
+  }
   if (errored.length) console.log(`ERRORED: ${errored.map((r) => `${r.commonName}: ${r.note}`).join("; ")}`);
 }
 

@@ -13,6 +13,18 @@
       "reason": "dead",
       "scientificName": "Cyanea capillata"
     },
+    "http://www.inaturalist.org/observations/1531920": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
+    },
+    "http://www.inaturalist.org/observations/1878488": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "http://www.inaturalist.org/observations/19733": {
+      "reason": "wrong-subject",
+      "scientificName": "Conger conger"
+    },
     "http://www.inaturalist.org/observations/2313239": {
       "reason": "wrong-subject",
       "scientificName": "Conger conger"
@@ -29,6 +41,10 @@
       "reason": "wrong-subject",
       "scientificName": "Marthasterias glacialis"
     },
+    "https://commons.wikimedia.org/wiki/File:%22Aspitrigla_cuculus%22_Grondin_Rouge.jpg": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://commons.wikimedia.org/wiki/File:1866ca_2c_Newfoundland_unused_Yv21_Mi16x_SG25.jpg": {
       "reason": "drawing",
       "scientificName": "Gadus morhua"
@@ -36,6 +52,10 @@
     "https://commons.wikimedia.org/wiki/File:2019-12-21_Mandonguilles_d%27abadejo_a_Massalfassar_02.jpg": {
       "reason": "wrong-subject",
       "scientificName": "Pollachius pollachius"
+    },
+    "https://commons.wikimedia.org/wiki/File:202105_Moon_jelly.svg": {
+      "reason": "drawing",
+      "scientificName": "Aurelia aurita"
     },
     "https://commons.wikimedia.org/wiki/File:ARISE_DNA_sampling_Sepiola_atlantica.jpg": {
       "reason": "preserved",
@@ -65,6 +85,10 @@
       "reason": "drawing",
       "scientificName": "Pholis gunnellus"
     },
+    "https://commons.wikimedia.org/wiki/File:A_history_of_Scandinavian_fishes_(9664568934).jpg": {
+      "reason": "drawing",
+      "scientificName": "Callionymus lyra"
+    },
     "https://commons.wikimedia.org/wiki/File:A_history_of_Scandinavian_fishes_(9664570054).jpg": {
       "reason": "drawing",
       "scientificName": "Callionymus maculatus"
@@ -72,6 +96,10 @@
     "https://commons.wikimedia.org/wiki/File:A_history_of_Scandinavian_fishes_(9664579556).jpg": {
       "reason": "drawing",
       "scientificName": "Gadus morhua"
+    },
+    "https://commons.wikimedia.org/wiki/File:A_history_of_the_fishes_of_the_British_Islands_(10574012396).jpg": {
+      "reason": "drawing",
+      "scientificName": "Atherina presbyter"
     },
     "https://commons.wikimedia.org/wiki/File:A_history_of_the_fishes_of_the_British_Islands_(Pl._LXI)_(7929426046).jpg": {
       "reason": "drawing+dead",
@@ -93,6 +121,42 @@
       "reason": "drawing",
       "scientificName": "Loligo forbesii"
     },
+    "https://commons.wikimedia.org/wiki/File:Aspitrigla_Cuculus_Boulogne_sur_Mer.jpg": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Aspitrigla_cuculus.jpg": {
+      "reason": "drawing",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Asterias_rubens.jpg": {
+      "reason": "preserved",
+      "scientificName": "Asterias rubens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Asterias_rubens_08_Halldis_Ringvold.jpg": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Asterias_rubens_179263466.jpg": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Asterias_rubens_179263738.jpg": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Asterias_rubens_179263747.jpg": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Asterias_rubens_311930010.jpg": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://commons.wikimedia.org/wiki/File:Atherina_presbyter_A_history_of_the_fishes_of_the_British_Islands_(10574012396).jpg": {
+      "reason": "drawing",
+      "scientificName": "Atherina presbyter"
+    },
     "https://commons.wikimedia.org/wiki/File:Atlantic_Horse_Mackerel.jpg": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
@@ -113,6 +177,22 @@
       "reason": "dead",
       "scientificName": "Aurelia aurita"
     },
+    "https://commons.wikimedia.org/wiki/File:Aurelia_aurita_108506307.jpg": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://commons.wikimedia.org/wiki/File:Aurelia_aurita_125043406.jpg": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://commons.wikimedia.org/wiki/File:Aurelia_aurita_139000327.jpg": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://commons.wikimedia.org/wiki/File:Aurelia_aurita_dead_on_the_beach.jpg": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
     "https://commons.wikimedia.org/wiki/File:Bec_de_calmar_Loligo_vulgaris_beak_01.jpg": {
       "reason": "wrong-subject",
       "scientificName": "Loligo vulgaris"
@@ -125,6 +205,18 @@
       "reason": "wrong-subject",
       "scientificName": "Loligo vulgaris"
     },
+    "https://commons.wikimedia.org/wiki/File:Bec_de_calmar_Loligo_vulgaris_beak_06.jpg": {
+      "reason": "preserved",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Bec_de_calmar_Loligo_vulgaris_beak_07.jpg": {
+      "reason": "preserved",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Bec_de_calmar_Loligo_vulgaris_beak_08.jpg": {
+      "reason": "preserved",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://commons.wikimedia.org/wiki/File:Berezhany_Ukr_(79).JPG": {
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
@@ -133,11 +225,27 @@
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
     },
+    "https://commons.wikimedia.org/wiki/File:Bl%C3%A5_brandmand_(Cyanea_lamarckii).jpg": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://commons.wikimedia.org/wiki/File:Blad_met_twaalf_vissen_en_inktvissen,_RP-T-BR-2017-1-6-33.jpg": {
+      "reason": "drawing",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Blue_Jelly_(Cyanea_lamarckii)_-_B%C3%A6rum,_Norway_2021-05-23_(01).jpg": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
     "https://commons.wikimedia.org/wiki/File:Brockhaus_and_Efron_Encyclopedic_Dictionary_b1_282-0.jpg": {
       "reason": "drawing",
       "scientificName": "Spinachia spinachia"
     },
     "https://commons.wikimedia.org/wiki/File:Callionymus.lyra_male_Sweden.jpg": {
+      "reason": "dead",
+      "scientificName": "Callionymus lyra"
+    },
+    "https://commons.wikimedia.org/wiki/File:Callionymus_lyra.jpg": {
       "reason": "dead",
       "scientificName": "Callionymus lyra"
     },
@@ -153,11 +261,43 @@
       "reason": "dead",
       "scientificName": "Calliostoma zizyphinum"
     },
+    "https://commons.wikimedia.org/wiki/File:Calliostoma_zizyphinum_f._conuloides_01.JPG": {
+      "reason": "preserved",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://commons.wikimedia.org/wiki/File:Calliostoma_zizyphinum_f._laevigata_01.JPG": {
+      "reason": "preserved",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://commons.wikimedia.org/wiki/File:Calyr_f0.gif": {
+      "reason": "drawing",
+      "scientificName": "Callionymus lyra"
+    },
     "https://commons.wikimedia.org/wiki/File:Campagne_IBTS_2010_-_Pr%C3%A9l%C3%A8vement_d%27otolithes_d%27une_plie_(Pleuronectes_platessa)_(Ifremer_00782-89372_-_49413).jpg": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
     },
+    "https://commons.wikimedia.org/wiki/File:Cancer_pagurus_-_Crabe_dormeur_-_Tourteau_-_003.jpg": {
+      "reason": "preserved",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Captures_au_chalut_avant_tri_(Ifremer_00694-80633_-_32814).jpg": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Captures_au_chalut_avant_tri_(Ifremer_00694-80633_-_32817).jpg": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Captures_au_chalut_avant_tri_(Ifremer_00694-80633_-_32821).jpg": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://commons.wikimedia.org/wiki/File:Carcinus_maenas.jpg": {
+      "reason": "preserved",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://commons.wikimedia.org/wiki/File:Carcinus_maenas_white_background.jpg": {
       "reason": "preserved",
       "scientificName": "Carcinus maenas"
     },
@@ -169,6 +309,10 @@
       "reason": "drawing",
       "scientificName": "Sprattus sprattus"
     },
+    "https://commons.wikimedia.org/wiki/File:Conger_conger_222980675.jpg": {
+      "reason": "dead",
+      "scientificName": "Conger conger"
+    },
     "https://commons.wikimedia.org/wiki/File:Conger_oceanicus.jpg": {
       "reason": "preserved",
       "scientificName": "Conger conger"
@@ -177,9 +321,21 @@
       "reason": "dead",
       "scientificName": "Conger conger"
     },
+    "https://commons.wikimedia.org/wiki/File:Cooked_Loligo_vulgaris_-_London.jpg": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Cormoran_hupp%C3%A9_-_Gulosus_aristotelis.wav": {
+      "reason": "drawing",
+      "scientificName": "Phalacrocorax aristotelis"
+    },
     "https://commons.wikimedia.org/wiki/File:Cuvier-76-Muge-tetragonure-Ath%C3%A9rine.jpg": {
       "reason": "drawing",
       "scientificName": "Atherina presbyter"
+    },
+    "https://commons.wikimedia.org/wiki/File:Cyanea_lamarckii.jpg": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
     },
     "https://commons.wikimedia.org/wiki/File:Cyanea_lamarckii_139000487.jpg": {
       "reason": "dead",
@@ -197,6 +353,10 @@
       "reason": "drawing",
       "scientificName": "Pollachius pollachius"
     },
+    "https://commons.wikimedia.org/wiki/File:D._Marcus_Elieser_Bloch%27s,_aus%C3%BCbenden_Arztes_zu_Berlin_..._Oeconomische_Naturgeschichte_der_Fische_Deutschlands_(20308301423).jpg": {
+      "reason": "drawing",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://commons.wikimedia.org/wiki/File:D._Marcus_Elieser_Bloch%27s,_aus%C3%BCbenden_Arztes_zu_Berlin_..._Oeconomische_Naturgeschichte_der_Fische_Deutschlands_(20877235495).jpg": {
       "reason": "drawing",
       "scientificName": "Labrus mixtus"
@@ -208,6 +368,10 @@
     "https://commons.wikimedia.org/wiki/File:Der_naturen_bloeme_-_Jacob_van_Maerlant_-_KB_KA_16_-_118v.jpg": {
       "reason": "drawing",
       "scientificName": "Nucella lapillus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Dicentrarchus_labrax_(Belgium).jpg": {
+      "reason": "dead",
+      "scientificName": "Dicentrarchus labrax"
     },
     "https://commons.wikimedia.org/wiki/File:Dragonnet_tachet%C3%A9_(Callionymus_maculatus)_(Ifremer_00634-74596).jpg": {
       "reason": "dead",
@@ -221,6 +385,10 @@
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
+    "https://commons.wikimedia.org/wiki/File:Effects_of_elevated_carbon_dioxide_on_male_and_female_behavioural_lateralization_in_a_temperate_goby.pdf": {
+      "reason": "drawing",
+      "scientificName": "Gobiusculus flavescens"
+    },
     "https://commons.wikimedia.org/wiki/File:Eledone_cirrhosa.jpg": {
       "reason": "drawing",
       "scientificName": "Eledone cirrhosa"
@@ -233,6 +401,22 @@
       "reason": "drawing",
       "scientificName": "Eledone cirrhosa"
     },
+    "https://commons.wikimedia.org/wiki/File:Etrille(Necora).jpg": {
+      "reason": "preserved",
+      "scientificName": "Necora puber"
+    },
+    "https://commons.wikimedia.org/wiki/File:Eutrigla_gurnardus.jpg": {
+      "reason": "drawing",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_36408_Thick-Liped_Grey_Mullet_(1);_Sand_Smelt_(2).jpeg": {
+      "reason": "drawing",
+      "scientificName": "Atherina presbyter"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_46130_Streaked_Gurnard.jpeg": {
+      "reason": "drawing",
+      "scientificName": "Chelidonichthys lastoviza"
+    },
     "https://commons.wikimedia.org/wiki/File:FMIB_46169_Tail-Spotted_Goby.jpeg": {
       "reason": "drawing",
       "scientificName": "Gobiusculus flavescens"
@@ -240,6 +424,10 @@
     "https://commons.wikimedia.org/wiki/File:FMIB_46198_Rock_Goby-_Figure,_shewing_the_ventral_fin.jpeg": {
       "reason": "drawing",
       "scientificName": "Gobius paganellus"
+    },
+    "https://commons.wikimedia.org/wiki/File:FMIB_46207_Atherine.jpeg": {
+      "reason": "drawing",
+      "scientificName": "Atherina presbyter"
     },
     "https://commons.wikimedia.org/wiki/File:FMIB_46260_Dab.jpeg": {
       "reason": "drawing",
@@ -257,9 +445,17 @@
       "reason": "drawing",
       "scientificName": "Pollachius virens"
     },
+    "https://commons.wikimedia.org/wiki/File:FMIB_51240_Redgurnard_(Trigla_cuculus).jpeg": {
+      "reason": "drawing",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://commons.wikimedia.org/wiki/File:FMIB_52690_Hyas_araneus.jpeg": {
       "reason": "preserved",
       "scientificName": "Hyas araneus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Ficha_sobre_el_bacalao_com%C3%BAn.svg": {
+      "reason": "drawing",
+      "scientificName": "Gadus morhua"
     },
     "https://commons.wikimedia.org/wiki/File:Fish1844.jpg": {
       "reason": "wrong-subject",
@@ -281,6 +477,10 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://commons.wikimedia.org/wiki/File:Freshippo_brown_crab.jpg": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
     "https://commons.wikimedia.org/wiki/File:Frontal_histological_sections_of_Zoea_IV_(larval_stage_of_the_European_shore_crab_Carcinus_maenas).png": {
       "reason": "preserved",
       "scientificName": "Carcinus maenas"
@@ -297,9 +497,25 @@
       "reason": "drawing",
       "scientificName": "Cancer pagurus"
     },
+    "https://commons.wikimedia.org/wiki/File:Grondin_gris_(Eutrigla_gurnardus)_p%C3%AAch%C3%A9s_en_M%C3%A9diterran%C3%A9e_(Ifremer_00628-74053_-_29487).jpg": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Grondin_gris_(Eutrigla_gurnardus)_p%C3%AAch%C3%A9s_en_M%C3%A9diterran%C3%A9e_(Ifremer_00628-74053_-_29488).jpg": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Grondinrouge.jpg": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://commons.wikimedia.org/wiki/File:Histoire_naturelle_des_poissons_(Pl._78)_(7949967258).jpg": {
       "reason": "drawing",
       "scientificName": "Taurulus bubalis"
+    },
+    "https://commons.wikimedia.org/wiki/File:Humphrey-fishes17.jpg": {
+      "reason": "drawing",
+      "scientificName": "Pholis gunnellus"
     },
     "https://commons.wikimedia.org/wiki/File:I_Cefalopodi_viventi_nel_Golfo_di_Napoli_(sistematica)_(6105705787).jpg": {
       "reason": "drawing",
@@ -324,6 +540,10 @@
     "https://commons.wikimedia.org/wiki/File:Jellyfish_-_geograph.org.uk_-_185481.jpg": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://commons.wikimedia.org/wiki/File:La_P%C3%AAche_et_les_poissons_(6266714315).jpg": {
+      "reason": "drawing",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://commons.wikimedia.org/wiki/File:La_P%C3%AAche_et_les_poissons_(6266715455).jpg": {
       "reason": "drawing",
@@ -377,6 +597,10 @@
       "reason": "drawing",
       "scientificName": "Loligo vulgaris"
     },
+    "https://commons.wikimedia.org/wiki/File:Loligo_vulgaris_-_Madeira.jpg": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://commons.wikimedia.org/wiki/File:Loligo_vulgaris_embryo.jpg": {
       "reason": "drawing",
       "scientificName": "Loligo vulgaris"
@@ -385,6 +609,18 @@
       "reason": "dead",
       "scientificName": "Limanda limanda"
     },
+    "https://commons.wikimedia.org/wiki/File:Mollusques_m%C3%A9diteran%C3%A9ens_(!)_(6263525499).jpg": {
+      "reason": "drawing",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://commons.wikimedia.org/wiki/File:Mullus_surmuletus.jpg": {
+      "reason": "dead",
+      "scientificName": "Mullus surmuletus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Museo_Mar%C3%ADtimo_del_Cant%C3%A1brico_(29).jpg": {
+      "reason": "preserved",
+      "scientificName": "Asterina gibbosa"
+    },
     "https://commons.wikimedia.org/wiki/File:Nucella_lapillus_(YPM_IZ_032551).jpeg": {
       "reason": "preserved",
       "scientificName": "Nucella lapillus"
@@ -392,6 +628,10 @@
     "https://commons.wikimedia.org/wiki/File:Nucella_lapillus_Nordische_Purpurschnecke.jpg": {
       "reason": "preserved",
       "scientificName": "Nucella lapillus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Octopus_vulgaris_Merculiano.jpg": {
+      "reason": "drawing",
+      "scientificName": "Octopus vulgaris"
     },
     "https://commons.wikimedia.org/wiki/File:Ophiuroidea_(10.5852-ejt.2021.766.1483)_Figure_3.png": {
       "reason": "preserved",
@@ -412,6 +652,10 @@
     "https://commons.wikimedia.org/wiki/File:Otolithes_de_Trachurus_trachurus_(Ifremer_00668-78054_-_31393).jpg": {
       "reason": "wrong-subject",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_merlan_(Merlangius_merlangus)_(Ifremer_00785-89648_-_49961).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Merlangius merlangus"
     },
     "https://commons.wikimedia.org/wiki/File:Otolithes_de_petit_tacaud_(Trisopterus_minutus_capelanus)_(Ifremer_00680-79178_-_32025).jpg": {
       "reason": "wrong-subject",
@@ -441,6 +685,26 @@
       "reason": "wrong-subject",
       "scientificName": "Pleuronectes platessa"
     },
+    "https://commons.wikimedia.org/wiki/File:Otolithes_de_rouget_barbet_de_roche_(Mullus_surmuletus)_(Ifremer_00785-89650_-_49966).jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Mullus surmuletus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Part_of_starfish_water_vascular_system.jpg": {
+      "reason": "drawing",
+      "scientificName": "Asterina gibbosa"
+    },
+    "https://commons.wikimedia.org/wiki/File:Pelagia.jpg": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
+    },
+    "https://commons.wikimedia.org/wiki/File:Phalacrocorax_carbo_MHNT.ZOO.2010.11.46.1.jpg": {
+      "reason": "preserved",
+      "scientificName": "Phalacrocorax carbo"
+    },
+    "https://commons.wikimedia.org/wiki/File:Pholis_gunnellus.jpg": {
+      "reason": "drawing",
+      "scientificName": "Pholis gunnellus"
+    },
     "https://commons.wikimedia.org/wiki/File:Platichthys_flesus_1.jpg": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
@@ -469,6 +733,10 @@
       "reason": "drawing",
       "scientificName": "Pollachius virens"
     },
+    "https://commons.wikimedia.org/wiki/File:Pomatoschistus_minutus.jpg": {
+      "reason": "dead",
+      "scientificName": "Pomatoschistus minutus"
+    },
     "https://commons.wikimedia.org/wiki/File:Pout_(PSF).png": {
       "reason": "drawing",
       "scientificName": "Trisopterus luscus"
@@ -484,6 +752,18 @@
     "https://commons.wikimedia.org/wiki/File:Rock_Gunnel.gif": {
       "reason": "drawing",
       "scientificName": "Pholis gunnellus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Rock_gunnel.jpg": {
+      "reason": "drawing",
+      "scientificName": "Pholis gunnellus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Rouget_barbet_de_Roche_(Mullus_Surmuletus)_(Ifremer_00700-81242_-_33526).jpg": {
+      "reason": "dead",
+      "scientificName": "Mullus surmuletus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Rouget_barbet_de_Roche_(Mullus_Surmuletus)_(Ifremer_00789-90129_-_50494).jpg": {
+      "reason": "dead",
+      "scientificName": "Mullus surmuletus"
     },
     "https://commons.wikimedia.org/wiki/File:Round_goby_and_a_flounder.jpg": {
       "reason": "drawing",
@@ -569,9 +849,21 @@
       "reason": "preserved",
       "scientificName": "Limanda limanda"
     },
+    "https://commons.wikimedia.org/wiki/File:Surexploitation_morue_surp%C3%AAcheEn.jpg": {
+      "reason": "drawing",
+      "scientificName": "Gadus morhua"
+    },
     "https://commons.wikimedia.org/wiki/File:Taurulus_bubalis.jpg": {
       "reason": "dead",
       "scientificName": "Taurulus bubalis"
+    },
+    "https://commons.wikimedia.org/wiki/File:The_Bay_Fish_Shop,_Glenelg_20260312-123225.jpg": {
+      "reason": "wrong-subject",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://commons.wikimedia.org/wiki/File:The_natural_history_of_British_fishes_(6072567671).jpg": {
+      "reason": "drawing",
+      "scientificName": "Atherina presbyter"
     },
     "https://commons.wikimedia.org/wiki/File:Three_kinds_of_fish_caught_common_sole_flounder_and_round_goby_in_Holland.jpg": {
       "reason": "drawing",
@@ -580,6 +872,10 @@
     "https://commons.wikimedia.org/wiki/File:Trachurus_trachurus_Russia.jpg": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://commons.wikimedia.org/wiki/File:Trigla_Cuculus,_The_Red_Gurnard_(NYPL_b13637086-403893).tiff": {
+      "reason": "drawing",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://commons.wikimedia.org/wiki/File:Trisopterus_luscus.jpg": {
       "reason": "drawing",
@@ -597,6 +893,10 @@
       "reason": "dead",
       "scientificName": "Platichthys flesus"
     },
+    "https://commons.wikimedia.org/wiki/File:Vitling,_Iduns_kokbok.jpg": {
+      "reason": "drawing",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://commons.wikimedia.org/wiki/File:Wurzelmundqualle_im_Sp%C3%BClsaum.JPG": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
@@ -605,17 +905,37 @@
       "reason": "dead",
       "scientificName": "Platichthys flesus"
     },
+    "https://commons.wikimedia.org/wiki/File:Zgh_shi_asighagh_%E2%B4%B0%E2%B5%99%E2%B5%89%E2%B5%96%E2%B4%B0%E2%B5%96_asi%C9%A3a%C9%A3.ogg": {
+      "reason": "drawing",
+      "scientificName": "Conger conger"
+    },
     "https://commons.wikimedia.org/wiki/File:Zoologia_danica,_sev_Animalivm_Daniae_et_Norvegiae_rariorvm_ac_minvs_notorvm_descriptiones_et_historia_(T._VI)_(7495469640).jpg": {
       "reason": "drawing",
       "scientificName": "Spatangus purpureus"
+    },
+    "https://www.inaturalist.org/observations/100141500": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/100358114": {
       "reason": "dead",
       "scientificName": "Loligo forbesii"
     },
+    "https://www.inaturalist.org/observations/100520125": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/100862518": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
     "https://www.inaturalist.org/observations/100878401": {
       "reason": "wrong-subject",
       "scientificName": "Scomber scombrus"
+    },
+    "https://www.inaturalist.org/observations/101395810": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/102065113": {
       "reason": "dead",
@@ -637,9 +957,33 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/103818904": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/104101802": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/104120751": {
       "reason": "wrong-subject",
       "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/104193738": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
+    },
+    "https://www.inaturalist.org/observations/104283850": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/104290085": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/104291716": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/104492577": {
       "reason": "dead",
@@ -653,6 +997,10 @@
       "reason": "wrong-subject",
       "scientificName": "Limanda limanda"
     },
+    "https://www.inaturalist.org/observations/104522870": {
+      "reason": "dead",
+      "scientificName": "Pholis gunnellus"
+    },
     "https://www.inaturalist.org/observations/104600030": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
@@ -661,9 +1009,17 @@
       "reason": "dead",
       "scientificName": "Hyas araneus"
     },
+    "https://www.inaturalist.org/observations/104637285": {
+      "reason": "dead",
+      "scientificName": "Dicentrarchus labrax"
+    },
     "https://www.inaturalist.org/observations/104652997": {
       "reason": "dead",
       "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/104868846": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
     },
     "https://www.inaturalist.org/observations/105059160": {
       "reason": "dead",
@@ -673,13 +1029,33 @@
       "reason": "preserved",
       "scientificName": "Echinus esculentus"
     },
+    "https://www.inaturalist.org/observations/105508566": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/105662649": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/105664081": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/105664229": {
       "reason": "dead",
       "scientificName": "Cancer pagurus"
     },
     "https://www.inaturalist.org/observations/106267688": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/106399184": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/106951465": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/106983479": {
       "reason": "dead",
@@ -689,6 +1065,10 @@
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
     },
+    "https://www.inaturalist.org/observations/107922093": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
     "https://www.inaturalist.org/observations/108180929": {
       "reason": "preserved",
       "scientificName": "Cancer pagurus"
@@ -697,6 +1077,10 @@
       "reason": "dead",
       "scientificName": "Psammechinus miliaris"
     },
+    "https://www.inaturalist.org/observations/108902091": {
+      "reason": "dead",
+      "scientificName": "Pholis gunnellus"
+    },
     "https://www.inaturalist.org/observations/109094081": {
       "reason": "dead",
       "scientificName": "Carcinus maenas"
@@ -704,6 +1088,10 @@
     "https://www.inaturalist.org/observations/109094490": {
       "reason": "dead",
       "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/109532010": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://www.inaturalist.org/observations/109598642": {
       "reason": "dead",
@@ -717,9 +1105,21 @@
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/110078945": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
+    "https://www.inaturalist.org/observations/110836954": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
     "https://www.inaturalist.org/observations/11173976": {
       "reason": "wrong-subject",
       "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/111979209": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/112011601": {
       "reason": "dead",
@@ -729,9 +1129,25 @@
       "reason": "dead",
       "scientificName": "Carcinus maenas"
     },
+    "https://www.inaturalist.org/observations/113003621": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/113111396": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/113122958": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/113124633": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/114665128": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/115375767": {
       "reason": "preserved",
@@ -749,17 +1165,81 @@
       "reason": "dead",
       "scientificName": "Chrysaora hysoscella"
     },
+    "https://www.inaturalist.org/observations/117333661": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
+    },
+    "https://www.inaturalist.org/observations/117552103": {
+      "reason": "preserved",
+      "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/117736840": {
+      "reason": "dead",
+      "scientificName": "Ophiothrix fragilis"
+    },
+    "https://www.inaturalist.org/observations/118381671": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
     "https://www.inaturalist.org/observations/118669649": {
       "reason": "dead",
       "scientificName": "Dicentrarchus labrax"
+    },
+    "https://www.inaturalist.org/observations/118980814": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/119026903": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/119548823": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/119586227": {
+      "reason": "dead",
+      "scientificName": "Halichoerus grypus"
+    },
+    "https://www.inaturalist.org/observations/119827847": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/120010636": {
+      "reason": "preserved",
+      "scientificName": "Phalacrocorax aristotelis"
+    },
+    "https://www.inaturalist.org/observations/120059364": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/120171392": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
+    },
+    "https://www.inaturalist.org/observations/120185818": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/120311424": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
     },
     "https://www.inaturalist.org/observations/120447392": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
     },
+    "https://www.inaturalist.org/observations/121629873": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
     "https://www.inaturalist.org/observations/121819117": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://www.inaturalist.org/observations/121991198": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
     },
     "https://www.inaturalist.org/observations/122019166": {
       "reason": "dead",
@@ -769,6 +1249,26 @@
       "reason": "dead",
       "scientificName": "Callionymus lyra"
     },
+    "https://www.inaturalist.org/observations/12343001": {
+      "reason": "dead",
+      "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/123988335": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/124018682": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/124367684": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/124578748": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
     "https://www.inaturalist.org/observations/124898815": {
       "reason": "dead",
       "scientificName": "Chrysaora hysoscella"
@@ -777,9 +1277,41 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/125212404": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/125767908": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/125956884": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/125983406": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/126197428": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/126224963": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/126225163": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
     "https://www.inaturalist.org/observations/126382826": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/126383415": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
     },
     "https://www.inaturalist.org/observations/126383429": {
       "reason": "dead",
@@ -789,29 +1321,85 @@
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
+    "https://www.inaturalist.org/observations/126645363": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
     "https://www.inaturalist.org/observations/126980305": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/127114585": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/127329839": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
     },
     "https://www.inaturalist.org/observations/127705166": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/127707328": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/127970728": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
     "https://www.inaturalist.org/observations/127971442": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/128162996": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/128462497": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
     },
     "https://www.inaturalist.org/observations/128511544": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
     },
+    "https://www.inaturalist.org/observations/128580375": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://www.inaturalist.org/observations/128583496": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
     },
+    "https://www.inaturalist.org/observations/129190719": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
     "https://www.inaturalist.org/observations/129303312": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/129534639": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/129558160": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/12964483": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/129859977": {
+      "reason": "dead",
+      "scientificName": "Pomatoschistus microps"
+    },
+    "https://www.inaturalist.org/observations/130168230": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
     },
     "https://www.inaturalist.org/observations/130657799": {
       "reason": "dead",
@@ -825,6 +1413,14 @@
       "reason": "dead",
       "scientificName": "Sepia officinalis"
     },
+    "https://www.inaturalist.org/observations/131380917": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
+    "https://www.inaturalist.org/observations/13159365": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
     "https://www.inaturalist.org/observations/131729521": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
@@ -832,6 +1428,10 @@
     "https://www.inaturalist.org/observations/131729525": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/132377919": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
     },
     "https://www.inaturalist.org/observations/132794445": {
       "reason": "dead",
@@ -841,9 +1441,25 @@
       "reason": "wrong-subject",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/133466281": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/133519713": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/133645380": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
     "https://www.inaturalist.org/observations/133802022": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
+    },
+    "https://www.inaturalist.org/observations/134123876": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/134136037": {
       "reason": "dead",
@@ -852,6 +1468,10 @@
     "https://www.inaturalist.org/observations/134832393": {
       "reason": "dead",
       "scientificName": "Marthasterias glacialis"
+    },
+    "https://www.inaturalist.org/observations/134967204": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
     },
     "https://www.inaturalist.org/observations/135841745": {
       "reason": "upside-down",
@@ -865,6 +1485,22 @@
       "reason": "dead",
       "scientificName": "Loligo vulgaris"
     },
+    "https://www.inaturalist.org/observations/136792206": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
+    "https://www.inaturalist.org/observations/137052724": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/137661313": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/137661496": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/137863171": {
       "reason": "preserved",
       "scientificName": "Gobiusculus flavescens"
@@ -873,9 +1509,17 @@
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
     },
+    "https://www.inaturalist.org/observations/138571713": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/138571983": {
       "reason": "wrong-subject",
       "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/139004515": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
     },
     "https://www.inaturalist.org/observations/139171530": {
       "reason": "dead",
@@ -884,6 +1528,22 @@
     "https://www.inaturalist.org/observations/139553415": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
+    },
+    "https://www.inaturalist.org/observations/140161994": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/14019437": {
+      "reason": "preserved",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/141049087": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/141304391": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/141464377": {
       "reason": "dead",
@@ -901,6 +1561,14 @@
       "reason": "dead",
       "scientificName": "Liocarcinus depurator"
     },
+    "https://www.inaturalist.org/observations/141938270": {
+      "reason": "dead",
+      "scientificName": "Lipophrys pholis"
+    },
+    "https://www.inaturalist.org/observations/141979325": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
     "https://www.inaturalist.org/observations/143060707": {
       "reason": "preserved",
       "scientificName": "Asterina gibbosa"
@@ -909,9 +1577,29 @@
       "reason": "dead",
       "scientificName": "Calliostoma zizyphinum"
     },
+    "https://www.inaturalist.org/observations/143420973": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
     "https://www.inaturalist.org/observations/143420977": {
       "reason": "dead",
       "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/143423047": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/143423430": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/143615047": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/144731904": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
     },
     "https://www.inaturalist.org/observations/144890912": {
       "reason": "wrong-subject",
@@ -929,17 +1617,49 @@
       "reason": "dead",
       "scientificName": "Platichthys flesus"
     },
+    "https://www.inaturalist.org/observations/145988353": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/146551149": {
+      "reason": "wrong-subject",
+      "scientificName": "Dicentrarchus labrax"
+    },
     "https://www.inaturalist.org/observations/146717167": {
       "reason": "preserved",
       "scientificName": "Spatangus purpureus"
+    },
+    "https://www.inaturalist.org/observations/146717182": {
+      "reason": "preserved",
+      "scientificName": "Paracentrotus lividus"
     },
     "https://www.inaturalist.org/observations/146843386": {
       "reason": "dead",
       "scientificName": "Somateria mollissima"
     },
+    "https://www.inaturalist.org/observations/147028757": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/147213806": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/147215251": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
+    "https://www.inaturalist.org/observations/14731681": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
     "https://www.inaturalist.org/observations/147539728": {
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/147747106": {
+      "reason": "wrong-subject",
+      "scientificName": "Calliostoma zizyphinum"
     },
     "https://www.inaturalist.org/observations/147753902": {
       "reason": "dead",
@@ -949,6 +1669,18 @@
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
     },
+    "https://www.inaturalist.org/observations/148085120": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/148436782": {
+      "reason": "dead",
+      "scientificName": "Dicentrarchus labrax"
+    },
+    "https://www.inaturalist.org/observations/148455875": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/148545754": {
       "reason": "dead",
       "scientificName": "Pagurus bernhardus"
@@ -957,33 +1689,101 @@
       "reason": "dead",
       "scientificName": "Limanda limanda"
     },
+    "https://www.inaturalist.org/observations/148753752": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
     "https://www.inaturalist.org/observations/14903947": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
+    },
+    "https://www.inaturalist.org/observations/149336617": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
     },
     "https://www.inaturalist.org/observations/149654702": {
       "reason": "wrong-subject",
       "scientificName": "Scyliorhinus canicula"
     },
+    "https://www.inaturalist.org/observations/149923186": {
+      "reason": "wrong-subject",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/149982693": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/150327200": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/150441732": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/15047498": {
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/151392691": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/151728285": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
     },
     "https://www.inaturalist.org/observations/151757689": {
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
     },
+    "https://www.inaturalist.org/observations/151811520": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/152173178": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://www.inaturalist.org/observations/152557825": {
       "reason": "dead",
       "scientificName": "Spatangus purpureus"
+    },
+    "https://www.inaturalist.org/observations/152617772": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/153161544": {
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
     },
+    "https://www.inaturalist.org/observations/153227623": {
+      "reason": "dead",
+      "scientificName": "Chelon labrosus"
+    },
+    "https://www.inaturalist.org/observations/153319039": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/15344478": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/153579164": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://www.inaturalist.org/observations/153922246": {
       "reason": "wrong-subject",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://www.inaturalist.org/observations/154219718": {
+      "reason": "dead",
+      "scientificName": "Halichoerus grypus"
+    },
+    "https://www.inaturalist.org/observations/154378524": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/154809738": {
       "reason": "wrong-subject",
@@ -997,9 +1797,41 @@
       "reason": "wrong-subject",
       "scientificName": "Platichthys flesus"
     },
+    "https://www.inaturalist.org/observations/15681978": {
+      "reason": "wrong-subject",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/158219159": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/158673798": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/158673803": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/159104561": {
+      "reason": "wrong-subject",
+      "scientificName": "Phoca vitulina"
+    },
     "https://www.inaturalist.org/observations/15954694": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/159932101": {
+      "reason": "dead",
+      "scientificName": "Pholis gunnellus"
+    },
+    "https://www.inaturalist.org/observations/160351391": {
+      "reason": "wrong-subject",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/160657774": {
+      "reason": "dead",
+      "scientificName": "Gobius paganellus"
     },
     "https://www.inaturalist.org/observations/161058278": {
       "reason": "dead",
@@ -1021,17 +1853,69 @@
       "reason": "dead",
       "scientificName": "Loligo vulgaris"
     },
+    "https://www.inaturalist.org/observations/162438316": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/162902736": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://www.inaturalist.org/observations/163279987": {
       "reason": "dead",
       "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/166300472": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/166309222": {
+      "reason": "dead",
+      "scientificName": "Chelon labrosus"
+    },
+    "https://www.inaturalist.org/observations/168137398": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/168152029": {
       "reason": "dead",
       "scientificName": "Carcinus maenas"
     },
+    "https://www.inaturalist.org/observations/168338715": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/168698513": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/168998104": {
+      "reason": "wrong-subject",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/169145379": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/169267339": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
     "https://www.inaturalist.org/observations/169718439": {
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
+    },
+    "https://www.inaturalist.org/observations/169820153": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
+    "https://www.inaturalist.org/observations/169823415": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/169914996": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
     },
     "https://www.inaturalist.org/observations/169915276": {
       "reason": "dead",
@@ -1053,13 +1937,25 @@
       "reason": "dead",
       "scientificName": "Platichthys flesus"
     },
+    "https://www.inaturalist.org/observations/170230007": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
     "https://www.inaturalist.org/observations/170258477": {
       "reason": "dead",
       "scientificName": "Echinus esculentus"
     },
+    "https://www.inaturalist.org/observations/170416418": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
     "https://www.inaturalist.org/observations/170433883": {
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/170607211": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/170611612": {
       "reason": "dead",
@@ -1073,21 +1969,113 @@
       "reason": "wrong-subject",
       "scientificName": "Cancer pagurus"
     },
+    "https://www.inaturalist.org/observations/170675154": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/170878126": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/171025164": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/171377607": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/171593761": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/172294822": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/172518387": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/172627974": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/172628318": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/172717647": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/173091340": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/173201071": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/173485526": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/174054039": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
+    },
+    "https://www.inaturalist.org/observations/174202265": {
+      "reason": "wrong-subject",
+      "scientificName": "Pholis gunnellus"
+    },
+    "https://www.inaturalist.org/observations/174228700": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/174365066": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/174478929": {
       "reason": "wrong-subject",
       "scientificName": "Platichthys flesus"
     },
+    "https://www.inaturalist.org/observations/175085806": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
     "https://www.inaturalist.org/observations/175172508": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
     },
+    "https://www.inaturalist.org/observations/175407790": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/175550791": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/175768483": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
     "https://www.inaturalist.org/observations/175838745": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/176233834": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/176418359": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/176466579": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/176596414": {
       "reason": "dead",
@@ -1097,33 +2085,97 @@
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/17672311": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/176967410": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
     "https://www.inaturalist.org/observations/177121091": {
       "reason": "dead",
       "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/177122531": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/177154014": {
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/177498024": {
+      "reason": "wrong-subject",
+      "scientificName": "Phoca vitulina"
+    },
     "https://www.inaturalist.org/observations/177770541": {
       "reason": "wrong-subject",
       "scientificName": "Scomber scombrus"
+    },
+    "https://www.inaturalist.org/observations/177808611": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/177980445": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/178467594": {
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
     },
+    "https://www.inaturalist.org/observations/178705612": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/178709535": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
     "https://www.inaturalist.org/observations/17878352": {
       "reason": "dead",
       "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/178900335": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/178959752": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/179817483": {
       "reason": "dead",
       "scientificName": "Loligo vulgaris"
     },
+    "https://www.inaturalist.org/observations/179883124": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/180021603": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/180424793": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/180681766": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/180745163": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
     "https://www.inaturalist.org/observations/180811215": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/18093311": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/180941193": {
       "reason": "wrong-subject",
@@ -1137,9 +2189,17 @@
       "reason": "dead",
       "scientificName": "Atherina presbyter"
     },
+    "https://www.inaturalist.org/observations/18137123": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
     "https://www.inaturalist.org/observations/181376213": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/181382067": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
     },
     "https://www.inaturalist.org/observations/18144438": {
       "reason": "dead",
@@ -1149,6 +2209,26 @@
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
     },
+    "https://www.inaturalist.org/observations/182364185": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/183083675": {
+      "reason": "dead",
+      "scientificName": "Halichoerus grypus"
+    },
+    "https://www.inaturalist.org/observations/18313613": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/183251480": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/183272437": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
     "https://www.inaturalist.org/observations/183435757": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
@@ -1157,13 +2237,49 @@
       "reason": "dead",
       "scientificName": "Labrus mixtus"
     },
+    "https://www.inaturalist.org/observations/18403064": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/184151339": {
+      "reason": "wrong-subject",
+      "scientificName": "Pholis gunnellus"
+    },
+    "https://www.inaturalist.org/observations/184172234": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
+    },
     "https://www.inaturalist.org/observations/184186831": {
       "reason": "preserved",
       "scientificName": "Callionymus lyra"
     },
+    "https://www.inaturalist.org/observations/184360235": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/184405897": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/184504483": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/184607330": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/18461716": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
     "https://www.inaturalist.org/observations/185003722": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/185426572": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/185549728": {
       "reason": "dead",
@@ -1173,29 +2289,101 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/18611272": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
     "https://www.inaturalist.org/observations/186180609": {
       "reason": "dead",
       "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/186378122": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/186388543": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/186465745": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/186603447": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
     },
     "https://www.inaturalist.org/observations/187290011": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/187324225": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/187324251": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/187550749": {
+      "reason": "dead",
+      "scientificName": "Ophiothrix fragilis"
+    },
+    "https://www.inaturalist.org/observations/187888504": {
+      "reason": "dead",
+      "scientificName": "Atherina presbyter"
+    },
     "https://www.inaturalist.org/observations/188767148": {
       "reason": "dead",
       "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/189037475": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
     },
     "https://www.inaturalist.org/observations/189353087": {
       "reason": "dead",
       "scientificName": "Atherina presbyter"
     },
+    "https://www.inaturalist.org/observations/189678858": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/190046201": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/190058688": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
     "https://www.inaturalist.org/observations/190243927": {
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
     },
+    "https://www.inaturalist.org/observations/190805364": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/190936646": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/191093778": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/191477496": {
       "reason": "dead",
       "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/191515283": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/191716087": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/192397456": {
       "reason": "dead",
@@ -1204,6 +2392,18 @@
     "https://www.inaturalist.org/observations/19253099": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/19309501": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/193338353": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/193872417": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
     },
     "https://www.inaturalist.org/observations/19401599": {
       "reason": "dead",
@@ -1217,9 +2417,25 @@
       "reason": "dead",
       "scientificName": "Nucella lapillus"
     },
+    "https://www.inaturalist.org/observations/194222465": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/194446955": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/194732344": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/194818991": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/194976058": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
     },
     "https://www.inaturalist.org/observations/195184821": {
       "reason": "dead",
@@ -1237,13 +2453,25 @@
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/195853979": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lastoviza"
+    },
     "https://www.inaturalist.org/observations/196001679": {
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/196118085": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
     "https://www.inaturalist.org/observations/196350528": {
       "reason": "preserved",
       "scientificName": "Psammechinus miliaris"
+    },
+    "https://www.inaturalist.org/observations/196357682": {
+      "reason": "dead",
+      "scientificName": "Ophiothrix fragilis"
     },
     "https://www.inaturalist.org/observations/196584814": {
       "reason": "dead",
@@ -1256,6 +2484,14 @@
     "https://www.inaturalist.org/observations/197045520": {
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
+    },
+    "https://www.inaturalist.org/observations/197055113": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/197242898": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://www.inaturalist.org/observations/197292237": {
       "reason": "wrong-subject",
@@ -1273,6 +2509,18 @@
       "reason": "dead",
       "scientificName": "Echinus esculentus"
     },
+    "https://www.inaturalist.org/observations/198242943": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/198429023": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/19865775": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
     "https://www.inaturalist.org/observations/198824907": {
       "reason": "wrong-subject",
       "scientificName": "Platichthys flesus"
@@ -1281,13 +2529,33 @@
       "reason": "dead",
       "scientificName": "Lipophrys pholis"
     },
+    "https://www.inaturalist.org/observations/199316535": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
     "https://www.inaturalist.org/observations/199499989": {
       "reason": "dead",
       "scientificName": "Aurelia aurita"
     },
+    "https://www.inaturalist.org/observations/19997006": {
+      "reason": "dead",
+      "scientificName": "Octopus vulgaris"
+    },
     "https://www.inaturalist.org/observations/200374594": {
       "reason": "wrong-subject+dead",
       "scientificName": "Scyliorhinus canicula"
+    },
+    "https://www.inaturalist.org/observations/200723291": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/200812671": {
+      "reason": "preserved",
+      "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/200837152": {
+      "reason": "preserved",
+      "scientificName": "Liocarcinus depurator"
     },
     "https://www.inaturalist.org/observations/201931629": {
       "reason": "dead",
@@ -1317,6 +2585,10 @@
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/202812499": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
     "https://www.inaturalist.org/observations/202883080": {
       "reason": "dead",
       "scientificName": "Asterias rubens"
@@ -1325,6 +2597,38 @@
       "reason": "preserved",
       "scientificName": "Echinus esculentus"
     },
+    "https://www.inaturalist.org/observations/203597277": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/203723100": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/203770832": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/203940999": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/204174838": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/204389197": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/204903435": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/204955266": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lastoviza"
+    },
     "https://www.inaturalist.org/observations/204957956": {
       "reason": "dead",
       "scientificName": "Loligo forbesii"
@@ -1332,6 +2636,10 @@
     "https://www.inaturalist.org/observations/205734918": {
       "reason": "dead",
       "scientificName": "Psammechinus miliaris"
+    },
+    "https://www.inaturalist.org/observations/205848790": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
     },
     "https://www.inaturalist.org/observations/206055294": {
       "reason": "dead",
@@ -1349,13 +2657,41 @@
       "reason": "dead",
       "scientificName": "Dicentrarchus labrax"
     },
+    "https://www.inaturalist.org/observations/206779124": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/206790461": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/206907631": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/207066619": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
     "https://www.inaturalist.org/observations/207074752": {
       "reason": "dead",
       "scientificName": "Atherina presbyter"
     },
+    "https://www.inaturalist.org/observations/207424000": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/207597586": {
       "reason": "dead",
       "scientificName": "Atherina presbyter"
+    },
+    "https://www.inaturalist.org/observations/207785644": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/20779772": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/207935526": {
       "reason": "wrong-subject+dead",
@@ -1369,25 +2705,113 @@
       "reason": "dead",
       "scientificName": "Echinus esculentus"
     },
+    "https://www.inaturalist.org/observations/208476918": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/208805895": {
+      "reason": "preserved",
+      "scientificName": "Ophiothrix fragilis"
+    },
+    "https://www.inaturalist.org/observations/208994914": {
+      "reason": "dead",
+      "scientificName": "Lipophrys pholis"
+    },
+    "https://www.inaturalist.org/observations/209074944": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/210530576": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/21065566": {
+      "reason": "dead",
+      "scientificName": "Octopus vulgaris"
+    },
+    "https://www.inaturalist.org/observations/212381398": {
+      "reason": "preserved",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/212659674": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
+    "https://www.inaturalist.org/observations/212963759": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/213092948": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lastoviza"
+    },
     "https://www.inaturalist.org/observations/213236425": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/21328544": {
+      "reason": "dead",
+      "scientificName": "Atherina presbyter"
     },
     "https://www.inaturalist.org/observations/21329088": {
       "reason": "preserved",
       "scientificName": "Ophiothrix fragilis"
     },
+    "https://www.inaturalist.org/observations/213293890": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/213414455": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
     "https://www.inaturalist.org/observations/213475347": {
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
     },
+    "https://www.inaturalist.org/observations/213535158": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/213535164": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/213535171": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/213552501": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/213566371": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
     "https://www.inaturalist.org/observations/213590023": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/213590026": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/213590028": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
     },
     "https://www.inaturalist.org/observations/213590046": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/213590216": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/214258717": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/214609235": {
       "reason": "dead",
@@ -1400,6 +2824,30 @@
     "https://www.inaturalist.org/observations/215106195": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/215362682": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/215363604": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/215389223": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/215462364": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/215623103": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/216773804": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
     },
     "https://www.inaturalist.org/observations/217038748": {
       "reason": "dead",
@@ -1425,9 +2873,17 @@
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
     },
+    "https://www.inaturalist.org/observations/218682185": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
     "https://www.inaturalist.org/observations/218894051": {
       "reason": "dead",
       "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/219095035": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
     },
     "https://www.inaturalist.org/observations/219618311": {
       "reason": "dead",
@@ -1437,17 +2893,69 @@
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/220478662": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/220906881": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/221587416": {
+      "reason": "wrong-subject",
+      "scientificName": "Limanda limanda"
+    },
     "https://www.inaturalist.org/observations/221587462": {
       "reason": "wrong-subject",
       "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/221884267": {
+      "reason": "preserved",
+      "scientificName": "Lipophrys pholis"
+    },
+    "https://www.inaturalist.org/observations/221943826": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/222426169": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/222556133": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/222841047": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/223005856": {
+      "reason": "wrong-subject",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/223157137": {
       "reason": "dead",
       "scientificName": "Cancer pagurus"
     },
+    "https://www.inaturalist.org/observations/223281269": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
     "https://www.inaturalist.org/observations/223798657": {
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/22382538": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
+    },
+    "https://www.inaturalist.org/observations/224043869": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/224334606": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/224436028": {
       "reason": "dead",
@@ -1465,6 +2973,30 @@
       "reason": "preserved",
       "scientificName": "Patella vulgata"
     },
+    "https://www.inaturalist.org/observations/224955891": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/224956088": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/225081120": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/225106284": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/225141337": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/225271597": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
     "https://www.inaturalist.org/observations/225408429": {
       "reason": "dead",
       "scientificName": "Chrysaora hysoscella"
@@ -1472,6 +3004,18 @@
     "https://www.inaturalist.org/observations/225571925": {
       "reason": "dead",
       "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/225923013": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/226428710": {
+      "reason": "wrong-subject",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/226428727": {
+      "reason": "wrong-subject",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/226730029": {
       "reason": "dead",
@@ -1485,9 +3029,21 @@
       "reason": "dead",
       "scientificName": "Hyas araneus"
     },
+    "https://www.inaturalist.org/observations/227171827": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/227345340": {
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
+    },
+    "https://www.inaturalist.org/observations/227523905": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/227563007": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
     },
     "https://www.inaturalist.org/observations/227815965": {
       "reason": "dead",
@@ -1497,9 +3053,45 @@
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
     },
+    "https://www.inaturalist.org/observations/227833711": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/227933389": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/227933564": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/227933612": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/228038154": {
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
+    },
+    "https://www.inaturalist.org/observations/228478201": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/228510041": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/228525368": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/228650002": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/228830146": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
     },
     "https://www.inaturalist.org/observations/229104021": {
       "reason": "wrong-subject",
@@ -1513,11 +3105,55 @@
       "reason": "dead",
       "scientificName": "Labrus mixtus"
     },
+    "https://www.inaturalist.org/observations/229570758": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/229703532": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/229952434": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/230114859": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/230263393": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/230320153": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/230331080": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/230816792": {
+      "reason": "dead",
+      "scientificName": "Asterina gibbosa"
+    },
+    "https://www.inaturalist.org/observations/231196329": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/231370670": {
+      "reason": "drawing",
+      "scientificName": "Chrysaora hysoscella"
+    },
     "https://www.inaturalist.org/observations/231375357": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
     },
     "https://www.inaturalist.org/observations/231410826": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/231420634": {
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
     },
@@ -1529,9 +3165,21 @@
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
     },
+    "https://www.inaturalist.org/observations/231481176": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/231484343": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://www.inaturalist.org/observations/231655030": {
       "reason": "dead",
       "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/231797141": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/231842247": {
       "reason": "dead",
@@ -1540,6 +3188,10 @@
     "https://www.inaturalist.org/observations/231873411": {
       "reason": "dead",
       "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/231935771": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/232080708": {
       "reason": "dead",
@@ -1553,13 +3205,41 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/232690926": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
     "https://www.inaturalist.org/observations/233224053": {
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/233435275": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
     "https://www.inaturalist.org/observations/233435379": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
+    },
+    "https://www.inaturalist.org/observations/233521792": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/234572718": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/235163856": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/235236359": {
+      "reason": "dead",
+      "scientificName": "Atherina presbyter"
+    },
+    "https://www.inaturalist.org/observations/235347549": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/235377383": {
       "reason": "dead",
@@ -1577,6 +3257,14 @@
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
     },
+    "https://www.inaturalist.org/observations/236571081": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/236729093": {
+      "reason": "dead",
+      "scientificName": "Pholis gunnellus"
+    },
     "https://www.inaturalist.org/observations/236900289": {
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
@@ -1589,57 +3277,201 @@
       "reason": "wrong-subject",
       "scientificName": "Asterias rubens"
     },
+    "https://www.inaturalist.org/observations/237347061": {
+      "reason": "wrong-subject",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/237379641": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/237448260": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
     "https://www.inaturalist.org/observations/237517303": {
       "reason": "dead",
       "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/237539959": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/237851249": {
+      "reason": "wrong-subject",
+      "scientificName": "Conger conger"
     },
     "https://www.inaturalist.org/observations/23802979": {
       "reason": "wrong-subject+dead",
       "scientificName": "Limanda limanda"
     },
+    "https://www.inaturalist.org/observations/238044668": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
     "https://www.inaturalist.org/observations/238098691": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/238556576": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
     },
     "https://www.inaturalist.org/observations/238744317": {
       "reason": "dead",
       "scientificName": "Psammechinus miliaris"
     },
+    "https://www.inaturalist.org/observations/238939754": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/239067512": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/239154675": {
+      "reason": "wrong-subject",
+      "scientificName": "Pholis gunnellus"
+    },
     "https://www.inaturalist.org/observations/239598378": {
       "reason": "dead",
       "scientificName": "Halichoerus grypus"
+    },
+    "https://www.inaturalist.org/observations/239932063": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/240606106": {
+      "reason": "dead",
+      "scientificName": "Dicentrarchus labrax"
+    },
+    "https://www.inaturalist.org/observations/241079943": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/241506884": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/241602932": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/241603220": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
     },
     "https://www.inaturalist.org/observations/242102298": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
     },
+    "https://www.inaturalist.org/observations/243499425": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/243499637": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
     "https://www.inaturalist.org/observations/243503722": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://www.inaturalist.org/observations/243750117": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
     },
     "https://www.inaturalist.org/observations/244207633": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
     },
+    "https://www.inaturalist.org/observations/244207747": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/244322267": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/244722075": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/245259210": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/245303073": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
     "https://www.inaturalist.org/observations/245568411": {
       "reason": "dead",
       "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/245580628": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
     },
     "https://www.inaturalist.org/observations/245626849": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
     },
+    "https://www.inaturalist.org/observations/245830709": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/245960876": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/246044461": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/246045663": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
     "https://www.inaturalist.org/observations/246046036": {
       "reason": "dead",
       "scientificName": "Marthasterias glacialis"
+    },
+    "https://www.inaturalist.org/observations/246046115": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
     },
     "https://www.inaturalist.org/observations/246046129": {
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/246046289": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
     "https://www.inaturalist.org/observations/247366947": {
       "reason": "dead",
       "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/24744036": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/24744068": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/247589875": {
+      "reason": "preserved",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/247601049": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/248260160": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/248558628": {
       "reason": "dead",
@@ -1649,9 +3481,17 @@
       "reason": "dead",
       "scientificName": "Calliostoma zizyphinum"
     },
+    "https://www.inaturalist.org/observations/249020857": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
     "https://www.inaturalist.org/observations/249187081": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/249195224": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/24951295": {
       "reason": "dead",
@@ -1660,6 +3500,10 @@
     "https://www.inaturalist.org/observations/249537316": {
       "reason": "preserved",
       "scientificName": "Hyas araneus"
+    },
+    "https://www.inaturalist.org/observations/249740890": {
+      "reason": "wrong-subject",
+      "scientificName": "Necora puber"
     },
     "https://www.inaturalist.org/observations/250345151": {
       "reason": "dead",
@@ -1677,6 +3521,10 @@
       "reason": "dead",
       "scientificName": "Sepiola atlantica"
     },
+    "https://www.inaturalist.org/observations/251878343": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
     "https://www.inaturalist.org/observations/251889607": {
       "reason": "dead",
       "scientificName": "Psammechinus miliaris"
@@ -1688,6 +3536,14 @@
     "https://www.inaturalist.org/observations/252192078": {
       "reason": "dead",
       "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/252198346": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/252198437": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
     },
     "https://www.inaturalist.org/observations/252375337": {
       "reason": "dead",
@@ -1705,6 +3561,14 @@
       "reason": "dead",
       "scientificName": "Patella vulgata"
     },
+    "https://www.inaturalist.org/observations/252551644": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/252585388": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
     "https://www.inaturalist.org/observations/252598057": {
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
@@ -1712,6 +3576,18 @@
     "https://www.inaturalist.org/observations/252734224": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/253418222": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/254300024": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/254410333": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
     },
     "https://www.inaturalist.org/observations/254645485": {
       "reason": "dead",
@@ -1725,6 +3601,10 @@
       "reason": "dead",
       "scientificName": "Psammechinus miliaris"
     },
+    "https://www.inaturalist.org/observations/255058564": {
+      "reason": "preserved",
+      "scientificName": "Calliostoma zizyphinum"
+    },
     "https://www.inaturalist.org/observations/255530333": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
@@ -1733,13 +3613,45 @@
       "reason": "dead",
       "scientificName": "Gadus morhua"
     },
+    "https://www.inaturalist.org/observations/255624103": {
+      "reason": "dead",
+      "scientificName": "Pomatoschistus microps"
+    },
     "https://www.inaturalist.org/observations/255674112": {
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
     },
+    "https://www.inaturalist.org/observations/255718776": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/255765605": {
+      "reason": "dead",
+      "scientificName": "Atherina presbyter"
+    },
+    "https://www.inaturalist.org/observations/255765621": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/255770487": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
     "https://www.inaturalist.org/observations/255856471": {
       "reason": "dead",
       "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/255857241": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/256085204": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/256711205": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
     },
     "https://www.inaturalist.org/observations/256738951": {
       "reason": "dead",
@@ -1757,6 +3669,14 @@
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
     },
+    "https://www.inaturalist.org/observations/257286959": {
+      "reason": "wrong-subject",
+      "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/257344051": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/257482146": {
       "reason": "dead",
       "scientificName": "Symphodus melops"
@@ -1764,6 +3684,14 @@
     "https://www.inaturalist.org/observations/257604349": {
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/257604608": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/257632508": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/257687855": {
       "reason": "dead",
@@ -1777,6 +3705,26 @@
       "reason": "dead",
       "scientificName": "Loligo vulgaris"
     },
+    "https://www.inaturalist.org/observations/257972979": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/258058201": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/258058385": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/258058817": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/258058993": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/258059272": {
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
@@ -1785,9 +3733,29 @@
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
     },
+    "https://www.inaturalist.org/observations/258059833": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/258059922": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/25806905": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/258191941": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/258195763": {
       "reason": "wrong-subject",
       "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/258396318": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
     },
     "https://www.inaturalist.org/observations/258409649": {
       "reason": "dead",
@@ -1805,17 +3773,33 @@
       "reason": "dead",
       "scientificName": "Carcinus maenas"
     },
+    "https://www.inaturalist.org/observations/258675189": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
     "https://www.inaturalist.org/observations/259347797": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://www.inaturalist.org/observations/26016173": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
     },
     "https://www.inaturalist.org/observations/260213216": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
+    "https://www.inaturalist.org/observations/260548177": {
+      "reason": "wrong-subject",
+      "scientificName": "Lipophrys pholis"
+    },
     "https://www.inaturalist.org/observations/260847091": {
       "reason": "dead",
       "scientificName": "Dicentrarchus labrax"
+    },
+    "https://www.inaturalist.org/observations/261027793": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/261130977": {
       "reason": "dead",
@@ -1825,9 +3809,25 @@
       "reason": "dead",
       "scientificName": "Limanda limanda"
     },
+    "https://www.inaturalist.org/observations/261427292": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/261973823": {
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
+    },
+    "https://www.inaturalist.org/observations/262021669": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/262267680": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/262267829": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
     },
     "https://www.inaturalist.org/observations/262760576": {
       "reason": "dead",
@@ -1836,6 +3836,18 @@
     "https://www.inaturalist.org/observations/262832492": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
+    },
+    "https://www.inaturalist.org/observations/26296856": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/26297565": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
+    "https://www.inaturalist.org/observations/263189816": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
     },
     "https://www.inaturalist.org/observations/263606881": {
       "reason": "dead",
@@ -1853,6 +3865,10 @@
       "reason": "dead",
       "scientificName": "Gobiusculus flavescens"
     },
+    "https://www.inaturalist.org/observations/263769260": {
+      "reason": "wrong-subject",
+      "scientificName": "Eutrigla gurnardus"
+    },
     "https://www.inaturalist.org/observations/264082452": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
@@ -1869,7 +3885,31 @@
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/264709889": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/264859486": {
+      "reason": "wrong-subject",
+      "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/264861250": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/265034807": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/265198995": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/265582077": {
+      "reason": "wrong-subject",
+      "scientificName": "Pomatoschistus microps"
+    },
+    "https://www.inaturalist.org/observations/265679064": {
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
     },
@@ -1877,13 +3917,33 @@
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
     },
+    "https://www.inaturalist.org/observations/265740986": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/265753945": {
       "reason": "preserved",
       "scientificName": "Conger conger"
     },
+    "https://www.inaturalist.org/observations/26597963": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/26611878": {
+      "reason": "dead",
+      "scientificName": "Pholis gunnellus"
+    },
+    "https://www.inaturalist.org/observations/26624472": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
+    },
     "https://www.inaturalist.org/observations/26624483": {
       "reason": "dead",
       "scientificName": "Callionymus maculatus"
+    },
+    "https://www.inaturalist.org/observations/266348187": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://www.inaturalist.org/observations/266650289": {
       "reason": "dead",
@@ -1892,6 +3952,10 @@
     "https://www.inaturalist.org/observations/26675379": {
       "reason": "dead",
       "scientificName": "Halichoerus grypus"
+    },
+    "https://www.inaturalist.org/observations/267091816": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
     },
     "https://www.inaturalist.org/observations/267168065": {
       "reason": "wrong-subject",
@@ -1909,13 +3973,29 @@
       "reason": "dead",
       "scientificName": "Dicentrarchus labrax"
     },
+    "https://www.inaturalist.org/observations/270161390": {
+      "reason": "dead",
+      "scientificName": "Dicentrarchus labrax"
+    },
     "https://www.inaturalist.org/observations/270229899": {
       "reason": "dead",
       "scientificName": "Labrus bergylta"
     },
+    "https://www.inaturalist.org/observations/27066495": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
     "https://www.inaturalist.org/observations/271528425": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
+    },
+    "https://www.inaturalist.org/observations/272827724": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/274060636": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
     },
     "https://www.inaturalist.org/observations/274671340": {
       "reason": "dead",
@@ -1925,6 +4005,18 @@
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
     },
+    "https://www.inaturalist.org/observations/276776962": {
+      "reason": "wrong-subject",
+      "scientificName": "Lipophrys pholis"
+    },
+    "https://www.inaturalist.org/observations/27700454": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/277624949": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lastoviza"
+    },
     "https://www.inaturalist.org/observations/27777517": {
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
@@ -1932,6 +4024,26 @@
     "https://www.inaturalist.org/observations/277798267": {
       "reason": "dead",
       "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/27787154": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/278832181": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/279559125": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/280224503": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/280787694": {
+      "reason": "preserved",
+      "scientificName": "Liocarcinus depurator"
     },
     "https://www.inaturalist.org/observations/281372465": {
       "reason": "dead",
@@ -1949,25 +4061,105 @@
       "reason": "dead",
       "scientificName": "Ctenolabrus rupestris"
     },
+    "https://www.inaturalist.org/observations/282233390": {
+      "reason": "preserved",
+      "scientificName": "Pleuronectes platessa"
+    },
     "https://www.inaturalist.org/observations/282279127": {
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/282313947": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/28235737": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/282669117": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/284235805": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lastoviza"
+    },
+    "https://www.inaturalist.org/observations/284785005": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/285004128": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/285091112": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/28519959": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://www.inaturalist.org/observations/285542722": {
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
     },
+    "https://www.inaturalist.org/observations/285673377": {
+      "reason": "wrong-subject",
+      "scientificName": "Ophiothrix fragilis"
+    },
+    "https://www.inaturalist.org/observations/286296360": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/287037345": {
+      "reason": "wrong-subject",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/28727768": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/28756597": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/288999554": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
     },
     "https://www.inaturalist.org/observations/289488066": {
       "reason": "wrong-subject",
       "scientificName": "Somateria mollissima"
     },
+    "https://www.inaturalist.org/observations/290715839": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
     "https://www.inaturalist.org/observations/291115190": {
       "reason": "wrong-subject",
       "scientificName": "Sprattus sprattus"
+    },
+    "https://www.inaturalist.org/observations/291591581": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/291678857": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/292131702": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/292787566": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/293061585": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/293113600": {
       "reason": "dead",
@@ -1981,13 +4173,45 @@
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
     },
+    "https://www.inaturalist.org/observations/295970970": {
+      "reason": "dead",
+      "scientificName": "Pholis gunnellus"
+    },
+    "https://www.inaturalist.org/observations/296221397": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
     "https://www.inaturalist.org/observations/296274375": {
       "reason": "dead",
       "scientificName": "Psammechinus miliaris"
     },
+    "https://www.inaturalist.org/observations/297749590": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
     "https://www.inaturalist.org/observations/297818908": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/298015047": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/298858535": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/298860540": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/299579463": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/299638473": {
+      "reason": "wrong-subject",
+      "scientificName": "Pollachius virens"
     },
     "https://www.inaturalist.org/observations/300070258": {
       "reason": "drawing",
@@ -2013,6 +4237,14 @@
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
+    "https://www.inaturalist.org/observations/301478461": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/30160165": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
     "https://www.inaturalist.org/observations/301784698": {
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
@@ -2021,9 +4253,21 @@
       "reason": "dead",
       "scientificName": "Chrysaora hysoscella"
     },
+    "https://www.inaturalist.org/observations/302704356": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
     "https://www.inaturalist.org/observations/303493810": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
+    },
+    "https://www.inaturalist.org/observations/303495619": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/303701141": {
+      "reason": "wrong-subject",
+      "scientificName": "Pollachius pollachius"
     },
     "https://www.inaturalist.org/observations/304052710": {
       "reason": "dead",
@@ -2037,9 +4281,17 @@
       "reason": "dead",
       "scientificName": "Cyanea capillata"
     },
+    "https://www.inaturalist.org/observations/30539054": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
     "https://www.inaturalist.org/observations/306059916": {
       "reason": "dead",
       "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/306497217": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
     },
     "https://www.inaturalist.org/observations/30663842": {
       "reason": "dead",
@@ -2053,6 +4305,14 @@
       "reason": "dead",
       "scientificName": "Aurelia aurita"
     },
+    "https://www.inaturalist.org/observations/306960399": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/306981103": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
     "https://www.inaturalist.org/observations/308338023": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
@@ -2061,21 +4321,81 @@
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/308954072": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
     "https://www.inaturalist.org/observations/309605927": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
+    },
+    "https://www.inaturalist.org/observations/309697799": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/309761333": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/311211296": {
       "reason": "dead",
       "scientificName": "Mullus surmuletus"
     },
+    "https://www.inaturalist.org/observations/311603189": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
+    "https://www.inaturalist.org/observations/312467732": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/31250809": {
+      "reason": "preserved",
+      "scientificName": "Pomatoschistus minutus"
+    },
+    "https://www.inaturalist.org/observations/31250828": {
+      "reason": "dead",
+      "scientificName": "Pomatoschistus minutus"
+    },
+    "https://www.inaturalist.org/observations/312874160": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/312898032": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
     "https://www.inaturalist.org/observations/313518537": {
       "reason": "dead",
       "scientificName": "Asterias rubens"
     },
+    "https://www.inaturalist.org/observations/313758779": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/31391202": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/313921471": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/314414494": {
       "reason": "dead",
       "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/315617514": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
+    "https://www.inaturalist.org/observations/316166193": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/317219200": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
     },
     "https://www.inaturalist.org/observations/317952325": {
       "reason": "dead",
@@ -2085,9 +4405,29 @@
       "reason": "dead",
       "scientificName": "Labrus mixtus"
     },
+    "https://www.inaturalist.org/observations/318039461": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/318741370": {
+      "reason": "wrong-subject",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/319743723": {
+      "reason": "preserved",
+      "scientificName": "Asterina gibbosa"
+    },
+    "https://www.inaturalist.org/observations/319961868": {
+      "reason": "wrong-subject",
+      "scientificName": "Pleuronectes platessa"
+    },
     "https://www.inaturalist.org/observations/320137177": {
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
+    },
+    "https://www.inaturalist.org/observations/320209767": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/320364371": {
       "reason": "preserved",
@@ -2096,6 +4436,10 @@
     "https://www.inaturalist.org/observations/320435342": {
       "reason": "dead",
       "scientificName": "Atherina presbyter"
+    },
+    "https://www.inaturalist.org/observations/321077605": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
     },
     "https://www.inaturalist.org/observations/321138403": {
       "reason": "dead",
@@ -2109,6 +4453,10 @@
       "reason": "wrong-subject",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/321389820": {
+      "reason": "wrong-subject",
+      "scientificName": "Echinus esculentus"
+    },
     "https://www.inaturalist.org/observations/321397527": {
       "reason": "wrong-subject",
       "scientificName": "Cancer pagurus"
@@ -2117,25 +4465,101 @@
       "reason": "dead",
       "scientificName": "Spatangus purpureus"
     },
+    "https://www.inaturalist.org/observations/322214285": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/322570169": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/322575525": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
     "https://www.inaturalist.org/observations/322665424": {
       "reason": "preserved",
       "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/322813006": {
+      "reason": "wrong-subject",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/322900717": {
+      "reason": "wrong-subject",
+      "scientificName": "Phoca vitulina"
     },
     "https://www.inaturalist.org/observations/324043908": {
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
     },
+    "https://www.inaturalist.org/observations/324226940": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/324347240": {
+      "reason": "wrong-subject",
+      "scientificName": "Asterina gibbosa"
+    },
     "https://www.inaturalist.org/observations/324932796": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/325182537": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/325320903": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/325353367": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/325678517": {
+      "reason": "preserved",
+      "scientificName": "Eledone cirrhosa"
     },
     "https://www.inaturalist.org/observations/325695386": {
       "reason": "wrong-subject",
       "scientificName": "Conger conger"
     },
+    "https://www.inaturalist.org/observations/326020807": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
     "https://www.inaturalist.org/observations/326087211": {
       "reason": "dead",
       "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/326104511": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/326234452": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/326339075": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/326371641": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/326441879": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/326488318": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/327028912": {
+      "reason": "drawing",
+      "scientificName": "Conger conger"
     },
     "https://www.inaturalist.org/observations/327384909": {
       "reason": "dead",
@@ -2145,6 +4569,14 @@
       "reason": "preserved",
       "scientificName": "Steromphala umbilicalis"
     },
+    "https://www.inaturalist.org/observations/329364350": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/329487638": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
     "https://www.inaturalist.org/observations/329511751": {
       "reason": "dead",
       "scientificName": "Loligo forbesii"
@@ -2153,77 +4585,249 @@
       "reason": "dead",
       "scientificName": "Loligo forbesii"
     },
+    "https://www.inaturalist.org/observations/33097437": {
+      "reason": "wrong-subject",
+      "scientificName": "Phalacrocorax carbo"
+    },
+    "https://www.inaturalist.org/observations/331082105": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/331542161": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/332018132": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/332163063": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/332302577": {
       "reason": "dead",
       "scientificName": "Labrus mixtus"
     },
+    "https://www.inaturalist.org/observations/332596672": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
     "https://www.inaturalist.org/observations/333048915": {
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/33310582": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/33315650": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
     },
     "https://www.inaturalist.org/observations/333834141": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
     },
+    "https://www.inaturalist.org/observations/333834410": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/334130541": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
     "https://www.inaturalist.org/observations/334337441": {
       "reason": "dead",
       "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/334573754": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/334827705": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/33488481": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/335102598": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/335825247": {
+      "reason": "wrong-subject",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/335888462": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
     },
     "https://www.inaturalist.org/observations/336361961": {
       "reason": "dead",
       "scientificName": "Atherina presbyter"
     },
+    "https://www.inaturalist.org/observations/336418906": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/336418908": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/336591250": {
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/336738148": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/336832926": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/337846605": {
       "reason": "dead",
       "scientificName": "Necora puber"
     },
+    "https://www.inaturalist.org/observations/337993911": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/339032996": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
     "https://www.inaturalist.org/observations/339202783": {
       "reason": "wrong-subject",
       "scientificName": "Dicentrarchus labrax"
+    },
+    "https://www.inaturalist.org/observations/339293156": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/339391521": {
+      "reason": "dead",
+      "scientificName": "Gobius paganellus"
+    },
+    "https://www.inaturalist.org/observations/339552513": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/339857737": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/339890993": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
     },
+    "https://www.inaturalist.org/observations/340013228": {
+      "reason": "wrong-subject",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/340138500": {
+      "reason": "dead",
+      "scientificName": "Pomatoschistus minutus"
+    },
     "https://www.inaturalist.org/observations/340838338": {
       "reason": "dead",
       "scientificName": "Steromphala umbilicalis"
     },
+    "https://www.inaturalist.org/observations/340897052": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/341536248": {
+      "reason": "wrong-subject",
+      "scientificName": "Atherina presbyter"
+    },
     "https://www.inaturalist.org/observations/341631079": {
       "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/341631195": {
+      "reason": "preserved",
       "scientificName": "Nucella lapillus"
     },
     "https://www.inaturalist.org/observations/341669306": {
       "reason": "dead",
       "scientificName": "Psammechinus miliaris"
     },
+    "https://www.inaturalist.org/observations/342430514": {
+      "reason": "wrong-subject",
+      "scientificName": "Atherina presbyter"
+    },
     "https://www.inaturalist.org/observations/342598855": {
       "reason": "wrong-subject",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/342987746": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/343002712": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/343076383": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/343449170": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://www.inaturalist.org/observations/34351892": {
       "reason": "dead",
       "scientificName": "Pholis gunnellus"
     },
+    "https://www.inaturalist.org/observations/343863333": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/343867767": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/343879953": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
     "https://www.inaturalist.org/observations/344327476": {
       "reason": "dead",
       "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/344465018": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/34461675": {
       "reason": "dead",
       "scientificName": "Asterias rubens"
     },
+    "https://www.inaturalist.org/observations/345259647": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/34527591": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
     "https://www.inaturalist.org/observations/345334528": {
       "reason": "dead",
       "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/34621180": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/346384318": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
     },
     "https://www.inaturalist.org/observations/346956735": {
       "reason": "dead",
@@ -2233,23 +4837,83 @@
       "reason": "dead",
       "scientificName": "Labrus mixtus"
     },
+    "https://www.inaturalist.org/observations/348511674": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/350019133": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/350766053": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/351101541": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
     "https://www.inaturalist.org/observations/351266376": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/351426443": {
+      "reason": "wrong-subject",
+      "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/353118516": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     },
     "https://www.inaturalist.org/observations/353683798": {
       "reason": "dead",
       "scientificName": "Asterias rubens"
     },
+    "https://www.inaturalist.org/observations/354497326": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/354750136": {
       "reason": "dead",
       "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/356897137": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/359571583": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
     },
     "https://www.inaturalist.org/observations/359975693": {
       "reason": "dead",
       "scientificName": "Spatangus purpureus"
     },
+    "https://www.inaturalist.org/observations/361961925": {
+      "reason": "dead",
+      "scientificName": "Paracentrotus lividus"
+    },
+    "https://www.inaturalist.org/observations/362056719": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/362144348": {
+      "reason": "dead",
+      "scientificName": "Pholis gunnellus"
+    },
     "https://www.inaturalist.org/observations/362327917": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
+    "https://www.inaturalist.org/observations/363373945": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/363922876": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/363922935": {
       "reason": "dead",
       "scientificName": "Labrus bergylta"
     },
@@ -2257,21 +4921,53 @@
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/364623148": {
+      "reason": "dead",
+      "scientificName": "Labrus bergylta"
+    },
+    "https://www.inaturalist.org/observations/365141382": {
+      "reason": "dead",
+      "scientificName": "Dicentrarchus labrax"
+    },
     "https://www.inaturalist.org/observations/365321195": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/365399020": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
     },
     "https://www.inaturalist.org/observations/365529726": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
     },
+    "https://www.inaturalist.org/observations/367157412": {
+      "reason": "dead",
+      "scientificName": "Lipophrys pholis"
+    },
+    "https://www.inaturalist.org/observations/367992371": {
+      "reason": "dead",
+      "scientificName": "Pagurus bernhardus"
+    },
     "https://www.inaturalist.org/observations/36965080": {
       "reason": "dead",
       "scientificName": "Paracentrotus lividus"
     },
+    "https://www.inaturalist.org/observations/369668976": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
     "https://www.inaturalist.org/observations/36996473": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/370294813": {
+      "reason": "dead",
+      "scientificName": "Pagurus bernhardus"
+    },
+    "https://www.inaturalist.org/observations/370473556": {
+      "reason": "dead",
+      "scientificName": "Atherina presbyter"
     },
     "https://www.inaturalist.org/observations/372538125": {
       "reason": "dead",
@@ -2281,13 +4977,245 @@
       "reason": "dead",
       "scientificName": "Atherina presbyter"
     },
+    "https://www.inaturalist.org/observations/373391323": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/374629388": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/374918489": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lucerna"
+    },
+    "https://www.inaturalist.org/observations/374919270": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
     "https://www.inaturalist.org/observations/37495313": {
       "reason": "dead",
       "scientificName": "Trisopterus minutus"
     },
+    "https://www.inaturalist.org/observations/37495318": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/37495323": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/37495330": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/375321213": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/375458329": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/375564280": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/375755986": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/376206187": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/37784837": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/378050108": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/378366882": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/379153834": {
+      "reason": "dead",
+      "scientificName": "Gobiusculus flavescens"
+    },
+    "https://www.inaturalist.org/observations/379786727": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/37992611": {
       "reason": "wrong-subject",
       "scientificName": "Pholis gunnellus"
+    },
+    "https://www.inaturalist.org/observations/380076116": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/380078960": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/380646533": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/381443851": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/381460773": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/381970840": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/382350088": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/382944096": {
+      "reason": "dead",
+      "scientificName": "Chrysaora hysoscella"
+    },
+    "https://www.inaturalist.org/observations/383220614": {
+      "reason": "dead",
+      "scientificName": "Gobius paganellus"
+    },
+    "https://www.inaturalist.org/observations/38341114": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/384507132": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/384679262": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/385675949": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/386069503": {
+      "reason": "dead",
+      "scientificName": "Atherina presbyter"
+    },
+    "https://www.inaturalist.org/observations/386073304": {
+      "reason": "wrong-subject",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/386505677": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/386996690": {
+      "reason": "dead",
+      "scientificName": "Callionymus lyra"
+    },
+    "https://www.inaturalist.org/observations/387085418": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/387503991": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/387669838": {
+      "reason": "dead",
+      "scientificName": "Ophiothrix fragilis"
+    },
+    "https://www.inaturalist.org/observations/38798925": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/388776510": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/389168403": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/389305715": {
+      "reason": "wrong-subject",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/390056229": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/390087981": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/390093232": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/390262042": {
+      "reason": "dead",
+      "scientificName": "Necora puber"
+    },
+    "https://www.inaturalist.org/observations/390293570": {
+      "reason": "dead",
+      "scientificName": "Callionymus lyra"
+    },
+    "https://www.inaturalist.org/observations/390293869": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/391359691": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/391425497": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/391604880": {
+      "reason": "drawing",
+      "scientificName": "Octopus vulgaris"
+    },
+    "https://www.inaturalist.org/observations/391860421": {
+      "reason": "dead",
+      "scientificName": "Atherina presbyter"
+    },
+    "https://www.inaturalist.org/observations/392101884": {
+      "reason": "dead",
+      "scientificName": "Callionymus lyra"
+    },
+    "https://www.inaturalist.org/observations/392623645": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/392788022": {
+      "reason": "dead",
+      "scientificName": "Labrus mixtus"
+    },
+    "https://www.inaturalist.org/observations/39422540": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/394356536": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/394447468": {
+      "reason": "dead",
+      "scientificName": "Phalacrocorax carbo"
+    },
+    "https://www.inaturalist.org/observations/395397894": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
     },
     "https://www.inaturalist.org/observations/40072870": {
       "reason": "dead",
@@ -2305,7 +5233,19 @@
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
     },
+    "https://www.inaturalist.org/observations/40300675": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
     "https://www.inaturalist.org/observations/40326420": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/40326421": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/40326434": {
       "reason": "dead",
       "scientificName": "Limanda limanda"
     },
@@ -2321,6 +5261,38 @@
       "reason": "dead",
       "scientificName": "Platichthys flesus"
     },
+    "https://www.inaturalist.org/observations/41983976": {
+      "reason": "wrong-subject",
+      "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/42161176": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/42340135": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/44129379": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/44493544": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/44506391": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/45481262": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
+    "https://www.inaturalist.org/observations/47516868": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
     "https://www.inaturalist.org/observations/47670967": {
       "reason": "dead",
       "scientificName": "Trachurus trachurus"
@@ -2328,6 +5300,22 @@
     "https://www.inaturalist.org/observations/47962400": {
       "reason": "wrong-subject",
       "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/48156051": {
+      "reason": "dead",
+      "scientificName": "Conger conger"
+    },
+    "https://www.inaturalist.org/observations/48158865": {
+      "reason": "dead",
+      "scientificName": "Eledone cirrhosa"
+    },
+    "https://www.inaturalist.org/observations/48826220": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/49114599": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/4934234": {
       "reason": "preserved",
@@ -2353,13 +5341,33 @@
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
+    "https://www.inaturalist.org/observations/51200527": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/51582205": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
     "https://www.inaturalist.org/observations/52604505": {
       "reason": "dead",
       "scientificName": "Echinus esculentus"
     },
+    "https://www.inaturalist.org/observations/52774466": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/53236001": {
       "reason": "dead",
       "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/54036200": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/54179056": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
     },
     "https://www.inaturalist.org/observations/54805939": {
       "reason": "dead",
@@ -2370,6 +5378,10 @@
       "scientificName": "Cyanea capillata"
     },
     "https://www.inaturalist.org/observations/55137677": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/55250749": {
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
@@ -2385,9 +5397,21 @@
       "reason": "wrong-subject+dead",
       "scientificName": "Pollachius pollachius"
     },
+    "https://www.inaturalist.org/observations/56758057": {
+      "reason": "dead",
+      "scientificName": "Callionymus lyra"
+    },
     "https://www.inaturalist.org/observations/57047220": {
       "reason": "dead",
       "scientificName": "Dicentrarchus labrax"
+    },
+    "https://www.inaturalist.org/observations/57229638": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/57407584": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/57530848": {
       "reason": "dead",
@@ -2397,9 +5421,25 @@
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
     },
+    "https://www.inaturalist.org/observations/57550582": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/57718850": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
+    },
     "https://www.inaturalist.org/observations/57735954": {
       "reason": "dead",
       "scientificName": "Scyliorhinus canicula"
+    },
+    "https://www.inaturalist.org/observations/57822420": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/57841215": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://www.inaturalist.org/observations/57903169": {
       "reason": "wrong-subject+dead",
@@ -2413,6 +5453,18 @@
       "reason": "dead",
       "scientificName": "Pleuronectes platessa"
     },
+    "https://www.inaturalist.org/observations/59142470": {
+      "reason": "dead",
+      "scientificName": "Aurelia aurita"
+    },
+    "https://www.inaturalist.org/observations/59357406": {
+      "reason": "dead",
+      "scientificName": "Gobius paganellus"
+    },
+    "https://www.inaturalist.org/observations/60064406": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
     "https://www.inaturalist.org/observations/60503487": {
       "reason": "dead",
       "scientificName": "Cyanea capillata"
@@ -2420,6 +5472,10 @@
     "https://www.inaturalist.org/observations/61323600": {
       "reason": "dead",
       "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/61379434": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
     },
     "https://www.inaturalist.org/observations/61493484": {
       "reason": "dead",
@@ -2429,6 +5485,10 @@
       "reason": "wrong-subject",
       "scientificName": "Conger conger"
     },
+    "https://www.inaturalist.org/observations/62149703": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://www.inaturalist.org/observations/62236038": {
       "reason": "dead",
       "scientificName": "Cancer pagurus"
@@ -2437,21 +5497,53 @@
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
     },
+    "https://www.inaturalist.org/observations/62554073": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
     "https://www.inaturalist.org/observations/62649356": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
+    },
+    "https://www.inaturalist.org/observations/62789893": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
     },
     "https://www.inaturalist.org/observations/6286643": {
       "reason": "preserved",
       "scientificName": "Conger conger"
     },
+    "https://www.inaturalist.org/observations/63152568": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
     "https://www.inaturalist.org/observations/63313934": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/63314164": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/63463268": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/63496447": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/63565749": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
     "https://www.inaturalist.org/observations/63705578": {
       "reason": "dead",
       "scientificName": "Hyas araneus"
+    },
+    "https://www.inaturalist.org/observations/64015875": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
     },
     "https://www.inaturalist.org/observations/64276886": {
       "reason": "dead",
@@ -2461,9 +5553,25 @@
       "reason": "dead",
       "scientificName": "Gadus morhua"
     },
+    "https://www.inaturalist.org/observations/64437767": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
     "https://www.inaturalist.org/observations/64926210": {
       "reason": "dead",
       "scientificName": "Rhizostoma octopus"
+    },
+    "https://www.inaturalist.org/observations/65041353": {
+      "reason": "dead",
+      "scientificName": "Marthasterias glacialis"
+    },
+    "https://www.inaturalist.org/observations/65482756": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/66060755": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
     },
     "https://www.inaturalist.org/observations/66142875": {
       "reason": "dead",
@@ -2473,6 +5581,10 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/66287591": {
+      "reason": "dead",
+      "scientificName": "Ophiothrix fragilis"
+    },
     "https://www.inaturalist.org/observations/66628399": {
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
@@ -2480,6 +5592,18 @@
     "https://www.inaturalist.org/observations/66629627": {
       "reason": "dead",
       "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/66629801": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
+    },
+    "https://www.inaturalist.org/observations/66691447": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys cuculus"
+    },
+    "https://www.inaturalist.org/observations/66771870": {
+      "reason": "dead",
+      "scientificName": "Callionymus lyra"
     },
     "https://www.inaturalist.org/observations/66918641": {
       "reason": "dead",
@@ -2501,6 +5625,10 @@
       "reason": "wrong-subject",
       "scientificName": "Loligo vulgaris"
     },
+    "https://www.inaturalist.org/observations/67975129": {
+      "reason": "wrong-subject",
+      "scientificName": "Pholis gunnellus"
+    },
     "https://www.inaturalist.org/observations/68058203": {
       "reason": "dead",
       "scientificName": "Cancer pagurus"
@@ -2509,9 +5637,29 @@
       "reason": "wrong-subject",
       "scientificName": "Carcinus maenas"
     },
+    "https://www.inaturalist.org/observations/68452032": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/68538481": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/68631521": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/69001269": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
     "https://www.inaturalist.org/observations/69318463": {
       "reason": "dead",
       "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/69663332": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
     },
     "https://www.inaturalist.org/observations/69777970": {
       "reason": "dead",
@@ -2565,9 +5713,25 @@
       "reason": "dead",
       "scientificName": "Scomber scombrus"
     },
+    "https://www.inaturalist.org/observations/75456578": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
+    "https://www.inaturalist.org/observations/76567802": {
+      "reason": "wrong-subject",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/78844742": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://www.inaturalist.org/observations/79686798": {
       "reason": "dead",
       "scientificName": "Scomber scombrus"
+    },
+    "https://www.inaturalist.org/observations/79809174": {
+      "reason": "wrong-subject",
+      "scientificName": "Lipophrys pholis"
     },
     "https://www.inaturalist.org/observations/79908608": {
       "reason": "dead",
@@ -2581,6 +5745,10 @@
       "reason": "dead",
       "scientificName": "Steromphala umbilicalis"
     },
+    "https://www.inaturalist.org/observations/82213150": {
+      "reason": "dead",
+      "scientificName": "Majoidea"
+    },
     "https://www.inaturalist.org/observations/82337421": {
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
@@ -2589,9 +5757,17 @@
       "reason": "dead",
       "scientificName": "Sprattus sprattus"
     },
+    "https://www.inaturalist.org/observations/82942183": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
     "https://www.inaturalist.org/observations/83382629": {
       "reason": "dead",
       "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/83637846": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
     },
     "https://www.inaturalist.org/observations/84199483": {
       "reason": "dead",
@@ -2601,9 +5777,21 @@
       "reason": "preserved",
       "scientificName": "Liocarcinus depurator"
     },
+    "https://www.inaturalist.org/observations/85925076": {
+      "reason": "dead",
+      "scientificName": "Pollachius pollachius"
+    },
     "https://www.inaturalist.org/observations/85935123": {
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
+    },
+    "https://www.inaturalist.org/observations/86095999": {
+      "reason": "dead",
+      "scientificName": "Liocarcinus depurator"
+    },
+    "https://www.inaturalist.org/observations/86273704": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
     },
     "https://www.inaturalist.org/observations/86311799": {
       "reason": "dead",
@@ -2625,9 +5813,37 @@
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
+    "https://www.inaturalist.org/observations/87765622": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
+    "https://www.inaturalist.org/observations/87853073": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/88100393": {
+      "reason": "dead",
+      "scientificName": "Dicentrarchus labrax"
+    },
+    "https://www.inaturalist.org/observations/88124944": {
+      "reason": "dead",
+      "scientificName": "Chelidonichthys lastoviza"
+    },
+    "https://www.inaturalist.org/observations/88364394": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
+    },
     "https://www.inaturalist.org/observations/88372507": {
       "reason": "dead",
       "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/88540619": {
+      "reason": "dead",
+      "scientificName": "Pollachius virens"
+    },
+    "https://www.inaturalist.org/observations/88691103": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
     },
     "https://www.inaturalist.org/observations/88727260": {
       "reason": "dead",
@@ -2637,29 +5853,85 @@
       "reason": "dead",
       "scientificName": "Pollachius virens"
     },
+    "https://www.inaturalist.org/observations/89388548": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
+    "https://www.inaturalist.org/observations/89509772": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/89661286": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
     "https://www.inaturalist.org/observations/90297523": {
       "reason": "preserved",
       "scientificName": "Trisopterus minutus"
+    },
+    "https://www.inaturalist.org/observations/90298548": {
+      "reason": "preserved",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/90515708": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/90522504": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
     },
     "https://www.inaturalist.org/observations/90585931": {
       "reason": "preserved",
       "scientificName": "Sepia officinalis"
     },
+    "https://www.inaturalist.org/observations/90694095": {
+      "reason": "dead",
+      "scientificName": "Limanda limanda"
+    },
     "https://www.inaturalist.org/observations/90773181": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/90966875": {
+      "reason": "dead",
+      "scientificName": "Patella vulgata"
+    },
+    "https://www.inaturalist.org/observations/90978008": {
+      "reason": "dead",
+      "scientificName": "Cyanea lamarckii"
     },
     "https://www.inaturalist.org/observations/91142292": {
       "reason": "dead",
       "scientificName": "Patella vulgata"
     },
+    "https://www.inaturalist.org/observations/91246456": {
+      "reason": "dead",
+      "scientificName": "Loligo vulgaris"
+    },
     "https://www.inaturalist.org/observations/91586049": {
       "reason": "dead",
       "scientificName": "Limanda limanda"
     },
+    "https://www.inaturalist.org/observations/91618477": {
+      "reason": "dead",
+      "scientificName": "Pelagia noctiluca"
+    },
     "https://www.inaturalist.org/observations/91618554": {
       "reason": "dead",
       "scientificName": "Pelagia noctiluca"
+    },
+    "https://www.inaturalist.org/observations/91746647": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/91775054": {
+      "reason": "dead",
+      "scientificName": "Echinus esculentus"
+    },
+    "https://www.inaturalist.org/observations/92016629": {
+      "reason": "dead",
+      "scientificName": "Cancer pagurus"
     },
     "https://www.inaturalist.org/observations/92257813": {
       "reason": "dead",
@@ -2669,9 +5941,25 @@
       "reason": "dead",
       "scientificName": "Pollachius pollachius"
     },
+    "https://www.inaturalist.org/observations/92660529": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
+    },
     "https://www.inaturalist.org/observations/92795109": {
       "reason": "dead",
       "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/93080685": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/93518307": {
+      "reason": "dead",
+      "scientificName": "Carcinus maenas"
+    },
+    "https://www.inaturalist.org/observations/93609128": {
+      "reason": "preserved",
+      "scientificName": "Asterias rubens"
     },
     "https://www.inaturalist.org/observations/9446161": {
       "reason": "wrong-subject+dead",
@@ -2689,6 +5977,14 @@
       "reason": "dead",
       "scientificName": "Eledone cirrhosa"
     },
+    "https://www.inaturalist.org/observations/95337743": {
+      "reason": "dead",
+      "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/95914785": {
+      "reason": "dead",
+      "scientificName": "Cyanea capillata"
+    },
     "https://www.inaturalist.org/observations/95917624": {
       "reason": "wrong-subject",
       "scientificName": "Sprattus sprattus"
@@ -2697,21 +5993,69 @@
       "reason": "dead",
       "scientificName": "Echinocardium cordatum"
     },
+    "https://www.inaturalist.org/observations/96219211": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
     "https://www.inaturalist.org/observations/96235358": {
       "reason": "preserved",
       "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/96440120": {
+      "reason": "dead",
+      "scientificName": "Octopus vulgaris"
     },
     "https://www.inaturalist.org/observations/97481925": {
       "reason": "dead",
       "scientificName": "Echinus esculentus"
     },
+    "https://www.inaturalist.org/observations/97748206": {
+      "reason": "dead",
+      "scientificName": "Ctenolabrus rupestris"
+    },
     "https://www.inaturalist.org/observations/97842642": {
       "reason": "dead",
       "scientificName": "Cyanea capillata"
     },
+    "https://www.inaturalist.org/observations/98020722": {
+      "reason": "dead",
+      "scientificName": "Nucella lapillus"
+    },
+    "https://www.inaturalist.org/observations/98113092": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/98113094": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
+    "https://www.inaturalist.org/observations/98113095": {
+      "reason": "dead",
+      "scientificName": "Eutrigla gurnardus"
+    },
+    "https://www.inaturalist.org/observations/98119506": {
+      "reason": "dead",
+      "scientificName": "Pleuronectes platessa"
+    },
+    "https://www.inaturalist.org/observations/98119508": {
+      "reason": "dead",
+      "scientificName": "Platichthys flesus"
+    },
+    "https://www.inaturalist.org/observations/98517569": {
+      "reason": "dead",
+      "scientificName": "Merlangius merlangus"
+    },
     "https://www.inaturalist.org/observations/98807975": {
       "reason": "wrong-subject",
       "scientificName": "Asterias rubens"
+    },
+    "https://www.inaturalist.org/observations/99357903": {
+      "reason": "dead",
+      "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/99691798": {
+      "reason": "dead",
+      "scientificName": "Gadus morhua"
     }
   }
 }
