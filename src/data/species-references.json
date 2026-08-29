@@ -4479,6 +4479,159 @@
       "expectText": [
         "Spatangus purpureus"
       ]
+    },
+    "fsj:vol5.5_160": {
+      "kind": "journal",
+      "title": "The natural history, life history and ecology of the two British species of Asterina",
+      "authors": [
+        "Crump",
+        "Emson"
+      ],
+      "publisher": "Field Studies Council (Field Studies, vol. 5)",
+      "year": 1983,
+      "url": "https://cdn.fieldstudiescouncil.net/fsj/vol5.5_160.pdf",
+      "identifier": "Field Studies 5 (1983) 867-882",
+      "verifyMode": "pdf",
+      "expectText": [
+        "Asterina gibbosa"
+      ]
+    },
+    "msip:callionymus-maculatus": {
+      "kind": "web",
+      "title": "Spotted dragonet - Callionymus maculatus, in: Fishes of the NE Atlantic and the Mediterranean",
+      "authors": [
+        "Hureau, J.-C. (ed.)"
+      ],
+      "publisher": "ETI BioInformatics, Marine Species Identification Portal (archived copy, Internet Archive)",
+      "url": "http://web.archive.org/web/20221208023310/http://species-identification.org/species.php?species_group=fnam&id=1582",
+      "expectText": [
+        "Callionymus maculatus"
+      ],
+      "verifyMode": "html-title"
+    },
+    "fiskeatlas:callionymus-maculatus": {
+      "kind": "web",
+      "title": "Atlas over danske saltvandsfisk - Plettet fløjfisk, Callionymus maculatus Rafinesque, 1810",
+      "authors": [
+        "Carl, H."
+      ],
+      "publisher": "Statens Naturhistoriske Museum, Københavns Universitet",
+      "year": 2017,
+      "url": "https://fiskeatlas.ku.dk/nyheder/Plettet_fl_jfisk_Fiskeatlas.pdf",
+      "licence": "All rights reserved; short extracts permitted with clear attribution",
+      "expectText": [
+        "Callionymus maculatus"
+      ],
+      "verifyMode": "pdf"
+    },
+    "doi:10.12681-mms.38444": {
+      "kind": "journal",
+      "title": "The diet and feeding habits of Lagocephalus sceleratus in the eastern Mediterranean: A case study carried out off the island of Crete (southern Greece)",
+      "authors": [
+        "Gomes, R.V.C.",
+        "Christidis, G.",
+        "Peristeraki, P.",
+        "Somarakis, S.",
+        "Tserpes, G."
+      ],
+      "publisher": "Hellenic Centre for Marine Research, published by the National Documentation Centre (Mediterranean Marine Science 26(1): 97-114)",
+      "year": 2025,
+      "url": "https://ejournals.epublishing.ekt.gr/index.php/hcmr-med-mar-sc/article/download/38444/29939",
+      "licence": "CC BY-NC-SA 3.0",
+      "identifier": "DOI:10.12681/mms.38444",
+      "expectText": [
+        "Lagocephalus sceleratus",
+        "Chelidonichthys lastoviza"
+      ],
+      "verifyMode": "pdf"
+    },
+    "sealifebase:Cyanea-lamarckii": {
+      "kind": "sealifebase",
+      "title": "Cyanea lamarckii, Lion's mane jellyfish",
+      "publisher": "SeaLifeBase (Palomares & Pauly, eds.), read via the Internet Archive Wayback Machine",
+      "year": 2023,
+      "url": "https://web.archive.org/web/20230113124937/https://www.sealifebase.ca/summary/Cyanea-lamarckii.html",
+      "identifier": "AphiaID 135302",
+      "expectText": [
+        "Cyanea lamarckii"
+      ],
+      "verifyMode": "html-title"
+    },
+    "sealifebase:Rhizostoma-octopus": {
+      "kind": "sealifebase",
+      "title": "Rhizostoma octopus",
+      "authors": [
+        "Palomares, M.L.D.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "SeaLifeBase",
+      "url": "https://www.sealifebase.ca/summary/Rhizostoma-octopus.html",
+      "expectText": [
+        "Rhizostoma octopus"
+      ],
+      "verifyMode": "html-title"
+    },
+    "fogm:Scomber-scombrus": {
+      "kind": "web",
+      "title": "Mackerel (Scomber scombrus), in Fishes of the Gulf of Maine",
+      "authors": [
+        "Bigelow",
+        "Schroeder"
+      ],
+      "publisher": "United States Fish and Wildlife Service, Fishery Bulletin 74 (Fishery Bulletin of the Fish and Wildlife Service, vol. 53), US Government Printing Office, Washington, 1953; read as Revision 1.1 'Online Edition' (2002), which is a re-markup of the 1953 first edition and NOT the copyrighted 2002 third edition by Collette and Klein-MacPhee",
+      "year": 1953,
+      "url": "https://cybrary.fomb.org/fgom/Scomber_scombrus.htm",
+      "licence": "Public domain (work of the United States Government)",
+      "expectText": [
+        "Scomber scombrus"
+      ],
+      "expectCommonName": "Mackerel",
+      "verifyMode": "html-title"
+    },
+    "noaa:atlantic-mackerel": {
+      "kind": "web",
+      "title": "Atlantic Mackerel",
+      "publisher": "NOAA Fisheries, National Oceanic and Atmospheric Administration",
+      "year": 2026,
+      "url": "https://www.fisheries.noaa.gov/species/atlantic-mackerel",
+      "licence": "Public domain (work of the United States Government)",
+      "expectText": [
+        "Scomber scombrus"
+      ],
+      "expectCommonName": "Atlantic Mackerel",
+      "verifyMode": "html-title"
+    },
+    "fiskeatlas:trisopterus-minutus": {
+      "kind": "web",
+      "title": "Atlas over danske saltvandsfisk - Glyse, Trisopterus minutus (Linnaeus, 1758)",
+      "authors": [
+        "Carl, H."
+      ],
+      "publisher": "Statens Naturhistoriske Museum, Københavns Universitet",
+      "year": 2018,
+      "url": "https://fiskeatlas.ku.dk/nyheder/Glyse_Fiskeatlas.pdf",
+      "licence": "All rights reserved; short extracts permitted with clear attribution",
+      "identifier": "Carl, H. 2018. Atlas over danske saltvandsfisk, glyse. Statens Naturhistoriske Museum. Online-udgivelse, november 2018",
+      "expectText": [
+        "Trisopterus minutus"
+      ],
+      "verifyMode": "pdf"
+    },
+    "bhl:couch-1866-british-fishes-v3": {
+      "kind": "bhl",
+      "title": "A History of the Fishes of the British Islands, Vol. III",
+      "authors": [
+        "Couch, Jonathan"
+      ],
+      "publisher": "Groombridge and Sons, London (scan: Harvard University, Museum of Comparative Zoology, Ernst Mayr Library, hosted on the Internet Archive)",
+      "year": 1866,
+      "url": "https://archive.org/download/historyoffisheso0318631866couc/historyoffisheso0318631866couc.pdf",
+      "licence": "Public domain",
+      "identifier": "Internet Archive identifier historyoffisheso0318631866couc. The account headed Power runs from vol. III p. 72, the page the volume's own contents list gives for Power, and Day (1880-84, Fishes of Great Britain and Ireland, vol. 1 p. 288) cites \"Power, Couch, Fish. Brit. Isles, iii, p. 72\" under Gadus minutus",
+      "expectText": [
+        "Gadus minutus"
+      ],
+      "verifyMode": "pdf"
     }
   },
   "species": {
@@ -11092,6 +11245,8 @@
         "fishbase:Callionymus-maculatus",
         "fishbase:fooditems-Chelidonichthys-cuculus",
         "fishbase:fooditems-Chelidonichthys-lucerna",
+        "fiskeatlas:callionymus-maculatus",
+        "msip:callionymus-maculatus",
         "worms:126793"
       ],
       "claims": {
@@ -11433,6 +11588,36 @@
               "sourceId": "fishbase-pred:Callionymus-maculatus",
               "locator": "Organisms Preying on Callionymus maculatus",
               "quote": "Spain\nfinfish\nbony fish\nUranoscopidae\nUranoscopus scaber",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9ioer00047igszj9w3g1g": {
+          "sourceIds": [
+            "msip:callionymus-maculatus",
+            "fiskeatlas:callionymus-maculatus"
+          ],
+          "support": [
+            {
+              "sourceId": "msip:callionymus-maculatus",
+              "locator": "Description > Diagnosis > Colour",
+              "quote": "Colour: light brown, with dark and silvery spots. Second dorsal in males with 4 horizontal rows of dark spots, in females with 2 rows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fiskeatlas:callionymus-maculatus",
+              "locator": "p. 3, Udseende og kendetegn (females and immature males)",
+              "quote": "Grundfarven er lysebrun eller sandfarvet med lidt mørkere brune pletter og marmoreringer, specielt på ryggen, men også langs siden findes svagere brune pletter og mønstre.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fiskeatlas:callionymus-maculatus",
+              "locator": "p. 2, Udseende og kendetegn (adult males)",
+              "quote": "Selve kroppen har forskellige nuancer af lysebrun eller sandfarvet og er på rygsiden forsynet med brune pletter og bånd, der kan danne nogle få saddelmærker på ryggen.",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
             }
@@ -12625,6 +12810,7 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
+        "bhl:couch-1866-british-fishes-v3",
         "biotic:6195",
         "doi:10.7489-1799-1",
         "fao:t0243e10",
@@ -12633,6 +12819,7 @@
         "fishbase-fooditems:Gadus-morhua",
         "fishbase-pred:Trisopterus-minutus",
         "fishbase:Trisopterus-minutus",
+        "fiskeatlas:trisopterus-minutus",
         "marinescot:SMFS-7-21",
         "marlin:2171",
         "worms:126446"
@@ -13068,6 +13255,36 @@
               "sourceId": "fishbase-fooditems:Conger-conger",
               "locator": "Food Items - Conger conger > nekton > finfish > bony fish",
               "quote": "nekton finfish bony fish Trisopterus minutus Ireland",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpymulee000f7iowwop7ujqf": {
+          "sourceIds": [
+            "fiskeatlas:trisopterus-minutus",
+            "bhl:couch-1866-british-fishes-v3"
+          ],
+          "support": [
+            {
+              "sourceId": "fiskeatlas:trisopterus-minutus",
+              "locator": "p. 2, Udseende og kendetegn",
+              "quote": "Øjnene er meget store og udgør 30-34 % af hovedlængden (Smitt 1892). ... Alle de eksemplarer, der er undersøgt i forbindelse med Fiskeatlasset, har haft øjne, hvis diameter tydeligt oversteg snudelængden.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fiskeatlas:trisopterus-minutus",
+              "locator": "p. 3, Forvekslingsmuligheder",
+              "quote": "de store øjne hvis diameter overstiger snudelængden (gælder også sperling og sølvtorsk)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bhl:couch-1866-british-fishes-v3",
+              "locator": "Power (Gadus minutus), vol. III, pp. 72-73, description paragraph",
+              "quote": "In front of the eye the head is short, the profile rounded from the upper jaw. Eye large, a row of pores between the eye and upper maxillary bone; jaws about equal, with teeth in both, and in the palate; a barb at the lower jaw.",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
             }
@@ -14627,7 +14844,9 @@
         "fishbase:Scomber-scombrus",
         "fishbase:fooditems-Scomber-scombrus",
         "fishbase:predators-Scomber-scombrus",
+        "fogm:Scomber-scombrus",
         "marlin:44",
+        "noaa:atlantic-mackerel",
         "worms:127023"
       ],
       "claims": {
@@ -14966,6 +15185,44 @@
               "sourceId": "fishbase:predators-Scomber-scombrus",
               "locator": "Organisms Preying on Scomber scombrus",
               "quote": "Organisms Preying on Scomber scombrus ... Phalacrocorax carbo ... Phoca vitulina ... Phocoena phocoena ... Morus bassanus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9ljra000y7igse30ra5yn": {
+          "sourceIds": [
+            "fogm:Scomber-scombrus",
+            "noaa:atlantic-mackerel",
+            "marlin:44"
+          ],
+          "support": [
+            {
+              "sourceId": "fogm:Scomber-scombrus",
+              "locator": "Description (pp. 317-318)",
+              "quote": "The mackerel is fusiform in outline, tapering rearward to a very slim caudal peduncle and forward to a pointed nose. ... The caudal fin is broad, but short and deeply forked.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fogm:Scomber-scombrus",
+              "locator": "Habits (p. 319)",
+              "quote": "Mackerel are a swift-moving fish, swimming with very short sidewise movements of the rear part of the body and of the powerful caudal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "noaa:atlantic-mackerel",
+              "locator": "Appearance",
+              "quote": "Their body is spindle-shaped, tapering at both ends.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:44",
+              "locator": "Identifying features",
+              "quote": "Fast, streamline, fish usually found in dense shoals.",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
             }
@@ -21995,6 +22252,7 @@
         "adw:Asterina_gibbosa",
         "bhl:mortensen-1927",
         "biotic:6203",
+        "fsj:vol5.5_160",
         "habitas:ZB1130",
         "marlin:1563",
         "worms:123987"
@@ -22318,6 +22576,21 @@
               "sourceId": "biotic:6203",
               "locator": "General Biology > Feeding method",
               "quote": "Growth form Stellate, Radial Feeding method Omnivore, Predator, Scavenger",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fsj:vol5.5_160"
+          ],
+          "support": [
+            {
+              "sourceId": "fsj:vol5.5_160",
+              "locator": "p. 878, Reproduction (Asterina gibbosa)",
+              "quote": "females lay masses of up to 1,000 large ... eggs on the underside of rocks and in crevices ... the eggs are abandoned. If not consumed by predators such as prawns (Palaemon elegans Rathke, Palaemon serratus (Pennant) )",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
             }
@@ -26819,6 +27092,7 @@
         "doi:10.1098-rspb.2011.0978",
         "marlin:2330",
         "mcs:barrel-jellyfish",
+        "sealifebase:Rhizostoma-octopus",
         "worms:152203"
       ],
       "claims": {
@@ -27120,6 +27394,50 @@
             }
           ],
           "claimSupported": true
+        },
+        "trait:depth": {
+          "sourceIds": [
+            "sealifebase:Rhizostoma-octopus",
+            "doi:10.1098-rspb.2011.0978"
+          ],
+          "support": [
+            {
+              "sourceId": "sealifebase:Rhizostoma-octopus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
+              "quote": "Pelagic; depth range 10 - 20 m (Ref. 123207).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Material and methods",
+              "quote": "Water depth at the time of tagging was less than 10 m. Deeper water (more than 20 m) further offshore was located approximately 11 km from the tagging locations.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Abstract",
+              "quote": "the frequently occurring coastal jellyfish ( Rhizostoma octopus ) ... showed very dynamic vertical movements",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Results",
+              "quote": "near-continuous movements from near the sea bottom to the surface and back",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Discussion",
+              "quote": "jellyfish in the wild do not simply drift at a fixed depth, but rather they perform extensive vertical movements that equate to moving up and down through the entire water column dozens of times a day",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -27141,6 +27459,7 @@
         "doi:10.1007-s00227-006-0545-4",
         "doi:10.7717-peerj.1110",
         "marlin:2025",
+        "sealifebase:Cyanea-lamarckii",
         "wildlife-trusts:blue-jellyfish",
         "worms:135302"
       ],
@@ -27515,6 +27834,36 @@
               "sourceId": "doi:10.1007-BF02364701",
               "locator": "Abstract",
               "quote": "H. galba plays an important role as obligatory endoparasite of scyphomedusae at least during the first stages of development; without a host this amphipod cannot survive, neither benthically nor in the plankton.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:depth": {
+          "sourceIds": [
+            "sealifebase:Cyanea-lamarckii",
+            "doi:10.7717-peerj.1110"
+          ],
+          "support": [
+            {
+              "sourceId": "sealifebase:Cyanea-lamarckii",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
+              "quote": "Pelagic; depth range 22 - 150 m (Ref. 76581 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sealifebase:Cyanea-lamarckii",
+              "locator": "Biology",
+              "quote": "Minimum depth based on study in Belgium (Ref. 76581 ), and maximum depth based on study in the North Sea (Ref. 124806 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.1110",
+              "locator": "Results > Inter-specific variation",
+              "quote": "A total of 122 medusae were collected from the surface of the water column comprising Aurelia aurita ( n = 43), Cyanea lamarckii ( n = 36) and C. capillata ( n = 43).",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
             }
@@ -28828,6 +29177,7 @@
       },
       "sourceIds": [
         "doi:10.1111-j.1095-8649.2000.tb02200.x",
+        "doi:10.12681-mms.38444",
         "fishbase:Chelidonichthys-lastoviza",
         "fishbase:dietcompo-Chelidonichthys-lastoviza",
         "fishbase:fooditems-Chelidonichthys-lastoviza",
@@ -29009,6 +29359,28 @@
               "sourceId": "fishbase:fooditems-Chelidonichthys-lastoviza",
               "locator": "Food items table, benthic copepods and mysids",
               "quote": "benth. copepods unidentified Greece juv./adults ... zooplankton plank. crust. mysids unidentified Greece juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.12681-mms.38444"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.12681-mms.38444",
+              "locator": "Table S2, prey items found in 190 Lagocephalus sceleratus tracts, Teleostei > Triglidae",
+              "quote": "Table S2. Frequency of occurrence (FO%), number (N), numeric percentage (N%), weight (W, g), weight percentage (W%), ... of prey items found in 190 L. sceleratus tracts. ... Chelidonichthys lastoviza",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.12681-mms.38444",
+              "locator": "Abstract",
+              "quote": "This study focused on the diet and feeding habits of the invasive pufferfish Lagocephalus sceleratus in the coastal waters of Crete (Cretan and Libyan Sea, eastern Mediterranean).",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
             }
