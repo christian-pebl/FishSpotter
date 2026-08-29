@@ -61,7 +61,10 @@ const speciesSlug = s => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').repl
 const QR_TARGET = sci => `${SITE}/species/${speciesSlug(sci)}`;
 
 const TIER = { 2: '#63AEB5', 3: '#2E8C9E', 4: '#2A6394', 5: '#26324E' };
-const TIERLABEL = { 2: 'Grazer / filter feeder', 3: 'Planktivore / invertivore', 4: 'Predator', 5: 'Apex predator' };
+// TIERLABEL deleted with the tier chip. The trophic tier was a placement device for
+// the old pre-dealt decks ("put your T2s down first"); on a single card in a hand it
+// told the holder nothing, and it is not printed anywhere now. TIER survives only to
+// tint a silhouette when a species has no print-safe photo, which is currently none.
 
 // The FARMBADGE block that used to live here (a ●/◑/○/✦ glyph plus FARM-BUILT /
 // BOOSTED / HERE ANYWAY / BETTER WITHOUT and a hint like "gone without the farm")
@@ -107,7 +110,15 @@ const DECKS = [
 // 72 species, so keeping both printed the same fact twice, once with a citation
 // behind it and once without. The card shows the sourced one.
 
-const HAB_LABEL = { 'kelp': 'the kelp canopy', 'rocky-crevice': 'rocky crevices', 'sandy-bottom': 'the open sand',
+// 'kelp' is the catalogue's tag for the algal canopy, but the label reads
+// "seaweed canopy" because that is what the sources actually describe. Of the 12
+// species carrying the tag, only four have a verified habitat statement that names
+// kelp (pollack "kelp forests", ballan wrasse "kelp beds", two-spotted goby
+// "Laminaria kelp", painted top shell "large algae such as Laminaria"). The other
+// eight say "weed-covered rock", "among seaweed", "among algae" or "weedy
+// shorelines", which is wracks and reds as much as laminarians. The tag name is
+// left alone: it is used across the app, the gate silhouettes and the food web.
+const HAB_LABEL = { 'kelp': 'the seaweed canopy', 'rocky-crevice': 'rocky crevices', 'sandy-bottom': 'the open sand',
   'midwater': 'open midwater', 'near-surface': 'near the surface', 'open-water': 'the open water' };
 const habitatText = e => (e.habitat || []).map(h => HAB_LABEL[h] || h).join(' and ') || 'the farm';
 
@@ -156,7 +167,8 @@ const FACTS_DATA = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data',
 // authored most-representative-first, so a truncation is a subset of the page's
 // claim rather than a different one, and the QR goes to the full list.
 const BULLET_BUDGET = Number(process.env.CARD_BULLET_BUDGET || 200);
-const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 100);
+const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 90);
+const PHOTO_H = Number(process.env.CARD_PHOTO_H || 19);
 
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const idOf = s => s.replace(/[^a-z0-9]+/gi, '_');
@@ -233,7 +245,7 @@ for (const deck of DECKS) {
 
     const frontHtml = `
       <div class="card front">
-        <div class="tier-stripe" style="background:${tierColor}"></div>
+        <div class="tier-stripe"></div>
         ${media}
         <div class="namebox">
           <p class="name">${esc(name)}</p>
@@ -252,8 +264,8 @@ for (const deck of DECKS) {
 
     const backHtml = `
       <div class="card back">
-        <div class="tier-stripe" style="background:${tierColor}"></div>
-        <div class="tierline"><span class="tierchip" style="background:${tierColor}">T${sp.tier}</span> ${TIERLABEL[sp.tier]}</div>
+        <div class="tier-stripe"></div>
+        <p class="backname">${esc(name)}</p>
         <div class="field"><b>I EAT</b>${bullets(diet.eats)}</div>
         <div class="field"><b>EATS ME</b>${bullets(diet.eatenBy)}</div>
         <div class="qrrow">
@@ -293,46 +305,51 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
    so this preview is proportionally honest, not just a rough thumbnail. */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm 4mm}
 .pair{display:flex;gap:2mm;min-width:0;break-inside:avoid;page-break-inside:avoid}
-/* No border-radius and no box-shadow, deliberately. The sheet goes to a printer
-   who guillotines square, and the corners are rounded afterwards with a punch, so
-   a printed radius would sit inside the punched one and a drop shadow would print
-   as a grey smear along the cut line. */
-.card{width:44mm;height:58mm;flex:0 0 44mm;border:0.8pt solid var(--hair);position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column}
-.tier-stripe{height:2.2mm;flex:0 0 auto}
+/* No border, no radius, no shadow, all deliberate. The artwork runs FULL BLEED to
+   the trim on every side so that once the sheet is guillotined and the corners are
+   rounded with a punch, the result reads as a playing card rather than a printed
+   panel floating on paper. There is no cut line to print: the cards butt against
+   each other, so a printed rule would be halved by the blade and leave a hairline
+   down one card. A radius would sit inside the punched one; a shadow would smear
+   grey along the cut. */
+.card{width:44mm;height:58mm;flex:0 0 44mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.tier-stripe{height:3mm;flex:0 0 auto;background:var(--teal)}
+/* the back is padded for its text, so the tab has to be pulled back out to the trim
+   by exactly that padding or it prints as a floating bar with a white frame */
+.card.back .tier-stripe{margin:-2mm -2.6mm 1.8mm}
 /* FRONT */
-.card.front .photo{height:17mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
+.card.front .photo{height:${PHOTO_H}mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
 .card.front .photo.silhouette{display:flex;align-items:center;justify-content:center;padding:2.5mm}
 .card.front .photo.silhouette svg{width:70%;height:70%}
-.namebox{padding:1.8mm 2.2mm 0;min-width:0}
-.name{margin:0;font-size:8.6pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
+.namebox{padding:1.8mm 2.6mm 0;min-width:0}
+.name{margin:0;font-size:7.9pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
 .sci{margin:0.4mm 0 0;font-size:6.4pt;font-style:italic;color:#9aa7ab;overflow-wrap:break-word}
 .nick{margin:0.8mm 0 0;font-size:6pt;color:var(--soft);line-height:1.25}
-.frontfacts{padding:0 2.2mm;margin-top:1.2mm}
+.frontfacts{padding:0 2.6mm;margin-top:1mm}
 .frontfacts .field{margin-bottom:1.1mm}
-.frontfacts .field span{font-size:5.4pt;line-height:1.22}
+.frontfacts .field span{font-size:5pt;line-height:1.2}
 /* pinned to the foot of the card so the credit sits on the bottom edge on every
    card, whatever length the facts above it run to */
-.frontfoot{margin-top:auto;padding:1.2mm 2.2mm 1.3mm;display:flex;align-items:flex-end;justify-content:space-between;gap:1.5mm;border-top:0.5pt solid var(--hair)}
+.frontfoot{margin-top:auto;padding:1.2mm 2.6mm 2.2mm;display:flex;align-items:flex-end;justify-content:space-between;gap:1.5mm;border-top:0.5pt solid var(--hair)}
 .frontfoot .credit{margin:0;flex:1 1 auto;min-width:0}
 .frontfoot .pebl-logo{margin:0;flex:0 0 auto}
-.credit{font-size:4.2pt;color:#9aa7ab;line-height:1.12}
+.credit{font-size:3.9pt;color:#9aa7ab;line-height:1.12}
 .pebl-logo{height:4mm;width:auto;display:block;margin:0 2.2mm 1.6mm auto;opacity:.9}
 /* BACK */
-.card.back{padding:1.8mm 2.2mm 1.3mm;min-width:0}
-.tierline{font-size:6pt;color:var(--soft);display:flex;align-items:center;gap:1.2mm;margin:1.2mm 0 2mm}
-.tierchip{color:#fff;font-size:5.4pt;font-weight:bold;border-radius:2pt;padding:0.3mm 1.4mm;flex:0 0 auto}
+.card.back{padding:2mm 2.6mm 2.2mm;min-width:0}
+.backname{margin:0 0 1.6mm;font-size:7.2pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
 .field{margin-bottom:1.4mm;min-width:0}
-.field b{display:block;font-size:5pt;letter-spacing:.5pt;color:var(--dteal);text-transform:uppercase;margin-bottom:0.3mm}
+.field b{display:block;font-size:4.6pt;letter-spacing:.5pt;color:var(--dteal);text-transform:uppercase;margin-bottom:0.3mm}
 .field span{display:block;font-size:6.1pt;line-height:1.3;color:var(--navy);overflow-wrap:break-word}
 .blist{margin:0;padding-left:2.4mm;list-style:none}
-.blist li{font-size:5.5pt;line-height:1.22;color:var(--navy);overflow-wrap:break-word;margin-bottom:0.5mm;position:relative}
+.blist li{font-size:5.1pt;line-height:1.2;color:var(--navy);overflow-wrap:break-word;margin-bottom:0.5mm;position:relative}
 .blist li::before{content:"•";position:absolute;left:-2.2mm;color:var(--teal)}
 /* .farmbadge / .fsym / .flab / .fhint removed with the farm-status glyph itself
    (see the note where FARMBADGE used to be defined). The freed vertical space on
    the card back is left to the three content fields rather than reclaimed. */
 .qrrow{margin-top:auto;display:flex;align-items:center;gap:1.4mm;border-top:0.5pt solid var(--hair);padding-top:1.2mm;min-width:0}
 .qr{width:6.6mm;height:6.6mm;flex:0 0 auto}
-.qrtext{font-size:4.6pt;line-height:1.2;color:var(--soft);min-width:0}
+.qrtext{font-size:4.2pt;line-height:1.2;color:var(--soft);min-width:0}
 .qrtext b{color:var(--navy)}
 .cardfoot{display:flex;align-items:center;gap:1.2mm;margin-top:1mm}
 .cardfoot .pebl-logo{height:3mm;margin:0}
