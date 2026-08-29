@@ -3509,24 +3509,6 @@
         "Food items reported for Chelidonichthys lucerna"
       ]
     },
-    "doi:10.1371-journal.pone.0068313": {
-      "kind": "journal",
-      "title": "Changes in Benthos Associated with Mussel (Mytilus edulis L.) Farms on the West-Coast of Scotland",
-      "authors": [
-        "Wilding, Thomas A.",
-        "Nickell, Thomas D."
-      ],
-      "publisher": "PLOS ONE",
-      "year": 2013,
-      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0068313",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1371/journal.pone.0068313",
-      "expectText": [
-        "Asterias rubens",
-        "mussel-lines",
-        "starfish density"
-      ]
-    },
     "doi:10.7717-peerj.9260": {
       "kind": "journal",
       "title": "Here are the polyps: in situ observations of jellyfish polyps and podocysts on bivalve shells",
@@ -4520,6 +4502,163 @@
         "Echinus esculentus"
       ],
       "expectCommonName": "Foliose red seaweeds"
+    },
+    "biotic:4248": {
+      "kind": "web",
+      "title": "Echinocardium cordatum - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/4248",
+      "licence": "CC BY-NC-SA 4.0",
+      "expectText": [
+        "Echinocardium cordatum",
+        "Sea-potato"
+      ]
+    },
+    "marlin-habitat:124": {
+      "kind": "marlin",
+      "title": "Echinocardium cordatum and Ensis spp. in lower shore and shallow sublittoral slightly muddy fine sand - MarLIN habitat review",
+      "publisher": "Marine Life Information Network, Marine Biological Association of the UK",
+      "url": "https://www.marlin.ac.uk/habitats/detail/124",
+      "licence": "CC BY-NC-SA 4.0",
+      "expectText": [
+        "Echinocardium cordatum",
+        "SS.SSa.IMuSa.EcorEns"
+      ]
+    },
+    "doi:10.1038-s43247-025-02253-w": {
+      "kind": "journal",
+      "title": "Offshore wind farms modify coastal food web dynamics by enhancing suspension feeder pathways",
+      "publisher": "Communications Earth and Environment (Nature Portfolio), open access via PubMed Central",
+      "year": 2025,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12040705/",
+      "identifier": "doi:10.1038/s43247-025-02253-w",
+      "expectText": [
+        "Echinocardium cordatum",
+        "food web"
+      ]
+    },
+    "pmc:PMC3335053": {
+      "kind": "journal",
+      "title": "Habitat and Scale Shape the Demographic Fate of the Keystone Sea Urchin Paracentrotus lividus in Mediterranean Macrophyte Communities",
+      "publisher": "PLoS ONE (Public Library of Science), open-access copy hosted by PubMed Central",
+      "year": 2012,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3335053/",
+      "licence": "Creative Commons Attribution License",
+      "identifier": "10.1371/journal.pone.0035170",
+      "expectText": [
+        "Paracentrotus lividus"
+      ]
+    },
+    "adw:Phalacrocorax-aristotelis": {
+      "kind": "web",
+      "title": "Phalacrocorax aristotelis (European shag) - Animal Diversity Web species account",
+      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
+      "url": "https://animaldiversity.org/accounts/Phalacrocorax_aristotelis/",
+      "expectText": [
+        "Phalacrocorax aristotelis",
+        "European shag"
+      ]
+    },
+    "adw:Phalacrocorax-carbo": {
+      "kind": "web",
+      "title": "Phalacrocorax carbo (great cormorant) - Animal Diversity Web species account",
+      "authors": [
+        "Dewey, T."
+      ],
+      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
+      "year": 2009,
+      "url": "https://animaldiversity.org/accounts/Phalacrocorax_carbo/",
+      "expectText": [
+        "Phalacrocorax carbo",
+        "great cormorant"
+      ]
+    },
+    "rspb:eider": {
+      "kind": "web",
+      "title": "Eider Duck Facts | Somateria Mollissima",
+      "publisher": "Royal Society for the Protection of Birds",
+      "url": "https://www.rspb.org.uk/birds-and-wildlife/eider",
+      "expectText": [
+        "Somateria mollissima"
+      ]
+    },
+    "ducks-unlimited:common-eider": {
+      "kind": "web",
+      "title": "Common Eider | Ducks Unlimited",
+      "publisher": "Ducks Unlimited",
+      "url": "https://www.ducks.org/hunting/waterfowl-id/common-eider",
+      "expectText": [
+        "Somateria mollissima"
+      ]
+    },
+    "audubon:common-eider": {
+      "kind": "web",
+      "title": "Common Eider | Audubon Field Guide",
+      "publisher": "National Audubon Society",
+      "url": "https://www.audubon.org/field-guide/bird/common-eider",
+      "expectText": [
+        "Somateria mollissima"
+      ]
+    },
+    "biotic:6188": {
+      "kind": "web",
+      "title": "Spatangus purpureus - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/6188",
+      "licence": "CC BY-NC-SA 4.0",
+      "identifier": "6188",
+      "expectText": [
+        "Spatangus purpureus",
+        "Purple heart urchin"
+      ]
+    },
+    "habitas:ZB4010": {
+      "kind": "web",
+      "title": "Spatangus purpureus - Marine Life Encyclopedia",
+      "authors": [
+        "Picton, B.E.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland, Encyclopedia of Marine Life of Britain and Ireland",
+      "year": 2016,
+      "url": "https://www.habitas.org.uk/marinelife/species.asp?item=ZB4010",
+      "identifier": "ZB4010",
+      "expectText": [
+        "Spatangus purpureus"
+      ]
+    },
+    "doi:10.1007-s12526-024-01410-2": {
+      "kind": "journal",
+      "title": "Intense bioturbation by the irregular sea urchin Spatangus purpureus in a Mediterranean maërl bed",
+      "authors": [
+        "Canessa, M.",
+        "Bavestrello, G.",
+        "Trainito, E."
+      ],
+      "publisher": "Marine Biodiversity 54:21 (Springer)",
+      "year": 2024,
+      "url": "https://link.springer.com/article/10.1007/s12526-024-01410-2",
+      "licence": "CC BY 4.0",
+      "identifier": "doi:10.1007/s12526-024-01410-2",
+      "expectText": [
+        "Spatangus purpureus"
+      ]
+    },
+    "doris:95": {
+      "kind": "web",
+      "title": "Spatangus purpureus O.F. Muller, 1776, fiche 95",
+      "authors": [
+        "Perrier, P.",
+        "Andre, F.",
+        "Pean, M."
+      ],
+      "publisher": "DORIS, Federation Francaise d'Etudes et de Sports Sous-Marins (FFESSM)",
+      "year": 2022,
+      "url": "https://doris.ffessm.fr/ref/specie/95",
+      "identifier": "95",
+      "expectText": [
+        "Spatangus purpureus"
+      ]
     }
   },
   "species": {
@@ -30792,108 +30931,164 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:124316",
-        "marlin:1499",
         "bhl:mortensen-1927-echinoderms",
-        "marlin-biotope:111",
         "doi:10.1016-j.fishres.2005.04.013",
-        "ukmsac:1998-kelp-reefbiotopes"
+        "doi:10.3989-scimar.2012.76n1009",
+        "fishbase:Labrus-bergylta-food-items",
+        "marlin-biotope:111",
+        "marlin:1189",
+        "marlin:1499",
+        "pmc:PMC3335053",
+        "ukmsac:1998-kelp-reefbiotopes",
+        "worms:124316"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
             "marlin:1499",
+            "worms:124316",
             "bhl:mortensen-1927-echinoderms"
           ],
           "support": [
             {
               "sourceId": "marlin:1499",
-              "locator": "Identifying features",
-              "quote": "Round, greenish, flattened test. Test up to 7 cm in diameter. Spines long and sharp, dark purple to dark green in colouration. Ambulacral plates with 5-6 pairs of pores. Tube feet arranged in arcs of 5-6.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "This sea urchin has a round, flattened test up to 7 cm in diameter. It has long, sharply pointed spines which are dark purple to dark green and has a greenish test.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1499",
-              "locator": "Description",
-              "quote": "This sea urchin has a round, flattened test up to 7 cm in diameter. It has long, sharply pointed spines which are dark purple to dark green and has a greenish test.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat",
+              "quote": "It uses its spines and teeth to bore into soft rocks, its burrow providing protection from both wave action and desiccation at low tide. The urchin increases the size of its burrow as it grows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1499",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Paracentrotus lividus is found in the Channel Islands, in a few locations in western Scotland and occasionally on the south west coasts of England. It is common on the west coast of Ireland and is abundant in areas such as County Clare.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124316",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "very rare in Devon, Cornwall and the Islec of Scilly, occaional in the Channel Islannds, rare in western Scotland, around Skye and the smaller islands nearby",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "bhl:mortensen-1927-echinoderms",
               "locator": "p. 308 (Paracentrotus lividus, British distribution)",
               "quote": "In British seas this species is common on the south and west coasts of Ireland, and has also been found on the Devon and Cornwall coasts (Ilfracombe, Falmouth).",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bhl:mortensen-1927-echinoderms",
+              "locator": "p. 306 (Paracentrotus lividus, description)",
+              "quote": "Colour dark violet to brownish or olive -greenish ; the test greenish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: A dark purple to blackish urchin The source says: MarLIN gives spines 'dark purple to dark green' on a 'greenish test'. Mortensen p. 306 gives 'Colour dark violet to brownish or olive-greenish; the test greenish'. Neither supports 'blackish', and both stress the green component."
+          "claimSupported": true
         },
         "mark:cmr980jg700007iosliqiid4h": {
           "sourceIds": [
-            "marlin:1499"
+            "marlin:1499",
+            "marlin:1189"
           ],
           "support": [
             {
               "sourceId": "marlin:1499",
-              "locator": "Identifying features",
-              "quote": "Round, greenish, flattened test. Test up to 7 cm in diameter. Spines long and sharp, dark purple to dark green in colouration. Ambulacral plates with 5-6 pairs of pores. Tube feet arranged in arcs of 5-6.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "This sea urchin has a round, flattened test up to 7 cm in diameter. It has long, sharply pointed spines which are dark purple to dark green and has a greenish test.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1499",
-              "locator": "Description",
-              "quote": "This sea urchin has a round, flattened test up to 7 cm in diameter. It has long, sharply pointed spines which are dark purple to dark green and has a greenish test.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Round, greenish, flattened test. Test up to 7 cm in diameter. Spines long and sharp, dark purple to dark green in colouration.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Summary > Description (Psammechinus miliaris, the green sea urchin)",
+              "quote": "It is greenish in colour with distinctive violet tips to the spines. The spines are robust, short and closely packed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr980jg700017iosnu3wg1ul": {
           "sourceIds": [
-            "marlin:1499"
+            "marlin:1499",
+            "marlin-biotope:111"
           ],
           "support": [
             {
               "sourceId": "marlin:1499",
               "locator": "Identifying features",
-              "quote": "Round, greenish, flattened test. Test up to 7 cm in diameter. Spines long and sharp, dark purple to dark green in colouration. Ambulacral plates with 5-6 pairs of pores. Tube feet arranged in arcs of 5-6.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Round, greenish, flattened test. Test up to 7 cm in diameter. Spines long and sharp, dark purple to dark green in colouration.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1499",
-              "locator": "Description",
-              "quote": "This sea urchin has a round, flattened test up to 7 cm in diameter. It has long, sharply pointed spines which are dark purple to dark green and has a greenish test.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat",
+              "quote": "It uses its spines and teeth to bore into soft rocks, its burrow providing protection from both wave action and desiccation at low tide. The urchin increases the size of its burrow as it grows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin-biotope:111",
+              "locator": "Habitat review > Description",
+              "quote": "Soft bedrock, such as limestone, allows P.aracentrous lividus to bore into the rock",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Ring labelled 'Dark purple test', description 'The central body is dark purple, brown or olive-green; often wedged in a self-excavated rock hollow.' The source says: marlin:1499, verified verbatim: 'Round, greenish, flattened test. ... Spines long and sharp, dark purple to dark green in colouration.' and 'It has long, sharply pointed spines which are dark purple to dark green and has a greenish test.'"
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1499"
+            "marlin:1499",
+            "worms:124316",
+            "marlin-biotope:111"
           ],
           "support": [
             {
               "sourceId": "marlin:1499",
               "locator": "Habitat",
-              "quote": "The purple sea urchin is found on the lower rocky shore in rock pools and into the shallow sublittoral down to depths of 3 m, but may be found deeper. It can also be found higher up on the middle/upper shore in rockpools e.g. in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The purple sea urchin is found on the lower rocky shore in rock pools and into the shallow sublittoral down to depths of 3 m, but may be found deeper. ... They are also sometimes found in beds of the seagrass Zostera spp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124316",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "In hollows in pools and crevices in the intertidal zone, also sublittoral to about 30 m depth, on stony ground and burrowing in the lithothamnion gravel (maerl).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin-biotope:111",
+              "locator": "Habitat review > Description",
+              "quote": "Paracentrotus lividus occurs in a range of habitats on solid rocks, boulders and in meadows of sea grasses but is uncommon on sand and other sediment types",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1499",
-              "locator": "Summary > Habitat",
-              "quote": "The purple sea urchin is found on the lower rocky shore in rock pools and into the shallow sublittoral down to depths of 3 m, but may be found deeper.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat",
+              "quote": "It uses its spines and teeth to bore into soft rocks, its burrow providing protection from both wave action and desiccation at low tide. The urchin increases the size of its burrow as it grows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -30907,23 +31102,38 @@
               "sourceId": "marlin:1499",
               "locator": "Summary > Description",
               "quote": "This sea urchin has a round, flattened test up to 7 cm in diameter. It has long, sharply pointed spines which are dark purple to dark green and has a greenish test.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1499",
+              "locator": "Identifying features",
+              "quote": "Round, greenish, flattened test. Test up to 7 cm in diameter. Spines long and sharp, dark purple to dark green in colouration.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "marlin:1499",
             "bhl:mortensen-1927-echinoderms"
           ],
           "support": [
             {
+              "sourceId": "marlin:1499",
+              "locator": "Habitat",
+              "quote": "It uses its spines and teeth to bore into soft rocks, its burrow providing protection from both wave action and desiccation at low tide. The urchin increases the size of its burrow as it grows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "bhl:mortensen-1927-echinoderms",
               "locator": "p. 308 (Paracentrotus lividus)",
-              "quote": "It is a littoral form, often found on rocky shores; it bores holes in the rocks, and great numbers usually are found together, each in its hole, the rocks being quite honeycombed by them.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "quote": "It is a littoral form, often found on rocky shores ; it bores holes in the rocks, and great numbers usually are found together, each in its hole, the rocks being quite honeycombed by them.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -30937,21 +31147,6 @@
               "sourceId": "marlin-biotope:111",
               "locator": "Summary > UK and Ireland classification description (JNCC, 2015)",
               "quote": "In south and west Ireland these coralline pools may be dominated by the sea urchin Paracentrotus lividus and the seaweed diversity is generally low due to the grazing pressure of Paracentrotus lividus",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin-biotope:111"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin-biotope:111",
-              "locator": "Summary > UK and Ireland classification description (JNCC, 2015)",
-              "quote": "the seaweed diversity is generally low due to the grazing pressure of Paracentrotus lividus, the top shells Gibbula cineraria and Gibbula umbilicalis, and winkles such as Littorina littorea",
               "readBy": "refs:trawl (urchin)",
               "readOn": "2026-08-28"
             }
@@ -30973,51 +31168,156 @@
           ],
           "claimSupported": true
         },
-        "edge:Kelp canopy->Purple sea urchin": {
+        "trait:depth": {
+          "sourceIds": [
+            "marlin:1499",
+            "worms:124316"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1499",
+              "locator": "Summary > Habitat",
+              "quote": "The purple sea urchin is found on the lower rocky shore in rock pools and into the shallow sublittoral down to depths of 3 m, but may be found deeper.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124316",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "In hollows in pools and crevices in the intertidal zone, also sublittoral to about 30 m depth, on stony ground and burrowing in the lithothamnion gravel (maerl).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "pmc:PMC3335053",
+            "marlin-biotope:111"
+          ],
+          "support": [
+            {
+              "sourceId": "pmc:PMC3335053",
+              "locator": "Introduction",
+              "quote": "Paracentrotus lividus has been clearly recognized as a keystone herbivore due to its ability to transform macroalgal-dominated communities into barren areas characterized by increased cover of bare substrates and encrusting coralline algae",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin-biotope:111",
+              "locator": "Habitat review > Description",
+              "quote": "In south and west Ireland these coralline pools may be dominated by the sea urchin Paracentrotus lividus and the seaweed diversity is generally low due to the grazing pressure of Paracentrotus lividus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
           "sourceIds": [
             "ukmsac:1998-kelp-reefbiotopes"
           ],
           "support": [
             {
               "sourceId": "ukmsac:1998-kelp-reefbiotopes",
-              "locator": "Biotope list, EIR.KFaR.LhypPar (PDF p. 141)",
-              "quote": "Sparse Laminaria hyperborea forest and dense Paracentrotus lividus on exposed infralittoral limestone",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "III. Biology and ecological functioning > Herbivory > Urchins and understorey algae",
+              "quote": "In the west of Ireland, Paracentrotus lividus has been successfully reared using Palmaria palmata (P. Heath, pers. comm.).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "trait:depth": {
+        "diet:eats:2": {
           "sourceIds": [
+            "pmc:PMC3335053"
+          ],
+          "support": [
+            {
+              "sourceId": "pmc:PMC3335053",
+              "locator": "Abstract",
+              "quote": "P. lividus is the dominant invertebrate herbivore in the Mediterranean Sea, and has been repeatedly observed to overgraze shallow beds of the seagrass Posidonia oceanica and rocky macroalgal communities.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1016-j.fishres.2005.04.013",
+            "fishbase:Labrus-bergylta-food-items"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1016-j.fishres.2005.04.013",
+              "locator": "3.2. Diet of ballan wrasse",
+              "quote": "The sea-urchins, A. lixula, P. lividus and S. granularis were the most important echinoderms in the diet of the ballan wrasse.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1016-j.fishres.2005.04.013",
+              "locator": "Table 6 (estimated annual consumption of sea-urchins by two predator fishes)",
+              "quote": "Estimated annual consumption of sea-urchins by two predator ﬁshes in the Azores ... Diplodus sargus Labrus bergylta ... Paracentrotus lividus 0.4 3.3",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Labrus-bergylta-food-items",
+              "locator": "Food items reported for Labrus bergylta > zoobenthos > echinoderms > sea urchins",
+              "quote": "sea urchins Paracentrotus lividus Azores Is. juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.3989-scimar.2012.76n1009"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Introduction (Marthasterias glacialis as a predator)",
+              "quote": "M. glacialis is capable of exploiting a wide range of prey resources, and plays a key role in community structure through predation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Introduction",
+              "quote": "in the Mediterranean it can control densities of the sea urchin Paracentrotus lividus (Gianguzza et al. 2009, Bonaviri et al. 2009), which is involved in the establishment of urchin-grazed barrens.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "marlin-biotope:111",
             "marlin:1499"
           ],
           "support": [
             {
-              "sourceId": "marlin:1499",
-              "locator": "MarLIN species information review > Habitat",
-              "quote": "The purple sea urchin is found on the lower rocky shore in rock pools and into the shallow sublittoral down to depths of 3 m, but may be found deeper.",
-              "readBy": "refs-trawl depth agent (page fetched 2026-08-28, HTTP 200, passage read)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1499"
-          ],
-          "support": [
+              "sourceId": "marlin-biotope:111",
+              "locator": "Habitat review > Removal of target species",
+              "quote": "The key characterizing species Paracentrotus lividus is harvested commercially in Europe and in Ireland. Populations in Ireland have been depleted (Byrne, 1990; Moylan, 1997)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:1499",
-              "locator": "Summary > Recorded distribution in Britain and Ireland",
-              "quote": "Paracentrotus lividus is found in the Channel Islands, in a few locations in western Scotland and occasionally on the south west coasts of England. It is common on the west coast of Ireland",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "The gonads are considered a delicacy in the Mediterranean.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: created, i.e. the farm brings it into existence at the site. The source says: In Britain and Ireland it is confined to the Channel Islands, a few western Scottish locations and occasionally SW England, and is common only on the west coast of Ireland. It also lives by boring burrows into soft rock, not on suspended structure."
+          "claimSupported": true
         }
       }
     },
@@ -31035,126 +31335,265 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:124392",
-        "marlin:1417",
         "bhl:mortensen-1927-echinoderms",
-        "doi:10.1371-journal.pone.0068313"
+        "biotic:4248",
+        "buyse:2023-owf-flatfish",
+        "doi:10.1038-s43247-025-02253-w",
+        "marlin-habitat:124",
+        "marlin:1417",
+        "worms:124392"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1417"
+            "marlin:1417",
+            "worms:124392",
+            "bhl:mortensen-1927-echinoderms"
           ],
           "support": [
             {
               "sourceId": "marlin:1417",
-              "locator": "Identifying features",
-              "quote": "Heart shaped test 6-9 cm in length, fawn in colour, spines yellowish. In profile, highest point of test posterior to apical system. Ambulacra rather broad and furrow like, extending down the sides of test, forming a stellate shape....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A heart shaped urchin covered in a dense felt of yellow spines, mostly directed backwards.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Description",
+              "quote": "The skeleton is covered with soft spines that lie flat on the body and point towards the back. Yellowish brown in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1417",
-              "locator": "Description",
-              "quote": "A heart shaped urchin covered in a dense felt of yellow spines, mostly directed backwards. Yellow-brown in colour and usually 6 cm in length although can grow up to 9 cm long.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Echinocardium cordatum lives in a permanent burrow buried about 8 cm deep (to 15 cm) in sandy sediments.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Biology",
+              "quote": "Depending on the temperature, the species digs a few centimetres to about 20 cm deep into the sediment.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Lower shore and subtidal to 200 m depth, burrowing in sand or muddy sand, all round the British Isles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1417",
               "locator": "Summary > Additional information",
               "quote": "The common name of this species refers to the brittle, brownish test, which is often found washed up on sheltered sandy shores.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Summary > Identifying features",
+              "quote": "Ambulacra rather broad and furrow like, extending down the sides of test, forming a stellate shape.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bhl:mortensen-1927-echinoderms",
+              "locator": "Echinoidea > Echinocardium cordatum species account, p. 332",
+              "quote": "Lives mainly on sandy bottom, buried ca. 15-20 cm. deep in the ground ; a channel leads from the hole to the surface of the ground.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bhl:mortensen-1927-echinoderms",
+              "locator": "Echinoidea > Echinocardium cordatum species account, p. 332",
+              "quote": "the general short, uniform covering of spines",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: living buried 10-20cm down in clean sand The source says: MarLIN: 'lives in a permanent burrow buried about 8 cm deep (to 15 cm) in sandy sediments'. Mortensen 1927 p. 332 gives 15-20 cm. The honest span across the two is roughly 8-20 cm, so the app's 10-20 cm sits at the deep end of it."
+          "claimSupported": true
         },
         "mark:cmr9815pz00007iugthz3menl": {
           "sourceIds": [
-            "marlin:1417"
+            "marlin:1417",
+            "worms:124392",
+            "biotic:4248"
           ],
           "support": [
             {
               "sourceId": "marlin:1417",
-              "locator": "Identifying features",
-              "quote": "Heart shaped test 6-9 cm in length, fawn in colour, spines yellowish. In profile, highest point of test posterior to apical system. Ambulacra rather broad and furrow like, extending down the sides of test, forming a stellate shape....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Heart shaped test 6-9 cm in length, fawn in colour, spines yellowish. In profile, highest point of test posterior to apical system.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Morphology",
+              "quote": "This sea urchin has a heart-shaped test, usually 40-50 mm in length. lt is covered with a large number of closely set spines, most of them directed backwards. In profile the highest point of the test lies towards the posterior.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1417",
-              "locator": "Description",
-              "quote": "A heart shaped urchin covered in a dense felt of yellow spines, mostly directed backwards. Yellow-brown in colour and usually 6 cm in length although can grow up to 9 cm long.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A heart shaped urchin covered in a dense felt of yellow spines, mostly directed backwards.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4248",
+              "locator": "General Biology > Growth form",
+              "quote": "Growth form Globose Feeding method Surface deposit feeder, Sub-surface deposit feeder",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr9815pz00017iugwjkb51bo": {
           "sourceIds": [
-            "marlin:1417"
+            "marlin:1417",
+            "worms:124392",
+            "bhl:mortensen-1927-echinoderms"
           ],
           "support": [
             {
               "sourceId": "marlin:1417",
-              "locator": "Identifying features",
-              "quote": "Heart shaped test 6-9 cm in length, fawn in colour, spines yellowish. In profile, highest point of test posterior to apical system. Ambulacra rather broad and furrow like, extending down the sides of test, forming a stellate shape....",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A heart shaped urchin covered in a dense felt of yellow spines, mostly directed backwards. Yellow-brown in colour and usually 6 cm in length although can grow up to 9 cm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Description",
+              "quote": "The skeleton is covered with soft spines that lie flat on the body and point towards the back. Yellowish brown in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Morphology",
+              "quote": "lt is covered with a large number of closely set spines, most of them directed backwards.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1417",
-              "locator": "Description",
-              "quote": "A heart shaped urchin covered in a dense felt of yellow spines, mostly directed backwards. Yellow-brown in colour and usually 6 cm in length although can grow up to 9 cm long.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Heart shaped test 6-9 cm in length, fawn in colour, spines yellowish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bhl:mortensen-1927-echinoderms",
+              "locator": "Echinoidea > Echinocardium cordatum species account, p. 332",
+              "quote": "the general short, uniform covering of spines",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1417"
+            "marlin:1417",
+            "worms:124392",
+            "biotic:4248",
+            "bhl:mortensen-1927-echinoderms"
           ],
           "support": [
             {
               "sourceId": "marlin:1417",
-              "locator": "Biology",
-              "quote": "Female size range: Small-medium (3-10 cm)",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Yellow-brown in colour and usually 6 cm in length although can grow up to 9 cm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1417",
-              "locator": "Summary > Description",
-              "quote": "A heart shaped urchin covered in a dense felt of yellow spines, mostly directed backwards. Yellow-brown in colour and usually 6 cm in length although can grow up to 9 cm long.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Heart shaped test 6-9 cm in length, fawn in colour, spines yellowish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Description",
+              "quote": "The cordiform body of the sea potato is protected by a calcite skeleton and measures up to 60 mm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Morphology",
+              "quote": "This sea urchin has a heart-shaped test, usually 40-50 mm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4248",
+              "locator": "General Biology > Size",
+              "quote": "Fragility Fragile Size Small-medium(3-10cm)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bhl:mortensen-1927-echinoderms",
+              "locator": "Echinoidea > Echinocardium cordatum species account, p. 332",
+              "quote": "Reaches a size of ca. 90 mm. length of test.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "marlin:1417"
+            "marlin:1417",
+            "worms:124392",
+            "biotic:4248"
           ],
           "support": [
             {
               "sourceId": "marlin:1417",
-              "locator": "Biology",
-              "quote": "Infaunal; Body flexibility: None (less than 10 degrees)",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Echinocardium cordatum lives in a permanent burrow buried about 8 cm deep (to 15 cm) in sandy sediments.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Biology",
+              "quote": "Depending on the temperature, the species digs a few centimetres to about 20 cm deep into the sediment. A respiratory channel (chimney) leads from the hole to the surface",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Biology",
+              "quote": "The animal is isolated from the sediment by a mucus veil, which plasters the burrow.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1417",
-              "locator": "Summary > Habitat",
-              "quote": "Echinocardium cordatum lives in a permanent burrow buried about 8 cm deep (to 15 cm) in sandy sediments. The species is found from the intertidal to the subtidal and offshore to about 200 m.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Sensitivity review > Displacement > Evidence",
+              "quote": "once on the substratum surface Echinocardium cordatum is capable of re-burrowing into the sediment within 20 minutes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4248",
+              "locator": "General Biology > Mobility and environmental position",
+              "quote": "Mobility/Movement Burrower Environmental position Infaunal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -31169,36 +31608,6 @@
               "locator": "Biology",
               "quote": "Sub-surface deposit feeder; Typically feeds on: Detritus; Diet/food source: Detritivore",
               "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1417"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1417",
-              "locator": "Sensitivity assessment > Increase in suspended sediment > Evidence",
-              "quote": "the species feeds on detritus that accumulates on the bottom and so its growth consequently relies on the regular supply of detritus (Ridder de, et al., 1991)",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Seabed biodeposits->Sea potato": {
-          "sourceIds": [
-            "bhl:mortensen-1927-echinoderms"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 332 (Echinocardium cordatum)",
-              "quote": "It is said to take the food particles from the surface of the sand by means of the exceedingly extensile tube-feet of the frontal ambulacrum, which drag them down into the hole to the under side of the animal",
-              "readBy": "refs:trawl (urchin)",
               "readOn": "2026-08-28"
             }
           ],
@@ -31221,34 +31630,222 @@
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1417"
+            "marlin:1417",
+            "worms:124392",
+            "biotic:4248"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Habitat: sandy-bottom, described in the field note as clean sand. The source says: MarLIN's substratum preferences are 'Coarse clean sand, Fine clean sand, Muddy sand, Sandy mud', so it is not restricted to clean sand, and the species was present in high numbers in Mevagissey Bay under years of china-clay waste dumping."
+          "support": [
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Biology review > Habitat preferences > Substratum / habitat preferences",
+              "quote": "Substratum / habitat preferences Coarse clean sand, Fine clean sand, Muddy sand, Sandy mud",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Biology review > Habitat preferences > Wave exposure preferences",
+              "quote": "Wave exposure preferences Extremely sheltered, Sheltered, Very sheltered",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Echinocardium cordatum is a common infaunal species found on sheltered sandy beaches, on all coasts of Britain and Ireland.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Lower shore and subtidal to 200 m depth, burrowing in sand or muddy sand, all round the British Isles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4248",
+              "locator": "Distribution and Habitat > Substratum and physiographic preferences",
+              "quote": "Substratum preferences Coarse clean sand, Fine clean sand, Muddy sand, Sandy mud Physiographic preferences Open coast, Offshore seabed, Strait / sound, Enclosed coast / Embayment",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "trait:depth": {
+          "sourceIds": [
+            "marlin:1417",
+            "worms:124392",
+            "biotic:4248"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Summary > Depth range",
+              "quote": "Depth range\n0 to -200m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Summary > Habitat",
+              "quote": "The species is found from the intertidal to the subtidal and offshore to about 200 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Depth range",
+              "quote": "Depth range 0-230 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Distribution Lower shore and subtidal to 200 m depth, burrowing in sand or muddy sand, all round the British Isles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4248",
+              "locator": "Distribution and Habitat > Depth range",
+              "quote": "Biogeographic range Not researched Depth range 0 - 230 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1417",
+            "biotic:4248"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Biology review > Biology (table) > Diet and food source",
+              "quote": "Diet/food source Detritivore\nTypically feeds on Detritus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4248",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Detritus Habit Burrow dwelling",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "biotic:4248",
+            "marlin:1417",
+            "worms:124392"
+          ],
+          "support": [
+            {
+              "sourceId": "biotic:4248",
+              "locator": "General Biology > Feeding method",
+              "quote": "Growth form Globose Feeding method Surface deposit feeder, Sub-surface deposit feeder",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Biology review > Biology (table) > Characteristic feeding method",
+              "quote": "Characteristic feeding method Sub-surface deposit feeder",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124392",
+              "locator": "Descriptive notes > Biology",
+              "quote": "E. cordatum is a non-selective deposit feeder.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
           "sourceIds": [
             "marlin:1417"
           ],
           "support": [
             {
               "sourceId": "marlin:1417",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "0 to -200m",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Sensitivity review > Increase in suspended sediment > Evidence",
+              "quote": "the species feeds on detritus that accumulates on the bottom and so its growth consequently relies on the regular supply of detritus (Ridder de, et al ., 1991)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Sensitivity review > Increase in turbidity > Evidence",
+              "quote": "a decrease in turbidity may result in a decline in the supply of organic matter to the seabed surface from which the species feeds possibly causing reduced growth and fecundity.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "doi:10.1371-journal.pone.0068313"
+            "buyse:2023-owf-flatfish",
+            "doi:10.1038-s43247-025-02253-w"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: harmed. A clean-sand specialist that heavy biodeposition suppresses, so it is more abundant without the farm. The source says: The one study of benthos around west-of-Scotland mussel farms found no evidence that mussel farming was associated with changes in macrobenthic diversity, species count or feeding strategy, and concluded mussel farming is relatively benign."
+          "support": [
+            {
+              "sourceId": "buyse:2023-owf-flatfish",
+              "locator": "Chapter 4 > Results > Stomach and intestine content analysis",
+              "quote": "In contrast, diet of the other groups consisted of soft- sediment species such as Echinocardium cordatum, Gastrosaccus spinifer and polychaetes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1038-s43247-025-02253-w",
+              "locator": "Discussion > Fish in the food webs",
+              "quote": "This species, though present in high biomass is apparently not preferred by fish as it was only consumed by Pleuronectidae in the Coarse food web.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marlin:1417"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1417",
+              "locator": "Sensitivity review > Increase in emergence regime > Evidence",
+              "quote": "During extreme low water spring tides serious predation by gulls of shallow-burrowing Echinocardium cordatum which are normally safely out of the reach of gulls (D. Nichols pers. comm.).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "marlin-habitat:124"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin-habitat:124",
+              "locator": "Sensitivity assessment > Emergence regime changes > Evidence",
+              "quote": "Sievers et al. (2014) observed predation behaviour of carrion crows ( Corvus corone ) feeding on spatangoid sea urchins ( Echinocardium cordatum ) during low tide on two different beaches in Brittany, France",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -31266,156 +31863,239 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:124418",
+        "bhl:mortensen-1927-echinoderms",
+        "biotic:6188",
+        "doi:10.1007-s12526-024-01410-2",
+        "doris:95",
+        "habitas:ZB4010",
         "marlin:1191",
-        "bhl:mortensen-1927-echinoderms"
+        "worms:124418"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1191"
+            "marlin:1191",
+            "habitas:ZB4010",
+            "doris:95"
           ],
           "support": [
-            {
-              "sourceId": "marlin:1191",
-              "locator": "Identifying features",
-              "quote": "Broad, low and heart-shaped, deep violet colour. Labrum rounded. Subanal fasciole about three times as broad as high. Four petaloid ambulacral areas on upper surface not enclosed by a fasciole. Large spine tubercles present on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1191",
-              "locator": "Description",
-              "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long. Some of the long upper spines are white. The bivalve mollusc Montacuta substriata is often found attached to spines.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1191",
               "locator": "Summary > Description",
               "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long. Some of the long upper spines are white.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1191",
+              "locator": "Identifying features",
+              "quote": "Broad, low and heart-shaped, deep violet colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB4010",
+              "locator": "Habitat",
+              "quote": "Lives in coarse sand or gravel, usually completely buried but sometimes with the dorsal spines just breaking the surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB4010",
+              "locator": "Habitat",
+              "quote": "Specimens can often be located by looking for furrows in the gravel where the animal has moved along beneath the surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doris:95",
+              "locator": "Description",
+              "quote": "les premiers courts (5 à 10 mm), soyeux et pourpres quant aux seconds longs (3 à 4 cm), chitineux et beiges",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doris:95",
+              "locator": "Photos, caption to the front view",
+              "quote": "les longs sont peu nombreux et les courts recouvrent tout le corps",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: 'A larger, purplish-brown heart urchin covered in dense short spines ... Bigger and hairier-looking than the sea potato, with a distinct heart-shaped outline.' The source says: marlin:1191, verified verbatim: 'A large, spectacular, violet coloured heart urchin that grows up to 12 cm long. Some of the long upper spines are white.' Mortensen p. 328 agrees: 'Colour violet, the long curved spines of the upper side lighter coloured, often whitish.' For comparison, marlin:1417 describes the sea potato as 'covered in a dense felt of yellow spines'."
+          "claimSupported": true
         },
         "mark:cmr97m7fs00007ifoxbdtmmby": {
           "sourceIds": [
-            "marlin:1191"
+            "marlin:1191",
+            "habitas:ZB4010"
           ],
           "support": [
             {
               "sourceId": "marlin:1191",
               "locator": "Identifying features",
-              "quote": "Broad, low and heart-shaped, deep violet colour. Labrum rounded. Subanal fasciole about three times as broad as high. Four petaloid ambulacral areas on upper surface not enclosed by a fasciole. Large spine tubercles present on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Broad, low and heart-shaped, deep violet colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1191",
+              "locator": "Summary > Description",
+              "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB4010",
               "locator": "Description",
-              "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long. Some of the long upper spines are white. The bivalve mollusc Montacuta substriata is often found attached to spines.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "This is a large, somewhat flattened heart urchin, purple in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr97m7fs00017ifo22n6l5dm": {
           "sourceIds": [
-            "marlin:1191"
+            "marlin:1191",
+            "doris:95"
           ],
           "support": [
             {
               "sourceId": "marlin:1191",
-              "locator": "Identifying features",
-              "quote": "Broad, low and heart-shaped, deep violet colour. Labrum rounded. Subanal fasciole about three times as broad as high. Four petaloid ambulacral areas on upper surface not enclosed by a fasciole. Large spine tubercles present on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Some of the long upper spines are white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1191",
+              "sourceId": "doris:95",
               "locator": "Description",
-              "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long. Some of the long upper spines are white. The bivalve mollusc Montacuta substriata is often found attached to spines.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "le test est rouge violacé et possède deux types de piquants : les premiers courts (5 à 10 mm), soyeux et pourpres quant aux seconds longs (3 à 4 cm), chitineux et beiges",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doris:95",
+              "locator": "Photos, caption to the front view",
+              "quote": "les longs sont peu nombreux et les courts recouvrent tout le corps",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Ring labelled 'Sparse, flattened spines', description 'Spines are shorter and sparser than the sea potato's dense fur, so more of the purple test shows through.' The source says: marlin:1191, verified verbatim: 'Some of the long upper spines are white' and 'Large spine tubercles present on interambulacral, but not on ambulacral, areas.' Mortensen p. 328: 'the long curved spines of the upper side lighter coloured, often whitish'."
+          "claimSupported": true
         },
         "mark:cmr97m7fs00027ifo5luafwwn": {
           "sourceIds": [
-            "marlin:1191"
+            "habitas:ZB4010",
+            "doris:95"
           ],
           "support": [
             {
-              "sourceId": "marlin:1191",
-              "locator": "Identifying features",
-              "quote": "Broad, low and heart-shaped, deep violet colour. Labrum rounded. Subanal fasciole about three times as broad as high. Four petaloid ambulacral areas on upper surface not enclosed by a fasciole. Large spine tubercles present on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:ZB4010",
+              "locator": "Description",
+              "quote": "There is a deep notch in the front of the test, corresponding with the frontal ambulacrum, but the petals of the dorsal surface are not indented.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1191",
+              "sourceId": "doris:95",
               "locator": "Description",
-              "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long. Some of the long upper spines are white. The bivalve mollusc Montacuta substriata is often found attached to spines.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Une échancrure bien marquée est présente en avant au niveau de l'ambulacre antérieur.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1191"
+            "marlin:1191",
+            "habitas:ZB4010",
+            "biotic:6188"
           ],
           "support": [
-            {
-              "sourceId": "marlin:1191",
-              "locator": "Habitat",
-              "quote": "Occurs buried just below the surface of coarse sand or gravel, including maerl but rarely mud, in wave sheltered areas in the infralittoral fringe, down to about 900 m.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1191",
               "locator": "Summary > Habitat",
               "quote": "Occurs buried just below the surface of coarse sand or gravel, including maerl but rarely mud, in wave sheltered areas in the infralittoral fringe, down to about 900 m.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB4010",
+              "locator": "Habitat",
+              "quote": "Lives in coarse sand or gravel, usually completely buried but sometimes with the dorsal spines just breaking the surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6188",
+              "locator": "Distribution and Habitat > Substratum preferences",
+              "quote": "Substratum preferences Gravel / shingle, Muddy gravel, Coarse clean sand, Muddy sand, Gravelley sand",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1191"
+            "marlin:1191",
+            "habitas:ZB4010",
+            "doris:95"
           ],
           "support": [
             {
               "sourceId": "marlin:1191",
               "locator": "Summary > Description",
-              "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long. Some of the long upper spines are white. The bivalve mollusc Montacuta substriata is often found attached to spines.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "quote": "A large, spectacular, violet coloured heart urchin that grows up to 12 cm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB4010",
+              "locator": "Description",
+              "quote": "Up to 12cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doris:95",
+              "locator": "Description",
+              "quote": "Son test au contour circulaire peut atteindre 12 cm de long pour 8 cm de large",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "marlin:1191"
+            "habitas:ZB4010",
+            "biotic:6188",
+            "doi:10.1007-s12526-024-01410-2"
           ],
           "support": [
             {
-              "sourceId": "marlin:1191",
-              "locator": "Summary > Habitat",
-              "quote": "Occurs buried just below the surface of coarse sand or gravel, including maerl but rarely mud, in wave sheltered areas in the infralittoral fringe, down to about 900 m.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:ZB4010",
+              "locator": "Habitat",
+              "quote": "Specimens can often be located by looking for furrows in the gravel where the animal has moved along beneath the surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6188",
+              "locator": "General Biology > Mobility/Movement",
+              "quote": "Mobility/Movement Crawler, Burrower Environmental position Infaunal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1007-s12526-024-01410-2",
+              "locator": "Observations, second paragraph",
+              "quote": "In this study, we report on intense bioturbation due to the activity of S. purpureus ... This action results in a wide labyrinthic pattern of trails characterizing the sea floor",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -31435,37 +32115,6 @@
           ],
           "claimSupported": true
         },
-        "edge:Seabed biodeposits->Purple heart urchin": {
-          "sourceIds": [
-            "bhl:mortensen-1927-echinoderms"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 328 (Spatangus purpureus)",
-              "quote": "The food consists of all sorts of bottom particles and organisms... which it picks out by means of its penicillate oral tube-feet.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "bhl:mortensen-1927-echinoderms"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 328 (Spatangus purpureus)",
-              "quote": "The food consists of all sorts of bottom particles and organisms... which it picks out by means of its penicillate oral tube-feet.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Trophic tier 2, a deposit feeder on seabed biodeposits. The source says: Mortensen 1927 p. 328 gives the food as 'all sorts of bottom particles and organisms', naming the living pea urchin Echinocyamus pusillus as prey, so it is partly carnivorous rather than a pure detritivore."
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "bhl:mortensen-1927-echinoderms"
@@ -31483,41 +32132,138 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "marlin:1191"
+            "marlin:1191",
+            "biotic:6188"
           ],
           "support": [
             {
               "sourceId": "marlin:1191",
-              "locator": "MarLIN species information review > Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Occurs buried just below the surface of coarse sand or gravel, including maerl but rarely mud, in wave sheltered areas in the infralittoral fringe, down to about 900 m.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6188",
+              "locator": "Distribution and Habitat > Depth range",
+              "quote": "Depth range 0 - 900 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
-            "marlin:1191",
-            "bhl:mortensen-1927-echinoderms"
+            "biotic:6188"
           ],
           "support": [
             {
-              "sourceId": "marlin:1191",
-              "locator": "Summary > Recorded distribution in Britain and Ireland",
-              "quote": "All British and Irish coasts",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:6188",
+              "locator": "General Biology > Feeding method",
+              "quote": "Feeding method Surface deposit feeder, Sub-surface deposit feeder",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 329 (Spatangus purpureus, British distribution)",
-              "quote": "In British seas this species occurs all round the coasts, in places at least very common, so that great numbers may be taken in a single haul",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:6188",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Organic detritus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "doi:10.1007-s12526-024-01410-2"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1007-s12526-024-01410-2",
+              "locator": "Observations, second paragraph",
+              "quote": "Spatangids have an omnivorous diet and feed on phytodetritus, faunal detritus, and bacterial mats",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.1007-s12526-024-01410-2",
+            "doris:95"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1007-s12526-024-01410-2",
+              "locator": "Observations, second paragraph",
+              "quote": "To ingest the detritus, they must move the pieces of maërl that are displaced by the front part of the body and accumulate on both sides of the trail.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doris:95",
+              "locator": "Alimentation",
+              "quote": "Détritivore, le spatangue pourpre se nourrit des fragments organiques présents dans le sédiment.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doris:95"
+          ],
+          "support": [
+            {
+              "sourceId": "doris:95",
+              "locator": "Divers biologie > Predateurs",
+              "quote": "la grande étoile-peigne ( Astropecten aranciacus ) est le principal prédateur du spatangue.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doris:95"
+          ],
+          "support": [
+            {
+              "sourceId": "doris:95",
+              "locator": "Divers biologie > Predateurs",
+              "quote": "les casques ( Galeodea echinophora , gastéropodes prosobranches), qui vivent dans le sable, sont carnivores et se nourrissent essentiellement d'oursins et particulièrement de Spatangus purpureus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doris:95",
+              "locator": "Divers biologie > Predateurs",
+              "quote": "Ils utilisent leur radula pour percer le test, introduisent leur trompe et consomment ainsi leur proie.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "doris:95"
+          ],
+          "support": [
+            {
+              "sourceId": "doris:95",
+              "locator": "Divers biologie > Predateurs",
+              "quote": "La daurade peut également briser le test et consommer ce spatangue.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -31535,146 +32281,289 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:1704278",
-        "marlin:2215",
-        "wildlife-trusts:shag",
-        "liv:howells-2018-thesis",
-        "swt:shag",
+        "adw:Phalacrocorax-aristotelis",
         "bto:shag",
         "doi:10.1007-s00227-018-3433-9",
         "doi:10.1080-00063657.2024.2311080",
-        "doi:10.3389-fmars.2022.852033"
+        "doi:10.3389-fmars.2022.852033",
+        "liv:howells-2018-thesis",
+        "marlin:2215",
+        "swt:shag",
+        "wildlife-trusts:shag",
+        "worms:1704278"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2215"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2215",
-              "locator": "Additional information",
-              "quote": "The shag feeds mostly on fish for which it dives with a disitinctive leap.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2215",
-              "locator": "Description",
-              "quote": "Gulosus aristotelis is a medium sized member of the cormorant family, with a body length of up to about 78 cm and a wingspan up to 1.1 m. The body is elongated with a long neck and tail. The adult is all black, including legs and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmr97mxol00007iakicacr1ly": {
-          "sourceIds": [
-            "marlin:2215"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2215",
-              "locator": "swt:shag > Description",
-              "quote": "Although similar to the cormorant, shags are smaller, slimmer, with a steep forehead and narrower bill.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2215",
-              "locator": "Description",
-              "quote": "Gulosus aristotelis is a medium sized member of the cormorant family, with a body length of up to about 78 cm and a wingspan up to 1.1 m. The body is elongated with a long neck and tail. The adult is all black, including legs and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmr97mxol00017iakhww2hmcl": {
-          "sourceIds": [
-            "marlin:2215"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2215",
-              "locator": "swt:shag > Description",
-              "quote": "In breeding plumage, adult shags displays a very distinctive crest on the forehead.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2215",
-              "locator": "Description",
-              "quote": "Gulosus aristotelis is a medium sized member of the cormorant family, with a body length of up to about 78 cm and a wingspan up to 1.1 m. The body is elongated with a long neck and tail. The adult is all black, including legs and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmr97mxol00027iakhklh5ohp": {
-          "sourceIds": [
-            "marlin:2215"
+            "marlin:2215",
+            "swt:shag",
+            "liv:howells-2018-thesis"
           ],
           "support": [
             {
               "sourceId": "marlin:2215",
               "locator": "Identifying features",
               "quote": "Elongated body with long slim neck. Entirely black plumage with green glossy sheen (adults). Limited yellow gape. Conspicuous crest in centre of crown during breeding season.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2215",
               "locator": "Description",
-              "quote": "Gulosus aristotelis is a medium sized member of the cormorant family, with a body length of up to about 78 cm and a wingspan up to 1.1 m. The body is elongated with a long neck and tail. The adult is all black, including legs and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The adult is all black, including legs and feet, with a conspicuous yellow gape, the bare patch of skin at the corner of the mouth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:shag",
+              "locator": "Description",
+              "quote": "Although similar to the cormorant, shags are smaller, slimmer, with a steep forehead and narrower bill.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Description",
+              "quote": "The European shag is similar in appearance to the cormorant ( Phalacrocorax carbo ) but smaller and more slight with a thinner bill.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Additional information",
+              "quote": "The shag feeds mostly on fish for which it dives with a disitinctive leap.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:shag",
+              "locator": "Behaviour",
+              "quote": "Shags tend to fly very low over the sea and often feed in dense flocks. When diving for fish, the shag will jump clear of the water before diving down in pursuit of fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "liv:howells-2018-thesis",
+              "locator": "Chapter 1, General Introduction, printed p. 18",
+              "quote": "Shags feed by foot-propelled, pursuit diving and predominantly forage within benthic habitats (Wanless & Harris 1997; Watanuki et al. 2008).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "mark:cmr97mxol00007iakicacr1ly": {
+          "sourceIds": [
+            "bto:shag",
+            "swt:shag",
+            "marlin:2215",
+            "wildlife-trusts:shag"
+          ],
+          "support": [
+            {
+              "sourceId": "bto:shag",
+              "locator": "Introduction",
+              "quote": "It's long thin bill, peaked forehead and small yellow gape set it apart from its close cousin the Cormorant.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:shag",
+              "locator": "Description",
+              "quote": "Although similar to the cormorant, shags are smaller, slimmer, with a steep forehead and narrower bill.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Description",
+              "quote": "The European shag is similar in appearance to the cormorant ( Phalacrocorax carbo ) but smaller and more slight with a thinner bill.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:shag",
+              "locator": "How to identify",
+              "quote": "Smaller than a cormorant, a shag has dark green, shiny plumage, a crest and a narrower bill with a yellow gape.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmr97mxol00017iakhww2hmcl": {
+          "sourceIds": [
+            "marlin:2215",
+            "swt:shag",
+            "adw:Phalacrocorax-aristotelis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Description",
+              "quote": "During breeding season the plumage aquires a green gloss and a large tuft of elongated feathers forms a conspicuous crest in the centre of the crown.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Identifying features",
+              "quote": "Elongated body with long slim neck. Entirely black plumage with green glossy sheen (adults). Limited yellow gape. Conspicuous crest in centre of crown during breeding season.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:shag",
+              "locator": "Description",
+              "quote": "In breeding plumage, adult shags displays a very distinctive crest on the forehead.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Physical Description",
+              "quote": "They have black feet, legs, and bill, with bright yellow skin at the base of the bill and bright turquoise eyes. They have a small, single, black crest that develops in the breeding season",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmr97mxol00027iakhklh5ohp": {
+          "sourceIds": [
+            "marlin:2215",
+            "swt:shag",
+            "adw:Phalacrocorax-aristotelis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Identifying features",
+              "quote": "Elongated body with long slim neck. Entirely black plumage with green glossy sheen (adults). Limited yellow gape. Conspicuous crest in centre of crown during breeding season.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Description",
+              "quote": "The adult is all black, including legs and feet, with a conspicuous yellow gape, the bare patch of skin at the corner of the mouth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Description",
+              "quote": "Juveniles are a dark brown above and pale brown below with a white chin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:shag",
+              "locator": "Description",
+              "quote": "They have a bright yellow gape and a green sheen to their feathers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Physical Description",
+              "quote": "They have black feet, legs, and bill, with bright yellow skin at the base of the bill and bright turquoise eyes. They have a small, single, black crest that develops in the breeding season",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:2215"
+            "marlin:2215",
+            "adw:Phalacrocorax-aristotelis",
+            "wildlife-trusts:shag",
+            "liv:howells-2018-thesis",
+            "doi:10.3389-fmars.2022.852033",
+            "bto:shag"
           ],
           "support": [
             {
               "sourceId": "marlin:2215",
               "locator": "Habitat",
               "quote": "Gulosus aristotelis breeds in loose colonies on rocky coasts and islands, and builds nests in crevices, under boulders or in caves.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Habitat",
+              "quote": "European shags are found along rocky, marine coastlines and islands and are never found very far from land or very far inland. Preferred foraging grounds are in clear, protected waters over sand or rocky substrates",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:shag",
+              "locator": "Distribution",
+              "quote": "Found on rocky shores all around our coasts. Breeds on rocky coastal sites, mainly in the north and west.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "liv:howells-2018-thesis",
+              "locator": "Chapter 1, General Introduction, printed p. 19",
+              "quote": "Shags utilise a wide range of foraging habitats, including soft coral, rock, kelp forests and sand beds (Watanuki et al., 2007, 2008)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3389-fmars.2022.852033",
+              "locator": "Discussion, habitat use",
+              "quote": "Further, matching our prediction, foraging probability increased in the presence of kelp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bto:shag",
+              "locator": "Introduction",
+              "quote": "The Shag is very much a coastal bird, breeding exclusively around our rocky shores during the summer months and not moving very far during the winter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
+            "marlin:2215",
             "wildlife-trusts:shag",
-            "marlin:2215"
+            "adw:Phalacrocorax-aristotelis",
+            "swt:shag"
           ],
           "support": [
             {
-              "sourceId": "wildlife-trusts:shag",
-              "locator": "About",
-              "quote": "Shags are large, dark waterbirds, a little bit smaller than cormorants.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2215",
+              "locator": "Description",
+              "quote": "Gulosus aristotelis is a medium sized member of the cormorant family, with a body length of up to about 78 cm and a wingspan up to 1.1 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "wildlife-trusts:shag",
               "locator": "Species information > Statistics",
               "quote": "Length: 72-80cm Wingspan: 90-105cm Weight: 1.75-2.25kg Average lifespan: 12 years",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2215",
-              "locator": "Description",
-              "quote": "Gulosus aristotelis is a medium sized member of the cormorant family, with a body length of up to about 78 cm and a wingspan up to 1.1 m.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Physical Description",
+              "quote": "European shags are from 65 to 80 cm in length and 90 to 105 cm in wingspan. They average 2 kg in mass. They have black plumage overall with greenish iridescent hues.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:shag",
+              "locator": "Size",
+              "quote": "Length: 65-80cm Wingspan 90-105cm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -31682,46 +32571,61 @@
         "trait:behavior": {
           "sourceIds": [
             "liv:howells-2018-thesis",
+            "marlin:2215",
             "swt:shag",
-            "bto:shag"
+            "adw:Phalacrocorax-aristotelis",
+            "bto:shag",
+            "wildlife-trusts:shag"
           ],
           "support": [
             {
               "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 1 General Introduction, printed p. 18",
+              "locator": "Chapter 1, General Introduction, printed p. 18",
               "quote": "Shags feed by foot-propelled, pursuit diving and predominantly forage within benthic habitats (Wanless & Harris 1997; Watanuki et al. 2008).",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2215",
+              "locator": "Additional information",
+              "quote": "The shag feeds mostly on fish for which it dives with a disitinctive leap.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "swt:shag",
               "locator": "Behaviour",
-              "quote": "When diving for fish, the shag will jump clear of the water before diving down in pursuit of fish.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "quote": "Shags tend to fly very low over the sea and often feed in dense flocks. When diving for fish, the shag will jump clear of the water before diving down in pursuit of fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Food Habits",
+              "quote": "European shags often forage alone, but will form large foraging flocks of several hundred when prey conditions allow.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "bto:shag",
               "locator": "Introduction",
               "quote": "Shags can be seen in large feeding flocks, sometimes numbering in the hundreds, when birds at the back of the group will take off and fly to the front, the whole flock moving in this way as they catch the small fish that make up their diet.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: Solitary, Fast-swim The source says: bto:shag: 'Shags can be seen in large feeding flocks, sometimes numbering in the hundreds'; swt:shag: 'Shags tend to fly very low over the sea and often feed in dense flocks.'"
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 1 General Introduction, printed p. 18",
-              "quote": "shags provide an excellent system in which to test the impacts of environmental change and variability in the North Sea system on top predator demography.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "swt:shag",
+              "locator": "Behaviour",
+              "quote": "Like cormorants, the shag is frequently seen perched on rocks or piers with outstretched wings. This posture is typically used for drying the wings after diving, given that their plumage is only partly waterproof.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:shag",
+              "locator": "About",
+              "quote": "Shags nest on cliffs around our coasts, but are very rarely seen inland. They can often be spotted perched on a rock or bank with their wings held out.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -31757,156 +32661,200 @@
           ],
           "claimSupported": true
         },
-        "edge:Sprat->European shag": {
+        "trait:depth": {
           "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Table 1, printed p. 60, prey-class row",
-              "quote": "Clupeidae (mainly Herring and Sprat) 0.01 ± 0.08 <0.01-0.20 35 (4%)",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Butterfish->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Discussion, printed p. 71",
-              "quote": "The Pholidae prey class contained solely the rock butterfish or gunnel Pholis gunnellus (hereafter butterfish), which are primarily associated with rocky and other coarse habitats",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Sand smelt->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 1 General Introduction, printed p. 19",
-              "quote": "the diet of shags breeding in Galicia, Spain, changes from Gobidae and sand smelts Athenna presbyter in February and March, to sandeel in spring and early summer",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Two-spotted goby->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Table 1, printed p. 60, prey-class row",
-              "quote": "Gobiidae (Gobies) <0.01± 0.04 <0.01-0.06 19 (2%)",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Sand goby->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Table 1, printed p. 60, prey-class row",
-              "quote": "Gobiidae (Gobies) <0.01± 0.04 <0.01-0.06 19 (2%)",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Rock goby->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Table 1, printed p. 60, prey-class row",
-              "quote": "Gobiidae (Gobies) <0.01± 0.04 <0.01-0.06 19 (2%)",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Common goby->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Table 1, printed p. 60, prey-class row",
-              "quote": "Gobiidae (Gobies) <0.01± 0.04 <0.01-0.06 19 (2%)",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Pollack->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Table 1, printed p. 60, prey-class row",
-              "quote": "Gadidae (Cod fishes) 0.04 ± 0.17 <0.01-0.27 79 (9%)",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Poor cod->European shag": {
-          "sourceIds": [
-            "liv:howells-2018-thesis"
-          ],
-          "support": [
-            {
-              "sourceId": "liv:howells-2018-thesis",
-              "locator": "Chapter 2 Table 1, printed p. 60, prey-class row",
-              "quote": "Gadidae (Cod fishes) 0.04 ± 0.17 <0.01-0.27 79 (9%)",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.3389-fmars.2022.852033"
+            "doi:10.3389-fmars.2022.852033",
+            "swt:shag",
+            "wildlife-trusts:shag"
           ],
           "support": [
             {
               "sourceId": "doi:10.3389-fmars.2022.852033",
-              "locator": "Results > Habitat models",
-              "quote": "There was very strong evidence that the presence of kelp increased the foraging probability of shags at all colonies except at Hornøya",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "locator": "Introduction",
+              "quote": "Shags primarily feed on fish (e.g. Hillersøy and Lorentsen, 2012 ; Howells et al., 2018 ) and typically show shallow diving patterns in the range of about 15-20 m, although they can dive down to 60 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3389-fmars.2022.852033",
+              "locator": "Discussion, habitat use",
+              "quote": "This also matched with the dive data obtained in this study, with average dive depths at all colonies being in the range of 7-13 m, and no dive being deeper than 63 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:shag",
+              "locator": "Facts",
+              "quote": "The shag is one of the deepest divers among the cormorant family. European shags have been shown to dive to at least 45 metres. They are predominantly benthic feeders, e., they find their prey on the sea bottom.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:shag",
+              "locator": "Did you know?",
+              "quote": "Shags can dive down to depths of up to 45m to catch fish from near the bottom of the sea. Unlike gannets, they dive from the surface of the sea. They also eat crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway (present with or without the farm) The source says: Dehnhard et al. 2022 (5 Norwegian colonies, GPS): \"the presence of kelp increased the foraging probability of shags at all colonies except at Hornoya\", and kelp was retained in every colony's best habitat model. Kelp canopy is a positive driver of shag foraging, so a seaweed farm is at least arguably 'enhanced' rather than 'anyway'. Not proof (cultivated kelp on longlines is not a benthic kelp forest), but the only direct evidence found points the other way."
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "adw:Phalacrocorax-aristotelis",
+            "liv:howells-2018-thesis",
+            "doi:10.1080-00063657.2024.2311080"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Food Habits",
+              "quote": "They eat almost exclusively small fish, although they will also eat crustaceans , cephalopods , and polychaete worms .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Food Habits",
+              "quote": "European shags don't hunt cooperatively and generally dive and pursue their prey under water. They perform a distinctive \"leap\" before diving into the water.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Food Habits",
+              "quote": "Common fish prey include Gadidae , Clupeidae , Cottidae , Labridae , Ammodytes , and Trisopterus species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "liv:howells-2018-thesis",
+              "locator": "Chapter 1, General Introduction, printed p. 18",
+              "quote": "Like many of the Phalacrocoracidae, shags are predominantly piscivorous, and as such, their diet has been the subject of substantial scientific investigation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "liv:howells-2018-thesis",
+              "locator": "Chapter 1, General Introduction, printed p. 19",
+              "quote": "while sandeel is the dominant prey in many populations (Steven, 1933; Lumsden and Haddow, 1946; Pearson, 1968; Harris and Wanless, 1991, 1993), gadoids are important components in more northerly populations",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Abstract",
+              "quote": "The most frequent prey was Velvet Swimming Crab Necora puber, while the highest number of otoliths were from Saithe Pollachius virens",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "doi:10.1080-00063657.2024.2311080",
+            "wildlife-trusts:shag"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Abstract",
+              "quote": "The most frequent prey was Velvet Swimming Crab Necora puber, while the highest number of otoliths were from Saithe Pollachius virens",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Results",
+              "quote": "The majority of faecal samples contained crustaceans, predominantly from Velvet Swimming Crabs Necora puber and Edible Crabs Cancer pagurus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Discussion",
+              "quote": "As these crabs are epibenthic (bottom-dwelling), the high occurrence of these species in Shag diet at the roost suggests that Shags, as elsewhere, are primarily foraging at the seabed",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:shag",
+              "locator": "Did you know?",
+              "quote": "They also eat crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "adw:Phalacrocorax-aristotelis",
+            "wildlife-trusts:shag",
+            "doi:10.1080-00063657.2024.2311080"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Food Habits",
+              "quote": "They eat almost exclusively small fish, although they will also eat crustaceans , cephalopods , and polychaete worms .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:shag",
+              "locator": "Did you know?",
+              "quote": "They also eat crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Table 1, frequency of occurrence of prey species",
+              "quote": "Common Sea Urchin Echinus esculentus 27.0 11",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "adw:Phalacrocorax-aristotelis"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Predation",
+              "quote": "European shags are preyed on by introduced American mink ( Neovison vison ) at some nesting colonies.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "adw:Phalacrocorax-aristotelis"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Predation",
+              "quote": "Other predators are not reported, but probably include coastal raptors, like white-tailed eagles ( Haliaeetus albicilla , and avian nest predators such as gulls or corvids .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-aristotelis",
+              "locator": "Predation",
+              "quote": "Their nesting habits on steep, rocky, coastal cliffs, prevent some predation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -31924,154 +32872,152 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:137179",
+        "adw:Phalacrocorax-carbo",
+        "bto:cormorant",
+        "ne:rp2952",
+        "nrw:591",
         "swt:cormorant",
         "wildlife-trusts:cormorant",
-        "ne:rp2952",
-        "bto:cormorant",
-        "nrw:591"
+        "worms:137179"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
             "swt:cormorant",
+            "adw:Phalacrocorax-carbo",
             "wildlife-trusts:cormorant"
           ],
           "support": [
             {
               "sourceId": "swt:cormorant",
               "locator": "Description",
+              "quote": "The cormorant is a large and conspicuous water bird that can live in either marine or freshwater habitats. It has an almost primitive appearance with a long thick neck that makes it appear almost reptilian.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Description",
+              "quote": "Adult cormorants look black at a distance, but on closer inspection feathers have a green-blue sheen.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Description",
               "quote": "The bill is strong with a sharp hook at its end. In summer, adults show white patches on their face and a circular white patch on their flanks.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Physical Description",
+              "quote": "Their wings are slightly more brown and their face and gular region are yellow, bordered with small, white feathers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Physical Description",
+              "quote": "They also develop a white patch on each thigh.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Behaviour",
+              "quote": "They catch fish by diving up to 10m from the surface, chasing their prey under water and seizing it with the hooked bill.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Behaviour",
+              "quote": "When swimming, the cormorant's body is low in the water with the head pointing upwards.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "wildlife-trusts:cormorant",
-              "locator": "How to identify",
-              "quote": "The cormorant is a large, shiny black bird, with a white patch on the thigh during the summer breeding season. Young birds are dark brown above and white below.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "locator": "About",
+              "quote": "Cormorants can often be spotted perched on a rock or bank with their wings held out. In this stance, they are able to dry their feathers off which are not waterproof.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
             "wildlife-trusts:cormorant",
-            "swt:cormorant"
+            "swt:cormorant",
+            "adw:Phalacrocorax-carbo"
           ],
           "support": [
             {
               "sourceId": "wildlife-trusts:cormorant",
-              "locator": "About",
-              "quote": "Cormorants are large, black waterbirds.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "wildlife-trusts:cormorant",
               "locator": "Species information > Statistics",
               "quote": "Length: 80-100cm Wingspan: 130-160cm Weight: 2-2.5kg Average lifespan: 11 years",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "swt:cormorant",
               "locator": "Size",
-              "quote": "Size Length 80-94cm Wingspan 121-160cm Weight: 2-2.5kg Average Lifespan: 11-20 years",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Length 80-94cm Wingspan 121-160cm Weight: 2-2.5kg Average Lifespan: 11-20 years",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Physical Description",
+              "quote": "Great cormorants are 84 to 90 cm long, with wingspans of 130 to 160 cm. They weigh from 2.6 to 3.7 kg.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
+            "adw:Phalacrocorax-carbo",
             "ne:rp2952",
             "wildlife-trusts:cormorant",
             "bto:cormorant"
           ],
           "support": [
             {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Habitat",
+              "quote": "Great cormorants are found in shallow, aquatic habitats, such as the coasts of oceans and large lakes and rivers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "ne:rp2952",
               "locator": "Summary table > Habitat",
               "quote": "Coastal breeding cormorants are largely restricted to nesting and over-night roosting on cliffs, stacks and offshore islands.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "wildlife-trusts:cormorant",
               "locator": "About",
               "quote": "Cormorants nest on low cliffs around the coasts, or in colonies in trees on lakes and flooded gravel pits.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "bto:cormorant",
               "locator": "Status and Trends > Distribution",
               "quote": "Wintering Cormorants are widely distributed throughout Britain & Ireland, with highest densities along the coasts, particularly around major estuaries, and along major lowland river systems.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Habitat: near-surface, open-water, rocky-crevice The source says: Natural England: cormorants are \"largely restricted to nesting and over-night roosting on cliffs, stacks and offshore islands\" (open ledges), plus trees on inland waters. Crevice, boulder and cave nesting is the SHAG's habit (MarLIN 2215), not the cormorant's, so \"rocky-crevice\" looks like a mis-tag copied across the two birds."
+          "claimSupported": true
         },
         "trait:behavior": {
-          "sourceIds": [
-            "swt:cormorant"
-          ],
-          "support": [
-            {
-              "sourceId": "swt:cormorant",
-              "locator": "Behaviour",
-              "quote": "Cormorants are generally sociable birds that nest in colonies, gather in flocks and often hunt together in groups.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: Solitary, Fast-swim The source says: swt:cormorant Behaviour: 'Cormorants are generally sociable birds that nest in colonies, gather in flocks and often hunt together in groups.'"
-        },
-        "mark:cmr97ndcy00007i6kv59au47z": {
-          "sourceIds": [
-            "swt:cormorant"
-          ],
-          "support": [
-            {
-              "sourceId": "swt:cormorant",
-              "locator": "Description",
-              "quote": "The bill is strong with a sharp hook at its end. In summer, adults show white patches on their face and a circular white patch on their flanks.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmr97ndcy00017i6kzc4rrouy": {
-          "sourceIds": [
-            "wildlife-trusts:cormorant",
-            "swt:cormorant"
-          ],
-          "support": [
-            {
-              "sourceId": "wildlife-trusts:cormorant",
-              "locator": "How to identify",
-              "quote": "The cormorant is a large, shiny black bird, with a white patch on the thigh during the summer breeding season.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "swt:cormorant",
-              "locator": "Description",
-              "quote": "In summer, adults show white patches on their face and a circular white patch on their flanks.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmr97ndcy00027i6kax5xjdsz": {
           "sourceIds": [
             "swt:cormorant",
             "wildlife-trusts:cormorant"
@@ -32080,19 +33026,110 @@
             {
               "sourceId": "swt:cormorant",
               "locator": "Behaviour",
-              "quote": "When swimming, the cormorant's body is low in the water with the head pointing upwards.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "quote": "Cormorants are generally sociable birds that nest in colonies, gather in flocks and often hunt together in groups.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "wildlife-trusts:cormorant",
               "locator": "About",
               "quote": "Cormorants can often be spotted perched on a rock or bank with their wings held out. In this stance, they are able to dry their feathers off which are not waterproof.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "mark:cmr97ndcy00007i6kv59au47z": {
+          "sourceIds": [
+            "swt:cormorant",
+            "adw:Phalacrocorax-carbo"
+          ],
+          "support": [
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Description",
+              "quote": "The bill is strong with a sharp hook at its end. In summer, adults show white patches on their face and a circular white patch on their flanks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Physical Description",
+              "quote": "Their wings are slightly more brown and their face and gular region are yellow, bordered with small, white feathers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmr97ndcy00017i6kzc4rrouy": {
+          "sourceIds": [
+            "wildlife-trusts:cormorant",
+            "adw:Phalacrocorax-carbo"
+          ],
+          "support": [
+            {
+              "sourceId": "wildlife-trusts:cormorant",
+              "locator": "How to identify",
+              "quote": "The cormorant is a large, shiny black bird, with a white patch on the thigh during the summer breeding season.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Physical Description",
+              "quote": "In the breeding season their heads and necks develop short, white plumes interspersed in their dark plumage. They also develop a white patch on each thigh.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmr97ndcy00027i6kax5xjdsz": {
+          "sourceIds": [
+            "swt:cormorant",
+            "wildlife-trusts:cormorant",
+            "adw:Phalacrocorax-carbo"
+          ],
+          "support": [
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Description",
+              "quote": "Adult cormorants look black at a distance, but on closer inspection feathers have a green-blue sheen.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Behaviour",
+              "quote": "When swimming, the cormorant's body is low in the water with the head pointing upwards.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:cormorant",
+              "locator": "About",
+              "quote": "Cormorants are large, black waterbirds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Physical Description",
+              "quote": "They have dark plumage overall, with a bluish gloss to it.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:cormorant",
+              "locator": "About",
+              "quote": "Cormorants can often be spotted perched on a rock or bank with their wings held out. In this stance, they are able to dry their feathers off which are not waterproof.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -32109,200 +33146,127 @@
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
+        "trait:depth": {
           "sourceIds": [
+            "swt:cormorant",
+            "ne:rp2952",
+            "adw:Phalacrocorax-carbo"
+          ],
+          "support": [
+            {
+              "sourceId": "swt:cormorant",
+              "locator": "Behaviour",
+              "quote": "They catch fish by diving up to 10m from the surface, chasing their prey under water and seizing it with the hooked bill.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ne:rp2952",
+              "locator": "4.3 Habitat for the species > Coastal habitat requirements",
+              "quote": "As with inland cormorants, foraging habitat is restricted to areas of shallow coastal and inland water of less than 10-meters in depth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Food Habits",
+              "quote": "Fish are taken mostly in shallow water less than 20 m deep, but they hunt throughout the water column, from the surface to the bottom, depending on the prey.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "adw:Phalacrocorax-carbo",
             "nrw:591"
           ],
           "support": [
             {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Food Habits",
+              "quote": "Great cormorants eat almost exclusively fish less than 20 cm in length. They occasionally eat larger fish, up to 75 cm long or 1.5 kg.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
+              "locator": "4.1 Cormorant diet",
               "quote": "the cormorant is almost entirely piscivorous and consistently feeds on relatively few species",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Flounder->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "In estuaries, flounder (Platichthys flesus), trout (Salmonidae), eel and saithe (Pollachius virens) are most frequent prey",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Saithe->Great cormorant": {
+        "diet:eats:1": {
           "sourceIds": [
-            "nrw:591"
+            "nrw:591",
+            "adw:Phalacrocorax-carbo"
           ],
           "support": [
             {
               "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "In estuaries, flounder (Platichthys flesus), trout (Salmonidae), eel and saithe (Pollachius virens) are most frequent prey",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "4.1 Cormorant diet",
+              "quote": "In the sea, cormorants mainly feed on bottom-dwelling fishes, wrasses (Labridae) and codfishes (Gadidae) over rocky and weed covered substrates, flatfish over soft substrates and eelpout (Zoarcidae)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Food Habits",
+              "quote": "Great cormorants eat a wide variety of fish species, but may rely primarily on only a few species that are abundant locally, often bottom-dwelling species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Sand smelt->Great cormorant": {
+        "diet:eats:2": {
           "sourceIds": [
             "nrw:591"
           ],
           "support": [
             {
               "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "sandsmelt (Atherina presbyter), mullet (Muglidae) and sea bass (Dicentrarchus labrax) are important in southern Europe",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "locator": "4.1 Cormorant diet",
+              "quote": "In estuaries, flounder (Platichthys flesus), trout (Salmonidae), eel and saithe (Pollachius virens) are most frequent prey",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "edge:European sea bass->Great cormorant": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "nrw:591"
+            "adw:Phalacrocorax-carbo"
           ],
           "support": [
             {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "sandsmelt (Atherina presbyter), mullet (Muglidae) and sea bass (Dicentrarchus labrax) are important in southern Europe",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Predation",
+              "quote": "Predators on eggs and hatchlings include gulls and crows ... they are generally only successful when colonies have been disturbed and adults are flushed from nests.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "edge:Thick-lipped mullet->Great cormorant": {
+        "diet:eatenBy:1": {
           "sourceIds": [
-            "nrw:591"
+            "adw:Phalacrocorax-carbo"
           ],
           "support": [
             {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "sandsmelt (Atherina presbyter), mullet (Muglidae) and sea bass (Dicentrarchus labrax) are important in southern Europe",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "sourceId": "adw:Phalacrocorax-carbo",
+              "locator": "Predation",
+              "quote": "Fledglings have been taken by bald eagles ... white-tailed eagles ... and red foxes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
-        },
-        "edge:Ballan wrasse->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "In the sea, cormorants mainly feed on bottom-dwelling fishes, wrasses (Labridae) and codfishes (Gadidae) over rocky and weed covered substrates",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Cuckoo wrasse->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "In the sea, cormorants mainly feed on bottom-dwelling fishes, wrasses (Labridae) and codfishes (Gadidae) over rocky and weed covered substrates",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Corkwing wrasse->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "In the sea, cormorants mainly feed on bottom-dwelling fishes, wrasses (Labridae) and codfishes (Gadidae) over rocky and weed covered substrates",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Goldsinny wrasse->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "In the sea, cormorants mainly feed on bottom-dwelling fishes, wrasses (Labridae) and codfishes (Gadidae) over rocky and weed covered substrates",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Plaice->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "flatfish over soft substrates",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Whiting->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "codfishes (Gadidae) over rocky and weed covered substrates",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Sprat->Great cormorant": {
-          "sourceIds": [
-            "nrw:591"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:591",
-              "locator": "Section 4.1 Cormorant diet",
-              "quote": "On occasions small, shoaling, midwater fishes such as clupeids, capelin (Mallotus villosus) and even sandeels (Ammodytidae), are also taken.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
+          "claimSupported": true
         }
       }
     },
@@ -32320,148 +33284,274 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:137074",
-        "swt:eider",
+        "audubon:common-eider",
+        "bto:eider",
+        "ducks-unlimited:common-eider",
+        "rspb:eider",
         "shetland-bap:eider",
+        "swt:eider",
         "wildlife-trusts:eider",
-        "bto:eider"
+        "worms:137074"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
+            "rspb:eider",
             "swt:eider",
-            "shetland-bap:eider"
+            "ducks-unlimited:common-eider",
+            "shetland-bap:eider",
+            "bto:eider"
           ],
           "support": [
             {
-              "sourceId": "swt:eider",
-              "locator": "swt:eider > Description (female sentence) and shetland-bap:eider > Ecology & Management",
-              "quote": "Females are greyish-brown with delicate barring, but have a similar head shape and size. / Eiders tend to be sociable, occurring in flocks up to several hundred strong.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "sourceId": "rspb:eider",
+              "locator": "How to identify",
+              "quote": "The Eider is the UK's heaviest and fastest flying duck. It's a true seaduck, rarely found away from coasts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "swt:eider",
-              "locator": "Description",
+              "locator": "Species description",
               "quote": "The eider duck is characterised by its wedge-shaped bill and bulky shape. Males have a black and white plumage with a beautiful pale green patch at the back of the head, pinkish breast and pale, yellow-grey bill.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:eider",
+              "locator": "Species description",
+              "quote": "Females are greyish-brown with delicate barring, but have a similar head shape and size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Description > Key Identification Features",
+              "quote": "Females are brown overall with black barring and have a buffy eye ring and line through the eye; the bill is dark with lobes extending to just forward of the eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "shetland-bap:eider",
               "locator": "Ecology & Management",
-              "quote": "Adult eiders feed mostly on mussels Mytilus edulis. They prefer to take mussels of 10-55mm length from water depths of between 2-10m but can dive to depths of 40m or more.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "quote": "Adult eiders feed mostly on mussels Mytilus edulis.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bto:eider",
+              "locator": "Introduction",
+              "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms. These are taken during dives, typically down to 3 m or so.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "rspb:eider",
+              "locator": "How to identify",
+              "quote": "Eiders are very sociable and usually stay close to shore, riding the swell in a sandy bay or strung out in long lines beyond the breaking waves.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "shetland-bap:eider",
-              "locator": "Current Factors Causing Loss or Decline > Mussel farming",
-              "quote": "Eiders have been seen, especially in spring, feeding at the increasing numbers of mussel farms.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "locator": "Ecology & Management",
+              "quote": "Eiders tend to be sociable, occurring in flocks up to several hundred strong.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
             "wildlife-trusts:eider",
-            "swt:eider"
+            "swt:eider",
+            "rspb:eider"
           ],
           "support": [
             {
               "sourceId": "wildlife-trusts:eider",
               "locator": "Species information > Statistics",
-              "quote": "Length: 55-60cm Wingspan: 94cm Weight: 2.2kg Average lifespan: 8 years",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Length: 55-60cm Wingspan: 94cm Weight: 2.2kg",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "swt:eider",
               "locator": "Facts",
               "quote": "Eiders are the UK's heaviest and fastest flying species of duck.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "rspb:eider",
+              "locator": "How to identify",
+              "quote": "The Eider is the UK's heaviest and fastest flying duck.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "swt:eider",
-            "shetland-bap:eider"
+            "rspb:eider",
+            "wildlife-trusts:eider",
+            "shetland-bap:eider",
+            "ducks-unlimited:common-eider",
+            "audubon:common-eider"
           ],
           "support": [
             {
-              "sourceId": "swt:eider",
-              "locator": "Behaviour",
-              "quote": "Eider ducks are true seaducks, living on the coast and relying on coastal molluscs as their main source of food.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "sourceId": "rspb:eider",
+              "locator": "How to identify",
+              "quote": "It's a true seaduck, rarely found away from coasts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:eider",
+              "locator": "About",
+              "quote": "Eiders are relatively large seaducks that nest in colonies around the coasts of northern UK, and as far south as Walney Island in Cumbria.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "shetland-bap:eider",
               "locator": "Ecology & Management",
-              "quote": "They prefer to take mussels of 10-55mm length from water depths of between 2-10m but can dive to depths of 40m or more.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "quote": "The nests are often on small offshore isles or when on the larger islands within 2 km of the sea.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Overview",
+              "quote": "They nest in large colonies on marine islands and form large wintering flocks in inshore coastal marine habitats.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "audubon:common-eider",
+              "locator": "Range & Identification > Habitat",
+              "quote": "Rocky coasts, shoals; in summer, also islands, tundra. Very close to coastlines at all seasons.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "rspb:eider",
             "shetland-bap:eider",
-            "bto:eider"
-          ],
-          "support": [
-            {
-              "sourceId": "shetland-bap:eider",
-              "locator": "Ecology & Management",
-              "quote": "Eiders tend to be sociable, occurring in flocks up to several hundred strong.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "bto:eider",
-              "locator": "Introduction",
-              "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms. These are taken during dives, typically down to 3 m or so.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmr981txq00007is42kfswyrd": {
-          "sourceIds": [
             "swt:eider"
           ],
           "support": [
             {
+              "sourceId": "rspb:eider",
+              "locator": "How to identify",
+              "quote": "Eiders are very sociable and usually stay close to shore, riding the swell in a sandy bay or strung out in long lines beyond the breaking waves.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "shetland-bap:eider",
+              "locator": "Ecology & Management",
+              "quote": "Eiders tend to be sociable, occurring in flocks up to several hundred strong.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "swt:eider",
-              "locator": "Description",
-              "quote": "The eider duck is characterised by its wedge-shaped bill and bulky shape.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "locator": "Behaviour",
+              "quote": "During this time, ducklings will often gather in a large ‘crèche’, where they are protected from predators by several females, who may or may not be related to the ducklings they are protecting.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "shetland-bap:eider",
+              "locator": "Ecology & Management",
+              "quote": "Chicks appear throughout June, and broods will often merge to form a small crèche, guarded by a number of females.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "mark:cmr981txq00007is42kfswyrd": {
+          "sourceIds": [
+            "ducks-unlimited:common-eider",
+            "audubon:common-eider",
+            "swt:eider"
+          ],
+          "support": [
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Overview",
+              "quote": "They are heavy-bodied with a long triangular, wedge-shaped bill.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Description > Key Identification Features",
+              "quote": "The bill is grayish-yellow with lobes extending forward of the eye, tapering to a pale-yellow tip.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Overview",
+              "quote": "Males in alternate plumage are unmistakable with a black crown extending to below the eye, with a white streak on top of the head that extends down the nape",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "audubon:common-eider",
+              "locator": "Range & Identification > Description",
+              "quote": "Female known by large size, long sloping bill, heavy barring on sides; overall color varies from grayish to rusty brown.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "swt:eider",
+              "locator": "Species description",
+              "quote": "The eider duck is characterised by its wedge-shaped bill and bulky shape.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "mark:cmr981txr00017is4or4m0syy": {
           "sourceIds": [
+            "ducks-unlimited:common-eider",
             "wildlife-trusts:eider"
           ],
           "support": [
             {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Description > Key Identification Features",
+              "quote": "The adult male has a black crown extending below the eye, pale green below the eye and on the nape, with a white cheek, neck, breast, and back, and a black belly, rump, and vent.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Similar Species > King Eiders",
+              "quote": "Adult male Common Eiders are distinctive in plumage and distinct from the other eiders and sea ducks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "wildlife-trusts:eider",
               "locator": "How to identify",
               "quote": "The male eider is a black-and-white duck, with a pale green patch at the back of the head, pinkish breast and pale yellow-grey bill. The female is greyish-brown with delicate barring.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -32486,115 +33576,132 @@
           ],
           "claimSupported": true
         },
-        "edge:Farmed mussels->Common eider": {
+        "trait:depth": {
           "sourceIds": [
-            "shetland-bap:eider"
+            "shetland-bap:eider",
+            "bto:eider"
           ],
           "support": [
             {
               "sourceId": "shetland-bap:eider",
-              "locator": "Current Factors Causing Loss or Decline > Mussel farming",
-              "quote": "It is not surprising that eiders will feed at mussel farms, since these provide a high density of a high quality food at low foraging effort.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Ecology & Management",
+              "quote": "They prefer to take mussels of 10-55mm length from water depths of between 2-10m but can dive to depths of 40m or more.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "bto:eider",
+              "locator": "Introduction",
+              "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms. These are taken during dives, typically down to 3 m or so.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Shore Crab->Common eider": {
+        "diet:eats:0": {
           "sourceIds": [
-            "bto:eider"
+            "bto:eider",
+            "shetland-bap:eider",
+            "audubon:common-eider"
           ],
           "support": [
             {
               "sourceId": "bto:eider",
               "locator": "Introduction",
-              "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Spider Crab->Common eider": {
-          "sourceIds": [
-            "bto:eider"
-          ],
-          "support": [
-            {
-              "sourceId": "bto:eider",
-              "locator": "Introduction",
-              "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Dog Whelk->Common eider": {
-          "sourceIds": [
-            "bto:eider"
-          ],
-          "support": [
-            {
-              "sourceId": "bto:eider",
-              "locator": "Introduction",
-              "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Green sea urchin->Common eider": {
-          "sourceIds": [
-            "bto:eider"
-          ],
-          "support": [
-            {
-              "sourceId": "bto:eider",
-              "locator": "Introduction",
-              "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms.",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "shetland-bap:eider"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Trophic tier 5 (top of the farm food web, level with the seals and the piscivorous seabirds) The source says: Shetland SAP: \"Adult eiders feed mostly on mussels Mytilus edulis\"; BTO: \"Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms.\" A molluscivore eating suspension-feeding bivalves is two links off the bottom, and the same food web puts farmed mussels at the base. Tier 5 for the eider is internally inconsistent."
-        },
-        "trait:depth": {
-          "sourceIds": [
-            "bto:eider"
-          ],
-          "support": [
-            {
-              "sourceId": "bto:eider",
-              "locator": "BTO BirdFacts > species introduction",
               "quote": "Eider feed on Blue Mussels and other molluscs, together with crustaceans and echinoderms. These are taken during dives, typically down to 3 m or so.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "shetland-bap:eider",
+              "locator": "Ecology & Management",
+              "quote": "Adult eiders feed mostly on mussels Mytilus edulis.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "audubon:common-eider",
+              "locator": "Behavior > Diet",
+              "quote": "The Common Eider feeds especially on mussels and other bivalves; also some crabs and other crustaceans, echinoderms, aquatic insects, small fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:1": {
+          "sourceIds": [
+            "audubon:common-eider",
+            "ducks-unlimited:common-eider"
+          ],
+          "support": [
+            {
+              "sourceId": "audubon:common-eider",
+              "locator": "Behavior > Diet",
+              "quote": "The Common Eider feeds especially on mussels and other bivalves; also some crabs and other crustaceans, echinoderms, aquatic insects, small fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Foraging Habits and Diet",
+              "quote": "Common Eiders primarily forage on invertebrates throughout the annual cycle. Echinoderms, mollusks, and crustaceans are frequently consumed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "ducks-unlimited:common-eider",
+            "audubon:common-eider"
+          ],
+          "support": [
+            {
+              "sourceId": "ducks-unlimited:common-eider",
+              "locator": "Foraging Habits and Diet",
+              "quote": "Common Eiders primarily forage on invertebrates throughout the annual cycle. Echinoderms, mollusks, and crustaceans are frequently consumed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "audubon:common-eider",
+              "locator": "Behavior > Diet",
+              "quote": "The Common Eider feeds especially on mussels and other bivalves; also some crabs and other crustaceans, echinoderms, aquatic insects, small fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
           "sourceIds": [
             "shetland-bap:eider"
           ],
           "support": [
             {
               "sourceId": "shetland-bap:eider",
-              "locator": "Current Factors Causing Loss or Decline > Mussel farming",
-              "quote": "Eiders have been seen, especially in spring, feeding at the increasing numbers of mussel farms. Because they live many years, adult eiders have the opportunity to learn about feeding sites in their home area",
-              "readBy": "refs:trawl (other)",
-              "readOn": "2026-08-28"
+              "locator": "Current Factors Causing Loss or Decline > Predation and disturbance of nesting females",
+              "quote": "Bonxies are known to predate adult females at and near the nest.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "shetland-bap:eider"
+          ],
+          "support": [
+            {
+              "sourceId": "shetland-bap:eider",
+              "locator": "Current Factors Causing Loss or Decline > Predation of chicks",
+              "quote": "Large gulls and bonxies take many young chicks; in some areas these predators seem to target the flocks of young eiders.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true

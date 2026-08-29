@@ -2450,7 +2450,7 @@
     "urchinForm": [
       "round-spiny"
     ],
-    "fieldNote": "A dark purple to blackish urchin of rock pools and shallow reefs in the south and west, often sitting in a shallow pit it has worn into the rock. Longer spines than the green urchin; found on south-western and Irish coasts, absent from the North Sea."
+    "fieldNote": "A rock pool urchin with a greenish, flattened test up to 7 cm across and long, sharp spines of dark purple to dark green. It bores into soft rock with its spines and teeth and sits in the burrow, sheltered from the waves and from drying out at low tide. In Britain and Ireland it belongs to the south and west, common on the west coast of Ireland and scarce elsewhere."
   },
   "Echinocardium cordatum": {
     "commonName": "Sea potato",
@@ -2480,7 +2480,7 @@
     "urchinForm": [
       "heart-shaped"
     ],
-    "fieldNote": "Egg-shaped and covered in short, fine, backward-pointing spines like fur, living buried 10-20cm down in clean sand. Almost never seen alive and in the open; what washes up on beaches is the pale, heart-marked test with its five petal-shaped pore patterns."
+    "fieldNote": "A heart-shaped urchin clothed in a dense felt of short yellowish spines that lie flat and sweep backwards, so it looks furred rather than spiky. It lives buried in a permanent burrow in sand or muddy sand, from a few centimetres down to about 20 cm, and is very rarely seen alive in the open. What washes up on sheltered sandy shores is the brittle, brownish test, its broad furrowed pore bands running down the sides in a star shape."
   },
   "Spatangus purpureus": {
     "commonName": "Purple heart urchin",
@@ -2510,7 +2510,7 @@
     "urchinForm": [
       "heart-shaped"
     ],
-    "fieldNote": "A larger, purplish-brown heart urchin covered in dense short spines, ploughing shallow trails just under the surface of clean sand and gravel in deeper subtidal water. Bigger and hairier-looking than the sea potato, with a distinct heart-shaped outline."
+    "fieldNote": "A large, broad, low heart urchin of deep violet colour, up to 12 cm long, with short silky purple spines and scattered long pale ones on top. It lies buried in coarse sand and gravel, and often shows itself only as a furrow ploughed just beneath the surface."
   },
   "Phalacrocorax aristotelis": {
     "commonName": "European shag",
@@ -2542,7 +2542,7 @@
     "wildlifeForm": [
       "bird"
     ],
-    "fieldNote": "A slim, all-dark diving bird with a thin hooked bill and, in breeding adults, a small forward-curling crest. Glossy bottle-green to black plumage with a purple sheen; dives from the surface to hunt fish, often staying under for 20-40 seconds. The commonest inshore diving bird on rocky UK coasts, easily confused with the cormorant."
+    "fieldNote": "A slim, all-black diving bird with a green gloss, a narrow bill and a yellow gape; breeding adults raise a conspicuous crest on the crown. It leaps clear of the surface into a pursuit dive and feeds mostly on the seabed, and is easily confused with the larger, heavier-billed cormorant."
   },
   "Phalacrocorax carbo": {
     "commonName": "Great cormorant",
@@ -2575,7 +2575,7 @@
     "wildlifeForm": [
       "bird"
     ],
-    "fieldNote": "Bigger and bulkier than the shag, with a heavier build, a longer neck, and a patch of yellow-orange bare skin around the base of the bill and chin. Bronzy-black overall; breeding adults show a white throat patch and white thigh flash. Dives to chase fish, then perches upright on rocks or posts with wings held open to dry."
+    "fieldNote": "A large, long-necked black waterbird. At a distance it looks plain black, but close to the feathers show a green-blue sheen. The bill is strong with a sharp hook at the tip, and the face and throat are yellow, edged with small white feathers. Breeding adults add white patches on the face and a white patch on each thigh. It swims low with the head pointing upwards, dives from the surface to chase fish, then perches with its wings held out to dry."
   },
   "Somateria mollissima": {
     "commonName": "Common eider",
@@ -2606,7 +2606,7 @@
     "wildlifeForm": [
       "bird"
     ],
-    "fieldNote": "The heaviest UK duck. Males are boldly pied black and white with a pale green nape patch and a long sloping profile running from the forehead straight into the bill; females are warm mottled brown all over, both with the same wedge-shaped head. Dives to feed on mussels and other shellfish, often around shellfish farms, and rafts in large flocks just offshore."
+    "fieldNote": "The UK's heaviest duck, and a true seaduck rarely found away from the coast. The male is boldly black and white with a pale green patch on the nape; the female is brown with black barring. Both share the same wedge-shaped bill and head shape. Eiders dive for mussels and other molluscs, and are very sociable, riding the swell close to shore in flocks up to several hundred strong."
   },
   "Halichoerus grypus": {
     "commonName": "Grey seal",

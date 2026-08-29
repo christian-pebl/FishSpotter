@@ -891,24 +891,86 @@
   },
   "Paracentrotus lividus": {
     "depth": {
-      "text": "Lower shore to about 3 m (sometimes deeper)"
+      "text": "Lower-shore rock pools and the shallow sublittoral, mostly down to about 3 m and recorded to about 30 m"
+    },
+    "size": {
+      "text": "Round, flattened test up to 7 cm in diameter"
+    },
+    "habitat": {
+      "text": "Lower-shore rock pools and crevices on rocky shores, boring into soft rock, also on stony ground, maerl gravel and in Zostera seagrass beds"
+    },
+    "behaviour": {
+      "text": "Bores a hole in soft rock with its spines and teeth and shelters in it, enlarging it as it grows; many together can honeycomb the rock"
     }
   },
   "Echinocardium cordatum": {
     "depth": {
-      "text": "0-200 m"
+      "text": "Lower shore and subtidal down to about 200 m, with records to 230 m"
+    },
+    "size": {
+      "text": "Up to 9 cm long, usually about 4 to 6 cm"
+    },
+    "habitat": {
+      "text": "Burrows in coarse or fine clean sand, muddy sand and sandy mud on sheltered coasts, from the lower shore out to the open seabed"
+    },
+    "behaviour": {
+      "text": "Lives buried in a permanent mucus-lined burrow with a breathing shaft to the surface, and re-buries itself within 20 minutes if turned out"
     }
   },
   "Spatangus purpureus": {
     "depth": {
-      "text": "Infralittoral fringe to about 900 m"
+      "text": "From the infralittoral fringe down to about 900 m"
+    },
+    "size": {
+      "text": "Up to 12 cm long and 8 cm across"
+    },
+    "habitat": {
+      "text": "Buried in coarse sand and gravel, including maerl, rarely mud, on wave-sheltered seabed"
+    },
+    "behaviour": {
+      "text": "Burrows and crawls beneath the sediment, leaving furrows in the gravel where it has passed"
     }
   },
-  "Phalacrocorax aristotelis": {},
-  "Phalacrocorax carbo": {},
+  "Phalacrocorax aristotelis": {
+    "depth": {
+      "text": "Feeds on the seabed, most dives 7-20 m, exceptionally to about 60 m"
+    },
+    "size": {
+      "text": "Up to about 80 cm long, wingspan 90-105 cm, weight about 1.75-2.25 kg"
+    },
+    "habitat": {
+      "text": "Rocky marine coasts and islands; nests in crevices, under boulders and in caves, and forages inshore over rock, kelp and sand"
+    },
+    "behaviour": {
+      "text": "Leaps clear of the surface into a pursuit dive and feeds at the seabed; forages alone or in flocks of hundreds; perches with wings spread to dry"
+    }
+  },
+  "Phalacrocorax carbo": {
+    "depth": {
+      "text": "Feeds in shallow water, generally under 10 m and rarely more than 20 m, diving from the surface to chase fish"
+    },
+    "size": {
+      "text": "Length 80-100 cm, wingspan 121-160 cm, weight 2-3.7 kg"
+    },
+    "habitat": {
+      "text": "Shallow coastal and inland waters, especially estuaries; nests on sea cliffs, stacks and offshore islands, or in trees by lakes and gravel pits"
+    },
+    "behaviour": {
+      "text": "Sociable; nests in colonies and often hunts in groups, then perches with its wings held out to dry"
+    }
+  },
   "Somateria mollissima": {
     "depth": {
-      "text": "Dives to about 3 m"
+      "text": "Dives for food mostly in 2-10 m of water, and can reach 40 m or more"
+    },
+    "size": {
+      "text": "Length 55-60 cm, wingspan 94 cm, weight about 2.2 kg; the UK's heaviest duck"
+    },
+    "habitat": {
+      "text": "Coastal seas year round, rarely straying from the coast; nests in colonies on northern coasts and small offshore isles"
+    },
+    "behaviour": {
+      "text": "Very sociable, riding the swell close to shore in flocks up to several hundred strong; ducklings gather in guarded creches"
     }
   },
   "Halichoerus grypus": {

@@ -190,12 +190,6 @@
     "matchedOn": "Phoca vitulina",
     "checkedOn": "2026-08-28"
   },
-  "doi:10.1371-journal.pone.0068313": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Changes in Benthos Associated with Mussel (Mytilus edulis L.) Farms on the West-Coast of S\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
   "doi:10.1371-journal.pone.0193078": {
     "status": "mismatch",
     "httpStatus": 200,

@@ -1488,28 +1488,143 @@
     ]
   },
   "Paracentrotus lividus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Seaweeds and other macroalgae, grazed hard enough to strip a shore back to bare rock and encrusting corallines"
+      },
+      {
+        "text": "Dulse (Palmaria palmata), a red seaweed on which it has been successfully reared in culture in western Ireland"
+      },
+      {
+        "text": "Seagrass, including shallow beds it can overgraze where it is abundant"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Ballan wrasse, in whose diet this is one of the most important sea urchins; the white seabream takes it too",
+        "slug": "labrus-bergylta"
+      },
+      {
+        "text": "Starfish, in particular the spiny starfish, which can hold urchin numbers down",
+        "slug": "marthasterias-glacialis"
+      },
+      {
+        "text": "People, who harvest it commercially in Europe and Ireland for its roe, eaten as a delicacy"
+      }
+    ]
   },
   "Echinocardium cordatum": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Detritus, the dead organic matter mixed through the sand it lives in"
+      },
+      {
+        "text": "Sediment particles taken indiscriminately, both from the surface and from well below it"
+      },
+      {
+        "text": "Detritus settling out onto the seabed, so how fast it grows depends on a steady supply arriving from above"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Plaice, which take it among the soft-sediment prey they pick off sandy ground",
+        "slug": "pleuronectes-platessa"
+      },
+      {
+        "text": "Gulls, which take the shallowest-burrowed animals when extreme low spring tides put them within reach"
+      },
+      {
+        "text": "Carrion crows, watched working them over at low tide on Brittany beaches"
+      }
+    ]
   },
   "Spatangus purpureus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Organic detritus, taken both from the surface of the sediment and from within it"
+      },
+      {
+        "text": "Spatangid heart urchins feed omnivorously on phytodetritus, faunal detritus and bacterial mats"
+      },
+      {
+        "text": "Organic fragments in the sediment, reached by pushing maerl nodules aside as it ploughs forward"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "The large comb star Astropecten aranciacus, its principal predator"
+      },
+      {
+        "text": "The helmet shell Galeodea echinophora, a sand-dwelling gastropod that bores through the test with its radula to reach the animal inside"
+      },
+      {
+        "text": "Sea bream, which can break the test open and take the contents"
+      }
+    ]
   },
   "Phalacrocorax aristotelis": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Almost exclusively small fish, caught by diving and pursuing them underwater; sandeels dominate in many populations, with gadoids such as saithe more important further north"
+      },
+      {
+        "text": "Bottom-living crabs and other crustaceans, above all the velvet swimming crab, which was the most frequent prey at a Shetland roost outside the breeding season",
+        "slug": "necora-puber"
+      },
+      {
+        "text": "Also molluscs, cephalopods and polychaete worms, plus the common sea urchin, which occurred in over a quarter of the samples at one Shetland roost"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Introduced American mink, which reach the birds at some nesting colonies"
+      },
+      {
+        "text": "No other predator is on record. Coastal raptors such as white-tailed eagles, and nest-robbing gulls and corvids, are only suspected, and nesting on steep rocky cliffs prevents some predation"
+      }
+    ]
   },
   "Phalacrocorax carbo": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Almost entirely fish, mostly under 20 cm long, occasionally up to 75 cm"
+      },
+      {
+        "text": "At sea mainly bottom-living fish: wrasses and codfishes over rock and weed, flatfish over soft ground"
+      },
+      {
+        "text": "In estuaries, flounder, trout, eel and saithe are the most frequent prey"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gulls and crows take eggs and chicks at nesting colonies, mostly where a colony has been disturbed"
+      },
+      {
+        "text": "Fledglings are taken by eagles, including white-tailed eagle, and by red foxes"
+      }
+    ]
   },
   "Somateria mollissima": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Blue mussels and other bivalve molluscs, taken on dives"
+      },
+      {
+        "text": "Crabs and other crustaceans"
+      },
+      {
+        "text": "Echinoderms, with some aquatic insects and small fish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Great skuas (bonxies), which take adult females at and near the nest"
+      },
+      {
+        "text": "Large gulls and great skuas (bonxies), which take many young chicks"
+      }
+    ]
   },
   "Halichoerus grypus": {
     "eats": [],
