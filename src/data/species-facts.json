@@ -778,6 +778,9 @@
     },
     "behaviour": {
       "text": "Gathers in large aggregations in coastal bays, and swims actively up and down the whole water column rather than drifting passively."
+    },
+    "depth": {
+      "text": "Pelagic in shallow coastal water, from the surface down to about 20 m, moving up and down through the whole water column dozens of times a day."
     }
   },
   "Cyanea lamarckii": {
@@ -789,6 +792,9 @@
     },
     "behaviour": {
       "text": "Drifts in open water, catching prey on a dense array of stinging tentacles; seen inshore from May to October"
+    },
+    "depth": {
+      "text": "Pelagic, recorded from the surface down to 150 m"
     }
   },
   "Pelagia noctiluca": {
