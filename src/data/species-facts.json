@@ -281,12 +281,30 @@
   },
   "Mullus surmuletus": {
     "depth": {
-      "text": "5-409 m"
+      "text": "3 to 90 m, with records down to 409 m"
+    },
+    "size": {
+      "text": "Up to 40 cm, commonly around 25 cm; to 1 kg and 11 years old"
+    },
+    "habitat": {
+      "text": "Demersal on sandy and muddy bottoms, and at times over rocky, broken and rough ground"
+    },
+    "behaviour": {
+      "text": "Snuffles through the sediment for buried prey; spawns May to July, with pelagic eggs and larvae"
     }
   },
   "Trisopterus minutus": {
     "depth": {
-      "text": "1-440 m (usually 15-200 m)"
+      "text": "1-440 m, usually 15-200 m; larger fish down to 300 m"
+    },
+    "size": {
+      "text": "Commonly about 20 cm total length, with reported maxima of 26 to 40 cm"
+    },
+    "habitat": {
+      "text": "Benthopelagic over muddy or sandy bottoms, mostly 15 to 200 m; small fish are often seen in and around wrecks and in cracks in rocky areas"
+    },
+    "behaviour": {
+      "text": "Gregarious, living in small schools; a demersal predator and scavenger that breeds in spring in deep water"
     }
   },
   "Gadus morhua": {
@@ -305,22 +323,58 @@
   },
   "Chelon labrosus": {
     "depth": {
-      "text": "2-15 m"
+      "text": "2-15 m, in shallow inshore water"
+    },
+    "size": {
+      "text": "Up to 70-75 cm, commonly around 32 cm"
+    },
+    "habitat": {
+      "text": "A demersal, catadromous fish of shallow inshore water, frequently entering brackish lagoons and fresh water"
+    },
+    "behaviour": {
+      "text": "Adults school inshore, occasionally moving northward in summer as temperatures rise; spawns at sea in winter"
     }
   },
   "Dicentrarchus labrax": {
     "depth": {
-      "text": "10-100 m"
+      "text": "Coastal water down to about 100 m, most often shallower than 10 m"
+    },
+    "size": {
+      "text": "Up to 103 cm total length, commonly about 50 cm"
+    },
+    "habitat": {
+      "text": "Demersal in the littoral zone over most kinds of bottom, and in brackish estuaries and lagoons, running some way up rivers in summer"
+    },
+    "behaviour": {
+      "text": "Young fish school; adults are less gregarious. Enters estuaries in summer and moves offshore into deeper water in winter"
     }
   },
   "Trachurus trachurus": {
     "depth": {
-      "text": "0-1050 m (usually 100-200 m)"
+      "text": "0-1050 m, usually 100-200 m"
+    },
+    "size": {
+      "text": "Up to 70 cm total length, commonly about 22 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in coastal waters over continental shelves, schooling over sandy bottoms"
+    },
+    "behaviour": {
+      "text": "Forms large schools in coastal areas; the west stock spawns from Biscay to Ireland in early spring, then migrates north and east to the northern North Sea"
     }
   },
   "Scomber scombrus": {
     "depth": {
-      "text": "0-1000 m (usually 0-200 m)"
+      "text": "0 to 1000 m, usually the top 200 m"
+    },
+    "size": {
+      "text": "Up to about 60 cm fork length and 3.4 kg, commonly around 30 cm"
+    },
+    "habitat": {
+      "text": "Open water over cold and temperate continental shelves; deeper offshore in winter, closer inshore from spring"
+    },
+    "behaviour": {
+      "text": "Fast swimmer in dense shoals near the surface, feeding mainly by day and making extensive migrations"
     }
   },
   "Sprattus sprattus": {

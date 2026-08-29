@@ -476,12 +476,53 @@
     ]
   },
   "Mullus surmuletus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Shrimps, amphipods and other small crustaceans taken off the seabed"
+      },
+      {
+        "text": "Polychaete worms and molluscs dug out of the sediment"
+      },
+      {
+        "text": "Bottom-living fish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish, including groupers, combers, scorpionfish and stargazers"
+      },
+      {
+        "text": "Thornback ray"
+      },
+      {
+        "text": "Common cuttlefish, which take striped red mullet among their fish prey",
+        "slug": "sepia-officinalis"
+      }
+    ]
   },
   "Trisopterus minutus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Bottom-living crustaceans, including shrimps and prawns, crabs and hermit crabs, amphipods and mysids"
+      },
+      {
+        "text": "Small fish, including sandeels, gobies and dragonets"
+      },
+      {
+        "text": "Polychaete worms taken off the seabed"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish such as cod, whiting, hake and turbot"
+      },
+      {
+        "text": "Grey and harbour seals, which commonly take poor cod in Scottish waters"
+      },
+      {
+        "text": "Conger eel and anglerfish"
+      }
+    ]
   },
   "Gadus morhua": {
     "eats": [
@@ -508,20 +549,97 @@
     ]
   },
   "Chelon labrosus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Benthic diatoms and epiphytic algae, and seaweeds grazed off the bottom"
+      },
+      {
+        "text": "Detritus and debris"
+      },
+      {
+        "text": "Small seabed invertebrates, chiefly amphipods, ostracods and small snails; juveniles feed only on zooplankton"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Fish-eating seabirds, in particular the great cormorant",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "Wading shore birds, in particular the grey heron"
+      }
+    ]
   },
   "Dicentrarchus labrax": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Mainly small pelagic fish, above all mackerel, scad, anchovy and sardine"
+      },
+      {
+        "text": "In British waters the recorded prey include sandeels, sprat, sand smelt and small gobies"
+      },
+      {
+        "text": "Shrimps, prawns and molluscs as well as fish; juveniles take mostly invertebrates and more fish as they grow"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Great cormorants, which take bass in estuaries and count it an important prey in southern Europe",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "Other sea bass, recorded in British waters preying on their own kind"
+      }
+    ]
   },
   "Trachurus trachurus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Fish, crustaceans and cephalopods"
+      },
+      {
+        "text": "Planktonic crustaceans, especially copepods, euphausiids and mysid shrimps"
+      },
+      {
+        "text": "Small schooling fish, including anchovy, blue whiting and silvery pout"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish such as whiting, hake and John Dory"
+      },
+      {
+        "text": "Sharks and rays, including spurdog and white skate"
+      },
+      {
+        "text": "Marine mammals, including harbour porpoise and fur seals"
+      }
+    ]
   },
   "Scomber scombrus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Zooplankton, including copepods and euphausiid krill"
+      },
+      {
+        "text": "Small shoaling fish, including sandeels, herring and sprat"
+      },
+      {
+        "text": "Gelatinous plankton, including hydrozoan jellyfish such as Aglantha digitale"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "European sea bass, for which mackerel is the single largest prey item by weight in the Bay of Biscay",
+        "slug": "dicentrarchus-labrax"
+      },
+      {
+        "text": "Sharks and other predatory fish, among them porbeagle, blue shark, spurdog, whiting, hake and bluefin tuna"
+      },
+      {
+        "text": "Seabirds and marine mammals, including the northern gannet, great cormorant, harbour seal and harbour porpoise"
+      }
+    ]
   },
   "Sprattus sprattus": {
     "eats": [],

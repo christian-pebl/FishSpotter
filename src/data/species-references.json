@@ -2563,20 +2563,6 @@
         "Callionymus lyra"
       ]
     },
-    "doi:10.1038-s43247-025-02253-w": {
-      "kind": "journal",
-      "title": "Offshore wind farms modify coastal food web dynamics by enhancing suspension feeder pathways",
-      "publisher": "Communications Earth and Environment (Nature Portfolio); open copy at Europe PMC",
-      "year": 2025,
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12040705/",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1038/s43247-025-02253-w",
-      "expectText": [
-        "Pleuronectes platessa",
-        "Ophiotrix fragilis",
-        "Echinocardium cordatum"
-      ]
-    },
     "marlin:2225": {
       "kind": "marlin",
       "title": "Common spider crab (Maja brachydactyla) - MarLIN species information review",
@@ -4153,6 +4139,92 @@
         "Scyliorhinus canicula",
         "Small-spotted catshark"
       ]
+    },
+    "wildlife-trusts:red-mullet": {
+      "kind": "web",
+      "title": "Red mullet - The Wildlife Trusts species guide",
+      "publisher": "The Wildlife Trusts",
+      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/fish-including-sharks-skates-and-rays/red-mullet",
+      "expectText": [
+        "Mullus surmuletus"
+      ],
+      "expectCommonName": "Red mullet"
+    },
+    "fair-fish:mullus-surmuletus": {
+      "kind": "web",
+      "title": "FFDB - Mullus surmuletus (Striped red mullet): Overview",
+      "publisher": "fair-fish association (fair-fish database, formerly FishEthoBase)",
+      "year": 2026,
+      "url": "https://fair-fish-database.net/db/species/mullus-surmuletus/",
+      "expectText": [
+        "Mullus surmuletus"
+      ],
+      "expectCommonName": "Striped red mullet"
+    },
+    "fishbase:predators-Scomber-scombrus": {
+      "kind": "fishbase",
+      "title": "Predators of Scomber scombrus - FishBase predator records",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "year": 2026,
+      "url": "https://www.fishbase.se/TrophicEco/PredatorList.php?ID=118&GenusName=Scomber&SpeciesName=scombrus",
+      "expectText": [
+        "Scomber scombrus",
+        "Organisms Preying on Scomber scombrus"
+      ]
+    },
+    "fao:ac478e08": {
+      "kind": "fao",
+      "title": "FAO Species Catalogue Vol. 2. Scombrids of the world, genus Scomber and the Scomber scombrus account (catalogue pp. 49-58)",
+      "authors": [
+        "Collette, B.B.",
+        "Nauen, C.E."
+      ],
+      "publisher": "Food and Agriculture Organization of the United Nations",
+      "year": 1983,
+      "url": "https://www.fao.org/4/ac478e/ac478e08.pdf",
+      "licence": "FAO open access",
+      "identifier": "FAO Fisheries Synopsis No. 125, Vol. 2",
+      "expectText": [
+        "Scomber scombrus"
+      ],
+      "verifyMode": "pdf"
+    },
+    "fao:t0243e10": {
+      "kind": "fao",
+      "title": "FAO species catalogue Vol. 10. Gadiform fishes of the world: genus Trisopterus (pouting, poor cod, Norway pout)",
+      "authors": [
+        "Cohen, D.M.",
+        "Inada, T.",
+        "Iwamoto, T.",
+        "Scialabba, N."
+      ],
+      "publisher": "Food and Agriculture Organization of the United Nations",
+      "year": 1990,
+      "url": "https://www.fao.org/docrep/009/t0243e/T0243E10.pdf",
+      "licence": "FAO open access",
+      "identifier": "FAO Fisheries Synopsis No. 125, Vol. 10, pp. 77-81",
+      "expectText": [
+        "Trisopterus minutus"
+      ],
+      "verifyMode": "pdf"
+    },
+    "fishbase-pred:Trisopterus-minutus": {
+      "kind": "fishbase",
+      "title": "FishBase predator records - Trisopterus minutus",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "year": 2026,
+      "url": "https://www.fishbase.se/TrophicEco/PredatorList.php?ID=481&GenusName=Trisopterus&SpeciesName=minutus",
+      "expectText": [
+        "Trisopterus minutus"
+      ]
     }
   },
   "species": {
@@ -4171,7 +4243,6 @@
       },
       "sourceIds": [
         "buyse:2023-owf-flatfish",
-        "doi:10.1038-s43247-025-02253-w",
         "eifca:skerritt-2010-flounder",
         "fishbase-fooditems:Pleuronectes-platessa",
         "fishbase-predators:Pleuronectes-platessa",
@@ -11831,7 +11902,6 @@
       },
       "sourceIds": [
         "doi:10.2960-J.v35.m494",
-        "fishbase-food:Scyliorhinus-canicula",
         "fishbase-pred:Scyliorhinus-canicula",
         "fishbase:Scyliorhinus-canicula",
         "marlin:1493",
@@ -12218,162 +12288,182 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126986",
-        "marlin:81",
+        "fair-fish:mullus-surmuletus",
+        "fishbase-pred:Mullus-surmuletus",
         "fishbase:Mullus-surmuletus",
-        "fishbase-pred:Mullus-surmuletus"
+        "ices:crr325",
+        "marlin:81",
+        "wildlife-trusts:red-mullet",
+        "worms:126986"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Mullus-surmuletus",
-            "marlin:81"
+            "marlin:81",
+            "wildlife-trusts:red-mullet",
+            "fair-fish:mullus-surmuletus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Short description",
-              "quote": "Morphometrics Head is less steep. Barbels longer than pectoral fin. Body with longitudinal red and brown stripes. First dorsal fin with dark markings. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:81",
+              "locator": "Description",
+              "quote": "The striped red mullet, Mullus surmuletus , is a member of the goatfish family, members of which are easily recognised by the pair of long chin barbels under the jaw. It has a moderately elongate body up to 40 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:81",
               "locator": "Identifying features",
-              "quote": "Pair of chin barbels, longer than the pectoral fin. Up to 40 cm in length. Two distinct dorsal fins. First dorsal fin has dark markings. Longitudinal red and brown stripes run the length of the body. Head is less steep than red mullet...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Longitudinal red and brown stripes run the length of the body. Head is less steep than red mullet Mullus barbatus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:81",
-              "locator": "Description",
-              "quote": "The striped red mullet, Mullus surmuletus, is a member of the goatfish family, members of which are easily recognised by the pair of long chin barbels under the jaw. It has a moderately elongate body up to 40 cm in length. It has two...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "wildlife-trusts:red-mullet",
+              "locator": "About",
+              "quote": "Red mullet spend a lot of their time snuffling around in the sediment, searching for buried crustaceans, worms, and molluscs to gobble up.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fair-fish:mullus-surmuletus",
+              "locator": "Image caption, head of Mullus surmuletus",
+              "quote": "The head of the red mullet is characterized by the presence of two chin barbels, which allow it to search for food.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9k8yz000l7igsxg1i6n2x": {
           "sourceIds": [
-            "fishbase:Mullus-surmuletus",
-            "marlin:81"
+            "marlin:81",
+            "fair-fish:mullus-surmuletus",
+            "wildlife-trusts:red-mullet"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Short description",
-              "quote": "Morphometrics Head is less steep. Barbels longer than pectoral fin. Body with longitudinal red and brown stripes. First dorsal fin with dark markings. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:81",
               "locator": "Identifying features",
-              "quote": "Pair of chin barbels, longer than the pectoral fin. Up to 40 cm in length. Two distinct dorsal fins. First dorsal fin has dark markings. Longitudinal red and brown stripes run the length of the body. Head is less steep than red mullet...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Pair of chin barbels, longer than the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:81",
               "locator": "Description",
-              "quote": "The striped red mullet, Mullus surmuletus, is a member of the goatfish family, members of which are easily recognised by the pair of long chin barbels under the jaw. It has a moderately elongate body up to 40 cm in length. It has two...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "The striped red mullet, Mullus surmuletus , is a member of the goatfish family, members of which are easily recognised by the pair of long chin barbels under the jaw.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fair-fish:mullus-surmuletus",
+              "locator": "Image caption, head of Mullus surmuletus",
+              "quote": "The head of the red mullet is characterized by the presence of two chin barbels, which allow it to search for food.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:red-mullet",
+              "locator": "How to identify",
+              "quote": "The most distinctive feature is the pair of long, white barbels on its chin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9k8yz000m7igsc6m592qf": {
           "sourceIds": [
-            "fishbase:Mullus-surmuletus",
-            "marlin:81"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Short description",
-              "quote": "Morphometrics Head is less steep. Barbels longer than pectoral fin. Body with longitudinal red and brown stripes. First dorsal fin with dark markings. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:81",
-              "locator": "Identifying features",
-              "quote": "Pair of chin barbels, longer than the pectoral fin. Up to 40 cm in length. Two distinct dorsal fins. First dorsal fin has dark markings. Longitudinal red and brown stripes run the length of the body. Head is less steep than red mullet...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:81",
-              "locator": "Description",
-              "quote": "The striped red mullet, Mullus surmuletus, is a member of the goatfish family, members of which are easily recognised by the pair of long chin barbels under the jaw. It has a moderately elongate body up to 40 cm in length. It has two...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: 'Reddish, with stripes/blotches': 'Pink-red flanks marked with reddish-brown stripes and blotches; can flush brighter red. A steeply-sloped forehead.' The source says: FishBase Short description: 'Head is less steep.' MarLIN 81 Identifying features: 'Head is less steep than red mullet Mullus barbatus.'"
-        },
-        "mark:cmpz9k8yz000n7igskroeruvw": {
-          "sourceIds": [
-            "fishbase:Mullus-surmuletus",
-            "marlin:81"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Short description",
-              "quote": "Morphometrics Head is less steep. Barbels longer than pectoral fin. Body with longitudinal red and brown stripes. First dorsal fin with dark markings. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:81",
-              "locator": "Identifying features",
-              "quote": "Pair of chin barbels, longer than the pectoral fin. Up to 40 cm in length. Two distinct dorsal fins. First dorsal fin has dark markings. Longitudinal red and brown stripes run the length of the body. Head is less steep than red mullet...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:81",
-              "locator": "Description",
-              "quote": "The striped red mullet, Mullus surmuletus, is a member of the goatfish family, members of which are easily recognised by the pair of long chin barbels under the jaw. It has a moderately elongate body up to 40 cm in length. It has two...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
+            "marlin:81",
             "fishbase:Mullus-surmuletus"
           ],
           "support": [
             {
+              "sourceId": "marlin:81",
+              "locator": "Identifying features",
+              "quote": "Longitudinal red and brown stripes run the length of the body. Head is less steep than red mullet Mullus barbatus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 16.1, range 15 - 26 cm Max length: 40.0 cm SL male/unsexed;; common length: 25.0 cm SL male/unsexed;; max. published weight: 1.0 kg; max. reported age: 11 years",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Short description",
+              "quote": "Head is less steep. Barbels longer than pectoral fin. Body with longitudinal red and brown stripes. First dorsal fin with dark markings",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9k8yz000n7igskroeruvw": {
+          "sourceIds": [
+            "marlin:81",
+            "fishbase:Mullus-surmuletus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:81",
+              "locator": "Description",
+              "quote": "It has a moderately elongate body up to 40 cm in length. It has two well-separated dorsal fins and a forked tail. The first dorsal fin has dark markings.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Mullus-surmuletus",
+              "locator": "Short description > Body shape",
+              "quote": "Body shape ( shape guide ): fusiform / normal.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Mullus-surmuletus",
+            "marlin:81"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Mullus-surmuletus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 40.0 cm SL male/unsexed; (Ref. 3397 ); common length : 25.0 cm SL male/unsexed; (Ref. 4845 ); max. published weight: 1.0 kg (Ref. 35388 ); max. reported age: 11 years (Ref. 92286 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:81",
+              "locator": "Description",
+              "quote": "It has a moderately elongate body up to 40 cm in length. It has two well-separated dorsal fins and a forked tail. The first dorsal fin has dark markings.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "wildlife-trusts:red-mullet",
             "fishbase:Mullus-surmuletus"
           ],
           "support": [
             {
+              "sourceId": "wildlife-trusts:red-mullet",
+              "locator": "About",
+              "quote": "Red mullet spend a lot of their time snuffling around in the sediment, searching for buried crustaceans, worms, and molluscs to gobble up.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Mullus-surmuletus",
               "locator": "Biology",
-              "quote": "Adults occur on broken and rough grounds but also found over sand and soft bottoms at depths less than 100 m. Depth range from 5-60 m and from 305-409 m in the eastern Ionian Sea. Feed on benthic organisms...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Feed on benthic organisms such as shrimps and amphipods, polychaetes, mollusks, and benthic fishes. Spawning occurs from May to July, eggs and larvae are pelagic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -12389,21 +12479,6 @@
             }
           ],
           "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Mullus-surmuletus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.5 ±0.3 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -12421,7 +12496,99 @@
           "claimSupported": false,
           "conflict": "The app says: Eaten by European sea bass and Great cormorant. The source says: All nine FishBase predator records are Mediterranean or Azorean fish (Seriola, Fistularia, Raja clavata, Serranus, Synodus, Scorpaena, Uranoscopus, Epinephelus). Neither the bass nor the cormorant appears, and no UK record exists."
         },
-        "edge:Seabed biodeposits->Red mullet": {
+        "trait:depth": {
+          "sourceIds": [
+            "marlin:81",
+            "fishbase:Mullus-surmuletus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:81",
+              "locator": "Habitat",
+              "quote": "The red mullet is a demersal species. It is found at depths of 3-90 m on sandy or muddy bottoms but also at times on rocky ground.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Mullus-surmuletus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; oceanodromous (Ref. 51243 ); depth range 5 - 409 m (Ref. 56504 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:81",
+            "fishbase:Mullus-surmuletus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:81",
+              "locator": "Habitat",
+              "quote": "The red mullet is a demersal species. It is found at depths of 3-90 m on sandy or muddy bottoms but also at times on rocky ground.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Mullus-surmuletus",
+              "locator": "Biology",
+              "quote": "Adults occur on broken and rough grounds but also found over sand and soft bottoms at depths less than 100 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Mullus-surmuletus",
+            "wildlife-trusts:red-mullet"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Mullus-surmuletus",
+              "locator": "Biology",
+              "quote": "Feed on benthic organisms such as shrimps and amphipods, polychaetes, mollusks, and benthic fishes. Spawning occurs from May to July, eggs and larvae are pelagic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:red-mullet",
+              "locator": "About",
+              "quote": "Red mullet spend a lot of their time snuffling around in the sediment, searching for buried crustaceans, worms, and molluscs to gobble up.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Mullus-surmuletus",
+            "wildlife-trusts:red-mullet"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Mullus-surmuletus",
+              "locator": "Biology",
+              "quote": "Feed on benthic organisms such as shrimps and amphipods, polychaetes, mollusks, and benthic fishes. Spawning occurs from May to July, eggs and larvae are pelagic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:red-mullet",
+              "locator": "About",
+              "quote": "Red mullet spend a lot of their time snuffling around in the sediment, searching for buried crustaceans, worms, and molluscs to gobble up.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
           "sourceIds": [
             "fishbase:Mullus-surmuletus"
           ],
@@ -12429,57 +12596,57 @@
             {
               "sourceId": "fishbase:Mullus-surmuletus",
               "locator": "Biology",
-              "quote": "Feed on benthic organisms such as shrimps and amphipods, polychaetes, mollusks, and benthic fishes.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "quote": "Feed on benthic organisms such as shrimps and amphipods, polychaetes, mollusks, and benthic fishes. Spawning occurs from May to July, eggs and larvae are pelagic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trait:depth": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "fishbase:Mullus-surmuletus"
+            "fishbase-pred:Mullus-surmuletus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Mullus-surmuletus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; oceanodromous (Ref. 51243); depth range 5 - 409 m (Ref. 56504).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:81"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:81",
-              "locator": "Summary: Habitat",
-              "quote": "The red mullet is a demersal species. It is found at depths of 3-90 m on sandy or muddy bottoms but also at times on rocky ground.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase-pred:Mullus-surmuletus",
+              "locator": "Organisms Preying on Mullus surmuletus",
+              "quote": "Organisms Preying on Mullus surmuletus ... Scorpaenidae Scorpaena porcus ... Serranidae Serranus cabrilla ... Uranoscopidae Uranoscopus scaber ... Serranidae Epinephelus marginatus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trait:habitat": {
+        "diet:eatenBy:1": {
           "sourceIds": [
-            "marlin:81"
+            "fishbase-pred:Mullus-surmuletus"
           ],
           "support": [
             {
-              "sourceId": "marlin:81",
-              "locator": "Habitat",
-              "quote": "The red mullet is a demersal species. It is found at depths of 3-90 m on sandy or muddy bottoms but also at times on rocky ground.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase-pred:Mullus-surmuletus",
+              "locator": "Organisms Preying on Mullus surmuletus",
+              "quote": "Organisms Preying on Mullus surmuletus ... sharks/rays Rajidae Raja clavata",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 6.3, prey composition of Sepia officinalis",
+              "quote": "Table 6.3. Prey composition of Sepia officinalis, as known from studies in the Mediterranean Sea and the Northeast Atlantic ... Mullidae Mullus surmuletus (striped red mullet)8",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -12497,180 +12664,201 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126446",
-        "marlin:2171",
-        "fishbase:Trisopterus-minutus",
-        "fishbase-food:Trisopterus-minutus",
+        "biotic:6195",
         "doi:10.1111-raq.12669",
-        "biotic:6195"
+        "doi:10.7489-1799-1",
+        "fao:t0243e10",
+        "fishbase-food:Trisopterus-minutus",
+        "fishbase-fooditems:Conger-conger",
+        "fishbase-fooditems:Gadus-morhua",
+        "fishbase-pred:Trisopterus-minutus",
+        "fishbase:Trisopterus-minutus",
+        "marinescot:SMFS-7-21",
+        "marlin:2171",
+        "worms:126446"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
+            "marlin:2171",
             "fishbase:Trisopterus-minutus",
-            "marlin:2171"
+            "fao:t0243e10"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Short description",
-              "quote": "Chin barbel well developed. Body brownish yellow dorsally, becoming paler ventrally; a dark blotch is at the base of the pectoral fin. Body...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2171",
-              "locator": "Identifying features",
-              "quote": "The upper jaw of the mouth is forward of the lower jaw. Three dorsal fins, the first of which is triangular and the tallest. Two anal fins, the first longer than the second. A dark spot on the pectoral fin base, not larger than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:2171",
               "locator": "Description",
-              "quote": "A slender fish with a relatively small head and a barbel under the chin. The colour pattern is a yellowish-brown to bronze red on top, with a coppery colour on the flanks. The underside is paler. Poor cod grow to a maximum length of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpymulee000d7iowbwyafj0f": {
-          "sourceIds": [
-            "fishbase:Trisopterus-minutus",
-            "marlin:2171"
-          ],
-          "support": [
+              "quote": "A slender fish with a relatively small head and a barbel under the chin. The colour pattern is a yellowish-brown to bronze red on top, with a coppery colour on the flanks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "fishbase:Trisopterus-minutus",
               "locator": "Short description",
-              "quote": "Chin barbel well developed. Body brownish yellow dorsally, becoming paler ventrally; a dark blotch is at the base of the pectoral fin. Body...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Chin barbel well developed. Body brownish yellow dorsally, becoming paler ventrally; a dark blotch is at the base of the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2171",
-              "locator": "Identifying features",
-              "quote": "The upper jaw of the mouth is forward of the lower jaw. Three dorsal fins, the first of which is triangular and the tallest. Two anal fins, the first longer than the second. A dark spot on the pectoral fin base, not larger than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2171",
-              "locator": "Description",
-              "quote": "A slender fish with a relatively small head and a barbel under the chin. The colour pattern is a yellowish-brown to bronze red on top, with a coppery colour on the flanks. The underside is paler. Poor cod grow to a maximum length of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpymulee000f7iowwop7ujqf": {
-          "sourceIds": [
-            "fishbase:Trisopterus-minutus",
-            "marlin:2171"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Short description",
-              "quote": "Chin barbel well developed. Body brownish yellow dorsally, becoming paler ventrally; a dark blotch is at the base of the pectoral fin. Body...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2171",
-              "locator": "Identifying features",
-              "quote": "The upper jaw of the mouth is forward of the lower jaw. Three dorsal fins, the first of which is triangular and the tallest. Two anal fins, the first longer than the second. A dark spot on the pectoral fin base, not larger than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2171",
-              "locator": "Description",
-              "quote": "A slender fish with a relatively small head and a barbel under the chin. The colour pattern is a yellowish-brown to bronze red on top, with a coppery colour on the flanks. The underside is paler. Poor cod grow to a maximum length of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: A noticeably large eye for the size of the head - poor cod is a small (to ~15 cm), big-eyed gadoid. The source says: marlin:2171: 'Poor cod grow to a maximum length of 26 cm.' fishbase: 'Max length: 40.0 cm TL male/unsexed; common length: 20.0 cm TL male/unsexed'. No eye statement on either page."
-        },
-        "mark:cmpymulee000h7iowyjfiqq6n": {
-          "sourceIds": [
-            "fishbase:Trisopterus-minutus",
-            "marlin:2171"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Short description",
-              "quote": "Chin barbel well developed. Body brownish yellow dorsally, becoming paler ventrally; a dark blotch is at the base of the pectoral fin. Body...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2171",
-              "locator": "Identifying features",
-              "quote": "The upper jaw of the mouth is forward of the lower jaw. Three dorsal fins, the first of which is triangular and the tallest. Two anal fins, the first longer than the second. A dark spot on the pectoral fin base, not larger than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2171",
-              "locator": "Description",
-              "quote": "A slender fish with a relatively small head and a barbel under the chin. The colour pattern is a yellowish-brown to bronze red on top, with a coppery colour on the flanks. The underside is paler. Poor cod grow to a maximum length of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "fishbase:Trisopterus-minutus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 13.3, range 10 - 26 cm Max length: 40.0 cm TL male/unsexed;; common length: 20.0 cm TL male/unsexed;; max. reported age: 5 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Small (under 10 cm) The source says: fishbase: 'Max length: 40.0 cm TL male/unsexed; common length: 20.0 cm TL male/unsexed'. marlin:2171: 'Poor cod grow to a maximum length of 26 cm.'"
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "fishbase:Trisopterus-minutus",
-            "marlin:2171"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Biology",
-              "quote": "Occurs mostly from 15 to 200 m in the Atlantic on muddy or sandy bottoms. Feeds on crustaceans, small fish, and polychaetes. Used in the production of fish meal, and in southern Europe as a human food.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; benthopelagic; non-migratory; depth range 1 - 440 m, usually 15 - 200 m. Temperate; 66&deg;N - 28&deg;N, 13&deg;W - 36&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fao:t0243e10",
+              "locator": "Trisopterus minutus > Habitat and Biology (p. 80)",
+              "quote": "A gregarious species, living in small schools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2171",
               "locator": "Habitat",
-              "quote": "Occurs mostly from 15 to 200 m in the Atlantic on sandy or muddy bottoms. Small poor cod are often seen in and around wrecks, or in large cracks or crevices in rocky areas. Larger fish occur down to 300 m.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Occurs mostly from 15 to 200 m in the Atlantic on sandy or muddy bottoms. Small poor cod are often seen in and around wrecks, or in large cracks or crevices in rocky areas.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "common length : 20.0 cm TL male/unsexed; (Ref. 4645 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "mark:cmpymulee000d7iowbwyafj0f": {
+          "sourceIds": [
+            "fishbase:Trisopterus-minutus",
+            "marlin:2171",
+            "fao:t0243e10"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Short description",
+              "quote": "Chin barbel well developed. Body brownish yellow dorsally, becoming paler ventrally; a dark blotch is at the base of the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Description",
+              "quote": "A slender fish with a relatively small head and a barbel under the chin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Additional information",
+              "quote": "Poor cod closely resemble bib Trisopterus luscus but lack the dark vertical bars usually visible on bib.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:t0243e10",
+              "locator": "Genus Trisopterus > Diagnostic Features (p. 77)",
+              "quote": "Diagnostic Features : Chin barbel well developed. Dorsal fins three; anal fins two, first anal fin with a long base",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpymulee000h7iowyjfiqq6n": {
+          "sourceIds": [
+            "fao:t0243e10",
+            "marlin:2171"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:t0243e10",
+              "locator": "Trisopterus minutus > Diagnostic Features (p. 80)",
+              "quote": "Diagnostic Features : Lower jaw shorter than upper. Greatest body depth equal to or less than head length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:t0243e10",
+              "locator": "Trisopterus luscus (bib, pouting) > Diagnostic Features (p. 79)",
+              "quote": "Diagnostic Features : Lower jaw shorter than upper. Greatest body depth greater than head length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Description",
+              "quote": "A slender fish with a relatively small head and a barbel under the chin. The colour pattern is a yellowish-brown to bronze red on top, with a coppery colour on the flanks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Identifying features",
+              "quote": "Three dorsal fins, the first of which is triangular and the tallest.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Trisopterus-minutus",
+            "fao:t0243e10",
+            "marlin:2171"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 40.0 cm TL male/unsexed; (Ref. 1371 ); common length : 20.0 cm TL male/unsexed; (Ref. 4645 ); max. reported age: 5 years (Ref. 72488 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:t0243e10",
+              "locator": "Trisopterus minutus > Size (p. 80)",
+              "quote": "Size : Reaches 40 cm total length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Description",
+              "quote": "Poor cod grow to a maximum length of 26 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:2171",
+            "fishbase:Trisopterus-minutus",
+            "fao:t0243e10"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Habitat",
+              "quote": "Occurs mostly from 15 to 200 m in the Atlantic on sandy or muddy bottoms. Small poor cod are often seen in and around wrecks, or in large cracks or crevices in rocky areas.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Biology",
+              "quote": "Occurs mostly from 15 to 200 m in the Atlantic on muddy or sandy bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:t0243e10",
+              "locator": "Trisopterus minutus > Habitat and Biology (p. 80)",
+              "quote": "Benthopelagic to depths of 400 m, mostly from 15 to 200 m in the Atlantic and to 120 m in the Mediterranean on muddy or sandy bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -12687,21 +12875,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Trisopterus-minutus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-minutus",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.7 ±0.2 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "marlin:2171"
@@ -12717,74 +12890,244 @@
           ],
           "claimSupported": true
         },
-        "edge:Plankton->Poor cod": {
-          "sourceIds": [
-            "fishbase-food:Trisopterus-minutus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Trisopterus-minutus",
-              "locator": "Food items reported for Trisopterus minutus, planktonic copepod row",
-              "quote": "zooplankton plank. crust. plank. copepods CALANOIDA Netherlands juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Trisopterus-minutus"
+            "fishbase:Trisopterus-minutus",
+            "fao:t0243e10",
+            "marlin:2171"
           ],
           "support": [
             {
               "sourceId": "fishbase:Trisopterus-minutus",
               "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; benthopelagic; non-migratory; depth range 1 - 440 m (Ref. 57178), usually 15 - 200 m.",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Marine; benthopelagic; non-migratory; depth range 1 - 440 m (Ref. 57178 ), usually 15 - 200 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:t0243e10",
+              "locator": "Trisopterus minutus > Habitat and Biology (p. 80)",
+              "quote": "Benthopelagic to depths of 400 m, mostly from 15 to 200 m in the Atlantic and to 120 m in the Mediterranean on muddy or sandy bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Habitat",
+              "quote": "Occurs mostly from 15 to 200 m in the Atlantic on sandy or muddy bottoms. ... Larger fish occur down to 300 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:2171",
-            "doi:10.1111-raq.12669"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2171",
-              "locator": "Summary: Habitat",
-              "quote": "Small poor cod are often seen in and around wrecks, or in large cracks or crevices in rocky areas.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1111-raq.12669",
-              "locator": "Section 2.5 Finfish",
-              "quote": "It is also unclear whether macroalgal farms enhance juvenile recruitment or simply aggregate existing adult fish populations.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: created. The food web restricts 'created' to species that physically cannot occupy bare soft sediment. The source says: MarLIN and FishBase both place poor cod on open soft ground: 'Occurs mostly from 15 to 200 m in the Atlantic on sandy or muddy bottoms.' Only SMALL poor cod are described as wreck and crevice associated."
-        },
         "trait:behavior": {
           "sourceIds": [
-            "biotic:6195"
+            "fao:t0243e10",
+            "biotic:6195",
+            "marlin:2171"
           ],
           "support": [
+            {
+              "sourceId": "fao:t0243e10",
+              "locator": "Trisopterus minutus > Habitat and Biology (p. 80)",
+              "quote": "A gregarious species, living in small schools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "biotic:6195",
               "locator": "General Biology parameter table, Sociability row",
               "quote": "Sociability Gregarious",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6195",
+              "locator": "General Biology parameter table, Feeding method and Environmental position rows",
+              "quote": "Growth form Pisciform Feeding method Predator, Scavenger Mobility/Movement Swimmer Environmental position Demersal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Additional information",
+              "quote": "Poor cod breed in spring in deep water.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Trisopterus-minutus",
+            "marlin:2171",
+            "fishbase-food:Trisopterus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Biology",
+              "quote": "Feeds on crustaceans, small fish, and polychaetes (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Description",
+              "quote": "Trisopterus minutus feeds on invertebrates such as decapod crustaceans and smaller fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Trisopterus-minutus",
+              "locator": "Food items reported for Trisopterus minutus > zoobenthos > benthic crustacean rows",
+              "quote": "Food items reported for Trisopterus minutus ... benth. crust. amphipods Melitidae ... benth. crust. crabs Pagurus bernhardus ... benth. crust. mysids Mysidae ... benth. crust. shrimps/prawns Crangon allmanni",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Trisopterus-minutus",
+            "marlin:2171",
+            "fishbase-food:Trisopterus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Biology",
+              "quote": "Feeds on crustaceans, small fish, and polychaetes (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Description",
+              "quote": "Trisopterus minutus feeds on invertebrates such as decapod crustaceans and smaller fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Trisopterus-minutus",
+              "locator": "Food items reported for Trisopterus minutus > nekton > finfish rows",
+              "quote": "nekton finfish bony fish Ammodytidae ... bony fish Callionymus maculatus ... bony fish Gobius niger ... bony fish Pomatoschistus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Trisopterus-minutus",
+            "biotic:6195",
+            "fishbase-food:Trisopterus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Biology",
+              "quote": "Feeds on crustaceans, small fish, and polychaetes (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6195",
+              "locator": "General Biology parameter table, Typical food types row",
+              "quote": "Typical food types Crustaceans as well as small fish and polychaetes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Trisopterus-minutus",
+              "locator": "Food items reported for Trisopterus minutus > zoobenthos > worms > polychaetes",
+              "quote": "zoobenthos worms polychaetes Nereis sp. ... polychaetes unidentified polychaetes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:2171",
+            "fishbase-pred:Trisopterus-minutus",
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2171",
+              "locator": "Additional information",
+              "quote": "which also makes it an important food for some other, more directly valuable fishes, such as the cod, whiting, hake and turbot.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Trisopterus-minutus",
+              "locator": "Organisms Preying on Trisopterus minutus, Gadidae and Merlucciidae rows",
+              "quote": "Organisms Preying on Trisopterus minutus ... finfish bony fish Gadidae Merlangius merlangus ... finfish bony fish Merlucciidae Merluccius merluccius ... finfish bony fish Gadidae Gadus morhua",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua > nekton > finfish > bony fish",
+              "quote": "nekton finfish bony fish Trisopterus minutus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.7489-1799-1",
+            "marinescot:SMFS-7-21"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "4.1 Diet Data (grey seal scats, 2010/11)",
+              "quote": "Other commonly found prey species included: Norway pout, poor cod and unidentified Trisopterus spp.; saithe, whiting, cod, haddock, rockling and unidentified gadid",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinescot:SMFS-7-21",
+              "locator": "Harbour seal diet, West coast - south region",
+              "quote": "Whiting was the dominant prey species consumed by females followed by poor cod and herring.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-pred:Trisopterus-minutus",
+            "fishbase-fooditems:Conger-conger"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Trisopterus-minutus",
+              "locator": "Organisms Preying on Trisopterus minutus, Congridae and Lophiidae rows",
+              "quote": "Ireland finfish bony fish Congridae Conger conger ... finfish bony fish Lophiidae Lophius piscatorius",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food Items - Conger conger > nekton > finfish > bony fish",
+              "quote": "nekton finfish bony fish Trisopterus minutus Ireland",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -13259,34 +13602,49 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126977",
-        "marlin:155",
-        "fishbase:Chelon-labrosus",
+        "fishbase-food:Chelon-labrosus",
         "fishbase-pred:Chelon-labrosus",
-        "fishbase-food:Chelon-labrosus"
+        "fishbase:Chelon-labrosus",
+        "marlin:155",
+        "worms:126977"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:155"
+            "marlin:155",
+            "fishbase:Chelon-labrosus"
           ],
           "support": [
             {
               "sourceId": "marlin:155",
-              "locator": "Identifying features",
-              "quote": "Up to 70 cm in length. First dorsal with 4 spines, second with 8 soft rays. Anal fin with 9 soft rays. Upper lip about as deep as the pupil diameter with several rows of papillae on the lower third. Dark longitudinal lateral stripes.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "Chelon labrosus has a cylindrical elongate body up to 70 cm in length. ... It is grey-blue above and silvery on the flanks and the belly.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:155",
-              "locator": "Description",
-              "quote": "Chelon labrosus has a cylindrical elongate body up to 70 cm in length. It has a broad head that is flattened on top. It has a small upturned mouth. It has two well separated dorsal fins the first with 4 slender spines and the second...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat",
+              "quote": "The grey thick-lipped mullet is a demersal catadromous species usually found in shallow inshore waters or entering brackish lagoons and freshwater.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Biology",
+              "quote": "Adults are found inshore in schools, frequently entering brackish lagoons and freshwater (Ref. 30578 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:155",
+              "locator": "Identifying features",
+              "quote": "Upper lip about as deep as the pupil diameter with several rows of papillae on the lower third.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx25r37000f7i9k2zkvlq19": {
           "sourceIds": [
@@ -13296,92 +13654,122 @@
             {
               "sourceId": "marlin:155",
               "locator": "Identifying features",
-              "quote": "Up to 70 cm in length. First dorsal with 4 spines, second with 8 soft rays. Anal fin with 9 soft rays. Upper lip about as deep as the pupil diameter with several rows of papillae on the lower third. Dark longitudinal lateral stripes.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:155",
-              "locator": "Description",
-              "quote": "Chelon labrosus has a cylindrical elongate body up to 70 cm in length. It has a broad head that is flattened on top. It has a small upturned mouth. It has two well separated dorsal fins the first with 4 slender spines and the second...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Upper lip about as deep as the pupil diameter with several rows of papillae on the lower third.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: 'The upper lip is very thick (nearly as deep as the eye diameter) and warty-looking'. The source says: MarLIN 155 Identifying features: 'Upper lip about as deep as the pupil diameter with several rows of papillae on the lower third.'"
+          "claimSupported": true
         },
         "mark:cmpx25r37000g7i9k0itm2niv": {
           "sourceIds": [
-            "marlin:155"
+            "marlin:155",
+            "fishbase:Chelon-labrosus"
           ],
           "support": [
             {
               "sourceId": "marlin:155",
-              "locator": "Identifying features",
-              "quote": "Up to 70 cm in length. First dorsal with 4 spines, second with 8 soft rays. Anal fin with 9 soft rays. Upper lip about as deep as the pupil diameter with several rows of papillae on the lower third. Dark longitudinal lateral stripes.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "Chelon labrosus has a cylindrical elongate body up to 70 cm in length. ... It is grey-blue above and silvery on the flanks and the belly. Dark longitudinal stripes are present along the scale rows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:155",
-              "locator": "Description",
-              "quote": "Chelon labrosus has a cylindrical elongate body up to 70 cm in length. It has a broad head that is flattened on top. It has a small upturned mouth. It has two well separated dorsal fins the first with 4 slender spines and the second...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Dark longitudinal lateral stripes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Short description",
+              "quote": "Body shape ( shape guide ): elongated.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx25r37000h7i9ku6rim6ax": {
           "sourceIds": [
-            "marlin:155"
+            "marlin:155",
+            "fishbase:Chelon-labrosus"
           ],
           "support": [
             {
               "sourceId": "marlin:155",
-              "locator": "Identifying features",
-              "quote": "Up to 70 cm in length. First dorsal with 4 spines, second with 8 soft rays. Anal fin with 9 soft rays. Upper lip about as deep as the pupil diameter with several rows of papillae on the lower third. Dark longitudinal lateral stripes.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "It has two well separated dorsal fins the first with 4 slender spines and the second with one spine and 8 soft rays.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:155",
-              "locator": "Description",
-              "quote": "Chelon labrosus has a cylindrical elongate body up to 70 cm in length. It has a broad head that is flattened on top. It has a small upturned mouth. It has two well separated dorsal fins the first with 4 slender spines and the second...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "First dorsal with 4 spines, second with 8 soft rays.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Short description",
+              "quote": "Dorsal spines (total): 5; Dorsal soft rays (total): 7 - 9; Anal spines : 3; Anal soft rays : 8 - 9.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:155"
+            "marlin:155",
+            "fishbase:Chelon-labrosus"
           ],
           "support": [
             {
               "sourceId": "marlin:155",
               "locator": "Habitat",
               "quote": "The grey thick-lipped mullet is a demersal catadromous species usually found in shallow inshore waters or entering brackish lagoons and freshwater.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; freshwater; brackish; demersal; catadromous (Ref. 46888 ); depth range 2 - 15 m (Ref. 130217 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Biology",
+              "quote": "Adults are found inshore in schools, frequently entering brackish lagoons and freshwater (Ref. 30578 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Habitat renders as 'Near surface, Sandy bottom'. The source says: MarLIN 155 Habitat: 'The grey thick-lipped mullet is a demersal catadromous species usually found in shallow inshore waters or entering brackish lagoons and freshwater.' No sandy bottom is mentioned anywhere on the page."
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
+            "fishbase:Chelon-labrosus",
             "marlin:155"
           ],
           "support": [
             {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 75.0 cm SL male/unsexed; (Ref. 35388 ); common length : 32.0 cm SL male/unsexed; (Ref. 7399 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:155",
               "locator": "Summary: Description",
               "quote": "Chelon labrosus has a cylindrical elongate body up to 70 cm in length.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -13394,24 +13782,16 @@
             {
               "sourceId": "fishbase:Chelon-labrosus",
               "locator": "Biology",
-              "quote": "Adults are found inshore in schools, frequently entering brackish lagoons and freshwater (Ref. 30578).",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Chelon-labrosus"
-          ],
-          "support": [
+              "quote": "Adults are found inshore in schools, frequently entering brackish lagoons and freshwater (Ref. 30578 ). They migrate occasionally tending to move northward in summer-time as temperatures rise.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "fishbase:Chelon-labrosus",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 2.6 ±0.32 se; based on food items.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Oviparous (Ref. 205 ). Reproduction occurs in the sea during winter (Ref. 30578 ). Eggs and larvae pelagic.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -13446,62 +13826,124 @@
           ],
           "claimSupported": true
         },
-        "edge:Kelp canopy->Thick-lipped mullet": {
-          "sourceIds": [
-            "fishbase-food:Chelon-labrosus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Chelon-labrosus",
-              "locator": "Food items reported for Chelon labrosus (n = 37), benthic algae rows",
-              "quote": "plants other plants benthic algae/weeds Chaetomorpha crassa (not available) juv./adults plants other plants benthic algae/weeds Pterocladia sp. Tunisia adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Seabed biodeposits->Thick-lipped mullet": {
-          "sourceIds": [
-            "fishbase-food:Chelon-labrosus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Chelon-labrosus",
-              "locator": "Food items reported for Chelon labrosus (n = 37), detritus rows",
-              "quote": "detritus detritus debris debris Tunisia adults detritus detritus debris unidentified (not available) juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Chelon-labrosus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelon-labrosus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; freshwater; brackish; demersal; catadromous (Ref. 46888); depth range 2 - 15 m (Ref. 130217).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
+            "fishbase:Chelon-labrosus",
             "marlin:155"
           ],
           "support": [
             {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; freshwater; brackish; demersal; catadromous (Ref. 46888 ); depth range 2 - 15 m (Ref. 130217 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:155",
-              "locator": "Summary: Habitat",
+              "locator": "Habitat",
               "quote": "The grey thick-lipped mullet is a demersal catadromous species usually found in shallow inshore waters or entering brackish lagoons and freshwater.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Chelon-labrosus",
+            "fishbase-food:Chelon-labrosus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Biology",
+              "quote": "Adults feed mainly on benthic diatoms, epiphytic algae, small invertebrates and detritus (Ref. 2804 ), juveniles only feed on zooplankton (Ref. 59043 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelon-labrosus",
+              "locator": "Food items reported for Chelon labrosus, plant rows",
+              "quote": "Food items reported for Chelon labrosus ... plants other plants benthic algae/weeds Enteromorpha sp. Tunisia adults ... plants phytoplankton diatoms Navicula Tunisia adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Chelon-labrosus",
+            "fishbase-food:Chelon-labrosus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Biology",
+              "quote": "Adults feed mainly on benthic diatoms, epiphytic algae, small invertebrates and detritus (Ref. 2804 ), juveniles only feed on zooplankton (Ref. 59043 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelon-labrosus",
+              "locator": "Food items reported for Chelon labrosus, detritus rows",
+              "quote": "Food items reported for Chelon labrosus ... detritus detritus debris debris Tunisia adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase-food:Chelon-labrosus",
+            "fishbase:Chelon-labrosus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-food:Chelon-labrosus",
+              "locator": "Food items reported for Chelon labrosus, zoobenthos rows",
+              "quote": "Food items reported for Chelon labrosus ... zoobenthos benth. crust. amphipods Gammarus sp. Tunisia adults ... benth. crust. ostracods podocopid ostracods ... mollusks gastropods Hydrobia acuta",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelon-labrosus",
+              "locator": "Biology",
+              "quote": "Adults feed mainly on benthic diatoms, epiphytic algae, small invertebrates and detritus (Ref. 2804 ), juveniles only feed on zooplankton (Ref. 59043 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Chelon-labrosus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Chelon-labrosus",
+              "locator": "Organisms Preying on Chelon labrosus, sea bird row",
+              "quote": "Organisms Preying on Chelon labrosus ... France birds sea birds Phalacrocoracidae Phalacrocorax carbo",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Chelon-labrosus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Chelon-labrosus",
+              "locator": "Organisms Preying on Chelon labrosus, shore bird row",
+              "quote": "Organisms Preying on Chelon labrosus ... France birds shore birds Ardeidae Ardea cinerea",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -13522,130 +13964,191 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126975",
-        "marlin:2127",
-        "fishbase:Dicentrarchus-labrax",
-        "fishbase-pred:Dicentrarchus-labrax",
+        "doi:10.1093-icesjms-fss200",
         "fishbase-food:Dicentrarchus-labrax",
-        "doi:10.1093-icesjms-fss200"
+        "fishbase-pred:Dicentrarchus-labrax",
+        "fishbase:Dicentrarchus-labrax",
+        "marlin:2127",
+        "nrw:591",
+        "worms:126975"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2127"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Identifying features",
-              "quote": "Two dorsal fins entirely separate from one another, tail fin emarginate. First dorsal fin spiny with eight or nine spines. 57-65 scales along lateral line. Grey or blue back with yellowish or white belly. Silvery fish with large...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Description",
-              "quote": "Dicentrarchus labrax is a thick-set fish with large scales that can grow to a length of 100 cm. The flanks are silvery in colour and the fish has a black or blue back and a yellowish or white underside. Juveniles have black spots on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpzcu69k00037i6orhb3y20n": {
-          "sourceIds": [
-            "marlin:2127"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Identifying features",
-              "quote": "Two dorsal fins entirely separate from one another, tail fin emarginate. First dorsal fin spiny with eight or nine spines. 57-65 scales along lateral line. Grey or blue back with yellowish or white belly. Silvery fish with large...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Description",
-              "quote": "Dicentrarchus labrax is a thick-set fish with large scales that can grow to a length of 100 cm. The flanks are silvery in colour and the fish has a black or blue back and a yellowish or white underside. Juveniles have black spots on...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpzcu69k00047i6o4rp0uejx": {
-          "sourceIds": [
-            "marlin:2127"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Identifying features",
-              "quote": "Two dorsal fins entirely separate from one another, tail fin emarginate. First dorsal fin spiny with eight or nine spines. 57-65 scales along lateral line. Grey or blue back with yellowish or white belly. Silvery fish with large...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Description",
-              "quote": "Dicentrarchus labrax is a thick-set fish with large scales that can grow to a length of 100 cm. The flanks are silvery in colour and the fish has a black or blue back and a yellowish or white underside. Juveniles have black spots on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: 'Spiny gill-cover edge': 'Two flat spines on the rear edge of the gill cover (preopercle); a quick prick-check confirms a bass.' The source says: MarLIN 2127 Description: 'the pre-operculum (gill cover) has a row of forward pointing denticles on the lower edge.' FishBase Short description: 'Posterior edge of opercle finely serrated, lower edge with strong forward-directed denticles (Ref. 231 ). 2 flat opercular spines (Ref. 231 , 57391 ).'"
-        },
-        "mark:cmpzcu69k00057i6okwzbl5dh": {
-          "sourceIds": [
-            "marlin:2127"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Description",
-              "quote": "Juveniles have black spots on the upper part of the body but these spots are rare on adults.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Description",
-              "quote": "Dicentrarchus labrax is a thick-set fish with large scales that can grow to a length of 100 cm. The flanks are silvery in colour and the fish has a black or blue back and a yellowish or white underside. Juveniles have black spots on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:2127"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2127",
-              "locator": "Habitat",
-              "quote": "Dicentrarchus labrax is a demersal fish present in the littoral zone over most substrata usually only to 10 m in depth but have been caught at depths of 70 m. The bass is predominantly a marine fish but are found in brackish water and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Habitat renders as 'Midwater, Open water'. The source says: MarLIN 2127 Habitat: 'Dicentrarchus labrax is a demersal fish present in the littoral zone over most substrata usually only to 10 m in depth but have been caught at depths of 70 m.'"
-        },
-        "trait:size": {
-          "sourceIds": [
-            "marlin:2127"
+            "marlin:2127",
+            "doi:10.1093-icesjms-fss200"
           ],
           "support": [
             {
               "sourceId": "marlin:2127",
               "locator": "Summary: Description",
-              "quote": "Dicentrarchus labrax is a thick-set fish with large scales that can grow to a length of 100 cm.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "quote": "Dicentrarchus labrax is a thick-set fish with large scales that can grow to a length of 100 cm. The flanks are silvery in colour and the fish has a black or blue back and a yellowish or white underside.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Identifying features",
+              "quote": "Two dorsal fins entirely separate from one another, tail fin emarginate. ... First dorsal fin spiny with eight or nine spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Summary: Description",
+              "quote": "Young bass tend to school together, however, the adults are more likely to be found in smaller numbers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-icesjms-fss200",
+              "locator": "4.1. Feeding ecology of adult sea bass, p. 7",
+              "quote": "We suggest that sea bass are mainly piscivorous and preferentially feed on small pelagic fish; mainly mackerel, sardine, anchovy and scads.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpzcu69k00037i6orhb3y20n": {
+          "sourceIds": [
+            "marlin:2127",
+            "fishbase:Dicentrarchus-labrax"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Identifying features",
+              "quote": "Two dorsal fins entirely separate from one another, tail fin emarginate. ... First dorsal fin spiny with eight or nine spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Summary: Description",
+              "quote": "Dicentrarchus labrax has two distinct dorsal fins, the first of which is spiny with 8 or 9 spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Short description",
+              "quote": "Dorsal spines (total): 8 - 10; Dorsal soft rays (total): 12 - 13; Anal spines : 3; Anal soft rays : 10 - 12.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpzcu69k00047i6o4rp0uejx": {
+          "sourceIds": [
+            "fishbase:Dicentrarchus-labrax",
+            "marlin:2127"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Short description",
+              "quote": "Posterior edge of opercle finely serrated, lower edge with strong forward- directed denticles (Ref. 231 ). 2 flat opercular spines (Ref. 231 , 57391 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Summary: Description",
+              "quote": "The head is moderately pointed and the pre-operculum (gill cover) has a row of forward pointing denticles on the lower edge.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpzcu69k00057i6okwzbl5dh": {
+          "sourceIds": [
+            "marlin:2127",
+            "fishbase:Dicentrarchus-labrax"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Summary: Description",
+              "quote": "Dicentrarchus labrax is a thick-set fish with large scales that can grow to a length of 100 cm. The flanks are silvery in colour and the fish has a black or blue back and a yellowish or white underside.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Summary: Description",
+              "quote": "Juveniles have black spots on the upper part of the body but these spots are rare on adults.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Identifying features",
+              "quote": "Grey or blue back with yellowish or white belly.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Short description",
+              "quote": "Young with some dark spots on upper part of body (Ref. 231 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:2127",
+            "fishbase:Dicentrarchus-labrax"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Habitat",
+              "quote": "Dicentrarchus labrax is a demersal fish present in the littoral zone over most substrata usually only to 10 m in depth but have been caught at depths of 70 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Habitat",
+              "quote": "The bass is predominantly a marine fish but are found in brackish water and in summer months enter estuaries and can penetrate some way up rivers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Biology",
+              "quote": "Found in the littoral zone on various kinds of bottoms on estuaries, lagoons and occasionally rivers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Dicentrarchus-labrax",
+            "marlin:2127"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 103 cm TL male/unsexed; (Ref. 40637 ); common length : 50.0 cm TL male/unsexed; (Ref. 6916 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Identifying features",
+              "quote": "Silvery fish with large scales that grows up to 100 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -13660,35 +14163,25 @@
               "sourceId": "marlin:2127",
               "locator": "Summary: Description",
               "quote": "Young bass tend to school together, however, the adults are more likely to be found in smaller numbers.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Dicentrarchus-labrax",
               "locator": "Biology",
-              "quote": "Young fish form school, but adults appear to be less gregarious (Ref. 9987).",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: fast-swim, schooling The source says: Both MarLIN and FishBase restrict schooling to young fish: 'Young fish form school, but adults appear to be less gregarious'. Neither source describes swimming speed at all."
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Dicentrarchus-labrax"
-          ],
-          "support": [
+              "quote": "Young fish form school, but adults appear to be less gregarious (Ref. 9987 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "fishbase:Dicentrarchus-labrax",
               "locator": "Biology",
-              "quote": "Juveniles feed on invertebrates, taking increasingly more fish with age. Adults piscivorous",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "quote": "They enter coastal waters and river mouths in summer, but migrate offshore in colder weather and occur in deep water during winter in the northern range.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: Trophic tier 4 The source says: FishBase estimates trophic level 3.5 plus or minus 0.50 se, based on food items. Its own Biology text does say 'Adults piscivorous', so the page carries both readings."
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -13720,108 +14213,161 @@
           ],
           "claimSupported": true
         },
-        "edge:Sprat->European sea bass": {
-          "sourceIds": [
-            "fishbase-food:Dicentrarchus-labrax"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Dicentrarchus-labrax",
-              "locator": "Food items reported for Dicentrarchus labrax (n = 24), UK teleost rows",
-              "quote": "nekton finfish bony fish Atherina boyeri UK Gr. Britain juv./adults nekton finfish bony fish Sprattus sprattus UK Gr. Britain juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Sand goby->European sea bass": {
-          "sourceIds": [
-            "fishbase-food:Dicentrarchus-labrax"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Dicentrarchus-labrax",
-              "locator": "Food items reported for Dicentrarchus labrax (n = 24), UK teleost rows",
-              "quote": "nekton finfish bony fish Pomatoschistus spp. UK Gr. Britain juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Sand smelt->European sea bass": {
-          "sourceIds": [
-            "fishbase-food:Dicentrarchus-labrax"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Dicentrarchus-labrax",
-              "locator": "Food items reported for Dicentrarchus labrax (n = 24), UK teleost rows",
-              "quote": "nekton finfish bony fish Atherina boyeri UK Gr. Britain juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: European sea bass eats Sand smelt, which the catalogue keys to Atherina presbyter. The source says: The FishBase UK food-item record names the congener Atherina boyeri, the big-scale sand smelt, not Atherina presbyter."
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Dicentrarchus-labrax"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Dicentrarchus-labrax",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; freshwater; brackish; demersal; catadromous (Ref. 138297); depth range 10 - 100 m (Ref. 9987).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
+            "fishbase:Dicentrarchus-labrax",
             "marlin:2127"
           ],
           "support": [
             {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; freshwater; brackish; demersal; catadromous (Ref. 138297 ); depth range 10 - 100 m (Ref. 9987 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Biology",
+              "quote": "Adults manifest demersal behavior, inhabit coastal waters down to about 100 m depth but more common in shallow waters (Ref. 54221 , 57391 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:2127",
-              "locator": "Summary: Habitat",
+              "locator": "Habitat",
               "quote": "Dicentrarchus labrax is a demersal fish present in the littoral zone over most substrata usually only to 10 m in depth but have been caught at depths of 70 m.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Atlantic mackerel->European sea bass": {
+        "diet:eats:0": {
           "sourceIds": [
             "doi:10.1093-icesjms-fss200"
           ],
           "support": [
             {
               "sourceId": "doi:10.1093-icesjms-fss200",
-              "locator": "Results, 'Diet composition' (Bay of Biscay shelf, adult sea bass stomach contents)",
-              "quote": "Despite a low relative abundance (5.6%), mackerel (Scomber scombrus) was the most important prey in term of ingested biomass (40.1%)",
-              "readBy": "refs:trawl (gap-edges)",
-              "readOn": "2026-08-28"
+              "locator": "Abstract, p. 1",
+              "quote": "We found that sea bass primarily target small pelagic fish, most notably mackerel (Scomber scombrus), scads (Trachurus spp.), anchovy (Engraulis encrasicolus), and sardine (Sardina pilchardus).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-icesjms-fss200",
+              "locator": "4.1. Feeding ecology of adult sea bass, p. 7",
+              "quote": "We suggest that sea bass are mainly piscivorous and preferentially feed on small pelagic fish; mainly mackerel, sardine, anchovy and scads.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-icesjms-fss200",
+              "locator": "3.1. Sea bass diet composition and local prey selectivity, p. 6",
+              "quote": "Evaluation of local prey selectivity (trawl by trawl), as given by Chesson's index, revealed that sea bass strongly selected pelagic fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Atlantic horse mackerel->European sea bass": {
+        "diet:eats:1": {
           "sourceIds": [
-            "doi:10.1093-icesjms-fss200"
+            "fishbase-food:Dicentrarchus-labrax",
+            "marlin:2127"
           ],
           "support": [
             {
+              "sourceId": "fishbase-food:Dicentrarchus-labrax",
+              "locator": "Food items reported for Dicentrarchus labrax, UK Gr. Britain rows",
+              "quote": "Food items reported for Dicentrarchus labrax ... Ammodytes sp. UK Gr. Britain ... Atherina boyeri UK Gr. Britain ... Sprattus sprattus UK Gr. Britain ... Pomatoschistus spp. UK Gr. Britain",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2127",
+              "locator": "Image caption",
+              "quote": "School of Dicentrarchus labrax hunting Greater Sand Eels.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Dicentrarchus-labrax",
+            "doi:10.1093-icesjms-fss200",
+            "fishbase-food:Dicentrarchus-labrax"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Dicentrarchus-labrax",
+              "locator": "Biology",
+              "quote": "Feed chiefly on shrimps and mollusks, also on fishes (Ref. 5990 ). Juveniles feed on invertebrates, taking increasingly more fish with age. Adults piscivorous .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "doi:10.1093-icesjms-fss200",
-              "locator": "Results, 'Diet composition'; the prey taxon is listed as Carangidae / Trachurus trachurus in the diet-composition table (O% 26.0, M% 20.1)",
-              "quote": "followed by scads (Trachurus trachurus or/and T. mediterraneus, 20.1%), anchovy (Engraulis encrasicolus, 10.2%) and sardine (Sardina pilchardus, 7.4%)",
-              "readBy": "refs:trawl (gap-edges)",
-              "readOn": "2026-08-28"
+              "locator": "3.1. Sea bass diet composition and local prey selectivity, p. 6",
+              "quote": "Fish dominated the diet (Table 2) both by number (87%) and mass (95%). Crustaceans reached a relative abundance of 9%, but accounted for a low fraction of the diet by reconstructed biomass (3%).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Dicentrarchus-labrax",
+              "locator": "Food items reported for Dicentrarchus labrax, zoobenthos rows",
+              "quote": "shrimps/prawns Palaemonetes varians France ... shrimps/prawns unidentified",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Dicentrarchus-labrax",
+            "nrw:591"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Dicentrarchus-labrax",
+              "locator": "Organisms Preying on Dicentrarchus labrax, France, sea birds",
+              "quote": "Organisms Preying on Dicentrarchus labrax ... Phalacrocoracidae Phalacrocorax carbo",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "nrw:591",
+              "locator": "4.1 Cormorant diet, p. 23",
+              "quote": "In estuaries, ... sandsmelt (Atherina presbyter), mullet (Muglidae) and sea bass (Dicentrarchus labrax) are important in southern Europe.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Dicentrarchus-labrax",
+            "fishbase-food:Dicentrarchus-labrax"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Dicentrarchus-labrax",
+              "locator": "Organisms Preying on Dicentrarchus labrax, UK Gr. Britain, finfish",
+              "quote": "UK Gr. Britain finfish bony fish Moronidae Dicentrarchus labrax",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Dicentrarchus-labrax",
+              "locator": "Food items reported for Dicentrarchus labrax, UK Gr. Britain row",
+              "quote": "bony fish Dicentrarchus labrax UK Gr. Britain juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -13842,164 +14388,150 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126822",
-        "marlin:97",
+        "doi:10.3354-aei00478",
         "fishbase:Trachurus-trachurus",
         "fishbase:dietcompo-Trachurus-trachurus",
-        "fishbase:predators-Trachurus-trachurus",
         "fishbase:fooditems-Trachurus-trachurus",
-        "doi:10.3354-aei00478"
+        "fishbase:predators-Trachurus-trachurus",
+        "marlin:97",
+        "worms:126822"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Trachurus-trachurus",
-            "marlin:97"
+            "marlin:97",
+            "fishbase:Trachurus-trachurus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Trachurus-trachurus",
-              "locator": "Short description",
-              "quote": "Bluish green, grey or black above, silvery white below; opercle with black spot....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:97",
-              "locator": "Identifying features",
-              "quote": "Fairly compressed elongate body up to 60 cm in length. Large head. Lower jaw projected. First dorsal fin tall. Second dorsal and anal fins prolonged. Black spot on the trailing edge of the gill cover.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:97",
               "locator": "Description",
-              "quote": "The horse mackerel Trachurus trachurus is a slender schooling species that may reach up to 60 cm in length. The leading rays of its dorsal, anal and pelvic fins have conspicuous spines. It has two dorsal fins, the first of which is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The horse mackerel Trachurus trachurus is a slender schooling species that may reach up to 60 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:97",
+              "locator": "Additional information",
+              "quote": "The horse mackerel Trachurus trachurus can be easily distinguished from other mackerel by the black spot on the trailing edge of the gill cover (Knijn et al. , 1993).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trachurus-trachurus",
+              "locator": "Short description",
+              "quote": "Bluish green, grey or black above, silvery white below; opercle with black spot (Ref. 3197 ). Lateral scales tall and keeled. Gill cover with a distinct black spot.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcy3e5000o7i6o1t8qt1pi": {
           "sourceIds": [
-            "fishbase:Trachurus-trachurus",
-            "marlin:97"
+            "fishbase:Trachurus-trachurus"
           ],
           "support": [
             {
               "sourceId": "fishbase:Trachurus-trachurus",
               "locator": "Short description",
-              "quote": "Lateral scales tall and keeled. Gill cover with a distinct black spot. First dorsal fin tall (Ref. 35388).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:97",
-              "locator": "Identifying features",
-              "quote": "Fairly compressed elongate body up to 60 cm in length. Large head. Lower jaw projected. First dorsal fin tall. Second dorsal and anal fins prolonged. Black spot on the trailing edge of the gill cover.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:97",
-              "locator": "Description",
-              "quote": "The horse mackerel Trachurus trachurus is a slender schooling species that may reach up to 60 cm in length. The leading rays of its dorsal, anal and pelvic fins have conspicuous spines. It has two dorsal fins, the first of which is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Lateral scales tall and keeled. Gill cover with a distinct black spot. First dorsal fin tall (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcy3e5000p7i6ol6vall80": {
           "sourceIds": [
-            "fishbase:Trachurus-trachurus",
-            "marlin:97"
+            "marlin:97",
+            "fishbase:Trachurus-trachurus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Trachurus-trachurus",
-              "locator": "Short description",
-              "quote": "Bluish green, grey or black above, silvery white below; opercle with black spot....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:97",
-              "locator": "Identifying features",
-              "quote": "Fairly compressed elongate body up to 60 cm in length. Large head. Lower jaw projected. First dorsal fin tall. Second dorsal and anal fins prolonged. Black spot on the trailing edge of the gill cover.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:97",
               "locator": "Description",
-              "quote": "The horse mackerel Trachurus trachurus is a slender schooling species that may reach up to 60 cm in length. The leading rays of its dorsal, anal and pelvic fins have conspicuous spines. It has two dorsal fins, the first of which is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "It has two dorsal fins, the first of which is short and tall. The second dorsal fin, like the anal fin, is prolonged from the end of the first dorsal almost to the tail.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trachurus-trachurus",
+              "locator": "Short description",
+              "quote": "Dorsal spines (total): 9; Dorsal soft rays (total): 30 - 36; Anal spines : 3; Anal soft rays : 24 - 32.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcy3e5000q7i6o0yrew2op": {
           "sourceIds": [
+            "marlin:97"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:97",
+              "locator": "Description",
+              "quote": "It has a bluish dorsal colouring and silvery sides. It has a large head with large eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:97",
+              "locator": "Identifying features",
+              "quote": "Fairly compressed elongate body up to 60 cm in length. Large head. Lower jaw projected.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
             "fishbase:Trachurus-trachurus",
             "marlin:97"
           ],
           "support": [
             {
               "sourceId": "fishbase:Trachurus-trachurus",
-              "locator": "Short description",
-              "quote": "Bluish green, grey or black above, silvery white below; opercle with black spot....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:97",
-              "locator": "Identifying features",
-              "quote": "Fairly compressed elongate body up to 60 cm in length. Large head. Lower jaw projected. First dorsal fin tall. Second dorsal and anal fins prolonged. Black spot on the trailing edge of the gill cover.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 70.0 cm TL male/unsexed; (Ref. 3197 ); common length : 22.0 cm FL male/unsexed; (Ref. 3397 ); max. published weight: 2.0 kg (Ref. 27584 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:97",
               "locator": "Description",
-              "quote": "The horse mackerel Trachurus trachurus is a slender schooling species that may reach up to 60 cm in length. The leading rays of its dorsal, anal and pelvic fins have conspicuous spines. It has two dorsal fins, the first of which is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The horse mackerel Trachurus trachurus is a slender schooling species that may reach up to 60 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "fishbase:Trachurus-trachurus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trachurus-trachurus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 22.9, range 21 - 30 cm Max length: 70.0 cm TL male/unsexed;; common length: 22.0 cm FL male/unsexed;; max. published weight: 2.0 kg",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Trachurus-trachurus"
+            "fishbase:Trachurus-trachurus",
+            "worms:126822"
           ],
           "support": [
             {
               "sourceId": "fishbase:Trachurus-trachurus",
               "locator": "Biology",
-              "quote": "Adults form large schools in coastal areas with sandy substrate. They feed on fish, crustaceans, and cephalopods. Are batch spawners. Females lay 140,000 eggs, which hatch into 5mm long larvae. Eggs are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "West stock spawns in a belt from the Biscay to Ireland in early spring, migrates north and eastwards to southern Norway and northern North Sea.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:126822",
+              "locator": "Descriptive notes > Description",
+              "quote": "Forms large schools in coastal areas with a sandy substrate. Feeds on fish, crustaceans, and cephalods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -14016,30 +14548,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:dietcompo-Trachurus-trachurus",
-            "fishbase:Trachurus-trachurus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:dietcompo-Trachurus-trachurus",
-              "locator": "Diet composition table, NE Atlantic (Portugal) record, ref. 45425",
-              "quote": "zooplankton 89 3.3 juv./adults Portugal 41°50'N & 9°06'W to 36°40'N & 7°25'W, Jul. & Oct. 1990-91, Feb. 1992 45425",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Trachurus-trachurus",
-              "locator": "Biology",
-              "quote": "They feed on fish, crustaceans, and cephalopods.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Tier 3, rendered as 'Planktivore or invertivore'. The source says: FishBase Diet Composition for Trachurus trachurus (n = 6) also holds 'nekton 87 4.4 adults - North Sea 42340' and 'nekton 100 4.5 adults - North Sea 42340'; the summary page says 'They feed on fish, crustaceans, and cephalopods.'"
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Trachurus-trachurus"
@@ -14055,66 +14563,149 @@
           ],
           "claimSupported": false
         },
-        "edge:Plankton->Atlantic horse mackerel": {
-          "sourceIds": [
-            "fishbase:fooditems-Trachurus-trachurus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:fooditems-Trachurus-trachurus",
-              "locator": "Food items table, zooplankton rows",
-              "quote": "zooplankton plank. crust. euphausiids Euphausia couchii Spain juv./adults zooplankton plank. crust. euphausiids unidentified euphausiids Spain juv./adults",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Trachurus-trachurus"
+            "fishbase:Trachurus-trachurus",
+            "marlin:97"
           ],
           "support": [
             {
               "sourceId": "fishbase:Trachurus-trachurus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; pelagic-neritic; oceanodromous (Ref. 51243); depth range 0 - 1050 m (Ref. 54256), usually 100 - 200 m (Ref. 54256).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; pelagic-neritic; oceanodromous (Ref. 51243 ); depth range 0 - 1050 m (Ref. 54256 ), usually 100 - 200 m (Ref. 54256 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:97",
+              "locator": "Habitat",
+              "quote": "The horse mackerel is a pelagic coastal species that may be found on continental shelves down to over 200 m in depth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.3354-aei00478"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3354-aei00478",
-              "locator": "Section 3.1 Fish assemblages, BRUV results",
-              "quote": "Horse mackerel Trachurus trachurus were the most abundant species recorded (~45%) in terms of MaxN; however, they were almost exclusively recorded in the mussel lines in St Austell Bay",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway, defined in build-foodweb.mjs as 'a soft-sediment / open-water native, ~unchanged' by the farm. The source says: The only UK study of fish at integrated mussel-and-kelp farms found the opposite. Horse mackerel were the most abundant species recorded (~45% of MaxN) and 'were almost exclusively recorded in the mussel lines in St Austell Bay', and higher abundances of T. trachurus distinguished the mussel treatment from both the seaweed and the reference areas. On this evidence the farm role is 'enhanced', not 'anyway'."
-        },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:97"
+            "marlin:97",
+            "fishbase:Trachurus-trachurus"
           ],
           "support": [
             {
               "sourceId": "marlin:97",
               "locator": "Habitat",
               "quote": "The horse mackerel is a pelagic coastal species that may be found on continental shelves down to over 200 m in depth.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trachurus-trachurus",
+              "locator": "Biology",
+              "quote": "Adults form large schools in coastal areas with sandy substrate.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Trachurus-trachurus",
+            "worms:126822"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trachurus-trachurus",
+              "locator": "Biology",
+              "quote": "Adults form large schools in coastal areas with sandy substrate. They feed on fish, crustaceans, and cephalopods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:126822",
+              "locator": "Descriptive notes > Description",
+              "quote": "Forms large schools in coastal areas with a sandy substrate. Feeds on fish, crustaceans, and cephalods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:fooditems-Trachurus-trachurus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Trachurus-trachurus",
+              "locator": "Food items reported for Trachurus trachurus > zooplankton, plank. crust.",
+              "quote": "zooplankton plank. crust. euphausiids unidentified euphausiids ... zooplankton plank. crust. mysids unidentified mysids ... plank. copepods unidentified copepods",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:fooditems-Trachurus-trachurus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Trachurus-trachurus",
+              "locator": "Food items reported for Trachurus trachurus > nekton, finfish",
+              "quote": "nekton finfish bony fish Engraulis encrasicholus ... bony fish Gadiculus argenteus ... bony fish Micromesistius poutassou",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:predators-Trachurus-trachurus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Trachurus-trachurus",
+              "locator": "Organisms Preying on Trachurus trachurus",
+              "quote": "Organisms Preying on Trachurus trachurus ... Merlangius merlangus ... Merluccius merluccius ... Zeus faber",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase:predators-Trachurus-trachurus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Trachurus-trachurus",
+              "locator": "Organisms Preying on Trachurus trachurus > sharks/rays",
+              "quote": "finfish sharks/rays Rajidae Raja alba ... finfish sharks/rays Squalidae Squalus acanthias",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase:predators-Trachurus-trachurus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Trachurus-trachurus",
+              "locator": "Organisms Preying on Trachurus trachurus > mammals",
+              "quote": "mammals seals/sea lions Otariidae Arctocephalus pusillus pusillus ... mammals whales/dolphins Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -14132,164 +14723,130 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127023",
-        "marlin:44",
+        "doi:10.1093-icesjms-fss200",
+        "doi:10.1111-jfb.13926",
+        "doi:10.3354-aei00478",
+        "fao:ac478e08",
         "fishbase:Scomber-scombrus",
         "fishbase:fooditems-Scomber-scombrus",
-        "doi:10.3354-aei00478"
+        "fishbase:predators-Scomber-scombrus",
+        "marlin:44",
+        "worms:127023"
       ],
       "claims": {
-        "edge:Sprat->Atlantic mackerel": {
+        "fieldNote": {
           "sourceIds": [
+            "marlin:44",
             "fishbase:Scomber-scombrus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Scomber-scombrus",
-              "locator": "Food items (matched on \"sprattus sprattus\")",
-              "quote": "s nekton finfish bony fish Sardina pilchardus Greece juv./adults nekton finfish bony fish Sprattus sprattus (not available) adults nekton finfish bony fish Engraulis encrasicolus Spain juv./adults nekton finfis",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "fieldNote": {
-          "sourceIds": [
-            "fishbase:Scomber-scombrus",
-            "marlin:44"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Scomber-scombrus",
-              "locator": "Short description",
-              "quote": "Morphometrics Dorsal spines (total): 8 - 14; Dorsal soft rays (total): 11 - 13; Anal spines: 1; Anal soft rays: 12 - 13; Vertebrae: 31. This species has the following characters: no well developed...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:44",
+              "locator": "Description",
+              "quote": "Atlantic mackerel are most readily identified by the strong dark markings on their back, which are oblique to near-vertical with relatively little undulation. The belly is unmarked and a mixture of silver and metallic blue in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:44",
               "locator": "Identifying features",
-              "quote": "Fast, streamline, fish usually found in dense shoals. At full length Atlantic mackerel may reach over 60 cm in length and 3.4 kg in weight. Strong dark markings on the back which are oblique to near straight in orientation. Unmarked...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Fast, streamline, fish usually found in dense shoals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:44",
-              "locator": "Description",
-              "quote": "Atlantic mackerel are most readily identified by the strong dark markings on their back, which are oblique to near-vertical with relatively little undulation. The belly is unmarked and a mixture of silver and metallic blue in colour....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Scomber-scombrus",
+              "locator": "Short description",
+              "quote": "markings on back oblique to near vertical, with relatively little undulating; belly unmarked (Ref. 168 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: 'Steel-blue back with wavy black vertical bars; pencil-shaped body and a row of finlets before the tail.' The source says: MarLIN 44: 'strong dark markings on their back, which are oblique to near-vertical with relatively little undulation' and, in Identifying features, 'oblique to near straight in orientation'. FishBase Short description: 'markings on back oblique to near vertical, with relatively little undulating'."
+          "claimSupported": true
         },
         "mark:cmpz9ljra000x7igsi9rjyfpw": {
           "sourceIds": [
+            "marlin:44",
             "fishbase:Scomber-scombrus",
-            "marlin:44"
+            "fao:ac478e08"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Scomber-scombrus",
-              "locator": "Short description",
-              "quote": "Morphometrics Dorsal spines (total): 8 - 14; Dorsal soft rays (total): 11 - 13; Anal spines: 1; Anal soft rays: 12 - 13; Vertebrae: 31. This species has the following characters: no well developed...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:44",
-              "locator": "Identifying features",
-              "quote": "Fast, streamline, fish usually found in dense shoals. At full length Atlantic mackerel may reach over 60 cm in length and 3.4 kg in weight. Strong dark markings on the back which are oblique to near straight in orientation. Unmarked...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:44",
               "locator": "Description",
-              "quote": "Atlantic mackerel are most readily identified by the strong dark markings on their back, which are oblique to near-vertical with relatively little undulation. The belly is unmarked and a mixture of silver and metallic blue in colour....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Ring labelled 'Wavy green-blue bars': 'Bold, wavy, tiger-stripe bars across a metallic blue-green back, the most eye-catching fish in UK waters.' The source says: MarLIN 44: 'oblique to near-vertical with relatively little undulation'. FishBase: 'markings on back oblique to near vertical, with relatively little undulating'."
-        },
-        "mark:cmpz9ljra000y7igse30ra5yn": {
-          "sourceIds": [
-            "fishbase:Scomber-scombrus",
-            "marlin:44"
-          ],
-          "support": [
+              "quote": "Atlantic mackerel are most readily identified by the strong dark markings on their back, which are oblique to near-vertical with relatively little undulation. The belly is unmarked and a mixture of silver and metallic blue in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "fishbase:Scomber-scombrus",
               "locator": "Short description",
-              "quote": "Morphometrics Dorsal spines (total): 8 - 14; Dorsal soft rays (total): 11 - 13; Anal spines: 1; Anal soft rays: 12 - 13; Vertebrae: 31. This species has the following characters: no well developed...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "markings on back oblique to near vertical, with relatively little undulating; belly unmarked (Ref. 168 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:44",
-              "locator": "Identifying features",
-              "quote": "Fast, streamline, fish usually found in dense shoals. At full length Atlantic mackerel may reach over 60 cm in length and 3.4 kg in weight. Strong dark markings on the back which are oblique to near straight in orientation. Unmarked...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:44",
-              "locator": "Description",
-              "quote": "Atlantic mackerel are most readily identified by the strong dark markings on their back, which are oblique to near-vertical with relatively little undulation. The belly is unmarked and a mixture of silver and metallic blue in colour....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fao:ac478e08",
+              "locator": "Scomber scombrus, Diagnostic Features (catalogue p. 58)",
+              "quote": "Colour: markings on back oblique to near vertical, with relatively little undulating; belly unmarked.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9ljra000z7igslhqixml4": {
           "sourceIds": [
-            "fishbase:Scomber-scombrus",
-            "marlin:44"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Scomber-scombrus",
-              "locator": "Identifying features",
-              "quote": "Unmarked belly, silver to metallic blue in colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:44",
-              "locator": "Identifying features",
-              "quote": "Fast, streamline, fish usually found in dense shoals. At full length Atlantic mackerel may reach over 60 cm in length and 3.4 kg in weight. Strong dark markings on the back which are oblique to near straight in orientation. Unmarked...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:44",
-              "locator": "Description",
-              "quote": "Atlantic mackerel are most readily identified by the strong dark markings on their back, which are oblique to near-vertical with relatively little undulation. The belly is unmarked and a mixture of silver and metallic blue in colour....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
+            "marlin:44",
             "fishbase:Scomber-scombrus"
           ],
           "support": [
             {
+              "sourceId": "marlin:44",
+              "locator": "Identifying features",
+              "quote": "Unmarked belly, silver to metallic blue in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:44",
+              "locator": "Description",
+              "quote": "Atlantic mackerel are most readily identified by the strong dark markings on their back, which are oblique to near-vertical with relatively little undulation. The belly is unmarked and a mixture of silver and metallic blue in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Scomber-scombrus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 28.7, range 34 - ? cm Max length: 60.0 cm FL male/unsexed;; common length: 30.0 cm FL male/unsexed;; max. published weight: 3.4 kg; max. reported age: 17 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Short description",
+              "quote": "markings on back oblique to near vertical, with relatively little undulating; belly unmarked (Ref. 168 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Scomber-scombrus",
+            "marlin:44"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Scomber-scombrus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 60.0 cm FL male/unsexed; (Ref. 35388 ); common length : 30.0 cm FL male/unsexed; (Ref. 168 ); max. published weight: 3.4 kg (Ref. 9988 ); max. reported age: 17 years (Ref. 207 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:44",
+              "locator": "Identifying features",
+              "quote": "At full length Atlantic mackerel may reach over 60 cm in length and 3.4 kg in weight.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
@@ -14300,41 +14857,63 @@
             {
               "sourceId": "fishbase:Scomber-scombrus",
               "locator": "Biology",
-              "quote": "Abundant in cold and temperate shelf areas, forms large schools near the surface. They overwinter in deeper waters but move closer to shore in spring when water temperatures range between 11° and 14°C....",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Scomber-scombrus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; pelagic-neritic; oceanodromous; depth range 0 - 1000 m, usually 0 - 200 m. Temperate; 77&deg;N - 30&deg;N, 77&deg;W - 69&deg;E",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Abundant in cold and temperate shelf areas, forms large schools near the surface. They overwinter in deeper waters but move closer to shore in spring ... Mainly diurnal, it feeds on zooplankton and small fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:44",
               "locator": "Habitat",
-              "quote": "Atlantic mackerel is a pelagic species that makes extensive migrations, and there are a variety of hydrographical features such as temperatures as well as the abundance and composition of zooplankton and other prey is likely to affect...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Atlantic mackerel is a pelagic species that makes extensive migrations",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:44",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Widely distributed in the continental shelf seas around the British Isles and Ireland, usually at depths of less than 200 m. Found in greater abundance on the shelf edges during winter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "marlin:44",
             "fishbase:Scomber-scombrus"
           ],
           "support": [
             {
+              "sourceId": "marlin:44",
+              "locator": "Identifying features",
+              "quote": "Fast, streamline, fish usually found in dense shoals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:44",
+              "locator": "Habitat",
+              "quote": "Atlantic mackerel is a pelagic species that makes extensive migrations",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Scomber-scombrus",
               "locator": "Biology",
-              "quote": "Abundant in cold and temperate shelf areas, forms large schools near the surface. They overwinter in deeper waters but move closer to shore in spring when water temperatures range between 11° and 14°C....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Abundant in cold and temperate shelf areas, forms large schools near the surface. ... Mainly diurnal, it feeds on zooplankton and small fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:44",
+              "locator": "Additional information",
+              "quote": "Shoals up to 9 km long, 4 km wide and extending 40 m deep have been reported.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -14351,66 +14930,150 @@
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Scomber-scombrus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Scomber-scombrus",
-              "locator": "Biology",
-              "quote": "Mainly diurnal, it feeds on zooplankton and small fish.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plankton->Atlantic mackerel": {
-          "sourceIds": [
-            "fishbase:fooditems-Scomber-scombrus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:fooditems-Scomber-scombrus",
-              "locator": "Food items table, zooplankton rows",
-              "quote": "zooplankton plank. crust. euphausiids unspecified Canada juv./adults zooplankton plank. crust. n.a./other plank. crustaceans unidentified",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Scomber-scombrus"
+            "fishbase:Scomber-scombrus",
+            "marlin:44"
           ],
           "support": [
             {
               "sourceId": "fishbase:Scomber-scombrus",
               "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; pelagic-neritic; oceanodromous (Ref. 51243); depth range 0 - 1000 m (Ref. 54254), usually 0 - 200 m (Ref. 54254).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Marine; brackish; pelagic-neritic; oceanodromous (Ref. 51243 ); depth range 0 - 1000 m (Ref. 54254 ), usually 0 - 200 m (Ref. 54254 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:44",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Widely distributed in the continental shelf seas around the British Isles and Ireland, usually at depths of less than 200 m. Found in greater abundance on the shelf edges during winter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
-            "doi:10.3354-aei00478"
+            "fishbase:Scomber-scombrus",
+            "fishbase:fooditems-Scomber-scombrus",
+            "fao:ac478e08"
           ],
           "support": [
             {
-              "sourceId": "doi:10.3354-aei00478",
-              "locator": "Section 4 Discussion",
-              "quote": "S. scombrus are also an important commercial species and were themselves frequently caught around the farms.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Scomber-scombrus",
+              "locator": "Biology",
+              "quote": "Abundant in cold and temperate shelf areas, forms large schools near the surface. ... Mainly diurnal, it feeds on zooplankton and small fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Scomber-scombrus",
+              "locator": "Food items reported for Scomber scombrus",
+              "quote": "Food items reported for Scomber scombrus ... euphausiids ... plank. copepods",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ac478e08",
+              "locator": "Genus Scomber, Habitat and Biology (catalogue p. 55)",
+              "quote": "Mackerels are plankton feeders filtering copepods and other crustaceans out of the water, but adults also prey on small fish and squids.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway, i.e. an open-water native the farm leaves unchanged. The source says: At the two southwest UK mussel-and-kelp farms, mackerel 'were themselves frequently caught around the farms', 7 species were caught around the mussel lines and 6 around the seaweed lines but only 1 in the reference areas at comparable effort, and the paper notes the farms supported commercial species while 'Surrounding reference areas were less populated with commercial species'. Weaker than the horse-mackerel case (mackerel came from hook and line, not BRUV counts) but it still points at 'enhanced' rather than 'anyway'."
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:44",
+            "fishbase:fooditems-Scomber-scombrus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:44",
+              "locator": "Habitat",
+              "quote": "Scomber scombrus can be extremely common and found in huge shoals feeding on small fish and prawns.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Scomber-scombrus",
+              "locator": "Food items reported for Scomber scombrus",
+              "quote": "Ammodytes marinus ... Clupea harengus ... Sprattus sprattus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.1111-jfb.13926",
+            "fishbase:fooditems-Scomber-scombrus"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1111-jfb.13926",
+              "locator": "Abstract",
+              "quote": "Mackerel Scomber scombrus were found to feed on hydrozoan jellyfish relatively frequently in autumn",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Scomber-scombrus",
+              "locator": "Food items reported for Scomber scombrus",
+              "quote": "jellyfish/hydroids ... Aglantha digitale",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1093-icesjms-fss200"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1093-icesjms-fss200",
+              "locator": "Results, diet of adult sea bass on the shelf of the Bay of Biscay",
+              "quote": "Despite a low relative abundance (5.6%), mackerel (Scomber scombrus) was the most important prey in term of ingested biomass (40.1%), followed by scads",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase:predators-Scomber-scombrus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Scomber-scombrus",
+              "locator": "Organisms Preying on Scomber scombrus",
+              "quote": "Organisms Preying on Scomber scombrus ... Raja clavata ... Prionace glauca ... Merlangius merlangus ... Lamna nasus ... Merluccius merluccius ... Thunnus thynnus ... Squalus acanthias",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase:predators-Scomber-scombrus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Scomber-scombrus",
+              "locator": "Organisms Preying on Scomber scombrus",
+              "quote": "Organisms Preying on Scomber scombrus ... Phalacrocorax carbo ... Phoca vitulina ... Phocoena phocoena ... Morus bassanus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

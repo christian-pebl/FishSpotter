@@ -144,12 +144,6 @@
     "matchedOn": "Eledone cirrhosa",
     "checkedOn": "2026-08-28"
   },
-  "doi:10.1038-s43247-025-02253-w": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Offshore wind farms modify coastal food web dynamics by enhancing suspension feeder pathwa\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
   "doi:10.1080-00063657.2024.2311080": {
     "status": "ok",
     "httpStatus": 200,
