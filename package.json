@@ -59,7 +59,6 @@
     "build:foodweb-data": "node scripts/build-foodweb-data.mjs",
     "refs:merge": "tsx scripts/refs/merge-proposals.ts",
     "refs:apply-fixes": "tsx scripts/refs/apply-fixes.ts",
-    "refs:apply-depth": "tsx scripts/refs/apply-depth.ts",
     "refs:clean-quotes": "tsx scripts/refs/clean-quotes.ts",
     "refs:apply-confirmations": "tsx scripts/refs/apply-confirmations.ts"
   },

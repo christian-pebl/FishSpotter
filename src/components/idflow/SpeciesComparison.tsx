@@ -76,10 +76,11 @@ export function SpeciesComparison({
     };
   }, [group]);
 
-  // Per-member depth band for the "why" info panel (from /api/species/depth,
-  // OBIS range-wide, >=8 readings, e.g. "5-25 m"). Fetched lazily once; missing
-  // data just drops the depth bullet. This is a SOUNDER per-species statement
-  // than the bucket share, which is why it earns its own bullet.
+  // Per-member depth range for the "why" info panel, from /api/species/depth,
+  // which serves the range a published source STATES (the same phrase the guide
+  // tile renders). Fetched lazily once; missing data just drops the bullet.
+  // The phrase now carries its own qualifier ("0-100 m, usually 0-30 m"), so the
+  // bullet reads "Recorded at ..." rather than prefixing a second "usually".
   const [depths, setDepths] = useState<Record<string, string | null>>({});
   // Which card's "why is it this likely?" info panel is open (single-open).
   const [openInfo, setOpenInfo] = useState<string | null>(null);
@@ -293,7 +294,7 @@ export function SpeciesComparison({
                           {depthLabel && (
                             <li className="flex gap-1.5">
                               <span aria-hidden="true" className="mt-[5px] h-1 w-1 shrink-0 rounded-full bg-teal-400/70" />
-                              <span>Usually seen at {depthLabel}</span>
+                              <span>Recorded at {depthLabel}</span>
                             </li>
                           )}
                           <li className="flex gap-1.5">
