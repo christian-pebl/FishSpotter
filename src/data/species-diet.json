@@ -166,12 +166,49 @@
     ]
   },
   "Ctenolabrus rupestris": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Bryozoans, the encrusting sea mats that grow over rock and weed"
+      },
+      {
+        "text": "Small bottom-living crustaceans and molluscs, especially gastropods"
+      },
+      {
+        "text": "Parasites picked off the skin of other fish, including the sea lice of farmed salmon"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, which still acts as an apex predator on wrasses in coastal systems",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Apex carnivores of shallow coastal seas, to which the goldsinny is an intermediate-predator prey"
+      }
+    ]
   },
   "Conger conger": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Bony fish taken at night, from whiting, poor cod and dragonet to flatfish such as plaice and dab"
+      },
+      {
+        "text": "Bottom-living crustaceans: crabs including edible and shore crab, squat and Norway lobsters, shrimps and prawns"
+      },
+      {
+        "text": "Cephalopods: curled octopus, squid, and young cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose scats in Scottish waters contain conger eel otoliths",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Common octopus, which is recorded with conger eel among its prey",
+        "slug": "octopus-vulgaris"
+      }
+    ]
   },
   "Pholis gunnellus": {
     "eats": [
@@ -200,20 +237,99 @@
     ]
   },
   "Gobiusculus flavescens": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small crustaceans: copepods, amphipods and mysids"
+      },
+      {
+        "text": "Zooplankton, including planktonic copepods and arrow worms (chaetognaths); it is primarily a planktivore"
+      },
+      {
+        "text": "Larvae of barnacles, mussels and polychaete worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gadoid fish: cod, pollack, saithe and poor cod, which feed on it most heavily from July to December"
+      },
+      {
+        "text": "Squid, which take it among the small fish in their prey"
+      }
+    ]
   },
   "Pomatoschistus microps": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Amphipods, isopods, polychaete worms and chironomid larvae taken from the surface of the sediment"
+      },
+      {
+        "text": "Epibenthic meiofauna in rock pools, mainly harpacticoid copepods and small amphipods"
+      },
+      {
+        "text": "Juveniles feed largely on interstitial copepods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "An important food source for larger fish, from tub gurnard and five-bearded rockling to twaite shad and sole"
+      },
+      {
+        "text": "An important food source for fish-eating birds such as great crested grebe and goosander"
+      },
+      {
+        "text": "Freshwater fish such as ruffe also take it; it lives in the sea and in brackish water and migrates into the limnetic sections of rivers"
+      }
+    ]
   },
   "Gobius paganellus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Crustaceans, especially larger amphipods, isopods and small crabs"
+      },
+      {
+        "text": "Polychaete worms and other macrobenthos gleaned from hard substrates"
+      },
+      {
+        "text": "Juveniles take harpacticoid copepods, amphipods, polychaetes and mites"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Common cuttlefish, which feeds on gobies, sandeels, whiting and wrasses",
+        "slug": "sepia-officinalis"
+      },
+      {
+        "text": "The lizardfish Synodus saurus, recorded preying on this species in the Azores"
+      },
+      {
+        "text": "Common octopus, a top predator in the rock pools where this goby shelters",
+        "slug": "octopus-vulgaris"
+      }
+    ]
   },
   "Pomatoschistus minutus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small bottom-living crustaceans, chiefly amphipods, mysids and cumaceans"
+      },
+      {
+        "text": "Small polychaete worms taken from the sand and mud"
+      },
+      {
+        "text": "Fish eggs and larvae, including the young of its own species"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gadoid fish, especially cod and whiting"
+      },
+      {
+        "text": "Flatfish, including plaice and flounder"
+      },
+      {
+        "text": "Fish-eating birds and marine mammals, including harbour seal and harbour porpoise"
+      }
+    ]
   },
   "Callionymus lyra": {
     "eats": [],

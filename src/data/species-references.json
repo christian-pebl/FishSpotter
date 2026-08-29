@@ -4629,6 +4629,56 @@
       "expectText": [
         "Trisopterus luscus"
       ]
+    },
+    "habitas:ZG6050": {
+      "kind": "web",
+      "title": "Ctenolabrus rupestris - Marine Life Encyclopedia",
+      "authors": [
+        "Picton, B.E.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland, Encyclopedia of Marine Life of Britain and Ireland",
+      "year": 2016,
+      "url": "https://www.habitas.org.uk/marinelife/species.asp?item=ZG6050",
+      "identifier": "ZG6050",
+      "expectText": [
+        "Ctenolabrus rupestris"
+      ]
+    },
+    "doi:10.17895-ices.pub.19270367": {
+      "kind": "journal",
+      "title": "The ecology of the two-spot goby (Gobiusculus flavescens Fabricius): the potential for cod enhancement",
+      "authors": [
+        "Fossa, J.H."
+      ],
+      "publisher": "International Council for the Exploration of the Sea (ICES Marine Science Symposia 192: 147-155)",
+      "year": 1991,
+      "url": "https://ices-library.figshare.com/articles/report/The_ecology_of_the_two-spot_goby_Gobiusculus_flavescens_Fabricius_the_potential_for_cod_enhancement/19270367",
+      "licence": "ICES Custom Licence",
+      "identifier": "doi:10.17895/ices.pub.19270367",
+      "verifyMode": "pdf",
+      "expectText": [
+        "Gobiusculus flavescens"
+      ]
+    },
+    "doi:10.1371-journal.pone.0209286": {
+      "kind": "journal",
+      "title": "Chemical predator signals induce metabolic suppression in rock goby (Gobius paganellus)",
+      "authors": [
+        "Paul, N.",
+        "Novais, S.C.",
+        "Lemos, M.F.L.",
+        "Kunzmann, A."
+      ],
+      "publisher": "PLOS ONE 13(12):e0209286; open copy at PubMed Central",
+      "year": 2018,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6296658/",
+      "licence": "CC BY 4.0",
+      "identifier": "doi:10.1371/journal.pone.0209286",
+      "expectText": [
+        "Gobius paganellus",
+        "rock goby"
+      ]
     }
   },
   "species": {
@@ -5669,8 +5719,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1016-j.jembe.2023.151899",
-        "doi:10.1111-raq.12584",
         "doi:10.7489-1799-1",
         "fishbase-fooditems:Pollachius-virens",
         "fishbase-predators:Pollachius-virens",
@@ -7320,7 +7368,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.3354-aei00478",
         "doi:10.7489-1798-1",
         "doi:10.7489-1799-1",
         "fishbase:Labrus-mixtus",
@@ -8051,163 +8098,196 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126964",
-        "marlin:1527",
-        "fishbase:Ctenolabrus-rupestris",
+        "biotic:6196",
         "doi:10.1093-icesjms-fsy183",
         "fishbase-fooditems:Ctenolabrus-rupestris",
-        "biotic:6196"
+        "fishbase:Ctenolabrus-rupestris",
+        "habitas:ZG6050",
+        "marlin:1527"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Ctenolabrus-rupestris",
-            "marlin:1527"
+            "marlin:1527",
+            "habitas:ZG6050",
+            "fishbase:Ctenolabrus-rupestris"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Ctenolabrus-rupestris",
-              "locator": "Short description",
-              "quote": "Morphometrics Dark spot on caudal peduncle and front end of dorsal fin. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1527",
-              "locator": "Identifying features",
-              "quote": "Up to 12 cm long. Brown, greenish or orange-red in colour. One dark spot on dorsal fin, another in front of the tail fin. Small pointed head with large mouth.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1527",
               "locator": "Description",
-              "quote": "The goldsinny wrasse Ctenolabrus rupestris is brown, greenish or orange-red in colour. It is easily distinguishable from other wrasse species by two dark patches, one on the dorsal fin and one just in front of the tail fin. The head...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The goldsinny wrasse Ctenolabrus rupestris is brown, greenish or orange-red in colour. It is easily distinguishable from other wrasse species by two dark patches, one on the dorsal fin and one just in front of the tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Description",
+              "quote": "This species is the smallest wrasse that occurs in the waters around Britain and Ireland.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Description",
+              "quote": "It has a slender body with a pointed head, small mouth and relatively large eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Ctenolabrus-rupestris",
+              "locator": "Short description",
+              "quote": "Dark spot on caudal peduncle and front end of dorsal fin (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9itt700067igsrgotn1nl": {
           "sourceIds": [
             "fishbase:Ctenolabrus-rupestris",
-            "marlin:1527"
+            "marlin:1527",
+            "habitas:ZG6050"
           ],
           "support": [
             {
               "sourceId": "fishbase:Ctenolabrus-rupestris",
               "locator": "Short description",
-              "quote": "Morphometrics Dark spot on caudal peduncle and front end of dorsal fin. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Dark spot on caudal peduncle and front end of dorsal fin (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1527",
               "locator": "Identifying features",
-              "quote": "Up to 12 cm long. Brown, greenish or orange-red in colour. One dark spot on dorsal fin, another in front of the tail fin. Small pointed head with large mouth.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "One dark spot on dorsal fin, another in front of the tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1527",
+              "sourceId": "habitas:ZG6050",
               "locator": "Description",
-              "quote": "The goldsinny wrasse Ctenolabrus rupestris is brown, greenish or orange-red in colour. It is easily distinguishable from other wrasse species by two dark patches, one on the dorsal fin and one just in front of the tail fin. The head...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "a conspicuous black spot just behind the dorsal fin, in front of the tail",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9itt700077igsmzxcppyo": {
           "sourceIds": [
             "fishbase:Ctenolabrus-rupestris",
-            "marlin:1527"
+            "marlin:1527",
+            "habitas:ZG6050"
           ],
           "support": [
             {
               "sourceId": "fishbase:Ctenolabrus-rupestris",
               "locator": "Short description",
-              "quote": "Morphometrics Dark spot on caudal peduncle and front end of dorsal fin. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1527",
-              "locator": "Identifying features",
-              "quote": "Up to 12 cm long. Brown, greenish or orange-red in colour. One dark spot on dorsal fin, another in front of the tail fin. Small pointed head with large mouth.",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Dark spot on caudal peduncle and front end of dorsal fin (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1527",
               "locator": "Description",
-              "quote": "The goldsinny wrasse Ctenolabrus rupestris is brown, greenish or orange-red in colour. It is easily distinguishable from other wrasse species by two dark patches, one on the dorsal fin and one just in front of the tail fin. The head...",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "It is easily distinguishable from other wrasse species by two dark patches, one on the dorsal fin and one just in front of the tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Description",
+              "quote": "It is usually pale orange or orange-red in colour with a black patch at the base of the first few dorsal fin rays and also a conspicuous black spot just behind the dorsal fin, in front of the tail.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpz9itt700087igsbs925k26": {
           "sourceIds": [
-            "fishbase:Ctenolabrus-rupestris",
+            "habitas:ZG6050",
             "marlin:1527"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Ctenolabrus-rupestris",
-              "locator": "Short description",
-              "quote": "Morphometrics Dark spot on caudal peduncle and front end of dorsal fin. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:ZG6050",
+              "locator": "Description",
+              "quote": "This species is the smallest wrasse that occurs in the waters around Britain and Ireland. Adults can grow to 18cm in length but are seldom more than 12cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1527",
-              "locator": "Identifying features",
-              "quote": "Up to 12 cm long. Brown, greenish or orange-red in colour. One dark spot on dorsal fin, another in front of the tail fin. Small pointed head with large mouth.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:ZG6050",
+              "locator": "Description",
+              "quote": "It has a slender body with a pointed head, small mouth and relatively large eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1527",
               "locator": "Description",
-              "quote": "The goldsinny wrasse Ctenolabrus rupestris is brown, greenish or orange-red in colour. It is easily distinguishable from other wrasse species by two dark patches, one on the dorsal fin and one just in front of the tail fin. The head...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Adults are usually 10-12 cm in length, but may reach 18 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1527",
+              "locator": "Description",
+              "quote": "The goldsinny wrasse Ctenolabrus rupestris is brown, greenish or orange-red in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Habitat",
+              "quote": "The goldsinny is usually found in rocky or boulder areas where there are numerous crevices in which to hide.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
             "fishbase:Ctenolabrus-rupestris",
-            "marlin:1527"
+            "marlin:1527",
+            "habitas:ZG6050",
+            "doi:10.1093-icesjms-fsy183"
           ],
           "support": [
             {
               "sourceId": "fishbase:Ctenolabrus-rupestris",
               "locator": "Biology",
-              "quote": "On rocky, weed-covered shores (1-50 m); larger specimens deeper than young. Feed on bryozoans, crustaceans and gastropods. Spawning takes place in summer when the male defends a territory. Used in salmon...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Ctenolabrus-rupestris",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; reef-associated; depth range 1 - 50 m, usually 1 - 20 m. Temperate; 64&deg;N - 30&deg;N, 11&deg;W - 42&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "On rocky, weed-covered shores (1-50 m); larger specimens deeper than young.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1527",
               "locator": "Habitat",
-              "quote": "Inhabits rocks or algae (particularly eelgrass) at depths between 1-50 m. Adults inhabit deeper waters, while young can be found further inshore and even inhabiting rock pools.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Inhabits rocks or algae (particularly eelgrass) at depths between 1-50 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Habitat",
+              "quote": "The goldsinny is usually found in rocky or boulder areas where there are numerous crevices in which to hide.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-icesjms-fsy183",
+              "locator": "Introduction, p. 4 (manuscript lines 70-71)",
+              "quote": "The species typically prefers rocky- or vegetated substrates with access to ... refuges such as spaces between rocks, crevices or caves",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -8223,21 +8303,6 @@
             }
           ],
           "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Ctenolabrus-rupestris"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Ctenolabrus-rupestris",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 3.6 ±0.2 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -8261,54 +8326,49 @@
           ],
           "claimSupported": false
         },
-        "edge:Kelp canopy->Goldsinny wrasse": {
-          "sourceIds": [
-            "fishbase-fooditems:Ctenolabrus-rupestris"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-fooditems:Ctenolabrus-rupestris",
-              "locator": "Food items table, zoobenthos rows (UK Scotland)",
-              "quote": "zoobenthos mollusks gastropods Helcion pellucidum UK Scotland juv./adults; zoobenthos worms polychaetes Spirorbis corallinae UK Scotland juv./adults",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Ctenolabrus-rupestris"
+            "fishbase:Ctenolabrus-rupestris",
+            "marlin:1527",
+            "habitas:ZG6050",
+            "biotic:6196"
           ],
           "support": [
             {
               "sourceId": "fishbase:Ctenolabrus-rupestris",
               "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; reef-associated; depth range 1 - 50 m, usually 1 - 20 m (Ref. 35388).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Marine; reef-associated; depth range 1 - 50 m, usually 1 - 20 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1527",
+              "locator": "Habitat",
+              "quote": "Inhabits rocks or algae (particularly eelgrass) at depths between 1-50 m. Adults inhabit deeper waters, while young can be found further inshore and even inhabiting rock pools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Habitat",
+              "quote": "It is most common at depths between 10-50m but occasionally it occurs in rockpools on the low shore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6196",
+              "locator": "Distribution and Habitat > Depth range",
+              "quote": "Biogeographic range Temperate to warm temperate. Depth range From 1 m to 50 m depth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
-          "sourceIds": [
-            "fishbase:Ctenolabrus-rupestris"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Ctenolabrus-rupestris",
-              "locator": "Biology",
-              "quote": "On rocky, weed-covered shores (1-50 m); larger specimens deeper than young. Feed on bryozoans, crustaceans and gastropods (Ref. 3397).",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:behavior": {
           "sourceIds": [
             "biotic:6196",
+            "fishbase:Ctenolabrus-rupestris",
             "doi:10.1093-icesjms-fsy183"
           ],
           "support": [
@@ -8316,26 +8376,185 @@
               "sourceId": "biotic:6196",
               "locator": "General Biology parameter table, Sociability row",
               "quote": "Sociability Solitary",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Ctenolabrus-rupestris",
+              "locator": "Biology",
+              "quote": "Spawning takes place in summer when the male defends a territory (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "doi:10.1093-icesjms-fsy183",
-              "locator": "Introduction, p. 3 (manuscript lines 71-72)",
-              "quote": "The species typically prefers rocky- or vegetated substrates with access to refuges such as spaces between rocks, crevices or caves",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "locator": "Introduction, p. 5 (manuscript lines 73-75)",
+              "quote": "The eggs are pelagic and males ... defend territories up to 2 m2 which they may keep for several years",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-icesjms-fsy183",
+              "locator": "Discussion, p. 13 (manuscript lines 268-269)",
+              "quote": "Goldsinny wrasse typically ... defend territories on rocky shores, and there is some evidence suggesting that territory",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1527"
+            "fishbase:Ctenolabrus-rupestris",
+            "marlin:1527",
+            "habitas:ZG6050"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Size: small. The species guide renders this as \"Small (under 10 cm)\" and the wizard asks \"Is it small (under about 10 cm)?\" The source says: MarLIN Description: \"Adults are usually 10-12 cm in length, but may reach 18 cm.\" That is the app Medium (10-50 cm) band, not Small."
+          "support": [
+            {
+              "sourceId": "fishbase:Ctenolabrus-rupestris",
+              "locator": "Size / Weight / Age",
+              "quote": "Max length : 18.0 cm TL male/unsexed; (Ref. 3397 ); common length : 11.0 cm TL male/unsexed; (Ref. 3397 ); max. reported age: 8 years (Ref. 4742 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1527",
+              "locator": "Description",
+              "quote": "Adults are usually 10-12 cm in length, but may reach 18 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Description",
+              "quote": "Adults can grow to 18cm in length but are seldom more than 12cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Ctenolabrus-rupestris",
+            "biotic:6196"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Ctenolabrus-rupestris",
+              "locator": "Biology",
+              "quote": "Feed on bryozoans, crustaceans and gastropods (Ref. 3397 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6196",
+              "locator": "General Biology parameter table, Typical food types row",
+              "quote": "Typical food types Bryozoans, crustaceans and various gastropods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:1527",
+            "biotic:6196",
+            "habitas:ZG6050"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1527",
+              "locator": "Additional information",
+              "quote": "Prey species of the goldsinny include benthic crustacea, molluscs and also parasites from other fish species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6196",
+              "locator": "General Biology parameter table, Typical food types row",
+              "quote": "Typical food types Bryozoans, crustaceans and various gastropods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG6050",
+              "locator": "Habitat",
+              "quote": "It is thought to feed on a diet of small crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1527",
+            "doi:10.1093-icesjms-fsy183",
+            "fishbase:Ctenolabrus-rupestris"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1527",
+              "locator": "Additional information",
+              "quote": "It has also been a successful alternative to pesticides, in removing parasitic lice from commercially farmed salmon.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-icesjms-fsy183",
+              "locator": "Introduction, p. 5 (manuscript lines 77-79)",
+              "quote": "their natural behaviour as parasite cleaners on other fish (Potts, 1973) could be used to ... reduce sea-lice (Lepeophtheirus salmonis and Caligus elongatus) infestation in ... salmonid aquaculture",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Ctenolabrus-rupestris",
+              "locator": "Biology",
+              "quote": "Used in salmon culture as cleaner fish (Helmut Tethmeyer, pers. comm.).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1093-icesjms-fsy183"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1093-icesjms-fsy183",
+              "locator": "Discussion, p. 13 (manuscript lines 274-276)",
+              "quote": "Atlantic cod has suffered a major decline in Skagerrak, but still plays a  role as an apex ... predator on wrasses and other intermediate predators in this coastal ecosystem",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-icesjms-fsy183",
+              "locator": "Introduction, p. 6 (manuscript lines 114-115)",
+              "quote": "protection to upper-trophic-level predators such as the European lobster and Atlantic ... cod (Gadus morhua), the latter being a potential predator on wrasses (Hop, 1992)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1093-icesjms-fsy183"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1093-icesjms-fsy183",
+              "locator": "Introduction, p. 4 (manuscript lines 50-51)",
+              "quote": "these intermediate predators may also play a key role ... in structuring coastal marine ecosystems, as prey for apex carnivores",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -8353,238 +8572,206 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126285",
-        "marlin:2126",
-        "fishbase:Conger-conger",
+        "doi:10.1016-j.jembe.2023.151899",
+        "doi:10.7489-1798-1",
         "doi:10.7489-1799-1",
+        "fao:i1920e",
         "fishbase-fooditems:Conger-conger",
-        "doi:10.1016-j.jembe.2023.151899"
+        "fishbase:Conger-conger",
+        "ices:crr325",
+        "marlin:2126"
       ],
       "claims": {
-        "edge:Shore Crab->Conger eel": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Food items (matched on \"carcinus maenas\")",
-              "quote": "hos benth. crust. crabs Cancer pagurus Ireland juv./adults zoobenthos benth. crust. crabs Carcinus maenas Portugal recruits/juv. zoobenthos benth. crust. crabs Liocarcinus sp. Azores Is. recruits/juv. zoobentho",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Edible Crab->Conger eel": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Food items (matched on \"cancer pagurus\")",
-              "quote": "on finfish bony fish unidentified Azores Is. recruits/juv. zoobenthos benth. crust. crabs Cancer pagurus Ireland juv./adults zoobenthos benth. crust. crabs Carcinus maenas Portugal recruits/juv. zoobenthos bent",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Poor cod->Conger eel": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Food items (matched on \"trisopterus minutus\")",
-              "quote": "ekton finfish bony fish Trisopterus esmarkii Ireland juv./adults nekton finfish bony fish Trisopterus minutus Ireland juv./adults nekton finfish bony fish unidentified labrids Azores Is. recruits/juv. nekton fi",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Whiting->Conger eel": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Food items (matched on \"merlangius merlangus\")",
-              "quote": "n finfish bony fish Melanogrammus aeglefinus Ireland juv./adults nekton finfish bony fish Merlangius merlangus Ireland juv./adults nekton finfish bony fish Micromesistius poutassou Spain juv./adults nekton finf",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Curled Octopus->Conger eel": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Food items (matched on \"eledone cirrhosa\")",
-              "quote": "Food II Food III Food name Territory Predator Stage nekton cephalopods squids/cuttlefish Eledone cirrhosa Norway juv./adults nekton cephalopods squids/cuttlefish Illex Ireland juv./adults nekton cephalopods sq",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Conger-conger",
-            "marlin:2126"
+            "marlin:2126",
+            "fishbase:Conger-conger"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): eel-like.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2126",
+              "locator": "Description",
+              "quote": "Conger conger is a long, powerful fish with scaleless, smooth skin. They are usually grey-blue or grey-black in colour with a white or pale golden coloured belly.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2126",
               "locator": "Identifying features",
-              "quote": "Dorsal, tail and anal fins fused forming a complete fringe with a pointed tail. The pectoral fins are pointed with the dorsal fin beginning just behind the pectoral tip. The eyes are eliptical and the upper jaw is longer than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Dorsal, tail and anal fins fused forming a complete fringe with a pointed tail.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2126",
-              "locator": "Description",
-              "quote": "Conger conger is a long, powerful fish with scaleless, smooth skin. They are usually grey-blue or grey-black in colour with a white or pale golden coloured belly. In deeper water they have a light brown back with grey sides and belly....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat",
+              "quote": "During the day Conger conger are found in holes or crevices on rocky or sandy bottoms and in wrecks and other artificial environments. Conger eels become more active at night when they leave their resting places to hunt.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "A nocturnal (Ref. 12382 ) predator of fish, crustaceans, and cephalopods (Ref. 6521 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rt9o00007i0k3kr3wba0": {
           "sourceIds": [
-            "fishbase:Conger-conger",
             "marlin:2126"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): eel-like.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2126",
+              "locator": "Description",
+              "quote": "Conger conger is a long, powerful fish with scaleless, smooth skin. They are usually grey-blue or grey-black in colour with a white or pale golden coloured belly.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2126",
               "locator": "Identifying features",
-              "quote": "Dorsal, tail and anal fins fused forming a complete fringe with a pointed tail. The pectoral fins are pointed with the dorsal fin beginning just behind the pectoral tip. The eyes are eliptical and the upper jaw is longer than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Grey-blue or grey-brown in colour with black margin around dorsal and anal fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2126",
-              "locator": "Description",
-              "quote": "Conger conger is a long, powerful fish with scaleless, smooth skin. They are usually grey-blue or grey-black in colour with a white or pale golden coloured belly. In deeper water they have a light brown back with grey sides and belly....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat",
+              "quote": "During the day Conger conger are found in holes or crevices on rocky or sandy bottoms and in wrecks and other artificial environments.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rt9o00017i0kxicj5y18": {
           "sourceIds": [
-            "fishbase:Conger-conger",
             "marlin:2126"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): eel-like.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2126",
+              "locator": "Description",
+              "quote": "The dorsal fin starts just behind the tip of the pectoral fin and the anal fin terminates midway along the underside of the fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2126",
               "locator": "Identifying features",
-              "quote": "Dorsal, tail and anal fins fused forming a complete fringe with a pointed tail. The pectoral fins are pointed with the dorsal fin beginning just behind the pectoral tip. The eyes are eliptical and the upper jaw is longer than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The pectoral fins are pointed with the dorsal fin beginning just behind the pectoral tip.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2126",
-              "locator": "Description",
-              "quote": "Conger conger is a long, powerful fish with scaleless, smooth skin. They are usually grey-blue or grey-black in colour with a white or pale golden coloured belly. In deeper water they have a light brown back with grey sides and belly....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Dorsal, tail and anal fins fused forming a complete fringe with a pointed tail.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2126",
+              "locator": "Additional information",
+              "quote": "Conger conger could be confused with the common eel Anguilla anguilla . However, the conger eel has pointed pectoral fins, the upper jaw overhangs the lower and the dorsal fin originates from further forward on the body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rt9o00027i0kvh8oudng": {
           "sourceIds": [
+            "marlin:2126"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2126",
+              "locator": "Identifying features",
+              "quote": "The eyes are eliptical and the upper jaw is longer than the lower.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2126",
+              "locator": "Identifying features",
+              "quote": "Nostril openings face forward on the snout.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2126",
+              "locator": "Additional information",
+              "quote": "the conger eel has pointed pectoral fins, the upper jaw overhangs the lower and the dorsal fin originates from further forward on the body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
             "fishbase:Conger-conger",
             "marlin:2126"
           ],
           "support": [
             {
               "sourceId": "fishbase:Conger-conger",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): eel-like.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2126",
-              "locator": "Identifying features",
-              "quote": "Dorsal, tail and anal fins fused forming a complete fringe with a pointed tail. The pectoral fins are pointed with the dorsal fin beginning just behind the pectoral tip. The eyes are eliptical and the upper jaw is longer than the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 300 cm TL male/unsexed; (Ref. 4453 ); common length : 100.0 cm TL male/unsexed; (Ref. 4645 ); common length :150 cm TL (female); max. published weight: 110.0 kg (Ref. 35388 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2126",
               "locator": "Description",
-              "quote": "Conger conger is a long, powerful fish with scaleless, smooth skin. They are usually grey-blue or grey-black in colour with a white or pale golden coloured belly. In deeper water they have a light brown back with grey sides and belly....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
+              "quote": "Conger eels can grow to 2.75 m in length but are more commonly seen at around 2 m long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 200.0 &nbsp range ? - ? cm Max length: 300 cm TL male/unsexed;; common length: 100.0 cm TL male/unsexed;; common length:150 cm TL (female); max. published weight: 110.0 kg",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2126",
+              "locator": "Identifying features",
+              "quote": "Long snake-like fish that grow up to 2.75 m in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "marlin:2126",
             "fishbase:Conger-conger"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Conger-conger",
+              "sourceId": "marlin:2126",
               "locator": "Habitat",
-              "quote": "During the day Conger conger are found in holes or crevices on rocky or sandy bottoms and in wrecks and other artificial environments. Conger eels become more active at night when they leave their resting places to hunt.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Conger eels become more active at night when they leave their resting places to hunt.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "A nocturnal (Ref. 12382 ) predator of fish, crustaceans, and cephalopods (Ref. 6521 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2126",
+              "locator": "Additional information",
+              "quote": "Once they reach maturity, which takes between 5 -15 years, they migrate to deep water in the mid-Atlantic to spawn. Conger conger spawns only once and dies straight after.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -8596,21 +8783,6 @@
               "locator": "Biology",
               "quote": "A nocturnal predator of fish, crustaceans, and cephalopods.",
               "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 4.3 ±0.4 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
               "readOn": "2026-08-28"
             }
           ],
@@ -8631,134 +8803,209 @@
           ],
           "claimSupported": true
         },
-        "edge:Corkwing wrasse->Conger eel": {
-          "sourceIds": [
-            "fishbase-fooditems:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-fooditems:Conger-conger",
-              "locator": "Food items table, nekton > finfish > bony fish row",
-              "quote": "nekton finfish bony fish unidentified labrids Azores Is. recruits/juv.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Cuckoo wrasse->Conger eel": {
-          "sourceIds": [
-            "fishbase-fooditems:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-fooditems:Conger-conger",
-              "locator": "Food items table, nekton > finfish > bony fish row",
-              "quote": "nekton finfish bony fish unidentified labrids Azores Is. recruits/juv.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Velvet Swimming Crab->Conger eel": {
-          "sourceIds": [
-            "fishbase-fooditems:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-fooditems:Conger-conger",
-              "locator": "Food items table, zoobenthos > benth. crust. > crabs rows",
-              "quote": "zoobenthos benth. crust. crabs Liocarcinus sp. Azores Is. recruits/juv.; zoobenthos benth. crust. crabs Carcinus maenas Portugal recruits/juv.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Bib->Conger eel": {
-          "sourceIds": [
-            "fishbase-fooditems:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-fooditems:Conger-conger",
-              "locator": "Food items table, nekton > finfish > bony fish rows (Ireland)",
-              "quote": "nekton finfish bony fish Trisopterus minutus Ireland juv./adults; nekton finfish bony fish Trisopterus esmarkii Ireland juv./adults",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Common Octopus->Conger eel": {
-          "sourceIds": [
-            "fishbase-fooditems:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-fooditems:Conger-conger",
-              "locator": "Food items table, zoobenthos > mollusks > octopi rows",
-              "quote": "zoobenthos mollusks octopi Eledone cirrhosa Norway juv./adults; zoobenthos mollusks octopi Illex coindetii Ireland juv./adults",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Conger-conger"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Conger-conger",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; oceanodromous (Ref. 51243); depth range 0 - 1171 m (Ref. 56504).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:2126",
-            "doi:10.1016-j.jembe.2023.151899"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2126",
-              "locator": "Habitat",
-              "quote": "During the day Conger conger are found in holes or crevices on rocky or sandy bottoms and in wrecks and other artificial environments.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1016-j.jembe.2023.151899",
-              "locator": "Discussion, comparison of survey methods",
-              "quote": "BRUVs successfully captured some cryptic and timid species that were not observed by divers (e.g. Taurulus bubalis, Pholis gunnellus, Pomatoschistus spp., Gaidropsarus mediterraneus, Conger conger, Spinachia spinachia).",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role 'created' (would be absent from bare soft sediment without the farm's structure) The source says: MarLIN: 'During the day Conger conger are found in holes or crevices on rocky or sandy bottoms and in wrecks and other artificial environments.' The 'other artificial environments' half supports the mechanism, but 'sandy bottoms' contradicts the soft-sediment-exclusion test."
-        },
-        "trait:habitat": {
-          "sourceIds": [
+            "fishbase:Conger-conger",
             "marlin:2126"
           ],
           "support": [
             {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; oceanodromous (Ref. 51243 ); depth range 0 - 1171 m (Ref. 56504 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "Depth range from 0-500 m (Ref. 4453 ) and from 305-1171 m in the eastern Ionian Sea (Ref. 56504 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2126",
+              "locator": "Habitat",
+              "quote": "Many Congers are found down to depths of 500 m but descend to as deep as 4000 m to spawn.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Life cycle and mating behavior",
+              "quote": "Eggs are deposited in the open sea, at depths between 2,000 and 3,000 m (Ref. 12382 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:2126",
+            "fishbase:Conger-conger"
+          ],
+          "support": [
+            {
               "sourceId": "marlin:2126",
               "locator": "Habitat",
               "quote": "During the day Conger conger are found in holes or crevices on rocky or sandy bottoms and in wrecks and other artificial environments.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "Found on rocky and sandy bottoms (Ref. 12382 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "It stays near the coast when young and moves toward deeper waters upon reaching adulthood (Ref. 5377 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Conger-conger",
+            "fishbase-fooditems:Conger-conger"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "A nocturnal (Ref. 12382 ) predator of fish, crustaceans, and cephalopods (Ref. 6521 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items reported for Conger conger > nekton > finfish > bony fish",
+              "quote": "Food items reported for Conger conger ... bony fish Merlangius merlangus Ireland juv./adults ... bony fish Limanda limanda Ireland juv./adults ... bony fish Pleuronectes platessa Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items reported for Conger conger > nekton > finfish > bony fish",
+              "quote": "bony fish Callionymus lyra Ireland juv./adults ... bony fish Trisopterus minutus Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Conger-conger",
+            "fishbase-fooditems:Conger-conger"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "A nocturnal (Ref. 12382 ) predator of fish, crustaceans, and cephalopods (Ref. 6521 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items reported for Conger conger > zoobenthos > benth. crust.",
+              "quote": "Food items reported for Conger conger ... crabs Cancer pagurus Ireland juv./adults ... lobsters Nephrops norvegicus Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items reported for Conger conger > zoobenthos > benth. crust.",
+              "quote": "crabs Carcinus maenas Portugal recruits/juv. ... lobsters Galathea dispersa Ireland juv./adults ... shrimps/prawns Crangon crangon Portugal recruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Conger-conger",
+            "fishbase-fooditems:Conger-conger",
+            "ices:crr325",
+            "fao:i1920e"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Conger-conger",
+              "locator": "Biology",
+              "quote": "A nocturnal (Ref. 12382 ) predator of fish, crustaceans, and cephalopods (Ref. 6521 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items reported for Conger conger > cephalopods and mollusks",
+              "quote": "Food items reported for Conger conger ... squids/cuttlefish Eledone cirrhosa Norway juv./adults ... octopi Eledone cirrhosa Norway juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "6.7.2 Predators, in the Sepia officinalis species account",
+              "quote": "In Morbihan Bay, young cut- tlefish have been found in the stomach contents of Dicentrarchus labrax, Labrus bergylta, Spondyliosoma cantharus, and Conger conger (Blanc and Daguzan, 1999).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "Illex coindetii species account, predators",
+              "quote": "Illex coindetii is preyed upon by a wide variety of predators ... and conger eels (Conger conger)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.7489-1799-1",
+            "doi:10.7489-1798-1"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Table 4, fish otoliths recovered from grey seal scats in 2010/11",
+              "quote": "Table 4. Number of all fish otoliths and cephalopod beaks recovered from grey seal scats in 2010/11 for each region, grouped by prey type. ... Conger eel 11 5 0 1 0 0 17",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1798-1",
+              "locator": "Table 2(B), grey seal scats 2010/11",
+              "quote": "Table 2: Number of fish otoliths and cephalopod beaks recovered from (A) harbour seal scats in 2010/12 and (B) grey seal scats in 2010/11. ... B) Grey seal ... Conger eel 0 0 0 1 0 5 11 17",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 3.2, prey composition of Octopus vulgaris",
+              "quote": "Table 3.2. Prey composition of Octopus vulgaris, as known from studies in the Mediterranean Sea, Northeast Atlantic, and Sahara Bank ... Congridae Conger conger (European conger)7",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -9138,73 +9385,81 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:1526389",
-        "marlin:1871",
+        "doi:10.1016-j.jembe.2023.151899",
+        "doi:10.17895-ices.pub.19270367",
+        "fishbase-fooditems:Gadus-morhua",
+        "fishbase-fooditems:Pomatoschistus-flavescens",
         "fishbase:Pomatoschistus-flavescens",
-        "doi:10.1016-j.jembe.2023.151899"
+        "ices:crr325",
+        "marlin:1871"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-flavescens",
-            "marlin:1871"
+            "marlin:1871",
+            "fishbase:Pomatoschistus-flavescens"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Short description",
-              "quote": "Black spot on each side of the caudal peduncle. Males with a second similar spot behind each pectoral fin; eyes situated laterally; fully scaled; possess...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1871",
-              "locator": "Identifying features",
-              "quote": "A black spot at the base of the tail fin. Males exhibit a second black spot beneath pectoral fins. Small and slender, up to 6 cm in length. Eyes on side of head (lateral). Characteristically found in loose shoals above or amongst...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "Pomatoschistus flavescens are small, slender gobies, reaching up to 6 cm in length. ... There is a black spot at the base of the tail fin, and in the males, there is a second, smaller black spot beneath the pectoral fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1871",
               "locator": "Description",
-              "quote": "Pomatoschistus flavescens are small, slender gobies, reaching up to 6 cm in length. They are distinct from other gobies in that their eyes are on the side of the head (lateral) rather than on top (dorsal). There is a black spot at the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "They are reddish to greenish brown in colour, paler on the undersides with dark reticulations dorsally.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1871",
+              "locator": "Habitat",
+              "quote": "Distinct from other goby species, Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds and over seaweed covered rocks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Short description",
+              "quote": "Black spot on each side of the caudal peduncle. Males with a second similar spot behind each pectoral fin",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: TWO diagnostic black spots: one at the tail base, one behind the pectoral fin The source says: MarLIN: 'There is a black spot at the base of the tail fin, and in the males, there is a second, smaller black spot beneath the pectoral fins.' FishBase: 'Males with a second similar spot behind each pectoral fin'."
+          "claimSupported": true
         },
         "mark:cmpz9jcf5000c7igsfunqngx4": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-flavescens",
-            "marlin:1871"
+            "marlin:1871",
+            "fishbase:Pomatoschistus-flavescens"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Short description",
-              "quote": "Black spot on each side of the caudal peduncle. Males with a second similar spot behind each pectoral fin; eyes situated laterally; fully scaled; possess...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1871",
+              "locator": "Description",
+              "quote": "There is a black spot at the base of the tail fin, and in the males, there is a second, smaller black spot beneath the pectoral fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1871",
               "locator": "Identifying features",
-              "quote": "A black spot at the base of the tail fin. Males exhibit a second black spot beneath pectoral fins. Small and slender, up to 6 cm in length. Eyes on side of head (lateral). Characteristically found in loose shoals above or amongst...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Males exhibit a second black spot beneath pectoral fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1871",
-              "locator": "Description",
-              "quote": "Pomatoschistus flavescens are small, slender gobies, reaching up to 6 cm in length. They are distinct from other gobies in that their eyes are on the side of the head (lateral) rather than on top (dorsal). There is a black spot at the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Short description",
+              "quote": "Black spot on each side of the caudal peduncle. Males with a second similar spot behind each pectoral fin",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: The first of the two namesake dark spots sits just behind the pectoral fin. The source says: Males with a second similar spot behind each pectoral fin (Ref. 35388)."
+          "claimSupported": true
         },
         "mark:cmpz9jcf5000d7igss8f6v2zh": {
           "sourceIds": [
@@ -9215,29 +9470,58 @@
             {
               "sourceId": "fishbase:Pomatoschistus-flavescens",
               "locator": "Short description",
-              "quote": "Black spot on each side of the caudal peduncle. Males with a second similar spot behind each pectoral fin; eyes situated laterally; fully scaled; possess...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Black spot on each side of the caudal peduncle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1871",
               "locator": "Identifying features",
-              "quote": "A black spot at the base of the tail fin. Males exhibit a second black spot beneath pectoral fins. Small and slender, up to 6 cm in length. Eyes on side of head (lateral). Characteristically found in loose shoals above or amongst...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "A black spot at the base of the tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1871",
               "locator": "Description",
-              "quote": "Pomatoschistus flavescens are small, slender gobies, reaching up to 6 cm in length. They are distinct from other gobies in that their eyes are on the side of the head (lateral) rather than on top (dorsal). There is a black spot at the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "They are reddish to greenish brown in colour, paler on the undersides with dark reticulations dorsally. ... Along the midline of the sides are a series of bluish markings.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Two spots plus orange-brown with blue speckles equals two-spotted goby. The source says: in the males, there is a second, smaller black spot beneath the pectoral fins"
+          "claimSupported": true
         },
         "mark:cmpz9jcf5000e7igs6119r6vh": {
+          "sourceIds": [
+            "marlin:1871",
+            "fishbase:Pomatoschistus-flavescens"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1871",
+              "locator": "Habitat",
+              "quote": "Distinct from other goby species, Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds and over seaweed covered rocks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1871",
+              "locator": "Identifying features",
+              "quote": "Characteristically found in loose shoals above or amongst Laminaria and Zostera beds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Biology",
+              "quote": "Suprabenthic (Ref. 92840 ). Found inshore in groups around over-grown structures and among Laminaria or Zostera beds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
           "sourceIds": [
             "fishbase:Pomatoschistus-flavescens",
             "marlin:1871"
@@ -9245,87 +9529,82 @@
           "support": [
             {
               "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Habitat",
-              "quote": "Distinct from other goby species, Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds and over seaweed covered rocks.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Size / Weight / Age",
+              "quote": "Max length : 6.0 cm TL male/unsexed;",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1871",
               "locator": "Identifying features",
-              "quote": "A black spot at the base of the tail fin. Males exhibit a second black spot beneath pectoral fins. Small and slender, up to 6 cm in length. Eyes on side of head (lateral). Characteristically found in loose shoals above or amongst...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1871",
-              "locator": "Description",
-              "quote": "Pomatoschistus flavescens are small, slender gobies, reaching up to 6 cm in length. They are distinct from other gobies in that their eyes are on the side of the head (lateral) rather than on top (dorsal). There is a black spot at the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "fishbase:Pomatoschistus-flavescens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Size / Weight / Age",
-              "quote": "L m &nbsp ? &nbsp range ? - ? cm Max length: 6.0 cm TL male/unsexed;; max. reported age: 2.00 years",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Small and slender, up to 6 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
+            "marlin:1871",
             "fishbase:Pomatoschistus-flavescens",
-            "marlin:1871"
+            "doi:10.17895-ices.pub.19270367"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Biology",
-              "quote": "Suprabenthic. Found inshore in groups around over-grown structures and among Laminaria or Zostera beds. Adults feed on small crustaceans (copepods, amphipods, mysids) and chaetognaths. Eggs are about 1 mm...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; reef-associated; non-migratory; depth range 0 - 5 m. Temperate; 71&deg;N - 35&deg;N, 10&deg;W - 28&deg;E",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1871",
               "locator": "Habitat",
-              "quote": "Distinct from other goby species, Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds and over seaweed covered rocks. They are found in...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds and over seaweed covered rocks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Biology",
+              "quote": "Found inshore in groups around over-grown structures and among Laminaria or Zostera beds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.17895-ices.pub.19270367",
+              "locator": "p. 152, Discussion > Regional differences",
+              "quote": "The species is strongly associated with algae (Wheeler, 1980).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "marlin:1871",
+            "doi:10.17895-ices.pub.19270367",
             "fishbase:Pomatoschistus-flavescens"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "sourceId": "marlin:1871",
               "locator": "Habitat",
-              "quote": "Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Distinct from other goby species, Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds and over seaweed covered rocks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.17895-ices.pub.19270367",
+              "locator": "p. 152, Discussion > Regional differences",
+              "quote": "G. flavescens deposits its eggs on for example algae and bivalve shells, and the male guards them until hatching (Wheeler, 1969).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Life cycle and mating behavior",
+              "quote": "Nests of care-giving males contain eggs from several females",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -9342,74 +9621,157 @@
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Pomatoschistus-flavescens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 3.2 ±0.34 se; based on food items.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plankton->Two-spotted goby": {
-          "sourceIds": [
-            "fishbase:Pomatoschistus-flavescens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Biology",
-              "quote": "Found inshore in groups around over-grown structures and among Laminaria or Zostera beds. Adults feed on small crustaceans (copepods, amphipods, mysids) and chaetognaths (Ref. 4696).",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-flavescens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-flavescens",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; reef-associated; non-migratory; depth range 0 - 5 m (Ref. 130216).",
-              "readBy": "refs-trawl depth agent (page fetched 2026-08-28, HTTP 200, Environment line read)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Depth: 0-5 m The source says: MarLIN 1871 Habitat: 'They are found in intertidal pools and shallow water to a depth of 20 m.'"
-        },
-        "farm:role": {
-          "sourceIds": [
             "marlin:1871",
-            "doi:10.1016-j.jembe.2023.151899"
+            "fishbase:Pomatoschistus-flavescens",
+            "doi:10.17895-ices.pub.19270367"
           ],
           "support": [
             {
               "sourceId": "marlin:1871",
               "locator": "Habitat",
-              "quote": "Distinct from other goby species, Pomatoschistus flavescens are frequently found hovering in small, loose shoals in the water column amongst Laminaria plants and Zostera beds and over seaweed covered rocks.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "quote": "They are found in intertidal pools and shallow water to a depth of 20 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1016-j.jembe.2023.151899",
-              "locator": "Section 3, Results, opening paragraph",
-              "quote": "Pollachius spp. (saithe and pollack) were found at every site and were generally the most dominant taxa, contributing to ~38% of total abundances, while the two-spotted goby, Gobiusculus flavescens, was also often locally abundant.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; reef-associated; non-migratory; depth range 0 - 5 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.17895-ices.pub.19270367",
+              "locator": "p. 153, Discussion > Predation on G. flavescens",
+              "quote": "In February G. flavescens was observed at 15-20 m depth in subarea 3 very close to the bottom, among algae",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Pomatoschistus-flavescens",
+            "fishbase-fooditems:Pomatoschistus-flavescens"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Biology",
+              "quote": "Adults feed on small crustaceans (copepods, amphipods, mysids) and chaetognaths",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pomatoschistus-flavescens",
+              "locator": "Food items reported for Pomatoschistus flavescens (n = 15)",
+              "quote": "zoobenthos benth. crust. amphipods Unspecified Germany juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "doi:10.17895-ices.pub.19270367",
+            "fishbase-fooditems:Pomatoschistus-flavescens",
+            "fishbase:Pomatoschistus-flavescens"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.17895-ices.pub.19270367",
+              "locator": "p. 152, Discussion > Abundance, growth, and production",
+              "quote": "G. flavescens is primarily a planctivore (McGrath, 1974; Olsen, 1975; Berg, 1979; Collins, 1982)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pomatoschistus-flavescens",
+              "locator": "Food items reported for Pomatoschistus flavescens (n = 15)",
+              "quote": "zooplankton plank. crust. plank. copepods Temora longremis Germany juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-flavescens",
+              "locator": "Biology",
+              "quote": "Adults feed on small crustaceans (copepods, amphipods, mysids) and chaetognaths",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase-fooditems:Pomatoschistus-flavescens"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Pomatoschistus-flavescens",
+              "locator": "Food items reported for Pomatoschistus flavescens (n = 15)",
+              "quote": "n.a./other benth. crustaceans barnacle larvae ... bivalves Mytilus larvae ... polychaetes Polychaete larvae",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.17895-ices.pub.19270367",
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.17895-ices.pub.19270367",
+              "locator": "p. 147, Abstract",
+              "quote": "Pollachius pollachius, P. virens, and Trisopterus minutus were the main predators on G. flavescens. Predator pressure was most intense during July-December",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.17895-ices.pub.19270367",
+              "locator": "p. 151, Results > Predation",
+              "quote": "The predation of gadoids on G. flavescens showed clear seasonal differences (Fig. 6). Cod <25 cm fed to a great extent on gobies in July-December.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua (n = 179), nekton > finfish row",
+              "quote": "nekton finfish bony fish Gobius flavescens Norway juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "pp. 129-130, Table 11.2 (prey of Loligo vulgaris), Gobiidae row",
+              "quote": "Table 11.2. Prey composition of Loligo vulgaris, as known from studies in different regions of the Northeast Atlantic ... Gobiidae Aphia minuta (transparent goby)1, Gobiusculus flavescens (two- ... spotted goby)1",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "pp. 149-150, Table 12.3 (prey of Loligo forbesii), Gobiidae row",
+              "quote": "Table 12.3. List of identified prey types and species from Loligo forbesii stomach contents ... Gobiusculus flavescens (two-spot- ... ted goby)8",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -9427,10 +9789,10 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126927",
-        "marlin:1202",
+        "fishbase-food:Pomatoschistus-microps",
+        "fishbase-pred:Pomatoschistus-microps",
         "fishbase:Pomatoschistus-microps",
-        "fishbase-food:Pomatoschistus-microps"
+        "marlin:1202"
       ],
       "claims": {
         "fieldNote": {
@@ -9440,42 +9802,64 @@
           "support": [
             {
               "sourceId": "marlin:1202",
-              "locator": "Identifying features",
-              "quote": "The anterior dorsal fin has 6 spines. The posterior dorsal has 1 spine and 8-10 rays. Pelvic fins are united to form a crescent-shaped disc. Eyes are large and positioned high on the side of the head. Upper rays of pectoral fins are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "Pomatoschistus microps was once confused with the sand goby Pomatoschistus minutus but the common goby has a dark mark at the top of the base of the pectoral fin (Dipper, 2001).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1202",
-              "locator": "Description",
-              "quote": "The common goby is a small goby growing up to 6 cm in length. The top of the head, nape and throat are scaleless. It is grey or sandy in colour, often with darker blotches across the back and faint marks along the side of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "Pomatoschistus microps is a very abundant fish able to tolerate a wide range of salinity. However, it prefers low salinity areas. ... in estuaries, saltmarshes, along the coastline and in intertidal pools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Habitat preferences > Habitat Information",
+              "quote": "It can be found down to 11 m in depth but normally occurs at < 1 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwmg9qg00037ixwvwrxnx47": {
           "sourceIds": [
-            "marlin:1202"
+            "marlin:1202",
+            "fishbase:Pomatoschistus-microps"
           ],
           "support": [
             {
               "sourceId": "marlin:1202",
-              "locator": "Additional information",
-              "quote": "Pomatoschistus microps was once confused with the sand goby Pomatoschistus minutus ... It resides throughout the British Isles in estuaries, saltmarshes, along the coastline and in intertidal pools.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The common goby is a small goby growing up to 6 cm in length. ... It is grey or sandy in colour, often with darker blotches across the back and faint marks along the side of the body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1202",
-              "locator": "Description",
-              "quote": "The common goby is a small goby growing up to 6 cm in length. The top of the head, nape and throat are scaleless. It is grey or sandy in colour, often with darker blotches across the back and faint marks along the side of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "Pomatoschistus microps was once confused with the sand goby Pomatoschistus minutus but the common goby has a dark mark at the top of the base of the pectoral fin (Dipper, 2001).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Additional information",
+              "quote": "It resides throughout the British Isles in estuaries, saltmarshes, along the coastline and in intertidal pools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-microps",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 9.0 cm TL male/unsexed; (Ref. 6303 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwmg9qg00047ixwihlaevi8": {
           "sourceIds": [
@@ -9485,68 +9869,99 @@
             {
               "sourceId": "marlin:1202",
               "locator": "Identifying features",
-              "quote": "The anterior dorsal fin has 6 spines. The posterior dorsal has 1 spine and 8-10 rays. Pelvic fins are united to form a crescent-shaped disc. Eyes are large and positioned high on the side of the head. Upper rays of pectoral fins are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1202",
-              "locator": "Description",
-              "quote": "The common goby is a small goby growing up to 6 cm in length. The top of the head, nape and throat are scaleless. It is grey or sandy in colour, often with darker blotches across the back and faint marks along the side of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Pelvic fins are united to form a crescent-shaped disc.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwmg9qg00057ixwq1h3n9cg": {
           "sourceIds": [
-            "marlin:1202"
+            "marlin:1202",
+            "fishbase:Pomatoschistus-microps"
           ],
           "support": [
             {
               "sourceId": "marlin:1202",
               "locator": "Identifying features",
-              "quote": "The anterior dorsal fin has 6 spines. The posterior dorsal has 1 spine and 8-10 rays. Pelvic fins are united to form a crescent-shaped disc. Eyes are large and positioned high on the side of the head. Upper rays of pectoral fins are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Eyes are large and positioned high on the side of the head.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1202",
               "locator": "Description",
-              "quote": "The common goby is a small goby growing up to 6 cm in length. The top of the head, nape and throat are scaleless. It is grey or sandy in colour, often with darker blotches across the back and faint marks along the side of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The top of the head, nape and throat are scaleless.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-microps",
+              "locator": "Short description",
+              "quote": "body shape is terete, slightly depressed; eyes situated dorso-laterally; reduced swim bladders (Ref. 92840 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
+            "fishbase:Pomatoschistus-microps",
             "marlin:1202"
           ],
           "support": [
             {
+              "sourceId": "fishbase:Pomatoschistus-microps",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 9.0 cm TL male/unsexed; (Ref. 6303 ); max. reported age: 2.60 years (Ref. 40230 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:1202",
-              "locator": "Biology",
-              "quote": "ca 30 -40mm; Male size range: 11-64mm",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information",
+              "quote": "The common goby is small, measuring up to 64 mm on British coasts (Jones and Miller, 1966) and 53 mm in the Mediterranean (Bouchereau et al. , 1989).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Biology review > Biology",
+              "quote": "Male size range 11-64mm Male size at maturity ca 30 -40mm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "fishbase:Pomatoschistus-microps",
             "marlin:1202"
           ],
           "support": [
             {
-              "sourceId": "marlin:1202",
+              "sourceId": "fishbase:Pomatoschistus-microps",
               "locator": "Biology",
-              "quote": "Demersal; Body flexibility: High (greater than 45 degrees)",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "They burrow to survive low water levels and to avoid predators (Ref. 30508 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Life history > Life history information",
+              "quote": "They attach their eggs onto the upper surface of the interior of an empty bivalve shell, preferring that of Mya arenaria . The male guards the nest and fans the eggs with his tail, to oxygenate them while they are developing.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Biology review > Biology",
+              "quote": "Environmental position Demersal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -9566,21 +9981,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Pomatoschistus-microps"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-microps",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.3 ±0.3 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "marlin:1202"
@@ -9596,80 +9996,195 @@
           ],
           "claimSupported": true
         },
-        "edge:Seabed biodeposits->Common goby": {
-          "sourceIds": [
-            "marlin:1202"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1202",
-              "locator": "Biology review: Biology information",
-              "quote": "Adults feed at the surface of the sediment on amphipods, isopods, polychaetes and chironomid larvae, while the juveniles' diet consists largely of interstitial copepods.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plankton->Common goby": {
-          "sourceIds": [
-            "fishbase-food:Pomatoschistus-microps"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Pomatoschistus-microps",
-              "locator": "Food items reported for Pomatoschistus microps (n = 8), final rows",
-              "quote": "zoobenthos mollusks bivalves Mytilus larvae Global juv./adults zooplankton plank. crust. mysids unidentified Portugal juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-microps"
+            "fishbase:Pomatoschistus-microps",
+            "marlin:1202"
           ],
           "support": [
             {
               "sourceId": "fishbase:Pomatoschistus-microps",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; freshwater; brackish; demersal; anadromous (Ref. 138297); depth range 0 - 12 m (Ref. 35388).",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1202"
-          ],
-          "support": [
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; freshwater; brackish; demersal; anadromous (Ref. 138297 ); depth range 0 - 12 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:1202",
-              "locator": "Summary: Habitat",
-              "quote": "Although the common goby prefers open water areas of bare muddy or sandy sediment, it is often found amongst dense vegetation.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat preferences > Habitat Information",
+              "quote": "It can be found down to 11 m in depth but normally occurs at < 1 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1202"
+            "marlin:1202",
+            "fishbase:Pomatoschistus-microps"
           ],
           "support": [
             {
               "sourceId": "marlin:1202",
               "locator": "Habitat",
-              "quote": "Although the common goby prefers open water areas of bare muddy or sandy sediment, it is often found amongst dense vegetation.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "quote": "It is often found in tide-pools, estuaries, salt marshes and brackish land-locked lagoons. Although the common goby prefers open water areas of bare muddy or sandy sediment, it is often found amongst dense vegetation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-microps",
+              "locator": "Biology",
+              "quote": "Adullts enter estuaries, salt marshes and pools (Ref. 4343 ); usually on sand or mud (Ref. 59043 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1202",
+            "fishbase-food:Pomatoschistus-microps"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Biology review > Biology information",
+              "quote": "Adults feed at the surface of the sediment on amphipods, isopods, polychaetes and chironomid larvae, while the juveniles' diet consists largely of interstitial copepods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Biology review > Biology > Typically feeds on",
+              "quote": "Typically feeds on Amphipods, isopods, polychaetes and chironomid larvae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Pomatoschistus-microps",
+              "locator": "Food items reported for Pomatoschistus microps",
+              "quote": "Food items reported for Pomatoschistus microps ... zoobenthos benth. crust. isopods unidentified (not available) juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Pomatoschistus-microps",
+            "fishbase-food:Pomatoschistus-microps"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pomatoschistus-microps",
+              "locator": "Biology",
+              "quote": "Also in rock pools where they feed mainly on epibenthic meiofauna like harpacticoids and small amphipods (Ref. 92840 ); small crustaceans, worms, chironomid larvae and mites (Ref. 4696 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Pomatoschistus-microps",
+              "locator": "Food items reported for Pomatoschistus microps",
+              "quote": "Food items reported for Pomatoschistus microps ... zoobenthos benth. crust. benth. copepods harpacticoids Global juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1202"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Biology review > Biology information",
+              "quote": "the juveniles' diet consists largely of interstitial copepods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:1202",
+            "fishbase-pred:Pomatoschistus-microps"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Biology review > Biology information",
+              "quote": "The common goby is an important food source for both birds and larger fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-microps",
+              "locator": "Organisms Preying on Pomatoschistus microps",
+              "quote": "Organisms Preying on Pomatoschistus microps ... Portugal finfish bony fish Lotidae Ciliata mustela ... Portugal finfish bony fish Triglidae Chelidonichthys lucerna ... Soleidae Solea senegalensis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-microps",
+              "locator": "Organisms Preying on Pomatoschistus microps",
+              "quote": "Organisms Preying on Pomatoschistus microps ... Portugal finfish bony fish Clupeidae Alosa fallax",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marlin:1202",
+            "fishbase-pred:Pomatoschistus-microps"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1202",
+              "locator": "Biology review > Biology information",
+              "quote": "The common goby is an important food source for both birds and larger fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-microps",
+              "locator": "Organisms Preying on Pomatoschistus microps",
+              "quote": "Organisms Preying on Pomatoschistus microps ... Netherlands birds sea birds Crested grebes Podiceps cristatus ... Netherlands birds sea birds Merganser Mergus merganser",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase:Pomatoschistus-microps",
+            "fishbase-pred:Pomatoschistus-microps"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pomatoschistus-microps",
+              "locator": "Biology",
+              "quote": "They live in sea as well as brackish waters and migrates into limnetic sections of rivers (Ref. 92840 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-microps",
+              "locator": "Organisms Preying on Pomatoschistus microps",
+              "quote": "Organisms Preying on Pomatoschistus microps ... Germany finfish bony fish Percidae Gymnocephalus cernuus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -9687,13 +10202,13 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126893",
-        "marlin:2129",
-        "fishbase:Gobius-paganellus",
-        "fishbase-pred:Gobius-paganellus",
+        "doi:10.1111-raq.12584",
+        "doi:10.1371-journal.pone.0209286",
         "fishbase-food:Gobius-paganellus",
-        "wildlife-trusts:rock-goby",
-        "doi:10.1111-raq.12584"
+        "fishbase-pred:Gobius-paganellus",
+        "fishbase:Gobius-paganellus",
+        "ices:crr325",
+        "marlin:2129"
       ],
       "claims": {
         "fieldNote": {
@@ -9703,20 +10218,27 @@
           "support": [
             {
               "sourceId": "marlin:2129",
-              "locator": "Identifying features",
-              "quote": "Small in size, round in cross-section with two dorsal fins. Upper rays of pectoral fins reach almost to origin of dorsal fin. Large eyes quite close together. Nostrils with 5-6 finger-like protrusions. Pale brown with dark mottling to...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary: Description",
+              "quote": "Gobius paganellus is a moderately large species of goby growing up to 12 cm. It has a rounded head and large eyes, which are quite close together.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2129",
-              "locator": "Description",
-              "quote": "Gobius paganellus is a moderately large species of goby growing up to 12 cm. It has a rounded head and large eyes, which are quite close together. The rock goby is usually dark brown in colour or light brown with dark mottlings and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary: Description",
+              "quote": "The rock goby is usually dark brown in colour or light brown with dark mottlings and there is a pale band on the upper margin of the first dorsal fin. This band is creamy or yellowy in females and a bright yellow to orange in males.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2129",
+              "locator": "Habitat",
+              "quote": "It can be found on shores with lots of seaweed cover in rock pools and under stones.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzculhd00067i6odkuiu7y9": {
           "sourceIds": [
@@ -9727,18 +10249,18 @@
               "sourceId": "marlin:2129",
               "locator": "Summary: Description",
               "quote": "there is a pale band on the upper margin of the first dorsal fin. This band is creamy or yellowy in females and a bright yellow to orange in males.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2129",
-              "locator": "Description",
-              "quote": "Gobius paganellus is a moderately large species of goby growing up to 12 cm. It has a rounded head and large eyes, which are quite close together. The rock goby is usually dark brown in colour or light brown with dark mottlings and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Light band on upper margin of first dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzculhd00077i6o5m9u9bm4": {
           "sourceIds": [
@@ -9747,20 +10269,20 @@
           "support": [
             {
               "sourceId": "marlin:2129",
-              "locator": "Identifying features",
-              "quote": "Small in size, round in cross-section with two dorsal fins. Upper rays of pectoral fins reach almost to origin of dorsal fin. Large eyes quite close together. Nostrils with 5-6 finger-like protrusions. Pale brown with dark mottling to...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary: Description",
+              "quote": "Gobius paganellus is a moderately large species of goby growing up to 12 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2129",
-              "locator": "Description",
-              "quote": "Gobius paganellus is a moderately large species of goby growing up to 12 cm. It has a rounded head and large eyes, which are quite close together. The rock goby is usually dark brown in colour or light brown with dark mottlings and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Pale brown with dark mottling to dark brown in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzculhd00087i6otarevbk9": {
           "sourceIds": [
@@ -9769,47 +10291,40 @@
           "support": [
             {
               "sourceId": "marlin:2129",
-              "locator": "Identifying features",
-              "quote": "Small in size, round in cross-section with two dorsal fins. Upper rays of pectoral fins reach almost to origin of dorsal fin. Large eyes quite close together. Nostrils with 5-6 finger-like protrusions. Pale brown with dark mottling to...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary: Description",
+              "quote": "It has a rounded head and large eyes, which are quite close together.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2129",
-              "locator": "Description",
-              "quote": "Gobius paganellus is a moderately large species of goby growing up to 12 cm. It has a rounded head and large eyes, which are quite close together. The rock goby is usually dark brown in colour or light brown with dark mottlings and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Nostrils with 5-6 finger-like protrusions.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:2129"
+            "marlin:2129",
+            "fishbase:Gobius-paganellus"
           ],
           "support": [
             {
               "sourceId": "marlin:2129",
               "locator": "Habitat",
               "quote": "Gobius paganellus is present in rocky habitats from the intertidal down to around 15 m. It can be found on shores with lots of seaweed cover in rock pools and under stones.",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Gobius-paganellus"
-          ],
-          "support": [
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "fishbase:Gobius-paganellus",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.3 ±0.45 se; based on food items.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Adults occur inshore in intertidal waters, under stones and in pools on sheltered rocky shores with much weed cover.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -9844,106 +10359,215 @@
           ],
           "claimSupported": false
         },
-        "edge:Plankton->Rock goby": {
-          "sourceIds": [
-            "fishbase-food:Gobius-paganellus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Gobius-paganellus",
-              "locator": "Food items reported for Gobius paganellus (n = 21), zooplankton rows",
-              "quote": "zooplankton plank. crust. mysids Neomysis integer Portugal adults zooplankton plank. crust. mysids Rhopalophthalmus mediterraneus Portugal adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Seabed biodeposits->Rock goby": {
-          "sourceIds": [
-            "fishbase-food:Gobius-paganellus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Gobius-paganellus",
-              "locator": "Food items reported for Gobius paganellus (n = 21), zoobenthos rows",
-              "quote": "zoobenthos benth. crust. crabs Carcinus maenas Portugal adults zoobenthos benth. crust. isopods Idothea sp. Portugal juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:size": {
           "sourceIds": [
             "marlin:2129",
-            "fishbase:Gobius-paganellus",
-            "wildlife-trusts:rock-goby"
+            "fishbase:Gobius-paganellus"
           ],
           "support": [
             {
               "sourceId": "marlin:2129",
               "locator": "Summary: Description",
               "quote": "Gobius paganellus is a moderately large species of goby growing up to 12 cm.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Gobius-paganellus",
               "locator": "Length at first maturity / Size / Weight / Age",
-              "quote": "cm TL male/unsexed; (Ref. 49698); max. reported age: 10 years",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "wildlife-trusts:rock-goby",
-              "locator": "Species information: Statistics",
-              "quote": "Statistics Length: up to 12cm",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "quote": "Maturity: L m 6.5 , range 6 - 7 cm Max length : 13.0 cm TL male/unsexed; (Ref. 49698 ); max. reported age: 10 years",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Size: Small (under 10 cm) The source says: MarLIN: 'growing up to 12 cm'. FishBase: 'Max length : 13.0 cm TL male/unsexed'. Wildlife Trusts: 'Length: up to 12cm'."
+          "claimSupported": true
         },
         "trait:depth": {
+          "sourceIds": [
+            "fishbase:Gobius-paganellus",
+            "marlin:2129"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Gobius-paganellus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; freshwater; brackish; demersal; amphidromous (Ref. 46888 ); depth range 0 - 15 m (Ref. 45332 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2129",
+              "locator": "Habitat",
+              "quote": "Gobius paganellus is present in rocky habitats from the intertidal down to around 15 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "doi:10.1371-journal.pone.0209286",
+            "fishbase:Gobius-paganellus"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1371-journal.pone.0209286",
+              "locator": "Discussion: RMR and SMR assessment",
+              "quote": "The rock goby, like many other members of the Gobiidae family, is a rather sedentary, demersal fish",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0209286",
+              "locator": "Discussion: Oxygen consumption rate at handling, visual disturbance, and predation risk",
+              "quote": "G . paganellus , however, showed a significant decrease in OC rate at predation stress. This can be explained with a behavioural pattern known as “freezing” [ 26 ].",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0209286",
+              "locator": "Discussion: Oxygen consumption rate at handling, visual disturbance, and predation risk",
+              "quote": "Reducing their movement to maintain hidden from predators between the gravel or below rocks is therefore likely to be their strategy when under predation risk.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gobius-paganellus",
+              "locator": "Life cycle and mating behavior",
+              "quote": "Male guards the eggs deposited by the female under rocks or inside empty bivalve shells until they hatch (Ref. 45332 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Gobius-paganellus",
+            "fishbase-food:Gobius-paganellus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Gobius-paganellus",
+              "locator": "Biology",
+              "quote": "Macrobenthos feeder on hard substrates (Ref. 92840 ), they feed on crustaceans (larger amphipods, isopods, small crabs) and polychaetes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Gobius-paganellus",
+              "locator": "Food items reported for Gobius paganellus",
+              "quote": "Food items reported for Gobius paganellus ... crabs Carcinus maenas Portugal adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Gobius-paganellus",
+            "fishbase-food:Gobius-paganellus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Gobius-paganellus",
+              "locator": "Biology",
+              "quote": "Macrobenthos feeder on hard substrates (Ref. 92840 ), they feed on crustaceans (larger amphipods, isopods, small crabs) and polychaetes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Gobius-paganellus",
+              "locator": "Food items reported for Gobius paganellus",
+              "quote": "Food items reported for Gobius paganellus ... polychaetes Hediste diversicolor Portugal adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
           "sourceIds": [
             "fishbase:Gobius-paganellus"
           ],
           "support": [
             {
               "sourceId": "fishbase:Gobius-paganellus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; freshwater; brackish; demersal; amphidromous (Ref. 46888); depth range 0 - 15 m (Ref. 45332).",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "juveniles eat harpacticoid copepods, amphipods, polychaetes and mites (Ref. 4696 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "marlin:2129",
-            "doi:10.1111-raq.12584"
+            "ices:crr325"
           ],
           "support": [
             {
-              "sourceId": "marlin:2129",
-              "locator": "Summary: Habitat",
-              "quote": "Gobius paganellus is present in rocky habitats from the intertidal down to around 15 m.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "sourceId": "ices:crr325",
+              "locator": "6.7.1 Prey (Sepia officinalis)",
+              "quote": "It feeds on gobies, sandeels, whiting, and wrasses, but can also prey on some flatfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1111-raq.12584",
-              "locator": "Section 2.1.2 Structured habitat",
-              "quote": "Outplanting of live bivalves and/or shell or other substrate material for wild recruitment creates novel three-dimensional structure with interstitial space in otherwise unstructured, soft-sediment systems",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "sourceId": "ices:crr325",
+              "locator": "Table 6.3, prey composition of Sepia officinalis, Gobiidae row",
+              "quote": "Table 6.3. Prey composition of Sepia officinalis, as known from studies in the Mediterranean Sea and the Northeast Atlantic ... G. paganellus (rock goby)4",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: created, i.e. the farm brings the rock goby into existence at the site. The source says: The habitat-provisioning review states the create-versus-aggregate question is open: 'It is also unclear whether macroalgal farms enhance juvenile recruitment or simply aggregate existing adult fish populations.'"
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Gobius-paganellus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Gobius-paganellus",
+              "locator": "Organisms Preying on Gobius paganellus",
+              "quote": "Organisms Preying on Gobius paganellus ... Azores Is. finfish bony fish Synodontidae Synodus saurus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "doi:10.1371-journal.pone.0209286"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1371-journal.pone.0209286",
+              "locator": "Abstract",
+              "quote": "Individuals were exposed to a mixture of skin extracts from conspecifics and chemical alarm cues from a top predator, Octopus vulgaris",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0209286",
+              "locator": "Materials and methods: Model predator",
+              "quote": "Common octopus ( Octopus vulgaris ) was chosen for predation stimulus preparation, as it is a top predator in rock pools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0209286",
+              "locator": "Introduction",
+              "quote": "During ebb tide, specimens are frequently found in shallow rock pools and below gravels high on the shoreline, which makes them prone to abiotic and biotic stressors.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -9961,146 +10585,151 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126928",
-        "marlin:1204",
-        "fishbase:Pomatoschistus-minutus",
+        "fishbase-food:Pomatoschistus-minutus",
+        "fishbase-fooditems:Gadus-morhua",
+        "fishbase-fooditems:Pleuronectes-platessa",
         "fishbase-pred:Pomatoschistus-minutus",
-        "fishbase-food:Pomatoschistus-minutus"
+        "fishbase:Pomatoschistus-minutus",
+        "marlin:1204"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-minutus",
             "marlin:1204"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Short description",
-              "quote": "Elongated body. The relative great eyes are placed high and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1204",
-              "locator": "Identifying features",
-              "quote": "The sand goby has large eyes that are positioned high on the side of the head. There are scales present on the nape and neck. Upper rays of pectoral fins have membrane to their tips. Tail is rounded, narrow and long. Pelvic fins are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1204",
               "locator": "Description",
-              "quote": "The sand goby is a small goby, reaching a maximum of 10 cm in length. It has a slender body and the head is about a quarter of the total length. It is pale brown or grey in colour with darker markings on the sides. The underside is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The sand goby is a small goby, reaching a maximum of 10 cm in length. It has a slender body and the head is about a quarter of the total length. It is pale brown or grey in colour with darker markings on the sides.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1204",
+              "locator": "Habitat",
+              "quote": "Pomatoschistus minutus is found on sandy or muddy bottoms usually to a depth of about 20 m, but sometimes occurring up to 60-70 m depths.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1204",
+              "locator": "Biology information",
+              "quote": "Depending on the bottom type, it has been noted to show colour adaptations (Aquascope, 2000b), and has also been noted to burrow into the sediment to avoid predators (Magnhagen & Forsgren, 1991).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwmgale00097ixwrdxq71gs": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-minutus",
             "marlin:1204"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Short description",
-              "quote": "Elongated body. The relative great eyes are placed high and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1204",
-              "locator": "Identifying features",
-              "quote": "The sand goby has large eyes that are positioned high on the side of the head. There are scales present on the nape and neck. Upper rays of pectoral fins have membrane to their tips. Tail is rounded, narrow and long. Pelvic fins are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1204",
               "locator": "Description",
-              "quote": "The sand goby is a small goby, reaching a maximum of 10 cm in length. It has a slender body and the head is about a quarter of the total length. It is pale brown or grey in colour with darker markings on the sides. The underside is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "It is pale brown or grey in colour with darker markings on the sides. The underside is creamy-white in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1204",
+              "locator": "Biology information",
+              "quote": "Depending on the bottom type, it has been noted to show colour adaptations (Aquascope, 2000b), and has also been noted to burrow into the sediment to avoid predators (Magnhagen & Forsgren, 1991).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwmgale000b7ixwjisan3h3": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-minutus",
-            "marlin:1204"
+            "marlin:1204",
+            "fishbase:Pomatoschistus-minutus"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Short description",
-              "quote": "Elongated body. The relative great eyes are placed high and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1204",
-              "locator": "Identifying features",
-              "quote": "The sand goby has large eyes that are positioned high on the side of the head. There are scales present on the nape and neck. Upper rays of pectoral fins have membrane to their tips. Tail is rounded, narrow and long. Pelvic fins are...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1204",
               "locator": "Description",
-              "quote": "The sand goby is a small goby, reaching a maximum of 10 cm in length. It has a slender body and the head is about a quarter of the total length. It is pale brown or grey in colour with darker markings on the sides. The underside is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Males often have a prominent dark blue spot on the rear of the first dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-minutus",
+              "locator": "Short description",
+              "quote": "Dark spot on the hind end of first dorsal fin; Dark area on the front part of pectoral fins indistinct or missing.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Faint rows of small dark saddles/spots along the back; a row of spots on the first dorsal in males. The source says: MarLIN 1204: 'Males often have a prominent dark blue spot on the rear of the first dorsal fin.' FishBase: 'Dark spot on the hind end of first dorsal fin.'"
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-minutus",
-            "marlin:1204"
+            "marlin:1204",
+            "fishbase:Pomatoschistus-minutus"
           ],
           "support": [
             {
+              "sourceId": "marlin:1204",
+              "locator": "Biology information",
+              "quote": "The sand goby is a small goby, reaching a maximum of 10 cm in length. Males are generally longer than females (Quignard et al. , 1983).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 6.3, range 3 - 10 cm Max length: 11.0 cm TL male/unsexed;; max. reported age: 2.70 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 11.0 cm TL male/unsexed; (Ref. 4645 ); max. reported age: 2.70 years",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1204",
-              "locator": "Biology",
-              "quote": "cm; Male size range: up to 10cm",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Life history information",
+              "quote": "The sand goby becomes sexually mature at about 7 months to a year old (Miller, 1986; Bouchereau et al. , 1990). At this time, individuals measure approximately 4 cm (Bouchereau et al. , 1990).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-minutus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Maturity: L m 6.3 , range 3 - 10 cm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Pomatoschistus-minutus",
-            "marlin:1204"
+            "marlin:1204",
+            "fishbase:Pomatoschistus-minutus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Biology",
-              "quote": "This occasionally schooling species is found in inshore sandy and muddy areas. Also found in ecotones near hard bottoms. Juveniles found in lower estuaries. Mainly diurnal, this species feeds on small...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1204",
+              "locator": "Biology information",
+              "quote": "The sand goby usually remains inactive, except when feeding (Fonds & Veldhuis, 1973).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1204",
+              "locator": "Biology information",
+              "quote": "Depending on the bottom type, it has been noted to show colour adaptations (Aquascope, 2000b), and has also been noted to burrow into the sediment to avoid predators (Magnhagen & Forsgren, 1991).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-minutus",
               "locator": "Biology",
-              "quote": "Demersal; Body flexibility: High (greater than 45 degrees)",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Mainly diurnal, this species feeds on small polychaetes, amphipods (corophiids, caprellids), cumaceans and mysids (Ref. 4696 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -10128,21 +10757,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Pomatoschistus-minutus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.2 ±0.0 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-pred:Pomatoschistus-minutus"
@@ -10158,81 +10772,187 @@
           ],
           "claimSupported": true
         },
-        "edge:Seabed biodeposits->Sand goby": {
-          "sourceIds": [
-            "marlin:1204"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1204",
-              "locator": "Biology review: Biology information",
-              "quote": "Pomatoschistus minutus feeds on small polychaetes, cumaceans, amphipods and mysids.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plankton->Sand goby": {
-          "sourceIds": [
-            "fishbase-food:Pomatoschistus-minutus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Pomatoschistus-minutus",
-              "locator": "Food items reported for Pomatoschistus minutus (n = 41), zooplankton rows",
-              "quote": "zooplankton plank. crust. mysids unidentified mysids Portugal juv./adults zooplankton plank. crust. plank. copepods Temora longicornis Belgium juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
+            "marlin:1204",
             "fishbase:Pomatoschistus-minutus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pomatoschistus-minutus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; demersal; amphidromous; depth range 4 - 200 m.",
-              "readBy": "refs-trawl depth agent (page fetched 2026-08-28, HTTP 200, Environment line read)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Depth: 4-200 m The source says: MarLIN 1204 Depth range: 'Up to 20 m (sometimes up to 60-70 m)'; Habitat: 'usually to a depth of about 20 m, but sometimes occurring up to 60-70 m depths'."
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1204"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1204",
-              "locator": "Summary: Habitat",
-              "quote": "Pomatoschistus minutus is found on sandy or muddy bottoms usually to a depth of about 20 m, but sometimes occurring up to 60-70 m depths.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:1204"
           ],
           "support": [
             {
               "sourceId": "marlin:1204",
               "locator": "Habitat",
               "quote": "Pomatoschistus minutus is found on sandy or muddy bottoms usually to a depth of about 20 m, but sometimes occurring up to 60-70 m depths.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1204",
+              "locator": "Habitat preferences > Depth range",
+              "quote": "Depth range\nUp to 20 m (sometimes up to 60-70 m)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-minutus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; demersal; amphidromous; depth range 4 - 200 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:1204",
+            "fishbase:Pomatoschistus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1204",
+              "locator": "Habitat",
+              "quote": "Pomatoschistus minutus is found on sandy or muddy bottoms usually to a depth of about 20 m, but sometimes occurring up to 60-70 m depths. They are usually present in estuaries, lagoons, salt marshes and along coastal waters.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-minutus",
+              "locator": "Biology",
+              "quote": "This occasionally schooling species is found in inshore sandy and muddy areas. Also found in ecotones near hard bottoms (Ref. 92840 ). Juveniles found in lower estuaries.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1204",
+            "fishbase:Pomatoschistus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1204",
+              "locator": "Biology > Typically feeds on",
+              "quote": "Typically feeds on Small polychaetes, cumaceans, amphipods and mysids.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pomatoschistus-minutus",
+              "locator": "Biology",
+              "quote": "Mainly diurnal, this species feeds on small polychaetes, amphipods (corophiids, caprellids), cumaceans and mysids (Ref. 4696 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:1204",
+            "fishbase-food:Pomatoschistus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1204",
+              "locator": "Biology information",
+              "quote": "Pomatoschistus minutus feeds on small polychaetes, cumaceans, amphipods and mysids.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Pomatoschistus-minutus",
+              "locator": "Food items reported for Pomatoschistus minutus > zoobenthos > worms > polychaetes",
+              "quote": "zoobenthos\nworms\npolychaetes\nLanice conchilega\nBelgium\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase-food:Pomatoschistus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-food:Pomatoschistus-minutus",
+              "locator": "Food items reported for Pomatoschistus minutus > zooplankton > fish (early stages) > fish eggs/larvae",
+              "quote": "zooplankton\nfish (early stages)\nfish eggs/larvae\nPomatoschistus minutus larvae and young\nGlobal\nadults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Pomatoschistus-minutus",
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-minutus",
+              "locator": "Organisms Preying on Pomatoschistus minutus",
+              "quote": "Germany\nfinfish\nbony fish\nGadidae\nGadus morhua\nGermany\nfinfish\nbony fish\nGadidae\nMerlangius merlangus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua > nekton > finfish > bony fish",
+              "quote": "nekton\nfinfish\nbony fish\nPomatoschistus minutus\nGermany",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Pomatoschistus-minutus",
+            "fishbase-fooditems:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-minutus",
+              "locator": "Organisms Preying on Pomatoschistus minutus",
+              "quote": "Portugal\nfinfish\nbony fish\nPleuronectidae\nPlatichthys flesus\nGermany\nfinfish\nbony fish\nPleuronectidae\nPleuronectes platessa",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pleuronectes-platessa",
+              "locator": "Food items reported for Pleuronectes platessa > nekton > finfish > bony fish",
+              "quote": "nekton\nfinfish\nbony fish\nPomatoschistus minutus\nGermany",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-pred:Pomatoschistus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-minutus",
+              "locator": "Organisms Preying on Pomatoschistus minutus",
+              "quote": "mammals\nseals/sea lions\nPhocidae\nPhoca vitulina\nmammals\nwhales/dolphins\nPhocoenidae\nPhocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-minutus",
+              "locator": "Organisms Preying on Pomatoschistus minutus",
+              "quote": "Netherlands\nbirds\nsea birds\nMerganser\nMergus merganser",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

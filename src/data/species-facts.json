@@ -99,12 +99,30 @@
   },
   "Ctenolabrus rupestris": {
     "depth": {
-      "text": "1-50 m (usually 1-20 m)"
+      "text": "1 to 50 m, adults deeper than young, which come inshore and even into low-shore rock pools"
+    },
+    "size": {
+      "text": "Up to 18 cm total length, commonly 10 to 12 cm"
+    },
+    "habitat": {
+      "text": "Rocky and weed-covered shores, boulders and eelgrass, with crevices and caves to hide in"
+    },
+    "behaviour": {
+      "text": "Solitary and territorial; a male defends a patch of rocky ground up to two square metres, may keep it for years, and spawns in summer"
     }
   },
   "Conger conger": {
     "depth": {
-      "text": "0-1171 m"
+      "text": "0-500 m over most of the range, with records to 1171 m; descends to thousands of metres to spawn"
+    },
+    "size": {
+      "text": "Up to 275-300 cm total length and 110 kg, commonly 100-200 cm"
+    },
+    "habitat": {
+      "text": "Holes and crevices on rocky or sandy bottoms, in wrecks and other artificial structures; young stay inshore, adults move deeper"
+    },
+    "behaviour": {
+      "text": "Rests in its hole by day and hunts at night; breeds once, migrating to deep mid-Atlantic water to spawn, then dies"
     }
   },
   "Pholis gunnellus": {
@@ -123,22 +141,58 @@
   },
   "Gobiusculus flavescens": {
     "depth": {
-      "text": "0-5 m"
+      "text": "Intertidal pools and shallow water down to about 20 m"
+    },
+    "size": {
+      "text": "Up to 6 cm total length"
+    },
+    "habitat": {
+      "text": "Inshore among Laminaria kelp and Zostera seagrass beds and over seaweed-covered rocks, from intertidal pools into shallow water"
+    },
+    "behaviour": {
+      "text": "Hovers in small, loose shoals in the water column instead of resting on the bottom; the male guards the eggs until they hatch"
     }
   },
   "Pomatoschistus microps": {
     "depth": {
-      "text": "0-12 m"
+      "text": "0 to 12 m, but normally in less than 1 m of water"
+    },
+    "size": {
+      "text": "Up to 9 cm, and to 6.4 cm on British coasts; males mature at about 3 to 4 cm"
+    },
+    "habitat": {
+      "text": "Tide pools, estuaries, saltmarshes and brackish lagoons, over bare mud or sand and among dense vegetation"
+    },
+    "behaviour": {
+      "text": "Bottom-living; burrows to survive low water and escape predators, and males guard and fan eggs laid inside an empty bivalve shell"
     }
   },
   "Gobius paganellus": {
     "depth": {
-      "text": "0-15 m"
+      "text": "0 to 15 m, from the intertidal down to shallow rocky seabed"
+    },
+    "size": {
+      "text": "Up to 12 to 13 cm, mature at about 6 to 7 cm"
+    },
+    "habitat": {
+      "text": "Rocky shores with plenty of seaweed, in pools and under stones, from the intertidal down to about 15 m"
+    },
+    "behaviour": {
+      "text": "Sedentary bottom-dweller; hides under stones and freezes rather than fleeing when threatened. Males guard the eggs until they hatch"
     }
   },
   "Pomatoschistus minutus": {
     "depth": {
-      "text": "4-200 m"
+      "text": "Usually to about 20 m, sometimes 60-70 m, with records to 200 m"
+    },
+    "size": {
+      "text": "Up to 10-11 cm long, mature from about 4-6 cm"
+    },
+    "habitat": {
+      "text": "Sandy and muddy bottoms of open coasts, estuaries, lagoons and salt marshes"
+    },
+    "behaviour": {
+      "text": "Usually inactive except when feeding, mainly by day; burrows into the sediment to avoid predators"
     }
   },
   "Callionymus lyra": {
