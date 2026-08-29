@@ -1,32 +1,147 @@
 {
   "Pollachius pollachius": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Open-water shoaling fish: sandeels, herring, sprat and capelin"
+      },
+      {
+        "text": "Deep-sea prawns and shrimps; juveniles feed mainly on crustaceans among inshore rocks and weed"
+      },
+      {
+        "text": "Young cuttlefish, heavily preyed on in French waters of northern Brittany"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals, which take pollack from gillnets and tangle nets; one study estimated 18% of pollack landings were depredated"
+      }
+    ]
   },
   "Pollachius virens": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Fish, especially sandeels, sprat and small gadids such as haddock, whiting and Norway pout"
+      },
+      {
+        "text": "Small crustaceans, chiefly copepods, amphipods and euphausiids, taken mostly by smaller fish inshore"
+      },
+      {
+        "text": "Squid, and seabed invertebrates such as brittlestars, small molluscs and polychaete worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals: in the Northern Isles their diet is dominated by sandeel and gadid prey, particularly saithe and cod. Harbour seals in Shetland take saithe too.",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Larger predatory fish, including Atlantic cod, ling and anglerfish"
+      },
+      {
+        "text": "Seabirds and cetaceans, including the European shag, harbour porpoise and minke whale"
+      }
+    ]
   },
   "Trisopterus luscus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Bottom-living invertebrates are its main food, above all benthic crustaceans such as shrimps and prawns, crabs, amphipods and mysids"
+      },
+      {
+        "text": "Small fish, including sandeels, herring, sprat and gobies"
+      },
+      {
+        "text": "Molluscs and polychaete worms taken off the seabed, plus squid and cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish and rays, including anglerfish, European hake, grey gurnard and thornback ray"
+      },
+      {
+        "text": "Marine mammals: harbour seal and bottlenose dolphin"
+      },
+      {
+        "text": "Common cuttlefish, which take pouting among their fish prey",
+        "slug": "sepia-officinalis"
+      }
+    ]
   },
   "Merlangius merlangus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small fish such as sandeels, herring, sprat and Norway pout"
+      },
+      {
+        "text": "Shrimps, crabs and other bottom-living crustaceans"
+      },
+      {
+        "text": "Polychaete worms, molluscs and squid"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, in whose diet around Britain whiting is one of the commonly recovered fish",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Larger predatory fish, with cod, saithe, conger eel and tub gurnard all recorded taking whiting"
+      },
+      {
+        "text": "Other whiting, which are recorded preying on their own species"
+      }
+    ]
   },
   "Labrus bergylta": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Crabs and other decapod crustaceans, a major prey group in Irish, Breton and Azorean gut studies"
+      },
+      {
+        "text": "Benthic molluscs, mainly mussels and other bivalves, with winkles, top shells and other gastropods taken in smaller amounts"
+      },
+      {
+        "text": "Sea urchins and other echinoderms; an important sea-urchin predator in Azorean coastal habitats"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose scats around Scotland yield ballan wrasse otoliths",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Cormorants, which at sea feed mainly on bottom-dwelling fish, wrasses and codfishes over rocky, weed-covered ground",
+        "slug": "phalacrocorax-carbo"
+      }
+    ]
   },
   "Labrus mixtus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Mainly crustaceans"
+      },
+      {
+        "text": "Fishes"
+      },
+      {
+        "text": "Molluscs and worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose scats in Scottish waters contain cuckoo wrasse otoliths",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Harbour seals, whose scats also contain cuckoo wrasse otoliths",
+        "slug": "phoca-vitulina"
+      }
+    ]
   },
   "Symphodus melops": {
     "eats": [
       {
-        "text": "Small bottom-living crustaceans, including amphipods, isopods, prawns and small crabs"
+        "text": "Bottom-living crustaceans, including amphipods, isopods, prawns and crabs"
       },
       {
         "text": "Molluscs, including small gastropods such as periwinkles, and bivalves such as the common mussel"
@@ -41,7 +156,7 @@
         "slug": "phalacrocorax-carbo"
       },
       {
-        "text": "Predatory fish, in particular Atlantic cod, which takes juvenile corkwing wrasse",
+        "text": "Atlantic cod, a predator of juvenile corkwing wrasse",
         "slug": "gadus-morhua"
       },
       {

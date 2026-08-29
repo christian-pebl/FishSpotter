@@ -1,32 +1,86 @@
 {
   "Pollachius pollachius": {
     "depth": {
-      "text": "40-200 m (usually 40-100 m)"
+      "text": "40-200 m, usually 40-100 m; juveniles inshore in the shallows"
+    },
+    "size": {
+      "text": "Up to 130 cm total length, commonly about 75 cm"
+    },
+    "habitat": {
+      "text": "Inshore to about 200 m over hard bottoms, around rocks, wrecks and kelp forests"
+    },
+    "behaviour": {
+      "text": "Hangs above kelp forests and wrecks singly or in small shoals, darting up from near the bottom to take sandeels then dropping back"
     }
   },
   "Pollachius virens": {
     "depth": {
-      "text": "37-364 m"
+      "text": "37-364 m; enters coastal water in spring and returns to deeper water (up to 350 m) in winter"
+    },
+    "size": {
+      "text": "Up to 130 cm total length, commonly about 60 cm; to 32 kg and 25 years old"
+    },
+    "habitat": {
+      "text": "Benthopelagic, both inshore and offshore; North Atlantic, from Greenland and the Barents Sea south to North Carolina and the Bay of Biscay"
+    },
+    "behaviour": {
+      "text": "An active, gregarious fish; oceanodromous, making spawning migrations and long-distance north-south migrations"
     }
   },
   "Trisopterus luscus": {
     "depth": {
-      "text": "30-100 m"
+      "text": "30-100 m, and recorded inshore and in coastal waters down to 300 m"
+    },
+    "size": {
+      "text": "Up to 46 cm total length, commonly around 30 cm; adults usually 20-30 cm"
+    },
+    "habitat": {
+      "text": "Benthopelagic over mixed rock and sand, inshore and in coastal waters; often in and around wrecks"
+    },
+    "behaviour": {
+      "text": "Gregarious; young fish often in large schools, and moves inshore to 50 m or less to spawn"
     }
   },
   "Merlangius merlangus": {
     "depth": {
-      "text": "10-200 m (usually 30-100 m)"
+      "text": "10-200 m, usually 30-100 m"
+    },
+    "size": {
+      "text": "Up to 91.5 cm total length, commonly about 23.5 cm; to 3.1 kg and 20 years old"
+    },
+    "habitat": {
+      "text": "Benthopelagic in marine and brackish water, mainly over mud and gravel bottoms but also sand and rock"
+    },
+    "behaviour": {
+      "text": "Oceanodromous; moves out to the open sea only after its first year, and larvae and juveniles associate with jellyfish"
     }
   },
   "Labrus bergylta": {
     "depth": {
-      "text": "1-50 m (usually 2-30 m)"
+      "text": "1-50 m, usually 2-30 m"
+    },
+    "size": {
+      "text": "Up to 65.9 cm long, commonly 30-50 cm"
+    },
+    "habitat": {
+      "text": "Inshore rocky coasts: weed-covered rock, boulder slopes, offshore reefs and kelp beds, and lower-shore pools"
+    },
+    "behaviour": {
+      "text": "Active by day, hiding in rock crevices and seaweed at night; very small home ranges and high site fidelity"
     }
   },
   "Labrus mixtus": {
     "depth": {
-      "text": "2-200 m (usually 40-80 m)"
+      "text": "2-200 m, mainly between 20 and 80 m"
+    },
+    "size": {
+      "text": "Up to 40 cm, commonly about 30 cm; females up to 30 cm"
+    },
+    "habitat": {
+      "text": "Over rocks and hard ground and in the algal zone of rocky shores, between 2 and 200 m but mainly 20-80 m"
+    },
+    "behaviour": {
+      "text": "Usually solitary or in pairs; the female lays about 1,000 eggs in a nest of algae and the male builds and guards the nest"
     }
   },
   "Symphodus melops": {
@@ -34,7 +88,7 @@
       "text": "Lower shore pools down to about 50 m"
     },
     "size": {
-      "text": "Up to 25-28 cm, usually less than 15 cm"
+      "text": "Up to 25-28 cm, typically 15-20 cm"
     },
     "habitat": {
       "text": "Rocky shores among seaweed and in lower shore pools, extending sublittorally; also near rocks, eel-grass beds and in lagoons"

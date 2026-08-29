@@ -4556,6 +4556,79 @@
         "Symphodus melops"
       ],
       "verifyMode": "html-title"
+    },
+    "marinescot:SMFS-7-21": {
+      "kind": "scos",
+      "title": "Harbour Seal Diet Composition and Diversity. Scottish Marine and Freshwater Science Vol 7 No 21",
+      "authors": [
+        "Wilson, L.J.",
+        "Hammond, P.S."
+      ],
+      "publisher": "Marine Scotland Science / Sea Mammal Research Unit, University of St Andrews",
+      "year": 2016,
+      "url": "https://data.marine.gov.scot/sites/default/files/SMFS%20Vol%207%20No%2021.pdf",
+      "licence": "Open Government Licence v3.0",
+      "expectText": [
+        "Harbour Seal Diet Composition and Diversity",
+        "Sea Mammal Research Unit"
+      ],
+      "verifyMode": "pdf"
+    },
+    "fishbase-predators:Pollachius-virens": {
+      "kind": "fishbase",
+      "title": "Predators - Pollachius virens (FishBase predator records)",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "url": "https://www.fishbase.se/TrophicEco/PredatorList.php?ID=1343&GenusName=Pollachius&SpeciesName=virens",
+      "expectText": [
+        "Predators",
+        "Pollachius virens"
+      ]
+    },
+    "fishbase-fooditems:Trisopterus-luscus": {
+      "kind": "fishbase",
+      "title": "Food Items - Trisopterus luscus (FishBase food-item records)",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "year": 2026,
+      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=1385&genus=Trisopterus&species=luscus",
+      "expectText": [
+        "Trisopterus luscus"
+      ]
+    },
+    "fishbase-pred:Trisopterus-luscus": {
+      "kind": "fishbase",
+      "title": "FishBase predator records - Trisopterus luscus",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "year": 2026,
+      "url": "https://www.fishbase.se/TrophicEco/PredatorList.php?ID=1367&GenusName=Trisopterus&SpeciesName=luscus",
+      "expectText": [
+        "Trisopterus luscus"
+      ]
+    },
+    "fishbase-dietcompo:Trisopterus-luscus": {
+      "kind": "fishbase",
+      "title": "Diet composition - Trisopterus luscus (FishBase diet records)",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "year": 2026,
+      "url": "https://www.fishbase.se/TrophicEco/DietCompoList.php?ID=1367&GenusName=Trisopterus&SpeciesName=luscus&fc=183&StockCode=1385",
+      "expectText": [
+        "Trisopterus luscus"
+      ]
     }
   },
   "species": {
@@ -5193,173 +5266,225 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126440",
-        "marlin:9",
+        "doi:10.7489-1799-1",
+        "fishbase:Gadus-morhua",
         "fishbase:Pollachius-pollachius",
-        "doi:10.7489-1799-1"
+        "fishbase:Trisopterus-luscus",
+        "ices:crr325",
+        "marlin:84",
+        "marlin:9",
+        "scos:2025"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Pollachius-pollachius",
-            "marlin:9"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "marlin:9 > Description",
-              "quote": "The lateral line is dark green, strongly arched over the pectoral fin and straightens out just under the second dorsal fin.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Identifying features",
-              "quote": "Large fish up to 130 cm in length and 14 kg in weight. Eyes are yellow and conspicuously large. Three dorsal fins with the first being triangular and 2 anal fins. The lateral line is dark green and arches over the pectoral fin before...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Description",
-              "quote": "Pollachius pollachius is a large fish up to 130 cm in length and weighing up to 14 kg. It has a relatively large mouth with a protruding lower jaw, no barbell and conspicuously large yellow eyes. Like other members of the cod family,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpo34gyx00007izgxpsgngms": {
-          "sourceIds": [
-            "fishbase:Pollachius-pollachius",
-            "marlin:9"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "Short description",
-              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel. Dark...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Identifying features",
-              "quote": "Large fish up to 130 cm in length and 14 kg in weight. Eyes are yellow and conspicuously large. Three dorsal fins with the first being triangular and 2 anal fins. The lateral line is dark green and arches over the pectoral fin before...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Description",
-              "quote": "Pollachius pollachius is a large fish up to 130 cm in length and weighing up to 14 kg. It has a relatively large mouth with a protruding lower jaw, no barbell and conspicuously large yellow eyes. Like other members of the cod family,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpo34gyy00017izg73lmhnw6": {
-          "sourceIds": [
-            "fishbase:Pollachius-pollachius",
-            "marlin:9"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "Short description",
-              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel. Dark...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Identifying features",
-              "quote": "Large fish up to 130 cm in length and 14 kg in weight. Eyes are yellow and conspicuously large. Three dorsal fins with the first being triangular and 2 anal fins. The lateral line is dark green and arches over the pectoral fin before...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Description",
-              "quote": "Pollachius pollachius is a large fish up to 130 cm in length and weighing up to 14 kg. It has a relatively large mouth with a protruding lower jaw, no barbell and conspicuously large yellow eyes. Like other members of the cod family,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpo34gyy00027izgcksaehd8": {
-          "sourceIds": [
-            "fishbase:Pollachius-pollachius",
-            "marlin:9"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "Short description",
-              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel. Dark...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Identifying features",
-              "quote": "Large fish up to 130 cm in length and 14 kg in weight. Eyes are yellow and conspicuously large. Three dorsal fins with the first being triangular and 2 anal fins. The lateral line is dark green and arches over the pectoral fin before...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:9",
-              "locator": "Description",
-              "quote": "Pollachius pollachius is a large fish up to 130 cm in length and weighing up to 14 kg. It has a relatively large mouth with a protruding lower jaw, no barbell and conspicuously large yellow eyes. Like other members of the cod family,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
+            "marlin:9",
             "fishbase:Pollachius-pollachius"
           ],
           "support": [
             {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "Pollachius pollachius feeds on deep sea prawns, Clupea harengus , Ammodytes tobianus , Sprattus sprattus , Mallotus villosus and other open water fish, and can be observed hanging above or within kelp forests and wrecks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Description",
+              "quote": "The lateral line is dark green, strongly arched over the pectoral fin and straightens out just under the second dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 41.0, range 42 - ? cm Max length: 130 cm TL male/unsexed;; common length: 75.0 cm TL male/unsexed;; max. published weight: 18.1 kg; max. reported age: 8 years",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Short description",
+              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; benthopelagic; oceanodromous (Ref. 51243 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpo34gyx00007izgxpsgngms": {
+          "sourceIds": [
+            "fishbase:Pollachius-pollachius",
+            "marlin:9",
+            "marlin:84",
+            "fishbase:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description",
+              "quote": "Dark lateral line that sharply curves over the pectoral fin and continues over whole body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Description",
+              "quote": "The lateral line is dark green, strongly arched over the pectoral fin and straightens out just under the second dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "Adults of Pollachius virens have a straight lateral line and equal length jaws.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:84",
+              "locator": "Additional information",
+              "quote": "Unlike the pollack Pollachius pollachius , it has a straight lateral line, which is light in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Short description",
+              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw, and light lateral line, curved above the pectoral fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpo34gyy00017izg73lmhnw6": {
+          "sourceIds": [
+            "fishbase:Pollachius-pollachius",
+            "marlin:9",
+            "fishbase:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description",
+              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Description",
+              "quote": "It has a relatively large mouth with a protruding lower jaw, no barbell and conspicuously large yellow eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "Adults of Pollachius virens have a straight lateral line and equal length jaws.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Short description",
+              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpo34gyy00027izgcksaehd8": {
+          "sourceIds": [
+            "fishbase:Pollachius-pollachius",
+            "marlin:9",
+            "fishbase:Gadus-morhua",
+            "fishbase:Trisopterus-luscus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description",
+              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Description",
+              "quote": "It has a relatively large mouth with a protruding lower jaw, no barbell and conspicuously large yellow eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Short description",
+              "quote": "a conspicuous barbel on the lower jaw",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Short description",
+              "quote": "Chin barbel well developed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Pollachius-pollachius",
+            "marlin:9"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 130 cm TL male/unsexed; (Ref. 1371 ); common length : 75.0 cm TL male/unsexed; (Ref. 1371 ); max. published weight: 18.1 kg (Ref. 40637 ); max. reported age: 8 years (Ref. 1371 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Identifying features",
+              "quote": "Large fish up to 130 cm in length and 14 kg in weight.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "marlin:9",
             "fishbase:Pollachius-pollachius"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "marlin:9 > Additional information (add this source to the claim)",
-              "quote": "This species ... can be observed hanging above or within kelp forests and wrecks. This species hunts singly or in small groups by lying close to the sea bed watching sand eels shoaling above them.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Pollachius-pollachius"
-          ],
-          "support": [
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "and can be observed hanging above or within kelp forests and wrecks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "This species hunts singly or in small groups by lying close to the sea bed watching sand eels shoaling above them. They suddenly dart up and grab their prey then resume their former position to let the shoal re-group.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 4.3 ±0.3 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Adults occur singly or in small dispersed shoals but is known to form dense shoals on spawning grounds (Ref. 89364 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -5379,50 +5504,51 @@
           ],
           "claimSupported": true
         },
-        "edge:Two-spotted goby->Pollack": {
+        "trait:depth": {
           "sourceIds": [
+            "fishbase:Pollachius-pollachius",
             "marlin:9"
           ],
           "support": [
             {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; benthopelagic; oceanodromous (Ref. 51243 ); depth range 40 - 200 m (Ref. 6302 ), usually 40 - 100 m (Ref. 54707 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:9",
               "locator": "Additional information",
-              "quote": "Such behaviour has been observed in juveniles hunting on groups of mysid shrimps or Gobius flavesecens (Naylor, 2003).",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trait:depth": {
-          "sourceIds": [
-            "fishbase:Pollachius-pollachius"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-pollachius",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; benthopelagic; oceanodromous (Ref. 51243); depth range 40 - 200 m (Ref. 6302), usually 40 - 100 m (Ref. 54707).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Juveniles live amongst rocks and algae mainly feeding on crustaceans in the shallows and then venture out to 40-100 m when about three years old with a body length of up to 40 cm (Wheeler, 1969).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:9"
+            "marlin:9",
+            "fishbase:Pollachius-pollachius"
           ],
           "support": [
             {
               "sourceId": "marlin:9",
               "locator": "Habitat",
               "quote": "It is both an offshore pelagic or coastal benthic species found on the sea bed around rocks, wrecks and kelp forests.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Biology",
+              "quote": "Found in inshore waters but also down to 200 m depth, in areas with hard bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -5435,6 +5561,94 @@
               "quote": "Pollachius pollachius feeds on deep sea prawns, Clupea harengus, Ammodytes tobianus, Sprattus sprattus, Mallotus villosus and other open water fish",
               "readBy": "refs:trawl (gap-diet)",
               "readOn": "2026-08-28"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:9"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "Pollachius pollachius feeds on deep sea prawns, Clupea harengus , Ammodytes tobianus , Sprattus sprattus , Mallotus villosus and other open water fish",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "This species hunts singly or in small groups by lying close to the sea bed watching sand eels shoaling above them.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:9"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "Pollachius pollachius feeds on deep sea prawns",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "Juveniles live amongst rocks and algae mainly feeding on crustaceans in the shallows and then venture out to 40-100 m when about three years old with a body length of up to 40 cm (Wheeler, 1969).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:9",
+              "locator": "Additional information",
+              "quote": "Such behaviour has been observed in juveniles hunting on groups of mysid shrimps or Gobius flavesecens (Naylor, 2003).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "6.7.2 Predators, in the Sepia officinalis species account",
+              "quote": "Pollack (Pollachius pollachius) exert great predatory pressure on young cuttlefish in French waters of northern Brittany (Le Mao, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "scos:2025"
+          ],
+          "support": [
+            {
+              "sourceId": "scos:2025",
+              "locator": "Sea fisheries - depredation",
+              "quote": "on 91 observer days in gillnet fisheries for hake and pollack, and trammel/tangle net fisheries for turbot and crawfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "scos:2025",
+              "locator": "Sea fisheries - depredation",
+              "quote": "They estimated that 18% of pollack, 10% of hake and 59% of monkfish landings ... were depredated by seals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -5455,194 +5669,237 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126441",
-        "marlin:84",
-        "fishbase:Pollachius-virens",
+        "doi:10.1016-j.jembe.2023.151899",
+        "doi:10.1111-raq.12584",
         "doi:10.7489-1799-1",
         "fishbase-fooditems:Pollachius-virens",
-        "doi:10.1016-j.jembe.2023.151899",
-        "doi:10.1111-raq.12584"
+        "fishbase-predators:Pollachius-virens",
+        "fishbase:Pollachius-pollachius",
+        "fishbase:Pollachius-virens",
+        "marinescot:SMFS-7-21",
+        "marlin:84",
+        "worms:126441"
       ],
       "claims": {
-        "edge:Sprat->Saithe": {
-          "sourceIds": [
-            "fishbase:Pollachius-virens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "fishbase-fooditems:Pollachius-virens > Food items table, nekton > finfish > bony fish row",
-              "quote": "nekton | finfish | bony fish | Sprattus sprattus | UK Scotland | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "fieldNote": {
           "sourceIds": [
+            "marlin:84",
+            "fishbase:Pollachius-pollachius",
             "fishbase:Pollachius-virens",
-            "marlin:84"
+            "worms:126441"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Short description",
-              "quote": "Chin barbel small. Lateral line smooth along its entire length. Body color is brownish-green dorsally, becoming only slightly paler ventrally....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:84",
-              "locator": "Identifying features",
-              "quote": "Compressed body up to 1.2 m in length. Dusky greenish-brown dorsal colouring, silvery white ventrally. Three dorsal fins and two anal fins. Straight, smooth, light-coloured lateral line. Shallowly forked tail fin. The chin barbel is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The saithe or coalfish Pollachius virens is a member of the pollack family. It can reach 1.2 m in length. It has three dorsal and two anal fins. It has a straight lateral line, which is light in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:84",
               "locator": "Description",
-              "quote": "The saithe or coalfish Pollachius virens is a member of the pollack family. It can reach 1.2 m in length. It has three dorsal and two anal fins. It has a straight lateral line, which is light in colour. The back and sides are usually...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The back and sides are usually dusky greenish-brown in colour and the belly is silvery white. The upper and lower jaws are approximately equal in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:84",
+              "locator": "Identifying features",
+              "quote": "Straight, smooth, light-coloured lateral line.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description (Pollachius pollachius, the pollack, for the contrast)",
+              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel. Dark lateral line that sharply curves over the pectoral fin and continues over whole body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Biology",
+              "quote": "An active, gregarious fish occurring inshore and offshore waters.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:126441",
+              "locator": "Common names, English",
+              "quote": "sillock saithe pollock gloshan glassan coley coalfish coal fish billet",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9ldfj000u7igszoycnkrw": {
           "sourceIds": [
+            "marlin:84",
             "fishbase:Pollachius-virens",
-            "marlin:84"
+            "fishbase:Pollachius-pollachius"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "marlin:84 > Additional information",
-              "quote": "Unlike the pollack Pollachius pollachius, it has a straight lateral line, which is light in colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:84",
               "locator": "Identifying features",
-              "quote": "Compressed body up to 1.2 m in length. Dusky greenish-brown dorsal colouring, silvery white ventrally. Three dorsal fins and two anal fins. Straight, smooth, light-coloured lateral line. Shallowly forked tail fin. The chin barbel is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Straight, smooth, light-coloured lateral line.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:84",
-              "locator": "Description",
-              "quote": "The saithe or coalfish Pollachius virens is a member of the pollack family. It can reach 1.2 m in length. It has three dorsal and two anal fins. It has a straight lateral line, which is light in colour. The back and sides are usually...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "Unlike the pollack Pollachius pollachius , it has a straight lateral line, which is light in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Short description",
+              "quote": "Lateral line smooth along its entire length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description (Pollachius pollachius, the pollack, for the contrast)",
+              "quote": "Dark lateral line that sharply curves over the pectoral fin and continues over whole body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9ldfj000v7igsex110esq": {
           "sourceIds": [
-            "fishbase:Pollachius-virens",
-            "marlin:84"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Short description",
-              "quote": "Chin barbel small. Lateral line smooth along its entire length. Body color is brownish-green dorsally, becoming only slightly paler ventrally....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:84",
-              "locator": "Identifying features",
-              "quote": "Compressed body up to 1.2 m in length. Dusky greenish-brown dorsal colouring, silvery white ventrally. Three dorsal fins and two anal fins. Straight, smooth, light-coloured lateral line. Shallowly forked tail fin. The chin barbel is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:84",
-              "locator": "Description",
-              "quote": "The saithe or coalfish Pollachius virens is a member of the pollack family. It can reach 1.2 m in length. It has three dorsal and two anal fins. It has a straight lateral line, which is light in colour. The back and sides are usually...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9ldfj000w7igs79gty93o": {
-          "sourceIds": [
-            "fishbase:Pollachius-virens",
-            "marlin:84"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Short description",
-              "quote": "Chin barbel small. Lateral line smooth along its entire length. Body color is brownish-green dorsally, becoming only slightly paler ventrally....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:84",
-              "locator": "Identifying features",
-              "quote": "Compressed body up to 1.2 m in length. Dusky greenish-brown dorsal colouring, silvery white ventrally. Three dorsal fins and two anal fins. Straight, smooth, light-coloured lateral line. Shallowly forked tail fin. The chin barbel is...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:84",
-              "locator": "Description",
-              "quote": "The saithe or coalfish Pollachius virens is a member of the pollack family. It can reach 1.2 m in length. It has three dorsal and two anal fins. It has a straight lateral line, which is light in colour. The back and sides are usually...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
+            "marlin:84",
+            "fishbase:Pollachius-pollachius",
             "fishbase:Pollachius-virens"
           ],
           "support": [
             {
+              "sourceId": "marlin:84",
+              "locator": "Description",
+              "quote": "The upper and lower jaws are approximately equal in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description (Pollachius pollachius, the pollack, for the contrast)",
+              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 39.1 &nbsp range ? - ? cm Max length: 130 cm TL male/unsexed;; common length: 60.0 cm TL male/unsexed;; max. published weight: 32.0 kg; max. reported age: 25 years",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Short description",
+              "quote": "Chin barbel small. Lateral line smooth along its entire length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:84",
+              "locator": "Identifying features",
+              "quote": "The chin barbel is absent.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9ldfj000w7igs79gty93o": {
+          "sourceIds": [
+            "marlin:84",
+            "fishbase:Pollachius-virens",
+            "worms:126441"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:84",
+              "locator": "Description",
+              "quote": "The back and sides are usually dusky greenish-brown in colour and the belly is silvery white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Short description",
+              "quote": "Body color is brownish-green dorsally, becoming only slightly paler ventrally.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Biology",
+              "quote": "An active, gregarious fish occurring inshore and offshore waters.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:84",
+              "locator": "Description",
+              "quote": "The saithe or coalfish Pollachius virens is a member of the pollack family.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:126441",
+              "locator": "Common names, English",
+              "quote": "sillock saithe pollock gloshan glassan coley coalfish coal fish billet",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Pollachius-virens",
+            "marlin:84"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 130 cm TL male/unsexed; (Ref. 1371 ); common length : 60.0 cm TL male/unsexed; (Ref. 4645 ); max. published weight: 32.0 kg (Ref. 7251 ); max. reported age: 25 years (Ref. 1371 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:84",
+              "locator": "Identifying features",
+              "quote": "Compressed body up to 1.2 m in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Pollachius-virens",
-            "marlin:84"
+            "marlin:84",
+            "fishbase:Pollachius-virens"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Biology",
-              "quote": "An active, gregarious fish occurring inshore and offshore waters. Usually enters coastal waters in spring and returns to deeper waters in winter. Smaller fish in inshore waters feed on small crustaceans...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; demersal; oceanodromous; depth range 37 - 364 m. Temperate; 81&deg;N - 35&deg;N, 76&deg;W - 35&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:84",
               "locator": "Habitat",
-              "quote": "The saithe is a benthopelagic species; an active, gregarious fish occurring both inshore and offshore. It usually enters coastal waters in spring and returns to deeper waters (up to 350 m) in winter",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The saithe is a benthopelagic species; an active, gregarious fish occurring both inshore and offshore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Distribution",
+              "quote": "North Atlantic: southwest Greenland, Hudson Strait to North Carolina, east to Bay of Biscay, Barents Sea and Spitsbergen.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -5652,12 +5909,26 @@
             {
               "sourceId": "fishbase:Pollachius-virens",
               "locator": "Biology",
-              "quote": "An active, gregarious fish occurring inshore and offshore waters. Usually enters coastal waters in spring and returns to deeper waters in winter. Smaller fish in inshore waters feed on small crustaceans...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "An active, gregarious fish occurring inshore and offshore waters. Usually enters coastal waters in spring and returns to deeper waters in winter (Ref. 9988 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Distribution",
+              "quote": "Migrations for spawning are known to occur. Also long-distance north-south migrations for Europe and the US.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; oceanodromous (Ref. 51243 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -5674,21 +5945,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Pollachius-virens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 4.3 ±0.4 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -5704,58 +5960,157 @@
           ],
           "claimSupported": true
         },
-        "edge:Poor cod->Saithe": {
+        "trait:depth": {
+          "sourceIds": [
+            "fishbase:Pollachius-virens",
+            "marlin:84"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; oceanodromous (Ref. 51243 ); depth range 37 - 364 m (Ref. 5951 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:84",
+              "locator": "Habitat / Depth range",
+              "quote": "It usually enters coastal waters in spring and returns to deeper waters (up to 350 m) in winter",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Pollachius-virens",
+            "fishbase-fooditems:Pollachius-virens"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Biology",
+              "quote": "Smaller fish in inshore waters feed on small crustaceans (copepods, amphipods, euphausiids) and small fish, while larger fish prey predominantly upon fishes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pollachius-virens",
+              "locator": "Food items reported for Pollachius virens, nekton > finfish",
+              "quote": "bony fish Ammodytes sp. UK Scotland recruits/juv. ... bony fish Sprattus sprattus ... bony fish Melanogrammus aeglefinus ... bony fish Merlangius merlangus ... bony fish Trisopterus esmarkii",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Pollachius-virens",
+            "fishbase-fooditems:Pollachius-virens"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Biology",
+              "quote": "Smaller fish in inshore waters feed on small crustaceans (copepods, amphipods, euphausiids) and small fish, while larger fish prey predominantly upon fishes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pollachius-virens",
+              "locator": "Food items reported for Pollachius virens, zooplankton and zoobenthos > crustaceans",
+              "quote": "benth. crust. amphipods Caprella linearis UK Scotland juv./adults ... plank. crust. euphausiids unidentified Norway juv./adults ... plank. copepods Calanus finmarchicus UK Scotland larvae",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
           "sourceIds": [
             "fishbase-fooditems:Pollachius-virens"
           ],
           "support": [
             {
               "sourceId": "fishbase-fooditems:Pollachius-virens",
-              "locator": "Food items table, nekton > finfish > bony fish rows (UK Scotland)",
-              "quote": "nekton finfish bony fish Gadoid juveniles UK Scotland recruits/juv.; nekton finfish bony fish Trisopterus esmarkii UK Scotland juv./adults",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:depth": {
-          "sourceIds": [
-            "fishbase:Pollachius-virens"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pollachius-virens",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; oceanodromous (Ref. 51243); depth range 37 - 364 m (Ref. 5951).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Food items reported for Pollachius virens, cephalopods, echinoderms, mollusks and worms",
+              "quote": "squids/cuttlefish Gonatus fabricii Norway juv./adults ... sea stars/brittle stars Ophiocomina nigra UK Scotland juv./adults ... bivalves Mytilus sp. UK Scotland recruits/juv. ... polychaetes unidentified UK Scotland recruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "doi:10.1016-j.jembe.2023.151899",
-            "doi:10.1111-raq.12584"
+            "doi:10.7489-1799-1",
+            "marinescot:SMFS-7-21",
+            "fishbase-predators:Pollachius-virens"
           ],
           "support": [
             {
-              "sourceId": "doi:10.1016-j.jembe.2023.151899",
-              "locator": "Section 3, Results, opening paragraph",
-              "quote": "Pollachius spp. (saithe and pollack) were found at every site and were generally the most dominant taxa, contributing to ~38% of total abundances, while the two-spotted goby, Gobiusculus flavescens, was also often locally abundant.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Executive Summary (p. 1; PDF p. 6)",
+              "quote": "A total of 2,205 grey seal scats containing hard prey remains were processed ... In the Northern Isles, the diet was also dominated by sandeel and gadid prey, particularly saithe and cod.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1111-raq.12584",
-              "locator": "Abstract",
-              "quote": "Bivalve and seaweed aquaculture were associated with higher abundance (n = 59, range: 0.05× to 473×, median lnRR = 0.67) and species richness (n = 29, range: 0.68× to 4.3×, median lnRR = 0.13) of wild, mobile macrofauna.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "4.2 Diet Composition, Northern Isles (p. 13; PDF p. 18)",
+              "quote": "In the Northern Isles, the diet was also dominated by sandeel and gadid prey, particularly saithe and cod.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinescot:SMFS-7-21",
+              "locator": "4.2 Diet composition, Northern Isles (p. 18; PDF p. 23)",
+              "quote": "In Shetland, pelagic prey and sandeel dominated the diet in summer, in autumn, sandeel, pelagic fish and saithe were important and, in spring, ... large gadids (mainly saithe and rockling) and dragonet were dominant prey",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-predators:Pollachius-virens",
+              "locator": "Organisms Preying on Pollachius virens, mammals > seals/sea lions",
+              "quote": "Organisms Preying on Pollachius virens ... seals/sea lions Phocidae Halichoerus grypus ... seals/sea lions Phocidae Phoca vitulina",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-predators:Pollachius-virens"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Pollachius-virens",
+              "locator": "Organisms Preying on Pollachius virens, finfish > bony fish",
+              "quote": "Organisms Preying on Pollachius virens ... finfish bony fish Gadidae Gadus morhua ... finfish bony fish Lophiidae Lophius americanus ... finfish bony fish Lotidae Molva molva",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-predators:Pollachius-virens"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Pollachius-virens",
+              "locator": "Organisms Preying on Pollachius virens, mammals > whales/dolphins and birds > sea birds",
+              "quote": "Organisms Preying on Pollachius virens ... whales/dolphins Balaenopteridae Balaenoptera acutorostrata ... whales/dolphins Phocoenidae Phocoena phocoena ... birds sea birds Phalacrocoracidae Phalacrocorax aristotelis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -5773,159 +6128,219 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126445",
-        "marlin:1876",
+        "doi:10.7489-1799-1",
+        "fishbase-dietcompo:Trisopterus-luscus",
+        "fishbase-fooditems:Trisopterus-luscus",
+        "fishbase-pred:Trisopterus-luscus",
+        "fishbase:Pollachius-pollachius",
+        "fishbase:Pollachius-virens",
         "fishbase:Trisopterus-luscus",
-        "doi:10.7489-1799-1"
+        "fishbase:Trisopterus-minutus",
+        "fishbase:predators-Sprattus-sprattus",
+        "ices:crr325",
+        "marlin:1876"
       ],
       "claims": {
-        "edge:Sprat->Bib": {
+        "fieldNote": {
           "sourceIds": [
+            "marlin:1876",
             "fishbase:Trisopterus-luscus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "FishBase food items for Trisopterus luscus (vstockcode=1385), reached from the 'Food items (preys)' link the summary page publishes; add it as fishbase-fooditems:Trisopterus-luscus",
-              "quote": "nekton | finfish | bony fish | Sprattus sprattus | Netherlands | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "fieldNote": {
-          "sourceIds": [
-            "fishbase:Trisopterus-luscus",
-            "marlin:1876"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Short description",
-              "quote": "Chin barbel well developed. Pelvic fins with slightly elongated anterior rays. Body light brown dorsally, relatively tall, grayish on the sides...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1876",
-              "locator": "Identifying features",
-              "quote": "Deep coppery colour with 3 or 4 vertical pale bands. Long chin barbel. Three dorsal fins and 2 anal fins. First dorsal fin sharply pointed. Relatively deep body. Black mark at base of pectoral fin. Often between 20-30 cm long.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical pale bands and a long chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1876",
               "locator": "Description",
-              "quote": "A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical pale bands and a long chin barbel. Adults are between 20-30 cm long, sometimes reaching a maximum of 45 cm in length. Trisopterus luscus has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "At the base of the pectoral fin is a black mark, approximately the size of the eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1876",
+              "locator": "Habitat",
+              "quote": "They are also often encountered in and around wrecks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Biology",
+              "quote": "Gregarious fish; immature ones often occur in large schools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Classification / Names",
+              "quote": "Teleostei (teleosts) > Gadiformes (Cods) > Gadidae (Cods and haddocks)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Coppery deep-bodied cod relative with 4-5 dark vertical bands, a single chin barbel, and a dark blotch at the base of each pectoral fin; dense shoals near wrecks and ledges. The source says: marlin:1876 Description: 'A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical PALE bands and a long chin barbel.' fishbase Short description: 'with four or five broad indistinct transverse bars on the sides; a dark blotch at the upper edge of the pectoral-fin base'. Everything else in the note (coppery, deep body, barbel, pectoral blotch, shoals near wrecks) is carried verbatim."
+          "claimSupported": true
         },
         "mark:cmpymuk9h00017iowwbshnqua": {
           "sourceIds": [
+            "marlin:1876",
             "fishbase:Trisopterus-luscus",
-            "marlin:1876"
+            "fishbase:Trisopterus-minutus",
+            "fishbase:Pollachius-pollachius",
+            "fishbase:Pollachius-virens"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Short description",
-              "quote": "Chin barbel well developed. Pelvic fins with slightly elongated anterior rays. Body light brown dorsally, relatively tall, grayish on the sides...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1876",
               "locator": "Identifying features",
-              "quote": "Deep coppery colour with 3 or 4 vertical pale bands. Long chin barbel. Three dorsal fins and 2 anal fins. First dorsal fin sharply pointed. Relatively deep body. Black mark at base of pectoral fin. Often between 20-30 cm long.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Long chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1876",
               "locator": "Description",
-              "quote": "A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical pale bands and a long chin barbel. Adults are between 20-30 cm long, sometimes reaching a maximum of 45 cm in length. Trisopterus luscus has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical pale bands and a long chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Short description",
+              "quote": "Chin barbel well developed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Short description",
+              "quote": "Chin barbel well developed. Body brownish yellow dorsally, becoming paler ventrally; a dark blotch is at the base of the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description",
+              "quote": "Lacks a chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Short description",
+              "quote": "Chin barbel small. Lateral line smooth along its entire length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpymuk9h00037iowr15rbwj1": {
           "sourceIds": [
+            "marlin:1876",
             "fishbase:Trisopterus-luscus",
-            "marlin:1876"
+            "fishbase:Trisopterus-minutus",
+            "fishbase:Pollachius-pollachius"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Short description",
-              "quote": "Chin barbel well developed. Pelvic fins with slightly elongated anterior rays. Body light brown dorsally, relatively tall, grayish on the sides...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1876",
+              "locator": "Description",
+              "quote": "At the base of the pectoral fin is a black mark, approximately the size of the eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1876",
               "locator": "Identifying features",
-              "quote": "Deep coppery colour with 3 or 4 vertical pale bands. Long chin barbel. Three dorsal fins and 2 anal fins. First dorsal fin sharply pointed. Relatively deep body. Black mark at base of pectoral fin. Often between 20-30 cm long.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Black mark at base of pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1876",
-              "locator": "Description",
-              "quote": "A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical pale bands and a long chin barbel. Adults are between 20-30 cm long, sometimes reaching a maximum of 45 cm in length. Trisopterus luscus has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Short description",
+              "quote": "a dark blotch at the upper edge of the pectoral-fin base (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-minutus",
+              "locator": "Short description",
+              "quote": "a dark blotch is at the base of the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description",
+              "quote": "No dark spot at pectoral fin base.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpymuk9h00057iowyq5ejrzx": {
           "sourceIds": [
-            "fishbase:Trisopterus-luscus",
-            "marlin:1876"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Short description",
-              "quote": "Chin barbel well developed. Pelvic fins with slightly elongated anterior rays. Body light brown dorsally, relatively tall, grayish on the sides...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1876",
-              "locator": "Identifying features",
-              "quote": "Deep coppery colour with 3 or 4 vertical pale bands. Long chin barbel. Three dorsal fins and 2 anal fins. First dorsal fin sharply pointed. Relatively deep body. Black mark at base of pectoral fin. Often between 20-30 cm long.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1876",
-              "locator": "Description",
-              "quote": "A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical pale bands and a long chin barbel. Adults are between 20-30 cm long, sometimes reaching a maximum of 45 cm in length. Trisopterus luscus has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
+            "marlin:1876",
             "fishbase:Trisopterus-luscus"
           ],
           "support": [
             {
+              "sourceId": "marlin:1876",
+              "locator": "Description",
+              "quote": "A distinctive fish with a relatively deep body, deep coppery colour with 3 or 4 vertical pale bands and a long chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1876",
+              "locator": "Description",
+              "quote": "Older, adult individuals may be completely dark brown, having lost their banding.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1876",
+              "locator": "Additional information",
+              "quote": "Trisopterus luscus may be confused with Trisopterus minutus (poor cod). However, Trisopterus minutus can be distinguished by its plain colour and narrower body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 22.1, range 21 - 25 cm Max length: 46.0 cm TL male/unsexed;; common length: 30.0 cm TL male/unsexed;; max. reported age: 4 years",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Short description",
+              "quote": "Body light brown dorsally, relatively tall, grayish on the sides becoming silvery ventrally, with four or five broad indistinct transverse bars on the sides",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Trisopterus-luscus",
+            "marlin:1876"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 46.0 cm TL male/unsexed; (Ref. 7034 ); common length : 30.0 cm TL male/unsexed; (Ref. 1371 ); max. reported age: 4 years (Ref. 1371 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1876",
+              "locator": "Description",
+              "quote": "Adults are between 20-30 cm long, sometimes reaching a maximum of 45 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -5938,12 +6353,12 @@
             {
               "sourceId": "fishbase:Trisopterus-luscus",
               "locator": "Biology",
-              "quote": "Gregarious fish; immature ones often occur in large schools. Lives mostly on the outer shelf, but moves inshore to depths of 50 m or less for spawning. Feeds on benthic crustaceans but also on small fish,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Gregarious fish; immature ones often occur in large schools. Lives mostly on the outer shelf, but moves inshore to depths of 50 m or less for spawning.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -5960,21 +6375,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Trisopterus-luscus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 3.7 ±0.1 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -5990,51 +6390,28 @@
           ],
           "claimSupported": false
         },
-        "edge:Shore Crab->Bib": {
-          "sourceIds": [
-            "fishbase:Trisopterus-luscus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Biology",
-              "quote": "Feeds on benthic crustaceans but also on small fish, mollusks and polychaetes (Ref. 3663).",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Trisopterus-luscus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Trisopterus-luscus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243); depth range 30 - 100 m (Ref. 3663).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
+            "fishbase:Trisopterus-luscus",
             "marlin:1876"
           ],
           "support": [
             {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243 ); depth range 30 - 100 m (Ref. 3663 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:1876",
               "locator": "Habitat",
-              "quote": "Found inshore and in coastal waters down to 300 m, Trisopterus luscus favour mixed rock and sand habitats. They are also often encountered in and around wrecks.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "quote": "Found inshore and in coastal waters down to 300 m, Trisopterus luscus favour mixed rock and sand habitats.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role 'created', which build-foodweb.mjs defines as a species that 'would be absent without the farm's structure / kelp / mussels' and reserves for animals that 'physically cannot occupy bare soft sediment' The source says: MarLIN's bib account puts it on sand as well as rock: 'Found inshore and in coastal waters down to 300 m, Trisopterus luscus favour mixed rock and sand habitats. They are also often encountered in and around wrecks.' Structure-associated, yes; soft-sediment-excluded, no."
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
@@ -6046,18 +6423,163 @@
               "sourceId": "marlin:1876",
               "locator": "Habitat",
               "quote": "Found inshore and in coastal waters down to 300 m, Trisopterus luscus favour mixed rock and sand habitats. They are also often encountered in and around wrecks.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Trisopterus-luscus",
               "locator": "Environment: milieu / climate zone / depth range / distribution range",
-              "quote": "Marine; brackish; benthopelagic; oceanodromous",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243 ); depth range 30 - 100 m (Ref. 3663 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Biology",
+              "quote": "Lives mostly on the outer shelf, but moves inshore to depths of 50 m or less for spawning.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Trisopterus-luscus",
+            "fishbase-fooditems:Trisopterus-luscus",
+            "fishbase-dietcompo:Trisopterus-luscus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Biology",
+              "quote": "Feeds on benthic crustaceans but also on small fish, mollusks and polychaetes (Ref. 3663 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Trisopterus-luscus",
+              "locator": "Food items reported for Trisopterus luscus, zoobenthos / benthic crustacean rows",
+              "quote": "Food items reported for Trisopterus luscus ... benth. crust. amphipods Corophiidae ... benth. crust. crabs Pagurus bernhardus ... benth. crust. mysids Mysidae ... shrimps/prawns Crangon allmanni",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-dietcompo:Trisopterus-luscus",
+              "locator": "Food and Feeding Habits: Diet Composition, Main Food column (zoobenthos in all 16 records, 24-83 percent)",
+              "quote": "Food and Feeding Habits: Diet Composition Trisopterus luscus ... Main Food ... zoobenthos ... UK Gr. Britain",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase-fooditems:Trisopterus-luscus",
+            "fishbase:predators-Sprattus-sprattus",
+            "fishbase:Trisopterus-luscus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Trisopterus-luscus",
+              "locator": "Food items reported for Trisopterus luscus, nekton / finfish rows",
+              "quote": "Food items reported for Trisopterus luscus ... nekton finfish bony fish Ammodytidae ... nekton finfish bony fish Clupea harengus ... nekton finfish bony fish Sprattus sprattus ... nekton finfish bony fish Pomatoschistus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:predators-Sprattus-sprattus",
+              "locator": "Organisms Preying on Sprattus sprattus, Gadidae row",
+              "quote": "Portugal finfish bony fish Gadidae Trisopterus luscus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Biology",
+              "quote": "Feeds on benthic crustaceans but also on small fish, mollusks and polychaetes (Ref. 3663 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Trisopterus-luscus",
+            "fishbase-fooditems:Trisopterus-luscus",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Trisopterus-luscus",
+              "locator": "Biology",
+              "quote": "Feeds on benthic crustaceans but also on small fish, mollusks and polychaetes (Ref. 3663 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Trisopterus-luscus",
+              "locator": "Food items reported for Trisopterus luscus, cephalopod, mollusc and worm rows",
+              "quote": "nekton cephalopods squids/cuttlefish Sepiola ... zoobenthos mollusks bivalves Pelecypoda ... zoobenthos mollusks gastropods Buccinum undatum ... zoobenthos worms polychaetes Nereis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.2 Predators, Sepia officinalis",
+              "quote": "In the Bay of Biscay, Velasco et al. (2001) found S. officinalis in the stomach contents of Pagellus acarne, Aspitrigla cuculus, A. obscura, Lophius piscatorius, L. budegassa, Trisopterus luscus, Lepidorhombus whiffiagonis, and L. boscii.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Trisopterus-luscus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Trisopterus-luscus",
+              "locator": "Organisms Preying on Trisopterus luscus, finfish rows",
+              "quote": "Organisms Preying on Trisopterus luscus ... Lophiidae Lophius piscatorius ... Merlucciidae Merluccius merluccius ... Rajidae Raja clavata ... Triglidae Chelidonichthys gurnardus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Trisopterus-luscus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Trisopterus-luscus",
+              "locator": "Organisms Preying on Trisopterus luscus, mammal rows",
+              "quote": "Organisms Preying on Trisopterus luscus ... UK Scotland mammals whales/dolphins Delphinidae Tursiops truncatus ... mammals seals/sea lions Phocidae Phoca vitulina",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 6.3. Prey composition of Sepia officinalis, Gadidae row",
+              "quote": "Table 6.3. Prey composition of Sepia officinalis, as known from studies in the Mediterranean Sea and the Northeast Atlantic ... Gadidae Trisopterus luscus (pouting)2",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -6075,72 +6597,52 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126438",
-        "marlin:96",
-        "fishbase:Merlangius-merlangus",
         "doi:10.7489-1799-1",
-        "fishbase-fooditems:Merlangius-merlangus"
+        "fishbase-fooditems:Conger-conger",
+        "fishbase-fooditems:Gadus-morhua",
+        "fishbase-fooditems:Merlangius-merlangus",
+        "fishbase-fooditems:Pollachius-virens",
+        "fishbase:Merlangius-merlangus",
+        "fishbase:fooditems-Chelidonichthys-lucerna",
+        "marlin:96"
       ],
       "claims": {
-        "edge:Sprat->Whiting": {
-          "sourceIds": [
-            "fishbase:Merlangius-merlangus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "FishBase food items for Merlangius merlangus (vstockcode=39), nekton > finfish > bony fish row",
-              "quote": "nekton | finfish | bony fish | Sprattus sprattus | Isle of Man | adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Sand goby->Whiting": {
-          "sourceIds": [
-            "fishbase:Merlangius-merlangus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "FishBase food items for Merlangius merlangus (vstockcode=39), nekton > finfish > bony fish row",
-              "quote": "nekton | finfish | bony fish | Pomatoschistus minutus | Germany | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Merlangius-merlangus",
-            "marlin:96"
+            "marlin:96",
+            "fishbase:Merlangius-merlangus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "Short description",
-              "quote": "Body elongate; head small. Chin barbel small or absent. Lateral-line canals on head with pores....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:96",
+              "locator": "Description",
+              "quote": "The whiting Merlangius merlangus is a cod-like fish. It has an elongated body with a small head and a pointed snout. ... It has a blue-green upper colouring and is silvery-white underneath. It has three dorsal fins and two anal fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:96",
               "locator": "Identifying features",
-              "quote": "Blue-green dorsal colouring, silver-white underneath. Three dorsal fins located close together and two anal fins. First anal fin starts directly below the central rays of the second dorsal. Black spot at the base of the pectoral fins....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Three dorsal fins located close together and two anal fins. ... Black spot at the base of the pectoral fins. ... Brown lateral line. Lower jaw slightly shorter than upper jaw. Barbel either rudimentary or absent.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:96",
-              "locator": "Description",
-              "quote": "The whiting Merlangius merlangus is a cod-like fish. It has an elongated body with a small head and a pointed snout. It can grow up to 70 cm in length. It has a blue-green upper colouring and is silvery-white underneath. It has three...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "It can be differentiated from similar species such as the haddock, Melanogrammus aeglefinus , by a small dark spot which is found at the base of the pectoral fins and by the lateral line being brown and not black.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Merlangius-merlangus",
+              "locator": "Short description",
+              "quote": "Body elongate; head small. Chin barbel small or absent. ... often with a small dark blotch at the upper base of the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
@@ -6149,43 +6651,43 @@
           "support": [
             {
               "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 28.2, range 28 - 30 cm Max length: 91.5 cm TL male/unsexed;; common length: 23.5 cm TL male/unsexed;; max. published weight: 3.1 kg; max. reported age: 20 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 91.5 cm TL male/unsexed; (Ref. 106276 ); common length : 23.5 cm TL male/unsexed; (Ref. 1371 ); max. published weight: 3.1 kg (Ref. 40637 ); max. reported age: 20 years (Ref. 35388 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Merlangius-merlangus",
-            "marlin:96"
+            "marlin:96",
+            "fishbase:Merlangius-merlangus"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "Biology",
-              "quote": "More commonly found from 30 to 100 m, mainly on mud and gravel bottoms, but also on sand and rock. Feed on shrimps, crabs, mollusks, small fish, polychaetes and cephalopods. Migrate to the open sea only...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; benthopelagic; oceanodromous; depth range 10 - 200 m, usually 30 - 100 m. Temperate; 72&deg;N - 35&deg;N, 27&deg;W - 42&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:96",
               "locator": "Habitat",
               "quote": "The whiting is a benthopelagic species usually found as depths of 30-100 m. It can be found near mud and gravel bottoms, but also above sand and rock.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Merlangius-merlangus",
+              "locator": "Biology",
+              "quote": "More commonly found from 30 to 100 m, mainly on mud and gravel bottoms, but also on sand and rock.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Merlangius-merlangus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243 ); depth range 10 - 200 m (Ref. 1371 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -6195,12 +6697,19 @@
             {
               "sourceId": "fishbase:Merlangius-merlangus",
               "locator": "Biology",
-              "quote": "More commonly found from 30 to 100 m, mainly on mud and gravel bottoms, but also on sand and rock. Feed on shrimps, crabs, mollusks, small fish, polychaetes and cephalopods. Migrate to the open sea only...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Migrate to the open sea only after the first year of life. Eggs are pelagic. Larvae and juveniles are associated with jellyfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Merlangius-merlangus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -6217,22 +6726,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Merlangius-merlangus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 4.4 ±0.2 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Tier 3, 'Planktivores and invertivores' The source says: Trophic level (Ref. 69278) 4.4 +/-0.2 se; based on diet studies. (Same field read live: Gadus morhua 4.1, Pollachius pollachius 4.3, both filed T4 'Predators'.)"
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -6248,21 +6741,6 @@
           ],
           "claimSupported": true
         },
-        "edge:Sand smelt->Whiting": {
-          "sourceIds": [
-            "fishbase:Merlangius-merlangus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "Biology",
-              "quote": "Feed on shrimps, crabs, mollusks, small fish, polychaetes and cephalopods.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
             "fishbase:Merlangius-merlangus"
@@ -6270,36 +6748,165 @@
           "support": [
             {
               "sourceId": "fishbase:Merlangius-merlangus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243); depth range 10 - 200 m (Ref. 1371), usually 30 - 100 m (Ref. 1371).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243 ); depth range 10 - 200 m (Ref. 1371 ), usually 30 - 100 m (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
-            "marlin:96"
+            "fishbase:Merlangius-merlangus",
+            "fishbase-fooditems:Merlangius-merlangus"
           ],
           "support": [
             {
-              "sourceId": "marlin:96",
-              "locator": "Habitat",
-              "quote": "The whiting is a benthopelagic species usually found as depths of 30-100 m. It can be found near mud and gravel bottoms, but also above sand and rock.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Merlangius-merlangus",
+              "locator": "Biology",
+              "quote": "Feed on shrimps, crabs, mollusks, small fish, polychaetes and cephalopods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Merlangius-merlangus",
+              "locator": "Food items reported for Merlangius merlangus > nekton / finfish / bony fish",
+              "quote": "bony fish Ammodytes spp. Isle of Man ... bony fish Clupea harengus Isle of Man ... bony fish Sprattus sprattus Isle of Man ... bony fish Trisopterus esmarkii Isle of Man",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Common goby->Whiting": {
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Merlangius-merlangus",
+            "fishbase-fooditems:Merlangius-merlangus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Merlangius-merlangus",
+              "locator": "Biology",
+              "quote": "Feed on shrimps, crabs, mollusks, small fish, polychaetes and cephalopods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Merlangius-merlangus",
+              "locator": "Food items reported for Merlangius merlangus > zoobenthos / benthic crustaceans",
+              "quote": "crabs Pagurus bernhardus Isle of Man ... shrimps/prawns Crangon crangon Isle of Man",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Merlangius-merlangus",
+              "locator": "Food items reported for Merlangius merlangus > zoobenthos / benthic crustaceans",
+              "quote": "amphipods Ampelisca typica UK Scotland ... isopods Eurydice pulchra UK Scotland ... mysids Gastrosaccus spinifer Germany",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Merlangius-merlangus",
+            "fishbase-fooditems:Merlangius-merlangus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Merlangius-merlangus",
+              "locator": "Biology",
+              "quote": "Feed on shrimps, crabs, mollusks, small fish, polychaetes and cephalopods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Merlangius-merlangus",
+              "locator": "Food items reported for Merlangius merlangus > cephalopods, molluscs and worms",
+              "quote": "squids/cuttlefish Alloteuthis subulata ... bivalves Abra alba ... polychaetes Nephtys spp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.7489-1799-1"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "4.1 Diet Data",
+              "quote": "commonly found prey species included: Norway pout, poor cod and unidentified Trisopterus spp.; saithe, whiting, cod, haddock, rockling and unidentified gadid",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Appendix, Figure 1",
+              "quote": "Estimated length frequencies of cod and whiting consumed by grey seals in 2010/11.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua",
+            "fishbase-fooditems:Pollachius-virens",
+            "fishbase-fooditems:Conger-conger",
+            "fishbase:fooditems-Chelidonichthys-lucerna"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua > nekton / finfish / bony fish",
+              "quote": "bony fish Merlangius merlangus Norway juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pollachius-virens",
+              "locator": "Food items reported for Pollachius virens > nekton / finfish / bony fish",
+              "quote": "bony fish Merlangius merlangus UK Scotland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items reported for Conger conger > nekton / finfish / bony fish",
+              "quote": "bony fish Merlangius merlangus Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna > nekton / finfish / bony fish",
+              "quote": "bony fish Merlangius merlangus UK Gr. Britain juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
           "sourceIds": [
             "fishbase-fooditems:Merlangius-merlangus"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Whiting eats Common goby (Pomatoschistus microps) The source says: FishBase's food-item records for Merlangius merlangus name one Pomatoschistus prey and it is the SAND goby: 'nekton | finfish | bony fish | Pomatoschistus minutus | Germany | juv./adults'. The reciprocal check agrees: the predator list for Pomatoschistus microps names Alosa fallax, Podiceps cristatus, Ciliata mustela, Mergus merganser, Gymnocephalus cernuus, Chelidonichthys lucerna and Solea senegalensis, and does not name whiting."
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Merlangius-merlangus",
+              "locator": "Food items reported for Merlangius merlangus > nekton / finfish / bony fish",
+              "quote": "bony fish Merlangius merlangus (not available) juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -6317,164 +6924,175 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126965",
-        "marlin:1739",
-        "fishbase:Labrus-bergylta",
-        "sawc:2025",
-        "doi:10.7489-1799-1",
+        "biotic:6197",
         "doi:10.1016-j.fishres.2005.04.013",
-        "biotic:6197"
+        "doi:10.7489-1799-1",
+        "fishbase:Labrus-bergylta",
+        "marlin:1739",
+        "nrw:591",
+        "sawc:2025"
       ],
       "claims": {
-        "edge:Purple sea urchin->Ballan wrasse": {
-          "sourceIds": [
-            "fishbase:Labrus-bergylta"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Food items (matched on \"paracentrotus lividus\")",
-              "quote": "erms sea urchins Arbacia lixula Azores Is. juv./adults zoobenthos echinoderms sea urchins Paracentrotus lividus Azores Is. juv./adults zoobenthos echinoderms sea urchins Sphaerechinus granularis Azores Is. juv.",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Labrus-bergylta",
+            "sawc:2025",
             "marlin:1739"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Short description",
-              "quote": "Morphometrics Body rather massive. Mouth small with thick lips and large conical teeth. Coloration very variable, brownish and greenish predominating. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Description",
+              "quote": "The Ballan wrasse has a heavy body with a large head and thick fleshy lips (Baldock and Dipper 2023). It has a single dorsal fin that runs along the body with sharp spines in the anterior part, which is usually folded close to the body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1739",
-              "locator": "Identifying features",
-              "quote": "Heavy bodied wrasse. Variable colouration; reddish, brownish red, greenish with white spots or irregular vertical stripes. Young fish bright emerald green. No external differences between sexes. Maximum length 50 cm but usually about...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Description",
+              "quote": "Coloration is variable ranging from mottled brown or green to reddish with a pale underside and pale spots on the fins (Baldock and Dipper 2023).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1739",
               "locator": "Description",
-              "quote": "Labrus bergylta is a heavy bodied wrasse with a broad head, small mouth and thick lips. The colouration of this wrasse is variable but there are no external differences between the sexes. The body, head and fins are often brownish red...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Labrus bergylta is a heavy bodied wrasse with a broad head, small mouth and thick lips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9jpaa000f7igs45x6rsup": {
           "sourceIds": [
+            "sawc:2025",
             "fishbase:Labrus-bergylta",
             "marlin:1739"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Short description",
-              "quote": "Morphometrics Body rather massive. Mouth small with thick lips and large conical teeth. Coloration very variable, brownish and greenish predominating. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Description",
+              "quote": "The Ballan wrasse has a heavy body with a large head and thick fleshy lips (Baldock and Dipper 2023).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1739",
-              "locator": "Identifying features",
-              "quote": "Heavy bodied wrasse. Variable colouration; reddish, brownish red, greenish with white spots or irregular vertical stripes. Young fish bright emerald green. No external differences between sexes. Maximum length 50 cm but usually about...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Labrus-bergylta",
+              "locator": "Short description",
+              "quote": "Body rather massive. Mouth small with thick lips and large conical teeth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1739",
               "locator": "Description",
-              "quote": "Labrus bergylta is a heavy bodied wrasse with a broad head, small mouth and thick lips. The colouration of this wrasse is variable but there are no external differences between the sexes. The body, head and fins are often brownish red...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Labrus bergylta is a heavy bodied wrasse with a broad head, small mouth and thick lips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9jpaa000h7igs085oy36b": {
           "sourceIds": [
+            "marlin:1739",
             "fishbase:Labrus-bergylta",
+            "sawc:2025"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1739",
+              "locator": "Identifying features",
+              "quote": "Heavy bodied wrasse. ... Variable colouration; reddish, brownish red, greenish with white spots or irregular vertical stripes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1739",
+              "locator": "Description",
+              "quote": "The body, head and fins are often brownish red or reddish with numerous small white spots but can be greenish with white spots or irregular large vertical dark stripes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Labrus-bergylta",
+              "locator": "Short description",
+              "quote": "Coloration very variable, brownish and greenish predominating",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Description",
+              "quote": "Coloration is variable ranging from mottled brown or green to reddish with a pale underside and pale spots on the fins (Baldock and Dipper 2023).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Labrus-bergylta",
+            "sawc:2025",
             "marlin:1739"
           ],
           "support": [
             {
               "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Short description",
-              "quote": "Morphometrics Body rather massive. Mouth small with thick lips and large conical teeth. Coloration very variable, brownish and greenish predominating. Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 65.9 cm TL male/unsexed; (Ref. 40637 ); common length : 50.0 cm SL male/unsexed; (Ref. 4742 ); max. published weight: 4.4 kg (Ref. 40637 ); max. reported age: 34 years (Ref. 131345 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Description",
+              "quote": "Ballan wrasses reach up to 65 cm long, but typically they are 30-40 cm long (Baldock and Dipper 2023).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1739",
               "locator": "Identifying features",
-              "quote": "Heavy bodied wrasse. Variable colouration; reddish, brownish red, greenish with white spots or irregular vertical stripes. Young fish bright emerald green. No external differences between sexes. Maximum length 50 cm but usually about...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1739",
-              "locator": "Description",
-              "quote": "Labrus bergylta is a heavy bodied wrasse with a broad head, small mouth and thick lips. The colouration of this wrasse is variable but there are no external differences between the sexes. The body, head and fins are often brownish red...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "fishbase:Labrus-bergylta"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Size / Weight / Age",
-              "quote": "L m &nbsp ? &nbsp range ? - ? cm Max length: 65.9 cm TL male/unsexed;; common length: 50.0 cm SL male/unsexed;; max. published weight: 4.4 kg; max. reported age: 34 years",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Maximum length 50 cm but usually about 30 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Labrus-bergylta",
-            "marlin:1739"
+            "marlin:1739",
+            "sawc:2025",
+            "fishbase:Labrus-bergylta"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Biology",
-              "quote": "Adults are found in littoral (10-20 m) zone around rocks, offshore reefs, and seaweed. Young often in intertidal areas. All are born females and change sex when they are 4-14 years old. One (or more) female...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; reef-associated; depth range 1 - 50 m, usually 2 - 30 m. Temperate; 5&deg;C - 25&deg;C; 64&deg;N - 27&deg;N, 32&deg;W - 22&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1739",
               "locator": "Habitat",
               "quote": "Labrus bergylta is found in inshore waters amongst weed covered rocks or in lower shore pools. It is also found in the algal zone on rocky coasts from 5-30 m",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Distribution and habitat",
+              "quote": "The Ballan wrasse inhabits sublittoral zones and is closely associated with rock faces, boulder slopes, offshore reefs and kelp beds up to 30 m deep (Davie et al. 2023, Burns et al. 2025).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Labrus-bergylta",
+              "locator": "Biology",
+              "quote": "Adults are found in littoral (10-20 m) zone around rocks, offshore reefs, and seaweed. Young often in intertidal areas.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -6491,30 +7109,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Labrus-bergylta",
-            "sawc:2025"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 3.2 ±0.0 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "sawc:2025",
-              "locator": "Appendix V, 'Diet and feeding'",
-              "quote": "Decapods (Cancer pagurus, Carcinus maenas and Eupagurus bernhardus) and bivalves (c.90% Mytilus edulis) were the major prey categories in both areas",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Tier 4, 'Predators' The source says: fishbase: 'Trophic level (Ref. 69278) 3.2 +/-0.0 se; based on diet studies.' sawc:2025 Appendix V: 'Decapods (Cancer pagurus, Carcinus maenas and Eupagurus bernhardus) and bivalves (c.90% Mytilus edulis) were the major prey categories in both areas'. Read live: Symphodus melops 3.4 and Ctenolabrus rupestris 3.6, both filed T3."
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -6530,95 +7124,50 @@
           ],
           "claimSupported": true
         },
-        "edge:Painted Top Shell->Ballan wrasse": {
-          "sourceIds": [
-            "sawc:2025"
-          ],
-          "support": [
-            {
-              "sourceId": "sawc:2025",
-              "locator": "Appendix V, 'Diet and feeding'",
-              "quote": "gastropods (Littorina spp., Calliostoma zizyphinum, Bittium reticulatum and Lacuna vincta) were eaten often but in much smaller amounts",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Edible sea urchin->Ballan wrasse": {
-          "sourceIds": [
-            "doi:10.1016-j.fishres.2005.04.013"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1016-j.fishres.2005.04.013",
-              "locator": "Abstract",
-              "quote": "ballan wrasse fed mainly on echinoderms (sea-urchins), gastropods and decapods",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Green sea urchin->Ballan wrasse": {
-          "sourceIds": [
-            "doi:10.1016-j.fishres.2005.04.013"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1016-j.fishres.2005.04.013",
-              "locator": "Abstract",
-              "quote": "ballan wrasse fed mainly on echinoderms (sea-urchins), gastropods and decapods",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Spider Crab->Ballan wrasse": {
-          "sourceIds": [
-            "sawc:2025"
-          ],
-          "support": [
-            {
-              "sourceId": "sawc:2025",
-              "locator": "Appendix V, 'Diet and feeding'",
-              "quote": "Decapods (Cancer pagurus, Carcinus maenas and Eupagurus bernhardus) and bivalves (c.90% Mytilus edulis) were the major prey categories in both areas",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Labrus-bergylta"
+            "fishbase:Labrus-bergylta",
+            "marlin:1739"
           ],
           "support": [
             {
               "sourceId": "fishbase:Labrus-bergylta",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; reef-associated; depth range 1 - 50 m (Ref. 5292), usually 2 - 30 m (Ref. 35388).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; reef-associated; depth range 1 - 50 m (Ref. 5292 ), usually 2 - 30 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1739",
+              "locator": "Habitat",
+              "quote": "It is also found in the algal zone on rocky coasts from 5-30 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "biotic:6197"
+            "sawc:2025"
           ],
           "support": [
             {
-              "sourceId": "biotic:6197",
-              "locator": "General Biology parameter table, Sociability row",
-              "quote": "Sociability Solitary",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Distribution and habitat",
+              "quote": "It is active only during the day, hiding in rock crevices and seaweed beds at night (Davie et al. 2018).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Distribution and habitat",
+              "quote": "Ballan wrasses have very small home ranges and show high site fidelity.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9jpaa000g7igswxyhpueq": {
           "sourceIds": [
@@ -6629,11 +7178,131 @@
               "sourceId": "sawc:2025",
               "locator": "Appendix V, Description",
               "quote": "It has a single dorsal fin that runs along the body with sharp spines in the anterior part, which is usually folded close to the body.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "sawc:2025",
+            "doi:10.1016-j.fishres.2005.04.013",
+            "fishbase:Labrus-bergylta"
+          ],
+          "support": [
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Diet and feeding",
+              "quote": "Decapods (Cancer pagurus, Carcinus maenas and Eupagurus bernhardus) and bivalves (c.90% Mytilus edulis) were the major prey categories in both areas",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1016-j.fishres.2005.04.013",
+              "locator": "Abstract",
+              "quote": "while ballan wrasse fed mainly on echinoderms (sea-urchins), gastropods and decapods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Labrus-bergylta",
+              "locator": "Biology",
+              "quote": "Feed on crustaceans and mollusks",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "sawc:2025",
+            "biotic:6197"
+          ],
+          "support": [
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Diet and feeding",
+              "quote": "bivalves (c.90% Mytilus edulis) were the major prey categories in both areas",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Diet and feeding",
+              "quote": "gastropods (Littorina spp., Calliostoma zizyphinum, Bittium reticulatum and Lacuna vincta) were eaten often but in much smaller amounts",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Diet and feeding",
+              "quote": "The Ballan wrasses from Brittany mainly ate bivalves with Chlamys spp.(c.80%) comprising most of these (Deady and Fives 1995).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6197",
+              "locator": "General Biology parameter table, Typical food types",
+              "quote": "Typical food types Predominantly benthic crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.1016-j.fishres.2005.04.013"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1016-j.fishres.2005.04.013",
+              "locator": "3.2. Diet of ballan wrasse",
+              "quote": "The sea-urchins, A. lixula, P. lividus and S. granularis were the most important echinoderms in the diet of the ballan wrasse.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1016-j.fishres.2005.04.013",
+              "locator": "Abstract",
+              "quote": "This study shows that the white seabream and the ballan wrasse are important predators of sea-urchins in Azorean coastal habitats.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.7489-1799-1"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Table 4, prey species recovered from grey seal scats, 2010/11",
+              "quote": "Table 4. Number of all fish otoliths and cephalopod beaks recovered from grey seal scats in 2010/11 for each region, grouped by prey type. ... Ballan wrasse",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "nrw:591"
+          ],
+          "support": [
+            {
+              "sourceId": "nrw:591",
+              "locator": "4.1 Cormorant diet",
+              "quote": "In the sea, cormorants mainly feed on bottom-dwelling fishes, wrasses (Labridae) and codfishes (Gadidae) over rocky and weed covered substrates",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -6651,148 +7320,138 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:151501",
-        "marlin:1670",
-        "fishbase:Labrus-mixtus",
+        "doi:10.3354-aei00478",
+        "doi:10.7489-1798-1",
         "doi:10.7489-1799-1",
-        "doi:10.3354-aei00478"
+        "fishbase:Labrus-mixtus",
+        "marlin:1670"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Labrus-mixtus",
             "marlin:1670"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1670",
-              "locator": "Identifying features",
-              "quote": "Male up to 35 cm in length, female up to 30 cm. Functional males have a blue striped head and back, the rest of the body and fins are orange. Females and non-functional males are rose-pink or orange-red. Females have black and white...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The female is rose-pink to orange-red in colour with 2-3 dark spots interspersed with white on the rear dorsal and adjacent tail fin. Young males are similar in colour to the female but lack the dorsal spots.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1670",
               "locator": "Description",
-              "quote": "A slim-line wrasse with a narrow long head and a pointed snout. The colouration of Labrus mixtus is different between the sexes and very variable. The female is rose-pink to orange-red in colour with 2-3 dark spots interspersed with...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Older males have dark blue heads with brilliant blue lines and blotches that extend along the flanks. The rest of the body and the fins are bright orange and the fins also have bright blue markings.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: females and juveniles are pink-orange with three distinctive black saddle blotches along the back near the tail The source says: marlin:1670 Description: 'The female is rose-pink to orange-red in colour with 2-3 dark spots interspersed with white on the rear dorsal and adjacent tail fin. Young males are similar in colour to the female but lack the dorsal spots.'"
+          "claimSupported": true
         },
         "mark:cmpymuneh000v7iowxksiljx0": {
           "sourceIds": [
-            "fishbase:Labrus-mixtus",
             "marlin:1670"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1670",
+              "locator": "Description",
+              "quote": "Older males have dark blue heads with brilliant blue lines and blotches that extend along the flanks. The rest of the body and the fins are bright orange and the fins also have bright blue markings.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1670",
               "locator": "Identifying features",
-              "quote": "Male up to 35 cm in length, female up to 30 cm. Functional males have a blue striped head and back, the rest of the body and fins are orange. Females and non-functional males are rose-pink or orange-red. Females have black and white...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1670",
-              "locator": "Description",
-              "quote": "A slim-line wrasse with a narrow long head and a pointed snout. The colouration of Labrus mixtus is different between the sexes and very variable. The female is rose-pink to orange-red in colour with 2-3 dark spots interspersed with...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Functional males have a blue striped head and back, the rest of the body and fins are orange.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpymuneh000x7iowrixgqi6n": {
           "sourceIds": [
-            "fishbase:Labrus-mixtus",
             "marlin:1670"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): fusiform / normal.",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1670",
+              "locator": "Description",
+              "quote": "Older males have dark blue heads with brilliant blue lines and blotches that extend along the flanks. The rest of the body and the fins are bright orange and the fins also have bright blue markings.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1670",
               "locator": "Identifying features",
-              "quote": "Male up to 35 cm in length, female up to 30 cm. Functional males have a blue striped head and back, the rest of the body and fins are orange. Females and non-functional males are rose-pink or orange-red. Females have black and white...",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Functional males have a blue striped head and back, the rest of the body and fins are orange.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1670",
               "locator": "Description",
-              "quote": "A slim-line wrasse with a narrow long head and a pointed snout. The colouration of Labrus mixtus is different between the sexes and very variable. The female is rose-pink to orange-red in colour with 2-3 dark spots interspersed with...",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "A slim-line wrasse with a narrow long head and a pointed snout.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fishbase:Labrus-mixtus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 16.0 &nbsp range ? - ? cm Max length: 40.0 cm SL male/unsexed;; 30.0 cm TL (female); common length: 30.0 cm SL male/unsexed;; max. reported age: 20 years",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trait:habitat": {
-          "sourceIds": [
             "fishbase:Labrus-mixtus",
             "marlin:1670"
           ],
           "support": [
             {
               "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Biology",
-              "quote": "Adults are found in the algal zone of rocky shores. Usually solitary or in pairs with young. Females lay about 1,000 eggs in a nest of algae; the nest is guarded by the male. Feed mainly on crustaceans but...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 40.0 cm SL male/unsexed; (Ref. 3397 ); 30.0 cm TL (female); common length : 30.0 cm SL male/unsexed; (Ref. 4742 ); max. reported age: 20 years (Ref. 35388 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; reef-associated; non-migratory; depth range 2 - 200 m, usually 40 - 80 m. Subtropical; 68&deg;N - 12&deg;N, 32&deg;W - 34&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
+              "sourceId": "marlin:1670",
+              "locator": "Identifying features",
+              "quote": "Male up to 35 cm in length, female up to 30 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:1670",
+            "fishbase:Labrus-mixtus"
+          ],
+          "support": [
             {
               "sourceId": "marlin:1670",
               "locator": "Habitat",
               "quote": "Over rocks and hard ground, and in the algal zone, between 2 - 200 m but mainly between 20 - 80 m.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Labrus-mixtus",
+              "locator": "Biology",
+              "quote": "Adults are found in the algal zone of rocky shores (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1670",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Labrus mixtus can be found in rocky areas around most of the coasts of Britain and Ireland.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -6802,9 +7461,16 @@
             {
               "sourceId": "fishbase:Labrus-mixtus",
               "locator": "Biology",
-              "quote": "Adults are found in the algal zone of rocky shores. Usually solitary or in pairs with young. Females lay about 1,000 eggs in a nest of algae; the nest is guarded by the male. Feed mainly on crustaceans but...",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Usually solitary or in pairs with young. Females lay about 1,000 eggs in a nest of algae; the nest is guarded by the male (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Labrus-mixtus",
+              "locator": "Life cycle and mating behavior",
+              "quote": "Oviparous, distinct pairing during breeding (Ref. 205 ). Males build dish shaped nests and guard the eggs (Ref. 205 ). Sex reversal is completed in 7 months (Ref. 34185 , 34259 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -6819,21 +7485,6 @@
               "locator": "fishbase:Labrus-mixtus > Biology",
               "quote": "Feed mainly on crustaceans but also fishes and mollusks (Ref. 4742) and worms (Ref. 35388).",
               "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Labrus-mixtus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 3.9 ±0.62 se; based on food items.",
-              "readBy": "refs:trawl (fish-1)",
               "readOn": "2026-08-28"
             }
           ],
@@ -6854,37 +7505,30 @@
           ],
           "claimSupported": true
         },
-        "edge:Spider Crab->Cuckoo wrasse": {
+        "trait:depth": {
           "sourceIds": [
-            "doi:10.3354-aei00478"
+            "fishbase:Labrus-mixtus",
+            "marlin:1670"
           ],
           "support": [
             {
-              "sourceId": "doi:10.3354-aei00478",
-              "locator": "Results, stomach content analysis",
-              "quote": "L. mixtus stomach contents were dominated by crab biomass",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Hermit Crab->Cuckoo wrasse": {
-          "sourceIds": [
-            "doi:10.3354-aei00478"
-          ],
-          "support": [
+              "sourceId": "fishbase:Labrus-mixtus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; reef-associated; non-migratory; depth range 2 - 200 m (Ref. 5292 ), usually 40 - 80 m (Ref. 4742 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "doi:10.3354-aei00478",
-              "locator": "Results, stomach content analysis",
-              "quote": "L. mixtus stomach contents were dominated by crab biomass",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1670",
+              "locator": "Habitat",
+              "quote": "Over rocks and hard ground, and in the algal zone, between 2 - 200 m but mainly between 20 - 80 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "edge:Common Brittlestar->Cuckoo wrasse": {
+        "diet:eats:0": {
           "sourceIds": [
             "fishbase:Labrus-mixtus"
           ],
@@ -6892,24 +7536,83 @@
             {
               "sourceId": "fishbase:Labrus-mixtus",
               "locator": "Biology",
-              "quote": "Feed mainly on crustaceans but also fishes and mollusks (Ref. 4742) and worms (Ref. 35388).",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "quote": "Feed mainly on crustaceans but also fishes and mollusks (Ref. 4742 ) and worms (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "trait:depth": {
+        "diet:eats:1": {
           "sourceIds": [
             "fishbase:Labrus-mixtus"
           ],
           "support": [
             {
               "sourceId": "fishbase:Labrus-mixtus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; reef-associated; non-migratory; depth range 2 - 200 m (Ref. 5292), usually 40 - 80 m (Ref. 4742).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Feed mainly on crustaceans but also fishes and mollusks (Ref. 4742 ) and worms (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Labrus-mixtus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Labrus-mixtus",
+              "locator": "Biology",
+              "quote": "Feed mainly on crustaceans but also fishes and mollusks (Ref. 4742 ) and worms (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.7489-1799-1"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Table 4 caption (p. 11)",
+              "quote": "Table 4. Number of all fish otoliths and cephalopod beaks recovered from grey seal scats in 2010/11 for each region, grouped by prey type.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Table 4, 'Other' prey group, row 'Cuckoo wrasse', 18 otoliths in total",
+              "quote": "Cuckoo wrasse 6 4 0 8 0 0 18",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.7489-1798-1"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.7489-1798-1",
+              "locator": "Table 2 caption (p. 5)",
+              "quote": "Table 2: Number of fish otoliths and cephalopod beaks recovered from (A) harbour seal scats in 2010/12 and (B) grey seal scats in 2010/11.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7489-1798-1",
+              "locator": "Table 2 (A) Harbour seal, row 'Cuckoo wrasse', 7 otoliths in total",
+              "quote": "Cuckoo wrasse 0 0 0 2 0 0 5 7",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -7204,7 +7907,7 @@
             {
               "sourceId": "fishbase-fooditems:Symphodus-melops",
               "locator": "Food items reported for Symphodus melops, benthic crustacean rows (Ireland)",
-              "quote": "Food items reported for Symphodus melops ... zoobenthos benth. crust. amphipods Gammarus locusta Ireland juv./adults ... zoobenthos benth. crust. isopods Idotea balthica Ireland juv./adults",
+              "quote": "Food items reported for Symphodus melops ... amphipods Gammarus locusta ... crabs Carcinus maenas ... isopods Idotea balthica ... shrimps/prawns Hippolyte varians",
               "readBy": "claim-verification-sweep",
               "readOn": "2026-08-29"
             },
@@ -11199,8 +11902,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1111-raq.12584",
-        "doi:10.1111-raq.12669",
         "fishbase-fooditems:Gadus-morhua",
         "fishbase-pred:Gadus-morhua",
         "fishbase:Gadus-morhua",
@@ -14448,7 +15149,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1016-j.ecolind.2024.112708",
         "fishbase-fooditems:Conger-conger",
         "fishbase-fooditems:Gadus-morhua",
         "marlin:1179"
