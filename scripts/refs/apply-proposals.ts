@@ -303,6 +303,15 @@ async function main() {
     }
     diets[p.species] = { eats, eatenBy };
 
+    // Drop the superseded claims BEFORE the source list is rebuilt. The per-edge
+    // links and the trophic tier came off the guide with the rest of the
+    // farm-web framing; rebuilding first left their sources sitting in
+    // sourceIds with no claim behind them, which for a PDF is precisely the
+    // unbacked citation the catalogue test refuses.
+    for (const key of Object.keys(entry.claims)) {
+      if (key.startsWith("edge:") || key === "trophic:tier" || key === "farm:role") delete entry.claims[key];
+    }
+
     // The species' source list is the sources its surviving claims cite, PLUS
     // the WoRMS taxonomy anchor. That one backs no individual claim (it is the
     // identity line, not a statement about the animal) but it is what makes
@@ -312,12 +321,6 @@ async function main() {
     entry.sourceIds = [
       ...new Set([...Object.values(entry.claims).flatMap((c) => c.sourceIds), ...anchor]),
     ].sort();
-
-    // The per-edge claims are superseded by the authored bullets, and the
-    // trophic tier came off the guide with the rest of the farm-web framing.
-    for (const key of Object.keys(entry.claims)) {
-      if (key.startsWith("edge:") || key === "trophic:tier" || key === "farm:role") delete entry.claims[key];
-    }
   }
 
   // Prune orphans. A source stops being cited when the claim that cited it is

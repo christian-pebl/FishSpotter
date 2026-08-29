@@ -3510,29 +3510,6 @@
         "Pomatoschistus flavescens"
       ]
     },
-    "doi:10.1111-raq.12584": {
-      "kind": "journal",
-      "title": "Habitat value of bivalve shellfish and seaweed aquaculture for fish and invertebrates: Pathways, synthesis and next steps",
-      "authors": [
-        "Theuerkauf, S.J.",
-        "Barrett, L.T.",
-        "Alleway, H.K.",
-        "Costa-Pierce, B.A.",
-        "St. Gelais, A.",
-        "Jones, R.C."
-      ],
-      "publisher": "Wiley (Reviews in Aquaculture 14:54-72); open-access copy hosted by VLIZ",
-      "year": 2021,
-      "url": "https://www.vliz.be/imisdocs/publications/ocrd/369728.pdf",
-      "licence": "CC BY-NC-ND 4.0",
-      "identifier": "DOI:10.1111/raq.12584",
-      "expectText": [
-        "Habitat value of bivalve shellfish and seaweed aquaculture",
-        "Theuerkauf",
-        "10.1111/raq.12584"
-      ],
-      "verifyMode": "pdf"
-    },
     "fishbase-pred:Pomatoschistus-microps": {
       "kind": "fishbase",
       "title": "FishBase predator records - Pomatoschistus microps",
@@ -4224,10 +4201,10 @@
       "title": "Shore crab (Carcinus maenas), Seasearch Ireland species identification sheet",
       "publisher": "Seasearch Ireland",
       "url": "https://seasearchireland.ie/wordpress/wp-content/uploads/2020/02/Carcinus-maenas.pdf",
-      "verifyMode": "pdf",
       "expectText": [
         "Carcinus maenas"
-      ]
+      ],
+      "verifyMode": "pdf"
     }
   },
   "species": {
@@ -15861,7 +15838,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1111-raq.12584",
         "doi:10.7489-1799-1",
         "fishbase:Taurulus-bubalis",
         "fishbase:predators-Taurulus-bubalis",
@@ -16273,7 +16249,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1111-raq.12584",
         "fishbase:Lipophrys-pholis",
         "fishbase:fooditems-Lipophrys-pholis",
         "fishbase:predators-Lipophrys-pholis",
@@ -16665,7 +16640,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1111-raq.12584",
         "fishbase:Spinachia-spinachia",
         "fishbase:fooditems-Spinachia-spinachia",
         "fishbase:predators-Spinachia-spinachia",

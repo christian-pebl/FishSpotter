@@ -205,13 +205,6 @@
     "checkedOn": "2026-08-28",
     "note": "Crossref: \"Attraction and repulsion of mobile wild organisms to finfish and shellfish aquaculture: a review\""
   },
-  "doi:10.1111-raq.12584": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Habitat value of bivalve shellfish and seaweed aquaculture",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Habitat value of bivalve shellfish and seaweed aquaculture for fish and invertebrates: Pathways, synthesis and next step\""
-  },
   "doi:10.1371-journal.pone.0023068": {
     "status": "mismatch",
     "httpStatus": 200,
