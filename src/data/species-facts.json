@@ -727,12 +727,84 @@
       "text": "Grazes brushings off seaweed and rock, and keeps feeding when shore crab scent is in the water, showing very little alarm response"
     }
   },
-  "Aurelia aurita": {},
-  "Chrysaora hysoscella": {},
-  "Cyanea capillata": {},
-  "Rhizostoma octopus": {},
-  "Cyanea lamarckii": {},
-  "Pelagia noctiluca": {},
+  "Aurelia aurita": {
+    "depth": {
+      "text": "Coastal and pelagic, in the upper epipelagic near the surface, with records down into the mesopelagic (200 to 1,000 m)"
+    },
+    "size": {
+      "text": "Bell usually about 25 cm across and up to 40 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in coastal seas, also running up estuaries and into harbours, and especially common in Scottish sea lochs"
+    },
+    "behaviour": {
+      "text": "Sporadic in appearance, at times swarming densely enough to colour the sea and slow a small boat"
+    }
+  },
+  "Chrysaora hysoscella": {
+    "depth": {
+      "text": "Mostly near the surface, diving down to 26.9 m; uncommon below 30 m"
+    },
+    "size": {
+      "text": "Bell up to 30 cm across; recorded range 3-43 cm, median about 15 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in cold to temperate coastal waters over the continental shelf; its polyps have been found on empty bivalve shells on the North Sea bed"
+    },
+    "behaviour": {
+      "text": "Swims by pulsing its bell but is largely carried on the currents; solitary, and makes extensive vertical movements through the water column"
+    }
+  },
+  "Cyanea capillata": {
+    "depth": {
+      "text": "Coastal and upper epipelagic, drifting in the open water column; Baltic surveys netted it from 5-10 m down to 60-70 m, mostly deeper than 30 m"
+    },
+    "size": {
+      "text": "Bell usually 30-50 cm across in British waters, recorded to 200 cm; the largest on record trailed tentacles 36.6 m long"
+    },
+    "habitat": {
+      "text": "Pelagic in cool coastal seas: the medusa drifts in open water, the polyp stage lives on the bottom, and medusae often wash up on beaches"
+    },
+    "behaviour": {
+      "text": "Drifts with the current and pulses its bell to swim; fishes by sinking slowly with its tentacles spread in a circle, and at times gathers in large swarms"
+    }
+  },
+  "Rhizostoma octopus": {
+    "size": {
+      "text": "Bell up to 90 cm across, and reported to reach 1 m; weighs as much as 35 kg."
+    },
+    "habitat": {
+      "text": "Pelagic in coastal seas, aggregating in bays and also found in open water."
+    },
+    "behaviour": {
+      "text": "Gathers in large aggregations in coastal bays, and swims actively up and down the whole water column rather than drifting passively."
+    }
+  },
+  "Cyanea lamarckii": {
+    "size": {
+      "text": "Bell up to 30 cm across, and rarely larger"
+    },
+    "habitat": {
+      "text": "Pelagic in coastal waters, drawn inshore by blooms of plankton"
+    },
+    "behaviour": {
+      "text": "Drifts in open water, catching prey on a dense array of stinging tentacles; seen inshore from May to October"
+    }
+  },
+  "Pelagia noctiluca": {
+    "depth": {
+      "text": "Mostly between the surface and 150 m, deeper by day at 300-500 m, exceptionally to 1,400 m"
+    },
+    "size": {
+      "text": "Bell up to 12 cm across, commonly around 4-5 cm, with thin tentacles trailing as far as 3 m"
+    },
+    "habitat": {
+      "text": "Oceanic, living in open water in warm and temperate seas; around Britain and Ireland mainly over deep water off the west and north coasts"
+    },
+    "behaviour": {
+      "text": "Gathers in swarms; has no seabed stage in its life cycle and can glow brightly at night if disturbed"
+    }
+  },
   "Eutrigla gurnardus": {
     "depth": {
       "text": "10-340 m (usually 10-150 m)"

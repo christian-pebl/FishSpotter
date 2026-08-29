@@ -91,19 +91,6 @@
     "matchedOn": "Loligo forbesi",
     "checkedOn": "2026-08-28"
   },
-  "doi:10.1007-s00227-016-2892-0": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Temporal dietary shift in jellyfish revealed by stable isotope analysis\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
-  "doi:10.1007-s00227-016-2945-4": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Aurelia aurita",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Where are the polyps? Molecular identification, distribution and population differentiation of Aurelia aurita jellyfish \""
-  },
   "doi:10.1007-s00227-018-3433-9": {
     "status": "ok",
     "httpStatus": 200,
@@ -1389,12 +1376,6 @@
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Pelagia noctiluca",
-    "checkedOn": "2026-08-28"
-  },
-  "wildlife-trusts:moon-jellyfish": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Aurelia aurita",
     "checkedOn": "2026-08-28"
   },
   "wildlife-trusts:shag": {

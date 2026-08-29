@@ -1228,28 +1228,136 @@
     ]
   },
   "Aurelia aurita": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Plankton, including copepods and other small drifting animals"
+      },
+      {
+        "text": "Fish eggs, small molluscs and smaller jellyfish"
+      },
+      {
+        "text": "A generalist that takes whatever small prey it meets, caught on contact rather than chased down"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Herring and whiting, the most frequent jellyfish eaters found in an Irish Sea stomach-content study"
+      },
+      {
+        "text": "Dab and squid, with dragonet and grey gurnard also recorded as occasional jellyfish eaters"
+      },
+      {
+        "text": "Leatherback turtles and sunfish, and other jellyfish"
+      }
+    ]
   },
   "Chrysaora hysoscella": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small planktonic crustaceans, including copepods such as Acartia and Centropages"
+      },
+      {
+        "text": "Decapod larvae and other small marine invertebrates"
+      },
+      {
+        "text": "Zooplankton generally, subdued by stinging cells on the tentacles and passed to the mouth"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Leatherback sea turtles (Dermochelys coriacea)"
+      },
+      {
+        "text": "Ocean sunfish (Mola mola)"
+      },
+      {
+        "text": "Parasitic amphipods (Hyperia species) that live on the jellyfish and eat its gonads"
+      }
+    ]
   },
   "Cyanea capillata": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Other jellyfish, including the smaller moon jellyfish",
+        "slug": "aurelia-aurita"
+      },
+      {
+        "text": "Small fish, along with fish eggs and larvae"
+      },
+      {
+        "text": "Zooplankton and small crustaceans, stung and held by the trailing tentacles"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Leatherback turtles, for which it can be the main prey"
+      },
+      {
+        "text": "Ocean sunfish, which feed largely on big jellyfish in the north-east Atlantic"
+      }
+    ]
   },
   "Rhizostoma octopus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Plankton, filtered from the water rather than actively hunted"
+      },
+      {
+        "text": "Phytoplankton, copepods and other small zooplankton, with crustacean and mollusc larvae"
+      },
+      {
+        "text": "Small prey trapped in the frilled oral arms and swept to the mouth by microscopic hairs"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Leatherback turtles, for which it is a major prey item"
+      },
+      {
+        "text": "Ocean sunfish, another fast-moving predator of it"
+      }
+    ]
   },
   "Cyanea lamarckii": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Copepods and other crustaceans taken from the plankton"
+      },
+      {
+        "text": "Fish eggs and larvae, including clupeids"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "The amphipod Hyperia galba, an obligate parasite that lives inside the medusa and cannot survive without a host"
+      }
+    ]
   },
   "Pelagia noctiluca": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small planktonic crustaceans, chiefly cladocerans and copepods, which make up about 90% of gut contents"
+      },
+      {
+        "text": "Other small jellyfish and open-water sea squirts (pelagic ascidians)"
+      },
+      {
+        "text": "Eggs and larvae of free-swimming and bottom-living animals, taken from the plankton"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Whiting, which had eaten this jellyfish more than any other in an Irish Sea gut-content survey",
+        "slug": "merlangius-merlangus"
+      },
+      {
+        "text": "Atlantic mackerel, confirmed by DNA from stomach contents in the Celtic Sea",
+        "slug": "scomber-scombrus"
+      },
+      {
+        "text": "Sardine and sprat, though only rarely"
+      }
+    ]
   },
   "Eutrigla gurnardus": {
     "eats": [],

@@ -3097,35 +3097,6 @@
         "Pelagia noctiluca"
       ]
     },
-    "doi:10.1007-s00227-016-2892-0": {
-      "kind": "journal",
-      "title": "Temporal dietary shift in jellyfish revealed by stable isotope analysis",
-      "authors": [
-        "Javidpour, J.",
-        "Cipriano-Maack, A.N.",
-        "Mittermayr, A.",
-        "Dierking, J."
-      ],
-      "publisher": "Marine Biology (Springer, open access); GEOMAR Helmholtz Centre for Ocean Research Kiel",
-      "year": 2016,
-      "url": "https://link.springer.com/article/10.1007/s00227-016-2892-0",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1007/s00227-016-2892-0",
-      "expectText": [
-        "Cyanea capillata",
-        "Aurelia aurita"
-      ]
-    },
-    "wildlife-trusts:moon-jellyfish": {
-      "kind": "web",
-      "title": "Moon jellyfish (Aurelia aurita) - The Wildlife Trusts wildlife explorer",
-      "publisher": "The Wildlife Trusts",
-      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/jellyfish/moon-jellyfish",
-      "expectText": [
-        "Aurelia aurita"
-      ],
-      "expectCommonName": "Moon Jellyfish"
-    },
     "wildlife-trusts:compass-jellyfish": {
       "kind": "web",
       "title": "Compass jellyfish (Chrysaora hysoscella) - The Wildlife Trusts wildlife explorer",
@@ -3573,27 +3544,6 @@
         "Chrysaora hysoscella",
         "Cyanea lamarckii",
         "Rhizostoma octopus"
-      ]
-    },
-    "doi:10.1007-s00227-016-2945-4": {
-      "kind": "journal",
-      "title": "Where are the polyps? Molecular identification, distribution and population differentiation of Aurelia aurita jellyfish polyps in the southern North Sea area",
-      "authors": [
-        "van Walraven, L.",
-        "Driessen, F.",
-        "van Bleijswijk, J.",
-        "Coolen, J.W.P.",
-        "Bos, O.G.",
-        "van der Veer, H.W."
-      ],
-      "publisher": "Marine Biology (SpringerOpen); NIOZ Royal Netherlands Institute for Sea Research",
-      "year": 2016,
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4949292/",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1007/s00227-016-2945-4",
-      "expectText": [
-        "Aurelia aurita",
-        "Mytilus edulis"
       ]
     },
     "doi:10.3389-fmars.2019.00107": {
@@ -4363,6 +4313,149 @@
       "expectText": [
         "Steromphala umbilicalis",
         "Flat topshell"
+      ]
+    },
+    "adw:Aurelia_aurita": {
+      "kind": "web",
+      "title": "Aurelia aurita (Moon jellyfish) - Animal Diversity Web species account",
+      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
+      "url": "https://animaldiversity.org/accounts/Aurelia_aurita/",
+      "expectText": [
+        "Aurelia aurita",
+        "Moon jellyfish"
+      ]
+    },
+    "adw:Cyanea-capillata": {
+      "kind": "web",
+      "title": "Cyanea capillata (Lions mane), species account in the Animal Diversity Web",
+      "authors": [
+        "Naylor, B."
+      ],
+      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
+      "year": 2000,
+      "url": "https://animaldiversity.org/accounts/Cyanea_capillata/",
+      "expectText": [
+        "Cyanea capillata",
+        "Lions mane"
+      ]
+    },
+    "mcs:lions-mane-jellyfish": {
+      "kind": "web",
+      "title": "Lion's mane jellyfish - Marine Conservation Society wildlife A-Z",
+      "publisher": "Marine Conservation Society",
+      "url": "https://www.mcsuk.org/ocean-learning/wildlife-a-z/lions-mane-jellyfish/",
+      "expectText": [
+        "Cyanea capillata",
+        "Lion's mane jellyfish"
+      ]
+    },
+    "doi:10.1371-journal.pone.0033259": {
+      "kind": "journal",
+      "title": "Jellyfish Support High Energy Intake of Leatherback Sea Turtles (Dermochelys coriacea): Video Evidence from Animal-Borne Cameras",
+      "authors": [
+        "Heaslip, S.G.",
+        "Iverson, S.J.",
+        "Bowen, W.D.",
+        "James, M.C."
+      ],
+      "publisher": "PLOS ONE",
+      "year": 2012,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3306388/",
+      "licence": "CC BY 4.0",
+      "expectText": [
+        "Cyanea capillata",
+        "leatherback"
+      ]
+    },
+    "doi:10.1038-s41598-017-02103-6": {
+      "kind": "journal",
+      "title": "New insights into ocean sunfish (Mola mola) abundance and seasonal distribution in the northeast Atlantic",
+      "publisher": "Scientific Reports, Nature Publishing Group",
+      "year": 2017,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5435681/",
+      "licence": "CC BY 4.0",
+      "expectText": [
+        "Mola mola",
+        "Cyanea capillata"
+      ]
+    },
+    "doi:10.1016-j.dib.2025.111511": {
+      "kind": "journal",
+      "title": "Jellyfish and comb jellies in the Baltic Sea: Depth resolved distribution pattern along the salinity gradient of the Baltic Sea during September 2020, dataset",
+      "authors": [
+        "Jaspers, C.",
+        "Hauss, H.",
+        "Hinrichsen, H.-H."
+      ],
+      "publisher": "Data in Brief, Elsevier",
+      "year": 2025,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12017932/",
+      "licence": "CC BY-NC 4.0",
+      "expectText": [
+        "Cyanea capillata"
+      ]
+    },
+    "doi:10.1007-s00227-006-0545-4": {
+      "kind": "journal",
+      "title": "Abundance, distribution and prey composition of scyphomedusae in the southern North Sea",
+      "authors": [
+        "Barz",
+        "Hirche"
+      ],
+      "publisher": "Marine Biology, Springer",
+      "year": 2007,
+      "url": "https://link.springer.com/article/10.1007/s00227-006-0545-4",
+      "identifier": "10.1007/s00227-006-0545-4",
+      "expectText": [
+        "Cyanea lamarckii"
+      ]
+    },
+    "doi:10.1007-BF02364701": {
+      "kind": "journal",
+      "title": "Postembryonic development of the parasitic amphipod Hyperia galba",
+      "authors": [
+        "Dittrich"
+      ],
+      "publisher": "Helgolaender Meeresuntersuchungen, Springer",
+      "year": 1987,
+      "url": "https://link.springer.com/article/10.1007/BF02364701",
+      "identifier": "10.1007/BF02364701",
+      "expectText": [
+        "Cyanea lamarckii"
+      ]
+    },
+    "mcs:barrel-jellyfish": {
+      "kind": "web",
+      "title": "Barrel jellyfish - Marine Conservation Society wildlife A-Z",
+      "publisher": "Marine Conservation Society",
+      "url": "https://www.mcsuk.org/ocean-learning/wildlife-a-z/barrel-jellyfish/",
+      "expectText": [
+        "Rhizostoma octopus"
+      ],
+      "expectCommonName": "Barrel jellyfish"
+    },
+    "doi:10.1098-rspb.2011.0978": {
+      "kind": "journal",
+      "title": "High activity and Levy searches: jellyfish can search the water column like fish",
+      "authors": [
+        "Hays, G.C.",
+        "Bastian, T.",
+        "Doyle, T.K.",
+        "Fossette, S.",
+        "Gleiss, A.C.",
+        "Gravenor, M.B.",
+        "Hobson, V.J.",
+        "Humphries, N.E.",
+        "Lilley, M.K.S.",
+        "Pade, N.G.",
+        "Sims, D.W."
+      ],
+      "publisher": "Proceedings of the Royal Society B: Biological Sciences (The Royal Society); open-access copy in PubMed Central",
+      "year": 2011,
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3234559/",
+      "identifier": "doi:10.1098/rspb.2011.0978",
+      "expectText": [
+        "Rhizostoma octopus"
       ]
     }
   },
@@ -26114,156 +26207,266 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:135306",
-        "marlin:2089",
-        "wildlife-trusts:moon-jellyfish",
+        "adw:Aurelia_aurita",
         "doi:10.1098-rsos.171421",
         "doi:10.7717-peerj.1110",
-        "doi:10.1016-j.tree.2018.09.001",
-        "doi:10.1007-s00227-016-2945-4",
-        "doi:10.7717-peerj.9260"
+        "marlin:2089",
+        "worms:135306"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2089"
+            "marlin:2089",
+            "worms:135306",
+            "adw:Aurelia_aurita"
           ],
           "support": [
             {
               "sourceId": "marlin:2089",
-              "locator": "wildlife-trusts:moon-jellyfish > About (intro)",
-              "quote": "The moon jelly is the most common jellyfish in UK seas, often washing up on our beaches. No need to worry though - it doesn't sting humans.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Aurelia aurita is Britain's most common jellyfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2089",
-              "locator": "Description",
-              "quote": "Aurelia aurita has a smooth, flattened saucer-shaped bell (the umbrella) with eight simple marginal lobes. The umbrella is colourless, while the radial canals, oral arms and gonads are typically mauve, violet, reddish, pink or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Aurelia aurita has a smooth, flattened saucer-shaped bell (the umbrella) with eight simple marginal lobes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Description",
+              "quote": "The umbrella is colourless, while the radial canals, oral arms and gonads are typically mauve, violet, reddish, pink or yellowish in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Description",
+              "quote": "There are four interfolded gonads that form a horseshoe or near circle shape in the centre of the umbrella.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Description",
+              "quote": "The umbrella is quite thick, thinning towards the edge, with numerous short, hollow tentacles forming a fringe around the edge. These short tentacles are ringed by numerous stinging cells (nematocysts).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135306",
+              "locator": "Descriptive notes > Description",
+              "quote": "Bell flat to domed, firm, translucent, with four (or 5-7) bluish-pink gonad rings, four mouth-arms and hundreds of fine marginal tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Aurelia_aurita",
+              "locator": "Economic Importance for Humans: Negative",
+              "quote": "Moon jellies also affect tourism by stinging humans that are swimming.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwiaoln00007ipoveb55ld6": {
           "sourceIds": [
-            "marlin:2089"
+            "marlin:2089",
+            "worms:135306"
           ],
           "support": [
             {
               "sourceId": "marlin:2089",
               "locator": "Identifying features",
-              "quote": "Umbrella thins towards the edge and has a distinctive fringe of short, hollow tentacles. Four, purple-blue gonads form a characteristic horseshoe-shape, contained almost completely within the gastric cavity. Gonads do not extend below...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Four, purple-blue gonads form a characteristic horseshoe-shape, contained almost completely within the gastric cavity.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2089",
-              "locator": "Description",
-              "quote": "Aurelia aurita has a smooth, flattened saucer-shaped bell (the umbrella) with eight simple marginal lobes. The umbrella is colourless, while the radial canals, oral arms and gonads are typically mauve, violet, reddish, pink or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Gonads do not extend below the sub-umbrella surface as in many other species of jellyfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Description",
+              "quote": "There are four interfolded gonads that form a horseshoe or near circle shape in the centre of the umbrella.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Description",
+              "quote": "The umbrella is colourless, while the radial canals, oral arms and gonads are typically mauve, violet, reddish, pink or yellowish in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135306",
+              "locator": "Notes > Remark",
+              "quote": "Out of 1988 specimens, 39 specimen or 1.96% had five, six or seven gonads instead of four.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwiaoln00017ipo40r0yzyr": {
           "sourceIds": [
-            "marlin:2089"
+            "marlin:2089",
+            "worms:135306"
           ],
           "support": [
             {
               "sourceId": "marlin:2089",
-              "locator": "marlin:2089 > Description",
+              "locator": "Summary > Description",
               "quote": "Four thickened oral arms, each with a central groove, edged by thinner folded lips and lined with small tentacle-like processes approximately 2 mm long.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2089",
-              "locator": "Description",
-              "quote": "Aurelia aurita has a smooth, flattened saucer-shaped bell (the umbrella) with eight simple marginal lobes. The umbrella is colourless, while the radial canals, oral arms and gonads are typically mauve, violet, reddish, pink or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The surface of the oral arms is covered with nematocysts, crowded together near the tips of the tentacles. The oral arms are slightly shorter than the radius of the umbrella.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Description",
+              "quote": "The mouth is formed on a projection on the underside of the umbrella (the manubrium).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135306",
+              "locator": "Descriptive notes > Description",
+              "quote": "Bell flat to domed, firm, translucent, with four (or 5-7) bluish-pink gonad rings, four mouth-arms and hundreds of fine marginal tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwiaoln00027ipomjnvtm0q": {
           "sourceIds": [
-            "marlin:2089"
+            "marlin:2089",
+            "doi:10.7717-peerj.1110",
+            "adw:Aurelia_aurita"
           ],
           "support": [
             {
               "sourceId": "marlin:2089",
-              "locator": "wildlife-trusts:moon-jellyfish > About (intro)",
-              "quote": "No need to worry though - it doesn't sting humans.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Umbrella thins towards the edge and has a distinctive fringe of short, hollow tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2089",
-              "locator": "Description",
-              "quote": "Aurelia aurita has a smooth, flattened saucer-shaped bell (the umbrella) with eight simple marginal lobes. The umbrella is colourless, while the radial canals, oral arms and gonads are typically mauve, violet, reddish, pink or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The umbrella is quite thick, thinning towards the edge, with numerous short, hollow tentacles forming a fringe around the edge. These short tentacles are ringed by numerous stinging cells (nematocysts).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.1110",
+              "locator": "Discussion > Inter-specific variation",
+              "quote": "A. aurita have a much reduced capture surface (shorter tentacles) compared with the Cyanea spp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Aurelia_aurita",
+              "locator": "Economic Importance for Humans: Negative",
+              "quote": "Moon jellies also affect tourism by stinging humans that are swimming.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:2089"
+            "marlin:2089",
+            "worms:135306"
           ],
           "support": [
             {
               "sourceId": "marlin:2089",
-              "locator": "wildlife-trusts:moon-jellyfish > How to identify",
-              "quote": "You can usually see these jellyfish floating just below the surface of the water.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Aurelia aurita is a pelagic species but may be found washed up on the shore. It is known to occur up estuaries and into harbours and is especially common in Scottish sea lochs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135306",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat coastal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:2089"
+            "marlin:2089",
+            "worms:135306"
           ],
           "support": [
             {
               "sourceId": "marlin:2089",
               "locator": "Summary > Description",
               "quote": "Aurelia aurita usually grows to approximately 25 cm in diameter but can reach 40 cm.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135306",
+              "locator": "Descriptive notes > Description",
+              "quote": "Description Width 15-30 cm. Bell flat to domed, firm, translucent, with four (or 5-7) bluish-pink gonad rings, four mouth-arms and hundreds of fine marginal tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "marlin:2089"
+            "marlin:2089",
+            "worms:135306"
           ],
           "support": [
             {
               "sourceId": "marlin:2089",
               "locator": "Summary > Additional information",
-              "quote": "Aurelia aurita feed, but not exclusively, on plankton and can at times occur in massive swarms, which may be so dense as to give the sea a uniform red colour and slow the passage of small boats",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "quote": "Aurelia aurita feed, but not exclusively, on plankton and can at times occur in massive swarms, which may be so dense as to give the sea a uniform red colour and slow the passage of small boats (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2089",
               "locator": "Summary > Habitat",
               "quote": "Aurelia aurita is Britain's most common jellyfish. It is sporadic in its appearance, forming massive local populations in some areas but totally absent in other areas for some years.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135306",
+              "locator": "Descriptive notes > Description",
+              "quote": "Description Width 15-30 cm. Bell flat to domed, firm, translucent, with four (or 5-7) bluish-pink gonad rings, four mouth-arms and hundreds of fine marginal tentacles. Swarms. Habitat: coastal.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: Solitary, Hovering The source says: marlin:2089 Additional information: 'Aurelia aurita feed, but not exclusively, on plankton and can at times occur in massive swarms, which may be so dense as to give the sea a uniform red colour and slow the passage of small boats'; Habitat: 'forming massive local populations in some areas'"
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -26274,21 +26477,6 @@
               "sourceId": "marlin:2089",
               "locator": "Summary > Additional information",
               "quote": "Aurelia aurita feed, but not exclusively, on plankton and can at times occur in massive swarms, which may be so dense as to give the sea a uniform red colour and slow the passage of small boats",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plankton->Moon Jellyfish": {
-          "sourceIds": [
-            "wildlife-trusts:moon-jellyfish"
-          ],
-          "support": [
-            {
-              "sourceId": "wildlife-trusts:moon-jellyfish",
-              "locator": "About",
-              "quote": "They catch their plankton prey using a layer of mucus over their bells before passing the microscopic meals into their mouth parts using special tentacles.",
               "readBy": "refs:trawl (jellyfish)",
               "readOn": "2026-08-28"
             }
@@ -26332,59 +26520,192 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
+        "trait:depth": {
           "sourceIds": [
-            "doi:10.7717-peerj.1110",
-            "doi:10.1016-j.tree.2018.09.001"
+            "worms:135306",
+            "adw:Aurelia_aurita",
+            "marlin:2089"
           ],
           "support": [
             {
-              "sourceId": "doi:10.7717-peerj.1110",
-              "locator": "marlin:2089 > Additional information",
-              "quote": "Aurelia aurita feed, but not exclusively, on plankton and can at times occur in massive swarms",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "worms:135306",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat upper epipelagic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.7717-peerj.1110",
-              "locator": "Discussion > Interspecific differences in trophic ecology",
-              "quote": "this reduced capture area may account for the low trophic position and narrowest niche width of this species in the present study",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "worms:135306",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat coastal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1016-j.tree.2018.09.001",
-              "locator": "Old question, new methodologies (p. 3)",
-              "quote": "Additionally, jellyfish themselves are active predators of ocean plankton (including larval fishes) and so will concentrate prey within their oral arms and stomachs.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "adw:Aurelia_aurita",
+              "locator": "Habitat",
+              "quote": "Moon jellies range in depth between the epipelagic zone and the mesopelagic zone (200 to 1,000 m).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Habitat",
+              "quote": "Aurelia aurita is a pelagic species but may be found washed up on the shore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
-            "doi:10.1007-s00227-016-2945-4",
-            "doi:10.7717-peerj.9260"
+            "adw:Aurelia_aurita",
+            "marlin:2089"
           ],
           "support": [
             {
-              "sourceId": "doi:10.1007-s00227-016-2945-4",
-              "locator": "Introduction",
-              "quote": "Particularly, the increasing availability of artificial substrates can contribute to an increase in jellyfish blooms for species with a benthic life stage (Duarte et al. 2012).",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "adw:Aurelia_aurita",
+              "locator": "Food Habits",
+              "quote": "As carnivorous organisms, moon jellies are known to feed on most organisms small enough to become entangled on their bells or in their tentacles. These include plankton, copepods, mollusks, fish eggs and smaller jellyfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.7717-peerj.9260",
-              "locator": "Discussion",
-              "quote": "living bivalves of the species Heteranomia squamula (one site), Magallana gigas (three sites) and Mytilus edulis (six sites).",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2089",
+              "locator": "Summary > Additional information",
+              "quote": "Aurelia aurita feed, but not exclusively, on plankton and can at times occur in massive swarms, which may be so dense as to give the sea a uniform red colour and slow the passage of small boats (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway (present with or without the farm) The source says: Aurelia aurita polyps, the stage that seeds the medusa blooms, were found in situ on living Mytilus edulis at six of the surveyed sites and on Crassostrea gigas at three, and the same authors state that 'the increasing availability of artificial substrates can contribute to an increase in jellyfish blooms for species with a benthic life stage'. A mussel farm supplies exactly that substrate, so 'anyway' is not a safe default for this species."
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "adw:Aurelia_aurita"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Aurelia_aurita",
+              "locator": "Food Habits",
+              "quote": "These include plankton, copepods, mollusks, fish eggs and smaller jellyfish. Once entangled, moon jellies uses their oral arms to move their prey towards their stomachs, located under the their bells.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "adw:Aurelia_aurita",
+            "doi:10.7717-peerj.1110"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Aurelia_aurita",
+              "locator": "Ecosystem Roles",
+              "quote": "They are a generalist feeder, using cilia and tentacles to consume organisms that they encounter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.1110",
+              "locator": "Discussion > Feeding strategies",
+              "quote": "Typically, scyphozoan jellyfish encounter rather than detect and pursue prey and use both 'passive ambush' and 'feeding current' feeding strategies with direct interception and filtering through tentacles being used in both cases",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1098-rsos.171421"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Conclusion",
+              "quote": "sequencing suggests that herring and whiting frequently feed on jellyfish. Dragonet, sprat, Dover sole, dab, squid, lesser-spotted dogfish and poor cod were also seen to infrequently ingest jellyfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Results > 2009 Survey",
+              "quote": "Predation was much more frequent in herring and whiting than in 2008: jellyfish were detected in 27.6% and 11.6% of herring and whiting stomachs, respectively, compared to just 1.4% and 2.6% observed in stomachs from 2008.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Results > 2009 Survey",
+              "quote": "Twelve sequences from herring stomach samples were identified as moon jellyfish with three unidentified sequences.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Results > 2008 Survey",
+              "quote": "Five sequences from dab ( Limanda limanda ), whiting ( Merlangius merlangus ), herring ( Clupea harengus ) and squid ( Loligo sp.) had a 100% identity match with moon jellyfish across the 135 bp amplicon.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1098-rsos.171421"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Results > 2008 Survey",
+              "quote": "Jellyfish mtDNA was detected in 18 out of 751 samples from nine of the 34 surveyed taxa ( table 1 ). All positive samples were identified as moon jellyfish ( Aurelia aurita ) (electronic supplementary material, table S5).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Results > 2008 Survey",
+              "quote": "Five sequences from dab ( Limanda limanda ), whiting ( Merlangius merlangus ), herring ( Clupea harengus ) and squid ( Loligo sp.) had a 100% identity match with moon jellyfish across the 135 bp amplicon.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Discussion > Jellyfish consumption among common species",
+              "quote": "Dragonet (Callionymidae sp.), grey gurnard ( Eutrigla gurnardus ), ... squid, herring, whiting, Dover sole and sprat were identified as taxa that consume jellyfish",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "adw:Aurelia_aurita",
+            "doi:10.1098-rsos.171421"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Aurelia_aurita",
+              "locator": "Predation > Known Predators",
+              "quote": "Moon jellyfish are consumed by birds in the order ( Charadriiformes ), other jellyfish, chum salmon ( Oncorhynchus keta ), butterfish ( Peprilus ) in the family Stromateidae , sunfish, and leatherback sea turtles ( Dermochelys coriacea ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Discussion > Jellyfish consumption among common species",
+              "quote": "Jellyfish predation in the Irish Sea is not novel: sunfish and leatherback turtles are known predators [ 11 ].",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -26402,12 +26723,11 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:135304",
+        "adw:Chrysaora-hysoscella",
+        "doi:10.7717-peerj.9260",
         "marlin:2020",
         "wildlife-trusts:compass-jellyfish",
-        "doi:10.1016-j.tree.2018.09.001",
-        "doi:10.7717-peerj.9260",
-        "adw:Chrysaora-hysoscella"
+        "worms:135304"
       ],
       "claims": {
         "fieldNote": {
@@ -26417,64 +26737,94 @@
           "support": [
             {
               "sourceId": "marlin:2020",
-              "locator": "marlin:2020 > Additional information",
-              "quote": "The stinging cells and venom of Chrysaora hysoscella are strong and can produce painful, long lasting weals in humans.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Flattened umbrella or saucer shaped bell. ... Upper surface of the bell has 16 v-shaped brown markings radiating from a dark apical circle or spot at the centre.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2020",
-              "locator": "Description",
-              "quote": "Chrysaora hysoscella has a thickened bell (manubrium) that can grow up to 30 cm in diameter. The edges of the bell are developed into 32 lobes and bear 24 marginal tentacles. These are arranged in eight groups of three which alternate...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Typically Chrysaora hysoscella is yellowish white in colour with a highly distinctive brown pattern like the radii of a compass.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2020",
+              "locator": "Identifying features",
+              "quote": "Four frilly oral arms that are longer than the bell tentacles, these may also coil up at their tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2020",
+              "locator": "Additional information",
+              "quote": "The stinging cells and venom of Chrysaora hysoscella are strong and can produce painful, long lasting weals in humans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2020",
+              "locator": "Summary > Description",
+              "quote": "The edges of the bell are developed into 32 lobes and bear 24 marginal tentacles. These are arranged in eight groups of three which alternate with eight sensory organs and are capable of great elongation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkarrx00007iakz2l1qbr7": {
           "sourceIds": [
-            "marlin:2020"
+            "marlin:2020",
+            "adw:Chrysaora-hysoscella"
           ],
           "support": [
             {
               "sourceId": "marlin:2020",
               "locator": "Identifying features",
-              "quote": "Flattened umbrella or saucer shaped bell. Four frilly oral arms that are longer than the bell tentacles, these may also coil up at their tips. Upper surface of the bell has 16 v-shaped brown markings radiating from a dark apical...",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Upper surface of the bell has 16 v-shaped brown markings radiating from a dark apical circle or spot at the centre.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2020",
-              "locator": "Description",
-              "quote": "Chrysaora hysoscella has a thickened bell (manubrium) that can grow up to 30 cm in diameter. The edges of the bell are developed into 32 lobes and bear 24 marginal tentacles. These are arranged in eight groups of three which alternate...",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Typically Chrysaora hysoscella is yellowish white in colour with a highly distinctive brown pattern like the radii of a compass.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Physical Description",
+              "quote": "The aboral surface of the bell can be various shades of brown and has V-shaped markings around a central spot.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpwkarrx00017iakvpdgcyxa": {
           "sourceIds": [
-            "marlin:2020"
+            "marlin:2020",
+            "adw:Chrysaora-hysoscella"
           ],
           "support": [
             {
               "sourceId": "marlin:2020",
-              "locator": "marlin:2020 > Identifying features",
+              "locator": "Identifying features",
               "quote": "Upper surface of the bell has 16 v-shaped brown markings radiating from a dark apical circle or spot at the centre.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2020",
-              "locator": "Description",
-              "quote": "Chrysaora hysoscella has a thickened bell (manubrium) that can grow up to 30 cm in diameter. The edges of the bell are developed into 32 lobes and bear 24 marginal tentacles. These are arranged in eight groups of three which alternate...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Physical Description",
+              "quote": "The aboral surface of the bell can be various shades of brown and has V-shaped markings around a central spot.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkarrx00027iaka1zwnz3j": {
           "sourceIds": [
@@ -26483,47 +26833,85 @@
           "support": [
             {
               "sourceId": "marlin:2020",
-              "locator": "marlin:2020 > Additional information",
-              "quote": "The stinging cells and venom of Chrysaora hysoscella are strong and can produce painful, long lasting weals in humans.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The edges of the bell are developed into 32 lobes and bear 24 marginal tentacles. These are arranged in eight groups of three which alternate with eight sensory organs and are capable of great elongation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2020",
-              "locator": "Description",
-              "quote": "Chrysaora hysoscella has a thickened bell (manubrium) that can grow up to 30 cm in diameter. The edges of the bell are developed into 32 lobes and bear 24 marginal tentacles. These are arranged in eight groups of three which alternate...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Four frilly oral arms that are longer than the bell tentacles, these may also coil up at their tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2020",
+              "locator": "Additional information",
+              "quote": "The stinging cells and venom of Chrysaora hysoscella are strong and can produce painful, long lasting weals in humans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:2020"
+            "marlin:2020",
+            "adw:Chrysaora-hysoscella",
+            "doi:10.7717-peerj.9260"
           ],
           "support": [
             {
               "sourceId": "marlin:2020",
               "locator": "Habitat",
               "quote": "Chrysaora hysoscella is a pelagic species. Young Chrysaora appear in British waters in May.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Habitat",
+              "quote": "Compass jellyfish are marine organisms that live in cold or temperate waters ... relatively near the coast in continental shelf regions.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.9260",
+              "locator": "Abstract",
+              "quote": "Three polyps were found on Dogger Bank, Central North Sea, attached to the inside of the umbo of empty valves of the bivalves Mactra stultorum and Spisula subtruncata",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.9260",
+              "locator": "Abstract",
+              "quote": "The three polyps found on Dogger Bank all belonged to the compass jellyfish Chrysaora hysoscella",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:2020"
+            "marlin:2020",
+            "adw:Chrysaora-hysoscella"
           ],
           "support": [
             {
               "sourceId": "marlin:2020",
               "locator": "Summary > Description",
               "quote": "Chrysaora hysoscella has a thickened bell (manubrium) that can grow up to 30 cm in diameter.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Physical Description",
+              "quote": "The size of the flattened, saucer-shaped bell, which plays an important role in swimming, ranges from 3 cm to 43 cm with a median diameter of 15.31 cm, and can weigh anywhere from 0.2-2.4 kg.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -26544,62 +26932,6 @@
           "claimSupported": false,
           "conflict": "The app says: Eats: Plankton The source says: wildlife-trusts:compass-jellyfish About: 'the compass jellyfish feeds on small fish, crabs and even other jellyfish'"
         },
-        "edge:Plankton->Compass Jellyfish": {
-          "sourceIds": [
-            "wildlife-trusts:compass-jellyfish",
-            "doi:10.1016-j.tree.2018.09.001"
-          ],
-          "support": [
-            {
-              "sourceId": "wildlife-trusts:compass-jellyfish",
-              "locator": "About",
-              "quote": "the compass jellyfish feeds on small fish, crabs and even other jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1016-j.tree.2018.09.001",
-              "locator": "Old question, new methodologies (p. 3)",
-              "quote": "Additionally, jellyfish themselves are active predators of ocean plankton (including larval fishes) and so will concentrate prey within their oral arms and stomachs.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Compass Jellyfish eats Plankton (its only food link in the farm food web) The source says: The Wildlife Trusts' compass jellyfish page names a wholly different diet and does not mention plankton at all: 'the compass jellyfish feeds on small fish, crabs and even other jellyfish'. MarLIN's Chrysaora hysoscella review says nothing about diet either way. The plankton-only link is unsourced and probably incomplete."
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "wildlife-trusts:compass-jellyfish"
-          ],
-          "support": [
-            {
-              "sourceId": "wildlife-trusts:compass-jellyfish",
-              "locator": "About",
-              "quote": "the compass jellyfish feeds on small fish, crabs and even other jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Trophic tier 3: Planktivore or invertivore The source says: wildlife-trusts:compass-jellyfish About: 'the compass jellyfish feeds on small fish, crabs and even other jellyfish'"
-        },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.7717-peerj.9260"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7717-peerj.9260",
-              "locator": "Abstract",
-              "quote": "The three polyps found on Dogger Bank all belonged to the compass jellyfish Chrysaora hysoscella. One podocyst from the Oostende beach also belonged to this species but another podocyst belonged to Cyanea lamarkii.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway The source says: The first in situ records of Chrysaora hysoscella polyps and podocysts were on empty bivalve shells, and the authors conclude that 'empty bivalve shells could provide an abundant settling substrate for jellyfish polyps'. A shellfish farm generates shell and hard structure, so 'anyway' is not evidenced for this species either."
-        },
         "trait:behavior": {
           "sourceIds": [
             "adw:Chrysaora-hysoscella"
@@ -26609,11 +26941,165 @@
               "sourceId": "adw:Chrysaora-hysoscella",
               "locator": "Behavior",
               "quote": "Individuals are solitary and generally remain near the surface of marine waters in coastal pelagic regions, although they have been documented to make extensive vertical movements through the water column over periods of several hours.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Behavior",
+              "quote": "Compass jellyfish swim using movements of their bell to pump water and propel them forward.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Home Range",
+              "quote": "compass jellyfish are largely carried on ocean currents and thus, do not maintain well-defined home ranges or territories.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "trait:depth": {
+          "sourceIds": [
+            "adw:Chrysaora-hysoscella"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Habitat",
+              "quote": "Adults can usually be observed near the surface of the water ... they are known to dive deeper in the water column (down to 26.9 m) ... Overall, it is uncommon for this species to be found below 30m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Habitat",
+              "quote": "and can be found just half a meter from the seabed. Overall, it is uncommon for this species to be found below 30m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "adw:Chrysaora-hysoscella"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Food Habits",
+              "quote": "This species feeds on other marine invertebrates, such as phyllopods ( Penilia avirostris ), copepods ( Acartia and Centropages sp.), and decapod larvae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "adw:Chrysaora-hysoscella"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Food Habits",
+              "quote": "This species feeds on other marine invertebrates ... and decapod larvae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Food Habits > Animal Foods",
+              "quote": "Animal Foods aquatic crustaceans other marine invertebrates zooplankton",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "adw:Chrysaora-hysoscella"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Food Habits",
+              "quote": "They are also known to feed on plankton. Compass jellyfish use their four oral tentacles to move food towards the mouth. The tentacles bear nematocysts or stinging cells that subdue the prey",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "adw:Chrysaora-hysoscella"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Predation",
+              "quote": "Compass jellyfish can be consumed by predators such as leatherback sea turtles and ocean sunfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Predation > Known Predators",
+              "quote": "Known Predators Leatherback sea turtle ( Dermochelys coriacea )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "adw:Chrysaora-hysoscella"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Predation",
+              "quote": "Compass jellyfish can be consumed by predators such as leatherback sea turtles and ocean sunfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Predation > Known Predators",
+              "quote": "Ocean sunfish ( Mola mola )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "adw:Chrysaora-hysoscella"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Ecosystem Roles",
+              "quote": "Additionally, compass jellyfish play host to at least two species of parasitic amphipods, which feed on the jellyfishes' gonads.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Chrysaora-hysoscella",
+              "locator": "Ecosystem Roles > Commensal/Parasitic Species",
+              "quote": "Commensal/Parasitic Species Hyperia galba (Order Amphipoda, Subphylum Crustacea) Hyperia medusarum (Order Amphipoda, Subphylum Crustacea)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -26631,101 +27117,203 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:135301",
-        "marlin:2090",
-        "wildlife-trusts:lions-mane-jellyfish",
+        "adw:Cyanea-capillata",
+        "doi:10.1016-j.dib.2025.111511",
+        "doi:10.1038-s41598-017-02103-6",
+        "doi:10.1371-journal.pone.0033259",
         "doi:10.7717-peerj.1110",
-        "doi:10.1007-s00227-016-2892-0",
-        "doi:10.7717-peerj.9260"
+        "marlin:2090",
+        "mcs:lions-mane-jellyfish",
+        "wildlife-trusts:blue-jellyfish",
+        "wildlife-trusts:lions-mane-jellyfish",
+        "worms:135301"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2090"
+            "marlin:2090",
+            "mcs:lions-mane-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2090",
-              "locator": "Identifying features",
-              "quote": "Cyanea capillata has a diameter 30 cm or more. Usually yellow brown or red in colour. It is easily distinguished by a mass of long, hair-like tentacles. There at least 65 tentacles in each of the eight groups of tentacles.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Cyanea capillata is one of the largest species of jellyfish and is commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2090",
-              "locator": "Description",
-              "quote": "Cyanea capillata is one of the largest species of jellyfish and is commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles. Cyanea capillata has a saucer-shaped bell (the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "It generally grows to 30-50 cm in diameter in British waters. However, they have been know to grow up to 200 cm. The margin of the bell bears hollow tentacles, arranged in eight groups with 70 to 150 or more tentacles in each.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2090",
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Found around the coasts of the British Isles, most commonly along the east coast of England and Scotland. Also common in the Irish Sea.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2090",
+              "locator": "Summary > Additional information",
+              "quote": "the main period of abundance for larger individuals is June to September",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2090",
+              "locator": "Summary > Additional information",
+              "quote": "Cyanea capillata can still sting long after being stranded on the shore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Sting strength",
+              "quote": "Lion's mane jellyfish have one of the most painful stings of UK jellyfish which causes intense pain almost immediately after being stung.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkas1000037iake4ysn6bz": {
           "sourceIds": [
-            "marlin:2090"
+            "marlin:2090",
+            "mcs:lions-mane-jellyfish",
+            "adw:Cyanea-capillata",
+            "wildlife-trusts:blue-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2090",
-              "locator": "Identifying features",
-              "quote": "Cyanea capillata has a diameter 30 cm or more. Usually yellow brown or red in colour. It is easily distinguished by a mass of long, hair-like tentacles. There at least 65 tentacles in each of the eight groups of tentacles.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Cyanea capillata has a saucer-shaped bell (the umbrella) with a uniform thickness until thinning dramatically around the edges. Usually yellowish brown or reddish in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "What do they look like?",
+              "quote": "Spot them by their large reddish-brown, umbrella shaped bell, and from their mass of short, thick, folded arms as well as long hair-like tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Physical Description",
+              "quote": "This member of the giant jellyfish has a hemispherical bell with scalloped edges. The bell is divided into eight obvious lobes by eight indentations with second order indentations.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2090",
-              "locator": "Description",
-              "quote": "Cyanea capillata is one of the largest species of jellyfish and is commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles. Cyanea capillata has a saucer-shaped bell (the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Cyanea capillata is one of the largest species of jellyfish",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "Introduction",
+              "quote": "Often confused with the larger but similarly shaped lion's mane jellyfish, the blue jellyfish can be colourless when young and develop a striking blue-purple bell as it matures.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "Species information > Statistics",
+              "quote": "Bell: up to 30cm across",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkas1000047iaky2bd5lc0": {
           "sourceIds": [
-            "marlin:2090"
+            "marlin:2090",
+            "adw:Cyanea-capillata",
+            "mcs:lions-mane-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2090",
-              "locator": "Identifying features",
-              "quote": "Cyanea capillata has a diameter 30 cm or more. Usually yellow brown or red in colour. It is easily distinguished by a mass of long, hair-like tentacles. There at least 65 tentacles in each of the eight groups of tentacles.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The margin of the bell bears hollow tentacles, arranged in eight groups with 70 to 150 or more tentacles in each.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2090",
-              "locator": "Description",
-              "quote": "Cyanea capillata is one of the largest species of jellyfish and is commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles. Cyanea capillata has a saucer-shaped bell (the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Physical Description",
+              "quote": "The jellyfish has no fringing tentacles around the edge of its bell, but it has eight groups of 150 tentacles each on the underside of its umbrella.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Sting strength",
+              "quote": "Lion's mane jellyfish have one of the most painful stings of UK jellyfish which causes intense pain almost immediately after being stung.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2090",
+              "locator": "Summary > Additional information",
+              "quote": "Cyanea capillata can still sting long after being stranded on the shore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpyls4kt000c7isoovnlo8lt": {
           "sourceIds": [
-            "marlin:2090"
+            "marlin:2090",
+            "adw:Cyanea-capillata"
           ],
           "support": [
             {
               "sourceId": "marlin:2090",
-              "locator": "Identifying features",
-              "quote": "Cyanea capillata has a diameter 30 cm or more. Usually yellow brown or red in colour. It is easily distinguished by a mass of long, hair-like tentacles. There at least 65 tentacles in each of the eight groups of tentacles.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Usually yellow brown or red in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2090",
-              "locator": "Description",
-              "quote": "Cyanea capillata is one of the largest species of jellyfish and is commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles. Cyanea capillata has a saucer-shaped bell (the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Cyanea capillata has a saucer-shaped bell (the umbrella) with a uniform thickness until thinning dramatically around the edges. Usually yellowish brown or reddish in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Physical Description",
+              "quote": "The bell may be pink to reddish-gold or brownish-violet.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Physical Description",
+              "quote": "This member of the giant jellyfish has a hemispherical bell with scalloped edges.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpyls4kt000d7iso3mmey64z": {
           "sourceIds": [
@@ -26734,75 +27322,149 @@
           "support": [
             {
               "sourceId": "marlin:2090",
-              "locator": "Identifying features",
-              "quote": "Cyanea capillata has a diameter 30 cm or more. Usually yellow brown or red in colour. It is easily distinguished by a mass of long, hair-like tentacles. There at least 65 tentacles in each of the eight groups of tentacles.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Cyanea capillata is one of the largest species of jellyfish and is commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2090",
-              "locator": "Description",
-              "quote": "Cyanea capillata is one of the largest species of jellyfish and is commonly referred to as Lions mane jellyfish due to the highly distinguishable mass of long, thin, hair-like tentacles. Cyanea capillata has a saucer-shaped bell (the...",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "It is easily distinguished by a mass of long, hair-like tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2090",
+              "locator": "Summary > Description",
+              "quote": "The margin of the bell bears hollow tentacles, arranged in eight groups with 70 to 150 or more tentacles in each.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:2090"
+            "marlin:2090",
+            "adw:Cyanea-capillata",
+            "mcs:lions-mane-jellyfish",
+            "worms:135301"
           ],
           "support": [
             {
               "sourceId": "marlin:2090",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Cyanea capillata is pelagic species that can be found washed up on beaches.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Habitat",
+              "quote": "The Lion's Mane Jellyfish is found in the cooler regions of the Atlantic, Pacific, North Sea, and Baltic Sea. ... They are found in the pelagic zone as medusae and then benthic zone as polyps.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Habitat",
+              "quote": "Habitat Open, cooler seas",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135301",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat coastal [details]",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Speed and distance",
+              "quote": "lion's mane are not strong enough to swim easily against the water current, so often turn up on beaches at lower tides.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
             "marlin:2090",
-            "wildlife-trusts:lions-mane-jellyfish"
+            "mcs:lions-mane-jellyfish",
+            "adw:Cyanea-capillata"
           ],
           "support": [
             {
               "sourceId": "marlin:2090",
               "locator": "Summary > Description",
               "quote": "It generally grows to 30-50 cm in diameter in British waters. However, they have been know to grow up to 200 cm.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "wildlife-trusts:lions-mane-jellyfish",
-              "locator": "Species information > Statistics",
-              "quote": "Bell: Up to 50cm across",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Length",
+              "quote": "Typically 50cm but can reach 2 metres in diameter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Physical Description",
+              "quote": "Its bell normally ranges in diameter from 30 to 80 cm, with some individuals growing up to a maximum of 180 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Where can they be found? > Did you know",
+              "quote": "The largest one recorded had tentacles 36.6 metres long!",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Size: Large (over 50 cm) The source says: marlin:2090: 'It generally grows to 30-50 cm in diameter in British waters. However, they have been know to grow up to 200 cm.' wildlife-trusts:lions-mane-jellyfish Statistics: 'Bell: Up to 50cm across'"
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "mcs:lions-mane-jellyfish",
+            "adw:Cyanea-capillata",
             "marlin:2090"
           ],
           "support": [
             {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Speed and distance",
+              "quote": "lion's mane are not strong enough to swim easily against the water current, so often turn up on beaches at lower tides. However, they can move slowly through the water by contracting and relaxing their \"bell\", which helps propel them.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Food Habits",
+              "quote": "It catches its prey by sinking slowly with its tentacles spread in a circle around it.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Behavior",
+              "quote": "Cyanea capillata are continual swimmers that can reach speeds of up to several km per hour and can cover great distances with the aid of marine currents. They are known to form shoals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:2090",
               "locator": "Summary > Additional information",
-              "quote": "This species does occasionally occur in large swarms, largely thought to be due to storms and tides that concentrate individuals together",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "quote": "This species does occasionally occur in large swarms, largely thought to be due to storms and tides that concentrate individuals together (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: solitary The source says: MarLIN's own Cyanea capillata review, already cited on this species' page, says: 'This species does occasionally occur in large swarms, largely thought to be due to storms and tides that concentrate individuals together'. The wording is weaker than for the moon or barrel jellyfish ('occasionally', and by physical concentration rather than by behaviour), but it still contradicts a flat 'solitary'."
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -26819,81 +27481,157 @@
           ],
           "claimSupported": true
         },
-        "edge:Moon Jellyfish->Lion's Mane Jellyfish": {
+        "trait:depth": {
           "sourceIds": [
-            "doi:10.7717-peerj.1110",
-            "doi:10.1007-s00227-016-2892-0"
+            "worms:135301",
+            "doi:10.1016-j.dib.2025.111511",
+            "marlin:2090"
           ],
           "support": [
             {
+              "sourceId": "worms:135301",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat coastal [details] Habitat upper epipelagic [details]",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1016-j.dib.2025.111511",
+              "locator": "Data description > 5.2. Cyanea capillata",
+              "quote": "one C. capillata (7 mm) was found in the south-western Baltic Sea (Kiel Bight, station SW8, depth between 5 to10 m) and three animals were caught at the northernmost station off Gotland (BY32, depth between 60 to70 m)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1016-j.dib.2025.111511",
+              "locator": "Data description > 5.2. Cyanea capillata",
+              "quote": "Depth discrete sampling in the Bornholm Basin (BB30) showed that C. capillata was primarily present in deeper waters of > 30 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2090",
+              "locator": "Summary > Habitat",
+              "quote": "Cyanea capillata is pelagic species that can be found washed up on beaches.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "mcs:lions-mane-jellyfish",
+            "doi:10.7717-peerj.1110"
+          ],
+          "support": [
+            {
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Diet",
+              "quote": "Jellyfish often prey on other jellyfish, with the lion's mane's diet including the smaller moon jellyfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "doi:10.7717-peerj.1110",
-              "locator": "Discussion > Interspecific differences in trophic ecology",
+              "locator": "Discussion > inter-specific differences",
               "quote": "Previous studies have reported predation of C. capillata on A. aurita medusae, therefore it is possible that the differences observed with A. aurita may be a symptom of intra-guild predation by the larger C. capillata",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "adw:Cyanea-capillata",
+            "mcs:lions-mane-jellyfish"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Food Habits",
+              "quote": "Cyanea capillata feeds mainly on fish. It catches its prey by sinking slowly with its tentacles spread in a circle around it.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1007-s00227-016-2892-0",
-              "locator": "Discussion",
-              "quote": "C. capillata has mainly been described as an important predator of A. aurita (Bamstedt et al. 1994; Hansson 1997; Titelman et al. 2007)",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Diet",
+              "quote": "They also eat small fish, tiny crustaceans, zooplankton, fish larvae and eggs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "edge:Blue Jellyfish->Lion's Mane Jellyfish": {
+        "diet:eats:2": {
           "sourceIds": [
-            "wildlife-trusts:lions-mane-jellyfish"
+            "mcs:lions-mane-jellyfish",
+            "adw:Cyanea-capillata"
           ],
           "support": [
             {
-              "sourceId": "wildlife-trusts:lions-mane-jellyfish",
-              "locator": "About",
-              "quote": "fish and other smaller jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "doi:10.7717-peerj.1110",
-            "wildlife-trusts:lions-mane-jellyfish"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7717-peerj.1110",
-              "locator": "wildlife-trusts:lions-mane-jellyfish > About",
-              "quote": "these tentacles are packed with stinging cells and are used to catch their favourite prey: fish and other smaller jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Key facts > Diet",
+              "quote": "They also eat small fish, tiny crustaceans, zooplankton, fish larvae and eggs. To catch their food, they use specialised \"harpoon-like\" stinging cells (nematocysts) that shoot out and inject venom when touched",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "wildlife-trusts:lions-mane-jellyfish",
-              "locator": "About",
-              "quote": "fish and other smaller jellyfish",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "adw:Cyanea-capillata",
+              "locator": "Food Habits",
+              "quote": "The prey is captured in the \"net\" of tentacles and stunned by the nematocysts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "farm:role": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "doi:10.7717-peerj.9260"
+            "mcs:lions-mane-jellyfish",
+            "doi:10.1371-journal.pone.0033259"
           ],
           "support": [
             {
-              "sourceId": "doi:10.7717-peerj.9260",
+              "sourceId": "mcs:lions-mane-jellyfish",
+              "locator": "Where can they be found?",
+              "quote": "They're a favourite food for the leatherback turtle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0033259",
+              "locator": "Abstract",
+              "quote": "Lion's mane jellyfish ( Cyanea capillata ) was the dominant prey",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0033259",
               "locator": "Introduction",
-              "quote": "In experiments, the five species occurring in the North Sea area, Aurelia aurita, Cyanea capillata, Cyanea lamarckii, Chrysaora hysoscella and Rhizostoma octopus have all been shown to produce planulae that settle on hard substrates",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "quote": "spatial distributions of lion's mane jellyfish ( Cyanea capillata ), the largest extant species of jellyfish and a known prey of the leatherback turtle",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1038-s41598-017-02103-6"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1038-s41598-017-02103-6",
+              "locator": "Introduction",
+              "quote": "In the northeast Atlantic, sunfish are known to feed largely on low nutritional value jellyfish species including Rhizostoma octopus , Chryasora hysoscella and Cyanea capillata , and are frequently sighted near large jellyfish aggregations",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -26911,79 +27649,117 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:152203",
-        "marlin:2330",
-        "doi:10.1093-icesjms-fsw157",
         "doi:10.1016-j.tree.2018.09.001",
-        "doi:10.7717-peerj.9260"
+        "doi:10.1093-icesjms-fsw157",
+        "doi:10.1098-rspb.2011.0978",
+        "marlin:2330",
+        "mcs:barrel-jellyfish",
+        "worms:152203"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2330"
+            "marlin:2330",
+            "mcs:barrel-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2330",
-              "locator": "Identifying features",
-              "quote": "Smooth slightly flattened umbrella reaching up to 90 cm in diameter. Eight oral arms which are longer than the diameter of the umbrella. Upper section of oral arms is shorter than the three-winged terminating bulbs. The bulbs of the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "Rhizostoma octopus is one of the largest jellyfish to inhabit UK waters. It has a smooth and somewhat flattened shaped umbrella (or bell) that can reach 90 cm in diameter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2330",
-              "locator": "Description",
-              "quote": "Rhizostoma octopus is one of the largest jellyfish to inhabit UK waters. It has a smooth and somewhat flattened shaped umbrella (or bell) that can reach 90 cm in diameter. It is generally white or bluish in colour but may be red,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "No marginal tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "What do they look like?",
+              "quote": "Rather than thin tentacles like a lion’s mane jellyfish, barrels have eight thick, frilled arms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "Key facts",
+              "quote": "Although they can often appear in large numbers, they are not that harmful to humans, as their sting is generally weak.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Field note: 'A huge, solid, dome-shaped bell (the dustbin-lid jelly) with NO long trailing tentacles.' The source says: MarLIN 2330 Description: 'It has a smooth and somewhat flattened shaped umbrella (or bell) that can reach 90 cm in diameter.' Identifying features: 'Smooth slightly flattened umbrella reaching up to 90 cm in diameter ... No marginal tentacles.'"
+          "claimSupported": true
         },
         "mark:cmpymumvk000r7iowzads1p7d": {
           "sourceIds": [
-            "marlin:2330"
+            "marlin:2330",
+            "mcs:barrel-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2330",
-              "locator": "Identifying features",
-              "quote": "Smooth slightly flattened umbrella reaching up to 90 cm in diameter. Eight oral arms which are longer than the diameter of the umbrella. Upper section of oral arms is shorter than the three-winged terminating bulbs. The bulbs of the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "It has a smooth and somewhat flattened shaped umbrella (or bell) that can reach 90 cm in diameter. It is generally white or bluish in colour but may be red, brown, or grey.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2330",
               "locator": "Description",
-              "quote": "Rhizostoma octopus is one of the largest jellyfish to inhabit UK waters. It has a smooth and somewhat flattened shaped umbrella (or bell) that can reach 90 cm in diameter. It is generally white or bluish in colour but may be red,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The blue colouration of the ring muscle of the dorsal umbrella can help differentiate it from closely related species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "What do they look like?",
+              "quote": "They have a solid, spherical, rubbery-looking bell which can be white, pale pink, blue or yellow.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpymumvk000t7iowcdifdqqd": {
           "sourceIds": [
-            "marlin:2330"
+            "marlin:2330",
+            "mcs:barrel-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2330",
               "locator": "Identifying features",
-              "quote": "Smooth slightly flattened umbrella reaching up to 90 cm in diameter. Eight oral arms which are longer than the diameter of the umbrella. Upper section of oral arms is shorter than the three-winged terminating bulbs. The bulbs of the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Eight oral arms which are longer than the diameter of the umbrella.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2330",
-              "locator": "Description",
-              "quote": "Rhizostoma octopus is one of the largest jellyfish to inhabit UK waters. It has a smooth and somewhat flattened shaped umbrella (or bell) that can reach 90 cm in diameter. It is generally white or bluish in colour but may be red,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "No marginal tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "What do they look like?",
+              "quote": "Rather than thin tentacles like a lion’s mane jellyfish, barrels have eight thick, frilled arms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "Key facts",
+              "quote": "Although they can often appear in large numbers, they are not that harmful to humans, as their sting is generally weak.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
@@ -26994,11 +27770,18 @@
               "sourceId": "marlin:2330",
               "locator": "Habitat",
               "quote": "Rhizostoma octopus is a pelagic species. It is known to aggregate in bay areas but it has also been observed in open water.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2330",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Recorded around all coasts of the British Isles but reported to aggregate in Carmarthen Bay, Tremadoc Bay and Rosslare.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -27023,43 +27806,163 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "doi:10.1016-j.tree.2018.09.001"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1016-j.tree.2018.09.001",
-              "locator": "Old question, new methodologies (p. 3)",
-              "quote": "Additionally, jellyfish themselves are active predators of ocean plankton (including larval fishes) and so will concentrate prey within their oral arms and stomachs.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:behavior": {
           "sourceIds": [
-            "doi:10.1093-icesjms-fsw157"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: solitary The source says: This is the strongest refutation in the shard, and it is in Welsh waters. MarLIN, already cited on this page: 'It is known to aggregate in bay areas', and 'reported to aggregate in Carmarthen Bay, Tremadoc Bay and Rosslare'. Elliott et al. 2017 (Swansea University, ICES JMS): 'Aerial surveys over the Irish Sea consistently found R. octopus in dense patches in the coastal areas, especially in Carmarthen Bay, Tremadoc Bay, and Rosslare Harbour'. Hays et al. 2018 describe aggregations 'extending over tens of square kilometers'."
-        },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.7717-peerj.9260"
+            "marlin:2330",
+            "doi:10.1016-j.tree.2018.09.001",
+            "doi:10.1098-rspb.2011.0978"
           ],
           "support": [
             {
-              "sourceId": "doi:10.7717-peerj.9260",
-              "locator": "Introduction",
-              "quote": "In experiments, the five species occurring in the North Sea area, Aurelia aurita, Cyanea capillata, Cyanea lamarckii, Chrysaora hysoscella and Rhizostoma octopus have all been shown to produce planulae that settle on hard substrates",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2330",
+              "locator": "Habitat",
+              "quote": "It is known to aggregate in bay areas but it has also been observed in open water.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1016-j.tree.2018.09.001",
+              "locator": "Jellyfish as trophic dead ends: a \"belly-full-of-jelly\"?",
+              "quote": "distinct coastal jellyfish hotspots can occur in coastal waters, such as large aggregations of the barrel jellyfish Rhizostoma octopus extending over tens of square kilometers, with individuals weighing as much as 30 kg",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Abstract",
+              "quote": "here we use data-loggers to show that the frequently occurring coastal jellyfish ( Rhizostoma octopus ) does not simply passively drift to encounter prey",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Discussion",
+              "quote": "jellyfish in the wild do not simply drift at a fixed depth, but rather they perform extensive vertical movements that equate to moving up and down through the entire water column dozens of times a day",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:2330",
+            "mcs:barrel-jellyfish"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2330",
+              "locator": "Description",
+              "quote": "It has a smooth and somewhat flattened shaped umbrella (or bell) that can reach 90 cm in diameter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "What do they look like?",
+              "quote": "Barrel jellyfish are the UK's largest species of jellyfish. Their bells can grow up to an incredible one metre in diameter!",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "Key facts > Weight",
+              "quote": "Barrel jellyfish can weigh up to 35 kg, that's about the same as lifting a pair of heavy dumbbells.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "mcs:barrel-jellyfish"
+          ],
+          "support": [
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "Key facts > Diet",
+              "quote": "Barrel jellyfish mainly feed on plankton. They use a form of filter feeding (unlike hunting which some other species of jellyfish do).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "doi:10.1098-rspb.2011.0978"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Results > Gut contents",
+              "quote": "All individuals had an appreciable amount of material in their guts which included phytoplankton, heterotrophic protists (ciliates and flagellates), crustacean larvae ... mollusc larvae, copepods, hydrozoans and chaetognaths.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Results > Gut contents",
+              "quote": "Small microzooplankton and phytoplankton (less than 100 µm long) contributed 66 per cent of the gut biovolume.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "mcs:barrel-jellyfish"
+          ],
+          "support": [
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "Key facts > Diet",
+              "quote": "They drift through plankton rich water and trap it in their frills before the plankton is slowly swept by microscopic hairs into the jellyfish's central mouth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:2330",
+            "mcs:barrel-jellyfish"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2330",
+              "locator": "Additional information",
+              "quote": "This species is eaten by sea turtles and is commonly known to host Merlangius merlangus (whiting) between the oral arms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "mcs:barrel-jellyfish",
+              "locator": "Key facts",
+              "quote": "Barrel jellyfish stings have little effect on leatherback turtles which see them as a major food source because of their size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1098-rspb.2011.0978"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1098-rspb.2011.0978",
+              "locator": "Discussion",
+              "quote": "might allow escape from fast moving predators such as the leatherback turtle ( Dermochelys coriacea ) and the ocean sunfish ( M. mola )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -27077,100 +27980,149 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:135302",
+        "doi:10.1007-BF02364701",
+        "doi:10.1007-s00227-006-0545-4",
+        "doi:10.7717-peerj.1110",
         "marlin:2025",
         "wildlife-trusts:blue-jellyfish",
-        "doi:10.7717-peerj.1110",
-        "doi:10.7717-peerj.9260"
+        "worms:135302"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2025"
+            "marlin:2025",
+            "doi:10.7717-peerj.1110",
+            "wildlife-trusts:blue-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2025",
-              "locator": "Identifying features",
-              "quote": "Umbrella or saucer shaped. Uniformly fairly thick jelly, that thins suddenly at the bell margin. Clusters of stinging cells (nematocysts) are prominent on the upper surface of the bell. The margin of the bell has eight groups of 40-60...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "Cyanea lamarckii is similar to Cyanea capillata . However, Cyanea capillata is the larger of the two as it can grow up to 50 cm in diameter and is deep reddish brown in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2025",
-              "locator": "Description",
-              "quote": "The bell can grow up to 30 cm in diameter. Hollow marginal tentacles arise from the underneath the bell. These are arranged in eight horseshoe or rectangular shaped groups each with 40-60 tentacles. Beneath the bell is a short thick...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Its colour varies from translucent through pale yellow, pale brown, pale grey to light blue or purple. In faintly coloured species the blue tends to outline the pattern of the internal sculpting of the bell (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Summary > Description",
+              "quote": "Hollow marginal tentacles arise from the underneath the bell. These are arranged in eight horseshoe or rectangular shaped groups each with 40-60 tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.1110",
+              "locator": "Discussion > Size-based shifts in trophic ecology",
+              "quote": "although C. lamarckii is as venomous as C. capillata ( Helmholz et al., 2007 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "About",
+              "quote": "Like many of the jellyfish species, this animal does sting, so if you find one on the beach it's best not to handle it.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkat1700077iakoxw7tcix": {
           "sourceIds": [
+            "wildlife-trusts:blue-jellyfish",
             "marlin:2025"
           ],
           "support": [
             {
-              "sourceId": "marlin:2025",
-              "locator": "wildlife-trusts:blue-jellyfish > intro",
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "Intro",
               "quote": "Often confused with the larger but similarly shaped lion's mane jellyfish, the blue jellyfish can be colourless when young and develop a striking blue-purple bell as it matures.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2025",
-              "locator": "Description",
-              "quote": "The bell can grow up to 30 cm in diameter. Hollow marginal tentacles arise from the underneath the bell. These are arranged in eight horseshoe or rectangular shaped groups each with 40-60 tentacles. Beneath the bell is a short thick...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Its colour varies from translucent through pale yellow, pale brown, pale grey to light blue or purple. In faintly coloured species the blue tends to outline the pattern of the internal sculpting of the bell (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Additional information",
+              "quote": "Cyanea lamarckii is similar to Cyanea capillata . However, Cyanea capillata is the larger of the two as it can grow up to 50 cm in diameter and is deep reddish brown in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Additional information",
+              "quote": "It also has more tentacles with 70-150 tentacles in each of the eight groups of tentacles. Very young specimens are colourless but they take on colour as they mature.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkat1700087iaklvyimkxa": {
           "sourceIds": [
-            "marlin:2025"
+            "marlin:2025",
+            "doi:10.7717-peerj.1110",
+            "wildlife-trusts:blue-jellyfish"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Summary > Description",
+              "quote": "Its colour varies from translucent through pale yellow, pale brown, pale grey to light blue or purple. In faintly coloured species the blue tends to outline the pattern of the internal sculpting of the bell (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.1110",
+              "locator": "Discussion > Size-based shifts in trophic ecology",
+              "quote": "although C. lamarckii is as venomous as C. capillata ( Helmholz et al., 2007 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "About",
+              "quote": "Like many of the jellyfish species, this animal does sting, so if you find one on the beach it's best not to handle it.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpyls52d000e7isoyapb9keg": {
+          "sourceIds": [
+            "marlin:2025",
+            "wildlife-trusts:blue-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2025",
               "locator": "Identifying features",
-              "quote": "Umbrella or saucer shaped. Uniformly fairly thick jelly, that thins suddenly at the bell margin. Clusters of stinging cells (nematocysts) are prominent on the upper surface of the bell. The margin of the bell has eight groups of 40-60...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Umbrella or saucer shaped. Uniformly fairly thick jelly, that thins suddenly at the bell margin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2025",
-              "locator": "Description",
-              "quote": "The bell can grow up to 30 cm in diameter. Hollow marginal tentacles arise from the underneath the bell. These are arranged in eight horseshoe or rectangular shaped groups each with 40-60 tentacles. Beneath the bell is a short thick...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpyls52d000e7isoyapb9keg": {
-          "sourceIds": [
-            "marlin:2025"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2025",
-              "locator": "wildlife-trusts:blue-jellyfish > How to identify",
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "How to identify",
               "quote": "A typical looking jellyfish, with a dome-shaped bell and stinging tentacles trailing underneath. The bell colour depends on maturity and can vary from pale yellow to purple.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2025",
-              "locator": "Description",
-              "quote": "The bell can grow up to 30 cm in diameter. Hollow marginal tentacles arise from the underneath the bell. These are arranged in eight horseshoe or rectangular shaped groups each with 40-60 tentacles. Beneath the bell is a short thick...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpyls52d000f7isonnupnh3q": {
           "sourceIds": [
@@ -27179,65 +28131,140 @@
           "support": [
             {
               "sourceId": "marlin:2025",
-              "locator": "marlin:2025 > Additional information",
-              "quote": "However, Cyanea capillata is the larger of the two as it can grow up to 50 cm in diameter and is deep reddish brown in colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Hollow marginal tentacles arise from the underneath the bell. These are arranged in eight horseshoe or rectangular shaped groups each with 40-60 tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2025",
-              "locator": "Description",
-              "quote": "The bell can grow up to 30 cm in diameter. Hollow marginal tentacles arise from the underneath the bell. These are arranged in eight horseshoe or rectangular shaped groups each with 40-60 tentacles. Beneath the bell is a short thick...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "The margin of the bell has eight groups of 40-60 tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Additional information",
+              "quote": "Cyanea lamarckii is similar to Cyanea capillata . However, Cyanea capillata is the larger of the two as it can grow up to 50 cm in diameter and is deep reddish brown in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Additional information",
+              "quote": "It also has more tentacles with 70-150 tentacles in each of the eight groups of tentacles. Very young specimens are colourless but they take on colour as they mature.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:2025"
+            "marlin:2025",
+            "worms:135302",
+            "wildlife-trusts:blue-jellyfish"
           ],
           "support": [
             {
               "sourceId": "marlin:2025",
               "locator": "Habitat",
               "quote": "Cyanea lamarckii is a pelagic species.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Cyanea lamarckii occurs in coastal waters all around the British Isles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:135302",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat coastal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "About",
+              "quote": "They are attracted inshore by blooms of plankton that provide a plentiful supply of food.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:2025"
+            "marlin:2025",
+            "wildlife-trusts:blue-jellyfish",
+            "doi:10.7717-peerj.1110"
           ],
           "support": [
             {
               "sourceId": "marlin:2025",
               "locator": "Summary > Description",
               "quote": "The bell can grow up to 30 cm in diameter.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "Species information > Statistics",
+              "quote": "Bell: up to 30cm across",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.7717-peerj.1110",
+              "locator": "Discussion > Size-based shifts in trophic ecology",
+              "quote": "with the species rarely exceeding a bell diameter of 30 cm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "wildlife-trusts:blue-jellyfish"
+            "wildlife-trusts:blue-jellyfish",
+            "marlin:2025"
           ],
           "support": [
             {
               "sourceId": "wildlife-trusts:blue-jellyfish",
-              "locator": "Did you know?",
-              "quote": "A group of jellyfish is known as a",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "locator": "About",
+              "quote": "The blue jellyfish can drift along, easily capturing prey with its dense array of stinging tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2025",
+              "locator": "Habitat",
+              "quote": "Cyanea lamarckii is a pelagic species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "When to see",
+              "quote": "When to see May to October",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "About",
+              "quote": "This beautiful jellyfish is often seen around the UK coastline in summer and autumn.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -27254,52 +28281,6 @@
           ],
           "claimSupported": true
         },
-        "edge:Plankton->Blue Jellyfish": {
-          "sourceIds": [
-            "wildlife-trusts:blue-jellyfish"
-          ],
-          "support": [
-            {
-              "sourceId": "wildlife-trusts:blue-jellyfish",
-              "locator": "About",
-              "quote": "They are attracted inshore by blooms of plankton that provide a plentiful supply of food.",
-              "readBy": "refs:confirm (jelly-birds-seals), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "doi:10.7717-peerj.1110"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7717-peerj.1110",
-              "locator": "wildlife-trusts:blue-jellyfish > About",
-              "quote": "They are attracted inshore by blooms of plankton that provide a plentiful supply of food.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.7717-peerj.9260"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.7717-peerj.9260",
-              "locator": "Abstract",
-              "quote": "The three polyps found on Dogger Bank all belonged to the compass jellyfish Chrysaora hysoscella. One podocyst from the Oostende beach also belonged to this species but another podocyst belonged to Cyanea lamarkii.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway The source says: The first in situ record of a Cyanea lamarckii podocyst was on a bivalve shell, and the authors conclude that bivalve shells 'could provide an abundant settling substrate for jellyfish polyps'. As with the moon and compass jellyfish, a shellfish farm supplies that substrate, so 'anyway' is asserted rather than evidenced."
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7717-peerj.1110"
@@ -27315,6 +28296,73 @@
           ],
           "claimSupported": false,
           "conflict": "The app says: Eats me: Lion's Mane Jellyfish (edge Blue Jellyfish -> Lion's Mane Jellyfish). The source says: The best north-east Atlantic source on exactly this three-species assemblage reports C. capillata predation only on Aurelia aurita medusae, and raises intra-guild predation on its congeneric C. lamarckii as no more than a possibility: \"it is possible that the differences observed with A. aurita may be a symptom of intra-guild predation\". No study found names C. lamarckii as C. capillata prey."
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "doi:10.1007-s00227-006-0545-4",
+            "wildlife-trusts:blue-jellyfish"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1007-s00227-006-0545-4",
+              "locator": "Abstract",
+              "quote": "The prey spectra of C. lamarckii , C. capillata and C. hysoscella contained several copepod and other crustacean species and thus make them potential competitors with fish larvae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:blue-jellyfish",
+              "locator": "About",
+              "quote": "The blue jellyfish can drift along, easily capturing prey with its dense array of stinging tentacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "doi:10.1007-s00227-006-0545-4"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1007-s00227-006-0545-4",
+              "locator": "Abstract",
+              "quote": "Medusae in this study also consumed fish eggs and larvae, including clupeids, in all months analysed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1007-s00227-006-0545-4",
+              "locator": "Abstract",
+              "quote": "Cyanea lamarckii was the most frequently encountered species in this study",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1007-BF02364701"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1007-BF02364701",
+              "locator": "Abstract",
+              "quote": "The hosts preferred in the European seas are the large scyphomedusae Aurelia aurita, Chrysaora hysoscella, Rhizostoma pulmo, Cyanea capillata and Cyanea lamarckii , which harbour the first developmental stages.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1007-BF02364701",
+              "locator": "Abstract",
+              "quote": "H. galba plays an important role as obligatory endoparasite of scyphomedusae at least during the first stages of development; without a host this amphipod cannot survive, neither benthically nor in the plankton.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -27332,118 +28380,88 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:135305",
+        "doi:10.1098-rsos.171421",
+        "doi:10.1111-jfb.13926",
+        "doi:10.3390-md20080025",
         "marlin:2106",
         "wildlife-trusts:mauve-stinger",
-        "doi:10.3390-md20080025",
-        "doi:10.1098-rsos.171421",
-        "doi:10.1111-jfb.13926"
+        "worms:135305"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:2106"
+            "marlin:2106",
+            "doi:10.3390-md20080025",
+            "wildlife-trusts:mauve-stinger"
           ],
           "support": [
             {
               "sourceId": "marlin:2106",
-              "locator": "Identifying features",
-              "quote": "Mushroom shaped bell. Exumbrella and tentacles are covered in pink or mauve nematocysts. 16 marginal lobes 8 marginal sense organs 8 hair-like marginal tentacles.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Pelagia noctiluca may grow to 10 cm in diameter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2106",
-              "locator": "Description",
-              "quote": "Pelagia noctiluca may grow to 10 cm in diameter. The medusa colour varies from pale red to mauve-brown or purple and the exumbrella surface is covered in pink or mauve nematocyst-bearing warts. The mushroom shaped, deep bell has 16...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwkathi00097iaky1wmdyy1": {
-          "sourceIds": [
-            "marlin:2106"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2106",
-              "locator": "Identifying features",
-              "quote": "Mushroom shaped bell. Exumbrella and tentacles are covered in pink or mauve nematocysts. 16 marginal lobes 8 marginal sense organs 8 hair-like marginal tentacles.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The medusa colour varies from pale red to mauve-brown or purple and the exumbrella surface is covered in pink or mauve nematocyst-bearing warts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
-            {
-              "sourceId": "marlin:2106",
-              "locator": "Description",
-              "quote": "Pelagia noctiluca may grow to 10 cm in diameter. The medusa colour varies from pale red to mauve-brown or purple and the exumbrella surface is covered in pink or mauve nematocyst-bearing warts. The mushroom shaped, deep bell has 16...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwkathi000a7iakkvgmt1fm": {
-          "sourceIds": [
-            "marlin:2106"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2106",
-              "locator": "marlin:2106 > Description",
-              "quote": "The manubrium bears four thick, frilled oral arms.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2106",
-              "locator": "Description",
-              "quote": "Pelagia noctiluca may grow to 10 cm in diameter. The medusa colour varies from pale red to mauve-brown or purple and the exumbrella surface is covered in pink or mauve nematocyst-bearing warts. The mushroom shaped, deep bell has 16...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwkathi000b7iaku4a8b5uj": {
-          "sourceIds": [
-            "marlin:2106"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2106",
-              "locator": "Identifying features",
-              "quote": "Mushroom shaped bell. Exumbrella and tentacles are covered in pink or mauve nematocysts. 16 marginal lobes 8 marginal sense organs 8 hair-like marginal tentacles.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2106",
-              "locator": "Description",
-              "quote": "Pelagia noctiluca may grow to 10 cm in diameter. The medusa colour varies from pale red to mauve-brown or purple and the exumbrella surface is covered in pink or mauve nematocyst-bearing warts. The mushroom shaped, deep bell has 16...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:2106"
-          ],
-          "support": [
             {
               "sourceId": "marlin:2106",
               "locator": "Habitat",
               "quote": "Pelagia noctiluca is an oceanic species widely distributed in warm and temperate waters.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Summary > Description",
+              "quote": "These thin tentacles may extend as far as 3 m. All tentacles on Pelagia noctiluca are covered in nematocysts. The manubrium bears four thick, frilled oral arms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Summary > Description",
+              "quote": "This species has no sessile stage and the adults release juvenile medusae in the autumn.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Pelagia noctiluca is an uncommon jellyfish around the British Isles but may be found anywhere over deep water off the west and north coasts (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Additional information",
+              "quote": "Although the sting of Pelagia noctiluca is potent and painful, it is limited in time and extent (Williamson et al. , 1996).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3390-md20080025",
+              "locator": "Pelagia noctiluca: Distribution and Blooms",
+              "quote": "it was observed repeatedly in swarms around the British Islands [ 6 ]",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:mauve-stinger",
+              "locator": "Did you know?",
+              "quote": "As its scientific name suggests, this jellyfish can glow brightly at night if disturbed!",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "trait:size": {
+        "mark:cmpwkathi00097iaky1wmdyy1": {
           "sourceIds": [
             "marlin:2106",
             "wildlife-trusts:mauve-stinger",
@@ -27453,60 +28471,174 @@
             {
               "sourceId": "marlin:2106",
               "locator": "Summary > Description",
+              "quote": "The medusa colour varies from pale red to mauve-brown or purple and the exumbrella surface is covered in pink or mauve nematocyst-bearing warts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:mauve-stinger",
+              "locator": "How to identify",
+              "quote": "This jellyfish usually appears a bluey purple (mauve) colour with a globe shaped umbrella covered in orangey brown warts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3390-md20080025",
+              "locator": "Pelagia noctiluca: Distribution and Blooms",
+              "quote": "in this species the nematocysts stud the tentacles, the oral arms, as well as the upper surface of the bell [ 1 ]",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwkathi000a7iakkvgmt1fm": {
+          "sourceIds": [
+            "marlin:2106",
+            "doi:10.3390-md20080025"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Summary > Description",
+              "quote": "The manubrium bears four thick, frilled oral arms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3390-md20080025",
+              "locator": "Pelagia noctiluca: Distribution and Blooms",
+              "quote": "in this species the nematocysts stud the tentacles, the oral arms, as well as the upper surface of the bell [ 1 ]",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwkathi000b7iaku4a8b5uj": {
+          "sourceIds": [
+            "marlin:2106",
+            "wildlife-trusts:mauve-stinger"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Summary > Description",
+              "quote": "The mushroom shaped, deep bell has 16 marginal lobes, eight marginal sense organs and eight, hair-like marginal tentacles. These thin tentacles may extend as far as 3 m. All tentacles on Pelagia noctiluca are covered in nematocysts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:mauve-stinger",
+              "locator": "How to identify",
+              "quote": "Long, thin tentacles hang down from around the bell, reaching a maximum of 3 metres.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:2106",
+            "wildlife-trusts:mauve-stinger"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Habitat",
+              "quote": "Pelagia noctiluca is an oceanic species widely distributed in warm and temperate waters.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Pelagia noctiluca is an uncommon jellyfish around the British Isles but may be found anywhere over deep water off the west and north coasts (Russell, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:mauve-stinger",
+              "locator": "Distribution",
+              "quote": "Fairly uncommon close to UK shores, but may be found offshore and in warmer European waters such as the Mediterranean.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "doi:10.3390-md20080025",
+            "doi:10.1111-jfb.13926",
+            "marlin:2106",
+            "wildlife-trusts:mauve-stinger"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3390-md20080025",
+              "locator": "Pelagia noctiluca: Distribution and Blooms",
+              "quote": "with a phosphorescent bell measuring 3 to 12 cm in diameter in adult specimens, whose edge is provided with lappets and tentacles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-jfb.13926",
+              "locator": "Introduction",
+              "quote": "remain small, with a mean ± SD diameter of 4.5 (± 1.2) cm, although large individuals can reach 12 cm (Bastian et al. , 2011 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Summary > Description",
               "quote": "Pelagia noctiluca may grow to 10 cm in diameter.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "wildlife-trusts:mauve-stinger",
               "locator": "Species information > Statistics",
               "quote": "Up to 10cm across, thin tentacles up to 3m long",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.3390-md20080025",
-              "locator": "Pelagia noctiluca: Distribution and Blooms",
-              "quote": "Scyphozoa) is a small pelagic jellyfish generally pink-, mauve- or light brown-coloured, with a phosphorescent bell measuring 3 to 12 cm in diameter in adult specimens",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Size: Medium (10-50 cm) The source says: marlin:2106: 'Pelagia noctiluca may grow to 10 cm in diameter.' wildlife-trusts:mauve-stinger Statistics: 'Up to 10cm across, thin tentacles up to 3m long'. doi:10.3390-md20080025 gives '3 to 12 cm in diameter in adult specimens'"
-        },
-        "trait:behavior": {
-          "sourceIds": [
-            "doi:10.3390-md20080025"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3390-md20080025",
-              "locator": "Pelagia noctiluca: Distribution and Blooms",
-              "quote": "it was observed repeatedly in swarms around the British Islands",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: Solitary The source says: doi:10.3390-md20080025: 'it was observed repeatedly in swarms around the British Islands'"
-        },
-        "diet:eats": {
-          "sourceIds": [
-            "doi:10.3390-md20080025"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3390-md20080025",
-              "locator": "Pelagia noctiluca: Ecology",
-              "quote": "the diet of this organism was shown to be composed mainly (around 90%) by cladocerans and copepods",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Plankton->Mauve Stinger": {
+        "trait:behavior": {
+          "sourceIds": [
+            "doi:10.3390-md20080025",
+            "marlin:2106",
+            "wildlife-trusts:mauve-stinger"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3390-md20080025",
+              "locator": "Pelagia noctiluca: Distribution and Blooms",
+              "quote": "it was observed repeatedly in swarms around the British Islands [ 6 ]",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2106",
+              "locator": "Summary > Description",
+              "quote": "This species has no sessile stage and the adults release juvenile medusae in the autumn.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "wildlife-trusts:mauve-stinger",
+              "locator": "Did you know?",
+              "quote": "As its scientific name suggests, this jellyfish can glow brightly at night if disturbed!",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats": {
           "sourceIds": [
             "doi:10.3390-md20080025"
           ],
@@ -27558,43 +28690,132 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
+        "trait:depth": {
           "sourceIds": [
             "doi:10.3390-md20080025"
           ],
           "support": [
             {
               "sourceId": "doi:10.3390-md20080025",
-              "locator": "Pelagia noctiluca: Ecological and economical impact",
-              "quote": "As Pelagia noctiluca is a top predator and its feeding activity is exerted on several zooplankters, including eggs and larvae of nektonic and benthic organisms",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "locator": "Pelagia noctiluca: Distribution and Blooms",
+              "quote": "is vertically distributed mostly between 150 m depth and the surface [ 2 ], but during the day it can also be found between 300 and 500 m, with a maximum of 1,400 m [ 3 ].",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
+          "sourceIds": [
+            "doi:10.3390-md20080025"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3390-md20080025",
+              "locator": "Pelagia noctiluca: Distribution and Blooms",
+              "quote": "the gastrovascular content was examined and the diet of this organism was shown to be composed mainly (around 90%) by cladocerans and copepods [ 54 ]",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
           "sourceIds": [
             "marlin:2106",
-            "doi:10.3390-md20080025"
+            "wildlife-trusts:mauve-stinger"
           ],
           "support": [
             {
               "sourceId": "marlin:2106",
-              "locator": "Summary > Description",
-              "quote": "This species has no sessile stage and the adults release juvenile medusae in the autumn.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "Pelagia noctiluca feed mainly on pelagic ascidians and other small jellyfish (Hayward et al. , 1996).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.3390-md20080025",
-              "locator": "Pelagia noctiluca: Distribution and Blooms",
-              "quote": "Pelagia noctiluca has direct development, so its cycle do not comprise the benthic scyphistoma stage.",
-              "readBy": "refs:trawl (jellyfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "wildlife-trusts:mauve-stinger",
+              "locator": "About",
+              "quote": "The mauve stinger likes to feed on other small jellyfish and oceanic sea squirts, also known as ascidians.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.3390-md20080025"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3390-md20080025",
+              "locator": "Conclusions > Distribution and bloom",
+              "quote": "As Pelagia noctiluca is a top predator and its feeding activity is exerted on several zooplankters, including eggs and larvae of nektonic and benthic organisms",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1098-rsos.171421"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Results > 2009 Survey",
+              "quote": "Whiting had mainly consumed mauve-stinger jellyfish ( Pelagia noctiluca )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1098-rsos.171421",
+              "locator": "Abstract",
+              "quote": "A substantial proportion of herring and whiting were found to have consumed jellyfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1111-jfb.13926"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1111-jfb.13926",
+              "locator": "Discussion > Observed predation",
+              "quote": "Three fish species: S. sprattus , S. scombrus and S. pilchardus were recorded as eating jellyfish. A single instance of P. noctiluca consumption was found in all three species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "doi:10.1111-jfb.13926"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1111-jfb.13926",
+              "locator": "Discussion > Observed predation",
+              "quote": "Three fish species: S. sprattus , S. scombrus and S. pilchardus were recorded as eating jellyfish. A single instance of P. noctiluca consumption was found in all three species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-jfb.13926",
+              "locator": "Results > Jellyfish predation",
+              "quote": "Predation was rare in S. pilchardus and S. sprattus with only 3.3% and 1.4% samples containing jellyfish DNA in their stomachs respectively.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
