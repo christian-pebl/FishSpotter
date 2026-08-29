@@ -71,17 +71,6 @@
       ],
       "expectCommonName": "Dab"
     },
-    "worms:126440": {
-      "kind": "worms",
-      "title": "Pollachius pollachius (Linnaeus, 1758)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126440",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126440",
-      "expectText": [
-        "Pollachius pollachius"
-      ]
-    },
     "marlin:9": {
       "kind": "marlin",
       "title": "Pollack (Pollachius pollachius)",
@@ -141,17 +130,6 @@
       ],
       "expectCommonName": "Saithe"
     },
-    "worms:126445": {
-      "kind": "worms",
-      "title": "Trisopterus luscus (Linnaeus, 1758)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126445",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126445",
-      "expectText": [
-        "Trisopterus luscus"
-      ]
-    },
     "marlin:1876": {
       "kind": "marlin",
       "title": "Bib or Pouting (Trisopterus luscus)",
@@ -175,17 +153,6 @@
         "Trisopterus luscus"
       ],
       "expectCommonName": "Bib"
-    },
-    "worms:126438": {
-      "kind": "worms",
-      "title": "Merlangius merlangus (Linnaeus, 1758)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126438",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126438",
-      "expectText": [
-        "Merlangius merlangus"
-      ]
     },
     "marlin:96": {
       "kind": "marlin",
@@ -211,17 +178,6 @@
       ],
       "expectCommonName": "Whiting"
     },
-    "worms:126965": {
-      "kind": "worms",
-      "title": "Labrus bergylta Ascanius, 1767",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126965",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126965",
-      "expectText": [
-        "Labrus bergylta"
-      ]
-    },
     "marlin:1739": {
       "kind": "marlin",
       "title": "Ballan wrasse (Labrus bergylta)",
@@ -245,17 +201,6 @@
         "Labrus bergylta"
       ],
       "expectCommonName": "Ballan wrasse"
-    },
-    "worms:151501": {
-      "kind": "worms",
-      "title": "Labrus mixtus Linnaeus, 1758",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=151501",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:151501",
-      "expectText": [
-        "Labrus mixtus"
-      ]
     },
     "marlin:1670": {
       "kind": "marlin",
@@ -281,17 +226,6 @@
       ],
       "expectCommonName": "Cuckoo wrasse"
     },
-    "worms:273571": {
-      "kind": "worms",
-      "title": "Symphodus melops (Linnaeus, 1758)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=273571",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:273571",
-      "expectText": [
-        "Symphodus melops"
-      ]
-    },
     "marlin:1658": {
       "kind": "marlin",
       "title": "Corkwing wrasse (Symphodus melops)",
@@ -315,17 +249,6 @@
         "Symphodus melops"
       ],
       "expectCommonName": "Corkwing wrasse"
-    },
-    "worms:126964": {
-      "kind": "worms",
-      "title": "Ctenolabrus rupestris (Linnaeus, 1758)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126964",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126964",
-      "expectText": [
-        "Ctenolabrus rupestris"
-      ]
     },
     "marlin:1527": {
       "kind": "marlin",
@@ -351,17 +274,6 @@
       ],
       "expectCommonName": "Goldsinny wrasse"
     },
-    "worms:126285": {
-      "kind": "worms",
-      "title": "Conger conger (Linnaeus, 1758)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126285",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126285",
-      "expectText": [
-        "Conger conger"
-      ]
-    },
     "marlin:2126": {
       "kind": "marlin",
       "title": "Conger eel (Conger conger)",
@@ -385,17 +297,6 @@
         "Conger conger"
       ],
       "expectCommonName": "Conger eel"
-    },
-    "worms:126996": {
-      "kind": "worms",
-      "title": "Pholis gunnellus (Linnaeus, 1758)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126996",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126996",
-      "expectText": [
-        "Pholis gunnellus"
-      ]
     },
     "marlin:2080": {
       "kind": "marlin",
@@ -421,17 +322,6 @@
       ],
       "expectCommonName": "Butterfish"
     },
-    "worms:1526389": {
-      "kind": "worms",
-      "title": "Pomatoschistus flavescens (Fabricius, 1779)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=1526389",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:1526389",
-      "expectText": [
-        "Pomatoschistus flavescens"
-      ]
-    },
     "marlin:1871": {
       "kind": "marlin",
       "title": "Two spotted goby (Pomatoschistus flavescens)",
@@ -456,17 +346,6 @@
       ],
       "expectCommonName": "Two-spotted goby"
     },
-    "worms:126927": {
-      "kind": "worms",
-      "title": "Pomatoschistus microps (Krøyer, 1838)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126927",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126927",
-      "expectText": [
-        "Pomatoschistus microps"
-      ]
-    },
     "marlin:1202": {
       "kind": "marlin",
       "title": "Common goby (Pomatoschistus microps)",
@@ -477,17 +356,6 @@
       ],
       "expectCommonName": "Common goby"
     },
-    "worms:126893": {
-      "kind": "worms",
-      "title": "Gobius paganellus Linnaeus, 1758",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126893",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126893",
-      "expectText": [
-        "Gobius paganellus"
-      ]
-    },
     "marlin:2129": {
       "kind": "marlin",
       "title": "Rock goby (Gobius paganellus)",
@@ -497,17 +365,6 @@
         "Gobius paganellus"
       ],
       "expectCommonName": "Rock goby"
-    },
-    "worms:126928": {
-      "kind": "worms",
-      "title": "Pomatoschistus minutus (Pallas, 1770)",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126928",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126928",
-      "expectText": [
-        "Pomatoschistus minutus"
-      ]
     },
     "marlin:1204": {
       "kind": "marlin",
@@ -718,17 +575,6 @@
         "Trisopterus minutus"
       ],
       "expectCommonName": "Poor cod"
-    },
-    "worms:126436": {
-      "kind": "worms",
-      "title": "Gadus morhua Linnaeus, 1758",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=126436",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:126436",
-      "expectText": [
-        "Gadus morhua"
-      ]
     },
     "marlin:2095": {
       "kind": "marlin",
@@ -1051,17 +897,6 @@
         "Carcinus maenas"
       ],
       "expectCommonName": "Shore Crab"
-    },
-    "worms:107276": {
-      "kind": "worms",
-      "title": "Cancer pagurus Linnaeus, 1758",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=107276",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:107276",
-      "expectText": [
-        "Cancer pagurus"
-      ]
     },
     "marlin:1179": {
       "kind": "marlin",
@@ -1908,20 +1743,6 @@
         "Symphodus melops"
       ]
     },
-    "fishbase-fooditems:Ctenolabrus-rupestris": {
-      "kind": "fishbase",
-      "title": "Food Items - Ctenolabrus rupestris (FishBase food-item records)",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=71&genus=Ctenolabrus&species=rupestris",
-      "expectText": [
-        "Food Items",
-        "Ctenolabrus rupestris"
-      ]
-    },
     "fishbase-fooditems:Pollachius-virens": {
       "kind": "fishbase",
       "title": "Food Items - Pollachius virens (FishBase food-item records)",
@@ -2742,17 +2563,6 @@
         "Callionymus lyra"
       ]
     },
-    "wildlife-trusts:rock-goby": {
-      "kind": "web",
-      "title": "Rock goby - The Wildlife Trusts species guide",
-      "publisher": "The Wildlife Trusts",
-      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/fish-including-sharks-skates-and-rays/rock-goby",
-      "expectText": [
-        "Gobius paganellus",
-        "Rock goby"
-      ],
-      "expectCommonName": "Rock goby"
-    },
     "doi:10.1038-s43247-025-02253-w": {
       "kind": "journal",
       "title": "Offshore wind farms modify coastal food web dynamics by enhancing suspension feeder pathways",
@@ -2787,18 +2597,6 @@
       "expectText": [
         "Majoidea",
         "Superfamily"
-      ]
-    },
-    "worms:107347": {
-      "kind": "worms",
-      "title": "Maja brachydactyla Balss, 1922",
-      "publisher": "World Register of Marine Species (WoRMS Editorial Board)",
-      "url": "https://www.marinespecies.org/aphia.php?p=taxdetails&id=107347",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:107347",
-      "expectText": [
-        "Maja brachydactyla",
-        "Majidae"
       ]
     },
     "doi:10.3354-meps031087": {
@@ -3746,20 +3544,6 @@
       "expectCommonName": "Atlantic Bobtail",
       "verifyMode": "pdf"
     },
-    "fishbase-fooditems:Labrus-bergylta": {
-      "kind": "fishbase",
-      "title": "Food Items - Labrus bergylta (FishBase food-item records)",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=588&genus=Labrus&species=bergylta",
-      "expectText": [
-        "Food Items",
-        "Labrus bergylta"
-      ]
-    },
     "fishbase-fooditems:Pomatoschistus-flavescens": {
       "kind": "fishbase",
       "title": "Food Items - Pomatoschistus flavescens (FishBase food-item records)",
@@ -3797,27 +3581,6 @@
       ],
       "verifyMode": "pdf"
     },
-    "doi:10.1016-j.jembe.2023.151899": {
-      "kind": "plymsea",
-      "title": "Spatial variability in the structure of fish assemblages associated with Laminaria hyperborea forests in the NE Atlantic",
-      "authors": [
-        "Jackson-Bue, M.",
-        "Smale, D.A.",
-        "King, N.G.",
-        "Rushton, A.G.",
-        "Moore, P.J."
-      ],
-      "publisher": "Elsevier (Journal of Experimental Marine Biology and Ecology 564:151899); copy hosted by the Marine Biological Association (PlyMSEA)",
-      "year": 2023,
-      "url": "https://plymsea.ac.uk/id/eprint/9895/1/1-s2.0-S002209812300031X-main.pdf",
-      "identifier": "DOI:10.1016/j.jembe.2023.151899",
-      "expectText": [
-        "Laminaria hyperborea forests in the NE Atlantic",
-        "Gobiusculus flavescens",
-        "Pollachius"
-      ],
-      "verifyMode": "pdf"
-    },
     "fishbase-pred:Pomatoschistus-microps": {
       "kind": "fishbase",
       "title": "FishBase predator records - Pomatoschistus microps",
@@ -3830,20 +3593,6 @@
       "url": "https://www.fishbase.cn/TrophicEco/PredatorList.php?ID=1344&GenusName=Pomatoschistus&SpeciesName=microps",
       "expectText": [
         "Pomatoschistus microps"
-      ]
-    },
-    "fishbase-pred:Trisopterus-minutus": {
-      "kind": "fishbase",
-      "title": "FishBase predator records - Trisopterus minutus",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "year": 2026,
-      "url": "https://www.fishbase.se/TrophicEco/PredatorList.php?ID=481&GenusName=Trisopterus&SpeciesName=minutus",
-      "expectText": [
-        "Trisopterus minutus"
       ]
     },
     "doi:10.1111-raq.12669": {
@@ -3866,58 +3615,6 @@
         "habitat provisioning"
       ]
     },
-    "wildlife-trusts:red-mullet": {
-      "kind": "web",
-      "title": "Red mullet - The Wildlife Trusts species guide",
-      "publisher": "The Wildlife Trusts",
-      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/fish-including-sharks-skates-and-rays/red-mullet",
-      "expectText": [
-        "Mullus surmuletus",
-        "Red mullet"
-      ]
-    },
-    "fishbase:predators-Scomber-scombrus": {
-      "kind": "fishbase",
-      "title": "Predators of Scomber scombrus - FishBase predator records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/PredatorList.php?ID=118&GenusName=Scomber&SpeciesName=scombrus",
-      "expectText": [
-        "Scomber scombrus",
-        "Organisms Preying on Scomber scombrus"
-      ]
-    },
-    "fishbase:fooditems-Taurulus-bubalis": {
-      "kind": "fishbase",
-      "title": "Food items of Taurulus bubalis - FishBase food-item records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=1379&genus=Taurulus&species=bubalis",
-      "expectText": [
-        "Taurulus bubalis",
-        "Food items reported for Taurulus bubalis"
-      ]
-    },
-    "fishbase:fooditems-Chelidonichthys-cuculus": {
-      "kind": "fishbase",
-      "title": "Food items of Chelidonichthys cuculus - FishBase food-item records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=54&genus=Chelidonichthys&species=cuculus",
-      "expectText": [
-        "Chelidonichthys cuculus",
-        "Food items reported for Chelidonichthys cuculus"
-      ]
-    },
     "fishbase:fooditems-Chelidonichthys-lucerna": {
       "kind": "fishbase",
       "title": "Food items of Chelidonichthys lucerna - FishBase food-item records",
@@ -3930,91 +3627,6 @@
       "expectText": [
         "Chelidonichthys lucerna",
         "Food items reported for Chelidonichthys lucerna"
-      ]
-    },
-    "fishbase:fooditems-Chelidonichthys-lastoviza": {
-      "kind": "fishbase",
-      "title": "Food items of Chelidonichthys lastoviza - FishBase food-item records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=5317&genus=Chelidonichthys&species=lastoviza",
-      "expectText": [
-        "Chelidonichthys lastoviza",
-        "Food items reported for Chelidonichthys lastoviza"
-      ]
-    },
-    "fishbase:dietcompo-Chelidonichthys-cuculus": {
-      "kind": "fishbase",
-      "title": "Diet composition of Chelidonichthys cuculus - FishBase diet records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/DietCompoList.php?ID=44&GenusName=Chelidonichthys&SpeciesName=cuculus&fc=266&StockCode=54",
-      "expectText": [
-        "Chelidonichthys cuculus",
-        "Food and Feeding Habits: Diet Composition Chelidonichthys cuculus"
-      ]
-    },
-    "fishbase:dietcompo-Chelidonichthys-lucerna": {
-      "kind": "fishbase",
-      "title": "Diet composition of Chelidonichthys lucerna - FishBase diet records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/DietCompoList.php?ID=1366&GenusName=Chelidonichthys&SpeciesName=lucerna&fc=266&StockCode=1384",
-      "expectText": [
-        "Chelidonichthys lucerna",
-        "Food and Feeding Habits: Diet Composition Chelidonichthys lucerna"
-      ]
-    },
-    "fishbase:dietcompo-Chelidonichthys-lastoviza": {
-      "kind": "fishbase",
-      "title": "Diet composition of Chelidonichthys lastoviza - FishBase diet records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/DietCompoList.php?ID=5081&GenusName=Chelidonichthys&SpeciesName=lastoviza&fc=266&StockCode=5317",
-      "expectText": [
-        "Chelidonichthys lastoviza",
-        "Food and Feeding Habits: Diet Composition Chelidonichthys lastoviza"
-      ]
-    },
-    "doi:10.1038-s41598-017-06379-6": {
-      "kind": "journal",
-      "title": "Stable isotopes reveal the effect of trawl fisheries on the diet of commercially exploited species",
-      "authors": [
-        "Hinz, H.",
-        "Moranta, J.",
-        "Balestrini, S.",
-        "Sciberras, M.",
-        "Pantin, J.R.",
-        "Monnington, J.",
-        "Zalewski, A.",
-        "Kaiser, M.J.",
-        "Skold, M.",
-        "Jonsson, P.",
-        "Bastardie, F.",
-        "Hiddink, J.G."
-      ],
-      "publisher": "Scientific Reports (Nature Publishing Group); open copy at Europe PMC",
-      "year": 2017,
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5524968/",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1038/s41598-017-06379-6",
-      "expectText": [
-        "Pleuronectes platessa",
-        "Limanda limanda",
-        "plaice",
-        "dab"
       ]
     },
     "doi:10.1016-j.ecolind.2024.112708": {
@@ -4035,33 +3647,6 @@
         "Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm",
         "Cancer pagurus, Maja squinado and Necora puber",
         "Mascorda-Cabre"
-      ]
-    },
-    "doi:10.1016-j.scitotenv.2024.174987": {
-      "kind": "journal",
-      "title": "Restorative function of offshore longline mussel farms with ecological benefits for commercial crustacean species",
-      "authors": [
-        "Stamp, T.",
-        "Pittman, S.J.",
-        "Holmes, L.A.",
-        "Rees, A.",
-        "Ciotti, B.J.",
-        "Thatcher, H.",
-        "Davies, P.",
-        "Hall, A.",
-        "Wells, G.",
-        "Olczak, A.",
-        "Sheehan, E.V."
-      ],
-      "publisher": "Elsevier (Science of the Total Environment 951:174987); open copy hosted by the University of Plymouth repository (PEARL)",
-      "year": 2024,
-      "url": "https://pearl.plymouth.ac.uk/bms-research/1699/",
-      "licence": "CC BY 4.0",
-      "identifier": "DOI:10.1016/j.scitotenv.2024.174987",
-      "expectText": [
-        "Restorative function of offshore longline mussel farms",
-        "Cancer pagurus",
-        "Homarus gammarus"
       ]
     },
     "doi:10.1371-journal.pone.0205877": {
@@ -4103,29 +3688,6 @@
         "Asterias rubens",
         "mussel-lines",
         "starfish density"
-      ]
-    },
-    "doi:10.1007-s11356-025-36430-3": {
-      "kind": "journal",
-      "title": "Determining toxins and harmful contaminants in starfish for future application as organic fertilizer and animal feed",
-      "authors": [
-        "Turull, Marta",
-        "Budino, Belen",
-        "Savarino, Philippe",
-        "Gerbaux, Pascal",
-        "Rambla-Alegre, Maria",
-        "Cabaleiro, Santiago",
-        "Diez, Sergi"
-      ],
-      "publisher": "Environmental Science and Pollution Research (Springer)",
-      "year": 2025,
-      "url": "https://link.springer.com/article/10.1007/s11356-025-36430-3",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1007/s11356-025-36430-3",
-      "expectText": [
-        "Marthasterias glacialis",
-        "Asterias rubens",
-        "Galicia"
       ]
     },
     "doi:10.3390-life13010209": {
@@ -4171,56 +3733,6 @@
         "artificial reef-like structures"
       ]
     },
-    "worms-traits:140685": {
-      "kind": "worms",
-      "title": "Marine Species Traits - Patella vulgata (Attributes: feeding method, body size, functional group)",
-      "publisher": "Marine Species Traits / WoRMS, Flanders Marine Institute (VLIZ)",
-      "url": "https://www.marinespecies.org/traits/aphia.php?p=taxdetails&id=140685",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:140685",
-      "expectText": [
-        "Patella vulgata"
-      ]
-    },
-    "worms-traits:140403": {
-      "kind": "worms",
-      "title": "Marine Species Traits - Nucella lapillus (Attributes: feeding method, body size, functional group)",
-      "publisher": "Marine Species Traits / WoRMS, Flanders Marine Institute (VLIZ)",
-      "url": "https://www.marinespecies.org/traits/aphia.php?p=taxdetails&id=140403",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:140403",
-      "expectText": [
-        "Nucella lapillus"
-      ]
-    },
-    "worms-traits:1039850": {
-      "kind": "worms",
-      "title": "Marine Species Traits - Steromphala umbilicalis (Attributes: feeding method, body size, functional group)",
-      "publisher": "Marine Species Traits / WoRMS, Flanders Marine Institute (VLIZ)",
-      "url": "https://www.marinespecies.org/traits/aphia.php?p=taxdetails&id=1039850",
-      "licence": "CC BY 4.0",
-      "identifier": "AphiaID:1039850",
-      "expectText": [
-        "Steromphala umbilicalis"
-      ]
-    },
-    "doi:10.1007-s00227-017-3217-7": {
-      "kind": "journal",
-      "title": "Historical shell size reduction of the dogwhelk (Nucella lapillus) across the southern UK",
-      "authors": [
-        "Wilson-Brodie, R.J.",
-        "MacLean, M.A.",
-        "Fenberg, P.B."
-      ],
-      "publisher": "Marine Biology (Springer)",
-      "year": 2017,
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5577049/",
-      "licence": "CC BY 4.0",
-      "identifier": "10.1007/s00227-017-3217-7",
-      "expectText": [
-        "Nucella lapillus"
-      ]
-    },
     "doi:10.7717-peerj.9260": {
       "kind": "journal",
       "title": "Here are the polyps: in situ observations of jellyfish polyps and podocysts on bivalve shells",
@@ -4259,15 +3771,6 @@
       "expectText": [
         "Aurelia aurita",
         "Mytilus edulis"
-      ]
-    },
-    "wildlife-trusts:barrel-jellyfish": {
-      "kind": "web",
-      "title": "Barrel jellyfish (Rhizostoma pulmo) - The Wildlife Trusts wildlife explorer",
-      "publisher": "The Wildlife Trusts",
-      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/jellyfish/barrel-jellyfish",
-      "expectText": [
-        "Rhizostoma pulmo"
       ]
     },
     "doi:10.3389-fmars.2019.00107": {
@@ -4313,19 +3816,6 @@
         "European shag"
       ]
     },
-    "doi:10.1038-s41598-021-85376-2": {
-      "kind": "journal",
-      "title": "Drivers and constraints on offshore foraging in harbour seals",
-      "publisher": "Scientific Reports 11: 5637, Nature Portfolio",
-      "year": 2021,
-      "url": "https://www.nature.com/articles/s41598-021-85376-2",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1038/s41598-021-85376-2",
-      "expectText": [
-        "harbour seal",
-        "Phoca vitulina"
-      ]
-    },
     "biotic:6196": {
       "kind": "web",
       "title": "Ctenolabrus rupestris - BIOTIC (Biological Traits Information Catalogue) species record",
@@ -4366,16 +3856,6 @@
         "Common shore crab"
       ]
     },
-    "wildlife-trusts:painted-topshell": {
-      "kind": "web",
-      "title": "Painted topshell - The Wildlife Trusts species guide",
-      "publisher": "The Wildlife Trusts",
-      "url": "https://www.wildlifetrusts.org/wildlife-explorer/marine/sea-snails-and-sea-slugs/painted-topshell",
-      "expectText": [
-        "Calliostoma zizyphinum",
-        "Painted topshell"
-      ]
-    },
     "adw:Chrysaora-hysoscella": {
       "kind": "web",
       "title": "Chrysaora hysoscella (Compass jellyfish) - Animal Diversity Web species account",
@@ -4394,42 +3874,6 @@
       "expectText": [
         "Phoca vitulina",
         "harbor seal"
-      ]
-    },
-    "adw:Halichoerus-grypus": {
-      "kind": "web",
-      "title": "Halichoerus grypus (gray seal) - Animal Diversity Web species account",
-      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
-      "url": "https://animaldiversity.org/accounts/Halichoerus_grypus/",
-      "expectText": [
-        "Halichoerus grypus",
-        "gray seal"
-      ]
-    },
-    "emlbi:W1950": {
-      "kind": "web",
-      "title": "Steromphala umbilicalis (flat topshell), in: Encyclopedia of Marine Life of Britain and Ireland",
-      "authors": [
-        "Picton, B.E.",
-        "Keatley, L.",
-        "Morrow, C.C."
-      ],
-      "publisher": "National Museums Northern Ireland (Marine Biodiversity Project NI)",
-      "year": 2025,
-      "url": "https://www2.habitas.org.uk/marbiop-ni/species.php?item=W1950",
-      "expectText": [
-        "Steromphala umbilicalis",
-        "Flat topshell"
-      ]
-    },
-    "mcs:barrel-jellyfish": {
-      "kind": "web",
-      "title": "Barrel jellyfish - Marine Conservation Society wildlife A-Z",
-      "publisher": "Marine Conservation Society",
-      "url": "https://www.mcsuk.org/ocean-learning/wildlife-a-z/barrel-jellyfish/",
-      "expectText": [
-        "Barrel jellyfish",
-        "mainly feed on plankton"
       ]
     },
     "doi:10.1371-journal.pone.0023068": {
@@ -4468,22 +3912,6 @@
         "Intraguild predation in sympatric seals",
         "Halichoerus grypus",
         "Phoca vitulina"
-      ]
-    },
-    "fishbase:fooditems-Gadus-morhua": {
-      "kind": "fishbase",
-      "title": "Food items of Gadus morhua - FishBase food-item records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=79&genus=Gadus&species=morhua",
-      "identifier": "Reached ONLY by following the FoodItemsList link published on https://www.fishbase.se/summary/Gadus-morhua.html (fetched, HTTP 200); the URL was not constructed. Page title re-checked: it names the predator. Fetched for NEGATIVE evidence on two app claims.",
-      "expectText": [
-        "Food Items",
-        "Gadus morhua",
-        "Eutrigla gurnardus"
       ]
     },
     "doi:10.1093-icesjms-fss200": {
@@ -4656,10 +4084,10 @@
       "url": "https://ices-library.figshare.com/articles/report/The_ecology_of_the_two-spot_goby_Gobiusculus_flavescens_Fabricius_the_potential_for_cod_enhancement/19270367",
       "licence": "ICES Custom Licence",
       "identifier": "doi:10.17895/ices.pub.19270367",
-      "verifyMode": "pdf",
       "expectText": [
         "Gobiusculus flavescens"
-      ]
+      ],
+      "verifyMode": "pdf"
     },
     "doi:10.1371-journal.pone.0209286": {
       "kind": "journal",
@@ -8100,7 +7528,6 @@
       "sourceIds": [
         "biotic:6196",
         "doi:10.1093-icesjms-fsy183",
-        "fishbase-fooditems:Ctenolabrus-rupestris",
         "fishbase:Ctenolabrus-rupestris",
         "habitas:ZG6050",
         "marlin:1527"
@@ -8572,7 +7999,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1016-j.jembe.2023.151899",
         "doi:10.7489-1798-1",
         "doi:10.7489-1799-1",
         "fao:i1920e",
@@ -9385,7 +8811,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1016-j.jembe.2023.151899",
         "doi:10.17895-ices.pub.19270367",
         "fishbase-fooditems:Gadus-morhua",
         "fishbase-fooditems:Pomatoschistus-flavescens",
@@ -10202,7 +9627,6 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.1111-raq.12584",
         "doi:10.1371-journal.pone.0209286",
         "fishbase-food:Gobius-paganellus",
         "fishbase-pred:Gobius-paganellus",

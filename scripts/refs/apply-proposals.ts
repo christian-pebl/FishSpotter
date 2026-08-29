@@ -46,6 +46,7 @@ const FACTS = path.join(ROOT, "src", "data", "species-facts.json");
 const DIETS = path.join(ROOT, "src", "data", "species-diet.json");
 const PROPOSALS = path.join(ROOT, ".refs-cache", "proposals");
 const TEXT = path.join(ROOT, ".refs-cache", "text");
+const VERIFY = path.join(ROOT, "src", "data", "reference-verification.json");
 const REPORT = path.join(ROOT, ".refs-cache", "apply-report.json");
 
 const TODAY = new Date().toISOString().slice(0, 10);
@@ -302,8 +303,15 @@ async function main() {
     }
     diets[p.species] = { eats, eatenBy };
 
-    // The species' source list is exactly the sources its surviving claims cite.
-    entry.sourceIds = [...new Set(Object.values(entry.claims).flatMap((c) => c.sourceIds))].sort();
+    // The species' source list is the sources its surviving claims cite, PLUS
+    // the WoRMS taxonomy anchor. That one backs no individual claim (it is the
+    // identity line, not a statement about the animal) but it is what makes
+    // every other citation addressable, so rebuilding the list from claims
+    // alone silently drops it off the Sources block.
+    const anchor = (entry.sourceIds ?? []).filter((id) => refs.sources[id]?.kind === "worms");
+    entry.sourceIds = [
+      ...new Set([...Object.values(entry.claims).flatMap((c) => c.sourceIds), ...anchor]),
+    ].sort();
 
     // The per-edge claims are superseded by the authored bullets, and the
     // trophic tier came off the guide with the rest of the farm-web framing.
@@ -312,10 +320,36 @@ async function main() {
     }
   }
 
-  const report = { ranOn: TODAY, tally, traitEdits, markEdits, removed, droppedSupport: dropped };
+  // Prune orphans. A source stops being cited when the claim that cited it is
+  // rewritten or removed, and what is left is a registry entry no passage backs.
+  // For a PDF that is worse than untidy: verification cannot read a PDF's title,
+  // so its only proof of being about the species IS a recorded passage, and an
+  // orphaned PDF source is an unbacked citation wearing a verified badge. The
+  // catalogue test enforces exactly that, and this is what keeps it satisfiable.
+  const cited = new Set<string>();
+  for (const entry of Object.values(refs.species)) {
+    // Species-level ids count as cited: they carry the taxonomy anchor, and a
+    // species this run did not touch still legitimately lists its own sources.
+    for (const id of entry.sourceIds ?? []) cited.add(id);
+    for (const claim of Object.values(entry.claims)) {
+      for (const id of claim.sourceIds) cited.add(id);
+      for (const s of claim.support) cited.add(s.sourceId);
+    }
+  }
+  const orphaned = Object.keys(refs.sources).filter((id) => !cited.has(id));
+  for (const id of orphaned) delete refs.sources[id];
+
+  const report = { ranOn: TODAY, tally, traitEdits, markEdits, removed, orphanedSources: orphaned, droppedSupport: dropped };
   fs.writeFileSync(REPORT, JSON.stringify(report, null, 2));
 
   if (!dryRun) {
+    // A verification row for a source that no longer exists is a dangling
+    // record, and the catalogue test rejects it. Prune alongside the source.
+    if (orphaned.length) {
+      const verify = JSON.parse(fs.readFileSync(VERIFY, "utf8")) as Record<string, unknown>;
+      for (const id of orphaned) delete verify[id];
+      fs.writeFileSync(VERIFY, JSON.stringify(verify, null, 2) + "\n");
+    }
     fs.writeFileSync(REFS, JSON.stringify(refs, null, 2) + "\n");
     fs.writeFileSync(TRAITS, JSON.stringify(traits, null, 2) + "\n");
     fs.writeFileSync(FACTS, JSON.stringify(facts, null, 2) + "\n");
@@ -329,6 +363,7 @@ async function main() {
   console.log(`  removed        ${tally.unsupported}`);
   console.log(`  diet bullets   ${tally.dietBullets}`);
   console.log(`  new sources    ${tally.newSources}`);
+  console.log(`  orphaned       ${orphaned.length} source(s) no longer cited, removed from the registry`);
   console.log(`  trait edits    ${traitEdits.length}`);
   console.log(`  mark edits     ${markEdits.length} (reported, applied separately)`);
   console.log(`  dropped quotes ${dropped.length}  <- these failed the re-check against the cached page`);
