@@ -332,28 +332,148 @@
     ]
   },
   "Callionymus lyra": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Mainly polychaete worms"
+      },
+      {
+        "text": "Amphipods and other small bottom-living crustaceans"
+      },
+      {
+        "text": "Molluscs, especially cockles"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bony fish such as cod, pouting, conger eel and anglerfish"
+      },
+      {
+        "text": "Skates and rays, and the spurdog"
+      },
+      {
+        "text": "Marine mammals: grey and harbour seals and harbour porpoise"
+      }
+    ]
   },
   "Callionymus maculatus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small bottom-living crustaceans, including amphipods, ostracods, shrimps and prawns, and crabs"
+      },
+      {
+        "text": "Bottom-living worms, including polychaetes"
+      },
+      {
+        "text": "Small seabed molluscs, both snails and bivalves"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gurnards: the grey gurnard, the red gurnard and the tub gurnard"
+      },
+      {
+        "text": "Poor cod, a member of the cod family",
+        "slug": "trisopterus-minutus"
+      },
+      {
+        "text": "Larger predatory fish, including European hake, John Dory and the Atlantic stargazer"
+      }
+    ]
   },
   "Pleuronectes platessa": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Bottom-living shellfish, particularly cockles and razor shells, and thin-shelled molluscs generally; young fish take bivalve siphon tips protruding from the seabed"
+      },
+      {
+        "text": "Polychaete worms, the other mainstay of the diet alongside thin-shelled molluscs"
+      },
+      {
+        "text": "Brittlestars and other echinoderms, small crustaceans such as shrimps, and small fish including sandeels"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, for which plaice is a significant part of the diet, and other marine mammals including harbour seal and harbour porpoise",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Larger predatory fish, including cod, conger eel, anglerfish and thornback ray"
+      },
+      {
+        "text": "Shrimps, whose predation on larvae and juveniles can be very substantial; large adults are at much lower risk because of their size"
+      }
+    ]
   },
   "Limanda limanda": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Worms, crustaceans and molluscs taken from the seabed"
+      },
+      {
+        "text": "Echinoderms, including brittlestars and small sea urchins"
+      },
+      {
+        "text": "Small fishes, a main part of the diet alongside crustaceans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish such as cod, whiting, conger eel and anglerfish"
+      },
+      {
+        "text": "Seals and small cetaceans, including grey and harbour seals and harbour porpoise"
+      },
+      {
+        "text": "Sharks and skates, including spurdog and thorny skate"
+      }
+    ]
   },
   "Platichthys flesus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Infaunal invertebrates dug from mud and sand: bivalves such as cockles and mussels, polychaete worms and crustaceans"
+      },
+      {
+        "text": "Small fishes, taken alongside the invertebrate prey once the fish is grown"
+      },
+      {
+        "text": "Young fish take plankton, copepods, ostracods and small larvae before switching to larger seabed animals"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals and porpoises: grey seal, harbour seal and harbour porpoise are all recorded taking it"
+      },
+      {
+        "text": "Fish-eating birds, including cormorant, grey heron and goosander"
+      },
+      {
+        "text": "Young fish are heavily preyed on by brown shrimp on the nursery grounds and by comb jellies in the plankton"
+      }
+    ]
   },
   "Scyliorhinus canicula": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Crustaceans, including krill, true crabs and hermit crabs, plus shrimps taken close to the seabed"
+      },
+      {
+        "text": "Molluscs and small cephalopods picked off the bottom"
+      },
+      {
+        "text": "Polychaete worms and small bony fish, chiefly bottom-living and demersal species"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, recorded taking it in British waters",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Other small-spotted catsharks, with cannibalism recorded in all three length classes at 0.1% of stomach volume"
+      }
+    ]
   },
   "Mullus surmuletus": {
     "eats": [],

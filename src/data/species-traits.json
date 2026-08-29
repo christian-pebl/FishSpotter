@@ -637,7 +637,7 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "Flat-headed sand-dweller; males flare a tall first dorsal and lyre-shaped tail in display.",
+    "fieldNote": "Flat, scaleless bottom fish that lies part-buried in sand or shell gravel; the first dorsal fin is tall and sail-like, and mature males have elongate dorsal and caudal fin rays.",
     "fishZone": [
       "seabed"
     ],
@@ -677,7 +677,7 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m.",
+    "fieldNote": "A small dragonet of sandy bottoms, and a deeper-water fish than its common relative, recorded between 45 and 650 m where the common dragonet is given as 1 to 440 m and usually 5 to 30 m. It reaches 17 cm, well short of the common dragonet's 30.5 cm. The gill cover carries four spines, and the male's dorsal fin has four spots in a row where the female has two.",
     "fishZone": [
       "seabed"
     ],
@@ -744,7 +744,7 @@
       "stationary",
       "fits-and-starts"
     ],
-    "fieldNote": "Right-eyed flatfish on sandy bottoms, sandpapery rough scales (the only common UK flatfish with this texture) and a distinctly concave arch in the lateral line above the pectoral fin. No orange spots, plainer than plaice.",
+    "fieldNote": "A right-eyed flatfish of sandy ground, brown with darker blotches and small speckles. The skin on its upper side feels rough where plaice and flounder feel smooth, and the lateral line is strongly arched into a semi-circular curve over the pectoral fin. Some dab carry a few orange spots, but not as well developed as a plaice's.",
     "lateralLine": [
       "arched-over-pectoral"
     ]
@@ -779,7 +779,7 @@
       "stationary",
       "fits-and-starts"
     ],
-    "fieldNote": "A dull brown flatfish of estuaries and tidal rivers, tolerating fresh water, unusual for a flatfish. Rough bony tubercles run along the bases of the dorsal and anal fins and along the lateral line; any orange spots are pale and scattered, unlike the vivid orange of plaice."
+    "fieldNote": "A dull brown to greenish-grey flatfish of estuaries and tidal rivers, and the only European flatfish that penetrates far up an estuary and lives in fresh water for long periods. Finely toothed tubercles run between the rays of the dorsal and anal fins and along the lateral line, so it feels rough where related flatfish are smooth. Many fish carry irregular reddish or orange spots on the upper side, but not as bright as a plaice's."
   },
   "Scyliorhinus canicula": {
     "commonName": "Lesser-spotted catshark",
@@ -816,7 +816,7 @@
       "stationary",
       "undulating"
     ],
-    "fieldNote": "Slim sandy-coloured shark covered in small dark spots all over body and fins; two dorsal fins set far back. Often curled on the bottom or wedged into crevices.",
+    "fieldNote": "A slender greyish-brown shark speckled with numerous small dark spots, both dorsal fins set far back towards the tail. Nocturnal: by day it rests on the seabed or hides in caves and crevices.",
     "bodyDepth": [
       "slender"
     ],

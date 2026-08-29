@@ -4107,6 +4107,52 @@
         "Gobius paganellus",
         "rock goby"
       ]
+    },
+    "fishbase-fooditems:Callionymus-maculatus": {
+      "kind": "fishbase",
+      "title": "Food items reported for Callionymus maculatus - FishBase food-item records",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "year": 2026,
+      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=2003&genus=Callionymus&species=maculatus",
+      "expectText": [
+        "Callionymus maculatus",
+        "Food items reported for Callionymus maculatus"
+      ]
+    },
+    "fishbase:fooditems-Chelidonichthys-cuculus": {
+      "kind": "fishbase",
+      "title": "Food items of Chelidonichthys cuculus - FishBase food-item records",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "year": 2026,
+      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=54&genus=Chelidonichthys&species=cuculus",
+      "expectText": [
+        "Chelidonichthys cuculus",
+        "Food items reported for Chelidonichthys cuculus"
+      ]
+    },
+    "shark-references:Scyliorhinus-canicula": {
+      "kind": "web",
+      "title": "Scyliorhinus canicula (Linnaeus, 1758), Small-spotted catshark",
+      "authors": [
+        "Pollerspöck, J.",
+        "Straube, N."
+      ],
+      "publisher": "Shark-References, Database of modern sharks, rays and chimaeras",
+      "year": 2026,
+      "url": "https://shark-references.com/species/view/Scyliorhinus-canicula",
+      "licence": "No open licence stated; © Jürgen Pollerspöck & Nicolas Straube",
+      "expectText": [
+        "Scyliorhinus canicula",
+        "Small-spotted catshark"
+      ]
     }
   },
   "species": {
@@ -4124,191 +4170,232 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127143",
-        "marlin:2172",
-        "fishbase:Pleuronectes-platessa",
+        "buyse:2023-owf-flatfish",
+        "doi:10.1038-s43247-025-02253-w",
+        "eifca:skerritt-2010-flounder",
         "fishbase-fooditems:Pleuronectes-platessa",
         "fishbase-predators:Pleuronectes-platessa",
-        "buyse:2023-owf-flatfish",
-        "doi:10.1038-s43247-025-02253-w"
+        "fishbase:Pleuronectes-platessa",
+        "marlin:2172",
+        "marlin:2174",
+        "worms:127143"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Pleuronectes-platessa",
-            "marlin:2172"
+            "marlin:2172",
+            "fishbase:Pleuronectes-platessa"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Short description",
-              "quote": "Smooth with small scales. Bony ridge behind the eyes. Upper side brown or greenish...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2172",
-              "locator": "Identifying features",
-              "quote": "Bright orange or red spots on the upper side. There is a row of four to seven bony knobs running between the eyes to the gill opening. Right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The plaice ( Pleuronectes platessa ) is a typical flatfish. It is oval in shape and is right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of the body).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2172",
               "locator": "Description",
-              "quote": "The plaice ( Pleuronectes platessa) is a typical flatfish. It is oval in shape and is right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of the body). The upper side is basically brown...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "The upper side is basically brown with numerous, conspicuous orange or red spots. ... The lower side is white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pleuronectes-platessa",
+              "locator": "Short description",
+              "quote": "Smooth with small scales. Bony ridge behind the eyes. Upper side brown or greenish brown with irregularly distributed bright red or orange spots. The underside is white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpz9kyq2000r7igs0sztc1cc": {
           "sourceIds": [
+            "marlin:2172",
             "fishbase:Pleuronectes-platessa",
-            "marlin:2172"
+            "marlin:2174",
+            "eifca:skerritt-2010-flounder"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Short description",
-              "quote": "Smooth with small scales. Bony ridge behind the eyes. Upper side brown or greenish...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:2172",
               "locator": "Identifying features",
-              "quote": "Bright orange or red spots on the upper side. There is a row of four to seven bony knobs running between the eyes to the gill opening. Right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Bright orange or red spots on the upper side.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
-            {
-              "sourceId": "marlin:2172",
-              "locator": "Description",
-              "quote": "The plaice ( Pleuronectes platessa) is a typical flatfish. It is oval in shape and is right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of the body). The upper side is basically brown...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9kyq2000s7igsrjkuaus3": {
-          "sourceIds": [
-            "fishbase:Pleuronectes-platessa",
-            "marlin:2172"
-          ],
-          "support": [
             {
               "sourceId": "fishbase:Pleuronectes-platessa",
               "locator": "Short description",
               "quote": "Smooth with small scales. Bony ridge behind the eyes. Upper side brown or greenish brown with irregularly distributed bright red or orange spots. The underside is white.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2172",
-              "locator": "Identifying features",
-              "quote": "Bright orange or red spots on the upper side. There is a row of four to seven bony knobs running between the eyes to the gill opening. Right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2174",
+              "locator": "Description (dab, Limanda limanda)",
+              "quote": "Some fish may have a few orange spots but these are not as well developed as they are in the plaice, Pleuronectes platessa .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2172",
-              "locator": "Description",
-              "quote": "The plaice ( Pleuronectes platessa) is a typical flatfish. It is oval in shape and is right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of the body). The upper side is basically brown...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2174",
+              "locator": "Identifying features (dab, Limanda limanda)",
+              "quote": "The skin is rough on upper side (plaice and flounder feel smooth).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "p. 2, description of Platichthys flesus",
+              "quote": "Many individuals have reddish spots on the upper surface, but not as bright as those in the plaice; the side with no eyes is a plain white and slightly opaque (Wheeler 1969; Summers 1979; Cooper & Chapleau 1998).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "mark:cmpz9kyq2000t7igsbhvyxmv2": {
+        "mark:cmpz9kyq2000s7igsrjkuaus3": {
           "sourceIds": [
-            "fishbase:Pleuronectes-platessa",
-            "marlin:2172"
+            "marlin:2172",
+            "fishbase:Pleuronectes-platessa"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Short description",
-              "quote": "Smooth with small scales. Bony ridge behind the eyes. Upper side brown or greenish...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2172",
-              "locator": "Identifying features",
-              "quote": "Bright orange or red spots on the upper side. There is a row of four to seven bony knobs running between the eyes to the gill opening. Right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The plaice ( Pleuronectes platessa ) is a typical flatfish. It is oval in shape and is right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of the body).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2172",
               "locator": "Description",
-              "quote": "The plaice ( Pleuronectes platessa) is a typical flatfish. It is oval in shape and is right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of the body). The upper side is basically brown...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "The upper side is basically brown with numerous, conspicuous orange or red spots. ... The lower side is white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pleuronectes-platessa",
+              "locator": "Short description",
+              "quote": "Smooth with small scales. Bony ridge behind the eyes. Upper side brown or greenish brown with irregularly distributed bright red or orange spots. The underside is white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2172",
+              "locator": "Identifying features",
+              "quote": "Right-eyed (if the fish is visualised swimming upright, then both the eyes are on the right side of the body).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9kyq2000t7igsbhvyxmv2": {
+          "sourceIds": [
+            "marlin:2172",
+            "fishbase:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2172",
+              "locator": "Identifying features",
+              "quote": "There is a row of four to seven bony knobs running between the eyes to the gill opening.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pleuronectes-platessa",
+              "locator": "Short description",
+              "quote": "Smooth with small scales. Bony ridge behind the eyes. Upper side brown or greenish brown with irregularly distributed bright red or orange spots. The underside is white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fishbase:Pleuronectes-platessa"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 32.7, range 24 - 42 cm Max length: 100.0 cm SL male/unsexed;; common length: 40.0 cm TL male/unsexed;; max. published weight: 7.0 kg; max. reported age: 50 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
             "fishbase:Pleuronectes-platessa",
             "marlin:2172"
           ],
           "support": [
             {
               "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Biology",
-              "quote": "Adults live on mixed bottoms, the older the deeper the occurrence; small individuals are usually seen on bathing beaches. Occurs on mud and sand bottom from a few meters down to about 100 m, at sea,...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 100.0 cm SL male/unsexed; (Ref. 4705 ); common length : 40.0 cm TL male/unsexed; (Ref. 3397 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; demersal; oceanodromous; depth range 0 - 200 m, usually 10 - 50 m. Temperate; 2&deg;C - 15&deg;C; 72&deg;N - 36&deg;N, 47&deg;W - 45&deg;E",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2172",
+              "locator": "Description",
+              "quote": "The usual size limit is about 50-60 cm but exceptional specimens can reach 90 cm (although rare due to fishing pressure).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:2172",
+            "fishbase:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2172",
+              "locator": "Habitat",
+              "quote": "Plaice live mostly on sandy bottoms, although they also live on gravel and mud. Often seen on sandy patches in rocky areas.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2172",
               "locator": "Habitat",
-              "quote": "Plaice live mostly on sandy bottoms, although they also live on gravel and mud. Often seen on sandy patches in rocky areas. They are most common between 10-50 m but occur from 0-200 m. Young fish in their first year live mostly in...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Young fish in their first year live mostly in very shallow water and can often be found in sandy tidal pools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pleuronectes-platessa",
+              "locator": "Biology",
+              "quote": "Occurs on mud and sand bottom from a few meters down to about 100 m, at sea, estuaries and rarely entering freshwaters (Ref. 59043 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "marlin:2172",
             "fishbase:Pleuronectes-platessa"
           ],
           "support": [
             {
+              "sourceId": "marlin:2172",
+              "locator": "Additional information",
+              "quote": "Plaice spend much of their time lying quietly on the bottom, often partly buried.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Pleuronectes-platessa",
               "locator": "Biology",
-              "quote": "Active at night in the very shallow water while day time is spent buried in the sand. Stationary for long periods.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Active at night in the very shallow water while day time is spent buried in the sand. Stationary for long periods, tagging experiments have shown that their spawning migrations can be long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2172",
+              "locator": "Description",
+              "quote": "They can change their colour to suit the bottom but the orange spots often give them away.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -4328,29 +4415,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Pleuronectes-platessa",
-            "fishbase-fooditems:Pleuronectes-platessa"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Estimates based on models > Trophic level (Ref. 69278)",
-              "quote": "3.2 ±0.3 se; based on diet studies.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase-fooditems:Pleuronectes-platessa",
-              "locator": "Food items reported for Pleuronectes platessa, n = 64. Every row sits under zoobenthos or nekton: benthic crustaceans, bivalves, gastropods, polychaetes, brittle stars, small fish. No plant or detritus row",
-              "quote": "Food items reported for Pleuronectes platessa n = 64",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-predators:Pleuronectes-platessa"
@@ -4366,81 +4430,190 @@
           ],
           "claimSupported": false
         },
-        "edge:Sea potato->Plaice": {
-          "sourceIds": [
-            "buyse:2023-owf-flatfish"
-          ],
-          "support": [
-            {
-              "sourceId": "buyse:2023-owf-flatfish",
-              "locator": "Chapter 4, Results, p. 144 (SIMPER on combined stomach and intestine contents of 72 plaice)",
-              "quote": "In contrast, diet of the other groups consisted of soft-sediment species such as Echinocardium cordatum, Gastrosaccus spinifer and polychaetes",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "buyse:2023-owf-flatfish",
-              "locator": "Annex 4.2, p. 237, prey row. Columns are percent frequency of occurrence in stomachs (groups TB/WF/NC/FC, N = 16/16/12/10) then in intestines (N = 18/16/14/18)",
-              "quote": "Echinocardium cordatum 19 50 33 30 17 88 64 44",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Purple heart urchin->Plaice": {
-          "sourceIds": [
-            "fishbase:Pleuronectes-platessa"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Plaice eats Purple heart urchin (Spatangus purpureus), drawn as a feeding link in the farm food web. The source says: FishBase's own summary says plaice \"Feed mainly on thin-shelled mollusks and polychaetes\", and its 64 food-item records contain no echinoid of any kind, the only echinoderm being the brittlestar Ophiura albida. The largest plaice prey list I could read (Buyse 2023, Annex 4.2, over 40 taxa from 72 fish) records Echinocardium cordatum and the pea urchin Echinocyamus pusillus but never Spatangus. MarLIN adds that S. purpureus is a 12 cm urchin buried in coarse sand, gravel or maerl down to about 900 m."
-        },
-        "edge:Common Brittlestar->Plaice": {
-          "sourceIds": [
-            "buyse:2023-owf-flatfish",
-            "doi:10.1038-s43247-025-02253-w"
-          ],
-          "support": [
-            {
-              "sourceId": "buyse:2023-owf-flatfish",
-              "locator": "Chapter 4, Discussion, p. 150. SPL is the scour protection layer, the rock apron round a turbine base",
-              "quote": "Plaice individuals that were caught on the SPL had a different diet composition, existing mainly of hard substrate-associated species such as J. herdmani, Ophiothrix fragilis and M. edulis.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1038-s43247-025-02253-w",
-              "locator": "Discussion, comparison with other studies. The paper spells the genus Ophiotrix; the taxon is Ophiothrix fragilis",
-              "quote": "our output does not reflect the high specificity to Ophiotrix fragilis apparently displayed by P. platessa residing near the turbine",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Pleuronectes-platessa"
+            "fishbase:Pleuronectes-platessa",
+            "marlin:2172"
           ],
           "support": [
             {
               "sourceId": "fishbase:Pleuronectes-platessa",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; demersal; oceanodromous (Ref. 92087); depth range 0 - 200 m (Ref. 35388), usually 10 - 50 m (Ref. 35388).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; demersal; oceanodromous (Ref. 92087 ); depth range 0 - 200 m (Ref. 35388 ), usually 10 - 50 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2172",
+              "locator": "Habitat",
+              "quote": "They are most common between 10-50 m but occur from 0-200 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
+            "marlin:2172",
+            "fishbase:Pleuronectes-platessa",
+            "fishbase-fooditems:Pleuronectes-platessa",
             "buyse:2023-owf-flatfish"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway, meaning plaice is there with or without the farm and the farm neither creates nor enhances it. The source says: The only work that has tested a soft-sediment flatfish against man-made structure planted in sand found the opposite of neutrality. Summary p. 9: \"This study showed that a clear artificial reef effect exists for plaice that may be explained by an increase in feeding and shelter opportunities.\" Chapter 4 abstract, p. 129: \"These results suggest that soft sediment species can potentially benefit from the presence of an OWF, which could lead to fish production.\" Fatty-acid profiles showed the hard-substrate feeding ran for weeks to months, not opportunistically."
+          "support": [
+            {
+              "sourceId": "marlin:2172",
+              "locator": "Description",
+              "quote": "Plaice feed on bottom-living animals, particularly shellfish such as cockles and razor shells. Worms, crustaceans, brittlestars and sand eels are also eaten.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pleuronectes-platessa",
+              "locator": "Biology",
+              "quote": "Feed mainly on thin-shelled mollusks and polychaetes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pleuronectes-platessa",
+              "locator": "Food items reported for Pleuronectes platessa, zoobenthos / mollusks / bivalve rows",
+              "quote": "Food items reported for Pleuronectes platessa ... mollusks bivalves Spisula subtruncata ... bivalves Mya arenaria ... bivalves Mytilus edulis ... bivalves Abra alba",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "buyse:2023-owf-flatfish",
+              "locator": "Chapter 1, General introduction, p. 52",
+              "quote": "Juveniles also prey on bivalve siphon tips that are protruding from the seabed, which can make up 80% of their diet if present in the environment (Ansell and Gibson, 1990).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Pleuronectes-platessa",
+            "buyse:2023-owf-flatfish",
+            "fishbase-fooditems:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pleuronectes-platessa",
+              "locator": "Biology",
+              "quote": "Feed mainly on thin-shelled mollusks and polychaetes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "buyse:2023-owf-flatfish",
+              "locator": "Chapter 1, General introduction, p. 52",
+              "quote": "Plaice is an opportunistic feeder and its diet typically exists of small benthic organisms such as polychaetes, bivalves, echinoderms and crustaceans (Rijnsdorp and Vingerhoed, 2001; Gibson et al., 2015).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pleuronectes-platessa",
+              "locator": "Food items reported for Pleuronectes platessa, zoobenthos / worms / polychaete rows",
+              "quote": "Food items reported for Pleuronectes platessa ... zoobenthos worms polychaetes Capitella capitata ... polychaetes Nephthys ... polychaetes Pectinaria koreni ... polychaetes Terebellides stroemii",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:2172",
+            "buyse:2023-owf-flatfish",
+            "fishbase-fooditems:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2172",
+              "locator": "Description",
+              "quote": "Plaice feed on bottom-living animals, particularly shellfish such as cockles and razor shells. Worms, crustaceans, brittlestars and sand eels are also eaten.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "buyse:2023-owf-flatfish",
+              "locator": "Chapter 1, General introduction, p. 52",
+              "quote": "Plaice is an opportunistic feeder and its diet typically exists of small benthic organisms such as polychaetes, bivalves, echinoderms and crustaceans (Rijnsdorp and Vingerhoed, 2001; Gibson et al., 2015).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Pleuronectes-platessa",
+              "locator": "Food items reported for Pleuronectes platessa, finfish, benthic crustacean and echinoderm rows",
+              "quote": "Food items reported for Pleuronectes platessa ... nekton finfish bony fish Pomatoschistus minutus ... benth. crust. shrimps/prawns Crangon crangon ... echinoderms sea stars/brittle stars Ophiura albida",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "buyse:2023-owf-flatfish",
+            "fishbase-predators:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "buyse:2023-owf-flatfish",
+              "locator": "Chapter 6, General discussion, p. 197",
+              "quote": "Although plaice was found to be a significant component of the diet of grey seals (Hammond et al., 1994), humans are by far its most important predators (van der Veer and Bergman, 1987).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-predators:Pleuronectes-platessa",
+              "locator": "Organisms Preying on Pleuronectes platessa, mammal rows",
+              "quote": "Organisms Preying on Pleuronectes platessa ... mammals seals/sea lions Phocidae Halichoerus grypus ... mammals seals/sea lions Phocidae Phoca vitulina ... mammals whales/dolphins Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-predators:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Pleuronectes-platessa",
+              "locator": "Organisms Preying on Pleuronectes platessa, finfish rows",
+              "quote": "Organisms Preying on Pleuronectes platessa ... Congridae Conger conger ... Gadidae Gadus morhua ... Rajidae Raja clavata ... Lophiidae Lophius piscatorius",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "buyse:2023-owf-flatfish",
+            "fishbase-predators:Pleuronectes-platessa"
+          ],
+          "support": [
+            {
+              "sourceId": "buyse:2023-owf-flatfish",
+              "locator": "Chapter 6, General discussion, p. 197",
+              "quote": "While predation on larvae and juvenile individuals of flatfish may be very substantial (e.g. Crangon crangon, Carcinus maenas), adults are at much lower risk due to their relatively large body size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-predators:Pleuronectes-platessa",
+              "locator": "Organisms Preying on Pleuronectes platessa, crustacean row",
+              "quote": "Organisms Preying on Pleuronectes platessa ... Sweden crustaceans shrimps/prawns Crangonidae Crangon crangon",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -4458,205 +4631,171 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127139",
-        "marlin:2174",
+        "fishbase-predators:Limanda-limanda",
         "fishbase:Limanda-limanda",
-        "fishbase-predators:Limanda-limanda"
+        "marlin:2174",
+        "worms:127139"
       ],
       "claims": {
-        "edge:Common Brittlestar->Dab": {
-          "sourceIds": [
-            "fishbase:Limanda-limanda"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Food items (matched on \"ophiothrix fragilis\")",
-              "quote": "tle stars Amphiura sp. Denmark juv./adults zoobenthos echinoderms sea stars/brittle stars Ophiothrix fragilis (not available) juv./adults zoobenthos echinoderms sea stars/brittle stars Ophiothrix fragilis (not",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Limanda-limanda",
             "marlin:2174"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): short and / or deep.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2174",
+              "locator": "Description",
+              "quote": "Both eyes are on the right side of the body. The basic colour is brown with darker blotches and small speckles. Some fish may have a few orange spots but these are not as well developed as they are in the plaice, Pleuronectes platessa",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2174",
               "locator": "Identifying features",
-              "quote": "Very distinct curve in the lateral line, which is strongly arched into a semi-circular curve over the pectoral fin. No bony tubercles anywhere on the skin (plaice has a row of four to seven bony knobs running between the eyes to the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Very distinct curve in the lateral line, which is strongly arched into a semi-circular curve over the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2174",
-              "locator": "Description",
-              "quote": "The dab is a small and very common flatfish, similar in general shape to the plaice Pleuronectes platessa, and flounder Platichthys flesus. Both eyes are on the right side of the body. The basic colour is brown with darker blotches...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "The skin is rough on upper side (plaice and flounder feel smooth).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2174",
+              "locator": "Habitat",
+              "quote": "Dab live in sandy areas from the shore down to 150 m but are most common between 20-40 m. The young live close inshore, usually in less than 1 m of water and the adults migrate inshore from deeper water in the warmer summer months.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: 'No orange spots, plainer than plaice.' The source says: MarLIN 2174 Description: 'The basic colour is brown with darker blotches and small speckles. Some fish may have a few orange spots but these are not as well developed as they are in the plaice, Pleuronectes platessa.'"
+          "claimSupported": true
         },
         "mark:cmpz9k4kx000i7igs3b3s4lth": {
           "sourceIds": [
-            "fishbase:Limanda-limanda",
             "marlin:2174"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): short and / or deep.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2174",
               "locator": "Identifying features",
-              "quote": "Very distinct curve in the lateral line, which is strongly arched into a semi-circular curve over the pectoral fin. No bony tubercles anywhere on the skin (plaice has a row of four to seven bony knobs running between the eyes to the...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Very distinct curve in the lateral line, which is strongly arched into a semi-circular curve over the pectoral fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2174",
               "locator": "Description",
-              "quote": "The dab is a small and very common flatfish, similar in general shape to the plaice Pleuronectes platessa, and flounder Platichthys flesus. Both eyes are on the right side of the body. The basic colour is brown with darker blotches...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "The most characteristic feature is the lateral line, which is strongly arched.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9k4kx000j7igsr3mw0jur": {
           "sourceIds": [
-            "fishbase:Limanda-limanda",
             "marlin:2174"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Limanda-limanda",
+              "sourceId": "marlin:2174",
               "locator": "Identifying features",
               "quote": "The skin is rough on upper side (plaice and flounder feel smooth).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2174",
-              "locator": "Identifying features",
-              "quote": "Very distinct curve in the lateral line, which is strongly arched into a semi-circular curve over the pectoral fin. No bony tubercles anywhere on the skin (plaice has a row of four to seven bony knobs running between the eyes to the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2174",
-              "locator": "Description",
-              "quote": "The dab is a small and very common flatfish, similar in general shape to the plaice Pleuronectes platessa, and flounder Platichthys flesus. Both eyes are on the right side of the body. The basic colour is brown with darker blotches...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9k4kx000k7igsttyh4w2y": {
           "sourceIds": [
-            "fishbase:Limanda-limanda",
             "marlin:2174"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Short description",
-              "quote": "Morphometrics Body shape ( shape guide): short and / or deep.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2174",
+              "locator": "Description",
+              "quote": "Both eyes are on the right side of the body. The basic colour is brown with darker blotches and small speckles. Some fish may have a few orange spots but these are not as well developed as they are in the plaice, Pleuronectes platessa",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2174",
               "locator": "Identifying features",
-              "quote": "Very distinct curve in the lateral line, which is strongly arched into a semi-circular curve over the pectoral fin. No bony tubercles anywhere on the skin (plaice has a row of four to seven bony knobs running between the eyes to the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2174",
-              "locator": "Description",
-              "quote": "The dab is a small and very common flatfish, similar in general shape to the plaice Pleuronectes platessa, and flounder Platichthys flesus. Both eyes are on the right side of the body. The basic colour is brown with darker blotches...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The pectoral fin is sometimes orange.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: 'Both eyes on the right (upper) side; a plain sandy-brown back with no bright orange spots, plainer than plaice.' The source says: MarLIN 2174: 'The basic colour is brown with darker blotches and small speckles. Some fish may have a few orange spots but these are not as well developed as they are in the plaice, Pleuronectes platessa.'"
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
+            "marlin:2174",
             "fishbase:Limanda-limanda"
           ],
           "support": [
             {
+              "sourceId": "marlin:2174",
+              "locator": "Description",
+              "quote": "Most dab reach only 25 cm long but individuals up to 42 cm have been found.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 21.5, range 11 - 25 cm Max length: 40.0 cm SL male/unsexed;; max. published weight: 1.0 kg; max. reported age: 12 years",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Maturity: L m 21.5 , range 11 - 25 cm Max length : 40.0 cm SL male/unsexed; (Ref. 4705 ); max. published weight: 1.0 kg (Ref. 35388 ); max. reported age: 12 years (Ref. 27407 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Limanda-limanda",
-            "marlin:2174"
+            "marlin:2174",
+            "fishbase:Limanda-limanda"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Biology",
-              "quote": "Adults live mainly on sandy bottoms, from a few meters to about 100 m. Feed mainly on crustaceans and small fishes. Batch spawner. Marketed fresh, dried or salted, smoked and frozen; eaten steamed, fried,...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; demersal; oceanodromous; depth range 20 - 150 m. Temperate; 72&deg;N - 43&deg;N, 25&deg;W - 45&deg;E",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:2174",
               "locator": "Habitat",
               "quote": "Dab live in sandy areas from the shore down to 150 m but are most common between 20-40 m. The young live close inshore, usually in less than 1 m of water and the adults migrate inshore from deeper water in the warmer summer months.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Limanda-limanda",
+              "locator": "Biology",
+              "quote": "Adults live mainly on sandy bottoms, from a few meters to about 100 m. Feed mainly on crustaceans and small fishes. Batch spawner (Ref. 51846 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Limanda-limanda"
+            "marlin:2174"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Biology",
-              "quote": "Adults live mainly on sandy bottoms, from a few meters to about 100 m. Feed mainly on crustaceans and small fishes. Batch spawner. Marketed fresh, dried or salted, smoked and frozen; eaten steamed, fried,...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2174",
+              "locator": "Additional information",
+              "quote": "The fish raises its head and front part of the body up over a suitable site and waits for a prey to emerge. It then strikes rapidly down and bites it.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2174",
+              "locator": "Habitat",
+              "quote": "Dab live in sandy areas from the shore down to 150 m but are most common between 20-40 m. The young live close inshore, usually in less than 1 m of water and the adults migrate inshore from deeper water in the warmer summer months.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -4676,28 +4815,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Limanda-limanda"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Estimates based on models > Trophic level (Ref. 69278)",
-              "quote": "3.0 ±0.0 se; based on diet studies.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Biology",
-              "quote": "Adults live mainly on sandy bottoms, from a few meters to about 100 m. Feed mainly on crustaceans and small fishes.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-predators:Limanda-limanda"
@@ -4715,15 +4832,128 @@
         },
         "trait:depth": {
           "sourceIds": [
+            "marlin:2174",
             "fishbase:Limanda-limanda"
           ],
           "support": [
             {
+              "sourceId": "marlin:2174",
+              "locator": "Habitat",
+              "quote": "Dab live in sandy areas from the shore down to 150 m but are most common between 20-40 m. The young live close inshore, usually in less than 1 m of water and the adults migrate inshore from deeper water in the warmer summer months.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Limanda-limanda",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; oceanodromous (Ref. 51243); depth range 20 - 150 m (Ref. 9988).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; oceanodromous (Ref. 51243 ); depth range 20 - 150 m (Ref. 9988 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Limanda-limanda",
+              "locator": "Biology",
+              "quote": "Adults live mainly on sandy bottoms, from a few meters to about 100 m. Feed mainly on crustaceans and small fishes. Batch spawner (Ref. 51846 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:2174"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2174",
+              "locator": "Additional information",
+              "quote": "Dab will eat almost any bottom-living animal they catch. This includes brittlestars, small sea urchins, fish, worms, crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:2174"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2174",
+              "locator": "Additional information",
+              "quote": "Dab will eat almost any bottom-living animal they catch. This includes brittlestars, small sea urchins, fish, worms, crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Limanda-limanda",
+            "marlin:2174"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Limanda-limanda",
+              "locator": "Biology",
+              "quote": "Adults live mainly on sandy bottoms, from a few meters to about 100 m. Feed mainly on crustaceans and small fishes. Batch spawner (Ref. 51846 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2174",
+              "locator": "Additional information",
+              "quote": "Dab will eat almost any bottom-living animal they catch. This includes brittlestars, small sea urchins, fish, worms, crustaceans and molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-predators:Limanda-limanda"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Limanda-limanda",
+              "locator": "Organisms Preying on Limanda limanda (n = 17)",
+              "quote": "Organisms Preying on Limanda limanda ... Congridae Conger conger ... Gadidae Gadus morhua ... Gadidae Merlangius merlangus ... Lophiidae Lophius piscatorius",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-predators:Limanda-limanda"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Limanda-limanda",
+              "locator": "Organisms Preying on Limanda limanda (n = 17)",
+              "quote": "Organisms Preying on Limanda limanda ... Phocidae Halichoerus grypus ... Phocidae Phoca vitulina ... Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-predators:Limanda-limanda"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Limanda-limanda",
+              "locator": "Organisms Preying on Limanda limanda (n = 17)",
+              "quote": "Organisms Preying on Limanda limanda ... Rajidae Amblyraja radiata ... Squalidae Squalus acanthias",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -10394,190 +10624,187 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126792",
-        "marlin:2078",
-        "fishbase:Callionymus-lyra",
+        "fishbase-food:Callionymus-lyra",
         "fishbase-pred:Callionymus-lyra",
-        "fishbase-food:Callionymus-lyra"
+        "fishbase:Callionymus-lyra",
+        "marlin:2078",
+        "worms:126792"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Callionymus-lyra",
             "marlin:2078"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Summary: Description",
+              "sourceId": "marlin:2078",
+              "locator": "Identifying features",
+              "quote": "Flattened body without scales. Triangular head when viewed from above. Eyes on top of head. Two dorsal fins, the first one triangular, tall and sail-like. Colourful males with long first ray in first dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Summary > Description",
               "quote": "Mature males have elongate dorsal and caudal fin rays, the second dorsal being yellowish with bright blue longitudinal stripes and bright blue marks on the head and body.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Identifying features",
-              "quote": "Flattened body without scales. Triangular head when viewed from above. Eyes on top of head. Two dorsal fins, the first one triangular, tall and sail-like. Colourful males with long first ray in first dorsal fin. Sharp spines on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Description",
-              "quote": "Callionymus lyra is the largest (up to 30 cm) and most common dragonet in UK waters. Small specimens could be confused with gobies. However, the broader and triangular head distinguishes it, together with a longer snout and jutting...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpzct9up00007i6ojgnapcf2": {
-          "sourceIds": [
-            "fishbase:Callionymus-lyra",
-            "marlin:2078"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Summary: Description",
-              "quote": "This species can blend perfectly with coarse sand or gravel substrata. The fins are often folded down when the fish is on the sea bed.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Identifying features",
-              "quote": "Flattened body without scales. Triangular head when viewed from above. Eyes on top of head. Two dorsal fins, the first one triangular, tall and sail-like. Colourful males with long first ray in first dorsal fin. Sharp spines on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Description",
-              "quote": "Callionymus lyra is the largest (up to 30 cm) and most common dragonet in UK waters. Small specimens could be confused with gobies. However, the broader and triangular head distinguishes it, together with a longer snout and jutting...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpzct9up00017i6oxtl27vms": {
-          "sourceIds": [
-            "fishbase:Callionymus-lyra",
-            "marlin:2078"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Short description",
-              "quote": "Gill opening dorsal. Usually antrorse (forward-pointing) tip at base of preopercular spine. Rays of second...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Identifying features",
-              "quote": "Flattened body without scales. Triangular head when viewed from above. Eyes on top of head. Two dorsal fins, the first one triangular, tall and sail-like. Colourful males with long first ray in first dorsal fin. Sharp spines on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Description",
-              "quote": "Callionymus lyra is the largest (up to 30 cm) and most common dragonet in UK waters. Small specimens could be confused with gobies. However, the broader and triangular head distinguishes it, together with a longer snout and jutting...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpzct9up00027i6o7ci7npd0": {
-          "sourceIds": [
-            "fishbase:Callionymus-lyra",
-            "marlin:2078"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Summary: Description",
-              "quote": "the second dorsal being yellowish with bright blue longitudinal stripes and bright blue marks on the head and body",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Identifying features",
-              "quote": "Flattened body without scales. Triangular head when viewed from above. Eyes on top of head. Two dorsal fins, the first one triangular, tall and sail-like. Colourful males with long first ray in first dorsal fin. Sharp spines on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Description",
-              "quote": "Callionymus lyra is the largest (up to 30 cm) and most common dragonet in UK waters. Small specimens could be confused with gobies. However, the broader and triangular head distinguishes it, together with a longer snout and jutting...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "fishbase:Callionymus-lyra"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 17.4 &nbsp range ? - ? cm Max length: 30.5 cm TL male/unsexed;; 25.0 cm TL (female); common length: 15.0 cm TL male/unsexed;; max. reported age: 7 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Size: Small (under 10 cm) The source says: FishBase: 'Max length : 30.5 cm TL male/unsexed; 25.0 cm TL (female); common length : 15.0 cm TL'. MarLIN: 'the largest (up to 30 cm) and most common dragonet in UK waters'."
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "fishbase:Callionymus-lyra",
-            "marlin:2078"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Biology",
-              "quote": "Occurs on sand and muddy bottoms from sublittoral to 200 m and to 400 m or more. Feeds on small invertebrates, mainly worms and crustaceans. Territorial, males aggressive with each other. Complex courtship...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; demersal; depth range 1 - 440 m, usually 5 - 30 m. Temperate; 16&deg;C - 20&deg;C; 66&deg;N - 16&deg;N, 42&deg;W - 42&deg;E",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2078",
               "locator": "Habitat",
-              "quote": "Demersal, found in the sublittoral to depths of 430 m. More usually at depths of 5 to 50 m. Mainly a temperate species in waters 16-20 &#176;C. Callionymus lyra lives on the sea bed, often partially buried in sand or shell gravel.",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Callionymus lyra lives on the sea bed, often partially buried in sand or shell gravel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpzct9up00007i6ojgnapcf2": {
+          "sourceIds": [
+            "marlin:2078"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Identifying features",
+              "quote": "Flattened body without scales. Triangular head when viewed from above.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Additional information",
+              "quote": "They are demersal and often found partially buried in sand or shell gravel. Adaptations to this mode of life include the dorsally situated gill opening and the flattened body shape.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Habitat",
+              "quote": "Callionymus lyra lives on the sea bed, often partially buried in sand or shell gravel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpzct9up00017i6oxtl27vms": {
+          "sourceIds": [
+            "marlin:2078"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Identifying features",
+              "quote": "Flattened body without scales. Triangular head when viewed from above. Eyes on top of head.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Summary > Description",
+              "quote": "However, the broader and triangular head distinguishes it, together with a longer snout and jutting lower jaw.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpzct9up00027i6o7ci7npd0": {
+          "sourceIds": [
+            "marlin:2078"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Summary > Description",
+              "quote": "Mature males have elongate dorsal and caudal fin rays, the second dorsal being yellowish with bright blue longitudinal stripes and bright blue marks on the head and body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Identifying features",
+              "quote": "Second dorsal and anal fin membrane with bright blue horizontal lines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Callionymus-lyra",
+            "marlin:2078"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Callionymus-lyra",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 30.5 cm TL male/unsexed; (Ref. 59122 ); 25.0 cm TL (female); common length : 15.0 cm TL male/unsexed; (Ref. 3397 ); max. reported age: 7 years",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Summary > Description",
+              "quote": "Callionymus lyra is the largest (up to 30 cm) and most common dragonet in UK waters.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Summary > Description",
+              "quote": "Females are usually up to 20 cm long and males up to 30 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:2078",
+            "fishbase:Callionymus-lyra"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Habitat",
+              "quote": "Callionymus lyra lives on the sea bed, often partially buried in sand or shell gravel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-lyra",
+              "locator": "Biology",
+              "quote": "Occurs on sand and muddy bottoms from sublittoral to 200 m (Ref. 6444 ) and to 400 m or more (Ref. 9900 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Callionymus-lyra"
+            "fishbase:Callionymus-lyra",
+            "marlin:2078"
           ],
           "support": [
             {
               "sourceId": "fishbase:Callionymus-lyra",
               "locator": "Biology",
-              "quote": "Occurs on sand and muddy bottoms from sublittoral to 200 m and to 400 m or more. Feeds on small invertebrates, mainly worms and crustaceans. Territorial, males aggressive with each other. Complex courtship...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Territorial, males aggressive with each other. Complex courtship behavior consists of 4 phases: courtship, pairing, ascending, releasing eggs and milt.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Summary > Description",
+              "quote": "This species can blend perfectly with coarse sand or gravel substrata. The fins are often folded down when the fish is on the sea bed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -10597,21 +10824,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Callionymus-lyra"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-lyra",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.4 ±0.5 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-pred:Callionymus-lyra"
@@ -10627,62 +10839,147 @@
           ],
           "claimSupported": true
         },
-        "edge:Seabed biodeposits->Dragonet": {
-          "sourceIds": [
-            "marlin:2078"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2078",
-              "locator": "Summary: Additional information",
-              "quote": "The diet of Callionymus lyra consists mainly of polychaete worms, amphipod crustaceans and molluscs, especially cockles.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Common Brittlestar->Dragonet": {
-          "sourceIds": [
-            "fishbase-food:Callionymus-lyra"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Callionymus-lyra",
-              "locator": "Food items reported for Callionymus lyra (n = 2), the complete list",
-              "quote": "zoobenthos benth. crust. n.a./other benth. crustaceans unidentified (not available) adults zoobenthos worms n.a./other annelids unidentified (not available) adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Callionymus-lyra"
+            "fishbase:Callionymus-lyra",
+            "marlin:2078"
           ],
           "support": [
             {
               "sourceId": "fishbase:Callionymus-lyra",
               "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; depth range 1 - 440 m (Ref. 5968), usually 5 - 30 m (Ref. 27115).",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Marine; demersal; depth range 1 - 440 m (Ref. 5968 ), usually 5 - 30 m (Ref. 27115 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Habitat",
+              "quote": "Demersal, found in the sublittoral to depths of 430 m. More usually at depths of 5 to 50 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:2078",
+            "fishbase:Callionymus-lyra",
+            "fishbase-food:Callionymus-lyra"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Additional information",
+              "quote": "The diet of Callionymus lyra consists mainly of polychaete worms, amphipod crustaceans and molluscs, especially cockles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-lyra",
+              "locator": "Biology",
+              "quote": "Feeds on small invertebrates, mainly worms and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Callionymus-lyra",
+              "locator": "Food items reported for Callionymus lyra",
+              "quote": "Food items reported for Callionymus lyra ... zoobenthos worms n.a./other annelids unidentified",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:2078",
+            "fishbase:Callionymus-lyra",
+            "fishbase-food:Callionymus-lyra"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2078",
+              "locator": "Additional information",
+              "quote": "The diet of Callionymus lyra consists mainly of polychaete worms, amphipod crustaceans and molluscs, especially cockles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-lyra",
+              "locator": "Biology",
+              "quote": "Feeds on small invertebrates, mainly worms and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Callionymus-lyra",
+              "locator": "Food items reported for Callionymus lyra",
+              "quote": "Food items reported for Callionymus lyra ... zoobenthos benth. crust. n.a./other benth. crustaceans unidentified",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
           "sourceIds": [
             "marlin:2078"
           ],
           "support": [
             {
               "sourceId": "marlin:2078",
-              "locator": "Summary: Description",
-              "quote": "Callionymus lyra lives on the sea bed, often partially buried in sand or shell gravel.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "The diet of Callionymus lyra consists mainly of polychaete worms, amphipod crustaceans and molluscs, especially cockles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Callionymus-lyra"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Callionymus-lyra",
+              "locator": "Organisms Preying on Callionymus lyra",
+              "quote": "Organisms Preying on Callionymus lyra ... Gadidae Trisopterus luscus ... Congridae Conger conger ... Gadidae Gadus morhua ... Lophiidae Lophius piscatorius",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Callionymus-lyra"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Callionymus-lyra",
+              "locator": "Organisms Preying on Callionymus lyra",
+              "quote": "Organisms Preying on Callionymus lyra ... Rajidae Raja microocellata ... Rajidae Leucoraja naevus ... Rajidae Raja clavata ... Rajidae Raja montagui ... Squalidae Squalus acanthias",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-pred:Callionymus-lyra"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Callionymus-lyra",
+              "locator": "Organisms Preying on Callionymus lyra",
+              "quote": "Organisms Preying on Callionymus lyra ... Phocidae Halichoerus grypus ... Phocidae Phoca vitulina ... Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -10703,26 +11000,66 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126793",
+        "fishbase-food:Trisopterus-minutus",
+        "fishbase-fooditems:Callionymus-maculatus",
+        "fishbase-pred:Callionymus-maculatus",
+        "fishbase:Callionymus-lyra",
         "fishbase:Callionymus-maculatus",
-        "fishbase-pred:Callionymus-maculatus"
+        "fishbase:fooditems-Chelidonichthys-cuculus",
+        "fishbase:fooditems-Chelidonichthys-lucerna",
+        "worms:126793"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Callionymus-maculatus"
+            "fishbase:Callionymus-maculatus",
+            "fishbase:Callionymus-lyra"
           ],
           "support": [
             {
               "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 45 - 650 m (Ref. 5968 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Size / Weight / Age",
+              "quote": "Max length : 17.0 cm TL male/unsexed; (Ref. 128593 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
               "locator": "Short description",
-              "quote": "Morphometrics Gill cover with four spines. Diameter of eye slightly longer than the snout length. First dorsal fin in males slightly taller than the second dorsal fin. Four longitudinal spots in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Gill cover with four spines. Diameter of eye slightly longer than the snout length. First dorsal fin in males slightly taller than the second dorsal fin. Four longitudinal spots in dorsal fin of male, two in female (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-lyra",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 30.5 cm TL male/unsexed; (Ref. 59122 ); 25.0 cm TL (female)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-lyra",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 1 - 440 m (Ref. 5968 ), usually 5 - 30 m (Ref. 27115 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Biology",
+              "quote": "Benthic on sandy bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Found on sandy-muddy bottoms from the shallows down to 400m. The source says: Marine; demersal; depth range 45 - 650 m (Ref. 5968)."
+          "claimSupported": true
         },
         "mark:cmpz9ioer00037igsgsu5u8ah": {
           "sourceIds": [
@@ -10732,12 +11069,19 @@
             {
               "sourceId": "fishbase:Callionymus-maculatus",
               "locator": "Short description",
-              "quote": "Morphometrics Gill cover with four spines. Diameter of eye slightly longer than the snout length. First dorsal fin in males slightly taller than the second dorsal fin. Four longitudinal spots in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Gill cover with four spines. Diameter of eye slightly longer than the snout length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Biology",
+              "quote": "Benthic on sandy bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9ioer00057igsej31a2ec": {
           "sourceIds": [
@@ -10747,12 +11091,12 @@
             {
               "sourceId": "fishbase:Callionymus-maculatus",
               "locator": "Short description",
-              "quote": "First dorsal fin in males slightly taller than the second dorsal fin. Four longitudinal spots in dorsal fin of male, two in female.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "First dorsal fin in males slightly taller than the second dorsal fin. Four longitudinal spots in dorsal fin of male, two in female (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -10762,9 +11106,9 @@
             {
               "sourceId": "fishbase:Callionymus-maculatus",
               "locator": "Biology",
-              "quote": "Benthic on sandy bottoms. Feeds on small bottom invertebrates mainly worms, snails and crustaceans. Eggs and larvae pelagic.",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Benthic on sandy bottoms. Feeds on small bottom invertebrates mainly worms, snails and crustaceans. Eggs and larvae pelagic (Ref. 5968 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -10779,21 +11123,6 @@
               "locator": "Biology",
               "quote": "Benthic on sandy bottoms. Feeds on small bottom invertebrates mainly worms, snails and crustaceans. Eggs and larvae pelagic.",
               "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Callionymus-maculatus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-maculatus",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.3 ±0.45 se; based on food items.",
-              "readBy": "refs:trawl (fish-2)",
               "readOn": "2026-08-28"
             }
           ],
@@ -10815,21 +11144,6 @@
           "claimSupported": false,
           "conflict": "The app says: Eaten by Lesser-spotted catshark (the only predator in the food web). The source says: FishBase lists ten predators of Callionymus maculatus, all demersal teleosts (gurnards, hake, poor cod, conger, stargazer, John dory). No catshark or other elasmobranch is recorded."
         },
-        "edge:Seabed biodeposits->Spotted dragonet": {
-          "sourceIds": [
-            "fishbase:Callionymus-maculatus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-maculatus",
-              "locator": "Biology",
-              "quote": "Benthic on sandy bottoms. Feeds on small bottom invertebrates mainly worms, snails and crustaceans.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "fishbase:Callionymus-maculatus"
@@ -10837,25 +11151,10 @@
           "support": [
             {
               "sourceId": "fishbase:Callionymus-maculatus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; depth range 45 - 650 m (Ref. 5968).",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "fishbase:Callionymus-maculatus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Callionymus-maculatus",
-              "locator": "Biology",
-              "quote": "Benthic on sandy bottoms. Feeds on small bottom invertebrates mainly worms, snails and crustaceans.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 45 - 650 m (Ref. 5968 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -10869,27 +11168,206 @@
               "sourceId": "fishbase:Callionymus-maculatus",
               "locator": "Biology",
               "quote": "Benthic on sandy bottoms.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
             "fishbase:Callionymus-maculatus"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Size: small, rendered \"Small (under 10 cm)\" The source says: FishBase Size / Weight / Age: \"Max length : 17.0 cm TL male/unsexed;\" - the spotted dragonet reaches nearly twice the app Small ceiling."
-        },
-        "mark:cmpz9ioer00047igszj9w3g1g": {
-          "sourceIds": [
-            "fishbase:Callionymus-maculatus"
+          "support": [
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Size / Weight / Age",
+              "quote": "Max length : 17.0 cm TL male/unsexed; (Ref. 128593 ); max. published weight: 36.57 g (Ref. 128593 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Cream-and-brown spotty camouflage: \"Finely spotted and reticulated (net-patterned) in cream and brown for camouflage on sand, hence the spotted dragonet.\" The source says: The only colour statement FishBase publishes for this species puts the spots on the FIN, not the body: \"Four longitudinal spots in dorsal fin of male, two in female\". No source found describes a reticulated cream-and-brown body in C. maculatus; reticulation is the diagnostic of the congener C. reticulatus."
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Callionymus-maculatus",
+            "fishbase-fooditems:Callionymus-maculatus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Biology",
+              "quote": "Feeds on small bottom invertebrates mainly worms, snails and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Callionymus-maculatus",
+              "locator": "Food items reported for Callionymus maculatus > zoobenthos > benth. crust.",
+              "quote": "zoobenthos\nbenth. crust.\namphipods\namphipods\n(not available)\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Callionymus-maculatus",
+              "locator": "Food items reported for Callionymus maculatus > zoobenthos > benth. crust. > shrimps/prawns",
+              "quote": "zoobenthos\nbenth. crust.\nshrimps/prawns\nshrimps/prawns\n(not available)\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Callionymus-maculatus",
+              "locator": "Food items reported for Callionymus maculatus > zoobenthos > benth. crust. > ostracods",
+              "quote": "zoobenthos\nbenth. crust.\nostracods\nostracods\n(not available)\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Callionymus-maculatus",
+              "locator": "Food items reported for Callionymus maculatus > zoobenthos > benth. crust. > n.a./other benth. crustaceans",
+              "quote": "zoobenthos\nbenth. crust.\nn.a./other benth. crustaceans\nbrachyuran decapods\n(not available)\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Callionymus-maculatus",
+            "fishbase-fooditems:Callionymus-maculatus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Biology",
+              "quote": "Feeds on small bottom invertebrates mainly worms, snails and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Callionymus-maculatus",
+              "locator": "Food items reported for Callionymus maculatus > zoobenthos > worms > polychaetes",
+              "quote": "zoobenthos\nworms\npolychaetes\npolychaetes\n(not available)\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Callionymus-maculatus",
+            "fishbase-fooditems:Callionymus-maculatus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Callionymus-maculatus",
+              "locator": "Biology",
+              "quote": "Feeds on small bottom invertebrates mainly worms, snails and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Callionymus-maculatus",
+              "locator": "Food items reported for Callionymus maculatus > zoobenthos > mollusks > gastropods",
+              "quote": "zoobenthos\nmollusks\ngastropods\nsnails\n(not available)\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Callionymus-maculatus",
+              "locator": "Food items reported for Callionymus maculatus > zoobenthos > mollusks > bivalves",
+              "quote": "zoobenthos\nmollusks\nbivalves\nbivalves\n(not available)\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Callionymus-maculatus",
+            "fishbase:fooditems-Chelidonichthys-cuculus",
+            "fishbase:fooditems-Chelidonichthys-lucerna"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Callionymus-maculatus",
+              "locator": "Organisms Preying on Callionymus maculatus",
+              "quote": "Spain\nfinfish\nbony fish\nTriglidae\nEutrigla gurnardus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-cuculus",
+              "locator": "Food items reported for Chelidonichthys cuculus > nekton > finfish > bony fish",
+              "quote": "nekton\nfinfish\nbony fish\nCallionymus maculatus\nSpain\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna > nekton > finfish > bony fish",
+              "quote": "nekton\nfinfish\nbony fish\nCallionymus maculatus\nNetherlands\njuv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Callionymus-maculatus",
+            "fishbase-food:Trisopterus-minutus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Callionymus-maculatus",
+              "locator": "Organisms Preying on Callionymus maculatus",
+              "quote": "Italy\nfinfish\nbony fish\nGadidae\nTrisopterus minutus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Trisopterus-minutus",
+              "locator": "Food items reported for Trisopterus minutus > nekton > finfish > bony fish",
+              "quote": "nekton\nfinfish\nbony fish\nCallionymus maculatus\nItaly\nadults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-pred:Callionymus-maculatus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Callionymus-maculatus",
+              "locator": "Organisms Preying on Callionymus maculatus",
+              "quote": "finfish\nbony fish\nMerlucciidae\nMerluccius merluccius",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Callionymus-maculatus",
+              "locator": "Organisms Preying on Callionymus maculatus",
+              "quote": "Portugal\nfinfish\nbony fish\nZeidae\nZeus faber",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Callionymus-maculatus",
+              "locator": "Organisms Preying on Callionymus maculatus",
+              "quote": "Spain\nfinfish\nbony fish\nUranoscopidae\nUranoscopus scaber",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -10907,119 +11385,16 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127141",
-        "marlin:1495",
         "eifca:skerritt-2010-flounder",
-        "fishbase:Platichthys-flesus",
         "fishbase-dietcompo:Platichthys-flesus",
         "fishbase-fooditems:Platichthys-flesus",
-        "fishbase-predators:Platichthys-flesus"
+        "fishbase-predators:Platichthys-flesus",
+        "fishbase:Platichthys-flesus",
+        "marlin:1495",
+        "worms:127141"
       ],
       "claims": {
         "fieldNote": {
-          "sourceIds": [
-            "marlin:1495"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Identifying features",
-              "quote": "Oval in shape, up to 50 cm in length. Small mouth, pointed snout. Square-cut tail. Topside colour variable from dull brown to greenish grey Underside white.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Description",
-              "quote": "The flounder has a roughly oval shape, with both eyes on the right side of its head and has a small mouth and pointed snout. The lateral line curves slightly around the pectoral fin. It has a smooth body except for some rough scales...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9kl1h000o7igsbq9o96n8": {
-          "sourceIds": [
-            "marlin:1495"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Identifying features",
-              "quote": "Oval in shape, up to 50 cm in length. Small mouth, pointed snout. Square-cut tail. Topside colour variable from dull brown to greenish grey Underside white.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Description",
-              "quote": "The flounder has a roughly oval shape, with both eyes on the right side of its head and has a small mouth and pointed snout. The lateral line curves slightly around the pectoral fin. It has a smooth body except for some rough scales...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9kl1h000p7igsjrjgdnko": {
-          "sourceIds": [
-            "marlin:1495"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Identifying features",
-              "quote": "Oval in shape, up to 50 cm in length. Small mouth, pointed snout. Square-cut tail. Topside colour variable from dull brown to greenish grey Underside white.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Description",
-              "quote": "The flounder has a roughly oval shape, with both eyes on the right side of its head and has a small mouth and pointed snout. The lateral line curves slightly around the pectoral fin. It has a smooth body except for some rough scales...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9kl1h000q7igsongyqgps": {
-          "sourceIds": [
-            "marlin:1495"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Identifying features",
-              "quote": "Oval in shape, up to 50 cm in length. Small mouth, pointed snout. Square-cut tail. Topside colour variable from dull brown to greenish grey Underside white.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Description",
-              "quote": "The flounder has a roughly oval shape, with both eyes on the right side of its head and has a small mouth and pointed snout. The lateral line curves slightly around the pectoral fin. It has a smooth body except for some rough scales...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:1495"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1495",
-              "locator": "Habitat",
-              "quote": "A bottom dwelling fish living in inshore waters to depths of 50 m, Platichthys flesus can often be found in estuaries and sometimes freshwater.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
           "sourceIds": [
             "marlin:1495",
             "eifca:skerritt-2010-flounder"
@@ -11027,56 +11402,207 @@
           "support": [
             {
               "sourceId": "marlin:1495",
-              "locator": "Identifying features",
-              "quote": "Oval in shape, up to 50 cm in length.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "The topside colour is variable from dull brown to greyish-green, often with small orange spots, while the underside is white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "eifca:skerritt-2010-flounder",
-              "locator": "Behaviour, p. 3, growth by age class",
-              "quote": "in general they reach an average 80 mm after the first year, 140 mm after year two, 190 mm after year three and 240 mm at their fourth year",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Behaviour, p. 3",
+              "quote": "P. flesus lives and thrives when resident in either the sea, or brackish water, and is the only European flatfish to penetrate further into estuaries and able to live in freshwater for long periods",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Biology & Identification, pp. 1-2",
+              "quote": "notched tubercles between the rays of both the anal and dorsal fins; and along the lateral line ... the roughness of the lateral line in the P. flesus and the smoothness in related flatfish is the distinguishing feature.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Biology & Identification, p. 2",
+              "quote": "Many individuals have reddish spots on the upper surface, but not as bright as those in the plaice; the side with no eyes is a plain white and slightly opaque",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: Size: medium, which the trait vocabulary defines as 10 to 50 cm (src/lib/idguide/traits.ts). The source says: \"Max length : 60.0 cm TL male/unsexed; (Ref. 35388); common length : 50.0 cm TL male/unsexed; (Ref. 30578)\". The maximum sits above the bucket ceiling and the common length sits exactly on it. MarLIN, the UK source, says 50 cm, so the bucket holds for a British flounder, but this is the top of the band rather than the middle of it."
+          "claimSupported": true
         },
-        "trait:behavior": {
+        "mark:cmpz9kl1h000o7igsbq9o96n8": {
           "sourceIds": [
             "marlin:1495",
+            "eifca:skerritt-2010-flounder",
             "fishbase:Platichthys-flesus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1495",
+              "locator": "Description",
+              "quote": "It has a smooth body except for some rough scales along the lateral line and a row of prickly humps along the base of the dorsal and anal fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Biology & Identification, p. 1",
+              "quote": "One prominent distinction between P. flesus and other flatfish is the presence of finely toothed or notched tubercles between the rays of both the anal and dorsal fins; and along the lateral line",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Biology & Identification, p. 2",
+              "quote": "However, the roughness of the lateral line in the P. flesus and the smoothness in related flatfish is the distinguishing feature.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Platichthys-flesus",
+              "locator": "Short description",
+              "quote": "Rough skin, especially along the lateral line and the basis of the dorsal and anal fin (Ref. 3137 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9kl1h000p7igsjrjgdnko": {
+          "sourceIds": [
+            "eifca:skerritt-2010-flounder",
+            "marlin:1495",
+            "fishbase:Platichthys-flesus"
+          ],
+          "support": [
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Biology & Identification, p. 2",
+              "quote": "Many individuals have reddish spots on the upper surface, but not as bright as those in the plaice; the side with no eyes is a plain white and slightly opaque",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1495",
+              "locator": "Description",
+              "quote": "The topside colour is variable from dull brown to greyish-green, often with small orange spots, while the underside is white.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Platichthys-flesus",
+              "locator": "Short description",
+              "quote": "Irregular reddish spots on the eye side (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9kl1h000q7igsongyqgps": {
+          "sourceIds": [
+            "marlin:1495",
+            "eifca:skerritt-2010-flounder"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1495",
+              "locator": "Description",
+              "quote": "The flounder has a roughly oval shape, with both eyes on the right side of its head and has a small mouth and pointed snout.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1495",
+              "locator": "Identifying features",
+              "quote": "Topside colour variable from dull brown to greenish grey",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Behaviour, p. 3",
+              "quote": "P. flesus lives and thrives when resident in either the sea, or brackish water, and is the only European flatfish to penetrate further into estuaries and able to live in freshwater for long periods",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:1495",
+            "fishbase:Platichthys-flesus",
+            "eifca:skerritt-2010-flounder"
           ],
           "support": [
             {
               "sourceId": "marlin:1495",
               "locator": "Habitat",
               "quote": "A bottom dwelling fish living in inshore waters to depths of 50 m, Platichthys flesus can often be found in estuaries and sometimes freshwater.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Platichthys-flesus",
-              "locator": "Biology (two sentences from the same paragraph, separated in the original by the winter-migration and larval sentences)",
-              "quote": "Adults occur on mud and sand bottom in shallow water, at sea and brackish; often entering freshwaters (Ref. 59043). [...] Nocturnal and burrowing (Ref. 30193).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Adults occur on mud and sand bottom in shallow water, at sea and brackish; often entering freshwaters (Ref. 59043 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Behaviour, p. 3",
+              "quote": "It predominantly resides in estuaries and other low-salinity waters",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
+        "trait:size": {
           "sourceIds": [
-            "fishbase-dietcompo:Platichthys-flesus"
+            "fishbase:Platichthys-flesus",
+            "marlin:1495"
           ],
           "support": [
             {
-              "sourceId": "fishbase-dietcompo:Platichthys-flesus",
-              "locator": "Diet composition table, n = 3, row 1 read left to right as Main Food / Percent / Trophic Level / Predator Life Stage / Territory / Locality. The other two rows give 3.1 (Elbe estuary, larvae) and 3.2 (Tagus estuary, juv./adults)",
-              "quote": "zoobenthos 62 3.5 juv./adults UK Scotland Ardmucknish Bay",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Platichthys-flesus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 60.0 cm TL male/unsexed; (Ref. 35388 ); common length : 50.0 cm TL male/unsexed; (Ref. 30578 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1495",
+              "locator": "Description",
+              "quote": "The flounder grows up to 50 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "fishbase:Platichthys-flesus",
+            "eifca:skerritt-2010-flounder"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Platichthys-flesus",
+              "locator": "Biology",
+              "quote": "Nocturnal and burrowing (Ref. 30193 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Feeding, p. 2",
+              "quote": "The typical P. flesus feeding behaviour includes entering the intertidal zone with the incoming tide and feeding heavily during high tide.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -11130,15 +11656,160 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Platichthys-flesus"
+            "fishbase:Platichthys-flesus",
+            "marlin:1495"
           ],
           "support": [
             {
               "sourceId": "fishbase:Platichthys-flesus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; freshwater; brackish; demersal; pH range: 7.5 - 8.2; catadromous (Ref. 138126); depth range 1 - 100 m (Ref. 35388).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; freshwater; brackish; demersal; pH range: 7.5 - 8.2; catadromous (Ref. 138126 ); depth range 1 - 100 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1495",
+              "locator": "Habitat",
+              "quote": "A bottom dwelling fish living in inshore waters to depths of 50 m, Platichthys flesus can often be found in estuaries and sometimes freshwater.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "eifca:skerritt-2010-flounder",
+            "fishbase-fooditems:Platichthys-flesus",
+            "fishbase-dietcompo:Platichthys-flesus"
+          ],
+          "support": [
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Feeding, p. 2",
+              "quote": "Fully developed P. flesus feed upon a variety of infaunal groups including bivalves (cockles and mussels), polychaetes, crustaceans (crabs and shrimps), and small fishes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Platichthys-flesus",
+              "locator": "Food items reported for Platichthys flesus, n = 49",
+              "quote": "Food items reported for Platichthys flesus ... zoobenthos mollusks bivalves Cerastoderma edule ... zoobenthos mollusks bivalves Mytilus edulis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-dietcompo:Platichthys-flesus",
+              "locator": "Diet composition, n = 3",
+              "quote": "Food and Feeding Habits: Diet Composition Platichthys flesus ... zoobenthos 62 3.5 juv./adults UK Scotland Ardmucknish Bay",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Platichthys-flesus",
+            "eifca:skerritt-2010-flounder"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Platichthys-flesus",
+              "locator": "Biology",
+              "quote": "juveniles of more than a year and adults feed on benthic fauna (Ref. 51442 ), including small fishes and invertebrates (Ref. 30193 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Feeding, p. 2",
+              "quote": "Fully developed P. flesus feed upon a variety of infaunal groups including bivalves (cockles and mussels), polychaetes, crustaceans (crabs and shrimps), and small fishes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Platichthys-flesus",
+            "eifca:skerritt-2010-flounder"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Platichthys-flesus",
+              "locator": "Biology",
+              "quote": "Juveniles of less than a year old feed on plankton and larvae of insects",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Feeding, p. 2",
+              "quote": "The most common food sources of juvenile P. flesus include copepods, ostracods, small larvae (Aarnio et al. 1996), and cropped bivalve siphons",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-predators:Platichthys-flesus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Platichthys-flesus",
+              "locator": "Organisms Preying on Platichthys flesus, n = 10",
+              "quote": "Organisms Preying on Platichthys flesus ... UK Scotland mammals seals/sea lions Phocidae Halichoerus grypus ... UK Scotland mammals seals/sea lions Phocidae Phoca vitulina ... mammals whales/dolphins Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-predators:Platichthys-flesus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-predators:Platichthys-flesus",
+              "locator": "Organisms Preying on Platichthys flesus, n = 10",
+              "quote": "Organisms Preying on Platichthys flesus ... Norway birds sea birds Anatidae Mergus merganser ... France birds shore birds Ardeidae Ardea cinerea ... France birds sea birds Phalacrocoracidae Phalacrocorax carbo",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "eifca:skerritt-2010-flounder",
+            "fishbase-predators:Platichthys-flesus"
+          ],
+          "support": [
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Interactions and environmental factors, p. 8",
+              "quote": "After settlement, mortality among the 0-group is rather low, except for when a strong and density dependent predation by crustaceans, mainly brown shrimp (Crangon crangon) is observed",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "eifca:skerritt-2010-flounder",
+              "locator": "Interactions and environmental factors, p. 8",
+              "quote": "there are strong indications that P. flesus suffer heavy predation by coelenterates in the plankton (Van der Veer 1985)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-predators:Platichthys-flesus",
+              "locator": "Organisms Preying on Platichthys flesus, n = 10",
+              "quote": "Netherlands cnidarians jellyfish/hydroids Ctenophore Pleurobrachia pileus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -11159,117 +11830,112 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:105814",
-        "marlin:1493",
-        "fishbase:Scyliorhinus-canicula",
+        "doi:10.2960-J.v35.m494",
+        "fishbase-food:Scyliorhinus-canicula",
         "fishbase-pred:Scyliorhinus-canicula",
-        "fishbase-food:Scyliorhinus-canicula"
+        "fishbase:Scyliorhinus-canicula",
+        "marlin:1493",
+        "shark-references:Scyliorhinus-canicula",
+        "worms:105814"
       ],
       "claims": {
-        "edge:Hermit Crab->Lesser-spotted catshark": {
+        "fieldNote": {
           "sourceIds": [
+            "marlin:1493",
+            "shark-references:Scyliorhinus-canicula",
             "fishbase:Scyliorhinus-canicula"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Food items (matched on \"pagurus bernhardus\")",
-              "quote": "enth. crust. crabs Hyas areneus UK Engld Wal juv./adults zoobenthos benth. crust. crabs Eupagurus bernhardus UK Engld Wal juv./adults zoobenthos benth. crust. crabs Pagurus spp. (not available) juv./adults zoob",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "fieldNote": {
-          "sourceIds": [
-            "fishbase:Scyliorhinus-canicula",
-            "marlin:1493"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Short description",
-              "quote": "shallow nasoral grooves and laterally situated posterior nasal flaps (vs. no grooves and posterior...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1493",
-              "locator": "Identifying features",
-              "quote": "Slender shark shaped body, up to 75 cm long. Blunt head with a rounded snout. Small dorsal fin. 5 pairs of gill slits. Upper side greyish brown with dark spots. Underside light greyish-white colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "This small shark has a slender shark-shaped body with a blunt head, rounded snout and small dorsal fin. The nostrils are located on the underside of the snout and are connected to the mouth by a curved groove.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1493",
               "locator": "Description",
-              "quote": "This small shark has a slender shark-shaped body with a blunt head, rounded snout and small dorsal fin. The nostrils are located on the underside of the snout and are connected to the mouth by a curved groove. There are five pairs...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The upper side is greyish-brown with darker spots and the underside is a lighter greyish-white colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "shark-references:Scyliorhinus-canicula",
+              "locator": "Diagnosis after Compagno, 1984 > Diagnostic Features",
+              "quote": "Colour pattern of numerous small dark spots, usually about size of eye pupil; 8 or 9 dusky saddle marks sometimes present but often obscure or obsolete; scattered white spots sometimes present.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "shark-references:Scyliorhinus-canicula",
+              "locator": "Diagnosis after Compagno, 1984 > Diagnostic Features",
+              "quote": "First dorsal origin well behind pelvic insertions; second dorsal origin over anal insertion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Biology",
+              "quote": "Nocturnal species, males resting on substrate and females hiding in shallow (0.5-1.5 m depth) caves and crevices during the day (Ref. 88835 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rulx00097i0kcih9gobc": {
           "sourceIds": [
-            "fishbase:Scyliorhinus-canicula",
-            "marlin:1493"
+            "shark-references:Scyliorhinus-canicula",
+            "marlin:1493",
+            "fishbase:Scyliorhinus-canicula"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Short description",
-              "quote": "shallow nasoral grooves and laterally situated posterior nasal flaps (vs. no grooves and posterior...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "shark-references:Scyliorhinus-canicula",
+              "locator": "Diagnosis after Compagno, 1984 > Diagnostic Features",
+              "quote": "Colour pattern of numerous small dark spots, usually about size of eye pupil; 8 or 9 dusky saddle marks sometimes present but often obscure or obsolete; scattered white spots sometimes present.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1493",
               "locator": "Identifying features",
-              "quote": "Slender shark shaped body, up to 75 cm long. Blunt head with a rounded snout. Small dorsal fin. 5 pairs of gill slits. Upper side greyish brown with dark spots. Underside light greyish-white colour.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Upper side greyish brown with dark spots. Underside light greyish-white colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1493",
-              "locator": "Description",
-              "quote": "This small shark has a slender shark-shaped body with a blunt head, rounded snout and small dorsal fin. The nostrils are located on the underside of the snout and are connected to the mouth by a curved groove. There are five pairs...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Short description",
+              "quote": "Colouration: color pattern with dark spots well-defined, predominantly smaller than spiracles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rulx000a7i0k0fcq2g07": {
           "sourceIds": [
-            "fishbase:Scyliorhinus-canicula",
-            "marlin:1493"
+            "shark-references:Scyliorhinus-canicula"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Short description",
-              "quote": "shallow nasoral grooves and laterally situated posterior nasal flaps (vs. no grooves and posterior...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "shark-references:Scyliorhinus-canicula",
+              "locator": "Diagnosis after Compagno, 1984 > Diagnostic Features",
+              "quote": "First dorsal origin well behind pelvic insertions; second dorsal origin over anal insertion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1493",
-              "locator": "Identifying features",
-              "quote": "Slender shark shaped body, up to 75 cm long. Blunt head with a rounded snout. Small dorsal fin. 5 pairs of gill slits. Upper side greyish brown with dark spots. Underside light greyish-white colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1493",
-              "locator": "Description",
-              "quote": "This small shark has a slender shark-shaped body with a blunt head, rounded snout and small dorsal fin. The nostrils are located on the underside of the snout and are connected to the mouth by a curved groove. There are five pairs...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "shark-references:Scyliorhinus-canicula",
+              "locator": "Diagnosis after Compagno, 1984 > Field Marks",
+              "quote": "A slender, dark-spotted catshark with greatly expanded anterior nasal flaps, reaching mouth and covering shallow nasoral grooves, labial furrows on lower jaw only, second dorsal fin much smaller than first.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -11279,9 +11945,16 @@
             {
               "sourceId": "fishbase:Scyliorhinus-canicula",
               "locator": "Biology",
-              "quote": "Nocturnal species, males resting on substrate and females hiding in shallow (0.5-1.5 m depth) caves and crevices during the day.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Nocturnal species, males resting on substrate and females hiding in shallow (0.5-1.5 m depth) caves and crevices during the day (Ref. 88835 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Biology",
+              "quote": "Detect weak electric fields generated by other organisms (e.g. potential prey) (Ref. 10311 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -11301,29 +11974,6 @@
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Scyliorhinus-canicula"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 3.8 ±0.3 se; based on diet studies.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Biology",
-              "quote": "Feed on a variety of benthic invertebrates, including mollusks, crustaceans, small cephalopods, polychaete worms, and small bony fishes",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true,
-          "conflict": "The app says: Trophic tier 4 The source says: FishBase estimates trophic level 3.8 plus or minus 0.3 se, based on diet studies, which sits inside the tier-3 band rather than tier 4."
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase-pred:Scyliorhinus-canicula"
@@ -11340,77 +11990,32 @@
           "claimSupported": false,
           "conflict": "The app says: Eaten by Conger eel and Grey seal. The source says: FishBase records exactly one organism preying on Scyliorhinus canicula, Gadus morhua in UK Gr. Britain. Neither the conger nor the grey seal appears."
         },
-        "edge:Harbour Crab->Lesser-spotted catshark": {
-          "sourceIds": [
-            "fishbase-food:Scyliorhinus-canicula"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Scyliorhinus-canicula",
-              "locator": "Food items reported for Scyliorhinus canicula (n = 34), crab rows",
-              "quote": "zoobenthos benth. crust. crabs Liocarcinus holsatus UK Engld Wal juv./adults zoobenthos benth. crust. crabs Liocarcinus spp. (not available) juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Atlantic Bobtail->Lesser-spotted catshark": {
-          "sourceIds": [
-            "fishbase-food:Scyliorhinus-canicula"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Scyliorhinus-canicula",
-              "locator": "Food items reported for Scyliorhinus canicula (n = 34), cephalopod rows",
-              "quote": "nekton cephalopods squids/cuttlefish Heteroteuthis dispar (not available) juv./adults nekton cephalopods squids/cuttlefish Sepietta oweniana Spain juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Common goby->Lesser-spotted catshark": {
-          "sourceIds": [
-            "fishbase-food:Scyliorhinus-canicula"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-food:Scyliorhinus-canicula",
-              "locator": "Food items reported for Scyliorhinus canicula (n = 34), teleost rows",
-              "quote": "nekton finfish bony fish gobies (not available) juv./adults",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Scyliorhinus-canicula"
+            "fishbase:Scyliorhinus-canicula",
+            "worms:105814"
           ],
           "support": [
             {
               "sourceId": "fishbase:Scyliorhinus-canicula",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; depth range 10 - 780 m (Ref. 56504), usually 80 - 100 m (Ref. 81056).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1493"
-          ],
-          "support": [
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 10 - 780 m (Ref. 56504 ), usually 80 - 100 m (Ref. 81056 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "marlin:1493",
-              "locator": "Summary: Habitat",
-              "quote": "Scyliorhinus canicula lives particularly in the shallow sublittoral on muddy and sandy substrata to a depth of 100 m. It may also be found in rocky areas.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Biology",
+              "quote": "Occurs mainly between 10-100 m depth in the northeast Atlantic and up to 400 m depth in the Mediterranean Sea (Ref. 88187 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:105814",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat Found on sandy, coralline, algal, gravel or muddy bottoms at depths of a few meters commonly down to 110 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -11418,33 +12023,184 @@
         "trait:habitat": {
           "sourceIds": [
             "marlin:1493",
-            "fishbase:Scyliorhinus-canicula"
+            "fishbase:Scyliorhinus-canicula",
+            "worms:105814"
           ],
           "support": [
             {
               "sourceId": "marlin:1493",
               "locator": "Habitat",
               "quote": "Scyliorhinus canicula lives particularly in the shallow sublittoral on muddy and sandy substrata to a depth of 100 m. It may also be found in rocky areas.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Scyliorhinus-canicula",
               "locator": "Biology",
-              "quote": "Nocturnal species, males resting on substrate and females hiding in shallow (0.5-1.5 m depth) caves and crevices during the day",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "quote": "Inhabits continental shelves and uppermost slopes. Found on sandy, coralline, algal, gravel or muddy bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:105814",
+              "locator": "Attributes > Habitat",
+              "quote": "Habitat Found on sandy, coralline, algal, gravel or muddy bottoms at depths of a few meters commonly down to 110 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1493"
+            "marlin:1493",
+            "fishbase:Scyliorhinus-canicula",
+            "shark-references:Scyliorhinus-canicula"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Size: medium, rendered \"Medium (10-50 cm)\" The source says: MarLIN Identifying features: \"Slender shark shaped body, up to 75 cm long.\" FishBase gives max 100.0 cm TL and common length 60.0 cm TL. Both put it in the app Large (over 50 cm) band."
+          "support": [
+            {
+              "sourceId": "marlin:1493",
+              "locator": "Identifying features",
+              "quote": "Slender shark shaped body, up to 75 cm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 100.0 cm TL male/unsexed; (Ref. 244 ); common length : 60.0 cm TL male/unsexed; (Ref. 4645 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "shark-references:Scyliorhinus-canicula",
+              "locator": "Diagnosis after Compagno, 1984 > Diagnostic Features",
+              "quote": "Size moderate, to 100 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "shark-references:Scyliorhinus-canicula",
+              "locator": "Size / Weight / Age",
+              "quote": "TL (max): female 719 mm TL; male 650 mm TL. Maximum size recorded, 1000 mm TL (Compagno 1984; ...) may be a result of misidentification with S. stellaris (Ebert & Stehmann 2013;",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "doi:10.2960-J.v35.m494",
+            "fishbase:Scyliorhinus-canicula"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Results > Comparison of the diet of the two species of catshark sharing the same zones of coexistence",
+              "quote": "Euphausiids, brachiurans and anomurans were major prey of lesser-spotted catshark 30-50 cm TL",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Results > Diet composition in relation to length",
+              "quote": "shrimps closer to the seabed (Alpheus glaber and Solenocera membranacea) were important prey for lesser-spotted catshark",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Biology",
+              "quote": "Feed on a variety of benthic invertebrates, including mollusks, crustaceans, small cephalopods, polychaete worms, and small bony fishes (Ref. 244 , 11889 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "worms:105814",
+            "fishbase:Scyliorhinus-canicula"
+          ],
+          "support": [
+            {
+              "sourceId": "worms:105814",
+              "locator": "Attributes > Diet",
+              "quote": "Diet Feeds on molluscs and crustaceans, small cephalopods, polychaete worms, and small bony fishes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Biology",
+              "quote": "Feed on a variety of benthic invertebrates, including mollusks, crustaceans, small cephalopods, polychaete worms, and small bony fishes (Ref. 244 , 11889 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.2960-J.v35.m494",
+            "fishbase:Scyliorhinus-canicula"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Results > Diet composition in relation to length",
+              "quote": "lesser-spotted catshark fed on a wider variety of benthic and demersal fish",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Scyliorhinus-canicula",
+              "locator": "Biology",
+              "quote": "Feed on a variety of benthic invertebrates, including mollusks, crustaceans, small cephalopods, polychaete worms, and small bony fishes (Ref. 244 , 11889 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Abstract",
+              "quote": "Both catshark species are opportunistic scavengers, with their main prey being fish and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Scyliorhinus-canicula"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Scyliorhinus-canicula",
+              "locator": "Organisms Preying on Scyliorhinus canicula, n = 1, territory UK Gr. Britain",
+              "quote": "Organisms Preying on Scyliorhinus canicula ... Gadidae Gadus morhua",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.2960-J.v35.m494"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Results > Diet composition in relation to length",
+              "quote": "Cannibalism occurred in the three length-classes of lesser-spotted catshark (0.1% of the stomach volume)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

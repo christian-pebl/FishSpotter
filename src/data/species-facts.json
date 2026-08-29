@@ -197,32 +197,86 @@
   },
   "Callionymus lyra": {
     "depth": {
-      "text": "1-440 m (usually 5-30 m)"
+      "text": "1 to 440 m, most often between 5 and 50 m"
+    },
+    "size": {
+      "text": "Up to 30.5 cm total length (females to 25 cm), commonly about 15 cm"
+    },
+    "habitat": {
+      "text": "Lives on the sea bed on sand, mud and shell gravel, often partly buried, from the sublittoral into deep water"
+    },
+    "behaviour": {
+      "text": "Territorial, males aggressive with each other; rests on the bottom with its fins folded down, blending into coarse sand or gravel"
     }
   },
   "Callionymus maculatus": {
     "depth": {
       "text": "45-650 m"
+    },
+    "size": {
+      "text": "Up to 17.0 cm total length; the heaviest recorded weighed 36.57 g"
+    },
+    "habitat": {
+      "text": "Benthic on sandy bottoms"
+    },
+    "behaviour": {
+      "text": "Feeds on small bottom invertebrates, and its eggs and larvae drift in the plankton"
     }
   },
   "Pleuronectes platessa": {
     "depth": {
-      "text": "0-200 m (usually 10-50 m)"
+      "text": "0-200 m, most common between 10 and 50 m"
+    },
+    "size": {
+      "text": "Up to 100 cm, though 50-60 cm is the usual limit and exceptional fish reach 90 cm; commonly around 40 cm"
+    },
+    "habitat": {
+      "text": "Sandy bottoms, also gravel and mud, and sandy patches in rocky areas; young fish spend their first year in very shallow water and sandy tidal pools"
+    },
+    "behaviour": {
+      "text": "Lies quietly on the bottom for long periods, often partly buried in sand, and can change colour to suit the bottom; spawning migrations can be long"
     }
   },
   "Limanda limanda": {
     "depth": {
-      "text": "20-150 m"
+      "text": "From the shore down to 150 m, most often at 20-40 m"
+    },
+    "size": {
+      "text": "Up to 40-42 cm, though most reach only about 25 cm"
+    },
+    "habitat": {
+      "text": "Sandy seabeds from the shore down to 150 m; the young stay close inshore in under 1 m of water"
+    },
+    "behaviour": {
+      "text": "Raises its head and the front of its body and waits for prey to emerge, then strikes rapidly down; adults move inshore in warmer summer months"
     }
   },
   "Platichthys flesus": {
     "depth": {
-      "text": "1-100 m"
+      "text": "1 to 100 m, but usually inshore in water shallower than 50 m"
+    },
+    "size": {
+      "text": "Up to 60 cm, commonly around 50 cm"
+    },
+    "habitat": {
+      "text": "Mud and sand in shallow inshore water, and in estuaries and brackish water, often running on into fresh water"
+    },
+    "behaviour": {
+      "text": "Burrows into the bottom; moves up into the intertidal with the incoming tide and feeds heavily at high tide"
     }
   },
   "Scyliorhinus canicula": {
     "depth": {
-      "text": "10-780 m (usually 80-100 m)"
+      "text": "10-780 m, usually 80-100 m; mainly between 10 and 100 m in the north-east Atlantic"
+    },
+    "size": {
+      "text": "Up to about 75 cm, commonly around 60 cm; a 100 cm record may be a misidentification of a close relative"
+    },
+    "habitat": {
+      "text": "Shallow sublittoral and continental shelf, over sand, mud, gravel, coralline or algal bottoms, and also rocky ground"
+    },
+    "behaviour": {
+      "text": "Nocturnal: by day males rest on the seabed and females hide in shallow caves and crevices; detects the weak electric fields of prey"
     }
   },
   "Mullus surmuletus": {
