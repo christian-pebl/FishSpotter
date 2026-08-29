@@ -955,28 +955,139 @@
     ]
   },
   "Loligo vulgaris": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Mainly fish and crustaceans, fish becoming the commonest prey as the squid grows"
+      },
+      {
+        "text": "Small shoaling shelf fish such as sandeels, horse mackerel, sprat and herring"
+      },
+      {
+        "text": "Young squid take planktonic crustaceans such as copepods, mysids and krill, plus fish larvae"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Toothed whales and dolphins, including bottlenose and Risso's dolphins and the pilot whale"
+      },
+      {
+        "text": "Large predatory fish such as swordfish, bluefin tuna and greater amberjack"
+      },
+      {
+        "text": "Sharks and rays, including lesser spotted dogfish, thornback ray and blonde ray"
+      }
+    ]
   },
   "Sepiola atlantica": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Mysids and decapod shrimps, which are its main prey"
+      },
+      {
+        "text": "Prey taken above the seabed, with foraging concentrated at dawn and dusk"
+      },
+      {
+        "text": "Mysid shrimp of their own size, which newly hatched animals take by spreading the arms into a crown and shooting the tentacles out"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Harbour porpoise, which appears to find buried bobtails by aiming its sonar into the seabed"
+      },
+      {
+        "text": "Small sharks and rays, including lesser spotted dogfish, spurdog, tope, thornback and spotted ray"
+      },
+      {
+        "text": "European hake and gurnards, recorded with it in their stomach contents in Galician waters"
+      }
+    ]
   },
   "Eledone cirrhosa": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Decapod crustaceans, mostly crabs and snapping shrimps, hunted as an active predator"
+      },
+      {
+        "text": "Fish, other cephalopods, gastropods and brittlestars, and sometimes its own kind"
+      },
+      {
+        "text": "Crabs, opened by drilling a hole through the carapace or puncturing an eye"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals, both grey and harbour; an important part of the harbour seal's summer diet in some years"
+      },
+      {
+        "text": "Fish, from cod, ling and monkfish to dogfish and rays"
+      },
+      {
+        "text": "Toothed whales, including bottlenose dolphins and harbour porpoises"
+      }
+    ]
   },
   "Octopus vulgaris": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Crustaceans, especially crabs and lobsters"
+      },
+      {
+        "text": "Shelled molluscs, drilled open through the shell to reach the animal inside"
+      },
+      {
+        "text": "Fish, when it can catch them, and polychaete worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Fish, including groupers, wrasses and eels, as well as sharks"
+      },
+      {
+        "text": "Marine mammals, especially dolphins and seals"
+      },
+      {
+        "text": "Other cephalopods, including its own species; cannibalism is recorded"
+      }
+    ]
   },
   "Asterina gibbosa": {
-    "eats": [],
+    "eats": [
+      {
+        "text": "Bottom-living invertebrates, including crustaceans, molluscs and other echinoderms"
+      },
+      {
+        "text": "Worms and brittlestars from among the rocks, digested by turning the stomach out over them"
+      },
+      {
+        "text": "Microorganisms, decaying seaweed and dead invertebrates, taken by scavenging"
+      }
+    ],
     "eatenBy": []
   },
   "Marthasterias glacialis": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Mussels above all: the most-taken prey item at every depth on shallow rocky reefs, and preferred over urchins and snails in feeding trials"
+      },
+      {
+        "text": "Sea snails: prosobranch gastropods, the next most frequent prey after mussels"
+      },
+      {
+        "text": "Sea urchins and barnacles; in the Mediterranean it can hold down densities of the purple sea urchin"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Other starfish: the seven-armed starfish and the sunstars are recorded predators, and the common starfish also takes it as prey"
+      },
+      {
+        "text": "Crabs, including the edible crab and the great spider crab, recorded as predators at the northern end of its range"
+      },
+      {
+        "text": "Atlantic cod: sea stars of this genus are among its recorded food items in Scottish waters",
+        "slug": "gadus-morhua"
+      }
+    ]
   },
   "Asterias rubens": {
     "eats": [],

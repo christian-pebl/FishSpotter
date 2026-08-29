@@ -191,13 +191,6 @@
     "checkedOn": "2026-08-28",
     "note": "Crossref: \"Cryptic diets of forage fish: jellyfish consumption observed in the Celtic Sea and western English Channel\""
   },
-  "doi:10.1111-raq.12208": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Shellfish aquaculture",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Attraction and repulsion of mobile wild organisms to finfish and shellfish aquaculture: a review\""
-  },
   "doi:10.1371-journal.pone.0023068": {
     "status": "mismatch",
     "httpStatus": 200,

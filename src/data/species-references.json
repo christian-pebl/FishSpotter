@@ -3580,25 +3580,6 @@
         "Cornwall"
       ]
     },
-    "doi:10.1111-raq.12208": {
-      "kind": "journal",
-      "title": "Attraction and repulsion of mobile wild organisms to finfish and shellfish aquaculture: a review",
-      "authors": [
-        "Callier, Myriam D.",
-        "Byron, Carrie J.",
-        "and others"
-      ],
-      "publisher": "Reviews in Aquaculture (open-access copy in the University of Rhode Island DigitalCommons repository)",
-      "year": 2018,
-      "url": "https://digitalcommons.uri.edu/favs_facpubs/55/",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1111/raq.12208",
-      "expectText": [
-        "Shellfish aquaculture",
-        "hard physical structure",
-        "artificial reef-like structures"
-      ]
-    },
     "doi:10.7717-peerj.9260": {
       "kind": "journal",
       "title": "Here are the polyps: in situ observations of jellyfish polyps and podocysts on bivalve shells",
@@ -4252,6 +4233,55 @@
       "expectText": [
         "Sepia officinalis",
         "W-shaped pupil"
+      ]
+    },
+    "habitas:ZB1130": {
+      "kind": "web",
+      "title": "Asterina gibbosa - Marine Life Encyclopedia",
+      "authors": [
+        "Picton, B.E.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland, Encyclopedia of Marine Life of Britain and Ireland",
+      "year": 2016,
+      "url": "https://www.habitas.org.uk/marinelife/species.asp?item=ZB1130",
+      "identifier": "ZB1130",
+      "expectText": [
+        "Asterina gibbosa"
+      ]
+    },
+    "biotic:6203": {
+      "kind": "web",
+      "title": "Asterina gibbosa - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/6203",
+      "licence": "CC BY-NC-SA 4.0",
+      "expectText": [
+        "Asterina gibbosa",
+        "A cushion star"
+      ]
+    },
+    "adw:Asterina_gibbosa": {
+      "kind": "web",
+      "title": "Asterina gibbosa, species account in the Animal Diversity Web",
+      "authors": [
+        "King, E."
+      ],
+      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
+      "url": "https://animaldiversity.org/accounts/Asterina_gibbosa/",
+      "expectText": [
+        "Asterina gibbosa"
+      ]
+    },
+    "biotic:4250": {
+      "kind": "web",
+      "title": "Mytilus edulis - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/4250",
+      "licence": "CC BY-NC-SA 4.0",
+      "identifier": "4250",
+      "expectText": [
+        "Mytilus edulis"
       ]
     }
   },
@@ -20714,114 +20744,207 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:140271",
-        "marlin:1111",
         "cefas:ceph-uk-2017",
         "fao:i1920e",
         "ices:crr325",
-        "doi:10.1007-s00227-023-04236-x"
+        "marlin:1111",
+        "worms:140271"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1111"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1111",
-              "locator": "Identifying features",
-              "quote": "Mantle long, moderately slender, cylindrical. Fins rhomboid, their length two thirds of mantle length, their posterior border slightly concave. Tentacle club with especially large median suckers, up to four times diameter of marginal...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1111",
-              "locator": "Description",
-              "quote": "Very similar to Loligo forbesii but distinguished immediately by the tentacle club, the median suckers of which are especially large, up to four times diameter of marginal suckers. Loligo vulgaris can be up to 54 cm in length and has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwkynbi00057i0ky6ijlgoy": {
-          "sourceIds": [
-            "marlin:1111"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1111",
-              "locator": "cefas:ceph-uk-2017, p. 19 (Loligo vulgaris, Description) with p. 18 (Loligo forbesii, Description)",
-              "quote": "A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML. [p.18, L. forbesii:] ... with rhomboidal fins of ~70-75% ML.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1111",
-              "locator": "Description",
-              "quote": "Very similar to Loligo forbesii but distinguished immediately by the tentacle club, the median suckers of which are especially large, up to four times diameter of marginal suckers. Loligo vulgaris can be up to 54 cm in length and has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwkynbi00067i0kcc67huja": {
-          "sourceIds": [
-            "marlin:1111"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1111",
-              "locator": "Identifying features",
-              "quote": "Mantle long, moderately slender, cylindrical. Fins rhomboid, their length two thirds of mantle length, their posterior border slightly concave. Tentacle club with especially large median suckers, up to four times diameter of marginal...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1111",
-              "locator": "Description",
-              "quote": "Very similar to Loligo forbesii but distinguished immediately by the tentacle club, the median suckers of which are especially large, up to four times diameter of marginal suckers. Loligo vulgaris can be up to 54 cm in length and has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:1111"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1111",
-              "locator": "Habitat",
-              "quote": "Has no preference for a particular bottom type, the only requirement seems to be the presence of substrata for the attachment of egg strings during the spawning period.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
             "cefas:ceph-uk-2017",
-            "fao:i1920e"
+            "marlin:1111",
+            "fao:i1920e",
+            "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "cefas:ceph-uk-2017",
               "locator": "p. 19, Loligo vulgaris, Description",
-              "quote": "A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Description: A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML. The central two rows of suckers of tentacular club are much larger than outer rows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 18, Loligo forbesii, Description (the comparison species)",
+              "quote": "Description: A large loliginid squid (up to 735 mm off Scotland) with rhomboidal fins of ~70-75% ML. Suckers of tentacular club are similar sized.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1111",
+              "locator": "Description",
+              "quote": "Very similar to Loligo forbesii but distinguished immediately by the tentacle club, the median suckers of which are especially large, up to four times diameter of marginal suckers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fao:i1920e",
+              "locator": "p. 41, Habitat and Biology",
+              "quote": "the European squid ranges in depth from the surface down to the upper slope (200 to 500 m), mainly near coasts with abruptly sloping bottoms, but it is more abundant in waters shallower than 100 m in most of its range.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.6.2 Migrations, p. 128",
+              "quote": "Differences in catches between day and night suggest that post-recruit L. vulgaris live close to the seabed by day and disperse vertically into the water column at night (Roper and Young, 1975), where they can be seen near the surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.6.2 Migrations, p. 128",
+              "quote": "Feeding is the main reason for daily vertical migration to the surface at night.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwkynbi00057i0ky6ijlgoy": {
+          "sourceIds": [
+            "cefas:ceph-uk-2017",
+            "fao:i1920e",
+            "marlin:1111"
+          ],
+          "support": [
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 19, Loligo vulgaris, Description",
+              "quote": "Description: A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML. The central two rows of suckers of tentacular club are much larger than outer rows.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 18, Loligo forbesii, Description (the comparison species)",
+              "quote": "Description: A large loliginid squid (up to 735 mm off Scotland) with rhomboidal fins of ~70-75% ML. Suckers of tentacular club are similar sized.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "p. 41, Diagnostic Features",
+              "quote": "Fins rhomboidal, their length up to two-thirds of mantle length (exceeds 50% mantle length), posterior border slightly concave.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1111",
+              "locator": "Identifying features",
+              "quote": "Fins rhomboid, their length two thirds of mantle length, their posterior border slightly concave.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwkynbi00067i0kcc67huja": {
+          "sourceIds": [
+            "cefas:ceph-uk-2017",
+            "ices:crr325",
+            "marlin:1111"
+          ],
+          "support": [
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 4, Dichotomic guide, couplet 1a (squids and cuttlefishes)",
+              "quote": "1a. Suckers stalked with chitinous rings; 10 appendages: 8 arms and 2 tentacles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 4, Dichotomic guide, couplet 2b (myopsid and oegopsid squids)",
+              "quote": "tentacles contractile, not retractile, no pockets; fins joined posteriorly",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.3.2 Juveniles and adults, p. 117",
+              "quote": "The tentacles are not retractile.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 5, Dichotomic guide, couplet 10b",
+              "quote": "10b. Two central rows of suckers on the tentacular club are much larger than outer rows - Loligo vulgaris (p. 19)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1111",
+              "locator": "Description",
+              "quote": "Very similar to Loligo forbesii but distinguished immediately by the tentacle club, the median suckers of which are especially large, up to four times diameter of marginal suckers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "fao:i1920e",
+            "marlin:1111",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "p. 41, Habitat and Biology",
+              "quote": "It occurs mainly over coarse sand bottoms, but it also is reported over silt and other different mixtures of sediments and terrain, including sea grass beds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1111",
+              "locator": "Habitat",
+              "quote": "Has no preference for a particular bottom type, the only requirement seems to be the presence of substrata for the attachment of egg strings during the spawning period.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.6.1 Habitat, p. 126",
+              "quote": "The suitability of substratum for egg-string attachment seems to be the main reason for association of L. vulgaris with particular bottom types",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fao:i1920e",
+            "cefas:ceph-uk-2017",
+            "marlin:1111"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i1920e",
               "locator": "p. 41, Size",
-              "quote": "Maximum mantle length 640 mm in males, 485 mm in females (West African coast); maximum body weight, 2.3 kg for the same males, 1.32 kg for a slightly smaller female from the English Channel.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Size: Maximum mantle length 640 mm in males, 485 mm in females (West African coast); maximum body weight, 2.3 kg for the same males, 1.32 kg for a slightly smaller female from the English Channel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 19, Loligo vulgaris, Description",
+              "quote": "A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1111",
+              "locator": "Description",
+              "quote": "Loligo vulgaris can be up to 54 cm in length and has a small shield-like part of the body projecting slightly over the head.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -20834,21 +20957,27 @@
           "support": [
             {
               "sourceId": "fao:i1920e",
-              "locator": "p. 42, Habitat and Biology",
-              "quote": "observations from landings in the western Mediterranean suggest that males and females may congregate in different schools.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "p. 41, Habitat and Biology",
+              "quote": "Animals, especially young individuals, perform daily vertical migrations mainly related to feeding; they remain close to the bottom during the day, then disperse into the water column at night.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "ices:crr325",
-              "locator": "Section 11.6.1 Habitat, p. 127",
-              "quote": "Loligo vulgaris is neither pelagic nor fully benthic; it is more or less restricted to the sea bottom during the spawning season, but displays pelagic behaviour at other times, e.g. when hunting (Worms, 1983a).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Section 11.6.2 Migrations, p. 128",
+              "quote": "Differences in catches between day and night suggest that post-recruit L. vulgaris live close to the seabed by day and disperse vertically into the water column at night (Roper and Young, 1975), where they can be seen near the surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.6.2 Migrations, p. 128",
+              "quote": "Feeding is the main reason for daily vertical migration to the surface at night.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: schooling, fast-swim The source says: Schooling rests on one weak line, FAO Vol. 2 p. 42, observations from landings in the western Mediterranean suggest that males and females may congregate in different schools. ICES CRR 325 p. 127 describes the species as neither pelagic nor fully benthic and as nektobenthic, which is not a pelagic schooler. Fast-swim is not stated anywhere."
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -20880,74 +21009,172 @@
           ],
           "claimSupported": false
         },
-        "edge:Sprat->European Squid": {
+        "trait:depth": {
           "sourceIds": [
-            "ices:crr325",
-            "doi:10.1007-s00227-023-04236-x"
+            "marlin:1111",
+            "fao:i1920e",
+            "cefas:ceph-uk-2017",
+            "ices:crr325"
           ],
           "support": [
             {
-              "sourceId": "ices:crr325",
-              "locator": "Table 11.2 Prey composition of Loligo vulgaris, p. 129, Osteichthyes > Clupeidae",
-              "quote": "Clupea harengus (Atlantic herring)2, Sardina pilchardus (European pilchard)3, Sprattus sprattus (European sprat)1, indet.1,2",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1111",
+              "locator": "Depth range",
+              "quote": "Depth range 0-500m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1007-s00227-023-04236-x",
-              "locator": "Results > Loliginidae > Loligo vulgaris",
-              "quote": "Sprattus sprattus and other unidentified Clupeidae were the most frequent fish species.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "fao:i1920e",
+              "locator": "p. 41, Habitat and Biology",
+              "quote": "the European squid ranges in depth from the surface down to the upper slope (200 to 500 m), mainly near coasts with abruptly sloping bottoms, but it is more abundant in waters shallower than 100 m in most of its range.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 19, Loligo vulgaris, Distribution",
+              "quote": "Distribution: Shelf waters in the Mediterranean Sea and NE Atlantic from Morocco to Denmark. Mostly < 100 m but occasionally to 200-500 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.6.1 Habitat, p. 126",
+              "quote": "It can be described as nektobenthic and neritic; it is usually more abundant in water shallower than 100 m ... but is found from the coast to the limits of the upper slope (200-550 m).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
+        "diet:eats:0": {
+          "sourceIds": [
+            "fao:i1920e",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "p. 42, Habitat and Biology",
+              "quote": "The European squid feeds mainly on fishes and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.7.1 Prey, p. 129",
+              "quote": "Fish are the most common prey of adult L. vulgaris, their incidence increasing in the diet with increasing squid size (Rocha et al., 1994; E. Lefkaditou, pers. comm.).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
           "sourceIds": [
             "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "ices:crr325",
-              "locator": "Section 11.7.1 Prey, p. 129",
-              "quote": "Fish are the most common prey of adult L. vulgaris, their incidence increasing in the diet with increasing squid size (Rocha et al., 1994; E. Lefkaditou, pers. comm.).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Table 11.2, Prey composition of Loligo vulgaris, pp. 129-130",
+              "quote": "Ammodytes tobianus (small sandeel)1 ... Trachurus trachurus (Atlantic horse mackerel)1,3 ... Sprattus sprattus (European sprat)1",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 11.2, Clupeidae row, p. 129",
+              "quote": "Clupea harengus (Atlantic herring)2, Sardina pilchardus (European pilchard)3, Sprattus sprattus (European sprat)1",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trait:depth": {
+        "diet:eats:2": {
           "sourceIds": [
-            "marlin:1111"
+            "fao:i1920e",
+            "ices:crr325"
           ],
           "support": [
             {
-              "sourceId": "marlin:1111",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "0-500m",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "fao:i1920e",
+              "locator": "p. 42, Habitat and Biology",
+              "quote": "Young squids feed mainly on planktonic crustaceans and fish larvae, while fish dominate in the diet of adult animals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.7.1 Prey, p. 128",
+              "quote": "Juvenile squid consume more planktonic than benthopelagic prey ... crustaceans such as copepods, mysids, and euphausids, but also fish larvae",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "marlin:1111"
+            "fao:i1920e",
+            "ices:crr325"
           ],
           "support": [
             {
-              "sourceId": "marlin:1111",
-              "locator": "Habitat",
-              "quote": "Has no preference for a particular bottom type, the only requirement seems to be the presence of substrata for the attachment of egg strings during the spawning period.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "sourceId": "fao:i1920e",
+              "locator": "p. 42, Habitat and Biology",
+              "quote": "Loligo vulgaris is preyed upon by a variety of whales and fishes, including ... pilot whale, bottlenose dolphin, swordfish, greater amberjack and many other fishes and marine mammals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 11.3, Known predators of Loligo vulgaris, Cetacea rows, p. 131",
+              "quote": "Risso's dolphin (Grampus griseus)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway The source says: MarLIN 1111 Habitat: has no preference for a particular bottom type, the only requirement seems to be the presence of substrata for the attachment of egg strings during the spawning period. FAO Vol. 2 p. 44 says the same for L. forbesii, strings are attached in clusters to hard objects. The single stated habitat requirement of both squids is the one a farm adds, so anyway may understate the farm effect for all three decapodiform cephalopods in this shard."
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 11.3, Known predators of Loligo vulgaris, Osteichthyes rows, pp. 130-131",
+              "quote": "Atlantic bluefin tuna (Thunnus thynnus) ... Greater amberjack (Seriola dumerili) ... Swordfish (Xiphias gladius)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 11.7.2 Predators, p. 130",
+              "quote": "L. vulgaris has been identified in the stomach contents of several large pelagic and demersal fish as well as marine mammals (Table 11.3).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 11.3, Known predators of Loligo vulgaris, Chondrichthyes rows, pp. 130-131",
+              "quote": "Blonde ray (Raja brachyura) ... Lesser spotted dogfish (Scyliorhinus canicula) ... Thornback ray (Raja clavata)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -20965,123 +21192,191 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:141454",
-        "marlin:1103",
-        "fao:a0150e18",
-        "cefas:ceph-uk-2017",
-        "ices:crr325",
         "doi:10.1007-s00227-023-04236-x",
-        "guide-pdf:cefas-cephalopods-uk"
+        "fao:a0150e18",
+        "guide-pdf:cefas-cephalopods-uk",
+        "ices:crr325",
+        "marlin:1103",
+        "worms:141454"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1103"
+            "marlin:1103",
+            "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "marlin:1103",
-              "locator": "Identifying features",
-              "quote": "Dorsal mantle edge fused to head between eyes. Tentacular clubs with 8 suckers in transverse rows. Colour - very variable, black-brown to pale dorsally, usually pale ventrally.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1103",
               "locator": "Description",
               "quote": "A plump, rounded cuttlefish small in size of up to 6 cm, with rounded fins that do not run along its entire length. The colour varies from black-brown to pale dorsally and pale ventrally. It is rarely striped.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.3.2 Juveniles and adults, pp. 107-108",
+              "quote": "...recorded maximum mantle length as 24 mm for females, larger than previously reported for the species (i.e. 21 mm; Yau and Boyle, 1996; Reid and Jereb 2005). Adult males and females are of similar size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.8.1 Behaviour, p. 112",
+              "quote": "Sepiola atlantica may bury itself in the sand by day to hide from predators and as a technique for hunting.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.7.1 Prey, p. 112",
+              "quote": "The main prey species of S. atlantica are mysids and decapod shrimps.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.7.1 Prey, p. 112",
+              "quote": "...takes place at dawn and dusk, and prey are taken above the seabed (Yau, 1994).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkynlc00077i0k5sl5iqgj": {
           "sourceIds": [
+            "fao:a0150e18",
+            "ices:crr325",
+            "guide-pdf:cefas-cephalopods-uk",
             "marlin:1103"
           ],
           "support": [
             {
-              "sourceId": "marlin:1103",
-              "locator": "Identifying features",
-              "quote": "Dorsal mantle edge fused to head between eyes. Tentacular clubs with 8 suckers in transverse rows. Colour - very variable, black-brown to pale dorsally, usually pale ventrally.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "fao:a0150e18",
+              "locator": "p. 159, Sepiola atlantica, Diagnostic Features",
+              "quote": "Diagnostic Features: Fins short, do not exceed length of mantle anteriorly or posteriorly.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.3.2 Juveniles and adults, pp. 107-108",
+              "quote": "Fins are short and do not exceed mantle length anteriorly or posteriorly.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "guide-pdf:cefas-cephalopods-uk",
+              "locator": "p. 12, Sepiola atlantica, Description",
+              "quote": "Description: Fins short, do not exceed length of mantle anteriorly or posteriorly. Mature males can be identified by the dorsal arm modified: 3 or 4 slightly enlarged suckers with swollen pedicels",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1103",
               "locator": "Description",
               "quote": "A plump, rounded cuttlefish small in size of up to 6 cm, with rounded fins that do not run along its entire length. The colour varies from black-brown to pale dorsally and pale ventrally. It is rarely striped.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpwkynlc00087i0kiuhzqce6": {
           "sourceIds": [
-            "marlin:1103"
+            "marlin:1103",
+            "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "marlin:1103",
-              "locator": "Identifying features",
-              "quote": "Dorsal mantle edge fused to head between eyes. Tentacular clubs with 8 suckers in transverse rows. Colour - very variable, black-brown to pale dorsally, usually pale ventrally.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "A plump, rounded cuttlefish small in size of up to 6 cm, with rounded fins that do not run along its entire length. The colour varies from black-brown to pale dorsally and pale ventrally. It is rarely striped.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1103",
-              "locator": "Description",
-              "quote": "A plump, rounded cuttlefish small in size of up to 6 cm, with rounded fins that do not run along its entire length. The colour varies from black-brown to pale dorsally and pale ventrally. It is rarely striped.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Colour - very variable, black-brown to pale dorsally, usually pale ventrally.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.3.2 Juveniles and adults, pp. 107-108",
+              "quote": "...recorded maximum mantle length as 24 mm for females, larger than previously reported for the species (i.e. 21 mm; Yau and Boyle, 1996; Reid and Jereb 2005). Adult males and females are of similar size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1103"
+            "marlin:1103",
+            "ices:crr325",
+            "fao:a0150e18"
           ],
           "support": [
             {
               "sourceId": "marlin:1103",
               "locator": "Habitat",
               "quote": "Often found in rockpools, subtidally and offshore. Swims over or burrows in sand and gravel.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.6.1 Habitat, p. 111",
+              "quote": "Sepiola atlantica inhabits the continental shelf, its distribution extending to the edge of the slope.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.6.1 Habitat, p. 111",
+              "quote": "In Iberian waters, it is commonly found from 6 to 50 m, as well as inside the Galician Rías (sheltered tectonic valleys), and it prefers clean sandy bottoms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:a0150e18",
+              "locator": "p. 160, Sepiola atlantica, Habitat and Biology",
+              "quote": "Habitat and Biology: Continental shelf to edge of slope. Epibenthic, but has been collected in midwater during both night and day.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fao:a0150e18",
-            "marlin:1103",
-            "cefas:ceph-uk-2017"
+            "ices:crr325",
+            "fao:a0150e18"
           ],
           "support": [
             {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.3.2 Juveniles and adults, pp. 107-108",
+              "quote": "...recorded maximum mantle length as 24 mm for females, larger than previously reported for the species (i.e. 21 mm; Yau and Boyle, 1996; Reid and Jereb 2005). Adult males and females are of similar size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fao:a0150e18",
-              "locator": "p. 160, Size",
-              "quote": "Up to 21 mm mantle length (mature males and females similar in size).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "p. 160, Sepiola atlantica, Size",
+              "quote": "Size: Up to 21 mm mantle length (mature males and females similar in size).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1103",
-              "locator": "Description",
-              "quote": "A plump, rounded cuttlefish small in size of up to 6 cm, with rounded fins that do not run along its entire length.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "cefas:ceph-uk-2017",
-              "locator": "p. 11, Genus Sepiola, Description",
-              "quote": "Small bobtail squids (up to 20-50 mm ML depending on the species) with head and mantle joined and with paired, kidney-shaped light organs on the ink sac.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.5.3 Maturation and reproduction, p. 110",
+              "quote": "...the mean body size of mature animals was similar in both sexes (ca. 15 mm).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -21096,22 +21391,29 @@
               "sourceId": "ices:crr325",
               "locator": "Section 10.8.1 Behaviour, p. 112",
               "quote": "Sepiola atlantica may bury itself in the sand by day to hide from predators and as a technique for hunting.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "ices:crr325",
               "locator": "Section 10.6.1 Habitat, p. 111",
               "quote": "It is epibenthic, but has been collected in midwater during both night and day (Collins et al., 2001).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.7.1 Prey, p. 112",
+              "quote": "...takes place at dawn and dusk, and prey are taken above the seabed (Yau, 1994).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1103",
               "locator": "Habitat",
               "quote": "Often found in rockpools, subtidally and offshore. Swims over or burrows in sand and gravel.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -21161,66 +21463,153 @@
           ],
           "claimSupported": false
         },
-        "edge:Plankton->Atlantic Bobtail": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Section 10.7.1 Prey, p. 112",
-              "quote": "The main prey species of S. atlantica are mysids and decapod shrimps. Foraging primarily takes place at dawn and dusk, and prey are taken above the seabed (Yau, 1994).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Atlantic Bobtail eats Plankton (the food web's phyto- and zooplankton node) The source says: ICES CRR 325 p. 112: the main prey species of S. atlantica are mysids and decapod shrimps, and prey are taken above the seabed. Oesterwind and Piatkowski 2023 found crustaceans in 20 of 23 North Sea stomachs. Mysids and decapod shrimps are hyperbenthic crustaceans, not the phyto- and zooplankton the app's Plankton node describes. A hyperbenthic or seabed-linked prey node would be truer."
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Section 10.7.1 Prey, p. 112",
-              "quote": "The main prey species of S. atlantica are mysids and decapod shrimps. Foraging primarily takes place at dawn and dusk, and prey are taken above the seabed (Yau, 1994).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
+            "ices:crr325",
             "guide-pdf:cefas-cephalopods-uk"
-          ],
-          "support": [
-            {
-              "sourceId": "guide-pdf:cefas-cephalopods-uk",
-              "locator": "p. 12, Sepiola atlantica, Distribution",
-              "quote": "Shelf and upper slope from subtidal to > 400 m.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "ices:crr325",
               "locator": "Section 10.6.1 Habitat, p. 111",
+              "quote": "It can be considered a neritic species, occurring from the sublittoral zone to depths of 150 m. In Scottish waters, it is most common between 50 and 120 m (Yau, 1994; Yau and Boyle, 1996).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.6.1 Habitat, p. 111",
               "quote": "In Iberian waters, it is commonly found from 6 to 50 m, as well as inside the Galician Rías (sheltered tectonic valleys), and it prefers clean sandy bottoms.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "guide-pdf:cefas-cephalopods-uk",
+              "locator": "p. 12, Sepiola atlantica, Distribution",
+              "quote": "Distribution: NE Atlantic from Iceland and Norway to Morocco. Also found in the Mediterranean. Shelf and upper slope from subtidal to > 400 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.7.1 Prey, p. 112",
+              "quote": "The main prey species of S. atlantica are mysids and decapod shrimps.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.7.1 Prey, p. 112",
+              "quote": "...takes place at dawn and dusk, and prey are taken above the seabed (Yau, 1994).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.8.1 Behaviour, p. 113",
+              "quote": "...they are ready to hunt mysid shrimp of equal size soon after hatch- ing, and display a characteristic pattern of expanded dark brown chromatophores when focusing on prey.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.8.1 Behaviour, p. 113",
+              "quote": "Arms are spread to form a circu- lar crown, enabling the tentacles to be shot out rapidly (generally to the dorsal side, towards the middle of the mysid shrimp). If the attack is successful, tentacles are quickly retracted with the prey.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.7.2 Predators, p. 112",
+              "quote": "The sepiolids are probably detected by porpoises directing their sonar into the substratum, detecting the acoustic signal given by the hole in which the animal lies (Santos and Pierce, 2003; Santos et al., 2004b).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 10.2, Known predators, p. 112",
+              "quote": "Harbour porpoise (Phocoena phocoena) Santos and Pierce (2003), Víkingsson et al. (2003), Santos et al. (2004b), Jansen et al. (2013)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 10.2, Known predators, p. 112",
+              "quote": "Table 10.2. Known predators of Sepiola atlantica in the Northeast Atlantic.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 10.2, Known predators, p. 112",
+              "quote": "Spotted ray (Raja montagui) Ellis et al. (1996) Spurdog (Squalus acanthias) Ellis et al. (1996) Thornback ray (Raja clavata) Ellis et al. (1996) Tope shark (Galeorhinus galeus) Ellis et al. (1996)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 10.2, Known predators, p. 112",
+              "quote": "Lesser spotted dogfish (Scyliorhi- nus canicula) Ellis et al. (1996)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 10.7.2 Predators, p. 112",
+              "quote": "In Galician waters, the species has been recorded in the stomach contents of hake and gurnards (Á. Guerra, pers. comm.).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -21238,74 +21627,138 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:140600",
-        "marlin:1116",
         "cefas:ceph-uk-2017",
-        "ices:crr325",
         "doi:10.1017-s0025315499001332",
-        "doi:10.1007-s00227-023-04236-x"
+        "ices:crr325",
+        "marlin:1116",
+        "worms:140600"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1116"
+            "marlin:1116",
+            "cefas:ceph-uk-2017",
+            "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "marlin:1116",
               "locator": "Identifying features",
-              "quote": "Mantle ovoid, broad. Skin covered with very fine, closely-set granulations, interspersed with larger warts. Head narrower than body, one cirrus over each eye. Arms moderately short, suckers uniserial. A low, pale coloured ridge...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Mantle ovoid, broad.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1116",
+              "locator": "Identifying features",
+              "quote": "Arms moderately short, suckers uniserial.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1116",
               "locator": "Description",
-              "quote": "A broad mantled octopus up to 50 cm in length, with a smooth or finely tuberculate body. The arms are slender, finely tapered distally and curled when at rest, with a single row of suckers. The colour is predominantly red-brown...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The arms are slender, finely tapered distally and curled when at rest, with a single row of suckers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1116",
+              "locator": "Description",
+              "quote": "The colour is predominantly red-brown dorsally and white ventrally but species are able to change colour quickly to match their background.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1116",
+              "locator": "Identifying features",
+              "quote": "Colour - living animal yellowish or reddish orange to reddish brown dorsally with diffuse rust-brown patches, white on ventral surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1116",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Recorded distribution in Britain and Ireland All British and Irish coasts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 4, key to UK cephalopods, couplet 3b",
+              "quote": "3b. Two rows of suckers on arms. Arms are several times of body length - Octopus vulgaris (p. 29)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 4.1 Geographic distribution, p. 30",
+              "quote": "abundant along the entire Scottish coast, and common in the Celtic Sea and English Channel",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Field note: 'Our commonest octopus: a smooth, sac-like body and eight LONG arms that curl at the tips, each arm with a SINGLE row of suckers (the key difference from the common octopus). Orange-brown, tucked into rocky crevices.' The source says: MarLIN 1116 Identifying features, read live 28 Aug, inside the bound quote itself: 'Arms moderately short, suckers uniserial.' Cefas UK cephalopod guide p.28, verbatim from the live PDF: 'A medium-sized (up to 250 mm ML, total length to 550 mm, body weight to 1.2 kg) octopus with ONE row of suckers on SHORT arms (2.5-3 times ML).'"
+          "claimSupported": true
         },
         "mark:cmpwkyo0n00097i0kbyzbjryn": {
           "sourceIds": [
-            "marlin:1116"
+            "marlin:1116",
+            "cefas:ceph-uk-2017"
           ],
           "support": [
             {
               "sourceId": "marlin:1116",
               "locator": "Identifying features",
-              "quote": "Mantle ovoid, broad. Skin covered with very fine, closely-set granulations, interspersed with larger warts. Head narrower than body, one cirrus over each eye. Arms moderately short, suckers uniserial. A low, pale coloured ridge...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Arms moderately short, suckers uniserial.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1116",
               "locator": "Description",
-              "quote": "A broad mantled octopus up to 50 cm in length, with a smooth or finely tuberculate body. The arms are slender, finely tapered distally and curled when at rest, with a single row of suckers. The colour is predominantly red-brown...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The arms are slender, finely tapered distally and curled when at rest, with a single row of suckers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 28, Eledone cirrhosa, Description",
+              "quote": "A medium-sized (up to 250 mm ML, total length to 550 mm, body weight to 1.2 kg) octopus with one row of suckers on short arms (2.5-3 times ML).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 4, key to UK cephalopods, couplet 3b",
+              "quote": "3b. Two rows of suckers on arms. Arms are several times of body length - Octopus vulgaris (p. 29)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Ring 'Eight arms, no fins': 'Soft, bulbous body and eight LONG arms, no fins. Orange-brown; our commonest octopus, on rocky and shelly bottoms.' The source says: MarLIN 1116 Identifying features, within the bound quote: 'Arms moderately short, suckers uniserial.' Cefas p.28: 'one row of suckers on short arms (2.5-3 times ML).'"
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1116"
+            "marlin:1116",
+            "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "marlin:1116",
               "locator": "Habitat",
               "quote": "Found on rocky coasts, lower shore, sublittoral.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 4.5.1 Habitat, p. 36",
+              "quote": "Eledone cirrhosa is a typical soft-bottom, eurybathic species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
@@ -21317,19 +21770,18 @@
               "sourceId": "cefas:ceph-uk-2017",
               "locator": "p. 28, Eledone cirrhosa, Description",
               "quote": "A medium-sized (up to 250 mm ML, total length to 550 mm, body weight to 1.2 kg) octopus with one row of suckers on short arms (2.5-3 times ML).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1116",
               "locator": "Description",
               "quote": "A broad mantled octopus up to 50 cm in length, with a smooth or finely tuberculate body.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: Size: medium (the app defines medium as 10 to 50 cm) The source says: Cefas p. 28 calls it a medium-sized octopus, which matches the tile word, but the same sentence gives total length to 550 mm, which is above the app's 50 cm medium ceiling. MarLIN 1116 gives up to 50 cm, exactly on the boundary. Mantle length is only 190 to 250 mm. The tile is defensible on mantle length and on the Cefas wording, but not on total length."
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -21340,11 +21792,25 @@
               "sourceId": "ices:crr325",
               "locator": "Section 4.7.4 Behaviour, p. 39",
               "quote": "Under aquarium conditions, E. cirrhosa is relatively sedentary, spending most of its time in the shelter of dens or rocks or at the edges of the tank space.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 4.7.4 Behaviour, p. 39",
+              "quote": "long quiescent periods are interspersed with periods of activity when the animal moves throughout the tank space and often swims. These active spells presumably represent periods of hunting or foraging behaviour",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 4.7.4 Behaviour, p. 39",
+              "quote": "\"Sand covering\", similar to the behaviour seen in Sepia spp. ... The animals displayed a burrowing/burying behaviour lasting ca. 50 s.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -21376,93 +21842,38 @@
           ],
           "claimSupported": false
         },
-        "edge:Spider Crab->Curled Octopus": {
+        "trait:depth": {
           "sourceIds": [
+            "marlin:1116",
+            "cefas:ceph-uk-2017",
             "ices:crr325"
           ],
           "support": [
             {
-              "sourceId": "ices:crr325",
-              "locator": "Table 4.2 Prey composition of Eledone cirrhosa, p. 37, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Cancer spp.3, Goneplax rhomboides1, Goneplax spp.2, Leucosiidae indet.1,6, Liocarcinus spp.5, Majidae indet.6, Monodaeus couchii2, Portunidae indet.6, indet.2",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Hermit Crab->Curled Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
+              "sourceId": "marlin:1116",
+              "locator": "Depth range",
+              "quote": "Depth range 0-500m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 28, Eledone cirrhosa, Distribution",
+              "quote": "Distribution: From Morocco to Norway, Scotland and Iceland, between 5 and 700 m, mostly 60-120 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "ices:crr325",
-              "locator": "Table 4.2 Prey composition of Eledone cirrhosa, p. 37, Crustacea > Pleocyemata-Anomura",
-              "quote": "Galathea intermedia1, Paguridae indet.1,6, Pisidia longirostris1",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Curled Octopus eats Hermit Crab (Pagurus bernhardus) The source says: ICES CRR 325 Table 4.2 (p. 37) records Paguridae indet., the family, not Pagurus bernhardus. Supported at family level only."
-        },
-        "edge:Shore Crab->Curled Octopus": {
-          "sourceIds": [
-            "doi:10.1017-s0025315499001332"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1017-s0025315499001332",
-              "locator": "Abstract",
-              "quote": "Octopuses (Eledone cirrhosa) feeding on crabs (Carcinus maenus) may penetrate the crab by a carapace borehole or puncture of the eye. In ad libitum feeding trials (632 crabs eaten), 31% of the predated crabs had a punctured eye",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Section 4.5.1 Habitat, p. 36",
+              "quote": "although most catches are made over a smaller depth range, generally from 50 to 300 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Velvet Swimming Crab->Curled Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 4.2 Prey composition of Eledone cirrhosa, p. 37, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Liocarcinus spp.5, Majidae indet.6, Monodaeus couchii2, Portunidae indet.6, indet.2",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Curled Octopus eats Velvet Swimming Crab (Necora puber) The source says: ICES CRR 325 Table 4.2 (p. 37) records Liocarcinus spp. and Portunidae indet. but never Necora puber. Necora puber was formerly placed in Liocarcinus (the Octopus vulgaris table on p. 22 writes it as Necora puber (as L. puber)), so the record may include it, but the source does not say so."
-        },
-        "edge:Farmed mussels->Curled Octopus": {
-          "sourceIds": [
-            "ices:crr325",
-            "doi:10.1007-s00227-023-04236-x"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 4.2 Prey composition of Eledone cirrhosa, p. 37, Bivalvia",
-              "quote": "Bivalvia indet.4",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1007-s00227-023-04236-x",
-              "locator": "Results > Others",
-              "quote": "Three stomachs of Eledone cirrhosa (Horned octopus), fished in summer, were examined. Two of them contained crustaceans, whilst the other contained bivalves.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Curled Octopus eats Farmed mussels The source says: ICES CRR 325 Table 4.2 (p. 37) records only Bivalvia indet. from Scottish waters, and Oesterwind and Piatkowski 2023 found bivalves in one of three North Sea stomachs. No source names Mytilus. Bivalve predation is evidenced, mussel predation is not."
-        },
-        "trophic:tier": {
+        "diet:eats:0": {
           "sourceIds": [
             "ices:crr325"
           ],
@@ -21470,50 +21881,115 @@
             {
               "sourceId": "ices:crr325",
               "locator": "Section 4.6.1 Prey, p. 36",
-              "quote": "Eledone cirrhosa is a carnivorous species and an active predator. Its diet consists mainly of decapod crustaceans (Table 4.2), mostly alpheids and brachyurids, as observed in Scottish waters (Boyle, 1983b, 1986)",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Eledone cirrhosa is a carnivorous species and an active predator. Its diet consists mainly of decapod crustaceans (Table 4.2), mostly alpheids and brachyurids, as observed in Scottish waters",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trait:depth": {
-          "sourceIds": [
-            "marlin:1116"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1116",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "0-500m",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
+        "diet:eats:1": {
           "sourceIds": [
             "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "ices:crr325",
-              "locator": "Section 4.5.1 Habitat, p. 36",
-              "quote": "Eledone cirrhosa is a typical soft-bottom, eurybathic species.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Section 4.6.1 Prey, p. 36",
+              "quote": "Fish, cephalopods, gastropods, and ophiuroids have also been encountered in its gut contents, and cannibalism has been observed",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.1017-s0025315499001332"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1017-s0025315499001332",
+              "locator": "Abstract",
+              "quote": "Octopuses ( Eledone cirrhosa ) feeding on crabs ( Carcinus maenus ) may penetrate the crab by a carapace borehole or puncture of the eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 4.6.2 Predators, p. 37",
+              "quote": "Whales, seals, and fish are considered to be the most important predators of E. cirrhosa",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "ices:crr325",
-              "locator": "Section 4.7.4 Behaviour, p. 39",
-              "quote": "Under aquarium conditions, E. cirrhosa is relatively sedentary, spending most of its time in the shelter of dens or rocks or at the edges of the tank space.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Section 4.6.2 Predators, p. 37",
+              "quote": "Eledone cirrhosa is an important component of the summer diet of harbour seals (Phoca vitulina) in the Moray Firth in some years",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 4.3 Known predators, p. 38",
+              "quote": "Grey seal (Halichoerus grypus) ... Harbour seal (Phoca vitulina)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: enhanced (present anyway, fewer without the farm) The source says: ICES CRR 325 p. 36 calls E. cirrhosa a typical soft-bottom, eurybathic species. The only structure-linked statements found are that it shelters in dens or rocks in aquaria (p. 39) and that bathyal hard substrata were suggested as suitable for egg laying in the Ligurian Sea (p. 36). Nothing measures a hard-structure or aquaculture effect on its abundance, so enhanced is not evidenced for this species the way it is for Octopus vulgaris."
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 4.6.2 Predators, p. 37",
+              "quote": "Whales, seals, and fish are considered to be the most important predators of E. cirrhosa",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 4.3 Known predators, p. 37-38",
+              "quote": "Lesser spotted dogfish ... Thornback ray (Raja clavata) ... Atlantic cod (Gadus morhua) ... Ling (Molva molva) ... Monkfish (Lophius piscatorius)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 4.6.2 Predators, p. 37",
+              "quote": "as well as a prominent component of the diet of some cetaceans",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 4.3 Known predators, p. 38",
+              "quote": "Bottlenose dolphin (Tursiops truncatus) ... Harbour porpoise (Phocoena phocoena)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -21531,106 +22007,182 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:140605",
-        "marlin:1117",
         "cefas:ceph-uk-2017",
         "fao:i3489e",
-        "ices:crr325"
+        "ices:crr325",
+        "marlin:1117",
+        "worms:140605"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
             "marlin:1117",
-            "cefas:ceph-uk-2017"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1117",
-              "locator": "Recorded distribution in Britain and Ireland",
-              "quote": "Reaches its north-eastern limit in south-western Britain and the western English Channel.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1117",
-              "locator": "Description",
-              "quote": "A medium to large sized octopus reaching up to 1.3 meters in length, with a distinctly warty body. The arms are thick and stout bearing two rows of longitudinal suckers. The colour varies from grey-yellow-brown-green and can change...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "cefas:ceph-uk-2017",
-              "locator": "p. 29, Octopus vulgaris, Description and Distribution",
-              "quote": "A large (up to 250 mm ML and >1000 mm total length, > 2 kg) octopus with two rows of suckers on long arms (4-5.5 times ML).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "cefas:ceph-uk-2017",
-              "locator": "p. 29, Octopus vulgaris, Distribution",
-              "quote": "East Atlantic from Northeast Africa to the English Channel, from shoreline to 250 m, mostly < 100 m. In the past was recorded as north as off south Scotland and in Irish Sea.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwkyo9u000b7i0kvtwi121i": {
-          "sourceIds": [
-            "marlin:1117"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1117",
-              "locator": "Identifying features",
-              "quote": "Medium to large sized, body distinctly warty. Arms stout of about equal length and thickness with two longitudinal rows of suckers, dorsal pair of arms slightly shorter. Colour - variable, grey-yellow-brown-green according to...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1117",
-              "locator": "Description",
-              "quote": "A medium to large sized octopus reaching up to 1.3 meters in length, with a distinctly warty body. The arms are thick and stout bearing two rows of longitudinal suckers. The colour varies from grey-yellow-brown-green and can change...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:1117"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1117",
-              "locator": "fao:i3489e, p. 43, Octopus vulgaris, Habitat and Biology",
-              "quote": "The Mediterranean and northeastern Atlantic form is typically an intertidal to shallow subtidal species that lives on the continental shelf on rocky, sandy or muddy substrates.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
             "cefas:ceph-uk-2017",
             "fao:i3489e"
           ],
           "support": [
             {
+              "sourceId": "marlin:1117",
+              "locator": "Description",
+              "quote": "A medium to large sized octopus reaching up to 1.3 meters in length, with a distinctly warty body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1117",
+              "locator": "Description",
+              "quote": "The colour varies from grey-yellow-brown-green and can change according to the situation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 4, Dichotomic guide, couplet 3",
+              "quote": "3a. One row of suckers on arms. Arms slightly longer than the body length - Eledone cirrhosa (p. 28) 3b. Two rows of suckers on arms. Arms are several times of body length - Octopus vulgaris (p. 29)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "cefas:ceph-uk-2017",
               "locator": "p. 29, Octopus vulgaris, Description",
               "quote": "A large (up to 250 mm ML and >1000 mm total length, > 2 kg) octopus with two rows of suckers on long arms (4-5.5 times ML).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fao:i3489e",
-              "locator": "p. 43, Size",
-              "quote": "Mantle length to 400 mm; total length to around 1.8 m; body weight to over 20 kg. Common at smaller size (250 mm ML).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "This species is primarily night active, typically spending daylight hours within a den.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "Dens can consist of pre-existing crevices in rocky reefs and rubble or can be constructed by the octopus in softer sediments, sometimes incorporating loose rocks or shells.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1117",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Reaches its north-eastern limit in south-western Britain and the western English Channel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwkyo9u000b7i0kvtwi121i": {
+          "sourceIds": [
+            "marlin:1117",
+            "fao:i3489e"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1117",
+              "locator": "Identifying features",
+              "quote": "Medium to large sized, body distinctly warty.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1117",
+              "locator": "Description",
+              "quote": "The arms are thick and stout bearing two rows of longitudinal suckers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1117",
+              "locator": "Description",
+              "quote": "The colour varies from grey-yellow-brown-green and can change according to the situation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 42, Octopus vulgaris, Diagnostic Features",
+              "quote": "Moderate to large muscular species. Mantle broadly oval to saccular. Arms long (4 to 5.5 times mantle length), robust, taper to narrow rounded tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Diagnostic Features (Sculpture)",
+              "quote": "Sculpture: Skin texture of regular patch and groove with small circular patches. Four large erectile papillae in diamond arrangement on dorsal mantle; 1 to 2 supraocular papillae over each eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "fao:i3489e",
+            "marlin:1117",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "The Mediterranean and northeastern Atlantic form is typically an intertidal to shallow subtidal species that lives on the continental shelf on rocky, sandy or muddy substrates.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1117",
+              "locator": "Habitat (structured field)",
+              "quote": "Found on rocky coasts, shallow sublittoral. Has adapted to live in very different habitats",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 3.6.1 Habitat, p. 21",
+              "quote": "It is found from the coast out to the outer edge of the continental shelf (200 m) in temperatures of 6-33°C.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fao:i3489e",
+            "ices:crr325",
+            "marlin:1117",
+            "cefas:ceph-uk-2017"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Size",
+              "quote": "Size: Mantle length to 400 mm; total length to around 1.8 m; body weight to over 20 kg. Common at smaller size (250 mm ML).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 3.3.2 Juveniles and adults, p. 16",
+              "quote": "Adults reach 40 cm ML and 140 cm total length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1117",
+              "locator": "Description",
+              "quote": "A medium to large sized octopus reaching up to 1.3 meters in length, with a distinctly warty body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 29, Octopus vulgaris, Description",
+              "quote": "A large (up to 250 mm ML and >1000 mm total length, > 2 kg) octopus with two rows of suckers on long arms (4-5.5 times ML).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -21643,21 +22195,27 @@
           "support": [
             {
               "sourceId": "fao:i3489e",
-              "locator": "p. 43, Habitat and Biology",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
               "quote": "This species is primarily night active, typically spending daylight hours within a den.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "Dens can consist of pre-existing crevices in rocky reefs and rubble or can be constructed by the octopus in softer sediments, sometimes incorporating loose rocks or shells.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "ices:crr325",
               "locator": "Section 3.6.1 Habitat, p. 21",
               "quote": "Local density of O. vulgaris, as has been documented for other species of octopuses, is affected by the availability of solid material (rocks, stones, shells, anthropogenic litter, etc) to be utilized for den construction",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: hiding, on-bottom, solitary The source says: FAO Vol. 3 p. 43 supports hiding and on-bottom (primarily night active, typically spending daylight hours within a den; dens in crevices in rocky reefs or built in softer sediments). No source found states that O. vulgaris is solitary; FAO notes high movement of individuals between lairs and ICES p. 21 notes no segregation between sexes. The same gap applies to Eledone cirrhosa."
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -21705,128 +22263,130 @@
           ],
           "claimSupported": false
         },
-        "edge:Shore Crab->Common Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 3.2 Prey composition of Octopus vulgaris, p. 22, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Cancer pagurus9, Carcinus maenas9, C. aestuarii (as C. mediterraneus)2, Dromia personata2, Ebalia granulosa6, E. tuberculosa6, Ebalia spp.6",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Edible Crab->Common Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 3.2 Prey composition of Octopus vulgaris, p. 22, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Atelecyclus spp.9, Calappa granulata2, Cancer pagurus9, Carcinus maenas9, C. aestuarii (as C. mediterraneus)2",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Spider Crab->Common Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 3.2 Prey composition of Octopus vulgaris, p. 22, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Inachus dorsettensis6, Inachus spp.2,9, Liocarcinus corrugatus2,6, L. depurator2,5,7, L. pusillus6, L. vernalis5, Liocarcinus spp.2,6,9, Macropodia spp.9, Maja squinado9",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Velvet Swimming Crab->Common Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 3.2 Prey composition of Octopus vulgaris, p. 22, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Medorippe lanata2, Necora puber (as L. puber)9, Pachygrapsus marmoratus9.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Hermit Crab->Common Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 3.2 Prey composition of Octopus vulgaris, p. 22, Crustacea > Pleocyemata-Anomura",
-              "quote": "Anapagurus laevis2, Anapagurus spp.2,5, Galathea bolivari6, G. intermedia6, G. strigosa6, Galathea spp.2,6, Paguristes eremita6, Pagurus prideaux6, Paguridea indet.6, Pisidia longicornis2, Pisidia spp.5, indet.8",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Common Octopus eats Hermit Crab (Pagurus bernhardus) The source says: ICES CRR 325 Table 3.2 (p. 22) names Anapagurus laevis, Anapagurus spp., Paguristes eremita, Pagurus prideaux and Paguridea indet., but never Pagurus bernhardus. Hermit-crab predation is well evidenced at genus and family level; the app's named species is not in the record."
-        },
-        "edge:Farmed mussels->Common Octopus": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 3.2 Prey composition of Octopus vulgaris, p. 22, Bivalvia > Mytiloida",
-              "quote": "Modiolus barbatus3, Mytilus galloprovincialis9, Mytilus spp.3",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Section 3.7.1 Prey, p. 21",
-              "quote": "The diet of O. vulgaris consists of crustaceans, fish, molluscs, and polychaetes (Table 3.2).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
+            "fao:i3489e",
+            "cefas:ceph-uk-2017",
             "marlin:1117"
           ],
           "support": [
             {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "This species has been reported from depths ranging from 0 to 250 m, but typically occurs shallower than 100 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 29, Octopus vulgaris, Distribution",
+              "quote": "East Atlantic from Northeast Africa to the English Channel, from shoreline to 250 m, mostly < 100 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:1117",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "0-200m",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Depth range (structured field)",
+              "quote": "Depth range 0-200m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
+          "sourceIds": [
+            "fao:i3489e",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "This species feeds on a wide range of live prey, from crustaceans (typically crabs and lobsters), to fish (when they can be caught), to a range of shelled molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 3.7.1 Prey, p. 21",
+              "quote": "The diet of O. vulgaris consists of crustaceans, fish, molluscs, and polychaetes (Table 3.2).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fao:i3489e",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "The latter group typically are extracted by drilling through the shell with the toothed salivary papillae to paralyse/relax the occupant.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 3.7.1 Prey, p. 21",
+              "quote": "Octopuses drill holes in the shells of shelled molluscs, allowing them to inject cephalotoxin",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fao:i3489e",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "This species feeds on a wide range of live prey, from crustaceans (typically crabs and lobsters), to fish (when they can be caught), to a range of shelled molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 3.7.1 Prey, p. 21",
+              "quote": "The diet of O. vulgaris consists of crustaceans, fish, molluscs, and polychaetes (Table 3.2).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fao:i3489e",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "A wide range of predators prey on this species including many fishes such as serranid groupers, wrasses and eels, as well as sharks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 3.7.2 Predators, p. 24",
+              "quote": "Predators of subadult and adult O. vulgaris include fish, marine mammals, birds, man, and other cephalopod species (Hanlon and Messenger, 1996).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
           "sourceIds": [
             "ices:crr325",
             "fao:i3489e"
@@ -21834,20 +22394,43 @@
           "support": [
             {
               "sourceId": "ices:crr325",
-              "locator": "Section 3.6.1 Habitat, p. 21",
-              "quote": "Local density of O. vulgaris, as has been documented for other species of octopuses, is affected by the availability of solid material (rocks, stones, shells, anthropogenic litter, etc) to be utilized for den construction",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Section 3.7.2 Predators, p. 24",
+              "quote": "Octopus vulgaris has been found in the stomachs of bottlenose dolphin (Tursiops truncatus) ... and Mediterranean monk seal (Monachus monachus) (Pierce et al., 2011) in the Mediterranean Sea.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fao:i3489e",
-              "locator": "p. 44, Remarks",
-              "quote": "Construction of artificial reefs has been proposed as a mechanism for increasing octopus population density and hence increased harvests (Ulas et al., 2002).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "Seals would have been historical predators of this species across its range.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fao:i3489e",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i3489e",
+              "locator": "p. 43, Octopus vulgaris, Habitat and Biology",
+              "quote": "Cannibalism also has been recorded for this species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 3.7.2 Predators, p. 24",
+              "quote": "Predators of subadult and adult O. vulgaris include fish, marine mammals, birds, man, and other cephalopod species (Hanlon and Messenger, 1996).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -21865,138 +22448,237 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:123987",
-        "marlin:1563",
+        "adw:Asterina_gibbosa",
         "bhl:mortensen-1927",
-        "doi:10.1111-raq.12208"
+        "biotic:6203",
+        "habitas:ZB1130",
+        "marlin:1563",
+        "worms:123987"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1563"
+            "marlin:1563",
+            "worms:123987",
+            "habitas:ZB1130"
           ],
           "support": [
+            {
+              "sourceId": "marlin:1563",
+              "locator": "Summary > Description",
+              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms. Upper surface covered with groups of short stiff spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1563",
+              "locator": "Summary > Description",
+              "quote": "Colour variable but usually brown, green or orange; mottled individuals are present in some populations.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1563",
+              "locator": "Summary > Identifying features",
+              "quote": "Sub-pentagonal; ventral surface flat but dorsal surface rounded.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:1563",
               "locator": "Summary > Habitat",
               "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1563",
+              "locator": "Additional information",
+              "quote": "Asterina gibbosa is a protandrous hermaphrodite: small or young individuals are males but as they become older and increase in size they develop into females.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:123987",
+              "locator": "Attributes > Breeding",
+              "quote": "Breeding Protandrous hermaphrodite; eggs are laid in creviices, but are not brooded. Summer",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1130",
               "locator": "Description",
-              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms. Upper surface covered with groups of short stiff spines. Colour variable but usually brown, green or orange; mottled individuals are present in some...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "A small flattened, cushion star, the dorsal surface is rough with projecting spines and most specimens are green in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwl4rl600007ifo0yt5d4aw": {
           "sourceIds": [
-            "marlin:1563"
+            "marlin:1563",
+            "habitas:ZB1130"
           ],
           "support": [
             {
               "sourceId": "marlin:1563",
-              "locator": "Identifying features",
-              "quote": "Sub-pentagonal; ventral surface flat but dorsal surface rounded. Mouth plates each bear two spines on the ventral side.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms. Upper surface covered with groups of short stiff spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1563",
-              "locator": "Description",
-              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms. Upper surface covered with groups of short stiff spines. Colour variable but usually brown, green or orange; mottled individuals are present in some...",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Sub-pentagonal; ventral surface flat but dorsal surface rounded.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1130",
+              "locator": "Key Identification Features",
+              "quote": "Cushion-star shaped with short arms. Uniform coloration. Short orange spines on back and around margins of arms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpwl4rl600017ifo5rzoa9vt": {
           "sourceIds": [
-            "marlin:1563"
+            "marlin:1563",
+            "habitas:ZB1130"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1563",
+              "locator": "Summary > Description",
+              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms. Upper surface covered with groups of short stiff spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1563",
+              "locator": "Summary > Description",
+              "quote": "Colour variable but usually brown, green or orange; mottled individuals are present in some populations.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1563",
+              "locator": "Summary > Identifying features",
+              "quote": "Sub-pentagonal; ventral surface flat but dorsal surface rounded.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1563",
+              "locator": "Summary > Habitat",
+              "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1130",
+              "locator": "Description",
+              "quote": "A small flattened, cushion star, the dorsal surface is rough with projecting spines and most specimens are green in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:1563",
+            "habitas:ZB1130",
+            "biotic:6203"
           ],
           "support": [
             {
               "sourceId": "marlin:1563",
               "locator": "Summary > Habitat",
               "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1563",
-              "locator": "Description",
-              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms. Upper surface covered with groups of short stiff spines. Colour variable but usually brown, green or orange; mottled individuals are present in some...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:1563"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1563",
+              "sourceId": "habitas:ZB1130",
               "locator": "Habitat",
-              "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools. Extends into the sublittoral to depths of about 100 m.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "A characteristic intertidal form commonly found under boulders or in crevices on rocky shores. Sometimes found in shallow water in sheltered localities.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6203",
+              "locator": "Distribution and Habitat > Substratum preferences",
+              "quote": "Substratum preferences Rockpools, Under boulders, Coarse clean sand, Biogenic reef, Mixed, Crevices / fissures",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1563"
+            "marlin:1563",
+            "habitas:ZB1130"
           ],
           "support": [
             {
               "sourceId": "marlin:1563",
               "locator": "Summary > Description",
-              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "quote": "A small starfish (up to 5 cm) with 5 (rarely 4 or 6) very short, broad-based arms. Upper surface covered with groups of short stiff spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1130",
+              "locator": "Description",
+              "quote": "Up to 5cm. across.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "marlin:1563"
+            "biotic:6203",
+            "adw:Asterina_gibbosa"
           ],
           "support": [
             {
-              "sourceId": "marlin:1563",
-              "locator": "Summary > Habitat",
-              "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools. Extends into the sublittoral to depths of about 100 m.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:6203",
+              "locator": "General Biology > Mobility and position",
+              "quote": "Mobility/Movement Crawler Environmental position Epilithic, Epibenthic, Epifaunal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6203",
+              "locator": "General Biology > Feeding method",
+              "quote": "Growth form Stellate, Radial Feeding method Omnivore, Predator, Scavenger",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6203",
+              "locator": "General Biology > Sociability",
+              "quote": "Sociability Solitary",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Asterina_gibbosa",
+              "locator": "Behavior",
+              "quote": "The cushion star is mobile, but not quick. Since it has a speed of only 2.5 cm per minute, this starfish is the slowest of its class.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "bhl:mortensen-1927"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927",
-              "locator": "p. 98, Asterina gibbosa (Pennant)",
-              "quote": "It feeds on various molluscs, but also on worms and echinoderms (Ophiurans).",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Tier 2, rendered to the reader as 'Grazer or filter feeder' (TIER_LABEL in src/lib/foodweb/diet.ts). The source says: Mortensen 1927, Handbook of the Echinoderms of the British Isles, p. 98: 'It feeds on various molluscs, but also on worms and echinoderms (Ophiurans).' Verified verbatim in the archive.org full text (page marker 'ASTEROIDEA 99' follows the passage)."
         },
         "diet:eats": {
           "sourceIds": [
@@ -22014,66 +22696,89 @@
           "claimSupported": false,
           "conflict": "The app says: I eat: Detritus & seabed life (the rain-down landing zone) and Kelp / seaweed, i.e. a detritivore and grazer. The source says: It feeds on various molluscs, but also on worms and echinoderms (Ophiurans)."
         },
-        "edge:Seabed biodeposits->Cushion Star": {
-          "sourceIds": [
-            "bhl:mortensen-1927"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927",
-              "locator": "p. 98, Asterina gibbosa (Pennant)",
-              "quote": "It feeds on various molluscs, but also on worms and echinoderms (Ophiurans).",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "marlin:1563"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1563",
-              "locator": "MarLIN species information review > Habitat",
-              "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools. Extends into the sublittoral to depths of about 100 m.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "bhl:mortensen-1927",
             "marlin:1563",
-            "doi:10.1111-raq.12208"
+            "worms:123987"
           ],
           "support": [
-            {
-              "sourceId": "bhl:mortensen-1927",
-              "locator": "p. 98, Asterina gibbosa (Pennant)",
-              "quote": "In deeper water it occurs mainly on shell bottom.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1563",
               "locator": "Summary > Habitat",
-              "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "quote": "Found under boulders and stones on the lower shore on sheltered and semi-exposed rocky coasts and also in rockpools. Extends into the sublittoral to depths of about 100 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1111-raq.12208",
-              "locator": "Attraction of wild fish populations by shellfish farm structure, p. 935",
-              "quote": "Shellfish aquaculture introduces considerable hard physical structure into an environment (bottom and water column)",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "worms:123987",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Distribution From the lower shore to about 125 m depth, on rocky shores, under overhangs, under stones and in rock pools",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "biotic:6203",
+            "adw:Asterina_gibbosa"
+          ],
+          "support": [
+            {
+              "sourceId": "biotic:6203",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Benthic invertebrates including crustaceans, molluscs and other echinodermata.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Asterina_gibbosa",
+              "locator": "Food Habits",
+              "quote": "Their diet includes molluscs, worms and ophiuroids that are also found among rocky shores.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "adw:Asterina_gibbosa"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Asterina_gibbosa",
+              "locator": "Food Habits",
+              "quote": "Cushion stars are omnivorous. As with other starfish A. gibbosa feed themselves by inverting their stomachs in order to digest the food they eat. Their diet includes molluscs, worms and ophiuroids that are also found among rocky shores.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "adw:Asterina_gibbosa",
+            "biotic:6203"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Asterina_gibbosa",
+              "locator": "Food Habits",
+              "quote": "They also eat microorganisms, decaying seaweeds and dead invertebrates.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6203",
+              "locator": "General Biology > Feeding method",
+              "quote": "Growth form Stellate, Radial Feeding method Omnivore, Predator, Scavenger",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -22091,12 +22796,14 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:123803",
-        "marlin:1688",
-        "doi:10.3989-scimar.2012.76n1009",
         "bhl:mortensen-1927",
+        "biotic:4250",
+        "doi:10.3989-scimar.2012.76n1009",
+        "fishbase-fooditems:Gadus-morhua",
         "marlin:1194",
-        "doi:10.1111-raq.12208"
+        "marlin:1688",
+        "nrw:400",
+        "worms:123803"
       ],
       "claims": {
         "fieldNote": {
@@ -22106,20 +22813,27 @@
           "support": [
             {
               "sourceId": "marlin:1688",
-              "locator": "Identifying features",
-              "quote": "Up to 70 cm across. 5 narrow tapering arms Arms with 3 longitudinal rows of white, spines (usually purple tipped). Spines surrounded by cushions of pedicellariae. Pale grey to green tinged with purple, yellow or reddish in colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Marthasterias glacialis is a large starfish up to 70 cm across, commonly 25-30 cm. It has 5 narrow tapering arms with 3 rows of longitudinal spines along each arm. The spines are white, usually with purple tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1688",
-              "locator": "Description",
-              "quote": "Marthasterias glacialis is a large starfish up to 70 cm across, commonly 25-30 cm. It has 5 narrow tapering arms with 3 rows of longitudinal spines along each arm. The spines are white, usually with purple tips. spines are surrounded...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Marthasterias glacialis can be dirty brown to pale greyish green in colour with purple tips to the arms.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1688",
+              "locator": "Identifying features",
+              "quote": "Spines surrounded by cushions of pedicellariae. Pale grey to green tinged with purple, yellow or reddish in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwl4rug00027ifotr5rfmli": {
           "sourceIds": [
@@ -22128,20 +22842,20 @@
           "support": [
             {
               "sourceId": "marlin:1688",
-              "locator": "Identifying features",
-              "quote": "Up to 70 cm across. 5 narrow tapering arms Arms with 3 longitudinal rows of white, spines (usually purple tipped). Spines surrounded by cushions of pedicellariae. Pale grey to green tinged with purple, yellow or reddish in colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "It has 5 narrow tapering arms with 3 rows of longitudinal spines along each arm. The spines are white, usually with purple tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1688",
-              "locator": "Description",
-              "quote": "Marthasterias glacialis is a large starfish up to 70 cm across, commonly 25-30 cm. It has 5 narrow tapering arms with 3 rows of longitudinal spines along each arm. The spines are white, usually with purple tips. spines are surrounded...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Up to 70 cm across. 5 narrow tapering arms Arms with 3 longitudinal rows of white, spines (usually purple tipped).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwl4rug00037ifostqio1vi": {
           "sourceIds": [
@@ -22150,35 +22864,51 @@
           "support": [
             {
               "sourceId": "marlin:1688",
-              "locator": "Identifying features",
-              "quote": "Up to 70 cm across. 5 narrow tapering arms Arms with 3 longitudinal rows of white, spines (usually purple tipped). Spines surrounded by cushions of pedicellariae. Pale grey to green tinged with purple, yellow or reddish in colour.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "spines are surrounded by specialised minute modified spines (pedicellariae), which are used for protection and to gather food.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1688",
-              "locator": "Description",
-              "quote": "Marthasterias glacialis is a large starfish up to 70 cm across, commonly 25-30 cm. It has 5 narrow tapering arms with 3 rows of longitudinal spines along each arm. The spines are white, usually with purple tips. spines are surrounded...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Arms with 3 longitudinal rows of white, spines (usually purple tipped). Spines surrounded by cushions of pedicellariae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1688"
+            "marlin:1688",
+            "doi:10.3989-scimar.2012.76n1009",
+            "nrw:400"
           ],
           "support": [
             {
               "sourceId": "marlin:1688",
-              "locator": "Habitat",
-              "quote": "Marthasterias glacialis is found from extreme low water to about 200 m. It can be found in a variety of habitats from sheltered muddy sites to wave exposed rock faces.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "It can be found in a variety of habitats from sheltered muddy sites to wave exposed rock faces.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Introduction, p. 10",
+              "quote": "Marthasterias glacialis (Lamk.) is a conspicuous starfish inhabiting the intertidal and subtidal of the eastern Atlantic rocky coasts",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "nrw:400",
+              "locator": "Section 1.2, Starfish Survey in Skomer MCZ, p. 9",
+              "quote": "M. glacialis is found in the same rocky reef habitats as E. esculentus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
@@ -22189,46 +22919,30 @@
               "sourceId": "marlin:1688",
               "locator": "Summary > Description",
               "quote": "Marthasterias glacialis is a large starfish up to 70 cm across, commonly 25-30 cm.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "marlin:1688",
             "doi:10.3989-scimar.2012.76n1009"
           ],
           "support": [
             {
-              "sourceId": "marlin:1688",
-              "locator": "Summary > Habitat",
-              "quote": "Marthasterias glacialis is found from extreme low water to about 200 m. It can be found in a variety of habitats from sheltered muddy sites to wave exposed rock faces.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Introduction, p. 10",
+              "quote": "This invertebrate is a slow-moving predator that relies principally upon chemoreception and chance encounter to locate potential prey",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "doi:10.3989-scimar.2012.76n1009",
               "locator": "Introduction, p. 10",
-              "quote": "This invertebrate is a slow-moving predator that relies principally upon chemoreception and chance encounter to locate potential prey",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "doi:10.3989-scimar.2012.76n1009"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3989-scimar.2012.76n1009",
-              "locator": "Introduction, p. 10",
-              "quote": "This invertebrate is a slow-moving predator that relies principally upon chemoreception and chance encounter to locate potential prey",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "quote": "Importantly, M. glacialis is capable of exploiting a wide range of prey resources, and plays a key role in community structure through predation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -22271,37 +22985,140 @@
           "support": [
             {
               "sourceId": "marlin:1688",
-              "locator": "MarLIN species information review > Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Marthasterias glacialis is found from extreme low water to about 200 m.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
-            "marlin:1688",
-            "doi:10.1111-raq.12208"
+            "doi:10.3989-scimar.2012.76n1009",
+            "biotic:4250"
           ],
           "support": [
             {
-              "sourceId": "marlin:1688",
-              "locator": "Summary > Habitat",
-              "quote": "Marthasterias glacialis is found from extreme low water to about 200 m. It can be found in a variety of habitats from sheltered muddy sites to wave exposed rock faces.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Summary, p. 9",
+              "quote": "Mussels (Mytilus galloprivincialis) were the most preyed food item across all depth strata, followed by gastropods, sea urchins and barnacles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1111-raq.12208",
-              "locator": "Attraction of wild fish populations by shellfish farm structure, p. 936",
-              "quote": "Often, the extent to which these animals are attracted to the structure itself (e.g., as a refuge from predators) or to the prey associated with the structure is unclear",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Summary, p. 9",
+              "quote": "M. glacialis also consumed a significantly larger amount of mussels in feeding experiments compared with sea urchins and gastropods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4250",
+              "locator": "Distribution Additional Information > Factors affecting zonation",
+              "quote": "In Ireland, however, the lower limit is probably controlled by the crabs Carcinus sp. and Liocarcinus sp., the dog whelk Nucella lapillus and the starfish Marthasterias glacialis (Kitching & Ebling, 1967).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: created. The FARM map in build-foodweb.mjs restricts created to hard-substrate obligates, species that physically cannot occupy bare soft sediment, and lists Spiny Starfish there. The source says: Marthasterias glacialis is found from extreme low water to about 200 m. It can be found in a variety of habitats from sheltered muddy sites to wave exposed rock faces."
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "doi:10.3989-scimar.2012.76n1009"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Summary, p. 9",
+              "quote": "Mussels (Mytilus galloprivincialis) were the most preyed food item across all depth strata, followed by gastropods, sea urchins and barnacles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Results > Feeding, p. 12",
+              "quote": "followed by prosobranch gastropods (ca. 2%), sea urchins (Paracentrotus lividus, (ca. 0.5%) and barnacles (ca. 0.5%)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.3989-scimar.2012.76n1009"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Summary, p. 9",
+              "quote": "Mussels (Mytilus galloprivincialis) were the most preyed food item across all depth strata, followed by gastropods, sea urchins and barnacles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Introduction, p. 10",
+              "quote": "For example, in the Mediterranean it can control densities of the sea urchin Paracentrotus lividus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.3989-scimar.2012.76n1009",
+            "marlin:1194"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Discussion, pp. 13-14",
+              "quote": "In this regard, the predators, ... such as the starfish Luidia ciliaris (Philippi), ... and the sunstars Solaster endeca (L.) and Crossaster papposus (L.), identified in the northern distribution range of this species",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Biology review > Biology > Feeding",
+              "quote": "Other species of the benthic fauna, including prey species Marthasterias glacialis , Buccinum undatum and several species of ophiuroids, demonstrate avoidance reactions in the presence of the predatory starfish Asterias rubens",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.3989-scimar.2012.76n1009"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.3989-scimar.2012.76n1009",
+              "locator": "Discussion, pp. 13-14",
+              "quote": "In this regard, the predators, ... the crabs Hyas araneus (L.) and Cancer pagurus (L.), ... identified in the northern distribution range of this species",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items > zoobenthos > echinoderms > sea stars/brittle stars",
+              "quote": "Marthasterias sp. UK Scotland recruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

@@ -1652,7 +1652,7 @@
     "cephalopodForm": [
       "squid"
     ],
-    "fieldNote": "Very like the veined squid but with shorter rear fins (a little over half the body length). A fast, torpedo-bodied schooler of open shelf water, reddish and quick to flush pale."
+    "fieldNote": "Very like the veined squid, but its diamond-shaped fins are shorter, about 55 to 65% of the mantle length against 70 to 75%, and the two central rows of suckers on each tentacle club are much larger than the outer rows. A shelf-water squid of the coast down to about 500 m, close to the bottom by day and up in the water column to feed at night."
   },
   "Sepiola atlantica": {
     "commonName": "Atlantic Bobtail",
@@ -1685,7 +1685,7 @@
     "cephalopodForm": [
       "bobtail"
     ],
-    "fieldNote": "A thumbnail-sized cephalopod (also called the Little Cuttlefish) with a stubby rounded body and small ear-like fins. Buries in clean sand by day with just its eyes showing, and is flecked with iridescent specks."
+    "fieldNote": "A thumbnail-sized bobtail squid, also called the little cuttlefish: a plump, rounded body of about 2 cm with short rounded fins that do not run its whole length. It buries itself in sand by day and takes mysids and shrimps just above the seabed at dawn and dusk."
   },
   "Eledone cirrhosa": {
     "commonName": "Curled Octopus",
@@ -1719,7 +1719,7 @@
     "cephalopodForm": [
       "octopus"
     ],
-    "fieldNote": "Our commonest octopus: a smooth, sac-like body and eight long arms that curl at the tips, each arm with a SINGLE row of suckers (the key difference from the common octopus). Orange-brown, tucked into rocky crevices."
+    "fieldNote": "A broad, ovoid body and eight moderately short arms, curled when at rest, each with a single row of suckers (the common octopus has two rows). Orange to red-brown above, white below. Found on all British and Irish coasts, abundant off Scotland."
   },
   "Octopus vulgaris": {
     "commonName": "Common Octopus",
@@ -1753,7 +1753,7 @@
     "cephalopodForm": [
       "octopus"
     ],
-    "fieldNote": "Bulbous-headed with eight arms and warty skin, changing colour and texture in a blink. Each arm carries TWO rows of suckers (vs the single row of the curled octopus). Dens in rock holes; mostly a southern and western visitor."
+    "fieldNote": "Warty skin and thick, stout arms, its colour shifting through grey, yellow, brown and green to suit the situation. Each arm carries TWO rows of suckers, against the single row of the curled octopus (Eledone cirrhosa). Dens by day in a crevice in a rocky reef or a hole worked into softer sediment, and is active mainly at night. In Britain it reaches its north-eastern limit in the southwest and the western English Channel."
   },
   "Asterina gibbosa": {
     "commonName": "Cushion Star",
@@ -1786,7 +1786,7 @@
     "armForm": [
       "short-stubby"
     ],
-    "fieldNote": "A small, fat-armed star shaped almost like a five-pointed cushion. Slightly puffy and fleshy, greenish-grey to orange, found tucked under stones on the lower shore."
+    "fieldNote": "A small starfish, up to about 5 cm across, with five very short broad-based arms, so it looks more like a rounded pentagon than a pointed star. The upper surface is domed and covered with groups of short stiff spines, and the colour is variable but usually brown, green or orange. Look under boulders and stones on the lower shore and in rockpools. Every cushion star begins life as a male and becomes female as it grows."
   },
   "Marthasterias glacialis": {
     "commonName": "Spiny Starfish",
@@ -1817,7 +1817,7 @@
     "armForm": [
       "long-spiny"
     ],
-    "fieldNote": "Big and unmistakable: five long tapering arms lined with three rows of white spines, each spine ringed with blue at its base. Pale grey-green, on rocky shores; large ones can span a forearm."
+    "fieldNote": "A big, spiny starfish: five narrow tapering arms, each with three lines of white, purple-tipped spines set in cushions of pedicellariae. Dirty brown to pale greyish green, up to 70 cm across but usually 25-30 cm."
   },
   "Asterias rubens": {
     "commonName": "Common Starfish",

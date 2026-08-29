@@ -561,32 +561,86 @@
   },
   "Loligo vulgaris": {
     "depth": {
-      "text": "0-500 m"
+      "text": "Surface down to about 500 m, but usually shallower than 100 m"
+    },
+    "size": {
+      "text": "Mantle up to 640 mm in males and 485 mm in females, to 2.3 kg; over 500 mm in European waters"
+    },
+    "habitat": {
+      "text": "Coastal shelf water over coarse sand, silt or seagrass; needs firm objects to attach its egg strings to"
+    },
+    "behaviour": {
+      "text": "Close to the seabed by day, spreading up into the water column to feed at night"
     }
   },
   "Sepiola atlantica": {
     "depth": {
-      "text": "Subtidal to over 400 m"
+      "text": "Sublittoral to about 150 m, and on the shelf and upper slope to over 400 m; commonest at 50-120 m off Scotland and 6-50 m in Iberian waters"
+    },
+    "size": {
+      "text": "Up to about 24 mm mantle length, with mature adults averaging around 15 mm"
+    },
+    "habitat": {
+      "text": "Clean sand and gravel on the continental shelf out to the edge of the slope, and inshore in rockpools"
+    },
+    "behaviour": {
+      "text": "Bottom-living; buries itself in sand by day and forages above the seabed at dawn and dusk"
     }
   },
   "Eledone cirrhosa": {
     "depth": {
-      "text": "0-500 m"
+      "text": "0 to 700 m, with most catches between 50 and 300 m"
+    },
+    "size": {
+      "text": "Up to about 55 cm total length, mantle to 250 mm, and about 1.2 kg"
+    },
+    "habitat": {
+      "text": "Rocky coasts from the lower shore into the sublittoral, and soft bottoms over a wide depth range"
+    },
+    "behaviour": {
+      "text": "In aquaria, largely sedentary in dens or among rocks, long quiet spells broken by bouts of activity and hunting; also buries itself in sand"
     }
   },
   "Octopus vulgaris": {
     "depth": {
-      "text": "0-200 m"
+      "text": "Shoreline to 250 m, typically shallower than 100 m"
+    },
+    "size": {
+      "text": "Total length to 1.3-1.8 m; mantle length to 40 cm, commonly around 25 cm; weight to over 20 kg"
+    },
+    "habitat": {
+      "text": "Intertidal to shallow subtidal on the continental shelf, over rocky, sandy or muddy ground"
+    },
+    "behaviour": {
+      "text": "Mainly night active, spending daylight hours in a den in a rock crevice or dug into soft sediment"
     }
   },
   "Asterina gibbosa": {
     "depth": {
-      "text": "Lower shore to about 100 m"
+      "text": "Lower shore down to about 100 m, with records to about 125 m"
+    },
+    "size": {
+      "text": "Up to about 5 cm across"
+    },
+    "habitat": {
+      "text": "Under boulders and stones and in crevices on sheltered to semi-exposed rocky shores, and in rockpools"
+    },
+    "behaviour": {
+      "text": "Solitary and slow-moving, crawling over rock and the seabed surface; feeds as an omnivore, predator and scavenger"
     }
   },
   "Marthasterias glacialis": {
     "depth": {
-      "text": "Low water to about 200 m"
+      "text": "From extreme low water down to about 200 m"
+    },
+    "size": {
+      "text": "Up to 70 cm across, commonly 25-30 cm"
+    },
+    "habitat": {
+      "text": "From the intertidal into the subtidal on rocky coasts, in a variety of habitats from sheltered muddy sites to wave exposed rock faces"
+    },
+    "behaviour": {
+      "text": "A slow-moving predator that finds prey by chemoreception and chance encounter, taking a wide range of prey"
     }
   },
   "Asterias rubens": {
