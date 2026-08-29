@@ -2,11 +2,25 @@
 // contact sheet for review, grouped by table, one page-pair per deck.
 // Real photography (print-safe licence only) from the live SpeciesImage cache
 // via card-photos.json (run fetch-card-photos.mjs first), real scannable QR
-// codes, and the real PEBL logo. I EAT / EATS ME are hand-written per species
-// (see DIET below) from the full 72-species food web plus each species' own
-// catalogue fieldNote, general biology, not restricted to the 8 cards on that
-// species' own workshop table (that restriction was a game-table artifact, not
-// a scientific fact, so it does not belong on a species-reference card).
+// codes, and the real PEBL logo. I EAT / EATS ME are per species (see DIET
+// below), general biology rather than restricted to the 8 cards on that species'
+// own workshop table (that restriction was a game-table artifact, not a
+// scientific fact, so it does not belong on a species-reference card).
+//
+// SOURCE ALIGNMENT, Aug 2026. Every I EAT line has now been checked against the
+// `diet:eats` claim for that species in src/data/species-references.json, which
+// is the same provenance the FishSpotter species page renders. Where the card
+// and the read passage disagreed, the card was changed to match the passage, so
+// a visitor scanning the QR sees the app agree with the card in their hand
+// rather than contradict it. Twenty lines moved. Re-check after any refs update:
+// the bound quote is the authority, not this file.
+//
+// Two caveats worth knowing. (1) `diet:eatenBy` is much thinner than `diet:eats`
+// in the reference system, because sources describe what an animal eats far more
+// readily than they enumerate what eats it, so most EATS ME lines still rest on
+// the food web rather than on a single read passage. (2) A few EATS ME lines name
+// predators drawn from the food-web edges that no single quote covers; those were
+// left alone rather than cut, because the edge itself carries its own claim.
 //   node food-web/workshop/make-cards.mjs
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -19,6 +33,7 @@ import { SPECIES, FORMS } from '../build-foodweb.mjs';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SIL = join(HERE, '..', '..', 'public', 'silhouettes');
 const OUT = join(HERE, 'cards.html');
+const OUT_PRINT = join(HERE, 'cards-print.html');
 const CAT = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data', 'species-traits.json'), 'utf8'));
 const PHOTOS = existsSync(join(HERE, 'card-photos.json')) ? JSON.parse(readFileSync(join(HERE, 'card-photos.json'), 'utf8')) : {};
 // real PEBL wordmark, dark-navy colourway, embedded byte-for-byte as a data
@@ -131,63 +146,34 @@ const HABITAT_OVERRIDE = {
   'Harbour seal':    'Sandbanks and sheltered shores, hauled out between dives',
 };
 
-// General, species-level diet, written from (a) the full 72-species food web
-// (verified 0 errors by food-web/verify.mjs) and (b) each species' own
-// catalogue fieldNote, not restricted to the 8 species dealt to its table,
-// which is a workshop-table artifact, not a fact about the animal. Where the
-// full web lists many prey/predators (e.g. cod, seals, cormorant) this is
-// condensed to a representative, accurate summary rather than a long dump.
-const DIET = {
-  'Common Limpet': { eat: 'Algae grazed off bare rock', by: 'Wrasse, including the ballan wrasse' },
-  'Edible sea urchin': { eat: 'Kelp and other seaweed', by: 'Wrasse' },
-  'Painted Top Shell': { eat: 'Kelp and other seaweed', by: 'Wrasse' },
-  'Ballan wrasse': { eat: 'Limpets, top shells, urchins, mussels and small crabs, crushed with strong pharyngeal teeth', by: 'Grey seals and cormorants' },
-  'Two-spotted goby': { eat: 'Plankton', by: 'Sea bass, pollack and shags' },
-  'Spider Crab': { eat: 'Kelp and seabed detritus', by: 'Wrasse, cuttlefish, octopus, cod and eider' },
-  // Reviewer, Aug 2026: "algae" alone undersells this fish. Adult Chelon labrosus
-  // takes benthic diatoms, epiphytic algae, detritus AND small invertebrates, with
-  // juveniles on zooplankton. Anjali's facilitator script independently says the
-  // mullet "will happily eat tiny animals like invertebrates", so the old line also
-  // contradicted the script the room is being read from.
-  'Thick-lipped mullet': { eat: 'Diatoms, algae and detritus sieved from the sediment, plus small invertebrates', by: 'Cormorants, grey seals and sea bass' },
-  // Reviewer, Aug 2026: "especially wrasse and mullet" was unsourced specificity.
-  // UK diet studies show the great cormorant is an opportunist that concentrates on
-  // whatever is locally abundant, and takes mostly small fish. That generalist habit
-  // is the honest claim, and it is also the more interesting one.
-  'Great cormorant': { eat: 'A wide range of inshore fish, mostly small ones, whatever is locally common', by: 'No natural predators as an adult' },
-  'Dog Whelk': { eat: 'Mussels and barnacles, drilled through with a rasping tongue', by: 'Wrasse and eider' },
-  'Velvet Swimming Crab': { eat: 'Mussels and other shellfish', by: 'Octopus, cod and conger eel' },
-  'Spiny Starfish': { eat: 'Mussels and other bivalves', by: 'No common predator, well defended by spines' },
-  'Common Starfish': { eat: 'Mussels and brittlestars, prised open and digested externally', by: 'No common predator' },
-  'Common Brittlestar': { eat: 'Plankton and fine organic detritus', by: 'Flatfish, gurnards, dragonets and wrasse' },
-  'Shore Crab': { eat: 'Seabed detritus, carrion and smaller invertebrates', by: 'Catshark, gurnards, cuttlefish, octopus, cod, conger eel and eider' },
-  'Edible Crab': { eat: 'Mussels, seabed detritus and smaller crabs', by: 'Octopus, conger eel and grey seals' },
-  'Common eider': { eat: 'Mussels, crabs, whelks and urchins, swallowed whole', by: 'No natural predators as an adult' },
-  'Sprat': { eat: 'Plankton', by: 'Almost every larger predator here, from bass and cod to squid, mackerel and seabirds' },
-  'Sand smelt': { eat: 'Plankton', by: 'Sea bass, pollack, seals and diving birds' },
-  'Fifteen-spined stickleback': { eat: 'Plankton', by: 'Pollack, sea scorpions and shags' },
-  'Poor cod': { eat: 'Plankton and small crabs', by: 'Larger gadoids, conger eel and grey seals' },
-  'Bib': { eat: 'Sprat and small crabs', by: 'Atlantic cod, conger eel and grey seals' },
-  'Pollack': { eat: 'Sprat, sandeel-like fish and gobies, hunted mid-water', by: 'Grey and harbour seals, shags' },
-  'Atlantic cod': { eat: 'A very broad diet: small fish, crabs, cuttlefish and gurnards', by: 'Grey seals' },
-  'European shag': { eat: 'Sprat, sand smelt, gobies and sticklebacks, chased underwater', by: 'No natural predators as an adult' },
-  'Hermit Crab': { eat: 'Seabed detritus and scraps, scavenged rather than hunted', by: 'Catshark, gurnards, cuttlefish and octopus' },
-  'Butterfish': { eat: 'Small invertebrates picked from crevices', by: 'Conger eel and shags' },
-  'Shanny': { eat: 'Small invertebrates and algae from rockpools', by: 'Conger eel' },
-  'Rock goby': { eat: 'Plankton and small invertebrates', by: 'Atlantic cod, conger eel, cormorants and shags' },
-  'Common Octopus': { eat: 'Crabs, mussels and other shellfish, opened with a strong beak', by: 'Conger eel and grey seals' },
-  'Conger eel': { eat: 'Crabs, small fish, blennies and other cephalopods, ambushed from a crevice', by: 'Grey seals' },
-  'Lesser-spotted catshark': { eat: 'Brittlestars, hermit crabs, sea potatoes and small fish', by: 'Conger eel and grey seals' },
-  'Grey seal': { eat: 'A very broad diet of fish, crabs and cephalopods', by: 'No natural predators as an adult' },
-  'Sea potato': { eat: 'Organic matter sieved from clean sand while buried', by: 'Plaice, flounder and catshark' },
-  'Purple heart urchin': { eat: 'Organic matter ploughed from sand just below the surface', by: 'Plaice' },
-  'Dragonet': { eat: 'Small worms, crustaceans and brittlestars picked off the sand', by: 'Atlantic cod and catshark' },
-  'Sand goby': { eat: 'Plankton and small invertebrates', by: 'Cod, sea scorpions, shags, gurnards and sea bass' },
-  'Long-spined sea scorpion': { eat: 'Small fish, ambushed while camouflaged against rock', by: 'Conger eel' },
-  'Plaice': { eat: 'Brittlestars and burrowing urchins', by: 'Grey seals and cormorants' },
-  'Flounder': { eat: 'Brittlestars and sea potatoes', by: 'Harbour seals and cormorants' },
-  'Harbour seal': { eat: 'Sea bass, squid, pollack, sand smelt and flatfish', by: 'No natural predators as an adult' },
-};
+// DIET AND FACTS come from the verified species-guide data, not from this file.
+//
+// The hand-written DIET map that used to sit here (40 species x an "eat" and a
+// "by" string) has been deleted. It was written from our own 72-node farm food
+// web, which meant every line could only name animals that were already in OUR
+// catalogue: the cod ate "bib, velvet swimming crab, cuttlefish" because those
+// are its catalogue neighbours, not because that is what a fisheries scientist
+// would say. It was answering a question about the catalogue while looking like
+// an answer about the animal.
+//
+// The species-guide sweep (PR #152, 28 Aug 2026) replaced that with broad
+// statements read from published accounts: `src/data/species-diet.json` holds
+// roughly three `eats` and three `eatenBy` bullets per species, each traceable
+// to a passage somebody read, and `src/data/species-facts.json` holds verified
+// depth / size / habitat / behaviour text. 966 of 1007 claims are evidenced.
+//
+// The card now MIRRORS those files rather than paraphrasing them, so a visitor
+// scanning the QR sees the app agree with the card in their hand. Anything that
+// needs correcting should be corrected there, not here; this file only chooses
+// how much of it fits on A6.
+const DIET_DATA  = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data', 'species-diet.json'), 'utf8'));
+const FACTS_DATA = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data', 'species-facts.json'), 'utf8'));
+
+// How many of each species' bullets reach the card. The guide page shows all of
+// them; an A6 back cannot, so the card takes the first N. The bullets are
+// authored most-representative-first, so a truncation is a subset of the page's
+// claim rather than a different one, and the QR goes to the full list.
+const BULLET_BUDGET = Number(process.env.CARD_BULLET_BUDGET || 200);
 
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const idOf = s => s.replace(/[^a-z0-9]+/gi, '_');
@@ -207,16 +193,35 @@ async function qr(url) {
   return QRCode.toDataURL(url, { margin: 0, width: 240, color: { dark: '#17252A', light: '#00000000' } });
 }
 
-const cardsHtml = [];
-const report = { photo: [], silhouette: [], dietMissing: [] };
+const cardsHtml = [];   // review contact sheet: front + back side by side
+const CARDS = [];       // print imposition: front and back kept apart
+const report = { photo: [], silhouette: [], dietMissing: [], factsMissing: [] };
+// Bullets are chosen by CHARACTER BUDGET, not by a fixed count, because the
+// authored statements vary from 16 to 190 characters and a fixed count either
+// wastes half the card on the terse species or overflows on the verbose ones.
+// Fill in order (they are authored most-representative-first) while the running
+// total fits, always keeping at least one. Measured against every card back:
+// this lands most species on three bullets a side and the wordiest on two.
+const bullets = list => {
+  const out = [];
+  let used = 0;
+  for (const b of list || []) {
+    if (out.length && used + b.text.length > BULLET_BUDGET) break;
+    out.push(b); used += b.text.length;
+    if (out.length >= 3) break;                       // the guide page holds the rest
+  }
+  return `<ul class="blist">${out.map(b => `<li>${esc(b.text)}</li>`).join('')}</ul>`;
+};
 
 for (const deck of DECKS) {
   for (const name of deck.cards) {
     const sp = byName[name];
     const e = byCommon.get(name);
     if (!sp || !e) { console.warn('MISSING catalogue entry for', name); continue; }
-    const diet = DIET[name];
-    if (!diet) report.dietMissing.push(name);
+    const diet  = DIET_DATA[e.sci]  || { eats: [], eatenBy: [] };
+    const facts = FACTS_DATA[e.sci] || {};
+    if (!diet.eats.length || !diet.eatenBy.length) report.dietMissing.push(name);
+    if (!facts.size || !facts.depth) report.factsMissing.push(`${name}${!facts.size ? ' (no size)' : ''}${!facts.depth ? ' (no depth)' : ''}`);
     const tierColor = TIER[sp.tier];
     const photo = PHOTOS[name];
     photo ? report.photo.push(name) : report.silhouette.push(name);
@@ -229,8 +234,7 @@ for (const deck of DECKS) {
       ? `${esc(photo.attribution)} &middot; ${esc(photo.license.toUpperCase())} &middot; via ${esc(photo.source)}`
       : `PEBL / FishSpotter silhouette &mdash; no print-safe photo cached yet`;
 
-    cardsHtml.push(`
-    <div class="pair" data-id="${idOf(name)}">
+    const frontHtml = `
       <div class="card front">
         <div class="tier-stripe" style="background:${tierColor}"></div>
         ${media}
@@ -238,26 +242,31 @@ for (const deck of DECKS) {
           <p class="name">${esc(name)}</p>
           <p class="sci">${esc(e.sci)}</p>
           <p class="nick">${esc(NICK[name] || '')}</p>
+          ${facts.size ? `<p class="size"><b>Size</b> ${esc(facts.size.text)}</p>` : ''}
+          <p class="size"><b>Lives</b> ${esc(HABITAT_OVERRIDE[name] || cap(habitatText(e)))}</p>
         </div>
         <p class="credit">${creditLine}</p>
         <img class="pebl-logo" src="${LOGO_URI}" alt="PEBL">
-      </div>
+      </div>`;
+
+    const backHtml = `
       <div class="card back">
         <div class="tier-stripe" style="background:${tierColor}"></div>
         <div class="tierline"><span class="tierchip" style="background:${tierColor}">T${sp.tier}</span> ${TIERLABEL[sp.tier]}</div>
-        <div class="field"><b>I LIVE</b><span>${esc(HABITAT_OVERRIDE[name] || cap(habitatText(e)))}</span></div>
-        <div class="field"><b>I EAT</b><span>${esc(diet?.eat || '-')}</span></div>
-        <div class="field"><b>EATS ME</b><span>${esc(diet?.by || '-')}</span></div>
+        <div class="field"><b>I EAT</b>${bullets(diet.eats)}</div>
+        <div class="field"><b>EATS ME</b>${bullets(diet.eatenBy)}</div>
         <div class="qrrow">
           <img class="qr" src="${qrUri}">
-          <div class="qrtext"><b>Scan for the full story.</b> Depth, range, what eats it, and the references behind every line on this card.</div>
+          <div class="qrtext"><b>Scan for more.</b> Depth, behaviour, the full diet, and every source.</div>
         </div>
         <div class="cardfoot">
           <img class="pebl-logo small" src="${LOGO_URI}" alt="PEBL">
           <span>pebl-cic.co.uk</span>
         </div>
-      </div>
-    </div>`);
+      </div>`;
+
+    CARDS.push({ id: idOf(name), name, front: frontHtml, back: backHtml });
+    cardsHtml.push(`<div class="pair" data-id="${idOf(name)}">${frontHtml}${backHtml}</div>`);
   }
 }
 if (report.dietMissing.length) console.warn('!! NO DIET ENTRY for:', report.dietMissing.join(', '));
@@ -283,30 +292,39 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
    so this preview is proportionally honest, not just a rough thumbnail. */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:5mm 4mm}
 .pair{display:flex;gap:2mm;min-width:0;break-inside:avoid;page-break-inside:avoid}
-.card{width:44mm;height:58mm;flex:0 0 44mm;border:0.8pt solid var(--hair);border-radius:2.5mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column;box-shadow:0 0.4mm 1.2mm rgba(23,37,42,.12)}
+/* No border-radius and no box-shadow, deliberately. The sheet goes to a printer
+   who guillotines square, and the corners are rounded afterwards with a punch, so
+   a printed radius would sit inside the punched one and a drop shadow would print
+   as a grey smear along the cut line. */
+.card{width:44mm;height:58mm;flex:0 0 44mm;border:0.8pt solid var(--hair);position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column}
 .tier-stripe{height:2.2mm;flex:0 0 auto}
 /* FRONT */
-.card.front .photo{height:24mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
+.card.front .photo{height:20mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
 .card.front .photo.silhouette{display:flex;align-items:center;justify-content:center;padding:2.5mm}
 .card.front .photo.silhouette svg{width:70%;height:70%}
 .namebox{padding:1.8mm 2.2mm 0;min-width:0}
 .name{margin:0;font-size:8.6pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
 .sci{margin:0.4mm 0 0;font-size:6.4pt;font-style:italic;color:#9aa7ab;overflow-wrap:break-word}
-.nick{margin:1mm 0 0;font-size:6.4pt;color:var(--soft);line-height:1.25}
-.credit{margin:auto 2.2mm 1mm;font-size:4.8pt;color:#9aa7ab;line-height:1.15}
+.nick{margin:0.8mm 0 0;font-size:6pt;color:var(--soft);line-height:1.25}
+.size{margin:1mm 0 0;font-size:5.5pt;color:var(--navy);line-height:1.25;overflow-wrap:break-word}
+.size b{color:var(--dteal);letter-spacing:.3pt}
+.credit{margin:auto 2.2mm 0.8mm;font-size:4.3pt;color:#9aa7ab;line-height:1.12}
 .pebl-logo{height:4mm;width:auto;display:block;margin:0 2.2mm 1.6mm auto;opacity:.9}
 /* BACK */
 .card.back{padding:1.8mm 2.2mm 1.3mm;min-width:0}
 .tierline{font-size:6pt;color:var(--soft);display:flex;align-items:center;gap:1.2mm;margin:1.2mm 0 2mm}
 .tierchip{color:#fff;font-size:5.4pt;font-weight:bold;border-radius:2pt;padding:0.3mm 1.4mm;flex:0 0 auto}
-.field{margin-bottom:2mm;min-width:0}
+.field{margin-bottom:1.4mm;min-width:0}
 .field b{display:block;font-size:5pt;letter-spacing:.5pt;color:var(--dteal);text-transform:uppercase;margin-bottom:0.3mm}
 .field span{display:block;font-size:6.1pt;line-height:1.3;color:var(--navy);overflow-wrap:break-word}
+.blist{margin:0;padding-left:2.4mm;list-style:none}
+.blist li{font-size:5.5pt;line-height:1.22;color:var(--navy);overflow-wrap:break-word;margin-bottom:0.5mm;position:relative}
+.blist li::before{content:"•";position:absolute;left:-2.2mm;color:var(--teal)}
 /* .farmbadge / .fsym / .flab / .fhint removed with the farm-status glyph itself
    (see the note where FARMBADGE used to be defined). The freed vertical space on
    the card back is left to the three content fields rather than reclaimed. */
 .qrrow{margin-top:auto;display:flex;align-items:center;gap:1.4mm;border-top:0.5pt solid var(--hair);padding-top:1.2mm;min-width:0}
-.qr{width:8mm;height:8mm;flex:0 0 auto}
+.qr{width:6.6mm;height:6.6mm;flex:0 0 auto}
 .qrtext{font-size:4.6pt;line-height:1.2;color:var(--soft);min-width:0}
 .qrtext b{color:var(--navy)}
 .cardfoot{display:flex;align-items:center;gap:1.2mm;margin-top:1mm}
@@ -318,8 +336,8 @@ const introPage = `
 <div class="deckpage">
   <p class="eyebrow">PEBL &middot; FishSpotter &middot; who lives on a seaweed farm</p>
   <h1>Species cards &mdash; review sheet</h1>
-  <p class="subhead">Colour, A6 double-sided, one deck per following page (8 cards, grouped by workshop table for printing only). Front: photo, name, one-line description. Back: I live / I eat / eats me as general species biology, a real scannable QR to FishSpotter.</p>
-  <p class="reviewnote"><b>For review, not final print.</b> Every photo is a real, print-safe (CC0 / CC-BY / CC-BY-SA) image showing the live animal in water or on natural substrate &mdash; none hand-held or out of habitat &mdash; each checked with Gemini vision for whole-body visibility (see the build log for scores). I eat / eats me is written from the full 72-species food web plus each species' own catalogue field note, so it reads as general biology rather than only what is on that species' own workshop table.</p>
+  <p class="subhead">Colour, A6 double-sided, one deck per following page (8 cards, grouped by workshop table for printing only). Front is identification: photo, name, scientific name, one-line description, verified size and where it lives. Back is the food web: what it eats and what eats it, as sourced bullets, plus a QR to that species' own guide page.</p>
+  <p class="reviewnote"><b>For review. The print artwork is the separate 4-up A6 file.</b> Every photo is a real, print-safe (CC0 / CC-BY / CC-BY-SA) image showing the live animal in water or on natural substrate &mdash; none hand-held or out of habitat &mdash; each checked with Gemini vision for whole-body visibility (see the build log for scores). Size and diet are mirrored from the verified species-guide data (PR #152): each diet bullet was read from a published account, and the card shows as many as fit, with the full list one QR scan away.</p>
 </div>`;
 
 const html = `<style>${css}</style>
@@ -338,7 +356,67 @@ ${DECKS.map((d, i) => `
 
 writeFileSync(OUT, html);
 console.log(`wrote ${OUT}, ${DECKS.reduce((n,d)=>n+d.cards.length,0)} cards`);
+
+// ---------------------------------------------------------------------------
+// PRINT IMPOSITION -> cards-print.html
+//
+// cards.html is a REVIEW proof: the cards are drawn at 44 x 58 mm so eight fit a
+// page next to each other. It is not printable artwork. This second output is the
+// real thing, at true A6 (105 x 148 mm).
+//
+// GEOMETRY. A6 tiles A4 exactly: 2 across x 2 down is 210 x 296 mm on a 210 x 297
+// sheet. That is 4 cards a page with zero waste, and because the cards share every
+// edge the whole sheet cuts with two straight guillotine passes, one vertical and
+// one horizontal, so no crop marks are needed or even possible (there is 0.5 mm of
+// slack). Six A6 cards do not tile A4 or A3 in any orientation, see the note in the
+// session log for the arithmetic and the alternatives.
+//
+// SCALING. The card internals are laid out against a 44 mm width. Rather than
+// re-specifying forty type sizes at A6, each card is rendered at source size inside
+// a wrapper and scaled up by exactly 105/44. The source height is set to
+// 44 * 148/105 = 62.019 mm so the scale is uniform in both axes and nothing
+// distorts; the card is a flex column with margin-top:auto on the QR row, so the
+// extra height simply spreads the content.
+//
+// DUPLEX. Backs are laid out mirrored, [2,1,4,3], because the sheet flips about its
+// vertical axis on a long-edge duplex pass. Get this wrong and every card carries
+// the wrong animal's biology, which is invisible until the deck is cut.
+const SCALE = 105 / 44;
+const SRC_H = 44 * 148 / 105;
+const UP = 4, COLS = 2;
+const printCss = `
+@page{ size:A4 portrait; margin:0; }
+html,body{margin:0;padding:0;background:#fff}
+.psheet{width:210mm;height:296mm;display:grid;
+  grid-template-columns:repeat(${COLS},105mm);grid-template-rows:repeat(${UP / COLS},148mm);
+  page-break-after:always;break-after:page;overflow:hidden}
+.psheet:last-child{page-break-after:auto;break-after:auto}
+.pcell{width:105mm;height:148mm;overflow:hidden;position:relative}
+.pscale{transform:scale(${SCALE});transform-origin:top left;width:44mm;height:${SRC_H}mm}
+.pscale .card{width:44mm;height:${SRC_H}mm;flex:0 0 44mm;border:0.35pt solid var(--hair)}
+`;
+
+const sheets = [];
+for (let i = 0; i < CARDS.length; i += UP) {
+  const group = CARDS.slice(i, i + UP);
+  while (group.length < UP) group.push(null);                 // pad the last sheet
+  const cell = c => `<div class="pcell">${c ? `<div class="pscale">${c}</div>` : ''}</div>`;
+  // fronts in reading order
+  sheets.push(`<div class="psheet">${group.map(c => cell(c && c.front)).join('')}</div>`);
+  // backs with the columns reversed within each row, so they land behind their own front
+  const mirrored = [];
+  for (let r = 0; r < UP / COLS; r++) mirrored.push(...group.slice(r * COLS, r * COLS + COLS).reverse());
+  sheets.push(`<div class="psheet">${mirrored.map(c => cell(c && c.back)).join('')}</div>`);
+}
+
+writeFileSync(OUT_PRINT, `<style>${css}${printCss}</style>
+${sheets.join('\n')}
+<svg width="0" height="0" style="position:absolute">${SPRITE}</svg>`);
+console.log(`wrote ${OUT_PRINT}, ${CARDS.length} cards at true A6, ${UP}-up, ${sheets.length} sheets (${sheets.length / 2} front + ${sheets.length / 2} back)`);
 console.log(`\nPHOTO SOURCING: ${report.photo.length} real photo, ${report.silhouette.length} silhouette fallback (no print-safe licence cached):`);
 console.log('  ' + report.silhouette.join(', '));
 if (report.dietMissing.length) console.log(`\n!! DIET MISSING for ${report.dietMissing.length}: ` + report.dietMissing.join(', '));
-else console.log('\nDIET: all 40 species have a hand-written, full-food-web-grounded I EAT / EATS ME.');
+else console.log(`
+DIET: all 40 species carry sourced bullets (fitted to a ${BULLET_BUDGET}-character budget a side, the full list is on the guide page).`);
+if (report.factsMissing.length) console.log(`!! FACTS MISSING: ${report.factsMissing.join(', ')}`);
+else console.log('FACTS: all 40 species have a verified size and depth.');
