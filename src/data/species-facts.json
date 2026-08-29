@@ -807,32 +807,86 @@
   },
   "Eutrigla gurnardus": {
     "depth": {
-      "text": "10-340 m (usually 10-150 m)"
+      "text": "10-340 m, usually 10-150 m"
+    },
+    "size": {
+      "text": "Up to 50-60 cm, commonly around 30 cm"
+    },
+    "habitat": {
+      "text": "Coastal demersal, on sandy grounds and also rocky or muddy bottoms, from the coastline down to about 140 m"
+    },
+    "behaviour": {
+      "text": "Lives on the bottom and makes croaking sounds; the young are pelagic until about 3 cm long"
     }
   },
   "Chelidonichthys cuculus": {
     "depth": {
-      "text": "15-400 m (usually 30-250 m)"
+      "text": "15-400 m, usually 30-250 m"
+    },
+    "size": {
+      "text": "Maximum 50-70 cm; common length 27.6 cm, females 20.4 cm"
+    },
+    "habitat": {
+      "text": "Demersal, over sand, gravel, crag and rock on the continental shelf"
+    },
+    "behaviour": {
+      "text": "Occasionally forms schools; feels for food with enlarged pectoral rays, and croaks like a frog when caught"
     }
   },
   "Chelidonichthys lucerna": {
     "depth": {
-      "text": "20-318 m"
+      "text": "Recorded from about 2 m down to 318 m, usually in shallow water of 2 to 20 m"
+    },
+    "size": {
+      "text": "Up to 82.8 cm, the largest of the European gurnards; commonly 30 to 60 cm"
+    },
+    "habitat": {
+      "text": "Demersal, on sand, muddy sand, mud or gravel seabeds"
+    },
+    "behaviour": {
+      "text": "Rests on three free finger-like pectoral rays that act as legs and help it locate food on the soft bottom"
     }
   },
   "Chelidonichthys lastoviza": {
     "depth": {
-      "text": "10-150 m"
+      "text": "10-150 m, usually no deeper than about 40 m"
+    },
+    "size": {
+      "text": "Up to 40 cm, commonly 15 to 20 cm"
+    },
+    "habitat": {
+      "text": "Demersal over sandy and rocky bottoms, from the coast down to about 150 m"
+    },
+    "behaviour": {
+      "text": "Growls while competing for food; fish that growl while circling a food item are more likely to grasp it than silent fish"
     }
   },
   "Echinus esculentus": {
     "depth": {
-      "text": "Low water to about 40 m"
+      "text": "Low water to about 40 m, though it may be found at 100 m or more"
+    },
+    "size": {
+      "text": "Up to 15 to 16 cm in diameter, largest recorded 17.6 cm; about 9 to 11 cm at four years old"
+    },
+    "habitat": {
+      "text": "Rocky reefs, on bedrock, boulders and in crevices and rockpools, from the sublittoral fringe downwards"
+    },
+    "behaviour": {
+      "text": "A solitary, creeping omnivore that grazes and scavenges over the rock; heavy grazing can destroy kelp forests"
     }
   },
   "Psammechinus miliaris": {
     "depth": {
-      "text": "0-100 m"
+      "text": "0 to 100 m, from intertidal pools downwards; most commonly 16 to 70 m, or 0 to 10 m in Scottish sea lochs"
+    },
+    "size": {
+      "text": "Up to 57 mm across the test, more typically about 35 mm"
+    },
+    "habitat": {
+      "text": "Rocky shores under stones, boulders and seaweed, and subtidally in seagrass beds and on muddy sand and gravel"
+    },
+    "behaviour": {
+      "text": "An omnivorous crawler, grazing algae and encrusting animals; occurs in dense, localised populations in sheltered sea lochs"
     }
   },
   "Paracentrotus lividus": {

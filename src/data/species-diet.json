@@ -1360,28 +1360,132 @@
     ]
   },
   "Eutrigla gurnardus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Crustaceans, mostly shrimps and shore crabs"
+      },
+      {
+        "text": "Fish, mostly gobies, flatfish, young herring and sand eels"
+      },
+      {
+        "text": "Small individuals take mostly seabed invertebrates, while adults take mostly free-swimming prey"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, recorded preying on grey gurnard in Norwegian waters",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Haddock, recorded preying on grey gurnard in Norwegian waters"
+      },
+      {
+        "text": "Conger eel, recorded preying on grey gurnard in Irish waters",
+        "slug": "conger-conger"
+      }
+    ]
   },
   "Chelidonichthys cuculus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Bottom-living crustaceans, including shrimps and prawns, crabs and amphipods"
+      },
+      {
+        "text": "Bottom-dwelling fish such as sandeels, dragonets and gobies"
+      },
+      {
+        "text": "Squid and cuttlefish, including bobtail squid and the common cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Anglerfish (monkfish), recorded taking red gurnard off Great Britain"
+      }
+    ]
   },
   "Chelidonichthys lucerna": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small bottom-living fish such as sandeels, gobies, dragonets and small flatfish"
+      },
+      {
+        "text": "Bottom-living crustaceans, mainly shrimps, prawns and crabs"
+      },
+      {
+        "text": "Molluscs and polychaete worms taken from the soft seabed"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish, with the greater amberjack a recorded predator"
+      },
+      {
+        "text": "Other tub gurnards, which are recorded taking their own kind"
+      }
+    ]
   },
   "Chelidonichthys lastoviza": {
-    "eats": [],
+    "eats": [
+      {
+        "text": "Crustaceans, with bottom-living animals making up 98-100% of the diet"
+      },
+      {
+        "text": "Crabs, including several species of the genus Liocarcinus"
+      },
+      {
+        "text": "Mysid shrimps and bottom-living copepods"
+      }
+    ],
     "eatenBy": []
   },
   "Echinus esculentus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Seaweeds grazed off the rock, with kelps such as Laminaria a preferred food"
+      },
+      {
+        "text": "Encrusting animals scraped off the rock, including barnacles, hydroids, bryozoans and sea squirts"
+      },
+      {
+        "text": "Worms, bottom material and detritus, taken as an omnivorous grazer and scavenger"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "European lobsters, which may prey on it"
+      },
+      {
+        "text": "Wolf-fish, which may take it in the north"
+      },
+      {
+        "text": "European shags, whose diet samples at a northern UK roost held this urchin in 27% of samples",
+        "slug": "phalacrocorax-aristotelis"
+      }
+    ]
   },
   "Psammechinus miliaris": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Seaweed, probably mostly loose-lying brown algae such as sugar kelp, with softer green algae important when small"
+      },
+      {
+        "text": "Encrusting animals living on the bottom: hydroids, bryozoans, barnacles and boring sponges"
+      },
+      {
+        "text": "Small bivalves such as mussels and cockles, and worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Starfish and crabs"
+      },
+      {
+        "text": "Fish, including the wolf fish (Anarhichas lupus)"
+      },
+      {
+        "text": "Birds such as gulls and oystercatchers, taking urchins at low tide"
+      }
+    ]
   },
   "Paracentrotus lividus": {
     "eats": [],

@@ -3546,30 +3546,6 @@
         "Rhizostoma octopus"
       ]
     },
-    "doi:10.3389-fmars.2019.00107": {
-      "kind": "journal",
-      "title": "The Environmental Risks Associated With the Development of Seaweed Farming in Europe - Prioritizing Key Knowledge Gaps",
-      "authors": [
-        "Campbell, I.",
-        "Macleod, A.",
-        "Sahlmann, C.",
-        "Neves, L.",
-        "Funderud, J.",
-        "Overland, M.",
-        "Hughes, A.D.",
-        "Stanley, M."
-      ],
-      "publisher": "Frontiers in Marine Science",
-      "year": 2019,
-      "url": "https://www.frontiersin.org/articles/10.3389/fmars.2019.00107/pdf",
-      "licence": "CC BY",
-      "identifier": "10.3389/fmars.2019.00107",
-      "expectText": [
-        "seaweed farming",
-        "kelp farms",
-        "epifauna"
-      ]
-    },
     "doi:10.3389-fmars.2022.852033": {
       "kind": "journal",
       "title": "Predicting Foraging Habitat of European Shags - A Multi-Year and Multi-Colony Tracking Approach to Identify Important Areas for Marine Conservation",
@@ -4457,6 +4433,93 @@
       "expectText": [
         "Rhizostoma octopus"
       ]
+    },
+    "fishbase:fooditems-Chelidonichthys-lastoviza": {
+      "kind": "fishbase",
+      "title": "Food items of Chelidonichthys lastoviza - FishBase food-item records",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=5317&genus=Chelidonichthys&species=lastoviza",
+      "expectText": [
+        "Chelidonichthys lastoviza",
+        "Food items reported for Chelidonichthys lastoviza"
+      ]
+    },
+    "fishbase:dietcompo-Chelidonichthys-lastoviza": {
+      "kind": "fishbase",
+      "title": "Diet composition of Chelidonichthys lastoviza - FishBase diet records",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "url": "https://www.fishbase.se/TrophicEco/DietCompoList.php?ID=5081&GenusName=Chelidonichthys&SpeciesName=lastoviza&fc=266&StockCode=5317",
+      "expectText": [
+        "Chelidonichthys lastoviza",
+        "Food and Feeding Habits: Diet Composition Chelidonichthys lastoviza"
+      ]
+    },
+    "doi:10.1111-j.1095-8649.2000.tb02200.x": {
+      "kind": "journal",
+      "title": "Growling for food: acoustic emissions during competitive feeding of the streaked gurnard",
+      "authors": [
+        "Amorim, M.C.P.",
+        "Hawkins, A.D."
+      ],
+      "publisher": "Wiley, for the Fisheries Society of the British Isles (Journal of Fish Biology 57(4): 895-907)",
+      "year": 2000,
+      "url": "https://doi.org/10.1111/j.1095-8649.2000.tb02200.x",
+      "identifier": "10.1111/j.1095-8649.2000.tb02200.x",
+      "expectText": [
+        "Trigloporus lastoviza",
+        "streaked gurnard"
+      ]
+    },
+    "habitas:ZG4160": {
+      "kind": "web",
+      "title": "Trigla lucerna - Marine Life Encyclopedia",
+      "authors": [
+        "Picton",
+        "Morrow"
+      ],
+      "publisher": "National Museums Northern Ireland",
+      "year": 2016,
+      "url": "https://www.habitas.org.uk/marinelife/species.asp?item=ZG4160",
+      "expectText": [
+        "Trigla lucerna",
+        "Chelidonichthys lucerna"
+      ],
+      "expectCommonName": "Tub Gurnard"
+    },
+    "fishbase-food:Chelidonichthys-lucerna": {
+      "kind": "fishbase",
+      "title": "Food Items - Chelidonichthys lucerna",
+      "publisher": "FishBase",
+      "url": "https://www.fishbase.se/TrophicEco/FoodItemsList.php?vstockcode=1384&genus=Chelidonichthys&species=lucerna",
+      "expectText": [
+        "Chelidonichthys lucerna"
+      ]
+    },
+    "marlin-habitat:65": {
+      "kind": "marlin",
+      "title": "Foliose red seaweeds on exposed lower infralittoral rock - MarLIN habitat review",
+      "authors": [
+        "Tillin, H.M.",
+        "Budd, G.C.",
+        "Tyler-Walters, H.",
+        "Burdett, E.G."
+      ],
+      "publisher": "Marine Life Information Network, Marine Biological Association of the UK",
+      "year": 2023,
+      "url": "https://www.marlin.ac.uk/habitats/detail/65",
+      "licence": "CC BY-NC-SA 4.0 (text only)",
+      "expectText": [
+        "Echinus esculentus"
+      ],
+      "expectCommonName": "Foliose red seaweeds"
     }
   },
   "species": {
@@ -28833,100 +28896,129 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:150637",
-        "marlin:162",
         "fishbase:Eutrigla-gurnardus",
         "fishbase:dietcompo-Eutrigla-gurnardus",
-        "fishbase:predators-Eutrigla-gurnardus"
+        "fishbase:predators-Eutrigla-gurnardus",
+        "marlin:162",
+        "worms:150637"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Eutrigla-gurnardus",
-            "marlin:162"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Eutrigla-gurnardus",
-              "locator": "Short description",
-              "quote": "Morphometrics Head large without deep occipital groove. Vertebrae 37-39 (11-13 precaudal and 25-27 caudal). Body shape ( shape guide): elongated.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:162",
-              "locator": "Identifying features",
-              "quote": "Up to 50 cm in length. Large sloping head. Black mark on first dorsal fin. Longest pectoral fin rays reaching at most the level of the first anal fin ray. Scales larger on lateral line than on the body. Three lowermost pectoral rays...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:162",
-              "locator": "Description",
-              "quote": "Eutrigla gurnardus is a large member of the sea robin family reaching up to 30 cm (and rarely up to 50 cm) in length. It has a large head with a sloping forehead and a body that tapers towards the tail. Two dorsal fins are present on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: 'walks on three free finger-like rays beneath each large fan-shaped pectoral fin'. The source says: MarLIN 162 Description: 'The pectoral fins are short and barely reach the anal fin.' Identifying features: 'Longest pectoral fin rays reaching at most the level of the first anal fin ray.' On the white spots: 'Small white spots are usually present on the sides', with the lateral line mentioned separately as 'Scales larger on lateral line than on the body.'"
-        },
-        "trait:size": {
-          "sourceIds": [
+            "marlin:162",
             "fishbase:Eutrigla-gurnardus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Eutrigla-gurnardus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 18.8, range 24 - ? cm Max length: 60.0 cm TL male/unsexed;; common length: 30.0 cm TL male/unsexed;; max. published weight: 956.00 g",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "fishbase:Eutrigla-gurnardus",
-            "marlin:162"
-          ],
-          "support": [
+              "sourceId": "marlin:162",
+              "locator": "Description",
+              "quote": "It has a large head with a sloping forehead and a body that tapers towards the tail. Two dorsal fins are present on the back. The first, which is much smaller than the second has 7-10 spines and large black mark near the top.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "fishbase:Eutrigla-gurnardus",
-              "locator": "Biology",
-              "quote": "Common on sandy grounds, sometimes on rocky bottoms, and also on mud between coastline to 140 m depth. Up to depth of 340 m in the eastern Ionian Sea. Feeds on crustaceans, mostly shrimps and shore crabs;...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:162",
+              "locator": "Description",
+              "quote": "The pectoral fins are short and barely reach the anal fin. The caudal fin is short and truncate. The grey gurnard is usually greyish-brown in colour with a red tinge on the back and sides. Small white spots are usually present on the sides",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:162",
+              "locator": "Identifying features",
+              "quote": "Black mark on first dorsal fin. Longest pectoral fin rays reaching at most the level of the first anal fin ray. Scales larger on lateral line than on the body. Three lowermost pectoral rays are detached.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Eutrigla-gurnardus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; demersal; depth range 10 - 340 m, usually 10 - 150 m. Temperate; 71&deg;N - 21&deg;N, 49&deg;W - 42&deg;E",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Short description",
+              "quote": "Head large without deep occipital groove. Vertebrae 37-39 (11-13 precaudal and 25-27 caudal). Body shape ( shape guide ): elongated.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:162",
               "locator": "Habitat",
               "quote": "The grey gurnard is a coastal demersal species usually found on sandy bottoms down to 140 m depth but also on rocky or muddy seabeds.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Eutrigla-gurnardus",
+            "marlin:162"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Eutrigla-gurnardus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 60.0 cm TL male/unsexed; (Ref. 3397 ); common length : 30.0 cm TL male/unsexed; (Ref. 4697 ); max. published weight: 956.00 g (Ref. 41256 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:162",
+              "locator": "Description",
+              "quote": "Eutrigla gurnardus is a large member of the sea robin family reaching up to 30 cm (and rarely up to 50 cm) in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:162",
+            "fishbase:Eutrigla-gurnardus"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:162",
+              "locator": "Habitat",
+              "quote": "The grey gurnard is a coastal demersal species usually found on sandy bottoms down to 140 m depth but also on rocky or muddy seabeds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Eutrigla-gurnardus",
+              "locator": "Biology",
+              "quote": "Common on sandy grounds, sometimes on rocky bottoms, and also on mud between coastline to 140 m depth. Up to depth of 340 m in the eastern Ionian Sea (Ref. 56504 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Eutrigla-gurnardus"
+            "fishbase:Eutrigla-gurnardus",
+            "marlin:162"
           ],
           "support": [
             {
               "sourceId": "fishbase:Eutrigla-gurnardus",
               "locator": "Biology",
-              "quote": "Common on sandy grounds, sometimes on rocky bottoms, and also on mud between coastline to 140 m depth. Up to depth of 340 m in the eastern Ionian Sea. Feeds on crustaceans, mostly shrimps and shore crabs;...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Feeds on crustaceans, mostly shrimps and shore crabs; fishes, mostly gobies, flatfish, young herring and sand eels. Makes croaking sounds (Ref. 9987 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Eutrigla-gurnardus",
+              "locator": "Life cycle and mating behavior",
+              "quote": "The young are pelagic until attaining a length of 3 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:162",
+              "locator": "Habitat",
+              "quote": "The grey gurnard is a coastal demersal species usually found on sandy bottoms down to 140 m depth but also on rocky or muddy seabeds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -28945,30 +29037,6 @@
             }
           ],
           "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Eutrigla-gurnardus",
-            "fishbase:dietcompo-Eutrigla-gurnardus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Eutrigla-gurnardus",
-              "locator": "Biology",
-              "quote": "Feeds on crustaceans, mostly shrimps and shore crabs; fishes, mostly gobies, flatfish, young herring and sand eels.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:dietcompo-Eutrigla-gurnardus",
-              "locator": "Diet composition table, UK Scotland records (refs. 28130, 12577)",
-              "quote": "nekton 92 4.4 recruits/juv. UK Scotland Ardmucknish Bay 28130 zoobenthos 58 3.4 recruits/juv. UK Scotland Camas Nathais, Lynn of Lorne on the west coast, 1975-1976 12577",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Tier 3, rendered as 'Planktivore or invertivore'. The source says: FishBase Estimates: 'Trophic level (Ref. 69278 ) 3.9 +/-0.0 se; based on diet studies.' Diet Composition (n = 35) holds 'nekton 92 4.4 recruits/juv. UK Scotland Ardmucknish Bay 28130' and several North Sea nekton rows at 4.0 to 4.4. The summary's Biology says it feeds on 'fishes, mostly gobies, flatfish, young herring and sand eels'."
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -28992,10 +29060,107 @@
           "support": [
             {
               "sourceId": "fishbase:Eutrigla-gurnardus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; demersal; depth range 10 - 340 m (Ref. 56504), usually 10 - 150 m (Ref. 35388).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; demersal; depth range 10 - 340 m (Ref. 56504 ), usually 10 - 150 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Eutrigla-gurnardus",
+              "locator": "Biology",
+              "quote": "Common on sandy grounds, sometimes on rocky bottoms, and also on mud between coastline to 140 m depth. Up to depth of 340 m in the eastern Ionian Sea (Ref. 56504 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Eutrigla-gurnardus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Eutrigla-gurnardus",
+              "locator": "Biology",
+              "quote": "Feeds on crustaceans, mostly shrimps and shore crabs; fishes, mostly gobies, flatfish, young herring and sand eels. Makes croaking sounds (Ref. 9987 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Eutrigla-gurnardus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Eutrigla-gurnardus",
+              "locator": "Biology",
+              "quote": "Feeds on crustaceans, mostly shrimps and shore crabs; fishes, mostly gobies, flatfish, young herring and sand eels. Makes croaking sounds (Ref. 9987 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:dietcompo-Eutrigla-gurnardus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:dietcompo-Eutrigla-gurnardus",
+              "locator": "Diet composition table, North Sea 1991 records by predator life stage",
+              "quote": "Food and Feeding Habits: Diet Composition Eutrigla gurnardus ... zoobenthos 100 3.5 recruits/juv. ... zoobenthos 78 3.6 recruits/juv. ... zoobenthos 69 3.8 recruits/juv. ... nekton 93 4.4 adults ... nekton 93 4.4 adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:predators-Eutrigla-gurnardus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Eutrigla-gurnardus",
+              "locator": "Organisms Preying on Eutrigla gurnardus, Norway row",
+              "quote": "Organisms Preying on Eutrigla gurnardus ... Norway finfish bony fish Gadidae Gadus morhua",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase:predators-Eutrigla-gurnardus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Eutrigla-gurnardus",
+              "locator": "Organisms Preying on Eutrigla gurnardus, Norway row",
+              "quote": "Organisms Preying on Eutrigla gurnardus ... Norway finfish bony fish Gadidae Melanogrammus aeglefinus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase:predators-Eutrigla-gurnardus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Eutrigla-gurnardus",
+              "locator": "Organisms Preying on Eutrigla gurnardus, Ireland row",
+              "quote": "Organisms Preying on Eutrigla gurnardus ... Ireland finfish bony fish Congridae Conger conger",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29016,73 +29181,53 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127259",
-        "marlin:83",
+        "fishbase-pred:Callionymus-maculatus",
         "fishbase:Chelidonichthys-cuculus",
-        "fishbase:predators-Chelidonichthys-cuculus"
+        "fishbase:fooditems-Chelidonichthys-cuculus",
+        "fishbase:predators-Chelidonichthys-cuculus",
+        "ices:crr325",
+        "marlin:83",
+        "worms:127259"
       ],
       "claims": {
-        "edge:Hermit Crab->Red gurnard": {
+        "fieldNote": {
           "sourceIds": [
+            "marlin:83",
             "fishbase:Chelidonichthys-cuculus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Food items (matched on \"pagurus bernhardus\")",
-              "quote": "nthos benth. crust. crabs Anapagurus sp. Spain juv./adults zoobenthos benth. crust. crabs Pagurus bernhardus Netherlands juv./adults zoobenthos benth. crust. crabs Pandalina brevirostris Spain juv./adults zoobe",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "fieldNote": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-cuculus",
-            "marlin:83"
-          ],
-          "support": [
+              "sourceId": "marlin:83",
+              "locator": "Description",
+              "quote": "The red gurnard Chelidonichthys cuculus is a member of the scorpionfish family and has a charcteristic suborbital stay, a bony extension from below the eye to the preopercle. ... It is red in colour with pinkish-silver mottling.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Short description",
-              "quote": "Head large, without deep occipital groove. First dorsal spine serrate anteriorly, second spine...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:83",
+              "locator": "Description, recognition features",
+              "quote": "It can be recognised by the enlarged rays off the pectoral fin, used for food detection, and the way the pectoral fins open and close like a bird's wing. ... when caught, it makes a croaking noise similar to a frog.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:83",
               "locator": "Identifying features",
-              "quote": "Up to 50 cm in length. Bony extension from below the eye to the preopercle. Two to three enlarged rays off each pectoral fin. Large angular head and steep snout. Up to 10 dorsal spines. Scales absent on breast and anterior part of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Bony extension from below the eye to the preopercle. Two to three enlarged rays off each pectoral fin. Large angular head and steep snout.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:83",
-              "locator": "Description",
-              "quote": "The red gurnard Chelidonichthys cuculus is a member of the scorpionfish family and has a charcteristic suborbital stay, a bony extension from below the eye to the preopercle. It may reach up to 50 cm in length. It can be recognised by...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Chelidonichthys-cuculus",
+              "locator": "Short description",
+              "quote": "Head large, without deep occipital groove. ... Lateral line scales plate-like expanded vertically. ... Pectoral fin with last 3 rays free. Snout steep, prolonged forward by a denticulated and bilobed flattened rostrum.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-cuculus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 26.6 &nbsp range ? - ? cm Max length: 70.0 cm TL male/unsexed;; common length: 27.6 cm FL male/unsexed;; common length:20.4 cm FL (female); max. reported age: 21 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
           "sourceIds": [
             "fishbase:Chelidonichthys-cuculus",
             "marlin:83"
@@ -29090,42 +29235,66 @@
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Biology",
-              "quote": "Occasionally forms schools. Found over sand and gravel, crag, and rocks in the continental shelf. Feeds on benthic crustaceans, other invertebrates and bottom-dwelling fishes.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 70.0 cm TL male/unsexed; (Ref. 115876 ); common length : 27.6 cm FL male/unsexed; (Ref. 3294 ); common length :20.4 cm FL (female); max. reported age: 21 years (Ref. 26811 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; demersal; depth range 15 - 400 m, usually 30 - 250 m. Temperate; 62&deg;N - 15&deg;N, 32&deg;W - 42&deg;E",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
+              "sourceId": "marlin:83",
+              "locator": "Description",
+              "quote": "It may reach up to 50 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "marlin:83",
+            "fishbase:Chelidonichthys-cuculus"
+          ],
+          "support": [
             {
               "sourceId": "marlin:83",
               "locator": "Habitat",
               "quote": "The red gurnard is a demersal species. It can be found over sand, gravel and rocks on the continental shelf, from 15 m down to a depth of 400 m.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelidonichthys-cuculus",
+              "locator": "Biology",
+              "quote": "Found over sand and gravel, crag, and rocks in the continental shelf (Ref. 2723 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-cuculus"
+            "fishbase:Chelidonichthys-cuculus",
+            "marlin:83"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-cuculus",
               "locator": "Biology",
-              "quote": "Occasionally forms schools. Found over sand and gravel, crag, and rocks in the continental shelf. Feeds on benthic crustaceans, other invertebrates and bottom-dwelling fishes.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Occasionally forms schools. Found over sand and gravel, crag, and rocks in the continental shelf (Ref. 2723 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:83",
+              "locator": "Description",
+              "quote": "It can be recognised by the enlarged rays off the pectoral fin, used for food detection ... when caught, it makes a croaking noise similar to a frog.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -29137,21 +29306,6 @@
               "locator": "Biology",
               "quote": "Occasionally forms schools. Found over sand and gravel, crag, and rocks in the continental shelf. Feeds on benthic crustaceans, other invertebrates and bottom-dwelling fishes.",
               "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-cuculus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Biology",
-              "quote": "Feeds on benthic crustaceans, other invertebrates and bottom-dwelling fishes (Ref.4697).",
-              "readBy": "refs:trawl (fish-3)",
               "readOn": "2026-08-28"
             }
           ],
@@ -29174,15 +29328,115 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-cuculus"
+            "fishbase:Chelidonichthys-cuculus",
+            "marlin:83"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-cuculus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; depth range 15 - 400 m, usually 30 - 250 m (Ref. 35388).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 15 - 400 m, usually 30 - 250 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:83",
+              "locator": "Habitat / Depth range",
+              "quote": "It can be found over sand, gravel and rocks on the continental shelf, from 15 m down to a depth of 400 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Chelidonichthys-cuculus",
+            "fishbase:fooditems-Chelidonichthys-cuculus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Chelidonichthys-cuculus",
+              "locator": "Biology",
+              "quote": "Feeds on benthic crustaceans, other invertebrates and bottom-dwelling fishes (Ref.4697).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-cuculus",
+              "locator": "Food items reported for Chelidonichthys cuculus, zoobenthos / benthic crustaceans",
+              "quote": "zoobenthos benth. crust. amphipods Ampelisca brevicornis ... benth. crust. crabs Liocarcinus holsatus ... benth. crust. shrimps/prawns Crangon crangon",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Chelidonichthys-cuculus",
+            "fishbase:fooditems-Chelidonichthys-cuculus",
+            "fishbase-pred:Callionymus-maculatus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Chelidonichthys-cuculus",
+              "locator": "Biology",
+              "quote": "Feeds on benthic crustaceans, other invertebrates and bottom-dwelling fishes (Ref.4697).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-cuculus",
+              "locator": "Food items reported for Chelidonichthys cuculus, nekton / finfish",
+              "quote": "nekton finfish bony fish Ammodytidae UK Gr. Britain juv./adults ... bony fish Callionymus maculatus Spain ... bony fish Pomatoschistus UK Gr. Britain",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Callionymus-maculatus",
+              "locator": "Organisms preying on Callionymus maculatus, Triglidae",
+              "quote": "finfish bony fish Triglidae Aspitrigla cuculus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:fooditems-Chelidonichthys-cuculus",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-cuculus",
+              "locator": "Food items reported for Chelidonichthys cuculus, nekton / cephalopods",
+              "quote": "nekton cephalopods squids/cuttlefish Alloteuthis subulata (not available) juv./adults ... squids/cuttlefish Sepiola atlantica UK Gr. Britain juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "6.7.2 Predators, Sepia officinalis",
+              "quote": "found S. officinalis in the stomach contents of Pagellus acarne, Aspitrigla cuculus, A. obscura, Lophius piscatorius, L. budegassa, Trisopterus luscus, Lepidorhombus whiffiagonis, and L. boscii.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:predators-Chelidonichthys-cuculus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Chelidonichthys-cuculus",
+              "locator": "Organisms Preying on Chelidonichthys cuculus (n = 1)",
+              "quote": "Organisms Preying on Chelidonichthys cuculus ... UK Gr. Britain finfish bony fish Lophiidae Lophius piscatorius",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29203,54 +29457,94 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127262",
+        "fishbase-food:Chelidonichthys-lucerna",
+        "fishbase-pred:Pomatoschistus-microps",
+        "fishbase-pred:Pomatoschistus-minutus",
         "fishbase:Chelidonichthys-lucerna",
         "fishbase:predators-Chelidonichthys-lucerna",
-        "fishbase-pred:Pomatoschistus-minutus",
-        "fishbase-pred:Pomatoschistus-microps"
+        "habitas:ZG4160",
+        "worms:127262"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
+            "habitas:ZG4160",
             "fishbase:Chelidonichthys-lucerna"
           ],
           "support": [
             {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Description",
+              "quote": "The tub gurnard is the largest of the European gurnards reaching a maximum length of 75cm, although most individuals are between 50-60cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Description",
+              "quote": "Like all gurnards it has a large head covered by protective bony plates, and the lower three rays of the pectoral fin are separate and fleshy.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Description",
+              "quote": "The colour can vary from bright red with pinkish mottling to yellowish-brown with darker brown or green mottling. The pectoral fins have brilliant peacock blue spots and outer rim.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Chelidonichthys-lucerna",
-              "locator": "Short description",
-              "quote": "Morphometrics Longest ray in the pectoral fin reaching the front part of the anal fin. Lateral line scales smooth. Reddish color. Body shape ( shape guide): elongated.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Has three isolated rays on the pectoral fin which function as legs on which the fish rests and also help in locating food on the soft bottom (Ref. 9988 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-lucerna"
+            "fishbase:Chelidonichthys-lucerna",
+            "habitas:ZG4160"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-lucerna",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 24.7 &nbsp range ? - ? cm Max length: 82.8 cm TL male/unsexed;; common length: 30.0 cm TL male/unsexed;; max. published weight: 6.6 kg; max. reported age: 15 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 82.8 cm TL male/unsexed; (Ref. 113018 ); common length : 30.0 cm TL male/unsexed;",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Description",
+              "quote": "The tub gurnard is the largest of the European gurnards reaching a maximum length of 75cm, although most individuals are between 50-60cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-lucerna"
+            "fishbase:Chelidonichthys-lucerna",
+            "habitas:ZG4160"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-lucerna",
               "locator": "Biology",
-              "quote": "Occurs at temperatures ranging from 8.0-24.0 °C. Inhabits sand, muddy sand or gravel bottoms. Up to depth of 318 m in the eastern Ionian Sea. Feeds on fish, crustaceans and mollusks. Has three isolated rays...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Has three isolated rays on the pectoral fin which function as legs on which the fish rests and also help in locating food on the soft bottom (Ref. 9988 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Key Identification Features",
+              "quote": "Large head with bony plates and steep profile Pectoral fin has three finger-like feelers Brilliant blue markings on pectoral fins",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29270,29 +29564,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-lucerna"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelidonichthys-lucerna",
-              "locator": "Biology",
-              "quote": "Feeds on fish, crustaceans and mollusks.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Chelidonichthys-lucerna",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 4.0 ±0.0 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Tier 3, rendered as 'Planktivore or invertivore'. The source says: FishBase Estimates, re-read live: 'Trophic level (Ref. 69278 ) 4.0 +/-0.0 se; based on diet studies.' Biology: 'Feeds on fish, crustaceans and mollusks.' A trophic level of 4.0 is the app's tier 4, 'Predator'."
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Chelidonichthys-lucerna"
@@ -29310,60 +29581,198 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-lucerna"
+            "fishbase:Chelidonichthys-lucerna",
+            "habitas:ZG4160"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-lucerna",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; depth range 20 - 318 m (Ref. 56504).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 20 - 318 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Habitat",
+              "quote": "The tub gurnard is usually found on mud or sandy seabeds from 2-20m depth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-lucerna"
+            "fishbase:Chelidonichthys-lucerna",
+            "habitas:ZG4160"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-lucerna",
               "locator": "Biology",
               "quote": "Inhabits sand, muddy sand or gravel bottoms.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Sand goby->Tub gurnard": {
-          "sourceIds": [
-            "fishbase-pred:Pomatoschistus-minutus"
-          ],
-          "support": [
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "fishbase-pred:Pomatoschistus-minutus",
-              "locator": "Predators table, Triglidae row (Territory: Portugal)",
-              "quote": "bony fish | Triglidae | Chelidonichthys lucerna",
-              "readBy": "refs:trawl (gap-edges)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Chelidonichthys-lucerna",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 20 - 318 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Habitat",
+              "quote": "The tub gurnard is usually found on mud or sandy seabeds from 2-20m depth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Common goby->Tub gurnard": {
+        "diet:eats:0": {
           "sourceIds": [
+            "habitas:ZG4160",
+            "fishbase-food:Chelidonichthys-lucerna",
+            "fishbase-pred:Pomatoschistus-minutus",
             "fishbase-pred:Pomatoschistus-microps"
           ],
           "support": [
             {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Habitat",
+              "quote": "It mainly feeds on small fish e.g. sand eels, small flatfish, gobies, dragonets and also crabs and shrimps.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna (Food I | Food II | Food III | Food name | Territory | Predator Stage)",
+              "quote": "nekton | finfish | bony fish | Ammodytidae | UK Gr. Britain | juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Pomatoschistus-minutus",
+              "locator": "Organisms Preying on Pomatoschistus minutus",
+              "quote": "Organisms Preying on Pomatoschistus minutus ... Portugal finfish bony fish Triglidae Chelidonichthys lucerna",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase-pred:Pomatoschistus-microps",
-              "locator": "Predators table, Triglidae row (Territory: Portugal)",
-              "quote": "bony fish | Triglidae | Chelidonichthys lucerna",
-              "readBy": "refs:trawl (gap-edges)",
-              "readOn": "2026-08-28"
+              "locator": "Organisms Preying on Pomatoschistus microps",
+              "quote": "Organisms Preying on Pomatoschistus microps ... Portugal finfish bony fish Triglidae Chelidonichthys lucerna",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "habitas:ZG4160",
+            "fishbase:Chelidonichthys-lucerna",
+            "fishbase-food:Chelidonichthys-lucerna"
+          ],
+          "support": [
+            {
+              "sourceId": "habitas:ZG4160",
+              "locator": "Habitat",
+              "quote": "It mainly feeds on small fish e.g. sand eels, small flatfish, gobies, dragonets and also crabs and shrimps.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelidonichthys-lucerna",
+              "locator": "Biology",
+              "quote": "Feeds on fish, crustaceans and mollusks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna (Food I | Food II | Food III | Food name | Territory | Predator Stage)",
+              "quote": "zoobenthos | benth. crust. | shrimps/prawns | Crangon allmanni | UK Gr. Britain | juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna (Food I | Food II | Food III | Food name | Territory | Predator Stage)",
+              "quote": "zoobenthos | benth. crust. | crabs | Pagurus bernhardus | UK Gr. Britain | juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Chelidonichthys-lucerna",
+            "fishbase-food:Chelidonichthys-lucerna"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Chelidonichthys-lucerna",
+              "locator": "Biology",
+              "quote": "Feeds on fish, crustaceans and mollusks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna (Food I | Food II | Food III | Food name | Territory | Predator Stage)",
+              "quote": "zoobenthos | worms | polychaetes | Polychaeta | UK Gr. Britain | juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna (Food I | Food II | Food III | Food name | Territory | Predator Stage)",
+              "quote": "zoobenthos | mollusks | bivalves | Tellinidae | Netherlands | juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:predators-Chelidonichthys-lucerna"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Chelidonichthys-lucerna",
+              "locator": "Organisms Preying on Chelidonichthys lucerna",
+              "quote": "Organisms Preying on Chelidonichthys lucerna ... finfish bony fish Carangidae Seriola dumerili",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase:predators-Chelidonichthys-lucerna",
+            "fishbase-food:Chelidonichthys-lucerna"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Chelidonichthys-lucerna",
+              "locator": "Organisms Preying on Chelidonichthys lucerna",
+              "quote": "Portugal finfish bony fish Triglidae Chelidonichthys lucernus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Chelidonichthys-lucerna",
+              "locator": "Food items reported for Chelidonichthys lucerna (Food I | Food II | Food III | Food name | Territory | Predator Stage)",
+              "quote": "nekton | finfish | bony fish | Trigla lucerna | Netherlands | juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29384,40 +29793,58 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127261",
+        "doi:10.1111-j.1095-8649.2000.tb02200.x",
         "fishbase:Chelidonichthys-lastoviza",
-        "marlin:163"
+        "fishbase:dietcompo-Chelidonichthys-lastoviza",
+        "fishbase:fooditems-Chelidonichthys-lastoviza",
+        "marlin:163",
+        "worms:127261"
       ],
       "claims": {
         "trait:size": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-lastoviza"
+            "fishbase:Chelidonichthys-lastoviza",
+            "marlin:163"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-lastoviza",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 15.0, range 20 - ? cm Max length: 40.0 cm TL male/unsexed;; common length: 15.0 cm TL male/unsexed;; max. reported age: 18 years",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 40.0 cm TL male/unsexed; (Ref. 3397 ); common length : 15.0 cm TL male/unsexed; (Ref. 3397 ); max. reported age: 18 years",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:163",
+              "locator": "Description",
+              "quote": "Chelidonichthys lastoviza is a moderately sized gurnard reaching up to 40 cm in length, although usually only half that size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-lastoviza"
+            "doi:10.1111-j.1095-8649.2000.tb02200.x"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Chelidonichthys-lastoviza",
-              "locator": "Biology",
-              "quote": "Found over rocks and sand, from the coast down to a depth of about 150 m.. Feeds on crustaceans. Minimum depth from Ref. 12382.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.1111-j.1095-8649.2000.tb02200.x",
+              "locator": "Abstract",
+              "quote": "The streaked gurnard Trigloporus lastoviza produced only one sound type, a growl, lasting up to 3 s and consisting of repeated groups of typically one to three pulses.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1111-j.1095-8649.2000.tb02200.x",
+              "locator": "Abstract",
+              "quote": "Fish that growled while circling were more likely to grasp a food item subsequently than were silent fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -29442,72 +29869,132 @@
             {
               "sourceId": "marlin:163",
               "locator": "Description",
-              "quote": "Uniquely amongst gurnards, the body is covered with transverse ridges of skin that originate at the lateral line. The lateral line scales are enlarged and armed with small spines.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "quote": "It has a large head with a steep forehead. Uniquely amongst gurnards, the body is covered with transverse ridges of skin that originate at the lateral line. The lateral line scales are enlarged and armed with small spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:163",
               "locator": "Description, colour",
               "quote": "The streaked gurnard is red above and pale below with dark spots on the head and back. The grey pectoral fins have large dark blue spots.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:163",
               "locator": "Identifying features",
               "quote": "Three lowermost pectoral rays are detached.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Gurnard whose reddish body is covered in many fine dark OBLIQUE streaks, the give-away. The source says: MarLIN describes the streaking as physical structure, not colour: 'Uniquely amongst gurnards, the body is covered with transverse ridges of skin that originate at the lateral line.' Its colour account is 'red above and pale below with dark spots on the head and back', i.e. SPOTS, not fine dark streaks, plus large dark blue spots on the grey pectorals. The app teaches a beginner to look for dark oblique lines; the authority says look for transverse skin ridges and dark spots."
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Chelidonichthys-lastoviza"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Chelidonichthys-lastoviza",
-              "locator": "Biology",
-              "quote": "Feeds on crustaceans (Ref. 12382).",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Chelidonichthys-lastoviza"
+            "fishbase:Chelidonichthys-lastoviza",
+            "marlin:163"
           ],
           "support": [
             {
               "sourceId": "fishbase:Chelidonichthys-lastoviza",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; depth range 10 - 150 m (Ref. 3687), usually ? - 40 m (Ref. 12382).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; demersal; depth range 10 - 150 m (Ref. 3687 ), usually ? - 40 m (Ref. 12382 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:163",
+              "locator": "Depth range",
+              "quote": "Depth range 10 - 150 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:163"
+            "marlin:163",
+            "fishbase:Chelidonichthys-lastoviza"
           ],
           "support": [
             {
               "sourceId": "marlin:163",
               "locator": "Habitat",
               "quote": "The streaked gurnard is a demersal species usually found over sandy and rocky bottoms, from the coast down to depths of about 150 m.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Chelidonichthys-lastoviza",
+              "locator": "Biology",
+              "quote": "Found over rocks and sand, from the coast down to a depth of about 150 m. (Ref. 5213 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Chelidonichthys-lastoviza",
+            "fishbase:dietcompo-Chelidonichthys-lastoviza"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Chelidonichthys-lastoviza",
+              "locator": "Biology",
+              "quote": "Feeds on crustaceans (Ref. 12382 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:dietcompo-Chelidonichthys-lastoviza",
+              "locator": "Diet composition table, Marseille Gulf 1980",
+              "quote": "zoobenthos 100 3.5 juv./adults France Marseille Gulf, 1980",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:dietcompo-Chelidonichthys-lastoviza",
+              "locator": "Diet composition table, Cretan waters 1988-91",
+              "quote": "zoobenthos 98 3.5 juv./adults Greece Cretan waters, 1988-91",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:fooditems-Chelidonichthys-lastoviza"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-lastoviza",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs",
+              "quote": "crabs Liocarcinus arcuatus ... Liocarcinus maculatus ... Liocarcinus navigator",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:fooditems-Chelidonichthys-lastoviza"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-lastoviza",
+              "locator": "Food items table, benthic copepods and mysids",
+              "quote": "benth. copepods unidentified Greece juv./adults ... zooplankton plank. crust. mysids unidentified Greece juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -29525,41 +30012,76 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:124287",
-        "marlin:1311",
-        "bhl:mortensen-1927-echinoderms",
-        "nrw:400",
-        "doi:10.3389-fmars.2019.00107",
+        "doi:10.1002-ecy.3341",
+        "doi:10.1016-j.fishres.2005.04.013",
         "doi:10.1080-00063657.2024.2311080",
-        "doi:10.1016-j.fishres.2005.04.013"
+        "marlin-habitat:65",
+        "marlin:1311",
+        "nrw:400",
+        "worms:124287"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
             "marlin:1311",
-            "bhl:mortensen-1927-echinoderms"
+            "nrw:400"
           ],
           "support": [
             {
               "sourceId": "marlin:1311",
-              "locator": "Biology",
-              "quote": "Grazer, Scavenger. Typically feeds on: worms, barnacles, hydroids, tunicates, bryozoans, macroalgae (e.g. Laminaria spp.), bottom material and detritus (reviewed by Lawrence 1975).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1311",
-              "locator": "Description",
-              "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm. The test may be relatively flat in shallow water but taller in deep water. Test pinkish-red...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Spines closely cover the test and are reddish, usually with violet points and white bosses. Primary and secondary spines and their bosses are similar in size, except in small specimens in which the primaries are conspicuous.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 299 (Echinus esculentus)",
-              "quote": "Grows to a very considerable size, the largest recorded being 176 mm, horizontal diameter, and is thus one of the largest Echinoids.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1311",
+              "locator": "Summary > Habitat",
+              "quote": "Found on rocky substrata from the sublittoral fringe to circa 40 m, although it may be found at depths of 100 m or more.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Mobility Creeper, Mobile Characteristic feeding method Grazer, Scavenger Diet/food source Omnivore",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Habitat preferences",
+              "quote": "Substratum / habitat preferences Artificial (man-made), Bedrock, Caves, Crevices / fissures, Large to very large boulders, Overhangs, Rockpools, Small boulders, Under boulders",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Typically feeds on Recorded feeding on; worms, barnacles (e.g. Balanus spp.), hydroids, tunicates, bryozoans (e.g. Membranipora spp.), macroalgae (e.g. Laminaria spp.), bottom material and detritus (reviewed by Lawrence 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "nrw:400",
+              "locator": "Section 1.1, p. 8 (introduction)",
+              "quote": "In low numbers this grazing effect is beneficial; in high numbers it can be highly destructive even destroying whole kelp forests (Hagan, 1983).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Sensitivity review > Importance / human use",
+              "quote": "The roe of Echinus was eaten in many parts of England (Pennant 1777 cited in Nichols 1981) and may continue today locally.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29571,20 +30093,27 @@
           "support": [
             {
               "sourceId": "marlin:1311",
-              "locator": "Identifying features",
-              "quote": "Rounded and radially symmetrical test slightly flattened but overall globular. Test reddish in colour. Each ambulacral plate with three pairs of pores. Globiferous pedicellariae with one lateral tooth below terminal tooth. Primary and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Rounded and radially symmetrical test slightly flattened but overall globular. Test reddish in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1311",
-              "locator": "Description",
-              "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm. The test may be relatively flat in shallow water but taller in deep water. Test pinkish-red...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Summary > Description",
+              "quote": "Test pinkish-red but occasionally yellow, green or purple.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr97zg1o00017ihgvj7750rv": {
           "sourceIds": [
@@ -29593,20 +30122,20 @@
           "support": [
             {
               "sourceId": "marlin:1311",
-              "locator": "Identifying features",
-              "quote": "Rounded and radially symmetrical test slightly flattened but overall globular. Test reddish in colour. Each ambulacral plate with three pairs of pores. Globiferous pedicellariae with one lateral tooth below terminal tooth. Primary and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Spines closely cover the test and are reddish, usually with violet points and white bosses. Primary and secondary spines and their bosses are similar in size, except in small specimens in which the primaries are conspicuous.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1311",
-              "locator": "Description",
-              "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm. The test may be relatively flat in shallow water but taller in deep water. Test pinkish-red...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Primary and secondary spines and their bosses are similar in size, except in small specimens.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
@@ -29615,47 +30144,47 @@
           "support": [
             {
               "sourceId": "marlin:1311",
-              "locator": "Description",
+              "locator": "Summary > Description",
               "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1311",
-              "locator": "Summary > Description",
-              "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Additional information",
+              "quote": "Size range varies depending on age and locality, e.g. ca 4 cm at one year, 4 to 7 cm at two years, 7 to 9 cm at three years and 9 to 11 cm at four years.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: Size: medium, with the field note saying 'up to 16cm across'. The source says: The binding already in species-references.json quotes MarLIN's 'Female size range: circa 4cm', which is the size-AT-MATURITY cell, not adult size. MarLIN's own Description gives 15-16 cm and a 17.6 cm maximum, so the existing quote fights the field note."
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1311"
+            "marlin:1311",
+            "nrw:400"
           ],
           "support": [
             {
               "sourceId": "marlin:1311",
-              "locator": "Biology",
-              "quote": "Recorded feeding on; worms, barnacles, hydroids, tunicates, bryozoans, macroalgae (e.g. Laminaria spp.), bottom material and detritus (reviewed by Lawrence 1975).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1311",
-              "locator": "Habitat preferences",
-              "quote": "Lower circalittoral, Lower infralittoral, Sublittoral fringe, Upper circalittoral, Upper infralittoral; Substratum / habitat preferences: Artificial (man-made), Bedrock, Caves, Crevices / fissures, Large...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1311",
               "locator": "Summary > Habitat",
               "quote": "Found on rocky substrata from the sublittoral fringe to circa 40 m, although it may be found at depths of 100 m or more.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Habitat preferences",
+              "quote": "Substratum / habitat preferences Artificial (man-made), Bedrock, Caves, Crevices / fissures, Large to very large boulders, Overhangs, Rockpools, Small boulders, Under boulders",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "nrw:400",
+              "locator": "Section 4.1, p. 28 (site habitat descriptions)",
+              "quote": "All surveys at these sites were completed on bedrock reef and boulder slopes providing the preferred substrate for E. esculentus’ favoured habitat.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29663,22 +30192,29 @@
         "trait:behavior": {
           "sourceIds": [
             "marlin:1311",
-            "bhl:mortensen-1927-echinoderms"
+            "nrw:400"
           ],
           "support": [
             {
               "sourceId": "marlin:1311",
-              "locator": "Biology",
-              "quote": "Epifaunal; Sociability: Solitary; Mobility: Creeper, Mobile",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Mobility Creeper, Mobile Characteristic feeding method Grazer, Scavenger Diet/food source Omnivore",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 299 (Echinus esculentus, British distribution)",
-              "quote": "In British seas this species is common all round the coasts, from the littoral zone (where it is, especially in the breeding season, found among the algae on the rocks) down to ca. 40 m.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Sociability Solitary Environmental position Epifaunal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "nrw:400",
+              "locator": "Section 1.1, p. 8 (introduction)",
+              "quote": "In low numbers this grazing effect is beneficial; in high numbers it can be highly destructive even destroying whole kelp forests (Hagan, 1983).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29698,45 +30234,6 @@
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "nrw:400",
-            "marlin:1311"
-          ],
-          "support": [
-            {
-              "sourceId": "nrw:400",
-              "locator": "Section 1.1 (report p. 8)",
-              "quote": "Echinus esculentus Linnaeus (1758) is an omnivorous grazer and a key biological structuring factor in subtidal communities.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1311",
-              "locator": "Importance review > Importance information",
-              "quote": "Echinus esculentus is an important grazer of epiflora and epifauna in the subtidal. It may have a keystone role in kelp communities, where grazing by sea urchins may control the lower limit of Laminaria hyperborea beds",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true,
-          "conflict": "The app says: Trophic tier 2, a primary consumer grazing the kelp canopy. The source says: MarLIN gives 'Diet/food source: Omnivore' and lists worms, barnacles, hydroids, tunicates and bryozoans alongside macroalgae. Mortensen adds 'all sorts of minor animals, especially barnacles'. It is an omnivore, not a strict primary consumer."
-        },
-        "edge:Kelp canopy->Edible sea urchin": {
-          "sourceIds": [
-            "bhl:mortensen-1927-echinoderms"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 299 (Echinus esculentus)",
-              "quote": "The food consists of both algae (e.g. Laminaria, especially when covered with Bryozoa) and all sorts of minor animals, especially barnacles.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "marlin:1311"
@@ -29744,36 +30241,20 @@
           "support": [
             {
               "sourceId": "marlin:1311",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "Low water to circa 40m",
-              "readBy": "refs-trawl depth agent (page fetched 2026-08-28, HTTP 200, passage read)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1311",
-            "doi:10.3389-fmars.2019.00107"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1311",
-              "locator": "Habitat preferences > Substratum / habitat preferences",
-              "quote": "Artificial (man-made), Bedrock, Caves, Crevices / fissures, Large to very large boulders, Overhangs, Rockpools, Small boulders, Under boulders",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Depth range",
+              "quote": "Depth range Low water to circa 40m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.3389-fmars.2019.00107",
-              "locator": "Section 'Interactions With Epifauna and Megafauna Species'",
-              "quote": "Large-scale intensive cultivation of kelps is likely to provide additional habitat for a range of invertebrate and fish species, and kelp farms will naturally act as fish aggregating devices",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1311",
+              "locator": "Summary > Habitat",
+              "quote": "Found on rocky substrata from the sublittoral fringe to circa 40 m, although it may be found at depths of 100 m or more.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -29798,6 +30279,125 @@
           ],
           "claimSupported": false,
           "conflict": "The app says: Eats me: Ballan wrasse (the only predator edge on the Edible sea urchin). The source says: The European shag, a catalogue species with no edge to the urchin in the food web, ate Echinus esculentus in 27.0% of diet samples (11 of 41) at Bluemull Sound, Shetland. Ballan wrasse predation on sea urchins is real but the only feeding-ecology study found is Azorean, where Echinus esculentus does not occur, so the app's specific pairing rests on a genus-level generalisation from outside the species' range."
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1311",
+            "doi:10.1002-ecy.3341"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Summary > Additional information",
+              "quote": "An omnivorous grazer feeding on seaweeds (e.g. Laminaria spp. sporelings), Bryozoa, barnacles and other encrusting invertebrates.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Sensitivity review > Increase in turbidity > Evidence",
+              "quote": "macroalgal populations e.g. kelps, which are a preferred food species for Echinus esculentus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1002-ecy.3341",
+              "locator": "Introduction (study design)",
+              "quote": "three common kelp consumers (the urchin Echinus esculentus , gastropod Steromphala umbilicalis [previously Gibbula umbilicalis ], and amphipod Gammarus spp.)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:1311"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Typically feeds on Recorded feeding on; worms, barnacles (e.g. Balanus spp.), hydroids, tunicates, bryozoans (e.g. Membranipora spp.), macroalgae (e.g. Laminaria spp.), bottom material and detritus (reviewed by Lawrence 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Summary > Additional information",
+              "quote": "An omnivorous grazer feeding on seaweeds (e.g. Laminaria spp. sporelings), Bryozoa, barnacles and other encrusting invertebrates.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1311"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Typically feeds on Recorded feeding on; worms, barnacles (e.g. Balanus spp.), hydroids, tunicates, bryozoans (e.g. Membranipora spp.), macroalgae (e.g. Laminaria spp.), bottom material and detritus (reviewed by Lawrence 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Mobility Creeper, Mobile Characteristic feeding method Grazer, Scavenger Diet/food source Omnivore",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin-habitat:65"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin-habitat:65",
+              "locator": "Ecological relationships (predation on Echinus esculentus)",
+              "quote": "Echinus esculentus may be preyed upon by the lobster Homarus gammarus , and in the north, the wolf-fish Anarhichas lupus .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marlin-habitat:65"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin-habitat:65",
+              "locator": "Ecological relationships (predation on Echinus esculentus)",
+              "quote": "Echinus esculentus may be preyed upon by the lobster Homarus gammarus , and in the north, the wolf-fish Anarhichas lupus .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "doi:10.1080-00063657.2024.2311080"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Table 1, p. 4 (frequency of occurrence of prey species)",
+              "quote": "Table 1. Frequency of occurrence of prey species in diet samples (pellet N = 1, faecal N = 40) from European Shags roosting at Bluemull Sound, 2019–2020. ... Common Sea Urchin Echinus esculentus 27.0 11",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -29815,63 +30415,77 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:124319",
         "marlin:1189",
-        "bhl:mortensen-1927-echinoderms",
-        "doi:10.1371-journal.pone.0068313"
+        "marlin:1311",
+        "worms:124319"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
             "marlin:1189",
-            "bhl:mortensen-1927-echinoderms"
+            "worms:124319"
           ],
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "Identifying features",
-              "quote": "Test sub-pentagonal and slightly depressed, with short, robust spines. Greenish in overall colour with violet tips to the spines Ambulacral plates have three pore pairs and one primary tubercle. Globiferous pedicellariae abundant, jaw...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "An almost round, slightly flattened urchin that grows up to 57 mm in diameter (although more typically to 35 mm diameter). It is greenish in colour with distinctive violet tips to the spines. The spines are robust, short and closely packed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1189",
-              "locator": "Description",
-              "quote": "An almost round, slightly flattened urchin that grows up to 57 mm in diameter (although more typically to 35 mm diameter). It is greenish in colour with distinctive violet tips to the spines. The spines are robust, short and closely...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "All British and Irish coasts. Evenly distributed in the southern North Sea but scarce in northern North Sea.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 295 (Psammechinus miliaris)",
-              "quote": "Colour greenish, both the test and spines, but the point of the spines usually violet.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1189",
+              "locator": "Summary > Habitat",
+              "quote": "Found intertidally on rocky shores under stones, boulders and seaweeds especially Saccharina latissima . Also found subtidally in seagrass beds or on mixed coarse bottoms such as muddy sand and gravel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124319",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Intertidal in pools, sometimes with Paracentrotus lividus , also under stones; sublittoral down to about 100 m on rock and gravel. Common all round the British Isles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmr97zum900007imk3035mw88": {
           "sourceIds": [
-            "marlin:1189"
+            "marlin:1189",
+            "marlin:1311"
           ],
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "Identifying features",
-              "quote": "Test sub-pentagonal and slightly depressed, with short, robust spines. Greenish in overall colour with violet tips to the spines Ambulacral plates have three pore pairs and one primary tubercle. Globiferous pedicellariae abundant, jaw...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "An almost round, slightly flattened urchin that grows up to 57 mm in diameter (although more typically to 35 mm diameter). It is greenish in colour with distinctive violet tips to the spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1189",
-              "locator": "Description",
-              "quote": "An almost round, slightly flattened urchin that grows up to 57 mm in diameter (although more typically to 35 mm diameter). It is greenish in colour with distinctive violet tips to the spines. The spines are robust, short and closely...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Test sub-pentagonal and slightly depressed, with short, robust spines. ... Greenish in overall colour with violet tips to the spines",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1311",
+              "locator": "Summary > Description (Echinus esculentus, for the size comparison)",
+              "quote": "A large globular sea urchin, up to 15 -16 cm in diameter at seven to eight years of age, although the largest diameter recorded was 17.6 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmr97zum900017imkfimiafqs": {
           "sourceIds": [
@@ -29880,40 +30494,53 @@
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "Identifying features",
-              "quote": "Test sub-pentagonal and slightly depressed, with short, robust spines. Greenish in overall colour with violet tips to the spines Ambulacral plates have three pore pairs and one primary tubercle. Globiferous pedicellariae abundant, jaw...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Greenish in overall colour with violet tips to the spines",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1189",
-              "locator": "Description",
-              "quote": "An almost round, slightly flattened urchin that grows up to 57 mm in diameter (although more typically to 35 mm diameter). It is greenish in colour with distinctive violet tips to the spines. The spines are robust, short and closely...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "It is greenish in colour with distinctive violet tips to the spines. The spines are robust, short and closely packed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Summary > Additional information",
+              "quote": "Sometimes called the purple tipped sea urchin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Summary > Additional information",
+              "quote": "Those from deeper water tend to be paler in colour, with a light green test and vivid purple spine tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1189",
-            "bhl:mortensen-1927-echinoderms"
+            "marlin:1189"
           ],
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "Description",
+              "locator": "Summary > Description",
               "quote": "An almost round, slightly flattened urchin that grows up to 57 mm in diameter (although more typically to 35 mm diameter).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 295 (Psammechinus miliaris)",
-              "quote": "Grows to a size of up to ca. 50 mm. in horizontal diameter.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1189",
+              "locator": "Biology review > Biology information > Size",
+              "quote": "Size. The maximum size varies with location. In some places, the maximum diameter reached is small (<2 cm (Jensen, 1969); around 3.5 cm (Bedford & Moore, 1985; Gage, 1991; Bull, 1939) although others have recorded diameters up to 5.75 cm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29925,10 +30552,31 @@
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "Biology",
-              "quote": "Epifaunal; Mobility: Crawler or Walker, Mobile; Body flexibility: None (less than 10 degrees)",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology (structured table)",
+              "quote": "Body flexibility None (less than 10 degrees) Mobility Crawler or Walker, Mobile",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Biology review > Biology (structured table)",
+              "quote": "Diet/food source Omnivore Typically feeds on Macroalgae, hydroids, bryozoans, boring sponges, barnacles, mussels, cockles and worms (see Lawrence, 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Biology review > Biology information > Abundance",
+              "quote": "Abundance. In Scotland, Psammechinus miliaris typically occurs in dense, localized populations in sheltered areas of sea lochs on the west coast (Davies, 1989; Holt, 1991).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Importance information",
+              "quote": "It is likely that the grazing activity of Psammechinus miliaris has a profound impact on the biodiversity and distribution of subtidal and intertidal encrusting invertebrates as well as flora.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -29950,54 +30598,23 @@
         },
         "trait:habitat": {
           "sourceIds": [
-            "bhl:mortensen-1927-echinoderms"
-          ],
-          "support": [
-            {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 295 (Psammechinus miliaris)",
-              "quote": "It is essentially a littoral form, living among sea-grass, algae, often found under stones and on rocks within the tide limits.",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1189"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1189",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Loose lying brown macroalgae, particularly Saccharina latissima (studied as Laminaria saccharina), is probably the main nutrient source although softer green algae such as Ulva lactuca may be important when small (Cook et al., 1998).",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true,
-          "conflict": "The app says: Trophic tier 2, a primary consumer. The source says: MarLIN gives 'Diet/food source: Omnivore' and 'Typically feeds on: Macroalgae, hydroids, bryozoans, boring sponges, barnacles, mussels, cockles and worms'. It also lists the characteristic feeding method as 'Active suspension feeder'."
-        },
-        "edge:Kelp canopy->Green sea urchin": {
-          "sourceIds": [
             "marlin:1189",
-            "bhl:mortensen-1927-echinoderms"
+            "worms:124319"
           ],
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Loose lying brown macroalgae, particularly Saccharina latissima (studied as Laminaria saccharina), is probably the main nutrient source",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Found intertidally on rocky shores under stones, boulders and seaweeds especially Saccharina latissima . Also found subtidally in seagrass beds or on mixed coarse bottoms such as muddy sand and gravel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "bhl:mortensen-1927-echinoderms",
-              "locator": "p. 295 (Psammechinus miliaris)",
-              "quote": "It appears to be rather omnivorous; according to the bottom on which it lives, its food consists of Zostera, algae, or all sorts of bottom organisms.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "worms:124319",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Intertidal in pools, sometimes with Paracentrotus lividus , also under stones; sublittoral down to about 100 m on rock and gravel. Common all round the British Isles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -30020,49 +30637,144 @@
         },
         "trait:depth": {
           "sourceIds": [
+            "marlin:1189",
+            "worms:124319"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Summary > Depth range (structured field)",
+              "quote": "Depth range 0 -100 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Habitat preferences > Habitat Information",
+              "quote": "The species is found in the intertidal and subtidal, occasionally as deep as 100 m (Mortensen, 1927) but more commonly between 16 -70 m (Cranmer, 1985) or 0 -10 m in Scottish sea lochs (Kelly, 2000).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:124319",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Intertidal in pools, sometimes with Paracentrotus lividus , also under stones; sublittoral down to about 100 m on rock and gravel. Common all round the British Isles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
             "marlin:1189"
           ],
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "0 -100 m",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Loose lying brown macroalgae, particularly Saccharina latissima (studied as Laminaria saccharina ), is probably the main nutrient source although softer green algae such as Ulva lactuca may be important when small (Cook et al ., 1998).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Biology review > Biology (structured table)",
+              "quote": "Typically feeds on Macroalgae, hydroids, bryozoans, boring sponges, barnacles, mussels, cockles and worms (see Lawrence, 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:1": {
           "sourceIds": [
-            "marlin:1189",
-            "doi:10.1371-journal.pone.0068313"
+            "marlin:1189"
           ],
           "support": [
             {
               "sourceId": "marlin:1189",
-              "locator": "Habitat preferences > Substratum / habitat preferences",
-              "quote": "Artificial (man-made), Bedrock, Cobbles, Gravel / shingle, Large to very large boulders, Macroalgae, Mixed, Muddy gravel, Muddy sand, Rockpools, Small boulders, Under boulders",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "The green sea urchin also feeds on epifauna such as hydroids, barnacles, small bivalves, boring sponges (e.g. Cliona ), and worms (e.g. Polydora ) (Hancock, 1957; Lawrence, 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1189",
-              "locator": "Biology review > Biology information > Abundance",
-              "quote": "34 individuals per m2 in a subtidal Saccharina latissima (studied as Laminaria saccharina) bed, 182.4 /m2 in a shallow bed of Zostera and 28.4 /m2 on adjacent mud surfaces (Comely, 1979)",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1371-journal.pone.0068313",
-              "locator": "Results > General Site Description and Summary",
-              "quote": "The epibenthic megafauna at the Creran 1 and 2 sites were characterised by starfish (see below) and the urchins Psammechinus miliaris Forbes with occasional seapens (Virgularia mirabilis (Muller, 1776)).",
-              "readBy": "refs:trawl (urchin)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology (structured table)",
+              "quote": "Typically feeds on Macroalgae, hydroids, bryozoans, boring sponges, barnacles, mussels, cockles and worms (see Lawrence, 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: created. The food web defines this as a hard-substrate obligate that would be absent without the farm because it has nowhere to live on bare soft sediment. The source says: MarLIN's substratum preferences for the species include gravel/shingle, muddy gravel and muddy sand, and it records 28.4 individuals per square metre on adjacent MUD surfaces (Comely, 1979). It is not a hard-substrate obligate."
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1189"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Biology review > Biology (structured table)",
+              "quote": "Typically feeds on Macroalgae, hydroids, bryozoans, boring sponges, barnacles, mussels, cockles and worms (see Lawrence, 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "The green sea urchin also feeds on epifauna such as hydroids, barnacles, small bivalves, boring sponges (e.g. Cliona ), and worms (e.g. Polydora ) (Hancock, 1957; Lawrence, 1975).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:1189"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Importance information",
+              "quote": "Psammechinus miliaris is predated upon by starfish, crabs and some fish, e.g.. the wolf fish Anarhichas lupus .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marlin:1189"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Importance information",
+              "quote": "Psammechinus miliaris is predated upon by starfish, crabs and some fish, e.g.. the wolf fish Anarhichas lupus .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "marlin:1189"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1189",
+              "locator": "Importance information",
+              "quote": "Populations at low tide can be subject to predation by birds such as gulls and oyster catchers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

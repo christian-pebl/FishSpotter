@@ -2221,7 +2221,7 @@
     "movement": [
       "fits-and-starts"
     ],
-    "fieldNote": "Elongated, armour-headed seabed fish that 'walks' on three free finger-like rays beneath each large fan-shaped pectoral fin. Greyish-brown with a white-spotted, nearly straight side-line; the dark blotch on the first (spiny) dorsal fin is the giveaway.",
+    "fieldNote": "An elongated, bottom-living fish with a large sloping head and two dorsal fins. The small first dorsal fin carries a large black mark near the top. It is greyish-brown with a red tinge, small white spots on the sides, and the three lowermost pectoral rays detached.",
     "bodyDepth": [
       "slender"
     ],
@@ -2263,7 +2263,7 @@
     "movement": [
       "fits-and-starts"
     ],
-    "fieldNote": "Brick-red gurnard with an armoured head and the family's three free finger-like pectoral rays for 'walking' the seabed. A conspicuous row of bony plates runs along the straight side-line; pectoral fins are plain reddish (no bold patch). Smaller than the tub gurnard.",
+    "fieldNote": "Red with pinkish-silver mottling, a large angular head and steep snout, and a bony extension running from below the eye to the preopercle. The last two or three pectoral rays are free and enlarged, used for food detection, and the pectoral fins open and close like a bird's wing. The lateral-line scales are plate-like, expanded vertically. A caught fish croaks like a frog.",
     "bodyDepth": [
       "slender"
     ],
@@ -2305,7 +2305,7 @@
     "movement": [
       "fits-and-starts"
     ],
-    "fieldNote": "The largest UK gurnard: reddish, armour-headed, walking on three free finger-like pectoral rays. The give-away is the enormous fan pectoral fins, vivid peacock-blue and green with a bright blue edge, flared when it moves.",
+    "fieldNote": "The largest of the European gurnards, with a big head cased in bony plates and three separate finger-like rays below each pectoral fin that it rests on and feels for food with. The give-away is the pectoral fins, marked with brilliant peacock-blue spots and a blue outer rim.",
     "bodyDepth": [
       "medium"
     ],
@@ -2347,7 +2347,7 @@
     "movement": [
       "fits-and-starts"
     ],
-    "fieldNote": "Gurnard whose reddish body is covered in many fine dark OBLIQUE streaks, the give-away. Armoured head and three free finger-like pectoral rays for 'walking' the seabed like its cousins; deeper-bodied than the grey gurnard.",
+    "fieldNote": "Red above and pale below, with dark spots on the head and back and large dark blue spots on the grey pectoral fins. Uniquely amongst gurnards, the body is covered with transverse ridges of skin that start at the lateral line, and the lateral line scales are enlarged and armed with small spines. The head is large with a steep forehead, and the three lowermost pectoral rays are detached.",
     "bodyDepth": [
       "medium"
     ],
@@ -2389,7 +2389,7 @@
     "urchinForm": [
       "round-spiny"
     ],
-    "fieldNote": "Britain's largest urchin, a reddish-pink to purple dome up to 16cm across, covered in short even spines with a five-part radial pattern showing through. Grazes algae off rock and kelp stipes with a mouth on its underside; edible, and once commercially harvested."
+    "fieldNote": "A large globular urchin, up to 15 to 16 cm across, its pinkish-red test closely covered in even reddish spines with violet tips. It creeps over bedrock and boulders from the sublittoral fringe to about 40 m, grazing algae and encrusting animals; where numbers are high its grazing can destroy kelp forests. The roe is edible."
   },
   "Psammechinus miliaris": {
     "commonName": "Green sea urchin",
@@ -2420,7 +2420,7 @@
     "urchinForm": [
       "round-spiny"
     ],
-    "fieldNote": "A small green urchin, its short spines tipped with violet-purple, giving a speckled two-tone look. Common in shallow rockpools, kelp holdfasts and seagrass beds all around the UK, often the first urchin a rockpooler finds."
+    "fieldNote": "A small, almost round urchin, greenish with distinctive violet tips to its short, robust spines. Found on all British and Irish coasts, intertidally on rocky shores under stones, boulders and seaweed, and subtidally in seagrass beds and on mixed coarse bottoms of muddy sand and gravel, from the shore down to about 100 m."
   },
   "Paracentrotus lividus": {
     "commonName": "Purple sea urchin",
