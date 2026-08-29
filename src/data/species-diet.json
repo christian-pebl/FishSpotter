@@ -1062,7 +1062,11 @@
         "text": "Microorganisms, decaying seaweed and dead invertebrates, taken by scavenging"
       }
     ],
-    "eatenBy": []
+    "eatenBy": [
+      {
+        "text": "Prawns, which eat the egg masses the females lay under rocks and then abandon"
+      }
+    ]
   },
   "Marthasterias glacialis": {
     "eats": [
@@ -1436,7 +1440,11 @@
         "text": "Mysid shrimps and bottom-living copepods"
       }
     ],
-    "eatenBy": []
+    "eatenBy": [
+      {
+        "text": "The invasive silver-cheeked toadfish (Lagocephalus sceleratus), whose gut contents off Crete included a streaked gurnard"
+      }
+    ]
   },
   "Echinus esculentus": {
     "eats": [

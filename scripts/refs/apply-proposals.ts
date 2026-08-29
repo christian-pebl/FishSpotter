@@ -253,31 +253,45 @@ async function main() {
     }
 
     // ---- the four fact tiles
-    const speciesFacts: Record<string, { text: string }> = {};
-    for (const key of ["depth", "size", "habitat", "behaviour"] as const) {
-      const f = p.facts?.[key];
-      const claimKey = `trait:${key === "behaviour" ? "behavior" : key}`;
-      if (!f?.text) {
-        delete entry.claims[claimKey];
-        removed.push({ species: p.species, key: claimKey, note: "no sourced phrase proposed for this tile" });
-        continue;
+    //
+    // Merged PER KEY, not wholesale. A proposal is silent about a tile it does
+    // not mention, and silence is not a statement that the species has none:
+    // a follow-up fixing one depth would otherwise delete the other three tiles
+    // and their bindings. To take a tile OFF, name it with a null value.
+    if (p.facts) {
+      const speciesFacts: Record<string, { text: string }> = { ...(facts[p.species] ?? {}) };
+      for (const key of ["depth", "size", "habitat", "behaviour"] as const) {
+        if (!(key in p.facts)) continue;
+        const f = p.facts[key];
+        const claimKey = `trait:${key === "behaviour" ? "behavior" : key}`;
+        if (!f?.text) {
+          delete speciesFacts[key];
+          delete entry.claims[claimKey];
+          removed.push({ species: p.species, key: claimKey, note: "tile withdrawn by the proposal" });
+          continue;
+        }
+        const kept = checkSupport(p.species, claimKey, f.support, dropped);
+        if (kept.length === 0) {
+          delete speciesFacts[key];
+          delete entry.claims[claimKey];
+          removed.push({ species: p.species, key: claimKey, note: `tile dropped, no verifiable passage: ${f.text}` });
+          continue;
+        }
+        speciesFacts[key] = { text: f.text };
+        entry.claims[claimKey] = toClaim(kept, true);
+        tally.facts++;
       }
-      const kept = checkSupport(p.species, claimKey, f.support, dropped);
-      if (kept.length === 0) {
-        delete entry.claims[claimKey];
-        removed.push({ species: p.species, key: claimKey, note: `tile dropped, no verifiable passage: ${f.text}` });
-        continue;
-      }
-      speciesFacts[key] = { text: f.text };
-      entry.claims[claimKey] = toClaim(kept, true);
-      tally.facts++;
+      facts[p.species] = speciesFacts;
     }
-    facts[p.species] = speciesFacts;
 
     // ---- the authored diet bullets
+    //
+    // Same rule as the tiles, but per SIDE: a proposal that supplies only
+    // `eatenBy` is not asserting that the species eats nothing.
     const eats: { text: string; slug?: string }[] = [];
     const eatenBy: { text: string; slug?: string }[] = [];
     for (const side of ["eats", "eatenBy"] as const) {
+      if (!p.diet?.[side]) continue;
       const out = side === "eats" ? eats : eatenBy;
       for (const b of p.diet?.[side] ?? []) {
         if (!b.text) continue;
@@ -298,10 +312,18 @@ async function main() {
     for (const key of Object.keys(entry.claims)) {
       const m = /^diet:(eats|eatenBy):(\d+)$/.exec(key);
       if (!m) continue;
-      const len = m[1] === "eats" ? eats.length : eatenBy.length;
+      const side = m[1] as "eats" | "eatenBy";
+      // Only prune the side this proposal rewrote; the other side's claims are
+      // still backed by the bullets sitting in species-diet.json.
+      if (!p.diet?.[side]) continue;
+      const len = side === "eats" ? eats.length : eatenBy.length;
       if (Number(m[2]) >= len) delete entry.claims[key];
     }
-    diets[p.species] = { eats, eatenBy };
+    if (p.diet) {
+      diets[p.species] ??= { eats: [], eatenBy: [] };
+      if (p.diet.eats) diets[p.species].eats = eats;
+      if (p.diet.eatenBy) diets[p.species].eatenBy = eatenBy;
+    }
 
     // Drop the superseded claims BEFORE the source list is rebuilt. The per-edge
     // links and the trophic tier came off the guide with the rest of the
