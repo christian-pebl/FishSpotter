@@ -40,7 +40,9 @@
     "lateralLine": [
       "dark-curved"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "cod-like"
     ]
@@ -84,7 +86,9 @@
     "lateralLine": [
       "pale-straight"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "cod-like"
     ]
@@ -125,7 +129,9 @@
     "bodyDepth": [
       "deep"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "cod-like"
     ]
@@ -166,7 +172,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "cod-like"
     ]
@@ -210,7 +218,9 @@
     "bodyDepth": [
       "deep"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "wrasse"
     ]
@@ -250,7 +260,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "wrasse"
     ]
@@ -288,11 +300,13 @@
       "water-column",
       "fits-and-starts"
     ],
-    "fieldNote": "Small wrasse with a comma-shaped dark eye-spot on the tail base and a curved line behind the eye.",
+    "fieldNote": "A deep-bodied wrasse of rocky shores and seaweed, with a black spot in the middle of the tail stalk and a comma-shaped spot behind the eye.",
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "wrasse"
     ]
@@ -335,7 +349,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "wrasse"
     ]
@@ -369,7 +385,9 @@
       "stationary"
     ],
     "fieldNote": "Massive grey-brown eel with continuous dorsal-tail-anal fin; usually only the head visible peering from a crevice.",
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "long-skinny"
     ]
@@ -405,7 +423,9 @@
       "stationary"
     ],
     "fieldNote": "Slippery ribbon-like fish with a row of dark-and-pale ocelli along the dorsal fin.",
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "long-skinny"
     ]
@@ -449,7 +469,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -490,7 +512,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -532,7 +556,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -573,7 +599,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -610,7 +638,9 @@
       "stationary"
     ],
     "fieldNote": "Flat-headed sand-dweller; males flare a tall first dorsal and lyre-shaped tail in display.",
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -648,7 +678,9 @@
       "stationary"
     ],
     "fieldNote": "A small sand-dwelling dragonet, cryptically spotted and reticulated in cream and brown. Smaller than the common dragonet; the male's first dorsal fin is raised but not as tall or filamentous as C. lyra. Found on sandy-muddy bottoms from the shallows down to 400m.",
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-sitter"
     ]
@@ -788,7 +820,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "shark"
     ]
@@ -829,7 +863,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-other"
     ]
@@ -869,7 +905,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "cod-like"
     ]
@@ -912,7 +950,9 @@
     "lateralLine": [
       "arched-over-pectoral"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "cod-like"
     ]
@@ -953,7 +993,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -993,7 +1035,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1034,7 +1078,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1075,7 +1121,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1113,7 +1161,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1151,7 +1201,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "silver-shoaler"
     ]
@@ -1193,7 +1245,9 @@
     "bodyDepth": [
       "medium"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-other"
     ]
@@ -1232,7 +1286,9 @@
       "stationary"
     ],
     "fieldNote": "Tubby blenny with a continuous spiny dorsal and a long anal fin; no head tentacles (unlike tompot blenny). Pops in and out of crevices and rockpool gullies.",
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-other"
     ]
@@ -1271,7 +1327,9 @@
     "bodyDepth": [
       "slender"
     ],
-    "fishZone": ["water-column"],
+    "fishZone": [
+      "water-column"
+    ],
     "fishGroup": [
       "long-skinny"
     ]
@@ -2170,7 +2228,9 @@
     "lateralLine": [
       "pale-straight"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-other"
     ]
@@ -2210,7 +2270,9 @@
     "lateralLine": [
       "pale-straight"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-other"
     ]
@@ -2250,7 +2312,9 @@
     "lateralLine": [
       "pale-straight"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-other"
     ]
@@ -2290,7 +2354,9 @@
     "lateralLine": [
       "pale-straight"
     ],
-    "fishZone": ["seabed"],
+    "fishZone": [
+      "seabed"
+    ],
     "fishGroup": [
       "bottom-other"
     ]

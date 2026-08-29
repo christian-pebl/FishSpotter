@@ -31,7 +31,16 @@
   },
   "Symphodus melops": {
     "depth": {
-      "text": "1-12 m (usually 1-30 m)"
+      "text": "Lower shore pools down to about 50 m"
+    },
+    "size": {
+      "text": "Up to 25-28 cm, usually less than 15 cm"
+    },
+    "habitat": {
+      "text": "Rocky shores among seaweed and in lower shore pools, extending sublittorally; also near rocks, eel-grass beds and in lagoons"
+    },
+    "behaviour": {
+      "text": "Schooling and territorial; the male builds a seaweed nest among rocks or in crevices and guards it aggressively"
     }
   },
   "Ctenolabrus rupestris": {
@@ -46,7 +55,16 @@
   },
   "Pholis gunnellus": {
     "depth": {
-      "text": "0-100 m (usually 0-30 m)"
+      "text": "0-100 m, usually 0-30 m"
+    },
+    "size": {
+      "text": "Up to 25 cm long"
+    },
+    "habitat": {
+      "text": "On the shore from mid to low tide amongst seaweed, under rocks and in crevices; common subtidally to 40 m, and offshore over rock, sand and mud"
+    },
+    "behaviour": {
+      "text": "Shelters under rocks and seaweed and breathes air when out of water; both parents may take turns guarding the ball of eggs until it hatches"
     }
   },
   "Gobiusculus flavescens": {
@@ -111,7 +129,16 @@
   },
   "Gadus morhua": {
     "depth": {
-      "text": "0-600 m (usually 150-200 m)"
+      "text": "0-600 m, usually 150-200 m"
+    },
+    "size": {
+      "text": "Up to 200 cm total length, commonly around 100 cm; mature fish are usually about 120 cm and 12 kg"
+    },
+    "habitat": {
+      "text": "Cold temperate seas from the shoreline out over the continental shelf, commonly over sandy bottoms; adults in deeper, colder water"
+    },
+    "behaviour": {
+      "text": "Schools by day about 30-80 m above the bottom, dispersing at night to feed; often in large, dense shoals"
     }
   },
   "Chelon labrosus": {
@@ -166,7 +193,16 @@
   },
   "Cancer pagurus": {
     "depth": {
-      "text": "Intertidal to 100 m"
+      "text": "From intertidal down to 100 m"
+    },
+    "size": {
+      "text": "Carapace width up to 25 cm, typically up to 15 cm"
+    },
+    "habitat": {
+      "text": "Bedrock and under boulders, mixed coarse grounds, and offshore in muddy sand; lower shore to about 100 m"
+    },
+    "behaviour": {
+      "text": "Mainly nocturnal; ambushes prey from shelters under rocks and digs large pits in sediment to reach bivalves"
     }
   },
   "Necora puber": {},

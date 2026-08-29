@@ -4518,6 +4518,44 @@
         "Merlangius merlangus",
         "Pomatoschistus minutus"
       ]
+    },
+    "imr:corkwing-narrative-2020": {
+      "kind": "web",
+      "title": "Corkwing wrasse (Symphodus melops), Coast of Norway. Stock sensitivity narrative",
+      "authors": [
+        "Halvorsen, K."
+      ],
+      "publisher": "Institute of Marine Research (Havforskningsinstituttet), Norway",
+      "year": 2020,
+      "url": "https://www.hi.no/resources/klimastatus-pa-bestander/20211214_Wrasse_Corkwing_narrative.pdf",
+      "expectText": [
+        "Symphodus melops"
+      ],
+      "verifyMode": "pdf"
+    },
+    "doi:10.1007/s00265-020-02947-5": {
+      "kind": "journal",
+      "title": "Predator presence affects activity patterns but not food consumption or growth of juvenile corkwing wrasse (Symphodus melops)",
+      "authors": [
+        "Norin, T.",
+        "Sundin, J.",
+        "Morgan, R.",
+        "Andreassen, A.H.",
+        "Amcoff, M.",
+        "Speers-Roesch, B.",
+        "Jutfelt, F.",
+        "Binning, S.A.",
+        "Roche, D.G.",
+        "Clark, T.D."
+      ],
+      "publisher": "Springer, Behavioral Ecology and Sociobiology 75:14 (open-access record at DTU Orbit)",
+      "year": 2021,
+      "url": "https://orbit.dtu.dk/en/publications/0ae76bb7-91e0-4c36-98f5-9a44793c7458",
+      "identifier": "doi:10.1007/s00265-020-02947-5",
+      "expectText": [
+        "Symphodus melops"
+      ],
+      "verifyMode": "html-title"
     }
   },
   "species": {
@@ -6892,165 +6930,186 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:273571",
-        "marlin:1658",
-        "fishbase:Symphodus-melops",
+        "doi:10.1007/s00265-020-02947-5",
         "doi:10.7489-1799-1",
-        "fishbase-fooditems:Symphodus-melops"
+        "fishbase-fooditems:Symphodus-melops",
+        "fishbase:Symphodus-melops",
+        "ices:crr325",
+        "imr:corkwing-narrative-2020",
+        "marlin:1658",
+        "nrw:591"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Symphodus-melops",
             "marlin:1658"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Symphodus-melops",
-              "locator": "Short description",
-              "quote": "A few cephalic pores (7-12) on snout. Lips with 5-7 folds. Scales on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:1658",
-              "locator": "Identifying features",
-              "quote": "Body length 15 cm, maximum length 25 cm. Black spot in the middle of the tail stalk. Comma shaped spot behind eye. Lines on head and gill cover. Single long dorsal fin with 14-17 spines anteriorly and 8-10 rays posteriorly. Anal fin...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "All corkwing wrasse have a black spot in the middle of the tail stalk and a comma shaped spot behind the eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1658",
               "locator": "Description",
-              "quote": "Body deep and compressed sideways with a single long dorsal fin. Maximum length 25 cm but usually less than 15 cm. Colour highly variable and depends on background and age of individual. Females and juveniles tend to be brown or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Body deep and compressed sideways with a single long dorsal fin. Maximum length 25 cm but usually less than 15 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1658",
+              "locator": "Habitat",
+              "quote": "On rocky shores amongst seaweed and in lower shore pools, extending sublittorally to depths of up to 50 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Small wrasse with a comma-shaped dark eye-spot on the tail base and a curved line behind the eye. The source says: marlin:1658 Description: 'All corkwing wrasse have a black spot in the middle of the tail stalk and a comma shaped spot behind the eye.' Identifying features: 'Black spot in the middle of the tail stalk. Comma shaped spot behind eye.' fishbase: 'A small dark spot on caudal peduncle.'"
+          "claimSupported": true
         },
         "mark:cmpz9mbu100137igsj7lvmxpz": {
           "sourceIds": [
-            "fishbase:Symphodus-melops",
-            "marlin:1658"
+            "marlin:1658",
+            "fishbase:Symphodus-melops"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Symphodus-melops",
-              "locator": "marlin:1658 > Description",
+              "sourceId": "marlin:1658",
+              "locator": "Description",
               "quote": "Both sexes have lines on the head and gill covers which are brown and pale blue in the female, bright green or blue in the male.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
-            {
-              "sourceId": "marlin:1658",
-              "locator": "Identifying features",
-              "quote": "Body length 15 cm, maximum length 25 cm. Black spot in the middle of the tail stalk. Comma shaped spot behind eye. Lines on head and gill cover. Single long dorsal fin with 14-17 spines anteriorly and 8-10 rays posteriorly. Anal fin...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1658",
-              "locator": "Description",
-              "quote": "Body deep and compressed sideways with a single long dorsal fin. Maximum length 25 cm but usually less than 15 cm. Colour highly variable and depends on background and age of individual. Females and juveniles tend to be brown or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9mbu100147igsxv1ndali": {
-          "sourceIds": [
-            "fishbase:Symphodus-melops",
-            "marlin:1658"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Symphodus-melops",
-              "locator": "marlin:1658 > Description",
-              "quote": "All corkwing wrasse have a black spot in the middle of the tail stalk and a comma shaped spot behind the eye.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1658",
-              "locator": "Identifying features",
-              "quote": "Body length 15 cm, maximum length 25 cm. Black spot in the middle of the tail stalk. Comma shaped spot behind eye. Lines on head and gill cover. Single long dorsal fin with 14-17 spines anteriorly and 8-10 rays posteriorly. Anal fin...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1658",
-              "locator": "Description",
-              "quote": "Body deep and compressed sideways with a single long dorsal fin. Maximum length 25 cm but usually less than 15 cm. Colour highly variable and depends on background and age of individual. Females and juveniles tend to be brown or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9mbu100157igs0kh4h65m": {
-          "sourceIds": [
-            "fishbase:Symphodus-melops",
-            "marlin:1658"
-          ],
-          "support": [
             {
               "sourceId": "fishbase:Symphodus-melops",
               "locator": "Short description",
-              "quote": "A few cephalic pores (7-12) on snout. Lips with 5-7 folds. Scales on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Females and young: with numerous spots on body more or less longitudinally lined, some sinuous lines on head (Ref. 231 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1658",
-              "locator": "Identifying features",
-              "quote": "Body length 15 cm, maximum length 25 cm. Black spot in the middle of the tail stalk. Comma shaped spot behind eye. Lines on head and gill cover. Single long dorsal fin with 14-17 spines anteriorly and 8-10 rays posteriorly. Anal fin...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1658",
-              "locator": "Description",
-              "quote": "Body deep and compressed sideways with a single long dorsal fin. Maximum length 25 cm but usually less than 15 cm. Colour highly variable and depends on background and age of individual. Females and juveniles tend to be brown or...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Symphodus-melops",
+              "locator": "Short description",
+              "quote": "Coloration very variable; ground color of the male is greenish or blue while females are brownish to yellowish (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "trait:size": {
+        "mark:cmpz9mbu100147igsxv1ndali": {
           "sourceIds": [
+            "marlin:1658",
             "fishbase:Symphodus-melops"
           ],
           "support": [
             {
+              "sourceId": "marlin:1658",
+              "locator": "Description",
+              "quote": "All corkwing wrasse have a black spot in the middle of the tail stalk and a comma shaped spot behind the eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1658",
+              "locator": "Identifying features",
+              "quote": "Black spot in the middle of the tail stalk. Comma shaped spot behind eye. Lines on head and gill cover.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Symphodus-melops",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 8.5, range 7 - 10 cm Max length: 28.0 cm SL male/unsexed;; common length: 20.0 cm SL male/unsexed;; max. reported age: 9 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Short description",
+              "quote": "A small dark spot on caudal peduncle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1658",
+              "locator": "Additional information",
+              "quote": "The distinctive tail spot and mark behind the eye may fade in captive individuals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Small (under 10 cm) The source says: fishbase: 'Max length: 28.0 cm SL male/unsexed; common length: 20.0 cm SL male/unsexed'. marlin:1658: 'Body length 15 cm, maximum length 25 cm.'"
+          "claimSupported": true
+        },
+        "mark:cmpz9mbu100157igs0kh4h65m": {
+          "sourceIds": [
+            "marlin:1658"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1658",
+              "locator": "Description",
+              "quote": "All corkwing wrasse have a black spot in the middle of the tail stalk and a comma shaped spot behind the eye.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1658",
+              "locator": "Identifying features",
+              "quote": "Black spot in the middle of the tail stalk. Comma shaped spot behind eye. Lines on head and gill cover.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:1658",
+            "fishbase:Symphodus-melops"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1658",
+              "locator": "Description",
+              "quote": "Body deep and compressed sideways with a single long dorsal fin. Maximum length 25 cm but usually less than 15 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Symphodus-melops",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 28.0 cm SL male/unsexed; (Ref. 4742 ); common length : 20.0 cm SL male/unsexed; (Ref. 4742 ); max. reported age: 9 years (Ref. 4742 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Symphodus-melops"
+            "fishbase:Symphodus-melops",
+            "marlin:1658"
           ],
           "support": [
             {
               "sourceId": "fishbase:Symphodus-melops",
               "locator": "Biology",
-              "quote": "This schooling, territorial fish occurs in the littoral zone, near rocks and eel-grass beds, also in lagoons. In summer ripe females show short ovipositor. Seaweed nest built by male among rocks or in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "This schooling, territorial fish occurs in the littoral zone, near rocks and eel-grass beds, also in lagoons.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Symphodus-melops",
+              "locator": "Biology",
+              "quote": "Seaweed nest built by male among rocks or in crevices.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1658",
+              "locator": "Additional information",
+              "quote": "Males build an elaborate nest of seaweed in either rock crevices or amongst seaweed or seagrasses in sediment areas. The nests are a ball or mound with an entrance hole, which the males aggressively guard.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Solitary The source says: fishbase Biology: 'This schooling, territorial fish occurs in the littoral zone, near rocks and eel-grass beds, also in lagoons.'"
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -7067,21 +7126,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Symphodus-melops"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Symphodus-melops",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 3.4 ±0.1 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.7489-1799-1"
@@ -7097,72 +7141,196 @@
           ],
           "claimSupported": false
         },
-        "edge:Kelp canopy->Corkwing wrasse": {
-          "sourceIds": [
-            "fishbase-fooditems:Symphodus-melops"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase-fooditems:Symphodus-melops",
-              "locator": "Food items table, plants > other plants > benthic algae/weeds rows (Ireland)",
-              "quote": "plants other plants benthic algae/weeds Corallina officinalis Ireland juv./adults; plants other plants benthic algae/weeds Himanthalia elongata Ireland juv./adults",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
+            "marlin:1658",
             "fishbase:Symphodus-melops"
           ],
           "support": [
             {
+              "sourceId": "marlin:1658",
+              "locator": "Habitat",
+              "quote": "On rocky shores amongst seaweed and in lower shore pools, extending sublittorally to depths of up to 50 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Symphodus-melops",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; reef-associated; non-migratory; depth range 1 - 12 m (Ref. 138942), usually 1 - 30 m (Ref. 35388).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; reef-associated; non-migratory; depth range 1 - 12 m (Ref. 138942 ), usually 1 - 30 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1658"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1658",
-              "locator": "Habitat",
-              "quote": "On rocky shores amongst seaweed and in lower shore pools, extending sublittorally to depths of up to 50 m.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1658"
+            "marlin:1658",
+            "fishbase:Symphodus-melops"
           ],
           "support": [
             {
               "sourceId": "marlin:1658",
               "locator": "Habitat",
               "quote": "On rocky shores amongst seaweed and in lower shore pools, extending sublittorally to depths of up to 50 m.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1658",
-              "locator": "Additional information",
-              "quote": "Males build an elaborate nest of seaweed in either rock crevices or amongst seaweed or seagrasses in sediment areas.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Symphodus-melops",
+              "locator": "Biology",
+              "quote": "This schooling, territorial fish occurs in the littoral zone, near rocks and eel-grass beds, also in lagoons.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Symphodus-melops",
+            "fishbase-fooditems:Symphodus-melops",
+            "imr:corkwing-narrative-2020"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Symphodus-melops",
+              "locator": "Biology",
+              "quote": "Feed on mollusks, hydroids, bryozoans, worms and various crustaceans (Ref. 4742 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Symphodus-melops",
+              "locator": "Food items reported for Symphodus melops, benthic crustacean rows (Ireland)",
+              "quote": "Food items reported for Symphodus melops ... zoobenthos benth. crust. amphipods Gammarus locusta Ireland juv./adults ... zoobenthos benth. crust. isopods Idotea balthica Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "imr:corkwing-narrative-2020",
+              "locator": "p. 1, PREY SPECIFICITY",
+              "quote": "Corkwing wrasse feeds on broad ranges of invertebrates, including molluscs, gastropods, polychaetas and crustaceans",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Symphodus-melops",
+            "fishbase-fooditems:Symphodus-melops",
+            "imr:corkwing-narrative-2020"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Symphodus-melops",
+              "locator": "Biology",
+              "quote": "Feed on mollusks, hydroids, bryozoans, worms and various crustaceans (Ref. 4742 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Symphodus-melops",
+              "locator": "Food items reported for Symphodus melops, mollusc rows (Ireland)",
+              "quote": "Food items reported for Symphodus melops ... zoobenthos mollusks bivalves Mytilus edulis Ireland juv./adults ... zoobenthos mollusks gastropods Littorina spp. Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "imr:corkwing-narrative-2020",
+              "locator": "p. 1, PREY SPECIFICITY",
+              "quote": "Corkwing wrasse feeds on broad ranges of invertebrates, including molluscs, gastropods, polychaetas and crustaceans",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Symphodus-melops",
+            "fishbase-fooditems:Symphodus-melops",
+            "imr:corkwing-narrative-2020"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Symphodus-melops",
+              "locator": "Biology",
+              "quote": "Feed on mollusks, hydroids, bryozoans, worms and various crustaceans (Ref. 4742 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Symphodus-melops",
+              "locator": "Food items reported for Symphodus melops, bryozoan and polychaete rows (Ireland)",
+              "quote": "Food items reported for Symphodus melops ... unidentified bryozoans Ireland juv./adults ... zoobenthos worms polychaetes unidentified polychaetes Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "imr:corkwing-narrative-2020",
+              "locator": "p. 1, PREY SPECIFICITY",
+              "quote": "Corkwing wrasse feeds on broad ranges of invertebrates, including molluscs, gastropods, polychaetas and crustaceans",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "nrw:591"
+          ],
+          "support": [
+            {
+              "sourceId": "nrw:591",
+              "locator": "Section 4.1 Cormorant diet (p. 23)",
+              "quote": "In the sea, cormorants mainly feed on bottom-dwelling fishes, wrasses (Labridae) and codfishes (Gadidae) over rocky and weed covered substrates, flatfish over soft substrates",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1007/s00265-020-02947-5"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1007/s00265-020-02947-5",
+              "locator": "Abstract",
+              "quote": "we quantified food consumption and growth of juvenile corkwing wrasses ( Symphodus melops ) over 11 days in the presence or absence of a predator (Atlantic cod, Gadus morhua ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 6.3, prey composition of Sepia officinalis (p. 63)",
+              "quote": "Table 6.3. Prey composition of Sepia officinalis, as known from studies in the Mediterranean Sea and the Northeast Atlantic ... Labridae Symphodus spp.4, indet.3,4,6,8",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.1 Prey, Sepia officinalis (p. 62)",
+              "quote": "It feeds on gobies, sandeels, whiting, and wrasses, but can also prey on some flatfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -7905,190 +8073,206 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126996",
-        "marlin:2080",
+        "doi:10.7489-1799-1",
+        "fishbase-fooditems:Gadus-morhua",
         "fishbase:Pholis-gunnellus",
-        "doi:10.7489-1799-1"
+        "liv:howells-2018-thesis",
+        "marlin:2080",
+        "nrw:591"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Pholis-gunnellus",
-            "marlin:2080"
+            "marlin:2080",
+            "fishbase:Pholis-gunnellus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Short description",
-              "quote": "Morphometrics Ribbon - shaped body with 9 - 13 eye spots along the base of the dorsal fin. Body shape ( shape guide): eel-like.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2080",
               "locator": "Identifying features",
-              "quote": "Eel-like, laterally compressed body. Small head with almost upward looking eyes. Black stripe through eye. Thick fleshy lips. Short, stout spines forming one long dorsal fin. Minute spiny pelvic fins. Scales minute and embedded. Very...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Eel-like, laterally compressed body. ... Very slimy skin. Row of approximately 12 conspicuous white-ringed black spots on back, along base of dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2080",
-              "locator": "Description",
-              "quote": "Pholis gunnellus has an elongate, laterally compressed body up to 25 cm long. This fish has thick fleshy lips and small, conical teeth. A black stripe is present through the eye.The dorsal fin is long, consisting of 75-82 spines,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Short description",
+              "quote": "Ribbon - shaped body with 9 - 13 eye spots along the base of the dorsal fin (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcxa49000i7i6okkyr9lqe": {
           "sourceIds": [
-            "fishbase:Pholis-gunnellus",
-            "marlin:2080"
+            "marlin:2080",
+            "fishbase:Pholis-gunnellus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Identifying features",
-              "quote": "Row of approximately 12 conspicuous white-ringed black spots on back, along base of dorsal fin.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2080",
               "locator": "Identifying features",
-              "quote": "Eel-like, laterally compressed body. Small head with almost upward looking eyes. Black stripe through eye. Thick fleshy lips. Short, stout spines forming one long dorsal fin. Minute spiny pelvic fins. Scales minute and embedded. Very...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Row of approximately 12 conspicuous white-ringed black spots on back, along base of dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2080",
               "locator": "Description",
-              "quote": "Pholis gunnellus has an elongate, laterally compressed body up to 25 cm long. This fish has thick fleshy lips and small, conical teeth. A black stripe is present through the eye.The dorsal fin is long, consisting of 75-82 spines,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "A series of around 12 distinctive black spots, outlined in white are present along the base of the dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Short description",
+              "quote": "Ribbon - shaped body with 9 - 13 eye spots along the base of the dorsal fin (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcxa49000j7i6obn0gimc3": {
           "sourceIds": [
-            "fishbase:Pholis-gunnellus",
-            "marlin:2080"
+            "marlin:2080",
+            "fishbase:Pholis-gunnellus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Short description",
-              "quote": "Morphometrics Ribbon - shaped body with 9 - 13 eye spots along the base of the dorsal fin. Body shape ( shape guide): eel-like.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2080",
               "locator": "Identifying features",
-              "quote": "Eel-like, laterally compressed body. Small head with almost upward looking eyes. Black stripe through eye. Thick fleshy lips. Short, stout spines forming one long dorsal fin. Minute spiny pelvic fins. Scales minute and embedded. Very...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Eel-like, laterally compressed body. ... Very slimy skin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2080",
-              "locator": "Description",
-              "quote": "Pholis gunnellus has an elongate, laterally compressed body up to 25 cm long. This fish has thick fleshy lips and small, conical teeth. A black stripe is present through the eye.The dorsal fin is long, consisting of 75-82 spines,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Additional information",
+              "quote": "The name 'butterfish' derives from the slimy skin of this fish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Short description",
+              "quote": "Ribbon - shaped body with 9 - 13 eye spots along the base of the dorsal fin (Ref. 35388 ). Body shape ( shape guide ): eel-like.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcxa49000k7i6oup94rb1w": {
           "sourceIds": [
-            "fishbase:Pholis-gunnellus",
-            "marlin:2080"
+            "marlin:2080",
+            "fishbase:Pholis-gunnellus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Short description",
-              "quote": "Morphometrics Ribbon - shaped body with 9 - 13 eye spots along the base of the dorsal fin. Body shape ( shape guide): eel-like.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2080",
               "locator": "Identifying features",
-              "quote": "Eel-like, laterally compressed body. Small head with almost upward looking eyes. Black stripe through eye. Thick fleshy lips. Short, stout spines forming one long dorsal fin. Minute spiny pelvic fins. Scales minute and embedded. Very...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Small head with almost upward looking eyes. Black stripe through eye. Thick fleshy lips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2080",
               "locator": "Description",
-              "quote": "Pholis gunnellus has an elongate, laterally compressed body up to 25 cm long. This fish has thick fleshy lips and small, conical teeth. A black stripe is present through the eye.The dorsal fin is long, consisting of 75-82 spines,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "This fish has thick fleshy lips and small, conical teeth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Biology",
+              "quote": "Feeds on small crustaceans, polychaetes, mollusks and fish eggs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: a gentle weed-grazer with no eel-like teeth The source says: Feeds on small crustaceans, polychaetes, mollusks and fish eggs."
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fishbase:Pholis-gunnellus"
+            "fishbase:Pholis-gunnellus",
+            "marlin:2080"
           ],
           "support": [
             {
               "sourceId": "fishbase:Pholis-gunnellus",
               "locator": "Size / Weight / Age",
-              "quote": "L m &nbsp ? &nbsp range ? - ? cm Max length: 25.0 cm SL male/unsexed;; max. reported age: 5 years",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Max length : 25.0 cm SL male/unsexed; (Ref. 4693 ); max. reported age: 5 years (Ref. 72462 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2080",
+              "locator": "Description",
+              "quote": "Pholis gunnellus has an elongate, laterally compressed body up to 25 cm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Size: Small (under 10 cm) The source says: FishBase: 'Max length : 25.0 cm SL male/unsexed'. MarLIN: 'an elongate, laterally compressed body up to 25 cm long'."
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Pholis-gunnellus",
-            "marlin:2080"
+            "marlin:2080",
+            "fishbase:Pholis-gunnellus"
           ],
           "support": [
-            {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Biology",
-              "quote": "Facultative air-breathing; Occurs in shallow waters (seashore, tide pools), but descends (especially in winter) to 100 m or more. May remain out of water under rocks or seaweeds. Feeds on small crustaceans,...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; demersal; non-migratory; depth range 0 - 100 m, usually 0 - 30 m. Polar; 72&deg;N - 43&deg;N, 76&deg;W - 45&deg;E",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:2080",
               "locator": "Habitat",
               "quote": "Primarily found on the shore from mid to low tide mark amongst seaweed, under rocks and in crevices. It is also common subtidally to 40 m. Offshore it occurs amongst rocky areas but also on sand and muddy substrata.",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Biology",
+              "quote": "Occurs in shallow waters (seashore, tide pools), but descends (especially in winter) to 100 m or more.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Pholis-gunnellus"
+            "fishbase:Pholis-gunnellus",
+            "marlin:2080"
           ],
           "support": [
             {
               "sourceId": "fishbase:Pholis-gunnellus",
               "locator": "Biology",
-              "quote": "Facultative air-breathing; Occurs in shallow waters (seashore, tide pools), but descends (especially in winter) to 100 m or more. May remain out of water under rocks or seaweeds. Feeds on small crustaceans,...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "May remain out of water under rocks or seaweeds (Ref. 31184 ). ... Breathes air when out of water (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Biology",
+              "quote": "The eggs are laid on the sea bed in a large clump, which is closely guarded until hatched (Ref. 9900 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Biology",
+              "quote": "Female lays 80-200 eggs in a large ball under a stone or in an empty bivalve shell (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2080",
+              "locator": "Additional information",
+              "quote": "The butterfish is unusual in that both parents may take turns to guard the eggs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -8103,21 +8287,6 @@
               "locator": "Biology",
               "quote": "Facultative air-breathing; Occurs in shallow waters (seashore, tide pools), but descends (especially in winter) to 100 m or more. May remain out of water under rocks or seaweeds. Feeds on small crustaceans,...",
               "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Pholis-gunnellus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Estimates based on models (Fishbase.org), 'Trophic level' row",
-              "quote": "Trophic level (Ref. 69278) 3.5 ±0.46 se; based on food items.",
-              "readBy": "refs:trawl (fish-1)",
               "readOn": "2026-08-28"
             }
           ],
@@ -8138,7 +8307,22 @@
           ],
           "claimSupported": true
         },
-        "edge:Seabed biodeposits->Butterfish": {
+        "trait:depth": {
+          "sourceIds": [
+            "fishbase:Pholis-gunnellus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; demersal; non-migratory; depth range 0 - 100 m (Ref. 48978 ), usually 0 - 30 m (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
           "sourceIds": [
             "fishbase:Pholis-gunnellus"
           ],
@@ -8147,42 +8331,93 @@
               "sourceId": "fishbase:Pholis-gunnellus",
               "locator": "Biology",
               "quote": "Feeds on small crustaceans, polychaetes, mollusks and fish eggs.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trait:depth": {
+        "diet:eats:1": {
           "sourceIds": [
             "fishbase:Pholis-gunnellus"
           ],
           "support": [
             {
               "sourceId": "fishbase:Pholis-gunnellus",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; demersal; non-migratory; depth range 0 - 100 m (Ref. 48978), usually 0 - 30 m (Ref. 35388).",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Feeds on small crustaceans, polychaetes, mollusks and fish eggs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:2": {
           "sourceIds": [
-            "marlin:2080"
+            "fishbase:Pholis-gunnellus"
           ],
           "support": [
             {
-              "sourceId": "marlin:2080",
-              "locator": "Habitat",
-              "quote": "Primarily found on the shore from mid to low tide mark amongst seaweed, under rocks and in crevices. It is also common subtidally to 40 m. Offshore it occurs amongst rocky areas but also on sand and muddy substrata.",
-              "readBy": "refs:trawl (fish-1)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Pholis-gunnellus",
+              "locator": "Biology",
+              "quote": "Feeds on small crustaceans, polychaetes, mollusks and fish eggs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role 'created' (would be absent from bare soft sediment without the farm's structure) The source says: MarLIN's butterfish account explicitly records it on soft ground offshore: 'Offshore it occurs amongst rocky areas but also on sand and muddy substrata.' That directly contradicts the 'physically cannot occupy bare soft sediment' test the food web uses to award 'created'."
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "liv:howells-2018-thesis"
+          ],
+          "support": [
+            {
+              "sourceId": "liv:howells-2018-thesis",
+              "locator": "Results > Diet composition",
+              "quote": "Other prey included Pholidae (0.05 ± 0.19 of total biomass, 8% of samples)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "liv:howells-2018-thesis",
+              "locator": "Discussion",
+              "quote": "The Pholidae prey class contained solely the rock butterfish or gunnel Pholis gunnellus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items table row; columns are Food I / Food II / Food III / Food name / Territory / Predator Stage, so 'recruits/juv.' is the stage of the COD, not of the gunnel",
+              "quote": "bony fish Pholis gunnellus UK Scotland recruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "nrw:591"
+          ],
+          "support": [
+            {
+              "sourceId": "nrw:591",
+              "locator": "4.3 Goosander diet",
+              "quote": "In winter and spring, in shallow coastal waters, eel, eelpout (Zoarces viviparus), three-spined stickleback, gobies (Gobiidae), sandsmelt, butterfish (Pholis gunnellus), and cottids are taken.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -10964,284 +11199,228 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126436",
-        "marlin:2095",
-        "fishbase:Gadus-morhua",
-        "fishbase-pred:Gadus-morhua",
         "doi:10.1111-raq.12584",
-        "doi:10.1111-raq.12669"
+        "doi:10.1111-raq.12669",
+        "fishbase-fooditems:Gadus-morhua",
+        "fishbase-pred:Gadus-morhua",
+        "fishbase:Gadus-morhua",
+        "fishbase:Pollachius-pollachius",
+        "fishbase:Pollachius-virens",
+        "marlin:2095"
       ],
       "claims": {
-        "edge:Sprat->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "nekton | finfish | bony fish | Sprattus sprattus | Germany | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Poor cod->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "nekton | finfish | bony fish | Trisopterus minutus | (not available) | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Whiting->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "nekton | finfish | bony fish | Merlangius merlangus | Norway | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Sand goby->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "nekton | finfish | bony fish | Pomatoschistus minutus | Germany | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Shore Crab->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "zoobenthos | benth. crust. | crabs | Carcinus maenas | (not available) | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Grey gurnard->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "nekton | finfish | bony fish | Eutrigla gurnardus | Norway | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Dragonet->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "nekton | finfish | bony fish | Callionymus lyra | Ireland | juv./adults",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "edge:Spider Crab->Atlantic cod": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "fishbase-fooditems:Gadus-morhua > Food items table row",
-              "quote": "zoobenthos | benth. crust. | crabs | Inachus sp. | UK Scotland | recruits/juv.",
-              "readBy": "refs:diet (FishBase food-item records)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Gadus-morhua",
-            "marlin:2095"
+            "marlin:2095",
+            "fishbase:Gadus-morhua"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "Short description",
-              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2095",
-              "locator": "Identifying features",
-              "quote": "Two anal fins and three dorsal fins. The upper jaw overhangs the lower jaw and there is a long chin barbel. The colour varies with habitat but many have brown to red spots on back and sides. Has a highly distinguishable curved, pale...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "This is a heavy and powerful fish with three dorsal and two anal fins, all slightly rounded, and either a square or rounded tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2095",
               "locator": "Description",
-              "quote": "Mature Gadus morhua grow to approximately 120 cm in length, weighing around 12 kg, however, larger fish have been recorded. Age of maturity varies regionally but is usually between one and fifteen years. Colour is variable depending...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The upper jaw overhangs the lower and the long chin barbel is equal to the eye in diameter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2095",
+              "locator": "Description",
+              "quote": "A prominent curved, white (or very pale) lateral line makes this species easy to identify.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Short description",
+              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw, and light lateral line, curved above the pectoral fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9j78u00097igshksmq1l0": {
           "sourceIds": [
+            "marlin:2095",
             "fishbase:Gadus-morhua",
-            "marlin:2095"
+            "fishbase:Pollachius-pollachius",
+            "fishbase:Pollachius-virens"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "Short description",
-              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2095",
+              "locator": "Description",
+              "quote": "The upper jaw overhangs the lower and the long chin barbel is equal to the eye in diameter.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2095",
               "locator": "Identifying features",
-              "quote": "Two anal fins and three dorsal fins. The upper jaw overhangs the lower jaw and there is a long chin barbel. The colour varies with habitat but many have brown to red spots on back and sides. Has a highly distinguishable curved, pale...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Two anal fins and three dorsal fins. ... The upper jaw overhangs the lower jaw and there is a long chin barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2095",
-              "locator": "Description",
-              "quote": "Mature Gadus morhua grow to approximately 120 cm in length, weighing around 12 kg, however, larger fish have been recorded. Age of maturity varies regionally but is usually between one and fifteen years. Colour is variable depending...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Short description",
+              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw, and light lateral line, curved above the pectoral fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description",
+              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel. Dark lateral line that sharply curves over the pectoral fin and continues over whole body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Short description",
+              "quote": "Chin barbel small. Lateral line smooth along its entire length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9j78u000a7igsbmlgazql": {
           "sourceIds": [
+            "marlin:2095",
             "fishbase:Gadus-morhua",
-            "marlin:2095"
+            "fishbase:Pollachius-pollachius",
+            "fishbase:Pollachius-virens"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "marlin:2095 > Description",
+              "sourceId": "marlin:2095",
+              "locator": "Description",
               "quote": "A prominent curved, white (or very pale) lateral line makes this species easy to identify.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2095",
               "locator": "Identifying features",
-              "quote": "Two anal fins and three dorsal fins. The upper jaw overhangs the lower jaw and there is a long chin barbel. The colour varies with habitat but many have brown to red spots on back and sides. Has a highly distinguishable curved, pale...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Has a highly distinguishable curved, pale lateral line.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
-            {
-              "sourceId": "marlin:2095",
-              "locator": "Description",
-              "quote": "Mature Gadus morhua grow to approximately 120 cm in length, weighing around 12 kg, however, larger fish have been recorded. Age of maturity varies regionally but is usually between one and fifteen years. Colour is variable depending...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9j78u000b7igsfhemj8jq": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua",
-            "marlin:2095"
-          ],
-          "support": [
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "Short description",
-              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Protruding upper jaw, a conspicuous barbel on the lower jaw, and light lateral line, curved above the pectoral fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
+            {
+              "sourceId": "fishbase:Pollachius-pollachius",
+              "locator": "Short description",
+              "quote": "Lower jaw distinctly projecting beyond upper ones. Lacks a chin barbel. Dark lateral line that sharply curves over the pectoral fin and continues over whole body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Short description",
+              "quote": "Chin barbel small. Lateral line smooth along its entire length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9j78u000b7igsfhemj8jq": {
+          "sourceIds": [
+            "marlin:2095",
+            "fishbase:Gadus-morhua",
+            "fishbase:Pollachius-virens"
+          ],
+          "support": [
             {
               "sourceId": "marlin:2095",
               "locator": "Identifying features",
-              "quote": "Two anal fins and three dorsal fins. The upper jaw overhangs the lower jaw and there is a long chin barbel. The colour varies with habitat but many have brown to red spots on back and sides. Has a highly distinguishable curved, pale...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The colour varies with habitat but many have brown to red spots on back and sides.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2095",
               "locator": "Description",
-              "quote": "Mature Gadus morhua grow to approximately 120 cm in length, weighing around 12 kg, however, larger fish have been recorded. Age of maturity varies regionally but is usually between one and fifteen years. Colour is variable depending...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Colour is variable depending on habitat but most are spotted with white bellies. Atlantic cod are commonly found on sandy bottoms and are often mottled brown in appearance.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Short description",
+              "quote": "Color varies from brownish to greenish or gray dorsally and on upper sides, becoming pale and silvery ventrally.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Pollachius-virens",
+              "locator": "Short description",
+              "quote": "Body color is brownish-green dorsally, becoming only slightly paler ventrally.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fishbase:Gadus-morhua"
+            "fishbase:Gadus-morhua",
+            "marlin:2095"
           ],
           "support": [
             {
               "sourceId": "fishbase:Gadus-morhua",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 65.4, range 31 - 74 cm Max length: 200 cm TL male/unsexed;; common length: 100.0 cm TL male/unsexed;; max. published weight: 96.0 kg; max. reported age: 25 years",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 200 cm TL male/unsexed; (Ref. 1371 ); common length : 100.0 cm TL male/unsexed; (Ref. 1371 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2095",
+              "locator": "Description",
+              "quote": "Mature Gadus morhua grow to approximately 120 cm in length, weighing around 12 kg, however, larger fish have been recorded.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Gadus-morhua"
+            "fishbase:Gadus-morhua",
+            "marlin:2095"
           ],
           "support": [
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "Biology",
-              "quote": "Widely distributed in a variety of habitats, from the shoreline down to the continental shelf. Juveniles prefer shallow (less than 10-30 m depth) sublittoral waters with complex habitats, such as seagrass...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "During the day, form schools and swim about 30-80 m above the bottom, dispersing at night to feed (Ref. 1371 , 89385 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2095",
+              "locator": "Additional information",
+              "quote": "They can often be found in large, dense shoals, making them an easy target for fishermen.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Solitary The source says: fishbase Biology, continuing past the recorded quote: 'During the day, form schools and swim about 30-80 m above the bottom, dispersing at night to feed (Ref. 1371, 89385).' marlin:2095 Additional information: 'They can often be found in large, dense shoals, making them an easy target for fishermen.'"
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -11257,21 +11436,6 @@
             }
           ],
           "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Gadus-morhua",
-              "locator": "Estimates based on models: Trophic level",
-              "quote": "Trophic level (Ref. 69278) 4.1 ±0.2 se; based on diet studies.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -11290,72 +11454,193 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Gadus-morhua"
+            "fishbase:Gadus-morhua",
+            "marlin:2095"
           ],
           "support": [
             {
               "sourceId": "fishbase:Gadus-morhua",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243); depth range 0 - 600 m (Ref. 1371), usually 150 - 200 m (Ref. 54441).",
-              "readBy": "refs:confirm (cod-wrasse), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; benthopelagic; oceanodromous (Ref. 51243 ); depth range 0 - 600 m (Ref. 1371 ), usually 150 - 200 m (Ref. 54441 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2095",
+              "locator": "Habitat",
+              "quote": "Cod prefer cold temperate waters and can be found from the shoreline down to depths of 600 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "trait:habitat": {
           "sourceIds": [
-            "doi:10.1111-raq.12584",
-            "doi:10.1111-raq.12669",
-            "fishbase:Gadus-morhua"
+            "fishbase:Gadus-morhua",
+            "marlin:2095"
           ],
           "support": [
-            {
-              "sourceId": "doi:10.1111-raq.12584",
-              "locator": "Abstract",
-              "quote": "Bivalve and seaweed aquaculture were associated with higher abundance ( n = 59, range: 0.05× to 473×, median lnRR = 0.67) and species richness ( n = 29, range: 0.68× to 4.3×, median lnRR = 0.13) of wild, mobile macrofauna.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1111-raq.12669",
-              "locator": "Section 2.5 Finfish",
-              "quote": "It is also unclear whether macroalgal farms enhance juvenile recruitment or simply aggregate existing adult fish populations.",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "Biology",
-              "quote": "Juveniles prefer shallow (less than 10-30 m depth) sublittoral waters with complex habitats, such as seagrass beds, areas with gravel, rocks, or boulder, which provide protection from predators",
-              "readBy": "refs:trawl (fish-2)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "marlin:2095",
-            "fishbase:Gadus-morhua"
-          ],
-          "support": [
+              "quote": "Widely distributed in a variety of habitats, from the shoreline down to the continental shelf. ... Adults are usually found in deeper, colder waters.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2095",
+              "locator": "Habitat",
+              "quote": "Cod prefer cold temperate waters and can be found from the shoreline down to depths of 600 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:2095",
               "locator": "Description",
               "quote": "Atlantic cod are commonly found on sandy bottoms and are often mottled brown in appearance.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:2095",
+            "fishbase:Gadus-morhua",
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2095",
+              "locator": "Additional information",
+              "quote": "Young Gadus morhua feed mainly on copepods but become increasingly dependent on fish as they age, eating the likes of herring, capelin, haddock and even other cod (Dipper, 2001; Wheeler, 1969).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Gadus-morhua",
               "locator": "Biology",
-              "quote": "During the day, form schools and swim about 30-80 m above the bottom, dispersing at night to feed",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "quote": "Omnivorous; feed at dawn or dusk on invertebrates and fish, including young cod. (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua, nekton / finfish rows",
+              "quote": "Food items reported for Gadus morhua ... nekton finfish bony fish Ammodytes marinus ... nekton finfish bony fish Clupea harengus ... nekton finfish bony fish Mallotus villosus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua",
+            "fishbase:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua, zoobenthos / benthic crustacean rows",
+              "quote": "Food items reported for Gadus morhua ... zoobenthos benth. crust. crabs Cancer pagurus ... zoobenthos benth. crust. crabs Pagurus bernhardus ... zoobenthos benth. crust. shrimps/prawns Crangon crangon",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Biology",
+              "quote": "Omnivorous; feed at dawn or dusk on invertebrates and fish, including young cod. (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua",
+            "marlin:2095"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua, zoobenthos echinoderm / mollusc / worm rows",
+              "quote": "Food items reported for Gadus morhua ... sea stars/brittle stars Ophiothrix fragilis ... mollusks bivalves Mytilus sp. ... mollusks gastropods Buccinum undatum ... worms polychaetes Nereis sp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2095",
+              "locator": "Additional information",
+              "quote": "Young Gadus morhua feed mainly on copepods but become increasingly dependent on fish as they age, eating the likes of herring, capelin, haddock and even other cod (Dipper, 2001; Wheeler, 1969).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-pred:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Gadus-morhua",
+              "locator": "Organisms Preying on Gadus morhua, mammal rows",
+              "quote": "Organisms Preying on Gadus morhua ... mammals seals/sea lions Phocidae Halichoerus grypus ... mammals seals/sea lions Phocidae Phoca vitulina ... mammals whales/dolphins Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-pred:Gadus-morhua",
+            "fishbase:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Gadus-morhua",
+              "locator": "Organisms Preying on Gadus morhua, finfish rows",
+              "quote": "Organisms Preying on Gadus morhua ... Gadidae Merlangius merlangus ... Gadidae Pollachius virens ... Lophiidae Lophius piscatorius ... Squalidae Squalus acanthias",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-pred:Gadus-morhua",
+              "locator": "Organisms Preying on Gadus morhua, Gadidae row",
+              "quote": "Organisms Preying on Gadus morhua ... finfish bony fish Gadidae Gadus morhua",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Gadus-morhua",
+              "locator": "Biology",
+              "quote": "Omnivorous; feed at dawn or dusk on invertebrates and fish, including young cod. (Ref. 1371 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-pred:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-pred:Gadus-morhua",
+              "locator": "Organisms Preying on Gadus morhua, bird rows",
+              "quote": "Organisms Preying on Gadus morhua ... birds sea birds Procellariidae Fulmarus glacialis ... birds sea birds Sulidae Morus bassanus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -14163,10 +14448,10 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:107276",
-        "marlin:1179",
+        "doi:10.1016-j.ecolind.2024.112708",
         "fishbase-fooditems:Conger-conger",
-        "doi:10.1016-j.ecolind.2024.112708"
+        "fishbase-fooditems:Gadus-morhua",
+        "marlin:1179"
       ],
       "claims": {
         "fieldNote": {
@@ -14176,20 +14461,41 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "marlin:1179, Biology review > Biology information > Growth",
-              "quote": "Juveniles settle in the intertidal zone in late summer/ early autumn (Bennett, 1995) and remain there until they reach a carapace width (CW) of 6-7 cm (which takes about 3 years) before they move to subtidal areas (Regnault, 1994).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Crab with a heavy, oval shaped body, easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers. It is reddish-brown in colour with very large individuals having a carapace width of up to 25 cm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1179",
-              "locator": "Description",
-              "quote": "Crab with a heavy, oval shaped body, easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers. It is reddish-brown in colour with very large individuals having a carapace width of up to 25 cm...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Wide, oblong-shaped carapace is distinctively marked along its fronto-lateral margins with 10 rounded lobes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Growth",
+              "quote": "Juveniles settle in the intertidal zone in late summer/ early autumn (Bennett, 1995) and remain there until they reach a carapace width (CW) of 6-7 cm (which takes about 3 years) before they move to subtidal areas (Regnault, 1994).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Sensitivity review > Physical pressures > Desiccation, evidence",
+              "quote": "The juveniles in the intertidal seek shelter in moist microhabitats under rocks and seaweed (Lawton, 1989)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Growth",
+              "quote": "In less than 25 m of water, males and females have a mean CW of 14 cm. Between 25 and 55 m, males are on average 17 cm CW and females 15.8 cm, over 55 m these sizes increase to 18 cm CW for males and 17 cm CW for females",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkpyhl00027i30f1hm9wma": {
           "sourceIds": [
@@ -14198,17 +14504,17 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "Identifying features",
-              "quote": "Claw pincers black, slightly unequal in shape and toothed. Wide, oblong-shaped carapace is distinctively marked along its fronto-lateral margins with 10 rounded lobes. Tufts of stiff hairs in rows on legs (pereopods). Last leg segment...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Crab with a heavy, oval shaped body, easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1179",
-              "locator": "Description",
-              "quote": "Crab with a heavy, oval shaped body, easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers. It is reddish-brown in colour with very large individuals having a carapace width of up to 25 cm...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Wide, oblong-shaped carapace is distinctively marked along its fronto-lateral margins with 10 rounded lobes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -14220,20 +14526,27 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "Identifying features",
-              "quote": "Claw pincers black, slightly unequal in shape and toothed. Wide, oblong-shaped carapace is distinctively marked along its fronto-lateral margins with 10 rounded lobes. Tufts of stiff hairs in rows on legs (pereopods). Last leg segment...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Crab with a heavy, oval shaped body, easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers ... carapace width of up to 25 cm although individuals are typically up to 15 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1179",
-              "locator": "Description",
-              "quote": "Crab with a heavy, oval shaped body, easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers. It is reddish-brown in colour with very large individuals having a carapace width of up to 25 cm...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Wide, oblong-shaped carapace is distinctively marked along its fronto-lateral margins with 10 rounded lobes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Cancer pagurus is a large crab typical of hard and soft bottom communities.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpyls0qq00017isoydof353i": {
           "sourceIds": [
@@ -14242,17 +14555,17 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "Identifying features",
-              "quote": "Claw pincers black, slightly unequal in shape and toothed. Wide, oblong-shaped carapace is distinctively marked along its fronto-lateral margins with 10 rounded lobes. Tufts of stiff hairs in rows on legs (pereopods). Last leg segment...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Claw pincers black, slightly unequal in shape and toothed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1179",
-              "locator": "Description",
-              "quote": "Crab with a heavy, oval shaped body, easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers. It is reddish-brown in colour with very large individuals having a carapace width of up to 25 cm...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "easily distinguished from other species by its 'piecrust' edge and massive black tipped pincers",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -14264,14 +14577,13 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "Biology",
-              "quote": "Female size range: 11.5 cm; Male size range: 5-27 cm",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "It is reddish-brown in colour with very large individuals having a carapace width of up to 25 cm although individuals are typically up to 15 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Size tile renders the 'large' trait as 'Large (over 50 cm)'. The source says: MarLIN 1179 Biology table, read live 28 Aug: 'Male size range | 5-27 cm', 'Female size range | 11.5 cm'. Description: 'very large individuals having a carapace width of up to 25 cm although individuals are typically up to 15 cm.'"
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -14280,13 +14592,20 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "marlin:1179, Biology review > Biology (parameter table), and Biology information > Feeding",
-              "quote": "Environmental position | Epibenthic | ... Some prey is also ambushed from shelters under rocks (Lawton, 1989).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Cancer pagurus is mainly nocturnal, presumably to reduce predation by wolffish, seals and cod (Skajaa et al ., 1998).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Some prey is also ambushed from shelters under rocks (Lawton, 1989). In sediments, Cancer pagurus may dig large pits to access bivalve molluscs such as Ensis sp. (Hall et al ., 1991) and Lutraria lutraria .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -14297,21 +14616,6 @@
               "sourceId": "marlin:1179",
               "locator": "Biology",
               "quote": "Predator; Typically feeds on: A variety of live molluscs and crustaceans as well as carrion; Diet/food source: Planktotroph",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1179"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1179",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "It is an active predator and consumes a variety of crustaceans (e.g. the green shore crab Carcinus maenas, the broad clawed porcelain crab Porcellana platycheles",
               "readBy": "refs:confirm (crab-ceph), adversarially checked",
               "readOn": "2026-08-28"
             }
@@ -14341,51 +14645,6 @@
           ],
           "claimSupported": false
         },
-        "edge:Farmed mussels->Edible Crab": {
-          "sourceIds": [
-            "marlin:1179"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1179",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Cancer pagurus also consumes a variety of molluscs e.g. the dog whelk Nucella lapillus, the winkle Littorina littorea (Lawton & Hughes, 1985), razor shells Ensis spp. (Hall et al., 1991), the blue mussel Mytilus edulis",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Seabed biodeposits->Edible Crab": {
-          "sourceIds": [
-            "marlin:1179"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1179",
-              "locator": "Biology review > Biology (parameter table)",
-              "quote": "Typically feeds on A variety of live molluscs and crustaceans as well as carrion",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Shore Crab->Edible Crab": {
-          "sourceIds": [
-            "marlin:1179"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1179",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "It is an active predator and consumes a variety of crustaceans (e.g. the green shore crab Carcinus maenas, the broad clawed porcelain crab Porcellana platycheles",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "marlin:1179"
@@ -14393,21 +14652,13 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "MarLIN species information review > Depth range (structured field)",
+              "locator": "Summary > Depth range",
               "quote": "From intertidal down to 100 m",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.1016-j.ecolind.2024.112708"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway, defined in build-foodweb.mjs as \"a soft-sediment / open-water native, ~unchanged\". The source says: \"certain commercial species were exclusively recorded beneath the mussel headlines: Cancer pagurus, Maja squinado and Necora puber.\" Over eight BACI years at the UK's largest offshore mussel farm, C. pagurus was not recorded at control sites."
         },
         "trait:habitat": {
           "sourceIds": [
@@ -14416,13 +14667,125 @@
           "support": [
             {
               "sourceId": "marlin:1179",
-              "locator": "Habitat",
-              "quote": "Found on bedrock including under boulders, mixed coarse grounds, and offshore in muddy sand.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Found on bedrock including under boulders, mixed coarse grounds, and offshore in muddy sand. Lower shore, shallow sublittoral and offshore to about 100 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1179"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology (parameter table) > Typically feeds on",
+              "quote": "Typically feeds on A variety of live molluscs and crustaceans as well as carrion",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:1179"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "It is an active predator and consumes a variety of crustaceans (e.g. the green shore crab Carcinus maenas ... and will also eat smaller members of their own species (conspecifics)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1179"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Cancer pagurus also consumes a variety of molluscs e.g. the dog whelk Nucella lapillus , the winkle Littorina littorea ... the common cockle Cerastoderma edule and the oyster Ostrea edulis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "In sediments, Cancer pagurus may dig large pits to access bivalve molluscs such as Ensis sp. (Hall et al ., 1991) and Lutraria lutraria .",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:1179",
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Cancer pagurus is mainly nocturnal, presumably to reduce predation by wolffish, seals and cod (Skajaa et al ., 1998).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua > zoobenthos > benth. crust. > crabs",
+              "quote": "Food items reported for Gadus morhua ... crabs Cancer pagurus Norway juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marlin:1179"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Sensitivity review > Physical pressures > Visual presence, evidence",
+              "quote": "Since they are predated upon by seals (Skajaa et al ., 1998), large objects in the water such as divers may cause active crabs to seek refuge and inactive ones to remain so.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1179",
+              "locator": "Sensitivity review > Physical pressures > Increase in turbidity, evidence",
+              "quote": "An increase in suspended matter may reduce predation from visual predators such as seals and fish but is unlikely to affect the foraging of the crab as this is mainly chemosensory",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-fooditems:Conger-conger"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items reported for Conger conger > zoobenthos > benth. crust. > crabs",
+              "quote": "Food items reported for Conger conger ... crabs Cancer pagurus Ireland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

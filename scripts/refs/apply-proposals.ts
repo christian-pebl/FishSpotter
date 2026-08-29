@@ -50,6 +50,8 @@ const REPORT = path.join(ROOT, ".refs-cache", "apply-report.json");
 
 const TODAY = new Date().toISOString().slice(0, 10);
 const READ_BY = "claim-verification-sweep";
+/** Fair-dealing cap on an extract, matching supportSchema in schema.ts. */
+const MAX_QUOTE = 240;
 
 type Support = { sourceId: string; locator: string; quote?: string };
 type Fact = { text: string; support?: Support[] };
@@ -130,6 +132,19 @@ function checkSupport(species: string, key: string, support: Support[] | undefin
     }
     if (!sp.quote) {
       dropped.push({ species, key, sourceId: sp.sourceId, reason: "no quote recorded" });
+      continue;
+    }
+    // The 240-char cap is a fair-dealing limit, not a formatting preference, so
+    // it is enforced here rather than left to the schema to reject at load time
+    // (which fails the whole catalogue, not the one bad quote).
+    if (sp.quote.length > MAX_QUOTE) {
+      dropped.push({
+        species,
+        key,
+        sourceId: sp.sourceId,
+        reason: `quote is ${sp.quote.length} chars, over the ${MAX_QUOTE}-char limit`,
+        quote: sp.quote.slice(0, 120),
+      });
       continue;
     }
     if (!quoteIsInSource(sp.quote, text)) {

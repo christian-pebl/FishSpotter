@@ -100,6 +100,14 @@ Rules:
 - Give a size as the **maximum length a source states**, and the common length
   when one is given. Never convert it to a bucket.
 - Prefer the source's own framing and units. Do not round a stated range.
+- **Never name a source inside the tile text.** `From lower shore pools to
+  about 50 m; FishBase records 1-12 m, usually 1-30 m` is a footnote wearing a
+  tile's clothes. The superscript beside the tile already says who says it, and
+  the card behind it shows every passage. Write `Lower shore pools down to
+  about 50 m` and let both sources hang off the marker.
+- **When sources disagree, state the range the evidence as a whole supports**
+  and attach both passages. A reader who wants the disagreement can open the
+  citation; a reader who wants the depth should not have to arbitrate.
 - A tile with no passage behind it is simply **omitted** from `facts`. The tile
   then does not render. Never write a plausible phrase to fill a gap.
 - These are for a general reader, so plain words beat jargon where a source

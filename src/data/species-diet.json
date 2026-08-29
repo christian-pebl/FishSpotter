@@ -24,8 +24,31 @@
     "eatenBy": []
   },
   "Symphodus melops": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small bottom-living crustaceans, including amphipods, isopods, prawns and small crabs"
+      },
+      {
+        "text": "Molluscs, including small gastropods such as periwinkles, and bivalves such as the common mussel"
+      },
+      {
+        "text": "Worms and encrusting invertebrates, including polychaetes, hydroids and bryozoans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Cormorants, which at sea feed on wrasses over rocky, weed-covered ground",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "Predatory fish, in particular Atlantic cod, which takes juvenile corkwing wrasse",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Common cuttlefish, which take wrasses among their fish prey",
+        "slug": "sepia-officinalis"
+      }
+    ]
   },
   "Ctenolabrus rupestris": {
     "eats": [],
@@ -36,8 +59,30 @@
     "eatenBy": []
   },
   "Pholis gunnellus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small crustaceans"
+      },
+      {
+        "text": "Polychaete worms"
+      },
+      {
+        "text": "Molluscs and fish eggs"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "European shag, which takes gunnels at a North Sea colony, where they occurred in 8% of diet samples",
+        "slug": "phalacrocorax-aristotelis"
+      },
+      {
+        "text": "Atlantic cod, with recruit and juvenile fish recorded eating rock gunnels in Scottish waters",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Goosanders, which take it in shallow coastal water in winter and spring"
+      }
+    ]
   },
   "Gobiusculus flavescens": {
     "eats": [],
@@ -88,8 +133,28 @@
     "eatenBy": []
   },
   "Gadus morhua": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Fish, especially herring, capelin, sandeels and haddock, including smaller cod"
+      },
+      {
+        "text": "Crabs, hermit crabs, shrimps and prawns taken off the seabed"
+      },
+      {
+        "text": "Other seabed invertebrates, including bivalves, whelks, polychaete worms and brittlestars; young cod feed mainly on copepods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals and small cetaceans, including grey seal, harbour seal and harbour porpoise"
+      },
+      {
+        "text": "Larger predatory fish, including whiting, saithe, monkfish and spurdog, and bigger cod eating smaller ones"
+      },
+      {
+        "text": "Seabirds, including northern gannet and northern fulmar"
+      }
+    ]
   },
   "Chelon labrosus": {
     "eats": [],
@@ -132,8 +197,29 @@
     "eatenBy": []
   },
   "Cancer pagurus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "A variety of live molluscs and crustaceans, as well as carrion"
+      },
+      {
+        "text": "Crustaceans such as shore crabs, porcelain crabs and squat lobsters, and smaller crabs of its own kind"
+      },
+      {
+        "text": "Molluscs including dog whelks, winkles, mussels, cockles and oysters, plus buried bivalves such as razor shells dug out of the sediment"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Fish such as cod and wolffish, which it is thought to avoid by being mainly nocturnal"
+      },
+      {
+        "text": "Seals, which take crabs and hunt by sight"
+      },
+      {
+        "text": "Conger eels, recorded taking edible crabs off Ireland",
+        "slug": "conger-conger"
+      }
+    ]
   },
   "Necora puber": {
     "eats": [],
