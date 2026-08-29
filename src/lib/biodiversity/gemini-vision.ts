@@ -21,9 +21,9 @@
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
 // Override with GEMINI_MODEL in .env.local. Default to the latest Flash id
-// (verified available via the ListModels API, 3 Jun 2026); Flash is fast +
+// (verified available via the ListModels API, 22 Jul 2026); Flash is fast +
 // cheap and plenty for this task.
-const DEFAULT_MODEL = "gemini-3.5-flash";
+const DEFAULT_MODEL = "gemini-3.6-flash";
 
 // Retry transient failures, same posture as the iNat client.
 const MAX_RETRIES = 3;
@@ -168,9 +168,32 @@ function guessMimeType(url: string, contentType: string | null): string {
 }
 
 async function downloadImage(url: string): Promise<{ base64: string; mimeType: string }> {
-  const res = await fetch(url, {
-    headers: { "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)" },
-  });
+  // Retry throttling and transient server errors.
+  //
+  // The photo CDNs rate-limit by IP ("Your bot is making too many requests"),
+  // and a batch caller assessing dozens of candidates at once trips that
+  // routinely. Without a retry the download simply fails, the caller records
+  // an unscored candidate, and a perfectly good photo is dropped for a reason
+  // that had nothing to do with the photo. Same posture as the API retry loop
+  // below: back off, then give up with a described error.
+  let res!: Response;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      res = await fetch(url, {
+        headers: { "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)" },
+      });
+    } catch (e) {
+      if (attempt >= MAX_RETRIES - 1) throw new Error(`image fetch failed: ${(e as Error).message}`);
+      await new Promise((r) => setTimeout(r, nextDelay(attempt, null)));
+      continue;
+    }
+    if (res.status === 429 || res.status >= 500) {
+      if (attempt >= MAX_RETRIES - 1) break;
+      await new Promise((r) => setTimeout(r, nextDelay(attempt, res.headers.get("Retry-After"))));
+      continue;
+    }
+    break;
+  }
   if (!res.ok) throw new Error(`image fetch ${res.status} ${res.statusText}`);
   const buf = Buffer.from(await res.arrayBuffer());
   if (buf.byteLength > MAX_IMAGE_BYTES) {
@@ -211,19 +234,29 @@ export async function geminiGenerate(args: {
   const apiKey = args.apiKey ?? process.env.GEMINI_API_KEY;
   if (!apiKey) return { ok: false, error: "GEMINI_API_KEY not set (add it to .env.local)", model };
 
-  const body = {
-    contents: [{ role: "user", parts: args.parts }],
-    generationConfig: {
-      temperature: 0,
-      responseMimeType: "application/json",
-      responseSchema: args.schema,
-      thinkingConfig: { thinkingBudget: args.thinkingBudget ?? 0 },
-    },
-  };
   const url = `${GEMINI_BASE}/models/${model}:generateContent?key=${apiKey}`;
+  const requestedBudget = args.thinkingBudget ?? 0;
+
+  // Some model families (confirmed: gemini-3.6-flash) reject thinkingBudget: 0
+  // outright with a 400 "invalid argument", they're thinking-only and won't
+  // let it be disabled, unlike 2.5/3.5-flash where budget 0 is the normal
+  // cost-saving path. Rather than hardcode a model-name allowlist that will
+  // rot as models change, detect that specific 400 once and retry without
+  // thinkingConfig at all (letting the model use its own default budget).
+  let dropThinkingConfig = false;
 
   let attempt = 0;
   while (true) {
+    const body = {
+      contents: [{ role: "user", parts: args.parts }],
+      generationConfig: {
+        temperature: 0,
+        responseMimeType: "application/json",
+        responseSchema: args.schema,
+        ...(dropThinkingConfig ? {} : { thinkingConfig: { thinkingBudget: requestedBudget } }),
+      },
+    };
+
     let res: Response;
     try {
       res = await fetch(url, {
@@ -243,6 +276,11 @@ export async function geminiGenerate(args: {
       await new Promise((r) => setTimeout(r, nextDelay(attempt, res.headers.get("Retry-After"))));
       attempt++;
       continue;
+    }
+
+    if (res.status === 400 && requestedBudget === 0 && !dropThinkingConfig) {
+      dropThinkingConfig = true;
+      continue; // one immediate retry, doesn't count against MAX_RETRIES
     }
 
     let json: GeminiResponse;

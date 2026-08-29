@@ -1508,3 +1508,111 @@ stayed fully opaque throughout.
 **Sequencing mistake worth not repeating:** the re-cut videos were published BEFORE the
 renderer change was on main, so production briefly stretched the new padded clips. Ship
 the renderer first, or together.
+
+## 2026-08-29: Eight-plus reference photos per species, and four things wrong with the tool that builds them
+
+The species guide's "Reference photos" grid is how a beginner checks what an
+animal actually looks like, and most species had only 5 to 7 photos in it,
+several of them unvetted cron pulls. The ask was simple: find more good
+open-licence photos, verify them, and get every species to at least eight
+besides the curated hero.
+
+**Result: 435 -> 559 gallery photos; 54 of 72 species now at 8 or more, up from
+17.** 462 added, 181 dropped, 836 durable rejects added to the blocklist.
+
+Getting there meant fixing the tool first. All four of these were live on
+`main`, and none of them announced itself.
+
+**1. The builder was scoring nothing at all.** `gemini-3.6-flash` rejects the
+`thinkingBudget: 0` the vision tool sends, so every candidate came back 400.
+`build-species-galleries.ts` drops candidates it cannot score and then DELETES
+the non-curated rows that were not re-chosen, so those two behaviours compose
+into a silent gallery wipe: a real run would have emptied every gallery in the
+catalogue and reported a clean `+0 new`. The retry that fixes it had been
+sitting uncommitted in a working tree since 22 July while `CLAUDE.md` described
+it as shipped. **"The doc says it is fixed" is a claim to check against
+`git log`.**
+
+**2. `--dry-run` was writing to a committed data file.** Two preview runs had
+already added 144 permanent entries to `photo-blocklist.json` before anyone
+looked. The reject-collection step sat above the dry-run early return.
+
+**3. iNaturalist was capped at a single page,** which is the whole reason food
+fish could not reach eight. Whiting has 223 research-grade CC observations and
+the tool only ever saw the top 40 by votes, which for a food fish are all
+dead-on-the-slab catch shots: one teaching-grade photo in the entire sample.
+Paging the client took whiting from 3 gallery photos to 8. Depth was the
+binding constraint, not the filter.
+
+**4. A wrong-species photo was already serving.** *Atherina boyeri*, the
+big-scale sand smelt, was in the *Atherina presbyter* gallery. Commons
+`gsrsearch` is full-text, so an exact-phrase query still matches a file whose
+DESCRIPTION mentions the target, and the vision check cannot save us here
+because it is asked the leading question "is this a good photo of X?" about two
+near-identical fish. The file's own title is the identity claim, the same test
+the species-reference work settled on for MarLIN and FishBase pages.
+
+### Three guards, each added after it fired for real
+
+This script deletes, so every one of these is load-bearing.
+
+- **HOLD on an unreliable vision pass.** Above 40% unscorable candidates a
+  species is left exactly as found. It fired 18 times in the full sweep when the
+  photo CDNs started rate-limiting, and those 18 galleries survived intact
+  instead of being emptied.
+- **Never blocklist a species' entire pool.** 100% rejection is a statement
+  about the rubric, not the photos. *Echinocardium cordatum*, the sea potato, is
+  a burrowing heart urchin whose entire open-licence record is empty tests
+  washed up on a beach, so all 41 candidates scored "dead" and a blanket block
+  would have permanently barred the only images of the animal that exist.
+- **The congener title check is deliberately narrow, because the first version
+  was not.** Genus-match alone refused four files and three were honest: it read
+  "Conger eel01.jpg" as the binomial *Conger eel*, a Spanish caption as *Sepia
+  com*, and treated *Loligo forbesi* as a different animal from *Loligo
+  forbesii*. It now also requires a four-letter epithet, an edit distance of two
+  or more, and that the title does not name the target species anywhere.
+  Precision went from 1-in-4 to 4-in-4 on the same inputs.
+
+### Wikimedia was shipping archive originals into a grid tile
+
+Turning the Commons pull always-on (it used to fire only when iNat came back
+thin, which starved exactly the species that needed a second source) exposed
+that Wikimedia rows stored the ARCHIVE ORIGINAL. Those average 1.95 MB and one
+conger photo is 14.3 MB at 6000x4000, painted into a tile a few hundred pixels
+wide. Rows now hold Commons' own 1280px render: **mean payload 1.95 MB -> 0.27
+MB**, that conger 14.3 MB -> 117 KB. Existing rows were repointed via the
+Commons API rather than by constructing `/thumb/` paths, because Commons
+refuses to render at or above a file's own width and answers 404 or 400, so a
+constructed URL is a broken image on exactly the small files where it saves
+nothing.
+
+### What is not done, and why
+
+**The Gemini prepayment credits ran out mid-job** (`RESOURCE_EXHAUSTED`, "Your
+prepayment credits are depleted"), which is what stopped this at 54 of 72
+rather than any property of the remaining species. **Top up at
+ai.studio/projects and re-run:**
+
+```
+node node_modules/tsx/dist/cli.mjs --env-file=.env.local \
+  scripts/build-species-galleries.ts --all --extra 9 --min 8 --pool 120 \
+  --assess-conc 6 --species-conc 3
+```
+
+18 species sit under 8. Most are only one or two short and were held mid-sweep
+by rate limiting, so they should clear on a re-run. A few are genuine
+open-source ceilings that no amount of credit fixes, and they were already
+known: sea potato (0 gallery photos), sprat (1), Atlantic mackerel (1), poor cod
+(2). Red gurnard went 3 -> 2, having had a photo judged unsuitable and removed;
+its whole iNat record is 23 observations.
+
+Also outstanding: 45 of 74 Wikimedia rows have no PEBL-hosted WebP derivative,
+because `db:backfill-webp` needs R2 credentials that were not on this machine
+and uploading to Supabase instead would have split storage further. The 1280px
+Commons renders are a reasonable interim.
+
+**Throughput note for the next sweep:** this is client-bound, not
+rate-limited. Measured 1.47 assessment/s at concurrency 16 and 3.47/s at 32,
+zero errors either way. But 50-way concurrency provoked sustained 429s from the
+iNat photo CDN and produced 1597 unscored candidates, so concurrency around 20
+is the sweet spot.

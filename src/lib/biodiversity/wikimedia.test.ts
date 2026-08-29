@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isAcceptedLicense, looksNonPhotographic } from "./wikimedia";
+import { isAcceptedLicense, looksNonPhotographic, titleNamesACongener } from "./wikimedia";
 
 describe("looksNonPhotographic", () => {
   it("rejects historical engravings / plates by title", () => {
@@ -61,5 +61,74 @@ describe("isAcceptedLicense", () => {
 
   it("does NOT accept arbitrary terms that mention 'public' without 'public domain'", () => {
     expect(isAcceptedLicense(undefined, "publicly available, terms apply")).toBe(false);
+  });
+});
+
+describe("titleNamesACongener", () => {
+  it("refuses a file whose title names a different species in the same genus", () => {
+    // The case that shipped: an exact-phrase Commons search for the sand smelt
+    // returned the big-scale sand smelt, because the file's DESCRIPTION
+    // mentions the species we asked for.
+    expect(
+      titleNamesACongener("File:Atherina boyeri Sardinia.jpg", "Atherina presbyter"),
+    ).toBe(true);
+  });
+
+  it("allows the species we actually asked for", () => {
+    expect(
+      titleNamesACongener("File:Atherina presbyter 103372383.jpg", "Atherina presbyter"),
+    ).toBe(false);
+  });
+
+  it("handles the underscores Commons uses for spaces", () => {
+    expect(titleNamesACongener("File:Pollachius_virens_shoal.jpg", "Pollachius pollachius")).toBe(true);
+    expect(titleNamesACongener("File:Pollachius_pollachius_1.jpg", "Pollachius pollachius")).toBe(false);
+  });
+
+  it("leaves a title naming an unrelated genus alone", () => {
+    // Not our business: a wrong-subject modern photo is the vision check's
+    // job. This guard only rules on same-genus identity claims.
+    expect(titleNamesACongener("File:Gadus morhua Bergen.jpg", "Atherina presbyter")).toBe(false);
+  });
+
+  it("does not read a common-name title as a binomial", () => {
+    // "Sand smelt" matches the Genus-species shape. Requiring the genus to
+    // match the target is what stops every honest file being thrown away.
+    expect(titleNamesACongener("File:Sand smelt shoal Cornwall.jpg", "Atherina presbyter")).toBe(false);
+  });
+
+  it("is untroubled by a missing title", () => {
+    expect(titleNamesACongener(undefined, "Atherina presbyter")).toBe(false);
+  });
+});
+
+describe("titleNamesACongener: the four real Commons titles it was tuned on", () => {
+  // One impostor and three honest files, all four of which the first,
+  // genus-match-only version of this guard refused.
+  it("refuses the impostor", () => {
+    expect(titleNamesACongener("File:Atherina boyeri Sardinia.jpg", "Atherina presbyter")).toBe(true);
+  });
+
+  it("keeps a common name that happens to start with the genus", () => {
+    expect(titleNamesACongener("File:Conger eel01.jpg", "Conger conger")).toBe(false);
+  });
+
+  it("keeps a file captioned in another language before the binomial", () => {
+    expect(
+      titleNamesACongener(
+        "File:Sepia comun (Sepia officinalis), Parque natural de la Arrabida, Portugal.jpg",
+        "Sepia officinalis",
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps an orthographic variant of the same epithet", () => {
+    expect(
+      titleNamesACongener("File:Loligo forbesi, gefangen im Geirangerfjord.jpg", "Loligo forbesii"),
+    ).toBe(false);
+  });
+
+  it("still refuses a genuinely different congener", () => {
+    expect(titleNamesACongener("File:Pollachius_virens_shoal.jpg", "Pollachius pollachius")).toBe(true);
   });
 });
