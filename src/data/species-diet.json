@@ -1,0 +1,1675 @@
+{
+  "Pollachius pollachius": {
+    "eats": [
+      {
+        "text": "Open-water shoaling fish: sandeels, herring, sprat and capelin"
+      },
+      {
+        "text": "Deep-sea prawns and shrimps; juveniles feed mainly on crustaceans among inshore rocks and weed"
+      },
+      {
+        "text": "Young cuttlefish, heavily preyed on in French waters of northern Brittany"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals, which take pollack from gillnets and tangle nets; one study estimated 18% of pollack landings were depredated"
+      }
+    ]
+  },
+  "Pollachius virens": {
+    "eats": [
+      {
+        "text": "Fish, especially sandeels, sprat and small gadids such as haddock, whiting and Norway pout"
+      },
+      {
+        "text": "Small crustaceans, chiefly copepods, amphipods and euphausiids, taken mostly by smaller fish inshore"
+      },
+      {
+        "text": "Squid, and seabed invertebrates such as brittlestars, small molluscs and polychaete worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals: in the Northern Isles their diet is dominated by sandeel and gadid prey, particularly saithe and cod. Harbour seals in Shetland take saithe too.",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Larger predatory fish, including Atlantic cod, ling and anglerfish"
+      },
+      {
+        "text": "Seabirds and cetaceans, including the European shag, harbour porpoise and minke whale"
+      }
+    ]
+  },
+  "Trisopterus luscus": {
+    "eats": [
+      {
+        "text": "Bottom-living invertebrates are its main food, above all benthic crustaceans such as shrimps and prawns, crabs, amphipods and mysids"
+      },
+      {
+        "text": "Small fish, including sandeels, herring, sprat and gobies"
+      },
+      {
+        "text": "Molluscs and polychaete worms taken off the seabed, plus squid and cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish and rays, including anglerfish, European hake, grey gurnard and thornback ray"
+      },
+      {
+        "text": "Marine mammals: harbour seal and bottlenose dolphin"
+      },
+      {
+        "text": "Common cuttlefish, which take pouting among their fish prey",
+        "slug": "sepia-officinalis"
+      }
+    ]
+  },
+  "Merlangius merlangus": {
+    "eats": [
+      {
+        "text": "Small fish such as sandeels, herring, sprat and Norway pout"
+      },
+      {
+        "text": "Shrimps, crabs and other bottom-living crustaceans"
+      },
+      {
+        "text": "Polychaete worms, molluscs and squid"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, in whose diet around Britain whiting is one of the commonly recovered fish",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Larger predatory fish, with cod, saithe, conger eel and tub gurnard all recorded taking whiting"
+      },
+      {
+        "text": "Other whiting, which are recorded preying on their own species"
+      }
+    ]
+  },
+  "Labrus bergylta": {
+    "eats": [
+      {
+        "text": "Crabs and other decapod crustaceans, a major prey group in Irish, Breton and Azorean gut studies"
+      },
+      {
+        "text": "Benthic molluscs, mainly mussels and other bivalves, with winkles, top shells and other gastropods taken in smaller amounts"
+      },
+      {
+        "text": "Sea urchins and other echinoderms; an important sea-urchin predator in Azorean coastal habitats"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose scats around Scotland yield ballan wrasse otoliths",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Cormorants, which at sea feed mainly on bottom-dwelling fish, wrasses and codfishes over rocky, weed-covered ground",
+        "slug": "phalacrocorax-carbo"
+      }
+    ]
+  },
+  "Labrus mixtus": {
+    "eats": [
+      {
+        "text": "Mainly crustaceans"
+      },
+      {
+        "text": "Fishes"
+      },
+      {
+        "text": "Molluscs and worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose scats in Scottish waters contain cuckoo wrasse otoliths",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Harbour seals, whose scats also contain cuckoo wrasse otoliths",
+        "slug": "phoca-vitulina"
+      }
+    ]
+  },
+  "Symphodus melops": {
+    "eats": [
+      {
+        "text": "Bottom-living crustaceans, including amphipods, isopods, prawns and crabs"
+      },
+      {
+        "text": "Molluscs, including small gastropods such as periwinkles, and bivalves such as the common mussel"
+      },
+      {
+        "text": "Worms and encrusting invertebrates, including polychaetes, hydroids and bryozoans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Cormorants, which at sea feed on wrasses over rocky, weed-covered ground",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "Atlantic cod, a predator of juvenile corkwing wrasse",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Common cuttlefish, which take wrasses among their fish prey",
+        "slug": "sepia-officinalis"
+      }
+    ]
+  },
+  "Ctenolabrus rupestris": {
+    "eats": [
+      {
+        "text": "Bryozoans, the encrusting sea mats that grow over rock and weed"
+      },
+      {
+        "text": "Small bottom-living crustaceans and molluscs, especially gastropods"
+      },
+      {
+        "text": "Parasites picked off the skin of other fish, including the sea lice of farmed salmon"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, which still acts as an apex predator on wrasses in coastal systems",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Apex carnivores of shallow coastal seas, to which the goldsinny is an intermediate-predator prey"
+      }
+    ]
+  },
+  "Conger conger": {
+    "eats": [
+      {
+        "text": "Bony fish taken at night, from whiting, poor cod and dragonet to flatfish such as plaice and dab"
+      },
+      {
+        "text": "Bottom-living crustaceans: crabs including edible and shore crab, squat and Norway lobsters, shrimps and prawns"
+      },
+      {
+        "text": "Cephalopods: curled octopus, squid, and young cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose scats in Scottish waters contain conger eel otoliths",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Common octopus, which is recorded with conger eel among its prey",
+        "slug": "octopus-vulgaris"
+      }
+    ]
+  },
+  "Pholis gunnellus": {
+    "eats": [
+      {
+        "text": "Small crustaceans"
+      },
+      {
+        "text": "Polychaete worms"
+      },
+      {
+        "text": "Molluscs and fish eggs"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "European shag, which takes gunnels at a North Sea colony, where they occurred in 8% of diet samples",
+        "slug": "phalacrocorax-aristotelis"
+      },
+      {
+        "text": "Atlantic cod, with recruit and juvenile fish recorded eating rock gunnels in Scottish waters",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Goosanders, which take it in shallow coastal water in winter and spring"
+      }
+    ]
+  },
+  "Gobiusculus flavescens": {
+    "eats": [
+      {
+        "text": "Small crustaceans: copepods, amphipods and mysids"
+      },
+      {
+        "text": "Zooplankton, including planktonic copepods and arrow worms (chaetognaths); it is primarily a planktivore"
+      },
+      {
+        "text": "Larvae of barnacles, mussels and polychaete worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gadoid fish: cod, pollack, saithe and poor cod, which feed on it most heavily from July to December"
+      },
+      {
+        "text": "Squid, which take it among the small fish in their prey"
+      }
+    ]
+  },
+  "Pomatoschistus microps": {
+    "eats": [
+      {
+        "text": "Amphipods, isopods, polychaete worms and chironomid larvae taken from the surface of the sediment"
+      },
+      {
+        "text": "Epibenthic meiofauna in rock pools, mainly harpacticoid copepods and small amphipods"
+      },
+      {
+        "text": "Juveniles feed largely on interstitial copepods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "An important food source for larger fish, from tub gurnard and five-bearded rockling to twaite shad and sole"
+      },
+      {
+        "text": "An important food source for fish-eating birds such as great crested grebe and goosander"
+      },
+      {
+        "text": "Freshwater fish such as ruffe also take it; it lives in the sea and in brackish water and migrates into the limnetic sections of rivers"
+      }
+    ]
+  },
+  "Gobius paganellus": {
+    "eats": [
+      {
+        "text": "Crustaceans, especially larger amphipods, isopods and small crabs"
+      },
+      {
+        "text": "Polychaete worms and other macrobenthos gleaned from hard substrates"
+      },
+      {
+        "text": "Juveniles take harpacticoid copepods, amphipods, polychaetes and mites"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Common cuttlefish, which feeds on gobies, sandeels, whiting and wrasses",
+        "slug": "sepia-officinalis"
+      },
+      {
+        "text": "The lizardfish Synodus saurus, recorded preying on this species in the Azores"
+      },
+      {
+        "text": "Common octopus, a top predator in the rock pools where this goby shelters",
+        "slug": "octopus-vulgaris"
+      }
+    ]
+  },
+  "Pomatoschistus minutus": {
+    "eats": [
+      {
+        "text": "Small bottom-living crustaceans, chiefly amphipods, mysids and cumaceans"
+      },
+      {
+        "text": "Small polychaete worms taken from the sand and mud"
+      },
+      {
+        "text": "Fish eggs and larvae, including the young of its own species"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gadoid fish, especially cod and whiting"
+      },
+      {
+        "text": "Flatfish, including plaice and flounder"
+      },
+      {
+        "text": "Fish-eating birds and marine mammals, including harbour seal and harbour porpoise"
+      }
+    ]
+  },
+  "Callionymus lyra": {
+    "eats": [
+      {
+        "text": "Mainly polychaete worms"
+      },
+      {
+        "text": "Amphipods and other small bottom-living crustaceans"
+      },
+      {
+        "text": "Molluscs, especially cockles"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bony fish such as cod, pouting, conger eel and anglerfish"
+      },
+      {
+        "text": "Skates and rays, and the spurdog"
+      },
+      {
+        "text": "Marine mammals: grey and harbour seals and harbour porpoise"
+      }
+    ]
+  },
+  "Callionymus maculatus": {
+    "eats": [
+      {
+        "text": "Small bottom-living crustaceans, including amphipods, ostracods, shrimps and prawns, and crabs"
+      },
+      {
+        "text": "Bottom-living worms, including polychaetes"
+      },
+      {
+        "text": "Small seabed molluscs, both snails and bivalves"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gurnards: the grey gurnard, the red gurnard and the tub gurnard"
+      },
+      {
+        "text": "Poor cod, a member of the cod family",
+        "slug": "trisopterus-minutus"
+      },
+      {
+        "text": "Larger predatory fish, including European hake, John Dory and the Atlantic stargazer"
+      }
+    ]
+  },
+  "Pleuronectes platessa": {
+    "eats": [
+      {
+        "text": "Bottom-living shellfish, particularly cockles and razor shells, and thin-shelled molluscs generally; young fish take bivalve siphon tips protruding from the seabed"
+      },
+      {
+        "text": "Polychaete worms, the other mainstay of the diet alongside thin-shelled molluscs"
+      },
+      {
+        "text": "Brittlestars and other echinoderms, small crustaceans such as shrimps, and small fish including sandeels"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, for which plaice is a significant part of the diet, and other marine mammals including harbour seal and harbour porpoise",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Larger predatory fish, including cod, conger eel, anglerfish and thornback ray"
+      },
+      {
+        "text": "Shrimps, whose predation on larvae and juveniles can be very substantial; large adults are at much lower risk because of their size"
+      }
+    ]
+  },
+  "Limanda limanda": {
+    "eats": [
+      {
+        "text": "Worms, crustaceans and molluscs taken from the seabed"
+      },
+      {
+        "text": "Echinoderms, including brittlestars and small sea urchins"
+      },
+      {
+        "text": "Small fishes, a main part of the diet alongside crustaceans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish such as cod, whiting, conger eel and anglerfish"
+      },
+      {
+        "text": "Seals and small cetaceans, including grey and harbour seals and harbour porpoise"
+      },
+      {
+        "text": "Sharks and skates, including spurdog and thorny skate"
+      }
+    ]
+  },
+  "Platichthys flesus": {
+    "eats": [
+      {
+        "text": "Infaunal invertebrates dug from mud and sand: bivalves such as cockles and mussels, polychaete worms and crustaceans"
+      },
+      {
+        "text": "Small fishes, taken alongside the invertebrate prey once the fish is grown"
+      },
+      {
+        "text": "Young fish take plankton, copepods, ostracods and small larvae before switching to larger seabed animals"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals and porpoises: grey seal, harbour seal and harbour porpoise are all recorded taking it"
+      },
+      {
+        "text": "Fish-eating birds, including cormorant, grey heron and goosander"
+      },
+      {
+        "text": "Young fish are heavily preyed on by brown shrimp on the nursery grounds and by comb jellies in the plankton"
+      }
+    ]
+  },
+  "Scyliorhinus canicula": {
+    "eats": [
+      {
+        "text": "Crustaceans, including krill, true crabs and hermit crabs, plus shrimps taken close to the seabed"
+      },
+      {
+        "text": "Molluscs and small cephalopods picked off the bottom"
+      },
+      {
+        "text": "Polychaete worms and small bony fish, chiefly bottom-living and demersal species"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, recorded taking it in British waters",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Other small-spotted catsharks, with cannibalism recorded in all three length classes at 0.1% of stomach volume"
+      }
+    ]
+  },
+  "Mullus surmuletus": {
+    "eats": [
+      {
+        "text": "Shrimps, amphipods and other small crustaceans taken off the seabed"
+      },
+      {
+        "text": "Polychaete worms and molluscs dug out of the sediment"
+      },
+      {
+        "text": "Bottom-living fish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish, including groupers, combers, scorpionfish and stargazers"
+      },
+      {
+        "text": "Thornback ray"
+      },
+      {
+        "text": "Common cuttlefish, which take striped red mullet among their fish prey",
+        "slug": "sepia-officinalis"
+      }
+    ]
+  },
+  "Trisopterus minutus": {
+    "eats": [
+      {
+        "text": "Bottom-living crustaceans, including shrimps and prawns, crabs and hermit crabs, amphipods and mysids"
+      },
+      {
+        "text": "Small fish, including sandeels, gobies and dragonets"
+      },
+      {
+        "text": "Polychaete worms taken off the seabed"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish such as cod, whiting, hake and turbot"
+      },
+      {
+        "text": "Grey and harbour seals, which commonly take poor cod in Scottish waters"
+      },
+      {
+        "text": "Conger eel and anglerfish"
+      }
+    ]
+  },
+  "Gadus morhua": {
+    "eats": [
+      {
+        "text": "Fish, especially herring, capelin, sandeels and haddock, including smaller cod"
+      },
+      {
+        "text": "Crabs, hermit crabs, shrimps and prawns taken off the seabed"
+      },
+      {
+        "text": "Other seabed invertebrates, including bivalves, whelks, polychaete worms and brittlestars; young cod feed mainly on copepods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals and small cetaceans, including grey seal, harbour seal and harbour porpoise"
+      },
+      {
+        "text": "Larger predatory fish, including whiting, saithe, monkfish and spurdog, and bigger cod eating smaller ones"
+      },
+      {
+        "text": "Seabirds, including northern gannet and northern fulmar"
+      }
+    ]
+  },
+  "Chelon labrosus": {
+    "eats": [
+      {
+        "text": "Benthic diatoms and epiphytic algae, and seaweeds grazed off the bottom"
+      },
+      {
+        "text": "Detritus and debris"
+      },
+      {
+        "text": "Small seabed invertebrates, chiefly amphipods, ostracods and small snails; juveniles feed only on zooplankton"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Fish-eating seabirds, in particular the great cormorant",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "Wading shore birds, in particular the grey heron"
+      }
+    ]
+  },
+  "Dicentrarchus labrax": {
+    "eats": [
+      {
+        "text": "Mainly small pelagic fish, above all mackerel, scad, anchovy and sardine"
+      },
+      {
+        "text": "In British waters the recorded prey include sandeels, sprat, sand smelt and small gobies"
+      },
+      {
+        "text": "Shrimps, prawns and molluscs as well as fish; juveniles take mostly invertebrates and more fish as they grow"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Great cormorants, which take bass in estuaries and count it an important prey in southern Europe",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "Other sea bass, recorded in British waters preying on their own kind"
+      }
+    ]
+  },
+  "Trachurus trachurus": {
+    "eats": [
+      {
+        "text": "Fish, crustaceans and cephalopods"
+      },
+      {
+        "text": "Planktonic crustaceans, especially copepods, euphausiids and mysid shrimps"
+      },
+      {
+        "text": "Small schooling fish, including anchovy, blue whiting and silvery pout"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish such as whiting, hake and John Dory"
+      },
+      {
+        "text": "Sharks and rays, including spurdog and white skate"
+      },
+      {
+        "text": "Marine mammals, including harbour porpoise and fur seals"
+      }
+    ]
+  },
+  "Scomber scombrus": {
+    "eats": [
+      {
+        "text": "Zooplankton, including copepods and euphausiid krill"
+      },
+      {
+        "text": "Small shoaling fish, including sandeels, herring and sprat"
+      },
+      {
+        "text": "Gelatinous plankton, including hydrozoan jellyfish such as Aglantha digitale"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "European sea bass, for which mackerel is the single largest prey item by weight in the Bay of Biscay",
+        "slug": "dicentrarchus-labrax"
+      },
+      {
+        "text": "Sharks and other predatory fish, among them porbeagle, blue shark, spurdog, whiting, hake and bluefin tuna"
+      },
+      {
+        "text": "Seabirds and marine mammals, including the northern gannet, great cormorant, harbour seal and harbour porpoise"
+      }
+    ]
+  },
+  "Sprattus sprattus": {
+    "eats": [
+      {
+        "text": "Planktonic crustaceans, including copepods"
+      },
+      {
+        "text": "Cladocerans and other small planktonic crustaceans"
+      },
+      {
+        "text": "Other zooplankton, including arrow worms and larvaceans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish, including cod, whiting, saithe, hake and gurnards"
+      },
+      {
+        "text": "Seals and small cetaceans, including harbour seal, harbour porpoise and bottlenose dolphin"
+      },
+      {
+        "text": "Seabirds such as the kittiwake, and squid"
+      }
+    ]
+  },
+  "Atherina presbyter": {
+    "eats": [
+      {
+        "text": "Zooplankton, including small planktonic crustaceans"
+      },
+      {
+        "text": "Fish eggs and larvae"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Great cormorants, for which sand smelt is an important estuarine prey in southern Europe",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "European shags in Galicia, Spain, which take sand smelt and gobies in February and March before switching to sandeel in spring",
+        "slug": "phalacrocorax-aristotelis"
+      },
+      {
+        "text": "Adult sea bass, in whose stomach contents it is recorded among the coastal fish prey taken on the shelf",
+        "slug": "dicentrarchus-labrax"
+      }
+    ]
+  },
+  "Taurulus bubalis": {
+    "eats": [
+      {
+        "text": "Small crustaceans: mysids, amphipods (gammarids) and decapods such as crabs and shrimps"
+      },
+      {
+        "text": "Fish, taken by ambush in shallow water and rockpools"
+      },
+      {
+        "text": "Seabed invertebrates: polychaete worms, molluscs and brittle stars"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, in whose scats sea scorpion is among the commonly recovered prey species",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Harbour seals in the Wash, whose winter diet includes sea scorpion among the scorpion fish taken",
+        "slug": "phoca-vitulina"
+      },
+      {
+        "text": "Bottlenose dolphins, recorded taking it in Scottish waters"
+      }
+    ]
+  },
+  "Lipophrys pholis": {
+    "eats": [
+      {
+        "text": "Small benthic invertebrates, especially gastropods, barnacles and amphipods"
+      },
+      {
+        "text": "Limpets and other molluscs, along with crabs, polychaete worms and isopods"
+      },
+      {
+        "text": "Algae, eaten alongside its invertebrate prey"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Recorded as prey of the serranid fish Serranus atricauda in the Azores"
+      }
+    ]
+  },
+  "Spinachia spinachia": {
+    "eats": [
+      {
+        "text": "Small invertebrates, recorded for both juveniles and adults"
+      },
+      {
+        "text": "Bottom-living crustaceans, including isopods and barnacles"
+      },
+      {
+        "text": "Planktonic crustaceans, especially mysid shrimps and copepods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Harbour porpoise (Phocoena phocoena)"
+      }
+    ]
+  },
+  "Carcinus maenas": {
+    "eats": [
+      {
+        "text": "A true omnivore, taking molluscs, other crustaceans, worms, algae and carrion"
+      },
+      {
+        "text": "Large crabs feed mainly on molluscs, with the common mussel the single most important prey"
+      },
+      {
+        "text": "On rocky shores the young take barnacles, while adults take more gastropods, especially dogwhelks and winkles"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Mainly fish and birds, including gulls, cormorants and eider ducks, and otters in some areas"
+      },
+      {
+        "text": "Atlantic cod, which take shore crabs among their bottom-living crustacean prey",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Conger eel, recorded taking shore crabs off Portugal",
+        "slug": "conger-conger"
+      }
+    ]
+  },
+  "Cancer pagurus": {
+    "eats": [
+      {
+        "text": "A variety of live molluscs and crustaceans, as well as carrion"
+      },
+      {
+        "text": "Crustaceans such as shore crabs, porcelain crabs and squat lobsters, and smaller crabs of its own kind"
+      },
+      {
+        "text": "Molluscs including dog whelks, winkles, mussels, cockles and oysters, plus buried bivalves such as razor shells dug out of the sediment"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Fish such as cod and wolffish, which it is thought to avoid by being mainly nocturnal"
+      },
+      {
+        "text": "Seals, which take crabs and hunt by sight"
+      },
+      {
+        "text": "Conger eels, recorded taking edible crabs off Ireland",
+        "slug": "conger-conger"
+      }
+    ]
+  },
+  "Necora puber": {
+    "eats": [
+      {
+        "text": "Brown algae, which makes up much of the diet in shallow water, with the animal share of it rising with depth"
+      },
+      {
+        "text": "Invertebrates, chiefly crustaceans and molluscs, including shelled snails up to about 2.5 cm long"
+      },
+      {
+        "text": "Live prey run down as an agile hunter, such as prawns and small fish, and carrion"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seabirds such as the European shag, for which this was the most frequent prey at a Shetland roost through the non-breeding season",
+        "slug": "phalacrocorax-aristotelis"
+      },
+      {
+        "text": "Fish, including adult sea bass, which take it on the continental shelf",
+        "slug": "dicentrarchus-labrax"
+      },
+      {
+        "text": "Octopus, which take a wide range of crabs, this one among them",
+        "slug": "octopus-vulgaris"
+      }
+    ]
+  },
+  "Liocarcinus depurator": {
+    "eats": [
+      {
+        "text": "Polychaete worms, crustaceans, molluscs, brittlestars and fish make up most of the diet"
+      },
+      {
+        "text": "Both a predator and a scavenger, taking a wide range of small invertebrates and carrion"
+      },
+      {
+        "text": "Animals living in the sediment: at high densities it can significantly reduce the infauna"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bottom-feeding fish, including whiting, which take it off Scotland",
+        "slug": "merlangius-merlangus"
+      },
+      {
+        "text": "Small bottom-living sharks: it is a recorded prey of the lesser-spotted catshark",
+        "slug": "scyliorhinus-canicula"
+      },
+      {
+        "text": "Cephalopods, with the common cuttlefish recorded taking swimming crabs of this genus",
+        "slug": "sepia-officinalis"
+      }
+    ]
+  },
+  "Majoidea": {
+    "eats": [
+      {
+        "text": "A scavenger on most seabed types, taking carrion, encrusting animals and seaweed"
+      },
+      {
+        "text": "Juveniles forage on algal-invertebrate turf in shallow nursery grounds through their first two years"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, which take spider crabs among their bottom-living crustacean prey",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Small-spotted catshark, recorded taking the great spider crab off England and Wales",
+        "slug": "scyliorhinus-canicula"
+      },
+      {
+        "text": "Pouting, which take spider crabs among the crabs in their seabed diet",
+        "slug": "trisopterus-luscus"
+      }
+    ]
+  },
+  "Pagurus bernhardus": {
+    "eats": [
+      {
+        "text": "An omnivorous scavenger, taking organic detritus and carrion off the seabed"
+      },
+      {
+        "text": "Sifts the sediment surface as a deposit feeder, and can also strain suspended particles from the water"
+      },
+      {
+        "text": "Takes live prey too, including molluscs, marine worms and other crustaceans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bottom-feeding fish of the cod family, including cod, whiting and pouting"
+      },
+      {
+        "text": "Gurnards and the lesser-spotted catshark, which hunt over the open seabed"
+      },
+      {
+        "text": "Ballan wrasse, for which decapods including hermit crabs are a main prey group",
+        "slug": "labrus-bergylta"
+      }
+    ]
+  },
+  "Sepia officinalis": {
+    "eats": [
+      {
+        "text": "Crustaceans, chiefly mysids, shrimps, prawns and crabs, plus amphipods, isopods and ostracods"
+      },
+      {
+        "text": "Small bottom-living fish, including gobies, sandeels, whiting and wrasses, and sometimes flatfish"
+      },
+      {
+        "text": "Molluscs, polychaete worms and other cephalopods; big individuals eat smaller cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "A wide range of bony fish, including pollack, European seabass, ballan wrasse and conger eel"
+      },
+      {
+        "text": "Sharks and rays, among them the lesser spotted dogfish, smooth-hound and blue shark"
+      },
+      {
+        "text": "Grey seals, along with monk seals and three species of dolphin",
+        "slug": "halichoerus-grypus"
+      }
+    ]
+  },
+  "Loligo forbesii": {
+    "eats": [
+      {
+        "text": "Small fish above all, especially gadoids such as whiting and poor cod, clupeids such as sprat, and sandeels"
+      },
+      {
+        "text": "Crustaceans, which dominate the diet of juveniles and small squid"
+      },
+      {
+        "text": "Other cephalopods, including smaller squid of its own kind"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Toothed whales and dolphins, from pygmy sperm whales and killer whales to common, striped and bottlenose dolphins"
+      },
+      {
+        "text": "Seals, both grey and harbour seals"
+      },
+      {
+        "text": "Large demersal fish such as Atlantic cod and monkfish"
+      }
+    ]
+  },
+  "Loligo vulgaris": {
+    "eats": [
+      {
+        "text": "Mainly fish and crustaceans, fish becoming the commonest prey as the squid grows"
+      },
+      {
+        "text": "Small shoaling shelf fish such as sandeels, horse mackerel, sprat and herring"
+      },
+      {
+        "text": "Young squid take planktonic crustaceans such as copepods, mysids and krill, plus fish larvae"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Toothed whales and dolphins, including bottlenose and Risso's dolphins and the pilot whale"
+      },
+      {
+        "text": "Large predatory fish such as swordfish, bluefin tuna and greater amberjack"
+      },
+      {
+        "text": "Sharks and rays, including lesser spotted dogfish, thornback ray and blonde ray"
+      }
+    ]
+  },
+  "Sepiola atlantica": {
+    "eats": [
+      {
+        "text": "Mysids and decapod shrimps, which are its main prey"
+      },
+      {
+        "text": "Prey taken above the seabed, with foraging concentrated at dawn and dusk"
+      },
+      {
+        "text": "Mysid shrimp of their own size, which newly hatched animals take by spreading the arms into a crown and shooting the tentacles out"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Harbour porpoise, which appears to find buried bobtails by aiming its sonar into the seabed"
+      },
+      {
+        "text": "Small sharks and rays, including lesser spotted dogfish, spurdog, tope, thornback and spotted ray"
+      },
+      {
+        "text": "European hake and gurnards, recorded with it in their stomach contents in Galician waters"
+      }
+    ]
+  },
+  "Eledone cirrhosa": {
+    "eats": [
+      {
+        "text": "Decapod crustaceans, mostly crabs and snapping shrimps, hunted as an active predator"
+      },
+      {
+        "text": "Fish, other cephalopods, gastropods and brittlestars, and sometimes its own kind"
+      },
+      {
+        "text": "Crabs, opened by drilling a hole through the carapace or puncturing an eye"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seals, both grey and harbour; an important part of the harbour seal's summer diet in some years"
+      },
+      {
+        "text": "Fish, from cod, ling and monkfish to dogfish and rays"
+      },
+      {
+        "text": "Toothed whales, including bottlenose dolphins and harbour porpoises"
+      }
+    ]
+  },
+  "Octopus vulgaris": {
+    "eats": [
+      {
+        "text": "Crustaceans, especially crabs and lobsters"
+      },
+      {
+        "text": "Shelled molluscs, drilled open through the shell to reach the animal inside"
+      },
+      {
+        "text": "Fish, when it can catch them, and polychaete worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Fish, including groupers, wrasses and eels, as well as sharks"
+      },
+      {
+        "text": "Marine mammals, especially dolphins and seals"
+      },
+      {
+        "text": "Other cephalopods, including its own species; cannibalism is recorded"
+      }
+    ]
+  },
+  "Asterina gibbosa": {
+    "eats": [
+      {
+        "text": "Bottom-living invertebrates, including crustaceans, molluscs and other echinoderms"
+      },
+      {
+        "text": "Worms and brittlestars from among the rocks, digested by turning the stomach out over them"
+      },
+      {
+        "text": "Microorganisms, decaying seaweed and dead invertebrates, taken by scavenging"
+      }
+    ],
+    "eatenBy": []
+  },
+  "Marthasterias glacialis": {
+    "eats": [
+      {
+        "text": "Mussels above all: the most-taken prey item at every depth on shallow rocky reefs, and preferred over urchins and snails in feeding trials"
+      },
+      {
+        "text": "Sea snails: prosobranch gastropods, the next most frequent prey after mussels"
+      },
+      {
+        "text": "Sea urchins and barnacles; in the Mediterranean it can hold down densities of the purple sea urchin"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Other starfish: the seven-armed starfish and the sunstars are recorded predators, and the common starfish also takes it as prey"
+      },
+      {
+        "text": "Crabs, including the edible crab and the great spider crab, recorded as predators at the northern end of its range"
+      },
+      {
+        "text": "Atlantic cod: sea stars of this genus are among its recorded food items in Scottish waters",
+        "slug": "gadus-morhua"
+      }
+    ]
+  },
+  "Asterias rubens": {
+    "eats": [
+      {
+        "text": "Bivalve molluscs, prised open with the tube feet and digested by turning the stomach out into the shell"
+      },
+      {
+        "text": "Polychaete worms, other echinoderms and the occasional small crustacean, all taken alive"
+      },
+      {
+        "text": "Carrion, scavenged opportunistically: damaged and displaced bivalves, gastropods, crustaceans and echinoderms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "The common sun star, a predatory starfish this animal turns and moves away from when it detects one"
+      },
+      {
+        "text": "Young Atlantic cod, recorded taking Asterias starfish among their seabed prey off Scotland",
+        "slug": "gadus-morhua"
+      }
+    ]
+  },
+  "Ophiothrix fragilis": {
+    "eats": [
+      {
+        "text": "Phytoplankton, diatoms and fine detritus taken from the water"
+      },
+      {
+        "text": "Suspended particles strained from the current with the arms held up into the water"
+      },
+      {
+        "text": "Material off the seabed surface when the current slackens, and dead animals scavenged now and then"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bottom-feeding fish, including ballan and cuckoo wrasse, dragonets, cod and plaice"
+      },
+      {
+        "text": "Crabs, especially swimming crabs such as the velvet crab"
+      },
+      {
+        "text": "Predatory starfish: the common starfish and the spiny starfish, whose chemicals alone make it flee, and Luidia ciliaris"
+      }
+    ]
+  },
+  "Patella vulgata": {
+    "eats": [
+      {
+        "text": "A wide range of micro-organisms and algae, grazed straight off the rock"
+      },
+      {
+        "text": "Wrack germlings and other young seaweed sporelings, cropped before they can establish"
+      },
+      {
+        "text": "Encrusting red algae, and the film of diatoms on the rock surface"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Oystercatchers, which take limpets from rocky shores and feed them to their chicks"
+      },
+      {
+        "text": "Crabs, taking limpets that have been knocked off or have lost their grip on the rock"
+      },
+      {
+        "text": "The shanny, a rocky-shore fish whose diet includes limpets alongside crabs, worms and other small molluscs",
+        "slug": "lipophrys-pholis"
+      }
+    ]
+  },
+  "Nucella lapillus": {
+    "eats": [
+      {
+        "text": "Mainly barnacles and mussels, the sessile animals that hold space on a rocky shore"
+      },
+      {
+        "text": "Cockles, other bivalves and other sea snails, taken less often"
+      },
+      {
+        "text": "Acorn barnacles are the favoured prey ahead of mussels, and a whelk may still get through 15 to 40 mussels in a year"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gulls and eider ducks swallow adults whole, and oystercatchers have caused heavy winter mortality; whelks of 4 cm or more are probably safe from birds"
+      },
+      {
+        "text": "Crabs, which take the smaller ones: shore crabs handle whelks up to 1.5 cm long and velvet swimming crabs up to 2.5 cm"
+      },
+      {
+        "text": "Small waders and rock pipits pick off the young, purple sandpipers favouring whelks only 2 to 5 mm long"
+      }
+    ]
+  },
+  "Calliostoma zizyphinum": {
+    "eats": [
+      {
+        "text": "Micro-algae and other micro-organisms brushed off rocks and stones with the radula"
+      },
+      {
+        "text": "Micro-organisms and waterborne particles trapped in the mucus it wipes over its own shell, about a fifth of its food"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Ballan wrasse, which take it among the gastropods eaten alongside their main crab and mussel prey",
+        "slug": "labrus-bergylta"
+      },
+      {
+        "text": "Veined squid, recorded as a predator from prey identified in squid stomach contents",
+        "slug": "loligo-forbesii"
+      }
+    ]
+  },
+  "Steromphala umbilicalis": {
+    "eats": [
+      {
+        "text": "Fine growth brushed off seaweed and rock, and algal debris; in rockpools this grazing keeps seaweed diversity low"
+      },
+      {
+        "text": "Kelp detritus, taking more of the warm-water kelps Laminaria ochroleuca and Saccorhiza polyschides than of cold-water kelps"
+      },
+      {
+        "text": "Microalgae and microbial films, since it is not an obligate kelp grazer and will select those over kelp detritus"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Shanny, which picks small gastropods off the rock and has this top shell recorded in its gut contents",
+        "slug": "lipophrys-pholis"
+      },
+      {
+        "text": "Shore crabs, though its low, discoid shell makes it harder to handle than a tall-spired periwinkle",
+        "slug": "carcinus-maenas"
+      }
+    ]
+  },
+  "Aurelia aurita": {
+    "eats": [
+      {
+        "text": "Plankton, including copepods and other small drifting animals"
+      },
+      {
+        "text": "Fish eggs, small molluscs and smaller jellyfish"
+      },
+      {
+        "text": "A generalist that takes whatever small prey it meets, caught on contact rather than chased down"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Herring and whiting, the most frequent jellyfish eaters found in an Irish Sea stomach-content study"
+      },
+      {
+        "text": "Dab and squid, with dragonet and grey gurnard also recorded as occasional jellyfish eaters"
+      },
+      {
+        "text": "Leatherback turtles and sunfish, and other jellyfish"
+      }
+    ]
+  },
+  "Chrysaora hysoscella": {
+    "eats": [
+      {
+        "text": "Small planktonic crustaceans, including copepods such as Acartia and Centropages"
+      },
+      {
+        "text": "Decapod larvae and other small marine invertebrates"
+      },
+      {
+        "text": "Zooplankton generally, subdued by stinging cells on the tentacles and passed to the mouth"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Leatherback sea turtles (Dermochelys coriacea)"
+      },
+      {
+        "text": "Ocean sunfish (Mola mola)"
+      },
+      {
+        "text": "Parasitic amphipods (Hyperia species) that live on the jellyfish and eat its gonads"
+      }
+    ]
+  },
+  "Cyanea capillata": {
+    "eats": [
+      {
+        "text": "Other jellyfish, including the smaller moon jellyfish",
+        "slug": "aurelia-aurita"
+      },
+      {
+        "text": "Small fish, along with fish eggs and larvae"
+      },
+      {
+        "text": "Zooplankton and small crustaceans, stung and held by the trailing tentacles"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Leatherback turtles, for which it can be the main prey"
+      },
+      {
+        "text": "Ocean sunfish, which feed largely on big jellyfish in the north-east Atlantic"
+      }
+    ]
+  },
+  "Rhizostoma octopus": {
+    "eats": [
+      {
+        "text": "Plankton, filtered from the water rather than actively hunted"
+      },
+      {
+        "text": "Phytoplankton, copepods and other small zooplankton, with crustacean and mollusc larvae"
+      },
+      {
+        "text": "Small prey trapped in the frilled oral arms and swept to the mouth by microscopic hairs"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Leatherback turtles, for which it is a major prey item"
+      },
+      {
+        "text": "Ocean sunfish, another fast-moving predator of it"
+      }
+    ]
+  },
+  "Cyanea lamarckii": {
+    "eats": [
+      {
+        "text": "Copepods and other crustaceans taken from the plankton"
+      },
+      {
+        "text": "Fish eggs and larvae, including clupeids"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "The amphipod Hyperia galba, an obligate parasite that lives inside the medusa and cannot survive without a host"
+      }
+    ]
+  },
+  "Pelagia noctiluca": {
+    "eats": [
+      {
+        "text": "Small planktonic crustaceans, chiefly cladocerans and copepods, which make up about 90% of gut contents"
+      },
+      {
+        "text": "Other small jellyfish and open-water sea squirts (pelagic ascidians)"
+      },
+      {
+        "text": "Eggs and larvae of free-swimming and bottom-living animals, taken from the plankton"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Whiting, which had eaten this jellyfish more than any other in an Irish Sea gut-content survey",
+        "slug": "merlangius-merlangus"
+      },
+      {
+        "text": "Atlantic mackerel, confirmed by DNA from stomach contents in the Celtic Sea",
+        "slug": "scomber-scombrus"
+      },
+      {
+        "text": "Sardine and sprat, though only rarely"
+      }
+    ]
+  },
+  "Eutrigla gurnardus": {
+    "eats": [
+      {
+        "text": "Crustaceans, mostly shrimps and shore crabs"
+      },
+      {
+        "text": "Fish, mostly gobies, flatfish, young herring and sand eels"
+      },
+      {
+        "text": "Small individuals take mostly seabed invertebrates, while adults take mostly free-swimming prey"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, recorded preying on grey gurnard in Norwegian waters",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Haddock, recorded preying on grey gurnard in Norwegian waters"
+      },
+      {
+        "text": "Conger eel, recorded preying on grey gurnard in Irish waters",
+        "slug": "conger-conger"
+      }
+    ]
+  },
+  "Chelidonichthys cuculus": {
+    "eats": [
+      {
+        "text": "Bottom-living crustaceans, including shrimps and prawns, crabs and amphipods"
+      },
+      {
+        "text": "Bottom-dwelling fish such as sandeels, dragonets and gobies"
+      },
+      {
+        "text": "Squid and cuttlefish, including bobtail squid and the common cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Anglerfish (monkfish), recorded taking red gurnard off Great Britain"
+      }
+    ]
+  },
+  "Chelidonichthys lucerna": {
+    "eats": [
+      {
+        "text": "Small bottom-living fish such as sandeels, gobies, dragonets and small flatfish"
+      },
+      {
+        "text": "Bottom-living crustaceans, mainly shrimps, prawns and crabs"
+      },
+      {
+        "text": "Molluscs and polychaete worms taken from the soft seabed"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish, with the greater amberjack a recorded predator"
+      },
+      {
+        "text": "Other tub gurnards, which are recorded taking their own kind"
+      }
+    ]
+  },
+  "Chelidonichthys lastoviza": {
+    "eats": [
+      {
+        "text": "Crustaceans, with bottom-living animals making up 98-100% of the diet"
+      },
+      {
+        "text": "Crabs, including several species of the genus Liocarcinus"
+      },
+      {
+        "text": "Mysid shrimps and bottom-living copepods"
+      }
+    ],
+    "eatenBy": []
+  },
+  "Echinus esculentus": {
+    "eats": [
+      {
+        "text": "Seaweeds grazed off the rock, with kelps such as Laminaria a preferred food"
+      },
+      {
+        "text": "Encrusting animals scraped off the rock, including barnacles, hydroids, bryozoans and sea squirts"
+      },
+      {
+        "text": "Worms, bottom material and detritus, taken as an omnivorous grazer and scavenger"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "European lobsters, which may prey on it"
+      },
+      {
+        "text": "Wolf-fish, which may take it in the north"
+      },
+      {
+        "text": "European shags, whose diet samples at a northern UK roost held this urchin in 27% of samples",
+        "slug": "phalacrocorax-aristotelis"
+      }
+    ]
+  },
+  "Psammechinus miliaris": {
+    "eats": [
+      {
+        "text": "Seaweed, probably mostly loose-lying brown algae such as sugar kelp, with softer green algae important when small"
+      },
+      {
+        "text": "Encrusting animals living on the bottom: hydroids, bryozoans, barnacles and boring sponges"
+      },
+      {
+        "text": "Small bivalves such as mussels and cockles, and worms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Starfish and crabs"
+      },
+      {
+        "text": "Fish, including the wolf fish (Anarhichas lupus)"
+      },
+      {
+        "text": "Birds such as gulls and oystercatchers, taking urchins at low tide"
+      }
+    ]
+  },
+  "Paracentrotus lividus": {
+    "eats": [
+      {
+        "text": "Seaweeds and other macroalgae, grazed hard enough to strip a shore back to bare rock and encrusting corallines"
+      },
+      {
+        "text": "Dulse (Palmaria palmata), a red seaweed on which it has been successfully reared in culture in western Ireland"
+      },
+      {
+        "text": "Seagrass, including shallow beds it can overgraze where it is abundant"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Ballan wrasse, in whose diet this is one of the most important sea urchins; the white seabream takes it too",
+        "slug": "labrus-bergylta"
+      },
+      {
+        "text": "Starfish, in particular the spiny starfish, which can hold urchin numbers down",
+        "slug": "marthasterias-glacialis"
+      },
+      {
+        "text": "People, who harvest it commercially in Europe and Ireland for its roe, eaten as a delicacy"
+      }
+    ]
+  },
+  "Echinocardium cordatum": {
+    "eats": [
+      {
+        "text": "Detritus, the dead organic matter mixed through the sand it lives in"
+      },
+      {
+        "text": "Sediment particles taken indiscriminately, both from the surface and from well below it"
+      },
+      {
+        "text": "Detritus settling out onto the seabed, so how fast it grows depends on a steady supply arriving from above"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Plaice, which take it among the soft-sediment prey they pick off sandy ground",
+        "slug": "pleuronectes-platessa"
+      },
+      {
+        "text": "Gulls, which take the shallowest-burrowed animals when extreme low spring tides put them within reach"
+      },
+      {
+        "text": "Carrion crows, watched working them over at low tide on Brittany beaches"
+      }
+    ]
+  },
+  "Spatangus purpureus": {
+    "eats": [
+      {
+        "text": "Organic detritus, taken both from the surface of the sediment and from within it"
+      },
+      {
+        "text": "Spatangid heart urchins feed omnivorously on phytodetritus, faunal detritus and bacterial mats"
+      },
+      {
+        "text": "Organic fragments in the sediment, reached by pushing maerl nodules aside as it ploughs forward"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "The large comb star Astropecten aranciacus, its principal predator"
+      },
+      {
+        "text": "The helmet shell Galeodea echinophora, a sand-dwelling gastropod that bores through the test with its radula to reach the animal inside"
+      },
+      {
+        "text": "Sea bream, which can break the test open and take the contents"
+      }
+    ]
+  },
+  "Phalacrocorax aristotelis": {
+    "eats": [
+      {
+        "text": "Almost exclusively small fish, caught by diving and pursuing them underwater; sandeels dominate in many populations, with gadoids such as saithe more important further north"
+      },
+      {
+        "text": "Bottom-living crabs and other crustaceans, above all the velvet swimming crab, which was the most frequent prey at a Shetland roost outside the breeding season",
+        "slug": "necora-puber"
+      },
+      {
+        "text": "Also molluscs, cephalopods and polychaete worms, plus the common sea urchin, which occurred in over a quarter of the samples at one Shetland roost"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Introduced American mink, which reach the birds at some nesting colonies"
+      },
+      {
+        "text": "No other predator is on record. Coastal raptors such as white-tailed eagles, and nest-robbing gulls and corvids, are only suspected, and nesting on steep rocky cliffs prevents some predation"
+      }
+    ]
+  },
+  "Phalacrocorax carbo": {
+    "eats": [
+      {
+        "text": "Almost entirely fish, mostly under 20 cm long, occasionally up to 75 cm"
+      },
+      {
+        "text": "At sea mainly bottom-living fish: wrasses and codfishes over rock and weed, flatfish over soft ground"
+      },
+      {
+        "text": "In estuaries, flounder, trout, eel and saithe are the most frequent prey"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gulls and crows take eggs and chicks at nesting colonies, mostly where a colony has been disturbed"
+      },
+      {
+        "text": "Fledglings are taken by eagles, including white-tailed eagle, and by red foxes"
+      }
+    ]
+  },
+  "Somateria mollissima": {
+    "eats": [
+      {
+        "text": "Blue mussels and other bivalve molluscs, taken on dives"
+      },
+      {
+        "text": "Crabs and other crustaceans"
+      },
+      {
+        "text": "Echinoderms, with some aquatic insects and small fish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Great skuas (bonxies), which take adult females at and near the nest"
+      },
+      {
+        "text": "Large gulls and great skuas (bonxies), which take many young chicks"
+      }
+    ]
+  },
+  "Halichoerus grypus": {
+    "eats": [
+      {
+        "text": "Sandeels, typically the predominant prey species"
+      },
+      {
+        "text": "Gadoids, including cod, whiting, haddock and ling"
+      },
+      {
+        "text": "Flatfish such as plaice, sole, flounder and dab, and cephalopods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "A few specialist adult male grey seals, which kill and eat pups and juveniles"
+      },
+      {
+        "text": "Killer whales; their predation may be linked to the predicted decline in pup production in Shetland"
+      }
+    ]
+  },
+  "Phoca vitulina": {
+    "eats": [
+      {
+        "text": "A wide range of fish: sandeels, gadoids, herring and sprat, and flatfish, with the mix varying by season and region"
+      },
+      {
+        "text": "Cephalopods: octopus and squid"
+      },
+      {
+        "text": "Crustaceans such as crabs and shrimp, which are the main food of newly weaned pups"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, whose adult males prey on adult harbour seals, most of all during the breeding season",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Sharks, killer whales and polar bears"
+      },
+      {
+        "text": "People, who prey on them in some areas of the Arctic and hunt them for blubber, meat, fur and skin"
+      }
+    ]
+  }
+}

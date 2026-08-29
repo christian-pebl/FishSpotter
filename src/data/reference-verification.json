@@ -5,12 +5,6 @@
     "matchedOn": "Chrysaora hysoscella",
     "checkedOn": "2026-08-28"
   },
-  "adw:Halichoerus-grypus": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Halichoerus grypus",
-    "checkedOn": "2026-08-28"
-  },
   "adw:Phoca-vitulina": {
     "status": "ok",
     "httpStatus": 200,
@@ -97,73 +91,12 @@
     "matchedOn": "Loligo forbesi",
     "checkedOn": "2026-08-28"
   },
-  "doi:10.1007-s00227-016-2892-0": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Temporal dietary shift in jellyfish revealed by stable isotope analysis\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
-  "doi:10.1007-s00227-016-2945-4": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Aurelia aurita",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Where are the polyps? Molecular identification, distribution and population differentiation of Aurelia aurita jellyfish \""
-  },
-  "doi:10.1007-s00227-017-3217-7": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Nucella lapillus",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Historical shell size reduction of the dogwhelk (Nucella lapillus) across the southern UK\""
-  },
-  "doi:10.1007-s00227-018-3433-9": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Phalacrocorax aristotelis",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Pronounced long-term trends in year-round diet composition of the European shag Phalacrocorax aristotelis\""
-  },
-  "doi:10.1007-s00227-023-04236-x": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Stomach content analysis of North Sea cephalopods: often-overlooked predators with direct \") but neither its title nor abstract names Loligo forbesii | Loligo vulgaris | Sepiola atlantica | Eledone cirrhosa"
-  },
-  "doi:10.1007-s11356-025-36430-3": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Marthasterias glacialis",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Determining toxins and harmful contaminants in starfish for future application as organic fertilizer and animal feed\""
-  },
-  "doi:10.1016-j.ecolind.2024.112708": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm\""
-  },
   "doi:10.1016-j.fishres.2005.04.013": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "ballan wrasse, Labrus bergylta, in the Azores",
     "checkedOn": "2026-08-28",
     "note": "Crossref: \"Feeding ecology of the white seabream, Diplodus sargus, and the ballan wrasse, Labrus bergylta, in the Azores\""
-  },
-  "doi:10.1016-j.jembe.2023.151899": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "PDF retrieved",
-    "checkedOn": "2026-08-28",
-    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
-  },
-  "doi:10.1016-j.scitotenv.2024.174987": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Restorative function of offshore longline mussel farms",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Restorative function of offshore longline mussel farms with ecological benefits for commercial crustacean species\""
   },
   "doi:10.1016-j.tree.2018.09.001": {
     "status": "ok",
@@ -177,26 +110,6 @@
     "httpStatus": 200,
     "matchedOn": "Eledone cirrhosa",
     "checkedOn": "2026-08-28"
-  },
-  "doi:10.1038-s41598-017-06379-6": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "plaice",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Stable isotopes reveal the effect of trawl fisheries on the diet of commercially exploited species\""
-  },
-  "doi:10.1038-s41598-021-85376-2": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "harbour seal",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Drivers and constraints on offshore foraging in harbour seals\""
-  },
-  "doi:10.1038-s43247-025-02253-w": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Offshore wind farms modify coastal food web dynamics by enhancing suspension feeder pathwa\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
   },
   "doi:10.1080-00063657.2024.2311080": {
     "status": "ok",
@@ -217,13 +130,6 @@
     "matchedOn": "Dicentrarchus labrax",
     "checkedOn": "2026-08-28",
     "note": "Crossref: \"Prey preferences of adult sea bass Dicentrarchus labrax in the northeastern Atlantic: implications for bycatch of common\""
-  },
-  "doi:10.1093-icesjms-fsw157": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "PDF retrieved",
-    "checkedOn": "2026-08-28",
-    "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
   },
   "doi:10.1093-icesjms-fsy183": {
     "status": "ok",
@@ -252,56 +158,11 @@
     "checkedOn": "2026-08-28",
     "note": "Crossref: \"Cryptic diets of forage fish: jellyfish consumption observed in the Celtic Sea and western English Channel\""
   },
-  "doi:10.1111-raq.12208": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Shellfish aquaculture",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Attraction and repulsion of mobile wild organisms to finfish and shellfish aquaculture: a review\""
-  },
-  "doi:10.1111-raq.12584": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Habitat value of bivalve shellfish and seaweed aquaculture",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Habitat value of bivalve shellfish and seaweed aquaculture for fish and invertebrates: Pathways, synthesis and next step\""
-  },
-  "doi:10.1111-raq.12669": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "macroalgal cultivation",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Quantifying habitat provisioning at macroalgal cultivation sites\""
-  },
   "doi:10.1371-journal.pone.0023068": {
     "status": "mismatch",
     "httpStatus": 200,
     "checkedOn": "2026-08-28",
     "note": "DOI is real (\"Susceptibility to Predation Affects Trait-Mediated Indirect Interactions by Reversing Inte\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
-  "doi:10.1371-journal.pone.0037216": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Phoca vitulina",
-    "checkedOn": "2026-08-28"
-  },
-  "doi:10.1371-journal.pone.0068313": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Changes in Benthos Associated with Mussel (Mytilus edulis L.) Farms on the West-Coast of S\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
-  "doi:10.1371-journal.pone.0193078": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Mannitol oxidase and polyol dehydrogenases in the digestive gland of gastropods: Correlati\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
-  "doi:10.1371-journal.pone.0205877": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Artificial spawning substrates and participatory research to foster cuttlefish stock recov\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
   },
   "doi:10.2960-J.v35.m494": {
     "status": "ok",
@@ -310,53 +171,12 @@
     "checkedOn": "2026-08-28",
     "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
   },
-  "doi:10.3354-aei00478": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "title is \"Plymouth Marine Science Electronic Archive (PlyMSEA)\", which names neither the binomial nor the common name"
-  },
-  "doi:10.3354-meps031087": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Liocarcinus puber",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Natural diet and feeding habits of the crabs Liocarcinus puber and L. holsatus (Decapoda, Brachyura, Portunidae)\""
-  },
-  "doi:10.3354-meps119139": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Necora puber",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Feeding ecology of the velvet swimming crab Necora puber in mussel raft areas of the Ría de Arousa (Galicia, NW Spain)\""
-  },
-  "doi:10.3354-meps144063": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "hermit crab feeding patterns",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Changes in hermit crab feeding patterns in response to trawling disturbance\""
-  },
-  "doi:10.3389-fmars.2019.00107": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "seaweed farming",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"The Environmental Risks Associated With the Development of Seaweed Farming in Europe - Prioritizing Key Knowledge Gaps\""
-  },
   "doi:10.3389-fmars.2022.852033": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Gulosus aristotelis",
     "checkedOn": "2026-08-28",
     "note": "Crossref: \"Predicting Foraging Habitat of European Shags - A Multi-Year and Multi-Colony Tracking Approach to Identify Important Ar\""
-  },
-  "doi:10.3390-life13010209": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Saccharina latissima",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Development and Diversity of Epibiont Assemblages on Cultivated Sugar Kelp (Saccharina latissima) in Relation to Farming\""
   },
   "doi:10.3390-md20080025": {
     "status": "ok",
@@ -404,12 +224,6 @@
     "matchedOn": "PDF retrieved",
     "checkedOn": "2026-08-28",
     "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
-  },
-  "emlbi:W1950": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Steromphala umbilicalis",
-    "checkedOn": "2026-08-28"
   },
   "fao:a0150e11": {
     "status": "ok",
@@ -499,19 +313,7 @@
     "matchedOn": "Food Items",
     "checkedOn": "2026-08-28"
   },
-  "fishbase-fooditems:Ctenolabrus-rupestris": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Food Items",
-    "checkedOn": "2026-08-28"
-  },
   "fishbase-fooditems:Gadus-morhua": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Food Items",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase-fooditems:Labrus-bergylta": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Food Items",
@@ -613,12 +415,6 @@
     "matchedOn": "Scyliorhinus canicula",
     "checkedOn": "2026-08-28"
   },
-  "fishbase-pred:Trisopterus-minutus": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Trisopterus minutus",
-    "checkedOn": "2026-08-28"
-  },
   "fishbase-predators:Limanda-limanda": {
     "status": "ok",
     "httpStatus": 200,
@@ -697,34 +493,10 @@
     "matchedOn": "Dicentrarchus labrax",
     "checkedOn": "2026-08-28"
   },
-  "fishbase:dietcompo-Chelidonichthys-cuculus": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Chelidonichthys cuculus",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase:dietcompo-Chelidonichthys-lastoviza": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Chelidonichthys lastoviza",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase:dietcompo-Chelidonichthys-lucerna": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Chelidonichthys lucerna",
-    "checkedOn": "2026-08-28"
-  },
   "fishbase:dietcompo-Eutrigla-gurnardus": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Eutrigla gurnardus",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase:dietcompo-Trachurus-trachurus": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Trachurus trachurus",
     "checkedOn": "2026-08-28"
   },
   "fishbase:Eutrigla-gurnardus": {
@@ -739,28 +511,10 @@
     "matchedOn": "Atherina presbyter",
     "checkedOn": "2026-08-28"
   },
-  "fishbase:fooditems-Chelidonichthys-cuculus": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Chelidonichthys cuculus",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase:fooditems-Chelidonichthys-lastoviza": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Chelidonichthys lastoviza",
-    "checkedOn": "2026-08-28"
-  },
   "fishbase:fooditems-Chelidonichthys-lucerna": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Chelidonichthys lucerna",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase:fooditems-Gadus-morhua": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Food Items",
     "checkedOn": "2026-08-28"
   },
   "fishbase:fooditems-Lipophrys-pholis": {
@@ -785,12 +539,6 @@
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Sprattus sprattus",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase:fooditems-Taurulus-bubalis": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Taurulus bubalis",
     "checkedOn": "2026-08-28"
   },
   "fishbase:fooditems-Trachurus-trachurus": {
@@ -923,12 +671,6 @@
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Lipophrys pholis",
-    "checkedOn": "2026-08-28"
-  },
-  "fishbase:predators-Scomber-scombrus": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Scomber scombrus",
     "checkedOn": "2026-08-28"
   },
   "fishbase:predators-Spinachia-spinachia": {
@@ -1449,12 +1191,6 @@
     "matchedOn": "Ophiothrix fragilis",
     "checkedOn": "2026-08-28"
   },
-  "mcs:barrel-jellyfish": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Barrel jellyfish",
-    "checkedOn": "2026-08-28"
-  },
   "ne:rp2952": {
     "status": "mismatch",
     "httpStatus": 200,
@@ -1540,22 +1276,10 @@
     "checkedOn": "2026-08-28",
     "note": "PDF retrievable; species match rests on the recorded page locator, not an HTTP text match"
   },
-  "wildlife-trusts:barrel-jellyfish": {
-    "status": "blocked",
-    "httpStatus": 403,
-    "checkedOn": "2026-08-28",
-    "note": "publisher refused an automated request (http 403); check this one by hand"
-  },
   "wildlife-trusts:blue-jellyfish": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Cyanea lamarckii",
-    "checkedOn": "2026-08-28"
-  },
-  "wildlife-trusts:compass-jellyfish": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Chrysaora hysoscella",
     "checkedOn": "2026-08-28"
   },
   "wildlife-trusts:cormorant": {
@@ -1570,64 +1294,16 @@
     "matchedOn": "Eider",
     "checkedOn": "2026-08-28"
   },
-  "wildlife-trusts:lions-mane-jellyfish": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Cyanea capillata",
-    "checkedOn": "2026-08-28"
-  },
   "wildlife-trusts:mauve-stinger": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Pelagia noctiluca",
     "checkedOn": "2026-08-28"
   },
-  "wildlife-trusts:moon-jellyfish": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Aurelia aurita",
-    "checkedOn": "2026-08-28"
-  },
-  "wildlife-trusts:painted-topshell": {
-    "status": "blocked",
-    "httpStatus": 403,
-    "checkedOn": "2026-08-28",
-    "note": "publisher refused an automated request (http 403); check this one by hand"
-  },
-  "wildlife-trusts:red-mullet": {
-    "status": "blocked",
-    "httpStatus": 403,
-    "checkedOn": "2026-08-28",
-    "note": "publisher refused an automated request (http 403); check this one by hand"
-  },
-  "wildlife-trusts:rock-goby": {
-    "status": "blocked",
-    "httpStatus": 403,
-    "checkedOn": "2026-08-28",
-    "note": "publisher refused an automated request (http 403); check this one by hand"
-  },
   "wildlife-trusts:shag": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Shag",
-    "checkedOn": "2026-08-28"
-  },
-  "worms-traits:1039850": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Steromphala umbilicalis",
-    "checkedOn": "2026-08-28"
-  },
-  "worms-traits:140403": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Nucella lapillus",
-    "checkedOn": "2026-08-28"
-  },
-  "worms-traits:140685": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Patella vulgata",
     "checkedOn": "2026-08-28"
   },
   "worms-traits:141767": {
@@ -1660,22 +1336,10 @@
     "matchedOn": "Pagurus bernhardus",
     "checkedOn": "2026-08-28"
   },
-  "worms:107276": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Cancer pagurus",
-    "checkedOn": "2026-08-28"
-  },
   "worms:107322": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Hyas araneus",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:107347": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Maja brachydactyla",
     "checkedOn": "2026-08-28"
   },
   "worms:107381": {
@@ -1744,46 +1408,16 @@
     "matchedOn": "Ophiothrix fragilis",
     "checkedOn": "2026-08-28"
   },
-  "worms:126285": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Conger conger",
-    "checkedOn": "2026-08-28"
-  },
   "worms:126425": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Sprattus sprattus",
     "checkedOn": "2026-08-28"
   },
-  "worms:126436": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Gadus morhua",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126438": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Merlangius merlangus",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126440": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Pollachius pollachius",
-    "checkedOn": "2026-08-28"
-  },
   "worms:126441": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Pollachius virens",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126445": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Trisopterus luscus",
     "checkedOn": "2026-08-28"
   },
   "worms:126446": {
@@ -1822,36 +1456,6 @@
     "matchedOn": "Trachurus trachurus",
     "checkedOn": "2026-08-28"
   },
-  "worms:126893": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Gobius paganellus",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126927": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Pomatoschistus microps",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126928": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Pomatoschistus minutus",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126964": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Ctenolabrus rupestris",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126965": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Labrus bergylta",
-    "checkedOn": "2026-08-28"
-  },
   "worms:126975": {
     "status": "ok",
     "httpStatus": 200,
@@ -1868,12 +1472,6 @@
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Mullus surmuletus",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:126996": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Pholis gunnellus",
     "checkedOn": "2026-08-28"
   },
   "worms:127023": {
@@ -2038,22 +1636,10 @@
     "matchedOn": "Eutrigla gurnardus",
     "checkedOn": "2026-08-28"
   },
-  "worms:151501": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Labrus mixtus",
-    "checkedOn": "2026-08-28"
-  },
   "worms:152203": {
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Rhizostoma octopus",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:1526389": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Pomatoschistus flavescens",
     "checkedOn": "2026-08-28"
   },
   "worms:1704278": {
@@ -2072,12 +1658,6 @@
     "status": "ok",
     "httpStatus": 200,
     "matchedOn": "Atherina presbyter",
-    "checkedOn": "2026-08-28"
-  },
-  "worms:273571": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Symphodus melops",
     "checkedOn": "2026-08-28"
   }
 }

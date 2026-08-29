@@ -679,6 +679,28 @@ The dated, session-by-session shipping log lives in **[docs/CHANGELOG.md](docs/C
 (moved out of this file 2026-06-04 to keep CLAUDE.md a stable reference). Append new
 milestones there, not here.
 
+## Deploy region (vercel.json)
+
+`vercel.json` pins `"regions": ["dub1"]` (Dublin). **Do not remove it and do not
+add a comment key beside it**: Vercel validates `vercel.json` strictly and
+rejects unknown top-level properties, so a `"//regions"` note fails the deploy.
+The reasoning lives here instead.
+
+The Postgres instance is Supabase **West EU (Ireland)**. With no region pinned,
+Vercel picks a US default: measured 29 Aug 2026, every route returned
+`X-Vercel-Id: lhr1::iad1::...`, i.e. the edge answered from London while the
+function ran in Washington DC. Every DB round-trip on `/feed`, `/leaderboard`
+and the auth routes therefore crossed the Atlantic and came back. `dub1` puts
+the function next to the database.
+
+Check it after any deploy with:
+
+```bash
+curl -sI https://fish-spotter.vercel.app/feed | grep -i x-vercel-id
+```
+
+The middle segment is the function region and should read `dub1`.
+
 ## Env vars (.env.local)
 
 ```

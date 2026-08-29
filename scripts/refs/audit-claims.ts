@@ -6,13 +6,17 @@
  * This is the work queue for the grounding effort, and afterwards the honest
  * scorecard. It never writes, and it never sets a trust flag.
  *
- * Claims audited:
- *   fieldNote          the prose field note on the species guide
- *   trait:size/habitat/behavior   the three fact tiles on the guide
- *   mark:<id>          each diagnostic-mark description (the teaching text)
- *   diet:eats/eatenBy  the species-level diet statements on the workshop card
- *   trophic:tier       its trophic tier in the food web
- *   edge:<a>-><b>      each individual feeding link in the food web
+ * Claims audited are exactly what the species guide RENDERS:
+ *   trait:depth/size/habitat/behavior  the four sourced fact tiles
+ *   mark:<id>                          each diagnostic-mark description
+ *   fieldNote                          the prose field note
+ *   diet:eats:<n> / diet:eatenBy:<n>   each authored diet bullet
+ *
+ * The per-edge feeding links and the farm-web trophic tier are gone from the
+ * guide, so they are gone from here. Counting claims the app no longer makes
+ * would flatter the denominator, which is the opposite of what an audit is
+ * for. The workshop deck and the food-web page still carry their own claims
+ * and want their own audit when they are next revised.
  *
  *   npm run refs:audit            summary + per-surface counts
  *   npm run refs:audit -- --queue print the unbound claims, most valuable first
@@ -24,8 +28,9 @@ import { PrismaClient } from "@prisma/client";
 import { promises as fs } from "fs";
 import path from "path";
 import speciesTraitsData from "../../src/data/species-traits.json";
+import speciesFacts from "../../src/data/species-facts.json";
+import statedDiet from "../../src/data/species-diet.json";
 import { referenceFileSchema, type ReferenceFile } from "../../src/lib/references/schema";
-import { SPECIES as FW_SPECIES, E as FW_EDGES } from "../../food-web/build-foodweb.mjs";
 
 const REFS = path.join(process.cwd(), "src", "data", "species-references.json");
 
@@ -43,6 +48,8 @@ type Traits = {
   behavior: string[];
 };
 const CATALOGUE = speciesTraitsData as unknown as Record<string, Traits>;
+const FACTS = speciesFacts as Record<string, Partial<Record<"depth" | "size" | "habitat" | "behaviour", { text: string }>>>;
+const DIETS = statedDiet as Record<string, { eats: { text: string }[]; eatenBy: { text: string }[] }>;
 
 /** Food-web nodes are named by common name; map them back to the catalogue. */
 const BY_COMMON = new Map<string, string>();
@@ -96,12 +103,18 @@ async function main() {
     });
   };
 
-  // --- guide prose + fact tiles
+  // --- the four sourced fact tiles
   for (const [sci, t] of Object.entries(CATALOGUE)) {
-    if (t.fieldNote) push(sci, "field note", "fieldNote", t.fieldNote);
-    push(sci, "trait tile", "trait:size", `Size: ${t.size}`);
-    push(sci, "trait tile", "trait:habitat", `Habitat: ${t.habitat.join(", ")}`);
-    push(sci, "trait tile", "trait:behavior", `Behaviour: ${t.behavior.join(", ")}`);
+    void t;
+    for (const key of ["depth", "size", "habitat", "behaviour"] as const) {
+      const f = FACTS[sci]?.[key];
+      // A tile with no text is not rendered, so it is not a claim. It is a
+      // GAP, counted separately below: an unmade claim and an unsourced one
+      // are different failures and must not share a number.
+      if (!f) continue;
+      const claimKey = `trait:${key === "behaviour" ? "behavior" : key}`;
+      push(sci, "fact tile", claimKey, `${key}: ${f.text}`);
+    }
   }
 
   // --- diagnostic marks (the actual teaching text, and the biggest risk)
@@ -109,30 +122,28 @@ async function main() {
     push(m.scientificName, "diagnostic mark", `mark:${m.id}`, `${m.label}: ${m.description}`);
   }
 
-  // --- food web: tier, farm role, species-level diet, and each feeding link
-  const unmapped = new Set<string>();
-  for (const s of FW_SPECIES as Array<{ name: string; tier: number }>) {
-    const sci = sciFor(s.name);
-    if (!sci) {
-      unmapped.add(s.name);
-      continue;
-    }
-    push(sci, "food web", "trophic:tier", `Trophic tier ${s.tier}`);
-    // farm:role is NOT audited any more. The created / enhanced / harmed
-    // classification was withdrawn on 28 Aug 2026 after none of its 21
-    // "created" assignments survived a check against the literature, so the
-    // app makes no such claim and counting 72 of them as "unsourced" would
-    // inflate the denominator with statements nobody makes.
-    push(sci, "workshop card", "diet:eats", "I eat (species-level diet statement)");
-    push(sci, "workshop card", "diet:eatenBy", "Eats me (species-level predator statement)");
+  // --- the field note, rendered when a species has no annotated diagram
+  for (const [sci, t] of Object.entries(CATALOGUE)) {
+    if (t.fieldNote) push(sci, "field note", "fieldNote", t.fieldNote);
   }
-  for (const [prey, predator] of FW_EDGES as Array<[string, string]>) {
-    const sci = sciFor(predator);
-    if (!sci) {
-      unmapped.add(predator);
-      continue;
+
+  // --- the authored diet bullets
+  for (const [sci, d] of Object.entries(DIETS)) {
+    d.eats.forEach((b, i) => push(sci, "diet bullet", `diet:eats:${i}`, `eats: ${b.text}`));
+    d.eatenBy.forEach((b, i) => push(sci, "diet bullet", `diet:eatenBy:${i}`, `eaten by: ${b.text}`));
+  }
+
+  // --- gaps: what the page does NOT say, which an audit of claims alone hides
+  const gapRows: { species: string; commonName: string; missing: string }[] = [];
+  for (const [sci, t] of Object.entries(CATALOGUE)) {
+    if (ONLY && sci !== ONLY && t.commonName !== ONLY) continue;
+    const missing: string[] = [];
+    for (const key of ["depth", "size", "habitat", "behaviour"] as const) {
+      if (!FACTS[sci]?.[key]) missing.push(key);
     }
-    push(sci, "feeding link", `edge:${prey}->${predator}`, `${predator} eats ${prey}`);
+    if (!(DIETS[sci]?.eats?.length)) missing.push("eats");
+    if (!(DIETS[sci]?.eatenBy?.length)) missing.push("eatenBy");
+    if (missing.length) gapRows.push({ species: sci, commonName: t.commonName, missing: missing.join(", ") });
   }
 
   // ------------------------------------------------------------- report
@@ -140,7 +151,7 @@ async function main() {
   const by = (state: ClaimRow["state"]) => rows.filter((r) => r.state === state).length;
 
   if (AS_JSON) {
-    console.log(JSON.stringify({ total, rows, unmapped: [...unmapped] }, null, 2));
+    console.log(JSON.stringify({ total, rows, gaps: gapRows }, null, 2));
     return;
   }
 
@@ -168,14 +179,20 @@ async function main() {
   const withIdentity = Object.values(file.species).filter((s) => s.identity).length;
   console.log(`\nIdentity spine: ${withIdentity}/${Object.keys(CATALOGUE).length} species resolved to a WoRMS anchor.`);
 
-  if (unmapped.size) {
-    console.log(`\n${unmapped.size} food-web node(s) do not map to a catalogue species (resources, or a name drift):`);
-    for (const u of [...unmapped].sort()) console.log(`  - ${u}`);
+  // A claim audit that only counts what the page SAYS would score an empty
+  // page perfectly, so the gaps are reported right beside it.
+  const gapTally = gapRows.reduce((a, g) => a + g.missing.split(", ").length, 0);
+  console.log(
+    `Coverage: ${gapRows.length} species have an unfilled surface (${gapTally} of ${Object.keys(CATALOGUE).length * 6} possible).`,
+  );
+  if (SHOW_QUEUE && gapRows.length) {
+    console.log("\nUnfilled surfaces:\n");
+    for (const g of gapRows) console.log(`  ${g.commonName.padEnd(28)} ${g.missing}`);
   }
 
   if (SHOW_QUEUE) {
     // Teaching text first: it is what a user reads and acts on.
-    const order = ["diagnostic mark", "field note", "workshop card", "trait tile", "food web", "feeding link"];
+    const order = ["diagnostic mark", "field note", "fact tile", "diet bullet"];
     const queue = rows
       .filter((r) => r.state === "unbound")
       .sort((a, b) => order.indexOf(a.surface) - order.indexOf(b.surface) || a.species.localeCompare(b.species));

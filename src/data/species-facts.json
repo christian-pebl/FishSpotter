@@ -1,0 +1,1004 @@
+{
+  "Pollachius pollachius": {
+    "depth": {
+      "text": "40-200 m, usually 40-100 m; juveniles inshore in the shallows"
+    },
+    "size": {
+      "text": "Up to 130 cm total length, commonly about 75 cm"
+    },
+    "habitat": {
+      "text": "Inshore to about 200 m over hard bottoms, around rocks, wrecks and kelp forests"
+    },
+    "behaviour": {
+      "text": "Hangs above kelp forests and wrecks singly or in small shoals, darting up from near the bottom to take sandeels then dropping back"
+    }
+  },
+  "Pollachius virens": {
+    "depth": {
+      "text": "37-364 m; enters coastal water in spring and returns to deeper water (up to 350 m) in winter"
+    },
+    "size": {
+      "text": "Up to 130 cm total length, commonly about 60 cm; to 32 kg and 25 years old"
+    },
+    "habitat": {
+      "text": "Benthopelagic, both inshore and offshore; North Atlantic, from Greenland and the Barents Sea south to North Carolina and the Bay of Biscay"
+    },
+    "behaviour": {
+      "text": "An active, gregarious fish; oceanodromous, making spawning migrations and long-distance north-south migrations"
+    }
+  },
+  "Trisopterus luscus": {
+    "depth": {
+      "text": "30-100 m, and recorded inshore and in coastal waters down to 300 m"
+    },
+    "size": {
+      "text": "Up to 46 cm total length, commonly around 30 cm; adults usually 20-30 cm"
+    },
+    "habitat": {
+      "text": "Benthopelagic over mixed rock and sand, inshore and in coastal waters; often in and around wrecks"
+    },
+    "behaviour": {
+      "text": "Gregarious; young fish often in large schools, and moves inshore to 50 m or less to spawn"
+    }
+  },
+  "Merlangius merlangus": {
+    "depth": {
+      "text": "10-200 m, usually 30-100 m"
+    },
+    "size": {
+      "text": "Up to 91.5 cm total length, commonly about 23.5 cm; to 3.1 kg and 20 years old"
+    },
+    "habitat": {
+      "text": "Benthopelagic in marine and brackish water, mainly over mud and gravel bottoms but also sand and rock"
+    },
+    "behaviour": {
+      "text": "Oceanodromous; moves out to the open sea only after its first year, and larvae and juveniles associate with jellyfish"
+    }
+  },
+  "Labrus bergylta": {
+    "depth": {
+      "text": "1-50 m, usually 2-30 m"
+    },
+    "size": {
+      "text": "Up to 65.9 cm long, commonly 30-50 cm"
+    },
+    "habitat": {
+      "text": "Inshore rocky coasts: weed-covered rock, boulder slopes, offshore reefs and kelp beds, and lower-shore pools"
+    },
+    "behaviour": {
+      "text": "Active by day, hiding in rock crevices and seaweed at night; very small home ranges and high site fidelity"
+    }
+  },
+  "Labrus mixtus": {
+    "depth": {
+      "text": "2-200 m, mainly between 20 and 80 m"
+    },
+    "size": {
+      "text": "Up to 40 cm, commonly about 30 cm; females up to 30 cm"
+    },
+    "habitat": {
+      "text": "Over rocks and hard ground and in the algal zone of rocky shores, between 2 and 200 m but mainly 20-80 m"
+    },
+    "behaviour": {
+      "text": "Usually solitary or in pairs; the female lays about 1,000 eggs in a nest of algae and the male builds and guards the nest"
+    }
+  },
+  "Symphodus melops": {
+    "depth": {
+      "text": "Lower shore pools down to about 50 m"
+    },
+    "size": {
+      "text": "Up to 25-28 cm, typically 15-20 cm"
+    },
+    "habitat": {
+      "text": "Rocky shores among seaweed and in lower shore pools, extending sublittorally; also near rocks, eel-grass beds and in lagoons"
+    },
+    "behaviour": {
+      "text": "Schooling and territorial; the male builds a seaweed nest among rocks or in crevices and guards it aggressively"
+    }
+  },
+  "Ctenolabrus rupestris": {
+    "depth": {
+      "text": "1 to 50 m, adults deeper than young, which come inshore and even into low-shore rock pools"
+    },
+    "size": {
+      "text": "Up to 18 cm total length, commonly 10 to 12 cm"
+    },
+    "habitat": {
+      "text": "Rocky and weed-covered shores, boulders and eelgrass, with crevices and caves to hide in"
+    },
+    "behaviour": {
+      "text": "Solitary and territorial; a male defends a patch of rocky ground up to two square metres, may keep it for years, and spawns in summer"
+    }
+  },
+  "Conger conger": {
+    "depth": {
+      "text": "0-500 m over most of the range, with records to 1171 m; descends to thousands of metres to spawn"
+    },
+    "size": {
+      "text": "Up to 275-300 cm total length and 110 kg, commonly 100-200 cm"
+    },
+    "habitat": {
+      "text": "Holes and crevices on rocky or sandy bottoms, in wrecks and other artificial structures; young stay inshore, adults move deeper"
+    },
+    "behaviour": {
+      "text": "Rests in its hole by day and hunts at night; breeds once, migrating to deep mid-Atlantic water to spawn, then dies"
+    }
+  },
+  "Pholis gunnellus": {
+    "depth": {
+      "text": "0-100 m, usually 0-30 m"
+    },
+    "size": {
+      "text": "Up to 25 cm long"
+    },
+    "habitat": {
+      "text": "On the shore from mid to low tide amongst seaweed, under rocks and in crevices; common subtidally to 40 m, and offshore over rock, sand and mud"
+    },
+    "behaviour": {
+      "text": "Shelters under rocks and seaweed and breathes air when out of water; both parents may take turns guarding the ball of eggs until it hatches"
+    }
+  },
+  "Gobiusculus flavescens": {
+    "depth": {
+      "text": "Intertidal pools and shallow water down to about 20 m"
+    },
+    "size": {
+      "text": "Up to 6 cm total length"
+    },
+    "habitat": {
+      "text": "Inshore among Laminaria kelp and Zostera seagrass beds and over seaweed-covered rocks, from intertidal pools into shallow water"
+    },
+    "behaviour": {
+      "text": "Hovers in small, loose shoals in the water column instead of resting on the bottom; the male guards the eggs until they hatch"
+    }
+  },
+  "Pomatoschistus microps": {
+    "depth": {
+      "text": "0 to 12 m, but normally in less than 1 m of water"
+    },
+    "size": {
+      "text": "Up to 9 cm, and to 6.4 cm on British coasts; males mature at about 3 to 4 cm"
+    },
+    "habitat": {
+      "text": "Tide pools, estuaries, saltmarshes and brackish lagoons, over bare mud or sand and among dense vegetation"
+    },
+    "behaviour": {
+      "text": "Bottom-living; burrows to survive low water and escape predators, and males guard and fan eggs laid inside an empty bivalve shell"
+    }
+  },
+  "Gobius paganellus": {
+    "depth": {
+      "text": "0 to 15 m, from the intertidal down to shallow rocky seabed"
+    },
+    "size": {
+      "text": "Up to 12 to 13 cm, mature at about 6 to 7 cm"
+    },
+    "habitat": {
+      "text": "Rocky shores with plenty of seaweed, in pools and under stones, from the intertidal down to about 15 m"
+    },
+    "behaviour": {
+      "text": "Sedentary bottom-dweller; hides under stones and freezes rather than fleeing when threatened. Males guard the eggs until they hatch"
+    }
+  },
+  "Pomatoschistus minutus": {
+    "depth": {
+      "text": "Usually to about 20 m, sometimes 60-70 m, with records to 200 m"
+    },
+    "size": {
+      "text": "Up to 10-11 cm long, mature from about 4-6 cm"
+    },
+    "habitat": {
+      "text": "Sandy and muddy bottoms of open coasts, estuaries, lagoons and salt marshes"
+    },
+    "behaviour": {
+      "text": "Usually inactive except when feeding, mainly by day; burrows into the sediment to avoid predators"
+    }
+  },
+  "Callionymus lyra": {
+    "depth": {
+      "text": "1 to 440 m, most often between 5 and 50 m"
+    },
+    "size": {
+      "text": "Up to 30.5 cm total length (females to 25 cm), commonly about 15 cm"
+    },
+    "habitat": {
+      "text": "Lives on the sea bed on sand, mud and shell gravel, often partly buried, from the sublittoral into deep water"
+    },
+    "behaviour": {
+      "text": "Territorial, males aggressive with each other; rests on the bottom with its fins folded down, blending into coarse sand or gravel"
+    }
+  },
+  "Callionymus maculatus": {
+    "depth": {
+      "text": "45-650 m"
+    },
+    "size": {
+      "text": "Up to 17.0 cm total length; the heaviest recorded weighed 36.57 g"
+    },
+    "habitat": {
+      "text": "Benthic on sandy bottoms"
+    },
+    "behaviour": {
+      "text": "Feeds on small bottom invertebrates, and its eggs and larvae drift in the plankton"
+    }
+  },
+  "Pleuronectes platessa": {
+    "depth": {
+      "text": "0-200 m, most common between 10 and 50 m"
+    },
+    "size": {
+      "text": "Up to 100 cm, though 50-60 cm is the usual limit and exceptional fish reach 90 cm; commonly around 40 cm"
+    },
+    "habitat": {
+      "text": "Sandy bottoms, also gravel and mud, and sandy patches in rocky areas; young fish spend their first year in very shallow water and sandy tidal pools"
+    },
+    "behaviour": {
+      "text": "Lies quietly on the bottom for long periods, often partly buried in sand, and can change colour to suit the bottom; spawning migrations can be long"
+    }
+  },
+  "Limanda limanda": {
+    "depth": {
+      "text": "From the shore down to 150 m, most often at 20-40 m"
+    },
+    "size": {
+      "text": "Up to 40-42 cm, though most reach only about 25 cm"
+    },
+    "habitat": {
+      "text": "Sandy seabeds from the shore down to 150 m; the young stay close inshore in under 1 m of water"
+    },
+    "behaviour": {
+      "text": "Raises its head and the front of its body and waits for prey to emerge, then strikes rapidly down; adults move inshore in warmer summer months"
+    }
+  },
+  "Platichthys flesus": {
+    "depth": {
+      "text": "1 to 100 m, but usually inshore in water shallower than 50 m"
+    },
+    "size": {
+      "text": "Up to 60 cm, commonly around 50 cm"
+    },
+    "habitat": {
+      "text": "Mud and sand in shallow inshore water, and in estuaries and brackish water, often running on into fresh water"
+    },
+    "behaviour": {
+      "text": "Burrows into the bottom; moves up into the intertidal with the incoming tide and feeds heavily at high tide"
+    }
+  },
+  "Scyliorhinus canicula": {
+    "depth": {
+      "text": "10-780 m, usually 80-100 m; mainly between 10 and 100 m in the north-east Atlantic"
+    },
+    "size": {
+      "text": "Up to about 75 cm, commonly around 60 cm; a 100 cm record may be a misidentification of a close relative"
+    },
+    "habitat": {
+      "text": "Shallow sublittoral and continental shelf, over sand, mud, gravel, coralline or algal bottoms, and also rocky ground"
+    },
+    "behaviour": {
+      "text": "Nocturnal: by day males rest on the seabed and females hide in shallow caves and crevices; detects the weak electric fields of prey"
+    }
+  },
+  "Mullus surmuletus": {
+    "depth": {
+      "text": "3 to 90 m, with records down to 409 m"
+    },
+    "size": {
+      "text": "Up to 40 cm, commonly around 25 cm; to 1 kg and 11 years old"
+    },
+    "habitat": {
+      "text": "Demersal on sandy and muddy bottoms, and at times over rocky, broken and rough ground"
+    },
+    "behaviour": {
+      "text": "Snuffles through the sediment for buried prey; spawns May to July, with pelagic eggs and larvae"
+    }
+  },
+  "Trisopterus minutus": {
+    "depth": {
+      "text": "1-440 m, usually 15-200 m; larger fish down to 300 m"
+    },
+    "size": {
+      "text": "Commonly about 20 cm total length, with reported maxima of 26 to 40 cm"
+    },
+    "habitat": {
+      "text": "Benthopelagic over muddy or sandy bottoms, mostly 15 to 200 m; small fish are often seen in and around wrecks and in cracks in rocky areas"
+    },
+    "behaviour": {
+      "text": "Gregarious, living in small schools; a demersal predator and scavenger that breeds in spring in deep water"
+    }
+  },
+  "Gadus morhua": {
+    "depth": {
+      "text": "0-600 m, usually 150-200 m"
+    },
+    "size": {
+      "text": "Up to 200 cm total length, commonly around 100 cm; mature fish are usually about 120 cm and 12 kg"
+    },
+    "habitat": {
+      "text": "Cold temperate seas from the shoreline out over the continental shelf, commonly over sandy bottoms; adults in deeper, colder water"
+    },
+    "behaviour": {
+      "text": "Schools by day about 30-80 m above the bottom, dispersing at night to feed; often in large, dense shoals"
+    }
+  },
+  "Chelon labrosus": {
+    "depth": {
+      "text": "2-15 m, in shallow inshore water"
+    },
+    "size": {
+      "text": "Up to 70-75 cm, commonly around 32 cm"
+    },
+    "habitat": {
+      "text": "A demersal, catadromous fish of shallow inshore water, frequently entering brackish lagoons and fresh water"
+    },
+    "behaviour": {
+      "text": "Adults school inshore, occasionally moving northward in summer as temperatures rise; spawns at sea in winter"
+    }
+  },
+  "Dicentrarchus labrax": {
+    "depth": {
+      "text": "Coastal water down to about 100 m, most often shallower than 10 m"
+    },
+    "size": {
+      "text": "Up to 103 cm total length, commonly about 50 cm"
+    },
+    "habitat": {
+      "text": "Demersal in the littoral zone over most kinds of bottom, and in brackish estuaries and lagoons, running some way up rivers in summer"
+    },
+    "behaviour": {
+      "text": "Young fish school; adults are less gregarious. Enters estuaries in summer and moves offshore into deeper water in winter"
+    }
+  },
+  "Trachurus trachurus": {
+    "depth": {
+      "text": "0-1050 m, usually 100-200 m"
+    },
+    "size": {
+      "text": "Up to 70 cm total length, commonly about 22 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in coastal waters over continental shelves, schooling over sandy bottoms"
+    },
+    "behaviour": {
+      "text": "Forms large schools in coastal areas; the west stock spawns from Biscay to Ireland in early spring, then migrates north and east to the northern North Sea"
+    }
+  },
+  "Scomber scombrus": {
+    "depth": {
+      "text": "0 to 1000 m, usually the top 200 m"
+    },
+    "size": {
+      "text": "Up to about 60 cm fork length and 3.4 kg, commonly around 30 cm"
+    },
+    "habitat": {
+      "text": "Open water over cold and temperate continental shelves; deeper offshore in winter, closer inshore from spring"
+    },
+    "behaviour": {
+      "text": "Fast swimmer in dense shoals near the surface, feeding mainly by day and making extensive migrations"
+    }
+  },
+  "Sprattus sprattus": {
+    "depth": {
+      "text": "10 to 150 m; spawns at 10 to 20 m"
+    },
+    "size": {
+      "text": "Up to 16 to 25.1 cm, commonly about 12 cm"
+    },
+    "habitat": {
+      "text": "Open water inshore and over the shelf, entering estuaries down to a salinity of 4"
+    },
+    "behaviour": {
+      "text": "Schools inshore, rising to the surface at night, and migrates between winter feeding and summer spawning grounds"
+    }
+  },
+  "Atherina presbyter": {
+    "depth": {
+      "text": "1-10 m, in marine and brackish water, near the surface in the littoral zone"
+    },
+    "size": {
+      "text": "Up to 20 cm, usually 12 to 16 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in littoral and coastal water, entering estuaries, coastal lagoons and low-salinity water"
+    },
+    "behaviour": {
+      "text": "Schools near the surface and makes seasonal migrations along Atlantic coasts; spawns in spring and summer"
+    }
+  },
+  "Taurulus bubalis": {
+    "depth": {
+      "text": "Intertidal pools and shallow rocky ground down to about 30 m; recorded to 200 m"
+    },
+    "size": {
+      "text": "Up to 25 cm (females) and 17.5 cm (males), commonly about 12 cm"
+    },
+    "habitat": {
+      "text": "Rocky ground and tide pools among algae, from the intertidal down to about 30 m"
+    },
+    "behaviour": {
+      "text": "A resident ambush predator that lies motionless, relying on camouflage; can leave a tide pool when conditions turn inhospitable, and breathes air out of water"
+    }
+  },
+  "Lipophrys pholis": {
+    "depth": {
+      "text": "0-8 m, most commonly in rockpools on the shore"
+    },
+    "size": {
+      "text": "Up to 16-17 cm total length, and up to 10 years old"
+    },
+    "habitat": {
+      "text": "Rocky shores, in rockpools and under damp stones and seaweed; also around man-made structures such as pier pilings"
+    },
+    "behaviour": {
+      "text": "Resident with homing behaviour; forages at high tide and can stay out of water under rocks and weed, breathing air"
+    }
+  },
+  "Spinachia spinachia": {
+    "depth": {
+      "text": "Shallow inshore water, recorded between 1 and 6 m and generally less than 20 m deep"
+    },
+    "size": {
+      "text": "Up to 25 cm long, with a maximum recorded standard length of 22 cm"
+    },
+    "habitat": {
+      "text": "Weedy shorelines and shallow coastal water, marine and extending into brackish water"
+    },
+    "behaviour": {
+      "text": "Lives singly or in pairs; the male builds a nest of algal fragments glued with a kidney secretion, then tends the eggs and guards the nest"
+    }
+  },
+  "Carcinus maenas": {
+    "depth": {
+      "text": "Intertidal down to 60 m, mostly on the shore and in shallow water"
+    },
+    "size": {
+      "text": "Shell (carapace) commonly 4-8 cm wide, with males recorded to 86 mm across"
+    },
+    "habitat": {
+      "text": "All types of shore from high water down to 60 m; especially abundant in estuaries and salt marshes, and on sheltered rocky shores"
+    },
+    "behaviour": {
+      "text": "Walks over the bottom as an omnivorous predator and scavenger; peak foraging at night around high tide, with green individuals sheltering under algae"
+    }
+  },
+  "Cancer pagurus": {
+    "depth": {
+      "text": "From intertidal down to 100 m"
+    },
+    "size": {
+      "text": "Carapace width up to 25 cm, typically up to 15 cm"
+    },
+    "habitat": {
+      "text": "Bedrock and under boulders, mixed coarse grounds, and offshore in muddy sand; lower shore to about 100 m"
+    },
+    "behaviour": {
+      "text": "Mainly nocturnal; ambushes prey from shelters under rocks and digs large pits in sediment to reach bivalves"
+    }
+  },
+  "Necora puber": {
+    "depth": {
+      "text": "From the intertidal down to about 70 m, mostly in shallow water"
+    },
+    "size": {
+      "text": "Carapace up to about 8 cm across; males 78-96 mm wide, females 68-92 mm"
+    },
+    "habitat": {
+      "text": "Stony and rocky ground, in rockpools and under boulders, not on mud; most abundant on moderately sheltered shores"
+    },
+    "behaviour": {
+      "text": "Fast-moving and unusually aggressive, often meeting a diver head-on in a fighting stance with claws and swimming legs raised"
+    }
+  },
+  "Liocarcinus depurator": {
+    "depth": {
+      "text": "Lower shore and sublittoral, recorded from 5 m down to over 300 m"
+    },
+    "size": {
+      "text": "Shell about 51 mm wide and 40 mm long, with males recorded to 56 mm across"
+    },
+    "habitat": {
+      "text": "Fine muddy sand, muddy gravel and clean sand, on the lower shore and in the sublittoral"
+    },
+    "behaviour": {
+      "text": "Mostly active at night; although a swimming crab, it normally crawls on the seabed and only really swims in extremis. Lives singly."
+    }
+  },
+  "Majoidea": {
+    "depth": {
+      "text": "From extreme low water down to about 50 m, and recorded as deep as 120 m; most abundant shallower than 70 m"
+    },
+    "size": {
+      "text": "Body up to 20 cm long; carapace to 200 mm in males and 175 mm in females; the great spider crab's carapace up to 10 cm long"
+    },
+    "habitat": {
+      "text": "Rocks, seaweed and coarse sandy ground from the lower shore downwards, and on most seabed types"
+    },
+    "behaviour": {
+      "text": "A seabed scavenger whose shell is usually covered with algae; adults winter below 50 m and return to coastal waters from April to June"
+    }
+  },
+  "Pagurus bernhardus": {
+    "depth": {
+      "text": "From mean tide level down to about 140 m, and occasionally as deep as 500 m"
+    },
+    "size": {
+      "text": "Carapace up to 35 mm long, the whole animal up to 4 cm, often looking larger because of the shell it carries"
+    },
+    "habitat": {
+      "text": "Rocky and sandy ground, from rockpools and under boulders to coarse, fine or gravelly sand"
+    },
+    "behaviour": {
+      "text": "Crawls about on the seabed on its own, carrying an empty snail shell, sometimes with a sea anemone or hydroid growing on it"
+    }
+  },
+  "Sepia officinalis": {
+    "depth": {
+      "text": "Subtidal waters to 200 m, most abundant in the upper 100 m, with larger animals deeper"
+    },
+    "size": {
+      "text": "Up to about 45-49 cm mantle length and 4 kg, commonly 25-30 cm"
+    },
+    "habitat": {
+      "text": "Demersal on the continental shelf, on sandy and muddy bottoms, often among algae and seagrass"
+    },
+    "behaviour": {
+      "text": "Lives alone and does not form shoals; buries in sand by day and ambushes prey from it, changing colour very rapidly"
+    }
+  },
+  "Loligo forbesii": {
+    "depth": {
+      "text": "Shelf and shelf edge, mostly 50 to 250 m, with records from 10 m down to over 700 m"
+    },
+    "size": {
+      "text": "Mantle length up to 937 mm in males and 462 mm in females, commonly 200 to 300 mm on the eastern North Atlantic shelf"
+    },
+    "habitat": {
+      "text": "Coastal and continental shelf seas over sandy and muddy bottoms, moving into shallow water to spawn"
+    },
+    "behaviour": {
+      "text": "Aggregates near the bottom by day and disperses into the water column at night; moves offshore as it grows, returning inshore to breed"
+    }
+  },
+  "Loligo vulgaris": {
+    "depth": {
+      "text": "Surface down to about 500 m, but usually shallower than 100 m"
+    },
+    "size": {
+      "text": "Mantle up to 640 mm in males and 485 mm in females, to 2.3 kg; over 500 mm in European waters"
+    },
+    "habitat": {
+      "text": "Coastal shelf water over coarse sand, silt or seagrass; needs firm objects to attach its egg strings to"
+    },
+    "behaviour": {
+      "text": "Close to the seabed by day, spreading up into the water column to feed at night"
+    }
+  },
+  "Sepiola atlantica": {
+    "depth": {
+      "text": "Sublittoral to about 150 m, and on the shelf and upper slope to over 400 m; commonest at 50-120 m off Scotland and 6-50 m in Iberian waters"
+    },
+    "size": {
+      "text": "Up to about 24 mm mantle length, with mature adults averaging around 15 mm"
+    },
+    "habitat": {
+      "text": "Clean sand and gravel on the continental shelf out to the edge of the slope, and inshore in rockpools"
+    },
+    "behaviour": {
+      "text": "Bottom-living; buries itself in sand by day and forages above the seabed at dawn and dusk"
+    }
+  },
+  "Eledone cirrhosa": {
+    "depth": {
+      "text": "0 to 700 m, with most catches between 50 and 300 m"
+    },
+    "size": {
+      "text": "Up to about 55 cm total length, mantle to 250 mm, and about 1.2 kg"
+    },
+    "habitat": {
+      "text": "Rocky coasts from the lower shore into the sublittoral, and soft bottoms over a wide depth range"
+    },
+    "behaviour": {
+      "text": "In aquaria, largely sedentary in dens or among rocks, long quiet spells broken by bouts of activity and hunting; also buries itself in sand"
+    }
+  },
+  "Octopus vulgaris": {
+    "depth": {
+      "text": "Shoreline to 250 m, typically shallower than 100 m"
+    },
+    "size": {
+      "text": "Total length to 1.3-1.8 m; mantle length to 40 cm, commonly around 25 cm; weight to over 20 kg"
+    },
+    "habitat": {
+      "text": "Intertidal to shallow subtidal on the continental shelf, over rocky, sandy or muddy ground"
+    },
+    "behaviour": {
+      "text": "Mainly night active, spending daylight hours in a den in a rock crevice or dug into soft sediment"
+    }
+  },
+  "Asterina gibbosa": {
+    "depth": {
+      "text": "Lower shore down to about 100 m, with records to about 125 m"
+    },
+    "size": {
+      "text": "Up to about 5 cm across"
+    },
+    "habitat": {
+      "text": "Under boulders and stones and in crevices on sheltered to semi-exposed rocky shores, and in rockpools"
+    },
+    "behaviour": {
+      "text": "Solitary and slow-moving, crawling over rock and the seabed surface; feeds as an omnivore, predator and scavenger"
+    }
+  },
+  "Marthasterias glacialis": {
+    "depth": {
+      "text": "From extreme low water down to about 200 m"
+    },
+    "size": {
+      "text": "Up to 70 cm across, commonly 25-30 cm"
+    },
+    "habitat": {
+      "text": "From the intertidal into the subtidal on rocky coasts, in a variety of habitats from sheltered muddy sites to wave exposed rock faces"
+    },
+    "behaviour": {
+      "text": "A slow-moving predator that finds prey by chemoreception and chance encounter, taking a wide range of prey"
+    }
+  },
+  "Asterias rubens": {
+    "depth": {
+      "text": "Intertidal down to depths of 650 m"
+    },
+    "size": {
+      "text": "Up to 52 cm in diameter, commonly 10-30 cm"
+    },
+    "habitat": {
+      "text": "Bedrock, gravel and coarse sand from the shore to the open seabed, and above all beds of mussels and barnacles"
+    },
+    "behaviour": {
+      "text": "A slow-crawling seabed predator and scavenger, usually solitary but sometimes massing in dense feeding aggregations"
+    }
+  },
+  "Ophiothrix fragilis": {
+    "depth": {
+      "text": "Lower shore down to about 85 m, with records to 150 m and as deep as 350 m"
+    },
+    "size": {
+      "text": "Disk up to 2 cm across, with five arms about five times the disk diameter; 11-20 cm overall"
+    },
+    "habitat": {
+      "text": "Bedrock, boulders and coarse sediment from the lower shore to offshore, most abundant on tideswept ground; in crevices and under boulders on the shore"
+    },
+    "behaviour": {
+      "text": "Gregarious passive suspension feeder, arms held up into the current; gathers in dense beds of up to 2000 per square metre and shelters in crevices by day"
+    }
+  },
+  "Patella vulgata": {
+    "depth": {
+      "text": "Intertidal, from the high shore down to the sublittoral fringe"
+    },
+    "size": {
+      "text": "Shell up to 6 cm long, 5 cm wide and 3 cm high"
+    },
+    "habitat": {
+      "text": "Rocks, stones and rock pools on rocky shores of every degree of wave exposure, from the high shore to the sublittoral fringe, and into estuaries"
+    },
+    "behaviour": {
+      "text": "Creeps over the rock grazing algae when the tide is in or the shore is damp, then returns to a home scar its own shell has worn"
+    }
+  },
+  "Nucella lapillus": {
+    "depth": {
+      "text": "Intertidal, from about mid-tide level downwards; only rarely in the shallow sublittoral"
+    },
+    "size": {
+      "text": "Shell usually up to 3 cm high and 2 cm broad, reaching 6 cm in a few exceptional populations"
+    },
+    "habitat": {
+      "text": "Rocky shores, wave exposed to sheltered: bedrock, boulders, crevices, overhangs and rockpools, among the barnacles and mussels it feeds on"
+    },
+    "behaviour": {
+      "text": "A slow-creeping predator, most active at night and rarely moving far; gregarious, gathering in summer aggregations of 20 to 500 on open rock"
+    }
+  },
+  "Calliostoma zizyphinum": {
+    "depth": {
+      "text": "Extreme low water down to 300 m"
+    },
+    "size": {
+      "text": "Shell up to 3 cm (30 mm) high and 3 cm broad"
+    },
+    "habitat": {
+      "text": "Seaweed-covered rocky shores, under rocks, in crevices and on large algae such as Laminaria"
+    },
+    "behaviour": {
+      "text": "Wipes mucus over its own shell twice every 24 hours and eats the micro-organisms and particles it traps, about 20% of its food"
+    }
+  },
+  "Steromphala umbilicalis": {
+    "depth": {
+      "text": "Between the tide marks on rocky shores, from the upper shore down to the low-water line; only sometimes found below the tide"
+    },
+    "size": {
+      "text": "Shell up to 1.6 cm high and 2.2 cm across"
+    },
+    "habitat": {
+      "text": "Sheltered rocky shores, on fucoid seaweeds, under stones and in rock pools; tolerates drying out and brackish water"
+    },
+    "behaviour": {
+      "text": "Grazes brushings off seaweed and rock, and keeps feeding when shore crab scent is in the water, showing very little alarm response"
+    }
+  },
+  "Aurelia aurita": {
+    "depth": {
+      "text": "Coastal and pelagic, in the upper epipelagic near the surface, with records down into the mesopelagic (200 to 1,000 m)"
+    },
+    "size": {
+      "text": "Bell usually about 25 cm across and up to 40 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in coastal seas, also running up estuaries and into harbours, and especially common in Scottish sea lochs"
+    },
+    "behaviour": {
+      "text": "Sporadic in appearance, at times swarming densely enough to colour the sea and slow a small boat"
+    }
+  },
+  "Chrysaora hysoscella": {
+    "depth": {
+      "text": "Mostly near the surface, diving down to 26.9 m; uncommon below 30 m"
+    },
+    "size": {
+      "text": "Bell up to 30 cm across; recorded range 3-43 cm, median about 15 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in cold to temperate coastal waters over the continental shelf; its polyps have been found on empty bivalve shells on the North Sea bed"
+    },
+    "behaviour": {
+      "text": "Swims by pulsing its bell but is largely carried on the currents; solitary, and makes extensive vertical movements through the water column"
+    }
+  },
+  "Cyanea capillata": {
+    "depth": {
+      "text": "Coastal and upper epipelagic, drifting in the open water column; Baltic surveys netted it from 5-10 m down to 60-70 m, mostly deeper than 30 m"
+    },
+    "size": {
+      "text": "Bell usually 30-50 cm across in British waters, recorded to 200 cm; the largest on record trailed tentacles 36.6 m long"
+    },
+    "habitat": {
+      "text": "Pelagic in cool coastal seas: the medusa drifts in open water, the polyp stage lives on the bottom, and medusae often wash up on beaches"
+    },
+    "behaviour": {
+      "text": "Drifts with the current and pulses its bell to swim; fishes by sinking slowly with its tentacles spread in a circle, and at times gathers in large swarms"
+    }
+  },
+  "Rhizostoma octopus": {
+    "size": {
+      "text": "Bell up to 90 cm across, and reported to reach 1 m; weighs as much as 35 kg."
+    },
+    "habitat": {
+      "text": "Pelagic in coastal seas, aggregating in bays and also found in open water."
+    },
+    "behaviour": {
+      "text": "Gathers in large aggregations in coastal bays, and swims actively up and down the whole water column rather than drifting passively."
+    }
+  },
+  "Cyanea lamarckii": {
+    "size": {
+      "text": "Bell up to 30 cm across, and rarely larger"
+    },
+    "habitat": {
+      "text": "Pelagic in coastal waters, drawn inshore by blooms of plankton"
+    },
+    "behaviour": {
+      "text": "Drifts in open water, catching prey on a dense array of stinging tentacles; seen inshore from May to October"
+    }
+  },
+  "Pelagia noctiluca": {
+    "depth": {
+      "text": "Mostly between the surface and 150 m, deeper by day at 300-500 m, exceptionally to 1,400 m"
+    },
+    "size": {
+      "text": "Bell up to 12 cm across, commonly around 4-5 cm, with thin tentacles trailing as far as 3 m"
+    },
+    "habitat": {
+      "text": "Oceanic, living in open water in warm and temperate seas; around Britain and Ireland mainly over deep water off the west and north coasts"
+    },
+    "behaviour": {
+      "text": "Gathers in swarms; has no seabed stage in its life cycle and can glow brightly at night if disturbed"
+    }
+  },
+  "Eutrigla gurnardus": {
+    "depth": {
+      "text": "10-340 m, usually 10-150 m"
+    },
+    "size": {
+      "text": "Up to 50-60 cm, commonly around 30 cm"
+    },
+    "habitat": {
+      "text": "Coastal demersal, on sandy grounds and also rocky or muddy bottoms, from the coastline down to about 140 m"
+    },
+    "behaviour": {
+      "text": "Lives on the bottom and makes croaking sounds; the young are pelagic until about 3 cm long"
+    }
+  },
+  "Chelidonichthys cuculus": {
+    "depth": {
+      "text": "15-400 m, usually 30-250 m"
+    },
+    "size": {
+      "text": "Maximum 50-70 cm; common length 27.6 cm, females 20.4 cm"
+    },
+    "habitat": {
+      "text": "Demersal, over sand, gravel, crag and rock on the continental shelf"
+    },
+    "behaviour": {
+      "text": "Occasionally forms schools; feels for food with enlarged pectoral rays, and croaks like a frog when caught"
+    }
+  },
+  "Chelidonichthys lucerna": {
+    "depth": {
+      "text": "Recorded from about 2 m down to 318 m, usually in shallow water of 2 to 20 m"
+    },
+    "size": {
+      "text": "Up to 82.8 cm, the largest of the European gurnards; commonly 30 to 60 cm"
+    },
+    "habitat": {
+      "text": "Demersal, on sand, muddy sand, mud or gravel seabeds"
+    },
+    "behaviour": {
+      "text": "Rests on three free finger-like pectoral rays that act as legs and help it locate food on the soft bottom"
+    }
+  },
+  "Chelidonichthys lastoviza": {
+    "depth": {
+      "text": "10-150 m, usually no deeper than about 40 m"
+    },
+    "size": {
+      "text": "Up to 40 cm, commonly 15 to 20 cm"
+    },
+    "habitat": {
+      "text": "Demersal over sandy and rocky bottoms, from the coast down to about 150 m"
+    },
+    "behaviour": {
+      "text": "Growls while competing for food; fish that growl while circling a food item are more likely to grasp it than silent fish"
+    }
+  },
+  "Echinus esculentus": {
+    "depth": {
+      "text": "Low water to about 40 m, though it may be found at 100 m or more"
+    },
+    "size": {
+      "text": "Up to 15 to 16 cm in diameter, largest recorded 17.6 cm; about 9 to 11 cm at four years old"
+    },
+    "habitat": {
+      "text": "Rocky reefs, on bedrock, boulders and in crevices and rockpools, from the sublittoral fringe downwards"
+    },
+    "behaviour": {
+      "text": "A solitary, creeping omnivore that grazes and scavenges over the rock; heavy grazing can destroy kelp forests"
+    }
+  },
+  "Psammechinus miliaris": {
+    "depth": {
+      "text": "0 to 100 m, from intertidal pools downwards; most commonly 16 to 70 m, or 0 to 10 m in Scottish sea lochs"
+    },
+    "size": {
+      "text": "Up to 57 mm across the test, more typically about 35 mm"
+    },
+    "habitat": {
+      "text": "Rocky shores under stones, boulders and seaweed, and subtidally in seagrass beds and on muddy sand and gravel"
+    },
+    "behaviour": {
+      "text": "An omnivorous crawler, grazing algae and encrusting animals; occurs in dense, localised populations in sheltered sea lochs"
+    }
+  },
+  "Paracentrotus lividus": {
+    "depth": {
+      "text": "Lower-shore rock pools and the shallow sublittoral, mostly down to about 3 m and recorded to about 30 m"
+    },
+    "size": {
+      "text": "Round, flattened test up to 7 cm in diameter"
+    },
+    "habitat": {
+      "text": "Lower-shore rock pools and crevices on rocky shores, boring into soft rock, also on stony ground, maerl gravel and in Zostera seagrass beds"
+    },
+    "behaviour": {
+      "text": "Bores a hole in soft rock with its spines and teeth and shelters in it, enlarging it as it grows; many together can honeycomb the rock"
+    }
+  },
+  "Echinocardium cordatum": {
+    "depth": {
+      "text": "Lower shore and subtidal down to about 200 m, with records to 230 m"
+    },
+    "size": {
+      "text": "Up to 9 cm long, usually about 4 to 6 cm"
+    },
+    "habitat": {
+      "text": "Burrows in coarse or fine clean sand, muddy sand and sandy mud on sheltered coasts, from the lower shore out to the open seabed"
+    },
+    "behaviour": {
+      "text": "Lives buried in a permanent mucus-lined burrow with a breathing shaft to the surface, and re-buries itself within 20 minutes if turned out"
+    }
+  },
+  "Spatangus purpureus": {
+    "depth": {
+      "text": "From the infralittoral fringe down to about 900 m"
+    },
+    "size": {
+      "text": "Up to 12 cm long and 8 cm across"
+    },
+    "habitat": {
+      "text": "Buried in coarse sand and gravel, including maerl, rarely mud, on wave-sheltered seabed"
+    },
+    "behaviour": {
+      "text": "Burrows and crawls beneath the sediment, leaving furrows in the gravel where it has passed"
+    }
+  },
+  "Phalacrocorax aristotelis": {
+    "depth": {
+      "text": "Feeds on the seabed, most dives 7-20 m, exceptionally to about 60 m"
+    },
+    "size": {
+      "text": "Up to about 80 cm long, wingspan 90-105 cm, weight about 1.75-2.25 kg"
+    },
+    "habitat": {
+      "text": "Rocky marine coasts and islands; nests in crevices, under boulders and in caves, and forages inshore over rock, kelp and sand"
+    },
+    "behaviour": {
+      "text": "Leaps clear of the surface into a pursuit dive and feeds at the seabed; forages alone or in flocks of hundreds; perches with wings spread to dry"
+    }
+  },
+  "Phalacrocorax carbo": {
+    "depth": {
+      "text": "Feeds in shallow water, generally under 10 m and rarely more than 20 m, diving from the surface to chase fish"
+    },
+    "size": {
+      "text": "Length 80-100 cm, wingspan 121-160 cm, weight 2-3.7 kg"
+    },
+    "habitat": {
+      "text": "Shallow coastal and inland waters, especially estuaries; nests on sea cliffs, stacks and offshore islands, or in trees by lakes and gravel pits"
+    },
+    "behaviour": {
+      "text": "Sociable; nests in colonies and often hunts in groups, then perches with its wings held out to dry"
+    }
+  },
+  "Somateria mollissima": {
+    "depth": {
+      "text": "Dives for food mostly in 2-10 m of water, and can reach 40 m or more"
+    },
+    "size": {
+      "text": "Length 55-60 cm, wingspan 94 cm, weight about 2.2 kg; the UK's heaviest duck"
+    },
+    "habitat": {
+      "text": "Coastal seas year round, rarely straying from the coast; nests in colonies on northern coasts and small offshore isles"
+    },
+    "behaviour": {
+      "text": "Very sociable, riding the swell close to shore in flocks up to several hundred strong; ducklings gather in guarded creches"
+    }
+  },
+  "Halichoerus grypus": {
+    "depth": {
+      "text": "Forages mainly on the seabed down to about 100 m, and can feed at all depths across the UK continental shelf"
+    },
+    "size": {
+      "text": "Adults up to about 2.3 m long; males over 300 kg, females around 150-200 kg"
+    },
+    "habitat": {
+      "text": "Feeds in inshore benthic habitats and the open sea, hauling out on remote islands, bays and caves to rest, moult and breed"
+    },
+    "behaviour": {
+      "text": "Ranges widely to forage, often over 100 km between haul-out sites, on trips of 1 to 30 days; breeds ashore in autumn"
+    }
+  },
+  "Phoca vitulina": {
+    "depth": {
+      "text": "Forages at around 91 m on average and dives to 427 to 450 m, staying down up to 30 minutes"
+    },
+    "size": {
+      "text": "1.2 to 2 m long and 65 to 140 kg, adults typically 80 to 100 kg; males slightly bigger than females"
+    },
+    "habitat": {
+      "text": "Shallow coastal water, bays and estuaries; comes ashore on sandbanks, beaches, reefs and tidal rocks"
+    },
+    "behaviour": {
+      "text": "Hauls out on land on a pattern tied to the tide; usually solitary, gathering in small mixed groups to pup in June and July and moult in August"
+    }
+  }
+}

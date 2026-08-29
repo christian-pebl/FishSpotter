@@ -25,31 +25,40 @@ import { SpeciesIdentityLine, SpeciesSources } from "@/components/species/Specie
 import { SourceCite } from "@/components/species/SourceCite";
 import { SpeciesDiet } from "@/components/species/SpeciesDiet";
 import type { SpeciesDiet as SpeciesDietData } from "@/lib/foodweb/diet";
-import type { SpeciesProvenance } from "@/lib/references/payload";
+import type { ClaimPayload, SourcePayload, SpeciesProvenance } from "@/lib/references/payload";
+import { factClaimKey, getSpeciesFacts, type SpeciesFactKey } from "@/lib/biodiversity/species-facts";
 
-/** A depth range a source STATES, not one computed from occurrence records. */
+/**
+ * Kept as an export for the profile page's prop, which still passes a depth in.
+ * The tile no longer reads it: depth is one of the four sourced facts now.
+ */
 export type SpeciesDepth = { label: string; detail?: string; sourceId: string } | null;
 
-const SIZE_LABEL: Record<string, string> = {
-  small: "Small (under 10 cm)",
-  medium: "Medium (10-50 cm)",
-  large: "Large (over 50 cm)",
-};
-const prettify = (v: string) => {
-  const s = v.replace(/-/g, " ");
-  return s.charAt(0).toUpperCase() + s.slice(1);
-};
-const prettyList = (vs: string[]) => (vs.length ? vs.map(prettify).join(", ") : "Not recorded");
-
+/**
+ * One fact tile. It renders ONLY when its claim carries a passage somebody
+ * read.
+ *
+ * The page used to show every tile and mark the sourced ones, with a note at
+ * the foot admitting that an unmarked statement had not been traced. That note
+ * is gone, so the tiles have to keep the promise themselves: an unsourced size
+ * or habitat is not shown at all. A missing tile is a smaller loss than a
+ * confident-looking one nobody can check.
+ */
 function Fact({
   label,
   value,
-  markers,
+  claim,
+  order,
+  allSources,
 }: {
   label: string;
-  value: string;
-  markers?: React.ReactNode;
+  value: string | undefined;
+  claim: ClaimPayload | undefined;
+  order: string[];
+  allSources: SourcePayload[];
 }) {
+  if (!value || !claim?.evidenced) return null;
+  const markers = <SourceCite claim={claim} order={order} allSources={allSources} />;
   return (
     <div className="rounded-modal bg-surface-muted px-3 py-2.5">
       <p className="text-[10px] font-semibold uppercase tracking-eyebrow text-navy-900/70">{label}</p>
@@ -61,6 +70,13 @@ function Fact({
   );
 }
 
+const FACT_TILES: { key: SpeciesFactKey; label: string }[] = [
+  { key: "depth", label: "Depth" },
+  { key: "size", label: "Size" },
+  { key: "habitat", label: "Habitat" },
+  { key: "behaviour", label: "Behaviour" },
+];
+
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="mb-2 font-brand-heading text-h3 text-navy-900">{children}</h2>;
 }
@@ -69,10 +85,6 @@ export function SpeciesGuideContent({
   scientificName,
   commonName,
   fieldNote,
-  size,
-  habitat,
-  behavior,
-  initialDepth,
   initialDistribution,
   initialProvenance,
   diet,
@@ -80,17 +92,12 @@ export function SpeciesGuideContent({
   scientificName: string;
   commonName: string;
   fieldNote?: string;
-  size: string;
-  habitat: string[];
-  behavior: string[];
-  initialDepth?: SpeciesDepth;
   initialDistribution?: DistributionGrid | null;
   /** Server-supplied provenance; the popup path fetches it instead. */
   initialProvenance?: SpeciesProvenance | null;
   /** Feeding links from the farm food web. Derived data, so always server-supplied. */
   diet?: SpeciesDietData | null;
 }) {
-  const [depth, setDepth] = useState<SpeciesDepth>(initialDepth ?? null);
   const [grid, setGrid] = useState<DistributionGrid | null>(initialDistribution ?? null);
   const [marked, setMarked] = useState<SpeciesImagePayload | null>(null);
   const [provenance, setProvenance] = useState<SpeciesProvenance | null>(initialProvenance ?? null);
@@ -106,15 +113,6 @@ export function SpeciesGuideContent({
         setMarked(body?.images?.find((i) => i.marks.length > 0) ?? null);
       })
       .catch(() => {});
-    // Depth (skip if the server already provided it).
-    if (initialDepth === undefined) {
-      fetch(`/api/species/depth?name=${encodeURIComponent(scientificName)}`)
-        .then((r) => (r.ok ? r.json() : null))
-        .then((b: { depth?: SpeciesDepth } | null) => {
-          if (!cancelled && b?.depth) setDepth(b.depth);
-        })
-        .catch(() => {});
-    }
     // Provenance (skip if the server already provided it). Kept server-side
     // rather than bundled so the reference catalogue does not ship to the client.
     if (initialProvenance === undefined) {
@@ -139,25 +137,36 @@ export function SpeciesGuideContent({
     return () => {
       cancelled = true;
     };
-  }, [scientificName, initialDepth, initialDistribution, initialProvenance]);
+  }, [scientificName, initialDistribution, initialProvenance]);
 
   // Numbering for the superscript markers must match the Sources list order.
   const sourceOrder = provenance?.sources.map((s) => s.id) ?? [];
   const allSources = provenance?.sources ?? [];
   /**
-   * Every diagnostic mark on a species is backed by the same morphology
-   * passages (the source's Description / Identifying features), so the block
-   * carries ONE citation rather than repeating an identical superscript on
-   * each ring. The claims are merged into a single synthetic one so the card
-   * still shows the passages and any recorded disagreement.
+   * The rings that survive verification, and the single citation for all of
+   * them.
+   *
+   * A ring's description is a teaching claim like any other, so a ring whose
+   * description could not be traced to a passage is not drawn. Rings are
+   * renumbered by the annotator from whatever list it is given, so dropping one
+   * leaves no gap in the legend.
+   *
+   * Every surviving ring rests on the same morphology passages (the source's
+   * Description / Identifying features), so the block carries ONE citation
+   * rather than repeating an identical superscript on each ring.
    */
+  const verifiedMarks = (marked?.marks ?? []).filter(
+    (m) => provenance?.claims[`mark:${m.id}`]?.evidenced,
+  );
   const markClaim = (() => {
-    const marks = Object.entries(provenance?.claims ?? {}).filter(([k]) => k.startsWith("mark:"));
-    if (marks.length === 0) return undefined;
-    const sourceIds = Array.from(new Set(marks.flatMap(([, c]) => c.sourceIds)));
+    const entries = verifiedMarks
+      .map((m) => provenance?.claims[`mark:${m.id}`])
+      .filter((c): c is ClaimPayload => Boolean(c));
+    if (entries.length === 0) return undefined;
+    const sourceIds = Array.from(new Set(entries.flatMap((c) => c.sourceIds)));
     const seen = new Set<string>();
-    const support = marks
-      .flatMap(([, c]) => c.support)
+    const support = entries
+      .flatMap((c) => c.support)
       .filter((sp) => {
         const k = `${sp.sourceId} :: ${sp.locator}`;
         if (seen.has(k)) return false;
@@ -167,25 +176,25 @@ export function SpeciesGuideContent({
     return {
       sourceIds,
       support,
-      evidenced: marks.every(([, c]) => c.evidenced),
-      conflict: marks.find(([, c]) => c.conflict)?.[1].conflict,
+      evidenced: true,
+      conflict: entries.find((c) => c.conflict)?.conflict,
     };
   })();
 
-  const depthValue = depth?.label ?? null;
+  const facts = getSpeciesFacts(scientificName);
 
   return (
     <div className="space-y-5">
       <SpeciesIdentityLine provenance={provenance} />
       {/* How to spot it, annotated reference (only when marks exist). Dark card
           because the annotated legend is white. */}
-      {marked && (
+      {marked && verifiedMarks.length > 0 && (
         <section className="rounded-card bg-navy-900 p-4">
           <h2 className="mb-3 font-brand-heading text-h3 text-white">
             How to spot it
             <SourceCite claim={markClaim} order={sourceOrder} allSources={allSources} tone="dark" />
           </h2>
-          <AnnotatedSpeciesPhotoView image={marked} marks={marked.marks} commonName={commonName} />
+          <AnnotatedSpeciesPhotoView image={marked} marks={verifiedMarks} commonName={commonName} />
         </section>
       )}
 
@@ -200,44 +209,30 @@ export function SpeciesGuideContent({
 
       {/* Field note: only when there's no annotated diagram above, since the
           diagram's numbered legend already covers the same visual-ID ground. */}
-      {!marked && fieldNote && (
+      {verifiedMarks.length === 0 && fieldNote && provenance?.claims["fieldNote"]?.evidenced && (
         <section className="pebl-surface rounded-card p-4">
           <p className="text-sm leading-7 text-navy-900/85">
             {fieldNote}
-            <SourceCite claim={provenance?.claims["fieldNote"]} order={sourceOrder} allSources={allSources} />
+            <SourceCite claim={provenance.claims["fieldNote"]} order={sourceOrder} allSources={allSources} />
           </p>
         </section>
       )}
 
-      {/* Field facts. Depth comes from a live OBIS cache and isn't always
-          backfilled yet, so omit the row rather than show a "Not recorded"
-          placeholder next to a species we clearly do have footage of. */}
-      <section className="grid grid-cols-2 gap-3">
-        {depthValue && (
+      {/* The four fact tiles. Each is a phrase read out of a published source,
+          not a rendering of the wizard's trait tokens: those tokens exist to
+          cut a candidate list and cannot say what a source says. A fact with no
+          read passage behind it is not shown. */}
+      <section className="grid grid-cols-2 gap-3 empty:hidden">
+        {FACT_TILES.map(({ key, label }) => (
           <Fact
-            // "Usually seen at" asserted a habit; this is a published range.
-            label="Depth"
-            value={depthValue}
-            markers={
-              <SourceCite claim={provenance?.claims["trait:depth"]} order={sourceOrder} allSources={allSources} />
-            }
+            key={key}
+            label={label}
+            value={facts?.[key]?.text}
+            claim={provenance?.claims[factClaimKey(key)]}
+            order={sourceOrder}
+            allSources={allSources}
           />
-        )}
-        <Fact
-          label="Size"
-          value={SIZE_LABEL[size] ?? prettify(size)}
-          markers={<SourceCite claim={provenance?.claims["trait:size"]} order={sourceOrder} allSources={allSources} />}
-        />
-        <Fact
-          label="Habitat"
-          value={prettyList(habitat)}
-          markers={<SourceCite claim={provenance?.claims["trait:habitat"]} order={sourceOrder} allSources={allSources} />}
-        />
-        <Fact
-          label="Behaviour"
-          value={prettyList(behavior)}
-          markers={<SourceCite claim={provenance?.claims["trait:behavior"]} order={sourceOrder} allSources={allSources} />}
-        />
+        ))}
       </section>
 
       {/* In the food web: what it eats and what eats it. */}

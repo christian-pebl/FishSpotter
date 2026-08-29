@@ -1,76 +1,66 @@
 import { describe, expect, it } from "vitest";
 import foodWebData from "@/data/food-web-links.json";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
-import { getSpeciesDiet, TIER_LABEL } from "./diet";
+import { REFERENCES } from "@/lib/references/catalogue";
+import { STATED_DIETS } from "@/lib/foodweb/stated-diet";
+import { speciesSlug } from "@/lib/species-slug";
+import { getSpeciesDiet } from "./diet";
 
 /**
- * The diet section is derived data, so the risk is not a crash: it is a
- * plausible-looking list that is subtly the wrong way round, or that silently
- * drops the species whose names differ between the food web and the catalogue.
+ * The diet section is the part of the guide most likely to drift back into
+ * describing our own catalogue instead of the animal, so the tests here are
+ * mostly about WHERE a statement came from rather than about the code path.
  */
 describe("getSpeciesDiet", () => {
-  it("places every food-web species onto a catalogue entry", () => {
-    // A name drift between the two files would silently empty a diet section,
-    // which looks like "this animal eats nothing" rather than like a bug.
-    const missing = Object.keys(CATALOGUE).filter((sci) => {
-      const d = getSpeciesDiet(sci);
-      return d.foodWebName === null;
-    });
-    expect(missing).toEqual([]);
-  });
-
-  it("reads the graph in the right direction", () => {
-    const cod = getSpeciesDiet("Gadus morhua");
-    // Cod eats sprat and is eaten by grey seal, not the other way round.
-    expect(cod.eats.map((i) => i.label)).toContain("Sprat");
-    expect(cod.eatenBy.map((i) => i.label)).toContain("Grey seal");
-    expect(cod.eats.map((i) => i.label)).not.toContain("Grey seal");
-  });
-
-  it("files each link under a claim key owned by the predator", () => {
-    const cod = getSpeciesDiet("Gadus morhua");
-    const sprat = cod.eats.find((i) => i.label === "Sprat");
-    expect(sprat?.claimKey).toBe("edge:Sprat->Atlantic cod");
-    expect(sprat?.claimOwner).toBe("Gadus morhua");
-
-    // On the "eaten by" side the claim belongs to the PREDATOR, since it is a
-    // statement about the seal's diet, not the cod's.
-    const seal = cod.eatenBy.find((i) => i.label === "Grey seal");
-    expect(seal?.claimKey).toBe("edge:Atlantic cod->Grey seal");
-    expect(seal?.claimOwner).toBe("Halichoerus grypus");
-  });
-
-  it("links catalogue species and flags non-taxon resources", () => {
-    const limpet = getSpeciesDiet("Patella vulgata");
-    const kelp = limpet.eats.find((i) => i.isResource);
-    expect(kelp?.label).toBe("Kelp / seaweed");
-    expect(kelp?.slug).toBeUndefined();
-
-    const cod = getSpeciesDiet("Gadus morhua");
-    const sprat = cod.eats.find((i) => i.label === "Sprat");
-    expect(sprat?.isResource).toBe(false);
-    expect(sprat?.slug).toBe("sprattus-sprattus");
-  });
-
-  it("sorts real species above resource nodes", () => {
-    const cod = getSpeciesDiet("Gadus morhua");
-    const firstResource = cod.eats.findIndex((i) => i.isResource);
-    const lastSpecies = cod.eats.map((i) => i.isResource).lastIndexOf(false);
-    if (firstResource >= 0) expect(firstResource).toBeGreaterThan(lastSpecies);
-  });
-
-  it("returns an empty predator list for an apex predator rather than inventing one", () => {
-    const seal = getSpeciesDiet("Halichoerus grypus");
-    expect(seal.eats.length).toBeGreaterThan(0);
-    expect(seal.eatenBy).toEqual([]);
-    expect(seal.tier).toBe(5);
-  });
-
-  it("gives every placed species a tier with a readable label", () => {
+  it("reads its bullets from the stated-diet file, not from the food-web graph", () => {
     for (const sci of Object.keys(CATALOGUE)) {
       const d = getSpeciesDiet(sci);
-      expect(d.tier).not.toBeNull();
-      expect(TIER_LABEL[d.tier as number]).toBeTruthy();
+      const stated = STATED_DIETS[sci];
+      expect(d.eats.map((i) => i.label)).toEqual((stated?.eats ?? []).map((b) => b.text));
+      expect(d.eatenBy.map((i) => i.label)).toEqual((stated?.eatenBy ?? []).map((b) => b.text));
+    }
+  });
+
+  it("keeps the authored order, because the bullets are written most-representative first", () => {
+    const withThree = Object.entries(STATED_DIETS).find(([, d]) => d.eats.length >= 2);
+    if (!withThree) return;
+    const [sci, stated] = withThree;
+    expect(getSpeciesDiet(sci).eats[0].label).toBe(stated.eats[0].text);
+  });
+
+  it("files each bullet under an indexed claim key", () => {
+    for (const sci of Object.keys(CATALOGUE)) {
+      const d = getSpeciesDiet(sci);
+      d.eats.forEach((item, i) => expect(item.claimKey).toBe(`diet:eats:${i}`));
+      d.eatenBy.forEach((item, i) => expect(item.claimKey).toBe(`diet:eatenBy:${i}`));
+    }
+  });
+
+  it("every published bullet is bound to a passage somebody read", () => {
+    // The page carries no disclaimer about which statements are sourced, so
+    // this is the only thing standing behind that promise: a bullet that
+    // reaches a reader without an evidenced claim is a silent lie.
+    const unevidenced: string[] = [];
+    for (const sci of Object.keys(CATALOGUE)) {
+      const d = getSpeciesDiet(sci);
+      for (const item of [...d.eats, ...d.eatenBy]) {
+        const claim = REFERENCES.species[sci]?.claims?.[item.claimKey];
+        if (!claim?.claimSupported) unevidenced.push(`${sci} ${item.claimKey}`);
+      }
+    }
+    expect(unevidenced).toEqual([]);
+  });
+
+  it("only links a bullet to a species the catalogue actually holds", () => {
+    // A bullet's slug turns it into a link. A link to a slug that resolves to
+    // nothing is a 404 handed to a reader who trusted the citation beside it.
+    const known = new Set(Object.keys(CATALOGUE).map(speciesSlug));
+    for (const sci of Object.keys(CATALOGUE)) {
+      const d = getSpeciesDiet(sci);
+      for (const item of [...d.eats, ...d.eatenBy]) {
+        if (!item.slug) continue;
+        expect(known.has(item.slug), `${sci} ${item.claimKey} links to unknown slug ${item.slug}`).toBe(true);
+      }
     }
   });
 
