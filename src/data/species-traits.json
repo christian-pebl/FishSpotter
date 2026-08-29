@@ -1847,7 +1847,7 @@
     "armForm": [
       "long-smooth"
     ],
-    "fieldNote": "The classic orange five-armed star. The arms taper to a point and carry a knobbly central line of pale spines but no big spikes. Turns up almost anywhere, often near mussel beds."
+    "fieldNote": "The commonest starfish around Britain and Ireland. It has five arms, broad at the base and tapering to blunt tips, with a definite line of small white spines down the centre of each arm and none of the big spine rows the spiny starfish carries. Usually orange or pale brown, sometimes violet, and up to 52 cm across, though 10 to 30 cm is normal. Larger animals feel soft and floppy. Look for it on rock, gravel and coarse sand, and above all on beds of mussels and barnacles, from the shore down to 650 m."
   },
   "Ophiothrix fragilis": {
     "commonName": "Common Brittlestar",
@@ -1879,7 +1879,7 @@
     "armForm": [
       "thin-whippy"
     ],
-    "fieldNote": "A small spiny disc trailing five long, thread-thin arms that writhe and snap off at a touch. Colour is hugely variable; often carpets the seabed in dense beds and hides under stones."
+    "fieldNote": "A spiny, five-sided disk up to 2 cm across, trailing five long slender arms about five times the disk diameter, each segment carrying seven serrated spines. The arms are fragile, often broken, and can be shed to escape a predator, then regrown. Colour is very varied, commonly brown or grey but also purple, red, orange, yellow or white, plain or banded. Shelters in crevices and under boulders on the shore, and offshore forms dense beds of up to 2000 animals per square metre."
   },
   "Patella vulgata": {
     "commonName": "Common Limpet",
@@ -1909,7 +1909,7 @@
     "shellShape": [
       "flat-cone"
     ],
-    "fieldNote": "A plain ridged cone clamped tight to bare rock, with no spire and no pattern. Each one grazes its own patch of algae and homes back to the same scar as the tide drops."
+    "fieldNote": "A plain greyish white cone, up to about 6 cm long, with coarse ridges radiating out from an apex set centrally or a little forward. It clamps down hard on the rock, and grazes algae and micro-organisms when the tide is in or the shore stays damp, then creeps back to its own home scar, a depression its shell has worn into the rock and fits tightly. Shells are taller high on the shore, and flatter low down and on wave-beaten rock."
   },
   "Nucella lapillus": {
     "commonName": "Dog Whelk",
@@ -1939,7 +1939,7 @@
     "shellShape": [
       "pointed-cone"
     ],
-    "fieldNote": "A thick, short-spired shell with spiral ridges and an oval mouth drawn out into a little spout. White, grey or banded brown (the colour follows its diet). Drills neat holes through barnacles and mussels."
+    "fieldNote": "A solid, broadly conical shell with about six swollen whorls, a short pointed spire dominated by the large last whorl, and low strap-shaped spiral ridges. A short, open siphonal canal runs from the base of the opening. Usually white, but grey, brown or yellow shells occur, sometimes with contrasting brown spiral bands; colour and banding appear to be under genetic control. It preys on barnacles and mussels, either forcing its proboscis between the plates or valves or boring a hole through the shell and digesting the animal inside."
   },
   "Calliostoma zizyphinum": {
     "commonName": "Painted Top Shell",
@@ -1970,7 +1970,7 @@
     "shellShape": [
       "pointed-cone"
     ],
-    "fieldNote": "A glossy, sharply conical shell with straight sides and a flat base, like a smooth spinning top. Marbled pink and white over 10 to 12 finely ribbed whorls, with no open navel beneath."
+    "fieldNote": "A slightly glossy, regularly conical shell with straight sides and a flat base, like a traditional spinning top. Up to 12 to 13 whorls with regular spiral grooves, yellowish, pale pink or violet with streaks and blotches, and no open navel beneath."
   },
   "Steromphala umbilicalis": {
     "commonName": "Flat Top Shell",
@@ -1999,7 +1999,7 @@
     "shellShape": [
       "rounded-squat"
     ],
-    "fieldNote": "A squat, bluntly conical top shell, greenish with widely spaced reddish-purple bands. Flatter than the pointed top shells, with a tell-tale open 'navel' hole at the centre of the underside."
+    "fieldNote": "A small top shell, broader than it is tall, dull greenish-grey to cream with broad reddish-purple bands radiating from the apex. Look for the large, round, deep 'navel' (umbilicus) in the underside; the bands are broader, and about half as many, as on the grey top shell Steromphala cineraria."
   },
   "Aurelia aurita": {
     "commonName": "Moon Jellyfish",

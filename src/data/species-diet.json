@@ -1090,28 +1090,142 @@
     ]
   },
   "Asterias rubens": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Bivalve molluscs, prised open with the tube feet and digested by turning the stomach out into the shell"
+      },
+      {
+        "text": "Polychaete worms, other echinoderms and the occasional small crustacean, all taken alive"
+      },
+      {
+        "text": "Carrion, scavenged opportunistically: damaged and displaced bivalves, gastropods, crustaceans and echinoderms"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "The common sun star, a predatory starfish this animal turns and moves away from when it detects one"
+      },
+      {
+        "text": "Young Atlantic cod, recorded taking Asterias starfish among their seabed prey off Scotland",
+        "slug": "gadus-morhua"
+      }
+    ]
   },
   "Ophiothrix fragilis": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Phytoplankton, diatoms and fine detritus taken from the water"
+      },
+      {
+        "text": "Suspended particles strained from the current with the arms held up into the water"
+      },
+      {
+        "text": "Material off the seabed surface when the current slackens, and dead animals scavenged now and then"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bottom-feeding fish, including ballan and cuckoo wrasse, dragonets, cod and plaice"
+      },
+      {
+        "text": "Crabs, especially swimming crabs such as the velvet crab"
+      },
+      {
+        "text": "Predatory starfish: the common starfish and the spiny starfish, whose chemicals alone make it flee, and Luidia ciliaris"
+      }
+    ]
   },
   "Patella vulgata": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "A wide range of micro-organisms and algae, grazed straight off the rock"
+      },
+      {
+        "text": "Wrack germlings and other young seaweed sporelings, cropped before they can establish"
+      },
+      {
+        "text": "Encrusting red algae, and the film of diatoms on the rock surface"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Oystercatchers, which take limpets from rocky shores and feed them to their chicks"
+      },
+      {
+        "text": "Crabs, taking limpets that have been knocked off or have lost their grip on the rock"
+      },
+      {
+        "text": "The shanny, a rocky-shore fish whose diet includes limpets alongside crabs, worms and other small molluscs",
+        "slug": "lipophrys-pholis"
+      }
+    ]
   },
   "Nucella lapillus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Mainly barnacles and mussels, the sessile animals that hold space on a rocky shore"
+      },
+      {
+        "text": "Cockles, other bivalves and other sea snails, taken less often"
+      },
+      {
+        "text": "Acorn barnacles are the favoured prey ahead of mussels, and a whelk may still get through 15 to 40 mussels in a year"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Gulls and eider ducks swallow adults whole, and oystercatchers have caused heavy winter mortality; whelks of 4 cm or more are probably safe from birds"
+      },
+      {
+        "text": "Crabs, which take the smaller ones: shore crabs handle whelks up to 1.5 cm long and velvet swimming crabs up to 2.5 cm"
+      },
+      {
+        "text": "Small waders and rock pipits pick off the young, purple sandpipers favouring whelks only 2 to 5 mm long"
+      }
+    ]
   },
   "Calliostoma zizyphinum": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Micro-algae and other micro-organisms brushed off rocks and stones with the radula"
+      },
+      {
+        "text": "Micro-organisms and waterborne particles trapped in the mucus it wipes over its own shell, about a fifth of its food"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Ballan wrasse, which take it among the gastropods eaten alongside their main crab and mussel prey",
+        "slug": "labrus-bergylta"
+      },
+      {
+        "text": "Veined squid, recorded as a predator from prey identified in squid stomach contents",
+        "slug": "loligo-forbesii"
+      }
+    ]
   },
   "Steromphala umbilicalis": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Fine growth brushed off seaweed and rock, and algal debris; in rockpools this grazing keeps seaweed diversity low"
+      },
+      {
+        "text": "Kelp detritus, taking more of the warm-water kelps Laminaria ochroleuca and Saccorhiza polyschides than of cold-water kelps"
+      },
+      {
+        "text": "Microalgae and microbial films, since it is not an obligate kelp grazer and will select those over kelp detritus"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Shanny, which picks small gastropods off the rock and has this top shell recorded in its gut contents",
+        "slug": "lipophrys-pholis"
+      },
+      {
+        "text": "Shore crabs, though its low, discoid shell makes it harder to handle than a tall-spired periwinkle",
+        "slug": "carcinus-maenas"
+      }
+    ]
   },
   "Aurelia aurita": {
     "eats": [],

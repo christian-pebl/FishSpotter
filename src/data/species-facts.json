@@ -645,32 +645,86 @@
   },
   "Asterias rubens": {
     "depth": {
-      "text": "Intertidal to 650 m"
+      "text": "Intertidal down to depths of 650 m"
+    },
+    "size": {
+      "text": "Up to 52 cm in diameter, commonly 10-30 cm"
+    },
+    "habitat": {
+      "text": "Bedrock, gravel and coarse sand from the shore to the open seabed, and above all beds of mussels and barnacles"
+    },
+    "behaviour": {
+      "text": "A slow-crawling seabed predator and scavenger, usually solitary but sometimes massing in dense feeding aggregations"
     }
   },
   "Ophiothrix fragilis": {
     "depth": {
-      "text": "0-85 m"
+      "text": "Lower shore down to about 85 m, with records to 150 m and as deep as 350 m"
+    },
+    "size": {
+      "text": "Disk up to 2 cm across, with five arms about five times the disk diameter; 11-20 cm overall"
+    },
+    "habitat": {
+      "text": "Bedrock, boulders and coarse sediment from the lower shore to offshore, most abundant on tideswept ground; in crevices and under boulders on the shore"
+    },
+    "behaviour": {
+      "text": "Gregarious passive suspension feeder, arms held up into the current; gathers in dense beds of up to 2000 per square metre and shelters in crevices by day"
     }
   },
   "Patella vulgata": {
     "depth": {
-      "text": "Intertidal"
+      "text": "Intertidal, from the high shore down to the sublittoral fringe"
+    },
+    "size": {
+      "text": "Shell up to 6 cm long, 5 cm wide and 3 cm high"
+    },
+    "habitat": {
+      "text": "Rocks, stones and rock pools on rocky shores of every degree of wave exposure, from the high shore to the sublittoral fringe, and into estuaries"
+    },
+    "behaviour": {
+      "text": "Creeps over the rock grazing algae when the tide is in or the shore is damp, then returns to a home scar its own shell has worn"
     }
   },
   "Nucella lapillus": {
     "depth": {
-      "text": "Intertidal"
+      "text": "Intertidal, from about mid-tide level downwards; only rarely in the shallow sublittoral"
+    },
+    "size": {
+      "text": "Shell usually up to 3 cm high and 2 cm broad, reaching 6 cm in a few exceptional populations"
+    },
+    "habitat": {
+      "text": "Rocky shores, wave exposed to sheltered: bedrock, boulders, crevices, overhangs and rockpools, among the barnacles and mussels it feeds on"
+    },
+    "behaviour": {
+      "text": "A slow-creeping predator, most active at night and rarely moving far; gregarious, gathering in summer aggregations of 20 to 500 on open rock"
     }
   },
   "Calliostoma zizyphinum": {
     "depth": {
-      "text": "Low water to 300 m"
+      "text": "Extreme low water down to 300 m"
+    },
+    "size": {
+      "text": "Shell up to 3 cm (30 mm) high and 3 cm broad"
+    },
+    "habitat": {
+      "text": "Seaweed-covered rocky shores, under rocks, in crevices and on large algae such as Laminaria"
+    },
+    "behaviour": {
+      "text": "Wipes mucus over its own shell twice every 24 hours and eats the micro-organisms and particles it traps, about 20% of its food"
     }
   },
   "Steromphala umbilicalis": {
     "depth": {
-      "text": "Upper shore into the sublittoral"
+      "text": "Between the tide marks on rocky shores, from the upper shore down to the low-water line; only sometimes found below the tide"
+    },
+    "size": {
+      "text": "Shell up to 1.6 cm high and 2.2 cm across"
+    },
+    "habitat": {
+      "text": "Sheltered rocky shores, on fucoid seaweeds, under stones and in rock pools; tolerates drying out and brackish water"
+    },
+    "behaviour": {
+      "text": "Grazes brushings off seaweed and rock, and keeps feeding when shore crab scent is in the water, showing very little alarm response"
     }
   },
   "Aurelia aurita": {},

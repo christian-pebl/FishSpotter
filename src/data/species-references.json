@@ -3556,30 +3556,6 @@
         "starfish density"
       ]
     },
-    "doi:10.3390-life13010209": {
-      "kind": "journal",
-      "title": "Development and Diversity of Epibiont Assemblages on Cultivated Sugar Kelp (Saccharina latissima) in Relation to Farming Schedules and Harvesting Techniques",
-      "authors": [
-        "Corrigan, Sophie",
-        "Brown, A. Ross",
-        "Tyler, Charles R.",
-        "Wilding, Catherine",
-        "Daniels, Carly",
-        "Ashton, Ian G. C.",
-        "Smale, Dan A."
-      ],
-      "publisher": "Life (MDPI)",
-      "year": 2023,
-      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9865293/",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.3390/life13010209",
-      "expectText": [
-        "Ophiuroidea",
-        "Saccharina latissima",
-        "Mytilus edulis",
-        "Cornwall"
-      ]
-    },
     "doi:10.7717-peerj.9260": {
       "kind": "journal",
       "title": "Here are the polyps: in situ observations of jellyfish polyps and podocysts on bivalve shells",
@@ -4282,6 +4258,111 @@
       "identifier": "4250",
       "expectText": [
         "Mytilus edulis"
+      ]
+    },
+    "habitas:ZB1900": {
+      "kind": "web",
+      "title": "Asterias rubens - Marine Life Encyclopedia",
+      "authors": [
+        "Picton, B.E.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland, Encyclopedia of Marine Life of Britain and Ireland",
+      "year": 2016,
+      "url": "https://www.habitas.org.uk/marinelife/species.asp?item=ZB1900",
+      "identifier": "ZB1900",
+      "expectText": [
+        "Asterias rubens"
+      ]
+    },
+    "biotic:4137": {
+      "kind": "web",
+      "title": "Asterias rubens - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/4137",
+      "licence": "CC BY-NC-SA 4.0",
+      "expectText": [
+        "Asterias rubens",
+        "Common starfish"
+      ]
+    },
+    "marinvert:calliostoma-zizyphinum": {
+      "kind": "web",
+      "title": "Calliostoma zizyphinum (Linnaeus, 1758) - Marinvert species account",
+      "publisher": "Marinvert, hosted by the Senckenberg Research Institute",
+      "url": "https://marinvert.senckenberg.science/calliostoma-zizyphinum/",
+      "expectText": [
+        "Calliostoma zizyphinum",
+        "shell wiping",
+        "umbilicus"
+      ]
+    },
+    "marinvert:steromphala-umbilicalis": {
+      "kind": "web",
+      "title": "Steromphala umbilicalis (da Costa, 1778) - Marinvert species account",
+      "publisher": "Marinvert, hosted by the Senckenberg Research Institute",
+      "url": "https://marinvert.senckenberg.science/steromphala-umbilicalis/",
+      "expectText": [
+        "Steromphala umbilicalis",
+        "Flat top shell",
+        "umbilicus"
+      ]
+    },
+    "adw:Ophiothrix_fragilis": {
+      "kind": "web",
+      "title": "Ophiothrix fragilis, species account in the Animal Diversity Web",
+      "authors": [
+        "Holland, P."
+      ],
+      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
+      "year": 2012,
+      "url": "https://animaldiversity.org/accounts/Ophiothrix_fragilis/",
+      "expectText": [
+        "Ophiothrix fragilis",
+        "common brittlestar"
+      ]
+    },
+    "biotic:4139": {
+      "kind": "web",
+      "title": "Ophiothrix fragilis - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/4139",
+      "licence": "CC BY-NC-SA 4.0",
+      "expectText": [
+        "Ophiothrix fragilis",
+        "Common brittlestar"
+      ]
+    },
+    "ornis:tjorve2010": {
+      "kind": "journal",
+      "title": "Food of Eurasian Oystercatcher (Haematopus ostralegus) chicks raised on rocky shores in Southern Norway",
+      "authors": [
+        "Tjorve, K.M.C.",
+        "Tjorve, E."
+      ],
+      "publisher": "Ornis Norvegica (Norwegian Ornithological Society)",
+      "year": 2010,
+      "url": "https://boap.uib.no/index.php/ornis/article/view/146",
+      "identifier": "Ornis Norvegica 33: 56-62",
+      "expectText": [
+        "Patella vulgata",
+        "Haematopus ostralegus"
+      ]
+    },
+    "emlbi:W1950": {
+      "kind": "web",
+      "title": "Steromphala umbilicalis (flat topshell), in: Encyclopedia of Marine Life of Britain and Ireland",
+      "authors": [
+        "Picton, B.E.",
+        "Keatley, L.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland (Habitas), Encyclopedia of Marine Life of Britain and Ireland",
+      "year": 2025,
+      "url": "https://www2.habitas.org.uk/marbiop-ni/species.php?item=W1950",
+      "expectText": [
+        "Steromphala umbilicalis",
+        "Flat topshell"
       ]
     }
   },
@@ -23136,119 +23217,256 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:123776",
-        "marlin:1194",
         "bhl:mortensen-1927",
-        "marlin:1198",
-        "doi:10.1371-journal.pone.0068313"
+        "biotic:4137",
+        "fishbase-fooditems:Gadus-morhua",
+        "habitas:ZB1900",
+        "marlin:1194",
+        "marlin:1688",
+        "worms:123776"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1194"
+            "marlin:1194",
+            "habitas:ZB1900",
+            "marlin:1688",
+            "biotic:4137"
           ],
           "support": [
             {
               "sourceId": "marlin:1194",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Asterias rubens preys upon bivalve molluscs by forcing the bivalve's shell open with its tube feet ... positive rheotaxis ... is enhanced in the presence of living prey such as Mytilus edulis",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Description",
-              "quote": "Asterias rubens is the most common and familiar starfish in the north-east Atlantic region. Asterias rubens may grow up to 52 cm in diameter, but commonly 10-30 cm. Asterias rubens is variable in colour, though usually orange, pale...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwl4s9l00047ifoqz3k3pv2": {
-          "sourceIds": [
-            "marlin:1194"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "positive rheotaxis (purposeful movement of a motile organism into a water current), which is enhanced in the presence of living prey such as Mytilus edulis",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Description",
-              "quote": "Asterias rubens is the most common and familiar starfish in the north-east Atlantic region. Asterias rubens may grow up to 52 cm in diameter, but commonly 10-30 cm. Asterias rubens is variable in colour, though usually orange, pale...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwl4s9l00057iforl1loyil": {
-          "sourceIds": [
-            "marlin:1194"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Identifying features",
-              "quote": "Disc small, five arms (rarely 4-8). Body wall very flexible with numerous groups of papulae in soft areas. Major spines on the upper surface often in one or more longitudinal rows, sometimes surrounded by bundles of straight and...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Description",
-              "quote": "Asterias rubens is the most common and familiar starfish in the north-east Atlantic region. Asterias rubens may grow up to 52 cm in diameter, but commonly 10-30 cm. Asterias rubens is variable in colour, though usually orange, pale...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "marlin:1194"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Biology",
-              "quote": "(Diameter) 50 cm; Male size range: (Diameter) 10-50 cm",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Asterias rubens is the most common and familiar starfish in the north-east Atlantic region. Asterias rubens may grow up to 52 cm in diameter, but commonly 10-30 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1194",
               "locator": "Summary > Description",
+              "quote": "Asterias rubens is variable in colour, though usually orange, pale brown or violet. Deep-water specimens are pale.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Description",
+              "quote": "It has five tapering arms, broad at the base that are often slightly turned up at the tip when active.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Description",
+              "quote": "This starfish has five tapering, blunt-tipped, arms covered with small, scattered white spines. Small specimens are quite stiff but larger ones are rather soft and floppy. The white spines form a definite line down the centre of each arm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1688",
+              "locator": "Summary > Description (spiny starfish, Marthasterias glacialis)",
+              "quote": "It has 5 narrow tapering arms with 3 rows of longitudinal spines along each arm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Found on all British and Irish coasts, especially amongst beds of mussels and barnacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Habitat",
+              "quote": "Asterias rubens occurs in varying abundance upon a variety of substrata that include coarse and shelly gravel and rock.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "Distribution and Habitat > Substratum preferences",
+              "quote": "Substratum preferences Gravel / shingle, Coarse clean sand, Bedrock",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Depth range",
+              "quote": "Depth range\nIntertidal to depths of 650 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Habitat",
+              "quote": "The commonest British starfish intertidally and in the sublittoral. Particularly common on mussels in the shallow sublittoral and on soft sediments.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwl4s9l00047ifoqz3k3pv2": {
+          "sourceIds": [
+            "marlin:1194",
+            "habitas:ZB1900"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Description",
+              "quote": "It has five tapering arms, broad at the base that are often slightly turned up at the tip when active.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Description",
+              "quote": "Asterias rubens is variable in colour, though usually orange, pale brown or violet. Deep-water specimens are pale.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Description",
+              "quote": "This starfish has five tapering, blunt-tipped, arms covered with small, scattered white spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Description",
+              "quote": "Body colour is usually brown to pale orange, in some locations this may be masked by blue or purple.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Identifying features",
+              "quote": "Disc small, five arms (rarely 4-8).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwl4s9l00057iforl1loyil": {
+          "sourceIds": [
+            "habitas:ZB1900",
+            "marlin:1194",
+            "marlin:1688"
+          ],
+          "support": [
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Description",
+              "quote": "The white spines form a definite line down the centre of each arm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Key Identification Features",
+              "quote": "Central row of white spines along each arm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Description",
+              "quote": "This starfish has five tapering, blunt-tipped, arms covered with small, scattered white spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Identifying features",
+              "quote": "Major spines on the upper surface often in one or more longitudinal rows, sometimes surrounded by bundles of straight and crossed pedicellariae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1688",
+              "locator": "Summary > Description (spiny starfish, Marthasterias glacialis)",
+              "quote": "It has 5 narrow tapering arms with 3 rows of longitudinal spines along each arm. The spines are white, usually with purple tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:1194",
+            "habitas:ZB1900",
+            "biotic:4137"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Description",
               "quote": "Asterias rubens may grow up to 52 cm in diameter, but commonly 10-30 cm.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Description",
+              "quote": "In exposed habitats up to 12cm, in more sheltered sites up to 30cm across.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "General Biology > Size",
+              "quote": "Fragility Intermediate Size Medium-large(21-50cm)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
+            "biotic:4137",
             "marlin:1194"
           ],
           "support": [
             {
-              "sourceId": "marlin:1194",
-              "locator": "Biology",
-              "quote": "Epibenthic; Mobility: Crawler or Walker; Body flexibility: High (greater than 45 degrees)",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:4137",
+              "locator": "General Biology > Mobility and environmental position",
+              "quote": "Mobility/Movement Crawler Environmental position Epibenthic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "General Biology > Feeding method",
+              "quote": "Growth form Radial, Stellate Feeding method Scavenger, Predator",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "General Biology > Sociability",
+              "quote": "Sociability Solitary",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1194",
-              "locator": "Biology review > Biology (table)",
-              "quote": "Mobility Crawler or Walker",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "locator": "Sensitivity review > Substratum loss > Evidence",
+              "quote": "Asterias rubens is benthic and although able to migrate by crawling up to a distance of 150-200 m per month or 5-7 m daily (Dare, 1982)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Habitat preferences > Habitat Information > Aggregation of starfish",
+              "quote": "In shallow coastal waters, Asterias rubens sometimes occurs in dense aggregations of up to 100 specimens per m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -23275,21 +23493,6 @@
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1194"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Biology review > Biology (table)",
-              "quote": "Characteristic feeding method Predator",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "bhl:mortensen-1927"
@@ -23305,88 +23508,187 @@
           ],
           "claimSupported": false
         },
-        "edge:Farmed mussels->Common Starfish": {
-          "sourceIds": [
-            "marlin:1194"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Asterias rubens preys upon bivalve molluscs by forcing the bivalve's shell open with its tube feet, the tips of which attach to the bivalve shell by suction.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Common Brittlestar->Common Starfish": {
-          "sourceIds": [
-            "marlin:1194",
-            "marlin:1198"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1194",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Other species of the benthic fauna, including prey species Marthasterias glacialis, Buccinum undatum and several species of ophiuroids, demonstrate avoidance reactions in the presence of the predatory starfish Asterias rubens",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Biology review > Biology information",
-              "quote": "Predatory starfish such as Asterias rubens and Marthasterias glacialis produce steroid glycoside chemicals that elicit an avoidance response in Ophiothrix fragilis (Mackie, 1970).",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:depth": {
           "sourceIds": [
-            "marlin:1194"
+            "marlin:1194",
+            "biotic:4137",
+            "worms:123776"
           ],
           "support": [
             {
               "sourceId": "marlin:1194",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "Intertidal to depths of 650 m.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.1371-journal.pone.0068313"
-          ],
-          "support": [
+              "locator": "Summary > Depth range",
+              "quote": "Depth range\nIntertidal to depths of 650 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "doi:10.1371-journal.pone.0068313",
-              "locator": "Abstract",
-              "quote": "Starfish density varied considerably between sites but, overall, they were approximately 10 times as abundant close to the mussel-lines compared with 64 m distance.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:4137",
+              "locator": "Distribution and Habitat > Depth range",
+              "quote": "Biogeographic range Not researched Depth range Intertidal to depths of 650 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:123776",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Distribution Lower shore to more than 200 m depth, on rock gravel and sand; very common all round the British Isles",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
+            "marlin:1194",
+            "biotic:4137",
+            "habitas:ZB1900"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Habitat",
+              "quote": "Asterias rubens occurs in varying abundance upon a variety of substrata that include coarse and shelly gravel and rock.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Found on all British and Irish coasts, especially amongst beds of mussels and barnacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "Distribution and Habitat > Substratum preferences",
+              "quote": "Substratum preferences Gravel / shingle, Coarse clean sand, Bedrock",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "Distribution and Habitat > Physiographic preferences",
+              "quote": "Physiographic preferences Open coast, Offshore seabed, Strait / sound, Enclosed coast / Embayment",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:ZB1900",
+              "locator": "Habitat",
+              "quote": "The commonest British starfish intertidally and in the sublittoral. Particularly common on mussels in the shallow sublittoral and on soft sediments.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1194",
+            "biotic:4137"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Asterias rubens preys upon bivalve molluscs by forcing the bivalve's shell open with its tube feet ... the starfish everts its stomach lobes into the bivalve and commences digestion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Bivalves, polychaetes, small crustaceans, other echinoderms and carrion. Habit Free living",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
             "marlin:1194"
           ],
           "support": [
             {
               "sourceId": "marlin:1194",
-              "locator": "Habitat preferences table, Substratum / habitat preferences row",
-              "quote": "Substratum / habitat preferences Bedrock, Coarse clean sand, Gravel / shingle",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Asterias rubens preys upon a wide range of living organisms and carrion that include molluscs, polychaete worms and other echinoderms. Occasionally, small crustaceans are caught on the suction discs of the tube feet.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Biology review > Biology (table) > Typically feeds on",
+              "quote": "Typically feeds on Bivalves, polychaetes, small crustaceans, other echinoderms and carrion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1194",
+            "biotic:4137"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Sensitivity review > Extraction of other species > Evidence",
+              "quote": "The starfish Asterias rubens is an opportunistic scavenger that has been shown to gain extra food by foraging in fished areas upon damaged and displaced bivalves, gastropods, crustaceans and other echinoderms (Ramsay et al ., 1998)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "General Biology > Feeding method",
+              "quote": "Growth form Radial, Stellate Feeding method Scavenger, Predator",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:1194",
+            "biotic:4137"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1194",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "which is enhanced in the presence of living prey such as Mytilus edulis (Castilla, 1972 ) and reversed in the presence of a predator Crossaster papposus (Castilla, 1972b)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4137",
+              "locator": "General Biology > Additional Information > Feeding",
+              "quote": "Asterias rubens demonstrates positive rheotaxis ... and reversed in the presence of a predator Crossaster papposus (Castilla, 1972b).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items reported for Gadus morhua > zoobenthos > echinoderms > sea stars/brittle stars",
+              "quote": "sea stars/brittle stars \nAsterias sp. \nUK Scotland \nrecruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -23404,116 +23706,246 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:125131",
+        "adw:Ophiothrix_fragilis",
+        "bhl:mortensen-1927",
+        "biotic:4139",
+        "buyse:2023-owf-flatfish",
+        "fishbase-food:Gobius-paganellus",
+        "fishbase-fooditems:Gadus-morhua",
         "marlin:1198",
         "marlin:habitat-1068",
-        "bhl:mortensen-1927",
-        "doi:10.3390-life13010209"
+        "worms:125131"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1198"
+            "marlin:1198",
+            "adw:Ophiothrix_fragilis"
           ],
           "support": [
             {
               "sourceId": "marlin:1198",
-              "locator": "Summary > Habitat, plus Biology review > Biology information",
-              "quote": "In the intertidal the species is found in crevices and under boulders. ... This species can be found in very high densities of up to 2000 individuals per square metre (Davoult, 1989).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Description",
-              "quote": "A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny. The upper disk surface has a 5-rayed pattern of spines. This species is very varied in colour,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwl4soz00067ifoly8d0lx1": {
-          "sourceIds": [
-            "marlin:1198"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Sensitivity review > Physical disturbance (evidence)",
-              "quote": "There is some evidence of autotomy of arms in response to predator threat (Emson & Wilkie, 1980). Brittle stars are capable of arm and even some disk regeneration",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Description",
-              "quote": "A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny. The upper disk surface has a 5-rayed pattern of spines. This species is very varied in colour,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwl4soz00077ifoiuar1a3r": {
-          "sourceIds": [
-            "marlin:1198"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Identifying features",
-              "quote": "Large, long-armed brittle star Pentagonal disk up to 2 cm in diameter. Conspicuous radial shields and 5-rayed pattern of small spines on disk. Arm length about 5 times diameter of disk with seven serrated spines on each segment. Keel...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Description",
-              "quote": "A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny. The upper disk surface has a 5-rayed pattern of spines. This species is very varied in colour,...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
-            "marlin:1198"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Description",
-              "quote": "A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny. The upper disk surface has a 5-rayed pattern of spines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1198",
               "locator": "Summary > Description",
-              "quote": "A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny.",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
+              "quote": "This species is very varied in colour, commonly brown or grey but ranging through purple, red, orange, yellow, and white. Colouration may be plain or banded (particularly on the arms). The arms are fragile and often broken.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Summary > Identifying features",
+              "quote": "Pentagonal disk up to 2 cm in diameter. Conspicuous radial shields and 5-rayed pattern of small spines on disk. Arm length about 5 times diameter of disk with seven serrated spines on each segment.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Summary > Habitat",
+              "quote": "In the intertidal the species is found in crevices and under boulders.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Biology review > Biology information",
+              "quote": "This species can be found in very high densities of up to 2000 individuals per square metre (Davoult, 1989).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Sensitivity review > Noise (evidence)",
+              "quote": "There is some evidence of autotomy of arms in response to predator threat (Emson & Wilkie, 1980). Brittle stars are capable of arm and even some disk regeneration",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Habitat",
+              "quote": "Common brittle stars are epifaunal and live in extremely large groups offshore (as many as 2000 individuals recorded) known as brittle star beds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Physical Description",
+              "quote": "their five legs are very long and slim (typically five times the diameter of the body in length) and are segmented, with tube feet and seven serrated spines per segment",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: size 'small', rendered by SpeciesGuideContent.tsx as 'Small (under 10 cm)'. The source says: marlin:1198 Description, verified verbatim: 'A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny.' The same page's structured biology table reads 'Female size range Medium(11-20 cm)'."
+          "claimSupported": true
         },
-        "trait:behavior": {
+        "mark:cmpwl4soz00067ifoly8d0lx1": {
           "sourceIds": [
-            "marlin:1198"
+            "marlin:1198",
+            "biotic:4139",
+            "adw:Ophiothrix_fragilis"
           ],
           "support": [
             {
               "sourceId": "marlin:1198",
-              "locator": "Summary > Habitat, and Biology review > Biology information",
-              "quote": "In the intertidal the species is found in crevices and under boulders. ... it avoids visual predation through sheltering in crevices etc. and cryptic colouration",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The five arms are long (about five times the disk diameter) and spiny.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Summary > Identifying features",
+              "quote": "Arm length about 5 times diameter of disk with seven serrated spines on each segment.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Summary > Description",
+              "quote": "The arms are fragile and often broken.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Sensitivity review > Noise (evidence)",
+              "quote": "There is some evidence of autotomy of arms in response to predator threat (Emson & Wilkie, 1980). Brittle stars are capable of arm and even some disk regeneration",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4139",
+              "locator": "General Biology > Fragility",
+              "quote": "Fragility Fragile Size Medium(11-20 cm)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Predation > Anti-predator adaptations",
+              "quote": "also have the ability to lose their arms, which later regenerate, to distract predators",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Physical Description",
+              "quote": "their five legs are very long and slim (typically five times the diameter of the body in length) and are segmented, with tube feet and seven serrated spines per segment",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "mark:cmpwl4soz00077ifoiuar1a3r": {
+          "sourceIds": [
+            "marlin:1198",
+            "adw:Ophiothrix_fragilis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Summary > Identifying features",
+              "quote": "Pentagonal disk up to 2 cm in diameter. Conspicuous radial shields and 5-rayed pattern of small spines on disk.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Summary > Description",
+              "quote": "The upper disk surface has a 5-rayed pattern of spines. This species is very varied in colour, commonly brown or grey but ranging through purple, red, orange, yellow, and white. Colouration may be plain or banded (particularly on the arms).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Physical Description",
+              "quote": "Individuals are usually red, white, or brown and some are also banded or spotted.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:1198",
+            "biotic:4139",
+            "adw:Ophiothrix_fragilis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Summary > Description",
+              "quote": "A large brittlestar whose disk may reach up to 2 cm in diameter. The five arms are long (about five times the disk diameter) and spiny.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4139",
+              "locator": "General Biology > Fragility and Size",
+              "quote": "Fragility Fragile Size Medium(11-20 cm)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Physical Description",
+              "quote": "Their central body discs range from 2-20 mm in diameter and their five legs are very long and slim (typically five times the diameter of the body in length) and are segmented, with tube feet and seven serrated spines per segment.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "marlin:1198",
+            "biotic:4139",
+            "adw:Ophiothrix_fragilis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Characteristic feeding method Passive suspension feeder Diet/food source Omnivore Typically feeds on Phytoplankton",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Biology review > Biology information",
+              "quote": "Water moving at above 25 cm per second causes the arms to be brought down from being extended in the water column (Warner & Woodley, 1975; Hiscock, 1983).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Biology review > Biology information",
+              "quote": "This species can be found in very high densities of up to 2000 individuals per square metre (Davoult, 1989).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4139",
+              "locator": "General Biology > Sociability",
+              "quote": "Sociability Gregarious",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Behavior",
+              "quote": "They exhibit cryptic behavior, hiding under rocks and crevices by day and coming out to feed at night.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -23532,59 +23964,6 @@
               "locator": "Biology review > Biology (table)",
               "quote": "Typically feeds on Phytoplankton",
               "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1198"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Biology review > Biology (table)",
-              "quote": "Characteristic feeding method Passive suspension feeder",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plankton->Common Brittlestar": {
-          "sourceIds": [
-            "marlin:1198"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1198",
-              "locator": "Biology review > Biology (table)",
-              "quote": "Typically feeds on Phytoplankton",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Seabed biodeposits->Common Brittlestar": {
-          "sourceIds": [
-            "marlin:habitat-1068",
-            "bhl:mortensen-1927"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:habitat-1068",
-              "locator": "Water flow (tidal current) > Sensitivity assessment",
-              "quote": "At lower flow rates species may switch to deposit feeding.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "bhl:mortensen-1927",
-              "locator": "p. 175, Ophiothrix fragilis (Abildgaard)",
-              "quote": "It appears that ciliary currents also play some role in catching food (detritus).",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
               "readOn": "2026-08-28"
             }
           ],
@@ -23623,70 +24002,250 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "marlin:1198"
+            "marlin:1198",
+            "worms:125131",
+            "adw:Ophiothrix_fragilis"
           ],
           "support": [
             {
               "sourceId": "marlin:1198",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "0-85",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Depth range",
+              "quote": "Depth range 0-85",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:125131",
+              "locator": "Descriptive notes > Distribution",
+              "quote": "Distribution Low intertidal to 150 m depth, under stones on the shore and often in dense aggregations offshore ... on rough and gravelly ground; common all round the British Isles in places with strong currents",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Habitat > Range depth",
+              "quote": "This brittle star is found in shallow waters but also as deep as 350 m, and prefers areas with strong current.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.3390-life13010209"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3390-life13010209",
-              "locator": "Results 3.1, epibiont assemblage development",
-              "quote": "Less dominant taxa included bivalve molluscs (0.15%), isopod, mysid, and decapod crustaceans, gastropod molluscs, echinoderms (Ophiuroidea), and annelid worms (Polychaeta and Oligochaeta)",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.3390-life13010209",
-              "locator": "Introduction",
-              "quote": "This study was conducted at an integrated sugar kelp ( Saccharina latissima, Linnaeus [ 45 ]) and blue mussel ( Mytilus edulis, Linnaeus 1758) farm in Cornwall",
-              "readBy": "refs:trawl (starfish)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1198"
+            "marlin:1198",
+            "biotic:4139",
+            "adw:Ophiothrix_fragilis"
           ],
           "support": [
             {
               "sourceId": "marlin:1198",
-              "locator": "Habitat preferences table, Substratum / habitat preferences row",
-              "quote": "Substratum / habitat preferences Bedrock, Cobbles, Crevices / fissures, Gravel / shingle, Large to very large boulders, Maerl, Muddy gravel, Other species, Pebbles, Small boulders, Under boulders",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Found from the lower shore to circalittoral offshore habitats on hard substrata including bedrock, boulders and on coarse sediment. Most abundant on tideswept rock and on mixed coarse sediments.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1198",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "In the intertidal the species is found in crevices and under boulders.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4139",
+              "locator": "Distribution and Habitat > Substratum preferences",
+              "quote": "Substratum preferences Bedrock, Large to very large boulders, Small boulders, Cobbles, Pebbles, Gravel / shingle, Maerl, Muddy gravel, Under boulders, Crevices / fissures",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Habitat",
+              "quote": "They typically prefer hard substrata (sand and shell bottoms) and are often found under shells or rocks, but can be found on rocky reefs and soft substrata as well.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "edge:Kelp canopy->Common Brittlestar": {
+        "diet:eats:0": {
           "sourceIds": [
-            "marlin:1198"
+            "adw:Ophiothrix_fragilis",
+            "marlin:1198",
+            "biotic:4139"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Common Brittlestar eats Kelp canopy (the food web draws a feeding link from the kelp / seaweed node to Ophiothrix fragilis) The source says: MarLIN's Biology review for Ophiothrix fragilis records 'Characteristic feeding method: Passive suspension feeder' and 'Typically feeds on: Phytoplankton', and states elsewhere on the same page that 'the main food source of this species is phytoplankton'. No macroalgal or kelp food source appears anywhere in the review."
+          "support": [
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Food Habits",
+              "quote": "This species' diet is made up largely of detritus, diatoms, and phytoplankton. It will also occasionally scavenge dead material.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Biology review > Biology (traits table)",
+              "quote": "Characteristic feeding method Passive suspension feeder Diet/food source Omnivore Typically feeds on Phytoplankton",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4139",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Phytoplankton Habit Free living",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "adw:Ophiothrix_fragilis",
+            "marlin:1198",
+            "marlin:habitat-1068"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Food Habits",
+              "quote": "This brittle star is a nocturnal passive suspension feeder. To feed, it lifts its arms through crevices in rocks, passing particles to its mouth",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Biology review > Biology information",
+              "quote": "Water moving at above 25 cm per second causes the arms to be brought down from being extended in the water column (Warner & Woodley, 1975; Hiscock, 1983).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:habitat-1068",
+              "locator": "Sensitivity review > Nutrient enrichment (evidence)",
+              "quote": "It is thought that dense Ophiothrix beds may play an important role in local nutrient cycles by filtration and concentration of suspended particulate matter",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "biotic:4139",
+            "marlin:habitat-1068",
+            "adw:Ophiothrix_fragilis"
+          ],
+          "support": [
+            {
+              "sourceId": "biotic:4139",
+              "locator": "General Biology > Feeding method",
+              "quote": "Feeding method Passive suspension feeder, Active suspension feeder, Surface deposit feeder, Sub-surface deposit feeder",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:habitat-1068",
+              "locator": "Sensitivity review > Water flow (sensitivity assessment)",
+              "quote": "If the flow is too strong, brittlestars may flatten, link arms, or withdraw arms into sediment. At lower flow rates species may switch to deposit feeding.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Food Habits",
+              "quote": "It will also occasionally scavenge dead material.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "adw:Ophiothrix_fragilis",
+            "fishbase-fooditems:Gadus-morhua",
+            "buyse:2023-owf-flatfish",
+            "fishbase-food:Gobius-paganellus"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Predation",
+              "quote": "Common brittle stars are prey to many species of fish, portunid crabs, and some species of starfish. Their main predators include ballan wrasses, cuckoo wrasses, common dragonets, velvet crabs, spiny starfish and common starfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items of Gadus morhua > echinoderms",
+              "quote": "sea stars/brittle stars Ophiothrix fragilis UK Scotland recruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "buyse:2023-owf-flatfish",
+              "locator": "Chapter 4 discussion, plaice diet at turbine foundations",
+              "quote": "Plaice individuals that were caught on the SPL had a different diet composition, existing mainly of hard substrate-associated species such as J. herdmani, Ophiothrix fragilis and M. edulis.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Gobius-paganellus",
+              "locator": "FishBase food items - Gobius paganellus > echinoderms",
+              "quote": "sea stars/brittle stars Ophiothrix fragilis Portugal adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "adw:Ophiothrix_fragilis"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Predation",
+              "quote": "Common brittle stars are prey to many species of fish, portunid crabs, and some species of starfish. Their main predators include ballan wrasses, cuckoo wrasses, common dragonets, velvet crabs, spiny starfish and common starfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "adw:Ophiothrix_fragilis",
+            "marlin:1198",
+            "marlin:habitat-1068"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Ophiothrix_fragilis",
+              "locator": "Predation > Known Predators",
+              "quote": "Common starfish ( Asterias rubens ) Common dragonet ( Callionymus lyra ) Ballan wrasse ( Labrus bergylta ) Cuckoo wrasse ( Labrus mixtus ) Velvet crab crab ( Liocarcinus puber ) Spiny starfish ( Marthasterias glacialis )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1198",
+              "locator": "Biology review > Biology information",
+              "quote": "Predatory starfish such as Asterias rubens and Marthasterias glacialis produce steroid glycoside chemicals that elicit an avoidance response in Ophiothrix fragilis (Mackie, 1970).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:habitat-1068",
+              "locator": "Resilience > recruitment and population change",
+              "quote": "It was suggested that changes in the oceanographic cycle affecting the western Channel resulted in increased predation pressure from Luidia ciliaris and also recruitment failure of Ophiothrix fragilis (Holme, 1984).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -23704,8 +24263,10 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:140685",
-        "marlin:1371"
+        "fishbase:Lipophrys-pholis",
+        "marlin:1371",
+        "ornis:tjorve2010",
+        "worms:140685"
       ],
       "claims": {
         "fieldNote": {
@@ -23715,24 +24276,73 @@
           "support": [
             {
               "sourceId": "marlin:1371",
-              "locator": "Identifying features",
-              "quote": "Shell with irregular radiating ribs; apex central or slightly anterior; inner surfaces grey-green. Size up to 6 cm long x 5 cm wide x 3 cm high. Mantle skirt fringed with translucent pallial tentacles arranged in three series of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1371",
-              "locator": "Description",
-              "quote": "The conical shell of Patella vulgata is up to 6 cm long with radiating ridges and the apex central or slightly anterior. Individuals from the high shore generally have a taller shell and smaller shell length when compared to juveniles...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The conical shell of Patella vulgata is up to 6 cm long with radiating ridges and the apex central or slightly anterior.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1371",
               "locator": "Summary > Description",
-              "quote": "The conical shell of Patella vulgata is up to 6 cm long with radiating ridges and the apex central or slightly anterior.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "The outer surface of the shell is greyish white or ashen, sometimes with a yellow tint, and has coarse radiating ridges and well-marked growth lines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Summary > Identifying features",
+              "quote": "Size up to 6 cm long x 5 cm wide x 3 cm high.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Typically feeds on Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology > Biology information",
+              "quote": "Limpets move about when the tide is in and the sea is not too rough.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology > Biology information",
+              "quote": "Under thick fucoid covering or when conditions are damp, individuals may be found on the move after the tide has fallen.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Habitat preferences > Habitat Information",
+              "quote": "Adult Patella vulgata generally return after feeding to their so-called 'home scar', a depression in the rock formed by abrasion of the rock surface by the shell, resulting in a tighter fit to the rock and reduced risk of desiccation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Desiccation",
+              "quote": "Patella vulgata creates a home-scar allowing it to clamp tightly to the rock to reduce water loss during periods of emersion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Summary > Description",
+              "quote": "Individuals from the high shore generally have a taller shell and smaller shell length when compared to juveniles and low shore animals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Increase in water flow rate",
+              "quote": "With increasing exposure to wave action the shell develops into a low profile reducing the risk of being swept away.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -23744,24 +24354,38 @@
           "support": [
             {
               "sourceId": "marlin:1371",
-              "locator": "Identifying features",
-              "quote": "Shell with irregular radiating ribs; apex central or slightly anterior; inner surfaces grey-green. Size up to 6 cm long x 5 cm wide x 3 cm high. Mantle skirt fringed with translucent pallial tentacles arranged in three series of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1371",
-              "locator": "Description",
-              "quote": "The conical shell of Patella vulgata is up to 6 cm long with radiating ridges and the apex central or slightly anterior. Individuals from the high shore generally have a taller shell and smaller shell length when compared to juveniles...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The conical shell of Patella vulgata is up to 6 cm long with radiating ridges and the apex central or slightly anterior.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1371",
               "locator": "Summary > Identifying features",
               "quote": "Shell with irregular radiating ribs; apex central or slightly anterior; inner surfaces grey-green.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Summary > Description",
+              "quote": "The outer surface of the shell is greyish white or ashen, sometimes with a yellow tint, and has coarse radiating ridges and well-marked growth lines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Summary > Description",
+              "quote": "Individuals from the high shore generally have a taller shell and smaller shell length when compared to juveniles and low shore animals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Increase in water flow rate",
+              "quote": "With increasing exposure to wave action the shell develops into a low profile reducing the risk of being swept away.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -23773,24 +24397,59 @@
           "support": [
             {
               "sourceId": "marlin:1371",
-              "locator": "Identifying features",
-              "quote": "Shell with irregular radiating ribs; apex central or slightly anterior; inner surfaces grey-green. Size up to 6 cm long x 5 cm wide x 3 cm high. Mantle skirt fringed with translucent pallial tentacles arranged in three series of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1371",
-              "locator": "Description",
-              "quote": "The conical shell of Patella vulgata is up to 6 cm long with radiating ridges and the apex central or slightly anterior. Individuals from the high shore generally have a taller shell and smaller shell length when compared to juveniles...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1371",
               "locator": "Biology review > Habitat preferences > Habitat Information",
-              "quote": "Adult Patella vulgata generally return after feeding to their so-called 'home scar', a depression in the rock formed by abrasion of the rock surface by the shell",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "Adult Patella vulgata generally return after feeding to their so-called 'home scar', a depression in the rock formed by abrasion of the rock surface by the shell, resulting in a tighter fit to the rock and reduced risk of desiccation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Desiccation",
+              "quote": "Patella vulgata creates a home-scar allowing it to clamp tightly to the rock to reduce water loss during periods of emersion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Increase in wave exposure",
+              "quote": "Wave action causes shell muscles to contract vigorously, clamping the animal to the rock.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Characteristic feeding method Grazer",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Typically feeds on Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Summary > Description",
+              "quote": "The outer surface of the shell is greyish white or ashen, sometimes with a yellow tint, and has coarse radiating ridges and well-marked growth lines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology > Biology information",
+              "quote": "Animals under fucoids grow rapidly and may live only 2-3 years whereas those on bare rock, with little food, grow slowly but may live 15-16 years.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Summary > Habitat",
+              "quote": "The species is usually not abundant on shores with a dense growth of seaweed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -23802,17 +24461,17 @@
           "support": [
             {
               "sourceId": "marlin:1371",
-              "locator": "Biology",
-              "quote": "Female size range: Small-medium(3-10cm)",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Size up to 6 cm long x 5 cm wide x 3 cm high.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1371",
-              "locator": "Summary > Identifying features",
-              "quote": "Size up to 6 cm long x 5 cm wide x 3 cm high.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The conical shell of Patella vulgata is up to 6 cm long with radiating ridges and the apex central or slightly anterior.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -23824,10 +24483,38 @@
           "support": [
             {
               "sourceId": "marlin:1371",
-              "locator": "Biology",
-              "quote": "Environmental position: Epifaunal; Mobility: Creeper",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology",
+              "quote": "Mobility Creeper",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Characteristic feeding method Grazer",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology > Biology information",
+              "quote": "Limpets move about when the tide is in and the sea is not too rough.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Desiccation",
+              "quote": "During exposure to the air feeding and locomotion are halted unless conditions are very damp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Habitat preferences > Habitat Information",
+              "quote": "Adult Patella vulgata generally return after feeding to their so-called 'home scar', a depression in the rock formed by abrasion of the rock surface by the shell, resulting in a tighter fit to the rock and reduced risk of desiccation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -23863,38 +24550,29 @@
               "sourceId": "marlin:1371",
               "locator": "Summary > Habitat",
               "quote": "Patella vulgata is found wherever there is substratum firm enough for its attachment on rocks, stones and in rock pools, from the high shore to the sublittoral fringe.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1371"
-          ],
-          "support": [
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:1371",
-              "locator": "Biology review > Biology table, 'Characteristic feeding method' and 'Diet/food source'",
-              "quote": "Characteristic feeding method: Grazer. Diet/food source: Herbivore.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Kelp canopy->Common Limpet": {
-          "sourceIds": [
-            "marlin:1371"
-          ],
-          "support": [
+              "locator": "Summary > Habitat",
+              "quote": "It is abundant on all rocky shores of all degrees of wave exposure although the highest densities of Patella vulgata coincide with wave exposed conditions.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:1371",
-              "locator": "Biology review > Biology table, 'Typically feeds on'",
-              "quote": "Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Patella vulgata extends into estuaries, surviving salinities down to about 20 psu.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Habitat preferences",
+              "quote": "Substratum / habitat preferences Artificial (man-made), Bedrock, Cobbles, Crevices / fissures, Large to very large boulders, Overhangs, Pebbles, Rockpools, Small boulders",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -23914,21 +24592,188 @@
           "support": [
             {
               "sourceId": "marlin:1371",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "Intertidal",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Depth range",
+              "quote": "Depth range Intertidal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Summary > Habitat",
+              "quote": "Patella vulgata is found wherever there is substratum firm enough for its attachment on rocks, stones and in rock pools, from the high shore to the sublittoral fringe.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Habitat preferences",
+              "quote": "Biological zone preferences Lower eulittoral, Mid eulittoral, Upper eulittoral",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
             "marlin:1371"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: created, i.e. the farm builds habitat this species could not otherwise occupy The source says: 'Depth range: Intertidal'; 'Biological zone preferences: Lower eulittoral, Mid eulittoral, Upper eulittoral'. An intertidal rock obligate is a weak fit for habitat created by a largely subtidal longline farm."
+          "support": [
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Typically feeds on Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Characteristic feeding method Grazer",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Diet/food source Herbivore",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:1371"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Typically feeds on Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Biological pressures > Extraction of this species",
+              "quote": "Laminaria digitata , for example, was able to extend 2m upshore in the absence of limpets and there were dense growths of ephemeral green seaweeds followed by equally dense growth of fucoids",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Importance review > Importance information",
+              "quote": "Grazing by Patella vulgata can be an important structuring feature on rocky shores and is often considered to be a keystone species on North East Atlantic rocky shores.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1371"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Biology review > Biology",
+              "quote": "Typically feeds on Wide range of micro-organisms and algae, including Fucus spp., germlings, other algal sporelings and encrusting red algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Chemical pressures > Hydrocarbon contamination",
+              "quote": "limpets had survived unscathed over a month after the event and feeding continued even though a coating of oil smothered their food source of algae and diatoms (Smith, 1968).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "ornis:tjorve2010",
+            "marlin:1371"
+          ],
+          "support": [
+            {
+              "sourceId": "ornis:tjorve2010",
+              "locator": "Introduction",
+              "quote": "Oystercatchers feed on a variety of intertidal prey such as oysters Ostea edulis, limpets, Patella vulgata, mussels, Mytilus edulis, periwinkles, Littorina littorea, and polychaetes (Polychaeta)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ornis:tjorve2010",
+              "locator": "Methods",
+              "quote": "Oystercatchers breeding on rocky shores feed predominantly on prey with shells ... resulting in a collection of discarded shells from chosen prey (feeding middens)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ornis:tjorve2010",
+              "locator": "Results",
+              "quote": "the outer-section contained mostly limpets (93%, compared to 2% mussels and 5% snails)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Substratum loss",
+              "quote": "Individuals unattached to the substratum are very vulnerable to desiccation and to predation by birds and crabs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marlin:1371"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Substratum loss",
+              "quote": "Individuals unattached to the substratum are very vulnerable to desiccation and to predation by birds and crabs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Increase in temperature",
+              "quote": "has been observed with limpets falling off rocks and therefore becoming easy prey to crabs or birds (Fretter & Graham, 1994).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1371",
+              "locator": "Sensitivity review > Physical pressures > Abrasion & physical disturbance",
+              "quote": "A short, sharp knock may dislodge an individual leaving it vulnerable to predation and small limpets may be crushed by people trampling on the shore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase:Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Biology",
+              "quote": "Also, diet of crabs, polychaetes, isopods, copepods, limpets, mussels and small molluscs (Ref. 94105 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -23946,9 +24791,9 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:140403",
+        "doi:10.1093-g3journal-jkaf182",
         "marlin:1501",
-        "doi:10.1093-g3journal-jkaf182"
+        "worms:140403"
       ],
       "claims": {
         "fieldNote": {
@@ -23958,28 +24803,62 @@
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "Identifying features",
-              "quote": "Shell solid with about 6 swollen whorls. Shell forms a short pointed spire, dominated by a large last whorl. Last whorl bears 11-14 spiral ridges. Siphonal canal open and short. Shell with low, strap-shaped spiral ridges, separated by...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The shell is broadly conical, bearing spiral ridges and consisting of a short pointed spire, dominated by the last whorl.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
-              "locator": "Description",
-              "quote": "The shell is broadly conical, bearing spiral ridges and consisting of a short pointed spire, dominated by the last whorl. The shell is usually up to 3 cm in height by 2 cm broad but may reach up to 6 cm in height (Crothers, 1985). The...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Shell solid with about 6 swollen whorls.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Summary > Identifying features",
+              "quote": "Shell with low, strap-shaped spiral ridges, separated by narrow grooves and crossed by growth lines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
               "locator": "Summary > Description",
-              "quote": "The shell is broadly conical, bearing spiral ridges and consisting of a short pointed spire, dominated by the last whorl.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "The shell colour is variable, usually white, but may be grey, brown, or yellow, occasionally with contrasting (usually brown) spiral banding. A short, open siphonal canal leads from base of the aperture.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Shell colour and sculpture variation",
+              "quote": "Nucella lapillus is highly variable in the appearance of its shell, depending on wave exposure and location (see Crothers, 1983; 1985 for review).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Shell colour and sculpture variation",
+              "quote": "Similar breeding experiments have not been carried out in Nucella lapillus (Crothers, 1985), however it seems likely that colour and banding are under genetic control.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "pressing the proboscis between the valves of bivalves or plates of barnacles and removing flesh by the rasping radula, or by boring a hole in the shell of its prey and inserting the proboscis through the hole.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "The dog whelk secretes digestive enzymes into the body of the prey and then ingests the resultant tissue 'soup' (Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: White, grey or banded brown (the colour follows its diet). The source says: 'Nucella lapillus is highly variable in the appearance of its shell, depending on wave exposure and location' and 'it seems likely that colour and banding are under genetic control'. MarLIN attributes colour to genetics, wave exposure and location, not diet."
+          "claimSupported": true
         },
         "mark:cmpzcwyaw000f7i6ot1w2hlvp": {
           "sourceIds": [
@@ -23988,24 +24867,24 @@
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "Identifying features",
-              "quote": "Shell solid with about 6 swollen whorls. Shell forms a short pointed spire, dominated by a large last whorl. Last whorl bears 11-14 spiral ridges. Siphonal canal open and short. Shell with low, strap-shaped spiral ridges, separated by...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1501",
-              "locator": "Description",
-              "quote": "The shell is broadly conical, bearing spiral ridges and consisting of a short pointed spire, dominated by the last whorl. The shell is usually up to 3 cm in height by 2 cm broad but may reach up to 6 cm in height (Crothers, 1985). The...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Shell forms a short pointed spire, dominated by a large last whorl.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
               "locator": "Summary > Identifying features",
-              "quote": "Shell forms a short pointed spire, dominated by a large last whorl.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "Shell solid with about 6 swollen whorls.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Summary > Description",
+              "quote": "The shell is broadly conical, bearing spiral ridges and consisting of a short pointed spire, dominated by the last whorl.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24017,24 +24896,24 @@
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "Identifying features",
-              "quote": "Shell solid with about 6 swollen whorls. Shell forms a short pointed spire, dominated by a large last whorl. Last whorl bears 11-14 spiral ridges. Siphonal canal open and short. Shell with low, strap-shaped spiral ridges, separated by...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1501",
-              "locator": "Description",
-              "quote": "The shell is broadly conical, bearing spiral ridges and consisting of a short pointed spire, dominated by the last whorl. The shell is usually up to 3 cm in height by 2 cm broad but may reach up to 6 cm in height (Crothers, 1985). The...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Shell solid with about 6 swollen whorls.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
               "locator": "Summary > Identifying features",
-              "quote": "Shell solid with about 6 swollen whorls.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "Shell with low, strap-shaped spiral ridges, separated by narrow grooves and crossed by growth lines.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Summary > Description",
+              "quote": "The shell colour is variable, usually white, but may be grey, brown, or yellow, occasionally with contrasting (usually brown) spiral banding.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24046,46 +24925,61 @@
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "Identifying features",
-              "quote": "Shell solid with about 6 swollen whorls. Shell forms a short pointed spire, dominated by a large last whorl. Last whorl bears 11-14 spiral ridges. Siphonal canal open and short. Shell with low, strap-shaped spiral ridges, separated by...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Siphonal canal open and short.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
-              "locator": "Description",
-              "quote": "The shell is broadly conical, bearing spiral ridges and consisting of a short pointed spire, dominated by the last whorl. The shell is usually up to 3 cm in height by 2 cm broad but may reach up to 6 cm in height (Crothers, 1985). The...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A short, open siphonal canal leads from base of the aperture. The outer lip of the aperture is thin in young specimens, becoming thickened and toothed internally with age.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
               "locator": "Summary > Identifying features",
-              "quote": "Siphonal canal open and short.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "Outer lip of aperture thin and smooth in young specimens but thick and toothed internally in shells that have ceased growth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Summary > Description",
+              "quote": "The shell shape, shell thickness and relative size of the aperture vary with wave exposure.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1501"
+            "marlin:1501",
+            "worms:140403"
           ],
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "Biology",
-              "quote": "Small-medium(3-10cm); Male size range: 17 - 50+mm",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The shell is usually up to 3 cm in height by 2 cm broad but may reach up to 6 cm in height (Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
-              "locator": "Summary > Description",
-              "quote": "The shell is usually up to 3 cm in height by 2 cm broad but may reach up to 6 cm in height (Crothers, 1985).",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information > Shell shape variation",
+              "quote": "Populations of exceptional length (up to 60 mm) occur subtidally or at extreme low water at Porlock Weir in the Severn Estuary, between Swanage and Kimmeridge, Dorset and at some sites in western Scotland (Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:140403",
+              "locator": "Attributes > Dimensions",
+              "quote": "Dimensions maximum size of 25 to 50 mm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24097,17 +24991,38 @@
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "Biology",
-              "quote": "Epifaunal; Sociability: Gregarious; Mobility: Creeper; Body flexibility: None (less than 10 degrees)",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology",
+              "quote": "Mobility Creeper Characteristic feeding method Predator",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1501",
-              "locator": "Summary > Habitat",
-              "quote": "Found on wave exposed to sheltered rocky shores from the mid shore downwards.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology",
+              "quote": "Sociability Gregarious Environmental position Epifaunal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Life history information > Dispersal",
+              "quote": "They are relatively inactive as adults, moving mostly at night (males more than females) but rarely far.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Habitat Information",
+              "quote": "In summer (May - October) aggregations of 20-500 individuals of mixed ages may form on the open rock surface of extensive shores ... giving the appearance of a hunting pack (Feare, 1971; Lewis, 1964; Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Habitat Information",
+              "quote": "In winter individuals aggregate in crevices and pools, presumably to avoid dislodgement, since they have difficulty re-attaching in cold weather.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24136,45 +25051,44 @@
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1501"
+            "marlin:1501",
+            "doi:10.1093-g3journal-jkaf182"
           ],
           "support": [
             {
               "sourceId": "marlin:1501",
               "locator": "Summary > Habitat",
-              "quote": "Rarely present in the sublittoral but may be abundant in areas exposed to extremely strong tidal stress. They are gregarious and common amongst barnacles and mussels on which they feed.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "doi:10.1093-g3journal-jkaf182"
-          ],
-          "support": [
+              "quote": "Found on wave exposed to sheltered rocky shores from the mid shore downwards.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Summary > Habitat",
+              "quote": "They are gregarious and common amongst barnacles and mussels on which they feed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Habitat preferences",
+              "quote": "Substratum / habitat preferences Artificial (man-made), Bedrock, Caves, Crevices / fissures, Large to very large boulders, Overhangs, Rockpools, Small boulders, Under boulders",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Common on all rocky coasts of Britain and Ireland.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "doi:10.1093-g3journal-jkaf182",
               "locator": "Introduction",
-              "quote": "As a carnivore occupying middle trophic levels of rocky shore food webs, its diet consists mainly of sessile space holders (barnacles, Semibalanus balanoides and mussels, Mytilus edulis)",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Farmed mussels->Dog Whelk": {
-          "sourceIds": [
-            "marlin:1501"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1501",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "Nucella lapillus is an important intertidal predator and preys mainly on barnacles and mussels but may also prey on cockles, other bivalves and gastropods.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "The rocky intertidal snail, Nucella lapillus (Linnaeus 1758, Fig. 1 ), is an ectothermic neogastropod that has been a focal organism for studies on organismal performance and rocky shore community dynamics.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24201,21 +25115,174 @@
           "support": [
             {
               "sourceId": "marlin:1501",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "Intertidal",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Depth range",
+              "quote": "Depth range Intertidal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Summary > Habitat",
+              "quote": "Found on wave exposed to sheltered rocky shores from the mid shore downwards. Rarely present in the sublittoral but may be abundant in areas exposed to extremely strong tidal stress.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Habitat preferences",
+              "quote": "Biological zone preferences Lower eulittoral, Mid eulittoral, Sublittoral fringe",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Habitat Information",
+              "quote": "Dog whelks occur below of mid tidal level, approximating to 10-75% emersion (Fretter & Graham, 1994).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1501",
+            "doi:10.1093-g3journal-jkaf182"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology",
+              "quote": "Diet/food source Carnivore Typically feeds on Barnacles and mussels (see Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Nucella lapillus is an important intertidal predator and preys mainly on barnacles and mussels but may also prey on cockles, other bivalves and gastropods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1093-g3journal-jkaf182",
+              "locator": "Introduction",
+              "quote": "As a carnivore occupying middle trophic levels of rocky shore food webs, its diet consists mainly of sessile space holders (barnacles, Semibalanus balanoides and mussels, Mytilus edulis )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
           "sourceIds": [
             "marlin:1501"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: created, i.e. the farm builds habitat this species could not otherwise occupy The source says: 'Depth range: Intertidal'; 'Found on wave exposed to sheltered rocky shores from the mid shore downwards. Rarely present in the sublittoral'. Same objection as the limpet."
+          "support": [
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Nucella lapillus is an important intertidal predator and preys mainly on barnacles and mussels but may also prey on cockles, other bivalves and gastropods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Crothers, (1985; Table 1) lists 24 potential recorded food species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1501"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Nucella lapillus usually favours Semibalanus balanoides > Balanus spp. > Mytilus edulis > Elminius modestus > (Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Crothers (1985) suggested a mean annual consumption of 15-40 mussels per dog whelk (Largen, 1967a; Bayne & Scullard, 1978)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:1501"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Life history information > Longevity and mortality",
+              "quote": "Adults are also preyed on by gulls and eiders, which swallow the dog whelk whole. Adult dog whelks of 4 cm or more long are probably safe from birds (Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Life history information > Longevity and mortality",
+              "quote": "Feare (1967) suggested that a large proportion of the 69% mortality of Nucella lapillus observed on the Yorkshire coast in the winter of 1965 -66 was due to predation by oystercatchers ( Haematopus ostralegus ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marlin:1501"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Life history information > Longevity and mortality",
+              "quote": "Juveniles are also susceptible to crab predation.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Life history information > Longevity and mortality",
+              "quote": "Carcinus maenas can handle dog whelks up to 1.5 cm in length whereas Necora puber can handle up to 2.5 cm (Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "marlin:1501"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Life history information > Longevity and mortality",
+              "quote": "Juveniles are eaten by rock pipits, turnstones, and purple sand-pipers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Life history information > Longevity and mortality",
+              "quote": "Feare (1967; 1970b) reported that the purple sand-piper favoured 2-5 mm long dog whelks (occasionally 8 mm) and accounted for most of the 90% mortality in juvenile dog whelks in the winter of 1965-66 in Robin Hood's Bay.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -24233,120 +25300,142 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:141767",
-        "marlin:1647",
-        "fishbase:Labrus-bergylta-food-items",
-        "fishbase:Labrus-bergylta",
         "doi:10.1371-journal.pone.0193078",
-        "worms-traits:141767"
+        "fishbase:Labrus-bergylta",
+        "fishbase:Labrus-bergylta-food-items",
+        "ices:crr325",
+        "marinvert:calliostoma-zizyphinum",
+        "marinvert:steromphala-umbilicalis",
+        "marlin:1647",
+        "sawc:2025",
+        "worms-traits:141767",
+        "worms:141767"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1647"
+            "marlin:1647",
+            "marinvert:calliostoma-zizyphinum"
           ],
           "support": [
             {
               "sourceId": "marlin:1647",
-              "locator": "Identifying features",
-              "quote": "Shell is up to 3 cm high and 3 cm broad. Shell is conical, straight sided and clean. The base of the shell is flat. The foot has 4-5 parapodial tentacles. The colour of the shell is variable, but generally purple/pink.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1647",
-              "locator": "Description",
-              "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base. The shell has regular spiral grooves and ridges and up to 12-13 whorls. The shell is very 'clean'...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base. The shell has regular spiral grooves and ridges and up to 12-13 whorls.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1647",
               "locator": "Summary > Description",
-              "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "The shell is very 'clean' and can be yellowish, pale pink or violet with streaks and blotches of brown, red or purple.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Shell description",
+              "quote": "Conoidal, like a traditional spinning top; almost precisely flat sided in profile ... The shell is opaque, slightly glossy and slippery.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Shell description > umbilicus",
+              "quote": "The umbilicus is closed ... on all except juveniles less than 7 mm high.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app says: Marbled pink and white over 10 to 12 finely ribbed whorls, with no open navel beneath. The source says: 'The shell has regular spiral grooves and ridges and up to 12-13 whorls.' MarLIN gives 12-13 whorls, not 10-12, and says nothing at all about the umbilicus being closed."
+          "claimSupported": true
         },
         "mark:cmpymumbs000n7iowqwgvwhi1": {
           "sourceIds": [
-            "marlin:1647"
+            "marlin:1647",
+            "marinvert:calliostoma-zizyphinum"
           ],
           "support": [
             {
               "sourceId": "marlin:1647",
-              "locator": "Identifying features",
-              "quote": "Shell is up to 3 cm high and 3 cm broad. Shell is conical, straight sided and clean. The base of the shell is flat. The foot has 4-5 parapodial tentacles. The colour of the shell is variable, but generally purple/pink.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base. The shell has regular spiral grooves and ridges and up to 12-13 whorls.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1647",
-              "locator": "Description",
-              "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base. The shell has regular spiral grooves and ridges and up to 12-13 whorls. The shell is very 'clean'...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The shell is very 'clean' and can be yellowish, pale pink or violet with streaks and blotches of brown, red or purple.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1647",
-              "locator": "Summary > Identifying features",
-              "quote": "Shell is conical, straight sided and clean. The base of the shell is flat.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Shell description",
+              "quote": "Conoidal, like a traditional spinning top; almost precisely flat sided in profile ... The shell is opaque, slightly glossy and slippery.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpymumbs000p7iow3tgtx1k6": {
           "sourceIds": [
-            "marlin:1647"
+            "marlin:1647",
+            "marinvert:calliostoma-zizyphinum",
+            "marinvert:steromphala-umbilicalis"
           ],
           "support": [
-            {
-              "sourceId": "marlin:1647",
-              "locator": "Description",
-              "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base. The shell has regular spiral grooves and ridges and up to 12-13 whorls.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1647",
-              "locator": "Description",
-              "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base. The shell has regular spiral grooves and ridges and up to 12-13 whorls. The shell is very 'clean'...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1647",
               "locator": "Summary > Description",
               "quote": "Calliostoma zizyphinum has a regularly conical, straight sided shell, up to 3 cm high and 3 cm broad, with a sharp apex and a flat base.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Shell description > umbilicus",
+              "quote": "The umbilicus is closed ... on all except juveniles less than 7 mm high.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Vernacular",
+              "quote": "Vernacular: Flat top shell, Purple top shell",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Shell description",
+              "quote": "Large round white-bordered umbilicus always present",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1647"
+            "marlin:1647",
+            "marinvert:calliostoma-zizyphinum"
           ],
           "support": [
             {
               "sourceId": "marlin:1647",
-              "locator": "Habitat",
-              "quote": "Calliostoma zizyphinum is found on seaweed covered rocky shores from extreme low water to 300 m depth in the sublittoral.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1647",
               "locator": "Summary > Habitat",
               "quote": "Calliostoma zizyphinum is found on seaweed covered rocky shores from extreme low water to 300 m depth in the sublittoral.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "C. zizyphinum is found under rocks, in crevices and on large algae from MLWS on sheltered shores to 300 m depth. Often on Laminaria but occurs also where there are no large algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24373,14 +25462,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "doi:10.1371-journal.pone.0193078"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Trophic tier 2, i.e. a primary consumer scored in the same tier as the limpet and the flat top shell The source says: Table 1 classifies it as a marine CARNIVORE: 'Calliostoma zizyphinum (6) Ma / Carnivore'. WoRMS Attributes independently give 'Feeding method: predator > on sessile prey'. It belongs a tier above the grazing top shells."
-        },
         "diet:eats": {
           "sourceIds": [
             "doi:10.1371-journal.pone.0193078"
@@ -24389,25 +25470,144 @@
           "claimSupported": false,
           "conflict": "The app says: I eat: Kelp canopy (the node renders as 'Kelp / seaweed - seaweed & the life on it') The source says: Carnivore, 'predator > on sessile prey'. If the link is kept it can only mean the sessile animals living ON the weed, not the weed itself. No source found records C. zizyphinum eating algae."
         },
-        "edge:Kelp canopy->Painted Top Shell": {
-          "sourceIds": [
-            "worms-traits:141767"
-          ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Painted Top Shell eats Kelp canopy The source says: WoRMS Attributes: 'Feeding method: predator > on sessile prey'. A herbivore link from the kelp node is not supported."
-        },
         "trait:depth": {
           "sourceIds": [
-            "marlin:1647"
+            "marlin:1647",
+            "marinvert:calliostoma-zizyphinum"
           ],
           "support": [
             {
               "sourceId": "marlin:1647",
-              "locator": "MarLIN species information review > Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Calliostoma zizyphinum is found on seaweed covered rocky shores from extreme low water to 300 m depth in the sublittoral.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "C. zizyphinum is found under rocks, in crevices and on large algae from MLWS on sheltered shores to 300 m depth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:1647",
+            "marinvert:calliostoma-zizyphinum"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1647",
+              "locator": "Summary > Identifying features",
+              "quote": "Shell is up to 3 cm high and 3 cm broad.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Shell description",
+              "quote": "Maximum width and height are 30 mm; W/H 90-120%.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "marinvert:calliostoma-zizyphinum"
+          ],
+          "support": [
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "It feeds on micro-algae and other micro-organisms brushed by radula from rocks and stones, and about 20% of its food by “shell wiping” (Jones, S.P. et al., 2001).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "Twice every 24 hours the crest on the metapodium opens ... to expose a mucus-producing area which is wiped over the shell for about 20 minutes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "The coated shell acts like a fly paper trapping micro-organisms and other water borne particles which are ingested along with mucus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marinvert:calliostoma-zizyphinum"
+          ],
+          "support": [
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "It feeds on micro-algae and other micro-organisms brushed by radula from rocks and stones, and about 20% of its food by “shell wiping” (Jones, S.P. et al., 2001).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marinvert:calliostoma-zizyphinum"
+          ],
+          "support": [
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "The coated shell acts like a fly paper trapping micro-organisms and other water borne particles which are ingested along with mucus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:calliostoma-zizyphinum",
+              "locator": "Habits and ecology",
+              "quote": "It feeds on micro-algae and other micro-organisms brushed by radula from rocks and stones, and about 20% of its food by “shell wiping” (Jones, S.P. et al., 2001).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "sawc:2025"
+          ],
+          "support": [
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V > Diet and feeding",
+              "quote": "Deady and Fives (1995) investigated the gut contents of 99 Ballan wrasses ... gastropods (Littorina spp., Calliostoma zizyphinum, Bittium reticulatum and Lacuna vincta) were eaten often but in much smaller amounts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 12 (Loligo forbesii), Table 12.3 > Gastropoda",
+              "quote": "Table 12.3. List of identified prey types and species from Loligo forbesii stomach contents ... Gastropoda Calliostoma zizyphinum2, indet.2",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24428,146 +25628,231 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:1039850",
-        "marlin:1481",
         "doi:10.1002-ecy.3341",
-        "doi:10.1371-journal.pone.0023068"
+        "doi:10.1371-journal.pone.0023068",
+        "emlbi:W1950",
+        "fishbase:Lipophrys-pholis",
+        "fishbase:fooditems-Lipophrys-pholis",
+        "marinvert:steromphala-umbilicalis",
+        "marlin-biotope:111",
+        "marlin:1481",
+        "worms:1039850"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1481"
+            "marlin:1481",
+            "emlbi:W1950",
+            "marinvert:steromphala-umbilicalis"
           ],
           "support": [
             {
               "sourceId": "marlin:1481",
-              "locator": "Identifying features",
-              "quote": "Small topshell 1.6 cm high, 2.2 cm across. Large round umbilicus. Dull greenish grey in colour with reddish-purple broad diagonal stripes.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1481",
-              "locator": "Description",
-              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria, it also has a large round umbilicus (a deep hole on the underside of the shell). It is dull greenish-grey in colour and has broad...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria , it also has a large round umbilicus (a deep hole on the underside of the shell).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1481",
               "locator": "Summary > Description",
-              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria, it also has a large round umbilicus (a deep hole on the underside of the shell).",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "It is dull greenish-grey in colour and has broad diagonal stripes of reddish-purple.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "emlbi:W1950",
+              "locator": "Description",
+              "quote": "The shell has a cream to green coloured background with red to red-purple stripes. It has a large, deep and circular umbilicus, which may be occluded in older animals).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Key identification features",
+              "quote": "Shell has broad red to reddish-purple bands radiating from apex across the whorls",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Key identification features",
+              "quote": "Bands on S. umbilicalis are wider than those on G. cineraria.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Key identification features",
+              "quote": "Number of bands within each width category is approximately half the average found on S. cineraria , with no overlap in the ranges.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpzcxofp000l7i6omh21fclq": {
           "sourceIds": [
-            "marlin:1481"
+            "marlin:1481",
+            "emlbi:W1950",
+            "marinvert:steromphala-umbilicalis",
+            "doi:10.1371-journal.pone.0023068"
           ],
           "support": [
             {
               "sourceId": "marlin:1481",
-              "locator": "Identifying features",
-              "quote": "Small topshell 1.6 cm high, 2.2 cm across. Large round umbilicus. Dull greenish grey in colour with reddish-purple broad diagonal stripes.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1481",
-              "locator": "Description",
-              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria, it also has a large round umbilicus (a deep hole on the underside of the shell). It is dull greenish-grey in colour and has broad...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Small topshell 1.6 cm high, 2.2 cm across.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1481",
               "locator": "Summary > Description",
-              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria, it also has a large round umbilicus (a deep hole on the underside of the shell).",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria , it also has a large round umbilicus (a deep hole on the underside of the shell).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "emlbi:W1950",
+              "locator": "Description",
+              "quote": "This topshell is bluntly pointed with a markedly convex profile with swollen whorls. It reaches up to 16 x 22 mm in size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Key identification features",
+              "quote": "Shell profile usually low, but variable",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Description > Shell",
+              "quote": "Breadth to 22mm, height to 16mm. Conoidal; height frequently about 60% of breadth",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0023068",
+              "locator": "Introduction",
+              "quote": "the species with low aspect ratios (short spires: discoid shells) were least vulnerable to predation (flat topshell Gibbula umbilicalis , Fig. 1B ) and showed the lowest responsiveness.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpzcxofp000m7i6o3yb7odan": {
           "sourceIds": [
-            "marlin:1481"
+            "marlin:1481",
+            "emlbi:W1950",
+            "marinvert:steromphala-umbilicalis"
           ],
           "support": [
             {
               "sourceId": "marlin:1481",
-              "locator": "Identifying features",
-              "quote": "Small topshell 1.6 cm high, 2.2 cm across. Large round umbilicus. Dull greenish grey in colour with reddish-purple broad diagonal stripes.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1481",
-              "locator": "Description",
-              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria, it also has a large round umbilicus (a deep hole on the underside of the shell). It is dull greenish-grey in colour and has broad...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1481",
               "locator": "Summary > Identifying features",
               "quote": "Dull greenish grey in colour with reddish-purple broad diagonal stripes.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1481",
+              "locator": "Summary > Description",
+              "quote": "It is dull greenish-grey in colour and has broad diagonal stripes of reddish-purple.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "emlbi:W1950",
+              "locator": "Description",
+              "quote": "The shell has a cream to green coloured background with red to red-purple stripes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Key identification features",
+              "quote": "Shell has broad red to reddish-purple bands radiating from apex across the whorls",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Description > Shell",
+              "quote": "Ground colour of shell whitish, often partly greenish or stained brownish by environmental factors",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpzcxofp000n7i6ograwgjww": {
           "sourceIds": [
-            "marlin:1481"
+            "emlbi:W1950",
+            "marinvert:steromphala-umbilicalis"
           ],
           "support": [
             {
-              "sourceId": "marlin:1481",
-              "locator": "Identifying features",
-              "quote": "Small topshell 1.6 cm high, 2.2 cm across. Large round umbilicus. Dull greenish grey in colour with reddish-purple broad diagonal stripes.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1481",
+              "sourceId": "emlbi:W1950",
               "locator": "Description",
-              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria, it also has a large round umbilicus (a deep hole on the underside of the shell). It is dull greenish-grey in colour and has broad...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "This topshell is bluntly pointed with a markedly convex profile with swollen whorls.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1481",
-              "locator": "Summary > Description",
-              "quote": "A small top shell, it is slightly broader, more rounded and flatter than Steromphala cineraria",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "sourceId": "emlbi:W1950",
+              "locator": "Description",
+              "quote": "There are 8-11 spiral ridges on the base of the last whorl, and the upper part of the whorls does not have ribs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Description > Shell",
+              "quote": "Sutures distinct. Spire small, body whorl about 80% of height",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1481"
+            "marlin:1481",
+            "marinvert:steromphala-umbilicalis",
+            "emlbi:W1950"
           ],
           "support": [
-            {
-              "sourceId": "marlin:1481",
-              "locator": "Habitat",
-              "quote": "Found from the upper shore into the sublittoral on sheltered rocky shores and is tolerant of emersion and brackish waters.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1481",
               "locator": "Summary > Habitat",
               "quote": "Found from the upper shore into the sublittoral on sheltered rocky shores and is tolerant of emersion and brackish waters.",
-              "readBy": "refs:trawl (gastropod)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Habits and ecology",
+              "quote": "On brown fucoid seaweeds or under stones, even if devoid of fucoids, on rocky shores MHWN to MLWS. Not often sublittoral",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Habits and ecology",
+              "quote": "Also in rock pools, extending above MHWN.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "emlbi:W1950",
+              "locator": "Habitat",
+              "quote": "on rocky shores, on algae and under stones",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24589,15 +25874,38 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "marlin:1481"
+            "marinvert:steromphala-umbilicalis",
+            "marlin:1481",
+            "emlbi:W1950"
           ],
           "support": [
             {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Habits and ecology",
+              "quote": "On brown fucoid seaweeds or under stones, even if devoid of fucoids, on rocky shores MHWN to MLWS. Not often sublittoral",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Key identification features",
+              "quote": "In Britain, adults found littorally, but not living sublittorally",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "marlin:1481",
-              "locator": "MarLIN species information review > Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Found from the upper shore into the sublittoral on sheltered rocky shores and is tolerant of emersion and brackish waters.",
-              "readBy": "refs:confirm (echino-gastro), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "emlbi:W1950",
+              "locator": "Habitat",
+              "quote": "More commonly found in the littoral, although is sometimes found in the sublittoral.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -24609,6 +25917,186 @@
           "support": [],
           "claimSupported": false,
           "conflict": "The app says: Eats me: Ballan wrasse (the only predator edge on the Flat Top Shell). The source says: Two mismatches. (1) The documented UK predator of this snail is the shore crab Carcinus maenas, which is a catalogue species but has no edge to the flat topshell in the food web. (2) The Irish ballan-wrasse gut-content study the Scottish Government summarises names the gastropods eaten - Littorina spp., Calliostoma zizyphinum, Bittium reticulatum, Lacuna vincta - and Steromphala/Gibbula is not among them, despite being abundant in the same shore."
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:1481",
+            "emlbi:W1950",
+            "marinvert:steromphala-umbilicalis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1481",
+              "locator": "Summary > Identifying features",
+              "quote": "Small topshell 1.6 cm high, 2.2 cm across.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "emlbi:W1950",
+              "locator": "Description",
+              "quote": "It reaches up to 16 x 22 mm in size.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Description > Shell",
+              "quote": "Breadth to 22mm, height to 16mm. Conoidal; height frequently about 60% of breadth",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "marinvert:steromphala-umbilicalis",
+            "doi:10.1371-journal.pone.0023068"
+          ],
+          "support": [
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Habits and ecology",
+              "quote": "Feeds on brushings from seaweeds and on algal debris.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0023068",
+              "locator": "Results > Interspecific comparison",
+              "quote": "The addition of predation cue caused Littorina littorea to spend significantly more time out of the water than did Gibbula umbilicalis , which showed very little standardized response to the predator treatment",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0023068",
+              "locator": "Abstract",
+              "quote": "This reversed the competitive interaction, allowing Gibbula substantially increased access to shared resources.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marinvert:steromphala-umbilicalis",
+            "marlin-biotope:111"
+          ],
+          "support": [
+            {
+              "sourceId": "marinvert:steromphala-umbilicalis",
+              "locator": "Habits and ecology",
+              "quote": "Feeds on brushings from seaweeds and on algal debris.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin-biotope:111",
+              "locator": "Biotope description",
+              "quote": "the seaweed diversity is generally low due to the grazing pressure of Paracentrotus lividus , the top shells Gibbula cineraria and Gibbula umbilicalis , and winkles such as Littorina littorea",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "doi:10.1002-ecy.3341"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1002-ecy.3341",
+              "locator": "Results > Consumption rates",
+              "quote": "E. esculentus consumed significantly more cold-affinity kelp detritus and S. umbilicalis more warm-affinity kelp detritus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1002-ecy.3341",
+              "locator": "Discussion",
+              "quote": "S. umbilicalis consumed more of the predicted future dominant kelp species ( L. ochroleuca and S. polyschides )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "doi:10.1002-ecy.3341"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1002-ecy.3341",
+              "locator": "Discussion",
+              "quote": "S. umbilicalis are not obligate kelp grazers and may have benefited from an increase in microalgal growth at higher temperatures, actively selecting microbial community consumption over kelp detritus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:fooditems-Lipophrys-pholis",
+            "fishbase:Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Lipophrys-pholis",
+              "locator": "Food items reported for Lipophrys pholis > zoobenthos / mollusks / gastropods",
+              "quote": "gastropods Steromphala umbilicalis Spain juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Biology",
+              "quote": "Feeds on small benthic invertebrates, especially gastropods, barnacles and amphipods, and algae (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1371-journal.pone.0023068"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1371-journal.pone.0023068",
+              "locator": "Abstract",
+              "quote": "Here we examine the effect of chemical cues from the common shore crab Carcinus maenas on the foraging behavior of two common intertidal gastropod molluscs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0023068",
+              "locator": "Abstract",
+              "quote": "Of the two model consumers studied, Littorina littorea is morphologically more vulnerable to crab predation than Gibbula umbilicalis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0023068",
+              "locator": "Introduction",
+              "quote": "shells that are highly polished or have a more discoid shape can be more difficult for predators such as crayfish and crabs to handle",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1371-journal.pone.0023068",
+              "locator": "Introduction",
+              "quote": "the species with low aspect ratios (short spires: discoid shells) were least vulnerable to predation (flat topshell Gibbula umbilicalis , Fig. 1B ) and showed the lowest responsiveness.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
