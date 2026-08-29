@@ -803,28 +803,156 @@
     ]
   },
   "Necora puber": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Brown algae, which makes up much of the diet in shallow water, with the animal share of it rising with depth"
+      },
+      {
+        "text": "Invertebrates, chiefly crustaceans and molluscs, including shelled snails up to about 2.5 cm long"
+      },
+      {
+        "text": "Live prey run down as an agile hunter, such as prawns and small fish, and carrion"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Seabirds such as the European shag, for which this was the most frequent prey at a Shetland roost through the non-breeding season",
+        "slug": "phalacrocorax-aristotelis"
+      },
+      {
+        "text": "Fish, including adult sea bass, which take it on the continental shelf",
+        "slug": "dicentrarchus-labrax"
+      },
+      {
+        "text": "Octopus, which take a wide range of crabs, this one among them",
+        "slug": "octopus-vulgaris"
+      }
+    ]
   },
   "Liocarcinus depurator": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Polychaete worms, crustaceans, molluscs, brittlestars and fish make up most of the diet"
+      },
+      {
+        "text": "Both a predator and a scavenger, taking a wide range of small invertebrates and carrion"
+      },
+      {
+        "text": "Animals living in the sediment: at high densities it can significantly reduce the infauna"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bottom-feeding fish, including whiting, which take it off Scotland",
+        "slug": "merlangius-merlangus"
+      },
+      {
+        "text": "Small bottom-living sharks: it is a recorded prey of the lesser-spotted catshark",
+        "slug": "scyliorhinus-canicula"
+      },
+      {
+        "text": "Cephalopods, with the common cuttlefish recorded taking swimming crabs of this genus",
+        "slug": "sepia-officinalis"
+      }
+    ]
   },
   "Majoidea": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "A scavenger on most seabed types, taking carrion, encrusting animals and seaweed"
+      },
+      {
+        "text": "Juveniles forage on algal-invertebrate turf in shallow nursery grounds through their first two years"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Atlantic cod, which take spider crabs among their bottom-living crustacean prey",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Small-spotted catshark, recorded taking the great spider crab off England and Wales",
+        "slug": "scyliorhinus-canicula"
+      },
+      {
+        "text": "Pouting, which take spider crabs among the crabs in their seabed diet",
+        "slug": "trisopterus-luscus"
+      }
+    ]
   },
   "Pagurus bernhardus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "An omnivorous scavenger, taking organic detritus and carrion off the seabed"
+      },
+      {
+        "text": "Sifts the sediment surface as a deposit feeder, and can also strain suspended particles from the water"
+      },
+      {
+        "text": "Takes live prey too, including molluscs, marine worms and other crustaceans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Bottom-feeding fish of the cod family, including cod, whiting and pouting"
+      },
+      {
+        "text": "Gurnards and the lesser-spotted catshark, which hunt over the open seabed"
+      },
+      {
+        "text": "Ballan wrasse, for which decapods including hermit crabs are a main prey group",
+        "slug": "labrus-bergylta"
+      }
+    ]
   },
   "Sepia officinalis": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Crustaceans, chiefly mysids, shrimps, prawns and crabs, plus amphipods, isopods and ostracods"
+      },
+      {
+        "text": "Small bottom-living fish, including gobies, sandeels, whiting and wrasses, and sometimes flatfish"
+      },
+      {
+        "text": "Molluscs, polychaete worms and other cephalopods; big individuals eat smaller cuttlefish"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "A wide range of bony fish, including pollack, European seabass, ballan wrasse and conger eel"
+      },
+      {
+        "text": "Sharks and rays, among them the lesser spotted dogfish, smooth-hound and blue shark"
+      },
+      {
+        "text": "Grey seals, along with monk seals and three species of dolphin",
+        "slug": "halichoerus-grypus"
+      }
+    ]
   },
   "Loligo forbesii": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small fish above all, especially gadoids such as whiting and poor cod, clupeids such as sprat, and sandeels"
+      },
+      {
+        "text": "Crustaceans, which dominate the diet of juveniles and small squid"
+      },
+      {
+        "text": "Other cephalopods, including smaller squid of its own kind"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Toothed whales and dolphins, from pygmy sperm whales and killer whales to common, striped and bottlenose dolphins"
+      },
+      {
+        "text": "Seals, both grey and harbour seals"
+      },
+      {
+        "text": "Large demersal fish such as Atlantic cod and monkfish"
+      }
+    ]
   },
   "Loligo vulgaris": {
     "eats": [],

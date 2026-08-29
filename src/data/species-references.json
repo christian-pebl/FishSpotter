@@ -3538,49 +3538,6 @@
         "Food items reported for Chelidonichthys lucerna"
       ]
     },
-    "doi:10.1016-j.ecolind.2024.112708": {
-      "kind": "journal",
-      "title": "Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm",
-      "authors": [
-        "Mascorda-Cabre, L.",
-        "Hosegood, P.",
-        "Attrill, M.J.",
-        "Sheehan, E.V."
-      ],
-      "publisher": "Elsevier (Ecological Indicators 167:112708); open copy hosted by the University of Plymouth repository (PEARL)",
-      "year": 2024,
-      "url": "https://pearl.plymouth.ac.uk/bms-research/1708/",
-      "licence": "CC BY 4.0",
-      "identifier": "DOI:10.1016/j.ecolind.2024.112708",
-      "expectText": [
-        "Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm",
-        "Cancer pagurus, Maja squinado and Necora puber",
-        "Mascorda-Cabre"
-      ]
-    },
-    "doi:10.1371-journal.pone.0205877": {
-      "kind": "journal",
-      "title": "Artificial spawning substrates and participatory research to foster cuttlefish stock recovery: A pilot study in the Adriatic Sea",
-      "authors": [
-        "Grati, F.",
-        "Fabi, G.",
-        "Scarcella, G.",
-        "Guicciardi, S.",
-        "Penna, P.",
-        "Scanu, M.",
-        "Leoni, S.",
-        "Riminucci, F.",
-        "Frittelloni, C."
-      ],
-      "publisher": "Public Library of Science, PLOS ONE 13(10):e0205877",
-      "year": 2018,
-      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0205877",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1371/journal.pone.0205877",
-      "expectText": [
-        "Sepia officinalis"
-      ]
-    },
     "doi:10.1371-journal.pone.0068313": {
       "kind": "journal",
       "title": "Changes in Benthos Associated with Mussel (Mytilus edulis L.) Farms on the West-Coast of Scotland",
@@ -4205,6 +4162,97 @@
         "Carcinus maenas"
       ],
       "verifyMode": "pdf"
+    },
+    "biotic:6177": {
+      "kind": "web",
+      "title": "Necora puber - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/6177",
+      "licence": "CC BY-NC-SA 4.0",
+      "expectText": [
+        "Necora puber",
+        "Velvet swimming crab"
+      ]
+    },
+    "habitas:S26720": {
+      "kind": "web",
+      "title": "Necora puber - Species account, Encyclopedia of Marine Life of Britain and Ireland",
+      "authors": [
+        "Picton, B.E.",
+        "Keatley, L.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland, Encyclopedia of Marine Life of Britain and Ireland",
+      "year": 2025,
+      "url": "https://www2.habitas.org.uk/marbiop-ni/species.php?item=S26720",
+      "identifier": "S26720",
+      "expectText": [
+        "Necora puber"
+      ]
+    },
+    "seasearch:necora-puber": {
+      "kind": "web",
+      "title": "Velvet swimming crab (Necora puber) - Seasearch Ireland species identification sheet",
+      "publisher": "Seasearch Ireland",
+      "url": "https://seasearchireland.ie/wordpress/wp-content/uploads/2020/02/Necora-puber.pdf",
+      "expectText": [
+        "Necora puber"
+      ],
+      "verifyMode": "pdf"
+    },
+    "biotic:6173": {
+      "kind": "web",
+      "title": "Pagurus bernhardus - BIOTIC (Biological Traits Information Catalogue) species record",
+      "publisher": "BIOTIC, Marine Life Information Network / Marine Biological Association of the UK",
+      "url": "https://biotic.marlin.ac.uk/data/species/6173",
+      "licence": "CC BY-NC-SA 4.0",
+      "identifier": "6173",
+      "expectText": [
+        "Pagurus bernhardus"
+      ]
+    },
+    "habitas:S24650": {
+      "kind": "web",
+      "title": "Pagurus bernhardus (Linnaeus, 1758), species account in the Encyclopedia of Marine Life of Britain and Ireland",
+      "authors": [
+        "Picton, B.E.",
+        "Keatley, L.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland, Marine Biodiversity Data Portal (habitas)",
+      "year": 2025,
+      "url": "https://www2.habitas.org.uk/marbiop-ni/species.php?item=S24650",
+      "identifier": "S24650",
+      "expectText": [
+        "Pagurus bernhardus"
+      ]
+    },
+    "adw:Pagurus-bernhardus": {
+      "kind": "web",
+      "title": "Pagurus bernhardus (common hermit crab) - Animal Diversity Web species account",
+      "publisher": "Animal Diversity Web, University of Michigan Museum of Zoology",
+      "url": "https://animaldiversity.org/accounts/Pagurus_bernhardus/",
+      "expectText": [
+        "Pagurus bernhardus"
+      ]
+    },
+    "doi:10.1016-j.visres.2013.02.016": {
+      "kind": "journal",
+      "title": "The W-shaped pupil in cuttlefish (Sepia officinalis): Functions for improving horizontal vision",
+      "authors": [
+        "Mathger, L. M.",
+        "Hanlon, R. T.",
+        "Hakansson, J.",
+        "Nilsson, D.-E."
+      ],
+      "publisher": "Elsevier, Vision Research 83: 19-24",
+      "year": 2013,
+      "url": "https://portal.research.lu.se/en/publications/the-w-shaped-pupil-in-cuttlefish-sepia-officinalis-functions-for-",
+      "identifier": "doi:10.1016/j.visres.2013.02.016",
+      "expectText": [
+        "Sepia officinalis",
+        "W-shaped pupil"
+      ]
     }
   },
   "species": {
@@ -17771,195 +17819,279 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:107398",
-        "marlin:1181",
-        "sifca:velvet-crab-2021",
+        "biotic:6177",
+        "doi:10.1080-00063657.2024.2311080",
+        "doi:10.1093-icesjms-fss200",
         "doi:10.3354-meps031087",
         "doi:10.3354-meps119139",
-        "doi:10.1016-j.ecolind.2024.112708",
-        "doi:10.1080-00063657.2024.2311080"
+        "habitas:S26720",
+        "ices:crr325",
+        "marlin:1181",
+        "marlin:1501",
+        "seasearch:necora-puber",
+        "sifca:velvet-crab-2021",
+        "worms:107398"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1181"
+            "seasearch:necora-puber",
+            "marlin:1181",
+            "habitas:S26720"
           ],
           "support": [
             {
-              "sourceId": "marlin:1181",
-              "locator": "Identifying features",
-              "quote": "Carapace dorsal surface flattened and pubescent. Frontal margin with up to 10 narrow unequal teeth, middle two often larger. Antero-lateral margin with five sharp, forward-pointing teeth. Chelipeds equal, strong, pubescent.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "seasearch:necora-puber",
+              "locator": "p.1 Description",
+              "quote": "Typically more aggressive than other species of crabs they are often observed in a fighting stance with the claws and swimming legs raised advancing towards divers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1181",
+              "locator": "Summary > Description",
+              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture and the eyes are red.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
               "locator": "Description",
-              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture and the eyes are red. It grows to about 8 cm.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Fifth pair of legs are modified to paddles to allow this crab to swim, the paddles have a distinctive lined pattern. Its eyes are bright red",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1181",
+              "locator": "Summary > Habitat",
+              "quote": "Found on stony and rock substrata intertidally and in shallow water, most abundant on moderately sheltered shores.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
+              "locator": "Habitat",
+              "quote": "Prefers rocky shores and substrata and more abundant on sheltered sites.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcw17c000c7i6olxiq9dhi": {
           "sourceIds": [
-            "marlin:1181"
+            "marlin:1181",
+            "habitas:S26720",
+            "seasearch:necora-puber"
           ],
           "support": [
             {
               "sourceId": "marlin:1181",
-              "locator": "Identifying features",
-              "quote": "Carapace dorsal surface flattened and pubescent. Frontal margin with up to 10 narrow unequal teeth, middle two often larger. Antero-lateral margin with five sharp, forward-pointing teeth. Chelipeds equal, strong, pubescent.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture and the eyes are red.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1181",
+              "sourceId": "habitas:S26720",
+              "locator": "Key Identification Features",
+              "quote": "Bright red eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
               "locator": "Description",
-              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture and the eyes are red. It grows to about 8 cm.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "the carapace is actually coloured dark brown to blue, which shows through on tips of claws",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "seasearch:necora-puber",
+              "locator": "p.1 Description",
+              "quote": "One of the most widespread, conspicuous and easily identifiable crabs in Irish waters due to the bright red eyes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpzcw17c000d7i6o5zjc4w8j": {
           "sourceIds": [
-            "marlin:1181"
+            "marlin:1181",
+            "habitas:S26720",
+            "seasearch:necora-puber"
           ],
           "support": [
             {
               "sourceId": "marlin:1181",
-              "locator": "Identifying features",
-              "quote": "Carapace dorsal surface flattened and pubescent. Frontal margin with up to 10 narrow unequal teeth, middle two often larger. Antero-lateral margin with five sharp, forward-pointing teeth. Chelipeds equal, strong, pubescent.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
+              "locator": "Description",
+              "quote": "Brown pubescence gives the crab a velvety appearance",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "seasearch:necora-puber",
+              "locator": "p.1 Description",
+              "quote": "the soft, ‘velvet’ texture to the carapace when rubbed",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1181",
-              "locator": "Description",
-              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture and the eyes are red. It grows to about 8 cm.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Carapace dorsal surface flattened and pubescent.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpzcw17c000e7i6oyry85kag": {
           "sourceIds": [
-            "marlin:1181"
+            "habitas:S26720",
+            "seasearch:necora-puber"
           ],
           "support": [
             {
-              "sourceId": "marlin:1181",
-              "locator": "Identifying features",
-              "quote": "Carapace dorsal surface flattened and pubescent. Frontal margin with up to 10 narrow unequal teeth, middle two often larger. Antero-lateral margin with five sharp, forward-pointing teeth. Chelipeds equal, strong, pubescent.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:S26720",
+              "locator": "Description",
+              "quote": "Fifth pair of legs are modified to paddles to allow this crab to swim, the paddles have a distinctive lined pattern.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1181",
-              "locator": "Description",
-              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture and the eyes are red. It grows to about 8 cm.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:S26720",
+              "locator": "Key Identification Features",
+              "quote": "Fifth pair of legs flattened to paddles bearing distinctive pattern.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "seasearch:necora-puber",
+              "locator": "p.1 Description",
+              "quote": "they are often observed in a fighting stance with the claws and swimming legs raised advancing towards divers",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1181"
+            "marlin:1181",
+            "biotic:6177",
+            "seasearch:necora-puber",
+            "habitas:S26720"
           ],
           "support": [
             {
               "sourceId": "marlin:1181",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Found on stony and rock substrata intertidally and in shallow water, most abundant on moderately sheltered shores.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6177",
+              "locator": "Distribution and Habitat > Substratum preferences",
+              "quote": "Substratum preferences Bedrock, Large to very large boulders, Pebbles, Gravel / shingle, Rockpools, Under boulders",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "seasearch:necora-puber",
+              "locator": "p.1 What dive sites can I see it at?",
+              "quote": "Found on all coasts they occur in any areas with suitable rocky habitat (generally not found in muddy habitats) they are seen common on sheltered shores.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
+              "locator": "Habitat",
+              "quote": "Prefers rocky shores and substrata and more abundant on sheltered sites. Found from lower shore to shallow sublittoral.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
             "marlin:1181",
+            "habitas:S26720",
             "sifca:velvet-crab-2021"
           ],
           "support": [
             {
               "sourceId": "marlin:1181",
               "locator": "Summary > Description",
-              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences. The dorsal surface has a finely velvety texture and the eyes are red. It grows to about 8 cm.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "quote": "The dorsal surface has a finely velvety texture and the eyes are red. It grows to about 8 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
+              "locator": "Description",
+              "quote": "A lively and fast-moving swimming crab of medium size, with a carapace up to 8 cm across.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "sifca:velvet-crab-2021",
               "locator": "p.1 summary box",
               "quote": "Size (carapace width) Male 78-96 mm Female 68-92 mm",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Size tile renders the 'medium' trait as 'Medium (10-50 cm)'. The source says: MarLIN 1181 Description, read live: 'It grows to about 8 cm.' Southern IFCA velvet-crab profile v1.1 p.1 summary box, read from the live PDF: 'Size (carapace width) Male 78-96 mm Female 68-92 mm'."
-        },
-        "trait:behavior": {
-          "sourceIds": [
-            "marlin:1181",
-            "sifca:velvet-crab-2021",
-            "doi:10.3354-meps031087"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1181",
-              "locator": "Habitat",
-              "quote": "Found on stony and rock substrata intertidally and in shallow water, most abundant on moderately sheltered shores.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "sifca:velvet-crab-2021",
-              "locator": "p.1 Summary > Description",
-              "quote": "It is typically found on rocky substrates from the shallows to depths of 70 m (Hayward and Ryland cited in Hearn, 2004).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.3354-meps031087",
-              "locator": "Materials and methods > Field collection, p.88",
-              "quote": "Routine collections were made by searching under boulders and rocks during low water of spring tides",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
+        "trait:behavior": {
           "sourceIds": [
-            "doi:10.3354-meps031087",
-            "sifca:velvet-crab-2021"
+            "seasearch:necora-puber",
+            "marlin:1181",
+            "habitas:S26720",
+            "biotic:6177"
           ],
           "support": [
             {
-              "sourceId": "doi:10.3354-meps031087",
-              "locator": "Discussion, closing paragraph",
-              "quote": "portunid crabs are opportunistic omnivores with a preference for animal food and the behaviour of active predators of sessile and slow-moving macro-invertebrates",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "sourceId": "seasearch:necora-puber",
+              "locator": "p.1 Description",
+              "quote": "Typically more aggressive than other species of crabs they are often observed in a fighting stance with the claws and swimming legs raised advancing towards divers.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "sifca:velvet-crab-2021",
-              "locator": "p.1 Summary > Description",
-              "quote": "Velvet crabs are fast-moving, agile hunters that can catch prey such as prawns and small fish, but much of their diet consists of algal material (Norman, 1989).",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1181",
+              "locator": "Summary > Description",
+              "quote": "A fast moving swimming crab, blue in colour but obscured by a brown pubescence with red prominences.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
+              "locator": "Description",
+              "quote": "A lively and fast-moving swimming crab of medium size, with a carapace up to 8 cm across.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6177",
+              "locator": "General Biology > Mobility/Movement",
+              "quote": "Mobility/Movement Swimmer, Crawler",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -17992,44 +18124,6 @@
           ],
           "claimSupported": false
         },
-        "edge:Farmed mussels->Velvet Swimming Crab": {
-          "sourceIds": [
-            "doi:10.3354-meps031087",
-            "doi:10.3354-meps119139"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3354-meps031087",
-              "locator": "Abstract, p.87",
-              "quote": "The next 2 major groups in their diet were crustaceans (anomuran crabs) and molluscs (M. edulis).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.3354-meps119139",
-              "locator": "Abstract, p.139",
-              "quote": "The diet of N. puber was dominated by raft epifauna and mussels, and also by the megabenthos.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.1016-j.ecolind.2024.112708"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1016-j.ecolind.2024.112708",
-              "locator": "Abstract",
-              "quote": "Cancer pagurus, Maja squinado and Necora puber.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.1080-00063657.2024.2311080"
@@ -18052,6 +18146,188 @@
           ],
           "claimSupported": false,
           "conflict": "The app says: Eats me: Curled Octopus, Common Octopus, Atlantic cod, Conger eel. The source says: The strongest UK evidence of predation on velvet swimming crab is the European shag, a catalogue species with no edge to it in the food web: velvet swimming crab was the single most frequent prey in shag diet samples at Bluemull Sound, Shetland (76.0% frequency of occurrence, 31 of 41 samples). Separately, FishBase's own cod food-item records list Cancer pagurus and Carcinus maenas but not Necora puber, so the Atlantic cod edge is unevidenced there."
+        },
+        "trait:depth": {
+          "sourceIds": [
+            "biotic:6177",
+            "sifca:velvet-crab-2021",
+            "marlin:1181",
+            "habitas:S26720"
+          ],
+          "support": [
+            {
+              "sourceId": "biotic:6177",
+              "locator": "Distribution and Habitat > Depth range",
+              "quote": "Depth range Found down to 70 m depth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sifca:velvet-crab-2021",
+              "locator": "p.1 Summary > Description",
+              "quote": "It is typically found on rocky substrates from the shallows to depths of 70 m (Hayward and Ryland cited in Hearn, 2004).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1181",
+              "locator": "Summary > Habitat",
+              "quote": "Found on stony and rock substrata intertidally and in shallow water, most abundant on moderately sheltered shores.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26720",
+              "locator": "Habitat",
+              "quote": "Prefers rocky shores and substrata and more abundant on sheltered sites. Found from lower shore to shallow sublittoral.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "seasearch:necora-puber",
+            "sifca:velvet-crab-2021",
+            "biotic:6177"
+          ],
+          "support": [
+            {
+              "sourceId": "seasearch:necora-puber",
+              "locator": "p.1 Description, citing Norman & Jones (1992)",
+              "quote": "Principally feeding on brown algae, the animal component of their diet increases with depth, however they tend to be highly opportunistic feeders generally",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sifca:velvet-crab-2021",
+              "locator": "p.1 Summary > Description",
+              "quote": "but much of their diet consists of algal material (Norman, 1989).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6177",
+              "locator": "General Biology > Typical food types",
+              "quote": "Invertebrates such as crustaceans and molluscs and also carrion or even brown algae. More likely to be predatorial at greater depths.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "biotic:6177",
+            "marlin:1501"
+          ],
+          "support": [
+            {
+              "sourceId": "biotic:6177",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Invertebrates such as crustaceans and molluscs and also carrion or even brown algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1501",
+              "locator": "Biology review > Biology information > Longevity and mortality",
+              "quote": "Carcinus maenas can handle dog whelks up to 1.5 cm in length whereas Necora puber can handle up to 2.5 cm (Crothers, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "sifca:velvet-crab-2021",
+            "biotic:6177"
+          ],
+          "support": [
+            {
+              "sourceId": "sifca:velvet-crab-2021",
+              "locator": "p.1 Summary > Description",
+              "quote": "Velvet crabs are fast-moving, agile hunters that can catch prey such as prawns and small fish",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6177",
+              "locator": "General Biology > Feeding method",
+              "quote": "Feeding method Omnivore, Herbivore, Predator, Scavenger",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6177",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Invertebrates such as crustaceans and molluscs and also carrion or even brown algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "doi:10.1080-00063657.2024.2311080"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Abstract",
+              "quote": "The most frequent prey was Velvet Swimming Crab Necora puber",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1080-00063657.2024.2311080",
+              "locator": "Results",
+              "quote": "The majority of faecal samples contained crustaceans, predominantly from Velvet Swimming Crabs Necora puber and Edible Crabs Cancer pagurus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.1093-icesjms-fss200"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1093-icesjms-fss200",
+              "locator": "Table 2, prey found in stomach contents of adult sea bass",
+              "quote": "Table 2. Prey found in stomach contents of adult sea bass on the continental shelf of the Bay of Biscay, north-eastern Atlantic ... Necora puber",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "3.7.1 Prey, Octopus vulgaris account",
+              "quote": "The diet of O. vulgaris consists of crustaceans, fish, molluscs, and polychaetes (Table 3.2).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 3.2, prey composition of Octopus vulgaris, Pleocyemata-Brachyura row",
+              "quote": "Table 3.2. Prey composition of Octopus vulgaris ... Necora puber (as L. puber)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -18069,9 +18345,12 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:1750291",
+        "doi:10.2960-J.v35.m494",
+        "fishbase-fooditems:Merlangius-merlangus",
+        "ices:crr325",
         "marlin:1175",
-        "doi:10.2960-J.v35.m494"
+        "seasearch:carcinus-maenas",
+        "worms:1750291"
       ],
       "claims": {
         "fieldNote": {
@@ -18081,42 +18360,92 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Identifying features",
-              "quote": "Carapace broader than long, relatively flat, with numerous transverse, hairy, crenulations. The antero-lateral margins of the carapace have 5 pointed teeth. Wide orbits and three similar-sized rounded lobes between eyes. Front of...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Found on the lower shore and sublittoral on fine, muddy sand and gravel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1175",
-              "locator": "Description",
-              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long. The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs. The rest of the body is pale reddish-brown...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Recorded distribution in Britain and Ireland All British and Irish coasts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Summary > Depth range",
+              "quote": "Depth range -5m to -300m+",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Summary > Description",
+              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Summary > Identifying features",
+              "quote": "The antero-lateral margins of the carapace have 5 pointed teeth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Summary > Description",
+              "quote": "The rest of the body is pale reddish-brown with transverse rows of hairs on the carapace, most conspicuous towards the rear.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Summary > Description",
+              "quote": "The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Sensitivity review > Physical pressures > Substratum loss > Evidence",
+              "quote": "Although a swimming crab, Polybius depurator normally crawls on the seabed. The species only really swims in extremis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpwkpz8100067i30i03uj9ub": {
           "sourceIds": [
-            "marlin:1175"
+            "marlin:1175",
+            "seasearch:carcinus-maenas"
           ],
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Identifying features",
-              "quote": "Carapace broader than long, relatively flat, with numerous transverse, hairy, crenulations. The antero-lateral margins of the carapace have 5 pointed teeth. Wide orbits and three similar-sized rounded lobes between eyes. Front of...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Pereopods 2-4 of slight build, pereopod 5 with violet tinted strongly paddled dactylus.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1175",
-              "locator": "Description",
-              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long. The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs. The rest of the body is pale reddish-brown...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "seasearch:carcinus-maenas",
+              "locator": "Identification text, paragraph 2",
+              "quote": "This species has a flattened dactylus (last segment of rear legs) but it is not expanded into a swimming paddle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkpz8100077i30337vkx2s": {
           "sourceIds": [
@@ -18125,17 +18454,17 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Identifying features",
-              "quote": "Carapace broader than long, relatively flat, with numerous transverse, hairy, crenulations. The antero-lateral margins of the carapace have 5 pointed teeth. Wide orbits and three similar-sized rounded lobes between eyes. Front of...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "The antero-lateral margins of the carapace have 5 pointed teeth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1175",
-              "locator": "Description",
-              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long. The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs. The rest of the body is pale reddish-brown...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Wide orbits and three similar-sized rounded lobes between eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -18147,17 +18476,24 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Identifying features",
-              "quote": "Carapace broader than long, relatively flat, with numerous transverse, hairy, crenulations. The antero-lateral margins of the carapace have 5 pointed teeth. Wide orbits and three similar-sized rounded lobes between eyes. Front of...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Pereopods 2-4 of slight build, pereopod 5 with violet tinted strongly paddled dactylus.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1175",
-              "locator": "Description",
-              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long. The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs. The rest of the body is pale reddish-brown...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Sensitivity review > Physical pressures > Substratum loss > Evidence",
+              "quote": "Although a swimming crab, Polybius depurator normally crawls on the seabed. The species only really swims in extremis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -18169,17 +18505,24 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Identifying features",
-              "quote": "Carapace broader than long, relatively flat, with numerous transverse, hairy, crenulations. The antero-lateral margins of the carapace have 5 pointed teeth. Wide orbits and three similar-sized rounded lobes between eyes. Front of...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1175",
-              "locator": "Description",
-              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long. The species is immediately recognised by the violet-tinted paddle of the fifth leg in larger crabs. The rest of the body is pale reddish-brown...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The rest of the body is pale reddish-brown with transverse rows of hairs on the carapace, most conspicuous towards the rear.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Summary > Identifying features",
+              "quote": "Carapace broader than long, relatively flat, with numerous transverse, hairy, crenulations.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -18191,13 +18534,34 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Biology",
-              "quote": "Carapace width 24 mm; Male size range: Carapace width up to 56 mm",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The carapace of Polybius depurator is wider than long, about 51 mm wide and 40 mm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Male size range Carapace width up to 56 mm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Male size at maturity Carapace width 30 mm Female size range Carapace width 24 mm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology information > Size range and size at maturity",
+              "quote": "Size range and size at maturity. The values given above are for Mediterranean individuals (Muino et al ., 1999).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -18206,13 +18570,34 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Biology",
-              "quote": "Demersal; Sociability: Solitary; Mobility: Crawler or Walker, Swimmer (appendages, paddles); Body flexibility: None (less than 10 degrees)",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Sociability Solitary Environmental position Demersal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Mobility Crawler or Walker, Swimmer (appendages, paddles)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Sensitivity review > Physical pressures > Substratum loss > Evidence",
+              "quote": "Although a swimming crab, Polybius depurator normally crawls on the seabed. The species only really swims in extremis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Sensitivity review > Physical pressures > Increase in turbidity > Evidence",
+              "quote": "Polybius depurator lives at depths of 300 m plus, is most active at night",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -18229,28 +18614,6 @@
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1175"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1175",
-              "locator": "Biology review > Biology (parameter table)",
-              "quote": "Characteristic feeding method Predator, Scavenger Diet/food source Omnivore Typically feeds on Polychaetes, crustaceans, molluscs, ophiuroids and fishes constitute most of the diet (Freire, 1996).",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1175",
-              "locator": "Biology review > Biology information > Feeding",
-              "quote": "However, Liocarcinus depurator is typically a scavenger and a carnivore.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "doi:10.2960-J.v35.m494"
@@ -18266,21 +18629,6 @@
           ],
           "claimSupported": false
         },
-        "edge:Seabed biodeposits->Harbour Crab": {
-          "sourceIds": [
-            "marlin:1175"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1175",
-              "locator": "Biology review > Biology (parameter table)",
-              "quote": "Characteristic feeding method Predator, Scavenger Diet/food source Omnivore Typically feeds on Polychaetes, crustaceans, molluscs, ophiuroids and fishes constitute most of the diet (Freire, 1996).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "marlin:1175"
@@ -18288,24 +18636,24 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1175"
-          ],
-          "support": [
+              "locator": "Summary > Depth range",
+              "quote": "Depth range -5m to -300m+",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:1175",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Found on the lower shore and sublittoral on fine, muddy sand and gravel.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Sensitivity review > Physical pressures > Increase in turbidity > Evidence",
+              "quote": "Polybius depurator lives at depths of 300 m plus, is most active at night",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -18317,13 +18665,152 @@
           "support": [
             {
               "sourceId": "marlin:1175",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Found on the lower shore and sublittoral on fine, muddy sand and gravel.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Habitat preferences (parameter table)",
+              "quote": "Substratum / habitat preferences Coarse clean sand, Fine clean sand, Muddy gravel, Muddy sand",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Habitat preferences (parameter table)",
+              "quote": "Biological zone preferences Circalittoral offshore, Lower circalittoral, Lower infralittoral, Sublittoral fringe, Upper circalittoral, Upper infralittoral",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1175"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology (parameter table) > Typically feeds on",
+              "quote": "Typically feeds on Polychaetes, crustaceans, molluscs, ophiuroids and fishes constitute most of the diet (Freire, 1996).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:1175"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Characteristic feeding method Predator, Scavenger Diet/food source Omnivore",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "However, Liocarcinus depurator is typically a scavenger and a carnivore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Biology review > Biology information > Feeding",
+              "quote": "Freire et al . (1996) suggest the high diversity of food items in the diet of Liocarcinus depurator is due to the versatile functional structure of the chelipeds.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1175"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1175",
+              "locator": "Importance review > Importance information",
+              "quote": "Enclosure experiments in a sea loch in Ireland have shown that high densities of this decapod led to a significant decline in infaunal organisms (Thrush, 1986).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-fooditems:Merlangius-merlangus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Merlangius-merlangus",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (UK Scotland)",
+              "quote": "zoobenthos benth. crust. crabs Liocarcinus depurator UK Scotland juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "doi:10.2960-J.v35.m494"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Table 2 caption",
+              "quote": "TABLE 2.  Diet (% volume) of lesser-spotted catshark and blackmouth catshark by length-class (cm).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Table 2, Crustacea > Decapoda prey row (% volume by catshark length-class)",
+              "quote": "Liocarcinus depurator 2.0 3.0 2.2 2.5",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.2960-J.v35.m494",
+              "locator": "Abstract",
+              "quote": "Both catshark species are opportunistic scavengers, with their main prey being fish and crustaceans.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Chapter 6, Table 6.3 caption",
+              "quote": "Table 6.3. Prey composition of Sepia officinalis, as known from studies in the Mediterranean Sea and the Northeast Atlantic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Chapter 6, Table 6.3, Crustacea > Decapoda > Pleocyemata-Brachyura row",
+              "quote": "Liocarcinus corrugatus2, L. depurator2,3,4,6,8, L. marmoreus4, L. navigator7",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -18342,171 +18829,252 @@
         "resolvedVia": "Hyas araneus"
       },
       "sourceIds": [
-        "worms:107322",
+        "fishbase-food:Scyliorhinus-canicula",
+        "fishbase-fooditems:Gadus-morhua",
+        "fishbase-fooditems:Trisopterus-luscus",
         "marlin:1753",
         "marlin:2225",
         "sifca:spider-crab-2021",
-        "fishbase-fooditems:Gadus-morhua",
         "worms:106700",
-        "doi:10.1016-j.ecolind.2024.112708"
+        "worms:107322"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1753"
+            "marlin:1753",
+            "marlin:2225"
           ],
           "support": [
             {
               "sourceId": "marlin:1753",
-              "locator": "Identifying features",
-              "quote": "Carapace pear-shaped, up to 10 cm long and 8cm wide, with scattered, conspicuous tubercles. Reddish-brown dorsally, off-white underside. Frontal region with a longitudinal row of paired tubercles and setae. Bifid rostrum projects...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Summary > Description",
+              "quote": "It has a circular to oval shell (carapace), broad at the back and narrow at the front.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1753",
-              "locator": "Description",
-              "quote": "The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide. At the anterior end the rostrum projects between the eyes and is split into 2 tapering parts that touch at their tips. The first pair...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "At the anterior end the rostrum projects between the eyes and is split into 2 tapering parts that touch at their tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1753",
+              "locator": "Identifying features",
+              "quote": "First pair of abdominal limbs, or pleopods have pincers and are stouter and shorter than pleopods 2-5, which are long, slender and spider-like.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Summary > Description",
+              "quote": "The shell is usually covered with algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1753",
+              "locator": "Summary > Description",
+              "quote": "The carapace has a few large tubercles and may be covered with encrusting invertebrates.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1753",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Found around all British coasts, but less common in the south and west.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Summary > Description",
+              "quote": "The largest spider crab in the British Isles. The common spider crab is red, brownish-red, or yellowish in colour and the body is up to 20 cm long.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Recorded distribution in Britain and Ireland",
+              "quote": "Found in south and west Britain and Ireland, this species is thought to be extending its range further North in scotland.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Field note: 'Several very similar spider crabs live in UK waters (great, spiny, scorpion) and cannot reliably be told apart on video, so they are all logged here as spider crab.' Identity resolvedVia Hyas araneus. The source says: MarLIN 1753 Description: 'The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide.' Recorded distribution in Britain and Ireland: 'Found around all British coasts, but less common in the south and west.' Global distribution: 'A northern species ... reaching its southern limit in the English Channel.'"
+          "claimSupported": true
         },
         "mark:cmpzcv8pv00097i6oanyfl1ji": {
           "sourceIds": [
-            "marlin:1753"
+            "marlin:1753",
+            "marlin:2225"
           ],
           "support": [
             {
               "sourceId": "marlin:1753",
               "locator": "Identifying features",
-              "quote": "Carapace pear-shaped, up to 10 cm long and 8cm wide, with scattered, conspicuous tubercles. Reddish-brown dorsally, off-white underside. Frontal region with a longitudinal row of paired tubercles and setae. Bifid rostrum projects...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Carapace pear-shaped, up to 10 cm long and 8cm wide, with scattered, conspicuous tubercles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1753",
-              "locator": "Description",
-              "quote": "The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide. At the anterior end the rostrum projects between the eyes and is split into 2 tapering parts that touch at their tips. The first pair...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Summary > Description",
+              "quote": "It has a circular to oval shell (carapace), broad at the back and narrow at the front.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpzcv8pv000a7i6o8gbs7zvn": {
           "sourceIds": [
-            "marlin:1753"
+            "marlin:1753",
+            "marlin:2225"
           ],
           "support": [
             {
               "sourceId": "marlin:1753",
-              "locator": "Identifying features",
-              "quote": "Carapace pear-shaped, up to 10 cm long and 8cm wide, with scattered, conspicuous tubercles. Reddish-brown dorsally, off-white underside. Frontal region with a longitudinal row of paired tubercles and setae. Bifid rostrum projects...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "At the anterior end the rostrum projects between the eyes and is split into 2 tapering parts that touch at their tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1753",
-              "locator": "Description",
-              "quote": "The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide. At the anterior end the rostrum projects between the eyes and is split into 2 tapering parts that touch at their tips. The first pair...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Identifying features",
+              "quote": "Bifid rostrum projects between the eyes, the two parts converging at their tips.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Identifying features",
+              "quote": "Frontal region produced as a stout, short, bifid rostrum each half conspicuously diverging outward or almost parallel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "mark:cmpzcv8pv000b7i6okiqljhyn": {
           "sourceIds": [
-            "marlin:1753"
+            "marlin:1753",
+            "marlin:2225"
           ],
           "support": [
             {
               "sourceId": "marlin:1753",
               "locator": "Identifying features",
-              "quote": "Carapace pear-shaped, up to 10 cm long and 8cm wide, with scattered, conspicuous tubercles. Reddish-brown dorsally, off-white underside. Frontal region with a longitudinal row of paired tubercles and setae. Bifid rostrum projects...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "First pair of abdominal limbs, or pleopods have pincers and are stouter and shorter than pleopods 2-5, which are long, slender and spider-like.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Image caption (dorsal view)",
+              "quote": "Carapace and legs encrusted with barnacles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Summary > Description",
+              "quote": "The shell is usually covered with algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1753",
-              "locator": "Description",
-              "quote": "The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide. At the anterior end the rostrum projects between the eyes and is split into 2 tapering parts that touch at their tips. The first pair...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The carapace has a few large tubercles and may be covered with encrusting invertebrates.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
             "marlin:2225",
-            "sifca:spider-crab-2021"
+            "sifca:spider-crab-2021",
+            "marlin:1753"
           ],
           "support": [
             {
               "sourceId": "marlin:2225",
               "locator": "Summary > Description",
               "quote": "The largest spider crab in the British Isles. The common spider crab is red, brownish-red, or yellowish in colour and the body is up to 20 cm long.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "sifca:spider-crab-2021",
               "locator": "p.1 summary box",
               "quote": "Size (carapace length) 200 mm male 175 mm female",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:behavior": {
-          "sourceIds": [
-            "marlin:2225",
-            "marlin:1753"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:2225",
-              "locator": "Habitat",
-              "quote": "Found at extreme low water to around 50 m, Maja brachydactyla inhabitats rocky or coarse sandy areas.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2225",
-              "locator": "Summary > Description",
-              "quote": "The shell is usually covered with algae.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.3 Reproductive life history",
+              "quote": "The carapace length of spider crabs following the terminal moult varies from 85-200 mm for males and 70-175 mm for females (Pawson, 1995).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1753",
-              "locator": "Habitat",
-              "quote": "Hyas araneus is found on hard and sandy substrates, among rocks and seaweed on the lower shore and sublittorally to a depth of about 50 m.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The great spider crab is reddish-brown with a pear-shaped carapace, up to 10 cm long and 8 cm wide.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "trophic:tier": {
+        "trait:behavior": {
           "sourceIds": [
-            "sifca:spider-crab-2021"
+            "sifca:spider-crab-2021",
+            "marlin:2225"
           ],
           "support": [
             {
               "sourceId": "sifca:spider-crab-2021",
               "locator": "p.1 Summary > Description",
               "quote": "This species of spider crab can be found on most seabed types and scavenges food including carrion, encrusting animals, and seaweed.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Summary > Description",
+              "quote": "The shell is usually covered with algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.3 Reproductive life history",
+              "quote": "After the terminal moult newly mature and older adult spider crabs migrate in September from the shallows to their deeper overwintering grounds (depths exceeding 50 m) ... From April to June, they return to coastal waters",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -18545,43 +19113,6 @@
           ],
           "claimSupported": false
         },
-        "edge:Kelp canopy->Spider Crab": {
-          "sourceIds": [
-            "sifca:spider-crab-2021"
-          ],
-          "support": [
-            {
-              "sourceId": "sifca:spider-crab-2021",
-              "locator": "p.1 Summary > Description",
-              "quote": "This species of spider crab can be found on most seabed types and scavenges food including carrion, encrusting animals, and seaweed.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "sifca:spider-crab-2021",
-              "locator": "p.2 Growth",
-              "quote": "Whilst in nursery areas juvenile spider crabs exhibit limited movement and forage on algal-invertebrate turf during their first two years (Hines et al., 1995).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Seabed biodeposits->Spider Crab": {
-          "sourceIds": [
-            "sifca:spider-crab-2021"
-          ],
-          "support": [
-            {
-              "sourceId": "sifca:spider-crab-2021",
-              "locator": "p.1 Summary > Description",
-              "quote": "This species of spider crab can be found on most seabed types and scavenges food including carrion, encrusting animals, and seaweed.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "identity": {
           "sourceIds": [
             "worms:106700"
@@ -18590,43 +19121,156 @@
           "claimSupported": false,
           "conflict": "The app says: The catalogue key is the superfamily Majoidea, but species-references.json resolves the identity line to \"Hyas araneus\" (AphiaID 107322, family Oregoniidae) and species-images.json pins fetchName to Hyas araneus. The source says: WoRMS holds \"Majoidea Samouelle, 1819\" as an accepted Superfamily with its own AphiaID 106700, and Hyas araneus sits inside it. The clade is right and the RANK is wrong: a superfamily entry is being asserted as one species."
         },
-        "farm:role": {
-          "sourceIds": [
-            "doi:10.1016-j.ecolind.2024.112708"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.1016-j.ecolind.2024.112708",
-              "locator": "Abstract",
-              "quote": "Cancer pagurus, Maja squinado and Necora puber.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:habitat": {
           "sourceIds": [
             "marlin:1753",
-            "marlin:2225"
+            "marlin:2225",
+            "sifca:spider-crab-2021"
           ],
           "support": [
             {
               "sourceId": "marlin:1753",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Hyas araneus is found on hard and sandy substrates, among rocks and seaweed on the lower shore and sublittorally to a depth of about 50 m.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2225",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Found at extreme low water to around 50 m, Maja brachydactyla inhabitats rocky or coarse sandy areas.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.1 Summary > Description",
+              "quote": "This species of spider crab can be found on most seabed types and scavenges food including carrion, encrusting animals, and seaweed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "trait:depth": {
+          "sourceIds": [
+            "marlin:2225",
+            "marlin:1753",
+            "sifca:spider-crab-2021"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2225",
+              "locator": "Summary > Habitat",
+              "quote": "Found at extreme low water to around 50 m, Maja brachydactyla inhabitats rocky or coarse sandy areas.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1753",
+              "locator": "Summary > Habitat",
+              "quote": "Hyas araneus is found on hard and sandy substrates, among rocks and seaweed on the lower shore and sublittorally to a depth of about 50 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.1 Summary > Description",
+              "quote": "It is most abundant at depths between 0-70 m, although it has been recorded at 120 m (Pawson, 1995).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.3 Reproductive life history",
+              "quote": "After the terminal moult newly mature and older adult spider crabs migrate in September from the shallows to their deeper overwintering grounds (depths exceeding 50 m) ... From April to June, they return to coastal waters",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "sifca:spider-crab-2021"
+          ],
+          "support": [
+            {
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.1 Summary > Description",
+              "quote": "This species of spider crab can be found on most seabed types and scavenges food including carrion, encrusting animals, and seaweed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "sifca:spider-crab-2021"
+          ],
+          "support": [
+            {
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.2 Reproductive life history",
+              "quote": "Whilst in nursery areas juvenile spider crabs exhibit limited movement and forage on algal-invertebrate turf during their first two years (Hines et al., 1995).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "sifca:spider-crab-2021",
+              "locator": "p.2 Reproductive life history",
+              "quote": "Spider crab nurseries occur in areas less than 20 m in depth with a range of rock and gravel alternating with areas of sand and mud (Pawson, 1995; Hines et al., 1995).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs",
+              "quote": "Food items reported for Gadus morhua ... crabs Hyas coarctatus Norway juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-food:Scyliorhinus-canicula"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-food:Scyliorhinus-canicula",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs",
+              "quote": "Food items reported for Scyliorhinus canicula ... crabs Hyas areneus UK Engld Wal juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-fooditems:Trisopterus-luscus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Trisopterus-luscus",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs",
+              "quote": "Food items reported for Trisopterus luscus ... crabs Hyas Netherlands juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -18644,149 +19288,222 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:107232",
-        "marlin:1169",
+        "adw:Pagurus-bernhardus",
+        "biotic:6173",
         "doi:10.3354-meps144063",
-        "fishbase-food:Scyliorhinus-canicula"
+        "fishbase-food:Scyliorhinus-canicula",
+        "fishbase-fooditems:Gadus-morhua",
+        "fishbase-fooditems:Merlangius-merlangus",
+        "fishbase-fooditems:Trisopterus-luscus",
+        "fishbase:fooditems-Chelidonichthys-cuculus",
+        "fishbase:fooditems-Chelidonichthys-lucerna",
+        "habitas:S24650",
+        "marlin:1169",
+        "sawc:2025",
+        "worms:107232"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
+            "habitas:S24650",
+            "adw:Pagurus-bernhardus",
             "marlin:1169"
           ],
           "support": [
             {
-              "sourceId": "marlin:1169",
-              "locator": "Identifying features",
-              "quote": "Carapace with sharply pointed rostrum. Chelipeds covered with uniformly distributed granules or small teeth. Propodus of right chela with two rows of larger granulations, starting at the base and converging towards the middle.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "They will occupy any suitable empty shell and are adapted to live in them: their soft abdomen is curled to match the internal layout of the shell and bears small hooks with which to attach itself.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Pagurus-bernhardus",
+              "locator": "Physical Description",
+              "quote": "These crabs inhabit the abandoned shells of animals, such as edible periwinkles ( Littorina littorea ), flat periwinkles ( Littorina obtusata ), dog whelks ( Nucella lapillus ) and other whelks ( Buccinum sp.)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "The first pair of legs bear claws covered in bumps and spines, with the right claw a lot larger than the left claw.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "Body is a red-orange colour, but is often mostly hidden by the shell they occupy and in fact their whole body can withdraw inside if a threat is perceived.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "Occasionally hosts parasitic anemone Calliactis parasitica or the hydroid Hydractinia echinata on the shell.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1169",
-              "locator": "Description",
-              "quote": "A large hermit crab with a carapace length that reaches 35mm. It is reddish in colour and will occupy any suitable shell such as Buccinum undatum. Both pincers are covered with thick, pointed protrusions, the massive right pincer has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "It is reddish in colour and will occupy any suitable shell such as Buccinum undatum",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkpzqd000a7i308kqdke5y": {
           "sourceIds": [
+            "habitas:S24650",
+            "adw:Pagurus-bernhardus",
             "marlin:1169"
           ],
           "support": [
             {
-              "sourceId": "marlin:1169",
-              "locator": "Identifying features",
-              "quote": "Carapace with sharply pointed rostrum. Chelipeds covered with uniformly distributed granules or small teeth. Propodus of right chela with two rows of larger granulations, starting at the base and converging towards the middle.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "They will occupy any suitable empty shell and are adapted to live in them: their soft abdomen is curled to match the internal layout of the shell and bears small hooks with which to attach itself.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Pagurus-bernhardus",
+              "locator": "Physical Description",
+              "quote": "These crabs inhabit the abandoned shells of animals, such as edible periwinkles ( Littorina littorea ), flat periwinkles ( Littorina obtusata ), dog whelks ( Nucella lapillus ) and other whelks ( Buccinum sp.)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1169",
-              "locator": "Description",
-              "quote": "A large hermit crab with a carapace length that reaches 35mm. It is reddish in colour and will occupy any suitable shell such as Buccinum undatum. Both pincers are covered with thick, pointed protrusions, the massive right pincer has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "It is reddish in colour and will occupy any suitable shell such as Buccinum undatum",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkpzqd000b7i30jrzpei00": {
           "sourceIds": [
+            "habitas:S24650",
             "marlin:1169"
           ],
           "support": [
             {
-              "sourceId": "marlin:1169",
-              "locator": "Identifying features",
-              "quote": "Carapace with sharply pointed rostrum. Chelipeds covered with uniformly distributed granules or small teeth. Propodus of right chela with two rows of larger granulations, starting at the base and converging towards the middle.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "The first pair of legs bear claws covered in bumps and spines, with the right claw a lot larger than the left claw.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1169",
+              "locator": "Summary > Description",
+              "quote": "Both pincers are covered with thick, pointed protrusions, the massive right pincer has two rows of large protrusions and is devoid of bristles.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S24650",
               "locator": "Description",
-              "quote": "A large hermit crab with a carapace length that reaches 35mm. It is reddish in colour and will occupy any suitable shell such as Buccinum undatum. Both pincers are covered with thick, pointed protrusions, the massive right pincer has...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Body is a red-orange colour, but is often mostly hidden by the shell they occupy and in fact their whole body can withdraw inside if a threat is perceived.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "marlin:1169"
+            "marlin:1169",
+            "habitas:S24650",
+            "biotic:6173"
           ],
           "support": [
             {
               "sourceId": "marlin:1169",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Found on rocky and sandy substrata from mean tide level to 140 m.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S24650",
+              "locator": "Habitat",
+              "quote": "Found on rocky, sandy, and occasionally muddy sediment. Often in rockpools and on the lower shore, and in the sublittoral at depths of up to 140 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6173",
+              "locator": "Distribution and Habitat > Substratum preferences",
+              "quote": "Substratum preferences Bedrock, Large to very large boulders, Rockpools, Under boulders, Coarse clean sand, Fine clean sand, Gravelley sand",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "marlin:1169"
+            "marlin:1169",
+            "habitas:S24650"
           ],
           "support": [
             {
               "sourceId": "marlin:1169",
               "locator": "Summary > Description",
               "quote": "A large hermit crab with a carapace length that reaches 35mm.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:behavior": {
-          "sourceIds": [
-            "marlin:1169",
-            "doi:10.3354-meps144063"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1169",
-              "locator": "Habitat",
-              "quote": "Found on rocky and sandy substrata from mean tide level to 140 m.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.3354-meps144063",
-              "locator": "Introduction, p.63",
-              "quote": "Pagurus bernhardus (L.) is widely distributed in European waters and occurs from the littoral zone to depths of 100 m",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "Largest of the hermit crabs found in Northern Ireland, growing up to 4 cm although often appearing larger due to shell.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trophic:tier": {
+        "trait:behavior": {
           "sourceIds": [
-            "doi:10.3354-meps144063"
+            "biotic:6173",
+            "marlin:1169",
+            "habitas:S24650"
           ],
           "support": [
             {
-              "sourceId": "doi:10.3354-meps144063",
-              "locator": "Introduction, p.63",
-              "quote": "other scavengers such as starfish Asterias rubens and hermit crabs Pagurus spp. are attracted to areas disturbed by trawling",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:6173",
+              "locator": "General Biology > Mobility/Movement and Environmental position",
+              "quote": "Mobility/Movement Crawler Environmental position Epifaunal, Epibenthic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.3354-meps144063",
-              "locator": "Abstract, p.63",
-              "quote": "The diets of the 2 species were similar, including crustaceans, polychaetes and molluscs",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:6173",
+              "locator": "General Biology > Sociability",
+              "quote": "Sociability Solitary",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1169",
+              "locator": "Summary > Description",
+              "quote": "It is reddish in colour and will occupy any suitable shell such as Buccinum undatum",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S24650",
+              "locator": "Description",
+              "quote": "Occasionally hosts parasitic anemone Calliactis parasitica or the hydroid Hydractinia echinata on the shell.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -18828,58 +19545,190 @@
           ],
           "claimSupported": false
         },
-        "edge:Seabed biodeposits->Hermit Crab": {
-          "sourceIds": [
-            "doi:10.3354-meps144063"
-          ],
-          "support": [
-            {
-              "sourceId": "doi:10.3354-meps144063",
-              "locator": "Introduction, p.63",
-              "quote": "P bernhardus apparently exhibits a variety of feeding methods including scavenging..., deposit feeding (Orton 1927) and filter feeding...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.3354-meps144063",
-              "locator": "Abstract, p.63",
-              "quote": "The diets of the 2 species were similar, including crustaceans, polychaetes and molluscs",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "marlin:1169"
+            "marlin:1169",
+            "biotic:6173",
+            "habitas:S24650"
           ],
           "support": [
             {
               "sourceId": "marlin:1169",
-              "locator": "MarLIN species information review > Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Found on rocky and sandy substrata from mean tide level to 140 m.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6173",
+              "locator": "Distribution and Habitat > Depth range",
+              "quote": "Depth range From MTL to 140 m, seldom down to 500 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S24650",
+              "locator": "Habitat",
+              "quote": "Often in rockpools and on the lower shore, and in the sublittoral at depths of up to 140 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
           "sourceIds": [
-            "marlin:1169"
+            "biotic:6173",
+            "adw:Pagurus-bernhardus"
           ],
           "support": [
             {
-              "sourceId": "marlin:1169",
-              "locator": "Habitat",
-              "quote": "Found on rocky and sandy substrata from mean tide level to 140 m.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "sourceId": "biotic:6173",
+              "locator": "General Biology > Typical food types",
+              "quote": "Typical food types Organic detritus, carrion",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "adw:Pagurus-bernhardus",
+              "locator": "Food Habits",
+              "quote": "Common hermit crabs are scavengers. Their diet includes a wide variety of food sources, including microscopic bivalves, scraps of dead animals, and plants; they are known to be cannibalistic when resources are low.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway, i.e. \"~unchanged\" by the farm. The source says: \"Higher values of Pagurus spp. and A. rubens were consistently found within the farm compared to control sites.\" Present at controls too, so \"present anyway\" holds, but \"unchanged\" does not; this is the app's \"enhanced\" grade."
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "biotic:6173"
+          ],
+          "support": [
+            {
+              "sourceId": "biotic:6173",
+              "locator": "General Biology > Feeding method",
+              "quote": "Feeding method Surface deposit feeder, Predator, Active suspension feeder",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "adw:Pagurus-bernhardus",
+            "biotic:6173"
+          ],
+          "support": [
+            {
+              "sourceId": "adw:Pagurus-bernhardus",
+              "locator": "Food Habits > Animal Foods",
+              "quote": "Animal Foods mollusks aquatic or marine worms aquatic crustaceans other marine invertebrates",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:6173",
+              "locator": "General Biology > Feeding method",
+              "quote": "Feeding method Surface deposit feeder, Predator, Active suspension feeder",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua",
+            "fishbase-fooditems:Merlangius-merlangus",
+            "fishbase-fooditems:Trisopterus-luscus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (UK Scotland)",
+              "quote": "zoobenthos benth. crust. crabs Pagurus bernhardus UK Scotland recruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Merlangius-merlangus",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (Isle of Man)",
+              "quote": "zoobenthos benth. crust. crabs Pagurus bernhardus Isle of Man juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-fooditems:Trisopterus-luscus",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (Netherlands)",
+              "quote": "zoobenthos benth. crust. crabs Pagurus bernhardus Netherlands juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase:fooditems-Chelidonichthys-cuculus",
+            "fishbase:fooditems-Chelidonichthys-lucerna",
+            "fishbase-food:Scyliorhinus-canicula",
+            "worms:107232"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-cuculus",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (Netherlands)",
+              "quote": "zoobenthos benth. crust. crabs Pagurus bernhardus Netherlands juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Chelidonichthys-lucerna",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (UK Gr. Britain)",
+              "quote": "zoobenthos benth. crust. crabs Pagurus bernhardus UK Gr. Britain juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase-food:Scyliorhinus-canicula",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (UK Engld Wal), under the synonym Eupagurus bernhardus",
+              "quote": "zoobenthos benth. crust. crabs Eupagurus bernhardus UK Engld Wal juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:107232",
+              "locator": "Synonymised names",
+              "quote": "Eupagurus bernhardus (Linnaeus, 1758)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "sawc:2025",
+            "worms:107232"
+          ],
+          "support": [
+            {
+              "sourceId": "sawc:2025",
+              "locator": "Appendix V, Biology of ballan wrasse > Diet and feeding (Deady & Fives 1995 gut contents)",
+              "quote": "Decapods (Cancer pagurus, Carcinus maenas and Eupagurus bernhardus) and bivalves (c.90% Mytilus edulis) were the major prey categories in both areas",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "worms:107232",
+              "locator": "Synonymised names",
+              "quote": "Eupagurus bernhardus (Linnaeus, 1758)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -18897,123 +19746,194 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:141444",
-        "marlin:1098",
-        "ices:crr325",
+        "cefas:ceph-uk-2017",
+        "doi:10.1016-j.visres.2013.02.016",
         "fao:a0150e11",
-        "doi:10.1371-journal.pone.0205877"
+        "ices:crr325",
+        "marlin:1098",
+        "worms:141444"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1098"
+            "marlin:1098",
+            "cefas:ceph-uk-2017",
+            "fao:a0150e11"
           ],
           "support": [
             {
               "sourceId": "marlin:1098",
-              "locator": "Identifying features",
-              "quote": "They have eight arms and two tentacles which both end in a tentacular club with 5-6 rows of suckers. Cuttlebone anteriorly and posteriorly rounded, with parallel sides. Colour - very variable; may be black-brown, striped or mottled on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The common cuttlefish Sepia officinalis is a relatively broad and somewhat flattened cephalopod, appearing oval in cross section. It has a mantle length of up to 45 cm. Paired fins run from behind the head to the tip of the body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1098",
-              "locator": "Description",
-              "quote": "The common cuttlefish Sepia officinalis is a relatively broad and somewhat flattened cephalopod, appearing oval in cross section. It has a mantle length of up to 45 cm. Paired fins run from behind the head to the tip of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Sepia officinalis has eight arms and two elongated tentacles. These arms are specialised for grasping prey after it has been seized by the tentacles. The tentacles are cylindrical, muscular structures which can be quickly elongated.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "Cuttlefishes, Sepia officinalis account, Description (p. 7)",
+              "quote": "Description: the largest of cuttlefishes occurring in the U.K. waters attaining > 450 mm ML.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
+              "quote": "From hatchlings to adults, S. officinalis exhibits a light-induced burying behaviour; most individuals spend the daytime hidden in sand.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Summary > Description",
+              "quote": "Individuals are capable of very rapid colour change, especially when threatened. They may also take the colour or patterning of its background.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkymlz00007i0kelnt0cjv": {
           "sourceIds": [
-            "marlin:1098"
+            "doi:10.1016-j.visres.2013.02.016"
           ],
           "support": [
             {
-              "sourceId": "marlin:1098",
-              "locator": "Identifying features",
-              "quote": "They have eight arms and two tentacles which both end in a tentacular club with 5-6 rows of suckers. Cuttlebone anteriorly and posteriorly rounded, with parallel sides. Colour - very variable; may be black-brown, striped or mottled on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1098",
-              "locator": "Description",
-              "quote": "The common cuttlefish Sepia officinalis is a relatively broad and somewhat flattened cephalopod, appearing oval in cross section. It has a mantle length of up to 45 cm. Paired fins run from behind the head to the tip of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.1016-j.visres.2013.02.016",
+              "locator": "Abstract, first sentence",
+              "quote": "The eyes of cuttlefish (Sepia officinalis) have a modified horizontal slit-pupil with a distinctive W-shape in bright light, while in darkness the pupil is circular.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkymlz00017i0kvao0l3my": {
           "sourceIds": [
-            "marlin:1098"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1098",
-              "locator": "Identifying features",
-              "quote": "They have eight arms and two tentacles which both end in a tentacular club with 5-6 rows of suckers. Cuttlebone anteriorly and posteriorly rounded, with parallel sides. Colour - very variable; may be black-brown, striped or mottled on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1098",
-              "locator": "Description",
-              "quote": "The common cuttlefish Sepia officinalis is a relatively broad and somewhat flattened cephalopod, appearing oval in cross section. It has a mantle length of up to 45 cm. Paired fins run from behind the head to the tip of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpwkymlz00027i0kavr6h65n": {
-          "sourceIds": [
-            "marlin:1098"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1098",
-              "locator": "Identifying features",
-              "quote": "They have eight arms and two tentacles which both end in a tentacular club with 5-6 rows of suckers. Cuttlebone anteriorly and posteriorly rounded, with parallel sides. Colour - very variable; may be black-brown, striped or mottled on...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1098",
-              "locator": "Description",
-              "quote": "The common cuttlefish Sepia officinalis is a relatively broad and somewhat flattened cephalopod, appearing oval in cross section. It has a mantle length of up to 45 cm. Paired fins run from behind the head to the tip of the body....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:behavior": {
-          "sourceIds": [
             "marlin:1098",
+            "fao:a0150e11",
             "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "marlin:1098",
-              "locator": "Biology",
-              "quote": "Demersal; Sociability: Solitary; Mobility: Swimmer; Body flexibility: Low (10-45 degrees)",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The common cuttlefish Sepia officinalis is a relatively broad and somewhat flattened cephalopod, appearing oval in cross section. It has a mantle length of up to 45 cm. Paired fins run from behind the head to the tip of the body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
+            {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Diagnostic Features (p. 99)",
+              "quote": "Diagnostic Features: Fins wide, extend anteriorly slightly beyond mantle margin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.3.2 Juveniles and adults, pp. 54-55",
+              "quote": "Sepia officinalis has wide fins, ... which extend anteriorly slightly beyond the mantle margin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpwkymlz00027i0kavr6h65n": {
+          "sourceIds": [
+            "marlin:1098",
+            "fao:a0150e11",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Summary > Description",
+              "quote": "The common cuttlefish Sepia officinalis is a relatively broad and somewhat flattened cephalopod, appearing oval in cross section. It has a mantle length of up to 45 cm. Paired fins run from behind the head to the tip of the body.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Summary > Identifying features",
+              "quote": "Colour - very variable; may be black-brown, striped or mottled on the dorsal surface, paler to white on the ventral surface.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Diagnostic Features, Colour (p. 99)",
+              "quote": "Colour: Light brown. Head with scattered white spots and with dark pigment around eye orbits.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Diagnostic Features, Colour (p. 99)",
+              "quote": "Dorsal mantle has bold transverse zebra stripe pattern during the breeding season; paired dorsal eye spots absent.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.3.2 Juveniles and adults, p. 55",
+              "quote": "There are bold trans- verse zebra stripes on the dorsal mantle during the breeding season.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "ices:crr325",
+            "marlin:1098",
+            "fao:a0150e11"
+          ],
+          "support": [
             {
               "sourceId": "ices:crr325",
               "locator": "Section 6.8.3 Behaviour, p. 68",
               "quote": "Sepia officinalis does not form shoals, neither in the wild or in the laboratory (Guerra, 2006).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Biology review > Biology (structured table)",
+              "quote": "Sociability Solitary Environmental position Demersal",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
+              "quote": "From hatchlings to adults, S. officinalis exhibits a light-induced burying behaviour; most individuals spend the daytime hidden in sand.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
+              "quote": "Food consists of small molluscs, crabs, shrimps, polychaetes, other cuttlefishes and juvenile demersal fishes. Prey is often ambushed when these cuttlefishes are partially buried and hidden in sand.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Summary > Description",
+              "quote": "Individuals are capable of very rapid colour change, especially when threatened. They may also take the colour or patterning of its background.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -19061,91 +19981,147 @@
           ],
           "claimSupported": false
         },
-        "edge:Shore Crab->Common Cuttlefish": {
+        "trait:depth": {
           "sourceIds": [
-            "ices:crr325"
+            "fao:a0150e11",
+            "marlin:1098",
+            "ices:crr325",
+            "cefas:ceph-uk-2017"
           ],
           "support": [
             {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
+              "quote": "Depth range from subtidal waters to 200 m, most abundant in upper 100 m, with larger animals found at greater depths.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Summary > Habitat",
+              "quote": "Found on sandy and muddy substrata, in the shallow sublittoral and offshore to 200 m, but typically to 100 m depth. It is a demersal species and prefers moderately warm, shallow coastal waters as well as continental shelves.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "ices:crr325",
-              "locator": "Table 6.3 Prey composition of Sepia officinalis, p. 63, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Asthenognathus atlanticus4, Atelecyclus undecimdentatus2,4, Carcinus maenas3,4,6,7,8, Ebalia spp.8, Galathea spp.8, Inachus spp.3,4, Liocarcinus corrugatus2, L. depurator2,3,4,6,8",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Section 6.6.1 Habitat, p. 60",
+              "quote": "Individuals are most abundant in the upper 100 m, with large animals found at greater depth (Guerra, 1992; Reid et al., 2005).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "Cuttlefishes, Sepia officinalis account, Distribution (p. 7)",
+              "quote": "Distribution: Subtropical and temperate waters from Morocco to south North Sea, Ireland and Scotland, including the Mediterranean Sea, from subtidal to ~ 200 m, mostly < 100 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Harbour Crab->Common Cuttlefish": {
+        "trait:habitat": {
           "sourceIds": [
-            "ices:crr325"
+            "fao:a0150e11",
+            "ices:crr325",
+            "marlin:1098"
           ],
           "support": [
             {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
+              "quote": "Sepia officinalis is a neritic, demersal species, found on the continental shelf, predominantly on sandy or muddy substrates.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "ices:crr325",
-              "locator": "Table 6.3 Prey composition of Sepia officinalis, p. 63, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Carcinus maenas3,4,6,7,8, Ebalia spp.8, Galathea spp.8, Inachus spp.3,4, Liocarcinus corrugatus2, L. depurator2,3,4,6,8, L. marmoreus4, L. navigator7, Liocarcinus spp.3,4, Necora puber (as L. puber)3,6,8",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Section 6.6.1 Habitat, p. 60",
+              "quote": "Sepia officinalis is a neritic, nektobenthic, or demersal species found on the continental shelf and is particularly common on sandy and muddy substrata covered by algae and marine grasses (Zostera and Posidonia).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Biology review > Habitat preferences > Habitat Information",
+              "quote": "They occur predominantly on sandy-muddy bottoms from the coastline to approximately 200 m. The most common occurrence is at 100 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Spider Crab->Common Cuttlefish": {
+        "trait:size": {
           "sourceIds": [
-            "ices:crr325"
+            "fao:a0150e11",
+            "ices:crr325",
+            "marlin:1098",
+            "cefas:ceph-uk-2017"
           ],
           "support": [
             {
+              "sourceId": "fao:a0150e11",
+              "locator": "Sepia officinalis account, Size (p. 99)",
+              "quote": "Size: Up 490 mm mantle length, weight up to 4 kg in temperate waters and to 300 mm mantle length and 2 kg in the subtropics.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "ices:crr325",
-              "locator": "Table 6.3 Prey composition of Sepia officinalis, p. 63, Crustacea > Pleocyemata-Brachyura",
-              "quote": "Necora puber (as L. puber)3,6,8, Pilumnus spinifer4, Macropodia rostrata3, Macropodia spp.3,8, Maja squinado3,8, Majidae indet.3,4, Polybius henslowii2, Portunidae indet.2,3,4",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Section 6.3.2 Juveniles and adults, p. 54",
+              "quote": "The maximum reliably reported size recorded is probably 45 cm ML (see Remarks), but smaller cuttlefish (25-30 cm ML) are more common.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Biology review > Biology information > Size",
+              "quote": "Size is measured as dorsal mantle length. The sizes of breeding individuals range from eight to 45 cm in males and from 12 to 29 cm in females (Goff & Daguzan, 1991).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "Cuttlefishes, Sepia officinalis account, Description (p. 7)",
+              "quote": "Description: the largest of cuttlefishes occurring in the U.K. waters attaining > 450 mm ML.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "edge:Hermit Crab->Common Cuttlefish": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 6.3 Prey composition of Sepia officinalis, p. 63, Crustacea > Pleocyemata-Anomura",
-              "quote": "Galatheidae indet.4, Pagurus bernhardus3, Paguridae indet.4, Pisidia longicornis2,3,4, Porcelana platycheles2,4, Porcellanidae indet.2",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Sprat->Common Cuttlefish": {
+        "diet:eats:0": {
           "sourceIds": [
             "ices:crr325",
+            "marlin:1098",
             "fao:a0150e11"
           ],
           "support": [
             {
               "sourceId": "ices:crr325",
-              "locator": "Table 6.3 Prey composition of Sepia officinalis, p. 62, Osteichthyes > Clupeidae",
-              "quote": "Clupeidae indet.3",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Section 6.7.1 Prey, p. 62",
+              "quote": "The main crustacean prey items are mysids, shrimps, prawns, and crabs, but S. officinalis also feeds on amphipods, isopods, and ostracods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Biology review > Biology (structured table) > Typically feeds on",
+              "quote": "Typically feeds on Brachyuran crabs and demersal fish (gobiids and syngnathids), with minor amounts of amphipods and little cannibalism.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fao:a0150e11",
-              "locator": "p. 100, Habitat and Biology",
-              "quote": "Food consists of small molluscs, crabs, shrimps, polychaetes, other cuttlefishes and juvenile demersal fishes.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
+              "quote": "Food consists of small molluscs, crabs, shrimps, polychaetes, other cuttlefishes and juvenile demersal fishes. Prey is often ambushed when these cuttlefishes are partially buried and hidden in sand.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Common Cuttlefish eats Sprat The source says: ICES CRR 325 Table 6.3 (p. 62) records only Clupeidae indet. for this species, never Sprattus sprattus, across ten cited diet studies. FAO Vol. 1 p. 100 says the fish prey is juvenile DEMERSAL fishes, and sprat is a pelagic clupeid. MarLIN 1098 says brachyuran crabs and demersal fish (gobiids and syngnathids). The link is plausible but no source names sprat."
+          "claimSupported": true
         },
-        "trophic:tier": {
+        "diet:eats:1": {
           "sourceIds": [
             "ices:crr325",
             "marlin:1098"
@@ -19154,89 +20130,138 @@
             {
               "sourceId": "ices:crr325",
               "locator": "Section 6.7.1 Prey, p. 62",
-              "quote": "its diet includes crustaceans, bony fish, molluscs, polychaetes, and nemertean worms (Nixon, 1987; Castro and Guerra, 1990; Pinczon du Sel et al., 2000).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "It feeds on gobies, sandeels, whiting, and wrasses, but can also prey on some flatfish.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1098",
-              "locator": "Biology > Typically feeds on",
-              "quote": "Brachyuran crabs and demersal fish (gobiids and syngnathids), with minor amounts of amphipods and little cannibalism.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology (structured table) > Typically feeds on",
+              "quote": "Typically feeds on Brachyuran crabs and demersal fish (gobiids and syngnathids), with minor amounts of amphipods and little cannibalism.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
-        "trait:depth": {
+        "diet:eats:2": {
           "sourceIds": [
-            "marlin:1098"
+            "ices:crr325",
+            "fao:a0150e11"
           ],
           "support": [
             {
-              "sourceId": "marlin:1098",
-              "locator": "MarLIN species information review > Depth range (structured field)",
-              "quote": "0-200 m",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "fao:a0150e11",
-            "doi:10.1371-journal.pone.0205877"
-          ],
-          "support": [
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.1 Prey, p. 62",
+              "quote": "Sepia officinalis is a trophic opportunist: its diet includes crustaceans, bony fish, mol- luscs, polychaetes, and nemertean worms (Nixon, 1987; Castro and Guerra, 1990; Pinczon du Sel et al., 2000).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.1 Prey, p. 62",
+              "quote": "The most common cephalopod prey are various sepiolid and sepiid species (Table 6.3). Large cuttlefish are also cannibalistic, capturing and eating smaller individuals.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "fao:a0150e11",
-              "locator": "p. 100, Habitat and Biology",
-              "quote": "Sepia officinalis is a neritic, demersal species, found on the continental shelf, predominantly on sandy or muddy substrates.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1371-journal.pone.0205877",
-              "locator": "Abstract",
-              "quote": "longline collectors (LC; deployed at mussel farms)",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
+              "quote": "Cannibalism is common and may be a strategy to overcome temporary prey shortages.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Farm role: anyway (a soft-sediment native, roughly unchanged by the farm) The source says: The soft-sediment half is supported (FAO Vol. 1 p. 100). The roughly unchanged half is contradicted by Grati et al. 2018 (PLOS ONE), whose longline collectors deployed at mussel farms, plus the other two device types, collected more than 500,000 cuttlefish eggs on 2,440 m of rope. A shellfish farm supplies exactly the hard rope substratum this species spawns on, which argues for enhanced rather than anyway."
+          "claimSupported": true
         },
-        "trait:habitat": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "fao:a0150e11"
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.2 Predators, p. 65",
+              "quote": "Juvenile and adult S. officinalis are preyed upon by a wide range of fish species, and adult S. officinalis are taken by several species of marine mammal (Table 6.4).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.2 Predators, p. 65",
+              "quote": "Pollack (Pollachius pollachius) exert great predatory pressure on young cuttlefish in French waters of northern Brittany (Le Mao, 1985).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.2 Predators, p. 65",
+              "quote": "In Morbihan Bay, young cut- tlefish have been found in the stomach contents of Dicentrarchus labrax, Labrus bergylta, Spondyliosoma cantharus, and Conger conger (Blanc and Daguzan, 1999).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fao:a0150e11",
+            "marlin:1098",
+            "ices:crr325"
           ],
           "support": [
             {
               "sourceId": "fao:a0150e11",
               "locator": "Sepia officinalis account, Habitat and Biology (p. 100)",
-              "quote": "Sepia officinalis is a neritic, demersal species, found on the continental shelf, predominantly on sandy or muddy substrates.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "quote": "Predators include sharks, sparids and other demersal fishes and cephalopods.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1098",
+              "locator": "Sensitivity assessment > Removal of non-target species",
+              "quote": "Predators of Sepia officinalis include; sharks, lobsters and other cephalopods (Catarina et al., 2007).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 6.4, Known predators of Sepia officinalis, Chondrichthyes rows, p. 66",
+              "quote": "Known predators of Sepia officinalis in the Mediterranean Sea and Northeast Atlantic. ... Blue shark (Prionace glauca) ... Lesser spotted dogfish (Scyliorhi- nus canicula) ... Smooth-hound (Mustelus mus- telus)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 6.4, Known predators of Sepia officinalis, Chondrichthyes rows (rays), p. 66",
+              "quote": "Bull ray (Pteromylaeus bovineus) ... Pelagic stingray (Pteroplatytry- gon violacae)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Habitat: sandy-bottom, midwater The source says: FAO Habitat and Biology: \"Sepia officinalis is a neritic, demersal species\". FAO adds that most individuals spend the daytime hidden in sand, and MarLIN likewise calls it \"a demersal species\". The sandy-bottom half is well supported; nothing found supports midwater."
+          "claimSupported": true
         },
-        "trait:size": {
+        "diet:eatenBy:2": {
           "sourceIds": [
-            "fao:a0150e11"
+            "ices:crr325"
           ],
           "support": [
             {
-              "sourceId": "fao:a0150e11",
-              "locator": "Sepia officinalis account, Size (p. 99)",
-              "quote": "Up 490 mm mantle length, weight up to 4 kg in temperate waters and to 300 mm mantle length and 2 kg in the subtropics.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.2 Predators, p. 65",
+              "quote": "Two pinnipeds (Atlantic grey and monk seals) and three dolphin species (bottlenose, Risso's, and oceanic striped) are known to feed on S. officinalis (Table 6.4).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 6.7.2 Predators, p. 65",
+              "quote": "Juvenile and adult S. officinalis are preyed upon by a wide range of fish species, and adult S. officinalis are taken by several species of marine mammal (Table 6.4).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         }
       }
     },
@@ -19254,45 +20279,50 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:140270",
+        "cefas:ceph-uk-2017",
+        "doi:10.1006-jmsc.1994.1034",
         "fao:i1920e",
         "ices:crr325",
-        "doi:10.1006-jmsc.1994.1034",
         "marlin:1110",
-        "cefas:ceph-uk-2017"
+        "worms:140270"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
             "fao:i1920e",
-            "marlin:1110",
-            "cefas:ceph-uk-2017"
+            "marlin:1110"
           ],
           "support": [
             {
               "sourceId": "fao:i1920e",
-              "locator": "p. 62, Diagnostic Features",
+              "locator": "Vol. 2, Loligo forbesii, Diagnostic Features (printed p. 43)",
               "quote": "Mantle long, moderately slender, cylindrical; fins rhomboidal, their length three quarters that of mantle, their posterior borders slightly concave.",
-              "readBy": "claude-code (read from the FAO PDF)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "Vol. 2, Loligo forbesii, Diagnostic Features, Colour (printed p. 43)",
+              "quote": "Colour: prominent longitudinal flame-like stripes of purplish dark chromatophores on the anterior and ventrolateral surfaces of the mantle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1110",
-              "locator": "Identifying features",
-              "quote": "Fins rhomboid, their length three quarters that of the mantle, their posterior borders slightly concave.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Description",
+              "quote": "A long, slender squid up to 90 cm in length with the fins forming an elongate diamond-shape in dorsal view, comprising two-thirds total body length. ... The colour varies but pink, red and brown predominate.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "cefas:ceph-uk-2017",
-              "locator": "p. 18, Loligo forbesii, Description",
-              "quote": "A large loliginid squid (up to 735 mm off Scotland) with rhomboidal fins of ~70-75% ML.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1110",
+              "locator": "Habitat",
+              "quote": "During the day they aggregate near the bottom and at night they disperse in the water column",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The field note says \"two triangular fins\". FAO (p. 62) and the Cefas UK cephalopod guide (p. 18) both describe the fins as rhomboidal, at roughly three quarters of mantle length. Reword to \"rhomboidal\" before this claim can be marked supported."
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
@@ -19303,59 +20333,58 @@
           "support": [
             {
               "sourceId": "fao:i1920e",
-              "locator": "p. 63, Size",
-              "quote": "Maximum mantle length 937 mm in males and 462 mm in females, for animals from the Azores. Common at smaller sizes (200 to 300 mm mantle length) in the Mediterranean and on the eastern North Atlantic continental shelf.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Vol. 2, Loligo forbesii, Size (printed p. 44)",
+              "quote": "Maximum mantle length 937 mm in males (8.3 kg weight) and 462 mm in females (2.2 kg weight), for animals from the Azores. Common at smaller sizes (200 to 300 mm mantle length) ... on the eastern North Atlantic continental shelf.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "cefas:ceph-uk-2017",
               "locator": "p. 18, Loligo forbesii, Description",
               "quote": "A large loliginid squid (up to 735 mm off Scotland) with rhomboidal fins of ~70-75% ML.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1110",
               "locator": "Description",
               "quote": "A long, slender squid up to 90 cm in length with the fins forming an elongate diamond-shape in dorsal view, comprising two-thirds total body length.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": true,
-          "conflict": "The app renders Size: Large (over 50 cm). FAO (p. 63) gives a 937 mm maximum, but says animals on the eastern North Atlantic continental shelf, which is UK water, are commonly 200 to 300 mm mantle length. That falls in the app's own medium bucket of 10 to 50 cm. Decide whether the tile means maximum or typical size before marking this supported."
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
+            "marlin:1110",
             "fao:i1920e",
-            "marlin:1110"
+            "ices:crr325"
           ],
           "support": [
-            {
-              "sourceId": "fao:i1920e",
-              "locator": "p. 63, Habitat and Biology",
-              "quote": "It occurs over the continental shelf in the temperate part of its distributional range, but it is found in deeper waters in subtropical areas.",
-              "readBy": "claude-code (read from the FAO PDF)",
-              "readOn": "2026-08-28"
-            },
             {
               "sourceId": "marlin:1110",
               "locator": "Habitat",
               "quote": "Found over sandy and muddy bottoms. Migrate to shallows for spawning. During the day they aggregate near the bottom and at night they disperse in the water column",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fao:i1920e",
-              "locator": "p. 35, Myopsid Squids, Habitat and Biology",
-              "quote": "All myopsid squids are demersal, predominantly near-shore or shelf species, that frequently feed near or on the bottom.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology (printed p. 44)",
+              "quote": "It occurs over the continental shelf in the temperate part of its distributional range, but it is found in deeper waters in subtropical areas.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 12.1 Geographic distribution (printed p. 137)",
+              "quote": "it lives in coastal waters and continental shelf seas of the Northeast Atlantic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Habitat tile renders 'Midwater, Open water' - the two habitat tokens on this species, with no benthic component. The source says: FAO i1920e printed p.35 (Myopsid Squids, Habitat and Biology), verbatim: 'All myopsid squids are demersal, predominantly near-shore or shelf species, that frequently feed near or on the bottom.' MarLIN 1110 Habitat, read live: 'Found over sandy and muddy bottoms. Migrate to shallows for spawning. During the day they aggregate near the bottom and at night they disperse in the water column'. ICES CRR325 s.12.6.1 p.149, verbatim: 'L. forbesii is mainly associated with the benthic foodweb'."
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -19387,51 +20416,6 @@
           ],
           "claimSupported": false
         },
-        "edge:Sprat->Veined Squid": {
-          "sourceIds": [
-            "ices:crr325",
-            "doi:10.1006-jmsc.1994.1034"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Section 12.6.1 Prey, p. 149",
-              "quote": "whereas in Irish waters, the dominant prey species are sprat (Sprattus sprattus) and Trisopterus spp. (Collins et al., 1994).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 12.3 Prey types from Loligo forbesii stomach contents, p. 149, Osteichthyes > Clupeidae",
-              "quote": "Clupea harengus (Atlantic herring)2,4,5,6, Sardina pilchardus (European sardine or pilchard)3, Sprattus sprattus (European sprat)2,5, indet.2,4,5,8",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1006-jmsc.1994.1034",
-              "locator": "Abstract",
-              "quote": "The most frequent species by per cent occurrence sprat (Sprattus sprattus), poor cod (Trisopterus minutus), Norway pout (T. esmarkii), and transparent goby (Aphia minuta).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Atlantic mackerel->Veined Squid": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
-            {
-              "sourceId": "ices:crr325",
-              "locator": "Table 12.3 Prey types from Loligo forbesii stomach contents, p. 150, Osteichthyes > Scombridae",
-              "quote": "Scomber scombrus (Atlantic mackerel)4, Scomber spp.4",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:behavior": {
           "sourceIds": [
             "marlin:1110",
@@ -19441,20 +20425,19 @@
             {
               "sourceId": "marlin:1110",
               "locator": "Habitat",
-              "quote": "Found over sandy and muddy bottoms. Migrate to shallows for spawning. During the day they aggregate near the bottom and at night they disperse in the water column",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "quote": "During the day they aggregate near the bottom and at night they disperse in the water column",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "ices:crr325",
-              "locator": "Section 12.6.1 Prey, p. 148",
-              "quote": "Loligo forbesii is a highly mobile, opportunistic predator that will attack and consume any potential prey that it can overcome (including members of its own species).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Section 12.5.2 Migrations (printed p. 147)",
+              "quote": "Most evidence seems to suggest that post-hatching L. forbesii migrate away from the coast, moving offshore as they grow, but subsequently returning to shallow water to breed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Behaviour: schooling, fast-swim The source says: No source found states that L. forbesii schools. The nearest is MarLIN 1110, during the day they aggregate near the bottom, which is a demersal aggregation, not midwater schooling. Fast-swim is supported only indirectly (ICES CRR 325 p. 148: a highly mobile, opportunistic predator)."
+          "claimSupported": true
         },
         "mark:cmpymulsp000j7iowvzlz1sfm": {
           "sourceIds": [
@@ -19464,76 +20447,206 @@
           "support": [
             {
               "sourceId": "fao:i1920e",
-              "locator": "p. 43, Diagnostic Features",
-              "quote": "Mantle long, moderately slender, cylindrical; fins rhomboidal, their length three quarters that of mantle, their posterior borders slightly concave.",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Vol. 2, Loligo forbesii, Diagnostic Features (printed p. 43)",
+              "quote": "Diagnostic Features: Mantle long, moderately slender, cylindrical; fins rhomboidal, their length three quarters that of mantle, their posterior borders slightly concave.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1110",
               "locator": "Habitat",
               "quote": "During the day they aggregate near the bottom and at night they disperse in the water column",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Torpedo body: A slender, streamlined torpedo body, the classic squid shape, schooling in midwater. The source says: The body description is supported (FAO Vol. 2 p. 43: mantle long, moderately slender, cylindrical) but the midwater schooling is not. MarLIN 1110 Habitat: during the day they aggregate near the bottom and at night they disperse in the water column. No source found describes L. forbesii schooling in midwater."
+          "claimSupported": true
         },
         "mark:cmpymulsq000l7iow7gsrviaa": {
           "sourceIds": [
-            "cefas:ceph-uk-2017"
+            "cefas:ceph-uk-2017",
+            "marlin:1110"
           ],
           "support": [
             {
               "sourceId": "cefas:ceph-uk-2017",
               "locator": "p. 18, Loligo forbesii, Description",
               "quote": "A large loliginid squid (up to 735 mm off Scotland) with rhomboidal fins of ~70-75% ML.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "cefas:ceph-uk-2017",
-              "locator": "p. 19, Loligo vulgaris, Description",
+              "locator": "p. 19, Loligo vulgaris, Description (the comparison species)",
               "quote": "A large loliginid squid (up to >500 mm ML in European waters) with rhomboidal fins of ~55-65% ML.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false,
-          "conflict": "The app says: Long rear fins: Two triangular fins at the tail run about 70% of the body length (longer than the European squid). The source says: Cefas p. 18 gives rhomboidal fins of ~70-75% ML for L. forbesii and p. 19 gives ~55-65% ML for L. vulgaris, so the proportion and the comparison with the European squid are right but the shape word is wrong and the measure is MANTLE length, not body length. A 70% of body length reading would be roughly 110% of mantle length."
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "ices:crr325"
-          ],
-          "support": [
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
-              "sourceId": "ices:crr325",
-              "locator": "ices:crr325, Section 12.6.1 Prey, p. 148",
-              "quote": "Loligo forbesii is a highly mobile, opportunistic predator that will attack and consume any potential prey that it can overcome (including members of its own species).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:1110",
+              "locator": "Identifying features",
+              "quote": "Fins rhomboid, their length three quarters that of the mantle, their posterior borders slightly concave.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:depth": {
           "sourceIds": [
-            "fao:i1920e"
+            "fao:i1920e",
+            "ices:crr325",
+            "cefas:ceph-uk-2017",
+            "marlin:1110"
           ],
           "support": [
             {
               "sourceId": "fao:i1920e",
-              "locator": "p. 44, Loligo forbesii, Habitat and Biology",
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology (printed p. 44)",
               "quote": "Its entire vertical range extends from depths shallower than 50 to over 700 m, while the Azores population occurs deeper than 1 000 m.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 12.5.1 Habitat (printed p. 146)",
+              "quote": "The main population in UK waters is distributed over the continental shelf and shelf edge, mostly in water 50-250 m deep and within ca. 200 km of the coast",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "cefas:ceph-uk-2017",
+              "locator": "p. 18, Loligo forbesii, Distribution",
+              "quote": "Shelf and upper slope (mostly 50-250 m, occasionally down to 700 m)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1110",
+              "locator": "Depth range",
+              "quote": "Depth range 10 - 400 m",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "farm:role": {
+        "diet:eats:0": {
+          "sourceIds": [
+            "fao:i1920e",
+            "doi:10.1006-jmsc.1994.1034"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology (printed p. 45)",
+              "quote": "Loligo forbesii feeds on small fishes and to a minor extent on other cephalopod species, crustaceans and polychaetes; cannibalism also occurs, but it seems limited to large squids feeding on much smaller ones.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology, main food sources (printed p. 45)",
+              "quote": "in Scottish waters whiting (Merlangius merlangius), poor-cod (Trisopterus spp.) and sandeels (Ammodytidae) comprise the most abundant fish species in the diet, whereas in Irish waters sprat (Sprattus sprattus) and poor-cod Trisopterus spp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1006-jmsc.1994.1034",
+              "locator": "Abstract",
+              "quote": "Fish remains occurred in 73.7% of all full or partially full stomachs, with crustaceans and cephalopods occurring in 26.4% and 7.5% respectively",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fao:i1920e",
+            "ices:crr325",
+            "doi:10.1006-jmsc.1994.1034"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology (printed p. 45)",
+              "quote": "Crustaceans dominate in the diet of juveniles, but no sex-related nor maturation-related differences occur.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 12.6.1 Prey (printed p. 148)",
+              "quote": "There are ontogenetic shifts in diet, from a crustacean-dominated one in juvenile squid to a predominance of fish in the diet of adult squid",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1006-jmsc.1994.1034",
+              "locator": "Abstract",
+              "quote": "Crustaceans were the main prey item is squid of less than 100 mm mantle length, together with small clupeids and gobies.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "ices:crr325",
+            "doi:10.1006-jmsc.1994.1034",
+            "fao:i1920e"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 12.6.1 Prey (printed p. 148)",
+              "quote": "Cannibalism in L. forbesii appears to be limited to large squid (>150 mm ML) feeding on much smaller ones (20-50 mm ML)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "doi:10.1006-jmsc.1994.1034",
+              "locator": "Abstract",
+              "quote": "gadoids and other cephalopods were the main prey of larger squid (>220 mm)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology (printed p. 45)",
+              "quote": "Loligo forbesii feeds on small fishes and to a minor extent on other cephalopod species, crustaceans and polychaetes; cannibalism also occurs, but it seems limited to large squids feeding on much smaller ones.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fao:i1920e",
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:i1920e",
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology (printed p. 45)",
+              "quote": "Several marine mammals like pygmy sperm whales, orca (killer) whales, common, striped and bottle-nosed dolphins, large demersal fishes (e.g. cod and scabbardfish), seals and seabirds feed on this species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 12.6.2 Predators (printed p. 151)",
+              "quote": "bottlenose dolphin (Tursiops truncatus), Atlantic white-sided dolphin (Laganorhynchus acutus), killer whale (Orcinus orca), long-finned pilot whale (Globicephala melas), and Risso's dolphin (Grampus griseus)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
           "sourceIds": [
             "ices:crr325",
             "fao:i1920e"
@@ -19541,20 +20654,49 @@
           "support": [
             {
               "sourceId": "ices:crr325",
-              "locator": "Section 12.5.1 Habitat, p. 146",
-              "quote": "The main population in UK waters is distributed over the continental shelf and shelf edge, mostly in water 50-250 m deep and within ca. 200 km of the coast (Pierce et al., 1994b).",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Section 12.6.2 Predators (printed p. 151)",
+              "quote": "Pierce and Santos (1996) note that the species is also eaten by grey seals (Halichoerus grypus) and harbour seals (Phoca vitulina)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fao:i1920e",
-              "locator": "p. 44, Habitat and Biology",
-              "quote": "Strings are attached in clusters to hard objects on various kinds of substrate (rocky, sandy or muddy bottoms)",
-              "readBy": "refs:trawl (squid)",
-              "readOn": "2026-08-28"
+              "locator": "Vol. 2, Loligo forbesii, Habitat and Biology (printed p. 45)",
+              "quote": "Several marine mammals like pygmy sperm whales, orca (killer) whales, common, striped and bottle-nosed dolphins, large demersal fishes (e.g. cod and scabbardfish), seals and seabirds feed on this species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "ices:crr325"
+          ],
+          "support": [
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Section 12.6.2 Predators (printed p. 151)",
+              "quote": "Loligo forbesii forms a component of the diet of a number of marine predators including some large demersal fish and marine mammals (Table 12.4).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 12.4, Known predators of Loligo forbesii (printed p. 152)",
+              "quote": "Atlantic cod (Gadus morhua) Daly et al. (2001), Magnussen (2011)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "ices:crr325",
+              "locator": "Table 12.4, Known predators of Loligo forbesii (printed p. 152)",
+              "quote": "Monkfish (Lophius piscatorius) Daly et al. (2001)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

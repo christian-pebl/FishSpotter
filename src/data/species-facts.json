@@ -475,26 +475,88 @@
       "text": "Mainly nocturnal; ambushes prey from shelters under rocks and digs large pits in sediment to reach bivalves"
     }
   },
-  "Necora puber": {},
-  "Liocarcinus depurator": {
+  "Necora puber": {
     "depth": {
-      "text": "5 m to over 300 m"
+      "text": "From the intertidal down to about 70 m, mostly in shallow water"
+    },
+    "size": {
+      "text": "Carapace up to about 8 cm across; males 78-96 mm wide, females 68-92 mm"
+    },
+    "habitat": {
+      "text": "Stony and rocky ground, in rockpools and under boulders, not on mud; most abundant on moderately sheltered shores"
+    },
+    "behaviour": {
+      "text": "Fast-moving and unusually aggressive, often meeting a diver head-on in a fighting stance with claws and swimming legs raised"
     }
   },
-  "Majoidea": {},
+  "Liocarcinus depurator": {
+    "depth": {
+      "text": "Lower shore and sublittoral, recorded from 5 m down to over 300 m"
+    },
+    "size": {
+      "text": "Shell about 51 mm wide and 40 mm long, with males recorded to 56 mm across"
+    },
+    "habitat": {
+      "text": "Fine muddy sand, muddy gravel and clean sand, on the lower shore and in the sublittoral"
+    },
+    "behaviour": {
+      "text": "Mostly active at night; although a swimming crab, it normally crawls on the seabed and only really swims in extremis. Lives singly."
+    }
+  },
+  "Majoidea": {
+    "depth": {
+      "text": "From extreme low water down to about 50 m, and recorded as deep as 120 m; most abundant shallower than 70 m"
+    },
+    "size": {
+      "text": "Body up to 20 cm long; carapace to 200 mm in males and 175 mm in females; the great spider crab's carapace up to 10 cm long"
+    },
+    "habitat": {
+      "text": "Rocks, seaweed and coarse sandy ground from the lower shore downwards, and on most seabed types"
+    },
+    "behaviour": {
+      "text": "A seabed scavenger whose shell is usually covered with algae; adults winter below 50 m and return to coastal waters from April to June"
+    }
+  },
   "Pagurus bernhardus": {
     "depth": {
-      "text": "Mid-tide level to 140 m"
+      "text": "From mean tide level down to about 140 m, and occasionally as deep as 500 m"
+    },
+    "size": {
+      "text": "Carapace up to 35 mm long, the whole animal up to 4 cm, often looking larger because of the shell it carries"
+    },
+    "habitat": {
+      "text": "Rocky and sandy ground, from rockpools and under boulders to coarse, fine or gravelly sand"
+    },
+    "behaviour": {
+      "text": "Crawls about on the seabed on its own, carrying an empty snail shell, sometimes with a sea anemone or hydroid growing on it"
     }
   },
   "Sepia officinalis": {
     "depth": {
-      "text": "0-200 m"
+      "text": "Subtidal waters to 200 m, most abundant in the upper 100 m, with larger animals deeper"
+    },
+    "size": {
+      "text": "Up to about 45-49 cm mantle length and 4 kg, commonly 25-30 cm"
+    },
+    "habitat": {
+      "text": "Demersal on the continental shelf, on sandy and muddy bottoms, often among algae and seagrass"
+    },
+    "behaviour": {
+      "text": "Lives alone and does not form shoals; buries in sand by day and ambushes prey from it, changing colour very rapidly"
     }
   },
   "Loligo forbesii": {
     "depth": {
-      "text": "Under 50 m to over 700 m"
+      "text": "Shelf and shelf edge, mostly 50 to 250 m, with records from 10 m down to over 700 m"
+    },
+    "size": {
+      "text": "Mantle length up to 937 mm in males and 462 mm in females, commonly 200 to 300 mm on the eastern North Atlantic shelf"
+    },
+    "habitat": {
+      "text": "Coastal and continental shelf seas over sandy and muddy bottoms, moving into shallow water to spawn"
+    },
+    "behaviour": {
+      "text": "Aggregates near the bottom by day and disperses into the water column at night; moves offshore as it grows, returning inshore to breed"
     }
   },
   "Loligo vulgaris": {

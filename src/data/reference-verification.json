@@ -117,13 +117,6 @@
     "checkedOn": "2026-08-28",
     "note": "DOI is real (\"Stomach content analysis of North Sea cephalopods: often-overlooked predators with direct \") but neither its title nor abstract names Loligo forbesii | Loligo vulgaris | Sepiola atlantica | Eledone cirrhosa"
   },
-  "doi:10.1016-j.ecolind.2024.112708": {
-    "status": "ok",
-    "httpStatus": 200,
-    "matchedOn": "Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm",
-    "checkedOn": "2026-08-28",
-    "note": "Crossref: \"Biogenic reef creation and biodiversity enhancement by an offshore longline mussel farm\""
-  },
   "doi:10.1016-j.fishres.2005.04.013": {
     "status": "ok",
     "httpStatus": 200,
@@ -228,12 +221,6 @@
     "httpStatus": 200,
     "checkedOn": "2026-08-28",
     "note": "DOI is real (\"Mannitol oxidase and polyol dehydrogenases in the digestive gland of gastropods: Correlati\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
-  },
-  "doi:10.1371-journal.pone.0205877": {
-    "status": "mismatch",
-    "httpStatus": 200,
-    "checkedOn": "2026-08-28",
-    "note": "DOI is real (\"Artificial spawning substrates and participatory research to foster cuttlefish stock recov\") but Crossref holds no abstract, so the subject cannot be confirmed automatically; check by hand"
   },
   "doi:10.2960-J.v35.m494": {
     "status": "ok",

@@ -1482,7 +1482,7 @@
     "crabForm": [
       "swimming"
     ],
-    "fieldNote": "A small swimming crab of muddy sand. Reddish overall with five teeth down each side of the shell; the give-away is the flattened, paddle-shaped back legs, their tips tinged violet."
+    "fieldNote": "A swimming crab of fine muddy sand and gravel, found on all British and Irish coasts from the lower shore down to over 300 m. The shell is broader than long, about 51 mm wide, with five pointed teeth along each front side edge and rows of hairs across it. The body is pale reddish-brown, and the give-away is the violet-tinted paddle on the last pair of legs. Although it is a swimming crab it normally crawls on the seabed, and only really swims in extremis."
   },
   "Majoidea": {
     "commonName": "Spider Crab",
@@ -1520,7 +1520,7 @@
     "crabForm": [
       "spider"
     ],
-    "fieldNote": "A long-legged crab with a teardrop or triangular shell that narrows to a forked, pointed snout. The legs are far longer and thinner than on any other crab here, and the shell is usually so coated in seaweed, hydroids and tubeworms that its outline disappears. Several very similar spider crabs live in UK waters (great, spiny, scorpion) and cannot reliably be told apart on video, so they are all logged here as spider crab."
+    "fieldNote": "A long-legged crab whose shell narrows at the front to a short forked rostrum projecting between the eyes. Legs 2 to 5 are long, slender and spider-like, the first pair carries the pincers, and the shell is usually covered with algae or encrusting invertebrates. The great spider crab has a pear-shaped shell and is found around all British coasts, though it is less common in the south and west. The larger common spider crab has a circular to oval shell, broad at the back and narrow at the front, reaches 20 cm in body length, and lives in south and west Britain and Ireland."
   },
   "Pagurus bernhardus": {
     "commonName": "Hermit Crab",
@@ -1554,7 +1554,7 @@
     "crabForm": [
       "hermit"
     ],
-    "fieldNote": "Not a true crab but a soft-bodied animal living inside a borrowed snail shell (a periwinkle when small, a whelk when bigger). You only see its legs and unequal claws (the right one larger) poking out; the shell itself is the give-away."
+    "fieldNote": "A hermit crab. Its soft, coiled abdomen is tucked inside an empty sea snail shell, any suitable one from a periwinkle to a common whelk. Only the legs and knobbly claws show, the right one much larger than the left, and the whole animal can pull back inside the shell if it senses a threat. A sea anemone or a hydroid sometimes rides on the shell."
   },
   "Sepia officinalis": {
     "commonName": "Common Cuttlefish",
@@ -1588,7 +1588,7 @@
     "cephalopodForm": [
       "cuttlefish"
     ],
-    "fieldNote": "A broad, flattened oval body fringed all the way round by a rippling fin, with a W-shaped pupil and ten arms (two long and retractable). Hovers over sand and can flash zebra stripes in an instant. Our largest cuttlefish; its white 'cuttlebone' often washes up."
+    "fieldNote": "A broad, flattened cephalopod, oval in cross-section, with a paired fin running from behind the head to the tip of the body, eight arms and two long tentacles it shoots out to seize prey. The largest cuttlefish in UK waters, it buries in sand by day and changes colour very rapidly."
   },
   "Loligo forbesii": {
     "commonName": "Veined Squid",
@@ -1620,7 +1620,7 @@
     "cephalopodForm": [
       "squid"
     ],
-    "fieldNote": "A slender, torpedo-shaped squid with two triangular fins running well down towards the tail. Reddish with fine veined speckles, schooling in midwater. The main squid of UK fisheries."
+    "fieldNote": "A long, slender, cylindrical squid whose paired fins form an elongate diamond running about three quarters of the mantle. Pink, red and brown predominate, with flame-like purplish stripes along the mantle. It gathers near the bottom by day and rises into the water column at night."
   },
   "Loligo vulgaris": {
     "commonName": "European Squid",
