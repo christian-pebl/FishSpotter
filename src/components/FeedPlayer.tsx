@@ -17,6 +17,13 @@ const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // total gives enough clearance without feeling sluggish.
 const MOVE_TO_BACK_DELAY_MS = 500;
 
+/** How far either side of the active card to attach the VIDEO. Kept tight:
+ *  clips run to ~30 MB each, so every extra card is real bandwidth. */
+const VIDEO_WINDOW = 1;
+/** How far either side to attach the STILL imagery (poster + backdrop).
+ *  Wider than the video window on purpose, see FeedCard's `showStill`. */
+const STILL_WINDOW = 2;
+
 export interface BBoxFrame {
   frame_clip: number;
   x_norm: number;
@@ -114,6 +121,63 @@ export function FeedPlayer({
 
   // Engagement measurement (consent-gated): track the active clip + watch-time.
   useEngagementTracker(orderedSnippets[activeIndex]?.id ?? null);
+
+  // Lazy per-frame tracking data. /feed inlines the JSON for the opening cards
+  // only (INLINE_TRACK_COUNT in app/feed/page.tsx); everything else arrives
+  // here, one indexed + edge-cached request per card, as it enters the same ±1
+  // window that gates video preload. Carrying every snippet's blob in the HTML
+  // instead cost 1.43 MB on a 139-clip feed and grew with the corpus.
+  const [tracksById, setTracksById] = useState<
+    Record<string, { bboxes: BBoxFrame[] | null; manualTrack: TrackPoint[] | null }>
+  >({});
+  // Guards against re-requesting a card each time it re-enters the window.
+  // A ref, not state, so recording a request never triggers a render.
+  const requestedTracksRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    const inRange = orderedSnippets.slice(
+      Math.max(0, activeIndex - VIDEO_WINDOW),
+      activeIndex + VIDEO_WINDOW + 1,
+    );
+    let cancelled = false;
+    for (const snippet of inRange) {
+      // Already inlined by the server, or already asked for.
+      if (snippet.bboxes !== null || snippet.manualTrack !== null) continue;
+      if (requestedTracksRef.current.has(snippet.id)) continue;
+      requestedTracksRef.current.add(snippet.id);
+      fetch(`/api/snippets/${snippet.id}/bbox`)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (cancelled || !data) return;
+          setTracksById((prev) => ({
+            ...prev,
+            [snippet.id]: {
+              bboxes: data.bboxes ?? null,
+              manualTrack: data.manualTrack ?? null,
+            },
+          }));
+        })
+        .catch(() => {
+          // A missing trail must never cost the viewer the clip: the card just
+          // plays without its overlay. Drop the guard so a later pass retries.
+          requestedTracksRef.current.delete(snippet.id);
+        });
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [activeIndex, orderedSnippets]);
+
+  const snippetsWithTracks = useMemo(
+    () =>
+      orderedSnippets.map((snippet) => {
+        const track = tracksById[snippet.id];
+        return track
+          ? { ...snippet, bboxes: track.bboxes, manualTrack: track.manualTrack }
+          : snippet;
+      }),
+    [orderedSnippets, tracksById],
+  );
 
   // Has this spotter run out of clips? Derived live rather than read once from
   // the server, so someone who identifies their LAST clip in this session gets
@@ -240,7 +304,7 @@ export function FeedPlayer({
         ref={containerRef}
         className="absolute inset-0 overflow-y-auto snap-y snap-mandatory"
       >
-        {orderedSnippets.map((snippet, index) => (
+        {snippetsWithTracks.map((snippet, index) => (
           // Q3A-T7: motion.section with `layout` so the reorder animates
           // when a card is moved to the back after submission. Stable
           // key on snippet.id (NOT index) so React preserves the same
@@ -263,7 +327,8 @@ export function FeedPlayer({
             <FeedCard
               snippet={snippet}
               isActive={activeIndex === index}
-              preload={Math.abs(activeIndex - index) <= 1}
+              preload={Math.abs(activeIndex - index) <= VIDEO_WINDOW}
+              showStill={Math.abs(activeIndex - index) <= STILL_WINDOW}
               // The completion card is a real scroll target, so the last clip
               // still has a "next" when it's present.
               hasNext={index < orderedSnippets.length - 1 || cleared}

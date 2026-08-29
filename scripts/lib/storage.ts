@@ -77,6 +77,14 @@ function createSupabaseDriver(): StorageDriver {
       const { error } = await client.storage.from(bucket).upload(key, body, {
         upsert: true,
         contentType,
+        // Match the R2 driver's 30-day immutable cache. Without this Supabase
+        // serves `Cache-Control: no-cache`, so every repeat visitor re-downloads
+        // every clip and thumbnail and the CDN in front of it never stores them
+        // (measured 29 Aug 2026: CF-Cache-Status MISS on every media object).
+        // Safe for the same reason it is safe on R2: content is immutable per
+        // key, and the callers that DO overwrite a key bump a `?v=` on the
+        // stored URL, which busts both the browser and the edge.
+        cacheControl: "2592000",
       });
       if (error) throw error;
       return this.publicUrlForKey(key);

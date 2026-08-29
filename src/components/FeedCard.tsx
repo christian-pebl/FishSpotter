@@ -300,7 +300,16 @@ function buildSmoothPath(pts: Point[]): string {
 interface FeedCardProps {
   snippet: FeedSnippet;
   isActive: boolean;
+  /** Attach the VIDEO (tens of MB per clip), so it stays a tight ±1 window. */
   preload: boolean;
+  /** Attach the still imagery (poster, blurred backdrop, sharp still).
+   *
+   *  Deliberately a WIDER window than `preload`: a thumbnail is ~274 KB against
+   *  a clip's ~30 MB, so buying a card or two of scroll headroom is cheap here
+   *  and ruinous there. Without the headroom a fast scroll can outrun the
+   *  poster download and show a black card, which is the one way this whole
+   *  optimisation could read as a regression to a spotter. */
+  showStill: boolean;
   hasNext: boolean;
   onAdvance: () => void;
   /** Q3A-T7: fired after a successful submit so the parent feed can
@@ -308,7 +317,7 @@ interface FeedCardProps {
   onAnswered?: () => void;
 }
 
-export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAnswered }: FeedCardProps) {
+export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdvance, onAnswered }: FeedCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<SVGSVGElement>(null);
   const trailPathRef = useRef<SVGPathElement>(null);
@@ -1270,7 +1279,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             COVERS the frame and fully occludes this, so it is skipped then.
             Decorative, behind the video + overlays, pointer-events-none so it
             never intercepts the tap-to-identify catcher. Reuses the poster. */}
-        {!videoCovers && (
+        {!videoCovers && showStill && (
           /* eslint-disable-next-line @next/next/no-img-element -- decorative scaled+blurred backdrop; next/image adds nothing here */
           <img
             src={snippet.thumbnailUrl}
@@ -1285,7 +1294,7 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             card flashing blank before the video is ready. Same object-contain
             box as the video, which sits on top and occludes this the moment it
             has frames. Same URL as the video poster, so it's a single fetch. */}
-        {preload && (
+        {showStill && (
           /* eslint-disable-next-line @next/next/no-img-element -- instant poster still; next/image adds nothing for a same-origin thumbnail */
           <img
             src={snippet.thumbnailUrl}
@@ -1295,10 +1304,28 @@ export function FeedCard({ snippet, isActive, preload, hasNext, onAdvance, onAns
             className="pointer-events-none absolute inset-0 h-full w-full object-contain"
           />
         )}
+        {/* `poster` rides the SAME ±1 gate as `src`, and so does the blurred
+            backdrop above. Both matter, and it is worth saying why, because
+            measuring only one of them is misleading.
+
+            The feed used to fetch one FULL-SIZE thumbnail per snippet on load:
+            measured 29 Aug 2026 at 139 images / ~37 MB (avg 274 KB, worst 529
+            KB, each a 1920x1080 JPEG painted into a phone-sized card). That was
+            the single largest cost on the page, several times the whole JS
+            bundle.
+
+            The trap: `poster` and the backdrop <img> point at the SAME URL, so
+            the browser collapses them into ONE request. Gating just the poster
+            therefore changes the poster COUNT while leaving the REQUEST count
+            at 139, and a naive count of <video poster> attributes reads like a
+            fix that has not happened. `loading="lazy"` does not save the
+            backdrop either: it was measured loading all 139 at page load once
+            the page was genuinely rendering. Gate both, and verify by counting
+            thumbnail REQUESTS, not attributes. */}
         <video
           ref={videoRef}
           {...(preload ? { src: snippet.videoUrl } : {})}
-          poster={snippet.thumbnailUrl}
+          {...(showStill ? { poster: snippet.thumbnailUrl } : {})}
           muted
           playsInline
           loop

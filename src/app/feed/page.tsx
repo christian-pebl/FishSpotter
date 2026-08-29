@@ -28,8 +28,6 @@ type FeedSnippetRow = {
   site: string;
   deployment: string;
   staffAnswer: string | null;
-  bboxJson: string | null;
-  manualTrackJson: string | null;
   lat: number | null;
   lon: number | null;
   depthM: number | null;
@@ -38,6 +36,20 @@ type FeedSnippetRow = {
 
 const ANON_SEED_COOKIE = "fs.anon_seed";
 
+/** How many cards ship with their tracking JSON already inlined.
+ *
+ *  The per-frame bbox/manual-track blobs are by far the heaviest thing in this
+ *  page's payload (measured 29 Aug 2026: 1.43 MB of HTML, against 202 KB for
+ *  /feed/browse, which carries none). FeedPlayer lazy-loads the rest from
+ *  /api/snippets/[id]/bbox as each card enters its ±1 window, an endpoint that
+ *  was built for exactly this and had no caller.
+ *
+ *  It is not zero because the OPENING card must not pop: its track sets the
+ *  cover-crop anchor (speciesCenter in FeedCard), so fetching it a beat late
+ *  would visibly re-centre a landscape clip. Three covers the initial ±1
+ *  window plus one card of scroll headroom. */
+const INLINE_TRACK_COUNT = 3;
+
 export default async function FeedPage() {
   // S8-T1: fetch snippets, session, AND the signed-in user's answered
   // snippet IDs in parallel. The third query is a no-op when the user
@@ -45,12 +57,13 @@ export default async function FeedPage() {
   // shuffles on top of that, so any future tie-break (within the same
   // shuffle bucket) is stable on insert order.
   //
-  // difficultyScore is fetched via $queryRaw rather than the typed select
-  // above: this was wired in before the generated Prisma Client had been
-  // regenerated for the new column (a native-binary lock from other
-  // concurrent dev processes blocked `prisma generate`). Once regenerated,
-  // fold `difficultyScore: true` into the select above and drop this query.
-  const [snippets, session, difficultyRows] = await Promise.all([
+  // difficultyScore now rides the typed select. It used to need a second
+  // `SELECT id, "difficultyScore" FROM "Snippet"` via $queryRaw, because the
+  // column was added while a native-binary lock from concurrent dev processes
+  // blocked `prisma generate`. The client has since been regenerated, so that
+  // stopgap (a whole second unindexed full-table scan on the app's busiest
+  // route, on every request) is gone.
+  const [snippets, session] = await Promise.all([
     prisma.snippet.findMany({
       where: excludeBlockedSnippetsWhere(),
       orderBy: { createdAt: "desc" },
@@ -61,20 +74,15 @@ export default async function FeedPage() {
         site: true,
         deployment: true,
         staffAnswer: true,
-        bboxJson: true,
-        manualTrackJson: true,
         lat: true,
         lon: true,
         depthM: true,
         recordingDatetime: true,
+        difficultyScore: true,
       },
     }),
     getServerSession(authOptions),
-    prisma.$queryRaw<Array<{ id: string; difficultyScore: number }>>`
-      SELECT id, "difficultyScore" FROM "Snippet"
-    `,
   ]);
-  const difficultyById = new Map(difficultyRows.map((r) => [r.id, r.difficultyScore]));
 
   // S8-T1: pick the shuffle seed + collect the user's answered IDs.
   // Seed = userId for signed-in users (stable across reloads, distinct
@@ -109,11 +117,7 @@ export default async function FeedPage() {
   //, a reasonable default since a signed-out visitor is, by definition,
   // new to this browser's session.
   const readiness = readinessFromAnsweredCount(answeredIds.size);
-  const snippetsWithDifficulty = snippets.map((s) => ({
-    ...s,
-    difficultyScore: difficultyById.get(s.id) ?? 0.5,
-  }));
-  const orderedSnippets = orderFeed(snippetsWithDifficulty, answeredIds, seed, { readiness });
+  const orderedSnippets = orderFeed(snippets, answeredIds, seed, { readiness });
 
   let needsTour = false;
   let unverified = false;
@@ -159,20 +163,38 @@ export default async function FeedPage() {
     unverified = !!user && !user.isGuest && !user.emailVerified;
   }
 
-  const feedSnippets = orderedSnippets.map((snippet: FeedSnippetRow) => ({
-    id: snippet.id,
-    videoUrl: snippet.videoUrl,
-    thumbnailUrl: snippet.thumbnailUrl,
-    site: snippet.site,
-    deployment: snippet.deployment,
-    staffAnswer: snippet.staffAnswer,
-    bboxes: safeParseJson(snippet.bboxJson),
-    manualTrack: safeParseJson(snippet.manualTrackJson),
-    lat: snippet.lat,
-    lon: snippet.lon,
-    depthM: snippet.depthM,
-    recordingDatetime: snippet.recordingDatetime,
-  }));
+  // Pull the tracking JSON for the opening cards ONLY (see INLINE_TRACK_COUNT).
+  // Indexed lookup on 3 ids, so it costs far less than carrying every snippet's
+  // per-frame blob through the HTML did.
+  const inlineIds = orderedSnippets.slice(0, INLINE_TRACK_COUNT).map((s) => s.id);
+  const inlineTrackRows = inlineIds.length
+    ? await prisma.snippet.findMany({
+        where: { id: { in: inlineIds } },
+        select: { id: true, bboxJson: true, manualTrackJson: true },
+      })
+    : [];
+  const inlineTrackById = new Map(inlineTrackRows.map((r) => [r.id, r]));
+
+  const feedSnippets = orderedSnippets.map((snippet: FeedSnippetRow) => {
+    const track = inlineTrackById.get(snippet.id);
+    return {
+      id: snippet.id,
+      videoUrl: snippet.videoUrl,
+      thumbnailUrl: snippet.thumbnailUrl,
+      site: snippet.site,
+      deployment: snippet.deployment,
+      staffAnswer: snippet.staffAnswer,
+      // null here is "not loaded yet", not "no track". FeedPlayer fetches it
+      // when the card comes into range; a snippet with genuinely no track
+      // resolves to null again and renders exactly as it does today.
+      bboxes: track ? safeParseJson(track.bboxJson) : null,
+      manualTrack: track ? safeParseJson(track.manualTrackJson) : null,
+      lat: snippet.lat,
+      lon: snippet.lon,
+      depthM: snippet.depthM,
+      recordingDatetime: snippet.recordingDatetime,
+    };
+  });
 
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
