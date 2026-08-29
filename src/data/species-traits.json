@@ -1157,7 +1157,7 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Tiny silver baitfish in vast shimmering bait balls; sharp belly keel.",
+    "fieldNote": "A shiny silver to grey schooling fish of inshore waters, with a very forked tail and a strong keel of scutes along the belly.",
     "bodyDepth": [
       "slender"
     ],
@@ -1197,7 +1197,7 @@
     "movement": [
       "water-column"
     ],
-    "fieldNote": "Slender semi-transparent fish with a silver lateral stripe; loose shoals near the surface.",
+    "fieldNote": "Slender silvery fish with a brilliant stripe from head to tail and a translucent greenish back; schools near the surface in coastal water and estuaries.",
     "bodyDepth": [
       "slender"
     ],
@@ -1241,7 +1241,7 @@
       "stationary",
       "fits-and-starts"
     ],
-    "fieldNote": "Heavily armoured ambush predator with long head spines and a wide gape; matches the rock perfectly.",
+    "fieldNote": "A scaleless rocky-shore ambush predator with very large eyes and mouth, a spiny head carrying one very long cheek spine, and colouring that matches its surroundings with great accuracy.",
     "bodyDepth": [
       "medium"
     ],
@@ -1285,7 +1285,7 @@
       "fits-and-starts",
       "stationary"
     ],
-    "fieldNote": "Tubby blenny with a continuous spiny dorsal and a long anal fin; no head tentacles (unlike tompot blenny). Pops in and out of crevices and rockpool gullies.",
+    "fieldNote": "A smooth, scaleless blenny of rocky shores, up to about 16 to 17 cm, with no tentacles on the head and a single long dorsal fin split by a notch into unequal sections. Its colour varies with the surroundings, from dark brown or blotched to blackish, with a dark spot behind the first dorsal fin. It shelters in rockpools and under damp stones and seaweed, emerges at high tide to forage, and can breathe air while out of water.",
     "fishZone": [
       "seabed"
     ],
@@ -1323,7 +1323,7 @@
       "water-column",
       "stationary"
     ],
-    "fieldNote": "Pencil-thin fish with a long tubular snout and a row of 14-17 tiny free spines along the back; mottled olive-brown colouring lets it hover almost motionless among kelp fronds, nearly invisible.",
+    "fieldNote": "A very slender fish with 14-17 isolated spines along the back in front of the dorsal fin, a tapering snout with a tiny mouth, and a long narrow tail stalk ending in a small rounded tail fin. Brown or olive above and paler below, sometimes with dark bars on the flanks. It lives singly or in pairs among weed on shorelines and in inshore water less than 20 m deep.",
     "bodyDepth": [
       "slender"
     ],
@@ -1369,7 +1369,7 @@
     "crabForm": [
       "broad-carapace"
     ],
-    "fieldNote": "Britain's commonest crab, on every kind of shore. The shell is broadest near the front with five sharp teeth down each side behind the eyes and three little bumps between them. Green to mottled brown; the back legs are pointed, never flattened into paddles."
+    "fieldNote": "A very common crab found on all shores of Britain and Ireland, from high water down to 60 m. The shell is much broader than long, with five sharp teeth either side of the eyes and three rounded lobes between them. Colour is highly variable, most often mottled olive green to dark brown, but sometimes orange or red. The walking legs end in points, and the last segment of the rear legs is flattened but never expanded into a swimming paddle."
   },
   "Cancer pagurus": {
     "commonName": "Edible Crab",

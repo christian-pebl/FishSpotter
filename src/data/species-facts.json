@@ -379,32 +379,86 @@
   },
   "Sprattus sprattus": {
     "depth": {
-      "text": "10-150 m"
+      "text": "10 to 150 m; spawns at 10 to 20 m"
+    },
+    "size": {
+      "text": "Up to 16 to 25.1 cm, commonly about 12 cm"
+    },
+    "habitat": {
+      "text": "Open water inshore and over the shelf, entering estuaries down to a salinity of 4"
+    },
+    "behaviour": {
+      "text": "Schools inshore, rising to the surface at night, and migrates between winter feeding and summer spawning grounds"
     }
   },
   "Atherina presbyter": {
     "depth": {
-      "text": "1-10 m"
+      "text": "1-10 m, in marine and brackish water, near the surface in the littoral zone"
+    },
+    "size": {
+      "text": "Up to 20 cm, usually 12 to 16 cm"
+    },
+    "habitat": {
+      "text": "Pelagic in littoral and coastal water, entering estuaries, coastal lagoons and low-salinity water"
+    },
+    "behaviour": {
+      "text": "Schools near the surface and makes seasonal migrations along Atlantic coasts; spawns in spring and summer"
     }
   },
   "Taurulus bubalis": {
     "depth": {
-      "text": "0-200 m"
+      "text": "Intertidal pools and shallow rocky ground down to about 30 m; recorded to 200 m"
+    },
+    "size": {
+      "text": "Up to 25 cm (females) and 17.5 cm (males), commonly about 12 cm"
+    },
+    "habitat": {
+      "text": "Rocky ground and tide pools among algae, from the intertidal down to about 30 m"
+    },
+    "behaviour": {
+      "text": "A resident ambush predator that lies motionless, relying on camouflage; can leave a tide pool when conditions turn inhospitable, and breathes air out of water"
     }
   },
   "Lipophrys pholis": {
     "depth": {
-      "text": "0-8 m"
+      "text": "0-8 m, most commonly in rockpools on the shore"
+    },
+    "size": {
+      "text": "Up to 16-17 cm total length, and up to 10 years old"
+    },
+    "habitat": {
+      "text": "Rocky shores, in rockpools and under damp stones and seaweed; also around man-made structures such as pier pilings"
+    },
+    "behaviour": {
+      "text": "Resident with homing behaviour; forages at high tide and can stay out of water under rocks and weed, breathing air"
     }
   },
   "Spinachia spinachia": {
     "depth": {
-      "text": "1-6 m"
+      "text": "Shallow inshore water, recorded between 1 and 6 m and generally less than 20 m deep"
+    },
+    "size": {
+      "text": "Up to 25 cm long, with a maximum recorded standard length of 22 cm"
+    },
+    "habitat": {
+      "text": "Weedy shorelines and shallow coastal water, marine and extending into brackish water"
+    },
+    "behaviour": {
+      "text": "Lives singly or in pairs; the male builds a nest of algal fragments glued with a kidney secretion, then tends the eggs and guards the nest"
     }
   },
   "Carcinus maenas": {
     "depth": {
-      "text": "Intertidal to 60 m"
+      "text": "Intertidal down to 60 m, mostly on the shore and in shallow water"
+    },
+    "size": {
+      "text": "Shell (carapace) commonly 4-8 cm wide, with males recorded to 86 mm across"
+    },
+    "habitat": {
+      "text": "All types of shore from high water down to 60 m; especially abundant in estuaries and salt marshes, and on sheltered rocky shores"
+    },
+    "behaviour": {
+      "text": "Walks over the bottom as an omnivorous predator and scavenger; peak foraging at night around high tide, with green individuals sheltering under algae"
     }
   },
   "Cancer pagurus": {

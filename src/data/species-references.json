@@ -1805,26 +1805,6 @@
       ],
       "expectCommonName": "Ballan wrasse"
     },
-    "doi:10.3354-aei00478": {
-      "kind": "plymsea",
-      "title": "Quantification of finfish assemblages associated with mussel and seaweed farms in southwest UK provides evidence of potential benefits to fisheries",
-      "authors": [
-        "Corrigan, S.",
-        "Smale, D.A.",
-        "Tyler, C.R.",
-        "Brown, A.R."
-      ],
-      "publisher": "Inter-Research (Aquaculture Environment Interactions 16:145-162); record held by the Marine Biological Association (PlyMSEA)",
-      "year": 2024,
-      "url": "https://plymsea.ac.uk/id/eprint/10205/",
-      "licence": "CC BY 4.0",
-      "identifier": "DOI:10.3354/aei00478",
-      "expectText": [
-        "Quantification of finfish assemblages associated with mussel and seaweed farms in southwest UK",
-        "Aquaculture Environment Interactions",
-        "Corrigan"
-      ]
-    },
     "doi:10.1016-j.fishres.2005.04.013": {
       "kind": "journal",
       "title": "Feeding ecology of the white seabream, Diplodus sargus, and the ballan wrasse, Labrus bergylta, in the Azores",
@@ -2338,20 +2318,6 @@
       "expectText": [
         "Spinachia spinachia",
         "Food items reported for Spinachia spinachia"
-      ]
-    },
-    "fishbase:dietcompo-Trachurus-trachurus": {
-      "kind": "fishbase",
-      "title": "Diet composition of Trachurus trachurus - FishBase diet records",
-      "authors": [
-        "Froese, R.",
-        "Pauly, D. (eds)"
-      ],
-      "publisher": "FishBase",
-      "url": "https://www.fishbase.se/TrophicEco/DietCompoList.php?ID=1365&GenusName=Trachurus&SpeciesName=trachurus&fc=314&StockCode=1383",
-      "expectText": [
-        "Trachurus trachurus",
-        "Food and Feeding Habits: Diet Composition Trachurus trachurus"
       ]
     },
     "fishbase:dietcompo-Eutrigla-gurnardus": {
@@ -3581,26 +3547,6 @@
         "Pomatoschistus microps"
       ]
     },
-    "doi:10.1111-raq.12669": {
-      "kind": "journal",
-      "title": "Quantifying habitat provisioning at macroalgal cultivation sites",
-      "authors": [
-        "Corrigan, S.",
-        "Brown, A.R.",
-        "Ashton, I.G.C.",
-        "Smale, D.A.",
-        "Tyler, C.R."
-      ],
-      "publisher": "John Wiley & Sons Australia, Ltd",
-      "year": 2022,
-      "url": "https://onlinelibrary.wiley.com/doi/10.1111/raq.12669",
-      "licence": "CC BY 4.0",
-      "identifier": "doi:10.1111/raq.12669",
-      "expectText": [
-        "macroalgal cultivation",
-        "habitat provisioning"
-      ]
-    },
     "fishbase:fooditems-Chelidonichthys-lucerna": {
       "kind": "fishbase",
       "title": "Food items of Chelidonichthys lucerna - FishBase food-item records",
@@ -4224,6 +4170,63 @@
       "url": "https://www.fishbase.se/TrophicEco/PredatorList.php?ID=481&GenusName=Trisopterus&SpeciesName=minutus",
       "expectText": [
         "Trisopterus minutus"
+      ]
+    },
+    "fao:ecatlantic-atherinidae": {
+      "kind": "fao",
+      "title": "Atheriniformes: Atherinidae (Silversides), in The living marine resources of the Eastern Central Atlantic, Vol. 3: Bony fishes part 1 (pp. 2111-2118)",
+      "authors": [
+        "Tito de Morais, L.",
+        "Sylla, M.",
+        "Ivantsoff, W."
+      ],
+      "publisher": "Food and Agriculture Organization of the United Nations",
+      "year": 2016,
+      "url": "https://horizon.documentation.ird.fr/exl-doc/pleins_textes/divers20-10/010076875.pdf",
+      "identifier": "ISBN 978-92-5-109266-8",
+      "expectText": [
+        "Atherina presbyter",
+        "ATHERINIDAE"
+      ],
+      "verifyMode": "pdf"
+    },
+    "fishbase:family-Atherinidae": {
+      "kind": "fishbase",
+      "title": "FAMILY Details for Atherinidae - Silversides",
+      "authors": [
+        "Froese, R.",
+        "Pauly, D. (eds)"
+      ],
+      "publisher": "FishBase",
+      "url": "https://www.fishbase.se/summary/FamilySummary.php?ID=218",
+      "expectText": [
+        "Atherinidae"
+      ]
+    },
+    "habitas:S26900": {
+      "kind": "web",
+      "title": "Carcinus maenas (Linnaeus, 1758), species account in the Encyclopedia of Marine Life of Britain and Ireland",
+      "authors": [
+        "Picton, B.E.",
+        "Keatley, L.",
+        "Morrow, C.C."
+      ],
+      "publisher": "National Museums Northern Ireland, Marine Biodiversity Data Portal (habitas)",
+      "year": 2025,
+      "url": "https://www2.habitas.org.uk/marbiop-ni/species.php?item=S26900",
+      "identifier": "S26900",
+      "expectText": [
+        "Carcinus maenas"
+      ]
+    },
+    "seasearch:carcinus-maenas": {
+      "kind": "web",
+      "title": "Shore crab (Carcinus maenas), Seasearch Ireland species identification sheet",
+      "publisher": "Seasearch Ireland",
+      "url": "https://seasearchireland.ie/wordpress/wp-content/uploads/2020/02/Carcinus-maenas.pdf",
+      "verifyMode": "pdf",
+      "expectText": [
+        "Carcinus maenas"
       ]
     }
   },
@@ -12665,7 +12668,6 @@
       },
       "sourceIds": [
         "biotic:6195",
-        "doi:10.1111-raq.12669",
         "doi:10.7489-1799-1",
         "fao:t0243e10",
         "fishbase-food:Trisopterus-minutus",
@@ -14388,9 +14390,7 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "doi:10.3354-aei00478",
         "fishbase:Trachurus-trachurus",
-        "fishbase:dietcompo-Trachurus-trachurus",
         "fishbase:fooditems-Trachurus-trachurus",
         "fishbase:predators-Trachurus-trachurus",
         "marlin:97",
@@ -14725,7 +14725,6 @@
       "sourceIds": [
         "doi:10.1093-icesjms-fss200",
         "doi:10.1111-jfb.13926",
-        "doi:10.3354-aei00478",
         "fao:ac478e08",
         "fishbase:Scomber-scombrus",
         "fishbase:fooditems-Scomber-scombrus",
@@ -15091,174 +15090,180 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126425",
-        "marlin:82",
         "fishbase:Sprattus-sprattus",
+        "fishbase:fooditems-Sprattus-sprattus",
         "fishbase:predators-Sprattus-sprattus",
-        "fishbase:fooditems-Sprattus-sprattus"
+        "marlin:82",
+        "worms:126425"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Sprattus-sprattus",
             "marlin:82"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Sprattus-sprattus",
-              "locator": "Short description",
-              "quote": "Lower jaw slightly projecting, gill cover without any bony radiating striae, teeth...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:82",
+              "locator": "Summary > Description",
+              "quote": "Sprattus sprattus grows up to 16 cm in length. It is shiny silver to grey in colour. It has a very forked tail and small and angular anal and dorsal fins.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:82",
-              "locator": "Identifying features",
-              "quote": "Lower jaw projects slightly. Bony radiating grooves on the gill cover are absent. Teeth rarely present on vomer. Strong keel of scutes on underside. Six pelvic finrays (occasionally 7). Insertion of fin under or before the dorsal fin...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Sprat is a pelagic schooling fish usually found in inshore waters, sometimes entering estuaries to salinity values as low as 4.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:82",
-              "locator": "Description",
-              "quote": "Sprattus sprattus grows up to 16 cm in length. It is shiny silver to grey in colour. It has a very forked tail and small and angular anal and dorsal fins. The dorsal fin is directly above the pelvic fin. The head is small and the...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Strong keel of scutes on underside.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9m1fz00107igsv26hb0no": {
           "sourceIds": [
-            "fishbase:Sprattus-sprattus",
-            "marlin:82"
+            "marlin:82",
+            "fishbase:Sprattus-sprattus"
           ],
           "support": [
             {
+              "sourceId": "marlin:82",
+              "locator": "Summary > Identifying features",
+              "quote": "Teeth rarely present on vomer. Strong keel of scutes on underside. Six pelvic finrays (occasionally 7).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Sprattus-sprattus",
               "locator": "Short description",
-              "quote": "Lower jaw slightly projecting, gill cover without any bony radiating striae, teeth...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Lower jaw slightly projecting, gill cover without any bony radiating striae, teeth rarely present on vomer; belly with a strong keel of scutes; last two anal fin rays not enlarged. No dark spots on flanks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:82",
-              "locator": "Identifying features",
-              "quote": "Lower jaw projects slightly. Bony radiating grooves on the gill cover are absent. Teeth rarely present on vomer. Strong keel of scutes on underside. Six pelvic finrays (occasionally 7). Insertion of fin under or before the dorsal fin...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:82",
-              "locator": "Description",
-              "quote": "Sprattus sprattus grows up to 16 cm in length. It is shiny silver to grey in colour. It has a very forked tail and small and angular anal and dorsal fins. The dorsal fin is directly above the pelvic fin. The head is small and the...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Additional information",
+              "quote": "Sprat may be confused with juvenile herring. The relative positions of dorsal and pelvic fins, the grey rather than blue coloration on the dorsal side and the sharply toothed ventral keel are, however, clear distinguishing features.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9m1fz00117igs60qi11py": {
           "sourceIds": [
-            "fishbase:Sprattus-sprattus",
-            "marlin:82"
+            "marlin:82",
+            "fishbase:Sprattus-sprattus"
           ],
           "support": [
             {
+              "sourceId": "marlin:82",
+              "locator": "Summary > Identifying features",
+              "quote": "Dark spots on flanks absent.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Sprattus-sprattus",
               "locator": "Short description",
-              "quote": "Lower jaw slightly projecting, gill cover without any bony radiating striae, teeth...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "belly with a strong keel of scutes; last two anal fin rays not enlarged. No dark spots on flanks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:82",
-              "locator": "Identifying features",
-              "quote": "Lower jaw projects slightly. Bony radiating grooves on the gill cover are absent. Teeth rarely present on vomer. Strong keel of scutes on underside. Six pelvic finrays (occasionally 7). Insertion of fin under or before the dorsal fin...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "Sprattus sprattus grows up to 16 cm in length. It is shiny silver to grey in colour.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:82",
-              "locator": "Description",
-              "quote": "Sprattus sprattus grows up to 16 cm in length. It is shiny silver to grey in colour. It has a very forked tail and small and angular anal and dorsal fins. The dorsal fin is directly above the pelvic fin. The head is small and the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Additional information",
+              "quote": "the grey rather than blue coloration on the dorsal side and the sharply toothed ventral keel are, however, clear distinguishing features.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9m1fz00127igs2bzl8fio": {
           "sourceIds": [
-            "fishbase:Sprattus-sprattus",
             "marlin:82"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Sprattus-sprattus",
-              "locator": "Short description",
-              "quote": "Lower jaw slightly projecting, gill cover without any bony radiating striae, teeth...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:82",
+              "locator": "Summary > Description",
+              "quote": "It has a very forked tail and small and angular anal and dorsal fins. The dorsal fin is directly above the pelvic fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:82",
-              "locator": "Identifying features",
-              "quote": "Lower jaw projects slightly. Bony radiating grooves on the gill cover are absent. Teeth rarely present on vomer. Strong keel of scutes on underside. Six pelvic finrays (occasionally 7). Insertion of fin under or before the dorsal fin...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Insertion of fin under or before the dorsal fin origin, last two anal finrays not enlarged.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:82",
-              "locator": "Description",
-              "quote": "Sprattus sprattus grows up to 16 cm in length. It is shiny silver to grey in colour. It has a very forked tail and small and angular anal and dorsal fins. The dorsal fin is directly above the pelvic fin. The head is small and the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Additional information",
+              "quote": "Sprat may be confused with juvenile herring. The relative positions of dorsal and pelvic fins, the grey rather than blue coloration on the dorsal side and the sharply toothed ventral keel are, however, clear distinguishing features.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Sprattus-sprattus",
-            "marlin:82"
+            "marlin:82",
+            "fishbase:Sprattus-sprattus"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Sprattus-sprattus",
-              "locator": "Biology",
-              "quote": "Usually inshore schooling, sometimes entering estuaries (especially the juveniles) and tolerating salinities as low as 4 ppt. Shows strong migrations between winter feeding and summer spawning grounds. Moves...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Sprattus-sprattus",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; pelagic-neritic; oceanodromous; depth range 10 - 150 m. Temperate; 69&deg;N - 30&deg;N, 11&deg;W - 42&deg;E",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:82",
-              "locator": "Habitat",
+              "locator": "Summary > Habitat",
               "quote": "Sprat is a pelagic schooling fish usually found in inshore waters, sometimes entering estuaries to salinity values as low as 4. It can also be found down to a depth of up to 150 m.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Sprattus-sprattus",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
+              "quote": "Marine; brackish; pelagic-neritic; oceanodromous (Ref. 51243 ); depth range 10 - 150 m (Ref. 6302 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
-            "fishbase:Sprattus-sprattus"
+            "fishbase:Sprattus-sprattus",
+            "marlin:82"
           ],
           "support": [
             {
               "sourceId": "fishbase:Sprattus-sprattus",
               "locator": "Biology",
-              "quote": "Usually inshore schooling, sometimes entering estuaries (especially the juveniles) and tolerating salinities as low as 4 ppt. Shows strong migrations between winter feeding and summer spawning grounds. Moves...",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Usually inshore schooling, sometimes entering estuaries (especially the juveniles) and tolerating salinities as low as 4 ppt. Shows strong migrations between winter feeding and summer spawning grounds. Moves to the surface at night.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:82",
+              "locator": "Summary > Habitat",
+              "quote": "Sprat is a pelagic schooling fish usually found in inshore waters, sometimes entering estuaries to salinity values as low as 4.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -15278,21 +15283,6 @@
           ],
           "claimSupported": false
         },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Sprattus-sprattus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Sprattus-sprattus",
-              "locator": "Biology",
-              "quote": "Feeds on planktonic crustaceans (Ref. 9900).",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "diet:eatenBy": {
           "sourceIds": [
             "fishbase:predators-Sprattus-sprattus"
@@ -15308,43 +15298,164 @@
           ],
           "claimSupported": true
         },
-        "edge:Plankton->Sprat": {
-          "sourceIds": [
-            "fishbase:fooditems-Sprattus-sprattus"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:fooditems-Sprattus-sprattus",
-              "locator": "Food items table (n = 52), first rows",
-              "quote": "Food items reported for Sprattus sprattus n = 52 Sort by Food I Food II Food III Territory Food I Food II Food III Food name Territory Predator Stage zooplankton other plank. invertebrates",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Sprattus-sprattus"
+            "fishbase:Sprattus-sprattus",
+            "marlin:82"
           ],
           "support": [
             {
               "sourceId": "fishbase:Sprattus-sprattus",
               "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; pelagic-neritic; oceanodromous (Ref. 51243); depth range 10 - 150 m (Ref. 6302).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Marine; brackish; pelagic-neritic; oceanodromous (Ref. 51243 ); depth range 10 - 150 m (Ref. 6302 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:82",
+              "locator": "Summary > Habitat",
+              "quote": "It can also be found down to a depth of up to 150 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Sprattus-sprattus",
+              "locator": "Biology",
+              "quote": "Spawns at depths of 10-20 m producing 6,000-14,000 pelagic eggs (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
+            "fishbase:Sprattus-sprattus",
             "marlin:82"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Size: small, rendered \"Small (under 10 cm)\" The source says: MarLIN Description: \"Sprattus sprattus grows up to 16 cm in length.\" FishBase gives common length 12.0 cm SL and max 25.1 cm SL. Both fall in the app Medium band."
+          "support": [
+            {
+              "sourceId": "fishbase:Sprattus-sprattus",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 25.1 cm SL male/unsexed; (Ref. 137577 ); common length : 12.0 cm SL male/unsexed; (Ref. 188 ); max. reported age: 6 years (Ref. 3561 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:82",
+              "locator": "Summary > Description",
+              "quote": "Sprattus sprattus grows up to 16 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Sprattus-sprattus",
+            "fishbase:fooditems-Sprattus-sprattus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Sprattus-sprattus",
+              "locator": "Biology",
+              "quote": "Moves to the surface at night. Feeds on planktonic crustaceans (Ref. 9900 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Sprattus-sprattus",
+              "locator": "Food items reported for Sprattus sprattus, planktonic copepod rows",
+              "quote": "Food items reported for Sprattus sprattus ... plank. copepods Acartia clausi ... plank. copepods Calanus sp. ... plank. copepods Temora longicornis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:fooditems-Sprattus-sprattus",
+            "fishbase:Sprattus-sprattus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Sprattus-sprattus",
+              "locator": "Food items reported for Sprattus sprattus, cladoceran rows",
+              "quote": "Food items reported for Sprattus sprattus ... cladocerans Bosmina coregoni maritima ... cladocerans Evadne nordmannii ... cladocerans Podon spp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Sprattus-sprattus",
+              "locator": "Biology",
+              "quote": "Feeds on planktonic crustaceans (Ref. 9900 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:fooditems-Sprattus-sprattus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Sprattus-sprattus",
+              "locator": "Food items reported for Sprattus sprattus, other planktonic invertebrate rows",
+              "quote": "Food items reported for Sprattus sprattus ... other plank. invertebrates n.a./other plank. invertebrates Oikopleura sp. ... n.a./other plank. invertebrates Sagitta sp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:predators-Sprattus-sprattus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Sprattus-sprattus",
+              "locator": "Organisms Preying on Sprattus sprattus, bony fish rows",
+              "quote": "Organisms Preying on Sprattus sprattus ... Gadidae Gadus morhua ... Gadidae Merlangius merlangus ... Gadidae Pollachius virens ... Merlucciidae Merluccius merluccius ... Triglidae Chelidonichthys gurnardus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase:predators-Sprattus-sprattus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Sprattus-sprattus",
+              "locator": "Organisms Preying on Sprattus sprattus, mammal rows",
+              "quote": "Organisms Preying on Sprattus sprattus ... whales/dolphins Delphinidae Tursiops truncatus ... seals/sea lions Phocidae Phoca vitulina ... whales/dolphins Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase:predators-Sprattus-sprattus"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Sprattus-sprattus",
+              "locator": "Organisms Preying on Sprattus sprattus, seabird and squid rows",
+              "quote": "Organisms Preying on Sprattus sprattus ... birds sea birds Laridae Rissa tridactyla ... mollusks squids/cuttlefish Loliginidae Loligo forbesi",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -15362,105 +15473,207 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:272030",
+        "doi:10.1093-icesjms-fss200",
+        "fao:ecatlantic-atherinidae",
         "fishbase:Atherina-presbyter",
+        "fishbase:family-Atherinidae",
+        "fishbase:fooditems-Atherina-presbyter",
+        "liv:howells-2018-thesis",
         "nrw:evidence-report-591",
-        "fishbase:fooditems-Atherina-presbyter"
+        "worms:272030"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Atherina-presbyter"
+            "fishbase:Atherina-presbyter",
+            "fao:ecatlantic-atherinidae"
           ],
           "support": [
             {
               "sourceId": "fishbase:Atherina-presbyter",
               "locator": "Short description",
-              "quote": "A large, characteristic, brilliant silvery stripe running along flanks from head to tail, often outlined in black. No true lateral line. Eye diameter same with snout length.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9icc200007igsnju901yw": {
-          "sourceIds": [
-            "fishbase:Atherina-presbyter"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Short description",
-              "quote": "A large, characteristic, brilliant silvery stripe running along flanks from head to tail, often outlined in black. No true lateral line (Ref. 232).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9icc200017igsbt0ia8hx": {
-          "sourceIds": [
-            "fishbase:Atherina-presbyter"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Short description",
-              "quote": "Scales in longitudinal series 52-57. Vertebrae 46-52 (Morocco), 49-52 (the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9icc200027igsr5ix0g3t": {
-          "sourceIds": [
-            "fishbase:Atherina-presbyter"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Short description",
-              "quote": "Scales in longitudinal series 52-57. Vertebrae 46-52 (Morocco), 49-52 (the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:habitat": {
-          "sourceIds": [
-            "fishbase:Atherina-presbyter"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Biology",
-              "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae. Reproduces in spring and summer.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "A large, characteristic, brilliant silvery stripe running along flanks from head to tail, often outlined in black. No true lateral line (Ref. 232 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; pelagic-neritic; oceanodromous; depth range 1 - 10 m. Subtropical; 60&deg;N - 14&deg;N, 26&deg;W - 17&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Short description > Body shape",
+              "quote": "Body shape ( shape guide ): elongated.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherinidae family account, Diagnostic characters: Colour (p. 2111)",
+              "quote": "Colour: back greenish to bluish speckled with black dots, translucent with scales delineated by small chromatophores above mid-lateral band; sides of head and body, as well as abdomen silvery, flanks often iridescent",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Biology",
+              "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae (Ref. 5980 ). Reproduces in spring and summer (Ref. 30578 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Habitat, biology, and fisheries (p. 2117)",
+              "quote": "This species is captured near surface in the littoral zone, mainly with beach seines and liftnets.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "trait:behavior": {
+        "mark:cmpz9icc200007igsnju901yw": {
           "sourceIds": [
-            "fishbase:Atherina-presbyter"
+            "fishbase:Atherina-presbyter",
+            "fao:ecatlantic-atherinidae"
           ],
           "support": [
             {
               "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Short description",
+              "quote": "A large, characteristic, brilliant silvery stripe running along flanks from head to tail, often outlined in black. No true lateral line (Ref. 232 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Diagnostic characters: Colour (p. 2117)",
+              "quote": "Colour: bright stripe running the whole length of its side from head to tail, often outlined in black. No true lateral line.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9icc200017igsbt0ia8hx": {
+          "sourceIds": [
+            "fao:ecatlantic-atherinidae",
+            "fishbase:Atherina-presbyter"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherinidae family account, Diagnostic characters: Colour (p. 2111)",
+              "quote": "Colour: back greenish to bluish speckled with black dots, translucent with scales delineated by small chromatophores above mid-lateral band; sides of head and body, as well as abdomen silvery, flanks often iridescent",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Size (p. 2117)",
+              "quote": "Size: Up to 20 cm, usually 12 to 16 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Size / Weight / Age",
+              "quote": "Max length : 20.0 cm TL male/unsexed; (Ref. 30578 ); max. reported age: 4 years (Ref. 232 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpz9icc200027igsr5ix0g3t": {
+          "sourceIds": [
+            "fao:ecatlantic-atherinidae",
+            "fishbase:family-Atherinidae",
+            "fishbase:Atherina-presbyter"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherinidae family account, Diagnostic characters (p. 2111)",
+              "quote": "Two well-separated dorsal fins, the first with 6 to 10 thin, flexible spines, located approximately in the middle of the body; the second dorsal and anal fins with a single small weak spine",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Diagnostic characters (p. 2117)",
+              "quote": "Dorsal-fin rays with 7 to 9 spines in the first dorsal, and 1 spine and 11 to 14 soft rays in the second; anal fin with 1 spine and 14 to 17 soft rays.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:family-Atherinidae",
+              "locator": "Atherinidae family diagnosis",
+              "quote": "Two widely separated dorsal fins, the first with flexible spines and the second with one spine followed by soft rays; anal fin with one spine followed by soft rays; pectoral fins high on body; mouth small and terminal; no lateral line",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Short description",
+              "quote": "Dorsal spines (total): 7 - 9; Dorsal soft rays (total): 11 - 14; Anal spines : 1; Anal soft rays : 14 - 17.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:habitat": {
+          "sourceIds": [
+            "fao:ecatlantic-atherinidae",
+            "fishbase:Atherina-presbyter"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Habitat, biology, and fisheries (p. 2117)",
+              "quote": "Pelagic fish inhabiting littoral waters, sometimes in low-salinity water, occasionally enters estuaries and coastal lagoons. A schooling fish. Seasonal migrations along Atlantic coasts. Carnivorous (small crustaceans, fish larvae).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
               "locator": "Biology",
-              "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae. Reproduces in spring and summer.",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae (Ref. 5980 ). Reproduces in spring and summer (Ref. 30578 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "fao:ecatlantic-atherinidae",
+            "fishbase:Atherina-presbyter"
+          ],
+          "support": [
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Habitat, biology, and fisheries (p. 2117)",
+              "quote": "Pelagic fish inhabiting littoral waters, sometimes in low-salinity water, occasionally enters estuaries and coastal lagoons. A schooling fish. Seasonal migrations along Atlantic coasts. Carnivorous (small crustaceans, fish larvae).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Biology",
+              "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae (Ref. 5980 ). Reproduces in spring and summer (Ref. 30578 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Life cycle and mating behavior",
+              "quote": "Spawning occurs in midsummer in English Channel and North Sea.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Habitat, biology, and fisheries (p. 2117)",
+              "quote": "This species is captured near surface in the littoral zone, mainly with beach seines and liftnets.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -15475,21 +15688,6 @@
               "locator": "Biology",
               "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae. Reproduces in spring and summer.",
               "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Atherina-presbyter"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Biology",
-              "quote": "Feeds on carnivorous small crustaceans and fish larvae (Ref. 5980).",
-              "readBy": "refs:trawl (fish-3)",
               "readOn": "2026-08-28"
             }
           ],
@@ -15510,43 +15708,142 @@
           ],
           "claimSupported": false
         },
-        "edge:Plankton->Sand smelt": {
-          "sourceIds": [
-            "fishbase:fooditems-Atherina-presbyter"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:fooditems-Atherina-presbyter",
-              "locator": "Food items table (n = 3), zooplankton rows",
-              "quote": "zooplankton fish (early stages) fish eggs/larvae unidentified France juv./adults",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Atherina-presbyter"
+            "fishbase:Atherina-presbyter",
+            "fao:ecatlantic-atherinidae"
           ],
           "support": [
             {
               "sourceId": "fishbase:Atherina-presbyter",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; pelagic-neritic; oceanodromous (Ref. 51243); depth range 1 - 10 m (Ref. 55871).",
-              "readBy": "refs:confirm (pelagic-flat), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; pelagic-neritic; oceanodromous (Ref. 51243 ); depth range 1 - 10 m (Ref. 55871 ). Subtropical; 60 deg N - 14 deg N, 26 deg W - 17 deg E",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Habitat, biology, and fisheries (p. 2117)",
+              "quote": "This species is captured near surface in the littoral zone, mainly with beach seines and liftnets.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
+            "fao:ecatlantic-atherinidae",
             "fishbase:Atherina-presbyter"
           ],
-          "support": [],
-          "claimSupported": false,
-          "conflict": "The app says: Size: small, rendered \"Small (under 10 cm)\" The source says: FishBase Size / Weight / Age: \"Max length : 20.0 cm TL male/unsexed; (Ref. 30578 );\" - twice the app Small ceiling. No source found puts adult sand smelt under 10 cm."
+          "support": [
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Size (p. 2117)",
+              "quote": "Size: Up to 20 cm, usually 12 to 16 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Size / Weight / Age",
+              "quote": "Max length : 20.0 cm TL male/unsexed; (Ref. 30578 ); max. reported age: 4 years (Ref. 232 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:fooditems-Atherina-presbyter",
+            "fao:ecatlantic-atherinidae"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Atherina-presbyter",
+              "locator": "Food items reported for Atherina presbyter, row 3",
+              "quote": "Food items reported for Atherina presbyter ... zooplankton plank. crust. n.a./other plank. crustaceans",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fao:ecatlantic-atherinidae",
+              "locator": "Atherina presbyter species account, Habitat, biology, and fisheries (p. 2117)",
+              "quote": "Pelagic fish inhabiting littoral waters, sometimes in low-salinity water, occasionally enters estuaries and coastal lagoons. A schooling fish. Seasonal migrations along Atlantic coasts. Carnivorous (small crustaceans, fish larvae).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:fooditems-Atherina-presbyter",
+            "fishbase:Atherina-presbyter"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Atherina-presbyter",
+              "locator": "Food items reported for Atherina presbyter, rows 1-2 (France)",
+              "quote": "Food items reported for Atherina presbyter ... zooplankton fish (early stages) fish eggs/larvae",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Atherina-presbyter",
+              "locator": "Biology",
+              "quote": "Small pelagic fishes in coastal areas and estuaries. Schooling, seasonal migrations in the Atlantic. Feeds on carnivorous small crustaceans and fish larvae (Ref. 5980 ). Reproduces in spring and summer (Ref. 30578 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "nrw:evidence-report-591"
+          ],
+          "support": [
+            {
+              "sourceId": "nrw:evidence-report-591",
+              "locator": "Section 4.1 Cormorant diet",
+              "quote": "In estuaries, flounder (Platichthys flesus), trout (Salmonidae), eel and saithe ... are most frequent prey, and sandsmelt (Atherina presbyter), mullet (Muglidae) and sea bass (Dicentrarchus labrax) are important in southern Europe.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "liv:howells-2018-thesis"
+          ],
+          "support": [
+            {
+              "sourceId": "liv:howells-2018-thesis",
+              "locator": "Introduction, shag diet composition across the range",
+              "quote": "For example, the diet of shags breeding in Galicia, Spain, changes from Gobidae and sand smelts Athenna presbyter in February and March, to sandeel in spring and early summer (Velando, Ortega-Ruano and Freire, 1999)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "doi:10.1093-icesjms-fss200"
+          ],
+          "support": [
+            {
+              "sourceId": "doi:10.1093-icesjms-fss200",
+              "locator": "Table 2, Prey found in stomach contents of adult sea bass, COASTAL FISH",
+              "quote": "Table 2. Prey found in stomach contents of adult sea bass on the continental shelf of the Bay of Biscay, north-eastern Atlantic. ... COASTAL FISH ... Atherinidae Atherina presbyter",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -15564,192 +15861,222 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:127204",
-        "marlin:2038",
+        "doi:10.1111-raq.12584",
+        "doi:10.7489-1799-1",
         "fishbase:Taurulus-bubalis",
         "fishbase:predators-Taurulus-bubalis",
-        "doi:10.1111-raq.12584"
+        "marinescot:SMFS-7-21",
+        "marlin:2038",
+        "worms:127204"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Taurulus-bubalis",
             "marlin:2038"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Summary: Description",
-              "quote": "The eyes and mouth are very large as this species is an ambush predator. Colour is variable and they can match their surroundings with great accuracy. The head and first dorsal fin are spiny with one very long spine on the cheek.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Description",
+              "quote": "Taurulus bubalis is a distinctive rocky shore fish up to 20 cm in length with a broad bony head that tapers to the tail. The eyes and mouth are very large as this species is an ambush predator.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2038",
-              "locator": "Identifying features",
+              "locator": "Summary > Description",
+              "quote": "Colour is variable and they can match their surroundings with great accuracy. The head and first dorsal fin are spiny with one very long spine on the cheek.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Identifying features",
               "quote": "Two dorsal fins. Large head in proportion to body. Scaleless skin. Barbel at the corners of the mouth. Very long spine on the cheek (behind the eye and above the pectoral fin).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2038",
-              "locator": "Description",
-              "quote": "Taurulus bubalis is a distinctive rocky shore fish up to 20 cm in length with a broad bony head that tapers to the tail. The eyes and mouth are very large as this species is an ambush predator. Colour is variable and they can match...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpz9mo1400167igszq1m2ju0": {
           "sourceIds": [
-            "fishbase:Taurulus-bubalis",
-            "marlin:2038"
+            "marlin:2038",
+            "fishbase:Taurulus-bubalis"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Additional information",
-              "quote": "May be confused with the bull rout (short-spined scorpion fish) Myoxocephalus scorpius. The bull rout is much larger when full grown and lacks the very long cheek spine and mouth barbel.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2038",
-              "locator": "Identifying features",
-              "quote": "Two dorsal fins. Large head in proportion to body. Scaleless skin. Barbel at the corners of the mouth. Very long spine on the cheek (behind the eye and above the pectoral fin).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Very long spine on the cheek (behind the eye and above the pectoral fin).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
-            {
-              "sourceId": "marlin:2038",
-              "locator": "Description",
-              "quote": "Taurulus bubalis is a distinctive rocky shore fish up to 20 cm in length with a broad bony head that tapers to the tail. The eyes and mouth are very large as this species is an ambush predator. Colour is variable and they can match...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpz9mo1400177igstwzi0u8p": {
-          "sourceIds": [
-            "fishbase:Taurulus-bubalis",
-            "marlin:2038"
-          ],
-          "support": [
             {
               "sourceId": "fishbase:Taurulus-bubalis",
               "locator": "Short description",
-              "quote": "Morphometrics Longest spine on the front gill cover reaches backwards to a point below the foremost part of the dorsal fin. Gill membranes joined to the throat, no bony knobs above or under the rough...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Longest spine on the front gill cover reaches backwards to a point below the foremost part of the dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2038",
-              "locator": "Identifying features",
-              "quote": "Two dorsal fins. Large head in proportion to body. Scaleless skin. Barbel at the corners of the mouth. Very long spine on the cheek (behind the eye and above the pectoral fin).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2038",
-              "locator": "Description",
-              "quote": "Taurulus bubalis is a distinctive rocky shore fish up to 20 cm in length with a broad bony head that tapers to the tail. The eyes and mouth are very large as this species is an ambush predator. Colour is variable and they can match...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Additional information",
+              "quote": "May be confused with the bull rout (short-spined scorpion fish) Myoxocephalus scorpius . The bull rout is much larger when full grown and lacks the very long cheek spine and mouth barbel.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "mark:cmpz9mo1400177igstwzi0u8p": {
+          "sourceIds": [
+            "marlin:2038",
+            "fishbase:Taurulus-bubalis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Description",
+              "quote": "Taurulus bubalis is a distinctive rocky shore fish up to 20 cm in length with a broad bony head that tapers to the tail. The eyes and mouth are very large as this species is an ambush predator.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Description",
+              "quote": "The head and first dorsal fin are spiny with one very long spine on the cheek.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Identifying features",
+              "quote": "Two dorsal fins. Large head in proportion to body. Scaleless skin. Barbel at the corners of the mouth. Very long spine on the cheek (behind the eye and above the pectoral fin).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Taurulus-bubalis",
+              "locator": "Short description > Morphometrics",
+              "quote": "Gill membranes joined to the throat, no bony knobs above or under the rough lateral line (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "mark:cmpz9mo1400187igsra0t63ar": {
           "sourceIds": [
-            "fishbase:Taurulus-bubalis",
             "marlin:2038"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Additional information",
-              "quote": "Taurulus bubalis feeds on crabs, shrimps and fish in shallow water and rockpools and will remain motionless if discovered, relying on its camouflage to avoid detection.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Description",
+              "quote": "Colour is variable and they can match their surroundings with great accuracy.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2038",
-              "locator": "Identifying features",
-              "quote": "Two dorsal fins. Large head in proportion to body. Scaleless skin. Barbel at the corners of the mouth. Very long spine on the cheek (behind the eye and above the pectoral fin).",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2038",
-              "locator": "Description",
-              "quote": "Taurulus bubalis is a distinctive rocky shore fish up to 20 cm in length with a broad bony head that tapers to the tail. The eyes and mouth are very large as this species is an ambush predator. Colour is variable and they can match...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Additional information",
+              "quote": "will remain motionless if discovered, relying on its camouflage to avoid detection",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
-            "fishbase:Taurulus-bubalis"
+            "fishbase:Taurulus-bubalis",
+            "marlin:2038"
           ],
           "support": [
             {
               "sourceId": "fishbase:Taurulus-bubalis",
               "locator": "Size / Weight / Age",
-              "quote": "L m &nbsp ? &nbsp range ? - ? cm Max length: 17.5 cm SL male/unsexed;; 25.0 cm SL (female); common length: 12.0 cm TL male/unsexed;",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Max length : 17.5 cm SL male/unsexed; (Ref. 3397 ); 25.0 cm SL (female); common length : 12.0 cm TL male/unsexed; (Ref. 3397 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Description",
+              "quote": "Taurulus bubalis is a distinctive rocky shore fish up to 20 cm in length with a broad bony head that tapers to the tail.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Taurulus-bubalis",
-            "marlin:2038"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Biology",
-              "quote": "Facultative air-breathing; A resident intertidal species with homing behavior. Inhabits tide pools and inshore waters on rocky bottoms or among algae at 0-30 m. Can leave tide pools when conditions become...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; demersal; non-migratory; depth range 0 - 200 m. Temperate; 72&deg;N - 35&deg;N, 24&deg;W - 33&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2038",
-              "locator": "Habitat",
-              "quote": "On rocky ground, amongst algae from the intertidal to depths of 30 m.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:behavior": {
-          "sourceIds": [
+            "marlin:2038",
             "fishbase:Taurulus-bubalis"
           ],
           "support": [
             {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Habitat",
+              "quote": "On rocky ground, amongst algae from the intertidal to depths of 30 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "Common on all coasts of Britain and Ireland on rocky grounds, generally amongst algae.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Additional information",
-              "quote": "will remain motionless if discovered, relying on its camouflage to avoid detection",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Inhabits tide pools and inshore waters on rocky bottoms or among algae at 0-30 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "marlin:2038",
+            "fishbase:Taurulus-bubalis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Description",
+              "quote": "The eyes and mouth are very large as this species is an ambush predator.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Additional information",
+              "quote": "Taurulus bubalis feeds on crabs, shrimps and fish in shallow water and rockpools and will remain motionless if discovered, relying on its camouflage to avoid detection.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Taurulus-bubalis",
+              "locator": "Biology",
+              "quote": "A resident intertidal species with homing behavior (Ref. 32612 ). Inhabits tide pools and inshore waters on rocky bottoms or among algae at 0-30 m. Can leave tide pools when conditions become inhospitable (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Taurulus-bubalis",
+              "locator": "Biology",
+              "quote": "Breathes air when out of water (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -15765,21 +16092,6 @@
             }
           ],
           "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Taurulus-bubalis"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Biology",
-              "quote": "Feeds on mysids, amphipods (gammarids), decapods, polychaetes, mollusks, ophiuroids and fishes.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -15798,42 +16110,152 @@
         },
         "trait:depth": {
           "sourceIds": [
+            "fishbase:Taurulus-bubalis",
+            "marlin:2038"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Taurulus-bubalis",
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; demersal; non-migratory; depth range 0 - 200 m (Ref. 58496 ). Temperate; 72 deg N - 35 deg N, 24 deg W - 33 deg E",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Taurulus-bubalis",
+              "locator": "Biology",
+              "quote": "Inhabits tide pools and inshore waters on rocky bottoms or among algae at 0-30 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Habitat",
+              "quote": "On rocky ground, amongst algae from the intertidal to depths of 30 m.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Taurulus-bubalis",
+            "marlin:2038"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Taurulus-bubalis",
+              "locator": "Biology",
+              "quote": "Feeds on mysids, amphipods (gammarids), decapods, polychaetes, mollusks, ophiuroids and fishes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Additional information",
+              "quote": "Taurulus bubalis feeds on crabs, shrimps and fish in shallow water and rockpools",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "marlin:2038"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Additional information",
+              "quote": "Taurulus bubalis feeds on crabs, shrimps and fish in shallow water and rockpools and will remain motionless if discovered, relying on its camouflage to avoid detection.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2038",
+              "locator": "Summary > Description",
+              "quote": "The eyes and mouth are very large as this species is an ambush predator.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
             "fishbase:Taurulus-bubalis"
           ],
           "support": [
             {
               "sourceId": "fishbase:Taurulus-bubalis",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; demersal; non-migratory; depth range 0 - 200 m (Ref. 58496).",
-              "readBy": "refs-trawl depth agent (page fetched 2026-08-28, HTTP 200, Environment line read)",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "Feeds on mysids, amphipods (gammarids), decapods, polychaetes, mollusks, ophiuroids and fishes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false,
-          "conflict": "The app says: Depth: 0-200 m The source says: FishBase Biology: 'Inhabits tide pools and inshore waters on rocky bottoms or among algae at 0-30 m.' MarLIN Habitat: 'from the intertidal to depths of 30 m'."
+          "claimSupported": true
         },
-        "farm:role": {
+        "diet:eatenBy:0": {
           "sourceIds": [
-            "marlin:2038",
-            "doi:10.1111-raq.12584"
+            "doi:10.7489-1799-1"
           ],
           "support": [
             {
-              "sourceId": "marlin:2038",
-              "locator": "Recorded distribution in Britain and Ireland",
-              "quote": "Common on all coasts of Britain and Ireland on rocky grounds, generally amongst algae.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Results, hard parts recovered from grey seal scats",
+              "quote": "commonly found prey species included: Norway pout, poor cod and unidentified Trisopterus ... flatfish; dragonet, goby, sea scorpion and bullrout; and herring.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "doi:10.1111-raq.12584",
-              "locator": "Section 2.1.2 Structured habitats",
-              "quote": "Outplanting of live bivalves and/or shell or other substrate material for wild recruitment creates novel three-dimensional structure with interstitial space in otherwise unstructured, softsediment systems and can mimic natural bivalve beds.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "sourceId": "doi:10.7489-1799-1",
+              "locator": "Figure 8 caption",
+              "quote": "Figure 8: Estimated length frequencies of dragonet, bullrout and sea scorpion consumed by grey seals in 2010/11.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "marinescot:SMFS-7-21"
+          ],
+          "support": [
+            {
+              "sourceId": "marinescot:SMFS-7-21",
+              "locator": "Results > Diet composition, North Sea",
+              "quote": "In the Wash, England, seasonal variation was evident in diet composition. ... in winter by whiting, scorpion fish (bullrout and sea scorpion and sandy benthic prey (dragonet and gobies)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase:predators-Taurulus-bubalis"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Taurulus-bubalis",
+              "locator": "Page heading",
+              "quote": "Organisms Preying on Taurulus bubalis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:predators-Taurulus-bubalis",
+              "locator": "Predator record, n = 1",
+              "quote": "UK Scotland mammals whales/dolphins Delphinidae Tursiops truncatus",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -15851,151 +16273,217 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126768",
-        "marlin:1818",
+        "doi:10.1111-raq.12584",
         "fishbase:Lipophrys-pholis",
         "fishbase:fooditems-Lipophrys-pholis",
         "fishbase:predators-Lipophrys-pholis",
-        "doi:10.1111-raq.12584"
+        "marlin:1818",
+        "worms:126768"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Lipophrys-pholis",
-            "marlin:1818"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Short description",
-              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Identifying features",
-              "quote": "Indistinct dark red spot between the first and second rays of the dorsal fin. The skin is slimy and without scales. No tentacles on the head. Single, long dorsal fin, split by a notch into unequal sections.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Description",
-              "quote": "The shanny has a smooth, elongated body, and measures up to 16 cm in length. Its colouration varies with surrounding habitat from dark brown or blotched to blackish, with a dark spot behind the first dorsal fin. The blennies in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpymul0200077iow03xfeh77": {
-          "sourceIds": [
-            "fishbase:Lipophrys-pholis",
-            "marlin:1818"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Short description",
-              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Identifying features",
-              "quote": "Indistinct dark red spot between the first and second rays of the dorsal fin. The skin is slimy and without scales. No tentacles on the head. Single, long dorsal fin, split by a notch into unequal sections.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Description",
-              "quote": "The shanny has a smooth, elongated body, and measures up to 16 cm in length. Its colouration varies with surrounding habitat from dark brown or blotched to blackish, with a dark spot behind the first dorsal fin. The blennies in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpymul0200097iow5kqzqvk5": {
-          "sourceIds": [
-            "fishbase:Lipophrys-pholis",
-            "marlin:1818"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Short description",
-              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Identifying features",
-              "quote": "Indistinct dark red spot between the first and second rays of the dorsal fin. The skin is slimy and without scales. No tentacles on the head. Single, long dorsal fin, split by a notch into unequal sections.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Description",
-              "quote": "The shanny has a smooth, elongated body, and measures up to 16 cm in length. Its colouration varies with surrounding habitat from dark brown or blotched to blackish, with a dark spot behind the first dorsal fin. The blennies in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "mark:cmpymul02000b7iowcq3zb3mu": {
-          "sourceIds": [
-            "fishbase:Lipophrys-pholis",
-            "marlin:1818"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Short description",
-              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin....",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Identifying features",
-              "quote": "Indistinct dark red spot between the first and second rays of the dorsal fin. The skin is slimy and without scales. No tentacles on the head. Single, long dorsal fin, split by a notch into unequal sections.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:1818",
-              "locator": "Description",
-              "quote": "The shanny has a smooth, elongated body, and measures up to 16 cm in length. Its colouration varies with surrounding habitat from dark brown or blotched to blackish, with a dark spot behind the first dorsal fin. The blennies in...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:size": {
-          "sourceIds": [
+            "marlin:1818",
             "fishbase:Lipophrys-pholis"
           ],
           "support": [
             {
+              "sourceId": "marlin:1818",
+              "locator": "Identifying features",
+              "quote": "The skin is slimy and without scales. No tentacles on the head. Single, long dorsal fin, split by a notch into unequal sections.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Description",
+              "quote": "The shanny has a smooth, elongated body, and measures up to 16 cm in length. Its colouration varies with surrounding habitat from dark brown or blotched to blackish, with a dark spot behind the first dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Habitat",
+              "quote": "Most commonly found on the shore in rockpools, or hiding under damp stones and seaweed, from where it emerges at high tide to forage over the shore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Size / Weight / Age",
-              "quote": "L m 8.0 &nbsp range ? - ? cm Max length: 17.0 cm TL male/unsexed;; max. reported age: 10 years",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Biology",
+              "quote": "May remain out of water under rocks or seaweeds (Ref. 31184 ). Mostly active at daytime during high tide. Breathes air when out of water (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Short description",
+              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 17.0 cm TL male/unsexed; (Ref. 747 ); max. reported age: 10 years (Ref. 35388 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpymul0200077iow03xfeh77": {
+          "sourceIds": [
+            "marlin:1818",
+            "fishbase:Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Identifying features",
+              "quote": "The skin is slimy and without scales. No tentacles on the head. Single, long dorsal fin, split by a notch into unequal sections.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Description",
+              "quote": "The blennies in general have an elongated body with a large, blunt head, fairly large eyes, and small tentacles on the head.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Description",
+              "quote": "The shanny has similar characteristics to other blennies, although it has no head tentacles and its eyes are set high up on its head. Older animals develop a fleshy ridge on their forehead.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Short description",
+              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpymul0200097iow5kqzqvk5": {
+          "sourceIds": [
+            "marlin:1818",
+            "fishbase:Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Description",
+              "quote": "The blennies in general have an elongated body with a large, blunt head, fairly large eyes, and small tentacles on the head.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Description",
+              "quote": "The shanny has similar characteristics to other blennies, although it has no head tentacles and its eyes are set high up on its head.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Identifying features",
+              "quote": "The skin is slimy and without scales.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Short description",
+              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "mark:cmpymul02000b7iowcq3zb3mu": {
+          "sourceIds": [
+            "marlin:1818",
+            "fishbase:Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Description",
+              "quote": "The shanny has a smooth, elongated body, and measures up to 16 cm in length. Its colouration varies with surrounding habitat from dark brown or blotched to blackish, with a dark spot behind the first dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Short description",
+              "quote": "Skin naked and slimy. No tentacles on the head. Dip in the middle of dorsal fin. Variable coloration (Ref. 35388 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Identifying features",
+              "quote": "Indistinct dark red spot between the first and second rays of the dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "fishbase:Lipophrys-pholis",
+            "marlin:1818"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Length at first maturity / Size / Weight / Age",
+              "quote": "Max length : 17.0 cm TL male/unsexed; (Ref. 747 ); max. reported age: 10 years (Ref. 35388 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Description",
+              "quote": "The shanny has a smooth, elongated body, and measures up to 16 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
+            "marlin:1818",
+            "fishbase:Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1818",
+              "locator": "Habitat",
+              "quote": "Most commonly found on the shore in rockpools, or hiding under damp stones and seaweed...it is also often found around man-made structures such as pier pilings.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Biology",
+              "quote": "A resident intertidal species with homing behavior (Ref. 32612 ) found in shallow waters of rocky coasts.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
             "fishbase:Lipophrys-pholis",
             "marlin:1818"
           ],
@@ -16003,41 +16491,19 @@
             {
               "sourceId": "fishbase:Lipophrys-pholis",
               "locator": "Biology",
-              "quote": "Facultative air-breathing; A resident intertidal species with homing behavior found in shallow waters of rocky coasts. May remain out of water under rocks or seaweeds. Mostly active at daytime during high...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; demersal; non-migratory; depth range 0 - 8 m. Temperate; 65&deg;N - 18&deg;N, 32&deg;W - 11&deg;E",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "May remain out of water under rocks or seaweeds (Ref. 31184 ). Mostly active at daytime during high tide. Breathes air when out of water (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1818",
               "locator": "Habitat",
-              "quote": "Most commonly found on the shore in rockpools, or hiding under damp stones and seaweed, from where it emerges at high tide to forage over the shore. An adaptable species, it is also often found around man-made structures such as pier...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Most commonly found on the shore in rockpools, or hiding under damp stones and seaweed, from where it emerges at high tide to forage over the shore.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
-        },
-        "trait:behavior": {
-          "sourceIds": [
-            "fishbase:Lipophrys-pholis"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Biology",
-              "quote": "Facultative air-breathing; A resident intertidal species with homing behavior found in shallow waters of rocky coasts. May remain out of water under rocks or seaweeds. Mostly active at daytime during high...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eats": {
           "sourceIds": [
@@ -16049,36 +16515,6 @@
               "locator": "Biology",
               "quote": "Feeds on small benthic invertebrates, especially gastropods, barnacles and amphipods, and algae.",
               "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Lipophrys-pholis"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Biology",
-              "quote": "Feeds on small benthic invertebrates, especially gastropods, barnacles and amphipods, and algae (Ref. 31184).",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Seabed biodeposits->Shanny": {
-          "sourceIds": [
-            "fishbase:fooditems-Lipophrys-pholis"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:fooditems-Lipophrys-pholis",
-              "locator": "Food items table (n = 40), benthic rows",
-              "quote": "plants other plants benthic algae/weeds unspecified algae (not available) juv./adults zoobenthos benth. crust. amphipods Unspecified Amphipoda Spain juv./adults",
-              "readBy": "refs:trawl (fish-3)",
               "readOn": "2026-08-28"
             }
           ],
@@ -16101,49 +16537,117 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Lipophrys-pholis"
+            "fishbase:Lipophrys-pholis",
+            "marlin:1818"
           ],
           "support": [
             {
               "sourceId": "fishbase:Lipophrys-pholis",
               "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; demersal; non-migratory; depth range 0 - 8 m (Ref. 5981).",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "fishbase:Lipophrys-pholis",
-            "marlin:1818",
-            "doi:10.1111-raq.12584"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Lipophrys-pholis",
-              "locator": "Biology",
-              "quote": "A resident intertidal species with homing behavior (Ref. 32612) found in shallow waters of rocky coasts.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "quote": "Marine; demersal; non-migratory; depth range 0 - 8 m (Ref. 5981 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1818",
               "locator": "Habitat",
               "quote": "Most commonly found on the shore in rockpools, or hiding under damp stones and seaweed, from where it emerges at high tide to forage over the shore.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1111-raq.12584",
-              "locator": "Section 2.1.2 Structured habitats",
-              "quote": "Outplanting of live bivalves and/or shell or other substrate material for wild recruitment creates novel three-dimensional structure with interstitial space in otherwise unstructured, softsediment systems and can mimic natural bivalve beds.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Lipophrys-pholis",
+            "fishbase:fooditems-Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Biology",
+              "quote": "Feeds on small benthic invertebrates, especially gastropods, barnacles and amphipods, and algae (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Lipophrys-pholis",
+              "locator": "Food items reported for Lipophrys pholis > zoobenthos / benth. crust.",
+              "quote": "n.a./other benth. crustaceans unspecified Ciripedia (barnacles)",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:Lipophrys-pholis",
+            "fishbase:fooditems-Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Biology",
+              "quote": "Also, diet of crabs, polychaetes, isopods, copepods, limpets, mussels and small molluscs (Ref. 94105 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Lipophrys-pholis",
+              "locator": "Food items reported for Lipophrys pholis > zoobenthos / mollusks / gastropods",
+              "quote": "gastropods Patella vulgata Spain",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:Lipophrys-pholis",
+            "fishbase:fooditems-Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Lipophrys-pholis",
+              "locator": "Biology",
+              "quote": "Feeds on small benthic invertebrates, especially gastropods, barnacles and amphipods, and algae (Ref. 31184 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Lipophrys-pholis",
+              "locator": "Food items reported for Lipophrys pholis > plants / other plants",
+              "quote": "benthic algae/weeds unspecified algae",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:predators-Lipophrys-pholis"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Lipophrys-pholis",
+              "locator": "Organisms Preying on Lipophrys pholis",
+              "quote": "Organisms Preying on Lipophrys pholis",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:predators-Lipophrys-pholis",
+              "locator": "Predator table row",
+              "quote": "Azores Is. finfish bony fish Serranidae Serranus atricauda",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -16161,193 +16665,230 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:126508",
-        "marlin:2081",
+        "doi:10.1111-raq.12584",
         "fishbase:Spinachia-spinachia",
         "fishbase:fooditems-Spinachia-spinachia",
         "fishbase:predators-Spinachia-spinachia",
-        "doi:10.1111-raq.12584"
+        "marlin:2081",
+        "worms:126508"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "fishbase:Spinachia-spinachia",
-            "marlin:2081"
+            "marlin:2081",
+            "fishbase:Spinachia-spinachia"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Short description",
-              "quote": "Front of body brassy-yellow in the male, with larger pectoral fins than in the female. Body shape ( shape guide): elongated.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2081",
+              "locator": "Description",
+              "quote": "characteristically has 14-17 spines in front of the dorsal fin. The body is elongate and slender, becoming very narrow before the tail fin. ... brown or olive above and paler below. There may be dark bars on the flanks.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2081",
               "locator": "Identifying features",
-              "quote": "Very elongate, slender body becoming narrow before tail fin. 14-17 isolated spines in front of dorsal fin. Pelvic fins represented mainly by a single spine behind the pectoral fins. Body brown or olive above, sometimes with dark bars...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Tapering snout with tiny mouth. ... Long narrowing peduncle with small rounded tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2081",
-              "locator": "Description",
-              "quote": "Spinachia spinachia is commonly known as the fifteen-spined stickleback or sea stickleback. This species characteristically has 14-17 spines in front of the dorsal fin. The body is elongate and slender, becoming very narrow before the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Habitat",
+              "quote": "It is found singly or in pairs confined to weedy shorelines and inshore waters less than 20 m deep",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Spinachia-spinachia",
+              "locator": "Short description",
+              "quote": "Dorsal spines (total): 14 - 17.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rvab000f7i0kocpjpqwm": {
           "sourceIds": [
-            "fishbase:Spinachia-spinachia",
-            "marlin:2081"
+            "marlin:2081",
+            "fishbase:Spinachia-spinachia"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Short description",
-              "quote": "Front of body brassy-yellow in the male, with larger pectoral fins than in the female. Body shape ( shape guide): elongated.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "marlin:2081",
+              "locator": "Identifying features",
+              "quote": "Very elongate, slender body becoming narrow before tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2081",
               "locator": "Identifying features",
-              "quote": "Very elongate, slender body becoming narrow before tail fin. 14-17 isolated spines in front of dorsal fin. Pelvic fins represented mainly by a single spine behind the pectoral fins. Body brown or olive above, sometimes with dark bars...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Body depth less than half the head length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2081",
               "locator": "Description",
-              "quote": "Spinachia spinachia is commonly known as the fifteen-spined stickleback or sea stickleback. This species characteristically has 14-17 spines in front of the dorsal fin. The body is elongate and slender, becoming very narrow before the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "The body is elongate and slender, becoming very narrow before the tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Spinachia-spinachia",
+              "locator": "Short description > Body shape",
+              "quote": "Body shape ( shape guide ): elongated.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rvab000g7i0k5rnu2wa7": {
           "sourceIds": [
-            "fishbase:Spinachia-spinachia",
-            "marlin:2081"
+            "marlin:2081",
+            "fishbase:Spinachia-spinachia"
           ],
           "support": [
             {
-              "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Short description",
-              "quote": "Front of body brassy-yellow in the male, with larger pectoral fins than in the female. Body shape ( shape guide): elongated.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
               "sourceId": "marlin:2081",
               "locator": "Identifying features",
-              "quote": "Very elongate, slender body becoming narrow before tail fin. 14-17 isolated spines in front of dorsal fin. Pelvic fins represented mainly by a single spine behind the pectoral fins. Body brown or olive above, sometimes with dark bars...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Tapering snout with tiny mouth.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:2081",
-              "locator": "Description",
-              "quote": "Spinachia spinachia is commonly known as the fifteen-spined stickleback or sea stickleback. This species characteristically has 14-17 spines in front of the dorsal fin. The body is elongate and slender, becoming very narrow before the...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "fishbase:Spinachia-spinachia",
+              "locator": "Biology",
+              "quote": "Feed on small invertebrates (Ref. 4119 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpx2rvab000h7i0k6bcu5qql": {
           "sourceIds": [
-            "fishbase:Spinachia-spinachia",
-            "marlin:2081"
+            "marlin:2081",
+            "fishbase:Spinachia-spinachia"
           ],
           "support": [
             {
+              "sourceId": "marlin:2081",
+              "locator": "Identifying features",
+              "quote": "14-17 isolated spines in front of dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Spinachia-spinachia",
               "locator": "Short description",
-              "quote": "Front of body brassy-yellow in the male, with larger pectoral fins than in the female. Body shape ( shape guide): elongated.",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Dorsal spines (total): 14 - 17.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2081",
               "locator": "Identifying features",
-              "quote": "Very elongate, slender body becoming narrow before tail fin. 14-17 isolated spines in front of dorsal fin. Pelvic fins represented mainly by a single spine behind the pectoral fins. Body brown or olive above, sometimes with dark bars...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Long narrowing peduncle with small rounded tail fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:2081",
               "locator": "Description",
-              "quote": "Spinachia spinachia is commonly known as the fifteen-spined stickleback or sea stickleback. This species characteristically has 14-17 spines in front of the dorsal fin. The body is elongate and slender, becoming very narrow before the...",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "This species characteristically has 14-17 spines in front of the dorsal fin.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:size": {
           "sourceIds": [
+            "marlin:2081",
             "fishbase:Spinachia-spinachia"
           ],
           "support": [
             {
+              "sourceId": "marlin:2081",
+              "locator": "Description",
+              "quote": "The 15 spined stickleback can be up to 25 cm in length.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:2081",
+              "locator": "Identifying features",
+              "quote": "Body length up to 25 cm.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Spinachia-spinachia",
               "locator": "Size / Weight / Age",
-              "quote": "L m &nbsp ? &nbsp range ? - ? cm Max length: 22.0 cm SL male/unsexed;",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
+              "quote": "Max length : 22.0 cm SL male/unsexed; (Ref. 4119 )",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
         },
         "trait:habitat": {
           "sourceIds": [
-            "fishbase:Spinachia-spinachia",
-            "marlin:2081"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Biology",
-              "quote": "Adults live solitary or in pairs in weedy, shallow coastal areas. Feed on small invertebrates. Males build a nest from algae and debris, using kidney excrete as glue. Spawning season is May to June. Females...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Environment / depth range",
-              "quote": "Ecology Marine; brackish; benthopelagic; non-migratory; depth range 1 - 6 m. Temperate; 71&deg;N - 43&deg;N, 11&deg;W - 55&deg;E",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "marlin:2081",
-              "locator": "Habitat",
-              "quote": "Spinachia spinachia is a demersal, non migratory fish. This species is marine, extending in to brackish water. It is found singly or in pairs confined to weedy shorelines and inshore waters less than 20 m deep",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
-        },
-        "trait:behavior": {
-          "sourceIds": [
+            "marlin:2081",
             "fishbase:Spinachia-spinachia"
           ],
           "support": [
             {
+              "sourceId": "marlin:2081",
+              "locator": "Habitat",
+              "quote": "Spinachia spinachia is a demersal, non migratory fish. This species is marine, extending in to brackish water. It is found singly or in pairs confined to weedy shorelines and inshore waters less than 20 m deep",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
               "sourceId": "fishbase:Spinachia-spinachia",
               "locator": "Biology",
-              "quote": "Adults live solitary or in pairs in weedy, shallow coastal areas. Feed on small invertebrates. Males build a nest from algae and debris, using kidney excrete as glue. Spawning season is May to June. Females...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "Adults live solitary or in pairs in weedy, shallow coastal areas (Ref. 4119 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "trait:behavior": {
+          "sourceIds": [
+            "marlin:2081",
+            "fishbase:Spinachia-spinachia"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:2081",
+              "locator": "Additional information",
+              "quote": "The male builds a nest of algal fragments, stuck together with a kidney secretion. The female lays 150-200 eggs in the nest and dies shortly after. The male tends the eggs and guards the nest.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Spinachia-spinachia",
+              "locator": "Biology",
+              "quote": "Adults live solitary or in pairs in weedy, shallow coastal areas (Ref. 4119 ). Feed on small invertebrates (Ref. 4119 ). Males build a nest from algae and debris, using kidney excrete as glue.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:Spinachia-spinachia",
+              "locator": "Life cycle and mating behavior",
+              "quote": "Males build, guard and aerate the nest where the eggs are deposited (Ref. 205 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -16363,36 +16904,6 @@
             }
           ],
           "claimSupported": false
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "fishbase:Spinachia-spinachia"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Biology",
-              "quote": "Feed on small invertebrates (Ref. 4119).",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "edge:Plankton->Fifteen-spined stickleback": {
-          "sourceIds": [
-            "fishbase:fooditems-Spinachia-spinachia"
-          ],
-          "support": [
-            {
-              "sourceId": "fishbase:fooditems-Spinachia-spinachia",
-              "locator": "Food items table (n = 5), zooplankton rows",
-              "quote": "zooplankton plank. crust. mysids Mysis flexuosa Germany juv./adults zooplankton plank. crust. plank. copepods Unspecified copepods Germany juv./adults",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -16411,41 +16922,94 @@
         },
         "trait:depth": {
           "sourceIds": [
-            "fishbase:Spinachia-spinachia"
+            "fishbase:Spinachia-spinachia",
+            "marlin:2081"
           ],
           "support": [
             {
               "sourceId": "fishbase:Spinachia-spinachia",
-              "locator": "Environment: milieu / climate zone / depth range / distribution range > Ecology",
-              "quote": "Marine; brackish; benthopelagic; non-migratory; depth range 1 - 6 m (Ref. 130221).",
-              "readBy": "refs:confirm (small-fish), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:2081",
-            "doi:10.1111-raq.12584"
-          ],
-          "support": [
+              "locator": "Environment: milieu / climate zone / depth range / distribution range",
+              "quote": "Marine; brackish; benthopelagic; non-migratory; depth range 1 - 6 m (Ref. 130221 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:2081",
               "locator": "Habitat",
               "quote": "It is found singly or in pairs confined to weedy shorelines and inshore waters less than 20 m deep",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
-            },
-            {
-              "sourceId": "doi:10.1111-raq.12584",
-              "locator": "Section 2.1.2 Structured habitats",
-              "quote": "Outplanting of live bivalves and/or shell or other substrate material for wild recruitment creates novel three-dimensional structure with interstitial space in otherwise unstructured, softsediment systems and can mimic natural bivalve beds.",
-              "readBy": "refs:trawl (fish-3)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "fishbase:Spinachia-spinachia",
+            "fishbase:fooditems-Spinachia-spinachia"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:Spinachia-spinachia",
+              "locator": "Biology",
+              "quote": "Adults live solitary or in pairs in weedy, shallow coastal areas (Ref. 4119 ). Feed on small invertebrates (Ref. 4119 ).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "fishbase:fooditems-Spinachia-spinachia",
+              "locator": "Food items reported for Spinachia spinachia (n = 5), zoobenthos row",
+              "quote": "zoobenthos other benth. invertebrates n.a./other benth. invertebrates unspecified small invertebrates Canada juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:1": {
+          "sourceIds": [
+            "fishbase:fooditems-Spinachia-spinachia"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Spinachia-spinachia",
+              "locator": "Food items reported for Spinachia spinachia (n = 5), benthic crustacean rows",
+              "quote": "zoobenthos benth. crust. isopods Idoteidae Germany juv./adults ... n.a./other benth. crustaceans Balanidae Germany juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "fishbase:fooditems-Spinachia-spinachia"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:fooditems-Spinachia-spinachia",
+              "locator": "Food items reported for Spinachia spinachia (n = 5), zooplankton rows",
+              "quote": "zooplankton plank. crust. mysids Mysis flexuosa Germany juv./adults ... plank. copepods Unspecified copepods Germany juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "fishbase:predators-Spinachia-spinachia"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase:predators-Spinachia-spinachia",
+              "locator": "Organisms Preying on Spinachia spinachia (n = 1)",
+              "quote": "Organisms Preying on Spinachia spinachia ... mammals whales/dolphins Phocoenidae Phocoena phocoena",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },
@@ -16463,79 +17027,127 @@
         "resolvedOn": "2026-08-28"
       },
       "sourceIds": [
-        "worms:107381",
-        "marlin:1497",
-        "fishbase-fooditems:Gadus-morhua",
+        "biotic:4286",
         "fishbase-fooditems:Conger-conger",
+        "fishbase-fooditems:Gadus-morhua",
+        "habitas:S26900",
         "marlin:1179",
-        "biotic:4286"
+        "marlin:1497",
+        "seasearch:carcinus-maenas",
+        "worms:107381"
       ],
       "claims": {
         "fieldNote": {
           "sourceIds": [
-            "marlin:1497"
+            "marlin:1497",
+            "habitas:S26900",
+            "seasearch:carcinus-maenas"
           ],
           "support": [
             {
               "sourceId": "marlin:1497",
-              "locator": "Identifying features",
-              "quote": "Shell (carapace) up to 8 cm wide. Front of carapace serrated with five teeth either side of the eyes. Three rounded lobes between the eyes. Variable in colour from dark green to orange or red. Females can distinguished from males by...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Recorded distribution in Britain and Ireland",
+              "quote": "This ubiquitous crab is found on all shores of Britain and Ireland.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1497",
+              "locator": "Summary > Habitat",
+              "quote": "Carcinus maenas is found on all types of shore, from high water to depths of 60 m in the sublittoral, but it is predominantly a shore and shallow water species.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Summary > Description",
+              "quote": "The shore crab has a shell (carapace) that is much broader than long (up to 8 cm across). The front of the carapace is serrated with five teeth on either side and three rounded lobes between the eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Summary > Description",
+              "quote": "Its colour is highly variable from dark green to orange and red. Variation in colour may be due to the stage of the life cycle or the habitat. Juveniles in particular display a wide range of mottled patterns.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26900",
               "locator": "Description",
-              "quote": "The shore crab has a shell (carapace) that is much broader than long (up to 8 cm across). The front of the carapace is serrated with five teeth on either side and three rounded lobes between the eyes. The first pair of legs...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "quote": "it is most commonly mottled olive green to dark brown on top and lighter yellow-green on the underside",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26900",
+              "locator": "Description",
+              "quote": "The first pair of legs (chelipeds) have well-developed, evenly sized pincers. Tips of the walking legs pointed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "seasearch:carcinus-maenas",
+              "locator": "Identification text, paragraph 2",
+              "quote": "This species has a flattened dactylus (last segment of rear legs) but it is not expanded into a swimming paddle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkpy8f00007i30hqcptq7v": {
           "sourceIds": [
-            "marlin:1497"
+            "marlin:1497",
+            "habitas:S26900"
           ],
           "support": [
             {
               "sourceId": "marlin:1497",
-              "locator": "Identifying features",
-              "quote": "Shell (carapace) up to 8 cm wide. Front of carapace serrated with five teeth either side of the eyes. Three rounded lobes between the eyes. Variable in colour from dark green to orange or red. Females can distinguished from males by...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Description",
+              "quote": "The front of the carapace is serrated with five teeth on either side and three rounded lobes between the eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "marlin:1497",
-              "locator": "Description",
-              "quote": "The shore crab has a shell (carapace) that is much broader than long (up to 8 cm across). The front of the carapace is serrated with five teeth on either side and three rounded lobes between the eyes. The first pair of legs...",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Identifying features",
+              "quote": "Front of carapace serrated with five teeth either side of the eyes. Three rounded lobes between the eyes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26900",
+              "locator": "Key Identification Features",
+              "quote": "Five pointed teeth at either side of eyes. Three rounded lobes between eyes",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "mark:cmpwkpy8f00017i30r5w90a7d": {
           "sourceIds": [
-            "marlin:1497"
+            "habitas:S26900",
+            "seasearch:carcinus-maenas"
           ],
           "support": [
             {
-              "sourceId": "marlin:1497",
-              "locator": "Identifying features",
-              "quote": "Shell (carapace) up to 8 cm wide. Front of carapace serrated with five teeth either side of the eyes. Three rounded lobes between the eyes. Variable in colour from dark green to orange or red. Females can distinguished from males by...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "habitas:S26900",
+              "locator": "Description",
+              "quote": "The first pair of legs (chelipeds) have well-developed, evenly sized pincers. Tips of the walking legs pointed.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
-              "sourceId": "marlin:1497",
-              "locator": "Description",
-              "quote": "The shore crab has a shell (carapace) that is much broader than long (up to 8 cm across). The front of the carapace is serrated with five teeth on either side and three rounded lobes between the eyes. The first pair of legs...",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "sourceId": "seasearch:carcinus-maenas",
+              "locator": "Identification text, paragraph 2",
+              "quote": "This species has a flattened dactylus (last segment of rear legs) but it is not expanded into a swimming paddle.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "trait:behavior": {
           "sourceIds": [
@@ -16544,13 +17156,34 @@
           "support": [
             {
               "sourceId": "marlin:1497",
-              "locator": "marlin:1497, Biology review > Biology information (colour morphs paragraph)",
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Mobility Crawler or Walker Characteristic feeding method Predator, Scavenger Diet/food source Omnivore",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Environmental position Epibenthic",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Biology review > Biology information > Diet",
+              "quote": "Peak foraging occurs at night around high tide (Ropes, 1969).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Biology review > Biology information (colour morphs paragraph)",
               "quote": "Green Carcinus maenas are mainly found sheltering under algae where their colour blends in with the background.",
-              "readBy": "refs:extract (deterministic section parse)",
-              "readOn": "2026-08-28"
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
         "diet:eats": {
           "sourceIds": [
@@ -16566,21 +17199,6 @@
             }
           ],
           "claimSupported": true
-        },
-        "trophic:tier": {
-          "sourceIds": [
-            "marlin:1497"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1497",
-              "locator": "Biology review > Biology (parameter table)",
-              "quote": "Characteristic feeding method Predator, Scavenger Diet/food source Omnivore Typically feeds on Any animal or plant material (see additional information below).",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": false
         },
         "diet:eatenBy": {
           "sourceIds": [
@@ -16613,21 +17231,6 @@
           ],
           "claimSupported": false
         },
-        "edge:Seabed biodeposits->Shore Crab": {
-          "sourceIds": [
-            "marlin:1497"
-          ],
-          "support": [
-            {
-              "sourceId": "marlin:1497",
-              "locator": "Biology review > Biology (parameter table)",
-              "quote": "Characteristic feeding method Predator, Scavenger Diet/food source Omnivore Typically feeds on Any animal or plant material (see additional information below).",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
         "trait:depth": {
           "sourceIds": [
             "marlin:1497"
@@ -16635,25 +17238,17 @@
           "support": [
             {
               "sourceId": "marlin:1497",
-              "locator": "MarLIN species information review > Depth range (structured field)",
+              "locator": "Summary > Depth range",
               "quote": "Intertidal down to 60 m.",
-              "readBy": "refs:confirm (crab-ceph), adversarially checked",
-              "readOn": "2026-08-28"
-            }
-          ],
-          "claimSupported": true
-        },
-        "farm:role": {
-          "sourceIds": [
-            "marlin:1497"
-          ],
-          "support": [
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
             {
               "sourceId": "marlin:1497",
-              "locator": "Habitat",
-              "quote": "Carcinus maenas is found on all types of shore, from high water to depths of 60 m in the sublittoral, but it is predominantly a shore and shallow water species.",
-              "readBy": "refs:trawl (crab)",
-              "readOn": "2026-08-28"
+              "locator": "Summary > Habitat",
+              "quote": "Carcinus maenas is found on all types of shore, from high water to depths of 60 m in the sublittoral, but it is predominantly a shore and shallow water species. ... especially abundant in estuaries and salt marshes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
           "claimSupported": true
@@ -16661,40 +17256,176 @@
         "trait:habitat": {
           "sourceIds": [
             "marlin:1497",
+            "biotic:4286",
+            "habitas:S26900"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Summary > Habitat",
+              "quote": "Carcinus maenas is found on all types of shore, from high water to depths of 60 m in the sublittoral, but it is predominantly a shore and shallow water species. ... especially abundant in estuaries and salt marshes.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "biotic:4286",
+              "locator": "General Biology > Additional Information (General)",
+              "quote": "Carcinus maenas is an easily identifiable crab of estuaries, sheltered rocky shores and offshore waters (Crothers, 1968).",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26900",
+              "locator": "Habitat",
+              "quote": "Widespread in a variety of habitats from the upper shore to shallow sublittoral. Also found in estuaries.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "trait:size": {
+          "sourceIds": [
+            "marlin:1497",
+            "habitas:S26900",
+            "seasearch:carcinus-maenas"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Summary > Identifying features",
+              "quote": "Shell (carapace) up to 8 cm wide.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "habitas:S26900",
+              "locator": "Description",
+              "quote": "A common medium-sized crab, measuring 4 - 8 cm across the carapace.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Biology review > Biology (parameter table)",
+              "quote": "Male size range 1-86 mm Male size at maturity 25-30 mm",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "seasearch:carcinus-maenas",
+              "locator": "Identification text, paragraph 2",
+              "quote": "A medium sized crab typically less than 8cm in width",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eats:0": {
+          "sourceIds": [
+            "marlin:1497",
             "biotic:4286"
           ],
           "support": [
             {
               "sourceId": "marlin:1497",
-              "locator": "Habitat",
-              "quote": "Carcinus maenas is found on all types of shore, from high water to depths of 60 m in the sublittoral, but it is predominantly a shore and shallow water species.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information > Diet",
+              "quote": "Carcinus maenas can be considered a true omnivore and consumes plants, algae, molluscs, arthropods (including their own species), annelids and carrion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             },
             {
               "sourceId": "biotic:4286",
-              "locator": "General Biology, Additional Information (General)",
-              "quote": "Carcinus maenas is an easily identifiable crab of estuaries, sheltered rocky shores and offshore waters (Crothers, 1968).",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "locator": "General Biology > Additional Information > Diet",
+              "quote": "Carcinus maenas can be considered a true omnivore and consumes plants, algae, molluscs, arthropods (including their own species), annelids and carrion.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
         },
-        "trait:size": {
+        "diet:eats:1": {
           "sourceIds": [
             "marlin:1497"
           ],
           "support": [
             {
               "sourceId": "marlin:1497",
-              "locator": "Identifying features",
-              "quote": "Shell (carapace) up to 8 cm wide.",
-              "readBy": "refs:trawl (gap-traits)",
-              "readOn": "2026-08-28"
+              "locator": "Biology review > Biology information > Diet",
+              "quote": "The diet of large Carcinus maenas mainly consists of molluscs and the common mussel Mytilus edulis is the most important of these.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
             }
           ],
-          "claimSupported": false
+          "claimSupported": true
+        },
+        "diet:eats:2": {
+          "sourceIds": [
+            "marlin:1497"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Biology review > Biology information > Diet",
+              "quote": "On rocky shores, juvenile Carcinus maenas were found to consume the barnacle Semibalanus balanoides whereas adults consume more gastropods ... especially the dogwhelk Nucella lapillus and winkles Littorina sp.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:0": {
+          "sourceIds": [
+            "marlin:1497"
+          ],
+          "support": [
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Biology review > Biology information > Predators",
+              "quote": "Common shore crabs are eaten mainly by fish and birds (e.g. gulls, cormorants, eider ducks) although it depends on the size of the crabs and on geographic location.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            },
+            {
+              "sourceId": "marlin:1497",
+              "locator": "Biology review > Biology information > Predators",
+              "quote": "For example, in some areas, predators of Carcinus maenas may include otters.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:1": {
+          "sourceIds": [
+            "fishbase-fooditems:Gadus-morhua"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Gadus-morhua",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row",
+              "quote": "zoobenthos benth. crust. crabs Carcinus maenas (not available) juv./adults",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
+        },
+        "diet:eatenBy:2": {
+          "sourceIds": [
+            "fishbase-fooditems:Conger-conger"
+          ],
+          "support": [
+            {
+              "sourceId": "fishbase-fooditems:Conger-conger",
+              "locator": "Food items table, zoobenthos > benthic crustaceans > crabs row (Portugal)",
+              "quote": "zoobenthos benth. crust. crabs Carcinus maenas Portugal recruits/juv.",
+              "readBy": "claim-verification-sweep",
+              "readOn": "2026-08-29"
+            }
+          ],
+          "claimSupported": true
         }
       }
     },

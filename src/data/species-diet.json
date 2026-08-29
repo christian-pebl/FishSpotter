@@ -642,28 +642,140 @@
     ]
   },
   "Sprattus sprattus": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Planktonic crustaceans, including copepods"
+      },
+      {
+        "text": "Cladocerans and other small planktonic crustaceans"
+      },
+      {
+        "text": "Other zooplankton, including arrow worms and larvaceans"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Larger predatory fish, including cod, whiting, saithe, hake and gurnards"
+      },
+      {
+        "text": "Seals and small cetaceans, including harbour seal, harbour porpoise and bottlenose dolphin"
+      },
+      {
+        "text": "Seabirds such as the kittiwake, and squid"
+      }
+    ]
   },
   "Atherina presbyter": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Zooplankton, including small planktonic crustaceans"
+      },
+      {
+        "text": "Fish eggs and larvae"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Great cormorants, for which sand smelt is an important estuarine prey in southern Europe",
+        "slug": "phalacrocorax-carbo"
+      },
+      {
+        "text": "European shags in Galicia, Spain, which take sand smelt and gobies in February and March before switching to sandeel in spring",
+        "slug": "phalacrocorax-aristotelis"
+      },
+      {
+        "text": "Adult sea bass, in whose stomach contents it is recorded among the coastal fish prey taken on the shelf",
+        "slug": "dicentrarchus-labrax"
+      }
+    ]
   },
   "Taurulus bubalis": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small crustaceans: mysids, amphipods (gammarids) and decapods such as crabs and shrimps"
+      },
+      {
+        "text": "Fish, taken by ambush in shallow water and rockpools"
+      },
+      {
+        "text": "Seabed invertebrates: polychaete worms, molluscs and brittle stars"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Grey seals, in whose scats sea scorpion is among the commonly recovered prey species",
+        "slug": "halichoerus-grypus"
+      },
+      {
+        "text": "Harbour seals in the Wash, whose winter diet includes sea scorpion among the scorpion fish taken",
+        "slug": "phoca-vitulina"
+      },
+      {
+        "text": "Bottlenose dolphins, recorded taking it in Scottish waters"
+      }
+    ]
   },
   "Lipophrys pholis": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small benthic invertebrates, especially gastropods, barnacles and amphipods"
+      },
+      {
+        "text": "Limpets and other molluscs, along with crabs, polychaete worms and isopods"
+      },
+      {
+        "text": "Algae, eaten alongside its invertebrate prey"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Recorded as prey of the serranid fish Serranus atricauda in the Azores"
+      }
+    ]
   },
   "Spinachia spinachia": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "Small invertebrates, recorded for both juveniles and adults"
+      },
+      {
+        "text": "Bottom-living crustaceans, including isopods and barnacles"
+      },
+      {
+        "text": "Planktonic crustaceans, especially mysid shrimps and copepods"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Harbour porpoise (Phocoena phocoena)"
+      }
+    ]
   },
   "Carcinus maenas": {
-    "eats": [],
-    "eatenBy": []
+    "eats": [
+      {
+        "text": "A true omnivore, taking molluscs, other crustaceans, worms, algae and carrion"
+      },
+      {
+        "text": "Large crabs feed mainly on molluscs, with the common mussel the single most important prey"
+      },
+      {
+        "text": "On rocky shores the young take barnacles, while adults take more gastropods, especially dogwhelks and winkles"
+      }
+    ],
+    "eatenBy": [
+      {
+        "text": "Mainly fish and birds, including gulls, cormorants and eider ducks, and otters in some areas"
+      },
+      {
+        "text": "Atlantic cod, which take shore crabs among their bottom-living crustacean prey",
+        "slug": "gadus-morhua"
+      },
+      {
+        "text": "Conger eel, recorded taking shore crabs off Portugal",
+        "slug": "conger-conger"
+      }
+    ]
   },
   "Cancer pagurus": {
     "eats": [
