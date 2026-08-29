@@ -100,30 +100,12 @@ const DECKS = [
   { table: 5, title: 'Group 5', cards: ['Sea potato','Purple heart urchin','Dragonet','Sand goby','Long-spined sea scorpion','Plaice','Flounder','Harbour seal'] },
 ];
 
-// Plain, informative one-liners written from each species' own catalogue
-// fieldNote (never invented traits), a factual descriptor, not a tagline.
-const NICK = {
-  'Common Limpet': 'Grazes algae off bare rock, always returning to the same spot', 'Edible sea urchin': "Britain's largest sea urchin, grazing kelp and rock algae",
-  'Painted Top Shell': 'A glossy, cone-shaped shell marbled in pink and white', 'Ballan wrasse': 'A stocky wrasse that crushes shellfish with strong teeth',
-  'Two-spotted goby': 'Hovers in loose midwater groups near kelp, unlike most gobies', 'Spider Crab': 'Decorates its shell with seaweed and hydroids for camouflage',
-  'Thick-lipped mullet': 'A silver mullet that cruises near the surface in schools', 'Great cormorant': 'Dives for fish, then dries its wings held open on rocks',
-  'Dog Whelk': 'Drills through mussel and barnacle shells to feed', 'Velvet Swimming Crab': 'A red-eyed crab with paddle-shaped back legs for swimming',
-  'Spiny Starfish': "Britain's largest starfish, with spines ringed in blue", 'Common Starfish': 'The familiar orange starfish, often found near mussel beds',
-  'Common Brittlestar': 'Carpets the seabed in dense beds of thin, fragile arms', 'Shore Crab': "Britain's commonest crab, found on almost every shore",
-  'Edible Crab': 'A broad crab with a crimped, pie-crust shell edge', 'Common eider': "Britain's heaviest duck, diving for mussels near the farm",
-  'Sprat': 'A small shoaling baitfish and prey for almost everything else', 'Sand smelt': 'A slender, silver-striped fish that shoals near the surface',
-  'Fifteen-spined stickleback': 'Hovers almost motionless, camouflaged among kelp fronds', 'Poor cod': 'A small cod relative with one chin barbel and large eyes',
-  'Bib': 'A banded cod relative that shoals densely near wrecks', 'Pollack': 'A mid-water hunter with a sharply kinked lateral line',
-  'Atlantic cod': 'A heavy-bodied cod with three dorsal fins and a chin barbel', 'European shag': 'A dark diving bird that can stay underwater for 20-40 seconds',
-  'Hermit Crab': 'Lives inside a borrowed whelk or periwinkle shell', 'Butterfish': 'A slippery, ribbon-like fish with dark eye-spots along its fin',
-  'Shanny': 'A tubby blenny that darts in and out of rockpool crevices', 'Rock goby': 'A goby with fused pelvic fins that form a sucker',
-  'Common Octopus': 'A muscular octopus with two rows of suckers on each arm and a strong, shell-opening beak', 'Conger eel': 'A large eel, usually seen only as a head peering from a crevice',
-  'Lesser-spotted catshark': 'A small, spotted shark that curls up on the seabed', 'Grey seal': "Britain's larger seal, with a long, straight 'Roman nose'",
-  'Sea potato': 'An urchin that lives buried in sand and is rarely seen alive', 'Purple heart urchin': 'A larger heart urchin that ploughs shallow trails through sand',
-  'Dragonet': 'A sand-dwelling fish; males display a tall dorsal fin', 'Sand goby': 'A pale, near-transparent goby that blends into sand',
-  'Long-spined sea scorpion': 'An armoured ambush predator camouflaged against rock', 'Plaice': 'A flatfish with bright orange spots scattered across its back',
-  'Flounder': 'A flatfish that tolerates fresh water and enters rivers', 'Harbour seal': 'Smaller than the grey seal, often hauled out in a curved pose',
-};
+// The NICK map (40 hand-written one-liners shown under the Latin name) was deleted
+// here. It was written from each species' catalogue field note and was, in practice,
+// a behaviour sentence: "Grazes algae off bare rock, always returning to the same
+// spot". The species-guide sweep now supplies a SOURCED behaviour statement for all
+// 72 species, so keeping both printed the same fact twice, once with a citation
+// behind it and once without. The card shows the sourced one.
 
 const HAB_LABEL = { 'kelp': 'the kelp canopy', 'rocky-crevice': 'rocky crevices', 'sandy-bottom': 'the open sand',
   'midwater': 'open midwater', 'near-surface': 'near the surface', 'open-water': 'the open water' };
@@ -174,6 +156,7 @@ const FACTS_DATA = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data',
 // authored most-representative-first, so a truncation is a subset of the page's
 // claim rather than a different one, and the QR goes to the full list.
 const BULLET_BUDGET = Number(process.env.CARD_BULLET_BUDGET || 200);
+const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 100);
 
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const idOf = s => s.replace(/[^a-z0-9]+/gi, '_');
@@ -202,6 +185,20 @@ const report = { photo: [], silhouette: [], dietMissing: [], factsMissing: [] };
 // Fill in order (they are authored most-representative-first) while the running
 // total fits, always keeping at least one. Measured against every card back:
 // this lands most species on three bullets a side and the wordiest on two.
+// Behaviour statements run to a median of 123 characters and a max of 158, which
+// no A6 front can hold beside a photo, a name and a size. Rather than truncate
+// mid-sentence, cut at the last clause boundary that fits: these texts are written
+// as "primary behaviour; secondary detail", so the first clause is the useful half
+// and what remains is a true prefix of the page's claim, not a reworded one.
+const clip = (text, budget) => {
+  if (!text || text.length <= budget) return text || '';
+  const head = text.slice(0, budget);
+  const cut = Math.max(head.lastIndexOf('; '), head.lastIndexOf('. '));
+  return cut > budget * 0.45 ? text.slice(0, cut) : head.slice(0, head.lastIndexOf(' ')) + '...';
+};
+const frontFact = (label, text) => text
+  ? `<div class="field"><b>${label}</b><span>${esc(text)}</span></div>` : '';
+
 const bullets = list => {
   const out = [];
   let used = 0;
@@ -241,12 +238,16 @@ for (const deck of DECKS) {
         <div class="namebox">
           <p class="name">${esc(name)}</p>
           <p class="sci">${esc(e.sci)}</p>
-          <p class="nick">${esc(NICK[name] || '')}</p>
-          ${facts.size ? `<p class="size"><b>Size</b> ${esc(facts.size.text)}</p>` : ''}
-          <p class="size"><b>Lives</b> ${esc(HABITAT_OVERRIDE[name] || cap(habitatText(e)))}</p>
         </div>
-        <p class="credit">${creditLine}</p>
-        <img class="pebl-logo" src="${LOGO_URI}" alt="PEBL">
+        <div class="frontfacts">
+          ${frontFact('SIZE', clip(facts.size?.text, 90))}
+          ${frontFact('LIVES', HABITAT_OVERRIDE[name] || cap(habitatText(e)))}
+          ${frontFact('BEHAVIOUR', clip(facts.behaviour?.text, BEHAVIOUR_BUDGET))}
+        </div>
+        <div class="frontfoot">
+          <p class="credit">${creditLine}</p>
+          <img class="pebl-logo" src="${LOGO_URI}" alt="PEBL">
+        </div>
       </div>`;
 
     const backHtml = `
@@ -299,16 +300,22 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .card{width:44mm;height:58mm;flex:0 0 44mm;border:0.8pt solid var(--hair);position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column}
 .tier-stripe{height:2.2mm;flex:0 0 auto}
 /* FRONT */
-.card.front .photo{height:20mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
+.card.front .photo{height:17mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
 .card.front .photo.silhouette{display:flex;align-items:center;justify-content:center;padding:2.5mm}
 .card.front .photo.silhouette svg{width:70%;height:70%}
 .namebox{padding:1.8mm 2.2mm 0;min-width:0}
 .name{margin:0;font-size:8.6pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
 .sci{margin:0.4mm 0 0;font-size:6.4pt;font-style:italic;color:#9aa7ab;overflow-wrap:break-word}
 .nick{margin:0.8mm 0 0;font-size:6pt;color:var(--soft);line-height:1.25}
-.size{margin:1mm 0 0;font-size:5.5pt;color:var(--navy);line-height:1.25;overflow-wrap:break-word}
-.size b{color:var(--dteal);letter-spacing:.3pt}
-.credit{margin:auto 2.2mm 0.8mm;font-size:4.3pt;color:#9aa7ab;line-height:1.12}
+.frontfacts{padding:0 2.2mm;margin-top:1.2mm}
+.frontfacts .field{margin-bottom:1.1mm}
+.frontfacts .field span{font-size:5.4pt;line-height:1.22}
+/* pinned to the foot of the card so the credit sits on the bottom edge on every
+   card, whatever length the facts above it run to */
+.frontfoot{margin-top:auto;padding:1.2mm 2.2mm 1.3mm;display:flex;align-items:flex-end;justify-content:space-between;gap:1.5mm;border-top:0.5pt solid var(--hair)}
+.frontfoot .credit{margin:0;flex:1 1 auto;min-width:0}
+.frontfoot .pebl-logo{margin:0;flex:0 0 auto}
+.credit{font-size:4.2pt;color:#9aa7ab;line-height:1.12}
 .pebl-logo{height:4mm;width:auto;display:block;margin:0 2.2mm 1.6mm auto;opacity:.9}
 /* BACK */
 .card.back{padding:1.8mm 2.2mm 1.3mm;min-width:0}
