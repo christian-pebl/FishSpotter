@@ -179,7 +179,14 @@ export function SourceCite({
   const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
   const close = useCallback(() => setAnchorRect(null), []);
 
-  const ids = claim?.sourceIds ?? [];
+  /**
+   * A marker is only ever drawn for a claim whose passage was READ. The page
+   * no longer carries a note explaining that an unmarked statement is untraced,
+   * because there are no untraced statements left; the cost of that promise is
+   * that a merely-bound claim, one pointing at a plausible page nobody opened,
+   * must not be able to draw a marker and look like evidence.
+   */
+  const ids = claim?.evidenced ? claim.sourceIds : [];
   const numbers = ids
     .map((id) => order.indexOf(id) + 1)
     .filter((n) => n > 0)
@@ -228,7 +235,7 @@ export function SourceCite({
           {conflicted && <span aria-hidden="true"> !</span>}
         </button>
       </sup>
-      {anchorRect && claim && (
+      {anchorRect && claim?.evidenced && (
         <CiteCard sources={sources} claim={claim} anchorRect={anchorRect} onClose={close} />
       )}
     </>

@@ -1,0 +1,290 @@
+{
+  "Pollachius pollachius": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Pollachius virens": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Trisopterus luscus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Merlangius merlangus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Labrus bergylta": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Labrus mixtus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Symphodus melops": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Ctenolabrus rupestris": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Conger conger": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Pholis gunnellus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Gobiusculus flavescens": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Pomatoschistus microps": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Gobius paganellus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Pomatoschistus minutus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Callionymus lyra": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Callionymus maculatus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Pleuronectes platessa": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Limanda limanda": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Platichthys flesus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Scyliorhinus canicula": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Mullus surmuletus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Trisopterus minutus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Gadus morhua": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Chelon labrosus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Dicentrarchus labrax": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Trachurus trachurus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Scomber scombrus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Sprattus sprattus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Atherina presbyter": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Taurulus bubalis": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Lipophrys pholis": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Spinachia spinachia": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Carcinus maenas": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Cancer pagurus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Necora puber": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Liocarcinus depurator": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Majoidea": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Pagurus bernhardus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Sepia officinalis": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Loligo forbesii": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Loligo vulgaris": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Sepiola atlantica": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Eledone cirrhosa": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Octopus vulgaris": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Asterina gibbosa": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Marthasterias glacialis": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Asterias rubens": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Ophiothrix fragilis": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Patella vulgata": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Nucella lapillus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Calliostoma zizyphinum": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Steromphala umbilicalis": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Aurelia aurita": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Chrysaora hysoscella": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Cyanea capillata": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Rhizostoma octopus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Cyanea lamarckii": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Pelagia noctiluca": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Eutrigla gurnardus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Chelidonichthys cuculus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Chelidonichthys lucerna": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Chelidonichthys lastoviza": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Echinus esculentus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Psammechinus miliaris": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Paracentrotus lividus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Echinocardium cordatum": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Spatangus purpureus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Phalacrocorax aristotelis": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Phalacrocorax carbo": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Somateria mollissima": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Halichoerus grypus": {
+    "eats": [],
+    "eatenBy": []
+  },
+  "Phoca vitulina": {
+    "eats": [],
+    "eatenBy": []
+  }
+}

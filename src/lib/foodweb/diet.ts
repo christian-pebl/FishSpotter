@@ -1,46 +1,44 @@
 /**
- * "I eat / eats me" for one species, derived from the farm food web.
+ * "I eat / eats me" for one species.
  *
- * The food web (`food-web/build-foodweb.mjs`, emitted to
- * `@/data/food-web-links.json` by `npm run build:foodweb-data`) already encodes
- * every feeding link on a seaweed-and-shellfish farm. This reads that graph the
- * other way round: given a species, what does it eat and what eats it.
+ * These lists used to be read off the 72-node farm food web: given a species,
+ * which edges point at it. That made the section a statement about our own
+ * catalogue rather than about the animal. Every row it could show had to be
+ * another species we happen to carry, so the cod's diet read "Bib, Velvet
+ * swimming crab, Common cuttlefish" (three catalogue neighbours) instead of
+ * "fish, especially herring, capelin and sandeels", which is what the
+ * literature says and what a reader came for. Twelve species had an empty
+ * "eats me" column that needed a paragraph of explanation for why that did not
+ * mean nothing ate them.
  *
- * Two things this deliberately does NOT do:
- *   - it does not invent links. If the graph has no predator for a species, the
- *     "eats me" list is empty and the UI says so, rather than implying nothing
- *     eats it. Twelve species genuinely have no predator in the catalogue (the
- *     apex predators, most jellyfish, the big starfish), which is ecologically
- *     fair for a 72-species subset but is not the same as "has no predators".
- *   - it does not assert the links are evidenced. Each is a claim keyed
- *     `edge:<prey>-><predator>` in the reference catalogue, and only some are
- *     bound to a source. The UI shows a citation where one exists and nothing
- *     where it does not.
+ * So the lists now come from `src/data/species-diet.json`: a few broad
+ * statements per species, each authored from a published account of that
+ * animal's diet or predators and each bound to the passage it was read from.
+ * The trophic tier still comes from the food web, because a tier IS a property
+ * of the diagram and is cited as such.
+ *
+ * `slug` is set on a bullet only where its subject genuinely is a catalogue
+ * species and the source names it, so the guide keeps the "walk the web one
+ * hop" link exactly where that is honest and drops it everywhere else.
  */
 
 import { z } from "zod";
 import foodWebData from "@/data/food-web-links.json";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
-import { speciesSlug } from "@/lib/species-slug";
+import { dietClaimKey, getStatedDiet } from "@/lib/foodweb/stated-diet";
 
 /**
  * Validated once at module load, the same contract the trait catalogue uses: a
  * regenerated data file that drifts fails here rather than rendering a broken
- * diet list to a reader.
+ * tier to a reader.
  */
 const foodWebSchema = z.object({
-  species: z.array(
-    z.object({ name: z.string(), short: z.string(), tier: z.number().int() }),
-  ),
-  resources: z.record(
-    z.string(),
-    z.object({ label: z.string(), sub: z.string().nullable() }),
-  ),
+  species: z.array(z.object({ name: z.string(), short: z.string(), tier: z.number().int() })),
+  resources: z.record(z.string(), z.object({ label: z.string(), sub: z.string().nullable() })),
   edges: z.array(z.tuple([z.string(), z.string()])),
 });
 
 const FOOD_WEB = foodWebSchema.parse(foodWebData);
-type FoodWebFile = z.infer<typeof foodWebSchema>;
 
 /** Food-web display name -> catalogue scientific name. */
 const SCI_BY_FOODWEB_NAME = new Map<string, string>();
@@ -57,23 +55,12 @@ for (const s of FOOD_WEB.species) {
 }
 
 export type DietItem = {
-  /** What to show. */
+  /** The statement as the reader sees it. */
   label: string;
-  /** Set for a catalogue species, so the UI can link to its guide. */
-  scientificName?: string;
+  /** Set only when the bullet's subject is a catalogue species we can link to. */
   slug?: string;
-  /** Set for a non-taxon node (kelp canopy, plankton, the mussel crop). */
-  isResource: boolean;
-  /** Extra colour for a resource, e.g. "phyto- & zooplankton". */
-  detail?: string;
-  /** The claim key this link is filed under, for citation lookup. */
+  /** The claim key this bullet is filed under, for citation lookup. */
   claimKey: string;
-  /**
-   * Which species entry in the reference catalogue holds this claim. A feeding
-   * link is a claim about the PREDATOR's diet, so "eats me" links are filed
-   * against the predator, not against the species whose page you are reading.
-   */
-  claimOwner: string | null;
 };
 
 export type SpeciesDiet = {
@@ -84,48 +71,26 @@ export type SpeciesDiet = {
   eatenBy: DietItem[];
 };
 
-const edgeKey = (prey: string, predator: string) => `edge:${prey}->${predator}`;
-
-function toItem(name: string, prey: string, predator: string): DietItem {
-  const resource = FOOD_WEB.resources[name];
-  const sci = resource ? null : foodWebNameToSci(name);
-  const predatorSci = foodWebNameToSci(predator);
-  return {
-    label: resource ? resource.label : (sci ? CATALOGUE[sci].commonName : name),
-    scientificName: sci ?? undefined,
-    slug: sci ? speciesSlug(sci) : undefined,
-    isResource: Boolean(resource),
-    detail: resource?.sub ?? undefined,
-    claimKey: edgeKey(prey, predator),
-    claimOwner: predatorSci,
-  };
-}
-
-/** Everything the farm food web says about one species' feeding relationships. */
+/** What a species eats and what eats it, as published sources state it. */
 export function getSpeciesDiet(scientificName: string): SpeciesDiet {
   const foodWebName = FOODWEB_NAME_BY_SCI.get(scientificName) ?? null;
-  if (!foodWebName) {
-    return { foodWebName: null, tier: null, eats: [], eatenBy: [] };
-  }
-  const node = FOOD_WEB.species.find((s) => s.name === foodWebName) ?? null;
+  const node = foodWebName ? (FOOD_WEB.species.find((s) => s.name === foodWebName) ?? null) : null;
+  const stated = getStatedDiet(scientificName);
 
-  const eats: DietItem[] = [];
-  const eatenBy: DietItem[] = [];
-  for (const [prey, predator] of FOOD_WEB.edges) {
-    if (predator === foodWebName) eats.push(toItem(prey, prey, predator));
-    if (prey === foodWebName) eatenBy.push(toItem(predator, prey, predator));
-  }
-
-  // Real species before resource nodes, then alphabetically: a reader looking
-  // for "does it eat crabs" should not have to scan past "plankton" first.
-  const order = (a: DietItem, b: DietItem) =>
-    Number(a.isResource) - Number(b.isResource) || a.label.localeCompare(b.label);
+  // Authored order is meaningful: the bullets are written most-representative
+  // first, so they are NOT re-sorted here.
+  const toItems = (side: "eats" | "eatenBy"): DietItem[] =>
+    (stated?.[side] ?? []).map((b, i) => ({
+      label: b.text,
+      slug: b.slug,
+      claimKey: dietClaimKey(side, i),
+    }));
 
   return {
     foodWebName,
     tier: node?.tier ?? null,
-    eats: eats.sort(order),
-    eatenBy: eatenBy.sort(order),
+    eats: toItems("eats"),
+    eatenBy: toItems("eatenBy"),
   };
 }
 

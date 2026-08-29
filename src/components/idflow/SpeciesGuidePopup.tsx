@@ -140,9 +140,6 @@ export function SpeciesGuidePopup({
               scientificName={scientificName}
               commonName={commonName}
               fieldNote={traits.fieldNote}
-              size={traits.size}
-              habitat={traits.habitat}
-              behavior={traits.behavior}
             />
           ) : (
             <p className="text-sm text-navy-900/70">No guide available for this species yet.</p>

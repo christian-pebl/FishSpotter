@@ -1,0 +1,322 @@
+{
+  "Pollachius pollachius": {
+    "depth": {
+      "text": "40-200 m (usually 40-100 m)"
+    }
+  },
+  "Pollachius virens": {
+    "depth": {
+      "text": "37-364 m"
+    }
+  },
+  "Trisopterus luscus": {
+    "depth": {
+      "text": "30-100 m"
+    }
+  },
+  "Merlangius merlangus": {
+    "depth": {
+      "text": "10-200 m (usually 30-100 m)"
+    }
+  },
+  "Labrus bergylta": {
+    "depth": {
+      "text": "1-50 m (usually 2-30 m)"
+    }
+  },
+  "Labrus mixtus": {
+    "depth": {
+      "text": "2-200 m (usually 40-80 m)"
+    }
+  },
+  "Symphodus melops": {
+    "depth": {
+      "text": "1-12 m (usually 1-30 m)"
+    }
+  },
+  "Ctenolabrus rupestris": {
+    "depth": {
+      "text": "1-50 m (usually 1-20 m)"
+    }
+  },
+  "Conger conger": {
+    "depth": {
+      "text": "0-1171 m"
+    }
+  },
+  "Pholis gunnellus": {
+    "depth": {
+      "text": "0-100 m (usually 0-30 m)"
+    }
+  },
+  "Gobiusculus flavescens": {
+    "depth": {
+      "text": "0-5 m"
+    }
+  },
+  "Pomatoschistus microps": {
+    "depth": {
+      "text": "0-12 m"
+    }
+  },
+  "Gobius paganellus": {
+    "depth": {
+      "text": "0-15 m"
+    }
+  },
+  "Pomatoschistus minutus": {
+    "depth": {
+      "text": "4-200 m"
+    }
+  },
+  "Callionymus lyra": {
+    "depth": {
+      "text": "1-440 m (usually 5-30 m)"
+    }
+  },
+  "Callionymus maculatus": {
+    "depth": {
+      "text": "45-650 m"
+    }
+  },
+  "Pleuronectes platessa": {
+    "depth": {
+      "text": "0-200 m (usually 10-50 m)"
+    }
+  },
+  "Limanda limanda": {
+    "depth": {
+      "text": "20-150 m"
+    }
+  },
+  "Platichthys flesus": {
+    "depth": {
+      "text": "1-100 m"
+    }
+  },
+  "Scyliorhinus canicula": {
+    "depth": {
+      "text": "10-780 m (usually 80-100 m)"
+    }
+  },
+  "Mullus surmuletus": {
+    "depth": {
+      "text": "5-409 m"
+    }
+  },
+  "Trisopterus minutus": {
+    "depth": {
+      "text": "1-440 m (usually 15-200 m)"
+    }
+  },
+  "Gadus morhua": {
+    "depth": {
+      "text": "0-600 m (usually 150-200 m)"
+    }
+  },
+  "Chelon labrosus": {
+    "depth": {
+      "text": "2-15 m"
+    }
+  },
+  "Dicentrarchus labrax": {
+    "depth": {
+      "text": "10-100 m"
+    }
+  },
+  "Trachurus trachurus": {
+    "depth": {
+      "text": "0-1050 m (usually 100-200 m)"
+    }
+  },
+  "Scomber scombrus": {
+    "depth": {
+      "text": "0-1000 m (usually 0-200 m)"
+    }
+  },
+  "Sprattus sprattus": {
+    "depth": {
+      "text": "10-150 m"
+    }
+  },
+  "Atherina presbyter": {
+    "depth": {
+      "text": "1-10 m"
+    }
+  },
+  "Taurulus bubalis": {
+    "depth": {
+      "text": "0-200 m"
+    }
+  },
+  "Lipophrys pholis": {
+    "depth": {
+      "text": "0-8 m"
+    }
+  },
+  "Spinachia spinachia": {
+    "depth": {
+      "text": "1-6 m"
+    }
+  },
+  "Carcinus maenas": {
+    "depth": {
+      "text": "Intertidal to 60 m"
+    }
+  },
+  "Cancer pagurus": {
+    "depth": {
+      "text": "Intertidal to 100 m"
+    }
+  },
+  "Necora puber": {},
+  "Liocarcinus depurator": {
+    "depth": {
+      "text": "5 m to over 300 m"
+    }
+  },
+  "Majoidea": {},
+  "Pagurus bernhardus": {
+    "depth": {
+      "text": "Mid-tide level to 140 m"
+    }
+  },
+  "Sepia officinalis": {
+    "depth": {
+      "text": "0-200 m"
+    }
+  },
+  "Loligo forbesii": {
+    "depth": {
+      "text": "Under 50 m to over 700 m"
+    }
+  },
+  "Loligo vulgaris": {
+    "depth": {
+      "text": "0-500 m"
+    }
+  },
+  "Sepiola atlantica": {
+    "depth": {
+      "text": "Subtidal to over 400 m"
+    }
+  },
+  "Eledone cirrhosa": {
+    "depth": {
+      "text": "0-500 m"
+    }
+  },
+  "Octopus vulgaris": {
+    "depth": {
+      "text": "0-200 m"
+    }
+  },
+  "Asterina gibbosa": {
+    "depth": {
+      "text": "Lower shore to about 100 m"
+    }
+  },
+  "Marthasterias glacialis": {
+    "depth": {
+      "text": "Low water to about 200 m"
+    }
+  },
+  "Asterias rubens": {
+    "depth": {
+      "text": "Intertidal to 650 m"
+    }
+  },
+  "Ophiothrix fragilis": {
+    "depth": {
+      "text": "0-85 m"
+    }
+  },
+  "Patella vulgata": {
+    "depth": {
+      "text": "Intertidal"
+    }
+  },
+  "Nucella lapillus": {
+    "depth": {
+      "text": "Intertidal"
+    }
+  },
+  "Calliostoma zizyphinum": {
+    "depth": {
+      "text": "Low water to 300 m"
+    }
+  },
+  "Steromphala umbilicalis": {
+    "depth": {
+      "text": "Upper shore into the sublittoral"
+    }
+  },
+  "Aurelia aurita": {},
+  "Chrysaora hysoscella": {},
+  "Cyanea capillata": {},
+  "Rhizostoma octopus": {},
+  "Cyanea lamarckii": {},
+  "Pelagia noctiluca": {},
+  "Eutrigla gurnardus": {
+    "depth": {
+      "text": "10-340 m (usually 10-150 m)"
+    }
+  },
+  "Chelidonichthys cuculus": {
+    "depth": {
+      "text": "15-400 m (usually 30-250 m)"
+    }
+  },
+  "Chelidonichthys lucerna": {
+    "depth": {
+      "text": "20-318 m"
+    }
+  },
+  "Chelidonichthys lastoviza": {
+    "depth": {
+      "text": "10-150 m"
+    }
+  },
+  "Echinus esculentus": {
+    "depth": {
+      "text": "Low water to about 40 m"
+    }
+  },
+  "Psammechinus miliaris": {
+    "depth": {
+      "text": "0-100 m"
+    }
+  },
+  "Paracentrotus lividus": {
+    "depth": {
+      "text": "Lower shore to about 3 m (sometimes deeper)"
+    }
+  },
+  "Echinocardium cordatum": {
+    "depth": {
+      "text": "0-200 m"
+    }
+  },
+  "Spatangus purpureus": {
+    "depth": {
+      "text": "Infralittoral fringe to about 900 m"
+    }
+  },
+  "Phalacrocorax aristotelis": {},
+  "Phalacrocorax carbo": {},
+  "Somateria mollissima": {
+    "depth": {
+      "text": "Dives to about 3 m"
+    }
+  },
+  "Halichoerus grypus": {
+    "depth": {
+      "text": "Forages mainly to 100 m"
+    }
+  },
+  "Phoca vitulina": {
+    "depth": {
+      "text": "Dives to 450 m"
+    }
+  }
+}

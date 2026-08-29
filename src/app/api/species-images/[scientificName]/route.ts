@@ -16,6 +16,12 @@ const CACHE_CONTROL =
 // without a second round-trip. Existing consumers (SpeciesGallery)
 // ignore the new fields.
 export type SpeciesMarkPayload = {
+  /**
+   * The DiagnosticMark row id. Carried because a ring's description is a
+   * sourced claim like any other, filed under `mark:<id>`, and the guide only
+   * draws the rings whose claim has a read passage behind it.
+   */
+  id: string;
   label: string;
   description: string;
   overlayX: number;
@@ -72,6 +78,7 @@ export async function GET(
       diagnosticMarks: {
         orderBy: { order: "asc" },
         select: {
+          id: true,
           label: true,
           description: true,
           overlayX: true,

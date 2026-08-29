@@ -4,10 +4,9 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { resolveSpeciesSlug } from "@/lib/species-slug";
 import { getCachedDistribution } from "@/lib/biodiversity/species-cache";
-import { getStatedDepth } from "@/lib/biodiversity/stated-depth";
 import { getSpeciesProvenance } from "@/lib/references/payload";
 import { getSpeciesDiet } from "@/lib/foodweb/diet";
-import { SpeciesGuideContent, type SpeciesDepth } from "@/components/species/SpeciesGuideContent";
+import { SpeciesGuideContent } from "@/components/species/SpeciesGuideContent";
 
 // Daily ISR: the OBIS depth/distribution fetches are cached per species for a
 // day (a dedicated cache table comes with the pokedex schema work).
@@ -63,8 +62,6 @@ export default async function SpeciesProfilePage({
   // page rather than arriving in a second round trip.
   const provenance = getSpeciesProvenance(scientificName);
   const diet = getSpeciesDiet(scientificName);
-  // Read from a source, not computed: see src/lib/biodiversity/stated-depth.ts
-  const initialDepth: SpeciesDepth = getStatedDepth(scientificName);
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -93,10 +90,6 @@ export default async function SpeciesProfilePage({
         scientificName={scientificName}
         commonName={traits.commonName}
         fieldNote={traits.fieldNote}
-        size={traits.size}
-        habitat={traits.habitat}
-        behavior={traits.behavior}
-        initialDepth={initialDepth}
         initialDistribution={distribution}
         initialProvenance={provenance}
         diet={diet}

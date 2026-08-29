@@ -54,6 +54,7 @@ const MOCK_IMAGE: SpeciesImagePayload = {
 // the upper-right / fallback-diagonal badge placement are both visible.
 const MOCK_MARKS: SpeciesMarkPayload[] = [
   {
+    id: "mock-mark-0",
     label: "Operculum spot",
     description: "Dark blotch on the rear edge of the gill cover.",
     overlayX: 0.32,
@@ -62,6 +63,7 @@ const MOCK_MARKS: SpeciesMarkPayload[] = [
     order: 0,
   },
   {
+    id: "mock-mark-1",
     label: "Lateral line",
     description: "Pale, gently curved line running mid-flank to the tail.",
     overlayX: 0.55,
@@ -70,6 +72,7 @@ const MOCK_MARKS: SpeciesMarkPayload[] = [
     order: 1,
   },
   {
+    id: "mock-mark-2",
     label: "Dorsal fin base",
     description: "Long-based dorsal fin; note the soft-ray count.",
     overlayX: 0.6,
@@ -78,6 +81,7 @@ const MOCK_MARKS: SpeciesMarkPayload[] = [
     order: 2,
   },
   {
+    id: "mock-mark-3",
     label: "Caudal peduncle",
     description: "Slender, deep tail wrist just before the fin spreads.",
     overlayX: 0.82,
