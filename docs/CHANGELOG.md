@@ -1949,3 +1949,53 @@ Verified against the live database on a dev server: the feed opened at the
 tapped clip, cards 2 and 3 were the next two archive clips in `sort=oldest`
 order, and the tail wrapped onto the two clips that preceded it.
 `tsc --noEmit`, 779 unit tests, `next lint` and the token lint all clean.
+
+**Archive filter by species, and launch the filtered set as a feed, 30 Aug 2026**
+(PR #166). The archive's filter row is now **Species -> Location -> Sort**; the
+free-text "Search species, site, deployment" box is gone. A **"Launch feed of
+current filtered videos"** button opens the live feed holding exactly the
+clips the grid was showing.
+
+The load-bearing finding is what "species" had to be built on. There is no
+per-clip species column. `Snippet.staffAnswer` looks like one and is not:
+measured against the live DB its only values are `""` (69 of 163 clips),
+`Fish`, `Crab`, `Scooter`, `Jellyfish`, `Flatfish`, `Gastropod`, `Starfish`,
+`hermit`, `jelly`, `large fish`, `small fish`. Those are shape words, and they
+were also the only species text the old search box could ever match.
+
+So the species is **the community's settled ID**, the same leader
+`consensus.pickLeaderGroup` pays Pebbles on: most distinct spotters on one
+`normalizeForMatch` key, once `CONSENSUS_THRESHOLD_USERS` agree. Two
+narrowings on top, both in `src/lib/snippet-species.ts`. A leader only becomes
+a filter option if it resolves to a catalogue species, so a clip settled on
+`"flatfish"` has settled on a shape and is left out rather than forced onto
+one of the three flatfish. And the label shown is the catalogue `commonName`,
+never whichever surface form won the vote. That covers 39 of 143 visible
+clips across 20 species today, and grows with play; a clip nobody has settled
+has no species and is reachable only with the filter cleared.
+
+Both surfaces build the where-clause from `src/lib/snippet-filter.ts`, so the
+button cannot promise a set the feed does not deliver, and the feed only runs
+the species query when a species is actually requested.
+
+**Collided mid-PR with #164** ("The archive opens into the feed"), which was
+open on a rewrite of the same block of `browse/page.tsx` into its own
+`src/lib/archive-query.ts`. #166 named the other branch in its own PR body and
+proposed the split, and #164 followed it: `snippet-filter.ts` owns the SET
+(shared by every feed entry point), `archive-query.ts` shrank to the ORDER
+(`archiveOrderBy`, `rotateToClip`). `archiveWhere` was deleted rather than
+merged. `/feed/[id]` ended up honouring `?species=` too, so a filtered archive
+walk stays filtered, not just a filtered launch.
+
+Two smaller things the filter forced. A filtered feed announces itself
+(`FeedFilterNotice`) and carries the only route back to the whole feed, since
+five hermit-crab clips and a five-clip site are indistinguishable from inside
+the player; it hides while a Spot It gate is open. And the end-of-feed
+completion card ("that is all N clips, you have genuinely run out") is
+suppressed while filtered, since that claim is true of the whole feed and
+false of a selection.
+
+Verified against the live database: `tsc` clean, 787 tests, `next lint` and
+the token lint clean, every route checked on a dev server and again on
+`fishspotter.app` once #164 deployed alongside it, including a card tapped out
+of a species-filtered grid carrying the filter through the walk.
