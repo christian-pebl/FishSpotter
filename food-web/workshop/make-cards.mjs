@@ -443,31 +443,41 @@ const UP = 4, COLS = 2;
 const printCss = `
 @page{ size:A4 portrait; margin:0; }
 html,body{margin:0;padding:0;background:#fff}
-.psheet{width:210mm;height:296mm;display:grid;
+.psheet{position:relative;width:210mm;height:296mm;display:grid;
   grid-template-columns:repeat(${COLS},105mm);grid-template-rows:repeat(${UP / COLS},148mm);
   page-break-after:always;break-after:page;overflow:hidden}
 .psheet:last-child{page-break-after:auto;break-after:auto}
 .pcell{width:105mm;height:148mm;overflow:hidden;position:relative}
-.pscale{transform:scale(${SCALE});transform-origin:top left;width:44mm;height:${SRC_H}mm}
+.cuts{position:absolute;inset:0;pointer-events:none;z-index:5}
+.cuts i{position:absolute;display:block}
+.cuts .cv{left:105mm;top:0;bottom:0;width:0;border-left:0.4pt dashed #8fa3a3}
+.cuts .ch{top:148mm;height:0;border-top:0.4pt dashed #8fa3a3}
+.pscale{transform:translateY(-${((0.12*SCALE)/2).toFixed(3)}mm) scale(${SCALE});transform-origin:top left;width:44mm;height:${SRC_H}mm}
 /* No border on the print card. It was the last thing still drawing a line at the
    trim, and a guillotine cannot follow a 0.35pt rule to the tenth of a millimetre:
    any drift leaves a grey hairline down one card and nothing on its neighbour.
    The cards butt edge to edge, so the cut is two straight passes through the sheet
    and the artwork simply meets. */
-.pscale .card{width:44mm;height:${SRC_H}mm;flex:0 0 44mm}
+.pscale .card{width:44mm;height:${(SRC_H + 0.12).toFixed(3)}mm;flex:0 0 44mm}
 `;
 
+const CUTMARKS = `<div class="cuts">
+  <i class="cv"></i>
+  <i class="ch" style="left:0;width:4mm"></i>
+  <i class="ch" style="left:101mm;width:8mm"></i>
+  <i class="ch" style="left:206mm;width:4mm"></i>
+</div>`;
 const sheets = [];
 for (let i = 0; i < CARDS.length; i += UP) {
   const group = CARDS.slice(i, i + UP);
   while (group.length < UP) group.push(null);                 // pad the last sheet
   const cell = c => `<div class="pcell">${c ? `<div class="pscale">${c}</div>` : ''}</div>`;
   // fronts in reading order
-  sheets.push(`<div class="psheet">${group.map(c => cell(c && c.front)).join('')}</div>`);
+  sheets.push(`<div class="psheet">${group.map(c => cell(c && c.front)).join('')}${CUTMARKS}</div>`);
   // backs with the columns reversed within each row, so they land behind their own front
   const mirrored = [];
   for (let r = 0; r < UP / COLS; r++) mirrored.push(...group.slice(r * COLS, r * COLS + COLS).reverse());
-  sheets.push(`<div class="psheet">${mirrored.map(c => cell(c && c.back)).join('')}</div>`);
+  sheets.push(`<div class="psheet">${mirrored.map(c => cell(c && c.back)).join('')}${CUTMARKS}</div>`);
 }
 
 writeFileSync(OUT_PRINT, `<style>${css}${printCss}</style>
