@@ -1,0 +1,94 @@
+{
+  "_README": "Reviewed by eye from the numbered contact sheets in .tmp/sheets (Gemini credits are depleted, so Claude did the vision). `keep` is ordered best-first and becomes the gallery ordering. `reject` maps a tile to a durable blocklist reason; tiles in neither list are simply not chosen this round and stay eligible for a later run.",
+
+  "Psammechinus miliaris": {
+    "keep": [2, 4, 14, 16, 5, 9, 3, 12, 17],
+    "reject": { "10": "dead", "18": "dead", "8": "wrong-subject", "19": "wrong-subject" },
+    "note": "Plenty of live in-situ material. 8 carries a burnt-in 'Sea Urchin' caption; 10 and 18 are empty tests in a hand."
+  },
+  "Scyliorhinus canicula": {
+    "keep": [4, 3, 7, 8, 13, 10, 9, 17, 18, 11],
+    "reject": { "2": "preserved", "14": "dead", "19": "dead", "20": "dead" },
+    "note": "Strong live record. 5 and 6 are good photos but carry photographer watermarks (6 is a trial-software stamp), so left unchosen rather than blocked. 12, 15 and 16 are mermaid's purse egg cases: correct for the species, but a distraction in a 'what does it look like' grid."
+  },
+  "Taurulus bubalis": {
+    "keep": [1, 7, 2, 13, 6, 9, 11, 17, 15, 4],
+    "reject": {},
+    "note": "Deliberately spans the colour range (red, gold, olive, mottled) plus two camouflage shots, since variable colour is this fish's whole ID problem. The in-hand shots are alive and sharp but out of habitat, so left unchosen."
+  },
+  "Trisopterus minutus": {
+    "keep": [9, 12, 1, 7, 13, 2, 5, 8, 20, 4],
+    "reject": { "15": "dead", "16": "dead", "17": "dead" },
+    "note": "Was listed as a genuine ceiling at 2 photos, but that was rate limiting holding it mid-sweep, not a thin record: there is abundant live in-situ material. 3 is a good shoal shot but watermarked; 14 is a dense silver shoal that reads more like sprat, so both left unchosen."
+  },
+  "Spinachia spinachia": {
+    "keep": [3, 2, 6, 7, 5, 8, 1, 11, 19],
+    "reject": {},
+    "note": "Good live in-weed material across the colour range. The in-hand, bucket, ruler and tank shots are alive but out of habitat, so left unchosen."
+  },
+  "Sepiola atlantica": {
+    "keep": [10, 6, 18, 9, 20, 8, 4, 5, 1, 2],
+    "reject": {},
+    "note": "Mix of in-situ seabed shots and a clean black-background series, which together show both the animal in place and its detail. 3 and 12 are watermarked."
+  },
+  "Spatangus purpureus": {
+    "keep": [4, 3, 5, 7, 6, 10, 13, 14, 19, 1],
+    "reject": { "20": "dead" },
+    "note": "Much of this species' record carries a 'FredA' photographer watermark; unwatermarked frames were preferred where quality was equal. 9 and 16 are bleached tests, which show the petal pattern well but are dead, so left unchosen rather than blocked."
+  },
+  "Trachurus trachurus": {
+    "keep": [2, 4, 3, 1, 7, 6, 16, 9, 12, 11],
+    "reject": { "8": "dead", "13": "dead", "14": "dead", "17": "dead", "18": "dead", "20": "dead" },
+    "note": "Strong live shoal material. 15 and 19 are watermarked. 10 (a juvenile sheltering under a jellyfish) is a real behaviour but a poor identification photo."
+  },
+  "Rhizostoma octopus": {
+    "keep": [13, 21, 27, 2, 39, 3, 32, 1, 41, 5],
+    "reject": { "14": "wrong-subject", "7": "wrong-subject", "17": "wrong-subject" },
+    "note": "Most of this species' record is beach-stranded, which is how people meet it but not how a spotter sees it on video, so swimming animals were preferred throughout. 14 is a comb jelly, not a barrel jellyfish; 7 and 17 are photos of people holding or standing beside one."
+  },
+  "Sepia officinalis": {
+    "keep": [4, 2, 3, 5, 6, 11, 14, 1, 17],
+    "reject": { "7": "wrong-subject", "8": "wrong-subject", "12": "wrong-subject", "13": "wrong-subject", "15": "wrong-subject" },
+    "note": "The pool is contaminated with SQUID: 7, 8, 12, 13 and 15 are long-mantled squid (some tropical reef species), not cuttlefish. A vision check asked 'is this a good photo of a common cuttlefish' would pass them. 1 is excellent but watermarked, so ranked last."
+  },
+  "Somateria mollissima": {
+    "keep": [1, 8, 19, 7, 18, 5, 2, 4, 9, 12],
+    "reject": { "14": "wrong-subject" },
+    "note": "Deliberately includes female (7) and mixed-flock (9, 12) frames, since the female's brown barring looks nothing like the male. 14 is a flock of auks, not eiders."
+  },
+  "Callionymus maculatus": {
+    "keep": [1, 2, 4, 5],
+    "reject": { "3": "wrong-subject", "6": "drawing", "7": "drawing", "8": "drawing", "10": "drawing", "11": "drawing", "12": "drawing", "13": "drawing", "15": "drawing", "16": "drawing", "18": "drawing" },
+    "note": "Only four real photographs exist in the whole pool. Ten of the candidates are scanned BOOK COVERS, marbled endpapers and text pages from digitised natural-history literature, which the non-photographic title filter does not catch because their titles are things like 'Last Report on Dredging among the Shetland Isles'."
+  },
+  "Chelidonichthys cuculus": {
+    "keep": [1, 2],
+    "reject": {},
+    "note": "Only two candidates survive the earlier sweep's blocklisting, and both are good live shots. Genuinely thin: 23 research-grade observations worldwide."
+  },
+  "Merlangius merlangus": {
+    "keep": [2, 4, 1, 6, 5],
+    "reject": { "7": "wrong-subject", "17": "wrong-subject" },
+    "note": "Thin because the earlier sweep correctly blocklisted 75 dead catch photos. 5 is a juvenile sheltering inside a jellyfish, a real whiting behaviour. 3 looks more like a sandeel or dragonet than a whiting, so left unchosen."
+  },
+  "Scomber scombrus": {
+    "keep": [20, 7, 2, 4, 1],
+    "reject": { "3": "wrong-subject", "5": "dead", "6": "dead", "8": "dead", "9": "dead", "10": "dead", "11": "dead", "12": "dead", "13": "dead", "14": "dead", "16": "wrong-subject", "18": "dead", "19": "dead" },
+    "note": "The documented ceiling is real. Of 20 candidates exactly one (20, a live shoal) is a good in-water photograph; the rest are catch, kitchen and dockside shots. 16 is a photo of an angler."
+  },
+  "Loligo forbesii": {
+    "keep": [4, 3, 1],
+    "reject": { "5": "dead", "6": "dead", "7": "dead", "11": "drawing" },
+    "note": "Genuinely thin. 4 and 3 are the only clean in-situ animals; 1 is an egg mass, which is a real and recognisable field sign. 11 is a marbled book endpaper."
+  },
+  "Sprattus sprattus": {
+    "keep": [1],
+    "reject": { "2": "wrong-subject", "12": "wrong-subject", "14": "wrong-subject", "18": "wrong-subject", "23": "drawing", "24": "drawing" },
+    "note": "Hard ceiling, confirmed by looking at all 24 candidates: exactly one live-in-water photograph exists. Four candidates are terns carrying a sprat (the bird is the subject), two are Victorian engravings, and the rest are beach-cast, in-hand or on-a-ruler."
+  },
+  "Echinocardium cordatum": {
+    "keep": [],
+    "reject": {},
+    "note": "HARD CEILING, and an editorial question rather than a data problem. All 21 candidates are bleached empty tests on a beach; not one shows a live animal. It is a burrowing heart urchin that lives buried in sediment, so nobody photographs it alive. Nothing is blocklisted, because refusing the entire record would bar the only images of the animal that exist. Needs a human decision on whether a beach-cast test counts as a reference photo for this species."
+  }
+}

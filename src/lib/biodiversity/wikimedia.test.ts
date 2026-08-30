@@ -132,3 +132,32 @@ describe("titleNamesACongener: the four real Commons titles it was tuned on", ()
     expect(titleNamesACongener("File:Pollachius_virens_shoal.jpg", "Pollachius pollachius")).toBe(true);
   });
 });
+
+describe("looksNonPhotographic: the Commons API's own query string", () => {
+  it("still rejects a PDF when the API has appended its utm tail", () => {
+    // The exact URL shape the API returns. Anchored on `\.pdf$`, the filter
+    // matched nothing and ten scanned books reached a gallery build.
+    expect(
+      looksNonPhotographic(
+        "File:Danmarks fiske (IA danmarksfiske01kr).pdf",
+        "https://upload.wikimedia.org/wikipedia/commons/6/6c/Danmarks_fiske.pdf?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      ),
+    ).toBe(true);
+  });
+
+  it("rejects the other named formats with a query string too", () => {
+    for (const ext of ["tif", "svg", "djvu", "gif"]) {
+      expect(looksNonPhotographic(undefined, `https://x/y.${ext}?utm_source=commons`)).toBe(true);
+    }
+  });
+
+  it("keeps an ordinary photo whose url carries the same tail", () => {
+    expect(
+      looksNonPhotographic("File:Gadus morhua.jpg", "https://x/Gadus_morhua.jpg?utm_source=commons"),
+    ).toBe(false);
+  });
+
+  it("rejects a scanned Freshwater and Marine Image Bank illustration", () => {
+    expect(looksNonPhotographic("File:FMIB 43639 Sprat.jpeg", "https://x/FMIB_43639_Sprat.jpeg")).toBe(true);
+  });
+});
