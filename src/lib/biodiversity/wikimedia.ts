@@ -14,6 +14,7 @@
  * cron run.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { isRetryableStatus, nextRetryDelay } from "./inaturalist";
 
 const COMMONS_API = "https://commons.wikimedia.org/w/api.php";
@@ -72,7 +73,7 @@ async function fetchWithRetry(url: string): Promise<Response> {
     const res = await fetch(url, {
       headers: {
         Accept: "application/json",
-        "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)",
+        "User-Agent": `FishSpotter/1.0 (${SITE_URL})`,
       },
     });
     if (res.ok) return res;

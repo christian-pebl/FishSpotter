@@ -17,6 +17,7 @@
  * dropping such spotters.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { NextResponse } from "next/server";
 import { NewClipsEmail } from "@/lib/email/templates/NewClipsEmail";
 import { newClipsUnsubscribeUrl } from "@/lib/email/unsubscribe";
@@ -36,7 +37,7 @@ export async function GET(req: Request) {
   if (!isAuthorisedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  const base = SITE_URL;
 
   // One query for the whole clip set rather than a per-recipient count: the
   // catalogue is small (97 rows, 73 of them feed-visible) and every recipient

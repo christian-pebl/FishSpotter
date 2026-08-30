@@ -1915,3 +1915,134 @@ summarised for a screen reader. 148 tests across the four new modules.
 **Files:** `src/lib/metrics/{range,series,format,query}.ts` (+ tests),
 `src/app/admin/metrics/{page,MetricsDashboard,MetricRangePicker,MetricTrendChart}.tsx`,
 `src/app/api/admin/metrics/export/route.ts`.
+
+## The archive opens into the feed, and the sound toggles go (30 Aug 2026)
+
+Tapping a clip in the archive used to land on `/feed/[id]`, a bespoke player
+that shared no code with the feed: a letterboxed `<video>` with browser
+controls, a details card, and a type-the-name box. It meant the archive led
+somewhere strictly worse than the app's main surface, and a spotter who
+answered there hit a dead end with nothing to go to next.
+
+That route now renders the feed itself, ordered so the tapped clip is first and
+the rest of the archive follows behind it. Answer, and the next archive clip is
+already loaded underneath. `SnippetPlayer.tsx` is deleted.
+
+**The ordering is the whole feature, so it lives in one place.** `/feed/browse`
+and `/feed/[id]` both build their query from `src/lib/archive-query.ts`. Two
+copies of that `where` and `orderBy` would drift, and the drift would be
+invisible: the feed would simply serve a different next clip than the grid
+showed, with nothing failing. For the same reason `archiveOrderBy` always
+tie-breaks on `id`, because `site` puts a whole deployment in one bucket and
+Postgres is free to return that bucket in a different order per query.
+
+Three smaller decisions inside it:
+
+- The grid carries its `site`/`q`/`sort` into each card's href, so a walk that
+  starts inside a filtered archive stays inside it. `page` is deliberately
+  dropped: the feed runs on past the grid's page boundary.
+- `rotateToClip` wraps past the end rather than truncating, so a clip opened at
+  the bottom of the archive still has somewhere to go. The walk ends one full
+  lap later, on the clip just before the one that was tapped.
+- A clip can be absent from the FILTERED list without being gone (a link pasted
+  out of a filtered grid, a search that matched the page but not this clip), so
+  the route falls back to the unfiltered archive before it 404s.
+
+The admin "who answered what" panel that used to sit under the old player is
+not carried over. It never belonged on a public page and `/admin/snippets/[id]`
+renders the same component.
+
+**Sound is gone, both kinds.** The "UI sounds" toggle and the correct/wrong/
+streak MP3s it gated, and the "Video sound" toggle. The clips carry no audio
+worth hearing (a camera on a mooring) and every one played muted by default, so
+that toggle only ever offered a worse version of the same clip. Removed:
+`src/lib/sounds.ts`, `public/sounds/*`, `VideoSettings.soundOn`, and
+`SettingsMenu.tsx` (orphaned dead code, imported nowhere, still carrying a
+sound toggle and the retired three-rung speed ladder). `FeedCard` now pins
+`video.muted = true` rather than deriving it: autoplay is conditional on muted
+and React does not reliably reflect the attribute onto the element on first
+render, so a card that came back unmuted would refuse to play.
+
+Removing the sounds toggle emptied the side menu's "Tools" section, whose only
+other child (`PwaInstallButton`) returns null on most browsers, which would
+have left a stray divider with padding under it. The install prompt is now one
+piece of state (`useInstallPrompt`) that the menu and the button share, so the
+section renders only when there is something in it.
+
+Naming, all user-facing: "Archive" is **"Video archive"** in the nav, the page
+title and the heading; the archive card drops its deployment line (the site,
+date and depth carry it); and the species guide's two unlabelled shape classes,
+which had been falling through to their raw lowercase keys, read **"Birds &
+seals"** and **"Urchins"**.
+
+The Spot It gate was then brought into line: its tile said "Birds & Mammals",
+its Rung-2 tile for the seal split said "A mammal", and the coarse commit and
+plural nouns said "bird or mammal" / "birds and mammals". The class holds three
+birds and two seals and no other mammal, and the underlying trait value is
+literally `seal`, so every one of those now says seal.
+
+**That rename had a database half, and it is the reason to check before renaming
+anything the gate submits.** `SHAPE_CLASS_COMMIT_NOUN` is not only a label:
+`FeedCard` submits it verbatim as `Answer.chosenOption` when a spotter taps
+"It's just a bird or mammal". Prod held **two** such answers, from two distinct
+users, on the shag clip at Pabay, one short of `CONSENSUS_THRESHOLD_USERS`.
+Consensus grouping is strict normalised equality, so leaving them behind would
+have started a second camp on the new wording that could never reach threshold
+while the first sat stranded at two forever. `scripts/rename-coarse-wildlife-noun.ts`
+migrates them (and covers `Snippet.staffAnswer` and `ConsensusEvent`, both empty
+here), and is idempotent, so re-running it verifies rather than repeats.
+
+Verified against the live database on a dev server: the feed opened at the
+tapped clip, cards 2 and 3 were the next two archive clips in `sort=oldest`
+order, and the tail wrapped onto the two clips that preceded it.
+`tsc --noEmit`, 779 unit tests, `next lint` and the token lint all clean.
+
+**Archive filter by species, and launch the filtered set as a feed, 30 Aug 2026**
+(PR #166). The archive's filter row is now **Species -> Location -> Sort**; the
+free-text "Search species, site, deployment" box is gone. A **"Launch feed of
+current filtered videos"** button opens the live feed holding exactly the
+clips the grid was showing.
+
+The load-bearing finding is what "species" had to be built on. There is no
+per-clip species column. `Snippet.staffAnswer` looks like one and is not:
+measured against the live DB its only values are `""` (69 of 163 clips),
+`Fish`, `Crab`, `Scooter`, `Jellyfish`, `Flatfish`, `Gastropod`, `Starfish`,
+`hermit`, `jelly`, `large fish`, `small fish`. Those are shape words, and they
+were also the only species text the old search box could ever match.
+
+So the species is **the community's settled ID**, the same leader
+`consensus.pickLeaderGroup` pays Pebbles on: most distinct spotters on one
+`normalizeForMatch` key, once `CONSENSUS_THRESHOLD_USERS` agree. Two
+narrowings on top, both in `src/lib/snippet-species.ts`. A leader only becomes
+a filter option if it resolves to a catalogue species, so a clip settled on
+`"flatfish"` has settled on a shape and is left out rather than forced onto
+one of the three flatfish. And the label shown is the catalogue `commonName`,
+never whichever surface form won the vote. That covers 39 of 143 visible
+clips across 20 species today, and grows with play; a clip nobody has settled
+has no species and is reachable only with the filter cleared.
+
+Both surfaces build the where-clause from `src/lib/snippet-filter.ts`, so the
+button cannot promise a set the feed does not deliver, and the feed only runs
+the species query when a species is actually requested.
+
+**Collided mid-PR with #164** ("The archive opens into the feed"), which was
+open on a rewrite of the same block of `browse/page.tsx` into its own
+`src/lib/archive-query.ts`. #166 named the other branch in its own PR body and
+proposed the split, and #164 followed it: `snippet-filter.ts` owns the SET
+(shared by every feed entry point), `archive-query.ts` shrank to the ORDER
+(`archiveOrderBy`, `rotateToClip`). `archiveWhere` was deleted rather than
+merged. `/feed/[id]` ended up honouring `?species=` too, so a filtered archive
+walk stays filtered, not just a filtered launch.
+
+Two smaller things the filter forced. A filtered feed announces itself
+(`FeedFilterNotice`) and carries the only route back to the whole feed, since
+five hermit-crab clips and a five-clip site are indistinguishable from inside
+the player; it hides while a Spot It gate is open. And the end-of-feed
+completion card ("that is all N clips, you have genuinely run out") is
+suppressed while filtered, since that claim is true of the whole feed and
+false of a selection.
+
+Verified against the live database: `tsc` clean, 787 tests, `next lint` and
+the token lint clean, every route checked on a dev server and again on
+`fishspotter.app` once #164 deployed alongside it, including a card tapped out
+of a species-filtered grid carrying the filter through the walk.

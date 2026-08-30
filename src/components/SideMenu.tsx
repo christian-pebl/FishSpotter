@@ -5,9 +5,8 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { PwaInstallButton } from "@/components/PwaInstallButton";
+import { PwaInstallButton, useInstallPrompt } from "@/components/PwaInstallButton";
 import { VideoSettingsPanel } from "@/components/VideoSettingsPanel";
-import { isSoundsEnabled, setSoundsEnabled } from "@/lib/sounds";
 import { TRANSITION } from "@/lib/motion";
 
 interface SideMenuProps {
@@ -36,7 +35,7 @@ const NAV: NavItem[] = [
   },
   {
     href: "/feed/browse",
-    label: "Archive",
+    label: "Video archive",
     match: (p) => p.startsWith("/feed/browse"),
     icon: (
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -93,17 +92,10 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
   const { data: session, status } = useSession();
   const pathname = usePathname() ?? "/";
   const reduceMotion = useReducedMotion();
-  const [soundsOn, setSoundsOn] = useState(true);
   const [streak, setStreak] = useState<number | null>(null);
+  const { prompt: installPrompt, clear: clearInstallPrompt } = useInstallPrompt();
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    setSoundsOn(isSoundsEnabled());
-    const onSoundsChanged = () => setSoundsOn(isSoundsEnabled());
-    window.addEventListener("fishspotter:soundsChanged", onSoundsChanged);
-    return () => window.removeEventListener("fishspotter:soundsChanged", onSoundsChanged);
-  }, []);
 
   useEffect(() => {
     if (!session?.user) {
@@ -283,46 +275,14 @@ export function SideMenu({ open, onClose }: SideMenuProps) {
               </ul>
             </nav>
 
-            {/* Tools */}
-            <div className="border-t border-white/10 px-4 py-3">
-              <button
-                type="button"
-                role="switch"
-                aria-checked={soundsOn}
-                onClick={() => {
-                  setSoundsEnabled(!soundsOn);
-                  setSoundsOn(!soundsOn);
-                }}
-                className="flex min-h-[44px] w-full items-center justify-between rounded-modal px-1.5 py-2 text-sm hover:opacity-90"
-              >
-                <span className="flex items-center gap-3">
-                  <span className="text-white/55">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                      <path
-                        d="M3 6h2l3-2.5v9L5 10H3V6z"
-                        stroke="currentColor"
-                        strokeWidth="1.4"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                  <span className="text-white/85">UI sounds</span>
-                </span>
-                <span
-                  className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                    soundsOn ? "bg-teal-500" : "bg-white/15"
-                  }`}
-                >
-                  <span
-                    className="absolute h-4 w-4 rounded-full bg-white shadow"
-                    style={{ transform: soundsOn ? "translateX(18px)" : "translateX(2px)" }}
-                  />
-                </span>
-              </button>
-              <div className="mt-2">
-                <PwaInstallButton />
+            {/* Tools. Gated on the install prompt existing, because the button
+                is the only thing in here now that UI sounds are gone, and it
+                renders null on most browsers. */}
+            {installPrompt && (
+              <div className="border-t border-white/10 px-4 py-3">
+                <PwaInstallButton prompt={installPrompt} onDone={clearInstallPrompt} />
               </div>
-            </div>
+            )}
 
             {/* Live video controls (moved here from the feed top bar). */}
             <div className="border-t border-white/10 px-4 py-3">

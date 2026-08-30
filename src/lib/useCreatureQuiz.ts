@@ -2,7 +2,6 @@
 
 import { useSession } from "next-auth/react";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { playCorrect, playWrong, playStreak } from "@/lib/sounds";
 import { triggerCorrectConfetti } from "@/lib/confetti";
 import { emitPebbles } from "@/lib/pebble-bus";
 import { getMyAnswer, setMyAnswer as cacheMyAnswer } from "@/lib/myAnswers";
@@ -10,9 +9,9 @@ import { GUEST_SAVE_PROMPT_AT, GUEST_MILESTONE_EVENT } from "@/lib/guest";
 
 // S2-T04 killed the sharedBaselineStreak module global + the
 // follow-up GET /api/streak after each submit. The streak diff is now
-// returned inline from POST /api/answers, so deciding whether to play
-// the streak sound is a comparison on the server-authoritative result
-// (no race when several cards mount at once).
+// returned inline from POST /api/answers, so "did the streak advance?"
+// (streakAdvanced, which the reveal lands on) is a comparison on the
+// server-authoritative result, with no race when several cards mount at once.
 
 // P0 "play before the wall": signed-out spotters now get the REAL reveal
 // locally (via the read-only /api/answers/preview), instead of being bounced to
@@ -268,11 +267,8 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
         if (isCorrect === true) {
           if (!celebratedSnippetIds.current.has(snippet.id)) {
             celebratedSnippetIds.current.add(snippet.id);
-            playCorrect();
             triggerCorrectConfetti();
           }
-        } else if (isCorrect === false && points === 0) {
-          playWrong();
         }
         setGuestAnswerCount(pushGuestAnswer(snippet.id, option));
         return true;
@@ -317,24 +313,13 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
           // RarityPanel second-fire is gone in the same ticket).
           if (!celebratedSnippetIds.current.has(snippet.id)) {
             celebratedSnippetIds.current.add(snippet.id);
-            playCorrect();
             triggerCorrectConfetti();
           }
-        } else if (isCorrect === false && points === 0) {
-          // Only a true miss buzzes. A shape-class partial credit (points > 0,
-          // "Spot It" Workstream E) is encouraging, not an error, so it stays
-          // silent, the reveal's "Close · +1" pill carries the signal.
-          playWrong();
         }
-        // S7-T1: when isCorrect is null (no reference yet) the submission
-        // is a "pending bonus", no celebration audio (it isn't a verified
-        // correct answer) and no wrong buzz (the user didn't actually
-        // miss). The +1 chip on the reveal carries the signal.
-        // S2-T04: server returns { previous, current } inline. Streak
-        // sound fires exactly when the streak actually advanced.
-        if (data.streak && data.streak.current > data.streak.previous) {
-          playStreak();
-        }
+        // S7-T1: when isCorrect is null (no reference yet) the submission is a
+        // "pending bonus", so it gets no celebration: it isn't a verified
+        // correct answer, and the user didn't miss either. The +1 chip on the
+        // reveal carries the signal.
         // T-07: capture the progress so the reveal can land it at the win.
         setRewardProgress({
           streakCurrent: data.streak?.current ?? 0,

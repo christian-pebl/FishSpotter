@@ -8,6 +8,7 @@
  * to stay inside Vercel's 60s timeout.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { NextResponse } from "next/server";
 import { computeStreakFromAnswers } from "@/lib/streak";
 import { WeeklyDigestEmail } from "@/lib/email/templates/WeeklyDigestEmail";
@@ -27,7 +28,7 @@ export async function GET(req: Request) {
   if (!isAuthorisedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  const base = SITE_URL;
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
   // Via the shared helper so this matches what the feed actually serves. The
