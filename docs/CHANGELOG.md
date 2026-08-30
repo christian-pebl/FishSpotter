@@ -1508,3 +1508,42 @@ stayed fully opaque throughout.
 **Sequencing mistake worth not repeating:** the re-cut videos were published BEFORE the
 renderer change was on main, so production briefly stretched the new padded clips. Ship
 the renderer first, or together.
+
+## 2026-08-30: workshop cards rebuilt onto the verified species data, with real print artwork
+
+The species-guide sweep (PR #152) replaced our food-web-derived diet with broad statements read
+from published accounts and added verified depth, size, habitat and behaviour text. The workshop
+cards were still carrying the old hand-written strings, so a visitor scanning a card's QR would
+have seen the app contradict the card in their hand. On branch
+`workshop/align-cards-to-verified-claims`, not yet on main.
+
+- **There was never any print artwork.** `cards.html` has only ever been a review proof with cards
+  drawn at **44 x 58 mm**; sending it to a printer would have produced the deck at half size. New
+  `cards-print.html` / `PEBL-species-cards-PRINT-A6-4up.pdf` is true A6, 4-up on A4 (A6 tiles A4
+  exactly, so two guillotine passes and no crop marks are needed or possible), fronts and backs on
+  alternating sheets with backs mirrored `[2,1,4,3]` for a long-edge duplex flip. The mirroring was
+  verified by reading the rendered pages back: get it wrong and every card carries the wrong
+  animal's biology, which is invisible until the deck is cut.
+- **Cards mirror the guide data rather than paraphrasing it.** The 40-species `DIET` map is deleted;
+  I EAT / EATS ME come from `src/data/species-diet.json` and size and behaviour from
+  `src/data/species-facts.json`. Bullets are chosen by character budget, not a fixed count, because
+  the authored statements run 16 to 190 characters; 162 of 220 fit. Verified field by field: 40
+  fronts, 40 backs, 162 bullets byte-identical to source, and all 40 QR targets returning 200 live.
+- **Card design.** Full bleed, no cut lines, one tab colour at head and foot equal to within
+  0.005mm, the tier chip replaced by the common name so a face-down card is identifiable, and an
+  8.58mm text safe area at A6 in place of a white margin. A4 is 297mm against two A6 rows at 296mm,
+  so the page foot is bled to kill a 1mm white lip.
+- **19 of 40 photos replaced.** Each was assessed as the card actually crops it, which was the point:
+  `object-fit:cover` trims to a 2.3:1 strip and 38 of 40 sources lost over 30% of their height, the
+  worst 71%. Gemini 3.5 Flash scored the first pass 19 ideal / 19 usable / 2 poor; the daily quota
+  then ran out and the rest were chosen from contact sheets, so those picks are unscored.
+- **Watch iNaturalist's `taxon_name` search.** Querying "Conger conger" returned records from
+  Virginia, North Carolina, Florida, the Caymans, Mexico and a freshwater lake in Raleigh, plus two
+  photographs that are plainly morays and one of a heron; three "catshark" results were egg cases.
+  Research grade means the community agrees on an ID, not that the record is in range or that the
+  photo shows the animal. Every candidate was range-checked before use.
+- **Note for the guide:** `build-foodweb.mjs` on main has withdrawn the farm-impact classification
+  and `FARM` is deliberately empty, but about ten pages of the facilitator guide's master solutions
+  still print numbers derived from it. Taking the workshop files across from an older branch nearly
+  reinstated the whole map, so they must be moved file by file, never by merging wholesale.
+
