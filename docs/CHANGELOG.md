@@ -1869,6 +1869,53 @@ Locally the suite also has 13 failures that reproduce identically on unmodified
 every `nav-smoke` "no console errors" assertion, plus a flaky axe navigation
 race on `/leaderboard`. They are not regressions.
 
+## 30 Aug 2026: metrics drill-down, a date range and a day-by-day trend per card
+
+`/admin/metrics` was a wall of ten totals over a hard-coded 30-day window, and
+the only way past it was a 90-day CSV. Every card now opens into its own
+day-by-day chart, and the whole page is scoped by a range picker (7 days, 30,
+90, 12 months, all time, or two dates).
+
+**The range lives in the URL** (`?range=90d`, or `?range=custom&from=..&to=..`),
+so the server renders the numbers that were asked for on the first paint, an
+admin can bookmark a view, and the CSV export carries the same range instead of
+a fixed 90 days. `src/lib/metrics/range.ts` is the one place that parses it;
+`query.ts` is the one place that queries it. The screen and the spreadsheet
+cannot drift.
+
+**Presets are calendar days inclusive of today, not a rolling N x 24h window.**
+That is deliberate: a card's headline is exactly the sum of the bars in its own
+chart, and a rolling window would leave part of the oldest day outside the range
+so the two would disagree by a few counts. Verified against the live database:
+every figure the old page showed is reproduced exactly (89 spotters, 1,913 clip
+views, 503 IDs, 1,485 watch minutes at 30 days).
+
+**Each card also shows its change against the equal-length window before it**,
+read from the same single pass over the rows, so "check the trend" does not mean
+"remember what it said last month".
+
+Three things the charts refuse to draw, each of which would otherwise mislead a
+funder report:
+
+- **A zero for a day with no denominator.** Consensus accuracy on a day nobody
+  settled an ID is blank, not 0%.
+- **Plain zeroes before the analytics log existed.** The Event log starts 27 Jun
+  2026 and only covers spotters who accepted analytics. Those days are shaded
+  and labelled on the event-derived metrics, because "not measured" and "nobody
+  came" look identical otherwise. The rolling-average line starts where
+  measurement starts for the same reason.
+- **A sum where the aggregate is not a sum.** Active spotters counts a person
+  once per day, so the daily bars add up to more than the range figure; the
+  panel says so rather than leaving an admin to find the discrepancy.
+
+Chart is hand-drawn SVG, no new dependency, colourblind-safe (the trend line is
+separated from the bars by lightness, not hue), keyboard-scrubbable, and
+summarised for a screen reader. 148 tests across the four new modules.
+
+**Files:** `src/lib/metrics/{range,series,format,query}.ts` (+ tests),
+`src/app/admin/metrics/{page,MetricsDashboard,MetricRangePicker,MetricTrendChart}.tsx`,
+`src/app/api/admin/metrics/export/route.ts`.
+
 ## The archive opens into the feed, and the sound toggles go (30 Aug 2026)
 
 Tapping a clip in the archive used to land on `/feed/[id]`, a bespoke player
