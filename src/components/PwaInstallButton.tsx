@@ -1,13 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 };
 
-export function PwaInstallButton() {
+/**
+ * The browser's deferred install prompt, if it ever offered one.
+ *
+ * The state is a hook rather than local to the button because the caller has to
+ * know too: the button renders null far more often than not (iOS Safari never
+ * fires the event, and neither does an already-installed app), and the side
+ * menu's section wrapper drawn around nothing is a stray divider with padding
+ * under it. One owner, so the menu and the button can never disagree about
+ * whether there is anything to show.
+ */
+export function useInstallPrompt(): {
+  prompt: BeforeInstallPromptEvent | null;
+  clear: () => void;
+} {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
@@ -29,17 +42,25 @@ export function PwaInstallButton() {
     };
   }, []);
 
-  if (!installPrompt) {
-    return null;
-  }
+  const clear = useCallback(() => setInstallPrompt(null), []);
 
+  return { prompt: installPrompt, clear };
+}
+
+export function PwaInstallButton({
+  prompt,
+  onDone,
+}: {
+  prompt: BeforeInstallPromptEvent;
+  onDone: () => void;
+}) {
   return (
     <button
       type="button"
       onClick={async () => {
-        await installPrompt.prompt();
-        await installPrompt.userChoice.catch(() => null);
-        setInstallPrompt(null);
+        await prompt.prompt();
+        await prompt.userChoice.catch(() => null);
+        onDone();
       }}
       className="pebl-button-secondary rounded-full px-3 py-1.5 text-sm font-medium"
     >

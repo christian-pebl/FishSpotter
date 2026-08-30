@@ -3,25 +3,24 @@
 import { setVideoSettings, useVideoSettings } from "@/lib/videoSettings";
 
 /**
- * The side menu's live-video controls: sound and the highlight trace.
+ * The side menu's live-video controls: the highlight trace.
  *
  * Speed, brightness and contrast used to live here too. They moved onto the
  * clip's own control stack (see FeedCard) because all three correct what you
  * are looking at, and judging a correction means seeing the picture while you
  * make it. A drawer that covers the clip is the one place they cannot work.
- * These two survive because they are preferences, not corrections: you set them
- * once and they are as easy to judge with the menu open as shut.
+ * The trace survives because it is a preference, not a correction: you set it
+ * once and it is as easy to judge with the menu open as shut.
+ *
+ * Video sound was removed on 30 Aug 2026. The clips carry no audio worth
+ * hearing (a camera on a mooring), and every one played muted by default, so
+ * the toggle only ever offered a worse version of the same clip.
  */
 export function VideoSettingsPanel() {
   const settings = useVideoSettings();
 
   return (
     <div>
-      <Toggle
-        label="Video sound"
-        checked={settings.soundOn}
-        onChange={(v) => setVideoSettings({ soundOn: v })}
-      />
       <Toggle
         label="Highlight trace"
         checked={settings.trace}

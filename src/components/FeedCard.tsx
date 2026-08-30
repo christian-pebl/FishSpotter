@@ -651,20 +651,15 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
     v.playbackRate = settings.speed;
   }, [settings.speed, isActive]);
 
-  // Apply sound: muted by default; unmuted only when soundOn is true and the
-  // browser allows it. If play() rejects with NotAllowedError, fall back to muted.
+  // Clips are always silent (the "Video sound" toggle was removed on 30 Aug
+  // 2026). The <video> already carries the `muted` attribute; this pins the DOM
+  // property too, because autoplay is conditional on it and React does not
+  // reliably reflect `muted` onto the element on the initial render. A card that
+  // came back unmuted would simply refuse to play.
   useEffect(() => {
     const v = videoRef.current;
-    if (!v) return;
-    const targetMuted = !settings.soundOn;
-    if (v.muted === targetMuted) return;
-    v.muted = targetMuted;
-    if (isActive && !v.paused) {
-      v.play().catch(() => {
-        v.muted = true;
-      });
-    }
-  }, [settings.soundOn, isActive]);
+    if (v) v.muted = true;
+  }, [isActive]);
 
   // Track mobile virtual keyboard so the panel rises above it.
   useEffect(() => {
@@ -2435,7 +2430,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
                           Edit answer
                         </button>
                         <Link href="/feed/browse" className="inline-flex min-h-[44px] items-center text-[10px] uppercase tracking-wider text-white/70 hover:text-white/90">
-                          Archive
+                          Video archive
                         </Link>
                       </div>
                       {hasNext ? (
