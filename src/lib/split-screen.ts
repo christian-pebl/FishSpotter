@@ -67,7 +67,22 @@ export const WIDTH_STORAGE_KEY = "fs-gate-width-pct";
  */
 export const MIN_HEIGHT_PCT = 34;
 export const MAX_HEIGHT_PCT = 92;
-export const DEFAULT_HEIGHT_PCT = 50;
+/**
+ * 56, not the round 50, and the number is a measurement (30 Aug 2026).
+ *
+ * At 50% a 375x812 phone gave the tile grid 197px of scroll viewport, and two
+ * rows of species tiles need 214px (229px when both rows carry a name that
+ * wraps). So the default sheet could show exactly ONE row of candidates, and
+ * the rung whose entire job is comparing species showed one species at a time
+ * unless the user thought to drag the sheet up.
+ *
+ * The chrome is not where the rest of it comes from: back, close, "compare
+ * side by side", "none look right" and the like are all pinned at the 44px
+ * touch-target floor, so trimming them below that would buy pixels by making
+ * the panel harder to use. 56% clears two rows with ~30px to spare and still
+ * leaves the clip more than half the screen.
+ */
+export const DEFAULT_HEIGHT_PCT = 56;
 /** Below this a sheet reflows denser rather than clipping its first row. */
 export const COMPACT_HEIGHT_PCT = 46;
 export const HEIGHT_STORAGE_KEY = "fs-gate-height-pct";

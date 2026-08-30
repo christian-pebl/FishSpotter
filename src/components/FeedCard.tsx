@@ -925,6 +925,26 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
     }
   }, [isActive]);
 
+  // ...and it hands the screen back. The identify panel and the rungs are
+  // per-clip working state, but the split they hold is GLOBAL: `useSplitPanel`
+  // publishes one frame for the whole app, so a panel left open on the card
+  // behind keeps EVERY other card reserving space for it, and the next clip
+  // renders against a black band instead of going full bleed. Every card in the
+  // feed is mounted at once, so this is not hypothetical, it is the normal path
+  // out of a guess.
+  //
+  // It is also the reset the flow needs: finish naming a species, move on, and
+  // the next clip starts on the video, splitting only when the viewer asks it
+  // to. `setPanelCollapsed` directly rather than `togglePanel`, because this is
+  // the watch-first gate re-arming, not the viewer expressing a preference, so
+  // it must not be written to localStorage.
+  useEffect(() => {
+    if (isActive) return;
+    setPanelCollapsed(true);
+    setHasTappedIdentify(false);
+    dispatch({ type: "closeAll" });
+  }, [isActive]);
+
   // A single-point mark (1 centre point) has no path to follow, so its ping is
   // one really short pulse rather than the ~3s ring that tracks a moving fish.
   const isSinglePointTrack = bboxes.length <= 1;
@@ -1339,12 +1359,34 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
     [submitting]
   );
 
+  // Leaving this clip: hand the screen back BEFORE the scroll starts.
+  //
+  // The split is global, so a panel still open here is a band the NEXT clip
+  // reserves for it. Waiting for the deactivate effect below to notice means
+  // waiting on the IntersectionObserver, which does not fire until the smooth
+  // scroll has finished, so the new clip paints against a black half first.
+  // That is the "answer a species, press Next, half the page is black" report.
+  //
+  // Closing on the tap makes Next mean full-screen video, every time, and the
+  // next clip splits only when its viewer asks it to.
+  const leaveClip = useCallback(() => {
+    setPanelCollapsed(true);
+    dispatch({ type: "closeAll" });
+  }, []);
+
   // Wrap onAdvance so the explicit Next/Skip tap also notifies the
   // parent to move-to-back. Stable identity for inline onClick.
   const handleAdvanceFromReveal = useCallback(() => {
+    leaveClip();
     onAnswered?.();
     onAdvance();
-  }, [onAdvance, onAnswered]);
+  }, [leaveClip, onAdvance, onAnswered]);
+
+  // Skip: same handover, but no answer to report.
+  const handleSkip = useCallback(() => {
+    leaveClip();
+    onAdvance();
+  }, [leaveClip, onAdvance]);
 
   // Pulse the panel teal when the user submits a correct answer.
   useEffect(() => {
@@ -2240,7 +2282,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
                       {hasNext && (
                         <button
                           type="button"
-                          onClick={onAdvance}
+                          onClick={handleSkip}
                           className={[
                             "inline-flex min-h-[44px] items-center rounded-full px-3 py-2 text-[11px] font-medium uppercase tracking-wider text-white/55 transition-colors hover:bg-white/8 hover:text-white/90",
                             hasLocation ? "" : "ml-auto",

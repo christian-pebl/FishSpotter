@@ -95,7 +95,13 @@ export type FlowAction =
   // them all back. `ruleOut` is idempotent.
   | { type: "ruleOut"; scientificName: string }
   | { type: "restore"; scientificName: string }
-  | { type: "restoreAll" };
+  | { type: "restoreAll" }
+  // Every surface closed, back to just the clip. Fired when a card scrolls out
+  // of the feed: the panel and the rungs are per-clip working state, but the
+  // split they hold is GLOBAL, so a card that is no longer on screen must not
+  // keep holding it open. Narrowing (`selectedShape`, `formSeed`, `ruledOut`)
+  // survives, so scrolling away and back does not throw away the user's work.
+  | { type: "closeAll" };
 
 /** Stamp the bucket a set of eliminations belongs to, clearing them when the
  * bucket changed. Same bucket = the user stepped back to look at an earlier rung
@@ -109,6 +115,15 @@ function applyBucket(state: FlowState, key: string): FlowState {
 
 export function flowReducer(state: FlowState, action: FlowAction): FlowState {
   switch (action.type) {
+    case "closeAll":
+      return {
+        ...state,
+        shapeGateOpen: false,
+        bodyGateOpen: false,
+        spotItActive: false,
+        guessMode: false,
+      };
+
     case "openShapeGate":
       return { ...state, shapeGateOpen: true };
 
