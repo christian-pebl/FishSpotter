@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site-url";
 import type { Metadata, Viewport } from "next";
 import { Jost, Roboto } from "next/font/google";
 import localFont from "next/font/local";
@@ -37,7 +38,12 @@ const SITE_DESCRIPTION =
   "Protecting Ecology Beyond Land through playful marine monitoring, community spotting, and short-form underwater clips.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://fish-spotter.vercel.app"),
+  metadataBase: new URL(SITE_URL),
+  // Names the real domain as the one true address of every page. Without it,
+  // the app is reachable on both fishspotter.app and the Vercel host with no
+  // statement about which is which, so search engines are left to guess between
+  // two identical sites. Relative, so each route canonicalises to itself.
+  alternates: { canonical: "./" },
   title: { default: SITE_TITLE, template: "%s · PEBL FishSpotter" },
   description: SITE_DESCRIPTION,
   manifest: "/manifest.webmanifest",

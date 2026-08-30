@@ -6,6 +6,7 @@
  * 6 days, sends a single short email and writes lastStreakNudgeAt.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { NextResponse } from "next/server";
 import { computeStreakFromAnswers } from "@/lib/streak";
 import { StreakNudgeEmail } from "@/lib/email/templates/StreakNudgeEmail";
@@ -27,7 +28,7 @@ export async function GET(req: Request) {
   if (!isAuthorisedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  const base = SITE_URL;
   const now = new Date();
   const quietWindow = new Date(now.getTime() - QUIET_HOURS * 60 * 60 * 1000);
   const cooldown = new Date(now.getTime() - COOLDOWN_DAYS * 24 * 60 * 60 * 1000);

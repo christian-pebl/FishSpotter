@@ -7,6 +7,8 @@
  * a backfill of the catalogue species, but throttle anyway to be polite.
  */
 
+import { SITE_URL } from "@/lib/site-url";
+
 const INAT_BASE = "https://api.inaturalist.org/v1";
 
 // Comma-joined license filter passed to /observations. Project policy is
@@ -129,7 +131,7 @@ async function fetchWithRetry(url: string): Promise<Response> {
         Accept: "application/json",
         // iNaturalist recommends a User-Agent that identifies the caller so
         // they can contact us if we misbehave.
-        "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)",
+        "User-Agent": `FishSpotter/1.0 (${SITE_URL})`,
       },
     });
     if (res.ok) return res;

@@ -11,6 +11,7 @@
  * Email-only by design: no password is required at the prompt (lowest friction).
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
@@ -32,7 +33,7 @@ export const dynamic = "force-dynamic";
 const Schema = z.object({ email: z.string().email().max(254) });
 
 function setupUrl(plainToken: string): string {
-  const base = process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app";
+  const base = SITE_URL;
   return `${base.replace(/\/$/, "")}/auth/reset/${plainToken}`;
 }
 

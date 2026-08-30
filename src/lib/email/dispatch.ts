@@ -4,6 +4,7 @@
  * token / hash / URL plumbing every time.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { VerificationEmail } from "@/lib/email/templates/VerificationEmail";
 import { sendEmail } from "@/lib/email/send";
 import {
@@ -14,7 +15,7 @@ import {
 import { prisma } from "@/lib/prisma";
 
 function baseUrl(): string {
-  return (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  return SITE_URL;
 }
 
 /**
