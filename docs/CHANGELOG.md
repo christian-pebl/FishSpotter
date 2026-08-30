@@ -1616,3 +1616,41 @@ rate-limited. Measured 1.47 assessment/s at concurrency 16 and 3.47/s at 32,
 zero errors either way. But 50-way concurrency provoked sustained 429s from the
 iNat photo CDN and produced 1597 unscored candidates, so concurrency around 20
 is the sweet spot.
+
+### 2026-08-29, same day: the verification pass found a live bug the photo work had walked past
+
+Making the post-sweep verification repeatable (`npm run check:photos`, the
+sibling of `check:codecs` and `check:durations`) turned up something the photo
+work itself never looked at: **21 of the 72 annotated hero photos had no stored
+width or height**, so `AnnotatedSpeciesPhoto` fell back to its
+`viewBox="0 0 1000 1000"` default and drew a SQUARE coordinate space over a 4:3
+photo. Measured on the live Ballan wrasse page: image 500x375, viewBox
+0 0 1000 1000. With `xMidYMid meet` that squeezes every ring into the middle
+75% of the frame, so all three markers sat bunched on the fish's head instead
+of one on the lips, one on the dorsal fin and one on the body.
+
+That is the "How to spot it" feature, the single most instructional thing on a
+species guide, wrong on 21 species. `scripts/backfill-image-dims.ts` already
+existed for exactly this and reads the real size out of the JPEG/PNG header, no
+API and no cost. `fixed=35 failed=0`; **rows with null dimensions are now
+zero**, and the wrasse's three markers land on the three features they name.
+
+The lesson is about where the bug was hiding rather than the bug. Nothing in
+the gallery sweep touched dimensions, and no test covered them; the defect only
+surfaced because the verification script was written to check the whole photo
+record rather than the part that had just been edited. Two of the checks in it
+were themselves wrong on the first run and are worth not repeating:
+
+- **A byte-count floor is not an image check.** Failing anything under 5KB
+  rejected seven perfectly good rows, because WebP compresses a simple 500x281
+  subject to 4.4KB. The check now reads the file's magic bytes, which is also
+  the only thing that catches a throttled CDN's HTML error page served under a
+  200.
+- **A 429 from our own checker is not a broken photo.** Fetching 666 URLs in two
+  minutes flagged 46, and all 46 returned 200 when asked one at a time. Commons
+  now has a serial, delayed lane.
+
+Left as a warning rather than fixed: two curated hero pins still serve Commons
+originals over 900KB (shanny 1.23MB, plaice 1.10MB) because they are `manual`
+rows with no WebP derivative, and `db:backfill-webp` needs the R2 credentials
+that were not on this machine.

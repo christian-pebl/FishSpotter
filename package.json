@@ -18,6 +18,7 @@
     "bootstrap": "tsx scripts/bootstrap/index.ts",
     "check:codecs": "tsx --env-file=.env.local scripts/check-codecs.ts",
     "check:durations": "tsx --env-file=.env.local scripts/check-durations.ts",
+    "check:photos": "tsx --env-file=.env.local scripts/check-photos.ts",
     "db:push": "prisma db push",
     "db:enable-rls": "tsx --env-file=.env.local scripts/enable-rls.ts",
     "db:seed": "tsx --env-file=.env.local scripts/seed.ts",
