@@ -167,8 +167,10 @@ const FACTS_DATA = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data',
 // authored most-representative-first, so a truncation is a subset of the page's
 // claim rather than a different one, and the QR goes to the full list.
 const BULLET_BUDGET = Number(process.env.CARD_BULLET_BUDGET || 200);
-const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 90);
-const PHOTO_H = Number(process.env.CARD_PHOTO_H || 19);
+const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 80);
+const PHOTO_H = Number(process.env.CARD_PHOTO_H || 15);
+const BORDER  = Number(process.env.CARD_BORDER || 1.3);   // white margin, mm at source (x2.39 at A6)
+const STRIP   = Number(process.env.CARD_STRIP  || 2.4);     // height of the head and foot bands
 
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const idOf = s => s.replace(/[^a-z0-9]+/gi, '_');
@@ -245,6 +247,7 @@ for (const deck of DECKS) {
 
     const frontHtml = `
       <div class="card front">
+       <div class="cardinner">
         <div class="tier-stripe"></div>
         ${media}
         <div class="namebox">
@@ -260,11 +263,15 @@ for (const deck of DECKS) {
           <p class="credit">${creditLine}</p>
           <img class="pebl-logo" src="${LOGO_URI}" alt="PEBL">
         </div>
+        <div class="tier-stripe"></div>
+       </div>
       </div>`;
 
     const backHtml = `
       <div class="card back">
+       <div class="cardinner">
         <div class="tier-stripe"></div>
+        <div class="backbody">
         <p class="backname">${esc(name)}</p>
         <div class="field"><b>I EAT</b>${bullets(diet.eats)}</div>
         <div class="field"><b>EATS ME</b>${bullets(diet.eatenBy)}</div>
@@ -276,6 +283,9 @@ for (const deck of DECKS) {
           <img class="pebl-logo small" src="${LOGO_URI}" alt="PEBL">
           <span>pebl-cic.co.uk</span>
         </div>
+        </div>
+        <div class="tier-stripe"></div>
+       </div>
       </div>`;
 
     CARDS.push({ id: idOf(name), name, front: frontHtml, back: backHtml });
@@ -312,11 +322,14 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
    each other, so a printed rule would be halved by the blade and leave a hairline
    down one card. A radius would sit inside the punched one; a shadow would smear
    grey along the cut. */
-.card{width:44mm;height:58mm;flex:0 0 44mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column}
-.tier-stripe{height:3mm;flex:0 0 auto;background:var(--teal)}
-/* the back is padded for its text, so the tab has to be pulled back out to the trim
-   by exactly that padding or it prints as a floating bar with a white frame */
-.card.back .tier-stripe{margin:-2mm -2.6mm 1.8mm}
+.card{width:44mm;height:58mm;flex:0 0 44mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column;padding:${BORDER}mm}
+.tier-stripe{height:${STRIP}mm;flex:0 0 auto;background:var(--teal)}
+/* WHITE BORDER round the whole card, and a matching strip at the FOOT as well as the
+   head. Both exist for the same reason: a cut that lands a millimetre out eats white
+   margin instead of skewing a coloured band, so a slightly wonky trim still reads as
+   a symmetric card. The strips being equal is what makes the asymmetry invisible. */
+.cardinner{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#fff}
+.backbody{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;padding:2mm 2.6mm 1.6mm}
 /* FRONT */
 .card.front .photo{height:${PHOTO_H}mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
 .card.front .photo.silhouette{display:flex;align-items:center;justify-content:center;padding:2.5mm}
@@ -336,7 +349,7 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .credit{font-size:3.9pt;color:#9aa7ab;line-height:1.12}
 .pebl-logo{height:4mm;width:auto;display:block;margin:0 2.2mm 1.6mm auto;opacity:.9}
 /* BACK */
-.card.back{padding:2mm 2.6mm 2.2mm;min-width:0}
+.card.back{min-width:0}
 .backname{margin:0 0 1.6mm;font-size:7.2pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
 .field{margin-bottom:1.4mm;min-width:0}
 .field b{display:block;font-size:4.6pt;letter-spacing:.5pt;color:var(--dteal);text-transform:uppercase;margin-bottom:0.3mm}
@@ -405,13 +418,13 @@ console.log(`wrote ${OUT}, ${DECKS.reduce((n,d)=>n+d.cards.length,0)} cards`);
 // DUPLEX. Backs are laid out mirrored, [2,1,4,3], because the sheet flips about its
 // vertical axis on a long-edge duplex pass. Get this wrong and every card carries
 // the wrong animal's biology, which is invisible until the deck is cut.
-// A hair of overshoot (0.15%) so adjacent cards definitively overlap rather than
-// merely touch. At exact scale the boxes butt to within 5 microns, which measures
-// clean but can still raster a 1px white seam through a scale transform, and a
-// white line at the trim is the one artefact a guillotine cannot cut away. The
-// cell clips the excess, which is what full bleed is for: 0.16mm on 105mm, well
-// inside any cutting tolerance.
-const SCALE = (105 / 44) * 1.0015;
+// Exact scale, no overshoot. An earlier version scaled up 0.15% so adjacent cards
+// overlapped rather than merely touched, guarding against a 1px white seam at the
+// trim. The white border makes that guard both unnecessary and harmful: any seam is
+// now white against white and invisible, while the overshoot was clipping 0.16mm off
+// the right and bottom margins, leaving the border wider on two sides than the other
+// two. Symmetry is the whole point of the border, so exact scale wins.
+const SCALE = 105 / 44;
 const SRC_H = 44 * 148 / 105;
 const UP = 4, COLS = 2;
 const printCss = `
