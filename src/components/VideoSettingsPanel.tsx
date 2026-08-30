@@ -1,21 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  setVideoSettings,
-  useVideoSettings,
-  VIDEO_SPEEDS,
-} from "@/lib/videoSettings";
-import { TRANSITION } from "@/lib/motion";
+import { setVideoSettings, useVideoSettings } from "@/lib/videoSettings";
 
 /**
- * The live-feed video controls (sound, highlight trace, speed, brightness,
- * contrast), extracted from the old top-right SettingsMenu dropdown so they can
- * live inside the side menu instead of cluttering the feed overlay.
+ * The side menu's live-video controls: sound and the highlight trace.
+ *
+ * Speed, brightness and contrast used to live here too. They moved onto the
+ * clip's own control stack (see FeedCard) because all three correct what you
+ * are looking at, and judging a correction means seeing the picture while you
+ * make it. A drawer that covers the clip is the one place they cannot work.
+ * These two survive because they are preferences, not corrections: you set them
+ * once and they are as easy to judge with the menu open as shut.
  */
 export function VideoSettingsPanel() {
-  const [expandedSlider, setExpandedSlider] = useState<"brightness" | "contrast" | null>(null);
   const settings = useVideoSettings();
 
   return (
@@ -29,46 +26,6 @@ export function VideoSettingsPanel() {
         label="Highlight trace"
         checked={settings.trace}
         onChange={(v) => setVideoSettings({ trace: v })}
-      />
-
-      <div className="mt-3">
-        <p className="mb-1 text-[11px] font-medium text-white/65">Playback speed</p>
-        {/* Two rows of three rather than one row of six: the ladder widened for
-            the on-clip stepper, and six pills abreast would drop each one under
-            the 44px touch target at 375px. */}
-        <div className="grid grid-cols-3 gap-1.5">
-          {VIDEO_SPEEDS.map((s) => {
-            const active = settings.speed === s;
-            return (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setVideoSettings({ speed: s })}
-                className={`min-h-[44px] rounded-modal px-2 py-1.5 text-xs font-semibold transition-colors ${
-                  active ? "bg-teal-500 text-navy-900" : "bg-white/10 text-white/75 hover:bg-white/18"
-                }`}
-                aria-pressed={active}
-              >
-                {s}×
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <SliderRow
-        label="Brightness"
-        value={settings.brightness}
-        expanded={expandedSlider === "brightness"}
-        onToggle={() => setExpandedSlider((cur) => (cur === "brightness" ? null : "brightness"))}
-        onChange={(v) => setVideoSettings({ brightness: v })}
-      />
-      <SliderRow
-        label="Contrast"
-        value={settings.contrast}
-        expanded={expandedSlider === "contrast"}
-        onToggle={() => setExpandedSlider((cur) => (cur === "contrast" ? null : "contrast"))}
-        onChange={(v) => setVideoSettings({ contrast: v })}
       />
     </div>
   );
@@ -103,91 +60,5 @@ function Toggle({
         />
       </span>
     </button>
-  );
-}
-
-function SliderRow({
-  label,
-  value,
-  expanded,
-  onToggle,
-  onChange,
-}: {
-  label: string;
-  value: number;
-  expanded: boolean;
-  onToggle: () => void;
-  onChange: (v: number) => void;
-}) {
-  return (
-    <div className="mt-2">
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={expanded}
-        className="flex min-h-[44px] w-full items-center justify-between rounded-modal px-1.5 py-1.5 text-sm hover:bg-white/5"
-      >
-        <span className="text-white/85">{label}</span>
-        <span className="flex items-center gap-2">
-          <span className="tabular-nums text-xs text-white/55">
-            {value > 0 ? `+${value}` : value}
-          </span>
-          <svg
-            width="11"
-            height="11"
-            viewBox="0 0 12 12"
-            fill="none"
-            aria-hidden="true"
-            style={{ transform: expanded ? "rotate(180deg)" : undefined, transition: "transform 0.15s" }}
-          >
-            <path
-              d="M3 4.5L6 7.5L9 4.5"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-white/55"
-            />
-          </svg>
-        </span>
-      </button>
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            key="slider"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={TRANSITION.micro}
-            className="overflow-hidden px-1.5"
-          >
-            <input
-              type="range"
-              min={-5}
-              max={5}
-              step={1}
-              value={value}
-              onChange={(e) => onChange(Number(e.target.value))}
-              aria-label={label}
-              className="fs-range mt-2 w-full"
-            />
-            <div className="mt-1 flex justify-between text-[10px] text-white/40">
-              <span>-5</span>
-              <span>0</span>
-              <span>+5</span>
-            </div>
-            {value !== 0 && (
-              <button
-                type="button"
-                onClick={() => onChange(0)}
-                className="mt-1 text-[10px] uppercase tracking-wider text-white/55 hover:text-white/85"
-              >
-                Reset
-              </button>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   );
 }

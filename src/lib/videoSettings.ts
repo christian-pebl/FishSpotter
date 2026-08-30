@@ -33,12 +33,43 @@ const DEFAULTS: VideoSettings = {
   contrast: 1,
 };
 
+export const VIDEO_SETTING_DEFAULTS: Readonly<VideoSettings> = DEFAULTS;
+
+/**
+ * True when any picture control sits away from its default.
+ *
+ * This is what decides whether the on-clip control stack stays on screen once
+ * the panel is down: the three settings PERSIST ACROSS CLIPS, so a feed left at
+ * 0.25x or at +5 brightness must always carry the control that undoes it.
+ *
+ * It is measured against the DEFAULTS, not against neutral, because brightness
+ * and contrast ship at +1 (the gentle lift murky footage needs). Testing them
+ * against 0 would leave the stack pinned open on a device that has never
+ * touched a setting.
+ */
+export function isPictureAdjusted(s: VideoSettings): boolean {
+  return (
+    s.speed !== DEFAULTS.speed ||
+    s.brightness !== DEFAULTS.brightness ||
+    s.contrast !== DEFAULTS.contrast
+  );
+}
+
 const STORAGE_KEY = "fishspotter:videoSettings";
 const EVENT_NAME = "fishspotter:videoSettingsChanged";
 
+/**
+ * How far brightness and contrast travel either side of neutral. Exported
+ * because the on-clip stepper greys its buttons out at the ends, and a stepper
+ * whose limits disagreed with the clamp would look broken (a press that
+ * visibly does nothing).
+ */
+export const PICTURE_MIN = -5;
+export const PICTURE_MAX = 5;
+
 function clampStep(v: number) {
   if (!Number.isFinite(v)) return 0;
-  return Math.max(-5, Math.min(5, Math.round(v)));
+  return Math.max(PICTURE_MIN, Math.min(PICTURE_MAX, Math.round(v)));
 }
 
 function normalizeSpeed(v: unknown): VideoSpeed {
