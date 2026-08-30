@@ -89,6 +89,10 @@
 | `src/components/landing/*` | Landing-page redesign (2 Jun 2026, `implementation/2026-06-02/landing-redesign.md`). `UnderwaterBackdrop` (depth gradient + drifting CC0 silhouettes + light shafts + bubbles), `HeroPreview` (real looping snippet with a self-playing faux species-pick overlay), `StatsBand` (live clips/species/spotters count-up), `StepCards` (Spot→Compare→Streak, stroked-teal icons + scroll-in stagger), `SpeciesMarquee` (auto-scrolling real `SpeciesImage` photos with `© Author · LICENCE` credit). All on-brand, reduced-motion-safe, off-screen-paused. |
 | `src/lib/useInView.ts` | Shared client IntersectionObserver hook (`[ref, inView]`) used by the landing components to pause always-on CSS animations + the hero video when scrolled off-screen. Pairs with the `.fs-paused` utility in `globals.css`. |
 | `src/app/admin/layout.tsx` | Single gate + top nav for everything under `/admin`. Carries `robots: noindex` so admin pages never get indexed. |
+| `src/lib/metrics/range.ts` | **The date range an `/admin/metrics` view is scoped to (30 Aug 2026).** Parses `?range` / `?from` / `?to` into UTC calendar days, and is the ONE place that does, so the screen, its charts and the CSV export cannot disagree about which days they mean. Never throws: a fat-fingered URL lands on the default with `coerced` set, not a 500. `MAX_RANGE_DAYS` is the ceiling that keeps the in-memory bucketing bounded. Pure + unit-tested. |
+| `src/lib/metrics/series.ts` | **Per-day metric series.** `roundup.ts` answers "what are the numbers now"; this answers "how did each of them move, day by day". Buckets narrow row projections into the day list and labels them for the chart. Two distinctions the UI leans on: a ratio day with no denominator is `null`, never `0`; and `totalIsSumOfDays` is false for distinct counts and running totals, where the daily bars deliberately over-add. Pure + unit-tested. |
+| `src/lib/metrics/query.ts` | The database half. `loadMetricsView` resolves the range, pulls the range PLUS the equal-length window before it in one pass (so every card gets a period-over-period change for free), and hands the rows to the pure builders. `metricsCsv` builds the export from the same `DailyCounts` the screen draws. Called by both the page and the export route. |
+| `src/app/admin/metrics/MetricTrendChart.tsx` | The drop-down chart. Hand-drawn SVG, no charting dependency (same call `DistributionMap` made). Bars for a per-day quantity, a line for a running total, a 7-day average over long ranges. Colourblind-safe: the trend line separates from the bars by LIGHTNESS, not hue. Keyboard-scrubbable and summarised for a screen reader. |
 | `src/app/admin/species/page.tsx` | S9-T1 species catalogue list, pilot gadoids pinned at the top with a "Pilot" badge, mark-count per species via `groupBy`, status pill (Not started / In progress / Published). |
 | `src/app/admin/species/[name]/page.tsx` | Per-species editor shell. Loads SpeciesImage rows + DiagnosticMark rows in parallel, hands them to the client annotator. Shows the canonical `db:refresh-images` command if no photos are cached yet. |
 | `src/app/admin/species/[name]/SpeciesAnnotator.tsx` | Click-to-add / drag-to-move / edge-handle-resize annotator. Img + absolute SVG overlay with normalised (0..1) coords. Save-on-blur for label/description; optimistic local updates with `useTransition` for the server actions. |
@@ -597,8 +601,25 @@ user-agent, referrer, or cross-visit device id is ever stored.
 - **Watch-time** = the active clip's on-screen, tab-visible time, banked in short
   segments (visibility/pagehide/25s-interval) so a close loses ~nothing.
 - **Reporting:** `/admin/metrics` (admin-gated) shows aggregate Reach /
-  Engagement / Learning; `/api/admin/metrics/export` streams a 90-day per-day CSV
-  for funder reports.
+  Engagement / Learning, **scoped by a range picker and drilling down into a
+  day-by-day chart per card** (30 Aug 2026). The range lives in the URL
+  (`?range=7d|30d|90d|12m|all`, or `?range=custom&from=..&to=..`), so the server
+  renders the right numbers on the first paint and `/api/admin/metrics/export`
+  carries the same range rather than a fixed 90 days.
+  - Presets are **calendar days inclusive of today, not a rolling N x 24h
+    window**, so a card's headline is exactly the sum of the bars in its own
+    chart. A rolling window leaves part of the oldest day outside the range and
+    the two disagree by a few counts, which reads as a bug rather than as a
+    definition.
+  - Three things the chart refuses to draw, because each would mislead a funder
+    report: a **zero for a day with no denominator** (accuracy on a day nobody
+    settled is blank); **plain zeroes before the Event log existed** (those days
+    are shaded and labelled on the event-derived metrics, since "not measured"
+    and "nobody came" look identical otherwise); and a **sum where the aggregate
+    is not a sum** (active spotters counts a person once per day, so the bars
+    over-add against the range figure, and the panel says so).
+  - Every card also carries its change against the equal-length window before
+    it, read from the same single pass over the rows.
 - **Demographics** (coastal/region, "connection to the sea") are a **separate,
   later** progressive-onboarding workstream, not collected here.
 - **Deploy step:** schema change → run `prisma db push` **then**
