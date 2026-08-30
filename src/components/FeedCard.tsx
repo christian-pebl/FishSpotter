@@ -116,34 +116,61 @@ function ClipControlButton({
 // following would leave the stepper pointing at the wrong tool.
 const CONTROL_ROW_PX = 44;
 
+type ClipToolId = "zoom" | "speed" | "brightness" | "contrast";
+
 /**
- * The picture tools on the clip's control stack: speed, brightness, contrast.
+ * The clip's control tools: magnify, speed, brightness, contrast.
  *
- * Each is ONE button carrying its glyph and its live value, which expands in
- * place into a +/- stepper. That is the whole point of the shape: six anonymous
+ * Each is ONE button carrying its glyph and its live value, which opens a -/+
+ * stepper beside it. That is the whole point of the shape: eight anonymous
  * arrows stacked down the side of a clip say nothing about what they do, while
  * a sun reading "+2" says both what it is and where it currently sits, and only
  * grows a stepper when you actually want to move it.
  *
- * The steppers are deliberately uniform (+ over -) even though speed once had
- * its own double-triangles: the named button directly above supplies the
- * meaning, so one shape for "more" and one for "less" is less to learn.
+ * The steppers are deliberately uniform (- then +) even though speed once had
+ * its own double-triangles: the named button beside them supplies the meaning,
+ * so one shape for "less" and one for "more" is less to learn.
+ *
+ * A tool bound to the current frame's state, which is what the stack renders.
+ * Zoom is component state and the other three are persisted video settings, so
+ * they can only meet at this shape: a value to show and a step to take.
  */
-interface ClipTool {
-  id: "speed" | "brightness" | "contrast";
+interface BoundClipTool {
+  id: ClipToolId;
   /** Reads mid-sentence in the aria labels ("Increase brightness"), so lower case. */
   name: string;
   icon: React.ReactNode;
   /** The live value, shown under the glyph so a collapsed tool is never blind. */
+  value: string;
+  step: (direction: 1 | -1) => void;
+  /** True when a press that way would do nothing, so the button greys out instead. */
+  atLimit: (direction: 1 | -1) => boolean;
+}
+
+/** The three tools backed by the shared, persisted video settings. */
+interface PictureTool {
+  id: Exclude<ClipToolId, "zoom">;
+  name: string;
+  icon: React.ReactNode;
   read: (s: VideoSettings) => string;
   step: (s: VideoSettings, direction: 1 | -1) => Partial<VideoSettings>;
-  /** True when a press that way would do nothing, so the button greys out instead. */
   atLimit: (s: VideoSettings, direction: 1 | -1) => boolean;
 }
 
 const signed = (v: number) => (v > 0 ? `+${v}` : `${v}`);
 
-const CLIP_TOOLS: readonly ClipTool[] = [
+// Zoom lands on awkward numbers because each press multiplies (1.96x, 2.744x).
+// One decimal is all the readout can usefully say, and all a reader wants.
+const readZoom = (z: number) => `${Math.round(z * 10) / 10}×`;
+
+const MAGNIFY_ICON = (
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="6.9" cy="6.9" r="4.4" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M10.2 10.2 14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const PICTURE_TOOLS: readonly PictureTool[] = [
   {
     id: "speed",
     name: "playback speed",
@@ -757,9 +784,9 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   const zoomRef = useRef(1);
   zoomRef.current = zoom;
 
-  // Which picture tool has its stepper open, at most one at a time so the
-  // control stack cannot grow taller than the clip it sits on.
-  const [openTool, setOpenTool] = useState<ClipTool["id"] | null>(null);
+  // Which tool has its stepper open, at most one at a time so the control stack
+  // cannot grow taller than the clip it sits on.
+  const [openTool, setOpenTool] = useState<ClipToolId | null>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   // A Spot It gate is open, so the clip is sharing the frame with the panel.
   // Only tracks open/closed (not the live drag size, which goes straight to CSS
@@ -769,6 +796,33 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   const applyZoom = useCallback((next: number) => {
     setZoom(Math.min(MAX_ZOOM, Math.max(1, next)));
   }, []);
+
+  // Magnify sits in the same capsule as the picture settings, and answers the
+  // same question ("how do I see this better?"), so it gets the same shape: one
+  // named button that opens a stepper. It is bound here rather than declared at
+  // module scope because zoom is this card's own state, not a stored setting.
+  const clipTools = useMemo<BoundClipTool[]>(
+    () => [
+      {
+        id: "zoom",
+        name: "magnification",
+        icon: MAGNIFY_ICON,
+        value: readZoom(zoom),
+        step: (direction) =>
+          applyZoom(direction === 1 ? zoom * ZOOM_BUTTON_STEP : zoom / ZOOM_BUTTON_STEP),
+        atLimit: (direction) => (direction === 1 ? zoom >= MAX_ZOOM : zoom <= 1),
+      },
+      ...PICTURE_TOOLS.map((tool) => ({
+        id: tool.id,
+        name: tool.name,
+        icon: tool.icon,
+        value: tool.read(settings),
+        step: (direction: 1 | -1) => setVideoSettings(tool.step(settings, direction)),
+        atLimit: (direction: 1 | -1) => tool.atLimit(settings, direction),
+      })),
+    ],
+    [zoom, applyZoom, settings],
+  );
 
   // Apply the fit (object-fit + object-position) once the intrinsic size is known
   // and whenever the frame resizes or the phone rotates. Landscape clips fill the
@@ -1630,10 +1684,9 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
         )}
 
         {/* Clip controls, top-right of the CLIP (not the card), so they sit over
-            the picture they act on and clear the overlay header above. Three
-            capsules: magnify, the picture tools, hold still. Grouped rather
-            than run together as one long pill so the eye can find the one it
-            wants without reading a column of glyphs.
+            the picture they act on and clear the overlay header above. Two
+            capsules: the tools, then hold still. Play is kept apart because it
+            is the one control that does not adjust the picture, it stops it.
 
             Shown once the panel is up (or once anything is off its default),
             matching where the wheel and pinch become magnifiers, so the idle
@@ -1642,57 +1695,36 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
             or at +5 brightness must always carry the control that undoes it. */}
         {isActive && (splitMode || zoom > 1 || isPictureAdjusted(settings)) && (
           <div className="absolute right-3 top-16 z-20 flex flex-col items-end gap-2">
-            {/* Magnify. Each press is multiplicative, and every route zooms
-                about the animal, so the feature you are studying stays centred
-                as it grows. */}
-            <ClipControlGroup>
-              <ClipControlButton
-                onClick={() => applyZoom(zoom * ZOOM_BUTTON_STEP)}
-                disabled={zoom >= MAX_ZOOM}
-                label="Zoom in on the animal"
-                title="Zoom in"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-              </ClipControlButton>
-              <ClipControlButton
-                onClick={() => applyZoom(zoom / ZOOM_BUTTON_STEP)}
-                disabled={zoom <= 1}
-                label={zoom > 1 ? "Zoom out" : "Already at the full frame"}
-                title="Zoom out"
-                divided
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-              </ClipControlButton>
-            </ClipControlGroup>
+            {/* Magnify, speed, brightness, contrast. One capsule, one row per
+                tool, each showing its glyph over its live value. Tapping a tool
+                opens its -/+ stepper BESIDE it, not beneath it, and closes any
+                other tool's.
 
-            {/* Picture tools: speed, brightness, contrast. One capsule, one row
-                per tool, each showing its glyph over its live value. Tapping a
-                tool opens its -/+ stepper BESIDE it, not beneath it, and closes
-                any other tool's.
+                Magnify is in here rather than in a capsule of its own because
+                it answers the same question as the other three ("how do I see
+                this better?"), and a reader should not have to learn that one
+                of the four works differently.
 
                 Sideways matters: a stepper that expanded downward pushed the
                 play button off the bottom of the clip in split mode, where the
                 picture is only half the screen. Flying out to the left keeps
-                the stack exactly five rows tall in every state, and keeps all
-                three tools one tap away instead of hiding two behind the open
-                one.
+                the stack exactly five rows tall in every state, and keeps every
+                tool one tap away instead of hiding three behind the open one.
 
-                All three write the shared video setting, so they hold across
-                clips. Brightness and contrast moved here off the side menu:
-                they exist to make a murky clip readable, and a control you have
-                to open a drawer to reach cannot be judged against the picture
-                it is correcting. */}
+                Every zoom route magnifies about the animal, so the feature you
+                are studying stays centred as it grows. The other three write
+                the shared video setting, so they hold across clips; brightness
+                and contrast moved here off the side menu because they exist to
+                make a murky clip readable, and a control you have to open a
+                drawer to reach cannot be judged against the picture it is
+                correcting. */}
             <div className="relative">
               <ClipControlGroup>
-                {CLIP_TOOLS.map((tool, i) => (
+                {clipTools.map((tool, i) => (
                   <ClipControlButton
                     key={tool.id}
                     onClick={() => setOpenTool((cur) => (cur === tool.id ? null : tool.id))}
-                    label={`${openTool === tool.id ? "Close" : "Adjust"} ${tool.name}, currently ${tool.read(settings)}`}
+                    label={`${openTool === tool.id ? "Close" : "Adjust"} ${tool.name}, currently ${tool.value}`}
                     title={`Adjust ${tool.name}`}
                     divided={i > 0}
                     active={openTool === tool.id}
@@ -1703,13 +1735,13 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
                       aria-live="polite"
                       className="text-[9px] font-semibold leading-none tabular-nums"
                     >
-                      {tool.read(settings)}
+                      {tool.value}
                     </span>
                   </ClipControlButton>
                 ))}
               </ClipControlGroup>
 
-              {CLIP_TOOLS.map((tool, i) =>
+              {clipTools.map((tool, i) =>
                 openTool === tool.id ? (
                   <div
                     key={tool.id}
@@ -1718,8 +1750,8 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
                   >
                     <ClipControlGroup row>
                       <ClipControlButton
-                        onClick={() => setVideoSettings(tool.step(settings, -1))}
-                        disabled={tool.atLimit(settings, -1)}
+                        onClick={() => tool.step(-1)}
+                        disabled={tool.atLimit(-1)}
                         label={`Decrease ${tool.name}`}
                         title={`Less ${tool.name}`}
                       >
@@ -1728,8 +1760,8 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
                         </svg>
                       </ClipControlButton>
                       <ClipControlButton
-                        onClick={() => setVideoSettings(tool.step(settings, 1))}
-                        disabled={tool.atLimit(settings, 1)}
+                        onClick={() => tool.step(1)}
+                        disabled={tool.atLimit(1)}
                         label={`Increase ${tool.name}`}
                         title={`More ${tool.name}`}
                         divided
