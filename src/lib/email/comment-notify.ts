@@ -20,6 +20,7 @@
  * Never throws: an email problem must not fail a spotter's post.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { NewCommentEmail } from "@/lib/email/templates/NewCommentEmail";
 import { sendEmail } from "@/lib/email/send";
 import { checkCommentMailRateLimit } from "@/lib/rate-limit";
@@ -30,7 +31,7 @@ import type { PrismaClient } from "@prisma/client";
 const SEND_TIMEOUT_MS = 3000;
 
 function baseUrl(): string {
-  return (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  return SITE_URL;
 }
 
 export interface NotifyDecisionInput {

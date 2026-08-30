@@ -1,7 +1,8 @@
+import { SITE_URL } from "@/lib/site-url";
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  const base = SITE_URL;
   return {
     rules: [
       {
