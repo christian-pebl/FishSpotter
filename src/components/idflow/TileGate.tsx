@@ -134,8 +134,13 @@ function NavChevron({ dir }: { dir: "prev" | "next" }) {
 
 /**
  * The tile picture as a small comparison viewer: one photo at a time, with the
- * left half stepping back and the right half stepping forward through the rest
- * of that species' cached reference shots.
+ * outer 30% on the left stepping back and the outer 30% on the right stepping
+ * forward through the rest of that species' cached reference shots.
+ *
+ * The edges were halves until 30 Aug 2026, when the middle 40% became the
+ * SELECT control (see the media tile below). Tapping the animal is the thing
+ * everyone tries first, so the middle had to be the pick and the flick had to
+ * move out to the margins, not the other way round.
  *
  * Two decisions worth keeping:
  *  - it WRAPS at both ends. On a viewer this small a dead end reads as a broken
@@ -169,7 +174,7 @@ function TilePhotoFrames({
         aria-hidden="true"
         tabIndex={-1}
         onClick={() => onStep(-1)}
-        className="group/nav absolute inset-y-0 left-0 z-10 w-1/2 cursor-pointer"
+        className="group/nav absolute inset-y-0 left-0 z-10 w-[30%] cursor-pointer"
       >
         <NavChevron dir="prev" />
       </button>
@@ -178,7 +183,7 @@ function TilePhotoFrames({
         aria-hidden="true"
         tabIndex={-1}
         onClick={() => onStep(1)}
-        className="group/nav absolute inset-y-0 right-0 z-10 w-1/2 cursor-pointer"
+        className="group/nav absolute inset-y-0 right-0 z-10 w-[30%] cursor-pointer"
       >
         <NavChevron dir="next" />
       </button>
@@ -216,6 +221,11 @@ function TilePhotoFrames({
  * "next photo" half. Legs of 44 (36 when the sheet is compact) give a target of
  * ~970px2 in the easiest corner of the tile to hit with a thumb, and the action
  * is reversible from the "ruled out" row under the grid.
+ *
+ * The 44px legs were sized against a two-column tile. A phone sheet now runs
+ * three across, where 44px is a quarter of the picture's width and the wedge
+ * starts competing with the animal again, so it takes the same 36px the compact
+ * sheet uses.
  *
  * Contrast is the other lesson already paid for: too subtle got fixed once
  * before (commit 7e42060, "strengthen the rule-out disc so it holds over dark
@@ -326,6 +336,7 @@ export function TileGate({
   title,
   tiles,
   columns = 4,
+  phoneColumns,
   variant = "grid",
   onSelect,
   onClose,
@@ -345,6 +356,11 @@ export function TileGate({
   title: string;
   tiles: TileSpec[];
   columns?: number;
+  /** Grid columns when the panel is a phone bottom sheet. A phone trades photo
+   *  size for how many species are on screen at once, and that trade is the
+   *  caller's to make: Rung 3 wants a third column of species, Rung 1's seven
+   *  silhouettes do not. Defaults to `columns`. */
+  phoneColumns?: number;
   /** "grid" (default, Rung 1 + Rung 3) or "list" (Rung 2 accordion). */
   variant?: "grid" | "list";
   onSelect: (key: string) => void;
@@ -468,16 +484,42 @@ export function TileGate({
   // Below this the sheet is too short for the full-size tile grid, so the grid
   // reflows denser (an extra column, shorter tiles) instead of clipping row one.
   const compact = !docked && heightPct < COMPACT_HEIGHT_PCT;
+  // A bottom sheet on a phone. Height is the scarce axis here in a way it never
+  // is docked, so the chrome tightens and the escape hatches sit side by side
+  // rather than stacking; see the action row below.
+  const phone = !docked;
 
   // React 18.3 needs `inert` spread as a string for Framer compatibility.
   const inertProps = suspendKeyboard
     ? ({ inert: "" } as Record<string, string>)
     : {};
 
-  // Compact (a short sheet the user has dragged down): one more column of
-  // shorter tiles, so the grid reflows into the space that is left instead of
-  // showing a clipped first row. Capped at 4 across to stay tappable.
-  const gridColumns = compact ? Math.min(columns + 1, 4) : columns;
+  // Phone: the caller's `phoneColumns` if it set one. Compact (a short sheet
+  // the user has dragged down): one more column again, so the grid reflows into
+  // the space that is left instead of showing a clipped first row. Capped at 4
+  // across to stay tappable.
+  const baseColumns = phone ? (phoneColumns ?? columns) : columns;
+  const gridColumns = compact ? Math.min(baseColumns + 1, 4) : baseColumns;
+
+  // The full-width escape hatches under the grid, and how they lay out. On a
+  // phone two or more of them reflow into a wrapped row instead of a stack; an
+  // odd one out grows to full width on its own line rather than sitting as a
+  // lonely half. They keep min-h-[44px] in every layout: the saving comes from
+  // the row, never from shrinking a touch target below the bar.
+  const actionCount =
+    (notSure?.prominent ? 1 : 0) + (compare ? 1 : 0) + (coarse ? 1 : 0);
+  const actionRow = phone && actionCount > 1;
+  const actionClass = (tone: "plain" | "teal") =>
+    [
+      "inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-full px-2 text-center font-semibold uppercase tracking-wider",
+      // Two labels side by side must be able to wrap to a second line rather
+      // than be clipped, so the type steps down one notch on a phone.
+      phone ? "text-[10px] leading-[1.15]" : "text-[11px]",
+      actionRow ? "flex-1 basis-[calc(50%-0.375rem)]" : "w-full",
+      tone === "teal"
+        ? "border border-teal-500/40 bg-teal-500/10 text-teal-100 hover:border-teal-400 hover:bg-teal-500/20"
+        : "border border-white/20 bg-white/5 text-white/80 hover:border-teal-400 hover:bg-teal-500/15 hover:text-teal-100",
+    ].join(" ");
 
   // Rule-out plumbing. `announce` drives a polite live region: removing a tile
   // is silent to a screen reader otherwise, so the user would just lose things.
@@ -521,7 +563,7 @@ export function TileGate({
 
   const grid = (
     <div
-      className="grid gap-1.5"
+      className={phone ? "grid gap-1" : "grid gap-1.5"}
       style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}
     >
       {tiles.map((tile, index) => {
@@ -540,7 +582,7 @@ export function TileGate({
         const chrome = [
           "relative flex flex-col items-center justify-center rounded-modal border transition-colors",
           hasMedia
-            ? "gap-1 p-1"
+            ? (phone ? "gap-0.5 p-0.5" : "gap-1 p-1")
             : compact
               ? "min-h-[84px] gap-1 p-1.5"
               : "min-h-[128px] gap-2 p-2.5",
@@ -554,6 +596,17 @@ export function TileGate({
         const labelClass = [
           "text-center font-semibold uppercase leading-tight tracking-wider text-white/70",
           compact ? "text-[9px]" : "text-[11px]",
+        ].join(" ");
+
+        // The media tile's name is a LABEL, not a button (30 Aug 2026), so it
+        // is no longer bound by the 44px touch-target rule and can be as tight
+        // as it is readable. That is the whole saving: a 44px row plus its
+        // padding under every tile was costing about a third of a tile row, and
+        // on a phone sheet that was the difference between one row of species
+        // and two.
+        const mediaLabelClass = [
+          "block w-full px-0.5 text-center font-semibold uppercase leading-[1.15] text-white/75",
+          compact ? "text-[9px] tracking-normal" : "text-[10px] tracking-wide",
         ].join(" ");
 
         const commitAnimate =
@@ -572,7 +625,7 @@ export function TileGate({
         const ruleOut = onRuleOut && !isEmpty && (
           <RuleOutCorner
             label={tile.label}
-            compact={compact}
+            compact={compact || phone}
             onClick={() => {
               refocusIndex.current = index;
               setAnnounce(
@@ -624,46 +677,46 @@ export function TileGate({
                 ) : (
                   tile.media
                 )}
-                {/* One photo (or a silhouette fallback): the picture keeps its
-                    old job and selects, so no tap is ever wasted. Hidden from
-                    the tab order because the name row below carries the same
-                    action with the accessible label. */}
-                {!canFlip && !isEmpty && (
-                  <button
-                    type="button"
-                    aria-hidden="true"
-                    tabIndex={-1}
-                    onClick={() => commitSelect(tile.key)}
-                    className="absolute inset-0 z-10 cursor-pointer"
-                  />
-                )}
+                {/* THE select control, and it sits in the MIDDLE OF THE
+                    PICTURE (30 Aug 2026). It used to be the name row
+                    underneath, with the entire picture split into two flick
+                    halves, so the one thing everybody tries first, tapping the
+                    animal, was the one thing that did not choose it. Now the
+                    middle 40% picks and only the outer 30% either side flicks.
+                    On a single-photo tile there is nothing to flick to, so it
+                    takes the whole picture rather than leaving two dead strips.
+
+                    It is also the tile's only focusable control, so it carries
+                    the ref, the accessible name and the Left/Right shortcuts
+                    the name row used to own. `disabled` rather than unmounted
+                    while a guess submits: unmounting would drop the ref and
+                    strand focus on <body> mid-elimination. */}
+                <button
+                  ref={(el: HTMLButtonElement | null) => {
+                    tileRefs.current.set(tile.key, el);
+                  }}
+                  type="button"
+                  disabled={isEmpty}
+                  onClick={() => commitSelect(tile.key)}
+                  onKeyDown={(e) => {
+                    if (!canFlip) return;
+                    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+                    e.preventDefault();
+                    stepFrame(tile.key, frames.length, e.key === "ArrowLeft" ? -1 : 1, tile.label);
+                  }}
+                  aria-label={tile.ariaLabel ?? tile.label}
+                  aria-keyshortcuts={canFlip ? "ArrowLeft ArrowRight" : undefined}
+                  className={[
+                    "absolute inset-y-0 z-10 focus:outline-none",
+                    canFlip ? "inset-x-[30%]" : "inset-x-0",
+                    isEmpty
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal-300",
+                  ].join(" ")}
+                />
                 {ruleOut}
               </div>
-              <button
-                ref={(el: HTMLButtonElement | null) => {
-                  tileRefs.current.set(tile.key, el);
-                }}
-                type="button"
-                disabled={isEmpty}
-                onClick={() => commitSelect(tile.key)}
-                onKeyDown={(e) => {
-                  if (!canFlip) return;
-                  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
-                  e.preventDefault();
-                  stepFrame(tile.key, frames.length, e.key === "ArrowLeft" ? -1 : 1, tile.label);
-                }}
-                aria-label={tile.ariaLabel ?? tile.label}
-                aria-keyshortcuts={canFlip ? "ArrowLeft ArrowRight" : undefined}
-                className={[
-                  "flex min-h-[44px] w-full items-center justify-center rounded-modal px-1 py-1 transition-colors",
-                  labelClass,
-                  isEmpty
-                    ? "cursor-not-allowed"
-                    : "hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300",
-                ].join(" ")}
-              >
-                {tile.label}
-              </button>
+              <span className={mediaLabelClass}>{tile.label}</span>
               {badge}
               {tile.extra}
             </motion.div>
@@ -853,13 +906,15 @@ export function TileGate({
                 // that the video stays watchable beside the panel). One border,
                 // on the side that meets the clip: that edge is the split seam.
                 "h-full border-r border-white/12 pt-4"
-              : "w-full border-t border-white/12 pt-7",
+              : "w-full border-t border-white/12 pt-6",
             // Skip the height/width transition while the finger is down, or the
             // sheet eases along behind the drag instead of tracking it.
             resizing ? "select-none" : "",
           ].join(" ")}
           style={{
-            paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
+            paddingBottom: phone
+              ? `max(0.5rem, env(safe-area-inset-bottom))`
+              : `max(1rem, env(safe-area-inset-bottom))`,
             transformOrigin: docked ? "left center" : "bottom center",
             ...(docked
               ? {
@@ -890,7 +945,7 @@ export function TileGate({
               tabIndex={0}
               onPointerDown={startResize}
               onKeyDown={onResizeKey}
-              className="group absolute inset-x-0 top-0 flex h-7 cursor-ns-resize touch-none items-center justify-center text-white/35 hover:text-white/70 focus:outline-none focus-visible:text-teal-300 active:cursor-grabbing"
+              className="group absolute inset-x-0 top-0 flex h-6 cursor-ns-resize touch-none items-center justify-center text-white/35 hover:text-white/70 focus:outline-none focus-visible:text-teal-300 active:cursor-grabbing"
             >
               <svg
                 width="16"
@@ -916,7 +971,7 @@ export function TileGate({
             <button
               type="button"
               onClick={() => setMinimized(true)}
-              className="absolute right-2 top-0 z-20 inline-flex h-7 items-center gap-1 rounded-full px-2 text-[10px] font-semibold uppercase tracking-wider text-teal-300/90 hover:text-teal-200"
+              className="absolute right-2 top-0 z-20 inline-flex h-6 items-center gap-1 rounded-full px-2 text-[10px] font-semibold uppercase tracking-wider text-teal-300/90 hover:text-teal-200"
             >
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
                 <path
@@ -961,7 +1016,12 @@ export function TileGate({
           {/* Header row: back (arrow only), the title, then minimise + close.
               A flex row so the controls never overlap the title (they used to
               be absolute-positioned over a centred title). */}
-          <div className="mb-2 flex shrink-0 items-center gap-2">
+          <div
+            className={[
+              phone ? "mb-0.5" : "mb-2",
+              "flex shrink-0 items-center gap-2",
+            ].join(" ")}
+          >
             {onBack ? (
               <button
                 type="button"
@@ -1018,7 +1078,10 @@ export function TileGate({
             {breadcrumb && breadcrumb.length > 0 && (
               <nav
                 aria-label="Your picks so far"
-                className="mb-2.5 flex shrink-0 flex-wrap items-center justify-center gap-x-1 gap-y-1"
+                className={[
+                  phone ? "mb-0.5" : "mb-2.5",
+                  "flex shrink-0 flex-wrap items-center justify-center gap-x-1 gap-y-1",
+                ].join(" ")}
               >
                 {breadcrumb.map((c, i) => (
                   <span key={`${c.label}-${i}`} className="flex items-center gap-1">
@@ -1129,56 +1192,78 @@ export function TileGate({
               {announce}
             </p>
 
-            {/* The prominent "compare them all" escape hatch (Rungs 1 + 2). Same
-                outline treatment as `compare`, but it opens the full candidate
-                grid for this bucket rather than a curated look-alike set, so it
-                is always available where `compare` is not. */}
-            {notSure?.prominent && (
-              <button
-                type="button"
-                onClick={notSure.onClick}
-                className="mt-3 inline-flex min-h-[44px] w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 text-center text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:border-teal-400 hover:bg-teal-500/15 hover:text-teal-100"
-              >
-                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" aria-hidden="true">
-                  <rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                  <rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                  <rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                  <rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                </svg>
-                {notSure.label}
-              </button>
-            )}
+            {/* The escape hatches under the grid: `notSure.prominent` (Rungs 1
+                + 2, opens the whole bucket rather than a curated look-alike set,
+                so it is available where `compare` is not), `compare` (a known
+                confusion group side by side) and `coarse` (commit the shape
+                class for partial credit).
 
-            {compare && (
-              <button
-                type="button"
-                onClick={compare.onClick}
-                className="mt-3 inline-flex min-h-[44px] w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/80 hover:border-teal-400 hover:bg-teal-500/15 hover:text-teal-100"
+                Stacked, three 44px pills each with its own 12px margin spend
+                about 170px of a phone sheet on the actions the user mostly does
+                NOT want, and the species grid gets whatever is left, which
+                measured out at barely one row. Side by side they cost one row
+                instead of three. Docked, where height is not the scarce axis,
+                they stay stacked and full width. */}
+            {actionCount > 0 && (
+              <div
+                className={[
+                  phone ? "mt-1.5 shrink-0" : "mt-2 shrink-0",
+                  actionRow ? "flex flex-wrap gap-1.5" : "flex flex-col gap-2",
+                ].join(" ")}
               >
-                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
-                  <rect x="2" y="3" width="5" height="10" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                  <rect x="9" y="3" width="5" height="10" rx="1" stroke="currentColor" strokeWidth="1.4" />
-                </svg>
-                {compare.label}
-              </button>
-            )}
+                {notSure?.prominent && (
+                  <button
+                    type="button"
+                    onClick={notSure.onClick}
+                    className={actionClass("plain")}
+                  >
+                    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0" fill="none" aria-hidden="true">
+                      <rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                      <rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                      <rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                      <rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                    </svg>
+                    {notSure.label}
+                  </button>
+                )}
 
-            {coarse && (
-              <button
-                type="button"
-                onClick={coarse.onClick}
-                className="mt-3 inline-flex min-h-[44px] w-full shrink-0 items-center justify-center gap-1.5 rounded-full border border-teal-500/40 bg-teal-500/10 px-3 text-[11px] font-semibold uppercase tracking-wider text-teal-100 hover:border-teal-400 hover:bg-teal-500/20"
-              >
-                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
-                  <path d="M8 11V7M8 5h.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                  <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4" />
-                </svg>
-                {coarse.label}
-              </button>
-            )}
+                {compare && (
+                  <button
+                    type="button"
+                    onClick={compare.onClick}
+                    className={actionClass("plain")}
+                  >
+                    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+                      <rect x="2" y="3" width="5" height="10" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                      <rect x="9" y="3" width="5" height="10" rx="1" stroke="currentColor" strokeWidth="1.4" />
+                    </svg>
+                    {compare.label}
+                  </button>
+                )}
 
+                {coarse && (
+                  <button
+                    type="button"
+                    onClick={coarse.onClick}
+                    className={actionClass("teal")}
+                  >
+                    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden="true">
+                      <path d="M8 11V7M8 5h.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4" />
+                    </svg>
+                    {coarse.label}
+                  </button>
+                )}
+
+              </div>
+            )}
             {((notSure && !notSure.prominent) || skip) && (
-              <div className="mt-3 flex shrink-0 items-center justify-between">
+              <div
+                className={[
+                  phone ? "mt-0.5" : "mt-3",
+                  "flex shrink-0 items-center justify-between",
+                ].join(" ")}
+              >
                 {notSure && !notSure.prominent ? (
                   <button
                     type="button"

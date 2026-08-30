@@ -36,18 +36,26 @@ beforeAll(() => {
 });
 
 /**
- * The photo tile's interaction contract (28 Aug 2026).
+ * The photo tile's interaction contract (28 Aug 2026, revised 30 Aug 2026).
  *
- * A Rung-3 tile now does two different jobs with one card: the picture flicks
- * between that species' reference shots so you can compare them against the
- * clip still playing beside it, and the name row underneath is what selects.
+ * A Rung-3 tile does two different jobs with one card. The MIDDLE of the
+ * picture selects the species, and the outer 30% either side flicks between
+ * that species' reference shots so you can compare them against the clip still
+ * playing beside it. The name underneath is a plain label.
+ *
+ * The middle used to be a flick half and the name row used to be the select,
+ * which meant the obvious thing to tap, the animal, was the one thing that did
+ * not choose it.
+ *
  * Every case below is one of the ways that split can silently break, and each
- * one is a dead or wrong tap for a user rather than a crash, so nothing else
- * would catch it:
+ * is a dead or wrong tap for a user rather than a crash, so nothing else would
+ * catch it:
  *
  *  - a flick that also fires onSelect commits a guess the user never made,
  *  - a flick that does not change the photo is a tap that does nothing,
- *  - a single-photo tile whose picture stops selecting is a dead half-tile,
+ *  - a middle that stops selecting puts the pick back where nobody aims,
+ *  - a single-photo tile whose picture stops selecting is a dead tile,
+ *  - a second control per tile doubles every keyboard user's tab count,
  *  - a silhouette rung that picks up the split loses its one big tap target.
  */
 
@@ -80,22 +88,30 @@ function renderGate(tiles: TileSpec[], props: Partial<Parameters<typeof TileGate
   return { onSelect, onClose };
 }
 
-/** The tile card: the picture box plus the name row. */
+/** The one control on a photo tile: the middle of the picture. */
+const selectZone = (label: string) =>
+  screen.getByRole("button", { name: `Pick ${label}` });
+
+/** The tile card: the picture box plus the name label. The select control lives
+ *  INSIDE the picture box, so the card is two levels up from it. */
 function tileCard(label: string) {
-  const name = screen.getByRole("button", { name: `Pick ${label}` });
-  const card = name.parentElement;
+  const card = selectZone(label).parentElement?.parentElement;
   if (!card) throw new Error("tile card not found");
   return card as HTMLElement;
 }
 
+const pictureBox = (label: string) =>
+  tileCard(label).firstElementChild as HTMLElement;
+
 const shownPhoto = (label: string) =>
   (tileCard(label).querySelector("img") as HTMLImageElement | null)?.getAttribute("src");
 
-/** The two flick halves are aria-hidden pointer conveniences (the keyboard
- *  route is on the name row), so they are addressed positionally. */
+/** The two flick edges are aria-hidden pointer conveniences (the keyboard route
+ *  is Left/Right on the select control), so they are addressed positionally. */
 function halves(label: string) {
-  const box = tileCard(label).firstElementChild as HTMLElement;
-  const zones = Array.from(box.querySelectorAll('button[aria-hidden="true"]'));
+  const zones = Array.from(
+    pictureBox(label).querySelectorAll('button[aria-hidden="true"]'),
+  );
   return { prev: zones[0] as HTMLElement, next: zones[1] as HTMLElement };
 }
 
@@ -126,11 +142,10 @@ describe("TileGate photo tiles", () => {
     expect(shownPhoto("Lesser-spotted catshark")).toBe("/a.jpg");
   });
 
-  it("flicks with the arrow keys from the name row", async () => {
+  it("flicks with the arrow keys from the select control", async () => {
     const user = userEvent.setup();
     const { onSelect } = renderGate([photoTile()]);
-    const name = screen.getByRole("button", { name: "Pick Lesser-spotted catshark" });
-    name.focus();
+    selectZone("Lesser-spotted catshark").focus();
 
     await user.keyboard("{ArrowRight}");
     expect(shownPhoto("Lesser-spotted catshark")).toBe("/b.jpg");
@@ -148,22 +163,46 @@ describe("TileGate photo tiles", () => {
     );
   });
 
-  it("selects from the name row", async () => {
+  it("selects from the middle of the picture, not from the flick edges", async () => {
     const user = userEvent.setup();
     const { onSelect } = renderGate([photoTile()]);
-    await user.click(screen.getByRole("button", { name: "Pick Lesser-spotted catshark" }));
+    const middle = selectZone("Lesser-spotted catshark");
+    const { prev, next } = halves("Lesser-spotted catshark");
+
+    // Three separate zones. If the select ever collapses back onto an edge, a
+    // flick starts committing guesses the user never made.
+    expect(middle).not.toBe(prev);
+    expect(middle).not.toBe(next);
+    // ...and it is inside the picture, not a row beneath it.
+    expect(pictureBox("Lesser-spotted catshark").contains(middle)).toBe(true);
+
+    await user.click(middle);
     // The tile plays a short lock-in before it reports the pick.
     await vi.waitFor(() => expect(onSelect).toHaveBeenCalledWith("Scyliorhinus canicula"));
   });
 
-  it("keeps the picture as a select target when there is nothing to flick to", async () => {
+  it("gives a photo tile exactly one control, so the name is a label", () => {
+    renderGate([photoTile()]);
+    // The name row used to be a second button carrying the same action, i.e.
+    // two tab stops per species across a 24-tile grid, and a 44px row under
+    // every tile that a phone sheet cannot spare.
+    const named = within(tileCard("Lesser-spotted catshark"))
+      .queryAllByRole("button")
+      .filter((b) => !b.hasAttribute("aria-hidden"));
+    expect(named).toHaveLength(1);
+    expect(named[0]).toBe(selectZone("Lesser-spotted catshark"));
+  });
+
+  it("keeps the whole picture selecting when there is nothing to flick to", async () => {
     const user = userEvent.setup();
     const { onSelect } = renderGate([photoTile({ photos: ["/only.jpg"] })]);
-    const box = tileCard("Lesser-spotted catshark").firstElementChild as HTMLElement;
-    // No halves, no dots: there is only one photo.
-    expect(box.querySelectorAll('button[aria-hidden="true"]')).toHaveLength(1);
+    // No edges, no dots: one photo has nothing to flick to, so the select
+    // stretches over the whole picture rather than leaving two dead strips.
+    expect(
+      pictureBox("Lesser-spotted catshark").querySelectorAll('button[aria-hidden="true"]'),
+    ).toHaveLength(0);
 
-    await user.click(box.querySelector('button[aria-hidden="true"]') as HTMLElement);
+    await user.click(selectZone("Lesser-spotted catshark"));
     await vi.waitFor(() => expect(onSelect).toHaveBeenCalledWith("Scyliorhinus canicula"));
   });
 
