@@ -7,7 +7,15 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
-import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
+import { loadSpeciesIndex } from "@/lib/snippet-species";
+import {
+  feedUrlForFilter,
+  hasSnippetFilter,
+  parseSnippetFilter,
+  resolveSpeciesFilter,
+  snippetFilterParams,
+  snippetFilterWhere,
+} from "@/lib/snippet-filter";
 
 // P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
@@ -23,10 +31,10 @@ const PAGE_SIZE = 24;
 
 // S4-07: Zod schema validates the search-params surface server-side
 // so a malformed URL falls back to the default view instead of
-// breaking the query.
+// breaking the query. The clip-narrowing half (site / species / q) is
+// parsed separately by @/lib/snippet-filter, which the live feed shares
+// so "Launch feed of current filtered videos" lands on the same set.
 const SearchSchema = z.object({
-  site: z.string().min(1).max(60).optional(),
-  q: z.string().min(1).max(60).optional(),
   sort: z.enum(["newest", "oldest", "site"]).optional(),
   page: z.coerce.number().int().min(1).max(999).optional(),
 });
@@ -51,18 +59,18 @@ export default async function FeedBrowsePage({
   const sort = params.sort ?? "newest";
   const page = params.page ?? 1;
 
-  // Build the filter where-clause from validated params.
-  const where: Prisma.SnippetWhereInput = {};
-  if (params.site) where.site = params.site;
-  if (params.q) {
-    where.OR = [
-      { site: { contains: params.q, mode: "insensitive" } },
-      { deployment: { contains: params.q, mode: "insensitive" } },
-      { staffAnswer: { contains: params.q, mode: "insensitive" } },
-    ];
-  }
-  // Hide intentionally-excluded snippets from the archive list + count.
-  Object.assign(where, excludeBlockedSnippetsWhere());
+  const [session, speciesIndex] = await Promise.all([
+    getServerSession(authOptions),
+    // Which species a clip holds is the community's settled ID, not
+    // staffAnswer (which is shape words). See @/lib/snippet-species.
+    loadSpeciesIndex(prisma),
+  ]);
+  const myUserId = session?.user?.id ?? null;
+
+  // Build the filter where-clause from validated params. A species slug the
+  // index no longer knows is dropped rather than emptying the grid.
+  const filter = resolveSpeciesFilter(parseSnippetFilter(raw), speciesIndex);
+  const where = snippetFilterWhere(filter, speciesIndex);
 
   const orderBy: Prisma.SnippetOrderByWithRelationInput =
     sort === "oldest"
@@ -70,9 +78,6 @@ export default async function FeedBrowsePage({
       : sort === "site"
         ? { site: "asc" }
         : { createdAt: "desc" };
-
-  const session = await getServerSession(authOptions);
-  const myUserId = session?.user?.id ?? null;
 
   const [snippets, totalCount, distinctSites] = await Promise.all([
     prisma.snippet.findMany({
@@ -117,14 +122,14 @@ export default async function FeedBrowsePage({
 
   // Helper to build the next / prev page URL while preserving filters.
   function pageUrl(targetPage: number): string {
-    const qs = new URLSearchParams();
-    if (params.site) qs.set("site", params.site);
-    if (params.q) qs.set("q", params.q);
+    const qs = snippetFilterParams(filter);
     if (sort !== "newest") qs.set("sort", sort);
     if (targetPage > 1) qs.set("page", String(targetPage));
     const q = qs.toString();
     return q ? `/feed/browse?${q}` : "/feed/browse";
   }
+
+  const filtered = hasSnippetFilter(filter);
 
   return (
     <MarineBackdrop>
@@ -144,21 +149,30 @@ export default async function FeedBrowsePage({
           className="flex flex-wrap items-center gap-2"
           aria-label="Filter clips"
         >
-          <input
-            type="search"
-            name="q"
-            defaultValue={params.q ?? ""}
-            placeholder="Search species, site, deployment"
-            aria-label="Search clips"
-            className="min-w-[12rem] flex-1 rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 placeholder:text-navy-900/40 focus:bg-white focus:outline-none"
-          />
+          {/* Species comes first: it is the cut a visitor actually thinks in.
+              Only species the community has settled appear (see
+              @/lib/snippet-species), so the list is short and every option
+              returns clips. */}
           <select
-            name="site"
-            defaultValue={params.site ?? ""}
-            aria-label="Filter by site"
+            name="species"
+            defaultValue={filter.species ?? ""}
+            aria-label="Filter by species"
             className="rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 focus:bg-white focus:outline-none"
           >
-            <option value="">All sites</option>
+            <option value="">All species</option>
+            {speciesIndex.options.map((s) => (
+              <option key={s.slug} value={s.slug}>
+                {s.commonName} ({s.clips})
+              </option>
+            ))}
+          </select>
+          <select
+            name="site"
+            defaultValue={filter.site ?? ""}
+            aria-label="Filter by location"
+            className="rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 focus:bg-white focus:outline-none"
+          >
+            <option value="">All locations</option>
             {distinctSites.map((s: { site: string }) => (
               <option key={s.site} value={s.site}>
                 {s.site}
@@ -175,13 +189,17 @@ export default async function FeedBrowsePage({
             <option value="oldest">Oldest first</option>
             <option value="site">Site (A-Z)</option>
           </select>
+          {/* The free-text box is gone, but /farms/[slug] still deep-links
+              here with ?q=<deployment>. Carry it through Apply so changing a
+              dropdown doesn't silently widen the set back out. */}
+          {filter.q && <input type="hidden" name="q" value={filter.q} />}
           <button
             type="submit"
             className="rounded-full bg-teal-500 px-4 py-2 text-sm font-semibold text-navy-900 transition-colors hover:bg-teal-400"
           >
             Apply
           </button>
-          {(params.q || params.site || sort !== "newest") && (
+          {(filtered || sort !== "newest") && (
             <Link
               href="/feed/browse"
               className="px-2 text-xs text-navy-900/55 transition-colors hover:text-navy-900/80"
@@ -190,6 +208,26 @@ export default async function FeedBrowsePage({
             </Link>
           )}
         </form>
+
+        {/* Take the clips you can see into the live feed. Only offered when
+            there is something to watch, so it can never open an empty feed. */}
+        <div className="-mt-2 flex flex-wrap items-center gap-3">
+          {totalCount > 0 && (
+            <Link
+              href={feedUrlForFilter(filter)}
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-navy-900 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-700"
+            >
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 2.2l8.4 4.8L3 11.8V2.2z" fill="currentColor" />
+              </svg>
+              Launch feed of current filtered videos
+            </Link>
+          )}
+          <p className="text-xs text-navy-900/55">
+            {totalCount} clip{totalCount === 1 ? "" : "s"}
+            {filtered ? " match these filters" : " in the archive"}
+          </p>
+        </div>
 
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {snippets.map((s: SnippetRow) => (
