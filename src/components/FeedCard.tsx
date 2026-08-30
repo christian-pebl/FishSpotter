@@ -7,11 +7,15 @@ import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
 import { MapModal } from "./MapModal";
 import {
+  isPictureAdjusted,
+  PICTURE_MAX,
+  PICTURE_MIN,
   setVideoSettings,
   stepSpeed,
   useVideoSettings,
   videoFilterFor,
   VIDEO_SPEEDS,
+  type VideoSettings,
 } from "@/lib/videoSettings";
 import { SplitPanel } from "./idflow/SplitPanel";
 import { getSplitFrame, subscribeSplitFrame, type SplitFrame } from "@/lib/split-screen";
@@ -51,18 +55,23 @@ const MAX_SPEED = VIDEO_SPEEDS[VIDEO_SPEEDS.length - 1];
  * play) gets its own, so the stack reads as three tools rather than one long
  * strip of glyphs.
  */
-function ClipControlGroup({ children }: { children: React.ReactNode }) {
+function ClipControlGroup({ row, children }: { row?: boolean; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-full border border-white/15 bg-black/55 backdrop-blur-sm">
+    <div
+      className={`flex overflow-hidden rounded-full border border-white/15 bg-black/55 backdrop-blur-sm ${
+        row ? "flex-row" : "flex-col"
+      }`}
+    >
       {children}
     </div>
   );
 }
 
 /**
- * One button inside a capsule. Extracted so the five buttons cannot drift apart
+ * One button inside a capsule. Extracted so the buttons cannot drift apart
  * visually, and so the 44px touch target is stated once. `divided` draws the
- * hairline that separates it from whatever sits above it in the same capsule.
+ * hairline that separates it from whatever sits above it in the same capsule;
+ * `active` marks the one picture tool whose stepper is currently open.
  */
 function ClipControlButton({
   onClick,
@@ -70,6 +79,9 @@ function ClipControlButton({
   label,
   title,
   divided,
+  row,
+  active,
+  expanded,
   children,
 }: {
   onClick: () => void;
@@ -77,6 +89,9 @@ function ClipControlButton({
   label: string;
   title?: string;
   divided?: boolean;
+  row?: boolean;
+  active?: boolean;
+  expanded?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -85,15 +100,98 @@ function ClipControlButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
+      aria-expanded={expanded}
       title={title ?? label}
-      className={`inline-flex h-11 w-11 items-center justify-center text-white/85 hover:bg-white/15 hover:text-white disabled:opacity-35 disabled:hover:bg-transparent${
-        divided ? " border-t border-white/15" : ""
-      }`}
+      className={`inline-flex h-11 w-11 flex-col items-center justify-center gap-px hover:bg-white/15 hover:text-white disabled:opacity-35 disabled:hover:bg-transparent ${
+        active ? "bg-teal-500/25 text-teal-200" : "text-white/85"
+      }${divided ? (row ? " border-l border-white/15" : " border-t border-white/15") : ""}`}
     >
       {children}
     </button>
   );
 }
+
+// One row of a capsule, i.e. ClipControlButton's h-11. Stated because the
+// picture stepper is positioned against it, and a button that grew without this
+// following would leave the stepper pointing at the wrong tool.
+const CONTROL_ROW_PX = 44;
+
+/**
+ * The picture tools on the clip's control stack: speed, brightness, contrast.
+ *
+ * Each is ONE button carrying its glyph and its live value, which expands in
+ * place into a +/- stepper. That is the whole point of the shape: six anonymous
+ * arrows stacked down the side of a clip say nothing about what they do, while
+ * a sun reading "+2" says both what it is and where it currently sits, and only
+ * grows a stepper when you actually want to move it.
+ *
+ * The steppers are deliberately uniform (+ over -) even though speed once had
+ * its own double-triangles: the named button directly above supplies the
+ * meaning, so one shape for "more" and one for "less" is less to learn.
+ */
+interface ClipTool {
+  id: "speed" | "brightness" | "contrast";
+  /** Reads mid-sentence in the aria labels ("Increase brightness"), so lower case. */
+  name: string;
+  icon: React.ReactNode;
+  /** The live value, shown under the glyph so a collapsed tool is never blind. */
+  read: (s: VideoSettings) => string;
+  step: (s: VideoSettings, direction: 1 | -1) => Partial<VideoSettings>;
+  /** True when a press that way would do nothing, so the button greys out instead. */
+  atLimit: (s: VideoSettings, direction: 1 | -1) => boolean;
+}
+
+const signed = (v: number) => (v > 0 ? `+${v}` : `${v}`);
+
+const CLIP_TOOLS: readonly ClipTool[] = [
+  {
+    id: "speed",
+    name: "playback speed",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M2 3.6 7.2 8 2 12.4Z" />
+        <path d="M8.8 3.6 14 8l-5.2 4.4Z" />
+      </svg>
+    ),
+    read: (s) => `${s.speed}×`,
+    step: (s, direction) => ({ speed: stepSpeed(s.speed, direction) }),
+    atLimit: (s, direction) =>
+      direction === 1 ? s.speed >= MAX_SPEED : s.speed <= MIN_SPEED,
+  },
+  {
+    id: "brightness",
+    name: "brightness",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="2.9" stroke="currentColor" strokeWidth="1.4" />
+        <path
+          d="M8 1.2v1.6M8 13.2v1.6M1.2 8h1.6M13.2 8h1.6M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M12.8 3.2l-1.1 1.1M4.3 11.7l-1.1 1.1"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+    read: (s) => signed(s.brightness),
+    step: (s, direction) => ({ brightness: s.brightness + direction }),
+    atLimit: (s, direction) =>
+      direction === 1 ? s.brightness >= PICTURE_MAX : s.brightness <= PICTURE_MIN,
+  },
+  {
+    id: "contrast",
+    name: "contrast",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="8" cy="8" r="5.8" fill="none" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M8 2.2a5.8 5.8 0 0 1 0 11.6Z" fill="currentColor" />
+      </svg>
+    ),
+    read: (s) => signed(s.contrast),
+    step: (s, direction) => ({ contrast: s.contrast + direction }),
+    atLimit: (s, direction) =>
+      direction === 1 ? s.contrast >= PICTURE_MAX : s.contrast <= PICTURE_MIN,
+  },
+];
 
 /**
  * The zoom transform for a frame: where it is anchored, and how far the picture
@@ -664,6 +762,10 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
   zoomRef.current = zoom;
+
+  // Which picture tool has its stepper open, at most one at a time so the
+  // control stack cannot grow taller than the clip it sits on.
+  const [openTool, setOpenTool] = useState<ClipTool["id"] | null>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   // A Spot It gate is open, so the clip is sharing the frame with the panel.
   // Only tracks open/closed (not the live drag size, which goes straight to CSS
@@ -769,7 +871,10 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   // A card scrolled out of view goes back to its natural fit, so returning to it
   // later never lands on someone else's zoom.
   useEffect(() => {
-    if (!isActive) setZoom(1);
+    if (!isActive) {
+      setZoom(1);
+      setOpenTool(null);
+    }
   }, [isActive]);
 
   // A single-point mark (1 centre point) has no path to follow, so its ping is
@@ -1532,16 +1637,16 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
 
         {/* Clip controls, top-right of the CLIP (not the card), so they sit over
             the picture they act on and clear the overlay header above. Three
-            capsules, one per instrument: magnify, slow down, hold still.
-            Grouped rather than run together as one long pill so the eye can
-            find the one it wants without reading five glyphs.
+            capsules: magnify, the picture tools, hold still. Grouped rather
+            than run together as one long pill so the eye can find the one it
+            wants without reading a column of glyphs.
 
             Shown once the panel is up (or once anything is off its default),
             matching where the wheel and pinch become magnifiers, so the idle
-            full-bleed feed stays clean. Speed is in the condition because it
-            persists across clips: a feed stuck at 0.25x must always carry the
-            control that undoes it. */}
-        {isActive && (splitMode || zoom > 1 || settings.speed !== 1) && (
+            full-bleed feed stays clean. The picture settings are in the
+            condition because they persist across clips: a feed stuck at 0.25x
+            or at +5 brightness must always carry the control that undoes it. */}
+        {isActive && (splitMode || zoom > 1 || isPictureAdjusted(settings)) && (
           <div className="absolute right-3 top-16 z-20 flex flex-col items-end gap-2">
             {/* Magnify. Each press is multiplicative, and every route zooms
                 about the animal, so the feature you are studying stays centred
@@ -1570,40 +1675,81 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
               </ClipControlButton>
             </ClipControlGroup>
 
-            {/* Playback rate, with the current rate between the two presses so
-                the stepper is never blind. Writes the shared video setting, so
-                it holds across clips and the side menu agrees with it. */}
-            <ClipControlGroup>
-              <ClipControlButton
-                onClick={() => setVideoSettings({ speed: stepSpeed(settings.speed, 1) })}
-                disabled={settings.speed >= MAX_SPEED}
-                label={`Speed up, currently ${settings.speed}x`}
-                title="Speed up"
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path d="M2 3.6 7.2 8 2 12.4Z" />
-                  <path d="M8.8 3.6 14 8l-5.2 4.4Z" />
-                </svg>
-              </ClipControlButton>
-              <span
-                aria-live="polite"
-                className="border-t border-white/15 px-1 py-[3px] text-center text-[10px] font-semibold tabular-nums text-white/70"
-              >
-                {settings.speed}×
-              </span>
-              <ClipControlButton
-                onClick={() => setVideoSettings({ speed: stepSpeed(settings.speed, -1) })}
-                disabled={settings.speed <= MIN_SPEED}
-                label={`Slow down, currently ${settings.speed}x`}
-                title="Slow down"
-                divided
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path d="M14 3.6 8.8 8 14 12.4Z" />
-                  <path d="M7.2 3.6 2 8l5.2 4.4Z" />
-                </svg>
-              </ClipControlButton>
-            </ClipControlGroup>
+            {/* Picture tools: speed, brightness, contrast. One capsule, one row
+                per tool, each showing its glyph over its live value. Tapping a
+                tool opens its -/+ stepper BESIDE it, not beneath it, and closes
+                any other tool's.
+
+                Sideways matters: a stepper that expanded downward pushed the
+                play button off the bottom of the clip in split mode, where the
+                picture is only half the screen. Flying out to the left keeps
+                the stack exactly five rows tall in every state, and keeps all
+                three tools one tap away instead of hiding two behind the open
+                one.
+
+                All three write the shared video setting, so they hold across
+                clips. Brightness and contrast moved here off the side menu:
+                they exist to make a murky clip readable, and a control you have
+                to open a drawer to reach cannot be judged against the picture
+                it is correcting. */}
+            <div className="relative">
+              <ClipControlGroup>
+                {CLIP_TOOLS.map((tool, i) => (
+                  <ClipControlButton
+                    key={tool.id}
+                    onClick={() => setOpenTool((cur) => (cur === tool.id ? null : tool.id))}
+                    label={`${openTool === tool.id ? "Close" : "Adjust"} ${tool.name}, currently ${tool.read(settings)}`}
+                    title={`Adjust ${tool.name}`}
+                    divided={i > 0}
+                    active={openTool === tool.id}
+                    expanded={openTool === tool.id}
+                  >
+                    {tool.icon}
+                    <span
+                      aria-live="polite"
+                      className="text-[9px] font-semibold leading-none tabular-nums"
+                    >
+                      {tool.read(settings)}
+                    </span>
+                  </ClipControlButton>
+                ))}
+              </ClipControlGroup>
+
+              {CLIP_TOOLS.map((tool, i) =>
+                openTool === tool.id ? (
+                  <div
+                    key={tool.id}
+                    className="absolute right-full mr-2"
+                    style={{ top: i * CONTROL_ROW_PX }}
+                  >
+                    <ClipControlGroup row>
+                      <ClipControlButton
+                        onClick={() => setVideoSettings(tool.step(settings, -1))}
+                        disabled={tool.atLimit(settings, -1)}
+                        label={`Decrease ${tool.name}`}
+                        title={`Less ${tool.name}`}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                      </ClipControlButton>
+                      <ClipControlButton
+                        onClick={() => setVideoSettings(tool.step(settings, 1))}
+                        disabled={tool.atLimit(settings, 1)}
+                        label={`Increase ${tool.name}`}
+                        title={`More ${tool.name}`}
+                        divided
+                        row
+                      >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <path d="M8 3.5v9M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                      </ClipControlButton>
+                    </ClipControlGroup>
+                  </div>
+                ) : null,
+              )}
+            </div>
 
             {/* Hold still. A deliberate pause leaves the frame clean (no scrim,
                 no centre triangle): that overlay is for blocked autoplay, where
