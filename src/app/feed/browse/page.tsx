@@ -5,12 +5,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
+import { loadSpeciesIndex } from "@/lib/snippet-species";
 import {
-  archiveFilterQuery,
-  archiveOrderBy,
-  archiveWhere,
-  parseArchiveSearch,
-} from "@/lib/archive-query";
+  feedUrlForFilter,
+  hasSnippetFilter,
+  parseSnippetFilter,
+  resolveSpeciesFilter,
+  snippetFilterParams,
+  snippetFilterWhere,
+} from "@/lib/snippet-filter";
+import { archiveOrderBy, parseArchiveSort } from "@/lib/archive-query";
 
 // P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
@@ -39,22 +43,29 @@ export default async function FeedBrowsePage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const raw = await searchParams;
-  const params = parseArchiveSearch(raw);
+  // Two halves, two owners. The clip-narrowing half (site / species / q) is
+  // parsed by @/lib/snippet-filter, which the live feed shares so "Launch feed
+  // of current filtered videos" lands on the same set. The order/window half is
+  // parsed by @/lib/archive-query, which the feed a CARD opens into shares so
+  // "the next clip" is the next one in this grid.
+  const params = parseArchiveSort(raw);
   const sort = params.sort ?? "newest";
   const page = params.page ?? 1;
 
-  // Both built from the shared archive contract, so the feed a card opens into
-  // walks this exact list in this exact order (see src/lib/archive-query.ts).
-  const where = archiveWhere(params);
-  const orderBy = archiveOrderBy(sort);
-
-  // Carried into every card's href so the feed keeps the filter and the sort
-  // the spotter is actually looking at. Page is left off on purpose: the feed
-  // runs on past the end of this page.
-  const filterQuery = archiveFilterQuery(params);
-
-  const session = await getServerSession(authOptions);
+  const [session, speciesIndex] = await Promise.all([
+    getServerSession(authOptions),
+    // Which species a clip holds is the community's settled ID, not
+    // staffAnswer (which is shape words). See @/lib/snippet-species.
+    loadSpeciesIndex(prisma),
+  ]);
   const myUserId = session?.user?.id ?? null;
+
+  // Build the filter where-clause from validated params. A species slug the
+  // index no longer knows is dropped rather than emptying the grid.
+  const filter = resolveSpeciesFilter(parseSnippetFilter(raw), speciesIndex);
+  const where = snippetFilterWhere(filter, speciesIndex);
+
+  const orderBy = archiveOrderBy(sort);
 
   const [snippets, totalCount, distinctSites] = await Promise.all([
     prisma.snippet.findMany({
@@ -99,14 +110,23 @@ export default async function FeedBrowsePage({
 
   // Helper to build the next / prev page URL while preserving filters.
   function pageUrl(targetPage: number): string {
-    const qs = new URLSearchParams();
-    if (params.site) qs.set("site", params.site);
-    if (params.q) qs.set("q", params.q);
+    const qs = snippetFilterParams(filter);
     if (sort !== "newest") qs.set("sort", sort);
     if (targetPage > 1) qs.set("page", String(targetPage));
     const q = qs.toString();
     return q ? `/feed/browse?${q}` : "/feed/browse";
   }
+
+  const filtered = hasSnippetFilter(filter);
+
+  // Tapping a card opens the live feed at that clip and walks the rest of the
+  // archive from it, so the card carries the same filter and sort the grid is
+  // showing. `page` is left off on purpose: the feed runs past this page's end.
+  const cardQuery = (() => {
+    const qs = snippetFilterParams(filter);
+    if (sort !== "newest") qs.set("sort", sort);
+    return qs.toString();
+  })();
 
   return (
     <MarineBackdrop>
@@ -126,21 +146,30 @@ export default async function FeedBrowsePage({
           className="flex flex-wrap items-center gap-2"
           aria-label="Filter clips"
         >
-          <input
-            type="search"
-            name="q"
-            defaultValue={params.q ?? ""}
-            placeholder="Search species, site, deployment"
-            aria-label="Search clips"
-            className="min-w-[12rem] flex-1 rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 placeholder:text-navy-900/40 focus:bg-white focus:outline-none"
-          />
+          {/* Species comes first: it is the cut a visitor actually thinks in.
+              Only species the community has settled appear (see
+              @/lib/snippet-species), so the list is short and every option
+              returns clips. */}
           <select
-            name="site"
-            defaultValue={params.site ?? ""}
-            aria-label="Filter by site"
+            name="species"
+            defaultValue={filter.species ?? ""}
+            aria-label="Filter by species"
             className="rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 focus:bg-white focus:outline-none"
           >
-            <option value="">All sites</option>
+            <option value="">All species</option>
+            {speciesIndex.options.map((s) => (
+              <option key={s.slug} value={s.slug}>
+                {s.commonName} ({s.clips})
+              </option>
+            ))}
+          </select>
+          <select
+            name="site"
+            defaultValue={filter.site ?? ""}
+            aria-label="Filter by location"
+            className="rounded-full bg-white/70 px-4 py-2 text-sm text-navy-900 focus:bg-white focus:outline-none"
+          >
+            <option value="">All locations</option>
             {distinctSites.map((s: { site: string }) => (
               <option key={s.site} value={s.site}>
                 {s.site}
@@ -157,13 +186,17 @@ export default async function FeedBrowsePage({
             <option value="oldest">Oldest first</option>
             <option value="site">Site (A-Z)</option>
           </select>
+          {/* The free-text box is gone, but /farms/[slug] still deep-links
+              here with ?q=<deployment>. Carry it through Apply so changing a
+              dropdown doesn't silently widen the set back out. */}
+          {filter.q && <input type="hidden" name="q" value={filter.q} />}
           <button
             type="submit"
             className="rounded-full bg-teal-500 px-4 py-2 text-sm font-semibold text-navy-900 transition-colors hover:bg-teal-400"
           >
             Apply
           </button>
-          {(params.q || params.site || sort !== "newest") && (
+          {(filtered || sort !== "newest") && (
             <Link
               href="/feed/browse"
               className="px-2 text-xs text-navy-900/55 transition-colors hover:text-navy-900/80"
@@ -173,11 +206,31 @@ export default async function FeedBrowsePage({
           )}
         </form>
 
+        {/* Take the clips you can see into the live feed. Only offered when
+            there is something to watch, so it can never open an empty feed. */}
+        <div className="-mt-2 flex flex-wrap items-center gap-3">
+          {totalCount > 0 && (
+            <Link
+              href={feedUrlForFilter(filter)}
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-navy-900 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-700"
+            >
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 2.2l8.4 4.8L3 11.8V2.2z" fill="currentColor" />
+              </svg>
+              Launch feed of current filtered videos
+            </Link>
+          )}
+          <p className="text-xs text-navy-900/55">
+            {totalCount} clip{totalCount === 1 ? "" : "s"}
+            {filtered ? " match these filters" : " in the archive"}
+          </p>
+        </div>
+
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {snippets.map((s: SnippetRow) => (
             <li key={s.id}>
               <Link
-                href={filterQuery ? `/feed/${s.id}?${filterQuery}` : `/feed/${s.id}`}
+                href={cardQuery ? `/feed/${s.id}?${cardQuery}` : `/feed/${s.id}`}
                 aria-label={`Open clip from ${s.site}, ${s.deployment}`}
                 className="group block"
               >

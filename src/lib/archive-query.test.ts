@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  archiveFilterQuery,
-  archiveOrderBy,
-  parseArchiveSearch,
-  rotateToClip,
-} from "@/lib/archive-query";
+import { archiveOrderBy, parseArchiveSort, rotateToClip } from "@/lib/archive-query";
 
 const rows = [{ id: "a" }, { id: "b" }, { id: "c" }, { id: "d" }];
 
@@ -36,24 +31,6 @@ describe("rotateToClip", () => {
   });
 });
 
-describe("archiveFilterQuery", () => {
-  it("carries the filters the feed has to keep honouring", () => {
-    const qs = archiveFilterQuery({ site: "Ramsey Sound", q: "goby", sort: "oldest" });
-    expect(new URLSearchParams(qs).get("site")).toBe("Ramsey Sound");
-    expect(new URLSearchParams(qs).get("q")).toBe("goby");
-    expect(new URLSearchParams(qs).get("sort")).toBe("oldest");
-  });
-
-  it("drops page, so the walk continues past the grid's page boundary", () => {
-    expect(archiveFilterQuery({ site: "Skye", page: 3 })).toBe("site=Skye");
-  });
-
-  it("omits the default sort", () => {
-    expect(archiveFilterQuery({ sort: "newest" })).toBe("");
-    expect(archiveFilterQuery({})).toBe("");
-  });
-});
-
 describe("archiveOrderBy", () => {
   it("tie-breaks on id so the grid and the feed agree inside a bucket", () => {
     for (const sort of ["newest", "oldest", "site", undefined] as const) {
@@ -65,17 +42,23 @@ describe("archiveOrderBy", () => {
   it("falls back to newest-first for an unknown sort", () => {
     expect(archiveOrderBy(undefined)).toEqual(archiveOrderBy("newest"));
   });
+
+  it("sorts oldest-first only when asked", () => {
+    expect(archiveOrderBy("oldest")[0]).toEqual({ createdAt: "asc" });
+    expect(archiveOrderBy("newest")[0]).toEqual({ createdAt: "desc" });
+  });
 });
 
-describe("parseArchiveSearch", () => {
+describe("parseArchiveSort", () => {
   it("falls back to the default view on a malformed URL", () => {
-    expect(parseArchiveSearch({ sort: "sideways", page: "-4" })).toEqual({});
+    expect(parseArchiveSort({ sort: "sideways", page: "-4" })).toEqual({});
   });
 
-  it("keeps a valid filter set", () => {
-    expect(parseArchiveSearch({ site: "Skye", sort: "site" })).toEqual({
-      site: "Skye",
-      sort: "site",
-    });
+  it("keeps a valid sort and page", () => {
+    expect(parseArchiveSort({ sort: "site", page: "3" })).toEqual({ sort: "site", page: 3 });
+  });
+
+  it("ignores the filter params, which snippet-filter owns", () => {
+    expect(parseArchiveSort({ species: "hermit-crab", site: "Skye" })).toEqual({});
   });
 });

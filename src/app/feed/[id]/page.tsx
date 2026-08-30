@@ -4,17 +4,21 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { FeedPlayer } from "@/components/FeedPlayer";
+import { FeedFilterNotice } from "@/components/FeedFilterNotice";
 import { VerificationBanner } from "@/components/VerificationBanner";
 import { GuestGate } from "@/components/guest/GuestGate";
 import { GuestSavePrompt } from "@/components/guest/GuestSavePrompt";
 import { safeParseJson } from "@/lib/safe-json";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
+import { emptySpeciesIndex, loadSpeciesIndex } from "@/lib/snippet-species";
 import {
-  archiveOrderBy,
-  archiveWhere,
-  parseArchiveSearch,
-  rotateToClip,
-} from "@/lib/archive-query";
+  describeSnippetFilter,
+  hasSnippetFilter,
+  parseSnippetFilter,
+  resolveSpeciesFilter,
+  snippetFilterWhere,
+} from "@/lib/snippet-filter";
+import { archiveOrderBy, parseArchiveSort, rotateToClip } from "@/lib/archive-query";
 
 export const dynamic = "force-dynamic";
 
@@ -27,15 +31,21 @@ export const dynamic = "force-dynamic";
  * main surface, and a spotter who answered there landed in a dead end.
  *
  * It now renders the feed itself, ordered so this clip is first and the rest of
- * the archive follows behind it (src/lib/archive-query.ts). Answer, and the next
- * archive clip is already loaded underneath.
+ * the archive follows behind it. Answer, and the next archive clip is already
+ * loaded underneath.
+ *
+ * It is the archive's THIRD entry into the feed, after the unfiltered /feed and
+ * the grid's "Launch feed of current filtered videos", and it is the only one
+ * where ORDER matters as much as the set: the promise is that the next clip is
+ * the next one in the grid you tapped. So the set comes from the same
+ * @/lib/snippet-filter as the other two, and the order from @/lib/archive-query,
+ * which the grid also uses. The card's href carries both.
  *
  * The URL is unchanged, so shared links, the sitemap and the profile's
- * "recent identifications" list all still land on the right clip. The site/q/sort
- * the archive was filtered by ride along as search params, so a walk that starts
- * inside "Ramsey Sound" stays inside it. The admin "who answered what" panel that
- * used to sit under the player is not carried over: it never belonged on a public
- * page, and /admin/snippets/[id] renders the same component.
+ * "recent identifications" list all still land on the right clip. The admin
+ * "who answered what" panel that used to sit under the player is not carried
+ * over: it never belonged on a public page, and /admin/snippets/[id] renders the
+ * same component.
  */
 
 /** See INLINE_TRACK_COUNT in ../page.tsx: the opening cards ship their tracking
@@ -80,31 +90,43 @@ export default async function SnippetDetailPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const [{ id }, rawSearch] = await Promise.all([params, searchParams]);
-  const archiveParams = parseArchiveSearch(rawSearch);
+  const [{ id }, raw] = await Promise.all([params, searchParams]);
+
+  const requested = parseSnippetFilter(raw);
+  // Same reasoning as /feed: the species index is a grouped query over every
+  // Answer row, so only a species filter pays for it. A clip opened from an
+  // unfiltered grid (the common case, and every shared link) does not.
+  const speciesIndex = requested.species
+    ? await loadSpeciesIndex(prisma)
+    : emptySpeciesIndex();
+  const filter = resolveSpeciesFilter(requested, speciesIndex);
+  const sort = parseArchiveSort(raw).sort;
 
   const [filtered, session] = await Promise.all([
     prisma.snippet.findMany({
-      where: archiveWhere(archiveParams),
-      orderBy: archiveOrderBy(archiveParams.sort),
+      where: snippetFilterWhere(filter, speciesIndex),
+      orderBy: archiveOrderBy(sort),
       select: FEED_SELECT,
     }),
     getServerSession(authOptions),
   ]);
 
-  // The clip can be missing from the filtered list without being missing from
+  // The clip can be missing from the FILTERED list without being missing from
   // the archive: a shared link carries no filters, but one pasted from a
-  // filtered grid does, and a species search that matched the PAGE need not
-  // match this clip. Falling back to the unfiltered archive keeps the link
-  // working; only a clip that is genuinely gone (retired or blocklisted) 404s.
+  // filtered grid does, and a species selection need not include this clip.
+  // Falling back to the unfiltered archive keeps the link working; only a clip
+  // that is genuinely gone (retired or blocklisted) 404s.
   let ordered = rotateToClip(filtered, id);
+  let filterApplies = hasSnippetFilter(filter);
   if (!ordered) {
     const all = await prisma.snippet.findMany({
       where: excludeBlockedSnippetsWhere(),
-      orderBy: archiveOrderBy(archiveParams.sort),
+      orderBy: archiveOrderBy(sort),
       select: FEED_SELECT,
     });
     ordered = rotateToClip(all, id);
+    // The notice must describe the list actually served, not the one asked for.
+    filterApplies = false;
   }
   if (!ordered) notFound();
 
@@ -148,10 +170,14 @@ export default async function SnippetDetailPage({
 
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
-      {/* No end-of-feed card and no new-clip banner here. Both answer "have you
+      {/* No end-of-feed card and no new-clip banner. Both answer "have you
           cleared the feed?", and an archive walk is a different question: it
           starts wherever the spotter tapped and laps the whole archive. */}
       <FeedPlayer snippets={feedSnippets} />
+      <FeedFilterNotice
+        parts={filterApplies ? describeSnippetFilter(filter, speciesIndex) : []}
+        clips={feedSnippets.length}
+      />
       <VerificationBanner unverified={unverified} />
       <GuestGate />
       <GuestSavePrompt />

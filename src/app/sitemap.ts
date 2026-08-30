@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site-url";
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
@@ -7,7 +8,7 @@ import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 export const revalidate = 3600; // hourly
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = (process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  const base = SITE_URL;
   const now = new Date();
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },

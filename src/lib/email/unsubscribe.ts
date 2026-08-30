@@ -5,6 +5,7 @@
  * the recipient owns their inbox.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { createHmac } from "node:crypto";
 
 export function digestUnsubscribeToken(userId: string): string {
@@ -14,7 +15,7 @@ export function digestUnsubscribeToken(userId: string): string {
 }
 
 export function digestUnsubscribeUrl(userId: string, base?: string): string {
-  const root = (base ?? process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  const root = (base ?? SITE_URL).replace(/\/$/, "");
   return `${root}/api/account/digest/unsubscribe?u=${userId}&t=${digestUnsubscribeToken(userId)}`;
 }
 
@@ -31,6 +32,6 @@ export function newClipsUnsubscribeToken(userId: string): string {
 }
 
 export function newClipsUnsubscribeUrl(userId: string, base?: string): string {
-  const root = (base ?? process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app").replace(/\/$/, "");
+  const root = (base ?? SITE_URL).replace(/\/$/, "");
   return `${root}/api/account/new-clips/unsubscribe?u=${userId}&t=${newClipsUnsubscribeToken(userId)}`;
 }

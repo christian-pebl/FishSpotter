@@ -18,6 +18,8 @@
  * REST docs: https://ai.google.dev/api/generate-content
  */
 
+import { SITE_URL } from "@/lib/site-url";
+
 const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
 
 // Override with GEMINI_MODEL in .env.local. Default to the latest Flash id
@@ -180,7 +182,7 @@ async function downloadImage(url: string): Promise<{ base64: string; mimeType: s
   for (let attempt = 0; ; attempt++) {
     try {
       res = await fetch(url, {
-        headers: { "User-Agent": "FishSpotter/1.0 (https://fish-spotter.vercel.app)" },
+        headers: { "User-Agent": `FishSpotter/1.0 (${SITE_URL})` },
       });
     } catch (e) {
       if (attempt >= MAX_RETRIES - 1) throw new Error(`image fetch failed: ${(e as Error).message}`);

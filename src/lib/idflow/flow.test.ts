@@ -36,6 +36,29 @@ describe("flowReducer", () => {
     });
   });
 
+  it("closeAll shuts every surface but keeps the narrowing", () => {
+    const s = flowReducer(busy, { type: "closeAll" });
+    // Fired when a card scrolls out of the feed. Every surface has to go: the
+    // split they hold is global, so one left open on an off-screen card keeps
+    // every other clip reserving space for it instead of playing full bleed.
+    expect(s.shapeGateOpen).toBe(false);
+    expect(s.bodyGateOpen).toBe(false);
+    expect(s.spotItActive).toBe(false);
+    expect(s.guessMode).toBe(false);
+    // ...but the work survives, so scrolling away and back does not silently
+    // throw away a shape, a body form and a run of eliminations.
+    expect(s.selectedShape).toBe("fish");
+    expect(s.formSeed).toEqual(seed);
+    expect(s.ruledOut).toEqual(["Pollachius pollachius"]);
+    expect(s.ruledOutKey).toBe(busy.ruledOutKey);
+  });
+
+  it("closeAll is a no-op on an already idle flow", () => {
+    expect(flowReducer(initialFlowState, { type: "closeAll" })).toEqual(
+      initialFlowState,
+    );
+  });
+
   it("openShapeGate opens Rung 1 only", () => {
     const s = flowReducer(initialFlowState, { type: "openShapeGate" });
     expect(s.shapeGateOpen).toBe(true);

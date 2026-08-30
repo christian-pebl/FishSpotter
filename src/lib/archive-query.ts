@@ -1,54 +1,40 @@
 import type { Prisma } from "@prisma/client";
 import { z } from "zod";
-import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 
 /**
- * The archive's filter/sort contract, shared by the grid (`/feed/browse`) and
- * the feed it opens into (`/feed/[id]`).
+ * The archive's ORDER, and the rotation that turns it into a feed.
  *
- * It lives here rather than in the grid because the two surfaces have to agree
- * on ONE ordering. Tapping a clip in the archive opens the live feed at that
- * clip and then walks the rest of the archive from it, so "the next clip" is
- * only a truthful promise while both pages build the same `where` and the same
- * `orderBy` from the same params. Two copies of that query would drift, and the
- * drift would be invisible: the feed would simply serve a different next clip
- * than the grid showed, with nothing failing.
+ * The archive's FILTER lives in `@/lib/snippet-filter`, which the grid and the
+ * live feed already share. This is the other half, and it is separate for the
+ * reason that module states about itself: the filter decides the SET, and the
+ * set has to be identical on both surfaces. Order and window are archive-only,
+ * because `/feed` runs its own ordering (difficulty ramp plus seeded shuffle).
+ *
+ * Where the two meet is a clip opened from the archive. That feed is the one
+ * place order matters as much as the set, because "the next clip is the next
+ * one in the archive" is only a truthful promise while the grid and the feed
+ * sort the same way. Two copies of the sort would drift, and the drift would be
+ * invisible: the feed would simply serve a different next clip than the grid
+ * showed, with nothing failing.
  */
 
 export const ARCHIVE_SORTS = ["newest", "oldest", "site"] as const;
 export type ArchiveSort = (typeof ARCHIVE_SORTS)[number];
 
-// S4-07: validates the search-params surface server-side so a malformed URL
-// falls back to the default view instead of breaking the query.
-export const ArchiveSearchSchema = z.object({
-  site: z.string().min(1).max(60).optional(),
-  q: z.string().min(1).max(60).optional(),
+/** The presentation half of the archive's search params (the set half is
+ *  `SnippetFilterSchema`). A malformed value falls back to the default view. */
+export const ArchiveSortSchema = z.object({
   sort: z.enum(ARCHIVE_SORTS).optional(),
   page: z.coerce.number().int().min(1).max(999).optional(),
 });
 
-export type ArchiveSearch = z.infer<typeof ArchiveSearchSchema>;
+export type ArchiveSortParams = z.infer<typeof ArchiveSortSchema>;
 
-export function parseArchiveSearch(
+export function parseArchiveSort(
   raw: Record<string, string | string[] | undefined>,
-): ArchiveSearch {
-  const parsed = ArchiveSearchSchema.safeParse(raw);
+): ArchiveSortParams {
+  const parsed = ArchiveSortSchema.safeParse(raw);
   return parsed.success ? parsed.data : {};
-}
-
-export function archiveWhere(params: ArchiveSearch): Prisma.SnippetWhereInput {
-  const where: Prisma.SnippetWhereInput = {};
-  if (params.site) where.site = params.site;
-  if (params.q) {
-    where.OR = [
-      { site: { contains: params.q, mode: "insensitive" } },
-      { deployment: { contains: params.q, mode: "insensitive" } },
-      { staffAnswer: { contains: params.q, mode: "insensitive" } },
-    ];
-  }
-  // Hide intentionally-excluded snippets from the archive list + count.
-  Object.assign(where, excludeBlockedSnippetsWhere());
-  return where;
 }
 
 export function archiveOrderBy(
@@ -58,25 +44,10 @@ export function archiveOrderBy(
   // tidy: `site` puts every clip from one deployment in an arbitrary bucket,
   // and Postgres is free to return that bucket in a different order per query.
   // Without a deterministic tail the grid and the feed could disagree about
-  // which clip comes next inside a site, which is exactly the drift this
-  // module exists to prevent.
+  // which clip comes next inside a site.
   if (sort === "oldest") return [{ createdAt: "asc" }, { id: "asc" }];
   if (sort === "site") return [{ site: "asc" }, { createdAt: "desc" }, { id: "asc" }];
   return [{ createdAt: "desc" }, { id: "asc" }];
-}
-
-/**
- * The filter half of the archive's querystring (site / q / sort, never page).
- *
- * Page is deliberately dropped: the feed keeps going past the grid's page
- * boundary, so pinning it to page 3 would stop the walk 24 clips in.
- */
-export function archiveFilterQuery(params: ArchiveSearch): string {
-  const qs = new URLSearchParams();
-  if (params.site) qs.set("site", params.site);
-  if (params.q) qs.set("q", params.q);
-  if (params.sort && params.sort !== "newest") qs.set("sort", params.sort);
-  return qs.toString();
 }
 
 /**
@@ -89,7 +60,7 @@ export function archiveFilterQuery(params: ArchiveSearch): string {
  * clip just before the one that was tapped.
  *
  * Returns null when the id is not in the list, which is a real case, not a bug:
- * the clip may have been retired, blocklisted, or filtered out by the site/q
+ * the clip may have been retired, blocklisted, or filtered out by the params
  * the URL carried over. The caller decides between re-querying unfiltered and
  * a 404.
  */

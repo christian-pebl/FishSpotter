@@ -9,6 +9,7 @@
  * transitional period before email (SendGrid) setup is complete.
  */
 
+import { SITE_URL } from "@/lib/site-url";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { PasswordResetEmail } from "@/lib/email/templates/PasswordResetEmail";
@@ -29,7 +30,7 @@ const Schema = z.object({ email: z.string().email().max(254) });
 
 function resetUrl(plainToken: string): string {
   const base =
-    process.env.NEXTAUTH_URL ?? "https://fish-spotter.vercel.app";
+    SITE_URL;
   return `${base.replace(/\/$/, "")}/auth/reset/${plainToken}`;
 }
 

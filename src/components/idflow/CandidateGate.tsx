@@ -317,11 +317,17 @@ export function CandidateGate({
           visible.length === 0
             ? "No matches"
             : compareAll
-              ? `All ${visible.length}, most likely here first. Tap one to look closer`
-              : "Which one is it? Tap to compare"
+              ? `All ${visible.length}, most likely first. Tap a photo`
+              : "Which one is it? Tap a photo"
         }
         tiles={tiles}
         columns={2}
+        // A phone gets three across rather than two. The tiles are smaller, but
+        // this rung is a scanning task before it is a looking-closely task, and
+        // the tile picture is now a viewer you can flick and open, so what the
+        // grid owes the user is BREADTH: how many candidates are on screen at
+        // once. Two columns put roughly one row in a phone sheet.
+        phoneColumns={3}
         suspendKeyboard={!!preview}
         onRuleOut={onRuleOut}
         ruledOut={
