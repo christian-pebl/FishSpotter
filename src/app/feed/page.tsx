@@ -11,9 +11,17 @@ import { GuestSavePrompt } from "@/components/guest/GuestSavePrompt";
 import { orderFeed } from "@/lib/feed-ordering";
 import { readinessFromAnsweredCount } from "@/lib/difficulty";
 import { safeParseJson } from "@/lib/safe-json";
-import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import { countNewClipsSince, newClipBaseline } from "@/lib/new-clips";
 import type { FeedCompleteProps } from "@/components/feed/FeedComplete";
+import { emptySpeciesIndex, loadSpeciesIndex } from "@/lib/snippet-species";
+import {
+  describeSnippetFilter,
+  hasSnippetFilter,
+  parseSnippetFilter,
+  resolveSpeciesFilter,
+  snippetFilterWhere,
+} from "@/lib/snippet-filter";
+import { FeedFilterNotice } from "@/components/FeedFilterNotice";
 
 export const dynamic = "force-dynamic";
 
@@ -50,7 +58,27 @@ const ANON_SEED_COOKIE = "fs.anon_seed";
  *  window plus one card of scroll headroom. */
 const INLINE_TRACK_COUNT = 3;
 
-export default async function FeedPage() {
+export default async function FeedPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  // The archive's "Launch feed of current filtered videos" hands its filter
+  // over in the query string. Same schema, same where-clause builder as the
+  // archive grid (@/lib/snippet-filter), so the feed you land on is exactly
+  // the set of clips you were looking at.
+  const raw = await searchParams;
+  const requested = parseSnippetFilter(raw);
+  // The species index is a grouped query over every Answer row. Only a species
+  // filter needs it, and the overwhelming majority of feed loads have no query
+  // string at all, so an unfiltered feed must not pay for it. (The archive, by
+  // contrast, always loads it: it has a dropdown to populate.)
+  const speciesIndex = requested.species
+    ? await loadSpeciesIndex(prisma)
+    : emptySpeciesIndex();
+  const filter = resolveSpeciesFilter(requested, speciesIndex);
+  const filterWhere = snippetFilterWhere(filter, speciesIndex);
+
   // S8-T1: fetch snippets, session, AND the signed-in user's answered
   // snippet IDs in parallel. The third query is a no-op when the user
   // isn't signed in. createdAt-desc is the underlying order, orderFeed
@@ -65,7 +93,7 @@ export default async function FeedPage() {
   // route, on every request) is gone.
   const [snippets, session] = await Promise.all([
     prisma.snippet.findMany({
-      where: excludeBlockedSnippetsWhere(),
+      where: filterWhere,
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
@@ -124,9 +152,16 @@ export default async function FeedPage() {
   // End-of-feed + new-clip notification state (2026-08-13). Only meaningful for
   // a signed-in spotter: a signed-out visitor has no server-side answer history,
   // so they can neither clear the feed nor have a "last visit" to measure from.
+  //
+  // Also skipped on a FILTERED feed. The card's claim is "That is all N clips
+  // on the feed ... you have genuinely run out", which is true of the whole
+  // feed and false of a selection: answering the eight hermit-crab clips is
+  // not clearing the board. Left undefined, FeedPlayer renders no card, the
+  // same as it does for a signed-out spotter.
   let unansweredCount: number | undefined;
   let completion: FeedCompleteProps | undefined;
   let newClipCount = 0;
+  const filtered = hasSnippetFilter(filter);
   if (session?.user?.id) {
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
@@ -142,8 +177,10 @@ export default async function FeedPage() {
     // Counted against the SERVED snippet list, not the raw answer count: a
     // spotter may hold answers on clips that have since been excluded from the
     // feed, and those must not make the feed look finished when it isn't.
-    unansweredCount = snippets.filter((s) => !answeredIds.has(s.id)).length;
-    if (user) {
+    unansweredCount = filtered
+      ? undefined
+      : snippets.filter((s) => !answeredIds.has(s.id)).length;
+    if (user && !filtered) {
       completion = {
         totalClips: snippets.length,
         pebbles: pebbleTotal,
@@ -203,6 +240,12 @@ export default async function FeedPage() {
         unansweredCount={unansweredCount}
         completion={completion}
         newClipCount={newClipCount}
+      />
+      {/* A filtered feed must say so, or a spotter who launched one from the
+          archive has no way to tell a 5-clip selection from a 5-clip site. */}
+      <FeedFilterNotice
+        parts={filtered ? describeSnippetFilter(filter, speciesIndex) : []}
+        clips={feedSnippets.length}
       />
       <OnboardingTour needsTour={needsTour} />
       <VerificationBanner unverified={unverified} />
