@@ -1654,3 +1654,84 @@ Left as a warning rather than fixed: two curated hero pins still serve Commons
 originals over 900KB (shanny 1.23MB, plaice 1.10MB) because they are `manual`
 rows with no WebP derivative, and `db:backfill-webp` needs the R2 credentials
 that were not on this machine.
+
+## 2026-08-29/30: every species-guide claim rewritten from a source, and the count that was measuring the wrong layer
+
+The guide made 920 factual statements and could stand behind a third of them.
+The 28 Aug grounding pass had bound most of them to a citation, but a citation
+is not a reading: only 318 rested on a passage anybody had opened, and the page
+carried two disclaimers admitting as much. This session read all 72 species and
+rewrote the page from what the sources actually say.
+
+**Result: 935 rendered claims, 935 evidenced, 0 unbound.** 211 claims corrected,
+5 removed as unsupportable, 146 diagnostic rings rewritten, 396 diet bullets and
+288 fact tiles authored from passages. Both disclaimers are gone, because the
+page can no longer be in the state they described. PRs #152, #153, #155.
+
+**Two structural changes, both about where a claim came from.**
+
+The four fact tiles were rendering the Spot It wizard's trait tokens. Those
+tokens exist to CUT a candidate list off a short clip: `size` has three values,
+`habitat` and `behavior` a short controlled vocabulary. They are good questions
+and bad facts. The corkwing wrasse read "Small (under 10 cm)" on a page whose
+own cited source gives 25 cm, and the harbour crab read "Medium (10-50 cm)" for
+an animal MarLIN gives as 8 cm across, out by five times. Tiles now render short
+sourced phrases from `src/data/species-facts.json`; the wizard keeps its tokens,
+so the ID funnel is unchanged.
+
+"I eat / Eats me" was read off the 72-node farm food web, so every row it could
+show had to be another species we happen to carry. The cod ate three catalogue
+neighbours instead of "fish, especially herring, capelin and sandeels", and
+twelve species had an empty predator column needing a paragraph to explain that
+this did not mean nothing ate them. Now `src/data/species-diet.json`: up to three
+broad statements a side, each bound to a published account. The farm-web trophic
+tier came off the guide with it.
+
+**What the reading found.** The facts were mostly recoverable. The COMPARISONS
+between species were where the guide had invented things, and they are what a
+beginner leans on hardest. Pollack's lateral line was "the most reliable split
+from bib and cod" when FishBase gives cod a curved lateral line too, so the
+contrast was wrong rather than unsourced. Bib's chin barbel was "absent in
+pollack and saithe"; saithe has one. Every shag-versus-cormorant comparison came
+off both pages. Two errors could have got somebody hurt: the moon jellyfish was
+"harmless to touch" (its only source for that is bot-blocked and was never read)
+and the blue jellyfish had a "mild sting" when it is as venomous as the lion's
+mane.
+
+**The defect that shipped, and the layer it was hiding at.** The claim audit
+reported 935 of 935 evidenced while the page was rendering fewer, and nothing
+compared the two. `payload.ts` hands the page a claim only if one of its sources
+ALSO passed the live-web link check, and `refs:verify` needs the network, so 81
+sources added without running it had no verification row and every claim resting
+on them was silently discarded: 8 fact tiles and 89 diet bullets. The barrel
+jellyfish went live with no depth tile and three uncited diet bullets, on a page
+whose whole promise is that everything shown is sourced. The audit was counting
+`claimSupported` in the data file; the reader needs `claimSupported` AND
+`linkVerified`.
+
+New tooling, in the order it runs:
+
+| Script | Purpose |
+|---|---|
+| `refs/prefetch-sources.ts` | caches all 353 sources as plain text so verification reads from disk, not the network |
+| `refs/fetch_pdf_sources.py` | fetches PDFs as BYTES and extracts page by page; a PDF through `fetch().text()` opens and then reports zero pages |
+| `refs/build-briefs.ts` | one brief per species: every rendered claim, the words a reader sees, the local path to each source |
+| `refs/apply-proposals.ts` | re-checks every quote against the cached page before writing it; 0 failed across 12 shards |
+| `refs/recheck-support.ts` | re-checks the WHOLE catalogue, including keys no stage re-proposes |
+| `refs/confirm-by-document.ts` | the hand check the verifier asks for, done mechanically: does the document we downloaded name this species |
+| `refs/apply-mark-edits.ts` | writes ring corrections to the DB, dry-run by default, after `refs/backup-marks.ts` |
+
+`src/lib/references/payload.test.ts` is the gate that was missing: three checks
+against the payload the page is HANDED rather than the file it is built from.
+Before the fix it failed on 8 tiles and 89 bullets.
+
+**Sources that turned out not to be sources.** Mortensen 1927 had been cited for
+months; the cached file was the Internet Archive's ITEM PAGE and contained none
+of the text attributed to it. One quote checked out against the real scan, one
+did not. `recheck-support` found the earlier pass had left ~3% of its passages
+unverifiable. Four sources remain genuinely unreadable (three MEPS papers behind
+HTTP 401, one dead DOI) and nothing on the page rests on them.
+
+Left deliberately: the food-web page and the workshop deck still carry the old
+farm-derived claims, and the species-level `diet:eats` / `diet:eatenBy` keys they
+use are still in the reference file, unrendered by the guide.
