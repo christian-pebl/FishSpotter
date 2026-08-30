@@ -121,13 +121,13 @@
   },
   "Common Brittlestar": {
     "scientificName": "Ophiothrix fragilis",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/6cae5c75bf28b979bd4f1f40eced436c/medium.webp",
-    "attribution": "(c) Lou Wagstaffe, some rights reserved (CC BY)",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/190302888/large.jpeg",
+    "attribution": "(c) bigayon, some rights reserved (CC BY)",
     "license": "cc-by",
-    "sourceUrl": "https://www.inaturalist.org/observations/284367977",
+    "sourceUrl": "https://www.inaturalist.org/observations/112658599",
     "source": "inaturalist",
-    "placeGuess": "Saint Clement, Jersey",
-    "observedOn": "2025-05-26"
+    "placeGuess": "Morbihan, Bretagne, FR",
+    "observedOn": "2022-04-20"
   },
   "Shore Crab": {
     "scientificName": "Carcinus maenas",
@@ -251,13 +251,13 @@
   },
   "Butterfish": {
     "scientificName": "Pholis gunnellus",
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/706069162/medium.jpg",
-    "attribution": "(c) James-LaFontaine, some rights reserved (CC BY)",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/257157715/large.jpg",
+    "attribution": "(c) Jamie O'Neill, some rights reserved (CC BY)",
     "license": "cc-by",
-    "sourceUrl": "https://www.inaturalist.org/observations/385667591",
+    "sourceUrl": "https://www.inaturalist.org/observations/149253149",
     "source": "inaturalist",
-    "placeGuess": "Johnson St, Lubec, ME, US",
-    "observedOn": "2026-07-26"
+    "placeGuess": "Finavarra, Clare, Ireland",
+    "observedOn": "2023-02-20"
   },
   "Shanny": {
     "scientificName": "Lipophrys pholis",
@@ -281,33 +281,33 @@
   },
   "Common Octopus": {
     "scientificName": "Octopus vulgaris",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Octopus_vulgaris_02.JPG/1280px-Octopus_vulgaris_02.JPG",
-    "attribution": "H. Zell, CC BY-SA 3.0 via Wikimedia Commons",
-    "license": "cc-by-sa",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Octopus_vulgaris_02.JPG",
-    "source": "wikimedia",
-    "placeGuess": null,
-    "observedOn": null
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/520866301/large.jpg",
+    "attribution": "(c) Sarah Faulwetter, some rights reserved (CC BY)",
+    "license": "cc-by",
+    "sourceUrl": "https://www.inaturalist.org/observations/289592416",
+    "source": "inaturalist",
+    "placeGuess": "West Greece, Peloponnese, Western Greece and the Ionian Islands, GR",
+    "observedOn": "2025-06-09"
   },
   "Conger eel": {
     "scientificName": "Conger conger",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Observation_d%27un_congre_%28Conger_conger%29_par_390_m_de_fond_%28Ifremer_00621-73303%29.jpg/1280px-Observation_d%27un_congre_%28Conger_conger%29_par_390_m_de_fond_%28Ifremer_00621-73303%29.jpg",
-    "attribution": "Observation d'un congre (Conger conger) par 390 m de fond, CC BY 4.0 via Wikimedia Commons",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/224708467/large.jpeg",
+    "attribution": "(c) Julien Tchilinguirian, some rights reserved (CC BY)",
     "license": "cc-by",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Observation_d%27un_congre_(Conger_conger)_par_390_m_de_fond_(Ifremer_00621-73303).jpg",
-    "source": "wikimedia",
-    "placeGuess": null,
-    "observedOn": null
+    "sourceUrl": "https://www.inaturalist.org/observations/131994343",
+    "source": "inaturalist",
+    "placeGuess": "Finistère, Bretagne, France",
+    "observedOn": "2022-08-14"
   },
   "Lesser-spotted catshark": {
     "scientificName": "Scyliorhinus canicula",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Scyliorhinus_canicula.jpg/1280px-Scyliorhinus_canicula.jpg",
-    "attribution": "Hans Hillewaert, CC BY-SA 4.0 via Wikimedia Commons",
-    "license": "cc-by-sa",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Scyliorhinus_canicula.jpg",
-    "source": "wikimedia",
-    "placeGuess": null,
-    "observedOn": null
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/448396588/large.png",
+    "attribution": "(c) celticdeep, some rights reserved (CC BY)",
+    "license": "cc-by",
+    "sourceUrl": "https://www.inaturalist.org/observations/250685873",
+    "source": "inaturalist",
+    "placeGuess": "Pembrokeshire, Wales, GB",
+    "observedOn": "2024-06-12"
   },
   "Grey seal": {
     "scientificName": "Halichoerus grypus",
@@ -361,13 +361,13 @@
   },
   "Long-spined sea scorpion": {
     "scientificName": "Taurulus bubalis",
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/165596874/medium.jpeg",
-    "attribution": "(c) Micha Baum, some rights reserved (CC BY-SA)",
-    "license": "cc-by-sa",
-    "sourceUrl": "https://www.inaturalist.org/observations/99353764",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/379415776/large.jpeg",
+    "attribution": "(c) Lou Wagstaffe, some rights reserved (CC BY)",
+    "license": "cc-by",
+    "sourceUrl": "https://www.inaturalist.org/observations/214646109",
     "source": "inaturalist",
-    "placeGuess": "Schleswig-Holstein, DE",
-    "observedOn": "2020-10-05"
+    "placeGuess": "Green Island",
+    "observedOn": "2024-05-09"
   },
   "Plaice": {
     "scientificName": "Pleuronectes platessa",

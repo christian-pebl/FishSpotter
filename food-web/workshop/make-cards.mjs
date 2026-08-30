@@ -169,17 +169,10 @@ const FACTS_DATA = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data',
 const BULLET_BUDGET = Number(process.env.CARD_BULLET_BUDGET || 200);
 const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 80);
 const PHOTO_H = Number(process.env.CARD_PHOTO_H || 21);
-// Zoom-out per species. object-fit:cover crops a photo to the frame, which takes the
-// arms off a starfish and the legs off a crab. A value below 1 scales the picture down
-// inside the frame so more of the animal is inside it; the frame's tint shows at the
-// sides. Christian picked these from the printed proof.
-const PHOTO_ZOOM = {
-  'Spiny Starfish': 0.8, 'Common Starfish': 0.8, 'Common Brittlestar': 0.8,
-  'Common eider': 0.8, 'Fifteen-spined stickleback': 0.8, 'European shag': 0.8,
-  'Hermit Crab': 0.8, 'Rock goby': 0.8, 'Common Octopus': 0.8, 'Conger eel': 0.8,
-  'Lesser-spotted catshark': 0.8, 'Purple heart urchin': 0.8,
-  'Long-spined sea scorpion': 0.8, 'Plaice': 0.8,
-};
+// PHOTO_ZOOM removed. It scaled the picture down inside its frame so more of a round
+// animal fitted, but the cost was tinted bars at the sides: the photo stopped spanning
+// the card edge to edge, which reads as a mistake on a printed card. Fitting the whole
+// animal is now the job of a taller frame and of choosing a better-shaped photograph.
 const BORDER  = Number(process.env.CARD_BORDER || 1.3);   // white margin on the SIDES only, mm at source (x2.39 at A6)
 const STRIP   = Number(process.env.CARD_STRIP  || 2.4);     // height of the head and foot bands
 
@@ -250,7 +243,7 @@ for (const deck of DECKS) {
     const qrUri = await qr(QR_TARGET(e.sci));
 
     const media = photo
-      ? `<img class="photo" src="${esc(photo.url)}" alt="${esc(name)}"${PHOTO_ZOOM[name] ? ` style="transform:scale(${PHOTO_ZOOM[name]})"` : ''}>`
+      ? `<img class="photo" src="${esc(photo.url)}" alt="${esc(name)}">`
       : `<div class="photo silhouette" style="color:${tierColor}"><svg viewBox="0 0 64 64"><use href="#f-${sp.form}"/></svg></div>`;
     const creditLine = photo
       ? `${esc(photo.attribution)} &middot; ${esc(photo.license.toUpperCase())} &middot; via ${esc(photo.source)}`
@@ -333,30 +326,29 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
    each other, so a printed rule would be halved by the blade and leave a hairline
    down one card. A radius would sit inside the punched one; a shadow would smear
    grey along the cut. */
-.card{width:44mm;height:58mm;flex:0 0 44mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column;padding:0 ${BORDER}mm}
+.card{width:44mm;height:58mm;flex:0 0 44mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column}
 .tier-stripe{height:${STRIP}mm;flex:0 0 auto;background:var(--teal)}
-/* White margin down the LEFT AND RIGHT edges only, with the head and foot strips
-   running to the top and bottom trim. A cut that drifts sideways eats white instead of
-   skewing the design, which is the common case when trimming a column of cards by eye.
-   The two strips are equal so the card reads square top to bottom. */
+/* FULL BLEED again: card and photo run to the trim on every side. The tolerance for a
+   wandering cut is bought differently now, with a fat text safe-area instead of a white
+   margin, so a few millimetres can come off any edge and every word still reads. */
 .cardinner{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#fff}
-.backbody{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;padding:2mm 2.6mm 1.6mm}
+.backbody{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;padding:2.4mm 3.6mm 2mm}
 /* FRONT */
 .card.front .photo{height:${PHOTO_H}mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
 .photowrap{height:${PHOTO_H}mm;width:100%;flex:0 0 auto;overflow:hidden;background:var(--lteal)}
 .photowrap .photo{height:100%}
 .card.front .photo.silhouette{display:flex;align-items:center;justify-content:center;padding:2.5mm}
 .card.front .photo.silhouette svg{width:70%;height:70%}
-.namebox{padding:1.8mm 2.6mm 0;min-width:0}
+.namebox{padding:1.8mm 3.6mm 0;min-width:0}
 .name{margin:0;font-size:7.9pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
 .sci{margin:0.4mm 0 0;font-size:6.4pt;font-style:italic;color:#9aa7ab;overflow-wrap:break-word}
 .nick{margin:0.8mm 0 0;font-size:6pt;color:var(--soft);line-height:1.25}
-.frontfacts{padding:0 2.6mm;margin-top:1mm}
+.frontfacts{padding:0 3.6mm;margin-top:1mm}
 .frontfacts .field{margin-bottom:1.1mm}
 .frontfacts .field span{font-size:5pt;line-height:1.2}
 /* pinned to the foot of the card so the credit sits on the bottom edge on every
    card, whatever length the facts above it run to */
-.frontfoot{margin-top:auto;padding:0.7mm 2.6mm 0.9mm;display:flex;align-items:center;justify-content:space-between;gap:1.2mm;border-top:0.4pt solid var(--hair)}
+.frontfoot{margin-top:auto;padding:0.7mm 3.6mm 1.4mm;display:flex;align-items:center;justify-content:space-between;gap:1.2mm;border-top:0.4pt solid var(--hair)}
 .frontfoot .credit{margin:0;flex:1 1 auto;min-width:0}
 .frontfoot .pebl-logo{margin:0;flex:0 0 auto}
 .credit{font-size:2pt;color:#9aa7ab;line-height:1.1}
@@ -449,9 +441,9 @@ html,body{margin:0;padding:0;background:#fff}
 .psheet:last-child{page-break-after:auto;break-after:auto}
 .pcell{width:105mm;height:148mm;overflow:hidden;position:relative}
 .cuts{position:absolute;inset:0;pointer-events:none;z-index:5}
-.cuts i{position:absolute;display:block}
-.cuts .cv{left:105mm;top:0;bottom:0;width:0;border-left:0.4pt dashed #8fa3a3}
-.cuts .ch{top:148mm;height:0;border-top:0.4pt dashed #8fa3a3}
+.cuts .tick{position:absolute;display:block}
+.cuts .tick.v{width:0;border-left:0.5pt solid #17252A}
+.cuts .tick.h{height:0;border-top:0.5pt solid #17252A}
 .pscale{transform:translateY(-${((0.12*SCALE)/2).toFixed(3)}mm) scale(${SCALE});transform-origin:top left;width:44mm;height:${SRC_H}mm}
 /* No border on the print card. It was the last thing still drawing a line at the
    trim, and a guillotine cannot follow a 0.35pt rule to the tenth of a millimetre:
@@ -461,11 +453,14 @@ html,body{margin:0;padding:0;background:#fff}
 .pscale .card{width:44mm;height:${(SRC_H + 0.12).toFixed(3)}mm;flex:0 0 44mm}
 `;
 
+// Two ticks per cut, one at each end, hard against the page edge. A full line down the
+// sheet would print across the artwork now that the cards bleed, so the marks say where
+// the blade enters and leaves and nothing more.
 const CUTMARKS = `<div class="cuts">
-  <i class="cv"></i>
-  <i class="ch" style="left:0;width:4mm"></i>
-  <i class="ch" style="left:101mm;width:8mm"></i>
-  <i class="ch" style="left:206mm;width:4mm"></i>
+  <i class="tick v" style="left:105mm;top:0;height:3.5mm"></i>
+  <i class="tick v" style="left:105mm;bottom:0;height:3.5mm"></i>
+  <i class="tick h" style="top:148mm;left:0;width:3.5mm"></i>
+  <i class="tick h" style="top:148mm;right:0;width:3.5mm"></i>
 </div>`;
 const sheets = [];
 for (let i = 0; i < CARDS.length; i += UP) {
