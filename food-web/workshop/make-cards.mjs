@@ -168,8 +168,8 @@ const FACTS_DATA = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data',
 // claim rather than a different one, and the QR goes to the full list.
 const BULLET_BUDGET = Number(process.env.CARD_BULLET_BUDGET || 200);
 const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 80);
-const PHOTO_H = Number(process.env.CARD_PHOTO_H || 15);
-const BORDER  = Number(process.env.CARD_BORDER || 1.3);   // white margin, mm at source (x2.39 at A6)
+const PHOTO_H = Number(process.env.CARD_PHOTO_H || 17);
+const BORDER  = Number(process.env.CARD_BORDER || 1.3);   // white margin on the SIDES only, mm at source (x2.39 at A6)
 const STRIP   = Number(process.env.CARD_STRIP  || 2.4);     // height of the head and foot bands
 
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -322,12 +322,12 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
    each other, so a printed rule would be halved by the blade and leave a hairline
    down one card. A radius would sit inside the punched one; a shadow would smear
    grey along the cut. */
-.card{width:44mm;height:58mm;flex:0 0 44mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column;padding:${BORDER}mm}
+.card{width:44mm;height:58mm;flex:0 0 44mm;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column;padding:0 ${BORDER}mm}
 .tier-stripe{height:${STRIP}mm;flex:0 0 auto;background:var(--teal)}
-/* WHITE BORDER round the whole card, and a matching strip at the FOOT as well as the
-   head. Both exist for the same reason: a cut that lands a millimetre out eats white
-   margin instead of skewing a coloured band, so a slightly wonky trim still reads as
-   a symmetric card. The strips being equal is what makes the asymmetry invisible. */
+/* White margin down the LEFT AND RIGHT edges only, with the head and foot strips
+   running to the top and bottom trim. A cut that drifts sideways eats white instead of
+   skewing the design, which is the common case when trimming a column of cards by eye.
+   The two strips are equal so the card reads square top to bottom. */
 .cardinner{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#fff}
 .backbody{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;padding:2mm 2.6mm 1.6mm}
 /* FRONT */
