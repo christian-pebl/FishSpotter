@@ -42,7 +42,9 @@ test.describe("S1-T11: anonymous spoiler-gate on API", () => {
       .first()
       .getAttribute("href");
     if (!firstHref) test.skip(true, "No snippets seeded; skipping API contract test.");
-    const id = firstHref!.replace(/^\/feed\//, "");
+    // The archive now carries its filter/sort context into the clip href, so
+    // strip any querystring before treating the tail as a snippet id.
+    const id = firstHref!.replace(/^\/feed\//, "").split("?")[0];
 
     const res = await request.get(`/api/snippets/${id}/stats`);
     expect(res.status()).toBe(200);
@@ -62,7 +64,9 @@ test.describe("S1-T11: anonymous spoiler-gate on API", () => {
       .first()
       .getAttribute("href");
     if (!firstHref) test.skip(true, "No snippets seeded; skipping API contract test.");
-    const id = firstHref!.replace(/^\/feed\//, "");
+    // The archive now carries its filter/sort context into the clip href, so
+    // strip any querystring before treating the tail as a snippet id.
+    const id = firstHref!.replace(/^\/feed\//, "").split("?")[0];
 
     const res = await request.get(`/api/snippets/${id}/probability`);
     expect(res.status()).toBe(200);

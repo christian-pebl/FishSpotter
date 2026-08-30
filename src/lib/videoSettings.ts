@@ -16,7 +16,6 @@ export type VideoSpeed = 0.25 | 0.5 | 0.75 | 1 | 1.5 | 2;
 export const VIDEO_SPEEDS: readonly VideoSpeed[] = [0.25, 0.5, 0.75, 1, 1.5, 2];
 
 export interface VideoSettings {
-  soundOn: boolean;
   trace: boolean;
   speed: VideoSpeed;
   brightness: number; // -5..5
@@ -24,7 +23,6 @@ export interface VideoSettings {
 }
 
 const DEFAULTS: VideoSettings = {
-  soundOn: false,
   trace: false,
   speed: 1,
   // Murky underwater footage reads better with a gentle default lift; users can
@@ -96,7 +94,6 @@ function read(): VideoSettings {
     if (!raw) return DEFAULTS;
     const parsed = JSON.parse(raw) as Partial<VideoSettings>;
     return {
-      soundOn: typeof parsed.soundOn === "boolean" ? parsed.soundOn : DEFAULTS.soundOn,
       trace: typeof parsed.trace === "boolean" ? parsed.trace : DEFAULTS.trace,
       speed: normalizeSpeed(parsed.speed),
       brightness: clampStep(Number(parsed.brightness ?? 0)),

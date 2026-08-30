@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   description: "Browse the UK marine species you can spot, with reference photos and field notes.",
 };
 
+// Every shape class needs an entry. A class without one falls through to its
+// raw key, which is how `urchin` and `other` came to render as lowercase
+// headings reading "urchin" and "other" next to "Snails & slugs".
 const CLASS_LABEL: Record<string, string> = {
   fish: "Fish",
   flatfish: "Flatfish",
@@ -19,6 +22,8 @@ const CLASS_LABEL: Record<string, string> = {
   starfish: "Starfish",
   gastropod: "Snails & slugs",
   jellyfish: "Jellyfish",
+  urchin: "Urchins",
+  other: "Birds & seals",
 };
 
 export default async function SpeciesIndexPage() {

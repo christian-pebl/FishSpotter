@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { VIDEO_SPEEDS, stepSpeed, videoFilterFor, type VideoSpeed } from "./videoSettings";
 
-const base = { soundOn: false, trace: false, speed: 1 as VideoSpeed, brightness: 0, contrast: 0 };
+const base = { trace: false, speed: 1 as VideoSpeed, brightness: 0, contrast: 0 };
 
 describe("VIDEO_SPEEDS", () => {
   it("is ascending, so the stepper's +1 really is faster", () => {

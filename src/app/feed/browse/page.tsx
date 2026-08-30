@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@prisma/client";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { loadSpeciesIndex } from "@/lib/snippet-species";
 import {
@@ -16,6 +14,7 @@ import {
   snippetFilterParams,
   snippetFilterWhere,
 } from "@/lib/snippet-filter";
+import { archiveOrderBy, parseArchiveSort } from "@/lib/archive-query";
 
 // P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
@@ -24,20 +23,10 @@ import {
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Archive",
+  title: "Video archive",
 };
 
 const PAGE_SIZE = 24;
-
-// S4-07: Zod schema validates the search-params surface server-side
-// so a malformed URL falls back to the default view instead of
-// breaking the query. The clip-narrowing half (site / species / q) is
-// parsed separately by @/lib/snippet-filter, which the live feed shares
-// so "Launch feed of current filtered videos" lands on the same set.
-const SearchSchema = z.object({
-  sort: z.enum(["newest", "oldest", "site"]).optional(),
-  page: z.coerce.number().int().min(1).max(999).optional(),
-});
 
 type SnippetRow = {
   id: string;
@@ -54,8 +43,12 @@ export default async function FeedBrowsePage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const raw = await searchParams;
-  const parsed = SearchSchema.safeParse(raw);
-  const params = parsed.success ? parsed.data : {};
+  // Two halves, two owners. The clip-narrowing half (site / species / q) is
+  // parsed by @/lib/snippet-filter, which the live feed shares so "Launch feed
+  // of current filtered videos" lands on the same set. The order/window half is
+  // parsed by @/lib/archive-query, which the feed a CARD opens into shares so
+  // "the next clip" is the next one in this grid.
+  const params = parseArchiveSort(raw);
   const sort = params.sort ?? "newest";
   const page = params.page ?? 1;
 
@@ -72,12 +65,7 @@ export default async function FeedBrowsePage({
   const filter = resolveSpeciesFilter(parseSnippetFilter(raw), speciesIndex);
   const where = snippetFilterWhere(filter, speciesIndex);
 
-  const orderBy: Prisma.SnippetOrderByWithRelationInput =
-    sort === "oldest"
-      ? { createdAt: "asc" }
-      : sort === "site"
-        ? { site: "asc" }
-        : { createdAt: "desc" };
+  const orderBy = archiveOrderBy(sort);
 
   const [snippets, totalCount, distinctSites] = await Promise.all([
     prisma.snippet.findMany({
@@ -131,6 +119,15 @@ export default async function FeedBrowsePage({
 
   const filtered = hasSnippetFilter(filter);
 
+  // Tapping a card opens the live feed at that clip and walks the rest of the
+  // archive from it, so the card carries the same filter and sort the grid is
+  // showing. `page` is left off on purpose: the feed runs past this page's end.
+  const cardQuery = (() => {
+    const qs = snippetFilterParams(filter);
+    if (sort !== "newest") qs.set("sort", sort);
+    return qs.toString();
+  })();
+
   return (
     <MarineBackdrop>
     <div className="relative flex-1 overflow-y-auto">
@@ -140,7 +137,7 @@ export default async function FeedBrowsePage({
         className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-4 py-8"
       >
         <h1 className="font-brand-heading text-3xl font-bold text-navy-900">
-          Observation Archive
+          Video archive
         </h1>
 
         {/* Filter / sort row, clean, borderless, species-guide styling. */}
@@ -233,7 +230,7 @@ export default async function FeedBrowsePage({
           {snippets.map((s: SnippetRow) => (
             <li key={s.id}>
               <Link
-                href={`/feed/${s.id}`}
+                href={cardQuery ? `/feed/${s.id}?${cardQuery}` : `/feed/${s.id}`}
                 aria-label={`Open clip from ${s.site}, ${s.deployment}`}
                 className="group block"
               >
@@ -271,9 +268,6 @@ export default async function FeedBrowsePage({
                 <div className="mt-2 space-y-0.5 px-0.5">
                   <p className="truncate text-sm font-semibold text-navy-900">
                     {s.site}
-                  </p>
-                  <p className="truncate text-[11px] uppercase tracking-wider text-navy-900/45">
-                    {s.deployment}
                   </p>
                   <p className="flex flex-wrap items-center gap-x-2 text-[11px] text-navy-900/55">
                     {s.recordingDatetime && (

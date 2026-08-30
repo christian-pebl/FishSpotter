@@ -123,7 +123,7 @@ function SilUrchin() {
 function SilOtherWildlife() {
   // A diving seabird, the top-level tile icon (10 Jul 2026: swapped from a
   // merged bird/seal blob to a clean bird, easier to read at icon size); the
-  // bird/mammal sub-split at Rung 2 gets its own pair of silhouettes
+  // bird/seal sub-split at Rung 2 gets its own pair of silhouettes
   // (public/silhouettes/forms/). Used only if public/silhouettes/other.svg is
   // ever missing, the live tile renders that file (a copy of forms/bird.svg).
   return (
@@ -150,7 +150,7 @@ const TILES: { key: ShapeClass; label: string; Icon: () => JSX.Element }[] = [
   { key: "gastropod",  label: "Snail / slug", Icon: SilGastropod },
   { key: "squid",      label: "Squid, Cuttlefish, Octopus", Icon: SilSquid },
   { key: "urchin",     label: "Sea Urchin", Icon: SilUrchin },
-  { key: "other",      label: "Birds & Mammals", Icon: SilOtherWildlife },
+  { key: "other",      label: "Birds & seals", Icon: SilOtherWildlife },
 ];
 
 /** ShapeClass → its gate label, for breadcrumbs in later rungs. */
@@ -168,7 +168,7 @@ export const SHAPE_CLASS_LABEL = Object.fromEntries(
 export const SHAPE_CLASS_COMMIT_NOUN: Record<ShapeClass, string> = {
   ...SHAPE_CLASS_LABEL,
   squid: "cephalopod",
-  other: "bird or mammal",
+  other: "bird or seal",
 };
 
 /**
@@ -186,7 +186,7 @@ export const SHAPE_CLASS_PLURAL_NOUN: Record<ShapeClass, string> = {
   gastropod: "snails and slugs",
   squid: "cephalopods",
   urchin: "sea urchins",
-  other: "birds and mammals",
+  other: "birds and seals",
 };
 
 // ---------------------------------------------------------------------------
