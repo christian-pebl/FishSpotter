@@ -1791,3 +1791,80 @@ Also added `FMIB` to the title filter: the Freshwater and Marine Image Bank is
 a collection of scanned historical book illustrations, and its filenames carry
 no other clue, so two Victorian sprat engravings arrived as
 `File:FMIB 43639 Sprat.jpeg`.
+
+## 2026-08-30: the feed opened on an empty half-screen panel, 139 times
+
+Loading `/feed` showed the split screen for a beat before the clip: a
+half-height blank sheet, the video letterboxed into the half above it, then a
+snap to full bleed. Shipped as PR #157 (`0cee448`) and verified on production.
+
+**The cause was an initial state, not a layout bug.** `FeedCard`'s
+`panelCollapsed` was `useState(false)`, so the identify panel rendered expanded
+on the server and on the first client paint, and a mount effect then collapsed
+it. That effect could only ever collapse: at mount `hasCompletedFirstLoop` and
+`userHasExpandedManually` are both false and `myAnswer` has not been fetched, so
+nothing ever wanted the panel open in that frame. The open state was pure flash.
+The panel read as EMPTY rather than half-drawn because its guess UI is
+client-only, so the server had nothing to put inside the sheet it had opened.
+
+**It was not one panel.** The feed renders every card, so the server sent one
+open, empty panel per clip and hydration mounted and unmounted all of them.
+Measured on live production either side of the merge:
+
+| `/feed` server HTML | before | after |
+|---|---:|---:|
+| split panels (`aria-modal="false"`) | 139 | 0 |
+| resize handles | 139 | 0 |
+| collapsed identify bars | 0 | 139 |
+| document bytes | 595,941 | 466,810 |
+
+That is 21.7% less HTML on the heaviest page in the app, which lands next to the
+29 Aug finding that `/feed` is media-bound; this is the document half of it.
+
+The fix is to make the collapse the initial state rather than a correction
+applied after paint. `userHasExpandedManually` went with the effect that read
+it: it was already write-only once that effect could no longer open anything.
+Opening on an explicit tap or `H` is unchanged, and collapsing still REMOVES the
+`--fs-panel-*` custom properties rather than zeroing them, per the split-screen
+contract.
+
+### A flash is invisible to every test that waits for the page
+
+By the time the DOM has hydrated the mount effect has already corrected it, so a
+Playwright `page.goto` assertion passed throughout this bug's life, and so did
+`tsc`, vitest and both linters. The regression guard
+(`tests/e2e/feed-first-paint.spec.ts`) therefore asserts against the **server
+HTML** via `request.get`, which runs no JavaScript and sees exactly the frame the
+viewer saw. It was confirmed red on the old initial state and green on the new
+one; a gate never seen to fail is not a gate.
+
+`FeedCard` already carried a comment about this same trap for `isDesktop`, where
+a `matchMedia` lazy initialiser desynced hydration. State that the server renders
+one way and an effect corrects on mount is a repeat offender in this file, and
+worth checking for whenever a component reads the viewport or storage.
+
+### Two traps that each produce a false pass
+
+**The Vercel preview deployment is behind deployment protection.** Curling a
+PR's preview URL returns HTTP 200 and a substantial page that is the
+`<title>Login - Vercel</title>` interstitial, so every marker count comes back
+zero and reads exactly like a clean fix. Check for real page content
+(`data-feed-index`) before believing a preview measurement, or verify on
+production after the merge.
+
+**`grep -c` counts LINES, not occurrences,** and SSR HTML is one enormous line.
+The first pass here reported "1 panel" when there were 139, which understated
+the bug by two orders of magnitude and nearly filed it as cosmetic. Count
+occurrences properly on minified or single-line output.
+
+### The e2e suite does not run in CI
+
+`.github/workflows/playwright.yml` gates the `e2e` job on a `POSTGRES_PRISMA_URL`
+repo secret. It is not set, so `check-secrets` resolves `has-db=false` and the
+whole suite, including the new spec, is skipped on every PR. The guard is real
+but currently local-only. Setting that secret would switch the suite back on.
+
+Locally the suite also has 13 failures that reproduce identically on unmodified
+`main`: a dev-only CSP-blocked `va.vercel-scripts.com/script.debug.js` trips
+every `nav-smoke` "no console errors" assertion, plus a flaky axe navigation
+race on `/leaderboard`. They are not regressions.
