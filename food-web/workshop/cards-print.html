@@ -76,8 +76,13 @@ html,body{margin:0;padding:0;background:#fff}
   page-break-after:always;break-after:page;overflow:hidden}
 .psheet:last-child{page-break-after:auto;break-after:auto}
 .pcell{width:105mm;height:148mm;overflow:hidden;position:relative}
-.pscale{transform:scale(2.3863636363636362);transform-origin:top left;width:44mm;height:62.01904761904762mm}
-.pscale .card{width:44mm;height:62.01904761904762mm;flex:0 0 44mm;border:0.35pt solid var(--hair)}
+.pscale{transform:scale(2.389943181818182);transform-origin:top left;width:44mm;height:62.01904761904762mm}
+/* No border on the print card. It was the last thing still drawing a line at the
+   trim, and a guillotine cannot follow a 0.35pt rule to the tenth of a millimetre:
+   any drift leaves a grey hairline down one card and nothing on its neighbour.
+   The cards butt edge to edge, so the cut is two straight passes through the sheet
+   and the artwork simply meets. */
+.pscale .card{width:44mm;height:62.01904761904762mm;flex:0 0 44mm}
 </style>
 <div class="psheet"><div class="pcell"><div class="pscale">
       <div class="card front">

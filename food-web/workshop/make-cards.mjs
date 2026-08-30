@@ -405,7 +405,13 @@ console.log(`wrote ${OUT}, ${DECKS.reduce((n,d)=>n+d.cards.length,0)} cards`);
 // DUPLEX. Backs are laid out mirrored, [2,1,4,3], because the sheet flips about its
 // vertical axis on a long-edge duplex pass. Get this wrong and every card carries
 // the wrong animal's biology, which is invisible until the deck is cut.
-const SCALE = 105 / 44;
+// A hair of overshoot (0.15%) so adjacent cards definitively overlap rather than
+// merely touch. At exact scale the boxes butt to within 5 microns, which measures
+// clean but can still raster a 1px white seam through a scale transform, and a
+// white line at the trim is the one artefact a guillotine cannot cut away. The
+// cell clips the excess, which is what full bleed is for: 0.16mm on 105mm, well
+// inside any cutting tolerance.
+const SCALE = (105 / 44) * 1.0015;
 const SRC_H = 44 * 148 / 105;
 const UP = 4, COLS = 2;
 const printCss = `
@@ -417,7 +423,12 @@ html,body{margin:0;padding:0;background:#fff}
 .psheet:last-child{page-break-after:auto;break-after:auto}
 .pcell{width:105mm;height:148mm;overflow:hidden;position:relative}
 .pscale{transform:scale(${SCALE});transform-origin:top left;width:44mm;height:${SRC_H}mm}
-.pscale .card{width:44mm;height:${SRC_H}mm;flex:0 0 44mm;border:0.35pt solid var(--hair)}
+/* No border on the print card. It was the last thing still drawing a line at the
+   trim, and a guillotine cannot follow a 0.35pt rule to the tenth of a millimetre:
+   any drift leaves a grey hairline down one card and nothing on its neighbour.
+   The cards butt edge to edge, so the cut is two straight passes through the sheet
+   and the artwork simply meets. */
+.pscale .card{width:44mm;height:${SRC_H}mm;flex:0 0 44mm}
 `;
 
 const sheets = [];
