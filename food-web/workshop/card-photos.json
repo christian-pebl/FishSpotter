@@ -51,13 +51,13 @@
   },
   "Spider Crab": {
     "scientificName": "Majoidea",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/b69464d4142d53de2e2f383c7b321e46/medium.webp",
-    "attribution": "(c) Ian Manning, some rights reserved (CC BY)",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/116686229/medium.jpg",
+    "attribution": "(c) Klaus Kevin Kristensen, some rights reserved (CC BY)",
     "license": "cc-by",
-    "sourceUrl": "https://www.inaturalist.org/observations/117902959",
-    "source": "manual",
-    "placeGuess": "Bay of Fundy, Annapolis, NS, CA",
-    "observedOn": "2022-05-20"
+    "sourceUrl": "https://www.inaturalist.org/observations/71650786",
+    "source": "inaturalist",
+    "placeGuess": "Ammoniakhavnen",
+    "observedOn": "2021-03-19"
   },
   "Thick-lipped mullet": {
     "scientificName": "Chelon labrosus",
@@ -71,10 +71,10 @@
   },
   "Great cormorant": {
     "scientificName": "Phalacrocorax carbo",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Great_cormorant_drying_itself.jpg/1280px-Great_cormorant_drying_itself.jpg",
-    "attribution": "Alexis Lours, CC BY 2.0 via Wikimedia Commons",
-    "license": "cc-by",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Great_cormorant_drying_itself.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/72/Great_cormorant.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "attribution": "Andreas Trepte, CC BY-SA 2.5 via Wikimedia Commons",
+    "license": "cc-by-sa",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Great_cormorant.jpg",
     "source": "wikimedia",
     "placeGuess": null,
     "observedOn": null
@@ -91,13 +91,13 @@
   },
   "Velvet Swimming Crab": {
     "scientificName": "Necora puber",
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/502674739/medium.jpg",
-    "attribution": "(c) Nick Butcher, some rights reserved (CC BY)",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/98525446/medium.jpg",
+    "attribution": "(c) Bernard Picton, some rights reserved (CC BY)",
     "license": "cc-by",
-    "sourceUrl": "https://www.inaturalist.org/observations/279903907",
+    "sourceUrl": "https://www.inaturalist.org/observations/61567147",
     "source": "inaturalist",
-    "placeGuess": "Cawsand Bay, Torpoint, England, GB",
-    "observedOn": "2025-05-10"
+    "placeGuess": "Down, Northern Ireland, United Kingdom",
+    "observedOn": "2020-09-29"
   },
   "Spiny Starfish": {
     "scientificName": "Marthasterias glacialis",
@@ -141,11 +141,11 @@
   },
   "Edible Crab": {
     "scientificName": "Cancer pagurus",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/2c92298f74fb826b0c079ae31827399e/medium.webp",
-    "attribution": "Olivier Dugornay (Ifremer), CC BY 4.0 via Wikimedia Commons",
-    "license": "cc-by",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tourteau_(Cancer_pagurus)_en_rade_de_Brest_(Ifremer_00560-67167).jpg",
-    "source": "wikimedia",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Cancer_pagurus.jpg",
+    "attribution": "Hans Hillewaert, CC BY-SA 4.0 via Wikimedia Commons",
+    "license": "cc-by-sa",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cancer_pagurus.jpg",
+    "source": "manual",
     "placeGuess": null,
     "observedOn": null
   },
@@ -181,13 +181,13 @@
   },
   "Fifteen-spined stickleback": {
     "scientificName": "Spinachia spinachia",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/a9d124443933b643d2707ba27a862adc/medium.webp",
-    "attribution": "(c) Vsevolod Rudyi, some rights reserved (CC BY)",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/699804194/medium.jpg",
+    "attribution": "(c) Geoff Morgan, some rights reserved (CC BY)",
     "license": "cc-by",
-    "sourceUrl": "https://www.inaturalist.org/observations/238264343",
+    "sourceUrl": "https://www.inaturalist.org/observations/382404660",
     "source": "inaturalist",
-    "placeGuess": "Bodø Municipality, Norway",
-    "observedOn": "2024-08-27"
+    "placeGuess": "Cockburnspath, Scotland, GB",
+    "observedOn": "2026-07-17"
   },
   "Poor cod": {
     "scientificName": "Trisopterus minutus",
@@ -201,13 +201,13 @@
   },
   "Bib": {
     "scientificName": "Trisopterus luscus",
-    "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Trisopterus_luscus%2801%29.jpg",
-    "attribution": "Wikimedia Commons, CC BY-SA 3.0 via Wikimedia Commons",
-    "license": "cc-by-sa",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Trisopterus_luscus(01).jpg",
-    "source": "wikimedia",
-    "placeGuess": null,
-    "observedOn": null
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/231646211/medium.jpg",
+    "attribution": "(c) Donald Davesne, some rights reserved (CC BY)",
+    "license": "cc-by",
+    "sourceUrl": "https://www.inaturalist.org/observations/135784705",
+    "source": "inaturalist",
+    "placeGuess": "Trévignon, 29910 Trégunc, France",
+    "observedOn": "2022-09-18"
   },
   "Pollack": {
     "scientificName": "Pollachius pollachius",
@@ -251,13 +251,13 @@
   },
   "Butterfish": {
     "scientificName": "Pholis gunnellus",
-    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/290308450/medium.jpg",
-    "attribution": "(c) Morgan Caygill, some rights reserved (CC BY)",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/706069162/medium.jpg",
+    "attribution": "(c) James-LaFontaine, some rights reserved (CC BY)",
     "license": "cc-by",
-    "sourceUrl": "https://www.inaturalist.org/observations/167568549",
+    "sourceUrl": "https://www.inaturalist.org/observations/385667591",
     "source": "inaturalist",
-    "placeGuess": "Porth yr Ogof, Cemaes Bay, Wales, GB",
-    "observedOn": "2023-06-14"
+    "placeGuess": "Johnson St, Lubec, ME, US",
+    "observedOn": "2026-07-26"
   },
   "Shanny": {
     "scientificName": "Lipophrys pholis",
@@ -281,30 +281,30 @@
   },
   "Common Octopus": {
     "scientificName": "Octopus vulgaris",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/60037f3fe88066eafe8428239844f992/medium.webp",
-    "attribution": "albert kok, CC BY-SA 3.0 via Wikimedia Commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Octopus_vulgaris_02.JPG/1280px-Octopus_vulgaris_02.JPG",
+    "attribution": "H. Zell, CC BY-SA 3.0 via Wikimedia Commons",
     "license": "cc-by-sa",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Octopus2.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Octopus_vulgaris_02.JPG",
     "source": "wikimedia",
     "placeGuess": null,
     "observedOn": null
   },
   "Conger eel": {
     "scientificName": "Conger conger",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/25d6439b975e87f73ec3fc1fcea71497/medium.webp",
-    "attribution": "Holger Krisp, CC BY 3.0 via Wikimedia Commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Observation_d%27un_congre_%28Conger_conger%29_par_390_m_de_fond_%28Ifremer_00621-73303%29.jpg/1280px-Observation_d%27un_congre_%28Conger_conger%29_par_390_m_de_fond_%28Ifremer_00621-73303%29.jpg",
+    "attribution": "Observation d'un congre (Conger conger) par 390 m de fond, CC BY 4.0 via Wikimedia Commons",
     "license": "cc-by",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Meeraal_Conger_conger_2.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Observation_d%27un_congre_(Conger_conger)_par_390_m_de_fond_(Ifremer_00621-73303).jpg",
     "source": "wikimedia",
     "placeGuess": null,
     "observedOn": null
   },
   "Lesser-spotted catshark": {
     "scientificName": "Scyliorhinus canicula",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/191abe86d0d45dae8f40467e84c90dcb/medium.webp",
-    "attribution": "Ernstla, CC BY-SA 2.5 via Wikimedia Commons",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Scyliorhinus_canicula.jpg/1280px-Scyliorhinus_canicula.jpg",
+    "attribution": "Hans Hillewaert, CC BY-SA 4.0 via Wikimedia Commons",
     "license": "cc-by-sa",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kleingefleckter_Katzenhai.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Scyliorhinus_canicula.jpg",
     "source": "wikimedia",
     "placeGuess": null,
     "observedOn": null
@@ -361,13 +361,13 @@
   },
   "Long-spined sea scorpion": {
     "scientificName": "Taurulus bubalis",
-    "url": "https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/species/34403bb78ddd85f506d7c6e26e0d6669/medium.webp",
+    "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/165596874/medium.jpeg",
     "attribution": "(c) Micha Baum, some rights reserved (CC BY-SA)",
     "license": "cc-by-sa",
-    "sourceUrl": "https://www.inaturalist.org/observations/206974366",
+    "sourceUrl": "https://www.inaturalist.org/observations/99353764",
     "source": "inaturalist",
-    "placeGuess": "24229 Strande, Deutschland",
-    "observedOn": "2024-04-13"
+    "placeGuess": "Schleswig-Holstein, DE",
+    "observedOn": "2020-10-05"
   },
   "Plaice": {
     "scientificName": "Pleuronectes platessa",

@@ -168,7 +168,18 @@ const FACTS_DATA = JSON.parse(readFileSync(join(HERE, '..', '..', 'src', 'data',
 // claim rather than a different one, and the QR goes to the full list.
 const BULLET_BUDGET = Number(process.env.CARD_BULLET_BUDGET || 200);
 const BEHAVIOUR_BUDGET = Number(process.env.CARD_BEHAVIOUR_BUDGET || 80);
-const PHOTO_H = Number(process.env.CARD_PHOTO_H || 17);
+const PHOTO_H = Number(process.env.CARD_PHOTO_H || 21);
+// Zoom-out per species. object-fit:cover crops a photo to the frame, which takes the
+// arms off a starfish and the legs off a crab. A value below 1 scales the picture down
+// inside the frame so more of the animal is inside it; the frame's tint shows at the
+// sides. Christian picked these from the printed proof.
+const PHOTO_ZOOM = {
+  'Spiny Starfish': 0.8, 'Common Starfish': 0.8, 'Common Brittlestar': 0.8,
+  'Common eider': 0.8, 'Fifteen-spined stickleback': 0.8, 'European shag': 0.8,
+  'Hermit Crab': 0.8, 'Rock goby': 0.8, 'Common Octopus': 0.8, 'Conger eel': 0.8,
+  'Lesser-spotted catshark': 0.8, 'Purple heart urchin': 0.8,
+  'Long-spined sea scorpion': 0.8, 'Plaice': 0.8,
+};
 const BORDER  = Number(process.env.CARD_BORDER || 1.3);   // white margin on the SIDES only, mm at source (x2.39 at A6)
 const STRIP   = Number(process.env.CARD_STRIP  || 2.4);     // height of the head and foot bands
 
@@ -239,7 +250,7 @@ for (const deck of DECKS) {
     const qrUri = await qr(QR_TARGET(e.sci));
 
     const media = photo
-      ? `<img class="photo" src="${esc(photo.url)}" alt="${esc(name)}">`
+      ? `<img class="photo" src="${esc(photo.url)}" alt="${esc(name)}"${PHOTO_ZOOM[name] ? ` style="transform:scale(${PHOTO_ZOOM[name]})"` : ''}>`
       : `<div class="photo silhouette" style="color:${tierColor}"><svg viewBox="0 0 64 64"><use href="#f-${sp.form}"/></svg></div>`;
     const creditLine = photo
       ? `${esc(photo.attribution)} &middot; ${esc(photo.license.toUpperCase())} &middot; via ${esc(photo.source)}`
@@ -332,6 +343,8 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .backbody{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;padding:2mm 2.6mm 1.6mm}
 /* FRONT */
 .card.front .photo{height:${PHOTO_H}mm;width:100%;object-fit:cover;background:var(--lteal);flex:0 0 auto}
+.photowrap{height:${PHOTO_H}mm;width:100%;flex:0 0 auto;overflow:hidden;background:var(--lteal)}
+.photowrap .photo{height:100%}
 .card.front .photo.silhouette{display:flex;align-items:center;justify-content:center;padding:2.5mm}
 .card.front .photo.silhouette svg{width:70%;height:70%}
 .namebox{padding:1.8mm 2.6mm 0;min-width:0}
@@ -343,11 +356,11 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .frontfacts .field span{font-size:5pt;line-height:1.2}
 /* pinned to the foot of the card so the credit sits on the bottom edge on every
    card, whatever length the facts above it run to */
-.frontfoot{margin-top:auto;padding:1.2mm 2.6mm 2.2mm;display:flex;align-items:flex-end;justify-content:space-between;gap:1.5mm;border-top:0.5pt solid var(--hair)}
+.frontfoot{margin-top:auto;padding:0.7mm 2.6mm 0.9mm;display:flex;align-items:center;justify-content:space-between;gap:1.2mm;border-top:0.4pt solid var(--hair)}
 .frontfoot .credit{margin:0;flex:1 1 auto;min-width:0}
 .frontfoot .pebl-logo{margin:0;flex:0 0 auto}
-.credit{font-size:3.9pt;color:#9aa7ab;line-height:1.12}
-.pebl-logo{height:4mm;width:auto;display:block;margin:0 2.2mm 1.6mm auto;opacity:.9}
+.credit{font-size:2pt;color:#9aa7ab;line-height:1.1}
+.pebl-logo{height:2mm;width:auto;display:block;margin:0 2.2mm 1.6mm auto;opacity:.9}
 /* BACK */
 .card.back{min-width:0}
 .backname{margin:0 0 1.6mm;font-size:7.2pt;font-weight:bold;line-height:1.1;color:var(--navy);overflow-wrap:break-word}
@@ -364,9 +377,9 @@ h1{font-size:17pt;margin:0 0 2pt;letter-spacing:-.3pt}
 .qr{width:6.6mm;height:6.6mm;flex:0 0 auto}
 .qrtext{font-size:4.2pt;line-height:1.2;color:var(--soft);min-width:0}
 .qrtext b{color:var(--navy)}
-.cardfoot{display:flex;align-items:center;gap:1.2mm;margin-top:1mm}
-.cardfoot .pebl-logo{height:3mm;margin:0}
-.cardfoot span{font-size:4.4pt;color:#9aa7ab;letter-spacing:.2pt}
+.cardfoot{display:flex;align-items:center;gap:1mm;margin-top:0.8mm}
+.cardfoot .pebl-logo{height:1.5mm;margin:0}
+.cardfoot span{font-size:2.6pt;color:#9aa7ab;letter-spacing:.2pt}
 `;
 
 const introPage = `
