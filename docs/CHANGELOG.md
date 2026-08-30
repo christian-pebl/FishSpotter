@@ -1868,3 +1868,67 @@ Locally the suite also has 13 failures that reproduce identically on unmodified
 `main`: a dev-only CSP-blocked `va.vercel-scripts.com/script.debug.js` trips
 every `nav-smoke` "no console errors" assertion, plus a flaky axe navigation
 race on `/leaderboard`. They are not regressions.
+
+## The archive opens into the feed, and the sound toggles go (30 Aug 2026)
+
+Tapping a clip in the archive used to land on `/feed/[id]`, a bespoke player
+that shared no code with the feed: a letterboxed `<video>` with browser
+controls, a details card, and a type-the-name box. It meant the archive led
+somewhere strictly worse than the app's main surface, and a spotter who
+answered there hit a dead end with nothing to go to next.
+
+That route now renders the feed itself, ordered so the tapped clip is first and
+the rest of the archive follows behind it. Answer, and the next archive clip is
+already loaded underneath. `SnippetPlayer.tsx` is deleted.
+
+**The ordering is the whole feature, so it lives in one place.** `/feed/browse`
+and `/feed/[id]` both build their query from `src/lib/archive-query.ts`. Two
+copies of that `where` and `orderBy` would drift, and the drift would be
+invisible: the feed would simply serve a different next clip than the grid
+showed, with nothing failing. For the same reason `archiveOrderBy` always
+tie-breaks on `id`, because `site` puts a whole deployment in one bucket and
+Postgres is free to return that bucket in a different order per query.
+
+Three smaller decisions inside it:
+
+- The grid carries its `site`/`q`/`sort` into each card's href, so a walk that
+  starts inside a filtered archive stays inside it. `page` is deliberately
+  dropped: the feed runs on past the grid's page boundary.
+- `rotateToClip` wraps past the end rather than truncating, so a clip opened at
+  the bottom of the archive still has somewhere to go. The walk ends one full
+  lap later, on the clip just before the one that was tapped.
+- A clip can be absent from the FILTERED list without being gone (a link pasted
+  out of a filtered grid, a search that matched the page but not this clip), so
+  the route falls back to the unfiltered archive before it 404s.
+
+The admin "who answered what" panel that used to sit under the old player is
+not carried over. It never belonged on a public page and `/admin/snippets/[id]`
+renders the same component.
+
+**Sound is gone, both kinds.** The "UI sounds" toggle and the correct/wrong/
+streak MP3s it gated, and the "Video sound" toggle. The clips carry no audio
+worth hearing (a camera on a mooring) and every one played muted by default, so
+that toggle only ever offered a worse version of the same clip. Removed:
+`src/lib/sounds.ts`, `public/sounds/*`, `VideoSettings.soundOn`, and
+`SettingsMenu.tsx` (orphaned dead code, imported nowhere, still carrying a
+sound toggle and the retired three-rung speed ladder). `FeedCard` now pins
+`video.muted = true` rather than deriving it: autoplay is conditional on muted
+and React does not reliably reflect the attribute onto the element on first
+render, so a card that came back unmuted would refuse to play.
+
+Removing the sounds toggle emptied the side menu's "Tools" section, whose only
+other child (`PwaInstallButton`) returns null on most browsers, which would
+have left a stray divider with padding under it. The install prompt is now one
+piece of state (`useInstallPrompt`) that the menu and the button share, so the
+section renders only when there is something in it.
+
+Naming, all user-facing: "Archive" is **"Video archive"** in the nav, the page
+title and the heading; the archive card drops its deployment line (the site,
+date and depth carry it); and the species guide's two unlabelled shape classes,
+which had been falling through to their raw lowercase keys, read **"Birds &
+seals"** and **"Urchins"**.
+
+Verified against the live database on a dev server: the feed opened at the
+tapped clip, cards 2 and 3 were the next two archive clips in `sort=oldest`
+order, and the tail wrapped onto the two clips that preceded it.
+`tsc --noEmit`, 779 unit tests, `next lint` and the token lint all clean.
