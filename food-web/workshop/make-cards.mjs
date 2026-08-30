@@ -435,7 +435,7 @@ const UP = 4, COLS = 2;
 const printCss = `
 @page{ size:A4 portrait; margin:0; }
 html,body{margin:0;padding:0;background:#fff}
-.psheet{position:relative;width:210mm;height:296mm;display:grid;
+.psheet{position:relative;width:210mm;height:297mm;display:grid;
   grid-template-columns:repeat(${COLS},105mm);grid-template-rows:repeat(${UP / COLS},148mm);
   page-break-after:always;break-after:page;overflow:hidden}
 .psheet:last-child{page-break-after:auto;break-after:auto}
@@ -444,6 +444,7 @@ html,body{margin:0;padding:0;background:#fff}
 .cuts .tick{position:absolute;display:block}
 .cuts .tick.v{width:0;border-left:0.5pt solid #17252A}
 .cuts .tick.h{height:0;border-top:0.5pt solid #17252A}
+.cuts .bleedfoot{position:absolute;left:0;right:0;bottom:0;height:1.4mm;background:var(--teal);z-index:-1}
 .pscale{transform:translateY(-${((0.12*SCALE)/2).toFixed(3)}mm) scale(${SCALE});transform-origin:top left;width:44mm;height:${SRC_H}mm}
 /* No border on the print card. It was the last thing still drawing a line at the
    trim, and a guillotine cannot follow a 0.35pt rule to the tenth of a millimetre:
@@ -461,6 +462,7 @@ const CUTMARKS = `<div class="cuts">
   <i class="tick v" style="left:105mm;bottom:0;height:3.5mm"></i>
   <i class="tick h" style="top:148mm;left:0;width:3.5mm"></i>
   <i class="tick h" style="top:148mm;right:0;width:3.5mm"></i>
+  <i class="bleedfoot"></i>
 </div>`;
 const sheets = [];
 for (let i = 0; i < CARDS.length; i += UP) {
