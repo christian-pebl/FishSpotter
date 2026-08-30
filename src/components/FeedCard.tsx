@@ -1848,6 +1848,42 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
           </div>
         )}
 
+        {/* Next clip, bottom-right of the CLIP, so leaving a clip is reachable
+            from every state the clip can be in. Advancing used to live only
+            inside the working panel ("Skip" in guess mode, "Next" on the
+            reveal), which meant that with a rung gate open the only way past an
+            animal you could not name was to hand-scroll the feed, and nothing
+            on screen said so.
+
+            Deliberately the OPPOSITE corner from the instrument stack. Those
+            three capsules change the clip you are looking at; this one leaves
+            it, and a navigation control sharing their column would invite a
+            mis-tap out of a clip the viewer was still studying. Labelled rather
+            than a bare glyph for the same reason the stack is not: it is the
+            one control here whose cost is losing your place.
+
+            Anchored to the frame's bottom edge, so it survives a sheet dragged
+            tall (which pushes the top-16 stack out of a short clip half) and
+            clears the 3px progress strip. Hidden once an answer is in, where
+            the reveal's teal "Next" is the canonical advance and a second one
+            would compete with it. */}
+        {isActive && hasNext && !myAnswer && (
+          <motion.button
+            type="button"
+            onClick={onAdvance}
+            whileTap={reduceMotion ? undefined : { scale: 0.95 }}
+            aria-label="Skip to the next clip"
+            title="Next clip"
+            className="absolute bottom-3 right-3 z-20 inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3.5 py-2 text-[11px] font-semibold uppercase tracking-wider text-white/85 backdrop-blur-sm transition-colors hover:bg-white/15 hover:text-white"
+          >
+            Next clip
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path d="M3 3.4 10.2 8 3 12.6Z" />
+              <rect x="11.4" y="3.2" width="2.2" height="9.6" rx="1.1" />
+            </svg>
+          </motion.button>
+        )}
+
         {/* Soft "here's the fish" highlight, a gentle concentric ring that
             follows the creature along its bbox track for ~3s, then fades. No
             centre dot, so the fish stays visible inside it. The container is
@@ -2056,7 +2092,19 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
       {/* Floating glass panel, Claude-style input or stats card. Hidden while a
           gate (shape or body) is open so only the gate box shows, not two. */}
       <AnimatePresence>
-        {!panelCollapsed && !shapeGateOpen && !(bodyGateOpen && !myAnswer) && !(spotItActive && !myAnswer) && (
+        {/* `isActive &&` on this and the three gates below is the split-screen
+            half of the same rule the video already follows: a card that is no
+            longer on stage stops driving the app. The overlays publish a GLOBAL
+            split frame, but they are owned by ONE card, so a card left with a
+            panel open while the feed scrolled past it went on holding the split
+            for every other card, and the new clip rendered inset against a black
+            band where a panel used to be. It was already reachable from the
+            panel's own Skip; the Next clip control on the frame makes it the
+            normal way to leave a clip, so it has to be right. Unmounting is
+            enough: useSplitPanel publishes a closed frame on the way out, and the
+            card's reducer state is untouched, so scrolling back restores the rung
+            exactly where it was left. */}
+        {isActive && !panelCollapsed && !shapeGateOpen && !(bodyGateOpen && !myAnswer) && !(spotItActive && !myAnswer) && (
           <SplitPanel
             ariaLabel={myAnswer ? "Your result for this clip" : "Name this species"}
             onFullVideo={() => togglePanel(true)}
@@ -2593,7 +2641,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
           Collapsing here leaves a clean clip with the tap-to-identify catcher
           as the one consistent way back in, so open → close → tap → open
           loops indefinitely instead of stranding the user. */}
-      {shapeGateOpen && (
+      {isActive && shapeGateOpen && (
         <ShapeGate
           onSelectShape={(shape) => {
             // Rung 2: if this class has a discriminating body-shape sub-split,
@@ -2620,7 +2668,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
           Gated on !myAnswer (like Rung 3) so a species pick made from this
           gate's "Compare side by side" closes to the reveal instead of leaving
           the gate covering it. */}
-      {bodyGateOpen && selectedShape && !myAnswer && (
+      {isActive && bodyGateOpen && selectedShape && !myAnswer && (
         <BodyShapeGate
           shapeClass={selectedShape}
           onSelectForm={(key, value, values) => {
@@ -2647,7 +2695,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
       {/* Rung 3: the final pick, a draggable gate of candidate photos. Replaces
           the old in-panel strip; the panel is hidden while this is open. Gated on
           !myAnswer so it closes to the reveal once a guess is committed. */}
-      {spotItActive && !myAnswer && (
+      {isActive && spotItActive && !myAnswer && (
         <CandidateGate
           snippetId={snippet.id}
           shapeClass={selectedShape}
