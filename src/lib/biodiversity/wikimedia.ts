@@ -114,10 +114,22 @@ export function isAcceptedLicense(licenseSlug: string | undefined, usageTerms: s
 // the binomial (e.g. a person named "Aurelia Aurita"), only a human eye does
 //, which is why teaching content (DiagnosticMark) is gated to curated photos.
 const NON_PHOTO_EXTENSIONS = /\.(tif|tiff|svg|pdf|djvu|gif)$/i;
-const NON_PHOTO_TITLE = /haeckel|iconographia|lithograph|engraving|\bplate\b|\bprint\b|drawing|illustration|woodcut|\b1[5-9]\d\d\b/i;
+// `FMIB` is the Freshwater and Marine Image Bank, a collection of scanned
+// historical book illustrations. Its filenames carry no other clue: two
+// Victorian sprat engravings arrived as `File:FMIB 43639 Sprat.jpeg`.
+const NON_PHOTO_TITLE =
+  /haeckel|iconographia|lithograph|engraving|\bplate\b|\bprint\b|drawing|illustration|woodcut|\bFMIB\b|\b1[5-9]\d\d\b/i;
 
 export function looksNonPhotographic(title: string | undefined, url: string | undefined): boolean {
-  return NON_PHOTO_EXTENSIONS.test(url ?? "") || NON_PHOTO_TITLE.test(title ?? "");
+  // Strip the query string BEFORE testing the extension. The Commons API
+  // appends `?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&...` to
+  // every url it returns, so an anchored `\.pdf$` never matched and this
+  // filter was silently doing nothing for ANY of the formats it names. A
+  // gallery build for the spotted dragonet duly offered ten scanned book
+  // covers and marbled endpapers, each a `.pdf` whose first page Commons had
+  // helpfully rendered as a JPEG thumbnail.
+  const clean = (url ?? "").split("?")[0];
+  return NON_PHOTO_EXTENSIONS.test(clean) || NON_PHOTO_TITLE.test(title ?? "");
 }
 
 /**

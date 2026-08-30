@@ -1735,3 +1735,59 @@ HTTP 401, one dead DOI) and nothing on the page rests on them.
 Left deliberately: the food-web page and the workshop deck still carry the old
 farm-derived claims, and the species-level `diet:eats` / `diet:eatenBy` keys they
 use are still in the reference file, unrendered by the guide.
+### 2026-08-30: Claude did the vision instead, and saw things the model could not
+
+With the Gemini prepayment credits depleted, the remaining eighteen short
+species were vetted by eye instead. `npm run photos:sheet` composites the same
+candidate pool the gallery builder assembles into numbered 5x4 contact sheets,
+so a reviewer judges twenty photos in one look; `npm run photos:apply-picks`
+writes the reviewed picks back. **Species with eight or more reference photos
+besides the curated hero: 54 -> 65 of 72.** 127 photos chosen, 62 durable
+rejects added to the blocklist, nothing deleted.
+
+**Seeing every candidate at once catches a class of error the vision tool
+cannot.** It is asked "is this a good photo of X?", which is a leading
+question, and it says yes about a near-identical relative. Side by side:
+
+- **Five SQUID were sitting in the common cuttlefish pool**, some of them
+  tropical reef species, long-mantled and obviously not *Sepia*.
+- **A flock of auks** among the common eiders.
+- **A comb jelly** among the barrel jellyfish, plus two frames whose actual
+  subject is a person holding one.
+- **Watermarks**, which no rubric question covered: a photographer's signature
+  on several purple heart urchins and horse mackerel, and on one catshark a
+  trial-software stamp reading "Protected with trial version".
+
+**Two of the four "genuine open-source ceilings" were not ceilings at all.**
+Poor cod was sitting at 2 photos and is now at 13, all live in-situ; it had
+only ever been held mid-sweep by rate limiting and never assessed. Barrel
+jellyfish went 3 -> 10 once swimming animals were preferred over the
+beach-stranded ones that dominate its record.
+
+**The other ceilings are real, and now confirmed by looking rather than by a
+score.** Sprat: all 24 candidates seen, exactly one live-in-water photograph
+exists, four are terns carrying a sprat, two are Victorian engravings. Atlantic
+mackerel: one good live shoal in twenty, the rest catch, kitchen and dockside.
+Sea potato: **all 21 candidates are bleached empty tests on a beach, not one
+live animal**, which is what a burrowing heart urchin's record looks like. That
+last one is an editorial question, not a data problem, and is left for a human:
+nothing was blocklisted, because refusing the whole record would bar the only
+images of the animal that exist.
+
+### The non-photographic filter had been doing nothing at all
+
+Reviewing the spotted dragonet turned up ten scanned BOOK COVERS and marbled
+endpapers among its candidates. Every one is a `.pdf`, and
+`NON_PHOTO_EXTENSIONS` already names `pdf`. It never fired because **the
+Commons API appends `?utm_source=commons.wikimedia.org&utm_campaign=imageinfo`
+to every url it returns**, and the pattern is anchored on `\.pdf$`. So the
+filter has been silently inert for `pdf`, `tif`, `tiff`, `svg`, `djvu` and
+`gif` alike, for as long as the API has sent that tail. Commons helpfully
+renders a PDF's first page as a JPEG thumbnail, which is why they arrived
+looking like photographs. Fixed by stripping the query before the test, with a
+test pinned to the exact URL shape the API returns.
+
+Also added `FMIB` to the title filter: the Freshwater and Marine Image Bank is
+a collection of scanned historical book illustrations, and its filenames carry
+no other clue, so two Victorian sprat engravings arrived as
+`File:FMIB 43639 Sprat.jpeg`.

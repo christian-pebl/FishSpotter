@@ -19,6 +19,8 @@
     "check:codecs": "tsx --env-file=.env.local scripts/check-codecs.ts",
     "check:durations": "tsx --env-file=.env.local scripts/check-durations.ts",
     "check:photos": "tsx --env-file=.env.local scripts/check-photos.ts",
+    "photos:sheet": "tsx --env-file=.env.local scripts/photo-contact-sheet.ts",
+    "photos:apply-picks": "tsx --env-file=.env.local scripts/apply-photo-picks.ts",
     "db:push": "prisma db push",
     "db:enable-rls": "tsx --env-file=.env.local scripts/enable-rls.ts",
     "db:seed": "tsx --env-file=.env.local scripts/seed.ts",

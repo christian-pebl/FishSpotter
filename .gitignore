@@ -94,6 +94,10 @@ implementation/2026-06-04/orientation-audit.json
 # that is genuinely a versioned asset (e.g. a referenced contact sheet).
 implementation/**/shots/
 implementation/**/*.png
+# Photo-review contact sheets and their manifests are regenerable from the DB
+# and the source APIs (npm run photos:sheet). The reviewed picks.json beside
+# them IS committed: it is the editorial record of what was chosen and why.
+implementation/photo-review/sheets/
 public/og/og-card.jpg
 public/og/og-card-square-check.jpg
 .refs-cache/
