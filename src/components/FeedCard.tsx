@@ -330,7 +330,16 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   // Provenance popover (depth · site · date) behind the bottom-right info
   // button. Tapping the site name inside it opens the MapModal.
   const [metaOpen, setMetaOpen] = useState(false);
-  const [panelCollapsed, setPanelCollapsed] = useState(false);
+  // Starts COLLAPSED, and that is the watch-first gate itself rather than a
+  // cosmetic default. Initialised to `false` this rendered the expanded panel
+  // on the server and on the first client paint, and a mount effect then
+  // collapsed it unconditionally, so every visit to /feed opened on a
+  // half-height empty sheet (the guess UI is client-only, so the panel had no
+  // content to show yet) with the clip letterboxed into the half above it,
+  // before snapping to the full-bleed clip. Nothing ever wanted the panel open
+  // at first paint: `myAnswer` is fetched client-side, so it is null then, and
+  // the gate below can only be satisfied by watching or by an explicit tap.
+  const [panelCollapsed, setPanelCollapsed] = useState(true);
   // UX-0: the "Spot It" rung flow, shape gate (Rung 1) → body-shape gate
   // (Rung 2) → candidate gate (Rung 3), with the MCQ tile grid as the
   // "skip to guess" fast path. Transitions live in the tested pure reducer
@@ -371,14 +380,13 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   const [highlight, setHighlight] = useState<{ key: number; short: boolean } | null>(null);
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  // S2-T11: watch-first gate. The expanded quiz panel only mounts once
-  // the user has either watched the clip through one loop OR manually
-  // tapped the collapsed pill to expand. Encourages observation before
-  // commitment without blocking impatient users.
+  // S2-T11: watch-first. The panel starts collapsed (see panelCollapsed above)
+  // and opens only on an explicit tap, so this flag no longer gates the panel;
+  // it marks the end of the first loop, which retires the centre-track trace
+  // and softens the pill's hint text.
   const [hasCompletedFirstLoop, setHasCompletedFirstLoop] = useState(false);
   // Trace active on first play only; hides once the video loops.
   const showTracking = !hasCompletedFirstLoop;
-  const [userHasExpandedManually, setUserHasExpandedManually] = useState(false);
   const [hasIdentifiedOnce, setHasIdentifiedOnce] = useState(true); // optimistic; corrected on mount
   const [showInputHint, setShowInputHint] = useState(false);
   const [submitPulse, setSubmitPulse] = useState<"none" | "correct">("none");
@@ -461,13 +469,6 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   }, []);
   const togglePanel = useCallback((next: boolean) => {
     setPanelCollapsed(next);
-    if (!next) {
-      // Manually expanding the pill counts as an explicit
-      // "I'm ready to identify" signal for the watch-first gate
-      // (S2-T11), so we satisfy the gate without waiting for the
-      // first video loop to finish.
-      setUserHasExpandedManually(true);
-    }
     try {
       localStorage.setItem("fishspotter:panelCollapsed", next ? "1" : "0");
     } catch {}
@@ -531,19 +532,12 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
     };
   }, [hasCompletedFirstLoop]);
 
-  // The expanded quiz panel renders only when the gate is satisfied
-  // OR the user has manually expanded the pill. We collapse-by-default
-  // at mount if the gate isn't yet satisfied (and we don't already
-  // have a saved-collapsed preference from a previous card).
-  useEffect(() => {
-    if (panelCollapsed) return;
-    if (hasCompletedFirstLoop || userHasExpandedManually) return;
-    // Defer to the localStorage preference once it's loaded.
-    setPanelCollapsed(true);
-    // We deliberately don't persist this transient collapse to
-    // localStorage, it's the watch-first gate, not a user preference.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // The expanded quiz panel renders only once the gate is satisfied (the clip
+  // has looped) or the user has explicitly tapped the pill open. That used to
+  // be a mount effect collapsing an initially-open panel; it is now the
+  // `panelCollapsed` initial state above, because collapsing after the first
+  // paint IS the flash. The collapse is deliberately never persisted to
+  // localStorage: it is the watch-first gate, not a user preference.
 
   // (3 Jun fix) The identify panel no longer auto-expands after the first
   // video loop. The clip loops indefinitely and the panel opens ONLY on an
