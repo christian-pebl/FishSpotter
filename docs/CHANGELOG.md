@@ -1928,6 +1928,23 @@ date and depth carry it); and the species guide's two unlabelled shape classes,
 which had been falling through to their raw lowercase keys, read **"Birds &
 seals"** and **"Urchins"**.
 
+The Spot It gate was then brought into line: its tile said "Birds & Mammals",
+its Rung-2 tile for the seal split said "A mammal", and the coarse commit and
+plural nouns said "bird or mammal" / "birds and mammals". The class holds three
+birds and two seals and no other mammal, and the underlying trait value is
+literally `seal`, so every one of those now says seal.
+
+**That rename had a database half, and it is the reason to check before renaming
+anything the gate submits.** `SHAPE_CLASS_COMMIT_NOUN` is not only a label:
+`FeedCard` submits it verbatim as `Answer.chosenOption` when a spotter taps
+"It's just a bird or mammal". Prod held **two** such answers, from two distinct
+users, on the shag clip at Pabay, one short of `CONSENSUS_THRESHOLD_USERS`.
+Consensus grouping is strict normalised equality, so leaving them behind would
+have started a second camp on the new wording that could never reach threshold
+while the first sat stranded at two forever. `scripts/rename-coarse-wildlife-noun.ts`
+migrates them (and covers `Snippet.staffAnswer` and `ConsensusEvent`, both empty
+here), and is idempotent, so re-running it verifies rather than repeats.
+
 Verified against the live database on a dev server: the feed opened at the
 tapped clip, cards 2 and 3 were the next two archive clips in `sort=oldest`
 order, and the tail wrapped onto the two clips that preceded it.
