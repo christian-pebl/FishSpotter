@@ -102,7 +102,7 @@ drift narrows as files are edited.
 - **TypeScript:** `strict: true`. No new `as unknown as` casts on data files, add a zod schema instead (zod is already a dependency).
 - **Design tokens:** `npm run lint:tokens` bans arbitrary Tailwind colour/radius values. Use the named tokens (see Design Tokens + UI rules below).
 - **Tests:** co-located `*.test.ts` (vitest). Pure logic (scoring, narrowing, matching) must stay covered.
-- **Species-guide claims must be sourced.** Any new user-facing factual statement about a species (field note, diagnostic mark, trait tile, diet, trophic tier, farm role, feeding link) needs a binding in `src/data/species-references.json`. See the "Grounded species guide" section below and `docs/runbooks/ground-a-species-claim.md`.
+- **Species-guide claims must be sourced, and the page renders nothing that is not.** Any new user-facing factual statement about a species (fact tile, field note, diagnostic mark, diet bullet) needs a binding in `src/data/species-references.json` carrying a passage somebody read, AND its source needs a verification row (`npm run refs:verify`). Missing either one means the claim is silently dropped before rendering. See the "Grounded species guide" section below and `docs/runbooks/ground-a-species-claim.md`.
 - **Before pushing:** `npx tsc --noEmit && npm test && npm run lint && npm run lint:tokens`. Add `npm run refs:verify -- --check` when reference data changed.
 - **No emoji as UI icons; H.264-only video** (see the dedicated sections below, both are load-bearing invariants).
 
@@ -267,11 +267,25 @@ Jun 2026.
 
 ## Grounded species guide (provenance)
 
-Every user-facing factual claim on a species guide is traceable to an
-open-access source. The audit counts **992 claims** across the 72 catalogue
-species (72 field notes, 179 diagnostic-mark descriptions, 216 trait tiles, 144
-food-web tier/farm-role claims, 144 workshop-card diet statements, 237 feeding
-links); before this work, none were sourced.
+Every user-facing factual claim on a species guide rests on a passage somebody
+read. The audit counts **935 rendered claims** across the 72 catalogue species
+(288 fact tiles, 179 diagnostic-mark descriptions, 72 field notes, 396 diet
+bullets) and **935 are evidenced**. Run `npm run refs:audit`.
+
+**The guide does not render the Spot It wizard's trait tokens.** Those tokens
+(`size` has three values; `habitat` and `behavior` a short controlled
+vocabulary) exist to CUT a candidate list off a short clip. They are good
+questions and bad facts: the corkwing wrasse read "Small (under 10 cm)" against
+its own source's 25 cm, and the harbour crab read "Medium (10-50 cm)" for an
+8 cm animal. Tiles read `src/data/species-facts.json`, the wizard keeps its
+tokens, and the two no longer have to agree.
+
+**"I eat / Eats me" is not read off the farm food web.** Every row it could show
+had to be another catalogue species, which is a statement about our catalogue
+rather than about the animal. It reads `src/data/species-diet.json`: up to three
+broad statements a side, each bound to a published account. The farm-web trophic
+tier is not on the guide. The food-web page and workshop deck still use the
+older species-level `diet:eats` / `diet:eatenBy` claims, which the guide ignores.
 
 **Two trust levels, deliberately separate.** `linkVerified` is machine: the URL
 resolves and the document says *in its own title* that it is about this species.
@@ -280,7 +294,21 @@ script that cannot read the source may never set it. A gate that verifies
 against its own subject proves self-consistency and nothing else.
 
 **Only verified sources are shown to a reader.** Unverified citations are held
-back in `getSpeciesProvenance`, never rendered with a caveat.
+back in `getSpeciesProvenance`, never rendered with a caveat. **This means a
+claim needs BOTH flags to reach the page**, and forgetting the second one is how
+8 fact tiles and 89 diet bullets once went live invisible while the audit called
+them evidenced: `refs:verify` reaches the network, so a source added without
+running it has no verification row and `payload.ts` drops its claims silently.
+`src/lib/references/payload.test.ts` gates exactly that, asserting against the
+payload the page is HANDED rather than the file it is built from. **After adding
+any source, run `npm run refs:verify`**, then `confirm-by-document` for the ones
+the live check cannot settle.
+
+**There is no disclaimer on the page.** Both the "How we know this" note and the
+food-web footnote were removed, because a page that renders only evidenced
+claims cannot be in the state they described. An unsourced tile, ring, bullet or
+field note is not rendered at all, and `SourceCite` draws a marker only for a
+claim carrying a read passage. That promise is enforced by tests, not by prose.
 
 **Two traps, both hit in practice, both now guarded:**
 - MarLIN's common-mussel page names plaice *and* dab in its body, so a
