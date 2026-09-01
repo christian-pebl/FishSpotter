@@ -7,6 +7,7 @@ import { getCachedDistribution } from "@/lib/biodiversity/species-cache";
 import { getSpeciesProvenance } from "@/lib/references/payload";
 import { getSpeciesDiet } from "@/lib/foodweb/diet";
 import { SpeciesGuideContent } from "@/components/species/SpeciesGuideContent";
+import { jsonLdScript } from "@/lib/json-ld";
 
 // Daily ISR: the OBIS depth/distribution fetches are cached per species for a
 // day (a dedicated cache table comes with the pokedex schema work).
@@ -25,8 +26,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const r = resolveSpeciesSlug(slug);
   if (!r) return { title: "Species not found" };
-  const title = `${r.traits.commonName} (${r.scientificName}): FishSpotter`;
-  const description = r.traits.fieldNote;
+  // Search-intent framing (30 Aug 2026): people search "how to identify
+  // pollack", not the binomial. The description leads with the same phrase
+  // then reuses the sourced field note verbatim (no new claim is invented
+  // for the meta tag, see "Grounded species guide" in CLAUDE.md).
+  const title = `How to identify ${r.traits.commonName} | UK marine species`;
+  const description = `How to identify ${r.traits.commonName}: ${r.traits.fieldNote}`;
   // Reuse the species' curated reference photo (same row the gallery pins) as
   // the share-card image when one exists; otherwise the default OG card stands.
   const photo = await prisma.speciesImage.findFirst({
@@ -63,8 +68,41 @@ export default async function SpeciesProfilePage({
   const provenance = getSpeciesProvenance(scientificName);
   const diet = getSpeciesDiet(scientificName);
 
+  // Same curated-photo lookup as generateMetadata's OG image; Article
+  // structured data wants an image too, and Google's docs call it out as
+  // one of the fields that most helps Article eligibility for rich results.
+  const heroPhoto = await prisma.speciesImage.findFirst({
+    where: { scientificName, curated: true },
+    orderBy: { ordering: "asc" },
+    select: { url: true, webpUrl: true },
+  });
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://fishspotter.app").replace(/\/$/, "");
+  const pageUrl = `${siteUrl}/species/${slug}`;
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `How to identify ${traits.commonName} (${scientificName})`,
+    description: `How to identify ${traits.commonName}: ${traits.fieldNote}`,
+    ...(heroPhoto ? { image: [heroPhoto.webpUrl ?? heroPhoto.url] } : {}),
+    mainEntityOfPage: pageUrl,
+    about: {
+      "@type": "Thing",
+      name: traits.commonName,
+      alternateName: scientificName,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "PEBL FishSpotter",
+      url: siteUrl,
+    },
+  };
+
   return (
     <div className="flex-1 overflow-y-auto">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(articleJsonLd) }}
+      />
       <main id="main" tabIndex={-1} className="mx-auto w-full max-w-2xl px-4 pb-16 pt-4">
       <Link
         href="/feed"
