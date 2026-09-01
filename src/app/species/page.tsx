@@ -7,8 +7,9 @@ import { speciesSlug } from "@/lib/species-slug";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Species guide · FishSpotter",
-  description: "Browse the UK marine species you can spot, with reference photos and field notes.",
+  title: "UK marine species identification guide",
+  description:
+    "How to identify UK marine species from real underwater footage: fish, crabs, starfish, jellyfish and more, with diagnostic ID marks, reference photos and sourced field notes.",
 };
 
 // Every shape class needs an entry. A class without one falls through to its

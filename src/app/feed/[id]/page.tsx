@@ -19,6 +19,7 @@ import {
   snippetFilterWhere,
 } from "@/lib/snippet-filter";
 import { archiveOrderBy, parseArchiveSort, rotateToClip } from "@/lib/archive-query";
+import { jsonLdScript } from "@/lib/json-ld";
 
 export const dynamic = "force-dynamic";
 
@@ -81,6 +82,7 @@ const FEED_SELECT = {
   lon: true,
   depthM: true,
   recordingDatetime: true,
+  createdAt: true,
 } as const;
 
 export default async function SnippetDetailPage({
@@ -130,6 +132,24 @@ export default async function SnippetDetailPage({
   }
   if (!ordered) notFound();
 
+  // VideoObject structured data for the clip this URL names (the feed rotates
+  // to start on it, so ordered[0] is always it). uploadDate prefers the
+  // camera's recording time but falls back to createdAt (always a valid
+  // Date) since recordingDatetime is a free-text field that isn't always
+  // parseable.
+  const heroClip = ordered[0];
+  const recordedAt = heroClip.recordingDatetime ? new Date(heroClip.recordingDatetime) : null;
+  const uploadDate = recordedAt && !Number.isNaN(recordedAt.getTime()) ? recordedAt : heroClip.createdAt;
+  const videoJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: `${heroClip.site} · ${heroClip.deployment}`,
+    description: "Spot the species in this UK marine monitoring clip on PEBL FishSpotter.",
+    thumbnailUrl: [heroClip.thumbnailUrl],
+    uploadDate: uploadDate.toISOString(),
+    contentUrl: heroClip.videoUrl,
+  };
+
   const inlineIds = ordered.slice(0, INLINE_TRACK_COUNT).map((s) => s.id);
   const inlineTrackRows = inlineIds.length
     ? await prisma.snippet.findMany({
@@ -170,6 +190,10 @@ export default async function SnippetDetailPage({
 
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(videoJsonLd) }}
+      />
       {/* No end-of-feed card and no new-clip banner. Both answer "have you
           cleared the feed?", and an archive walk is a different question: it
           starts wherever the spotter tapped and laps the whole archive. */}

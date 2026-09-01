@@ -34,6 +34,18 @@ const COMMON_NAMES = Object.values(TRAITS)
 const HERO_CLIP_EXTERNAL_ID =
   "KEL33_2026-04-23_08-01_velvetcrab_track_manual_0-696_20260629_112902";
 
+// The DB's snippet.mp4 for the pinned clip above is a full-quality 1920x1080
+// source (~55MB) meant for the main feed player; the hero card only ever
+// shows it small, muted and looping. A dedicated 854x480, 8s, audio-stripped
+// re-encode (~300KB) of the same footage lives in public/hero/ so the
+// landing page (the one page most likely to be shared or crawled) doesn't
+// ship 55MB to every visitor just to autoplay a decorative loop. Regenerate
+// with: ffmpeg -ss 6 -i <source> -t 8 -vf "scale=-2:480" -c:v libx264
+// -crf 26 -preset slow -profile:v high -level 4.0 -pix_fmt yuv420p -an
+// -movflags +faststart public/hero/velvet-crab-preview.mp4
+const HERO_PREVIEW_VIDEO_URL = "/hero/velvet-crab-preview.mp4";
+const HERO_PREVIEW_POSTER_URL = "/hero/velvet-crab-preview.jpg";
+
 export default async function HomePage() {
   const [pinnedHero, featuredCandidates, clips, idsMade, photoRows] = await Promise.all([
     prisma.snippet.findUnique({
@@ -153,8 +165,8 @@ export default async function HomePage() {
 
             {featured && (
               <HeroPreview
-                videoUrl={featured.videoUrl}
-                poster={featured.thumbnailUrl}
+                videoUrl={pinnedHero ? HERO_PREVIEW_VIDEO_URL : featured.videoUrl}
+                poster={pinnedHero ? HERO_PREVIEW_POSTER_URL : featured.thumbnailUrl}
                 answer="Velvet crab"
                 distractors={["Brown crab", "Hermit crab", "Spider crab"]}
                 site={featured.site}
