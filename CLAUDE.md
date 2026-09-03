@@ -210,6 +210,33 @@ not simple cuts of it. KEL33 stays 3.55s, KEL37 4.84s, EXO_3 seal 5.03s.
 Backups of every replaced snip live in
 `DesktopML/data/snip_backups_20260828_min_duration/`.
 
+### Colour rescue (3 Sep 2026): SHIPPED LIVE
+
+The blue and green casts were libcamera's Bayesian AWB flipping between two bad solutions at
+depth. **65 percent of the archive had the red channel clipped to zero**, so true colour could
+not be restored there, only legibility; and the flip was BETWEEN clips (not within one), so one
+smoothed gain per clip was the whole flicker fix. A CPU pipeline (hqdn3d denoise, Ancuti channel
+compensation, smoothed grey-world, CLAHE, a chroma cap set by how much red survived, mild
+unsharp) beat grey-world, Ancuti fusion, MLLE, Dive Color Corrector and WaterNet in blind A/B
+testing. Super-resolution and diffusion enhancers were ruled out (scatter blur, hallucination).
+Two strength settings were then tested head to head on 33 clips in a blind A/B/C: **`gentle`
+(white balance only partway to neutral, more residual hue kept) won 33 of 33, unanimous**, and
+is the default profile. Findings, metrics, research briefs and the full decision trail:
+[implementation/2026-09-03/colour-rescue.md](implementation/2026-09-03/colour-rescue.md).
+
+**Published to all 163 live clips 3 Sep 2026** via `scripts/reupload-snippets-hq.ts --all`
+(re-uploaded to Supabase, cache-busted every `videoUrl`/`thumbnailUrl`). Verified: `npm run
+check:codecs` clean (all H.264) both before and after, and a live-site check (feed, archive grid)
+confirmed the corrected colour is showing with no broken thumbnails and no console errors.
+**3 source clips in the raw G: archive turned out corrupt** (moov atom missing) but none of them
+were live database rows, they were superseded duplicate exports of the same footage at different
+frame ranges, so nothing on the site was affected; flagged separately for archive cleanup.
+
+Script: `DesktopML/colour_rescue_snips.py --profile gentle` (also has crash-resilience: one
+unreadable source clip logs a FAILED line and the batch continues, rather than aborting).
+Re-run it (resumable via per-clip markers) if new snips are added and need the same treatment,
+then `npx tsx --env-file=.env.local scripts/reupload-snippets-hq.ts --from <mirror> --all`.
+
 ## Storage provider
 
 The Next.js runtime treats `Snippet.videoUrl` and `Snippet.thumbnailUrl` as opaque public URLs, it never imports the storage SDK. Only the seed and migration scripts upload, and they use the abstraction in `scripts/lib/storage.ts` to pick a provider.

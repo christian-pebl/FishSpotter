@@ -1,0 +1,329 @@
+<title>SubCam Colour Rescue</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Roboto:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F2F7F7; --surface:#FFFFFF; --ink:#17252A; --muted:#2B7A78; --accent:#3AAFA9; --tint:#DEF2F1; --tint2:#CBE8E6;
+  --rule:rgba(23,37,42,.14); --code:#E7F0F0; --shadow:0 1px 2px rgba(23,37,42,.06), 0 8px 24px rgba(23,37,42,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17252A; --surface:#1F3238; --ink:#E6F1F0; --muted:#8FCFCA; --accent:#3AAFA9; --tint:#22383E; --tint2:#2A454C;
+    --rule:rgba(222,242,241,.16); --code:#12202A; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17252A; --surface:#1F3238; --ink:#E6F1F0; --muted:#8FCFCA; --accent:#3AAFA9; --tint:#22383E; --tint2:#2A454C;
+  --rule:rgba(222,242,241,.16); --code:#12202A; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Roboto,"Helvetica Neue",Arial,sans-serif;font-weight:300;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 24px 80px}
+.prose{max-width:68ch}
+h1,h2,h3{font-family:Jost,"Futura","Trebuchet MS",sans-serif;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,5vw,52px);font-weight:700;line-height:1.05;letter-spacing:-.01em}
+h2{font-size:26px;font-weight:600;margin:64px 0 12px;padding-top:24px;border-top:2px solid var(--accent)}
+h3{font-size:19px;font-weight:600;margin:28px 0 8px}
+.eyebrow{font-family:Jost,sans-serif;font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stand{font-size:20px;line-height:1.45;font-weight:300;margin:16px 0 0;max-width:60ch}
+p{margin:0 0 14px}
+strong{font-weight:500}
+a{color:var(--muted)}
+code,.mono{font-family:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em}
+code{background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);padding:14px 16px;border-radius:8px;overflow-x:auto;font-size:13px;line-height:1.5}
+pre code{background:none;padding:0}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:36px 0 8px}
+.card{background:var(--surface);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);border-top:4px solid var(--accent)}
+.card.no{border-top-color:var(--ink)}
+.card.limit{border-top-color:var(--muted)}
+.card .eyebrow{margin-bottom:8px}
+.card p{margin:0;font-size:16px}
+.card p+p{margin-top:8px}
+figure{margin:24px 0 0}
+figure img{width:100%;height:auto;display:block;border-radius:8px;background:#000}
+figcaption{font-size:14px;color:var(--muted);margin:10px 0 0;line-height:1.5;max-width:90ch}
+figcaption strong{color:var(--ink)}
+.clip{margin-top:40px;padding-top:8px}
+.clip h3{margin-top:0}
+.clip .meta{font-family:"Roboto Mono",monospace;font-size:12px;color:var(--muted);margin:0 0 10px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:var(--surface);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+.tablewrap{overflow-x:auto;margin:16px 0 8px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+th{background:var(--ink);color:#fff;font-family:Jost,sans-serif;font-weight:600;font-size:13px;letter-spacing:.02em}
+:root[data-theme="dark"] th{background:#0F1A1E}
+tbody tr:nth-child(even) td{background:var(--tint)}
+td.num,th.num{text-align:right;font-family:"Roboto Mono",monospace;font-variant-numeric:tabular-nums}
+table.metrics td:not(:first-child){text-align:right;font-family:"Roboto Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.metrics th{white-space:nowrap}
+th .sub{display:block;font-family:Roboto,sans-serif;font-weight:300;font-size:11px;letter-spacing:0;opacity:.8}
+table.small{font-size:13px}
+.pill{display:inline-block;font-family:Jost,sans-serif;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--tint2);color:var(--ink)}
+.note{background:var(--tint);border-left:4px solid var(--accent);padding:12px 16px;border-radius:0 8px 8px 0;margin:18px 0;font-size:15px}
+ol.steps{padding-left:22px}
+ol.steps li{margin:0 0 10px}
+ul{padding-left:22px}
+li{margin:0 0 6px}
+.videos{display:grid;grid-template-columns:1fr;gap:22px;margin-top:8px}
+.videos video{width:100%;height:auto;display:block;border-radius:8px;background:#000}
+.videos figcaption{margin-top:8px}
+.sources{font-size:13.5px;columns:2;column-gap:32px}
+.sources li{break-inside:avoid;margin-bottom:5px}
+@media (max-width:720px){.sources{columns:1} body{font-size:16px} h2{margin-top:48px}}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">PEBL CIC &middot; FishSpotter &middot; 3 September 2026</div>
+  <h1 style="margin-top:10px">SubCam Colour Rescue</h1>
+  <p class="stand">Can the blue and green SubCam clips be fixed after the fact? Research across three fronts, experiments on 20 clips from every site, and the cost of doing it to the whole archive.</p>
+
+  <div class="verdict">
+    <div class="card">
+      <div class="eyebrow">Do this</div>
+      <p><strong>Neutralise every clip with a per-clip white balance, then add local contrast.</strong> Compensate the missing red from green, grey-world balance on smoothed clip statistics, CLAHE on lightness, cap the residual hue where no red was recorded.</p>
+      <p>Free, runs on this PC in about {{VAR:ARCHIVE_MINUTES}} minutes for all 165 clips, cannot flicker and cannot invent detail.</p>
+    </div>
+    <div class="card no">
+      <div class="eyebrow">Do not bother with</div>
+      <p><strong>Super-resolution, diffusion enhancers and one-tap dive apps.</strong> The softness is water scatter, not a pixel shortage, and every learned upscaler invents detail. Diffusion costs 20 to 10,000 times a CNN. The dive apps assume blue tropical water and turn UK green water yellow-brown.</p>
+    </div>
+    <div class="card limit">
+      <div class="eyebrow">The hard limit</div>
+      <p><strong>65 percent of the clips have no red channel at all.</strong> 108 of 167 clips are 93 to 98 percent pure zeros in red, including every Algapelago and Blakeney clip. True colour cannot be restored there, only legibility. The honest rendering is neutral, and the wrasse, pollack and crabs read far better in it.</p>
+    </div>
+  </div>
+
+  <h2>1. What the footage actually contains</h2>
+  <div class="prose">
+    <p>Before trying to fix colour it is worth knowing how much colour survived. Two scans of the whole archive, one on every thumbnail and one frame by frame through every clip, settle that.</p>
+    <h3>Red survival</h3>
+    <p>The red channel median of each clip's thumbnail sorts the archive into three classes. "Dead" means the median is 0 to 2 on a 0 to 255 scale, in other words the camera's white-balance gain clipped red to black before encoding. "Weak" is 3 to 20, a sliver of red that carries a little information. "Usable" is above 20.</p>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Site</th><th class="num">Clips</th><th class="num">Red dead</th><th class="num">Red weak</th><th class="num">Red usable</th><th>What that means</th></tr></thead>
+    <tbody>
+      <tr><td>Algapelago</td><td class="num">36</td><td class="num">36</td><td class="num">0</td><td class="num">0</td><td>Colour cannot be restored. Neutral rendering only.</td></tr>
+      <tr><td>Ramsey Sound Farm</td><td class="num">36</td><td class="num">26</td><td class="num">7</td><td class="num">3</td><td>Mostly neutral; ten clips keep a little real colour.</td></tr>
+      <tr><td>Unlabelled deployment metadata</td><td class="num">35</td><td class="num">18</td><td class="num">6</td><td class="num">11</td><td>Mixed. Includes the Atlantic Mariculture and Kelp Crofters clips whose metadata was never filled.</td></tr>
+      <tr><td>Ramsey Sound Control</td><td class="num">16</td><td class="num">11</td><td class="num">4</td><td class="num">1</td><td>Mostly neutral.</td></tr>
+      <tr><td>Veerse Meer</td><td class="num">14</td><td class="num">0</td><td class="num">0</td><td class="num">14</td><td>Real colour throughout. A gentle white balance is enough.</td></tr>
+      <tr><td>Blakeney Overfalls</td><td class="num">13</td><td class="num">13</td><td class="num">0</td><td class="num">0</td><td>Neutral rendering only.</td></tr>
+      <tr><td>Dale Bay</td><td class="num">7</td><td class="num">0</td><td class="num">1</td><td class="num">6</td><td>Real colour.</td></tr>
+      <tr><td>East Pickard Bay</td><td class="num">4</td><td class="num">1</td><td class="num">2</td><td class="num">1</td><td>Mixed, dark.</td></tr>
+      <tr><td>Atlantic Mariculture (labelled)</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td>Neutral rendering only.</td></tr>
+      <tr><td>Kelp Crofters, Freshwater West</td><td class="num">3</td><td class="num">0</td><td class="num">1</td><td class="num">2</td><td>Real colour.</td></tr>
+      <tr><td><strong>All clips</strong></td><td class="num"><strong>167</strong></td><td class="num"><strong>108</strong></td><td class="num"><strong>21</strong></td><td class="num"><strong>38</strong></td><td>65 / 13 / 23 percent.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="prose">
+    <p>This is why "add red back" tools fail here. Red compensation from green is the only physically defensible move on a dead-red clip, and what it produces is a neutral image, not a colour one. The pipeline below mutes the residual hue on dead-red clips for exactly that reason and leaves the Veerse Meer and Dale Bay colour untouched.</p>
+    <h3>The green and blue flip is between clips, not inside them</h3>
+    <p>Every clip was decoded frame by frame at 160 by 90 pixels and its mean Lab colour tracked through time. Only 4 of 165 clips show a colour jump larger than 3 Lab units between adjacent frames, and 10 show a slow drift of more than 10 units across the clip. The other 151 hold one colour state for their whole 7 to 15 seconds. The camera's Bayesian white balance re-evaluates every ten frames and moves its gains through a slow filter, so a flip is a ramp of roughly twenty frames, and these clips are short enough that most of them sit entirely on one side of it.</p>
+    <p>The practical consequence is that a single white-balance gain per clip cures the cast on 94 percent of the archive, and a gain smoothed over a nine-frame window handles the rest. No video deflicker model is needed. That is what the pipeline does: per-frame channel means, median-then-mean smoothed over time, gains derived from those.</p>
+  </div>
+
+  <h2>2. Eight clips, nine methods, side by side</h2>
+  <div class="prose">
+    <p>The test set is the worst the archive has: the bluest and greenest clips, two of the darkest, and the two Ramsey Sound clips that still carry a sliver of red. Each sheet shows the same mid-clip frame under every method. Tiles read left to right, top to bottom:</p>
+    <ul>
+      <li><strong>orig</strong>: the clip as it is live on the site today.</li>
+      <li><strong>rc_gw</strong>: Ancuti-2018 channel compensation (red from green, blue from green when blue is weak) then grey-world white balance on smoothed clip statistics.</li>
+      <li><strong>neutral</strong>: rc_gw, then CLAHE on lightness, then the residual hue halved. The recommended default for dead-red clips.</li>
+      <li><strong>rc_gw_cl</strong>: rc_gw plus CLAHE, hue left as it comes out.</li>
+      <li><strong>fusion</strong> and <strong>fusion_us</strong>: the full Ancuti-2018 multi-scale fusion (gamma-corrected and sharpened inputs blended by contrast, saliency and saturation weights), without and with a mild unsharp mask. The most cited classical method.</li>
+      <li><strong>mlle</strong>: Minimal colour Loss and Locally adaptive contrast Enhancement (Zhang et al., IEEE TIP 2022), the other classical method carried in the standard benchmark repositories, run per frame as published.</li>
+      <li><strong>dcc</strong>: the open-source Dive Color Corrector that divers use, which hue-shifts until the average red reaches 60.</li>
+      <li><strong>waternet</strong>: WaterNet (Li et al., IEEE TIP 2020), the learned model a 2025 real-video study found most conservative. On this PC's CPU it ran for 75 minutes without finishing one clip, so it was run on a Modal A10G GPU instead (seconds per clip, a few cents). It needed two fixes to its own code first: its white-balance pre-step divides by the red-channel sum, so every dead-red clip crashed it, and its video writer asks for an H.264 encoder that headless OpenCV does not have. Shown for the three clips it was run on.</li>
+    </ul>
+    <p>Plain grey-world without compensation was also run and is in the metrics table, but it is left off the sheets: with red pinned at zero it can only turn a blue clip teal.</p>
+  </div>
+
+  <div class="clip">
+    <h3>Algapelago, January 2020: the bluest clip in the archive</h3>
+    <p class="meta">red median 0 &middot; mean a* +8, b* -57 &middot; shoal of small fish over sand &middot; 24 fps</p>
+    <figure><img src="{{SHEET:ALG_2020}}" alt="Nine-tile comparison of the Algapelago 2020 clip under each method"><figcaption>{{CAP:ALG_2020}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:ALG_2020}}</div>
+  </div>
+
+  <div class="clip">
+    <h3>Algapelago, July 2024: solid green water column</h3>
+    <p class="meta">red median 0 &middot; mean a* -60, b* +41 &middot; almost featureless</p>
+    <figure><img src="{{SHEET:ALG_SC_11}}" alt="Nine-tile comparison of the Algapelago 2024 green clip"><figcaption>{{CAP:ALG_SC_11}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:ALG_SC_11}}</div>
+  </div>
+
+  <div class="clip">
+    <h3>Atlantic Mariculture, September 2025: dark teal seabed</h3>
+    <p class="meta">red median 0 &middot; mean a* -20, b* -9 &middot; L 33, one of the darkest clips &middot; anemones and tunicates on cobble</p>
+    <figure><img src="{{SHEET:ATLMAR}}" alt="Nine-tile comparison of the dark Atlantic Mariculture clip"><figcaption>{{CAP:ATLMAR}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:ATLMAR}}</div>
+  </div>
+
+  <div class="clip">
+    <h3>Ramsey Sound control, May 2026: spider crab by the pipe</h3>
+    <p class="meta">red median 12 (weak) &middot; mean a* -9, b* -40 &middot; blue</p>
+    <figure><img src="{{SHEET:CYM_Control}}" alt="Nine-tile comparison of the Ramsey Sound control clip"><figcaption>{{CAP:CYM_Control}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:CYM_Control}}</div>
+  </div>
+
+  <div class="clip">
+    <h3>Ramsey Sound farm, April 2026: pollack in the gloom</h3>
+    <p class="meta">red median 8 (weak) &middot; mean a* -13, b* -22 &middot; L 38</p>
+    <figure><img src="{{SHEET:CYM_Farm_S_2026-04-29}}" alt="Nine-tile comparison of the dark Ramsey Sound pollack clip"><figcaption>{{CAP:CYM_Farm_S_2026-04-29}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:CYM_Farm_S_2026-04-29}}</div>
+  </div>
+
+  <div class="clip">
+    <h3>Ramsey Sound farm, May 2026: wrasse over cobble</h3>
+    <p class="meta">red median 12 (weak) &middot; mean a* -6, b* -44 &middot; blue</p>
+    <figure><img src="{{SHEET:CYM_Farm_S_2026-05-27}}" alt="Nine-tile comparison of the Ramsey Sound wrasse clip"><figcaption>{{CAP:CYM_Farm_S_2026-05-27}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:CYM_Farm_S_2026-05-27}}</div>
+  </div>
+
+  <div class="clip">
+    <h3>Ramsey Sound farm, June 2026: wrasses, green day</h3>
+    <p class="meta">red median 0 &middot; mean a* -56, b* +33 &middot; same site as the clip above, a week later, the other AWB solution</p>
+    <figure><img src="{{SHEET:CYM_Farm_S_2026-06-02}}" alt="Nine-tile comparison of the green Ramsey Sound wrasse clip"><figcaption>{{CAP:CYM_Farm_S_2026-06-02}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:CYM_Farm_S_2026-06-02}}</div>
+  </div>
+
+  <div class="clip">
+    <h3>Blakeney Overfalls, June 2026: the greenest clip in the archive</h3>
+    <p class="meta">red median 0 &middot; mean a* -63, b* +54 &middot; pipe over seabed</p>
+    <figure><img src="{{SHEET:NORF-1}}" alt="Nine-tile comparison of the Blakeney Overfalls green clip"><figcaption>{{CAP:NORF-1}}</figcaption></figure>
+    <div class="tablewrap">{{CLIPTABLE:NORF-1}}</div>
+  </div>
+
+  <h3>Across all eight clips</h3>
+  <div class="prose"><p>Residual cast is the mean absolute a* and b* of the output (0 is neutral). Flicker is the larger of the two standard deviations of frame mean colour through the clip (below 0.5 is invisible). Sharpness is the variance of the Laplacian of lightness. UCIQE and UIQM are the two no-reference underwater metrics every paper reports; both reward saturation, which is why the original blue clips score well on them and the neutral outputs score badly. Every 2024 to 2026 survey warns against picking a winner by those two numbers, and the sheets above are the evidence that matters.</p>
+  <p>WaterNet, the one learned model run, behaved exactly as the literature said it would: conservative to the point of not correcting. On the three clips it leaves a residual cast of about 30 to 43 b* units (the blue clip stays blue, the green clip turns teal), adds a little contrast, and invents a small amount of red where the sensor recorded none. It is the best-scoring method on UCIQE, which says more about UCIQE than about WaterNet.</p></div>
+  <div class="tablewrap">{{SUMMARY_TABLE}}</div>
+
+  <h2>3. Watch it move</h2>
+  <div class="prose">
+    <p>Stills hide flicker and hide noise. These are the first ten seconds of four clips, original on the left, the recommended pipeline on the right, encoded small enough to live inside this page. The full-resolution set for all 20 test clips is in the folder sent alongside this page.</p>
+  </div>
+  <div class="videos">
+    <figure><video controls muted loop playsinline preload="metadata" src="{{VIDEO:ab_out/CYM_Farm_S_2026-05-27_08-00_wrassepollack0000488/ab_small.mp4}}"></video><figcaption><strong>Ramsey Sound farm, wrasse.</strong> Weak red survives, so the output keeps a little of it.</figcaption></figure>
+    <figure><video controls muted loop playsinline preload="metadata" src="{{VIDEO:ab_out/NORF-1_2026-06-13_11-01_track_manual_9473-9601_2/ab_small.mp4}}"></video><figcaption><strong>Blakeney Overfalls.</strong> The greenest clip. No red recorded, rendered neutral.</figcaption></figure>
+    <figure><video controls muted loop playsinline preload="metadata" src="{{VIDEO:ab_out/CYM_Farm_S_2026-04-29_17-00_pollack00003975_trac/ab_small.mp4}}"></video><figcaption><strong>Ramsey Sound farm, pollack.</strong> Dark clip; watch for noise in the water column.</figcaption></figure>
+    <figure><video controls muted loop playsinline preload="metadata" src="{{VIDEO:ab_out/OYS_2025-09-25_10-00-52_trackmanual_21_0-1388_20/ab_small.mp4}}"></video><figcaption><strong>Veerse Meer.</strong> Real colour throughout; the pipeline only white-balances and lifts contrast.</figcaption></figure>
+  </div>
+
+  <h2>4. Sharpness: a real but small gain</h2>
+  <div class="prose">
+    <p>Three ffmpeg recipes were run on three clips: AMD's contrast-adaptive sharpening (<code>cas</code>), a light spatio-temporal denoise followed by an unsharp mask (<code>dn_us</code>), and a wide-radius local-contrast unsharp followed by cas (<code>lc_cas</code>). Non-local-means denoising was also run on one clip. None can invent structure; their failure modes are halos and amplified noise, both visible as such.</p>
+  </div>
+  <div class="tablewrap">
+  <table class="metrics">
+    <thead><tr><th>Clip</th><th>Original edge sharpness</th><th>cas</th><th>dn_us</th><th>lc_cas</th><th>Frame-to-frame noise, original</th><th>after dn_us</th></tr></thead>
+    <tbody>
+      <tr><td>Ramsey Sound wrasse</td><td>9.9</td><td>1.70x</td><td>1.68x</td><td>2.26x</td><td>0.77</td><td>0.41</td></tr>
+      <tr><td>Blakeney Overfalls</td><td>5.0</td><td>1.31x</td><td>1.25x</td><td>1.68x</td><td>0.36</td><td>0.13</td></tr>
+      <tr><td>Atlantic Mariculture</td><td>9.5</td><td>1.39x</td><td>1.24x</td><td>1.77x</td><td>0.53</td><td>0.25</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <figure><img src="{{IMG:out_sharp/CYM_Farm_S_2026-05-27_08-00_wrassepollack0000488_crops.jpg|1400}}" alt="Two-times centre crops of the Ramsey Sound clip under each sharpening recipe"><figcaption><strong>Centre crops at two times magnification, Ramsey Sound wrasse clip.</strong> Rock edges tighten under cas and lc_cas; no halos at these strengths. The gain is modest because the blur is optical scatter, which lowers the contrast of fine detail rather than deleting it.</figcaption></figure>
+  <div class="prose">
+    <p>Verdict: worth a mild pass, not worth a model. The recommended pipeline ends with a light unsharp mask (amount 0.4, sigma 1.2), and the denoise-then-unsharp recipe is the one to reach for on the darkest clips because it halves frame-to-frame noise.</p>
+  </div>
+
+  <h2>5. What the research says</h2>
+  <div class="prose">
+    <h3>Colour: the state of the art, 2023 to 2026</h3>
+    <p>Three research passes were run in parallel: the academic literature on underwater image and video enhancement, the video restoration and commercial tools market, and what working underwater videographers and colourists actually do. They agree more than expected.</p>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Method</th><th>Type</th><th>Code and licence</th><th>Runs on</th><th>Verdict for this footage</th></tr></thead>
+    <tbody>
+      <tr><td>Per-clip white balance plus Ancuti fusion or MLLE</td><td>Classical, training-free</td><td>MIT Python ports exist for both</td><td>CPU, under a second per 1080p frame</td><td>The default. RUIE and UIEB benchmarks: model-free methods handle green casts best, physics priors fail on them.</td></tr>
+      <tr><td>WaterNet (TIP 2020)</td><td>Small CNN, per frame</td><td>MIT re-implementation, weights download</td><td>CPU possible, GPU trivial</td><td>The only learned model that helped a real-video task in a 2025 study, "although only marginally". Conservative. Worth a Modal pilot, under 1 dollar for the archive.</td></tr>
+      <tr><td>FA+Net (BMVC 2023)</td><td>9K-parameter CNN</td><td>No licence file</td><td>Real-time 1080p on a 3090</td><td>Fast and tiny; unlicensed, unreproduced.</td></tr>
+      <tr><td>UVE-Net (CVPR 2024)</td><td>Video CNN with temporal model</td><td>MIT, weights</td><td>GPU, 11 GB for 4K</td><td>The only video-native model with weights and a permissive licence. Its ground truth is the output of two other enhancers. 1 to 2 dollars for the archive.</td></tr>
+      <tr><td>UIEAnything (2025)</td><td>Sea-thru with a monocular depth model</td><td>No licence; Depth Anything V2 Small is Apache 2.0</td><td>GPU</td><td>Promising, single-source, depth flickers frame to frame.</td></tr>
+      <tr><td>UnDIVE (WACV 2025)</td><td>Video, diffusion prior plus physics</td><td>No licence</td><td>GPU, about 24 GPU-hours</td><td>About 26 dollars; no commercial licence; its own authors say the quality metrics mislead.</td></tr>
+      <tr><td>CLIP-UIE, CPDM, DiffWater and other diffusion methods</td><td>Diffusion</td><td>Mixed</td><td>GPU, minutes per frame</td><td>Thousands of dollars for the archive, generative by design. Wrong tool.</td></tr>
+      <tr><td>WaterMamba, PixMamba, O-Mamba</td><td>State-space models</td><td>Incomplete code, CUDA-only builds</td><td>GPU</td><td>Not usable yet.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="prose">
+    <p>Two findings from the literature shaped the pipeline. First, UIEB's authors report that fusion and histogram methods "introduce reddish colour deviation" on some casts, and UIEAnything's authors flag that white-balance methods fail "in deep-water scenarios where the red channel information is severely attenuated". That is the dead-red case, and the answer is to cap what red compensation is allowed to assert, which is what the chroma cap does. Second, the accepted cheap trick for temporal stability is exactly one gain per clip, or a per-frame estimate smoothed through time, which the flicker scan shows is all this archive needs.</p>
+    <h3>Resolution and sharpness</h3>
+    <p>Every learned super-resolution model invents detail to some degree. The one study that measures this as its own quantity, the 2025 Hallucination Score, rates bicubic at 4.6 out of 5 (5 means nothing invented), the regression transformer Swin2SR at 3.4 to 3.7, Real-ESRGAN at 2.8 to 3.3 and the diffusion image models at 2.5 to 3.6. The 2025 and 2026 diffusion video upscalers (SeedVR2, FlashVSR, STAR, DOVE) publish no independent test on real camera footage, and their own papers describe over-generated texture on lightly degraded input. For a species-identification product the specific failures, invented scale rows, spot patterns and fin edges, are exactly what a generative prior supplies. The camera records 1080p from a binned 2304 by 1296 sensor mode, the app never displays above 1080p, and the softness is scatter. So super-resolution has nothing to recover and something to invent.</p>
+    <p>If a learned model is ever trialled for sharpness, the one candidate is BasicVSR++'s deblur and denoise variants (Apache 2.0, regression-trained, multi-frame at native resolution), which fits inside Modal's 30 dollar monthly free credit.</p>
+    <h3>What it would cost elsewhere</h3>
+  </div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Route</th><th>Cost for the 165-clip archive</th><th>Notes, prices read 3 September 2026</th></tr></thead>
+    <tbody>
+      <tr><td>Recommended classical pipeline on this PC</td><td>0</td><td>About {{VAR:ARCHIVE_MINUTES}} minutes of CPU time at {{VAR:MS_PER_FRAME}} ms per frame.</td></tr>
+      <tr><td>WaterNet or FA+Net on Modal (A10G, 1.10 dollars per hour)</td><td>Under 1 dollar</td><td>Inside the 30 dollar monthly free credit PEBL's Modal account already has.</td></tr>
+      <tr><td>UVE-Net video model on Modal</td><td>1 to 2 dollars</td><td>Plus a day of engineering to containerise it.</td></tr>
+      <tr><td>Topaz Video, Proteus model, cloud render</td><td>17 to 43 dollars in credits plus a 299 dollar per year plan</td><td>Topaz staff say it sharpens but cannot fix out-of-focus footage. Adobe announced it is buying Topaz on 25 June 2026, so pricing is unstable.</td></tr>
+      <tr><td>Topaz Starlight (diffusion) cloud render</td><td>255 to 637 dollars</td><td>Generative; 90 credits per minute at 1080p.</td></tr>
+      <tr><td>DaVinci Resolve Studio</td><td>About 240 pounds one-off</td><td>Adds the Color Stabilizer and temporal noise reduction. Needs a GPU machine. The free version already has every colour tool the practitioner recipe uses.</td></tr>
+      <tr><td>SeedVR2-3B or FlashVSR diffusion upscaling</td><td>10 to 65 dollars</td><td>Not for the app; generative.</td></tr>
+      <tr><td>Full diffusion underwater enhancement (CLIP-UIE class)</td><td>4,000 to 25,000 dollars</td><td>Order-of-magnitude estimate from 2,000 sampling steps per 256-pixel tile.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="prose">
+    <h3>What practitioners do</h3>
+    <p>Every tutorial and forum thread converges on the same three moves in DaVinci Resolve's free edition: white-balance picker on something neutral in frame, RGB mixer feeding green (and a little blue) into the red output rather than gaining an empty red channel, then gentle curves. That is, in colourist language, the same operation as the compensation-plus-grey-world step here. For green water the correction is a magenta tint shift plus a red lift, not the temperature shift that blue-water presets apply, and the only green-water LUT on sale (Matthias Lebo, 29 euros) was built on GoPro colour science and would not map onto the IMX708. The one-tap apps (Dive+, AquaColorFix, DiverOut) were judged over-red and "muddy" by colourists on the same footage, and the open-source Dive Color Corrector's yellow-brown result on the green clips above is the same failure. Nobody who grades for a living recommends a one-tap tool for anything meant to be faithful.</p>
+  </div>
+
+  <h2>6. Recommended pipeline and how to test it in the app</h2>
+  <div class="prose">
+    <p>The pipeline is seven steps, all in the 140-line Python script written for this experiment, all CPU, no model weights, no licence questions.</p>
+    <ol class="steps">
+      <li>A light spatio-temporal denoise first (ffmpeg <code>hqdn3d</code>, stronger on clips with mean lightness under 45), because every later step amplifies grain and the first side-by-side of the dark pollack clip showed exactly that.</li>
+      <li>Per-frame channel means, smoothed through time (median over nine frames, then mean over five). This is the flicker fix, and it also stops a fish entering the frame from swinging the balance.</li>
+      <li>Ancuti-2018 channel compensation: red is rebuilt from green everywhere, blue from green only where blue is the weaker channel (the green-water case).</li>
+      <li>Grey-world gains from the smoothed post-compensation means, capped at 3.5 times.</li>
+      <li>CLAHE on lightness (clip 2.0, 8 by 8 tiles) for local contrast.</li>
+      <li>Chroma cap by red survival: a dead-red clip keeps half its residual hue, a weak-red clip 70 percent, a clip with real red keeps all of it. This is the step that stops the method inventing colour it has no evidence for.</li>
+      <li>A light unsharp mask (amount 0.4, sigma 1.2).</li>
+    </ol>
+    <p>The output is written as H.264 at crf 18, the same codec gate the sync already enforces. Integration is one existing script: write the processed clips into a mirror of the snips folder and run <code>reupload-snippets-hq.ts --from</code> that folder, which cache-busts the live URLs. Keep the originals; the processing is reversible by re-uploading them.</p>
+    <div class="note"><strong>Test it before batch-running it.</strong> The Event pipeline already logs clip views, watch time and answers per clip. Process half the clips, chosen by alternating archive order so both halves span every site, and compare answer accuracy against the community consensus, time to first answer and watch time between the two halves over two weeks. If the neutral clips do not move those numbers, the aesthetic is the only thing at stake and it becomes a taste decision, which this page's side-by-sides settle faster than a study would.</div>
+    <p>Two refinements are worth a look if the first pass is adopted: a per-site tuning of the chroma cap (Ramsey Sound's weak-red clips could keep a little more colour), and the denoise-then-unsharp recipe on the darkest 20 clips.</p>
+  </div>
+
+  <h2>7. For future recordings</h2>
+  <div class="prose">
+    <p>The archive is done, but the next deployment does not need to repeat this. libcamera's Bayesian white balance has no valid solution at 15 metres because a green-water illuminant sits far off the Planckian curve the tuning file describes, so it oscillates between two poor fits. Three fixes, in order of effort: lock the gains with <code>ColourGains</code> after letting the balance settle on something grey at depth; or copy the imx708 tuning file, set <code>bayes</code> to 0 for plain grey-world (what the NoIR tuning ships with, which is why that test looked better) or lower the <code>speed</code> so it drifts instead of flipping; or, properly, capture a Macbeth chart at depth and extend the colour-temperature curve with the Camera Tuning Tool. Even the first of these would have kept the red channel out of the black clip on most of these clips.</p>
+  </div>
+
+  <h2>8. Sources</h2>
+  <ul class="sources">
+    <li>Ancuti et al., Color Balance and Fusion for Underwater Image Enhancement, IEEE TIP 2018. Python port: github.com/nomi30701 (MIT).</li>
+    <li>Zhang et al., Underwater Image Enhancement via Minimal Color Loss and Locally Adaptive Contrast Enhancement (MLLE), IEEE TIP 2022. github.com/Li-Chongyi/MMLE_code (MIT).</li>
+    <li>Li et al., An Underwater Image Enhancement Benchmark Dataset and Beyond (UIEB, WaterNet), IEEE TIP 2020. Re-implementation: github.com/tnwei/waternet (MIT).</li>
+    <li>Liu et al., Real-World Underwater Enhancement (RUIE), IEEE TCSVT 2020, arXiv 1901.05320. The green-versus-blue cast results.</li>
+    <li>Zhao et al., survey of deep-learning underwater image enhancement, arXiv 2405.19684 (2024).</li>
+    <li>Thanjaivadivel and Thangaraj, systematic review of underwater image and video enhancement, Discover Imaging 2025.</li>
+    <li>Sensors 25(22):6966, 2025: underwater enhancement versus feature matching on real video.</li>
+    <li>Xie et al., UVEB: a large-scale benchmark and baseline for underwater video enhancement (UVE-Net), CVPR 2024. github.com/yzbouc/UVEB.</li>
+    <li>UnDIVE, WACV 2025, github.com/suhas-srinath/undive.</li>
+    <li>UIEAnything, Pattern Analysis and Applications 2025, github.com/Jinxinshao/UIEAnything.</li>
+    <li>CLIP-UIE, Pattern Recognition 2025, arXiv 2405.16214.</li>
+    <li>Hallucination Score for super-resolution, arXiv 2507.14367 (2025).</li>
+    <li>SeedVR2 (ICLR 2026), FlashVSR (CVPR 2026, arXiv 2510.12747), DOVE (arXiv 2505.16239), STAR (ICCV 2025).</li>
+    <li>BasicVSR++ deblurring and denoising, arXiv 2204.05308; mmagic (Apache 2.0).</li>
+    <li>Barron and Tsai, Fast Fourier Color Constancy, CVPR 2017, section 7 on temporal smoothing.</li>
+    <li>Raspberry Pi Camera Algorithm and Tuning Guide; libcamera imx708.json and imx708_noir.json; picamera2 manual (ColourGains).</li>
+    <li>bornfree/dive-color-corrector (GPL-3.0), the practitioner tool tested here.</li>
+    <li>AquaExposure, DaVinci Resolve for underwater video (2026) and the AI dive-app comparison (July 2026).</li>
+    <li>r/davinciresolve, "Struggling with underwater color grading" (January 2025), the channel-mixer thread.</li>
+    <li>Ikelite, Color grading: adding warmth to an underwater video; Circle H Scuba, Dive+ vs LUT vs manual (2023).</li>
+    <li>Topaz Labs pricing, cloud render and Starlight documentation; Adobe Firefly video upscaler; Blackmagic DaVinci Resolve Studio pricing (CVP, PriceSpy).</li>
+    <li>Modal, RunPod and Lambda GPU price pages, read 3 September 2026.</li>
+    <li>ffmpeg filter documentation: cas, unsharp, hqdn3d, nlmeans, normalize, grayworld.</li>
+  </ul>
+</div>
