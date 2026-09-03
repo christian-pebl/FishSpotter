@@ -2125,3 +2125,46 @@ the ID-guide chat's site context; and the three admin views. Unit-tested
 (`site-label.test.ts` also proves every farm with clips names a site and no
 site is claimed twice); the archive's Playwright spec now checks the cards and
 the feed notice print the same label the dropdown offered.
+
+## Colour rescue: every clip re-graded and republished (3 Sep 2026)
+
+The blue and green casts on the feed were libcamera's Bayesian AWB flipping
+between two poor solutions at depth: at 15 m the illuminant sits far off the
+Planckian locus, the likelihood surface flattens into two shallow minima, and
+small scene changes tip it from one to the other. Two facts from scanning the
+whole archive shaped the fix. **65 percent of clips (108 of 167) have the red
+channel clipped to zero**, 93 to 98 percent pure zeros, every Algapelago and
+Blakeney clip among them, so on those clips there is no colour to restore, only
+legibility. And **the flip happens between clips, not within them**: only 4 of
+165 clips show a frame-to-frame jump over 3 Lab units, so a single white-balance
+gain per clip removes it, and no deflicker model is needed.
+
+The pipeline (`DesktopML/colour_rescue_snips.py`, CPU only, no model weights):
+hqdn3d denoise first (stronger on dark clips, since every later step amplifies
+grain), per-frame channel means smoothed through time, Ancuti-2018 channel
+compensation (red rebuilt from green, blue from green where blue is weaker),
+grey-world gains from the smoothed means, CLAHE on lightness, a chroma cap set
+by how much red the sensor actually recorded, and a mild unsharp mask.
+
+Chosen by blind A/B, twice. Round 1 pitted it against grey-world, Ancuti fusion,
+MLLE, the open-source Dive Color Corrector and WaterNet (run on a Modal GPU):
+19 of 33 clips preferred it, 7 tied, 5 preferred the original. Round 2 tested
+two strengths three-way against the original, un-primed A/B/C labels: the
+`gentle` profile (white balance only 75 percent of the way to neutral, more
+residual hue kept) **won 33 of 33, unanimous**, and is now the script default.
+Super-resolution and diffusion enhancers were ruled out on evidence: the
+softness is water scatter rather than a pixel shortage, the app never shows
+above 1080p, and every learned upscaler invents detail (bicubic scores 4.6 of 5
+on the 2025 Hallucination Score, Real-ESRGAN 2.8 to 3.3), which is exactly the
+wrong failure mode for a species-ID product.
+
+**Published to all 163 live clips** via `reupload-snippets-hq.ts --all` (note
+`--all` is required: the default skip logic only migrates hosts, and everything
+was already on Supabase, so a plain run silently no-ops). Verified with
+`npm run check:codecs` clean before and after, plus a live check of the feed and
+the archive grid. Three source clips in the raw G: archive turned out corrupt
+(moov atom missing) but a DB query confirmed none are live rows, they are
+superseded duplicate exports of footage that already has a working version.
+
+Findings, the three research briefs, metrics and the full decision trail:
+`implementation/2026-09-03/colour-rescue.md`.
