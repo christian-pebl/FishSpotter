@@ -137,4 +137,10 @@ describe("describeSnippetFilter", () => {
       describeSnippetFilter({ species: "pagurus-bernhardus", site: "Ramsey Sound Farm" }, INDEX),
     ).toEqual(["Hermit Crab", "Ramsey Sound Farm"]);
   });
+
+  it("prints a farm site with its farm's name, like every other surface", () => {
+    expect(
+      describeSnippetFilter({ site: "Ramsey Sound, Pembrokeshire, Wales, UK" }, INDEX),
+    ).toEqual(["Câr-y-Môr · Ramsey Sound, Pembrokeshire, Wales, UK"]);
+  });
 });

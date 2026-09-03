@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { siteLabel } from "@/lib/site-label";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { DeletedAccountToast } from "@/components/DeletedAccountToast";
@@ -169,7 +170,7 @@ export default async function HomePage() {
                 poster={pinnedHero ? HERO_PREVIEW_POSTER_URL : featured.thumbnailUrl}
                 answer="Velvet crab"
                 distractors={["Brown crab", "Hermit crab", "Spider crab"]}
-                site={featured.site}
+                site={siteLabel(featured.site)}
               />
             )}
           </div>

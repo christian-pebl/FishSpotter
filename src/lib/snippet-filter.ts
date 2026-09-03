@@ -17,6 +17,7 @@ import type { Prisma } from "@prisma/client";
 import { readSearchParam } from "@/lib/archive-url";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import { snippetIdsForSpecies, type SpeciesIndex } from "@/lib/snippet-species";
+import { siteLabel } from "@/lib/site-label";
 
 export { feedUrlForFilter, snippetFilterParams } from "@/lib/archive-url";
 
@@ -117,8 +118,9 @@ export function snippetFilterWhere(
 }
 
 /**
- * Short human summary of an active filter ("Hermit Crab · Ramsey Sound"), for
- * telling a spotter on the feed why they are seeing a subset.
+ * Short human summary of an active filter ("Hermit Crab", "Câr-y-Môr · Ramsey
+ * Sound, Pembrokeshire, Wales, UK"), for telling a spotter on the feed why they
+ * are seeing a subset. The site is printed the way every surface prints one.
  */
 export function describeSnippetFilter(
   filter: SnippetFilter,
@@ -129,7 +131,7 @@ export function describeSnippetFilter(
     ? index.optionBySlug.get(filter.species)
     : undefined;
   if (species) parts.push(species.commonName);
-  if (filter.site) parts.push(filter.site);
+  if (filter.site) parts.push(siteLabel(filter.site));
   if (filter.q) parts.push(`"${filter.q}"`);
   return parts;
 }

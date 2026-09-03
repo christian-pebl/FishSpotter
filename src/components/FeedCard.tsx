@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { siteLabel } from "@/lib/site-label";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useCreatureQuiz } from "@/lib/useCreatureQuiz";
 import type { BBoxFrame, FeedSnippet } from "./FeedPlayer";
@@ -1521,7 +1522,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
           loop
           preload={isActive ? "auto" : preload ? "metadata" : "none"}
           tabIndex={isActive ? 0 : -1}
-          aria-label={`Underwater clip from ${snippet.site} ${snippet.deployment}. Press space to play or pause.`}
+          aria-label={`Underwater clip from ${siteLabel(snippet.site)} ${snippet.deployment}. Press space to play or pause.`}
           onLoadStart={() => setVideoErrored(false)}
           onPlay={() => {
             setVideoPaused(false);
@@ -1939,14 +1940,14 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
                                 setMapOpen(true);
                                 setMetaOpen(false);
                               }}
-                              aria-label={`Show ${snippet.site} on a map`}
+                              aria-label={`Show ${siteLabel(snippet.site)} on a map`}
                               className="-mx-1 inline-flex items-center gap-1.5 rounded-modal px-1 py-0.5 text-left text-teal-200 transition-colors hover:bg-white/10 hover:text-teal-100"
                             >
                               <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">
                                 <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
                                 <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
                               </svg>
-                              <span className="underline decoration-teal-400/50 underline-offset-2">{snippet.site}</span>
+                              <span className="underline decoration-teal-400/50 underline-offset-2">{siteLabel(snippet.site)}</span>
                               <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-400/80">
                                 <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
@@ -1957,7 +1958,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
                                 <path d="M8 14s4.5-4 4.5-7.5a4.5 4.5 0 1 0-9 0C3.5 10 8 14 8 14Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
                                 <circle cx="8" cy="6.5" r="1.5" stroke="currentColor" strokeWidth="1.4" />
                               </svg>
-                              {snippet.site}
+                              {siteLabel(snippet.site)}
                             </span>
                           )
                         )}
@@ -2573,7 +2574,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
           onClose={() => setMapOpen(false)}
           lat={snippet.lat as number}
           lon={snippet.lon as number}
-          site={`${snippet.site} · ${snippet.deployment}`}
+          site={`${siteLabel(snippet.site)} · ${snippet.deployment}`}
         />
       )}
 

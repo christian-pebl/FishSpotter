@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { REASON_CODES } from "@/lib/comments";
+import { siteLabel } from "@/lib/site-label";
 import { CommentInbox, type InboxRow } from "./CommentInbox";
 
 export const dynamic = "force-dynamic";
@@ -79,7 +80,7 @@ export default async function AdminCommentsPage({
     authorIsGuest: r.user.isGuest,
     snippetId: r.snippet.id,
     snippetLabel: r.snippet.externalId,
-    snippetSite: r.snippet.site,
+    snippetSite: siteLabel(r.snippet.site),
     thumbnailUrl: r.snippet.thumbnailUrl,
     theirAnswer: answerBy.get(`${r.user.id}:${r.snippet.id}`) ?? null,
   }));

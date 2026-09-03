@@ -13,6 +13,9 @@ import type { SiteOption } from "@/lib/archive-facets";
 import type { SnippetFilter } from "@/lib/snippet-filter";
 import type { SpeciesOption } from "@/lib/snippet-species";
 
+/** A location option with the label the server printed for it (farm first). */
+export type SiteChoice = SiteOption & { label: string };
+
 const SORT_LABEL: Record<ArchiveSort, string> = {
   newest: "Newest first",
   oldest: "Oldest first",
@@ -27,8 +30,8 @@ export type ArchiveFilterBarProps = {
   sort: ArchiveSort;
   /** Species the community has settled, counted within the selected location. */
   speciesOptions: SpeciesOption[];
-  /** Locations with clips, counted within the selected species. */
-  siteOptions: SiteOption[];
+  /** Locations with clips, counted within the selected species, labelled by the server. */
+  siteOptions: SiteChoice[];
 };
 
 /**
@@ -121,7 +124,7 @@ export function ArchiveFilterBar({ filter, sort, speciesOptions, siteOptions }: 
         <option value="">All locations</option>
         {siteOptions.map((s) => (
           <option key={s.site} value={s.site}>
-            {s.site} ({s.clips})
+            {s.label} ({s.clips})
           </option>
         ))}
       </select>

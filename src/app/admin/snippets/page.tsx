@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { siteLabel } from "@/lib/site-label";
 
 export const dynamic = "force-dynamic";
 
@@ -72,7 +73,7 @@ export default async function AdminSnippetsPage() {
                   <span className="block truncate text-sm text-navy-900">
                     {common || s.staffAnswer || "no reference"}
                   </span>
-                  <span className="block truncate text-[11px] text-navy-500">{s.site}</span>
+                  <span className="block truncate text-[11px] text-navy-500">{siteLabel(s.site)}</span>
                 </span>
                 <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${TIER_CLASS[tier]}`}>
                   {TIER_LABEL[tier]}

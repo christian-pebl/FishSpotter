@@ -53,11 +53,15 @@ describe("describeSites", () => {
 });
 
 describe("shortSiteName", () => {
-  it("keeps only the place name from a full location string", () => {
-    expect(shortSiteName("Bideford Bay, North Devon, UK")).toBe("Bideford Bay");
+  it("leads with the farm and keeps only the place name from a full location string", () => {
+    expect(shortSiteName("Bideford Bay, North Devon, UK")).toBe("Algapelago · Bideford Bay");
     expect(shortSiteName("Pabay, Inner Sound, Isle of Skye, Scotland, UK")).toBe(
-      "Pabay",
+      "Kelp Crofters · Pabay",
     );
+  });
+
+  it("keeps only the place name for a site that is not a farm", () => {
+    expect(shortSiteName("Dale Bay, Pembrokeshire, Wales, UK")).toBe("Dale Bay");
   });
 
   it("passes through a site that is already just a place", () => {
@@ -78,7 +82,7 @@ describe("collectSiteNames", () => {
         { site: "Bideford Bay, Devon" },
         { site: "Loch Sunart, Western Highlands, UK" },
       ]),
-    ).toEqual(["Bideford Bay", "Loch Sunart"]);
+    ).toEqual(["Algapelago · Bideford Bay", "Atlantic Mariculture · Loch Sunart"]);
   });
 
   it("preserves the order given (callers pass newest first)", () => {
@@ -101,7 +105,7 @@ describe("collectSiteNames", () => {
       { site: "Loch Sunart, Western Highlands, UK" },
     ]);
     expect(describeSites(names)).toBe(
-      "Freshwater West, Bideford Bay, Pabay and 1 more",
+      "Freshwater West, Algapelago · Bideford Bay, Kelp Crofters · Pabay and 1 more",
     );
   });
 });

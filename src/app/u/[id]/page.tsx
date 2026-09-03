@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { siteLabel } from "@/lib/site-label";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { isAdminUser } from "@/lib/admin";
@@ -175,7 +176,7 @@ export default async function ProfilePage({
                     href={`/feed/${a.snippet.id}`}
                     className="font-medium text-navy-900 hover:text-teal-700"
                   >
-                    {a.snippet.site} · {a.snippet.deployment}
+                    {siteLabel(a.snippet.site)} · {a.snippet.deployment}
                   </Link>
                   <p className="truncate text-xs text-navy-900/55">
                     {a.chosenOption}

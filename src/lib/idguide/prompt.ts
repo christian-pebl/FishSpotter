@@ -1,4 +1,5 @@
 import type { SpeciesCatalogue, SpeciesTraits } from "./traits";
+import { siteLabel } from "@/lib/site-label";
 
 export type EcologicalContext = {
   site: string;
@@ -77,7 +78,7 @@ export function buildStableSystemBlock(catalogue: SpeciesCatalogue): string {
  * call; kept short so the bulk of the input stays cacheable.
  */
 export function buildDynamicSystemBlock(ctx: EcologicalContext): string {
-  const locationLine = `Site: ${ctx.site} (${ctx.deployment})${
+  const locationLine = `Site: ${siteLabel(ctx.site)} (${ctx.deployment})${
     ctx.lat != null && ctx.lon != null ? ` ~ ${ctx.lat.toFixed(3)}°, ${ctx.lon.toFixed(3)}°` : ""
   }${ctx.depthM != null ? `, depth ~${ctx.depthM}m` : ""}${ctx.monthName ? `, month ${ctx.monthName}` : ""}`;
 
