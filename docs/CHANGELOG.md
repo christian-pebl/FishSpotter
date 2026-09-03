@@ -2102,7 +2102,7 @@ no-JavaScript submit produces, copy a species share link and reopen it.
 `playwright.config.ts` honours `PLAYWRIGHT_BASE_URL` so the suite can target a
 worktree's dev server.
 
-**Locations carry their seaweed farm's name, everywhere, 3 Sep 2026.** People
+**Locations carry their seaweed farm's name, everywhere, 3 Sep 2026** (PR #172). People
 know the places by the farms (Câr-y-Môr, Algapelago, Kelp Crofters), not by
 "Ramsey Sound, Pembrokeshire, Wales, UK", so every surface that prints a
 location now leads with the farm: "Câr-y-Môr · Ramsey Sound, Pembrokeshire,
