@@ -2,7 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { resolveSpeciesSlug } from "@/lib/species-slug";
+import { resolveSpeciesSlug, speciesSlug } from "@/lib/species-slug";
+import { loadSpeciesIndex } from "@/lib/snippet-species";
+import { archiveUrl } from "@/lib/archive-url";
 import { getCachedDistribution } from "@/lib/biodiversity/species-cache";
 import { getSpeciesProvenance } from "@/lib/references/payload";
 import { getSpeciesDiet } from "@/lib/foodweb/diet";
@@ -71,11 +73,19 @@ export default async function SpeciesProfilePage({
   // Same curated-photo lookup as generateMetadata's OG image; Article
   // structured data wants an image too, and Google's docs call it out as
   // one of the fields that most helps Article eligibility for rich results.
-  const heroPhoto = await prisma.speciesImage.findFirst({
-    where: { scientificName, curated: true },
-    orderBy: { ordering: "asc" },
-    select: { url: true, webpUrl: true },
-  });
+  const [heroPhoto, speciesIndex] = await Promise.all([
+    prisma.speciesImage.findFirst({
+      where: { scientificName, curated: true },
+      orderBy: { ordering: "asc" },
+      select: { url: true, webpUrl: true },
+    }),
+    // The clips the community has settled on this species, the same index the
+    // archive's Species filter is built from, so the link below lands on the
+    // same selection a reader could pick there by hand.
+    loadSpeciesIndex(prisma),
+  ]);
+  const archiveSlug = speciesSlug(scientificName);
+  const communityClips = speciesIndex.optionBySlug.get(archiveSlug)?.clips ?? 0;
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://fishspotter.app").replace(/\/$/, "");
   const pageUrl = `${siteUrl}/species/${slug}`;
   const articleJsonLd = {
@@ -139,12 +149,25 @@ export default async function SpeciesProfilePage({
         <p className="text-sm text-navy-900/80">
           Name {traits.commonName} in a clip to add it to your collection.
         </p>
-        <Link
-          href="/feed"
-          className="pebl-button-primary mt-3 inline-flex min-h-[44px] items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold"
-        >
-          Spot it in the feed
-        </Link>
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+          <Link
+            href="/feed"
+            className="pebl-button-primary inline-flex min-h-[44px] items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold"
+          >
+            Spot it in the feed
+          </Link>
+          {/* Only once the crowd has settled at least one clip: the archive's
+              Species filter offers exactly these, so the link never lands on
+              an empty grid. */}
+          {communityClips > 0 && (
+            <Link
+              href={archiveUrl({ species: archiveSlug })}
+              className="pebl-button-secondary inline-flex min-h-[44px] items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold"
+            >
+              See {communityClips} clip{communityClips === 1 ? "" : "s"} spotters identified as {traits.commonName}
+            </Link>
+          )}
+        </div>
       </section>
       </main>
     </div>

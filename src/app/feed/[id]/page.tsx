@@ -19,6 +19,7 @@ import {
   snippetFilterWhere,
 } from "@/lib/snippet-filter";
 import { archiveOrderBy, parseArchiveSort, rotateToClip } from "@/lib/archive-query";
+import { archiveUrl } from "@/lib/archive-url";
 import { jsonLdScript } from "@/lib/json-ld";
 
 export const dynamic = "force-dynamic";
@@ -201,6 +202,7 @@ export default async function SnippetDetailPage({
       <FeedFilterNotice
         parts={filterApplies ? describeSnippetFilter(filter, speciesIndex) : []}
         clips={feedSnippets.length}
+        archiveHref={filterApplies ? archiveUrl(filter, { sort }) : undefined}
       />
       <VerificationBanner unverified={unverified} />
       <GuestGate />

@@ -2046,3 +2046,58 @@ Verified against the live database: `tsc` clean, 787 tests, `next lint` and
 the token lint clean, every route checked on a dev server and again on
 `fishspotter.app` once #164 deployed alongside it, including a card tapped out
 of a species-filtered grid carrying the filter through the walk.
+
+**Archive location filter fixed, with counts, share links, and the farm and
+species pages joined up, 3 Sep 2026** (PR #171). Christian reported that choosing a
+location in the video archive "only orders the videos", never says how many
+were kept, and that "Launch feed of current filtered videos" then plays a
+random clip. All three were one bug, and it sat in the parser rather than the
+query. The filter row was a GET form, a form submits every control, and
+choosing a location with "All species" left alone sent
+`?species=&site=Dale+Bay…&sort=newest`. `SnippetFilterSchema` was validated as
+one bag, the blank `species` failed `min(1)`, and the whole filter was dropped.
+`sort` is parsed separately, so the grid visibly re-sorted while the count and
+the Launch link described all 139 clips. Measured live before the fix:
+`?site=Dale+Bay…` gave 7 clips, and the same URL with the form's blanks
+appended gave 139. The feature had been verified at launch with hand-typed
+clean URLs only, which is exactly the path the form never takes.
+
+Both parsers (`parseSnippetFilter`, `parseArchiveSort`) now read one field at a
+time through a shared `readSearchParam`: blank means unset, and a bad value
+drops only itself. The dropdowns apply themselves on change
+(`ArchiveFilterBar`, a client component; the GET form remains underneath, and
+shows an Apply button until React has taken over the page, so a reader without
+JavaScript, or one quicker than the script, is never left with a change that
+goes nowhere). The count reads
+"7 of 139 clips match", and both dropdowns carry counts faceted under the other
+filter (`src/lib/archive-facets.ts`), so no combination they offer dead-ends.
+Every archive URL is built by one dependency-free module,
+`src/lib/archive-url.ts`, so a selection has one address with no blank params
+and no default sort, which is what makes it shareable.
+
+**Share.** A filtered archive offers "Share this selection": the native share
+sheet on a touch device, the clipboard elsewhere, and a visible link box if the
+clipboard is refused. The link is the selection's canonical archive address, so
+it reopens the same grid with its count and its Launch button. The filtered
+feed's notice now links back to that grid.
+
+**Joined up.** A farm page's "See clips from this farm" lands on the archive's
+own Location filter (`?site=`) instead of the free-text `q` match, so it shows
+the set the farm page itself counts (Câr-y-Môr's farm and control lines are one
+site, 52 clips, where the old link showed 36) and arrives with the location
+pre-selected and shareable. Old `q` links still work and show as a removable
+chip. A species guide gains "See N clips spotters identified as X", from the
+same community-settled index the archive's Species filter is built on, so it
+never lands on an empty grid, and the archive says under a species filter that
+the species is the community's identification.
+
+Verified: 58 new or extended unit tests (parsers, URL grammar, facets, the
+filter bar, the share button), 952 in the full suite, `next lint` and the
+token lint clean, and `tsc` clean against a Prisma client generated from the
+current schema (the shared dev client was stale and reported errors in
+untouched files). A Playwright spec, `tests/e2e/archive-filter.spec.ts`, walks
+the real flow against the database: pick a location, check the count and every
+card's site, launch the feed and read its notice, load the exact URL a
+no-JavaScript submit produces, copy a species share link and reopen it.
+`playwright.config.ts` honours `PLAYWRIGHT_BASE_URL` so the suite can target a
+worktree's dev server.

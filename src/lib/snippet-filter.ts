@@ -6,12 +6,19 @@
  * only stays true if both pages build their where-clause from one place, so
  * both import from here rather than each assembling their own. A filter that
  * drifts between the two surfaces is invisible until someone counts the clips.
+ *
+ * URLs are the other half of that promise and live in `@/lib/archive-url`,
+ * which is dependency-free so client components can build links too. The two
+ * URL helpers this module always exported are re-exported from there.
  */
 
 import { z } from "zod";
 import type { Prisma } from "@prisma/client";
+import { readSearchParam } from "@/lib/archive-url";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import { snippetIdsForSpecies, type SpeciesIndex } from "@/lib/snippet-species";
+
+export { feedUrlForFilter, snippetFilterParams } from "@/lib/archive-url";
 
 /**
  * The filter surface. `sort` and `page` are archive-only presentation and
@@ -19,23 +26,47 @@ import { snippetIdsForSpecies, type SpeciesIndex } from "@/lib/snippet-species";
  * set, and the feed has its own ordering (difficulty ramp + seeded shuffle).
  *
  * `q` has no input of its own any more (the free-text box was replaced by the
- * Species dropdown) but is still honoured, because /farms/[slug] deep-links to
- * `/feed/browse?q=<deployment>` and that entry point must keep working.
+ * Species dropdown) but is still honoured, because /farms/[slug] deep-linked to
+ * `/feed/browse?q=<deployment>` for six weeks and those links are out there.
  */
 export const SnippetFilterSchema = z.object({
-  site: z.string().min(1).max(60).optional(),
+  site: z.string().min(1).max(120).optional(),
   species: z.string().min(1).max(80).optional(),
   q: z.string().min(1).max(60).optional(),
 });
 
 export type SnippetFilter = z.infer<typeof SnippetFilterSchema>;
 
-/** Parse an unknown search-param bag; a malformed one falls back to no filter. */
+const FILTER_KEYS = ["site", "species", "q"] as const;
+
+/**
+ * Parse an unknown search-param bag, one field at a time.
+ *
+ * Per field, not all-or-nothing, and that is the load-bearing part. The
+ * archive's filter row is a plain GET form, and a form submits EVERY control,
+ * so choosing a location with "All species" left alone arrives here as
+ * `{ species: "", site: "Dale Bay", sort: "newest" }`. The previous version
+ * validated the whole bag in one go: the empty `species` failed `min(1)`, the
+ * bag failed with it, and the page served the unfiltered archive. The sort
+ * still applied (it is parsed separately), so the grid visibly reacted, while
+ * the count and the "Launch feed" link both described all 139 clips. Measured
+ * live on 3 Sep 2026: `?site=Dale+Bay…` gave 7 clips, and the same URL with the
+ * form's `species=&sort=newest` appended gave 139.
+ *
+ * So a blank value means "not set", a value that fails its own rule is dropped
+ * on its own, and the other fields stand. `readSearchParam` is the shared rule.
+ */
 export function parseSnippetFilter(
   raw: Record<string, string | string[] | undefined>,
 ): SnippetFilter {
-  const parsed = SnippetFilterSchema.safeParse(raw);
-  return parsed.success ? parsed.data : {};
+  const filter: SnippetFilter = {};
+  for (const key of FILTER_KEYS) {
+    const value = readSearchParam(raw[key]);
+    if (value === undefined) continue;
+    const parsed = SnippetFilterSchema.shape[key].safeParse(value);
+    if (parsed.success && parsed.data !== undefined) filter[key] = parsed.data;
+  }
+  return filter;
 }
 
 /**
@@ -83,21 +114,6 @@ export function snippetFilterWhere(
     ];
   }
   return where;
-}
-
-/** The filter as query params, for building links between the two surfaces. */
-export function snippetFilterParams(filter: SnippetFilter): URLSearchParams {
-  const qs = new URLSearchParams();
-  if (filter.species) qs.set("species", filter.species);
-  if (filter.site) qs.set("site", filter.site);
-  if (filter.q) qs.set("q", filter.q);
-  return qs;
-}
-
-/** `/feed` carrying this filter. */
-export function feedUrlForFilter(filter: SnippetFilter): string {
-  const qs = snippetFilterParams(filter).toString();
-  return qs ? `/feed?${qs}` : "/feed";
 }
 
 /**

@@ -61,4 +61,14 @@ describe("parseArchiveSort", () => {
   it("ignores the filter params, which snippet-filter owns", () => {
     expect(parseArchiveSort({ species: "hermit-crab", site: "Skye" })).toEqual({});
   });
+
+  it("reads a blank sort or page as the default, the way a GET form submits them", () => {
+    expect(parseArchiveSort({ sort: "", page: "" })).toEqual({});
+    expect(parseArchiveSort({ sort: "oldest", page: "" })).toEqual({ sort: "oldest" });
+  });
+
+  it("drops only the field that is malformed", () => {
+    expect(parseArchiveSort({ sort: "oldest", page: "abc" })).toEqual({ sort: "oldest" });
+    expect(parseArchiveSort({ sort: ["site", "oldest"], page: "2" })).toEqual({ page: 2 });
+  });
 });

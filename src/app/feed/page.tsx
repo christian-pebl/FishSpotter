@@ -22,6 +22,7 @@ import {
   snippetFilterWhere,
 } from "@/lib/snippet-filter";
 import { FeedFilterNotice } from "@/components/FeedFilterNotice";
+import { archiveUrl } from "@/lib/archive-url";
 
 export const dynamic = "force-dynamic";
 
@@ -246,6 +247,7 @@ export default async function FeedPage({
       <FeedFilterNotice
         parts={filtered ? describeSnippetFilter(filter, speciesIndex) : []}
         clips={feedSnippets.length}
+        archiveHref={filtered ? archiveUrl(filter) : undefined}
       />
       <OnboardingTour needsTour={needsTour} />
       <VerificationBanner unverified={unverified} />

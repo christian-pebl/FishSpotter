@@ -22,10 +22,18 @@ import { useEffect, useState } from "react";
 export function FeedFilterNotice({
   parts,
   clips,
+  archiveHref,
 }: {
   /** Human filter summary, e.g. ["Hermit Crab", "Ramsey Sound Farm"]. Empty = unfiltered. */
   parts: string[];
   clips: number;
+  /**
+   * The archive grid showing this same selection. When given, the summary is
+   * a link to it, so a spotter who arrived here from a shared feed link can
+   * get to the grid, and from there the count, the location list and the
+   * share button, without having to know the archive exists.
+   */
+  archiveHref?: string;
 }) {
   const [gateOpen, setGateOpen] = useState(false);
 
@@ -54,7 +62,17 @@ export function FeedFilterNotice({
             strokeLinejoin="round"
           />
         </svg>
-        <span className="truncate font-medium">{parts.join(" · ")}</span>
+        {archiveHref ? (
+          <Link
+            href={archiveHref}
+            title="Open this selection in the video archive"
+            className="truncate font-medium underline decoration-white/40 underline-offset-2 hover:decoration-white"
+          >
+            {parts.join(" · ")}
+          </Link>
+        ) : (
+          <span className="truncate font-medium">{parts.join(" · ")}</span>
+        )}
         <span className="shrink-0 text-white/55">
           {clips} clip{clips === 1 ? "" : "s"}
         </span>
