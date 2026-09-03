@@ -22,6 +22,7 @@
 
 import type { PrismaClient } from "@prisma/client";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
+import { shortSiteLabel } from "@/lib/site-label";
 
 /** Sites named individually in the email before collapsing to "and N more". */
 export const MAX_SITES_LISTED = 3;
@@ -45,7 +46,9 @@ export interface NewClipSummary {
  * email says.
  */
 export function shortSiteName(site: string): string {
-  return site.split(",")[0]?.trim() ?? "";
+  // Farm first, then the place ("Câr-y-Môr · Ramsey Sound"), the same way every
+  // other surface prints a location. See @/lib/site-label.
+  return shortSiteLabel(site);
 }
 
 /**
@@ -54,10 +57,16 @@ export function shortSiteName(site: string): string {
  * batch identically.
  */
 export function collectSiteNames(clips: Array<{ site: string | null }>): string[] {
+  // Deduped on the PLACE (the leading segment), so two spellings of one site
+  // count once, while the name kept is the farm-first label of the first seen.
+  const places = new Set<string>();
   const names: string[] = [];
   for (const c of clips) {
-    const name = shortSiteName(c.site ?? "");
-    if (name && !names.includes(name)) names.push(name);
+    const site = c.site ?? "";
+    const place = site.split(",")[0]?.trim() ?? "";
+    if (!place || places.has(place)) continue;
+    places.add(place);
+    names.push(shortSiteName(site));
   }
   return names;
 }

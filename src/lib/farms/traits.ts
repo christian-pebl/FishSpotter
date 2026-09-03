@@ -71,6 +71,12 @@ export type SeaweedFarm = {
    * farm profile still exists, it just isn't linked from any feed card.
    */
   deploymentNames: string[];
+  /**
+   * The exact `Snippet.site` strings those deployments are filed under. Every
+   * surface that prints a location runs it through `siteLabel()` in
+   * `@/lib/site-label`, which uses this to lead with the farm's name.
+   */
+  siteNames: string[];
   founded: {
     year?: number;
     story: string;

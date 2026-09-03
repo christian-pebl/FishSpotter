@@ -15,8 +15,12 @@ const SPECIES = [
   { slug: "pagurus-bernhardus", scientificName: "Pagurus bernhardus", commonName: "Hermit Crab", clips: 8 },
 ];
 const SITES = [
-  { site: SITE, clips: 7 },
-  { site: "Pabay, Inner Sound, Isle of Skye, Scotland, UK", clips: 12 },
+  { site: SITE, clips: 7, label: SITE },
+  {
+    site: "Pabay, Inner Sound, Isle of Skye, Scotland, UK",
+    clips: 12,
+    label: "Kelp Crofters · Pabay, Inner Sound, Isle of Skye, Scotland, UK",
+  },
 ];
 
 beforeEach(() => push.mockClear());
@@ -80,6 +84,12 @@ describe("ArchiveFilterBar", () => {
     expect(screen.getByLabelText("Filter by location")).toHaveValue(SITE);
     expect(screen.getByLabelText("Filter by species")).toHaveValue("cancer-pagurus");
     expect(screen.getByRole("option", { name: `${SITE} (7)` })).toBeInTheDocument();
+    // A farm site is offered by its farm's name, while its value stays the
+    // site string the filter and the URL run on.
+    const pabay = screen.getByRole("option", {
+      name: "Kelp Crofters · Pabay, Inner Sound, Isle of Skye, Scotland, UK (12)",
+    });
+    expect(pabay).toHaveValue("Pabay, Inner Sound, Isle of Skye, Scotland, UK");
     expect(screen.getByRole("option", { name: "Hermit Crab (8)" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Reset" })).toHaveAttribute("href", "/feed/browse");
   });

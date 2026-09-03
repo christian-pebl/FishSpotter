@@ -10,6 +10,7 @@
       "lon": -4.3
     },
     "deploymentNames": ["Algapelago"],
+    "siteNames": ["Bideford Bay, North Devon, UK"],
     "founded": {
       "year": 2021,
       "story": "Founded by cousins Olly Hicks, a three-time world-record ocean adventurer and conservationist, and Humphrey Atkinson, a product developer with a background at the bioplastics company Notpla. A pilot farm went into the water in December 2022, and the site now holds the UK's largest kelp licence at around 120 hectares, four miles offshore."
@@ -67,6 +68,7 @@
       "lon": -5.85
     },
     "deploymentNames": ["Atlantic Mariculture"],
+    "siteNames": ["Loch Sunart, Western Highlands, UK"],
     "founded": {
       "year": 2018,
       "story": "Founded as GreenSea Solutions by Amabel and Douglas Hamilton, and based at Ardtoe Marine Laboratory on Scotland's west coast. Its East Oronsay site in Loch Sunart is often described as the UK's most productive seaweed farm, and the company has since helped install a similar rig system at Algapelago's Devon farm."
@@ -121,6 +123,7 @@
       "lon": -5.85
     },
     "deploymentNames": ["Kelp Crofters"],
+    "siteNames": ["Pabay, Inner Sound, Isle of Skye, Scotland, UK"],
     "founded": {
       "year": 2020,
       "story": "Founded by Martin Welch, Dr Kyla Orr and Alex Glasgow, three friends local to Skye and Lochalsh with backgrounds spanning fishing, marine science and landscape architecture. Martin patented KelpRing, a seeding system, after noticing kelp naturally colonising his own fishing gear; the farm now runs its own hatchery in clear, high-status loch water."
@@ -181,6 +184,7 @@
       "lon": -5.3
     },
     "deploymentNames": ["Ramsey Sound Farm", "Ramsey Sound Control"],
+    "siteNames": ["Ramsey Sound, Pembrokeshire, Wales, UK"],
     "founded": {
       "year": 2019,
       "story": "Founded by Owen Haines, a third-generation fish farmer, together with his family, after growing frustrated with the chemicals and waste of conventional fish farming. Câr-y-Môr means 'for the love of the sea' in Welsh, and the farm became Wales' first community-owned regenerative ocean farm, registered as a Community Benefit Society in August 2019."
@@ -234,6 +238,7 @@
       "lon": 0.95
     },
     "deploymentNames": ["Blakeney Overfalls"],
+    "siteNames": ["Blakeney Overfalls, Norfolk, UK"],
     "founded": {
       "story": "Founded by Willie Athill and Allie Wharf, whose families both farmed oysters and mussels. Athill spent years in the army and then in oil and gas before a spell in Southeast Asian aquaculture drew him back to the Norfolk coast where he grew up. The farm is licensed to grow seaweed across 25 hectares, around two miles offshore from Blakeney Point."
     },
@@ -286,6 +291,7 @@
       "lon": -6.62
     },
     "deploymentNames": [],
+    "siteNames": [],
     "founded": {
       "year": 2022,
       "story": "Founded by Bruce Hare and Taco van Heusden after Hare came across seaweed cultivation research from the Scottish Association for Marine Science during lockdown. The idea took shape in conversation with Iain Matheson, a local lobster fisherman who became a co-founder. Kaly's first farm opened in Loch Bay, near Stein, in 2024, and the business is based in a converted Thomas Telford church and manse on Waternish."

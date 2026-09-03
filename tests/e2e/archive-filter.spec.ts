@@ -19,7 +19,9 @@ const COUNT_IN_LABEL = /\((\d+)\)\s*$/;
 // first compile of /feed alone can take most of the default 30s.
 test.describe.configure({ timeout: 90_000 });
 
-type Choice = { value: string; clips: number };
+/** An option's value (the site string the filter runs on), the label it is
+ *  shown with (farm first, e.g. "Câr-y-Môr · Ramsey Sound…"), and its count. */
+type Choice = { value: string; label: string; clips: number };
 
 /** Open the archive and wait until its filter row is on screen. */
 async function openArchive(page: Page, url = "/feed/browse") {
@@ -47,7 +49,11 @@ async function firstChoice(page: Page, label: string): Promise<Choice | null> {
     );
   const first = options.find((o) => o.value);
   if (!first) return null;
-  return { value: first.value, clips: Number(COUNT_IN_LABEL.exec(first.label)?.[1]) };
+  return {
+    value: first.value,
+    label: first.label.replace(COUNT_IN_LABEL, "").trim(),
+    clips: Number(COUNT_IN_LABEL.exec(first.label)?.[1]),
+  };
 }
 
 test.describe("Video archive: filter by location", () => {
@@ -55,8 +61,10 @@ test.describe("Video archive: filter by location", () => {
     await openArchive(page);
     const location = await firstChoice(page, "Filter by location");
     test.skip(!location, "the archive holds no clips");
-    const { value: site, clips } = location as Choice;
+    const { value: site, label, clips } = location as Choice;
     expect(Number.isFinite(clips), "the option label carries a count").toBe(true);
+    // The label is the site itself, or its farm's name followed by the site.
+    expect(label.endsWith(site), `"${label}" should end with the site "${site}"`).toBe(true);
 
     // Changing the dropdown applies it: no Apply button to find.
     await page.getByLabel("Filter by location").selectOption(site);
@@ -71,19 +79,20 @@ test.describe("Video archive: filter by location", () => {
     );
     await expect(page.getByLabel("Filter by location")).toHaveValue(site);
 
-    // Every card on the page is from that site, and there are as many as promised.
+    // Every card on the page is from that site, printed the same way the
+    // dropdown printed it, and there are as many as promised.
     const cards = page.locator("main ul > li");
     await expect(cards).toHaveCount(Math.min(clips, 24));
     const names = await cards.locator("p.font-semibold").allTextContents();
     expect(names.length).toBeGreaterThan(0);
-    for (const name of names) expect(name).toBe(site);
+    for (const name of names) expect(name).toBe(label);
   });
 
   test("the launched feed holds exactly the filtered clips", async ({ page }) => {
     await openArchive(page);
     const location = await firstChoice(page, "Filter by location");
     test.skip(!location, "the archive holds no clips");
-    const { value: site, clips } = location as Choice;
+    const { value: site, label, clips } = location as Choice;
 
     await openArchive(page, `/feed/browse?site=${encodeURIComponent(site)}`);
     const launch = page.getByRole("link", { name: /launch feed of current filtered videos/i });
@@ -96,11 +105,11 @@ test.describe("Video archive: filter by location", () => {
       waitUntil: "domcontentloaded",
     });
 
-    // The feed says which selection it is showing and how big it is, and links
-    // back to the same selection in the archive.
-    const notice = page.getByRole("status").filter({ hasText: site });
+    // The feed says which selection it is showing (by the same label the
+    // archive used) and how big it is, and links back to the same selection.
+    const notice = page.getByRole("status").filter({ hasText: label });
     await expect(notice).toContainText(`${clips} clip`);
-    const back = notice.getByRole("link", { name: site });
+    const back = notice.getByRole("link", { name: label });
     const backHref = new URL((await back.getAttribute("href")) as string, page.url());
     expect(backHref.pathname).toBe("/feed/browse");
     expect(backHref.searchParams.get("site")).toBe(site);

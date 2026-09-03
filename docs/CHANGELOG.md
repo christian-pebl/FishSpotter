@@ -2101,3 +2101,27 @@ card's site, launch the feed and read its notice, load the exact URL a
 no-JavaScript submit produces, copy a species share link and reopen it.
 `playwright.config.ts` honours `PLAYWRIGHT_BASE_URL` so the suite can target a
 worktree's dev server.
+
+**Locations carry their seaweed farm's name, everywhere, 3 Sep 2026.** People
+know the places by the farms (Câr-y-Môr, Algapelago, Kelp Crofters), not by
+"Ramsey Sound, Pembrokeshire, Wales, UK", so every surface that prints a
+location now leads with the farm: "Câr-y-Môr · Ramsey Sound, Pembrokeshire,
+Wales, UK". One helper does it, `src/lib/site-label.ts` (`siteLabel`,
+`shortSiteLabel`, `farmForSite`), reading a new `siteNames` field on each farm
+in `seaweed-farms.json`, the same file that already maps deployments to farms,
+so there is one place to update when a site is added. The site string itself
+is untouched: it stays the filter key, the URL param and the database value,
+so links and filters keep working and only what a reader sees changes. A site
+that is not a farm (Dale Bay, the Pembrokeshire shore sites, the Netherlands
+oyster lake) prints as it is.
+
+Applied to: the archive's Location dropdown (options now ordered by that
+label, so it reads as a list of farms) and its cards, count line and share
+copy; the feed's filter notice; the feed card's place pill, its map dialog and
+its screen-reader labels; the clip page's title and structured data; the
+landing hero's caption; the profile's recent identifications; the new-clips
+email's "from …" line (`shortSiteName` now returns "Câr-y-Môr · Ramsey Sound");
+the ID-guide chat's site context; and the three admin views. Unit-tested
+(`site-label.test.ts` also proves every farm with clips names a site and no
+site is claimed twice); the archive's Playwright spec now checks the cards and
+the feed notice print the same label the dropdown offered.

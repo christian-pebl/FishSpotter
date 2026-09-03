@@ -43,6 +43,10 @@ const farmSchema = z
       lon: z.number().optional(),
     }),
     deploymentNames: z.array(z.string().min(1)),
+    // The exact `Snippet.site` strings this farm's deployments are filed under,
+    // so a location can be labelled with its farm wherever a site is printed
+    // (see @/lib/site-label). Empty for a farm with no monitoring clips.
+    siteNames: z.array(z.string().min(1)),
     founded: z.object({
       year: z.number().int().min(1900).max(2100).optional(),
       story: z.string().min(1),

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { siteLabel } from "@/lib/site-label";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { SnippetReferenceEditor } from "./SnippetReferenceEditor";
@@ -80,7 +81,7 @@ export default async function AdminSnippetEditorPage({
       <Link href="/admin/snippets" className="text-[12px] text-teal-600 hover:text-teal-700">
         &larr; All snippets
       </Link>
-      <h1 className="mt-2 font-brand text-xl font-semibold text-navy-900">{snippet.site}</h1>
+      <h1 className="mt-2 font-brand text-xl font-semibold text-navy-900">{siteLabel(snippet.site)}</h1>
       <p className="text-[11px] text-navy-500">{snippet.externalId}</p>
 
       <p className="text-[11px] text-navy-500">{snippet.deployment}</p>

@@ -20,6 +20,7 @@ import {
 } from "@/lib/snippet-filter";
 import { archiveOrderBy, parseArchiveSort, rotateToClip } from "@/lib/archive-query";
 import { archiveUrl } from "@/lib/archive-url";
+import { siteLabel } from "@/lib/site-label";
 import { jsonLdScript } from "@/lib/json-ld";
 
 export const dynamic = "force-dynamic";
@@ -61,7 +62,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     select: { site: true, deployment: true, thumbnailUrl: true },
   });
   if (!row) return { title: "Sighting" };
-  const title = `${row.site} · ${row.deployment}`;
+  const title = `${siteLabel(row.site)} · ${row.deployment}`;
   const description = "Spot the species in this UK marine monitoring clip on PEBL FishSpotter.";
   const images = [row.thumbnailUrl];
   return {
@@ -144,7 +145,7 @@ export default async function SnippetDetailPage({
   const videoJsonLd = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    name: `${heroClip.site} · ${heroClip.deployment}`,
+    name: `${siteLabel(heroClip.site)} · ${heroClip.deployment}`,
     description: "Spot the species in this UK marine monitoring clip on PEBL FishSpotter.",
     thumbnailUrl: [heroClip.thumbnailUrl],
     uploadDate: uploadDate.toISOString(),

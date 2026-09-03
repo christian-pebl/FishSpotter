@@ -20,6 +20,7 @@ import {
 } from "@/lib/snippet-filter";
 import { archiveOrderBy, parseArchiveSort } from "@/lib/archive-query";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
+import { siteLabel } from "@/lib/site-label";
 
 // P-18: answered-pill requires session, dynamic when signed in,
 // ISR-cached for anonymous. Next.js bypasses the ISR cache when it
@@ -45,10 +46,11 @@ type SnippetRow = {
 /** What the share sheet says about a selection. */
 function shareCopy(filter: SnippetFilter, speciesName: string | undefined, clips: number) {
   const noun = `${clips} clip${clips === 1 ? "" : "s"}`;
+  const place = filter.site ? siteLabel(filter.site) : undefined;
   const who = speciesName ? ` the FishSpotter community has identified as ${speciesName}` : "";
-  const from = filter.site ? ` from ${filter.site}` : filter.q ? ` matching "${filter.q}"` : "";
+  const from = place ? ` from ${place}` : filter.q ? ` matching "${filter.q}"` : "";
   return {
-    title: `${[speciesName, filter.site].filter(Boolean).join(" at ") || filter.q}: ${noun} on FishSpotter`,
+    title: `${[speciesName, place].filter(Boolean).join(" at ") || filter.q}: ${noun} on FishSpotter`,
     text: `Watch ${noun}${who}${from} on FishSpotter.`,
   };
 }
@@ -118,10 +120,15 @@ export default async function FeedBrowsePage({
     }),
   ]);
 
+  // Each location is offered by its farm's name first ("Câr-y-Môr · Ramsey
+  // Sound…"), and the list is ordered by that label so it reads as a list of
+  // farms; the option's VALUE stays the site string the filter runs on.
   const siteOptions = siteOptionsInScope(
     siteRows.map((r) => ({ site: r.site, clips: r._count._all })),
     filter.site,
-  );
+  )
+    .map((o) => ({ ...o, label: siteLabel(o.site) }))
+    .sort((a, b) => a.label.localeCompare(b.label));
   const speciesOptions = speciesOptionsInScope(
     speciesIndex,
     new Set(inScopeRows.map((r) => r.id)),
@@ -216,7 +223,7 @@ export default async function FeedBrowsePage({
           {speciesName && (
             <p className="text-xs text-navy-900/55">
               Showing clips the FishSpotter community has identified as {speciesName}
-              {filter.site ? ` at ${filter.site}` : ""}. The list grows as more people play.
+              {filter.site ? ` at ${siteLabel(filter.site)}` : ""}. The list grows as more people play.
             </p>
           )}
           {filtered && (
@@ -231,7 +238,7 @@ export default async function FeedBrowsePage({
             <li key={s.id}>
               <Link
                 href={clipUrl(s.id, filter, sort)}
-                aria-label={`Open clip from ${s.site}, ${s.deployment}`}
+                aria-label={`Open clip from ${siteLabel(s.site)}, ${s.deployment}`}
                 className="group block"
               >
                 <div className="relative aspect-video overflow-hidden rounded-card bg-navy-900/5">
@@ -267,7 +274,7 @@ export default async function FeedBrowsePage({
                 </div>
                 <div className="mt-2 space-y-0.5 px-0.5">
                   <p className="truncate text-sm font-semibold text-navy-900">
-                    {s.site}
+                    {siteLabel(s.site)}
                   </p>
                   <p className="flex flex-wrap items-center gap-x-2 text-[11px] text-navy-900/55">
                     {s.recordingDatetime && (
