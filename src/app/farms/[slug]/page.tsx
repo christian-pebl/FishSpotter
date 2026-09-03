@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { resolveFarmSlug, allFarmSlugs } from "@/lib/farms/catalogue";
 import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
+import { archiveUrl } from "@/lib/archive-url";
 import type { FarmTag } from "@/lib/farms/traits";
 import { FarmHero } from "@/components/farms/FarmHero";
 import { FarmGallery } from "@/components/farms/FarmGallery";
@@ -47,7 +48,7 @@ export default async function FarmProfilePage({
   if (!farm) notFound();
 
   const hasDeployments = farm.deploymentNames.length > 0;
-  const [clipCount, speciesRows] = hasDeployments
+  const [clipCount, speciesRows, siteRows] = hasDeployments
     ? await Promise.all([
         prisma.snippet.count({
           where: { deployment: { in: farm.deploymentNames }, ...excludeBlockedSnippetsWhere() },
@@ -61,12 +62,27 @@ export default async function FarmProfilePage({
           distinct: ["staffAnswer"],
           select: { staffAnswer: true },
         }),
+        prisma.snippet.findMany({
+          where: { deployment: { in: farm.deploymentNames }, ...excludeBlockedSnippetsWhere() },
+          distinct: ["site"],
+          select: { site: true },
+        }),
       ])
-    : [0, []];
+    : [0, [], []];
   const speciesCount = speciesRows.length;
   // A farm can have a deployment yet zero *visible* clips (e.g. its only clip is
   // blocklisted), so gate the stats on the real count, not just deploymentNames.
   const hasClips = clipCount > 0;
+  // "See clips from this farm" lands on the archive's own Location filter, the
+  // same one a reader can pick by hand, share, and launch as a feed, so the
+  // farm page and the archive agree on what "this farm's clips" means. A farm's
+  // deployments (Câr-y-Môr's farm and control lines, say) all sit in one site;
+  // only a farm that somehow spanned two would fall back to the older free-text
+  // match on its first deployment name.
+  const clipsHref =
+    siteRows.length === 1
+      ? archiveUrl({ site: siteRows[0].site })
+      : archiveUrl({ q: farm.deploymentNames[0] });
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -230,7 +246,7 @@ export default async function FarmProfilePage({
                 See the fish that share this water with the kelp at {farm.name}.
               </p>
               <Link
-                href={`/feed/browse?q=${encodeURIComponent(farm.deploymentNames[0])}`}
+                href={clipsHref}
                 className="pebl-button-primary mt-3 inline-flex min-h-[44px] items-center justify-center rounded-full px-6 py-2.5 text-sm font-semibold"
               >
                 See clips from {farm.name}

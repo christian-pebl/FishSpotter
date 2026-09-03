@@ -1,5 +1,6 @@
 import type { Prisma } from "@prisma/client";
 import { z } from "zod";
+import { ARCHIVE_SORTS, readSearchParam, type ArchiveSort } from "@/lib/archive-url";
 
 /**
  * The archive's ORDER, and the rotation that turns it into a feed.
@@ -16,10 +17,14 @@ import { z } from "zod";
  * sort the same way. Two copies of the sort would drift, and the drift would be
  * invisible: the feed would simply serve a different next clip than the grid
  * showed, with nothing failing.
+ *
+ * The sort names themselves, and every URL built from them, live in
+ * `@/lib/archive-url` (dependency-free, so the filter row on the client can use
+ * them too). They are re-exported here for the callers that always had them.
  */
 
-export const ARCHIVE_SORTS = ["newest", "oldest", "site"] as const;
-export type ArchiveSort = (typeof ARCHIVE_SORTS)[number];
+export { ARCHIVE_SORTS };
+export type { ArchiveSort };
 
 /** The presentation half of the archive's search params (the set half is
  *  `SnippetFilterSchema`). A malformed value falls back to the default view. */
@@ -30,11 +35,26 @@ export const ArchiveSortSchema = z.object({
 
 export type ArchiveSortParams = z.infer<typeof ArchiveSortSchema>;
 
+/**
+ * Parsed per field, like `parseSnippetFilter`, and for the same reason: the
+ * filter row is a GET form, so `sort=` arrives blank when nothing was chosen,
+ * and a bad page number must not throw away a good sort.
+ */
 export function parseArchiveSort(
   raw: Record<string, string | string[] | undefined>,
 ): ArchiveSortParams {
-  const parsed = ArchiveSortSchema.safeParse(raw);
-  return parsed.success ? parsed.data : {};
+  const out: ArchiveSortParams = {};
+  const sort = readSearchParam(raw.sort);
+  if (sort !== undefined) {
+    const parsed = ArchiveSortSchema.shape.sort.safeParse(sort);
+    if (parsed.success && parsed.data) out.sort = parsed.data;
+  }
+  const page = readSearchParam(raw.page);
+  if (page !== undefined) {
+    const parsed = ArchiveSortSchema.shape.page.safeParse(page);
+    if (parsed.success && parsed.data !== undefined) out.page = parsed.data;
+  }
+  return out;
 }
 
 export function archiveOrderBy(

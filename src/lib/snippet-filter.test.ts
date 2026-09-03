@@ -18,6 +18,8 @@ const INDEX = buildSpeciesIndex(
   ALIASES,
 );
 
+const SITE = "Dale Bay, Pembrokeshire, Wales, UK";
+
 describe("parseSnippetFilter", () => {
   it("keeps the three narrowing params and ignores the rest", () => {
     expect(
@@ -25,8 +27,38 @@ describe("parseSnippetFilter", () => {
     ).toEqual({ site: "Ramsey", species: "pagurus-bernhardus" });
   });
 
+  // The regression. A GET form submits every control, blanks included, so this
+  // is exactly what the archive's Apply button sent for "a location, all
+  // species". Live on 3 Sep 2026 it served the whole archive.
+  it("reads what the filter form actually submits: a blank control means unset", () => {
+    expect(parseSnippetFilter({ species: "", site: SITE, sort: "newest" })).toEqual({ site: SITE });
+    expect(parseSnippetFilter({ species: "cancer-pagurus", site: "", sort: "newest" })).toEqual({
+      species: "cancer-pagurus",
+    });
+    expect(parseSnippetFilter({ species: "", site: "", q: "", sort: "" })).toEqual({});
+  });
+
+  it("drops only the field that is malformed, never the whole filter", () => {
+    expect(parseSnippetFilter({ site: ["a", "b"], species: "pagurus-bernhardus" })).toEqual({
+      species: "pagurus-bernhardus",
+    });
+    expect(parseSnippetFilter({ q: "x".repeat(61), site: SITE })).toEqual({ site: SITE });
+  });
+
+  it("trims whitespace, so a hand-typed link still matches the site exactly", () => {
+    expect(parseSnippetFilter({ site: `  ${SITE}  ` })).toEqual({ site: SITE });
+    expect(parseSnippetFilter({ site: "   " })).toEqual({});
+  });
+
   it("falls back to no filter on a malformed bag", () => {
     expect(parseSnippetFilter({ site: ["a", "b"] })).toEqual({});
+  });
+
+  it("accepts every location name the archive currently holds", () => {
+    // The longest live site name is 46 characters; the old 60 cap was tighter
+    // than it looked once a country or a lake name joins the list.
+    const long = "Veerse Meer (Lake Veere), Zeeland, Netherlands";
+    expect(parseSnippetFilter({ site: long })).toEqual({ site: long });
   });
 });
 
@@ -53,6 +85,10 @@ describe("snippetFilterWhere", () => {
     expect(where.id).toEqual({ in: ["s1", "s2"] });
   });
 
+  it("narrows to one site by exact name", () => {
+    expect(snippetFilterWhere({ site: SITE }, INDEX).site).toBe(SITE);
+  });
+
   it("combines species and site", () => {
     const where = snippetFilterWhere({ species: "pagurus-bernhardus", site: "Ramsey" }, INDEX);
     expect(where.id).toEqual({ in: ["s1", "s2"] });
@@ -62,6 +98,15 @@ describe("snippetFilterWhere", () => {
   it("still honours the legacy q deep-link from /farms", () => {
     const where = snippetFilterWhere({ q: "Kelp Crofters" }, INDEX);
     expect(where.OR).toHaveLength(3);
+  });
+
+  it("is the same where-clause from the form's params as from a clean link", () => {
+    const clean = snippetFilterWhere(parseSnippetFilter({ site: SITE }), INDEX);
+    const form = snippetFilterWhere(
+      parseSnippetFilter({ species: "", site: SITE, sort: "newest" }),
+      INDEX,
+    );
+    expect(form).toEqual(clean);
   });
 });
 
@@ -75,6 +120,14 @@ describe("feedUrlForFilter", () => {
     const url = feedUrlForFilter({ species: "pagurus-bernhardus", site: "Ramsey Sound Farm" });
     expect(url).toContain("species=pagurus-bernhardus");
     expect(url).toContain("site=Ramsey+Sound+Farm");
+  });
+
+  it("launches the feed on the set the form submitted, not the whole archive", () => {
+    const filter = parseSnippetFilter({ species: "", site: SITE, sort: "newest" });
+    expect(hasSnippetFilter(filter)).toBe(true);
+    expect(feedUrlForFilter(filter)).toBe(
+      "/feed?site=Dale+Bay%2C+Pembrokeshire%2C+Wales%2C+UK",
+    );
   });
 });
 

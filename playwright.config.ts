@@ -1,5 +1,12 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// A worktree's dev server runs on its own port; point the suite at it with
+// PLAYWRIGHT_BASE_URL=http://localhost:<port>. Unset, it is the usual :3000.
+// The dev server Playwright starts (when nothing is already listening there)
+// is told the same port, so the two can never disagree.
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
+const port = new URL(baseURL).port || "3000";
+
 export default defineConfig({
   testDir: "./tests",
   timeout: 30_000,
@@ -8,13 +15,13 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? "github" : "list",
   webServer: {
-    command: "npm run dev",
-    url: "http://localhost:3000",
+    command: `npm run dev -- -p ${port}`,
+    url: baseURL,
     timeout: 120_000,
     reuseExistingServer: !process.env.CI,
   },
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL,
     trace: "retain-on-failure",
   },
   projects: [
