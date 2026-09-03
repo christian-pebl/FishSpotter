@@ -2048,7 +2048,7 @@ the token lint clean, every route checked on a dev server and again on
 of a species-filtered grid carrying the filter through the walk.
 
 **Archive location filter fixed, with counts, share links, and the farm and
-species pages joined up, 3 Sep 2026.** Christian reported that choosing a
+species pages joined up, 3 Sep 2026** (PR #171). Christian reported that choosing a
 location in the video archive "only orders the videos", never says how many
 were kept, and that "Launch feed of current filtered videos" then plays a
 random clip. All three were one bug, and it sat in the parser rather than the
