@@ -6,6 +6,14 @@ import { triggerCorrectConfetti } from "@/lib/confetti";
 import { emitPebbles } from "@/lib/pebble-bus";
 import { getMyAnswer, setMyAnswer as cacheMyAnswer } from "@/lib/myAnswers";
 import { GUEST_SAVE_PROMPT_AT, GUEST_MILESTONE_EVENT } from "@/lib/guest";
+// The guest guess queue (P0 "play before the wall") lives in its own module so
+// the feed can drain the entries whose cards are not mounted; see there.
+import {
+  guestAnswerFor,
+  pushGuestAnswer,
+  readGuestQueue,
+  removeGuestAnswer,
+} from "@/lib/guestAnswers";
 
 // S2-T04 killed the sharedBaselineStreak module global + the
 // follow-up GET /api/streak after each submit. The streak diff is now
@@ -13,72 +21,6 @@ import { GUEST_SAVE_PROMPT_AT, GUEST_MILESTONE_EVENT } from "@/lib/guest";
 // (streakAdvanced, which the reveal lands on) is a comparison on the
 // server-authoritative result, with no race when several cards mount at once.
 
-// P0 "play before the wall": signed-out spotters now get the REAL reveal
-// locally (via the read-only /api/answers/preview), instead of being bounced to
-// signup on their first guess. Every guest guess is queued here so that, when
-// they DO sign up, all of them are carried in and persisted (this replaces the
-// old single-answer S2-T10 sessionStorage stash). localStorage so the queue
-// survives a tab close and a return within the day.
-const GUEST_QUEUE_KEY = "fishspotter:guestAnswers";
-const GUEST_ANSWER_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
-const GUEST_QUEUE_MAX = 50; // cap so a long guest run can't bloat storage
-
-interface PendingAnswer {
-  snippetId: string;
-  chosenOption: string;
-  timestamp: number;
-}
-
-function readGuestQueue(): PendingAnswer[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(GUEST_QUEUE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    const now = Date.now();
-    return parsed.filter(
-      (e): e is PendingAnswer =>
-        !!e &&
-        typeof e.snippetId === "string" &&
-        typeof e.chosenOption === "string" &&
-        typeof e.timestamp === "number" &&
-        now - e.timestamp <= GUEST_ANSWER_MAX_AGE_MS,
-    );
-  } catch {
-    // Ignore malformed values; we'll just skip the carry.
-    return [];
-  }
-}
-
-function writeGuestQueue(list: PendingAnswer[]): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(
-      GUEST_QUEUE_KEY,
-      JSON.stringify(list.slice(-GUEST_QUEUE_MAX)),
-    );
-  } catch {
-    // ignore, non-essential
-  }
-}
-
-// Add (or replace) the guess for a snippet; returns the new queue length so the
-// caller can drive the "save your N finds" nudge.
-function pushGuestAnswer(snippetId: string, chosenOption: string): number {
-  const list = readGuestQueue().filter((e) => e.snippetId !== snippetId);
-  list.push({ snippetId, chosenOption, timestamp: Date.now() });
-  writeGuestQueue(list);
-  return Math.min(list.length, GUEST_QUEUE_MAX);
-}
-
-function guestAnswerFor(snippetId: string): PendingAnswer | null {
-  return readGuestQueue().find((e) => e.snippetId === snippetId) ?? null;
-}
-
-function removeGuestAnswer(snippetId: string): void {
-  writeGuestQueue(readGuestQueue().filter((e) => e.snippetId !== snippetId));
-}
 
 interface SnippetForQuiz {
   id: string;
@@ -193,9 +135,10 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
 
   // P0: on auth, carry in the guest guess for THIS snippet, submit it via the
   // authed path so it's persisted + scored, then drop it from the queue. Each
-  // mounted card drains its own entry, so a whole guest session is backfilled.
-  // (Once the feed windows cards, P2, a central drain on auth would be more
-  // robust; today every card mounts so per-card draining covers the queue.)
+  // mounted card drains its own entry, which is what lands the reveal on the
+  // card in front of the viewer. The feed mounts only a window of cards, so the
+  // entries whose cards are NOT mounted are posted by `drainGuestAnswers` from
+  // FeedPlayer, which skips the mounted ids so nothing is posted twice.
   const rehydratedRef = useRef(false);
   useEffect(() => {
     if (rehydratedRef.current) return;

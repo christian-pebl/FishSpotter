@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { authOptions } from "@/lib/auth";
+import { LEADERBOARD_CACHE_TAG } from "@/lib/leaderboard";
 import { immediateAward } from "@/lib/pebbles";
 import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
@@ -143,6 +145,11 @@ export async function POST(req: Request) {
     _count: { _all: true },
     where: { userId: session.user.id },
   });
+
+  // The leaderboard caches its whole-table aggregates for a minute; an answer
+  // is the one write that changes them, so drop the cache here rather than
+  // let the spotter's own new total lag on /pebbles.
+  revalidateTag(LEADERBOARD_CACHE_TAG);
 
   return NextResponse.json({
     answer,

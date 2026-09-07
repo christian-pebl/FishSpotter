@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
+import { unstable_cache } from "next/cache";
 import { authOptions } from "@/lib/auth";
+import { LEADERBOARD_CACHE_TAG } from "@/lib/leaderboard";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
 import { prisma } from "@/lib/prisma";
 
@@ -23,10 +25,34 @@ type LeaderRow = {
 /** Rows per leaderboard page, keeps the Stats page from growing endlessly. */
 export const LEADERBOARD_PAGE_SIZE = 20;
 
-export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
-  const session = await getServerSession(authOptions);
-  const myUserId = session?.user?.id ?? null;
+type ByUser = Record<string, { correct: number; total: number; points: number }>;
+type UserRow = {
+  id: string;
+  displayName: string | null;
+  name: string | null;
+  leaderboardOptIn: boolean;
+};
+type TopAnswer = { option: string; count: number; percent: number };
 
+/**
+ * Everything on the leaderboard that is the same for every viewer: the five
+ * whole-table aggregates over Answer, the per-user roll-up and the names. It
+ * was recomputed on every request, which made /pebbles the slowest route on
+ * the site (about 275 ms of database time per view, measured 7 Sep 2026 on a
+ * production build). Cached for a minute and invalidated the moment an answer
+ * is written (`revalidateTag("leaderboard")` in POST /api/answers), so a
+ * spotter who has just identified a clip still sees their new total.
+ *
+ * The viewer-specific part, keeping the viewer's own row visible even if they
+ * opted out of the public ranking, happens after this, on a copy.
+ */
+const loadLeaderboardData = unstable_cache(
+  async (): Promise<{
+    byUser: ByUser;
+    userMap: Record<string, UserRow>;
+    topAnswers: TopAnswer[];
+    totalAnswers: number;
+  }> => {
   const [perUserTotal, perUserCorrect, perUserPoints, perOptionAggregates, totalAnswers] =
     await Promise.all([
       prisma.answer.groupBy({ by: ["userId"], _count: { _all: true } }),
@@ -51,7 +77,7 @@ export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
   for (const row of perUserPoints as SumRow[]) {
     pointsByUser[row.userId] = row._sum.points ?? 0;
   }
-  const byUser: Record<string, { correct: number; total: number; points: number }> = {};
+  const byUser: ByUser = {};
   for (const row of perUserTotal as CountRow[]) {
     byUser[row.userId] = {
       total: row._count._all,
@@ -79,13 +105,22 @@ export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
     where: { id: { in: Object.keys(byUser) } },
     select: { id: true, displayName: true, name: true, leaderboardOptIn: true },
   });
-  type UserRow = {
-    id: string;
-    displayName: string | null;
-    name: string | null;
-    leaderboardOptIn: boolean;
-  };
-  const userMap = Object.fromEntries(users.map((u: UserRow) => [u.id, u]));
+  const userMap: Record<string, UserRow> = Object.fromEntries(
+    users.map((u: UserRow) => [u.id, u]),
+  );
+  return { byUser, userMap, topAnswers, totalAnswers };
+  },
+  ["leaderboard-data"],
+  { revalidate: 60, tags: [LEADERBOARD_CACHE_TAG] },
+);
+
+export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
+  const session = await getServerSession(authOptions);
+  const myUserId = session?.user?.id ?? null;
+
+  const { byUser: byUserAll, userMap, topAnswers, totalAnswers } = await loadLeaderboardData();
+  // A copy: the filter below mutates, and the cached value is shared.
+  const byUser: ByUser = { ...byUserAll };
 
   // ICO Children's Code: opted-out users are excluded from the ranking others
   // see; the viewer always sees their own row.

@@ -24,7 +24,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { PANEL_FRAME_STYLE, useSplitFrame } from "@/lib/split-screen";
+import { PANEL_FRAME_STYLE, useSplitOpen } from "@/lib/split-screen";
 
 export function PanelOverlay({
   dialogRef,
@@ -42,12 +42,15 @@ export function PanelOverlay({
   surfaceClassName: string;
   children: React.ReactNode;
 }) {
-  const split = useSplitFrame();
+  // Open/closed only: the geometry itself arrives through the `--fs-panel-*`
+  // custom properties in PANEL_FRAME_STYLE, so a resize drag re-lays this out
+  // in CSS without a single re-render here.
+  const inSplit = useSplitOpen();
+  // The portal target does not exist on the server, so the first client
+  // render has to match the server's null before the overlay can mount.
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted || typeof document === "undefined") return null;
-
-  const inSplit = split.open;
 
   return createPortal(
     <div

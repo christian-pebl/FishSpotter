@@ -27,6 +27,10 @@
 // also called directly with hand-built fixtures in tests.
 export const MIN_ANSWERS_FOR_RANKING = 1;
 
+/** Cache tag for the viewer-independent leaderboard data (LeaderboardPanel).
+ *  Revalidated by POST /api/answers, the only writer of the rows it sums. */
+export const LEADERBOARD_CACHE_TAG = "leaderboard";
+
 export interface SpotterCounts {
   userId: string;
   correct: number;

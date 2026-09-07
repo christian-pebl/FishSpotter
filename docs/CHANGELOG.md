@@ -2195,3 +2195,73 @@ clips; Kaly has no clip on the feed yet, which is why the payload separates
 
 Still open: paste `METRICS_TOKEN` into `.env.local` (or rotate it in Vercel and redeploy),
 and the remote-session network allowlist for `www.fishspotter.app` from the 1 Aug plan.
+
+## The split opens in its final orientation, and the feed mounts seven cards instead of 139 (7 Sep 2026)
+
+Reported from a laptop and a landscape tablet: tapping a clip opened the identify panel as a
+phone bottom sheet, with the clip squashed into the top half, and a beat later it re-laid
+itself out as the docked side panel. On every open, and on every clip as you moved through
+the menu. Measured with a per-frame recorder on the production build: two to three painted
+frames of the sheet (`--gate-bottom: 56%`, video 1280x352) for 80 to 100 ms, then the docked
+layout (`--gate-left: 36%`, video 819 wide), on 1280x800 and 1024x768 alike. The docked panel
+also slid in on the sheet's y-axis, because that was the framer `initial` it had been given.
+
+The cause was `useDocked()` starting `false` and asking `matchMedia` in a mount effect: the
+hydration-safe pattern, and a wrong first frame for anything mounted by a tap. The stored
+panel size had the same shape (36% first, the viewer's own width a frame later), and the
+frame was published from a passive effect, so the clip resized one paint after the panel
+appeared. `FeedCard` carried two more copies of the pattern, one of them (`isLg`) read by
+nothing.
+
+Shipped:
+
+- `src/lib/useMediaQuery.ts`: `useSyncExternalStore` over one shared `MediaQueryList` per
+  query. Server and hydration render false; anything mounted after hydration reads the real
+  match on its first render. `useDocked`, `FeedCard`'s `isDesktop` and the dead `isLg` all
+  moved onto it (139 cards used to hold 278 media-query listeners between them).
+- `src/lib/split-screen.ts`: the stored size and the frame are stores too, with boolean
+  selectors (`useSplitOpen`, `useSplitDocked`) so a resize drag re-renders nothing that only
+  needs open/closed. `FeedPlayer` used to re-render every card per drag frame. The frame is
+  published from a layout effect, and the clip inset (`--gate-left` / `--gate-bottom`) is
+  written ONCE on the document element from the measured panel, in pixels, instead of by 139
+  per-card window listeners writing a percentage. That also fixes a real overlap: at 768px the
+  panel is clamped to its 20rem minimum (320px) while the inset was 36% (276px), so the panel
+  lay 44px over the clip. Now 0px at 768, 900 and 1280.
+- The feed mounts a `FeedCard` only within `RENDER_WINDOW` (3) of the active card; every clip
+  keeps its full-height section, so scroll positions, snap points and the keyboard/observer
+  navigation are untouched. A guest guess whose card is no longer mounted is carried in on
+  signup by `drainGuestAnswers` (`src/lib/guestAnswers.ts`, the queue moved out of
+  `useCreatureQuiz`), skipping the mounted ids so nothing posts twice; failures on the
+  network or the server are put back in the queue.
+- Snippet stills go through Next's image optimizer (`src/lib/thumbnail-src.ts`): the feed's
+  poster, sharp still and blurred backdrop share one 1080-wide WebP of about 10 KB instead
+  of the 170 to 560 KB archive JPEG (170,713 to 10,592 bytes on the first clip measured).
+  `images.minimumCacheTTL` is 30 days, since every image URL is immutable (`?v=` on stills,
+  content hashes on species photos) and the upstream only says `max-age=3600`.
+- `/pebbles`: the five whole-table aggregates behind the leaderboard are cached for a minute
+  and invalidated by every answer write (`revalidateTag`), so the spotter's own new total
+  never lags.
+
+Measured on a local production build, before and after (medians of three):
+
+| | before | after |
+|---|---|---|
+| Panel open, laptop and tablet landscape | 2 to 3 frames as a sheet, then docked | docked from the first frame, clip already resized |
+| `/feed` HTML, raw | 469 KB | 183 KB |
+| `/feed` DOM nodes / `<video>` elements | 2,363 / 139 | 338 / 4 |
+| `/feed` load event, desktop | 705 ms | 529 ms |
+| `/feed` phone, CPU 4x: blocking time | 932 ms (1,412 ms of long tasks) | 378 ms (661 ms) |
+| `/feed` phone, CPU 4x: interactive | 2,598 ms | 1,747 ms |
+| JS heap after load | 18 MB | 10 MB |
+
+Verified: tsc, 990 unit tests (17 new: first-render contracts for the hooks, the guest drain,
+the thumbnail URL), lint and lint:tokens clean; `tests/e2e/split-orientation.spec.ts` (new,
+records frames and asserts the sequence, since a settled-state check passes throughout this
+bug's life) and `feed-first-paint.spec.ts` green on both Playwright projects.
+
+Found and not changed: the 3 Sep colour-rescue re-upload ran from a checkout without the
+29 Aug `cacheControl` fix, so every live clip and still still serves `max-age=3600` (a HEAD
+says `no-cache`, a GET says 3600; the probe object uploaded from the current code stored
+`max-age=2592000`). Re-uploading 163 clips is a deliberate production job for the colour-rescue
+tooling, not a side effect of this PR. Sentry's `_optionalChain` build warnings (248) are
+identical before and after.
