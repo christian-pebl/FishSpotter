@@ -2168,3 +2168,30 @@ superseded duplicate exports of footage that already has a working version.
 
 Findings, the three research briefs, metrics and the full decision trail:
 `implementation/2026-09-03/colour-rescue.md`.
+
+## Live metrics API: a public headline endpoint, and the roundup made findable (7 Sep 2026)
+
+Asked for "an API so we can always fetch live metrics", the first finding was that one
+already existed: `GET /api/metrics/summary`, token-gated, built 1 Aug 2026 and still live.
+It was invisible in practice. `CLAUDE.md` never mentioned it, no skill called it,
+`METRICS_TOKEN` was in Vercel but not in the local `.env.local` (so every call from this
+machine returned 401), and `npm run db:stats`, the local fallback, had been dropped from
+`package.json` by PR #146. There was no one-line way to get the numbers for an email or a
+newsletter, which is how figures end up typed from memory.
+
+Shipped: `GET /api/stats` (`src/lib/public-stats.ts`), a public, no-token JSON of the
+landing-page figures (clips, species, identifications, spotters, sites, farms with clips,
+farms monitored, farm names, countries) with a `definitions` map, CDN-cached five minutes,
+CORS open, 120/hour per IP behind the cache, aggregate counts only. The farm roll-up is
+pure and tested (`public-stats.test.ts`, real catalogue sites as fixtures so a site rename
+fails in CI rather than in production). `db:stats` restored. `CLAUDE.md` gained a "Live
+metrics API" section, both routes in Key Files and `METRICS_TOKEN` in the env block. A
+machine-level `fishspotter-metrics` skill walks the three paths (public, token, local CLI)
+and refuses to estimate. Verified before the PR: tsc, 969 tests, lint and lint:tokens
+clean; on a worktree dev server the route returned both headers and the live numbers
+(139 clips, 72 species, 660 identifications, 78 spotters, 8 sites, 5 of 6 farms with
+clips; Kaly has no clip on the feed yet, which is why the payload separates
+`farmsWithClips` from `farmsMonitored`).
+
+Still open: paste `METRICS_TOKEN` into `.env.local` (or rotate it in Vercel and redeploy),
+and the remote-session network allowlist for `www.fishspotter.app` from the 1 Aug plan.

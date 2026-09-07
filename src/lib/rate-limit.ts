@@ -209,3 +209,14 @@ if (!redis && typeof globalThis !== "undefined") {
   };
   setInterval(sweep, WINDOW_MS).unref?.();
 }
+
+// GET /api/stats. Public and unauthenticated, but cached at the CDN for five
+// minutes, so a genuine reader never reaches this; only a caller varying the
+// query string to dodge the cache does, and 120 an hour per IP makes that a
+// waste of their time without touching anyone quoting the numbers.
+const PUBLIC_STATS_WINDOW_MS = 60 * 60 * 1000;
+const PUBLIC_STATS_MAX_PER_HOUR = 120;
+
+export async function checkPublicStatsRateLimit(ipKey: string): Promise<boolean> {
+  return consume(`public-stats:${ipKey}`, PUBLIC_STATS_WINDOW_MS, PUBLIC_STATS_MAX_PER_HOUR);
+}
