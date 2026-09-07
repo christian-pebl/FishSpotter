@@ -56,6 +56,9 @@
 | `scripts/lib/video-codec.ts` | **Codec gate (28 Aug 2026).** Refuses to publish a clip a browser cannot decode. TRDesk4's exporter pipes frames to `ffmpeg -c:v libx264` ONLY when `shutil.which("ffmpeg")` resolves inside its own process; otherwise it falls back to the cv2 `mp4v` writer (MPEG-4 Part 2) and merely logs a warning. On 28 Aug 2026 that shipped all 52 Car-Y-Mor clips as `mpeg4`: they uploaded fine, served a healthy HTTP 206, carried complete metadata and clean pixels, and rendered as "This clip didn't load." in every browser. The existing `npm run check:codecs` catches this, but only by probing live DB URLs, i.e. after the public has seen it; this gate runs before upload. `isPlayableCodec()` is the pure predicate (H.264 only, deliberately: HEVC/AV1 are refused because widening the set is a product decision, not something a sync should infer). `checkSnipCodec()` returns `unknown` (warn, fail open) when ffprobe is absent, but `unplayable` (hold) when ffprobe IS present and cannot parse the file, since that is a truncated or corrupt clip rather than a missing tool. Used by `sync.ts` and `snip-preflight.ts`. |
 | `scripts/fix-unplayable-snippets.ts` | **Codec repair (`npm run db:fix-codecs`, 28 Aug 2026).** The remediation half of the gate above: probes every live `Snippet.videoUrl`, re-encodes any non-H.264 clip to H.264, uploads over the same storage key, and bumps the `?v=` cache-buster so browsers and the CDN drop the undecodable bytes they cached. Prefers re-encoding from `SNIPS_DIR/<externalId>/snippet.mp4` (the exact uploaded bytes) and downloads only when there is no local copy. NB this is a SECOND lossy pass over a weak mp4v intermediate, the very thing the 10 Jun 2026 re-cut existed to stop, so it is the emergency fix, not the best output: the clean fix is to make ffmpeg resolvable to TRDesk4 and re-export from the raw footage (one encode at crf 16). `--dry-run`, `--limit N`, `--external <id>`. Verify with `npm run check:codecs`. |
 | `scripts/transcode-to-h264.ts` | Utility: downloads all mp4v snippets, transcodes to H.264, re-uploads, updates DB URLs |
+| `scripts/lib/video-rendition.ts` | **The 720p feed rendition (7 Sep 2026).** `encodeSdRendition(sourcePath)`: ffmpeg to 720p, CRF 20, slow preset, no audio, `-fps_mode passthrough` so the frame COUNT matches the 1080p source exactly (verified before returning; a mismatch would desync the bbox/manual-track trail, which is a normalised `(x, y, t)` path and only correct if timing matches). Setting chosen by SSIM measurement on three real clips (0.983-0.991 at CRF 20), deliberately conservative for an app whose "Spot It" flow needs small diagnostic features legible. `hasFfmpeg()` is a cached PATH check; every caller treats `{ ok: false }` as "leave the rendition unset, fall back to the master", never as a reason to abort a batch. See "Video / Codec Notes" below for the full reasoning and who gets served the rendition. |
+| `scripts/generate-renditions.ts` | Production backfill for the 720p rendition. `npm run db:generate-renditions -- --dry-run` etc. Source bytes come from a local mirror (`--from <dir>`, matched against the live ETag, multipart-ETag aware) when given, else a checksum-verified download. `--dry-run`, `--limit N`, `--external <id>`, `--force` (re-generate even when `videoUrlSd` is already set). Idempotent: skips rows that already have one. |
+| `src/lib/video-rendition-select.ts` | `chooseVideoSrc(snippet, { isDesktop, sdFailed })`: which video file a feed card actually plays. Desktop (`useDocked()`, the same 768px query the split screen uses) always gets the 1080p master; a phone gets the 720p rendition when one exists. Device-class split, not a live pixel measurement, chosen deliberately: it inherits `useDocked`'s first-render correctness (no flash), and it protects desktop, where a docked panel and comfortable zoom make careful identification more likely, from any quality trade-off at all. Pure and unit-tested (`video-rendition-select.test.ts`). |
 | `scripts/fix-media-cache-control.ts` | **Media cache header repair (7 Sep 2026).** Re-puts every live clip and still with the driver's 30-day `Cache-Control` without changing a byte, a URL or a DB row. Exists because the 3 Sep colour-rescue re-upload ran from a checkout without the 29 Aug `cacheControl` fix, so all 326 live objects served `max-age=3600`. Three fences: bytes from the local mirror only when their MD5 equals the live ETag (Supabase's ETag IS the MD5 here; one mirror clip differed from live), else downloaded and used only if length and MD5 match; and an origin-side read-back (S3 `HeadObject`) that requires the new header and an unchanged ETag. Idempotent, `--dry-run`, `--limit N`, `--external <id>`, `--kind`. **Two Supabase facts it encodes:** an upsert or a same-key `CopyObject` DOES update the object's metadata, but the CDN in front of the public endpoint keeps serving the OLD header for a while (and a HEAD says `no-cache` regardless), so never judge a header through the public URL right after a write; and the public endpoint rate-limits a tight loop of reads (429), which the S3 protocol with session-token auth (project ref + anon key + service-role JWT) does not. |
 | `scripts/reupload-snippets-hq.ts` | Re-uploads the high-quality re-cut clips (from `DesktopML/reexport_snippets_hq.py`, default `--from` the local export dir or pass `--from "<G: Fish Spotter Snips>"`) to the active storage provider and cache-busts the DB `videoUrl`/`thumbnailUrl` with a `?v=` bump. Idempotent: skips rows already on the active provider's host (`--all` to force). `--dry-run` / `--limit N`. Used for the 10 Jun 2026 quality re-cut; also the tool to re-consolidate onto R2 once R2 creds are present. |
 | `scripts/refresh-images.ts` | CLI runner for the species-image cache (thin wrapper around `src/lib/biodiversity/refresh-images.ts`) |
@@ -245,6 +248,75 @@ Script: `DesktopML/colour_rescue_snips.py --profile gentle` (also has crash-resi
 unreadable source clip logs a FAILED line and the batch continues, rather than aborting).
 Re-run it (resumable via per-clip markers) if new snips are added and need the same treatment,
 then `npx tsx --env-file=.env.local scripts/reupload-snippets-hq.ts --from <mirror> --all`.
+
+### 720p feed rendition (7 Sep 2026)
+
+Every live clip is 1920x1080 (all H.264, per the invariant above), and the load-performance
+benchmark found the feed media-bound: clips run 3.4 to 10.5 Mbps, ~8.8 MB for a ~7 second
+clip, the single biggest thing a spotter downloads. Most feed viewing is a phone, which
+cannot show more than a few hundred CSS pixels of width, so the majority of those bytes
+were never painted.
+
+**A second, smaller rendition (720p) is generated per clip and served ONLY to phone
+viewports; desktop always gets the full 1080p master.** That split matters for a reason
+specific to this app: the "Spot It" flow asks a viewer to read small diagnostic features
+off the clip, a stricter bar than most video products need to clear, and desktop (the
+`useDocked()` 768px query the split screen already uses) is where a docked panel and
+comfortable zoom make careful identification more likely. It was a deliberate
+simplification of a true adaptive/quality-switch design (swap to the master mid-play once
+someone actually zooms), set aside because a live source swap risks a stutter or a black
+frame at exactly the moment someone is reading a feature. See
+`src/lib/video-rendition-select.ts`.
+
+**The encode setting (720p, CRF 20, slow preset) was chosen by measurement**, not a round
+number: SSIM against the 1080p source on three real clips (a calm shot, a fast-moving fish,
+a busy scene) scored 0.983-0.991 at CRF 20 (0.980-0.989 at CRF 22, 0.977-0.988 at CRF 24;
+all three comfortably clear the usual 0.95 "visually lossless" bar), and CRF 20 was picked
+anyway to keep the SD rendition itself close to source quality, on top of desktop already
+carrying the master unconditionally. `-fps_mode passthrough` keeps the rendition
+frame-for-frame identical in count and timing to the master (verified: 240/240, 211/211,
+168/168 frames on the three test clips, and asserted before upload for every clip in
+production), which is what keeps the bbox/manual-track trail (a normalised `(x, y, t)`
+path) aligned regardless of which file is playing.
+
+**Published to all 163 live clips 7 Sep 2026** via `scripts/generate-renditions.ts`, from
+the same colour-rescued mirror used for the cache-header repair (matched against the live
+ETag, multipart-ETag aware; downloaded and checksum-verified when the mirror was absent or
+differed). `Snippet.videoUrlSd` is nullable and every consumer falls back to the master
+when it is null, so the feature degrades gracefully for any clip whose rendition failed or
+has not been generated yet. `scripts/sync.ts` generates the rendition going forward, from
+the local master file TRDesk4 just exported, on every video change; a sync machine without
+ffmpeg on PATH logs a warning and clears `videoUrlSd` rather than serve a stale rendition of
+the previous master. Verified: `npm run check:codecs` still reports all 163 clips H.264, a
+spot-checked rendition object serves `h264,1280,720`, the correct frame count, and
+`Cache-Control: public, max-age=2592000` from the driver's existing default.
+
+**Result: all 163 of 163 live clips carry a rendition, 0 failures.** Measured directly
+against every live object (`HEAD`, not the batch's own in-process tally): masters total
+1817.4 MB (avg 11.2 MB, median 7.6 MB), renditions total 458.2 MB (avg 2.9 MB, median
+2.1 MB), a **3.97x reduction** in what a phone downloads per clip. `check:codecs` still
+reports all 163 H.264 afterward.
+
+**A real bug was caught and fixed by the same benchmark script used to justify this
+feature.** The first implementation picked the rendition from `useDocked()`, the SAME
+hydration-safe hook the split screen uses, whose whole point is that a server default of
+"not desktop" is FREE to be briefly wrong for layout (CSS, corrected before the next
+paint, no cost). A `<video src>` is not free to be wrong: the browser fetches it the
+instant the server HTML is parsed, before React runs. A real desktop visitor's active
+card therefore downloaded the FULL SD rendition first (the forced server default), then
+the FULL 1080p master too, once hydration corrected the query, exactly double the bytes
+the feature exists to save. Fixed by giving the SERVER its own best guess from the
+request's User-Agent (`src/lib/device-guess.ts`) and seeding a SEPARATE, purpose-specific
+media-query call with it (`useMediaQuery(DOCK_MEDIA_QUERY, initialIsDesktopGuess)` in
+`FeedCard`, kept apart from `isDesktop`/`useDocked()`, which keeps its own always-false
+default for layout). Verified with a Playwright request-level check
+(`npm run bench:clips`) before and after: before, a real desktop viewport requested both
+`snippet_720.mp4` and `snippet.mp4` for the active card; after, only `snippet.mp4`. A UA a
+real phone would never send (the test harness's own first attempt: a mobile VIEWPORT with
+no mobile User-Agent) still degrades to one extra fetch on that one request, never a
+systemic doubling. **The general lesson: a hook that is safe for layout because being
+briefly wrong costs nothing is not automatically safe for a resource URL, where being
+briefly wrong costs a real download.**
 
 ## Storage provider
 

@@ -23,13 +23,21 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 export type StorageProvider = "supabase" | "r2";
 
-export type StorageKind = "video" | "thumbnail";
+export type StorageKind = "video" | "thumbnail" | "video_sd";
 
 const VIDEO_FILENAME = "snippet.mp4";
 const THUMBNAIL_FILENAME = "thumbnail.jpg";
+// A second, smaller rendition of the clip (720p, see scripts/lib/video-rendition.ts),
+// stored alongside the 1080p master under the same externalId prefix rather than
+// overwriting it: the master is still what admin editors and the OG/JSON-LD video
+// metadata point at, and a clip whose rendition generation failed just has no
+// video_sd object, which callers treat as "fall back to the master".
+const VIDEO_SD_FILENAME = "snippet_720.mp4";
 
 function fileName(kind: StorageKind): string {
-  return kind === "video" ? VIDEO_FILENAME : THUMBNAIL_FILENAME;
+  if (kind === "video") return VIDEO_FILENAME;
+  if (kind === "video_sd") return VIDEO_SD_FILENAME;
+  return THUMBNAIL_FILENAME;
 }
 
 function objectKey(externalId: string, kind: StorageKind): string {
@@ -189,6 +197,15 @@ export async function uploadThumbnail(
   contentType = "image/jpeg",
 ): Promise<string> {
   return getStorageDriver().upload(externalId, "thumbnail", body, contentType);
+}
+
+/** The 720p rendition (see scripts/lib/video-rendition.ts). */
+export async function uploadVideoSd(
+  externalId: string,
+  body: Buffer,
+  contentType = "video/mp4",
+): Promise<string> {
+  return getStorageDriver().upload(externalId, "video_sd", body, contentType);
 }
 
 export function buildPublicUrl(externalId: string, kind: StorageKind): string {

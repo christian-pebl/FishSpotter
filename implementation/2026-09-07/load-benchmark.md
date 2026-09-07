@@ -131,8 +131,50 @@ production "before" exists for this profile; the local pair above is the like-fo
    re-upload had run from a checkout without the 29 Aug `storage.ts` fix, so all 326 objects
    carried `max-age=3600`. Not visible in a first-load benchmark; it is the repeat visit that
    changes, from a re-download of every still and clip each hour to a 304 or a cache hit.
-2. 720p renditions of the feed clips (8.8 MB average for seven seconds at 1080p); the site
-   is media-bound and this is most of what a spotter downloads.
+2. ~~720p renditions of the feed clips.~~ **Done, 7 Sep 2026** (`scripts/lib/video-rendition.ts`
+   + `scripts/generate-renditions.ts`, see the CHANGELOG entry and CLAUDE.md's "720p feed
+   rendition" section). Every live clip now has a 720p sibling, served to phone viewports
+   only (`src/lib/video-rendition-select.ts`); desktop keeps the 1080p master unconditionally.
 3. Code-splitting the identify flow and the species catalogue (chunk `4568`, 249 KB raw) off
    the feed's first load with an idle prefetch. Judged not worth the tap-latency risk once
    windowing had cut the blocking time; revisit if `bench:phone` blocking time creeps up.
+
+## 7 Sep 2026, later the same day: the 720p rendition, and a bug the same script caught
+
+`bench:clips` (`npm run bench:clips -- <url> <label>`, new, joined the family alongside
+`bench:load`/`bench:phone`/`bench:split`): opens `/feed` at a real Pixel 7 and a real
+desktop Chrome context and reports every `snippet.mp4` / `snippet_720.mp4` request the
+active card actually made. It exists because none of the other three scripts look at the
+video FILE itself, which is what this feature changes and the others don't.
+
+Every live clip and still on Supabase now has a 720p sibling (`scripts/generate-renditions.ts`,
+run against production): 163 of 163, 0 failures. Measured directly against the live objects:
+
+| | master (1080p) | rendition (720p) |
+|---|---|---|
+| Total across 163 clips | 1817.4 MB | 458.2 MB |
+| Average | 11.2 MB | 2.9 MB |
+| Median | 7.6 MB | 2.1 MB |
+
+A **3.97x reduction** in what a phone downloads per clip. A phone is served the rendition,
+desktop keeps the master unconditionally (`src/lib/video-rendition-select.ts`); see
+CLAUDE.md's "720p feed rendition" section for the SSIM measurement behind the encode
+setting and the reasoning for the device split.
+
+**The first implementation was wrong, and `bench:clips` is what caught it.** It picked the
+rendition from `useDocked()`, the split screen's own hook, whose server default (assume
+not-desktop) is free to be briefly wrong for LAYOUT: CSS costs nothing to correct before
+the next paint. A `<video src>` is not free: the browser fetches it the instant the SSR
+HTML is parsed, before React runs. `bench:clips` against a real desktop context showed the
+active card requesting BOTH `snippet_720.mp4` (the wrong server default) AND `snippet.mp4`
+(the client correction), exactly double the bytes the feature exists to save. Fixed by a
+server-side User-Agent guess (`src/lib/device-guess.ts`) seeding a media-query call kept
+SEPARATE from `useDocked()`, so the SSR HTML already asks for the right file. Re-run after
+the fix: a real desktop context requests only `snippet.mp4`; a real Pixel 7 context
+requests only `snippet_720.mp4`. Confirmed directly in the raw HTML too, via `curl -A`
+with a desktop and an iPhone User-Agent against the same URL.
+
+**The general lesson, worth carrying to the next hook that picks a server default:** a
+hook safe for layout because being briefly wrong costs nothing is not automatically safe
+for a resource URL, where being briefly wrong costs a real download. Check what the
+default is USED FOR, not just whether the hook itself is hydration-safe.

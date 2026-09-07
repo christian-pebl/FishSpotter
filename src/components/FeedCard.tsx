@@ -19,7 +19,8 @@ import {
   type VideoSettings,
 } from "@/lib/videoSettings";
 import { SplitPanel } from "./idflow/SplitPanel";
-import { useDocked, useSplitOpen } from "@/lib/split-screen";
+import { DOCK_MEDIA_QUERY, useDocked, useSplitOpen } from "@/lib/split-screen";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 import { StaffScientificResolver } from "./StaffScientificResolver";
 import { resolveFarmByDeployment } from "@/lib/farms/catalogue";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
@@ -37,6 +38,7 @@ import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 import { manualTrackToBoxes } from "@/lib/manualTrack";
 import { coverageAlpha, inCoverage, trackCoverage } from "@/lib/trackCoverage";
 import { thumbnailSrc } from "@/lib/thumbnail-src";
+import { chooseVideoSrc } from "@/lib/video-rendition-select";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -442,9 +444,21 @@ interface FeedCardProps {
   /** Q3A-T7: fired after a successful submit so the parent feed can
    *  optimistically move this card to the back of the queue. */
   onAnswered?: () => void;
+  /** Server-side device guess for the video-rendition choice; see
+   *  FeedPlayerProps and src/lib/device-guess.ts. */
+  initialIsDesktopGuess?: boolean;
 }
 
-export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdvance, onAnswered }: FeedCardProps) {
+export function FeedCard({
+  snippet,
+  isActive,
+  preload,
+  showStill,
+  hasNext,
+  onAdvance,
+  onAnswered,
+  initialIsDesktopGuess = false,
+}: FeedCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<SVGSVGElement>(null);
   const trailPathRef = useRef<SVGPathElement>(null);
@@ -539,6 +553,34 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   // store behind `useDocked` hydrates as false and reads the real value only
   // once hydration is done, or straight away for anything mounted after it.
   const isDesktop = useDocked();
+  // The 720p rendition errored (missing object, a row backfilled mid-failure):
+  // fall back to the always-present 1080p master rather than ever showing a
+  // broken player over a rendition problem. Resets to false on every fresh
+  // mount, which windowing already gives this component (see RENDER_WINDOW in
+  // FeedPlayer): a card scrolled back into range starts this over rather than
+  // carrying a stale failure from a different visit.
+  const [sdFailed, setSdFailed] = useState(false);
+  // The 1080p master on desktop (docked-panel room, comfortable zoom, more
+  // likely careful identification work); the 720p rendition on a phone,
+  // whose screen has no more pixels to show either way, once one exists (see
+  // src/lib/video-rendition-select.ts for the full reasoning).
+  //
+  // A SEPARATE query from `isDesktop` above, deliberately: `isDesktop`
+  // exists for LAYOUT (the split screen), where defaulting false on the
+  // server and correcting after hydration is free, CSS has no cost to being
+  // briefly wrong. This chooses a FETCHED FILE, where the server's default is
+  // what the browser acts on the instant the HTML is parsed, before React
+  // ever runs. Seeding it from the server's own User-Agent guess
+  // (`initialIsDesktopGuess`, see FeedPlayerProps) means a real desktop
+  // visitor's SSR HTML already asks for the master, instead of fetching the
+  // SD rendition first and the master second once hydration corrects it,
+  // which is what sharing `isDesktop` here did in practice (caught on a
+  // benchmark run 7 Sep 2026: the active card downloaded both files).
+  const isDesktopForRendition = useMediaQuery(DOCK_MEDIA_QUERY, initialIsDesktopGuess);
+  const { src: chosenVideoSrc, isSd: usingSdSource } = chooseVideoSrc(snippet, {
+    isDesktop: isDesktopForRendition,
+    sdFailed,
+  });
 
   // One-time "tap the clip to identify" nudge: shown the first time an active
   // card idles, auto-dismissed after 5s, and never shown again once seen or once
@@ -1472,7 +1514,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
             thumbnail REQUESTS, not attributes. */}
         <video
           ref={videoRef}
-          {...(preload ? { src: snippet.videoUrl } : {})}
+          {...(preload ? { src: chosenVideoSrc } : {})}
           {...(showStill ? { poster: thumbnailSrc(snippet.thumbnailUrl) } : {})}
           muted
           playsInline
@@ -1497,8 +1539,22 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
           }}
           onError={(e) => {
             const v = e.currentTarget;
+            // A broken 720p rendition retries with the always-present master
+            // instead of ever surfacing "this clip didn't load" over a
+            // rendition problem. Setting sdFailed changes chosenVideoSrc,
+            // which changes the `src` prop above and reloads the element.
+            if (usingSdSource) {
+              console.warn(
+                "[FeedCard] 720p rendition failed, falling back to the master",
+                v.error?.code,
+                v.error?.message,
+                snippet.videoUrlSd?.slice(-60),
+              );
+              setSdFailed(true);
+              return;
+            }
             setVideoErrored(true);
-            console.error("[FeedCard] video error", v.error?.code, v.error?.message, snippet.videoUrl.slice(-60));
+            console.error("[FeedCard] video error", v.error?.code, v.error?.message, chosenVideoSrc.slice(-60));
           }}
           onKeyDown={(e) => {
             if (!isActive) return;

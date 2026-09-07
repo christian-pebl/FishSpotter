@@ -37,9 +37,11 @@ import {
   getStorageDriver,
   uploadThumbnail,
   uploadVideo,
+  uploadVideoSd,
 } from "./lib/storage";
 import { isSnippetExcluded } from "../src/lib/snippet-blocklist";
 import { checkSnipBurnIn } from "./lib/burn-in";
+import { encodeSdRendition, hasFfmpeg } from "./lib/video-rendition";
 
 const prisma = new PrismaClient();
 
@@ -259,7 +261,7 @@ async function main() {
     const prev = manifest[folderName];
     const existing = await prisma.snippet.findUnique({
       where: { externalId: folderName },
-      select: { id: true, videoUrl: true, thumbnailUrl: true, excluded: true },
+      select: { id: true, videoUrl: true, thumbnailUrl: true, videoUrlSd: true, excluded: true },
     });
 
     const isNew = !existing;
@@ -345,6 +347,11 @@ async function main() {
 
     let videoUrl: string;
     let thumbnailUrl: string;
+    // The 720p feed rendition (7 Sep 2026, see scripts/lib/video-rendition.ts).
+    // Null is a legitimate steady state (every consumer falls back to the
+    // master), so `undefined` here specifically means "not touched this run,
+    // carry the existing value forward" versus an explicit clear.
+    let videoUrlSd: string | null | undefined;
 
     if (useLocal) {
       const outDir = path.join(MEDIA_OUT, folderName);
@@ -355,21 +362,48 @@ async function main() {
       }
       videoUrl = `/media/snippets/${folderName}/snippet.mp4`;
       thumbnailUrl = `/media/snippets/${folderName}/thumbnail.jpg`;
+      // Local-media mode writes plain files, not the cloud storage the
+      // rendition is served from; nothing meaningful to generate here.
+      videoUrlSd = existing?.videoUrlSd ?? null;
     } else if (videoChanged) {
       if (DRY) {
         videoUrl = existing?.videoUrl ?? "(new upload)";
         thumbnailUrl = existing?.thumbnailUrl ?? "(new upload)";
+        videoUrlSd = existing?.videoUrlSd;
       } else {
         const vClean = await uploadVideo(folderName, fs.readFileSync(videoPath));
         const tClean = await uploadThumbnail(folderName, fs.readFileSync(thumbPath));
         videoUrl = bustFrom(vClean, existing?.videoUrl ?? null);
         thumbnailUrl = bustFrom(tClean, existing?.thumbnailUrl ?? null);
+
+        // Build the SD rendition from the SAME local master file that was
+        // just uploaded, so it never disagrees with what videoUrl now points
+        // at. No download needed, unlike the standalone backfill script: the
+        // bytes are already on disk right here.
+        if (!hasFfmpeg()) {
+          console.warn(`WARN ${folderName}: ffmpeg not on PATH, skipping the 720p rendition`);
+          // The master changed but its rendition didn't regenerate: an old
+          // rendition would now be OF A DIFFERENT CLIP (wrong frame count,
+          // wrong content). Clearing it is the safe state; a later backfill
+          // run on a machine with ffmpeg fills it back in.
+          videoUrlSd = null;
+        } else {
+          const enc = encodeSdRendition(videoPath);
+          if (!enc.ok) {
+            console.warn(`WARN ${folderName}: 720p rendition failed (${enc.reason})`);
+            videoUrlSd = null;
+          } else {
+            const sdClean = await uploadVideoSd(folderName, enc.buffer);
+            videoUrlSd = bustFrom(sdClean, existing?.videoUrlSd ?? null);
+          }
+        }
       }
     } else {
       // Media unchanged (editor rewrite path): keep the existing URLs and only
       // refresh the DB tracking/metadata fields below.
       videoUrl = existing!.videoUrl;
       thumbnailUrl = existing!.thumbnailUrl;
+      videoUrlSd = existing!.videoUrlSd;
     }
 
     if (DRY) {
@@ -384,6 +418,7 @@ async function main() {
 
     const data = {
       videoUrl,
+      videoUrlSd: videoUrlSd ?? null,
       thumbnailUrl,
       site: meta.site ?? "Unknown",
       deployment: meta.deployment ?? "Unknown",
@@ -406,6 +441,7 @@ async function main() {
     processed++;
     console.log(
       `${isNew ? "NEW " : "UPD "}${folderName}${videoChanged ? " (media)" : ""}` +
+        `${videoChanged ? (data.videoUrlSd ? " [+720p]" : " [no 720p]") : ""}` +
         `${manualTrackJson ? " [manualTrack]" : ""}`,
     );
     } catch (err) {

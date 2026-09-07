@@ -2301,3 +2301,45 @@ when the copy creates a new key, so there is no server-side way to rewrite a hea
 place; the bytes have to travel. The S3 protocol authenticates with the project ref, the
 anon key and the service-role JWT as a session token, and unlike the public endpoint it
 does not rate-limit a tight loop of reads.
+
+## Every feed clip has a 720p rendition, served only to the phones that need it (7 Sep 2026)
+
+Christian asked for the 720p renditions flagged as the next win in the load-performance
+benchmark: every live clip was 1920x1080, 3.4 to 10.5 Mbps, ~8.8 MB for a ~7 second clip,
+and most feed viewing is a phone that cannot show more than a few hundred CSS pixels of
+width.
+
+Shipped: `scripts/lib/video-rendition.ts` encodes a 720p sibling of every clip (CRF 20,
+slow preset, no audio, frame-count-verified against the source so the bbox/manual-track
+trail never desyncs), a setting chosen by SSIM measurement (0.983-0.991 at CRF 20 on three
+real clips) and picked deliberately conservative for an app whose "Spot It" flow needs
+small diagnostic features legible. `src/lib/video-rendition-select.ts` decides who gets
+which file: desktop keeps the full 1080p master unconditionally, since that is where a
+docked panel and comfortable zoom make careful identification more likely; a phone, which
+cannot show 1080p detail regardless of which file it downloads, gets the 720p rendition
+once one exists. `scripts/sync.ts` now generates the rendition for every future export
+automatically, from the local master file already on disk; `scripts/generate-renditions.ts`
+did the one-time production backfill.
+
+Published to all 163 live clips: 163 of 163 now have a rendition, 0 failures. Measured
+against the live objects directly: masters total 1817.4 MB (avg 11.2 MB), renditions total
+458.2 MB (avg 2.9 MB), a 3.97x reduction in what a phone downloads per clip.
+`check:codecs` still reports all 163 H.264.
+
+**A real bug was caught by the benchmark script written to prove the feature, before it
+shipped.** The first implementation chose the rendition from the split screen's own
+`useDocked()` hook, whose server default (assume not-desktop) is free to be briefly wrong
+for layout, CSS costs nothing to correct before the next paint. A `<video src>` is not
+free: the browser fetches it the instant the server HTML is parsed, before React runs, so
+a real desktop visitor's active card downloaded the SD rendition AND the 1080p master,
+exactly double the bytes the feature exists to save. Fixed with a server-side
+User-Agent guess (`src/lib/device-guess.ts`) seeding a media-query call kept separate from
+`useDocked()`, so the server HTML already asks for the right file; verified with `curl -A`
+against both a desktop and an iPhone User-Agent, and with a new benchmark script
+(`npm run bench:clips`, request-level, real device descriptors) before and after the fix.
+
+Verified: tsc, 1001 unit tests (7 new), lint and lint:tokens clean; `bench:clips` against a
+local production build confirms a real desktop context requests only the master and a real
+Pixel 7 context requests only the rendition. Full record, including the wrong-first-draft
+numbers, in `implementation/2026-09-07/load-benchmark.md` and CLAUDE.md's "720p feed
+rendition" section.

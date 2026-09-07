@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isLikelyMobileUserAgent } from "@/lib/device-guess";
 import { FeedPlayer } from "@/components/FeedPlayer";
 import { FeedFilterNotice } from "@/components/FeedFilterNotice";
 import { VerificationBanner } from "@/components/VerificationBanner";
@@ -76,6 +78,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 const FEED_SELECT = {
   id: true,
   videoUrl: true,
+  videoUrlSd: true,
   thumbnailUrl: true,
   site: true,
   deployment: true,
@@ -175,6 +178,7 @@ export default async function SnippetDetailPage({
     return {
       id: snippet.id,
       videoUrl: snippet.videoUrl,
+      videoUrlSd: snippet.videoUrlSd,
       thumbnailUrl: snippet.thumbnailUrl,
       site: snippet.site,
       deployment: snippet.deployment,
@@ -199,7 +203,10 @@ export default async function SnippetDetailPage({
       {/* No end-of-feed card and no new-clip banner. Both answer "have you
           cleared the feed?", and an archive walk is a different question: it
           starts wherever the spotter tapped and laps the whole archive. */}
-      <FeedPlayer snippets={feedSnippets} />
+      <FeedPlayer
+        snippets={feedSnippets}
+        initialIsDesktopGuess={!isLikelyMobileUserAgent(headers().get("user-agent"))}
+      />
       <FeedFilterNotice
         parts={filterApplies ? describeSnippetFilter(filter, speciesIndex) : []}
         clips={feedSnippets.length}

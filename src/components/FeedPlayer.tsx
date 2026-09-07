@@ -73,6 +73,9 @@ export interface TrackPoint {
 export interface FeedSnippet {
   id: string;
   videoUrl: string;
+  /** 720p rendition, or null when not yet generated (see
+   *  src/lib/video-rendition-select.ts for who gets served which). */
+  videoUrlSd: string | null;
   thumbnailUrl: string;
   site: string;
   deployment: string;
@@ -103,6 +106,19 @@ interface FeedPlayerProps {
   completion?: FeedCompleteProps;
   /** Feed-visible clips added since this spotter's last visit. 0 hides the banner. */
   newClipCount?: number;
+  /**
+   * A server-side, User-Agent-based guess (see `src/lib/device-guess.ts`) at
+   * whether this request is desktop-class, seeding the ONE choice that must
+   * not be wrong on first paint: which video FILE a card fetches. Unlike the
+   * split screen's own layout query (safe to default false and correct
+   * after hydration, since CSS costs nothing to be briefly wrong), a
+   * `<video src>` is fetched the instant the server HTML is parsed, before
+   * React runs; guessing "mobile" for a real desktop visitor means their
+   * active clip downloads the SD rendition AND the 1080p master. Defaults to
+   * `false` (assume mobile) so a caller that omits this prop degrades to the
+   * pre-existing, merely-suboptimal-not-wrong behaviour rather than an error.
+   */
+  initialIsDesktopGuess?: boolean;
 }
 
 export function FeedPlayer({
@@ -110,6 +126,7 @@ export function FeedPlayer({
   unansweredCount,
   completion,
   newClipCount = 0,
+  initialIsDesktopGuess = false,
 }: FeedPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -373,6 +390,7 @@ export function FeedPlayer({
                 isActive={activeIndex === index}
                 preload={Math.abs(activeIndex - index) <= VIDEO_WINDOW}
                 showStill={Math.abs(activeIndex - index) <= STILL_WINDOW}
+                initialIsDesktopGuess={initialIsDesktopGuess}
                 // The completion card is a real scroll target, so the last clip
                 // still has a "next" when it's present.
                 hasNext={index < orderedSnippets.length - 1 || cleared}
