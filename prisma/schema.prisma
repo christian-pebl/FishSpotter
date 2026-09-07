@@ -139,7 +139,15 @@ model PasswordResetToken {
 model Snippet {
   id                String   @id @default(cuid())
   externalId        String   @unique // folder name e.g. ALG_SC_11_2024-07-08_...
-  videoUrl          String // path under /media/snippets/
+  videoUrl          String // path under /media/snippets/, the 1920x1080 master
+  // 720p rendition of videoUrl (7 Sep 2026), served to phone viewports so a
+  // screen that cannot show 1080p detail doesn't download it; see
+  // src/lib/video-rendition-select.ts. Null until the next sync/backfill
+  // generates it (new row, or ffmpeg unavailable on the sync machine); every
+  // consumer falls back to videoUrl when this is null, so it is never a hard
+  // dependency. Set by scripts/sync.ts (from the local master, on every
+  // videoUrl change) and scripts/generate-renditions.ts (production backfill).
+  videoUrlSd        String?
   thumbnailUrl      String
   site              String
   deployment        String

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isLikelyMobileUserAgent } from "@/lib/device-guess";
 import { FeedPlayer } from "@/components/FeedPlayer";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { VerificationBanner } from "@/components/VerificationBanner";
@@ -33,6 +34,7 @@ export const metadata: Metadata = {
 type FeedSnippetRow = {
   id: string;
   videoUrl: string;
+  videoUrlSd: string | null;
   thumbnailUrl: string;
   site: string;
   deployment: string;
@@ -99,6 +101,7 @@ export default async function FeedPage({
       select: {
         id: true,
         videoUrl: true,
+        videoUrlSd: true,
         thumbnailUrl: true,
         site: true,
         deployment: true,
@@ -218,6 +221,7 @@ export default async function FeedPage({
     return {
       id: snippet.id,
       videoUrl: snippet.videoUrl,
+      videoUrlSd: snippet.videoUrlSd,
       thumbnailUrl: snippet.thumbnailUrl,
       site: snippet.site,
       deployment: snippet.deployment,
@@ -241,6 +245,7 @@ export default async function FeedPage({
         unansweredCount={unansweredCount}
         completion={completion}
         newClipCount={newClipCount}
+        initialIsDesktopGuess={!isLikelyMobileUserAgent(headers().get("user-agent"))}
       />
       {/* A filtered feed must say so, or a spotter who launched one from the
           archive has no way to tell a 5-clip selection from a 5-clip site. */}
