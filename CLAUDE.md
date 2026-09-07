@@ -101,6 +101,8 @@
 | `src/app/admin/species/[name]/SpeciesAnnotator.tsx` | Click-to-add / drag-to-move / edge-handle-resize annotator. Img + absolute SVG overlay with normalised (0..1) coords. Save-on-blur for label/description; optimistic local updates with `useTransition` for the server actions. |
 | `src/app/admin/species/[name]/actions.ts` | Server actions for DiagnosticMark CRUD (`createMark` / `updateMark` / `deleteMark` / `swapMarkOrder`). All gated by `requireAdminSession()`. Coords clamped to 0..1, radius to 0.01..0.5. Cross-species mark assignment is rejected. `swapMarkOrder` runs in a Prisma transaction so the order list can't end up with duplicates mid-swap. |
 | `.github/workflows/bootstrap-image-cache.yml` | One-click GitHub Actions workflow that runs `prisma db push` + populates the cache; requires `POSTGRES_PRISMA_URL` + `POSTGRES_URL_NON_POOLING` repo secrets |
+| `src/app/api/stats/route.ts` + `src/lib/public-stats.ts` | **Public headline numbers (7 Sep 2026).** `GET https://www.fishspotter.app/api/stats`, no token: `clips`, `species`, `identifications`, `spotters`, `sites`, `farmsWithClips`, `farmsMonitored`, `farmNames`, `countries`, `generatedAt`, plus a `definitions` map saying what each figure counts. Same definitions as the landing page (`src/app/page.tsx`) so the JSON and the site never disagree; aggregate counts only, nothing names a person or a clip. Cached at the CDN for five minutes (`s-maxage=300, stale-while-revalidate=3600`), CORS `*`, per-IP cap of 120/hour behind the cache. `buildPublicStats()` is pure and unit-tested (`public-stats.test.ts`, real catalogue sites as fixtures); `loadPublicStats(prisma)` does the four queries. Built because the token-gated roundup below was unreachable from any session without the token, and there was no one-line way to get the numbers for an email or a newsletter. See "Live metrics API" below. |
+| `src/app/api/metrics/summary/route.ts` + `src/lib/metrics/roundup.ts` + `scripts/stats-roundup.ts` | **Full metrics roundup (1 Aug 2026, PRs #117, #121).** `computeRoundup()` is the single aggregation behind three consumers that must not drift: `npm run db:stats` (`-- --json`, `-- --days 7`; the npm script was dropped from `package.json` by PR #146 and restored 7 Sep 2026), `GET /api/metrics/summary?days=30` (token-gated on `METRICS_TOKEN`, deliberately separate from `CRON_SECRET`, 60/hour, aggregate-only, ships a `caveats` array), and `/admin/metrics`. Seven sections: reach, discovery (First Sightings), engagement, retention, learning, community (consensus), content. Design and the open phases (a `MetricSnapshot` table for trends, a weekly push): `implementation/2026-08-01/metrics-access-plan.md`. |
 | `public/sw.js` | Service worker (network-first; only caches app-shell icons) |
 
 ## Conventions
@@ -656,6 +658,29 @@ user-agent, referrer, or cross-visit device id is ever stored.
   `npm run db:enable-rls` (the `Event` table lands with RLS off until that runs;
   it's Prisma-only/owner-role accessed, so RLS-with-no-policy is correct).
 
+## Live metrics API
+
+Three ways to get the live numbers, in the order to try them. Never quote a FishSpotter
+figure from memory or an old email; the `fishspotter-metrics` skill (machine-level, in
+`~/.claude/skills/`, not in this repo because `.claude/` is gitignored) walks this ladder
+and refuses to estimate when none of the paths is available.
+
+| Path | Auth | What it returns |
+|---|---|---|
+| `GET /api/stats` | none, public | The headline numbers the landing page prints (clips, species, identifications, spotters, sites, farms with clips, farms monitored, farm names, countries) with a `definitions` map and `generatedAt`. CDN-cached five minutes, CORS open, so a newsletter, the PEBL website or a remote session can quote it. |
+| `GET /api/metrics/summary?days=30` | `Authorization: Bearer $METRICS_TOKEN` | The full seven-section roundup with a 1 to 365 day recent window and `caveats`. 60/hour per token. |
+| `npm run db:stats -- --json` | database creds in `.env.local` | The same roundup, computed locally. |
+
+`METRICS_TOKEN` is set in Vercel Production. For local use it must ALSO be in `.env.local`;
+as of 7 Sep 2026 it was not on Christian's machine, so path 2 returned 401 there and only
+paths 1 and 3 worked. Three traps: a new Vercel env var does not reach an already-built
+deployment until a redeploy; remote (web/mobile) Claude Code sessions cannot reach
+`www.fishspotter.app` at all until the host is allowlisted in that environment's network
+policy (still open from the 1 Aug plan); and the roundup's `content.liveClips` counts
+`excluded=false` only, while `/api/stats` and the landing page also drop the blocklisted
+external ids, so the two can differ by a few clips. Quote the public one for anything
+public-facing.
+
 ## Probability data flow (OBIS + GBIF)
 
 The fish-probability feature reads from two external APIs at backfill time
@@ -804,6 +829,8 @@ GEMINI_API_KEY=...                # image-quality / vision tool (gemini-vision.t
 GEMINI_MODEL=gemini-3.6-flash     # optional override (default gemini-3.6-flash)
 SENDGRID_API_KEY=...              # transactional email (src/lib/email/client.ts), replaced Resend
 CRON_SECRET=...                   # required in production for /api/cron/*
+METRICS_TOKEN=...                 # bearer for GET /api/metrics/summary (separate from CRON_SECRET;
+                                  # set in Vercel Production, paste here too for local calls)
 
 # Rate limiter shared store (optional, see "Rate limiting" section below)
 UPSTASH_REDIS_REST_URL=...        # both unset -> falls back to in-memory (per-instance) limiting

@@ -28,6 +28,7 @@
     "db:fix-codecs": "tsx --env-file=.env.local scripts/fix-unplayable-snippets.ts",
     "snips:check": "tsx --env-file=.env.local scripts/snip-preflight.ts",
     "db:check-apis": "tsx --env-file=.env.local scripts/check-apis.ts",
+    "db:stats": "tsx --env-file=.env.local scripts/stats-roundup.ts",
     "db:backfill": "tsx --env-file=.env.local scripts/backfill-probability.ts",
     "db:refresh-images": "tsx --env-file=.env.local scripts/refresh-images.ts",
     "db:migrate-to-r2": "tsx --env-file=.env.local scripts/migrate-to-r2.ts",
