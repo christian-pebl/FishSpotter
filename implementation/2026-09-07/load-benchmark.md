@@ -125,11 +125,12 @@ production "before" exists for this profile; the local pair above is the like-fo
 
 ## What is still on the table, ranked by what it buys
 
-1. Media cache headers. Every live clip and still serves `max-age=3600` because the 3 Sep
-   colour-rescue re-upload ran from a checkout without the 29 Aug `storage.ts` fix (a HEAD
-   says `no-cache`, a GET says 3600; a probe uploaded from the current code stores
-   `max-age=2592000`). A re-upload of the 163 clips through the current
-   `reupload-snippets-hq.ts --all` fixes it; a deliberate production job, not a side effect.
+1. ~~Media cache headers.~~ **Done, later the same day** (`scripts/fix-media-cache-control.ts`,
+   see the CHANGELOG entry): every live clip and still now serves `max-age=2592000`, put there
+   as identical bytes with the same URLs and no database writes. The 3 Sep colour-rescue
+   re-upload had run from a checkout without the 29 Aug `storage.ts` fix, so all 326 objects
+   carried `max-age=3600`. Not visible in a first-load benchmark; it is the repeat visit that
+   changes, from a re-download of every still and clip each hour to a 304 or a cache hit.
 2. 720p renditions of the feed clips (8.8 MB average for seven seconds at 1080p); the site
    is media-bound and this is most of what a spotter downloads.
 3. Code-splitting the identify flow and the species catalogue (chunk `4568`, 249 KB raw) off

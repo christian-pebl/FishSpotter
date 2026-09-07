@@ -2265,3 +2265,39 @@ says `no-cache`, a GET says 3600; the probe object uploaded from the current cod
 `max-age=2592000`). Re-uploading 163 clips is a deliberate production job for the colour-rescue
 tooling, not a side effect of this PR. Sentry's `_optionalChain` build warnings (248) are
 identical before and after.
+
+## Every live clip and still now caches for 30 days (7 Sep 2026, later the same day)
+
+Christian asked for the media cache re-upload flagged by the benchmark work. All 326 live
+objects (163 clips, 163 stills) served `Cache-Control: max-age=3600`: the 3 Sep colour-rescue
+re-upload had run from a checkout that predated the 29 Aug `storage.ts` fix, so every
+object carried the supabase-js default, and a repeat visitor re-downloaded the archive
+every hour. A HEAD on these objects says `no-cache` whatever the metadata, which is why the
+29 Aug fix was believed to have taken effect.
+
+Shipped: `scripts/fix-media-cache-control.ts`, run against production. It re-puts the
+identical bytes with the driver's 30-day header, changes no URL and writes no database row,
+so nothing needed a `?v=` bump and a browser holding the old copy just gets a 304 carrying
+the new header. Three fences on the one dangerous step: bytes from the local colour-rescued
+mirror only when their MD5 equals the live ETag (one mirror clip did differ from what was
+live, and 34 more turned out to differ or be absent), otherwise a download used only when
+the length and checksum match; and an origin-side read-back after each put that requires
+the new header and an unchanged ETag. 33 larger clips had multipart ETags (`<md5>-2`,
+`<md5>-3`), which are the MD5 of the part MD5s rather than of the content; the script
+reproduces those from the usual part sizes, and all 33 verified (27 from the mirror, 6
+from a download). Result: 323 re-put, 3 already done from the rehearsal, 0 failed, about
+1.97 GB uploaded in under ten minutes across two idempotent passes.
+
+Verified afterwards: an origin sweep reports 326 of 326 at `max-age=2592000`;
+`npm run check:codecs` still says all 163 clips are H.264; and full GETs of the feed's own
+media URLs serve `public, max-age=2592000` through the CDN.
+
+Two Supabase facts worth keeping. An upsert onto an existing key DOES update the
+object's metadata, but the CDN in front of the public endpoint keeps serving the old
+header for a while afterwards (Supabase purges it, but not synchronously), so the first
+rehearsal reported a correctly updated object as failed until the read-back moved to the S3
+`HeadObject`. And the S3 protocol's `CopyObject` honours `MetadataDirective: REPLACE` only
+when the copy creates a new key, so there is no server-side way to rewrite a header in
+place; the bytes have to travel. The S3 protocol authenticates with the project ref, the
+anon key and the service-role JWT as a session token, and unlike the public endpoint it
+does not rate-limit a tight loop of reads.
