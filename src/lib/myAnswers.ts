@@ -1,12 +1,16 @@
 /**
  * Shared, request-coalescing loader for the signed-in user's own answers.
  *
- * The feed mounts every card at once (no windowing yet), and each card's quiz
- * hook used to fetch `/api/answers/my?snippetId=X` on mount, an N+1 that scaled
- * with the number of cards on screen (~38 requests per feed load). This module
- * collapses that into a SINGLE `/api/answers/my` call: the first card to ask
- * kicks off one fetch of the whole answer set, every other concurrent card
- * awaits the same in-flight promise, and thereafter reads from the cached map.
+ * Each card's quiz hook used to fetch `/api/answers/my?snippetId=X` on mount,
+ * an N+1 that scaled with the number of cards on screen (~38 requests per feed
+ * load when every card mounted at once). This module collapses that into a
+ * SINGLE `/api/answers/my` call: the first card to ask kicks off one fetch of
+ * the whole answer set, every other concurrent card awaits the same in-flight
+ * promise, and thereafter reads from the cached map. The feed now mounts only
+ * a window of cards around the active one (7 Sep 2026), so cards mounting
+ * later as the viewer scrolls read from this cache rather than fetching, and
+ * `setMyAnswer` keeps it correct for a card that is unmounted and remounted
+ * after the viewer answered it.
  *
  * The cache is keyed by user id so an in-session account switch (no full reload)
  * refetches rather than serving the previous user's answers.

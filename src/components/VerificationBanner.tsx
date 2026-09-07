@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSplitFrame } from "@/lib/split-screen";
+import { useSplitDocked } from "@/lib/split-screen";
 
 const DISMISS_KEY = "fs.verify_banner_dismissed";
 
@@ -21,7 +21,7 @@ const DISMISS_KEY = "fs.verify_banner_dismissed";
  * effect keeps the first client render identical to the server's.
  */
 export function VerificationBanner({ unverified }: { unverified: boolean }) {
-  const split = useSplitFrame();
+  const docked = useSplitDocked();
   const [dismissed, setDismissed] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "rate-limited" | "error">("idle");
 
@@ -65,7 +65,7 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
       // split the `--fs-panel-*` fallbacks resolve to 0px and this is the
       // `inset-x-2 bottom-2` it has always been.
       style={
-        split.open && split.docked
+        docked
           ? {
               left: "calc(var(--fs-panel-x, 0px) + var(--fs-panel-w, 0px) + 0.5rem)",
               right: "0.5rem",

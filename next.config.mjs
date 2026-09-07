@@ -129,6 +129,14 @@ const nextConfig = {
   },
   images: {
     remotePatterns: dedupedPatterns,
+    // Every image the optimizer serves is immutable per URL: snippet stills
+    // carry a `?v=` that changes on re-cut, species WebPs are keyed by content
+    // hash. The upstream objects only say `max-age=3600`, so without this the
+    // optimizer re-fetched and re-encoded each still every hour it was viewed,
+    // and the feed's posters (routed through it since 7 Sep 2026, see
+    // src/lib/thumbnail-src.ts) would have multiplied that. 30 days, matching
+    // the storage drivers' own cache header for new uploads.
+    minimumCacheTTL: 2592000,
   },
   async headers() {
     return [

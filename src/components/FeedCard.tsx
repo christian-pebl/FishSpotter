@@ -19,7 +19,7 @@ import {
   type VideoSettings,
 } from "@/lib/videoSettings";
 import { SplitPanel } from "./idflow/SplitPanel";
-import { getSplitFrame, subscribeSplitFrame, type SplitFrame } from "@/lib/split-screen";
+import { useDocked, useSplitOpen } from "@/lib/split-screen";
 import { StaffScientificResolver } from "./StaffScientificResolver";
 import { resolveFarmByDeployment } from "@/lib/farms/catalogue";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
@@ -36,6 +36,7 @@ import { flowReducer, initialFlowState } from "@/lib/idflow/flow";
 import { DURATION, EASE, TRANSITION, spring } from "@/lib/motion";
 import { manualTrackToBoxes } from "@/lib/manualTrack";
 import { coverageAlpha, inCoverage, trackCoverage } from "@/lib/trackCoverage";
+import { thumbnailSrc } from "@/lib/thumbnail-src";
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
@@ -529,21 +530,15 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   const [staffScientific, setStaffScientific] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const articleRef = useRef<HTMLElement>(null);
-  // Default panel position: vertically centered on desktop, bottom-snapped on
-  // mobile. MUST initialise to false (the server has no viewport). A matchMedia
-  // lazy initialiser returns true on a wide client but false on the server, so
-  // on a laptop it desynced hydration and crashed the feed's Suspense boundary
-  // ("switched to client rendering", visible as a cut-off / broken layout). The
-  // effect below syncs the real value on mount, one frame after the first paint.
-  const [isDesktop, setIsDesktop] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(min-width: 768px)");
-    const apply = () => setIsDesktop(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
+  // Wide viewport: the working half docks beside the clip instead of sliding up
+  // under it. Same 768px cut as the split itself (`useDocked`), and the same
+  // shared MediaQueryList: this card used to construct its own list and change
+  // listener, times every card in the feed. A `matchMedia` lazy initialiser is
+  // still off the table (it returned true on a wide client but false on the
+  // server, desynced hydration and crashed the feed's Suspense boundary); the
+  // store behind `useDocked` hydrates as false and reads the real value only
+  // once hydration is done, or straight away for anything mounted after it.
+  const isDesktop = useDocked();
 
   // One-time "tap the clip to identify" nudge: shown the first time an active
   // card idles, auto-dismissed after 5s, and never shown again once seen or once
@@ -563,20 +558,6 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
     }, 5000);
     return () => window.clearTimeout(t);
   }, [isActive]);
-
-  // P-2: at lg (1024px) the panel shifts to the right side of the video,
-  // giving the left ~65% of the viewport for unobstructed viewing. Below lg
-  // it stays centred (isDesktop path) or bottom-anchored (mobile path).
-  // Initialise false for the same SSR-safety reason as isDesktop above.
-  const [isLg, setIsLg] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const apply = () => setIsLg(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
 
   const hasLocation =
     typeof snippet.lat === "number" &&
@@ -786,8 +767,10 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   const frameRef = useRef<HTMLDivElement>(null);
   // A Spot It gate is open, so the clip is sharing the frame with the panel.
   // Only tracks open/closed (not the live drag size, which goes straight to CSS
-  // custom properties) so this stays a rare re-render.
-  const [splitMode, setSplitMode] = useState(false);
+  // custom properties on the document element, see split-screen.ts) so this
+  // stays a rare re-render: the selector re-renders the card when the answer
+  // changes, never per frame of a resize drag.
+  const splitMode = useSplitOpen();
 
   const applyZoom = useCallback((next: number) => {
     setZoom(Math.min(MAX_ZOOM, Math.max(1, next)));
@@ -1412,42 +1395,6 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
   const glowGradId = `trail-glow-grad-${snippet.id}`;
   const filterId = `dot-glow-${snippet.id}`;
 
-  // Split screen with an open Spot It gate. The gate broadcasts the share of the
-  // frame it occupies (see TileGate's fs-gate event); we reserve exactly that
-  // much as CSS custom properties on the article, and the video frame below
-  // reads them for its inset. The clip is therefore RESIZED into the space that
-  // is left rather than sitting behind the panel with the animal hidden under
-  // it, which is what a floating overlay did.
-  //
-  // Written straight to the element instead of through React state on purpose:
-  // this fires on every frame of a resize drag, and re-rendering FeedCard (with
-  // its video, trail and overlays) at that rate would judder. Setting a custom
-  // property is a style recalc, which the video's existing ResizeObserver
-  // already picks up to recompute fitGeometry, so the bbox trail stays aligned.
-  useEffect(() => {
-    const apply = (d: SplitFrame) => {
-      const el = articleRef.current;
-      if (!el) return;
-      setSplitMode(d.open);
-      if (!d.open) {
-        el.style.removeProperty("--gate-left");
-        el.style.removeProperty("--gate-bottom");
-        return;
-      }
-      if (d.docked) {
-        el.style.setProperty("--gate-left", `${d.widthPct}%`);
-        el.style.removeProperty("--gate-bottom");
-      } else {
-        el.style.setProperty("--gate-bottom", `${d.heightPct}%`);
-        el.style.removeProperty("--gate-left");
-      }
-    };
-    // Seed from the cached snapshot: a card that becomes active while a panel
-    // is already open would otherwise stay full-bleed until the next resize.
-    apply(getSplitFrame());
-    return subscribeSplitFrame(apply);
-  }, []);
-
   return (
     <article ref={articleRef} className="relative h-full min-h-0 overflow-hidden bg-black text-white">
       {/* (3 Jun) Video sits ABOVE a thin 56px docked bar so the clip is never
@@ -1458,8 +1405,18 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
         ref={frameRef}
         className="absolute top-0 right-0 overflow-hidden bg-black"
         style={{
-          // Defaults reproduce the previous `inset-x-0 bottom-14` exactly; the
-          // custom properties are only set while a gate is open (see above).
+          // Split screen with an open working half (the rung tiles, the reveal,
+          // a comparison). The split publishes the inset it needs as custom
+          // properties on the DOCUMENT element (see split-screen.ts), and this
+          // frame inherits them, so the clip is RESIZED into the space that is
+          // left rather than sitting behind the panel with the animal hidden
+          // under it. No listener and no React render in this card: a custom
+          // property change is a style recalc, which the video's ResizeObserver
+          // above picks up to recompute fitGeometry, so the trail stays aligned
+          // through every frame of a resize drag.
+          //
+          // The fallbacks reproduce the previous `inset-x-0 bottom-14` exactly;
+          // the properties exist only while a split is open.
           left: "var(--gate-left, 0px)",
           bottom: "var(--gate-bottom, 3.5rem)",
         }}
@@ -1473,7 +1430,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
         {!videoCovers && showStill && (
           /* eslint-disable-next-line @next/next/no-img-element -- decorative scaled+blurred backdrop; next/image adds nothing here */
           <img
-            src={snippet.thumbnailUrl}
+            src={thumbnailSrc(snippet.thumbnailUrl)}
             alt=""
             aria-hidden="true"
             loading={isActive ? "eager" : "lazy"}
@@ -1488,7 +1445,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
         {showStill && (
           /* eslint-disable-next-line @next/next/no-img-element -- instant poster still; next/image adds nothing for a same-origin thumbnail */
           <img
-            src={snippet.thumbnailUrl}
+            src={thumbnailSrc(snippet.thumbnailUrl)}
             alt=""
             aria-hidden="true"
             loading={isActive ? "eager" : "lazy"}
@@ -1516,7 +1473,7 @@ export function FeedCard({ snippet, isActive, preload, showStill, hasNext, onAdv
         <video
           ref={videoRef}
           {...(preload ? { src: snippet.videoUrl } : {})}
-          {...(showStill ? { poster: snippet.thumbnailUrl } : {})}
+          {...(showStill ? { poster: thumbnailSrc(snippet.thumbnailUrl) } : {})}
           muted
           playsInline
           loop

@@ -7,7 +7,9 @@ import { FeedComplete, type FeedCompleteProps } from "./feed/FeedComplete";
 import { NewClipsBanner } from "./feed/NewClipsBanner";
 import { TRANSITION } from "@/lib/motion";
 import { useEngagementTracker } from "@/lib/useEngagement";
-import { useSplitFrame } from "@/lib/split-screen";
+import { useSplitOpen } from "@/lib/split-screen";
+import { useSession } from "next-auth/react";
+import { drainGuestAnswers } from "@/lib/guestAnswers";
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // Q3A-T7: delay the move-to-back reorder until AFTER FeedCard's
@@ -23,6 +25,20 @@ const VIDEO_WINDOW = 1;
 /** How far either side to attach the STILL imagery (poster + backdrop).
  *  Wider than the video window on purpose, see FeedCard's `showStill`. */
 const STILL_WINDOW = 2;
+/**
+ * How far either side of the active card a FeedCard is MOUNTED at all. Every
+ * section keeps its full-height slot (so scroll positions, snap points and the
+ * keyboard/observer navigation are unchanged), but only the cards inside this
+ * window carry a card; the rest are the dark placeholder a card outside the
+ * still window already looked like.
+ *
+ * Mounting all 139 was the largest cost on a phone (measured 7 Sep 2026 on a
+ * 4x-throttled CPU: 932 ms of blocking time to hydrate, 1.4 s of long tasks,
+ * 2,363 DOM nodes and 139 `<video>` elements, which iOS Safari rations), and it
+ * made every scroll step re-render every card. One more than the still window
+ * so a card has its shell ready before its imagery is asked for.
+ */
+export const RENDER_WINDOW = 3;
 
 export interface BBoxFrame {
   frame_clip: number;
@@ -101,7 +117,9 @@ export function FeedPlayer({
   const [hintIsTouch, setHintIsTouch] = useState(false);
   // The working half of the split is up (the rung tiles, the reveal, ...). Its
   // phone layout is a bottom sheet, which lands exactly where this hint floats.
-  const gateOpen = useSplitFrame().open;
+  // The boolean selector, not the whole frame: the frame changes on every
+  // pixel of a resize drag, and a re-render here re-renders every card.
+  const gateOpen = useSplitOpen();
   const reduceMotion = useReducedMotion();
   // Q3A-T7: session-local set of snippet IDs the user answered in this
   // page lifetime. Used to push them to the back of the feed without
@@ -178,6 +196,31 @@ export function FeedPlayer({
       }),
     [orderedSnippets, tracksById],
   );
+
+  // Guest guesses whose cards are NOT mounted get carried in here once the
+  // viewer signs in. Only the cards inside RENDER_WINDOW exist, and each of
+  // those drains its own entry (useCreatureQuiz) so the reveal lands on the
+  // card in front of the viewer; everything scrolled out of the window would
+  // otherwise sit in localStorage until its card was scrolled back to.
+  //
+  // The window at the moment of draining is excluded, and the drain waits one
+  // macrotask, so a mounted card's own effect (which runs in the same commit,
+  // children first) has already taken its entry before this looks.
+  const { data: session, status: sessionStatus } = useSession();
+  const drainUserId = sessionStatus === "authenticated" ? (session?.user?.id ?? null) : null;
+  const mountedIdsRef = useRef<Set<string>>(new Set());
+  mountedIdsRef.current = new Set(
+    snippetsWithTracks
+      .slice(Math.max(0, activeIndex - RENDER_WINDOW), activeIndex + RENDER_WINDOW + 1)
+      .map((s) => s.id),
+  );
+  useEffect(() => {
+    if (!drainUserId) return;
+    const t = window.setTimeout(() => {
+      void drainGuestAnswers(drainUserId, mountedIdsRef.current);
+    }, 0);
+    return () => window.clearTimeout(t);
+  }, [drainUserId]);
 
   // Has this spotter run out of clips? Derived live rather than read once from
   // the server, so someone who identifies their LAST clip in this session gets
@@ -324,17 +367,19 @@ export function FeedPlayer({
             {...(activeIndex === index ? {} : ({ inert: "" } as unknown as { inert?: boolean }))}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
           >
-            <FeedCard
-              snippet={snippet}
-              isActive={activeIndex === index}
-              preload={Math.abs(activeIndex - index) <= VIDEO_WINDOW}
-              showStill={Math.abs(activeIndex - index) <= STILL_WINDOW}
-              // The completion card is a real scroll target, so the last clip
-              // still has a "next" when it's present.
-              hasNext={index < orderedSnippets.length - 1 || cleared}
-              onAdvance={() => scrollToIndex(index + 1)}
-              onAnswered={() => markAnswered(snippet.id)}
-            />
+            {Math.abs(activeIndex - index) <= RENDER_WINDOW && (
+              <FeedCard
+                snippet={snippet}
+                isActive={activeIndex === index}
+                preload={Math.abs(activeIndex - index) <= VIDEO_WINDOW}
+                showStill={Math.abs(activeIndex - index) <= STILL_WINDOW}
+                // The completion card is a real scroll target, so the last clip
+                // still has a "next" when it's present.
+                hasNext={index < orderedSnippets.length - 1 || cleared}
+                onAdvance={() => scrollToIndex(index + 1)}
+                onAnswered={() => markAnswered(snippet.id)}
+              />
+            )}
           </motion.section>
         ))}
         {cleared && completion && (
