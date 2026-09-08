@@ -28,7 +28,10 @@ function nonEmpty(value: string | undefined): string | null {
   return trimmed ? trimmed : null;
 }
 
-export function getEmailConfig(env: NodeJS.ProcessEnv = process.env): EmailConfig {
+/** Any string map will do, so a test can hand in exactly the variables it means. */
+type EnvLike = Readonly<Record<string, string | undefined>>;
+
+export function getEmailConfig(env: EnvLike = process.env): EmailConfig {
   return {
     apiKey: nonEmpty(env.SENDGRID_API_KEY),
     fromAddress: nonEmpty(env.EMAIL_FROM_ADDRESS),
@@ -44,7 +47,7 @@ export function getEmailConfig(env: NodeJS.ProcessEnv = process.env): EmailConfi
  * sender identity is a 403 at send time); the test send on /admin/email
  * answers that question.
  */
-export function isEmailConfigured(env: NodeJS.ProcessEnv = process.env): boolean {
+export function isEmailConfigured(env: EnvLike = process.env): boolean {
   return getEmailConfig(env).missing.length === 0;
 }
 
