@@ -5,6 +5,7 @@ const PUBLIC_ROUTES = [
   { path: "/feed", title: /FishSpotter/i },
   { path: "/feed/browse", title: /FishSpotter/i },
   { path: "/leaderboard", title: /FishSpotter/i },
+  { path: "/about", title: /FishSpotter/i },
   { path: "/auth/signin", title: /FishSpotter/i },
 ] as const;
 

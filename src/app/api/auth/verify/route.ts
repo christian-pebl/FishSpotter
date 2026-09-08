@@ -40,9 +40,13 @@ export async function POST(req: Request) {
     );
   }
 
+  // Several verification links can be live at once (a resend no longer kills
+  // the earlier ones), so a second click must not move `emailVerified`: the
+  // first click is the verification, and /admin/email reads the delivery
+  // figures off that stamp matching the token's `consumedAt`.
   await prisma.$transaction([
-    prisma.user.update({
-      where: { id: row.userId },
+    prisma.user.updateMany({
+      where: { id: row.userId, emailVerified: null },
       data: { emailVerified: new Date() },
     }),
     prisma.verificationToken.update({

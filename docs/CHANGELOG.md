@@ -2343,3 +2343,65 @@ local production build confirms a real desktop context requests only the master 
 Pixel 7 context requests only the rendition. Full record, including the wrong-first-draft
 numbers, in `implementation/2026-09-07/load-benchmark.md` and CLAUDE.md's "720p feed
 rendition" section.
+
+## 2026-09-08: verification emails that never came, and a page that tells the story
+
+Prompted by the first proper piece of user feedback, from a new spotter: (1) they kept
+being asked to "resend verification", pressed it, and never received anything (spam and
+trash checked); (2) the identification flow is "really slick, pleasant for novices"; (3)
+they could not find "the story of this project" anywhere and wanted to know whether it is
+a partnership between PEBL, WWF and the farms, and who uses the data for what.
+
+**What was actually wrong with the emails.** Three things, all in code, none of them a
+typo. `sendEmail()` returns `{ ok: true, skipped: true }` when SendGrid is not configured
+and `{ ok: false }` when SendGrid refuses a message, and no caller read either: the
+resend endpoint answered 200 regardless, and all three resend buttons said "Email sent"
+on any 2xx. So a deployment with no `SENDGRID_API_KEY` or `EMAIL_FROM_ADDRESS`, or a from
+address SendGrid has not verified, produced exactly this report, with the only evidence a
+line in Vercel's function logs. Second, the signup email was fire-and-forget
+(`void sendVerificationEmail(...)`) inside NextAuth's `authorize()`; on a serverless
+runtime an un-awaited promise can be frozen with the function the moment the response is
+written, which loses the first email even when the provider is fine. Third, no figure
+anywhere counted verification links requested against links clicked, so nobody could see
+delivery failing without a person writing in. This session's network policy blocks
+`www.fishspotter.app`, `api.sendgrid.com` and DNS, so which of the two production causes
+applies (unconfigured, or an unverified sender) could not be checked from here; the
+change makes both visible in one click and stops the app lying in either case.
+
+**Shipped.** `src/lib/email/outcome.ts` is the result contract: `sendOutcome()` /
+`wasSent()` are the honest reading, and every surface that says "check your inbox" now
+uses them. `POST /api/auth/verify-request` and `POST /api/auth/forgot` answer **503** with
+a message that names `hello@pebl-cic.co.uk` when nothing can be sent (checked before the
+rate limit, so five honest 503s never become a 429; for forgot it is the same answer for
+every address, so it leaks nothing). The signup email is awaited. A resend no longer
+retires earlier links (a slow first email's link used to be dead by the time it arrived).
+The verify route no longer moves `emailVerified` on a second click. Guest claim reports
+`emailSent` and the prompt says how to finish by hand when it is false. New
+`VerificationHelp.tsx` puts "give it a minute, check spam, or email us and we will verify
+you by hand" under every resend button, and "Could not send" replaces "Email sent" when
+nothing left. `/api/health` reports `email: configured | unconfigured`. New
+`/admin/email`: sender config (names, never values), verification links requested vs.
+clicked over 7 and 30 days with a verdict (`src/lib/email/verification-stats.ts`, pure;
+a click is a consumed token whose owner's `emailVerified` was stamped in the same moment,
+so the tokens the old resend retired never count), and a test send to the admin's own
+address that quotes SendGrid verbatim on a refusal. Runbook:
+`docs/runbooks/transactional-email.md`, including the SQL to verify a spotter by hand
+when they have written in from the account's address.
+
+**The story page.** `/about`: real footage from PEBL's cameras, exactly as filmed; PEBL
+CIC builds and runs it; the monitoring is a National Lottery Climate Action Fund project
+with WWF; the six farms host the cameras; and what identifications are used for (crowd
+consensus at three agreeing spotters, anonymised species records for PEBL's monitoring
+and UK marine biodiversity science, engagement figures to the funder only with analytics
+consent, never sold). Every claim is one the landing page, farms page, privacy policy or
+LIA already makes. It is in the side menu as "About the project", because the one
+existing telling of the story was a paragraph on the landing page, and a signed-in
+spotter never sees the landing page (the middleware sends them to `/feed`); also linked
+from the landing footer and "About PEBL" card, the farms page, the account page and the
+sitemap. `.env.example` now shows the real from address and site URL.
+
+Verified: `tsc` clean, 1020 unit tests (19 new: sender against a stubbed `fetch`
+covering unconfigured / accepted / 403 refused / network error / preview catch-all, the
+result contract, and the delivery figures), `lint` and `lint:tokens` clean. Not verified
+from here, for the network reason above: the production env vars, SendGrid's sender
+authentication, and DNS. The order to check them in is the runbook's TL;DR.

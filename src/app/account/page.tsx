@@ -77,6 +77,11 @@ export default async function AccountPage() {
         <p className="pebl-eyebrow">Legal</p>
         <ul className="mt-3 space-y-1 text-sm">
           <li>
+            <Link href="/about" className="text-teal-700 underline">
+              About the project, and what your identifications are used for
+            </Link>
+          </li>
+          <li>
             <Link href="/privacy" className="text-teal-700 underline">
               Privacy policy
             </Link>
