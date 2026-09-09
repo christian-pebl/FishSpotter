@@ -2343,3 +2343,39 @@ local production build confirms a real desktop context requests only the master 
 Pixel 7 context requests only the rendition. Full record, including the wrong-first-draft
 numbers, in `implementation/2026-09-07/load-benchmark.md` and CLAUDE.md's "720p feed
 rendition" section.
+
+## "About the Project" tab + the seaweed *and shellfish* terminology fix (9 Sep 2026)
+
+The `/farms` tab was called "The seaweed farms" and only ever explained the farms
+themselves. It now leads with the project those farms sit inside, and the app stopped
+calling them seaweed farms.
+
+- **Renamed, not restructured.** The nav entry and the page heading read **"About the
+  Project"**; the URL (`/farms`), the six farm cards, their live clip counts and every
+  `/farms/[slug]` profile are unchanged, so shared links, the sitemap and the feed's
+  "Filmed at ..." card all still land the same way.
+- **Two new sections above the farm list**, both grounded in published copy rather than
+  written from memory: *Unlocking the Power of Seaweed* (the three-year, £1 million
+  National Lottery Community Fund Climate Action Fund project WWF-UK leads with Câr-y-Môr,
+  the Scottish Association for Marine Science and PEBL, and what PEBL's slice of it is),
+  and *Biodiversity trends, farm by farm* (what we are actually trying to find out: the
+  interactions between these farms and the ecosystem around them, the farm-versus-control
+  camera method, the 2022-23 Câr-y-Môr baseline, and where a spotter's identifications fit
+  in). Source links to WWF-UK, the Climate Action Fund and the published PEBL monitoring
+  sit under the second section, in the same "show the reader where this came from" spirit
+  as the species guide.
+- **"Seaweed farms" -> "seaweed and shellfish farms"** across collective, programme-level
+  copy: the landing page's farms section, the `/farms` lede, the farm catalogue's own doc
+  comments and test name, and the one `whyItMatters` sentence describing what PEBL's
+  monitoring is measuring across several farms at once.
+- **Three deliberate exceptions**, because the sweep must not make the copy wrong:
+  farmers' *direct quotes* are untouched (Willie Athill's "50 hectares of seaweed farm",
+  Beth's "our seaweed farming", Kaly's vision statement); descriptors of one specific
+  seaweed-only site keep their wording (Atlantic Mariculture's East Oronsay, an image alt
+  of its buoy lines); and WWF's own published project aim, "a model of community-led
+  regenerative seaweed farming", is quoted as they state it. The feed reveal card, which
+  points at one named farm that may not grow shellfish, now reads **"See the farm behind
+  this clip"** rather than asserting either.
+
+Verified: `tsc --noEmit` clean, 1015 unit tests pass (the two `NEXTAUTH_SECRET` suites pass
+once that env var is set locally), `lint` and `lint:tokens` clean.

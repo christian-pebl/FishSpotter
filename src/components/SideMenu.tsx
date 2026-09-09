@@ -59,7 +59,7 @@ const NAV: NavItem[] = [
   },
   {
     href: "/farms",
-    label: "The seaweed farms",
+    label: "About the Project",
     match: (p) => p.startsWith("/farms"),
     icon: (
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">

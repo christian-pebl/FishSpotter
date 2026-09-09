@@ -2460,7 +2460,7 @@ export function FeedCard({
                               Filmed at {farm.name}
                             </span>
                             <span className="block truncate text-[11px] text-white/60">
-                              See the seaweed farm behind this clip
+                              See the farm behind this clip
                             </span>
                           </span>
                           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="shrink-0 text-teal-300">

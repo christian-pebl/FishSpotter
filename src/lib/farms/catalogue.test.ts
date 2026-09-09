@@ -22,7 +22,7 @@ describe("seaweed-farms.json schema", () => {
   });
 });
 
-describe("seaweed farm catalogue consistency", () => {
+describe("seaweed and shellfish farm catalogue consistency", () => {
   const farms = seaweedFarmsData as Record<
     string,
     { slug: string; deploymentNames: string[] }
