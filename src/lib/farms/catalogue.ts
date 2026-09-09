@@ -2,7 +2,7 @@ import { z } from "zod";
 import seaweedFarmsData from "@/data/seaweed-farms.json";
 import { FARM_TAG, FARM_COUNTRY, type FarmCatalogue } from "./traits";
 
-// Single source of truth for loading + validating the seaweed-farm catalogue.
+// Single source of truth for loading + validating the seaweed and shellfish farm catalogue.
 // Mirrors src/lib/idguide/catalogue.ts: one schema built from the `as const`
 // enum arrays in traits.ts, one validation point, one typed export. Import
 // FARMS from here, never the raw JSON (house convention, see CLAUDE.md).
@@ -107,7 +107,7 @@ export function resolveFarmSlug(slug: string): FarmCatalogue[string] | null {
 
 /**
  * Resolve a farm by a Snippet.deployment value. Returns null for deployments
- * that aren't one of the six monitored seaweed farms (e.g. unrelated PEBL
+ * that aren't one of the six monitored seaweed and shellfish farms (e.g. unrelated PEBL
  * projects like Project Seagrass or the Netherlands oyster site); callers
  * must treat null as "don't show a farm link", not an error.
  */

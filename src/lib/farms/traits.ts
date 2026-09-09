@@ -1,4 +1,4 @@
-// Vocabulary for the seaweed-farm catalogue, mirroring the pattern in
+// Vocabulary for the seaweed and shellfish farm catalogue, mirroring the pattern in
 // src/lib/idguide/traits.ts: `as const` enum arrays are the single source of
 // truth for both the TypeScript types and the zod schema in catalogue.ts.
 

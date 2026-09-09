@@ -238,17 +238,19 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* The seaweed farms */}
+        {/* The seaweed and shellfish farms */}
         <section className="pebl-surface rounded-card p-6 md:p-8" aria-labelledby="about-farms">
           <p className="pebl-eyebrow text-xs">Where the clips come from</p>
           <h2 id="about-farms" className="mt-2 text-2xl font-bold text-navy-900">
-            Filmed beneath real seaweed farms
+            Filmed beneath real seaweed and shellfish farms
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-7 text-navy-900">
-            Every clip is filmed under a working UK seaweed farm. Most of what these farms grow
-            becomes a biostimulant: a natural alternative to synthetic fertiliser that helps crops
-            resist stress and grow stronger, sprayed onto real fields by real farmers. PEBL monitors
-            six of them for a National Lottery Climate Action Fund project with WWF.
+            Every clip is filmed under a working UK seaweed and shellfish farm. Most of what these
+            farms grow becomes a biostimulant: a natural alternative to synthetic fertiliser that
+            helps crops resist stress and grow stronger, sprayed onto real fields by real farmers.
+            PEBL monitors six of them for Unlocking the Power of Seaweed, a National Lottery
+            Climate Action Fund project with WWF, gathering biodiversity trends to understand how
+            these farms interact with the ecosystem around them.
           </p>
           <ul className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-6">
             {Object.values(FARMS).map((farm) => (

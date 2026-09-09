@@ -6,7 +6,8 @@ import { FARMS } from "@/lib/farms/catalogue";
  * `Snippet.site` is a place name ("Ramsey Sound, Pembrokeshire, Wales, UK"),
  * and that is the right KEY: it is what the archive filters on, what a shared
  * link carries, and what the sync writes. But it is not how people know the
- * places. They know the seaweed farms: Câr-y-Môr, Algapelago, Kelp Crofters.
+ * places. They know the seaweed and shellfish farms: Câr-y-Môr, Algapelago, Kelp
+ * Crofters.
  * So every surface that shows a location runs it through here and leads with
  * the farm's name: "Câr-y-Môr · Ramsey Sound, Pembrokeshire, Wales, UK".
  *
