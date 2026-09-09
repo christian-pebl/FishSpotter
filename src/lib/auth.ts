@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
 import { clientIpKeyFromHeaders } from "@/lib/client-ip";
 import { sendVerificationEmail } from "@/lib/email/dispatch";
+import { wasSent } from "@/lib/email/outcome";
 
 if (!process.env.NEXTAUTH_SECRET) {
   throw new Error("NEXTAUTH_SECRET is required");
@@ -125,10 +126,25 @@ export const authOptions: NextAuthOptions = {
               leaderboardOptIn: !isMinor,
             },
           });
-          // S3-06: fire-and-forget verification email. Failure (email
-          // provider outage, missing API key) doesn't block signup, the user
-          // can resend from /account later.
-          void sendVerificationEmail(user.id, email, user.displayName ?? user.name ?? "Spotter");
+          // S3-06: the verification email is AWAITED, not fire-and-forget. On
+          // a serverless runtime an un-awaited promise can be frozen with the
+          // function the moment the response is written, so the first email
+          // simply never left and the spotter's only clue was a "resend"
+          // button. sendVerificationEmail never throws, and a non-delivery
+          // does not block signup: they can resend from /account, which now
+          // says so when it fails instead of claiming "Email sent".
+          const delivery = await sendVerificationEmail(
+            user.id,
+            email,
+            user.displayName ?? user.name ?? "Spotter",
+          );
+          if (!wasSent(delivery)) {
+            // eslint-disable-next-line no-console
+            console.error("[auth] signup verification email not delivered", {
+              userId: user.id,
+              error: delivery.error,
+            });
+          }
           return { id: user.id, name: user.displayName ?? user.name, isGuest: false };
         }
 

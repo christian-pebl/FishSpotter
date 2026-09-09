@@ -51,6 +51,12 @@ export default async function FarmsIndexPage() {
             Lottery Climate Action Fund project with WWF: the fish you&apos;re spotting live in the
             same water that grows that crop.
           </p>
+          <Link
+            href="/about"
+            className="mt-2 inline-flex min-h-[44px] items-center text-sm text-teal-700 underline"
+          >
+            The story of the project, and what your IDs are used for →
+          </Link>
         </header>
 
         <ul className="mt-6 flex flex-col gap-3">

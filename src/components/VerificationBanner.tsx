@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useSplitDocked } from "@/lib/split-screen";
+import {
+  VerificationHelp,
+  verificationStatusFromResponse,
+  type VerificationSendStatus,
+} from "@/components/VerificationHelp";
 
 const DISMISS_KEY = "fs.verify_banner_dismissed";
 
@@ -11,6 +16,11 @@ const DISMISS_KEY = "fs.verify_banner_dismissed";
  * tells them to check their inbox and lets them resend. Rendered fixed so the
  * feed's overflow-hidden immersive layout can't clip it. Dismissal is sticky
  * for the browser session so it does not nag on every navigation.
+ *
+ * The resend button reports what the endpoint reports: "Email sent" only for
+ * a message the provider accepted, and "Could not send" plus a way to reach a
+ * human (VerificationHelp) when nothing left. It used to say "Email sent" for
+ * any 2xx, which the endpoint returned even when it had sent nothing.
  *
  * `dismissed` is read from sessionStorage in a useEffect, not a useState
  * lazy initializer: the server always renders with dismissed=false (it has
@@ -23,7 +33,7 @@ const DISMISS_KEY = "fs.verify_banner_dismissed";
 export function VerificationBanner({ unverified }: { unverified: boolean }) {
   const docked = useSplitDocked();
   const [dismissed, setDismissed] = useState(false);
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "rate-limited" | "error">("idle");
+  const [status, setStatus] = useState<VerificationSendStatus>("idle");
 
   useEffect(() => {
     try {
@@ -48,11 +58,24 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
     setStatus("sending");
     try {
       const res = await fetch("/api/auth/verify-request", { method: "POST" });
-      setStatus(res.ok ? "sent" : res.status === 429 ? "rate-limited" : "error");
+      setStatus(verificationStatusFromResponse(res));
     } catch {
       setStatus("error");
     }
   };
+
+  const label =
+    status === "sent"
+      ? "Email sent"
+      : status === "sending"
+        ? "Sending…"
+        : status === "rate-limited"
+          ? "Try again later"
+          : status === "unavailable"
+            ? "Could not send"
+            : status === "error"
+              ? "Could not send. Retry"
+              : "Resend email";
 
   return (
     <div
@@ -94,17 +117,10 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
             disabled={status === "sending" || status === "sent"}
             className="inline-flex min-h-[44px] items-center font-semibold text-teal-700 underline hover:text-navy-900 disabled:no-underline disabled:opacity-60"
           >
-            {status === "sent"
-              ? "Email sent"
-              : status === "sending"
-                ? "Sending…"
-                : status === "rate-limited"
-                  ? "Try again later"
-                  : status === "error"
-                    ? "Could not send. Retry"
-                    : "Resend email"}
+            {label}
           </button>
         </div>
+        <VerificationHelp status={status} showIdleHint={false} />
       </div>
       <button
         type="button"
