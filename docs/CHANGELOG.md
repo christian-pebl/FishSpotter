@@ -2405,3 +2405,55 @@ covering unconfigured / accepted / 403 refused / network error / preview catch-a
 result contract, and the delivery figures), `lint` and `lint:tokens` clean. Not verified
 from here, for the network reason above: the production env vars, SendGrid's sender
 authentication, and DNS. The order to check them in is the runbook's TL;DR.
+
+## 2026-09-09: the shape gate stopped cutting itself off at row one
+
+Reported from the live feed with a screenshot: the "What shape is it, roughly?" gate was
+showing **four shapes and nothing else**. Fish, flatfish, crab, jellyfish, then clean empty
+space and the action buttons. Starfish, snails, cephalopods, urchins and the birds-and-seals
+tile were all there in the DOM, one scroll away, and effectively did not exist.
+
+**Why it looked finished.** The panel is a resizable bottom sheet, and its tile area is
+whatever is left after the header and the pinned footer. Dragged to its minimum (which is
+where the reporter's phone had it) that remainder came to almost exactly one row of compact
+tiles, so the grid was being cut at the end of a row. That is the one place a grid must never
+be cut: a row boundary with space under it does not read as "there is more", it reads as
+"that is all of them". Measured on the production build at the stored 34%: **1 row, 4 tiles
+visible of 9**.
+
+**The fix, in `TileGate` so all three rungs get it.** The panel now reserves two rows of
+tiles plus a 26px band of the third, whatever the sheet has been dragged to, and a "Scroll
+for more" line sits under the grid while anything is still below the fold. Same build, same
+stored 34%: **2 rows, 8 tiles, and a visibly cut-off third row**; the sheet grows from 34% to
+46% to pay for it.
+
+Three things worth keeping in mind if this area is touched again:
+
+- **The floor is measured, not guessed.** `chromePx` is the card minus its scroll area, so it
+  is the real header + footer + padding whatever they happen to contain, and the row height
+  comes off a rendered tile, so a compact silhouette row and a 4:3 photo row each size
+  themselves. Hard-coding either number would have gone stale at the next chrome change. The
+  arithmetic is pure and unit-tested (`tileAreaFloorPx`); the measuring is not, because jsdom
+  reports every box as zero and such a test would pass against a panel showing nothing. It is
+  verified instead in a real Chromium against a production build.
+- **The cue is under the grid, not over it.** The first cut floated a gradient across the
+  bottom of the tile area, and it dimmed the last line of the tile it covered ("squid,
+  cuttlefish, OCTOPUS") in order to explain a row nobody was struggling with. It also holds
+  its space when hidden: the line is inside the measured chrome, so a cue that mounted and
+  unmounted would change the floor and jog the whole panel each time you scrolled to the
+  bottom and back. Confirmed: panel is 385px at the top of the grid and 385px at the bottom.
+- **No screen-reader twin.** Every tile is in the accessibility tree and reachable by Tab
+  above the fold or not, so nothing is hidden from a screen reader and "scroll for more"
+  would be noise. It must also not become a second `aria-live` region: the dialog already has
+  one, and two polite regions in one dialog race each other (the first cut of this shadowed
+  the rule-out announcer and broke its test).
+
+The drag is deliberately untouched. Pulling below the floor simply stops shrinking, as
+hitting `MIN_HEIGHT_PCT` already does, and the dragged-to value is still stored, so a rung
+with fewer tiles really does go that small. The clip behind resizes off the measured panel
+rect, not the stored percentage, so it tracks the floor without being told about it.
+
+Verified: `tsc` clean, 1047 unit tests (5 new), `lint` and `lint:tokens` clean, and the
+before/after numbers above taken from a real Chromium at a Pixel 7 viewport driving a
+production build, plus the desktop docked layout confirmed unaffected (no floor applied,
+all three rows already fit).

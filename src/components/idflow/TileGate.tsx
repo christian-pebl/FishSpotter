@@ -318,6 +318,57 @@ export type TileSpec = {
 export type Crumb = { label: string; onClick?: () => void };
 
 /**
+ * How many tile rows the panel keeps on screen no matter how short the sheet
+ * is dragged, and how much of the row after them is deliberately left showing.
+ *
+ * Both exist because of one report off the live feed (9 Sep 2026): the shape
+ * gate was cutting its grid exactly at the end of row one. Four shapes with
+ * clean empty space beneath them do not read as "scroll for five more", they
+ * read as "there are four shapes", so starfish, snails, cephalopods, urchins
+ * and the birds-and-seals tile were effectively unreachable. A cut at the end
+ * of a row is the one place a grid must never be cut.
+ *
+ * A second row proves the grid is a grid. The band of the next row left
+ * showing under the fold is what proves it continues: a sliver of real content
+ * is a stronger scroll cue than any gradient or arrow, because it is the thing
+ * itself rather than a symbol for it. 26px is about a third of a compact tile,
+ * enough to read as a cut-off row rather than as a border.
+ */
+export const MIN_VISIBLE_ROWS = 2;
+export const ROW_PEEK_PX = 26;
+
+/**
+ * The panel height that keeps {@link MIN_VISIBLE_ROWS} rows of tiles on screen,
+ * given what the panel currently measures. Pure, so the arithmetic can be
+ * tested; the measuring lives in the component, where jsdom reports every box
+ * as zero and a test would prove nothing.
+ *
+ * `chromePx` is everything the tiles do not get (header, pinned footer, the
+ * card's own padding). Returns 0 for "no floor needed", which is both the
+ * single-row case (nothing to scroll to, so nothing to promise) and the
+ * not-yet-measured case.
+ */
+export function tileAreaFloorPx({
+  chromePx,
+  rowPx,
+  gapPx,
+  totalRows,
+}: {
+  chromePx: number;
+  rowPx: number;
+  gapPx: number;
+  totalRows: number;
+}): number {
+  if (rowPx <= 0 || totalRows <= 1) return 0;
+  const rows = Math.min(MIN_VISIBLE_ROWS, totalRows);
+  // The peek is only honest when there IS a row after the ones being shown.
+  const peekPx = totalRows > rows ? ROW_PEEK_PX : 0;
+  return Math.round(
+    Math.max(chromePx, 0) + rows * rowPx + (rows - 1) * gapPx + peekPx,
+  );
+}
+
+/**
  * Desktop docking (28 Aug 2026). On a wide screen the gate does not float
  * centred over the clip. It docks to the LEFT edge, full height, capped at half
  * the width, so the video keeps playing (and stays watchable) beside it rather
@@ -501,6 +552,77 @@ export function TileGate({
   const baseColumns = phone ? (phoneColumns ?? columns) : columns;
   const gridColumns = compact ? Math.min(baseColumns + 1, 4) : baseColumns;
 
+  // The two-row floor (9 Sep 2026, see MIN_VISIBLE_ROWS). The panel reserves
+  // enough height for two rows of tiles plus a peek of the next, whatever the
+  // sheet has been dragged to, and says so at the bottom edge while any tile is
+  // still below the fold.
+  //
+  // The floor is MEASURED rather than guessed at, because guessing it means
+  // hard-coding the header and footer heights into a number that goes stale the
+  // first time either changes. `chrome` is the card minus its scroll area, so
+  // it is the real header + pinned footer + padding whatever they currently
+  // contain, and the row height comes off a real rendered tile, so a compact
+  // silhouette row and a 4:3 photo row each measure themselves. The card keeps
+  // its existing `max-h-full`, so on a viewport too short for two rows this
+  // asks for more than it can have and simply gets everything, rather than
+  // pushing the footer off the bottom of the screen.
+  //
+  // The drag is deliberately left alone. Pulling the sheet below the floor
+  // stops shrinking it, exactly as hitting MIN_HEIGHT_PCT already does, and the
+  // dragged-to value is still what gets stored: move on to a rung with fewer
+  // tiles and the sheet really does go that small. The clip behind resizes off
+  // the MEASURED panel rect (`publishPanelRect`), not off the stored
+  // percentage, so it tracks the floor without being told about it.
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const [floorPx, setFloorPx] = useState(0);
+  const [moreBelow, setMoreBelow] = useState(false);
+
+  const syncMoreBelow = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // 4px of slack: sub-pixel layout leaves a permanent 0.5px "more below" on
+    // a grid that is in fact fully visible, which would make the cue a liar.
+    setMoreBelow(el.scrollHeight - el.scrollTop - el.clientHeight > 4);
+  }, []);
+
+  useEffect(() => {
+    const card = dialogRef.current;
+    const scroller = scrollRef.current;
+    if (!card || !scroller) return;
+
+    const measure = () => {
+      syncMoreBelow();
+      const grid = gridRef.current;
+      const firstTile = grid?.firstElementChild as HTMLElement | null;
+      const rowPx = firstTile?.offsetHeight ?? 0;
+      // No grid (the list variant, or an emptied set) has no rows to floor.
+      if (!grid || !rowPx) {
+        setFloorPx(0);
+        return;
+      }
+      // Chrome is stable under this measurement: raising the card's min-height
+      // grows the card and its scroll area by the same amount, so the next pass
+      // computes the same floor and React bails out of the re-render.
+      setFloorPx(
+        tileAreaFloorPx({
+          chromePx: card.clientHeight - scroller.clientHeight,
+          rowPx,
+          gapPx: parseFloat(getComputedStyle(grid).rowGap) || 0,
+          totalRows: Math.ceil(tiles.length / Math.max(gridColumns, 1)),
+        }),
+      );
+    };
+
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(card);
+    observer.observe(scroller);
+    if (gridRef.current) observer.observe(gridRef.current);
+    return () => observer.disconnect();
+  }, [tiles.length, gridColumns, compact, phone, docked, variant, syncMoreBelow]);
+
   // The full-width escape hatches under the grid, and how they lay out. On a
   // phone two or more of them reflow into a wrapped row instead of a stack; an
   // odd one out grows to full width on its own line rather than sitting as a
@@ -563,6 +685,7 @@ export function TileGate({
 
   const grid = (
     <div
+      ref={gridRef}
       className={phone ? "grid gap-1" : "grid gap-1.5"}
       style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}
     >
@@ -922,7 +1045,16 @@ export function TileGate({
                   minWidth: `${MIN_WIDTH_REM}rem`,
                   maxWidth: `${MAX_WIDTH_PCT}%`,
                 }
-              : { height: `${heightPct}%` }),
+              : {
+                  height: `${heightPct}%`,
+                  // The two-row floor. `min(..., 100%)` rather than a bare
+                  // pixel value so the card can never out-grow the viewport it
+                  // is anchored to; `max-h-full` on the class list holds the
+                  // same line from the other side.
+                  ...(floorPx > 0
+                    ? { minHeight: `min(${floorPx}px, 100%)` }
+                    : null),
+                }),
           }}
           role="dialog"
           aria-modal="false"
@@ -1110,7 +1242,11 @@ export function TileGate({
                 or any gate in landscape). Without this the centred card overflowed
                 the overflow-hidden feed item and clipped its own drag handle and
                 Skip footer with no way to reach them. */}
-            <div className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15">
+            <div
+              ref={scrollRef}
+              onScroll={syncMoreBelow}
+              className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15"
+            >
               {tiles.length === 0 && emptyMessage ? (
                 <p className="px-2 py-6 text-center text-sm text-white/60">{emptyMessage}</p>
               ) : variant === "list" ? (
@@ -1119,6 +1255,39 @@ export function TileGate({
                 grid
               )}
             </div>
+
+            {/* Names what the half-row above it means. Pinned UNDER the scroll
+                area rather than floated over it: the first cut of this was a
+                gradient across the bottom of the grid, and it dimmed the last
+                line of the tile it covered ("squid, cuttlefish, OCTOPUS") to
+                explain a row nobody had trouble seeing. A cue that damages the
+                content it points at is not worth its pixels.
+                It keeps its space when it is not showing (opacity, not
+                mounting) for a reason that is easy to miss: this line sits in
+                the measured chrome, so a cue that appeared and disappeared
+                would change the floor and jog the whole panel every time you
+                scrolled to the bottom and back. */}
+            <div
+              aria-hidden="true"
+              className={[
+                "pointer-events-none flex shrink-0 items-center justify-center pt-0.5 transition-opacity duration-200",
+                moreBelow ? "opacity-100" : "opacity-0",
+              ].join(" ")}
+            >
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-white/55">
+                <svg width="10" height="10" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M4 6.5 8 10.5 12 6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Scroll for more
+              </span>
+            </div>
+            {/* No screen-reader twin for the cue, deliberately. Every tile is
+                in the accessibility tree and reachable by Tab whether or not it
+                is above the fold, so a scrollbar is not hiding anything from a
+                screen reader and "scroll for more" would be noise. It is also
+                why this must not be a SECOND aria-live region: the dialog
+                already owns one (the rule-out / photo-flick announcer below),
+                and two polite regions in one dialog race each other. */}
 
 
             {/* Ruled-out summary. Pinned under the grid rather than inside the
