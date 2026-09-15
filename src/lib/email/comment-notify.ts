@@ -7,7 +7,7 @@
  *    after() and no waitUntil. A fire-and-forget promise is unreliable: the
  *    serverless instance can freeze the moment the response is sent, and the
  *    email silently never goes. So the send is AWAITED, wrapped in a short
- *    timeout. SendGrid is typically 200-300ms and posting a comment is a
+ *    timeout. Resend is typically 200-300ms and posting a comment is a
  *    deliberate one-off action, not a hot loop, so the cost is acceptable and
  *    it needs no new dependency. If the latency ever shows, the upgrade is to
  *    add @vercel/functions and switch to waitUntil.

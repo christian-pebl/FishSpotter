@@ -1,11 +1,16 @@
 /**
  * Email provider configuration (S3-03).
  *
- * Provider: SendGrid (switched from Resend after the Wix DNS pivot: Resend
- * required a subdomain MX record that Wix's DNS editor can't add, whereas
- * SendGrid authenticates the domain with CNAME records Wix can add). Sending
- * is done via SendGrid's v3 REST API in ./send.ts, so no SDK dependency is
- * needed; this module only reads the env vars sending needs.
+ * Provider: Resend, since 15 Sep 2026. Until then it was SendGrid, whose free
+ * plan had quietly become a 60-day trial: from early August every send was
+ * refused with `401 Maximum credits exceeded`, the app swallowed the refusal
+ * and said "Email sent", and nothing reached anyone for six weeks (see
+ * docs/runbooks/transactional-email.md, section 7). Resend's free tier is
+ * 3,000 emails a month, a year of FishSpotter's volume. The June 2026 reason
+ * for picking SendGrid over Resend, that Resend needs an MX record and Wix's
+ * DNS editor could not add one, went away when fishspotter.app moved to
+ * Cloudflare DNS. Sending is done via Resend's REST API in ./send.ts, so no
+ * SDK dependency is needed; this module only reads the env vars sending needs.
  *
  * Read from process.env on every call, not cached: the cost is nil, and a
  * cached "not configured" answer would outlive a fix in the same process (and
@@ -21,7 +26,7 @@ export interface EmailConfig {
   missing: string[];
 }
 
-const REQUIRED = ["SENDGRID_API_KEY", "EMAIL_FROM_ADDRESS"] as const;
+const REQUIRED = ["RESEND_API_KEY", "EMAIL_FROM_ADDRESS"] as const;
 
 function nonEmpty(value: string | undefined): string | null {
   const trimmed = value?.trim();
@@ -33,7 +38,7 @@ type EnvLike = Readonly<Record<string, string | undefined>>;
 
 export function getEmailConfig(env: EnvLike = process.env): EmailConfig {
   return {
-    apiKey: nonEmpty(env.SENDGRID_API_KEY),
+    apiKey: nonEmpty(env.RESEND_API_KEY),
     fromAddress: nonEmpty(env.EMAIL_FROM_ADDRESS),
     fromName: nonEmpty(env.EMAIL_FROM_NAME) ?? "PEBL FishSpotter",
     replyTo: nonEmpty(env.EMAIL_REPLY_TO),
@@ -43,9 +48,9 @@ export function getEmailConfig(env: EnvLike = process.env): EmailConfig {
 
 /**
  * True when both the API key and a from address are set. This says nothing
- * about whether SendGrid will ACCEPT mail from that address (an unverified
- * sender identity is a 403 at send time); the test send on /admin/email
- * answers that question.
+ * about whether Resend will ACCEPT mail from that address (a domain that is
+ * not verified in Resend is a 403 at send time, an exhausted quota a 429); the
+ * test send on /admin/email answers that question.
  */
 export function isEmailConfigured(env: EnvLike = process.env): boolean {
   return getEmailConfig(env).missing.length === 0;

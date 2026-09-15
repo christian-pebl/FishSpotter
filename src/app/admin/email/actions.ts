@@ -18,7 +18,7 @@ export interface TestSendResult {
 
 /**
  * Send one test email to the signed-in admin and report exactly what
- * happened. This is the only way to see SendGrid's reason for refusing a
+ * happened. This is the only way to see Resend's reason for refusing a
  * message (an unverified sender identity, a revoked key) without opening
  * Vercel's function logs, and the only way to prove end to end that a
  * message reaches an inbox. Admin-gated like every other admin action; the

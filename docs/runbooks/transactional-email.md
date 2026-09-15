@@ -1,17 +1,21 @@
 # Runbook: transactional email (verification, password reset, digests)
 
 The one thing to remember: **the app can only tell you an email was accepted by
-SendGrid, never that it arrived.** Everything below is about closing that gap
+Resend, never that it arrived.** Everything below is about closing that gap
 quickly when someone writes in with "I never get the verification email".
 
 > **TL;DR (a spotter says the email never comes):**
 > 1. `curl -s https://www.fishspotter.app/api/health` → `"email": "configured"`?
 > 2. Open **/admin/email** (signed in as `@pebl-cic.co.uk`, verified): read the
 >    verdict under "Are verification emails getting through?", then press
->    **Send a test email** and read SendGrid's answer verbatim.
-> 3. If the test send is accepted but nothing arrives: SendGrid → Activity, search
->    the address. If it is refused: the reason is in the message (key or sender).
+>    **Send a test email** and read Resend's answer verbatim.
+> 3. If the test send is accepted but nothing arrives: Resend → Emails, search
+>    the address. If it is refused: the reason is in the message (key, domain
+>    or quota).
 > 4. Verify the spotter by hand (section 6) so they are not waiting on the fix.
+
+Provider: **Resend**, since 15 Sep 2026. It replaced SendGrid, which had been
+refusing every message since early August without anyone knowing (section 7).
 
 ---
 
@@ -19,8 +23,8 @@ quickly when someone writes in with "I never get the verification email".
 
 | Piece | File | Notes |
 |---|---|---|
-| Sender | `src/lib/email/send.ts` | SendGrid v3 REST via `fetch`, no SDK. Never throws. 10 s timeout. |
-| Config | `src/lib/email/client.ts` | `getEmailConfig()` / `isEmailConfigured()`: reads `SENDGRID_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME`, `EMAIL_REPLY_TO` on every call. |
+| Sender | `src/lib/email/send.ts` | `POST https://api.resend.com/emails` via `fetch`, no SDK. Never throws. 10 s timeout. `formatSender()` builds the RFC 5322 from line. |
+| Config | `src/lib/email/client.ts` | `getEmailConfig()` / `isEmailConfigured()`: reads `RESEND_API_KEY`, `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME`, `EMAIL_REPLY_TO` on every call. |
 | Result contract | `src/lib/email/outcome.ts` | `sendOutcome(result)` is `sent`, `not-configured` or `failed`. **`result.ok` alone is not "sent"**: an unconfigured provider returns `ok: true, skipped: true` so a caller's own transaction is never rolled back. Anything that tells a person "check your inbox" must use `wasSent()`. |
 | Verification dispatch | `src/lib/email/dispatch.ts` | Mints the token, sends, returns the result. Mints nothing when unconfigured. |
 | Templates | `src/lib/email/templates/*.tsx` | React Email. `TestEmail.tsx` is the admin test send. |
@@ -41,30 +45,48 @@ Where each email is sent from, and what happens when it cannot be:
 Verification links point at `SITE_URL` (`src/lib/site-url.ts`), which is
 `https://www.fishspotter.app` unless `NEXT_PUBLIC_SITE_URL` overrides it.
 
-## 2. Env vars, and the two traps
+## 2. Env vars, and the three traps
 
 ```
-SENDGRID_API_KEY=SG....             # a restricted "Mail Send" key
-EMAIL_FROM_ADDRESS=noreply@fishspotter.app   # MUST be a sender SendGrid has authenticated
+RESEND_API_KEY=re_...               # a "Sending access" key, restricted to fishspotter.app
+EMAIL_FROM_ADDRESS=noreply@fishspotter.app   # MUST be on a domain Resend has verified
 EMAIL_FROM_NAME=FishSpotter
 EMAIL_REPLY_TO=hello@pebl-cic.co.uk
 EMAIL_PREVIEW_CATCHALL=...          # preview deploys only: every message is redirected here
 ```
 
-Both `SENDGRID_API_KEY` and `EMAIL_FROM_ADDRESS` must be set in **Vercel →
-Production**. Two traps, both hit before:
+Both `RESEND_API_KEY` and `EMAIL_FROM_ADDRESS` must be set in **Vercel →
+Production** (and in Preview if preview deploys should send to the catch-all).
+Three traps:
 
 1. **A new env var does not reach an already-built deployment.** Redeploy after
    setting one. (`/api/health` reads the running deployment, so it tells you
    whether the redeploy happened.)
-2. **The from address has to be one SendGrid has verified**, either the whole
-   domain (Settings → Sender Authentication → Authenticate Your Domain, three
-   CNAMEs in Cloudflare set to **DNS only / grey cloud**, never proxied) or a
-   Single Sender. Otherwise every send is refused with a 403 naming "a verified
-   Sender Identity", which the test send on /admin/email will quote back.
+2. **The from address's domain has to be verified in Resend** (Domains →
+   `fishspotter.app` → Verified). Resend hands out three records to add in
+   Cloudflare DNS, all **DNS only (grey cloud)**, never proxied:
+
+   | Type | Name | Value |
+   |---|---|---|
+   | MX | `send.fishspotter.app` | `feedback-smtp.eu-west-1.amazonses.com`, priority 10 |
+   | TXT | `send.fishspotter.app` | `v=spf1 include:amazonses.com ~all` |
+   | TXT | `resend._domainkey.fishspotter.app` | the `p=...` DKIM key Resend shows for the domain |
+
+   The MX and SPF values above are for the **EU (Ireland)** region, which is
+   the one to pick when adding the domain (the privacy policy says mail is
+   processed in the EU). Read the exact values off Resend's page rather than
+   trusting this table. Until the domain shows Verified, every send is refused
+   with a 403 that says so, and the test send will quote it. The existing
+   `_dmarc.fishspotter.app` record (`v=DMARC1; p=none;`) stays.
+3. **Quota.** Resend's free tier is 3,000 emails a month and 100 a day. Over
+   either, Resend answers 429 and the app reports the send as failed (a 503 to
+   a spotter, "refused" on the test send). SendGrid's version of this was a
+   silent 401 (section 7). The digest cron is the only sender that could reach
+   100 in a day; check Resend → Usage before growing it.
 
 The original decision record for domain and email setup is
-`implementation/2026-06-04/launch-config-steps.md`.
+`implementation/2026-06-04/launch-config-steps.md` (SendGrid era; the DNS
+records in it are superseded by the table above).
 
 ## 3. Diagnosing "I never get the email", in order
 
@@ -80,14 +102,16 @@ The original decision record for domain and email setup is
    moment; tokens retired by the old resend behaviour do not count.)
 3. **Accepted right now?** `/admin/email`, section 3, send yourself a test
    email. The three answers:
-   - *SendGrid accepted the message*: now check the inbox and spam. If nothing
-     arrives, SendGrid → Activity, search your address: a bounce, a block or a
-     "deferred" line names the reason.
+   - *Resend accepted the message*: now check the inbox and spam. If nothing
+     arrives, Resend → Emails, search your address: each message shows
+     delivered, bounced or complained, with the reason.
    - *Nothing was sent: the provider is not configured*: section 2 above.
-   - *SendGrid refused it*, with the status and body: 401 is a bad or revoked
-     key; 403 naming a sender identity is the from address (section 2, trap 2).
-4. **Landing in spam?** The domain needs SPF and DKIM (SendGrid's domain
-   authentication provides both) and a DMARC record (`_dmarc.fishspotter.app`,
+   - *Resend refused it*, with the status and body: 401 is a missing, bad or
+     revoked key; 403 saying the domain is not verified is the DNS (section 2,
+     trap 2); 429 is the rate limit (2 requests a second) or the quota (trap
+     3); 422 is a malformed request, which is a code bug, not a config one.
+4. **Landing in spam?** The domain needs SPF and DKIM (the three Resend records
+   provide both) and a DMARC record (`_dmarc.fishspotter.app`,
    `v=DMARC1; p=none; rua=mailto:...` is enough to start). Big providers junk
    or reject mail from domains without them.
 5. **Preview deployment?** On any non-production Vercel deployment every email
@@ -99,7 +123,7 @@ level, with the recipient's domain only, never the mailbox.
 
 ## 4. What a spotter sees now
 
-- The resend button says **"Email sent"** only when SendGrid accepted the
+- The resend button says **"Email sent"** only when Resend accepted the
   message, and then adds "give it a minute, check spam, or email
   hello@pebl-cic.co.uk from this address and we will verify you by hand".
 - When nothing could be sent it says **"Could not send"** with the same way
@@ -114,7 +138,8 @@ npx vitest run src/lib/email/
 ```
 
 `send.test.ts` exercises the sender against a stubbed `fetch` (unconfigured,
-accepted, 403 refused, network error, preview catch-all); `outcome.test.ts`
+accepted, accepted with no readable id, 403 domain not verified, 429 quota,
+network error, preview catch-all) and pins `formatSender()`; `outcome.test.ts`
 pins the result contract; `verification-stats.test.ts` pins the delivery
 figures, including that resend-retired tokens never count as clicks.
 
@@ -135,3 +160,54 @@ WHERE lower(email) = lower('spotter@example.com')
 Reply to tell them it is done; the "Unverified" badge on their account page
 clears on the next load. Do not do this for an address that wrote in from a
 different mailbox.
+
+Done on 15 Sep 2026 for the spotter who reported the fault (they wrote in from
+the address on the account) and for `craig@pebl-cic.co.uk`, both stamped
+18:59 UTC.
+
+## 7. History: SendGrid refused every email from early August to 15 September 2026
+
+**What happened.** The SendGrid account was created on 4 Jun 2026 on the free
+plan, which had by then become a 60-day trial. Comment notifications still
+arrived on 1 Aug. After that every call to `mail/send` was answered
+`401 {"errors":[{"message":"Maximum credits exceeded"}]}`. The code of the day
+caught the error, logged it to Vercel's function logs and returned `ok: false`,
+which no caller read, so `POST /api/auth/verify-request` answered 200 and the
+UI said "Email sent" for six weeks.
+
+**How it was found.** A new spotter wrote to hello@ on 7 Sep: "I keep getting
+asked to resend verification and never get anything". #180 made the app honest
+about a send it could not make, but could not reach SendGrid to see why. On 15
+Sep a second signup, `craig@pebl-cic.co.uk`, got nothing either. The database
+put a date on it: three accounts had ever verified an email, the last on 22
+Jul, and none of the 17 verification links minted in August and September was
+clicked. A sandbox-mode request (validated by SendGrid, nothing delivered) with
+the production key and sender returned the 401 above. The restricted "Mail
+Send" key cannot read the account, so the plan status itself was never visible
+from here; the timeline is what dates the trial's end.
+
+**What changed.** The sender moved to Resend (this runbook, `send.ts`,
+`client.ts`), the two accounts were verified by hand, and the privacy policy
+names the new processor. What did not change: the result contract from #180,
+which is exactly what turns the next quota failure into a 503 a spotter can act
+on and a red box on /admin/email, instead of six silent weeks.
+
+**What to watch.** /admin/email section 2 ("requested vs clicked") is the early
+warning: a week of requests with no clicks means delivery has stopped, whatever
+the provider says. Check it whenever a support email mentions verification.
+
+## 8. Changing provider again
+
+An hour, not a day, if these are all touched together:
+
+- `src/lib/email/send.ts` (endpoint, request body, how the accepted id and the
+  refusal are read) and `send.test.ts` (the contract, against a stubbed fetch)
+- `src/lib/email/client.ts` (`REQUIRED` env var names) and `client.test.ts`
+- the env stubs in `src/app/api/auth/forgot/route.test.ts` and
+  `src/app/api/auth/verify-request/route.test.ts`
+- `src/lib/env.ts`, `.env.example`, the env block in `CLAUDE.md`
+- the copy on `src/app/admin/email/` and `src/lib/email/templates/TestEmail.tsx`
+- the processor row in `src/data/legal/privacy-policy.md`, and its "last updated"
+- this runbook, and a `docs/CHANGELOG.md` entry
+- Vercel: the new key in Production and Preview, then redeploy, then the test
+  send on /admin/email, then a real signup from a mailbox you can read

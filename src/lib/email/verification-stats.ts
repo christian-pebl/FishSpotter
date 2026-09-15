@@ -1,6 +1,6 @@
 /**
  * "Are verification emails getting through?" answered from data the app
- * already keeps, with no access to SendGrid at all.
+ * already keeps, with no access to the email provider at all.
  *
  * Every verification send mints one VerificationToken row; clicking the link
  * stamps `consumedAt` and, in the same transaction, `User.emailVerified`. So

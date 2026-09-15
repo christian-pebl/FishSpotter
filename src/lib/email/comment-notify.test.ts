@@ -3,7 +3,7 @@ import { shouldNotify } from "./comment-notify";
 
 /**
  * Only the pure decision is tested here. The network send is deliberately not
- * mocked: sendEmail already no-ops without SENDGRID_API_KEY and never throws, so
+ * mocked: sendEmail already no-ops without RESEND_API_KEY and never throws, so
  * a mock would test the mock rather than the behaviour that matters.
  */
 describe("shouldNotify", () => {

@@ -1,12 +1,13 @@
 /**
  * Typed `sendEmail` wrapper for transactional emails (S3-03).
  *
- * Provider: SendGrid v3 REST API (switched from Resend, see ./client.ts).
+ * Provider: Resend REST API (switched from SendGrid on 15 Sep 2026, see
+ * ./client.ts for why).
  *
  * Behaviour:
  *   - Never throws. Every path returns a SendEmailResult; classify it with
  *     `sendOutcome()` from ./outcome before telling anyone anything.
- *   - If SENDGRID_API_KEY / EMAIL_FROM_ADDRESS aren't set, nothing is sent and
+ *   - If RESEND_API_KEY / EMAIL_FROM_ADDRESS aren't set, nothing is sent and
  *     the result is `{ ok: true, skipped: true, error }`. `ok` stays true so
  *     the caller's own transaction (token write, account create) is never
  *     rolled back by a deploy-config gap, but the skip is logged at ERROR
@@ -16,9 +17,14 @@
  *   - In preview deploys (VERCEL_ENV !== "production"), the email is
  *     redirected to EMAIL_PREVIEW_CATCHALL (if set) so feature branches don't
  *     spam real users.
- *   - A SendGrid rejection or a network failure returns `{ ok: false, error }`
+ *   - A Resend rejection or a network failure returns `{ ok: false, error }`
  *     carrying the provider's status and body, so the test send on
- *     /admin/email can show exactly what SendGrid objected to.
+ *     /admin/email can show exactly what Resend objected to. The two that
+ *     matter: 403 "domain is not verified" (the from address's domain has not
+ *     passed Resend's DNS check) and 429 (Resend's 2 requests a second, or the
+ *     free tier's 100 a day). SendGrid's version of the second, the `401
+ *     Maximum credits exceeded` that stopped every email for six weeks, is the
+ *     reason this result is never reduced to a boolean.
  */
 
 import type { ReactElement } from "react";
@@ -49,13 +55,27 @@ function redact(address: string): string {
   return at > 0 ? `***${address.slice(at)}` : "***";
 }
 
-const SENDGRID_ENDPOINT = "https://api.sendgrid.com/v3/mail/send";
+const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
 /**
- * SendGrid answers in well under a second. Past this it is an outage, and the
+ * Resend answers in well under a second. Past this it is an outage, and the
  * signup request that awaits this call must not hang on it.
  */
 const SEND_TIMEOUT_MS = 10_000;
+
+/**
+ * The RFC 5322 display-name form Resend's `from` takes. Quotes and angle
+ * brackets are stripped from the name, and it is quoted whenever it carries
+ * anything beyond letters, digits, spaces and plain punctuation, so a comma in
+ * a name someone sets one day ("PEBL CIC, FishSpotter") cannot be read as
+ * address syntax.
+ */
+export function formatSender(name: string, address: string): string {
+  const safeName = name.replace(/["\<>]/g, "").trim();
+  if (!safeName) return address;
+  const needsQuotes = /[^A-Za-z0-9 ._-]/.test(safeName);
+  return needsQuotes ? `"${safeName}" <${address}>` : `${safeName} <${address}>`;
+}
 
 export async function sendEmail({
   to,
@@ -80,18 +100,15 @@ export async function sendEmail({
     const replyToAddress = replyTo ?? config.replyTo;
 
     const body: Record<string, unknown> = {
-      personalizations: [{ to: [{ email: recipient }] }],
-      from: { email: fromAddress, name: config.fromName },
+      from: formatSender(config.fromName, fromAddress),
+      to: [recipient],
       subject,
-      // SendGrid requires text/plain before text/html (ascending MIME order).
-      content: [
-        { type: "text/plain", value: text },
-        { type: "text/html", value: html },
-      ],
+      html,
+      text,
     };
-    if (replyToAddress) body.reply_to = { email: replyToAddress };
+    if (replyToAddress) body.reply_to = replyToAddress;
 
-    const res = await fetch(SENDGRID_ENDPOINT, {
+    const res = await fetch(RESEND_ENDPOINT, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -103,14 +120,21 @@ export async function sendEmail({
 
     if (!res.ok) {
       const errBody = await res.text().catch(() => "");
-      const error = `SendGrid ${res.status}: ${errBody.slice(0, 300)}`;
+      const error = `Resend ${res.status}: ${errBody.slice(0, 300)}`;
       // eslint-disable-next-line no-console
       console.error("[email] provider rejected the message", { to: redact(to), subject, error });
       return { ok: false, error };
     }
 
-    // SendGrid returns 202 with an empty body; the id is in a header.
-    const messageId = res.headers.get("x-message-id") ?? undefined;
+    // Resend answers 200 with `{ id }` for the message it accepted. An accepted
+    // message with an unreadable body is still accepted, so the id is best effort.
+    let messageId: string | undefined;
+    try {
+      const json = (await res.json()) as { id?: unknown };
+      if (typeof json.id === "string" && json.id) messageId = json.id;
+    } catch {
+      messageId = undefined;
+    }
     return { ok: true, messageId };
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);

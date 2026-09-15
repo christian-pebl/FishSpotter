@@ -4,22 +4,22 @@ import { describeMissingEmailConfig, getEmailConfig, isEmailConfigured } from ".
 describe("getEmailConfig", () => {
   it("is configured only when both the key and a from address are present and non-blank", () => {
     expect(
-      isEmailConfigured({ SENDGRID_API_KEY: "SG.x", EMAIL_FROM_ADDRESS: "noreply@fishspotter.app" }),
+      isEmailConfigured({ RESEND_API_KEY: "re_x", EMAIL_FROM_ADDRESS: "noreply@fishspotter.app" }),
     ).toBe(true);
-    expect(isEmailConfigured({ SENDGRID_API_KEY: "SG.x" })).toBe(false);
+    expect(isEmailConfigured({ RESEND_API_KEY: "re_x" })).toBe(false);
     expect(isEmailConfigured({ EMAIL_FROM_ADDRESS: "noreply@fishspotter.app" })).toBe(false);
     // A blank value is the same as an unset one: it cannot send anything.
     expect(
-      isEmailConfigured({ SENDGRID_API_KEY: "   ", EMAIL_FROM_ADDRESS: "noreply@fishspotter.app" }),
+      isEmailConfigured({ RESEND_API_KEY: "   ", EMAIL_FROM_ADDRESS: "noreply@fishspotter.app" }),
     ).toBe(false);
     expect(isEmailConfigured({})).toBe(false);
   });
 
   it("names exactly what is missing, in a sentence a log line can carry", () => {
-    expect(getEmailConfig({}).missing).toEqual(["SENDGRID_API_KEY", "EMAIL_FROM_ADDRESS"]);
-    expect(getEmailConfig({ SENDGRID_API_KEY: "SG.x" }).missing).toEqual(["EMAIL_FROM_ADDRESS"]);
+    expect(getEmailConfig({}).missing).toEqual(["RESEND_API_KEY", "EMAIL_FROM_ADDRESS"]);
+    expect(getEmailConfig({ RESEND_API_KEY: "re_x" }).missing).toEqual(["EMAIL_FROM_ADDRESS"]);
     expect(
-      getEmailConfig({ SENDGRID_API_KEY: "SG.x", EMAIL_FROM_ADDRESS: "noreply@fishspotter.app" })
+      getEmailConfig({ RESEND_API_KEY: "re_x", EMAIL_FROM_ADDRESS: "noreply@fishspotter.app" })
         .missing,
     ).toEqual([]);
     expect(describeMissingEmailConfig(["EMAIL_FROM_ADDRESS"])).toBe(
@@ -29,10 +29,10 @@ describe("getEmailConfig", () => {
 
   it("trims values, defaults the sender name, and leaves reply-to unset when absent", () => {
     const config = getEmailConfig({
-      SENDGRID_API_KEY: " SG.x ",
+      RESEND_API_KEY: " re_x ",
       EMAIL_FROM_ADDRESS: " noreply@fishspotter.app ",
     });
-    expect(config.apiKey).toBe("SG.x");
+    expect(config.apiKey).toBe("re_x");
     expect(config.fromAddress).toBe("noreply@fishspotter.app");
     expect(config.fromName).toBe("PEBL FishSpotter");
     expect(config.replyTo).toBeNull();
@@ -43,18 +43,18 @@ describe("getEmailConfig", () => {
   });
 
   it("reads the live environment on every call rather than caching a stale answer", () => {
-    const before = process.env.SENDGRID_API_KEY;
+    const before = process.env.RESEND_API_KEY;
     const beforeFrom = process.env.EMAIL_FROM_ADDRESS;
     try {
-      process.env.SENDGRID_API_KEY = "";
+      process.env.RESEND_API_KEY = "";
       process.env.EMAIL_FROM_ADDRESS = "";
       expect(isEmailConfigured()).toBe(false);
-      process.env.SENDGRID_API_KEY = "SG.now-set";
+      process.env.RESEND_API_KEY = "re_now-set";
       process.env.EMAIL_FROM_ADDRESS = "noreply@fishspotter.app";
       expect(isEmailConfigured()).toBe(true);
     } finally {
-      if (before === undefined) delete process.env.SENDGRID_API_KEY;
-      else process.env.SENDGRID_API_KEY = before;
+      if (before === undefined) delete process.env.RESEND_API_KEY;
+      else process.env.RESEND_API_KEY = before;
       if (beforeFrom === undefined) delete process.env.EMAIL_FROM_ADDRESS;
       else process.env.EMAIL_FROM_ADDRESS = beforeFrom;
     }

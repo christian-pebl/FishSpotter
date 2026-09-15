@@ -2457,3 +2457,49 @@ Verified: `tsc` clean, 1047 unit tests (5 new), `lint` and `lint:tokens` clean, 
 before/after numbers above taken from a real Chromium at a Pixel 7 viewport driving a
 production build, plus the desktop docked layout confirmed unaffected (no floor applied,
 all three rows already fit).
+
+## 2026-09-15: SendGrid had refused every email since early August; sender moved to Resend
+
+**Found by a live reproduction.** A new spotter's 7 Sep message ("I keep getting asked to
+resend verification and never get anything") was answered by #180, which made the app honest
+about a send it could not make but could not see WHY production was failing. On 15 Sep
+Christian signed up with `craig@pebl-cic.co.uk` and got nothing either. The database put a
+date on it: three accounts had ever verified an email, the last on 22 July, and none of the
+17 verification links minted in August and September was clicked. A sandbox-mode request
+(validated by SendGrid, nothing delivered) with the production key and sender got SendGrid's
+answer: `401 {"errors":[{"message":"Maximum credits exceeded"}]}`. SendGrid's free plan had
+become a 60-day trial; the account was created 4 Jun, comment notifications still arrived on
+1 Aug, and nothing left after that. The pre-#180 code caught the 401, logged it to Vercel and
+turned it into "Email sent", so six weeks passed with no signal but a support email. The
+restricted "Mail Send" key cannot read the account, so the plan status was never visible
+from the app side; the timeline is what dates it.
+
+**What shipped, in order.**
+
+1. **#180 merged and live at 18:59 UTC**: `/about`, the honest 503s, the `email` field on
+   `/api/health`, `/admin/email` with the test send.
+2. **Two accounts verified by hand** per runbook section 6: the reporting spotter (who wrote
+   in from the address on the account) and `craig@pebl-cic.co.uk`.
+3. **The sender moved from SendGrid to Resend** (this entry). `send.ts` posts to
+   `https://api.resend.com/emails` (`from`, `to[]`, `subject`, `html`, `text`, `reply_to`;
+   a 200 carries `{ id }`, a refusal carries `{ statusCode, name, message }`), `client.ts`
+   reads `RESEND_API_KEY` instead of `SENDGRID_API_KEY`, and a new `formatSender()` builds
+   the RFC 5322 from line, quoted only when the name carries punctuation. The #180 result
+   contract is untouched: a 403 (domain not verified) or 429 (Resend's 2 req/s or the free
+   tier's 100/day, 3,000/month) is `failed`, never `sent`, and `send.test.ts` now pins the
+   quota case by name, because that is the failure SendGrid hid. Copy on `/admin/email`, the
+   test email, `.env.example`, `src/lib/env.ts`, the `CLAUDE.md` env block and the runbook
+   all name Resend; the privacy policy's processor row is Resend (US company, EU sending
+   region) and its date moved to 15 Sep 2026.
+
+**Why Resend and not a paid SendGrid plan.** The app sends about one email a day; a monthly
+plan for that is poor value, and Resend's free tier is a year of volume. The June 2026
+objection to Resend, that it needs an MX record and Wix's DNS editor could not add one,
+ended when `fishspotter.app` moved to Cloudflare DNS.
+
+**Still by hand, outside the repo.** Add `fishspotter.app` in Resend (region EU / Ireland),
+put its three records (MX + SPF TXT on `send.fishspotter.app`, DKIM TXT on
+`resend._domainkey`) in Cloudflare as DNS-only, create a sending-only API key, set
+`RESEND_API_KEY` in Vercel Production and Preview, redeploy, press **Send a test email** on
+`/admin/email`, then reply to the spotter with the `/about` link. Runbook: section 2 for the
+records, section 7 for the history.
