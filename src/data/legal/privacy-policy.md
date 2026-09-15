@@ -54,7 +54,7 @@ We share data only with the processors listed below, each under a contract that 
 |-----------|------|----------|----------------------------------|
 | **Vercel** | Application hosting and edge delivery | US | UK International Data Transfer Agreement (IDTA), incorporated into the Vercel DPA, layered with the EU Standard Contractual Clauses (Commission Decision 2021/914) |
 | **Supabase** | Database and video/thumbnail file storage | West EU (AWS eu-west-1, Dublin, Republic of Ireland), personal data stays within the EU/EEA | No transfer outside the UK/EEA |
-| **Resend** | Transactional email delivery | US company; our sending region is the EU (AWS eu-west-1, Dublin, Republic of Ireland) | EU Standard Contractual Clauses (Commission Decision 2021/914) with the UK International Data Transfer Addendum, incorporated into the Resend DPA |
+| **Resend** (Plus Five Five, Inc.) | Transactional email delivery | US company; our sending region is the EU (AWS eu-west-1, Dublin, Republic of Ireland) | UK Extension to the EU-U.S. Data Privacy Framework (UK-US Data Bridge), under which Resend is certified, and the EU Standard Contractual Clauses (Commission Decision 2021/914) as amended by the UK Addendum, both in the Resend DPA |
 | **Anthropic** | ID-guide chat (processes user-typed free-text questions) | US | UK International Data Transfer Agreement (IDTA), Standard Contractual Clauses |
 
 Where we transfer personal data outside the UK, we rely on an appropriate safeguard under UK GDPR Article 46 (such as the UK-US Data Bridge, the UK International Data Transfer Agreement, or the UK Addendum to EU Standard Contractual Clauses), as noted per processor above.
