@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/admin/metrics", label: "Metrics" },
   { href: "/admin/prizes", label: "Prizes" },
   { href: "/admin/trust", label: "Trust" },
+  { href: "/admin/email", label: "Email" },
 ];
 
 // Touch-friendly admin nav: pill links (>=44px tall) that scroll horizontally

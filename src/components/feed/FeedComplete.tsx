@@ -18,6 +18,11 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { TRANSITION, spring } from "@/lib/motion";
+import {
+  VerificationHelp,
+  verificationStatusFromResponse,
+  type VerificationSendStatus,
+} from "@/components/VerificationHelp";
 
 export interface FeedCompleteProps {
   /** How many clips the spotter has identified (= every clip the feed serves). */
@@ -43,9 +48,7 @@ export function FeedComplete({
   const reduceMotion = useReducedMotion();
   const [optIn, setOptIn] = useState(notifyOptIn);
   const [saving, setSaving] = useState(false);
-  const [verifyStatus, setVerifyStatus] = useState<
-    "idle" | "sending" | "sent" | "rate-limited"
-  >("idle");
+  const [verifyStatus, setVerifyStatus] = useState<VerificationSendStatus>("idle");
 
   const toggle = async (next: boolean) => {
     setOptIn(next);
@@ -68,13 +71,9 @@ export function FeedComplete({
     setVerifyStatus("sending");
     try {
       const res = await fetch("/api/auth/verify-request", { method: "POST" });
-      if (res.status === 429) {
-        setVerifyStatus("rate-limited");
-        return;
-      }
-      setVerifyStatus(res.ok ? "sent" : "idle");
+      setVerifyStatus(verificationStatusFromResponse(res));
     } catch {
-      setVerifyStatus("idle");
+      setVerifyStatus("error");
     }
   };
 
@@ -161,8 +160,13 @@ export function FeedComplete({
                   ? "Try again later"
                   : verifyStatus === "sending"
                     ? "Sending…"
-                    : "Send verification email"}
+                    : verifyStatus === "unavailable"
+                      ? "Could not send"
+                      : verifyStatus === "error"
+                        ? "Could not send. Retry"
+                        : "Send verification email"}
             </button>
+            <VerificationHelp status={verifyStatus} showIdleHint={false} className="mt-2" />
           </div>
         )}
 

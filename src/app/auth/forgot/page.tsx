@@ -24,8 +24,16 @@ export default function ForgotPasswordPage() {
         return;
       }
       if (!res.ok) {
+        // 503 is the server saying no reset link can be sent at all (email
+        // provider unconfigured), with the honest message to show. Anything
+        // else is a generic failure.
+        const data = (await res.json().catch(() => ({}))) as { error?: unknown };
         setStatus("error");
-        setError("Something went wrong. Please try again.");
+        setError(
+          res.status === 503 && typeof data.error === "string"
+            ? data.error
+            : "Something went wrong. Please try again.",
+        );
         return;
       }
       setStatus("done");

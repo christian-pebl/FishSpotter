@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { TileGate, type TileSpec } from "./TileGate";
+import { ROW_PEEK_PX, TileGate, tileAreaFloorPx, type TileSpec } from "./TileGate";
 
 // jsdom ships no matchMedia, and TileGate asks it whether to dock the panel on
 // mount. Answering "no" puts every test on the phone sheet, which is the
@@ -229,5 +229,46 @@ describe("TileGate photo tiles", () => {
 
     await user.click(tile);
     await vi.waitFor(() => expect(onSelect).toHaveBeenCalledWith("fish"));
+  });
+});
+
+/**
+ * The two-row floor (9 Sep 2026).
+ *
+ * The shape gate was cutting its grid at the end of row one: four shapes with
+ * empty space under them, and the five below unreachable because nothing said
+ * they were there. The measuring itself belongs to the browser (jsdom reports
+ * every box as zero, so a render test here would pass against a panel that
+ * shows nothing), but the arithmetic it feeds is pure and worth pinning.
+ */
+describe("tileAreaFloorPx", () => {
+  // A phone sheet at its shortest: compact silhouette tiles (84px), 4px grid
+  // gap, header + pinned footer taking 166px.
+  const sheet = { chromePx: 166, rowPx: 84, gapPx: 4 };
+
+  it("reserves two rows plus a peek of the third, so the grid cannot read as one row", () => {
+    // 166 chrome + two 84px rows + one 4px gap + a 26px sliver of row three.
+    expect(tileAreaFloorPx({ ...sheet, totalRows: 3 })).toBe(364);
+  });
+
+  it("asks for no floor when there is only one row, which has nothing to scroll to", () => {
+    expect(tileAreaFloorPx({ ...sheet, totalRows: 1 })).toBe(0);
+  });
+
+  it("drops the peek when the second row is the last one, so the sliver never lies", () => {
+    const twoRows = tileAreaFloorPx({ ...sheet, totalRows: 2 });
+    expect(twoRows).toBe(364 - ROW_PEEK_PX);
+    expect(twoRows).toBeLessThan(tileAreaFloorPx({ ...sheet, totalRows: 3 }));
+  });
+
+  it("scales to whatever a row actually measures, rather than a hard-coded tile height", () => {
+    // A Rung-3 photo row is roughly twice a compact silhouette row.
+    expect(tileAreaFloorPx({ ...sheet, rowPx: 168, totalRows: 4 })).toBe(
+      166 + 168 * 2 + 4 + ROW_PEEK_PX,
+    );
+  });
+
+  it("asks for nothing until the panel has been measured", () => {
+    expect(tileAreaFloorPx({ ...sheet, rowPx: 0, totalRows: 3 })).toBe(0);
   });
 });

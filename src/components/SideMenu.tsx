@@ -75,6 +75,21 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    // The story of the project: who films the clips, who funds it, what the
+    // identifications are for. A signed-in spotter never sees the landing
+    // page (middleware sends them to /feed), so this is the only way in.
+    href: "/about",
+    label: "About the project",
+    match: (p) => p.startsWith("/about"),
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="6.2" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M8 7.2v4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <circle cx="8" cy="5" r="0.8" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
     href: "/pebbles",
     label: "Stats",
     match: (p) => p.startsWith("/pebbles") || p.startsWith("/leaderboard"),

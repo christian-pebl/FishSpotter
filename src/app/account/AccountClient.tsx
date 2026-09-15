@@ -3,6 +3,11 @@
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import {
+  VerificationHelp,
+  verificationStatusFromResponse,
+  type VerificationSendStatus,
+} from "@/components/VerificationHelp";
 
 interface Props {
   email: string;
@@ -29,7 +34,8 @@ export function AccountClient({
   const [digestOptIn, setDigestOptIn] = useState(initialDigest);
   const [newClipsOptIn, setNewClipsOptIn] = useState(initialNewClips);
   const [leaderboardOptIn, setLeaderboardOptIn] = useState(initialLeaderboardOptIn);
-  const [verificationSendStatus, setVerificationSendStatus] = useState<"idle" | "sending" | "sent" | "rate-limited">("idle");
+  const [verificationSendStatus, setVerificationSendStatus] =
+    useState<VerificationSendStatus>("idle");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [emailConfirm, setEmailConfirm] = useState("");
   const [deleteStatus, setDeleteStatus] = useState<"idle" | "deleting">("idle");
@@ -83,12 +89,12 @@ export function AccountClient({
 
   const resendVerification = async () => {
     setVerificationSendStatus("sending");
-    const res = await fetch("/api/auth/verify-request", { method: "POST" });
-    if (res.status === 429) {
-      setVerificationSendStatus("rate-limited");
-      return;
+    try {
+      const res = await fetch("/api/auth/verify-request", { method: "POST" });
+      setVerificationSendStatus(verificationStatusFromResponse(res));
+    } catch {
+      setVerificationSendStatus("error");
     }
-    setVerificationSendStatus(res.ok ? "sent" : "idle");
   };
 
   const deleteAccount = async () => {
@@ -129,7 +135,7 @@ export function AccountClient({
                 type="button"
                 onClick={resendVerification}
                 disabled={verificationSendStatus === "sending"}
-                className="mt-2 rounded-full border border-navy-900/20 px-3 py-1 text-xs font-semibold hover:border-teal-500"
+                className="mt-2 inline-flex min-h-[44px] items-center rounded-full border border-navy-900/20 px-3 py-1 text-xs font-semibold hover:border-teal-500"
               >
                 {verificationSendStatus === "sent" ? (
                   <span className="inline-flex items-center gap-1">
@@ -142,8 +148,15 @@ export function AccountClient({
                     ? "Try again later"
                     : verificationSendStatus === "sending"
                       ? "Sending…"
-                      : "Send verification email"}
+                      : verificationSendStatus === "unavailable"
+                        ? "Could not send"
+                        : verificationSendStatus === "error"
+                          ? "Could not send. Retry"
+                          : "Send verification email"}
               </button>
+              {/* The answer to "I keep pressing resend and nothing comes":
+                  where to look, and a human to email if it still does not. */}
+              <VerificationHelp status={verificationSendStatus} className="mt-2" />
             </div>
           )}
           <div className="flex items-center justify-between gap-3">

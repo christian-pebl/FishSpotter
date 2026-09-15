@@ -4,9 +4,15 @@
  * Returns 200 with the same `{ ok: true }` body regardless of whether
  * the email exists, standard email-enumeration mitigation. Real users
  * receive an email with a one-time, hash-at-rest token (1h TTL).
- * If SENDGRID_API_KEY isn't configured, the token is still persisted; an
- * operator can read the DB row to construct the URL during the
- * transitional period before email (SendGrid) setup is complete.
+ *
+ * One exception, which leaks nothing: when the email provider is not
+ * configured at all, the answer is a 503 carrying EMAIL_UNAVAILABLE_MESSAGE
+ * for EVERY address, before any lookup. "Check your inbox" for a link that
+ * cannot be sent is the failure the 8 Sep 2026 support message described,
+ * and an unconfigured provider is the same for everyone, so saying so tells
+ * an attacker nothing about which accounts exist. A per-send provider failure
+ * for a real account is still answered with the generic 200 (a 503 only for
+ * existing addresses would be an oracle), and logged for /admin/email.
  */
 
 import { SITE_URL } from "@/lib/site-url";
@@ -14,6 +20,12 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { PasswordResetEmail } from "@/lib/email/templates/PasswordResetEmail";
 import { sendEmail } from "@/lib/email/send";
+import { isEmailConfigured } from "@/lib/email/client";
+import {
+  EMAIL_UNAVAILABLE_CODE,
+  EMAIL_UNAVAILABLE_MESSAGE,
+  wasSent,
+} from "@/lib/email/outcome";
 import {
   PASSWORD_RESET_TOKEN_TTL_MS,
   generateToken,
@@ -47,6 +59,16 @@ export async function POST(req: Request) {
   }
   const email = parsed.email.trim().toLowerCase();
 
+  // Before the rate limit and before any lookup: see the header comment.
+  if (!isEmailConfigured()) {
+    // eslint-disable-next-line no-console
+    console.error("[auth/forgot] email is not configured; no reset link can be sent");
+    return NextResponse.json(
+      { ok: false, code: EMAIL_UNAVAILABLE_CODE, error: EMAIL_UNAVAILABLE_MESSAGE },
+      { status: 503 },
+    );
+  }
+
   const ip = clientIpKey(req);
   if (!(await checkAuthRateLimit(`forgot:${ip}:${email}`))) {
     return NextResponse.json(
@@ -69,7 +91,7 @@ export async function POST(req: Request) {
     data: { userId: user.id, token, expiresAt },
   });
 
-  await sendEmail({
+  const result = await sendEmail({
     to: email,
     subject: "Reset your PEBL FishSpotter password",
     react: PasswordResetEmail({
@@ -77,6 +99,15 @@ export async function POST(req: Request) {
       resetUrl: resetUrl(plain),
     }),
   });
+  if (!wasSent(result)) {
+    // The token row is kept: an operator can construct the link from it by
+    // hand for a spotter who writes in.
+    // eslint-disable-next-line no-console
+    console.error("[auth/forgot] reset email not delivered", {
+      userId: user.id,
+      error: result.error,
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }

@@ -21,6 +21,11 @@ const TILES = [
     title: "Impact metrics",
     body: "Aggregate reach, engagement and learning for funder reporting. Export a 90-day CSV.",
   },
+  {
+    href: "/admin/email",
+    title: "Email delivery",
+    body: "Is the sender configured, are verification links being clicked, and does a test email reach your inbox right now.",
+  },
 ];
 
 export default function AdminHomePage() {

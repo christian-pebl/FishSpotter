@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useModalFocus } from "@/lib/useModalFocus";
 import { GUEST_MILESTONE_EVENT } from "@/lib/guest";
+import { SUPPORT_EMAIL } from "@/lib/email/outcome";
 
 /**
  * After a guest has spotted a few clips (GUEST_SAVE_PROMPT_AT, the quiz hook
@@ -25,6 +26,9 @@ export function GuestSavePrompt() {
   const [error, setError] = useState("");
   const [inUse, setInUse] = useState(false);
   const [done, setDone] = useState(false);
+  // Whether the set-a-password link actually left. The claim is saved either
+  // way; the copy below must not say "check your inbox" when it did not.
+  const [emailSent, setEmailSent] = useState(true);
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -81,6 +85,7 @@ export function GuestSavePrompt() {
       setError(data.error ?? "Could not save. Please try again.");
       return;
     }
+    setEmailSent(data.emailSent !== false);
     setDone(true);
     try {
       sessionStorage.setItem(DISMISS_KEY, "1");
@@ -114,8 +119,19 @@ export function GuestSavePrompt() {
             </h2>
             <p className="mt-2 text-sm text-navy-900/70">
               Your finds and leaderboard spot are attached to{" "}
-              <span className="font-semibold text-navy-900">{email.trim()}</span>.
-              Check your inbox for a link to set a password and finish up.
+              <span className="font-semibold text-navy-900">{email.trim()}</span>.{" "}
+              {emailSent ? (
+                <>Check your inbox for a link to set a password and finish up.</>
+              ) : (
+                <>
+                  We could not send the set-a-password link just now. Use &ldquo;Forgot
+                  password&rdquo; on the sign-in page later, or email{" "}
+                  <a href={`mailto:${SUPPORT_EMAIL}`} className="underline">
+                    {SUPPORT_EMAIL}
+                  </a>{" "}
+                  and we will finish it by hand.
+                </>
+              )}
             </p>
             <button
               type="button"
