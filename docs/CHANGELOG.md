@@ -2497,9 +2497,16 @@ plan for that is poor value, and Resend's free tier is a year of volume. The Jun
 objection to Resend, that it needs an MX record and Wix's DNS editor could not add one,
 ended when `fishspotter.app` moved to Cloudflare DNS.
 
-**Still by hand, outside the repo.** Add `fishspotter.app` in Resend (region EU / Ireland),
-put its three records (MX + SPF TXT on `send.fishspotter.app`, DKIM TXT on
-`resend._domainkey`) in Cloudflare as DNS-only, create a sending-only API key, set
-`RESEND_API_KEY` in Vercel Production and Preview, redeploy, press **Send a test email** on
-`/admin/email`, then reply to the spotter with the `/about` link. Runbook: section 2 for the
-records, section 7 for the history.
+**Finished the same evening, and verified.** `fishspotter.app` was added in Resend (region
+Ireland) and its three records (DKIM TXT on `resend._domainkey`, MX and SPF TXT on
+`send.fishspotter.app`) were added in Cloudflare as DNS-only, each read back from Cloudflare's
+authoritative nameserver; Resend marked the domain Verified at 20:24 BST. Vercel Production
+turned out to hold a `RESEND_API_KEY` already, left from a June attempt, so `/api/health` read
+`"email": "configured"` the moment #182 deployed. The end-to-end proof: a password reset
+requested on production for `christian@pebl-cic.co.uk` landed in that inbox, not spam, from
+`noreply@fishspotter.app` six seconds later. The spotter who reported the fault was replied to
+with the `/about` link. The inherited key has full account access and is being swapped for a
+sending-only one. The privacy policy's Resend row was then checked against Resend's own DPA
+(last updated 27 Aug 2026): its UK transfer safeguards are the UK Addendum to the 2021 SCCs and
+Resend's certification under the UK Extension to the EU-U.S. Data Privacy Framework, and the
+row now names both and the contracting entity (Plus Five Five, Inc.).
