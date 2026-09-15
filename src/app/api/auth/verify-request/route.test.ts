@@ -42,7 +42,7 @@ const USER = {
 
 describe("POST /api/auth/verify-request", () => {
   beforeEach(() => {
-    vi.stubEnv("SENDGRID_API_KEY", "SG.test-key");
+    vi.stubEnv("RESEND_API_KEY", "re_test-key");
     vi.stubEnv("EMAIL_FROM_ADDRESS", "noreply@fishspotter.app");
     session.current = { user: { id: "u1" } };
     prismaMock.user.findUnique.mockResolvedValue(USER);
@@ -65,7 +65,7 @@ describe("POST /api/auth/verify-request", () => {
   });
 
   it("answers 503 with a human way out when the provider is not configured, without spending the rate limit", async () => {
-    vi.stubEnv("SENDGRID_API_KEY", "");
+    vi.stubEnv("RESEND_API_KEY", "");
     const res = await POST(post());
     expect(res.status).toBe(503);
     const body = await res.json();
@@ -77,10 +77,10 @@ describe("POST /api/auth/verify-request", () => {
     expect(dispatch.sendVerificationEmail).not.toHaveBeenCalled();
   });
 
-  it("answers 503 when SendGrid refuses the message", async () => {
+  it("answers 503 when Resend refuses the message", async () => {
     dispatch.sendVerificationEmail.mockResolvedValue({
       ok: false,
-      error: "SendGrid 403: The from address does not match a verified Sender Identity.",
+      error: "Resend 403: The fishspotter.app domain is not verified.",
     });
     const res = await POST(post());
     expect(res.status).toBe(503);
@@ -92,7 +92,7 @@ describe("POST /api/auth/verify-request", () => {
     dispatch.sendVerificationEmail.mockResolvedValue({
       ok: true,
       skipped: true,
-      error: "Email is not configured (SENDGRID_API_KEY not set)",
+      error: "Email is not configured (RESEND_API_KEY not set)",
     });
     const res = await POST(post());
     expect(res.status).toBe(503);

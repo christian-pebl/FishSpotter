@@ -5,7 +5,7 @@
  * Exists because of a real support message (8 Sep 2026): a new spotter pressed
  * "Resend verification" again and again, saw "Email sent" every time, and never
  * received anything. `sendEmail()` returns `{ ok: true, skipped: true }` when
- * the provider is not configured and `{ ok: false }` when SendGrid rejects a
+ * the provider is not configured and `{ ok: false }` when the provider rejects a
  * message, and every caller read only `ok` (or nothing at all), so the endpoint
  * answered 200 and the UI said "sent" for a message that never left.
  *
@@ -24,9 +24,9 @@ export interface SendEmailResult {
    * anything; use `sendOutcome()` / `wasSent()` for that.
    */
   ok: boolean;
-  /** SendGrid's `x-message-id`, when the provider accepted the message. */
+  /** The provider's id for the message (Resend's `id`), when it accepted it. */
   messageId?: string;
-  /** True when nothing was sent because SENDGRID_API_KEY / EMAIL_FROM_ADDRESS are unset. */
+  /** True when nothing was sent because RESEND_API_KEY / EMAIL_FROM_ADDRESS are unset. */
   skipped?: boolean;
   /** Why nothing was delivered, for logs and the admin diagnostics page. */
   error?: string;

@@ -95,7 +95,7 @@ export async function GET(req: Request) {
           unsubscribeUrl: newClipsUnsubscribeUrl(u.id, base),
         }),
       });
-      // Stamp only after a successful send, so a transient SendGrid failure
+      // Stamp only after a successful send, so a transient provider failure
       // retries on the next run instead of silently swallowing the alert.
       await prisma.user.update({
         where: { id: u.id },

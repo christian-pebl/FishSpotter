@@ -43,7 +43,7 @@ const USER = { id: "u1", email: "spotter@example.com", displayName: "Sam", name:
 
 describe("POST /api/auth/forgot", () => {
   beforeEach(() => {
-    vi.stubEnv("SENDGRID_API_KEY", "SG.test-key");
+    vi.stubEnv("RESEND_API_KEY", "re_test-key");
     vi.stubEnv("EMAIL_FROM_ADDRESS", "noreply@fishspotter.app");
     rateLimit.checkAuthRateLimit.mockResolvedValue(true);
     prismaMock.user.findUnique.mockResolvedValue(null);
@@ -94,7 +94,7 @@ describe("POST /api/auth/forgot", () => {
 
   it("keeps the generic 200 when the provider refuses a real account's message, and logs it", async () => {
     prismaMock.user.findUnique.mockResolvedValue(USER);
-    sender.sendEmail.mockResolvedValue({ ok: false, error: "SendGrid 403: ..." });
+    sender.sendEmail.mockResolvedValue({ ok: false, error: "Resend 403: ..." });
     const res = await POST(post("spotter@example.com"));
     // A 503 only for existing addresses would be an enumeration oracle.
     expect(res.status).toBe(200);

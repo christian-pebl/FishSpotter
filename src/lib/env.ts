@@ -12,7 +12,7 @@ import { z } from "zod";
 //
 // REQUIRED keys are the ones the app genuinely cannot function without: the two
 // Postgres URLs, the NextAuth secret + URL, and the Supabase URL/anon-key trio.
-// Everything else is OPTIONAL so that an env missing, say, a SendGrid key or the
+// Everything else is OPTIONAL so that an env missing, say, a Resend key or the
 // R2 creds still boots (those features degrade gracefully or are unused). Being
 // conservative here is intentional: over-constraining optional vars would break
 // Vercel deploys that legitimately omit them.
@@ -52,8 +52,8 @@ export const envSchema = z.object({
   GEMINI_API_KEY: optionalString,
   GEMINI_MODEL: optionalString,
 
-  // Transactional email (SendGrid)
-  SENDGRID_API_KEY: optionalString,
+  // Transactional email (Resend, since 15 Sep 2026)
+  RESEND_API_KEY: optionalString,
   EMAIL_FROM_ADDRESS: optionalString,
   EMAIL_FROM_NAME: optionalString,
   EMAIL_REPLY_TO: optionalString,

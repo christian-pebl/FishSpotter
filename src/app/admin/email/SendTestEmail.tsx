@@ -5,8 +5,8 @@ import { sendTestEmail, type TestSendResult } from "./actions";
 
 /**
  * One button, one honest answer. The result block quotes the provider
- * verbatim on a failure, because "SendGrid 403: The from address does not
- * match a verified Sender Identity" is the whole diagnosis, and it was only
+ * verbatim on a failure, because "Resend 403: The fishspotter.app domain is not
+ * verified" is the whole diagnosis, and it was only
  * ever visible in Vercel's function logs before this page existed.
  */
 export function SendTestEmail({
@@ -61,11 +61,11 @@ export function SendTestEmail({
 
       {result && result.outcome === "sent" && (
         <div className="mt-3 rounded-modal border border-teal-500/40 bg-teal-50 p-3 text-sm text-navy-900">
-          <p className="font-semibold">SendGrid accepted the message.</p>
+          <p className="font-semibold">Resend accepted the message.</p>
           <p className="pt-1 text-navy-700">
             Sent at {new Date(result.sentAt).toLocaleString()}
             {result.messageId ? `, message id ${result.messageId}` : ""}. Now check the inbox at{" "}
-            {destination}, and its spam folder. Accepted means SendGrid took it; arrived is the
+            {destination}, and its spam folder. Accepted means Resend took it; arrived is the
             thing to confirm.
           </p>
         </div>
@@ -84,14 +84,14 @@ export function SendTestEmail({
 
       {result && result.outcome === "failed" && (
         <div role="alert" className="mt-3 rounded-modal border border-danger/40 bg-danger/5 p-3 text-sm text-navy-900">
-          <p className="font-semibold">SendGrid refused it.</p>
+          <p className="font-semibold">Resend refused it.</p>
           <pre className="mt-2 overflow-x-auto whitespace-pre-wrap rounded-modal bg-navy-50 p-2 text-[12px] text-navy-800">
             {result.error}
           </pre>
           <p className="pt-2 text-navy-700">
-            A 401 is a bad or revoked API key. A 403 naming a sender identity means the from
-            address is not verified in SendGrid (Settings, Sender Authentication). The fix is in
-            SendGrid or Vercel, not in this app.
+            A 401 is a missing, bad or revoked API key. A 403 saying the domain is not verified means
+            fishspotter.app has not passed Resend&apos;s DNS check (Domains). A 429 is Resend&apos;s rate limit
+            or the free tier&apos;s daily cap. The fix is in Resend or Vercel, not in this app.
           </p>
         </div>
       )}

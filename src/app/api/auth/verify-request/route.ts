@@ -3,10 +3,10 @@
  *
  * Authenticated. If the calling user's email isn't yet verified, mints a fresh
  * token and sends the email. Rate-limited per user (checkAuthRateLimit: 5 in
- * 15 minutes) so a stuck loop can't burn the SendGrid quota.
+ * 15 minutes) so a stuck loop can't burn the provider's quota.
  *
  * Answers 200 ONLY when the provider accepted the message. When email is not
- * configured, or SendGrid rejects the send, it answers 503 carrying
+ * configured, or Resend rejects the send, it answers 503 carrying
  * EMAIL_UNAVAILABLE_MESSAGE, so the client can tell the person the truth and
  * how to get help. Until 8 Sep 2026 it answered 200 regardless, and a new
  * spotter pressed "resend" for days while the app said "Email sent".

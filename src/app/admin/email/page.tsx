@@ -15,16 +15,16 @@ import { SendTestEmail } from "./SendTestEmail";
  *
  * Built after a new spotter wrote in: they pressed "resend verification" for
  * days, the app said "Email sent" every time, and nothing ever arrived. Every
- * part of that failure was invisible from inside the app: a missing SendGrid
+ * part of that failure was invisible from inside the app: a missing provider
  * key was a console warning, a refused send was a console error, and no
  * figure anywhere counted "verification links requested" against "clicked".
- * This page makes all three visible without opening Vercel or SendGrid:
+ * This page makes all three visible without opening Vercel or Resend:
  *
  *   1. Is the sender configured at all? (the env vars, never their values)
  *   2. Are verification emails getting through? (requested vs. clicked,
  *      from the VerificationToken rows the app already keeps)
  *   3. Does a real message reach a real inbox right now? (a test send to
- *      the admin's own address, quoting SendGrid verbatim on a refusal)
+ *      the admin's own address, quoting Resend verbatim on a refusal)
  *
  * Read-only apart from the test send, which is admin-gated in its action.
  */
@@ -52,7 +52,7 @@ const VERDICT_COPY: Record<VerificationStats["verdict"], { title: string; body: 
   },
   "not-delivering": {
     title: "Nobody is clicking these links",
-    body: "Verification emails were requested in the last 30 days and not one link was clicked. That is the signature of a sender that is configured but not delivering, or of every message landing in spam. Send yourself a test email below; if it does not arrive, the problem is in SendGrid or Vercel, not in this app.",
+    body: "Verification emails were requested in the last 30 days and not one link was clicked. That is the signature of a sender that is configured but not delivering, or of every message landing in spam. Send yourself a test email below; if it does not arrive, the problem is in Resend or Vercel, not in this app.",
     tone: "bad",
   },
 };
@@ -136,7 +136,7 @@ export default async function AdminEmailPage() {
           {configured ? (
             <>
               <span className="font-semibold">Yes.</span> Both variables sending needs are set on
-              this deployment. That does not prove SendGrid accepts the sender; the test send does.
+              this deployment. That does not prove Resend accepts the sender; the test send does.
             </>
           ) : (
             <>
@@ -151,11 +151,11 @@ export default async function AdminEmailPage() {
         <table className="mt-3 w-full text-sm">
           <tbody>
             <Row
-              label="SENDGRID_API_KEY"
+              label="RESEND_API_KEY"
               value={config.apiKey ? "set" : "not set"}
               note="The value is never shown here."
             />
-            <Row label="EMAIL_FROM_ADDRESS" value={config.fromAddress ?? "not set"} note="Must be a sender SendGrid has verified (Settings, Sender Authentication), or every send is refused with a 403." />
+            <Row label="EMAIL_FROM_ADDRESS" value={config.fromAddress ?? "not set"} note="Must be on a domain Resend has verified (Domains), or every send is refused with a 403." />
             <Row label="EMAIL_FROM_NAME" value={config.fromName} />
             <Row label="EMAIL_REPLY_TO" value={config.replyTo ?? "not set (replies go to the from address)"} />
             <Row
@@ -179,7 +179,7 @@ export default async function AdminEmailPage() {
         </h2>
         <p className="pt-1 text-[12px] text-navy-600">
           Every send mints one verification token; clicking the link consumes it. Requested
-          against clicked, from the app&apos;s own rows, no SendGrid access needed.
+          against clicked, from the app&apos;s own rows, no Resend access needed.
         </p>
         <div
           className={`mt-3 rounded-modal border p-3 text-sm text-navy-900 ${TONE_CLASS[verdict.tone]}`}
@@ -228,7 +228,7 @@ export default async function AdminEmailPage() {
         <h2 className="text-sm font-semibold text-navy-900">3. Does a message reach an inbox?</h2>
         <p className="pb-3 pt-1 text-[12px] text-navy-600">
           Sends one real email to your own address through the same code path as a verification
-          email, and quotes SendGrid verbatim if it refuses.
+          email, and quotes Resend verbatim if it refuses.
         </p>
         <SendTestEmail to={adminEmail} redirectedTo={redirectedTo} />
       </section>
@@ -238,16 +238,16 @@ export default async function AdminEmailPage() {
         <ol className="mt-2 list-decimal space-y-1 pl-5">
           <li>Not configured above: set the variables in Vercel, Production, then redeploy.</li>
           <li>
-            Test send refused with a 403: verify the from address&apos;s domain in SendGrid
-            (Settings, Sender Authentication) and check the three CNAMEs are DNS-only, not
+            Test send refused with a 403: verify the from address&apos;s domain in Resend (Domains)
+            and check its three DNS records (MX, SPF TXT, DKIM TXT) are in Cloudflare, DNS-only, not
             proxied.
           </li>
           <li>
-            Test send accepted but nothing arrives: SendGrid, Activity feed, search for your
-            address. A bounce or a block names the reason.
+            Test send accepted but nothing arrives: Resend, Emails, search for your
+            address. A bounce or a complaint names the reason.
           </li>
           <li>
-            Arrives in spam: the domain needs SPF and DKIM via SendGrid&apos;s domain
+            Arrives in spam: the domain needs SPF and DKIM via Resend&apos;s domain
             authentication, and a DMARC record.
           </li>
         </ol>

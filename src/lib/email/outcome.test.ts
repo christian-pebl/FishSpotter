@@ -22,7 +22,7 @@ describe("sendOutcome", () => {
   });
 
   it("calls a provider rejection or a thrown send failed", () => {
-    expect(sendOutcome({ ok: false, error: "SendGrid 403: ..." })).toBe("failed");
+    expect(sendOutcome({ ok: false, error: "Resend 403: ..." })).toBe("failed");
     expect(wasSent({ ok: false })).toBe(false);
   });
 });
