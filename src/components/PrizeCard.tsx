@@ -11,7 +11,14 @@ import {
   PRIZE_NAME,
   PRIZE_TARGET_PEBBLES,
 } from "@/lib/prize";
+import type { PrizeClaimStatus, PrizeRequirement } from "@/lib/prize-requirements";
+import { GUEST_SAVED_EVENT, GUEST_SAVE_REQUEST_EVENT } from "@/lib/guest";
 import { EASE, TRANSITION } from "@/lib/motion";
+import {
+  VerificationHelp,
+  verificationStatusFromResponse,
+  type VerificationSendStatus,
+} from "@/components/VerificationHelp";
 
 /** A small outline pebble (matches the Pebble bag glyph). */
 function PebbleGlyph({ size = 13 }: { size?: number }) {
@@ -172,15 +179,132 @@ function PrizeGallery({ reduceMotion }: { reduceMotion: boolean }) {
   );
 }
 
+/** Done is a filled tick, not done an empty ring: the shape carries it, not the colour. */
+function StatusMark({ met }: { met: boolean }) {
+  return met ? (
+    <svg viewBox="0 0 16 16" className="h-4 w-4 shrink-0 text-teal-600" fill="none" aria-hidden="true">
+      <circle cx="8" cy="8" r="7" fill="currentColor" />
+      <path d="M4.8 8.3l2.1 2.1 4.3-4.6" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 16 16" className="h-4 w-4 shrink-0 text-navy-900/40" fill="none" aria-hidden="true">
+      <circle cx="8" cy="8" r="6.3" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function verifyButtonLabel(status: VerificationSendStatus, afterSave: boolean): string {
+  switch (status) {
+    case "sending":
+      return "Sending…";
+    case "sent":
+      return "Link sent";
+    case "rate-limited":
+      return "Try again later";
+    case "unavailable":
+      return "Could not send";
+    case "error":
+      return "Could not send. Retry";
+    default:
+      return afterSave ? "Send a confirmation link" : "Send me the link";
+  }
+}
+
+/**
+ * Everything besides the Pebbles (the bar above covers those) that a claim
+ * needs, straight from prizeClaimStatus, so a spotter learns the rules while
+ * there is still time to meet them. The account row carries its own action.
+ */
+function ClaimChecklist({
+  requirements,
+  savedJustNow,
+}: {
+  requirements: PrizeRequirement[];
+  /** A guest saved their account on this page; the server list predates it. */
+  savedJustNow: boolean;
+}) {
+  const [verifyStatus, setVerifyStatus] = useState<VerificationSendStatus>("idle");
+
+  const sendVerification = async () => {
+    setVerifyStatus("sending");
+    try {
+      const res = await fetch("/api/auth/verify-request", { method: "POST" });
+      setVerifyStatus(verificationStatusFromResponse(res));
+    } catch {
+      setVerifyStatus("error");
+    }
+  };
+
+  const rows = requirements
+    .filter((r) => r.id !== "pebbles")
+    .map((r): PrizeRequirement =>
+      r.id === "account" && savedJustNow && r.action === "save-account"
+        ? {
+            ...r,
+            label: "Confirm your email address",
+            detail:
+              "Check your inbox. Setting your password from the link we just sent confirms your address too.",
+            action: "verify-email",
+          }
+        : r,
+    );
+
+  return (
+    <div>
+      <p className="text-[10px] font-semibold uppercase tracking-eyebrow text-navy-900/55">
+        Also needed to claim
+      </p>
+      <ul className="mt-1.5 flex flex-col gap-2">
+        {rows.map((r) => (
+          <li key={r.id} className="flex items-start gap-2">
+            <span className="mt-0.5">
+              <StatusMark met={r.met} />
+            </span>
+            <div className="min-w-0 flex-1 text-xs leading-5">
+              <p className={r.met ? "text-navy-900/72" : "font-semibold text-navy-900"}>
+                <span className="sr-only">{r.met ? "Done: " : "Still to do: "}</span>
+                {r.label}
+              </p>
+              {r.detail ? <p className="text-navy-900/72">{r.detail}</p> : null}
+              {r.action === "save-account" ? (
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent(GUEST_SAVE_REQUEST_EVENT))}
+                  className="inline-flex min-h-[44px] items-center font-semibold text-teal-700 underline hover:text-navy-900"
+                >
+                  Add my email
+                </button>
+              ) : null}
+              {r.action === "verify-email" ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={sendVerification}
+                    disabled={verifyStatus === "sending" || verifyStatus === "sent"}
+                    className="inline-flex min-h-[44px] items-center font-semibold text-teal-700 underline hover:text-navy-900 disabled:no-underline disabled:opacity-60"
+                  >
+                    {verifyButtonLabel(verifyStatus, savedJustNow)}
+                  </button>
+                  <VerificationHelp status={verifyStatus} showIdleHint={false} />
+                </>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 type Note = { kind: "error" | "success"; text: string };
 
 /**
  * The single goal of the Pebbles page: your progress toward winning the
  * Seasearch guide, and the claim action once you're there. The prize is a
  * gift (claiming deducts nothing); POST /api/prize/claim enforces the target
- * + the anti-gaming eligibility gate server-side, `eligibility` here is the
- * precomputed copy so the card can pre-warn instead of surprising a spotter
- * at 1,000 Pebbles.
+ * + the anti-gaming eligibility gate server-side. `status` is the same
+ * judgement made in advance (src/lib/prize-requirements.ts), shown as a
+ * checklist from the first Pebble, so nobody learns a rule at 2,000.
  *
  * Imagery is a flick-through gallery (front cover + inside pages) driven by
  * the PRIZE_GALLERY manifest, drop screenshots into public/shop/guide/ with
@@ -191,13 +315,16 @@ export function PrizeCard({
   authed,
   initialEarned,
   initiallyClaimed,
-  eligibility,
+  status,
+  rulesSummary,
 }: {
   authed: boolean;
   initialEarned: number;
   initiallyClaimed: boolean;
-  /** Precomputed for signed-in spotters; null for guests. */
-  eligibility: { eligible: boolean; reason: string | null } | null;
+  /** Precomputed for anyone signed in, guests included; null when signed out. */
+  status: PrizeClaimStatus | null;
+  /** prizeRulesSummary(), shown to people who are not signed in. */
+  rulesSummary: string;
 }) {
   const reduceMotion = useReducedMotion() ?? false;
   const [earned, setEarned] = useState(initialEarned);
@@ -206,6 +333,7 @@ export function PrizeCard({
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState<Note | null>(null);
   const [shake, setShake] = useState(0);
+  const [savedJustNow, setSavedJustNow] = useState(false);
 
   // Keep the progress live while the page is open (earning in another tab of
   // the same session fires the pebble bus).
@@ -214,9 +342,18 @@ export function PrizeCard({
     [],
   );
 
+  // A guest who saves their account from the checklist moves on to
+  // confirming it, without waiting for a reload.
+  useEffect(() => {
+    const onSaved = () => setSavedJustNow(true);
+    window.addEventListener(GUEST_SAVED_EVENT, onSaved);
+    return () => window.removeEventListener(GUEST_SAVED_EVENT, onSaved);
+  }, []);
+
   const reached = earned >= PRIZE_TARGET_PEBBLES;
   const pct = Math.max(0, Math.min(100, (earned / PRIZE_TARGET_PEBBLES) * 100));
-  const gated = reached && !claimed && !!eligibility && !eligibility.eligible;
+  // With no precomputed status the server is the only judge, so let it answer.
+  const gated = reached && !claimed && !!status && !status.eligible;
 
   async function claim() {
     setBusy(true);
@@ -299,6 +436,10 @@ export function PrizeCard({
                   </p>
                 </div>
 
+                {!claimed && status ? (
+                  <ClaimChecklist requirements={status.requirements} savedJustNow={savedJustNow} />
+                ) : null}
+
                 {claimed ? (
                   <span className="inline-flex min-h-[44px] items-center justify-center gap-1.5 self-start rounded-full bg-teal-500/12 px-5 text-sm font-semibold text-teal-700">
                     <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden="true">
@@ -327,19 +468,23 @@ export function PrizeCard({
                   </motion.button>
                 ) : null}
 
-                {gated && !note && (
+                {gated && status?.trustPending && !note && (
                   <p className="text-xs text-navy-900/72" role="status">
-                    {eligibility?.reason}
+                    Almost there. Claims also need a track record of IDs that other spotters agree
+                    with, so keep spotting.
                   </p>
                 )}
               </>
             ) : (
-              <Link
-                href="/auth/signin"
-                className="inline-flex min-h-[44px] items-center justify-center self-start rounded-full bg-teal-600 px-5 text-sm font-semibold text-white hover:bg-teal-700"
-              >
-                Sign in and start earning
-              </Link>
+              <>
+                <Link
+                  href="/auth/signin"
+                  className="inline-flex min-h-[44px] items-center justify-center self-start rounded-full bg-teal-600 px-5 text-sm font-semibold text-white hover:bg-teal-700"
+                >
+                  Sign in and start earning
+                </Link>
+                <p className="text-xs leading-5 text-navy-900/72">{rulesSummary}</p>
+              </>
             )}
 
             <AnimatePresence mode="wait" initial={false}>

@@ -2510,3 +2510,46 @@ sending-only one. The privacy policy's Resend row was then checked against Resen
 (last updated 27 Aug 2026): its UK transfer safeguards are the UK Addendum to the 2021 SCCs and
 Resend's certification under the UK Extension to the EU-U.S. Data Privacy Framework, and the
 row now names both and the contracting entity (Plus Five Five, Inc.).
+
+## 2026-09-16: the prize could not be claimed by anyone, so the rules are now shown and the links re-sent
+
+**What was wrong.** A spotter's reply with prize ideas prompted a production check of the one prize
+there is (2,000 Pebbles for the Seasearch guide). No public spotter had ever cleared the claim gate.
+The one guide sent had been recorded by hand, and its winner's email was still unconfirmed, so the
+button would have refused them. Across 95 public spotters: 38 accounts with a real address had never
+confirmed it, including five of the top six by Pebbles (the sixth is a guest); only one had spotted on
+the five separate days the gate requires; and the card said none of this until a spotter reached
+2,000, then offered one generic line. 32 of the 38 were guests who had saved their progress with an
+email and never received the "set a password" link, so they could not sign back in either.
+
+**What shipped.**
+
+1. **The rules, visible from the first Pebble.** `src/lib/prize-requirements.ts` turns the gate into a
+   checklist (confirmed email, five spotting days, spread over 14 days) using the same constants and
+   the same new `measureActivity()` as `isPrizeEligible`, so the card and the claim route cannot
+   disagree; a test sweeps inputs to prove it. The trust score is still never shown: when it is the
+   only thing left the card says "almost there". The account row carries its own action, "Send me the
+   link" for an unconfirmed address and "Add my email" for a guest, which opens the existing save
+   prompt (now also mounted on `/pebbles`). Signed-out visitors see the conditions in one sentence
+   under the offer.
+2. **Setting a password confirms the address.** `POST /api/auth/reset` now stamps `emailVerified`
+   when the link is used, because the link was mailed to that address. Never on the admin domain,
+   where a confirmed address is admin, and never by moving an existing stamp. So a guest who saves
+   their progress needs one email and one click, not two of each.
+3. **The set-a-password email says what it is.** The guest-save link used the reset template, "we
+   received a request to reset the password", on accounts that had never had one. It now has its own
+   wording (`PasswordResetEmail` `variant="setup"`), sent through a new `sendAccountSetupEmail`
+   dispatcher.
+4. **The catch-up send** (`/admin/email` section 4, `src/lib/email/verification-backlog.ts`). Every
+   non-guest account with no confirmed address gets one fresh link with a short apology: a
+   set-a-password link (3 days) if it has no password, otherwise a verification link (7 days). An
+   admin previews both emails, chooses who gets one and presses send; the page sends one account per
+   request, 600 ms apart, stops after two refusals, and the server re-decides every account, with a
+   24-hour cooldown against any recent link. Runbook section 8.
+5. **Copy.** The verification banner and the account page now say a confirmed address is what prizes
+   need.
+
+**Not done here.** The catch-up emails have not been sent; that is an admin action once this is live.
+The gate's numbers (five days, 14-day spread, trust bar 40) are unchanged. They were designed as
+anti-gaming rules and whether to loosen them is a product call, now easier to judge with the rules in
+view.

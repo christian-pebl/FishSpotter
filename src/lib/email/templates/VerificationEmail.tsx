@@ -1,20 +1,36 @@
 import { Button, Text } from "@react-email/components";
 import { EmailLayout } from "./_Layout";
 
+/**
+ * `intro` and `expiresIn` exist for the one-off catch-up send on /admin/email
+ * (16 Sep 2026), which re-sends links to people whose first one never left
+ * because the provider was refusing mail. Signup and the in-app resend pass
+ * neither and get the original welcome.
+ */
 export function VerificationEmail({
   displayName,
   verifyUrl,
+  intro,
+  expiresIn = "24 hours",
 }: {
   displayName: string;
   verifyUrl: string;
+  /** Replaces the welcome heading with a greeting and puts this paragraph first. */
+  intro?: string;
+  expiresIn?: string;
 }) {
   return (
     <EmailLayout preview="Verify your PEBL FishSpotter account">
       <Text style={{ fontSize: 22, fontWeight: 700, color: "#17252A", marginTop: 16 }}>
-        Welcome, {displayName}.
+        {intro ? `Hi ${displayName},` : `Welcome, ${displayName}.`}
       </Text>
+      {intro ? (
+        <Text style={{ fontSize: 14, lineHeight: 1.55, color: "#17252A" }}>{intro}</Text>
+      ) : null}
       <Text style={{ fontSize: 14, lineHeight: 1.55, color: "#17252A" }}>
-        One more step before your spotter profile is fully set up: confirm this is your email address.
+        {intro
+          ? "Tap the button below to confirm this is your email address."
+          : "One more step before your spotter profile is fully set up: confirm this is your email address."}
       </Text>
       <Button
         href={verifyUrl}
@@ -34,7 +50,7 @@ export function VerificationEmail({
         Or paste this URL into your browser: {verifyUrl}
       </Text>
       <Text style={{ fontSize: 12, color: "#5A6E74" }}>
-        This link expires in 24 hours. If you didn&apos;t create a PEBL FishSpotter account, you can safely ignore this email.
+        This link expires in {expiresIn}. If you didn&apos;t create a PEBL FishSpotter account, you can safely ignore this email.
       </Text>
     </EmailLayout>
   );

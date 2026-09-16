@@ -108,7 +108,7 @@ export function VerificationBanner({ unverified }: { unverified: boolean }) {
       <div className="min-w-0 flex-1">
         <p className="font-semibold">Optional: verify your email</p>
         <p className="mt-0.5 text-navy-900/72">
-          Verify to get the weekly digest. You can keep spotting without it.
+          Verify to claim prizes and get the weekly digest. You can keep spotting without it.
         </p>
         <div className="mt-2 flex items-center gap-3">
           <button

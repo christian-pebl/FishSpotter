@@ -9,6 +9,17 @@
  * Limitation: under the JWT session strategy, this does not revoke
  * active sessions on other devices until JWT expiry. Documented for
  * Sprint 6+ when the Session table goes active.
+ *
+ * Using the link also confirms the email address (16 Sep 2026). The link was
+ * mailed to User.email, and the only way that address changes is a guest
+ * claim, which mails its own fresh link, so opening one proves the person
+ * reads that inbox as well as a verification click would. Without this, a
+ * guest who saved their progress needed two emails and two clicks before a
+ * prize claim would accept them, and 32 of them had never had either.
+ * Never on the admin domain: `isAdminUser` grants admin to a confirmed
+ * address there, and that must keep needing the explicit verification link.
+ * An existing stamp is never moved, because /admin/email reads verification
+ * clicks off it.
  */
 
 import { NextResponse } from "next/server";
@@ -16,6 +27,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { hashToken } from "@/lib/auth/tokens";
 import { assertSameOrigin } from "@/lib/csrf";
+import { isAdminEmail } from "@/lib/admin-email";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -48,18 +60,39 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "This reset link is invalid or has expired." }, { status: 410 });
   }
 
-  const passwordHash = await bcrypt.hash(parsed.newPassword, BCRYPT_ROUNDS);
+  const owner = await prisma.user.findUnique({
+    where: { id: row.userId },
+    select: { email: true, isGuest: true },
+  });
+  if (!owner) {
+    return NextResponse.json({ error: "This reset link is invalid or has expired." }, { status: 410 });
+  }
+  const confirmsEmail = !owner.isGuest && !isAdminEmail(owner.email);
 
-  await prisma.$transaction([
-    prisma.user.update({
-      where: { id: row.userId },
-      data: { passwordHash },
-    }),
-    prisma.passwordResetToken.update({
-      where: { id: row.id },
-      data: { consumedAt: new Date() },
-    }),
-  ]);
+  const passwordHash = await bcrypt.hash(parsed.newPassword, BCRYPT_ROUNDS);
+  const now = new Date();
+
+  const setPassword = prisma.user.update({
+    where: { id: row.userId },
+    data: { passwordHash },
+  });
+  const consumeToken = prisma.passwordResetToken.update({
+    where: { id: row.id },
+    data: { consumedAt: now },
+  });
+
+  if (confirmsEmail) {
+    await prisma.$transaction([
+      setPassword,
+      consumeToken,
+      prisma.user.updateMany({
+        where: { id: row.userId, emailVerified: null },
+        data: { emailVerified: now },
+      }),
+    ]);
+  } else {
+    await prisma.$transaction([setPassword, consumeToken]);
+  }
 
   return NextResponse.json({ ok: true });
 }

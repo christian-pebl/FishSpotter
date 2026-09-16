@@ -3,11 +3,16 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { SEASEARCH_GUIDE_ID } from "@/lib/prize";
-import { isPrizeEligible } from "@/lib/trust";
+import {
+  prizeClaimStatus,
+  prizeRulesSummary,
+  type PrizeClaimStatus,
+} from "@/lib/prize-requirements";
 import { datesFromAnswers, readStreak } from "@/lib/streak-service";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
 import { PrizeCard } from "@/components/PrizeCard";
+import { GuestSavePrompt } from "@/components/guest/GuestSavePrompt";
 import { LeaderboardPanel } from "@/components/leaderboard/LeaderboardPanel";
 
 // Per-viewer (session-dependent), never cached.
@@ -35,7 +40,7 @@ export default async function PebblesHubPage({
 
   let banner: { earned: number; streak: number } | null = null;
   let claimed = false;
-  let eligibility: { eligible: boolean; reason: string | null } | null = null;
+  let prizeStatus: PrizeClaimStatus | null = null;
 
   if (userId) {
     const [pointsAgg, answerDates, claim, user] = await Promise.all([
@@ -52,7 +57,7 @@ export default async function PebblesHubPage({
       }),
       prisma.user.findUnique({
         where: { id: userId },
-        select: { emailVerified: true, createdAt: true, trustScore: true },
+        select: { emailVerified: true, createdAt: true, trustScore: true, isGuest: true },
       }),
     ]);
     const earned = pointsAgg._sum.points ?? 0;
@@ -61,11 +66,14 @@ export default async function PebblesHubPage({
     claimed = !!claim;
 
     if (user) {
-      // Precomputed so the prize card pre-warns ("verify your email") instead
-      // of surprising a spotter at 1,000 Pebbles. The claim route re-checks
-      // server-side regardless; this copy is UX, not enforcement.
-      const result = isPrizeEligible(
+      // The claim rules as a checklist, judged exactly as the claim route
+      // judges them, so a spotter sees what is left from the first Pebble
+      // rather than at 2,000. The route re-checks server-side regardless;
+      // this copy is UX, not enforcement.
+      prizeStatus = prizeClaimStatus(
         {
+          earned,
+          isGuest: user.isGuest,
           emailVerified: user.emailVerified,
           createdAt: user.createdAt,
           trustScore: user.trustScore,
@@ -73,14 +81,6 @@ export default async function PebblesHubPage({
         },
         new Date(),
       );
-      eligibility = {
-        eligible: result.eligible,
-        reason: result.eligible
-          ? null
-          : result.reasons.includes("email not verified")
-            ? "Verify your email to claim the guide. Prizes are posted to real spotters."
-            : "Prize claims unlock with more spotting history across more days.",
-      };
     }
   }
 
@@ -128,12 +128,15 @@ export default async function PebblesHubPage({
             authed={!!userId}
             initialEarned={banner?.earned ?? 0}
             initiallyClaimed={claimed}
-            eligibility={eligibility}
+            status={prizeStatus}
+            rulesSummary={prizeRulesSummary()}
           />
 
           <LeaderboardPanel page={leaderboardPage} />
         </main>
       </div>
+      {/* Opened by the checklist's "Add my email"; renders nothing otherwise. */}
+      <GuestSavePrompt />
     </MarineBackdrop>
   );
 }

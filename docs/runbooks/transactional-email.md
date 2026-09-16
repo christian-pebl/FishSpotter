@@ -196,7 +196,47 @@ on and a red box on /admin/email, instead of six silent weeks.
 warning: a week of requests with no clicks means delivery has stopped, whatever
 the provider says. Check it whenever a support email mentions verification.
 
-## 8. Changing provider again
+## 8. The catch-up send (16 September 2026)
+
+**Why.** Six silent weeks left a backlog nobody could see from the app. A
+production pull on 16 Sep found 41 accounts with a real address and no
+confirmation. 32 were guests who had saved their progress with an email: their
+"set a password" link never arrived, so they had no password, could not sign
+back in once their session lapsed, and could never claim a prize (the claim
+needs a confirmed address). Only one of the 41 had written in.
+
+**What it does.** `/admin/email`, section 4, lists every non-guest account with
+no confirmed address and sends each ONE fresh link
+(`src/lib/email/verification-backlog.ts`):
+
+- **No password yet:** a set-a-password link (3 days). Using it sets the
+  password and confirms the address in one go (`POST /api/auth/reset`).
+- **Has a password, or is on the admin domain:** a verification link (7 days).
+  Setting a password never confirms an admin-domain address, because a
+  confirmed address there is admin (`src/lib/admin.ts`).
+
+Both emails open with a short apology for the outage. Nobody gets a second link
+inside 24 hours, whichever flow sent the first, and the server re-decides every
+account at send time, so a stale page cannot double-mail anyone.
+
+**How to run it.**
+
+1. Section 3: send yourself a test email and confirm it arrives.
+2. Section 4: press "Send me a preview" on both cards and read both emails.
+   Previews carry a dead link on purpose.
+3. Untick anyone who should not get one (test accounts, staff you would rather
+   tell directly), then "Send to N selected" and confirm. It sends one account
+   at a time, 600 ms apart (Resend allows two a second and 100 a day on the free
+   plan), and stops by itself after two refusals in a row.
+4. Watch section 2 over the next week. Setting a password does not count as a
+   verification click there, so judge the set-a-password half from the table
+   in section 4 instead: a row that disappears is an account that is now
+   confirmed.
+
+**Afterwards.** The same tool is the answer to any future outage: fix the
+sender, test-send, then catch up.
+
+## 9. Changing provider again
 
 An hour, not a day, if these are all touched together:
 

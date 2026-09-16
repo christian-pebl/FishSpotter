@@ -4,7 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useModalFocus } from "@/lib/useModalFocus";
-import { GUEST_MILESTONE_EVENT } from "@/lib/guest";
+import {
+  GUEST_MILESTONE_EVENT,
+  GUEST_SAVED_EVENT,
+  GUEST_SAVE_REQUEST_EVENT,
+} from "@/lib/guest";
 import { SUPPORT_EMAIL } from "@/lib/email/outcome";
 
 /**
@@ -13,6 +17,10 @@ import { SUPPORT_EMAIL } from "@/lib/email/outcome";
  * Email-only by design: POST /api/guest/claim attaches the address to their
  * existing account (points already persist) and mails a set-password link.
  * Then session.update() drops isGuest so this stops firing.
+ *
+ * GUEST_SAVE_REQUEST_EVENT opens it on demand (the prize card's "Add my
+ * email"), ignoring an earlier "Not now", because this time they asked.
+ * GUEST_SAVED_EVENT tells the page the account is saved.
  */
 
 const DISMISS_KEY = "fishspotter:guestSaveDismissed";
@@ -41,8 +49,15 @@ export function GuestSavePrompt() {
       }
       setOpen(true);
     }
+    function onRequest() {
+      if (isGuest) setOpen(true);
+    }
     window.addEventListener(GUEST_MILESTONE_EVENT, onMilestone);
-    return () => window.removeEventListener(GUEST_MILESTONE_EVENT, onMilestone);
+    window.addEventListener(GUEST_SAVE_REQUEST_EVENT, onRequest);
+    return () => {
+      window.removeEventListener(GUEST_MILESTONE_EVENT, onMilestone);
+      window.removeEventListener(GUEST_SAVE_REQUEST_EVENT, onRequest);
+    };
   }, [isGuest]);
 
   function close() {
@@ -87,6 +102,9 @@ export function GuestSavePrompt() {
     }
     setEmailSent(data.emailSent !== false);
     setDone(true);
+    window.dispatchEvent(
+      new CustomEvent(GUEST_SAVED_EVENT, { detail: { emailSent: data.emailSent !== false } }),
+    );
     try {
       sessionStorage.setItem(DISMISS_KEY, "1");
     } catch {

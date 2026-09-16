@@ -16,7 +16,6 @@
  * that never left, so it reads this flag and says what actually happened.
  */
 
-import { SITE_URL } from "@/lib/site-url";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
@@ -25,23 +24,12 @@ import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
 import { clientIpKey } from "@/lib/client-ip";
-import { PasswordResetEmail } from "@/lib/email/templates/PasswordResetEmail";
-import { sendEmail } from "@/lib/email/send";
+import { sendAccountSetupEmail } from "@/lib/email/dispatch";
 import { wasSent } from "@/lib/email/outcome";
-import {
-  PASSWORD_RESET_TOKEN_TTL_MS,
-  generateToken,
-  hashToken,
-} from "@/lib/auth/tokens";
 
 export const dynamic = "force-dynamic";
 
 const Schema = z.object({ email: z.string().email().max(254) });
-
-function setupUrl(plainToken: string): string {
-  const base = SITE_URL;
-  return `${base.replace(/\/$/, "")}/auth/reset/${plainToken}`;
-}
 
 export async function POST(req: Request) {
   if (!assertSameOrigin(req)) {
@@ -104,36 +92,22 @@ export async function POST(req: Request) {
     select: { id: true, displayName: true, name: true },
   });
 
-  // Mail a one-time link to set a password (finishes the account). A mail
-  // failure must not lose the claim: the email is saved and "forgot password"
-  // can finish the job later, so the outcome is reported, not thrown.
-  let emailSent = false;
-  try {
-    const plain = generateToken();
-    const token = hashToken(plain);
-    const expiresAt = new Date(Date.now() + PASSWORD_RESET_TOKEN_TTL_MS);
-    await prisma.passwordResetToken.create({
-      data: { userId: updated.id, token, expiresAt },
-    });
-    const result = await sendEmail({
-      to: email,
-      subject: "Finish setting up your PEBL FishSpotter account",
-      react: PasswordResetEmail({
-        displayName: updated.displayName ?? updated.name ?? "Spotter",
-        resetUrl: setupUrl(plain),
-      }),
-    });
-    emailSent = wasSent(result);
-    if (!emailSent) {
-      // eslint-disable-next-line no-console
-      console.error("[guest/claim] setup email not delivered", {
-        userId: updated.id,
-        error: result.error,
-      });
-    }
-  } catch (err) {
+  // Mail a one-time link to set a password (finishes the account, and
+  // confirms the address when it is used). A mail failure must not lose the
+  // claim: the email is saved and "forgot password" can finish the job later,
+  // so the outcome is reported, not thrown. sendAccountSetupEmail never throws.
+  const result = await sendAccountSetupEmail(
+    updated.id,
+    email,
+    updated.displayName ?? updated.name ?? "Spotter",
+  );
+  const emailSent = wasSent(result);
+  if (!emailSent) {
     // eslint-disable-next-line no-console
-    console.error("[guest/claim] setup email failed", err);
+    console.error("[guest/claim] setup email not delivered", {
+      userId: updated.id,
+      error: result.error,
+    });
   }
 
   return NextResponse.json({ ok: true, emailSent });
