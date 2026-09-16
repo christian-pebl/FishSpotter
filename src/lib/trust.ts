@@ -324,6 +324,26 @@ export interface PrizeEligibilityResult {
   reasons: string[];
 }
 
+export interface ActivitySpread {
+  /** Distinct UTC calendar days with at least one answer. */
+  distinctDays: number;
+  /** Days between the earliest and the latest answer (fractional). */
+  spanDays: number;
+}
+
+/**
+ * The two activity measures the prize gate reads. Exported so the prize card
+ * (src/lib/prize-requirements.ts) shows a spotter the same numbers the claim
+ * route judges them on, rather than a second count that could drift from it.
+ */
+export function measureActivity(answerDates: readonly Date[]): ActivitySpread {
+  if (answerDates.length === 0) return { distinctDays: 0, spanDays: 0 };
+  const distinctDays = new Set(answerDates.map((d) => d.toISOString().slice(0, 10))).size;
+  const times = answerDates.map((d) => d.getTime());
+  const spanDays = (Math.max(...times) - Math.min(...times)) / MS_PER_DAY;
+  return { distinctDays, spanDays };
+}
+
 /**
  * A user is prize-eligible only with: verified email + trust above the bar +
  * account age + activity SPREAD over a time window (not a burst). Gates only
@@ -353,13 +373,10 @@ export function isPrizeEligible(input: PrizeEligibilityInput, now: Date): PrizeE
   if (input.answerDates.length === 0) {
     reasons.push("no activity yet");
   } else {
-    const distinctDays = new Set(input.answerDates.map((d) => d.toISOString().slice(0, 10))).size;
+    const { distinctDays, spanDays } = measureActivity(input.answerDates);
     if (distinctDays < PRIZE_MIN_ACTIVE_DAYS) {
       reasons.push("activity too bursty (too few distinct days)");
     }
-
-    const times = input.answerDates.map((d) => d.getTime());
-    const spanDays = (Math.max(...times) - Math.min(...times)) / MS_PER_DAY;
     if (spanDays < PRIZE_MIN_ACTIVITY_SPAN_DAYS) {
       reasons.push("activity too bursty (too short a span)");
     }
