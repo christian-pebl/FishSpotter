@@ -69,6 +69,15 @@ export interface PrizeClaimInput {
   answerDates: readonly Date[];
 }
 
+/**
+ * The non-Pebble conditions in one sentence, for someone not signed in, who
+ * sees the headline offer but no checklist. Built here, on the server, so the
+ * client bundle never has to import the trust module for two numbers.
+ */
+export function prizeRulesSummary(): string {
+  return `To claim it you also need a confirmed email address and at least ${PRIZE_MIN_ACTIVE_DAYS} separate spotting days, spread over ${PRIZE_MIN_ACTIVITY_SPAN_DAYS} days or more.`;
+}
+
 function plural(n: number, one: string, many: string): string {
   return `${n} ${n === 1 ? one : many}`;
 }
@@ -135,7 +144,9 @@ export function prizeClaimStatus(input: PrizeClaimInput, now: Date): PrizeClaimS
         ? null
         : input.answerDates.length === 0
           ? "The count starts with your first spot."
-          : `Your first and latest spots are ${plural(wholeSpanDays, "day", "days")} apart so far.`,
+          : wholeSpanDays < 1
+            ? "Your first and latest spots are less than a day apart so far."
+            : `Your first and latest spots are ${plural(wholeSpanDays, "day", "days")} apart so far.`,
       action: null,
     },
   ];

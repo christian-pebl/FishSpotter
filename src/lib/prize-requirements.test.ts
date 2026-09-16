@@ -96,6 +96,12 @@ describe("prizeClaimStatus", () => {
     expect(req({ ...ready, answerDates: oneDay }, "span").detail).toBe(
       "Your first and latest spots are 1 day apart so far.",
     );
+    // Two different calendar days can still be under 24 hours apart; "0 days"
+    // would read as a bug to the spotter.
+    const overnight = [new Date("2026-09-01T22:00:00Z"), new Date("2026-09-02T08:00:00Z")];
+    expect(req({ ...ready, answerDates: overnight }, "span").detail).toBe(
+      "Your first and latest spots are less than a day apart so far.",
+    );
     expect(req({ ...ready, answerDates: [] }, "span")).toMatchObject({
       met: false,
       detail: "The count starts with your first spot.",

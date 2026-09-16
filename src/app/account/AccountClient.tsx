@@ -128,8 +128,8 @@ export function AccountClient({
           {!emailVerified && (
             <div className="rounded-modal border border-warn/30 bg-warn/5 p-3 text-xs text-navy-900">
               <p>
-                Verify your email to enable the weekly digest and protect your
-                account.
+                Verify your email to claim prizes, enable the weekly digest and
+                protect your account.
               </p>
               <button
                 type="button"

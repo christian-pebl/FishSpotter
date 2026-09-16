@@ -7,8 +7,18 @@ import {
   summariseVerificationTokens,
   type VerificationStats,
 } from "@/lib/email/verification-stats";
+import {
+  CATCH_UP_SETUP_EXPIRES_IN,
+  CATCH_UP_SETUP_INTRO,
+  CATCH_UP_SETUP_SUBJECT,
+  CATCH_UP_VERIFY_EXPIRES_IN,
+  CATCH_UP_VERIFY_INTRO,
+  CATCH_UP_VERIFY_SUBJECT,
+  readCatchUpBacklog,
+} from "@/lib/email/verification-backlog";
 import { SITE_URL } from "@/lib/site-url";
 import { SendTestEmail } from "./SendTestEmail";
+import { VerificationCatchUp } from "./VerificationCatchUp";
 
 /**
  * Email delivery diagnostics (8 Sep 2026).
@@ -25,8 +35,11 @@ import { SendTestEmail } from "./SendTestEmail";
  *      from the VerificationToken rows the app already keeps)
  *   3. Does a real message reach a real inbox right now? (a test send to
  *      the admin's own address, quoting Resend verbatim on a refusal)
+ *   4. Who never got their link? (16 Sep 2026: the catch-up send for
+ *      accounts whose verification or set-a-password email never left,
+ *      see src/lib/email/verification-backlog.ts)
  *
- * Read-only apart from the test send, which is admin-gated in its action.
+ * Read-only apart from the sends, each admin-gated in its action.
  */
 export const dynamic = "force-dynamic";
 
@@ -87,7 +100,7 @@ export default async function AdminEmailPage() {
   const catchall = process.env.EMAIL_PREVIEW_CATCHALL?.trim() || null;
   const redirectedTo = vercelEnv && vercelEnv !== "production" ? catchall : null;
 
-  const [tokens, signups, verifiedSignups] = await Promise.all([
+  const [tokens, signups, verifiedSignups, backlog] = await Promise.all([
     prisma.verificationToken.findMany({
       where: { createdAt: { gte: since } },
       select: {
@@ -101,6 +114,7 @@ export default async function AdminEmailPage() {
     prisma.user.count({
       where: { isGuest: false, createdAt: { gte: since }, emailVerified: { not: null } },
     }),
+    readCatchUpBacklog(prisma, now),
   ]);
 
   const stats = summariseVerificationTokens(
@@ -231,6 +245,33 @@ export default async function AdminEmailPage() {
           email, and quotes Resend verbatim if it refuses.
         </p>
         <SendTestEmail to={adminEmail} redirectedTo={redirectedTo} />
+      </section>
+
+      <section id="catch-up" className="rounded-card border border-navy-200 bg-white p-4">
+        <h2 className="text-sm font-semibold text-navy-900">
+          4. Accounts that never confirmed their email
+        </h2>
+        <p className="pb-3 pt-1 text-[12px] text-navy-600">
+          A prize claim needs a confirmed address, and for several weeks up to 15 September no
+          confirmation or set-a-password email left at all. This sends each of these accounts a
+          fresh link, once.
+        </p>
+        <VerificationCatchUp
+          rows={backlog}
+          adminEmail={adminEmail}
+          copy={{
+            setup: {
+              subject: CATCH_UP_SETUP_SUBJECT,
+              intro: CATCH_UP_SETUP_INTRO,
+              expiresIn: CATCH_UP_SETUP_EXPIRES_IN,
+            },
+            verify: {
+              subject: CATCH_UP_VERIFY_SUBJECT,
+              intro: CATCH_UP_VERIFY_INTRO,
+              expiresIn: CATCH_UP_VERIFY_EXPIRES_IN,
+            },
+          }}
+        />
       </section>
 
       <section className="rounded-card border border-navy-200 bg-white p-4 text-sm text-navy-700">
