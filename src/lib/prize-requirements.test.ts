@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { prizeClaimStatus, type PrizeClaimInput } from "./prize-requirements";
+import { prizeClaimStatus, prizeGate, type PrizeClaimInput } from "./prize-requirements";
 import { PRIZE_TARGET_PEBBLES } from "./prize";
 import {
   PRIZE_MIN_ACTIVE_DAYS,
@@ -27,6 +27,26 @@ const ready: PrizeClaimInput = {
   createdAt: new Date("2026-08-01T00:00:00Z"),
   trustScore: 100,
   answerDates: spread,
+  ageBand: "18_plus",
+  consents: { account: "none", prize: "none" },
+  accountConsentGrantedAt: null,
+};
+
+/** An under-13 ready in every way, apart from what the case under test changes. */
+const child: PrizeClaimInput = {
+  ...ready,
+  isGuest: true,
+  emailVerified: null,
+  ageBand: "under_13",
+  consents: { account: "granted", prize: "granted" },
+  accountConsentGrantedAt: new Date("2026-08-02T00:00:00Z"),
+};
+
+/** A 13 to 17 year old with their own confirmed email and a parent's yes. */
+const teen: PrizeClaimInput = {
+  ...ready,
+  ageBand: "13_17",
+  consents: { account: "none", prize: "granted" },
 };
 
 function req(input: PrizeClaimInput, id: string) {
@@ -151,6 +171,86 @@ describe("prizeClaimStatus", () => {
       const gate = isPrizeEligible(input, now);
       expect(gate.eligible).toBe(listedMet);
       expect(s.eligible).toBe(gate.eligible);
+    }
+  });
+});
+
+describe("age and parental consent (16 Sep 2026)", () => {
+  const ids = (input: PrizeClaimInput) =>
+    prizeClaimStatus(input, now).requirements.map((r) => r.id);
+
+  it("asks for an age first when none is on record, and blocks the claim", () => {
+    const unasked = { ...ready, ageBand: null };
+    expect(ids(unasked)).toEqual(["pebbles", "age", "account", "days", "span"]);
+    expect(req(unasked, "age")).toMatchObject({ met: false, action: "declare-age" });
+    const s = prizeClaimStatus(unasked, now);
+    expect(s.eligible).toBe(false);
+    expect(s.trustPending).toBe(false);
+    expect(prizeGate(unasked, now).blocks).toEqual(["age-required"]);
+  });
+
+  it("adds the parent requirement for every under-18, and only for them", () => {
+    expect(ids(teen)).toEqual(["pebbles", "account", "parent", "days", "span"]);
+    expect(ids(child)).toEqual(["pebbles", "account", "parent", "days", "span"]);
+    expect(ids(ready)).not.toContain("parent");
+  });
+
+  it("lets a teen claim only once a parent has said yes", () => {
+    expect(prizeClaimStatus(teen, now).eligible).toBe(true);
+    for (const prize of ["none", "pending"] as const) {
+      const waiting = { ...teen, consents: { account: "none" as const, prize } };
+      expect(prizeClaimStatus(waiting, now).eligible).toBe(false);
+      expect(req(waiting, "parent")).toMatchObject({ met: false, action: "ask-parent-prize" });
+      expect(prizeGate(waiting, now).blocks).toEqual(["parent-consent"]);
+    }
+    expect(req({ ...teen, consents: { account: "none", prize: "pending" } }, "parent").detail).toMatch(
+      /emailed/,
+    );
+  });
+
+  it("still needs a teen's own confirmed email", () => {
+    const unconfirmed = { ...teen, emailVerified: null };
+    expect(req(unconfirmed, "account").action).toBe("verify-email");
+    expect(prizeGate(unconfirmed, now).blocks).toEqual(["account"]);
+  });
+
+  it("never asks an under-13 for their own email: a parent's account consent stands in", () => {
+    expect(prizeClaimStatus(child, now).eligible).toBe(true);
+    const account = req(child, "account");
+    expect(account.met).toBe(true);
+    const noAccount = { ...child, consents: { account: "none" as const, prize: "none" as const } };
+    const row = req(noAccount, "account");
+    expect(row).toMatchObject({ met: false, action: "ask-parent-account" });
+    expect(`${row.label} ${row.detail}`).not.toMatch(/save your account with an email|confirm your email/i);
+    expect(prizeGate(noAccount, now).blocks).toEqual(["account", "parent-consent"]);
+  });
+
+  it("ignores a stray email stamp on an under-13 account", () => {
+    const stamped = {
+      ...child,
+      isGuest: false,
+      emailVerified: new Date("2026-08-01T00:00:00Z"),
+      consents: { account: "none" as const, prize: "granted" as const },
+    };
+    expect(prizeClaimStatus(stamped, now).eligible).toBe(false);
+  });
+
+  it("agrees with the gate across child and unknown-age inputs", () => {
+    const cases: PrizeClaimInput[] = [
+      child,
+      teen,
+      { ...child, consents: { account: "pending", prize: "granted" } },
+      { ...child, consents: { account: "granted", prize: "pending" } },
+      { ...child, answerDates: spread.slice(0, 4) },
+      { ...teen, consents: { account: "none", prize: "none" } },
+      { ...ready, ageBand: null },
+      { ...ready, ageBand: "12" },
+    ];
+    for (const input of cases) {
+      const s = prizeClaimStatus(input, now);
+      const listedMet = s.requirements.filter((r) => r.id !== "pebbles").every((r) => r.met);
+      expect(prizeGate(input, now).eligible).toBe(listedMet);
+      expect(s.eligible).toBe(listedMet);
     }
   });
 });

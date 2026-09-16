@@ -1,6 +1,6 @@
 # Terms of Service
 
-**Last updated: 3 June 2026**
+**Last updated: 16 September 2026**
 
 ## About FishSpotter
 
@@ -12,9 +12,13 @@ Contact: [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk)
 
 ## Who can use FishSpotter
 
-You must be at least **13 years old** to create an account. If you are under 18, a parent or guardian must review and agree to these terms on your behalf, by allowing you to use FishSpotter, they accept these terms for you.
+FishSpotter is for everyone, of any age. We ask every player their age group, and some features depend on the answer (see the [Privacy Policy](/privacy#children)):
 
-We may default certain features (such as appearing on the public leaderboard under your display name) to a more private setting for users who tell us they are under 18.
+- **Under 13:** you can play with a nickname you pick from our list. To keep your account on more than one device, or to receive a prize, a parent or carer must agree by answering our email. You cannot post comments, and your score is never shown publicly.
+- **13 to 17:** you can create an account with your own email address. Please check with a parent or carer first. By allowing you to use FishSpotter, they accept these terms on your behalf. Your name stays off the public leaderboard unless you switch it on, and any prize needs a parent or carer's agreement.
+- **18 and over:** you can use every feature.
+
+Please tell us your real age group. If you choose the wrong one by mistake, email us and we will correct it.
 
 By creating an account, you confirm that the information you provide is accurate and that you will keep your login credentials secure.
 
@@ -28,7 +32,8 @@ You must not:
 
 - Attempt to circumvent, overload, reverse-engineer, or scrape the service or its underlying infrastructure.
 - Submit identifications in bad faith or at volume with the intent to manipulate community statistics.
-- Impersonate another person or misrepresent your affiliation.
+- Impersonate another person or misrepresent your affiliation or your age.
+- Give a parent or carer's email address that is not theirs, or answer a consent email on someone else's behalf.
 - Use the service in any way that violates applicable law, including the Computer Misuse Act 1990.
 
 We reserve the right to suspend or permanently remove accounts that breach these terms. Where practical, we will notify you before doing so.
@@ -37,7 +42,7 @@ We reserve the right to suspend or permanently remove accounts that breach these
 
 ## Comments and discussion
 
-Each video clip has a discussion thread. You can open it once you have submitted your own identification for that clip, and anything you post there is **public** to other spotters who have done the same, shown alongside your display name.
+Each video clip has a discussion thread. You can open it once you have submitted your own identification for that clip, and anything you post there is **public** to other spotters who have done the same. Posting is open to spotters aged 13 and over who have saved their account. Your display name is shown only if your leaderboard visibility is switched on; otherwise other spotters see an anonymised handle.
 
 Comments exist so you can flag things we need to know (a species missing from our list, a clip too unclear to call, a tracking overlay following the wrong animal) and discuss what you are seeing. When posting, you must not:
 
@@ -51,6 +56,12 @@ Comments exist so you can flag things we need to know (a species missing from ou
 You are responsible for what you post. You retain your rights in your comments, and grant PEBL CIC a non-exclusive, royalty-free licence to display, store, and moderate them as part of operating the service.
 
 If you believe a comment breaches these terms or the law, please use the Report control, or contact us at [hello@pebl-cic.co.uk](mailto:hello@pebl-cic.co.uk).
+
+---
+
+## Prizes
+
+Spotters who earn enough Pebbles can claim a prize, posted free to UK addresses. The full rules, including what is needed for under-18s, are in the [Prize Rules](/prize-rules).
 
 ---
 

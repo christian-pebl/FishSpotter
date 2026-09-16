@@ -2494,6 +2494,7 @@ export function FeedCard({
                       snippetId={snippet.id}
                       signedIn={!!session}
                       isGuest={!!(session?.user as { isGuest?: boolean } | undefined)?.isGuest}
+                      ageBand={(session?.user as { ageBand?: string } | undefined)?.ageBand}
                       signUpHref={signUpHref}
                     />
                     <div

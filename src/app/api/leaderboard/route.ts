@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { rankSpotters } from "@/lib/leaderboard";
+import { canBePubliclyNamed } from "@/lib/age";
 
 // S4-02 + Batch D1: the anonymous JSON payload is identical for every caller
 // and changes slowly, so cache it for 60s (mirrors the /leaderboard page
@@ -57,21 +58,24 @@ export async function GET() {
 
   const users = await prisma.user.findMany({
     where: { id: { in: Object.keys(byUser) } },
-    select: { id: true, displayName: true, name: true, leaderboardOptIn: true },
+    select: { id: true, displayName: true, name: true, leaderboardOptIn: true, ageBracket: true },
   });
   type UserRow = {
     id: string;
     displayName: string | null;
     name: string | null;
     leaderboardOptIn: boolean;
+    ageBracket: string | null;
   };
   const userMap = Object.fromEntries(users.map((u: UserRow) => [u.id, u]));
 
-  // ICO Children's Code: this public JSON endpoint has no session, so it
-  // excludes every user who opted out of the public leaderboard (default
-  // for declared 13-17 minors).
+  // ICO Children's Code and COPPA: this public JSON endpoint has no session,
+  // so it lists only spotters who may be named in public (src/lib/age.ts):
+  // a declared age of 13 or over AND the setting switched on. Under-13s, and
+  // anyone not yet asked their age, never appear.
   for (const userId of Object.keys(byUser)) {
-    if (userMap[userId]?.leaderboardOptIn === false) {
+    const u = userMap[userId];
+    if (!u || !canBePubliclyNamed(u)) {
       delete byUser[userId];
     }
   }

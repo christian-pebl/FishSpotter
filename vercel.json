@@ -25,6 +25,10 @@
     {
       "path": "/api/cron/new-clips",
       "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/cron/child-data-retention",
+      "schedule": "0 5 * * *"
     }
   ]
 }

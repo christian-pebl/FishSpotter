@@ -8,6 +8,8 @@ import { Header } from "@/components/Header";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { PwaRegister } from "@/components/PwaRegister";
 import { WebVitalsReporter } from "@/components/WebVitalsReporter";
+import { AgeCheck } from "@/components/age/AgeCheck";
+import { AskParentDialog } from "@/components/parent/AskParentDialog";
 import "./globals.css";
 
 const jost = Jost({
@@ -111,6 +113,10 @@ export default function RootLayout({
             {children}
           </div>
           <CookieBanner />
+          {/* Children's Code and COPPA: the one age question, and the one
+              "ask a parent or carer" dialog, for the whole app. */}
+          <AgeCheck />
+          <AskParentDialog />
           <WebVitalsReporter />
           <Analytics />
         </SessionProvider>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, animate, motion, useReducedMotion } from "framer-motion";
 import { onPebbles } from "@/lib/pebble-bus";
 import {
@@ -13,6 +14,13 @@ import {
 } from "@/lib/prize";
 import type { PrizeClaimStatus, PrizeRequirement } from "@/lib/prize-requirements";
 import { GUEST_SAVED_EVENT, GUEST_SAVE_REQUEST_EVENT } from "@/lib/guest";
+import {
+  AGE_DECLARED_EVENT,
+  PARENT_REQUESTED_EVENT,
+  requestAgeCheck,
+  requestParentConsent,
+  type ParentRequestedDetail,
+} from "@/lib/age-events";
 import { EASE, TRANSITION } from "@/lib/motion";
 import {
   VerificationHelp,
@@ -224,6 +232,19 @@ function ClaimChecklist({
   savedJustNow: boolean;
 }) {
   const [verifyStatus, setVerifyStatus] = useState<VerificationSendStatus>("idle");
+  // A parent request made on this page; the server list predates it.
+  const [askedJustNow, setAskedJustNow] = useState<{ account: boolean; prize: boolean }>({
+    account: false,
+    prize: false,
+  });
+  useEffect(() => {
+    const onAsked = (e: Event) => {
+      const detail = (e as CustomEvent<ParentRequestedDetail>).detail;
+      if (detail?.emailSent) setAskedJustNow((s) => ({ ...s, [detail.purpose]: true }));
+    };
+    window.addEventListener(PARENT_REQUESTED_EVENT, onAsked);
+    return () => window.removeEventListener(PARENT_REQUESTED_EVENT, onAsked);
+  }, []);
 
   const sendVerification = async () => {
     setVerifyStatus("sending");
@@ -237,17 +258,21 @@ function ClaimChecklist({
 
   const rows = requirements
     .filter((r) => r.id !== "pebbles")
-    .map((r): PrizeRequirement =>
-      r.id === "account" && savedJustNow && r.action === "save-account"
-        ? {
-            ...r,
-            label: "Confirm your email address",
-            detail:
-              "Check your inbox. Setting your password from the link we just sent confirms your address too.",
-            action: "verify-email",
-          }
-        : r,
-    );
+    .map((r): PrizeRequirement => {
+      if (r.id === "account" && savedJustNow && r.action === "save-account") {
+        return {
+          ...r,
+          label: "Confirm your email address",
+          detail:
+            "Check your inbox. Setting your password from the link we just sent confirms your address too.",
+          action: "verify-email",
+        };
+      }
+      const asked =
+        (r.action === "ask-parent-account" && askedJustNow.account) ||
+        (r.action === "ask-parent-prize" && askedJustNow.prize);
+      return !r.met && asked ? { ...r, detail: PARENT_WAITING_DETAIL } : r;
+    });
 
   return (
     <div>
@@ -266,6 +291,26 @@ function ClaimChecklist({
                 {r.label}
               </p>
               {r.detail ? <p className="text-navy-900/72">{r.detail}</p> : null}
+              {r.action === "declare-age" ? (
+                <button
+                  type="button"
+                  onClick={requestAgeCheck}
+                  className="inline-flex min-h-[44px] items-center font-semibold text-teal-700 underline hover:text-navy-900"
+                >
+                  Tell us your age
+                </button>
+              ) : null}
+              {r.action === "ask-parent-account" || r.action === "ask-parent-prize" ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    requestParentConsent(r.action === "ask-parent-prize" ? "prize" : "account")
+                  }
+                  className="inline-flex min-h-[44px] items-center font-semibold text-teal-700 underline hover:text-navy-900"
+                >
+                  {r.detail === PARENT_WAITING_DETAIL ? "Send it again" : "Ask a parent or carer"}
+                </button>
+              ) : null}
               {r.action === "save-account" ? (
                 <button
                   type="button"
@@ -297,6 +342,9 @@ function ClaimChecklist({
 }
 
 type Note = { kind: "error" | "success"; text: string };
+
+/** Matches the pending copy in src/lib/prize-requirements.ts. */
+const PARENT_WAITING_DETAIL = "We've emailed them. Once they say yes, this ticks itself.";
 
 /**
  * The single goal of the Pebbles page: your progress toward winning the
@@ -334,6 +382,9 @@ export function PrizeCard({
   const [note, setNote] = useState<Note | null>(null);
   const [shake, setShake] = useState(0);
   const [savedJustNow, setSavedJustNow] = useState(false);
+  const router = useRouter();
+  // Under-18s get their prize through a parent; the checklist says so.
+  const viaParent = !!status?.requirements.some((r) => r.id === "parent");
 
   // Keep the progress live while the page is open (earning in another tab of
   // the same session fires the pebble bus).
@@ -350,6 +401,13 @@ export function PrizeCard({
     return () => window.removeEventListener(GUEST_SAVED_EVENT, onSaved);
   }, []);
 
+  // A newly declared age changes the checklist itself; ask the server again.
+  useEffect(() => {
+    const onAge = () => router.refresh();
+    window.addEventListener(AGE_DECLARED_EVENT, onAge);
+    return () => window.removeEventListener(AGE_DECLARED_EVENT, onAge);
+  }, [router]);
+
   const reached = earned >= PRIZE_TARGET_PEBBLES;
   const pct = Math.max(0, Math.min(100, (earned / PRIZE_TARGET_PEBBLES) * 100));
   // With no precomputed status the server is the only judge, so let it answer.
@@ -359,7 +417,11 @@ export function PrizeCard({
     setBusy(true);
     setNote(null);
     try {
-      const res = await fetch("/api/prize/claim", { method: "POST" });
+      const res = await fetch("/api/prize/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ukAddress: true }),
+      });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (!res.ok || !data.ok) {
         setShake((s) => s + 1);
@@ -368,7 +430,12 @@ export function PrizeCard({
       }
       setClaimed(true);
       setJustClaimed(true);
-      setNote({ kind: "success", text: "Claimed! PEBL will email you to arrange delivery." });
+      setNote({
+        kind: "success",
+        text: viaParent
+          ? "Claimed! PEBL will email your parent or carer to arrange delivery."
+          : "Claimed! PEBL will email you to arrange delivery.",
+      });
     } catch {
       setShake((s) => s + 1);
       setNote({ kind: "error", text: "Network error. Try again." });
@@ -457,6 +524,7 @@ export function PrizeCard({
                     Claimed
                   </span>
                 ) : reached ? (
+                  <>
                   <motion.button
                     type="button"
                     onClick={claim}
@@ -466,6 +534,16 @@ export function PrizeCard({
                   >
                     {busy ? "Claiming…" : "Claim your guide"}
                   </motion.button>
+                  {/* Stated where the claim is made (CAP Code 8.17): claiming after
+                      reading it is the confirmation the route asks for. */}
+                  <p className="text-xs text-navy-900/72">
+                    Posted free to UK addresses
+                    {viaParent ? ", arranged with your parent or carer" : ""}.{" "}
+                    <Link href="/prize-rules" className="underline">
+                      Prize rules
+                    </Link>
+                  </p>
+                  </>
                 ) : null}
 
                 {gated && status?.trustPending && !note && (
@@ -483,7 +561,12 @@ export function PrizeCard({
                 >
                   Sign in and start earning
                 </Link>
-                <p className="text-xs leading-5 text-navy-900/72">{rulesSummary}</p>
+                <p className="text-xs leading-5 text-navy-900/72">
+                  {rulesSummary}{" "}
+                  <Link href="/prize-rules" className="underline">
+                    Prize rules
+                  </Link>
+                </p>
               </>
             )}
 

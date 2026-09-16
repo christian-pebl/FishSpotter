@@ -9,6 +9,8 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { assertSameOrigin } from "@/lib/csrf";
 import { prisma } from "@/lib/prisma";
+import { isUnder13 } from "@/lib/age";
+import { isGeneratedNickname } from "@/lib/nickname";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +31,18 @@ export async function PATCH(req: Request) {
     parsed = PatchSchema.parse(await req.json());
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+  // An under-13 may only use one of our generated nicknames, never a typed
+  // name (src/lib/nickname.ts): a child's typed name can be their real one.
+  const me = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { ageBracket: true },
+  });
+  if (isUnder13(me?.ageBracket) && !isGeneratedNickname(parsed.displayName)) {
+    return NextResponse.json(
+      { error: "Pick one of the suggested nicknames." },
+      { status: 400 },
+    );
   }
   // Same sanitiser used at sign-up so display names stay tidy.
   const clean = parsed.displayName.trim().replace(/[^\p{L}\p{N}\s._-]/gu, "");

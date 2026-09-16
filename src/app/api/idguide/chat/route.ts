@@ -18,6 +18,7 @@ import {
 import { fetchRecentNearbySightings } from "@/lib/idguide/recent-sightings";
 import { bucketFor } from "@/lib/biodiversity/buckets";
 import { normaliseCommonName } from "@/lib/biodiversity/gbif-match";
+import { canUseAiChat } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
 
@@ -203,6 +204,17 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Sign in to use the ID guide chat." }, { status: 401 });
+  }
+
+  // Free text typed here goes to an AI provider. Anthropic's usage policy
+  // asks for extra safeguards before a product serves minors, and a child may
+  // type something personal, so the chat is for declared adults only
+  // (src/lib/age.ts). No page links to this route today (16 Sep 2026).
+  if (!canUseAiChat(session.user.ageBand)) {
+    return NextResponse.json(
+      { error: "The ID guide chat is for spotters aged 18 and over." },
+      { status: 403 },
+    );
   }
 
   if (!process.env.ANTHROPIC_API_KEY) {

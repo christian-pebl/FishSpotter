@@ -5,8 +5,9 @@
 **Prepared by:** Claude (engineering analysis), from the actual implementation.
 **Reviewed and adopted by:** Christian Berger, PEBL CIC, **2026-08-01**.
 
-**Status: ADOPTED**, including the explicit age-segregation decision recorded
-in §4.2 and §6.
+**Status: ADOPTED 2026-08-01**, including the explicit age-segregation decision
+recorded in §4.2 and §6. **A review dated 2026-09-16 (§7) records a significant
+change and is awaiting re-adoption.**
 
 **Provenance note, retained deliberately:** drafted by an AI assistant
 analysing the codebase, then reviewed and adopted by PEBL's accountable
@@ -203,3 +204,40 @@ signs this off, not smoothed over.
    (it would materially change what mitigations are feasible), if usage
    shifts toward sustained social interaction, or if a real incident
    involving a minor occurs.
+
+---
+
+## 7. Review, 2026-09-16: children under 13 are users
+
+**Status of this review: prepared 2026-09-16, awaiting re-adoption by the accountable person.** The Act requires this assessment to be revisited before a significant change to the service (s11(4)); the change below is one.
+
+### 7.1 What changed in the facts
+
+Section 2 said under-13 signup was "blocked outright". That was true of full signup only. Guest mode, added 16-17 July 2026, never asked an age, and on 2026-09-16 ten guests who had saved their progress were found to use US school email addresses, one of them a pre-K to 8th grade school. **Children, very likely including under-13s, use the service.** The child user condition (s35) is met on the facts, not just by design.
+
+### 7.2 What changed in the service
+
+- Every player is asked their age group: guests before they pick a name, signups on the form, and every older account once. Unknown age is treated as possibly a child.
+- Under-13s can play with a generated nickname, **cannot post comments**, are never named publicly, and never give their own email. A parent's emailed consent keeps their account or unlocks a prize (`docs/compliance/children.md`).
+- Declared 13 to 17 year olds keep the protections in section 4 (anonymised comment name by default, private leaderboard by default).
+- Accounts that have not given an age cannot post comments and are never named publicly.
+- Public naming (leaderboard, profile pages, comment names) now needs a declared age of 13 or over **and** the setting switched on. Profile pages of anyone else return "not found" to other users, which closes a gap: a comment's author id could be used to reach a minor's profile page and see their chosen name.
+
+### 7.3 Effect on the risks in section 4
+
+| Risk | Change |
+|---|---|
+| 4.1 Exposure to harmful content | Under-13s can still **read** threads on clips they have answered. Exposure is unchanged in kind; moderation, link blocking, reporting and auto-hide apply. Keep under review; the simplest further step would be hiding threads from under-13s. |
+| 4.2 Contact and grooming | Under-13s cannot post or reply, so there is no way to start or answer a conversation with them. No private messaging exists. **Reduced for under-13s.** |
+| 4.3 Identity exposure | Under-13s have generated names and are never named publicly; unasked accounts are anonymised. **Reduced.** |
+| 4.4 Bullying | Under-13s cannot be addressed by name, and cannot post. Unchanged for 13 to 17. |
+| 4.6 Commercial and data exploitation | No optional emails to under-13s, no streak reminders to under-18s, no analytics for under-13s, no AI chat for under-18s. **Reduced.** |
+
+**Proposed overall residual risk to children: Medium for 13 to 17 year olds (unchanged, for the reasons in section 6), Low for under-13s.**
+
+### 7.4 Actions
+
+1. Re-adopt this assessment, with the 7.2 changes, before or when they go live.
+2. Decide whether under-13s should also be unable to **read** comment threads (a one-line change in `GET /api/comments`).
+3. Watch `/admin/comments` and `/admin/children` for any report involving a young account.
+4. Next review: 2027-08-01, or sooner on any incident.

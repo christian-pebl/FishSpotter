@@ -20,6 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/farms`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/prize-rules`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/parent`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
   ];
   // Species catalogue is in-memory (not DB-backed), so these entries are always
   // safe to emit, including when the DB is unreachable below.

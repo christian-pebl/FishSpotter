@@ -5,8 +5,8 @@
 **Companies House number:** 12076622
 **Registered office:** PO Box SA29JA, 29 Glan Yr Afon Road, Sketty, Swansea, SA2 9JA
 **Data protection contact:** hello@pebl-cic.co.uk
-**Document date:** 3 June 2026
-**Status:** Draft for director sign-off
+**Document date:** 3 June 2026, reviewed 16 September 2026 (section 8)
+**Status:** Draft for director sign-off. Section 8 records a material change (children under 13) that needs its own sign-off.
 **Framework:** UK GDPR / Data Protection Act 2018, ICO DPIA template structure
 
 ---
@@ -17,7 +17,7 @@ FishSpotter is a citizen-science web application operated by PEBL CIC. Users wat
 
 A DPIA is appropriate (and in places mandatory) here because the processing involves several of the factors the ICO flags as higher risk:
 
-- **Children's personal data.** The service is open to users aged 13 and over. Processing of children's data, and the public display of children's identifiers on a leaderboard, is an ICO-listed trigger for a DPIA.
+- **Children's personal data.** The service was designed for users aged 13 and over, and since 16 September 2026 is known to be used by children under 13 too (section 8). Processing of children's data, and the public display of children's identifiers on a leaderboard, is an ICO-listed trigger for a DPIA.
 - **A public-facing element (the leaderboard)** that displays user-chosen display names alongside performance scores.
 - **International transfers** of personal data to processors in the United States (Vercel hosting, Resend email).
 - **Use of personal data for a secondary research purpose** (ecological datasets) distinct from the primary service purpose.
@@ -215,6 +215,75 @@ All residual risks are assessed as **Low** (R7 Low-Medium). No residual high ris
 | Reviewed / approved by (PEBL CIC director, acting controller) | [TO COMPLETE: director name] | [TO COMPLETE: approve / approve-with-conditions / reject] | [TO COMPLETE: sign-off date] |
 | Integrate measures into the project? | - | Yes, measures in section 6 are implemented or scheduled | 3 June 2026 |
 | Next scheduled review | - | - | [TO COMPLETE: review date, recommend within 12 months or on any material change] |
+
+
+---
+
+## 8. Review, 16 September 2026: children under 13
+
+This section is the re-run section 1 asks for "before lowering the minimum age". It was prepared the day the evidence below came to light, alongside the engineering changes it describes. Full detail of the legal analysis is in `docs/compliance/children.md`.
+
+### 8.1 What triggered it
+
+- A catch-up email on 16 September 2026 went to 39 unverified accounts. **Ten were US school addresses** (ahschools.us, student.scusd.edu, thepegasusschool.org, which teaches pre-K to 8th grade, and oakdalechristian.org).
+- All ten had joined through **guest mode**, which never asked for an age, and then saved their progress with an email address.
+- A read-only count the same day found **129 of 135 accounts with no age on record** (88 guests, 41 saved accounts), 6 declared adults and no declared 13 to 17 year olds.
+- So FishSpotter is used by children, very likely including US children under 13. The minimum age of 13 stated in the policy was not enforced on the guest path. That brings in US COPPA (as amended in 2025, compliance date 22 April 2026) alongside the Children's Code, and the "children's higher protection matters" duty in UK GDPR Art. 25(1A), in force since 5 February 2026.
+
+### 8.2 What changed in the processing
+
+| Area | Before | After |
+|---|---|---|
+| Age question | Full signups only; guests never asked | Everyone: before a guest picks a name, at signup, and once for every existing account without an age (it cannot be dismissed, only answered or signed out of) |
+| Under-13s | Signup refused; guest play unrestricted | Play with a nickname chosen from generated names; their own email never collected; a parent's emailed consent saves the account or unlocks a prize |
+| Existing account answering "under 13" | n/a | Their email, password, pending links, social sign-in links and comments are deleted at once |
+| Public display | Opt-out flag for declared 13-17s only | Named in public only if 13+ **and** the setting is on; under-13s and unasked accounts never; profile pages and comment names follow the same rule |
+| Optional emails | Any opted-in verified account | Only declared 13+; streak reminders adults only |
+| Analytics | Consent banner only | Also never for signed-in under-13 or unasked accounts |
+| Comments | Any saved account | Declared 13+ only |
+| AI chat | Any signed-in account | Declared adults only |
+| Prize | Verified email and activity gates | Also a declared age, UK address, and a parent's consent for anyone under 18; staff write only to the parent |
+| New data | n/a | Parent or carer's email address, consent state and dates; hashed one-time links |
+
+### 8.3 New inventory rows
+
+| Data item | Source | Purpose | Lawful basis | Persisted? | Location |
+|---|---|---|---|---|---|
+| Age band (under_13 / 13_17 / 18_plus) and the date it was declared | User | Applying age-appropriate protections | Legal obligation (Children's Code, COPPA); legitimate interests | Yes | Supabase (EU) |
+| Parent or carer's email address | The child, then confirmed by the parent | Asking for and recording consent; letting the parent manage the child's account | Legal obligation (COPPA 312.5); legitimate interests | Yes, deleted on refusal, expiry (14 days), withdrawal, account deletion, or 90 days after a prize is posted | Supabase (EU) |
+| Consent records (purpose, state, dates) | System | Evidence of consent | Legal obligation | Yes, as above | Supabase (EU) |
+| One-time parent links (hashed) | System | Consent, manage and child sign-in links | Legal obligation; contract | Yes, deleted daily once expired | Supabase (EU) |
+| Postal address (prize winners) | The winner, or their parent | Posting the prize | Contract; parent's consent for a child | Email only, deleted within 90 days of posting | PEBL mailbox |
+
+### 8.4 Necessity and proportionality
+
+- **Why not block under-13s?** The evidence shows schools use FishSpotter, and the service is an education and citizen-science tool with no advertising, no messaging and no public exposure for children. Blocking would push children to lie about their age, which the Children's Code (standard 13) and the FTC both warn against. A safe route is in the child's best interests (standard 1).
+- **Why a band, not a date of birth?** It is the minimum needed (standard 8). The FTC's example of a neutral age screen is a month and year of birth, and whether a three-option band is neutral enough is not confirmed. The band picker offers "Under 13" as an equal, unpunished option, never says what under-13s lose, and holds an under-13 answer for the tab. Revisit if a regulator or adviser says otherwise.
+- **Why email plus?** COPPA allows it where the child's information is used only internally and never disclosed. FishSpotter never shows an under-13 publicly and shares nothing beyond its processors, so the condition holds. The confirmation email is sent a day after the parent agrees and repeats the notice, as the FTC describes.
+- **Why generated nicknames?** A typed username can be a child's real name, which would be personal information collected without consent.
+
+### 8.5 New and changed risks
+
+| # | Risk to individuals | Likelihood | Severity | Overall | Measures | Residual |
+|---|---|---|---|---|---|---|
+| R2 (revised) | A child's name shown publicly | Low | High | Medium | Public naming needs a declared age of 13+ and the setting on; unasked accounts hidden; profile pages 404 for anyone not publicly named; under-13 names are generated | **Low** |
+| R7 (revised) | A child declares an older band | Medium | Medium | Medium | Neutral picker; under-13 answer held for the tab; the band cannot be changed in-app; the under-13 route is attractive, not a dead end; 13-17 defaults are private | **Low-Medium** |
+| R9 | A child's email collected without consent | Medium (it happened) | Medium | Medium | Guest save and signup refuse under-13s; existing under-13 accounts lose their email on declaring; unasked accounts get no email and cannot save or claim until they answer | **Low** |
+| R10 | Consent given by someone who is not the parent (the child's own second address) | Medium | Medium | Medium | Accepted limitation of email plus; the parent's address is refused if it matches the child's or a staff address; confirmation email a day later with a withdraw link; nothing is made public or shared, which caps the harm | **Low-Medium** |
+| R11 | A parent link intercepted or reused | Low | High | Medium | Links are 256-bit random, stored hashed, short-lived (consent 14 days; manage 1 hour, or 7 days in the confirmation; child sign-in 10 minutes and single use); rate-limited; pages carry no-referrer and noindex | **Low** |
+| R12 | Children's data kept too long | Low | Medium | Low-Medium | Written retention rules published in the privacy policy and run daily by a cron (unanswered requests, expired links, idle under-13 accounts, spent prize consents) | **Low** |
+| R13 | Prize posted to a child without a parent knowing | Low | Medium | Low-Medium | Claim refused without a granted prize consent; the staff desk shows only the parent's address for a minor and holds any claim missing a parent's consent or an age | **Low** |
+| R14 | Children exposed to user comments | Low | Medium | Low-Medium | Under-13s cannot post; comments are moderated, link-free, reportable and auto-hidden at three reports; no private messaging exists (see the Online Safety Act assessments in `docs/safety/`) | **Low** |
+
+### 8.6 Outcome and sign-off
+
+All residual risks remain **Low** or **Low-Medium**, so prior consultation with the ICO is not required. Recommended before relying on the new under-13 route for US children: a short review by a data protection solicitor familiar with COPPA (see `docs/compliance/children.md`, open items).
+
+| Role | Name | Decision | Date |
+|---|---|---|---|
+| Section 8 prepared by | Claude (engineering analysis) for PEBL CIC | Submitted for approval | 16 September 2026 |
+| Reviewed / approved by (PEBL CIC director, acting controller) | [TO COMPLETE] | [TO COMPLETE] | [TO COMPLETE] |
+| Next scheduled review | - | - | 16 September 2027, or on any material change |
 
 ---
 

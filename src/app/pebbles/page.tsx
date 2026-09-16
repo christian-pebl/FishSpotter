@@ -9,6 +9,7 @@ import {
   type PrizeClaimStatus,
 } from "@/lib/prize-requirements";
 import { datesFromAnswers, readStreak } from "@/lib/streak-service";
+import { loadConsentContext } from "@/lib/parental-consent";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
 import { PrizeCard } from "@/components/PrizeCard";
@@ -57,7 +58,13 @@ export default async function PebblesHubPage({
       }),
       prisma.user.findUnique({
         where: { id: userId },
-        select: { emailVerified: true, createdAt: true, trustScore: true, isGuest: true },
+        select: {
+          emailVerified: true,
+          createdAt: true,
+          trustScore: true,
+          isGuest: true,
+          ageBracket: true,
+        },
       }),
     ]);
     const earned = pointsAgg._sum.points ?? 0;
@@ -66,6 +73,8 @@ export default async function PebblesHubPage({
     claimed = !!claim;
 
     if (user) {
+      const now = new Date();
+      const consent = await loadConsentContext(prisma, userId, now);
       // The claim rules as a checklist, judged exactly as the claim route
       // judges them, so a spotter sees what is left from the first Pebble
       // rather than at 2,000. The route re-checks server-side regardless;
@@ -78,8 +87,11 @@ export default async function PebblesHubPage({
           createdAt: user.createdAt,
           trustScore: user.trustScore,
           answerDates: answerDates.map((a) => a.createdAt),
+          ageBand: user.ageBracket,
+          consents: consent.consents,
+          accountConsentGrantedAt: consent.accountConsentGrantedAt,
         },
-        new Date(),
+        now,
       );
     }
   }

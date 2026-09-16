@@ -9,7 +9,8 @@
  */
 
 import type { PrismaClient } from "@prisma/client";
-import { isPrizeEligible } from "@/lib/trust";
+import { prizeGate } from "@/lib/prize-requirements";
+import { summariseConsents } from "@/lib/parental-consent-shared";
 import {
   SEASEARCH_GUIDE_ID,
   buildPrizeWinnerRows,
@@ -56,7 +57,7 @@ export async function loadPrizeWinnerRows(
   );
   if (candidateIds.length === 0) return [];
 
-  const [users, answerDates] = await Promise.all([
+  const [users, answerDates, consents] = await Promise.all([
     prisma.user.findMany({
       where: { id: { in: candidateIds } },
       select: {
@@ -68,13 +69,28 @@ export async function loadPrizeWinnerRows(
         emailVerified: true,
         createdAt: true,
         trustScore: true,
+        ageBracket: true,
       },
     }),
     prisma.answer.findMany({
       where: { userId: { in: candidateIds } },
       select: { userId: true, createdAt: true },
     }),
+    // Only GRANTED consents count on the desk: a pending request is not a
+    // parent's OK, and its address must not be written to.
+    prisma.parentalConsent.findMany({
+      where: { childId: { in: candidateIds }, status: "granted" },
+      select: { childId: true, purpose: true, status: true, parentEmail: true, grantedAt: true },
+    }),
   ]);
+
+  type ConsentRow = (typeof consents)[number];
+  const consentsByChild = new Map<string, ConsentRow[]>();
+  for (const c of consents) {
+    const list = consentsByChild.get(c.childId);
+    if (list) list.push(c);
+    else consentsByChild.set(c.childId, [c]);
+  }
 
   const datesByUser = new Map<string, Date[]>();
   for (const a of answerDates) {
@@ -85,12 +101,23 @@ export async function loadPrizeWinnerRows(
 
   const inputs: PrizeWinnerInput[] = users.map((u) => {
     const claim = claimByUser.get(u.id) ?? null;
-    const verdict = isPrizeEligible(
+    const childConsents = consentsByChild.get(u.id) ?? [];
+    const prizeConsent = childConsents.find((c) => c.purpose === "prize") ?? null;
+    const accountConsent = childConsents.find((c) => c.purpose === "account") ?? null;
+    // The same gate the claim route applies, so "passes" here means the
+    // route would accept a claim today.
+    const pebbles = pebblesByUser.get(u.id) ?? 0;
+    const verdict = prizeGate(
       {
+        earned: pebbles,
+        isGuest: u.isGuest,
         emailVerified: u.emailVerified,
         createdAt: u.createdAt,
         trustScore: u.trustScore,
         answerDates: datesByUser.get(u.id) ?? [],
+        ageBand: u.ageBracket,
+        consents: summariseConsents(childConsents),
+        accountConsentGrantedAt: accountConsent?.grantedAt ?? null,
       },
       now,
     );
@@ -101,12 +128,18 @@ export async function loadPrizeWinnerRows(
       email: u.email,
       isGuest: u.isGuest,
       emailVerified: u.emailVerified,
-      pebbles: pebblesByUser.get(u.id) ?? 0,
+      pebbles,
       claimedAt: claim?.purchasedAt ?? null,
       fulfilledAt: claim?.fulfilledAt ?? null,
       fulfilledBy: claim?.fulfilledBy ?? null,
       eligible: verdict.eligible,
-      eligibilityReasons: verdict.reasons,
+      eligibilityReasons: [
+        ...verdict.reasons,
+        ...(verdict.blocks.includes("age-required") ? ["age not given"] : []),
+        ...(verdict.blocks.includes("parent-consent") ? ["no parent's OK"] : []),
+      ],
+      ageBand: u.ageBracket,
+      parentEmail: prizeConsent?.parentEmail ?? null,
     };
   });
 
@@ -120,6 +153,7 @@ export interface PrizeDeskSummaryWinner {
   pebbles: number;
   status: PrizeWinnerRow["status"];
   contact: PrizeWinnerRow["contact"];
+  ageBand: string | null;
   contactEmail: string | null;
   isGuest: boolean;
   emailVerified: string | null;
@@ -147,6 +181,7 @@ export function toPrizeDeskSummary(
     pebbles: r.pebbles,
     status: r.status,
     contact: r.contact,
+    ageBand: r.ageBand,
     contactEmail: r.contactEmail,
     isGuest: r.isGuest,
     emailVerified: r.emailVerified?.toISOString() ?? null,

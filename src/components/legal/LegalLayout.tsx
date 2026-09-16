@@ -6,7 +6,11 @@ import { MarineBackdrop } from "@/components/MarineBackdrop";
 
 interface LegalLayoutProps {
   eyebrow: string;
-  file: "privacy-policy.md" | "terms-of-service.md" | "accessibility-statement.md";
+  file:
+    | "privacy-policy.md"
+    | "terms-of-service.md"
+    | "accessibility-statement.md"
+    | "prize-rules.md";
 }
 
 export async function LegalLayout({ eyebrow, file }: LegalLayoutProps) {

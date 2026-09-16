@@ -15,6 +15,8 @@ const row = (over: Partial<PrizeWinnerRow> = {}): PrizeWinnerRow => ({
   fulfilledBy: null,
   eligible: true,
   eligibilityReasons: [],
+  ageBand: "18_plus",
+  parentEmail: null,
   status: "reached-unclaimed",
   contact: "verified",
   contactEmail: "reef@example.com",
@@ -59,6 +61,7 @@ describe("toPrizeDeskSummary", () => {
     const { winners } = toPrizeDeskSummary([row()]);
     const keys = Object.keys(winners[0]).sort();
     const expected: (keyof PrizeDeskSummaryWinner)[] = [
+      "ageBand",
       "claimedAt",
       "contact",
       "contactEmail",

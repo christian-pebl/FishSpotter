@@ -50,6 +50,7 @@ const AUTHOR_SELECT = {
   email: true,
   emailVerified: true,
   leaderboardOptIn: true,
+  ageBracket: true,
 } as const;
 
 type AuthorRow = {
@@ -59,6 +60,7 @@ type AuthorRow = {
   email: string | null;
   emailVerified: Date | null;
   leaderboardOptIn: boolean;
+  ageBracket: string | null;
 };
 
 /** Drops the email fields on the way through, leaving only the badge boolean. */
@@ -69,6 +71,7 @@ function toAuthorLike(u: AuthorRow): CommentAuthorLike {
     name: u.name,
     isPebl: isAdminUser({ email: u.email, emailVerified: u.emailVerified }),
     leaderboardOptIn: u.leaderboardOptIn,
+    ageBracket: u.ageBracket,
   };
 }
 
@@ -202,6 +205,7 @@ export async function POST(req: Request) {
         email: true,
         emailVerified: true,
         leaderboardOptIn: true,
+        ageBracket: true,
       },
     }),
     hasAnswered(userId, snippetId),
@@ -225,6 +229,7 @@ export async function POST(req: Request) {
   }
 
   const gate = canPost({
+    ageBand: me.ageBracket,
     isGuest: me.isGuest,
     hasAnsweredClip: answered,
     existingOnClip,
@@ -329,6 +334,7 @@ export async function POST(req: Request) {
           email: me.email,
           emailVerified: me.emailVerified,
           leaderboardOptIn: me.leaderboardOptIn,
+          ageBracket: me.ageBracket,
         }),
         viewer,
       ),

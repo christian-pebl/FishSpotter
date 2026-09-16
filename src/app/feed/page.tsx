@@ -24,6 +24,7 @@ import {
 } from "@/lib/snippet-filter";
 import { FeedFilterNotice } from "@/components/FeedFilterNotice";
 import { archiveUrl } from "@/lib/archive-url";
+import { canReceiveOptionalEmail } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
 
@@ -176,6 +177,7 @@ export default async function FeedPage({
         newClipsOptIn: true,
         lastFeedSeenAt: true,
         createdAt: true,
+        ageBracket: true,
       },
     });
     // Counted against the SERVED snippet list, not the raw answer count: a
@@ -193,6 +195,9 @@ export default async function FeedPage({
         // belong to someone else, so neither can be mailed. The card offers
         // verification instead of a checkbox that would never fire.
         canReceiveEmail: !user.isGuest && !!user.emailVerified,
+        // Children's Code: no email offer at all to under-13s, guests or anyone
+        // not yet asked their age (src/lib/age.ts).
+        offerEmail: !user.isGuest && canReceiveOptionalEmail(user.ageBracket),
       };
       newClipCount = await countNewClipsSince(prisma, newClipBaseline(user));
     }

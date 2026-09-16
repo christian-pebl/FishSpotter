@@ -37,6 +37,7 @@ const AUTHOR: CommentAuthorLike = {
   name: null,
   isPebl: false,
   leaderboardOptIn: true,
+  ageBracket: "18_plus",
 };
 
 const PEBL_AUTHOR: CommentAuthorLike = {
@@ -45,6 +46,7 @@ const PEBL_AUTHOR: CommentAuthorLike = {
   name: null,
   isPebl: true,
   leaderboardOptIn: true,
+  ageBracket: "18_plus",
 };
 
 // A self-declared minor's default: leaderboardOptIn defaults false at signup
@@ -55,6 +57,27 @@ const OPTED_OUT_AUTHOR: CommentAuthorLike = {
   name: null,
   isPebl: false,
   leaderboardOptIn: false,
+  ageBracket: "13_17",
+};
+
+// Under-13s and spotters never asked their age are anonymised even with the
+// setting on (src/lib/age.ts, canBePubliclyNamed).
+const UNDER_13_AUTHOR: CommentAuthorLike = {
+  id: "user-child0001",
+  displayName: "SwiftWrasse42",
+  name: null,
+  isPebl: false,
+  leaderboardOptIn: true,
+  ageBracket: "under_13",
+};
+
+const UNASKED_AUTHOR: CommentAuthorLike = {
+  id: "user-unask0001",
+  displayName: "Rowan Evans",
+  name: null,
+  isPebl: false,
+  leaderboardOptIn: true,
+  ageBracket: null,
 };
 
 function row(over: Partial<CommentRowLike> = {}): CommentRowLike {
@@ -240,7 +263,7 @@ describe("hitsBlocklist", () => {
 });
 
 describe("canPost", () => {
-  const base = { isGuest: false, hasAnsweredClip: true, existingOnClip: 0 };
+  const base = { ageBand: "18_plus", isGuest: false, hasAnsweredClip: true, existingOnClip: 0 };
 
   it("allows a signed-in spotter who has answered", () => {
     expect(canPost(base)).toEqual({ ok: true });
@@ -285,9 +308,35 @@ describe("canPost", () => {
   });
 
   it("checks the guest rule before the others, so a guest never sees a confusing message", () => {
-    const gate = canPost({ isGuest: true, hasAnsweredClip: false, existingOnClip: 99 });
+    const gate = canPost({
+      ageBand: "13_17",
+      isGuest: true,
+      hasAnsweredClip: false,
+      existingOnClip: 99,
+    });
     expect(gate.ok).toBe(false);
     if (!gate.ok) expect(gate.reason).toBe("guest-must-upgrade");
+  });
+
+  it("asks for an age before anything else", () => {
+    for (const ageBand of [null, "unknown", ""]) {
+      const gate = canPost({ ...base, ageBand, isGuest: true });
+      expect(gate.ok).toBe(false);
+      if (!gate.ok) expect(gate.reason).toBe("age-required");
+    }
+  });
+
+  it("closes comments to under-13s, with a message that fits them", () => {
+    const gate = canPost({ ...base, ageBand: "under_13", isGuest: true });
+    expect(gate.ok).toBe(false);
+    if (!gate.ok) {
+      expect(gate.reason).toBe("not-for-under-13");
+      expect(gate.message).not.toMatch(/profile/i);
+    }
+  });
+
+  it("lets a 13 to 17 year old with a saved account post", () => {
+    expect(canPost({ ...base, ageBand: "13_17" }).ok).toBe(true);
   });
 });
 
@@ -470,6 +519,18 @@ describe("publicAuthorName / isAnonymised, leaderboardOptIn extended to comments
 
   it("anonymises for a signed-out viewer just the same as a stranger", () => {
     expect(publicAuthorName(OPTED_OUT_AUTHOR, SIGNED_OUT)).toBe("Spotter user-m");
+  });
+
+  it("anonymises an under-13 or an unasked author even with the setting on", () => {
+    expect(publicAuthorName(UNDER_13_AUTHOR, STRANGER)).toBe("Spotter user-c");
+    expect(publicAuthorName(UNASKED_AUTHOR, STRANGER)).toBe("Spotter user-u");
+    const out = toPublicComment(row({ userId: UNASKED_AUTHOR.id }), UNASKED_AUTHOR, STRANGER);
+    expect(JSON.stringify(out)).not.toContain("Rowan");
+    // The author and staff still see the real name.
+    expect(publicAuthorName(UNASKED_AUTHOR, { userId: UNASKED_AUTHOR.id, isAdmin: false })).toBe(
+      "Rowan Evans",
+    );
+    expect(publicAuthorName(UNDER_13_AUTHOR, ADMIN)).toBe("SwiftWrasse42");
   });
 });
 

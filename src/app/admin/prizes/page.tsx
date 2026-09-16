@@ -9,6 +9,7 @@ import {
   type PrizeWinnerRow,
 } from "@/lib/prize";
 import { CopyEmailButton, PostedToggle } from "./PrizeRowActions";
+import { AGE_BAND_LABEL, parseAgeBand } from "@/lib/age";
 
 // The fulfilment desk. Claiming the guide only records that a spotter asked
 // for it (POST /api/prize/claim writes a zero-cost PebblePurchase and returns);
@@ -20,6 +21,7 @@ export const metadata: Metadata = { title: "Prizes · FishSpotter admin" };
 
 const STATUS_PILL: Record<PrizeStatus, string> = {
   "to-post": "bg-teal-600 text-white",
+  "on-hold": "bg-warn/15 text-warn",
   "reached-unclaimed": "bg-pending text-pending-ink",
   unreachable: "bg-navy-100 text-navy-700",
   posted: "bg-navy-100 text-navy-500",
@@ -31,6 +33,24 @@ function dateOnly(d: Date | null): string {
 
 /** The contact cell: a real address, or why there isn't one. */
 function Contact({ row }: { row: PrizeWinnerRow }) {
+  // Children (src/lib/age.ts): PEBL writes to a parent or carer, never the
+  // child, and to nobody whose age we don't know.
+  if (row.contact === "needs-parent") {
+    return (
+      <span className="text-navy-500">
+        Under 18, no parent&apos;s OK yet.{" "}
+        <span className="text-navy-400">Don&apos;t contact the spotter; they ask in-app.</span>
+      </span>
+    );
+  }
+  if (row.contact === "age-unknown") {
+    return (
+      <span className="text-navy-500">
+        Age not given yet.{" "}
+        <span className="text-navy-400">Don&apos;t contact; the app asks them on their next visit.</span>
+      </span>
+    );
+  }
   if (row.contact === "guest") {
     return (
       <span className="text-navy-500">
@@ -45,6 +65,11 @@ function Contact({ row }: { row: PrizeWinnerRow }) {
           mid-word: a half-wrapped email is exactly the thing someone
           mis-transcribes when posting a book. */}
       <span className="whitespace-nowrap text-navy-900">{row.contactEmail}</span>
+      {row.contact === "parent" ? (
+        <span className="shrink-0 whitespace-nowrap rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold text-teal-700">
+          parent or carer
+        </span>
+      ) : null}
       {row.contact === "unverified" ? (
         <span className="shrink-0 whitespace-nowrap rounded-full bg-pending px-2 py-0.5 text-[10px] font-semibold text-pending-ink">
           unverified
@@ -67,8 +92,12 @@ export default async function AdminPrizesPage() {
         only records that someone asked for the {PRIZE_NAME}, posting it is manual, and
         nothing emails PEBL when a claim lands, so this page is the queue.
       </p>
+      <p className="mt-2 text-sm text-navy-600">
+        UK addresses only (see /prize-rules). For anyone under 18, write only to the parent or
+        carer shown, and delete their postal address once the book is posted.
+      </p>
       <p className="mt-2 text-[12px] text-navy-500">
-        {count("to-post")} to post · {count("reached-unclaimed")} not claimed ·{" "}
+        {count("to-post")} to post · {count("on-hold")} on hold · {count("reached-unclaimed")} not claimed ·{" "}
         {count("unreachable")} unreachable · {count("posted")} posted
       </p>
 
@@ -93,7 +122,15 @@ export default async function AdminPrizesPage() {
             <tbody className="divide-y divide-navy-200/60">
               {rows.map((r) => (
                 <tr key={r.userId}>
-                  <td className="px-3 py-2 font-medium text-navy-900">{r.spotter}</td>
+                  <td className="px-3 py-2 font-medium text-navy-900">
+                    {r.spotter}
+                    <span className="block text-[10px] font-normal text-navy-400">
+                      {(() => {
+                        const band = parseAgeBand(r.ageBand);
+                        return band ? AGE_BAND_LABEL[band] : "age not given";
+                      })()}
+                    </span>
+                  </td>
                   <td className="px-3 py-2 tabular-nums text-navy-900">
                     {r.pebbles.toLocaleString()}
                   </td>

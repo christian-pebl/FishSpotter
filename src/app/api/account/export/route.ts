@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isPlaceholderEmail } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const userId = session.user.id;
-  const [user, answers] = await Promise.all([
+  const [user, answers, consents] = await Promise.all([
     prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -30,6 +31,11 @@ export async function GET() {
         emailVerified: true,
         onboardedAt: true,
         digestOptIn: true,
+        newClipsOptIn: true,
+        leaderboardOptIn: true,
+        ageBracket: true,
+        ageDeclaredAt: true,
+        isGuest: true,
         createdAt: true,
       },
     }),
@@ -44,6 +50,12 @@ export async function GET() {
         createdAt: true,
       },
     }),
+    // A parent's address belongs to the parent, so the child's export says
+    // only that a consent exists and when.
+    prisma.parentalConsent.findMany({
+      where: { childId: userId },
+      select: { purpose: true, status: true, requestedAt: true, grantedAt: true },
+    }),
   ]);
   if (!user) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -52,7 +64,12 @@ export async function GET() {
     exportedAt: new Date().toISOString(),
     notice:
       "This file contains all personal data PEBL FishSpotter holds about you. See /privacy for retention and contact details.",
-    account: user,
+    account: {
+      ...user,
+      // A guest or under-13 account holds a placeholder, not an address.
+      email: user.isGuest || isPlaceholderEmail(user.email) ? null : user.email,
+    },
+    parentalConsents: consents,
     answers,
   };
   const body = JSON.stringify(payload, null, 2);
