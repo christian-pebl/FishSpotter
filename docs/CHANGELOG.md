@@ -2625,6 +2625,12 @@ UK Children's Code, and the "13 and over" rule the privacy policy stated was not
 8. **Staff**: `/admin/children` shows age groups, parent requests (addresses masked) and saved
    accounts not yet asked, with school-like domains flagged.
 
+9. **CI was not running the database tests.** The integration job's
+   `--testNamePattern=""` swallowed the first file path as a name filter, so the prize-desk suite
+   never ran and every other test was reported as skipped, while the job stayed green. The flag
+   is gone, the new consent suite is listed, and a follow-up step fails the job unless all three
+   files ran with nothing skipped.
+
 **Deploy order.** The schema change is additive. Run `prisma db push`, then `npm run db:enable-rls`,
 before the code goes live, because the new pages and the prize route read the new tables.
 

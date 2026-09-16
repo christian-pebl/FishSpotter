@@ -106,4 +106,23 @@ jobs:
         # foreign-key violation. Sequential is a few seconds slower and
         # correct; parallel across files was never actually safe once a
         # second integration suite existed.
-        run: npx vitest run --no-file-parallelism --testNamePattern="" src/lib/prize-desk.integration.test.ts src/lib/metrics/roundup.integration.test.ts src/lib/parental-consent.integration.test.ts
+        #
+        # No --testNamePattern here. Until 16 Sep 2026 this line carried
+        # --testNamePattern="", which the CLI read as taking the NEXT argument,
+        # the first test file, as the pattern: that file never ran and every
+        # test in the others was filtered out as "skipped", so this job passed
+        # without running a single database test.
+        run: >-
+          npx vitest run --no-file-parallelism
+          --reporter=default --reporter=json --outputFile.json=integration-results.json
+          src/lib/prize-desk.integration.test.ts
+          src/lib/metrics/roundup.integration.test.ts
+          src/lib/parental-consent.integration.test.ts
+
+      - name: Fail if the integration suites did not really run
+        # A green job that skipped everything is what hid the bug above: every
+        # listed file must have run, and nothing may be skipped.
+        run: >-
+          node -e "const r = require('./integration-results.json');
+          console.log('files', r.testResults.length, 'passed', r.numPassedTests, 'skipped', r.numPendingTests);
+          if (r.testResults.length !== 3 || r.numPassedTests === 0 || r.numPendingTests > 0) process.exit(1);"
