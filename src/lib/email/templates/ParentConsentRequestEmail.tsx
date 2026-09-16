@@ -1,4 +1,4 @@
-import { Button, Text } from "@react-email/components";
+import { Button, Hr, Text } from "@react-email/components";
 import { EmailLayout } from "./_Layout";
 import { ParentNotice } from "./ParentNotice";
 import type { ParentalConsentPurpose } from "@/lib/parental-consent-shared";
@@ -14,8 +14,9 @@ const SMALL = { fontSize: 12, lineHeight: 1.5, color: "#5A6E74" } as const;
  * (ParentNotice); where the full policy is; how to answer; and that an
  * unanswered request is deleted.
  *
- * The link opens a page. Opening it agrees to nothing, so a mail scanner that
- * follows links cannot consent on a parent's behalf.
+ * Laid out for a busy parent on a phone: what is being asked, the button,
+ * then the detail. The link opens a page; opening it agrees to nothing, so a
+ * mail scanner that follows links cannot consent on a parent's behalf.
  */
 export function ParentConsentRequestEmail({
   childName,
@@ -35,7 +36,7 @@ export function ParentConsentRequestEmail({
     <EmailLayout
       preview={
         isPrize
-          ? `${childName} has won a prize on FishSpotter and needs your OK`
+          ? `Can we post ${childName} a FishSpotter prize?`
           : `${childName} would like to save their FishSpotter progress`
       }
     >
@@ -45,21 +46,14 @@ export function ParentConsentRequestEmail({
       <Text style={P}>Hello,</Text>
       <Text style={P}>
         A young spotter called <strong>{childName}</strong> gave us this email address as their
-        parent or carer&apos;s. We use it only to ask you this.{" "}
+        parent or carer&apos;s, and we use it only to ask you this.{" "}
         {isPrize
-          ? "They have earned the FishSpotter prize, a printed guide to the marine life of Britain and Ireland, and because they told us they are under 18 we need your agreement before we post it."
-          : "They would like to save their progress, and because they told us they are under 13 we need your agreement first."}
+          ? "They are working towards the FishSpotter prize, a printed guide to the marine life of Britain and Ireland. As they told us they are under 18, we need your agreement before we post it."
+          : "They would like to save their progress. As they told us they are under 13, we need your agreement first."}
       </Text>
       <Text style={P}>
-        FishSpotter is a free citizen-science game run by Plant Ecology Beyond Land (PEBL) CIC.
-        Players watch underwater clips from UK seaweed farms and name the animals they see.
-      </Text>
-
-      <ParentNotice purpose={purpose} />
-
-      <Text style={P}>
-        Until you agree we collect nothing more from your child{isPrize ? " for the prize" : ""}.
-        If you do not answer within {expiresIn}, we delete your email address and this request.
+        FishSpotter is a free citizen-science game run by Plant Ecology Beyond Land (PEBL) CIC, in
+        which players name the animals in underwater clips from UK seaweed farms.
       </Text>
 
       <Button
@@ -76,12 +70,20 @@ export function ParentConsentRequestEmail({
       >
         Read more and decide
       </Button>
+      <Text style={SMALL}>
+        Opening the link does not agree to anything; you choose on the page. Until you agree we
+        collect nothing more from your child{isPrize ? " for the prize" : ""}. If you do not answer
+        within {expiresIn}, we delete your email address and this request.
+      </Text>
+
+      <Hr style={{ borderColor: "#DEF2F1", margin: "20px 0 8px" }} />
+      <ParentNotice purpose={purpose} />
+
       <Text style={{ ...SMALL, marginTop: 16 }}>Or paste this link into your browser: {consentUrl}</Text>
       <Text style={SMALL}>
-        Opening the link does not agree to anything; you choose on the page. Our privacy policy,
-        including how we look after children&apos;s information and your rights as a parent, is at{" "}
-        {privacyUrl}. Questions: hello@pebl-cic.co.uk. If you do not know this child, ignore this
-        email and we will delete your address.
+        Our privacy policy, including how we look after children&apos;s information and your rights
+        as a parent, is at {privacyUrl}. Questions: hello@pebl-cic.co.uk. If you do not know this
+        child, ignore this email and we will delete your address.
       </Text>
     </EmailLayout>
   );

@@ -11,10 +11,10 @@ import {
 import { CopyEmailButton, PostedToggle } from "./PrizeRowActions";
 import { AGE_BAND_LABEL, parseAgeBand } from "@/lib/age";
 
-// The fulfilment desk. Claiming the guide only records that a spotter asked
-// for it (POST /api/prize/claim writes a zero-cost PebblePurchase and returns);
-// nothing emails PEBL, so without this page a claim sits unnoticed until
-// someone thinks to run SQL. Read-mostly: the single write is "mark posted".
+// The fulfilment desk. Claiming the guide records that a spotter asked for it
+// (POST /api/prize/claim writes a zero-cost PebblePurchase) and, since 16 Sep
+// 2026, emails the PEBL admins (src/lib/email/prize-notify.ts). This page is
+// the work queue. Read-mostly: the single write is "mark posted".
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "Prizes · FishSpotter admin" };
@@ -89,8 +89,8 @@ export default async function AdminPrizesPage() {
       <h1 className="font-brand text-xl font-semibold text-navy-900">Prize fulfilment</h1>
       <p className="mt-1 text-sm text-navy-600">
         Spotters at or over {PRIZE_TARGET_PEBBLES.toLocaleString()} lifetime Pebbles. Claiming
-        only records that someone asked for the {PRIZE_NAME}, posting it is manual, and
-        nothing emails PEBL when a claim lands, so this page is the queue.
+        records that someone asked for the {PRIZE_NAME} and emails the PEBL admins. Posting it is
+        manual, and this page is the queue.
       </p>
       <p className="mt-2 text-sm text-navy-600">
         UK addresses only (see /prize-rules). For anyone under 18, write only to the parent or

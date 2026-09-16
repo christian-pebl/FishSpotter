@@ -41,7 +41,7 @@ export function AskParentDialog() {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-navy-900/60 p-4 backdrop-blur-sm sm:items-center"
+      className="fixed inset-0 z-[100] flex items-end justify-center bg-navy-900/60 p-4 backdrop-blur-sm sm:items-center"
       role="dialog"
       aria-modal="true"
       aria-labelledby="ask-parent-title"

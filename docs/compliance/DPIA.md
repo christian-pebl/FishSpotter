@@ -236,7 +236,7 @@ This section is the re-run section 1 asks for "before lowering the minimum age".
 |---|---|---|
 | Age question | Full signups only; guests never asked | Everyone: before a guest picks a name, at signup, and once for every existing account without an age (it cannot be dismissed, only answered or signed out of) |
 | Under-13s | Signup refused; guest play unrestricted | Play with a nickname chosen from generated names; their own email never collected; a parent's emailed consent saves the account or unlocks a prize |
-| Existing account answering "under 13" | n/a | Their email, password, pending links, social sign-in links and comments are deleted at once |
+| Existing account answering "under 13" | n/a | Their email, password, pending links, social sign-in links, comments and usage events are deleted at once, and a typed display name is replaced with a generated nickname |
 | Public display | Opt-out flag for declared 13-17s only | Named in public only if 13+ **and** the setting is on; under-13s and unasked accounts never; profile pages and comment names follow the same rule |
 | Optional emails | Any opted-in verified account | Only declared 13+; streak reminders adults only |
 | Analytics | Consent banner only | Also never for signed-in under-13 or unasked accounts |

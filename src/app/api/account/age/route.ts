@@ -14,9 +14,12 @@
  *             parent's consent, so it goes now. Their own email address,
  *             password, pending email links and any social sign-in link are
  *             removed, and so are any comments they wrote, since free text
- *             can carry a name or address. Their nickname, finds and points
- *             stay, so the child loses nothing; a parent's consent saves the
- *             account from here (src/lib/parental-consent.ts).
+ *             can carry a name or address, and any usage events, which rest
+ *             on a consent a child cannot give. A display name they typed is
+ *             swapped for a generated nickname, since a typed name can be a
+ *             child's real one. Their finds and points stay, so the child
+ *             loses nothing; a parent's consent saves the account from here
+ *             (src/lib/parental-consent.ts).
  */
 
 import { NextResponse } from "next/server";
@@ -32,6 +35,7 @@ import {
   parseAgeBand,
   placeholderEmail,
 } from "@/lib/age";
+import { generateNickname, isGeneratedNickname } from "@/lib/nickname";
 
 export const dynamic = "force-dynamic";
 
@@ -61,7 +65,7 @@ export async function POST(req: Request) {
 
   const me = await prisma.user.findUnique({
     where: { id: userId },
-    select: { id: true, email: true, ageBracket: true },
+    select: { id: true, email: true, ageBracket: true, displayName: true },
   });
   if (!me) {
     return NextResponse.json({ error: "Account not found." }, { status: 404 });
@@ -79,11 +83,14 @@ export async function POST(req: Request) {
 
   if (band === "under_13") {
     const hadEmail = !isPlaceholderEmail(me.email);
+    const newNickname = isGeneratedNickname(me.displayName ?? "") ? null : generateNickname();
     await prisma.$transaction([
       prisma.verificationToken.deleteMany({ where: { userId } }),
       prisma.passwordResetToken.deleteMany({ where: { userId } }),
       prisma.account.deleteMany({ where: { userId } }),
       prisma.comment.deleteMany({ where: { userId } }),
+      // Usage events rest on a consent a child under 13 cannot give.
+      prisma.event.deleteMany({ where: { userId } }),
       prisma.user.update({
         where: { id: userId },
         data: {
@@ -92,6 +99,7 @@ export async function POST(req: Request) {
           leaderboardOptIn: false,
           digestOptIn: false,
           newClipsOptIn: false,
+          ...(newNickname ? { displayName: newNickname, name: newNickname } : {}),
           ...(hadEmail
             ? {
                 email: placeholderEmail(globalThis.crypto.randomUUID()),
@@ -104,7 +112,12 @@ export async function POST(req: Request) {
         select: { id: true },
       }),
     ]);
-    return NextResponse.json({ ok: true, ageBand: band, removedEmail: hadEmail });
+    return NextResponse.json({
+      ok: true,
+      ageBand: band,
+      removedEmail: hadEmail,
+      newNickname,
+    });
   }
 
   await prisma.user.update({

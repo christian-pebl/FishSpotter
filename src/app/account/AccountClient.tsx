@@ -263,7 +263,14 @@ export function AccountClient({
           <div className="flex items-center justify-between gap-3">
             <dt className="text-navy-900/55">Joined</dt>
             <dd className="text-navy-900">
-              {new Date(createdAt).toLocaleDateString()}
+              {/* Fixed locale and zone: the server and the browser must print the
+                  same text, or hydration fails and the page is re-rendered. */}
+              {new Date(createdAt).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+                timeZone: "UTC",
+              })}
             </dd>
           </div>
         </dl>

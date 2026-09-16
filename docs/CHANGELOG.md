@@ -2586,7 +2586,8 @@ UK Children's Code, and the "13 and over" rule the privacy policy stated was not
      but not dismissable).
 
    `POST /api/account/age` stores it once. An under-13 answer removes the account's email,
-   password, pending links, social sign-ins and comments at once.
+   password, pending links, social sign-ins, comments and usage events at once, and swaps a
+   typed display name for a generated nickname.
 3. **Parental consent**, COPPA "email plus" (`src/lib/parental-consent.ts`, new `ParentalConsent` and
    `ParentAccessToken` tables):
    - the child asks from the save prompt or the prize card (`AskParentDialog`);

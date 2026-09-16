@@ -22,6 +22,8 @@ export interface AgeDeclaredDetail {
   ageBand: string;
   /** An under-13's own email address was removed from the account. */
   removedEmail: boolean;
+  /** The generated nickname that replaced an under-13's typed name, if any. */
+  newNickname: string | null;
 }
 
 /** Open the "ask a parent or carer" dialog. Detail: ParentRequestDetail. */

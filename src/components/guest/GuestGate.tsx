@@ -225,6 +225,8 @@ export function GuestGate() {
                     }}
                     placeholder="e.g. ReefRanger"
                     autoComplete="off"
+                    // eslint-disable-next-line jsx-a11y/no-autofocus -- appears only after the age tap
+                    autoFocus
                     maxLength={MAX_NAME}
                     className="w-full rounded-modal border border-navy-900/15 bg-white px-3 py-2.5 text-base text-navy-900 outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30"
                   />

@@ -66,15 +66,25 @@ export function generateNickname(random: () => number = Math.random): string {
   return `${pick(NICKNAME_ADJECTIVES)}${pick(NICKNAME_CREATURES)}${digits}`;
 }
 
-/** `count` different nicknames to choose from. */
+/**
+ * `count` nicknames to choose from, each with its own words (not just
+ * different digits), so the choice feels like a choice.
+ */
 export function nicknameSuggestions(
   count: number,
   random: () => number = Math.random,
 ): string[] {
-  const out = new Set<string>();
+  const out: string[] = [];
+  const bases = new Set<string>();
   let guard = 0;
-  while (out.size < count && guard++ < count * 20) out.add(generateNickname(random));
-  return Array.from(out);
+  while (out.length < count && guard++ < count * 40) {
+    const name = generateNickname(random);
+    const base = name.replace(/\d+$/, "");
+    if (bases.has(base)) continue;
+    bases.add(base);
+    out.push(name);
+  }
+  return out;
 }
 
 /** True only for a name generateNickname could have produced. */

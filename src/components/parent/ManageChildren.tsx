@@ -29,7 +29,13 @@ const PURPOSE_LABEL: Record<ParentalConsentPurpose, string> = {
 };
 
 function dateText(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  // Fixed zone so the server render and the browser agree (hydration).
+  return new Date(iso).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/London",
+  });
 }
 
 /**
@@ -135,9 +141,9 @@ export function ManageChildren({ token, items }: { token: string; items: Managed
               <dt className="text-navy-900/60">Joined</dt>
               <dd className="text-navy-900">{dateText(child.joinedAt)}</dd>
               <dt className="text-navy-900/60">Identifications</dt>
-              <dd className="text-navy-900">{child.identifications.toLocaleString()}</dd>
+              <dd className="text-navy-900">{child.identifications.toLocaleString("en-GB")}</dd>
               <dt className="text-navy-900/60">Pebbles</dt>
-              <dd className="text-navy-900">{child.pebbles.toLocaleString()}</dd>
+              <dd className="text-navy-900">{child.pebbles.toLocaleString("en-GB")}</dd>
             </dl>
 
             <ul className="mt-3 space-y-2">

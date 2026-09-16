@@ -70,12 +70,12 @@ export default async function ParentConsentPage({
               <>
                 <h1 className="mt-2 font-brand-heading text-h2 text-navy-900">
                   {pending.purpose === "prize"
-                    ? `${pending.childName} has won a prize`
+                    ? `Can we post ${pending.childName} a prize?`
                     : `${pending.childName} would like to save their progress`}
                 </h1>
                 <p className="mt-2 text-sm leading-6 text-navy-900/80">
                   {pending.purpose === "prize"
-                    ? "They earned a printed guide to the marine life of Britain and Ireland on FishSpotter, our free marine citizen-science game. As they're under 18, we need your OK to post it."
+                    ? "They play FishSpotter, our free marine citizen-science game, and are working towards its prize: a printed guide to the marine life of Britain and Ireland. As they're under 18, we need your OK before we post it."
                     : "They play FishSpotter, our free game where people name the animals in underwater clips from UK seaweed farms. As they're under 13, we need your OK to keep their account."}
                 </p>
 

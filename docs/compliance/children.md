@@ -158,7 +158,7 @@ Anthropic's usage policy (in force from 15 September 2025) requires extra safegu
 ## 10. Remediation of existing accounts (16 September 2026)
 
 - The 129 accounts without an age are hidden from public lists and get no optional email, no prize and no comment posting. The app asks them once on their next visit.
-- An account that answers "under 13" loses its email address, password, pending links, social sign-in links and comments at once, keeps its game progress, and is offered the parent route.
+- An account that answers "under 13" loses its email address, password, pending links, social sign-in links, comments and usage events at once, has a typed display name replaced with a generated nickname, keeps its game progress, and is offered the parent route.
 - The ten school-address accounts were **not** contacted again and **not** deleted in advance. Emailing them to ask their age could itself be contacting a child. **Open:** the director may prefer to delete those ten email addresses now rather than wait for the accounts to return.
 - Check Resend for bounces from the 16 September send; school mail systems often reject outside senders.
 

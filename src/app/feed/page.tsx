@@ -201,7 +201,9 @@ export default async function FeedPage({
       };
       newClipCount = await countNewClipsSince(prisma, newClipBaseline(user));
     }
-    needsTour = !!user && user.onboardedAt === null;
+    // An account with no age is asked that first (AgeCheck); the tour waits
+    // for its next visit rather than stacking a second dialog on top.
+    needsTour = !!user && user.onboardedAt === null && user.ageBracket !== null;
     // T5: nudge brand-new users to verify (they land here straight after signup
     // with no "check your inbox" confirmation). Guests have only a placeholder
     // email, so they're never nagged to verify it, they claim a real one via

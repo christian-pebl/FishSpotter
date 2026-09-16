@@ -32,10 +32,12 @@ describe("generated nicknames", () => {
     );
   });
 
-  it("offers distinct suggestions", () => {
-    const list = nicknameSuggestions(4, seeded(7));
-    expect(list).toHaveLength(4);
-    expect(new Set(list).size).toBe(4);
+  it("offers suggestions with different words, not just different digits", () => {
+    for (let seed = 1; seed < 50; seed++) {
+      const list = nicknameSuggestions(4, seeded(seed));
+      expect(list).toHaveLength(4);
+      expect(new Set(list.map((n) => n.replace(/\d+$/, ""))).size).toBe(4);
+    }
   });
 
   it("rejects anything a child could type instead", () => {

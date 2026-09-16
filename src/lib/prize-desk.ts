@@ -134,7 +134,13 @@ export async function loadPrizeWinnerRows(
       fulfilledBy: claim?.fulfilledBy ?? null,
       eligible: verdict.eligible,
       eligibilityReasons: [
-        ...verdict.reasons,
+        // An under-13 never has an email to confirm; what they lack is a
+        // parent's agreement to the account.
+        ...verdict.reasons.map((r) =>
+          r === "email not verified" && u.ageBracket === "under_13"
+            ? "no grown-up has saved the account"
+            : r,
+        ),
         ...(verdict.blocks.includes("age-required") ? ["age not given"] : []),
         ...(verdict.blocks.includes("parent-consent") ? ["no parent's OK"] : []),
       ],

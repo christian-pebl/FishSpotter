@@ -46,7 +46,7 @@ export function sendParentConsentRequest(input: {
       to: input.to,
       subject:
         input.purpose === "prize"
-          ? `${input.childName} has won a FishSpotter prize: we need your OK`
+          ? `Can we post ${input.childName} a FishSpotter prize?`
           : `${input.childName} would like to save their FishSpotter progress`,
       react: ParentConsentRequestEmail({
         childName: input.childName,
