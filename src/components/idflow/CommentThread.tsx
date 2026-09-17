@@ -104,6 +104,7 @@ function CommentRow({
   c,
   snippetId,
   isGuest,
+  ageBand,
   signedIn,
   onChanged,
   depth = 0,
@@ -111,6 +112,7 @@ function CommentRow({
   c: PublicComment;
   snippetId: string;
   isGuest: boolean;
+  ageBand?: string;
   signedIn: boolean;
   onChanged: () => void;
   depth?: number;
@@ -174,6 +176,7 @@ function CommentRow({
               snippetId={snippetId}
               parentId={c.id}
               isGuest={isGuest}
+              ageBand={ageBand}
               autoFocus
               onCancel={() => setReplying(false)}
               onPosted={() => {
@@ -193,6 +196,7 @@ function CommentRow({
               c={r}
               snippetId={snippetId}
               isGuest={isGuest}
+              ageBand={ageBand}
               signedIn={signedIn}
               onChanged={onChanged}
               depth={depth + 1}
@@ -208,12 +212,15 @@ export function CommentThread({
   snippetId,
   signedIn,
   isGuest,
+  ageBand,
   signUpHref,
   defaultOpen = false,
 }: {
   snippetId: string;
   signedIn: boolean;
   isGuest: boolean;
+  /** session.user.ageBand, passed to the composer (src/lib/age.ts). */
+  ageBand?: string;
   signUpHref?: string;
   defaultOpen?: boolean;
 }) {
@@ -288,6 +295,7 @@ export function CommentThread({
                   c={c}
                   snippetId={snippetId}
                   isGuest={isGuest}
+                  ageBand={ageBand}
                   signedIn={signedIn}
                   onChanged={load}
                 />
@@ -299,6 +307,7 @@ export function CommentThread({
             <CommentBox
               snippetId={snippetId}
               isGuest={isGuest}
+              ageBand={ageBand}
               signUpHref={signUpHref}
               onPosted={load}
             />

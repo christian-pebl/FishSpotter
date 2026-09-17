@@ -164,7 +164,16 @@ a full catalogue sweep must be spread across days or run on a billed key.
 Core: `Snippet` (the clip + nullable `staffAnswer` reference), `Answer`
 (`isCorrect: Boolean?` + `points: Int`), `User`. Cache: `SpeciesProbability`,
 `SpeciesNameMap`, `SpeciesImage`, `DiagnosticMark`, `ConsensusEvent`. Auth:
-`Account`, `Session`, `VerificationToken`, `PasswordResetToken`.
+`Account`, `Session`, `VerificationToken`, `PasswordResetToken`. Children:
+`User.ageBracket`/`ageDeclaredAt`, `ParentalConsent`, `ParentAccessToken`.
+
+> **Age decides what the app may do.** Every surface that names a spotter,
+> emails them, records analytics, accepts a comment or posts a prize asks
+> `src/lib/age.ts`. Under-13s play with generated nicknames and never give an
+> email; a parent's emailed consent (`src/lib/parental-consent.ts`, `/parent`)
+> saves their account or unlocks a prize. An account with no age is treated as
+> possibly a child until `AgeCheck` has asked. The reasoning and the legal
+> mapping are in `docs/compliance/children.md`.
 
 > **Known structural debt.** Species are identified by a free `scientificName`
 > string across `SpeciesImage`, `DiagnosticMark`, `SpeciesAlias`, the probability

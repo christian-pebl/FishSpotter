@@ -122,7 +122,9 @@ const BACKLOG_SELECT = {
  */
 export async function readCatchUpBacklog(prisma: PrismaClient, now: Date): Promise<CatchUpRow[]> {
   const users = await prisma.user.findMany({
-    where: { isGuest: false, emailVerified: null },
+    // Accounts told their school address will be removed
+    // (src/lib/age-notice.ts) are never sent account links again.
+    where: { isGuest: false, emailVerified: null, ageNoticeSentAt: null },
     select: BACKLOG_SELECT,
     orderBy: { createdAt: "asc" },
   });
@@ -160,6 +162,8 @@ export interface CatchUpTarget {
   emailVerified: Date | null;
   hasPassword: boolean;
   lastLinkAt: Date | null;
+  /** Told that this school-like address will be removed (src/lib/age-notice.ts). */
+  ageNoticeSent: boolean;
 }
 
 export async function readCatchUpTarget(
@@ -176,6 +180,7 @@ export async function readCatchUpTarget(
       isGuest: true,
       emailVerified: true,
       passwordHash: true,
+      ageNoticeSentAt: true,
       verificationTokens: BACKLOG_SELECT.verificationTokens,
       passwordResetTokens: BACKLOG_SELECT.passwordResetTokens,
     },
@@ -190,6 +195,7 @@ export async function readCatchUpTarget(
     emailVerified: u.emailVerified,
     hasPassword: u.passwordHash !== null,
     lastLinkAt: latest(u.verificationTokens[0]?.createdAt, u.passwordResetTokens[0]?.createdAt),
+    ageNoticeSent: u.ageNoticeSentAt !== null,
   };
 }
 
@@ -202,6 +208,9 @@ export function decideCatchUp(target: CatchUpTarget | null, now: Date): CatchUpD
   if (!target) return { send: false, reason: "account not found" };
   if (target.isGuest) return { send: false, reason: "guest account, no real address" };
   if (target.emailVerified) return { send: false, reason: "already confirmed" };
+  if (target.ageNoticeSent) {
+    return { send: false, reason: "told this school address will be removed" };
+  }
   const plan = planCatchUp(
     { email: target.email, hasPassword: target.hasPassword, lastLinkAt: target.lastLinkAt },
     now,

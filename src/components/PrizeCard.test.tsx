@@ -1,9 +1,18 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+
+const refresh = vi.fn();
+vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh, push: vi.fn() }) }));
 import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { PrizeCard } from "./PrizeCard";
 import type { PrizeClaimStatus, PrizeRequirement } from "@/lib/prize-requirements";
 import { GUEST_SAVED_EVENT, GUEST_SAVE_REQUEST_EVENT } from "@/lib/guest";
+import {
+  AGE_CHECK_REQUEST_EVENT,
+  AGE_DECLARED_EVENT,
+  PARENT_REQUESTED_EVENT,
+  PARENT_REQUEST_EVENT,
+} from "@/lib/age-events";
 
 // Functional smoke for the prize card: progress / checklist / claimable /
 // gated / claimed / signed-out states, the two checklist actions and the claim
@@ -197,7 +206,8 @@ describe("PrizeCard", () => {
   it("sends signed-out visitors to sign in, and states the other rules up front", () => {
     renderCard({ authed: false, initialEarned: 0, status: null });
     expect(screen.getByRole("link", { name: "Sign in and start earning" })).toBeInTheDocument();
-    expect(screen.getByText(RULES)).toBeInTheDocument();
+    expect(screen.getByText(RULES, { exact: false })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Prize rules" })).toHaveAttribute("href", "/prize-rules");
     expect(screen.queryByText("Also needed to claim")).not.toBeInTheDocument();
   });
 
@@ -214,7 +224,10 @@ describe("PrizeCard", () => {
     await waitFor(() => {
       expect(screen.getByText("Claimed")).toBeInTheDocument();
     });
-    expect(fetchMock).toHaveBeenCalledWith("/api/prize/claim", { method: "POST" });
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/prize/claim",
+      expect.objectContaining({ method: "POST", body: JSON.stringify({ ukAddress: true }) }),
+    );
     expect(
       screen.getByText("Claimed! PEBL will email you to arrange delivery."),
     ).toBeInTheDocument();
@@ -236,6 +249,106 @@ describe("PrizeCard", () => {
       expect(screen.getByRole("alert")).toHaveTextContent(/more spotting history/);
     });
     expect(screen.queryByText("Claimed")).not.toBeInTheDocument();
+  });
+
+  it("says the guide goes to UK addresses right where the claim is made", () => {
+    renderCard({ initialEarned: 2400, status: status() });
+    expect(screen.getByText(/Posted free to UK addresses/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Prize rules" })).toHaveAttribute("href", "/prize-rules");
+  });
+
+  it("asks for an age first, through the one age question", async () => {
+    const asked = vi.fn();
+    window.addEventListener(AGE_CHECK_REQUEST_EVENT, asked);
+    try {
+      const age: PrizeRequirement = {
+        id: "age",
+        met: false,
+        label: "Tell us your age",
+        detail: "We need to know before we can post anything.",
+        action: "declare-age",
+      };
+      renderCard({
+        status: {
+          eligible: false,
+          trustPending: false,
+          requirements: [MET.pebbles, age, MET.account, MET.days, MET.span],
+        },
+      });
+      await userEvent.click(screen.getByRole("button", { name: "Tell us your age" }));
+      expect(asked).toHaveBeenCalledTimes(1);
+
+      // Answering elsewhere on the page re-reads the checklist from the server.
+      act(() => {
+        window.dispatchEvent(new CustomEvent(AGE_DECLARED_EVENT, { detail: { ageBand: "18_plus" } }));
+      });
+      expect(refresh).toHaveBeenCalled();
+    } finally {
+      window.removeEventListener(AGE_CHECK_REQUEST_EVENT, asked);
+    }
+  });
+
+  it("sends an under-18 to a parent, shows the request went, and offers to resend", async () => {
+    const requested = vi.fn();
+    window.addEventListener(PARENT_REQUEST_EVENT, requested);
+    try {
+      const parent: PrizeRequirement = {
+        id: "parent",
+        met: false,
+        label: "Get a parent or carer's OK for the prize",
+        detail: "Spotters under 18 need a grown-up to agree before we post anything.",
+        action: "ask-parent-prize",
+      };
+      renderCard({
+        initialEarned: 2400,
+        status: {
+          eligible: false,
+          trustPending: false,
+          requirements: [MET.pebbles, MET.account, parent, MET.days, MET.span],
+        },
+      });
+      expect(screen.getByRole("button", { name: "Claim your guide" })).toBeDisabled();
+      await userEvent.click(screen.getByRole("button", { name: "Ask a parent or carer" }));
+      expect(requested).toHaveBeenCalledTimes(1);
+      expect((requested.mock.calls[0][0] as CustomEvent).detail).toEqual({ purpose: "prize" });
+
+      act(() => {
+        window.dispatchEvent(
+          new CustomEvent(PARENT_REQUESTED_EVENT, { detail: { purpose: "prize", emailSent: true } }),
+        );
+      });
+      expect(screen.getByText(/We've emailed them/)).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Send it again" })).toBeInTheDocument();
+    } finally {
+      window.removeEventListener(PARENT_REQUEST_EVENT, requested);
+    }
+  });
+
+  it("tells an under-18 that delivery is arranged with their parent", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({ ok: true, json: async () => ({ ok: true }) }),
+    );
+    const parentDone: PrizeRequirement = {
+      id: "parent",
+      met: true,
+      label: "A parent or carer has said yes to the prize",
+      detail: null,
+      action: null,
+    };
+    renderCard({
+      initialEarned: 2400,
+      status: {
+        eligible: true,
+        trustPending: false,
+        requirements: [MET.pebbles, MET.account, parentDone, MET.days, MET.span],
+      },
+    });
+    expect(screen.getByText(/arranged with your parent or carer/)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Claim your guide" }));
+    expect(
+      await screen.findByText("Claimed! PEBL will email your parent or carer to arrange delivery."),
+    ).toBeInTheDocument();
   });
 
   it("leaves the claim to the server when there is no precomputed status", () => {

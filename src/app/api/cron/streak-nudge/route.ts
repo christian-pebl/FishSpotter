@@ -37,6 +37,10 @@ export async function GET(req: Request) {
     where: {
       digestOptIn: true,
       emailVerified: { not: null },
+      // Adults only. "Your streak is on the line" leans on the fear of losing
+      // something, which the Children's Code asks services not to use on
+      // under-18s (src/lib/age.ts, canReceiveStreakNudge).
+      ageBracket: "18_plus",
       OR: [{ lastStreakNudgeAt: null }, { lastStreakNudgeAt: { lt: cooldown } }],
     },
     select: { id: true, email: true, displayName: true, name: true },

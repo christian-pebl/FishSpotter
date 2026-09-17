@@ -26,6 +26,7 @@ import { checkAuthRateLimit } from "@/lib/rate-limit";
 import { clientIpKey } from "@/lib/client-ip";
 import { sendAccountSetupEmail } from "@/lib/email/dispatch";
 import { wasSent } from "@/lib/email/outcome";
+import { canAttachOwnEmail, isAgeKnown } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
 
@@ -59,7 +60,7 @@ export async function POST(req: Request) {
 
   const me = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { id: true, isGuest: true },
+    select: { id: true, isGuest: true, ageBracket: true },
   });
   if (!me) {
     return NextResponse.json({ error: "Account not found." }, { status: 404 });
@@ -67,6 +68,27 @@ export async function POST(req: Request) {
   if (!me.isGuest) {
     // Already a full account, nothing to claim.
     return NextResponse.json({ ok: true, alreadyClaimed: true });
+  }
+
+  // Children's Code and COPPA (src/lib/age.ts). We must know a spotter's age
+  // before taking an email address, and an under-13's own address is never
+  // taken: a parent's consent saves their progress instead
+  // (POST /api/parent/request). This gap is how ten US school addresses
+  // reached us before 16 Sep 2026.
+  if (!isAgeKnown(me.ageBracket)) {
+    return NextResponse.json(
+      { error: "Tell us your age first.", code: "age_required" },
+      { status: 403 },
+    );
+  }
+  if (!canAttachOwnEmail(me.ageBracket)) {
+    return NextResponse.json(
+      {
+        error: "Ask a parent or carer to save your progress for you.",
+        code: "parent_required",
+      },
+      { status: 403 },
+    );
   }
 
   // Collision: the email already belongs to another account. We don't merge

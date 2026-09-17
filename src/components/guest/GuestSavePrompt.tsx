@@ -10,6 +10,10 @@ import {
   GUEST_SAVE_REQUEST_EVENT,
 } from "@/lib/guest";
 import { SUPPORT_EMAIL } from "@/lib/email/outcome";
+import { AGE_UNKNOWN, isUnder13 } from "@/lib/age";
+import { requestAgeCheck } from "@/lib/age-events";
+import { AskParentForm } from "@/components/parent/AskParentForm";
+import type { ConsentSummary } from "@/lib/parental-consent-shared";
 
 /**
  * After a guest has spotted a few clips (GUEST_SAVE_PROMPT_AT, the quiz hook
@@ -21,6 +25,12 @@ import { SUPPORT_EMAIL } from "@/lib/email/outcome";
  * GUEST_SAVE_REQUEST_EVENT opens it on demand (the prize card's "Add my
  * email"), ignoring an earlier "Not now", because this time they asked.
  * GUEST_SAVED_EVENT tells the page the account is saved.
+ *
+ * Age first (16 Sep 2026): ten US school addresses arrived through this
+ * prompt from guests never asked their age. Now a guest with no age on record
+ * is sent to the age question instead, and an under-13 never sees an email
+ * box at all: they ask a parent or carer, whose consent saves the account
+ * (src/lib/parental-consent.ts).
  */
 
 const DISMISS_KEY = "fishspotter:guestSaveDismissed";
@@ -28,6 +38,8 @@ const DISMISS_KEY = "fishspotter:guestSaveDismissed";
 export function GuestSavePrompt() {
   const { data: session, update } = useSession();
   const isGuest = !!(session?.user as { isGuest?: boolean } | undefined)?.isGuest;
+  const ageBand = (session?.user as { ageBand?: string } | undefined)?.ageBand ?? AGE_UNKNOWN;
+  const child = isUnder13(ageBand);
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -47,10 +59,27 @@ export function GuestSavePrompt() {
       } catch {
         /* ignore */
       }
+      // AgeCheck is already asking; don't stack a second dialog on it.
+      if (ageBand === AGE_UNKNOWN) return;
+      if (child) {
+        // Only nag a child whose grown-up has not been asked yet.
+        fetch("/api/parent/status", { cache: "no-store" })
+          .then((r) => (r.ok ? (r.json() as Promise<ConsentSummary>) : null))
+          .then((s) => {
+            if (s?.account === "none") setOpen(true);
+          })
+          .catch(() => {});
+        return;
+      }
       setOpen(true);
     }
     function onRequest() {
-      if (isGuest) setOpen(true);
+      if (!isGuest) return;
+      if (ageBand === AGE_UNKNOWN) {
+        requestAgeCheck();
+        return;
+      }
+      setOpen(true);
     }
     window.addEventListener(GUEST_MILESTONE_EVENT, onMilestone);
     window.addEventListener(GUEST_SAVE_REQUEST_EVENT, onRequest);
@@ -58,7 +87,7 @@ export function GuestSavePrompt() {
       window.removeEventListener(GUEST_MILESTONE_EVENT, onMilestone);
       window.removeEventListener(GUEST_SAVE_REQUEST_EVENT, onRequest);
     };
-  }, [isGuest]);
+  }, [isGuest, ageBand, child]);
 
   function close() {
     try {
@@ -96,6 +125,11 @@ export function GuestSavePrompt() {
     const data = await res.json().catch(() => ({}));
     setSubmitting(false);
     if (!res.ok) {
+      if (data.code === "age_required") {
+        setOpen(false);
+        requestAgeCheck();
+        return;
+      }
       setInUse(data.code === "email_in_use");
       setError(data.error ?? "Could not save. Please try again.");
       return;
@@ -127,7 +161,29 @@ export function GuestSavePrompt() {
         ref={dialogRef}
         className="pebl-surface w-full max-w-sm rounded-card p-6 shadow-panel"
       >
-        {done ? (
+        {child ? (
+          <>
+            <p className="pebl-eyebrow text-xs">Nice spotting</p>
+            <h2
+              id="guest-save-title"
+              className="mt-1 font-brand-heading text-2xl font-bold text-navy-900"
+            >
+              Keep your finds for good
+            </h2>
+            <p className="mt-1.5 text-sm text-navy-900/70">
+              Your finds are saved on this device for now. Because you&apos;re under 13, a parent or
+              carer needs to say yes before we keep your account for good.
+            </p>
+            <AskParentForm purpose="account" onClose={() => setOpen(false)} />
+            <button
+              type="button"
+              onClick={close}
+              className="mt-2 min-h-[44px] text-xs text-navy-900/60 underline underline-offset-2 hover:text-navy-900"
+            >
+              Not now
+            </button>
+          </>
+        ) : done ? (
           <>
             <h2
               id="guest-save-title"
@@ -169,8 +225,9 @@ export function GuestSavePrompt() {
               Save your progress
             </h2>
             <p className="mt-1.5 text-sm text-navy-900/70">
-              You&apos;re on the leaderboard. Add your email to keep your spot and
-              come back to it later. No password needed now.
+              {ageBand === "13_17"
+                ? "Add your email to keep your finds and come back to them later. If you're under 18, check with a parent or carer first."
+                : "You're on the leaderboard. Add your email to keep your spot and come back to it later. No password needed now."}
             </p>
 
             <form onSubmit={save} className="mt-4">

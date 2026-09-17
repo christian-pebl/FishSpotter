@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { LEADERBOARD_CACHE_TAG } from "@/lib/leaderboard";
 import { MIN_ANSWERS_FOR_RANKING, rankSpotters } from "@/lib/leaderboard";
 import { prisma } from "@/lib/prisma";
+import { canBePubliclyNamed } from "@/lib/age";
 
 // The leaderboard body, extracted from the old /leaderboard page so it renders
 // inside the single Pebbles page (/pebbles) below the prize-progress card.
@@ -31,6 +32,7 @@ type UserRow = {
   displayName: string | null;
   name: string | null;
   leaderboardOptIn: boolean;
+  ageBracket: string | null;
 };
 type TopAnswer = { option: string; count: number; percent: number };
 
@@ -103,7 +105,7 @@ const loadLeaderboardData = unstable_cache(
 
   const users = await prisma.user.findMany({
     where: { id: { in: Object.keys(byUser) } },
-    select: { id: true, displayName: true, name: true, leaderboardOptIn: true },
+    select: { id: true, displayName: true, name: true, leaderboardOptIn: true, ageBracket: true },
   });
   const userMap: Record<string, UserRow> = Object.fromEntries(
     users.map((u: UserRow) => [u.id, u]),
@@ -122,14 +124,21 @@ export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
   // A copy: the filter below mutates, and the cached value is shared.
   const byUser: ByUser = { ...byUserAll };
 
-  // ICO Children's Code: opted-out users are excluded from the ranking others
-  // see; the viewer always sees their own row.
+  // ICO Children's Code and COPPA: others see only spotters who may be named
+  // in public (src/lib/age.ts): 13 or over by their own declaration, with the
+  // setting on. Under-13s and anyone not yet asked their age are left out.
+  // The viewer always sees their own row.
   for (const userId of Object.keys(byUser)) {
     if (userId === myUserId) continue;
-    if (userMap[userId]?.leaderboardOptIn === false) {
+    const u = userMap[userId];
+    if (!u || !canBePubliclyNamed(u)) {
       delete byUser[userId];
     }
   }
+  const myRowIsPrivate =
+    !!myUserId && !!userMap[myUserId] && !canBePubliclyNamed(userMap[myUserId]);
+  // The headline counts everyone who has spotted; a count names nobody.
+  const spotterCount = Object.keys(byUserAll).length;
 
   const rankedRaw = rankSpotters(
     Object.entries(byUser).map(([userId, { correct, total, points }]) => ({
@@ -169,8 +178,12 @@ export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
         <p className="mt-2 text-sm text-navy-900/72">
           <strong className="text-navy-900">{totalAnswers.toLocaleString()}</strong>{" "}
           {totalAnswers === 1 ? "identification" : "identifications"} ·{" "}
-          <strong className="text-navy-900">{Object.keys(byUser).length.toLocaleString()}</strong>{" "}
-          {Object.keys(byUser).length === 1 ? "spotter" : "spotters"}
+          <strong className="text-navy-900">{spotterCount.toLocaleString()}</strong>{" "}
+          {spotterCount === 1 ? "spotter" : "spotters"}
+        </p>
+        <p className="mt-1 text-xs text-navy-900/60">
+          Only spotters aged 13 or over who choose to be listed appear by name. Under-18s are
+          private unless they switch it on.
         </p>
       </section>
 
@@ -261,7 +274,7 @@ export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
                       </Link>
                       {isMe && (
                         <span className="ml-2 inline-block rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-eyebrow text-teal-700">
-                          You
+                          {myRowIsPrivate ? "You · private" : "You"}
                         </span>
                       )}
                     </td>
@@ -315,6 +328,9 @@ export async function LeaderboardPanel({ page = 1 }: { page?: number } = {}) {
         <div className="pebl-surface rounded-card flex items-center justify-between gap-4 px-4 py-3 text-sm">
           <div className="font-medium text-navy-900">
             Your rank: <span className="font-mono text-teal-600">#{myEntry.rank}</span>
+            {myRowIsPrivate ? (
+              <span className="ml-2 text-xs font-normal text-navy-900/60">only you can see this</span>
+            ) : null}
           </div>
           <div className="text-navy-900/72">
             {myEntry.score.toLocaleString()} Pebbles · {myEntry.correct}/{myEntry.total} consensus

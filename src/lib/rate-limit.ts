@@ -220,3 +220,21 @@ const PUBLIC_STATS_MAX_PER_HOUR = 120;
 export async function checkPublicStatsRateLimit(ipKey: string): Promise<boolean> {
   return consume(`public-stats:${ipKey}`, PUBLIC_STATS_WINDOW_MS, PUBLIC_STATS_MAX_PER_HOUR);
 }
+
+// Emails to parents (src/lib/parental-consent.ts). A child could otherwise
+// press "ask my grown-up" until a stranger's inbox fills, so requests are
+// capped per child per day, and the parent-page link per address per hour.
+// Both keys also go through the IP-keyed auth limiter in the routes.
+const PARENT_REQUEST_WINDOW_MS = 24 * 60 * 60 * 1000;
+const PARENT_REQUEST_MAX_PER_DAY = 3;
+
+export async function checkParentRequestRateLimit(childId: string): Promise<boolean> {
+  return consume(`parent-request:${childId}`, PARENT_REQUEST_WINDOW_MS, PARENT_REQUEST_MAX_PER_DAY);
+}
+
+const PARENT_LINK_WINDOW_MS = 60 * 60 * 1000;
+const PARENT_LINK_MAX_PER_HOUR = 3;
+
+export async function checkParentLinkRateLimit(parentEmail: string): Promise<boolean> {
+  return consume(`parent-link:${parentEmail}`, PARENT_LINK_WINDOW_MS, PARENT_LINK_MAX_PER_HOUR);
+}

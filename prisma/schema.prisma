@@ -23,12 +23,22 @@ model User {
   emailVerified       DateTime? // set when the user clicks the verification link (S3-06/07)
   onboardedAt         DateTime? // set when the user dismisses the first-run tour (S3-11)
   digestOptIn         Boolean              @default(false) // weekly digest (S3-16); PECR Reg. 22 opt-in
-  // ICO Children's Code (UK Age Appropriate Design Code): self-declared age
-  // band at signup. We store a coarse BAND, not date of birth, to minimise
-  // personal data. Null for pre-existing users (declared at signup only).
-  ageBracket          String? // "13_17" | "18_plus", null for pre-existing users
-  // Declared minors (13-17) default to OFF the public leaderboard; any user
-  // can change this later in account settings.
+  // ICO Children's Code (UK Age Appropriate Design Code) and US COPPA:
+  // self-declared age band, asked before a guest picks a username, at every
+  // signup, and once (src/components/age/AgeCheck.tsx) of any account that
+  // predates the question. We store a coarse BAND, never a date of birth.
+  // Null means "not asked yet", which src/lib/age.ts treats as possibly a
+  // child: hidden from public lists and sent no optional email.
+  // Under-13 accounts never hold the child's own email (see ParentalConsent).
+  ageBracket          String? // AGE_BANDS in src/lib/age.ts: "under_13" | "13_17" | "18_plus"
+  // When the band was declared. Null for rows that predate the question.
+  ageDeclaredAt       DateTime?
+  // When this account was emailed that its (school-like) address will be
+  // removed (src/lib/age-notice.ts, 16 Sep 2026). The child-data-retention
+  // cron removes the address AGE_NOTICE_GRACE_MS later and clears this.
+  ageNoticeSentAt     DateTime?
+  // Under-18s default to OFF the public leaderboard; 13-17s can switch it on
+  // in account settings, under-13s never appear (src/lib/age.ts).
   leaderboardOptIn    Boolean              @default(true)
   lastStreakNudgeAt   DateTime? // one streak-nudge per user per week (S3-17)
   // New-clip notification (2026-08-13). Separate opt-in from digestOptIn, and
@@ -70,6 +80,64 @@ model User {
   passwordResetTokens PasswordResetToken[]
   comments            Comment[]
   commentReports      CommentReport[]
+  parentalConsents    ParentalConsent[]
+  parentAccessTokens  ParentAccessToken[]
+}
+
+// A parent or carer's consent for something a child spotter cannot agree to
+// alone (src/lib/parental-consent.ts). Two purposes:
+//   account  an under-13 keeps a saved account. The child's own email is
+//            never collected; the parent's address lives here, not on User.
+//   prize    a spotter under 18 wants the prize posted.
+// The parent answers an emailed link (/parent/consent/[token]), then, a day
+// later, gets a confirmation email repeating the notice with a link to
+// review, delete or withdraw (the COPPA "email plus" method, internal use
+// only). A pending row whose link expires
+// unanswered is deleted, parent address and all, by the
+// child-data-retention cron. A declined or withdrawn consent deletes the
+// row; withdrawing an account consent deletes the child's account.
+model ParentalConsent {
+  id                 String    @id @default(cuid())
+  childId            String
+  purpose            String    // PARENTAL_CONSENT_PURPOSES: "account" | "prize"
+  status             String    @default("pending") // "pending" | "granted"
+  parentEmail        String    // lower-cased; used only for this consent
+  requestTokenHash   String?   @unique // SHA-256 of the emailed link token; cleared once answered
+  requestExpiresAt   DateTime?
+  requestedAt        DateTime  @default(now())
+  grantedAt          DateTime?
+  // Prize only: the parent confirmed the book can go to a UK address.
+  ukAddressConfirmed Boolean   @default(false)
+  // The "plus" email, sent by the daily cron a day after the parent agrees
+  // (the FTC describes it as sent after a reasonable delay). Null until sent.
+  confirmationSentAt DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  child              User      @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  @@unique([childId, purpose])
+  @@index([parentEmail])
+  @@index([status, requestExpiresAt])
+}
+
+// Short-lived links for parents (src/lib/parental-consent.ts). Hashed at
+// rest like every other emailed token.
+//   manage        opens /parent/manage/[token] for an hour: review, export,
+//                 delete, withdraw.
+//   child-signin  signs one device in as the child, once, within minutes.
+model ParentAccessToken {
+  id          String    @id @default(cuid())
+  kind        String    // "manage" | "child-signin"
+  tokenHash   String    @unique
+  parentEmail String
+  childId     String?   // child-signin only
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime  @default(now())
+  child       User?     @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
+  @@index([parentEmail])
 }
 
 // NextAuth-canonical Account / Session shapes. Scaffolded ahead of any

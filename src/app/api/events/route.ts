@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { readConsent } from "@/lib/cookies/consent";
 import { checkEventRateLimit } from "@/lib/rate-limit";
+import { canRecordAccountAnalytics } from "@/lib/age";
 import {
   EVENT_TYPES,
   MAX_EVENTS_PER_BATCH,
@@ -59,6 +60,13 @@ export async function POST(req: Request) {
 
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
+
+  // A consent click from an under-13 is not valid consent (UK GDPR Art. 8,
+  // PECR), and an account that has not told us its age may be one. Nothing
+  // is stored for either; signed-out visits stay anonymous as before.
+  if (userId && !canRecordAccountAnalytics(session?.user?.ageBand)) {
+    return new NextResponse(null, { status: 204 });
+  }
 
   // Rate-limit per account when signed in, else per tab session.
   const rateKey = userId ?? parsed.events[0]?.sessionId ?? "anon";

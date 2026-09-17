@@ -23,6 +23,7 @@ const target: CatchUpTarget = {
   emailVerified: null,
   hasPassword: false,
   lastLinkAt: null,
+  ageNoticeSent: false,
 };
 
 describe("planCatchUp", () => {
@@ -64,6 +65,13 @@ describe("decideCatchUp", () => {
     expect(decideCatchUp({ ...target, emailVerified: new Date() }, now)).toEqual({
       send: false,
       reason: "already confirmed",
+    });
+  });
+
+  it("never mails an account told its school address will be removed", () => {
+    expect(decideCatchUp({ ...target, ageNoticeSent: true }, now)).toEqual({
+      send: false,
+      reason: "told this school address will be removed",
     });
   });
 

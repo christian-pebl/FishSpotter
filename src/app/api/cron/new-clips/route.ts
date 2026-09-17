@@ -27,6 +27,7 @@ import { excludeBlockedSnippetsWhere } from "@/lib/snippet-blocklist";
 import { collectSiteNames, describeSites, MAX_SITES_LISTED } from "@/lib/new-clips";
 import { prisma } from "@/lib/prisma";
 import { log } from "@/lib/log";
+import { OPTIONAL_EMAIL_BANDS } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -54,6 +55,9 @@ export async function GET(req: Request) {
       newClipsOptIn: true,
       emailVerified: { not: null },
       isGuest: false,
+      // Only spotters who have told us their age, and never under-13s
+      // (src/lib/age.ts, canReceiveOptionalEmail).
+      ageBracket: { in: [...OPTIONAL_EMAIL_BANDS] },
     },
     select: {
       id: true,

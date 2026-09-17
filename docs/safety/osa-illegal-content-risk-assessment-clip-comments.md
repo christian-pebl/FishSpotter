@@ -5,7 +5,8 @@
 **Prepared by:** Claude (engineering analysis), from the actual implementation.
 **Reviewed and adopted by:** Christian Berger, PEBL CIC, **2026-08-01**.
 
-**Status: ADOPTED.** This is PEBL CIC's illegal-content risk assessment for
+**Status: ADOPTED 2026-08-01; review of 2026-09-16 (§9) awaiting re-adoption.**
+This is PEBL CIC's illegal-content risk assessment for
 the clip comments feature. The ratings below were proposed by engineering and
 are adopted as the service provider's assessment.
 
@@ -217,3 +218,15 @@ reactive-report pipeline with instant staff notification.
    single most useful input to the next review.
 4. **STANDING**, re-run this assessment if a real incident occurs, or on any
    material change to the feature.
+
+---
+
+## 9. Review, 2026-09-16: children under 13 are users
+
+**Status of this review: prepared 2026-09-16, awaiting re-adoption by the accountable person** (s9(4): a fresh assessment before a significant change).
+
+- **What changed:** children, very likely including under-13s, were found to use the service through guest mode. Every player is now asked their age group. Under-13s cannot post comments, and nobody under 13 or of unknown age is named publicly. See the companion children's risk assessment, section 7, and `docs/compliance/children.md`.
+- **Effect on this assessment:** the posting population is now limited to declared 13-and-over accounts with a saved email, which slightly narrows who can post. The CSEA analysis (5.1) is strengthened: the youngest users cannot post or be replied to by name, and there is still no private messaging. No category's rating goes up.
+- **New duty to note:** since 2026-04-07, s66 requires child sexual exploitation and abuse content found on the service to be reported to the National Crime Agency. If staff ever find such content in a comment: do not forward or copy it; hide it; preserve the record; report it to the NCA; and suspend the account.
+- **Scope note:** replies to other users' comments very likely take the service outside the "comments on provider content" exemption (Sch. 1 para 4; Ofcom says comments on user content are in scope), so this assessment remains required.
+- **Next review:** 2027-08-01, or sooner on any incident.

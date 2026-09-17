@@ -17,6 +17,8 @@
  * never be reused.
  */
 
+import { isAgeKnown, isMinor } from "@/lib/age";
+
 /** PebblePurchase.itemId key for the claimed guide. Never reuse or rename. */
 export const SEASEARCH_GUIDE_ID = "seasearch-guide";
 
@@ -49,13 +51,30 @@ export function hasReachedPrizeTarget(earned: number): boolean {
  * `unverified` is a real address the spotter typed at guest-claim but never
  * confirmed. Worth showing (you can email a nudge) but it can't clear the
  * claim gate, which requires emailVerified.
+ *
+ * Children (16 Sep 2026, src/lib/age.ts). PEBL never writes to a child about
+ * a prize, only to their parent or carer:
+ *   `parent`        under 18 with a parent's OK on file: write to the parent.
+ *   `needs-parent`  under 18 without one: no contact at all.
+ *   `age-unknown`   never told us their age: no contact until they answer,
+ *                   since they may be a child.
  */
-export type PrizeContactState = "verified" | "unverified" | "guest";
+export type PrizeContactState =
+  | "verified"
+  | "unverified"
+  | "guest"
+  | "parent"
+  | "needs-parent"
+  | "age-unknown";
 
 export function prizeContactState(user: {
   isGuest: boolean;
   emailVerified: Date | null;
+  ageBand: string | null;
+  parentEmail: string | null;
 }): PrizeContactState {
+  if (!isAgeKnown(user.ageBand)) return "age-unknown";
+  if (isMinor(user.ageBand)) return user.parentEmail ? "parent" : "needs-parent";
   if (user.isGuest) return "guest";
   return user.emailVerified ? "verified" : "unverified";
 }
@@ -63,15 +82,20 @@ export function prizeContactState(user: {
 /**
  * Where a winner sits in the fulfilment pipeline.
  *   to-post          , claimed, not yet posted. THE work queue.
+ *   on-hold          , claimed, but must not be posted yet: an under-18 with
+ *                      no parent's OK, or a spotter whose age we don't know.
  *   posted           , claimed and marked posted by an admin.
  *   reached-unclaimed, over the target but hasn't tapped claim; reachable.
- *   unreachable      , over the target, but a guest with no real address.
+ *   unreachable      , over the target, but nobody we may write to (a guest
+ *                      with no real address, a child with no parent's OK,
+ *                      or a spotter who hasn't told us their age).
  */
-export type PrizeStatus = "to-post" | "reached-unclaimed" | "posted" | "unreachable";
+export type PrizeStatus = "to-post" | "on-hold" | "reached-unclaimed" | "posted" | "unreachable";
 
 /** Display order: what needs doing first, then what might need chasing. */
 export const PRIZE_STATUS_ORDER: readonly PrizeStatus[] = [
   "to-post",
+  "on-hold",
   "reached-unclaimed",
   "unreachable",
   "posted",
@@ -79,6 +103,7 @@ export const PRIZE_STATUS_ORDER: readonly PrizeStatus[] = [
 
 export const PRIZE_STATUS_LABEL: Record<PrizeStatus, string> = {
   "to-post": "To post",
+  "on-hold": "On hold",
   "reached-unclaimed": "Not claimed",
   unreachable: "No contact",
   posted: "Posted",
@@ -101,6 +126,10 @@ export interface PrizeWinnerInput {
   /** isPrizeEligible()'s verdict, so the desk can flag a suspect claim. */
   eligible: boolean;
   eligibilityReasons: readonly string[];
+  /** User.ageBracket, null when never asked. */
+  ageBand: string | null;
+  /** The parent's address on a GRANTED prize consent, for an under-18. */
+  parentEmail: string | null;
 }
 
 export interface PrizeWinnerRow extends PrizeWinnerInput {
@@ -112,9 +141,21 @@ export interface PrizeWinnerRow extends PrizeWinnerInput {
   spotter: string;
 }
 
+const WRITABLE: readonly PrizeContactState[] = ["verified", "unverified", "parent"];
+
 function statusFor(input: PrizeWinnerInput, contact: PrizeContactState): PrizeStatus {
-  if (input.claimedAt) return input.fulfilledAt ? "posted" : "to-post";
-  return contact === "guest" ? "unreachable" : "reached-unclaimed";
+  const writable = WRITABLE.includes(contact);
+  if (input.claimedAt) {
+    if (input.fulfilledAt) return "posted";
+    return writable ? "to-post" : "on-hold";
+  }
+  return writable ? "reached-unclaimed" : "unreachable";
+}
+
+function contactEmailFor(input: PrizeWinnerInput, contact: PrizeContactState): string | null {
+  if (contact === "parent") return input.parentEmail;
+  if (contact === "verified" || contact === "unverified") return input.email;
+  return null;
 }
 
 /**
@@ -127,7 +168,7 @@ export function toPrizeWinnerRow(input: PrizeWinnerInput): PrizeWinnerRow {
     ...input,
     contact,
     status: statusFor(input, contact),
-    contactEmail: contact === "guest" ? null : input.email,
+    contactEmail: contactEmailFor(input, contact),
     spotter: input.displayName?.trim() || input.name?.trim() || "Unnamed spotter",
   };
 }

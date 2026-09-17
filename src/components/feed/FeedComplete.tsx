@@ -37,6 +37,11 @@ export interface FeedCompleteProps {
    * instead of showing a checkbox that does nothing.
    */
   canReceiveEmail: boolean;
+  /**
+   * Whether to mention email at all. False for guests, under-13s and anyone
+   * not yet asked their age (src/lib/age.ts, canReceiveOptionalEmail).
+   */
+  offerEmail?: boolean;
 }
 
 export function FeedComplete({
@@ -44,6 +49,7 @@ export function FeedComplete({
   pebbles,
   notifyOptIn,
   canReceiveEmail,
+  offerEmail = true,
 }: FeedCompleteProps) {
   const reduceMotion = useReducedMotion();
   const [optIn, setOptIn] = useState(notifyOptIn);
@@ -117,11 +123,11 @@ export function FeedComplete({
           footage.
         </p>
         <p className="mt-2 text-sm text-navy-900/72">
-          More is filmed on every deployment. Scroll back to revisit any clip, or
-          have us tell you the moment new footage lands.
+          More is filmed on every deployment. Scroll back to revisit any clip
+          {offerEmail ? ", or have us tell you the moment new footage lands" : " when you like"}.
         </p>
 
-        {canReceiveEmail ? (
+        {!offerEmail ? null : canReceiveEmail ? (
           <label className="mt-5 flex min-h-[44px] items-start gap-3 rounded-modal border border-teal-500/30 bg-teal-500/5 p-3 text-left text-sm">
             <input
               type="checkbox"

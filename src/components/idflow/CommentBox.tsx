@@ -22,12 +22,15 @@ import {
   REASON_LABELS,
   type ReasonCode,
 } from "@/lib/comments";
+import { isAgeKnown, isUnder13 } from "@/lib/age";
+import { requestAgeCheck } from "@/lib/age-events";
 
 export function CommentBox({
   snippetId,
   parentId,
   initialReason,
   isGuest,
+  ageBand,
   signUpHref = "/auth/signin",
   onPosted,
   onCancel,
@@ -38,6 +41,12 @@ export function CommentBox({
   /** Pre-selects a reason (the candidate gate's "I can't find it" passes "not-listed"). */
   initialReason?: ReasonCode;
   isGuest: boolean;
+  /**
+   * session.user.ageBand. When given, under-13s and anyone not yet asked see a
+   * message that fits them instead of the composer (the server enforces the
+   * same rule, src/lib/comments.ts canPost).
+   */
+  ageBand?: string;
   signUpHref?: string;
   onPosted?: () => void;
   onCancel?: () => void;
@@ -89,6 +98,29 @@ export function CommentBox({
     } finally {
       setBusy(false);
     }
+  }
+
+  if (ageBand !== undefined && isUnder13(ageBand)) {
+    return (
+      <p className="rounded-modal border border-white/10 bg-white/[0.06] p-3 text-xs text-white/75">
+        Comments are for spotters aged 13 and over. You can still read what others think.
+      </p>
+    );
+  }
+
+  if (ageBand !== undefined && !isAgeKnown(ageBand)) {
+    return (
+      <div className="rounded-modal border border-teal-500/30 bg-teal-500/10 p-3">
+        <p className="text-xs text-white/75">Tell us your age to join the discussion.</p>
+        <button
+          type="button"
+          onClick={requestAgeCheck}
+          className="mt-2 inline-flex min-h-[44px] items-center justify-center rounded-full bg-teal-500 px-4 text-xs font-semibold text-navy-900 transition-colors hover:bg-teal-400"
+        >
+          Tell us your age
+        </button>
+      </div>
+    );
   }
 
   if (isGuest) {

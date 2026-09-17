@@ -8,6 +8,7 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { assertSameOrigin } from "@/lib/csrf";
 import { prisma } from "@/lib/prisma";
+import { canReceiveOptionalEmail } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,19 @@ export async function PATCH(req: Request) {
     parsed = Schema.parse(await req.json());
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+  // Optional emails need a declared age of 13 or over (src/lib/age.ts).
+  if (parsed.digestOptIn) {
+    const me = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { ageBracket: true },
+    });
+    if (!canReceiveOptionalEmail(me?.ageBracket)) {
+      return NextResponse.json(
+        { error: "These emails are for spotters aged 13 and over who have told us their age." },
+        { status: 403 },
+      );
+    }
   }
   await prisma.user.update({
     where: { id: session.user.id },

@@ -22,6 +22,8 @@ const winner = (over: Partial<PrizeWinnerInput> = {}): PrizeWinnerInput => ({
   fulfilledBy: null,
   eligible: true,
   eligibilityReasons: [],
+  ageBand: "18_plus",
+  parentEmail: null,
   ...over,
 });
 
@@ -57,13 +59,60 @@ describe("prizeContactState", () => {
   it("separates a real-but-unverified address from a verified one", () => {
     // guest-claim writes a real typed email with emailVerified left null: worth
     // showing (you can nudge them) but it can't clear the claim gate.
-    expect(prizeContactState({ isGuest: false, emailVerified: null })).toBe("unverified");
-    expect(prizeContactState({ isGuest: false, emailVerified: new Date() })).toBe("verified");
+    const adult = { ageBand: "18_plus", parentEmail: null };
+    expect(prizeContactState({ isGuest: false, emailVerified: null, ...adult })).toBe("unverified");
+    expect(prizeContactState({ isGuest: false, emailVerified: new Date(), ...adult })).toBe(
+      "verified",
+    );
   });
 
   it("keeps a real email visible when unverified", () => {
     const row = toPrizeWinnerRow(winner({ emailVerified: null }));
     expect(row.contactEmail).toBe("reef@example.com");
+  });
+});
+
+describe("children on the desk (16 Sep 2026)", () => {
+  it("writes to the parent, never the child, once a parent has said yes", () => {
+    const row = toPrizeWinnerRow(
+      winner({ ageBand: "13_17", parentEmail: "mum@example.com", claimedAt: new Date() }),
+    );
+    expect(row.contact).toBe("parent");
+    expect(row.contactEmail).toBe("mum@example.com");
+    expect(row.status).toBe("to-post");
+  });
+
+  it("holds a minor's claim, with no contact, until a parent says yes", () => {
+    for (const ageBand of ["13_17", "under_13"]) {
+      const claimed = toPrizeWinnerRow(winner({ ageBand, claimedAt: new Date() }));
+      expect(claimed.contact).toBe("needs-parent");
+      expect(claimed.contactEmail).toBeNull();
+      expect(claimed.status).toBe("on-hold");
+      expect(toPrizeWinnerRow(winner({ ageBand })).status).toBe("unreachable");
+    }
+  });
+
+  it("never offers the address of a spotter who hasn't told us their age", () => {
+    const row = toPrizeWinnerRow(winner({ ageBand: null, claimedAt: new Date() }));
+    expect(row.contact).toBe("age-unknown");
+    expect(row.contactEmail).toBeNull();
+    expect(row.status).toBe("on-hold");
+    expect(JSON.stringify(row.contactEmail)).not.toContain("reef@");
+  });
+
+  it("ignores a parent address on an adult's row", () => {
+    const row = toPrizeWinnerRow(winner({ parentEmail: "stray@example.com" }));
+    expect(row.contact).toBe("verified");
+    expect(row.contactEmail).toBe("reef@example.com");
+  });
+
+  it("puts held claims straight after the work queue", () => {
+    const rows = buildPrizeWinnerRows([
+      winner({ userId: "unclaimed", pebbles: 9000 }),
+      winner({ userId: "held", ageBand: "13_17", claimedAt: new Date() }),
+      winner({ userId: "to-post", claimedAt: new Date() }),
+    ]);
+    expect(rows.map((r) => r.userId)).toEqual(["to-post", "held", "unclaimed"]);
   });
 });
 

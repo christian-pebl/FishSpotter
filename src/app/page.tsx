@@ -323,6 +323,12 @@ export default async function HomePage() {
             <Link href="/terms" className="inline-flex min-h-[44px] items-center hover:text-navy-900">
               Terms
             </Link>
+            <Link href="/parent" className="inline-flex min-h-[44px] items-center hover:text-navy-900">
+              Parents and carers
+            </Link>
+            <Link href="/prize-rules" className="inline-flex min-h-[44px] items-center hover:text-navy-900">
+              Prize rules
+            </Link>
             <Link href="/accessibility" className="inline-flex min-h-[44px] items-center hover:text-navy-900">
               Accessibility
             </Link>

@@ -2553,3 +2553,112 @@ email and never received the "set a password" link, so they could not sign back 
 The gate's numbers (five days, 14-day spread, trust bar 40) are unchanged. They were designed as
 anti-gaming rules and whether to loosen them is a product call, now easier to judge with the rules in
 view.
+
+---
+
+## 2026-09-16: Children on FishSpotter, made safe and legal
+
+**What came to light.** The prize catch-up send the same day went to ten US school addresses, one
+a pre-K to 8th grade school. All ten were guests who had saved their progress with an email, and
+guest mode had never asked anyone's age. A read-only count found 129 of 135 accounts with no age on
+record. Children use FishSpotter, very likely including US under-13s, so COPPA applies alongside the
+UK Children's Code, and the "13 and over" rule the privacy policy stated was not enforced.
+
+**Decisions (Christian, 16 Sep).**
+
+- Under-13s may play; a parent's consent unlocks saving and prizes.
+- Age is asked before the guest username.
+- Accounts with no age are hidden until they answer.
+- Prizes go to UK addresses only.
+- The existing experience should barely change for adults, and parents get a short, smooth path.
+
+**What shipped.**
+
+1. **One set of age rules**, `src/lib/age.ts`, called everywhere:
+   - under-13s get a generated nickname, never give an email, are never named publicly, cannot
+     comment, and get no optional email, analytics or AI chat;
+   - 13 to 17s are private by default and get no streak reminders;
+   - unasked accounts are treated as possibly children.
+2. **The age question** (`AgeBandPicker`), neutral by design, in three places:
+   - first on the guest start screen;
+   - on signup, where "Under 13" now leads to nickname play instead of an error;
+   - once for every existing account without an age (`AgeCheck`, mounted in the layout, answerable
+     but not dismissable).
+
+   `POST /api/account/age` stores it once. An under-13 answer removes the account's email,
+   password, pending links, social sign-ins, comments and usage events at once, and swaps a
+   typed display name for a generated nickname.
+3. **Parental consent**, COPPA "email plus" (`src/lib/parental-consent.ts`, new `ParentalConsent` and
+   `ParentAccessToken` tables):
+   - the child asks from the save prompt or the prize card (`AskParentDialog`);
+   - the parent reads the notice and decides with one tap on `/parent/consent/[token]`;
+   - a confirmation email repeating the notice follows a day later from a new daily cron;
+   - `/parent/manage/[token]` lets the parent sign the child in on a device, download their data,
+     withdraw, or delete;
+   - `/parent` explains everything and emails a manage link.
+
+   Tokens are hashed, short-lived, single-use where it matters, and rate-limited.
+4. **Public naming** needs a declared 13+ age and the setting on. This covers the leaderboard, its
+   JSON API, profile pages (which now 404 for anyone not publicly named) and comment names. The
+   leaderboard headline still counts every spotter.
+5. **Prize**:
+   - `prizeGate` is shared by the checklist and the claim route, and adds the age, UK-address and
+     parent rules;
+   - the card shows the new steps and states UK-only posting at the claim button;
+   - claims email staff (`prize-notify.ts`);
+   - the desk shows the parent's address, never a child's, and holds claims missing an age or a
+     parent's OK;
+   - new `/prize-rules`.
+6. **Retention**: the `child-data-retention` cron (05:00 UTC) sends due confirmations and deletes:
+   - unanswered requests after 14 days;
+   - expired links;
+   - prize consents 90 days after posting;
+   - under-13 accounts idle for a year.
+7. **Legal and records**:
+   - privacy policy: a summary for young spotters, a Children section, and the written retention
+     policy;
+   - terms: all ages, and a Prizes section;
+   - `docs/compliance/children.md`: the requirement-by-requirement record, security programme and
+     open items;
+   - DPIA section 8;
+   - review sections on both Online Safety Act assessments, awaiting re-adoption.
+8. **Staff**: `/admin/children` shows age groups, parent requests (addresses masked) and saved
+   accounts not yet asked, with school-like domains flagged.
+
+9. **CI was not running the database tests.** The integration job's
+   `--testNamePattern=""` swallowed the first file path as a name filter, so the prize-desk suite
+   never ran and every other test was reported as skipped, while the job stayed green. The flag
+   is gone, the new consent suite is listed, and a follow-up step fails the job unless all three
+   files ran with nothing skipped.
+
+10. **The ten school addresses: a notice, then removal** (Christian's call, replacing "delete them
+    now"). `/admin/children` gains a sender in the same pattern as the catch-up on `/admin/email`:
+    preview to yourself, tick recipients, confirm, then one request per account, spaced, stopping
+    after two refusals. The email (`AgePolicyNoticeEmail`) says the rules have changed, explains the
+    new process, and gives the date the address comes off the account, 14 days on. It never asks
+    for an age or says which answer keeps what. `User.ageNoticeSentAt` records the send. The
+    child-data job removes the address on that UK date (`isRemovalDue`, so the 05:00 UTC run lands
+    on the morning of the stated day, not the day after; a test walks every hour across the
+    October clock change). Removal uses the same code as an under-13 answer (`child-contact.ts`):
+    unasked or under-13 accounts lose comments and usage events too, 13+ keep them. Told accounts
+    are never sent account links again. Verified locally end to end against a mocked mail API:
+    the right recipients, names and date, stamps only on accepted sends, nothing on refusals.
+
+11. **`npm run db:enable-rls` had been broken since 28 Aug.** The repo-wide dash sweep
+    (`cc94eb1`) turned two `--` comment lines in `prisma/rls.sql` into `-`, a SQL syntax error, so
+    the script failed for everyone. It surfaced at this deploy: the two new tables were created
+    with RLS off and stayed that way for a few minutes, empty, before the fixed script ran (all 23
+    production tables protected). The CI integration job now runs the real script against its
+    throwaway database on every PR.
+
+**Deploy order.** The schema change is additive (two tables, `User.ageDeclaredAt` and
+`User.ageNoticeSentAt`). Run `prisma db push`, then `npm run db:enable-rls`, before the code goes
+live, because the new pages and the prize route read the new tables.
+
+**Still open** (`docs/compliance/children.md` section 11):
+
+- a solicitor's review;
+- a phone number for the COPPA notice;
+- director sign-offs;
+- the prize closing date and staff exclusion;
+- sending the school-address notice from `/admin/children`, then checking Resend for bounces.

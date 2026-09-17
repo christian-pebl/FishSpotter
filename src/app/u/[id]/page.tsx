@@ -12,6 +12,35 @@ import { BackToFeed } from "@/components/BackToFeed";
 import { SpeciesCollection } from "@/components/species/SpeciesCollection";
 import { SpotterRecord } from "@/components/profile/SpotterRecord";
 import { readSpotterRecord } from "@/lib/spotter-record";
+import { canBePubliclyNamed } from "@/lib/age";
+
+/**
+ * Children's Code and COPPA: a profile names its spotter, so it is public
+ * only for spotters who may be named in public (src/lib/age.ts). Anyone else
+ * (under-13s, 13 to 17s who have not switched listing on, adults who switched
+ * it off, and accounts not yet asked their age) is visible only to themselves
+ * and to staff; everyone else gets a 404, as if there were no such page. The
+ * id is reachable from a comment's authorId, so hiding the name on the
+ * comment alone would not be enough.
+ */
+async function viewerMaySee(
+  target: { id: string; ageBracket: string | null; leaderboardOptIn: boolean },
+  viewerId: string | null,
+): Promise<{ allowed: boolean; isAdmin: boolean }> {
+  if (canBePubliclyNamed(target)) {
+    if (!viewerId || viewerId === target.id) return { allowed: true, isAdmin: false };
+  } else if (viewerId === target.id) {
+    return { allowed: true, isAdmin: false };
+  } else if (!viewerId) {
+    return { allowed: false, isAdmin: false };
+  }
+  const viewer = await prisma.user.findUnique({
+    where: { id: viewerId },
+    select: { email: true, emailVerified: true },
+  });
+  const isAdmin = isAdminUser(viewer);
+  return { allowed: canBePubliclyNamed(target) || isAdmin, isAdmin };
+}
 
 export const dynamic = "force-dynamic";
 
@@ -23,9 +52,11 @@ export async function generateMetadata({
   const { id } = await params;
   const user = await prisma.user.findUnique({
     where: { id },
-    select: { displayName: true, name: true },
+    select: { displayName: true, name: true, ageBracket: true, leaderboardOptIn: true },
   });
-  if (!user) return { title: "Spotter" };
+  // Metadata is public by nature (link previews, search), so it names only
+  // spotters who may be named in public.
+  if (!user || !canBePubliclyNamed(user)) return { title: "Spotter", robots: { index: false } };
   const name = user.displayName ?? user.name ?? "Spotter";
   const description = `${name}'s PEBL FishSpotter profile: species spotted, score, and streak.`;
   return {
@@ -51,22 +82,19 @@ export default async function ProfilePage({
       displayName: true,
       name: true,
       createdAt: true,
+      ageBracket: true,
+      leaderboardOptIn: true,
     },
   });
   if (!user) notFound();
+  const access = await viewerMaySee(user, viewerId);
+  if (!access.allowed) notFound();
 
   // Individual answers (which clip you guessed what on) are private: visible
   // only to YOU on your own profile, or to staff (@pebl-cic.co.uk). Everyone
   // else sees the aggregate stats + species collection, not the per-clip list.
   const isOwner = viewerId === id;
-  let canSeeAnswers = isOwner;
-  if (viewerId && !isOwner) {
-    const viewer = await prisma.user.findUnique({
-      where: { id: viewerId },
-      select: { email: true, emailVerified: true },
-    });
-    canSeeAnswers = isAdminUser(viewer);
-  }
+  const canSeeAnswers = isOwner || access.isAdmin;
 
   const [
     totalAnswers,

@@ -32,6 +32,8 @@
  * See implementation/2026-08-01/user-comments-plan.md (INV-1, INV-2).
  */
 
+import { canBePubliclyNamed, canPostComments, isAgeKnown } from "@/lib/age";
+
 // ---------------------------------------------------------------------------
 // Code lists, fixed vocabularies, never free text, so the inbox stays
 // filterable and a hostile client can't invent a status.
@@ -313,6 +315,8 @@ export function hitsBlocklist(body: string): string | null {
 // ---------------------------------------------------------------------------
 
 export const POST_BLOCK_REASONS = [
+  "age-required",
+  "not-for-under-13",
   "guest-must-upgrade",
   "must-answer-first",
   "clip-limit-reached",
@@ -320,6 +324,12 @@ export const POST_BLOCK_REASONS = [
 export type PostBlockReason = (typeof POST_BLOCK_REASONS)[number];
 
 export interface PosterState {
+  /**
+   * User.ageBracket. Comments are free text other spotters read, so they need
+   * a known age and are closed to under-13s (src/lib/age.ts, canPostComments):
+   * a child's comment can carry their name or where they live.
+   */
+  ageBand: string | null;
   /** User.isGuest, a username-only account with a synthetic, unverified email. */
   isGuest: boolean;
   /** Has this user submitted an Answer on this clip? */
@@ -341,6 +351,9 @@ export type PostGate =
   | { ok: false; reason: PostBlockReason; message: string };
 
 const POST_BLOCK_MESSAGES: Record<PostBlockReason, string> = {
+  "age-required": "Tell us your age to join the discussion.",
+  "not-for-under-13":
+    "Comments are for spotters aged 13 and over. You can still read what others think.",
   "guest-must-upgrade":
     "Create a free profile to join the discussion. Your spots are saved either way.",
   "must-answer-first": "Make your own call on this clip first, then join the discussion.",
@@ -363,6 +376,10 @@ export function canPost(state: PosterState): PostGate {
     reason,
     message: POST_BLOCK_MESSAGES[reason],
   });
+  // Age first: an under-13 is always a guest, and "create a free profile"
+  // would tell them to do something they cannot.
+  if (!isAgeKnown(state.ageBand)) return block("age-required");
+  if (!canPostComments(state.ageBand)) return block("not-for-under-13");
   if (state.isGuest) return block("guest-must-upgrade");
   if (!state.hasAnsweredClip) return block("must-answer-first");
   if (!state.isReply && state.existingOnClip >= MAX_PER_CLIP) {
@@ -448,6 +465,12 @@ export interface CommentAuthorLike {
    * Policy, not the public-display basis this gates.
    */
   leaderboardOptIn: boolean;
+  /**
+   * User.ageBracket. Public naming follows canBePubliclyNamed (src/lib/age.ts):
+   * an under-13, or anyone not yet asked their age, is anonymised whatever
+   * their leaderboardOptIn says.
+   */
+  ageBracket: string | null;
 }
 
 export interface Viewer {
@@ -496,7 +519,7 @@ const anonymisedHandle = (author: CommentAuthorLike) => `Spotter ${author.id.sli
  * context, gets the anonymised handle when leaderboardOptIn is false.
  */
 export function publicAuthorName(author: CommentAuthorLike, viewer: Viewer): string {
-  if (author.leaderboardOptIn) return authorDisplayName(author);
+  if (canBePubliclyNamed(author)) return authorDisplayName(author);
   // Staff need real identification to moderate and to spot repeat-offender
   // patterns, a distinct legal basis from the public-display protection
   // this function otherwise enforces (see CommentAuthorLike.leaderboardOptIn).

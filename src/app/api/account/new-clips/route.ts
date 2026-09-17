@@ -12,6 +12,7 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { assertSameOrigin } from "@/lib/csrf";
 import { prisma } from "@/lib/prisma";
+import { canReceiveOptionalEmail } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,19 @@ export async function PATCH(req: Request) {
     parsed = Schema.parse(await req.json());
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+  // Optional emails need a declared age of 13 or over (src/lib/age.ts).
+  if (parsed.newClipsOptIn) {
+    const me = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { ageBracket: true },
+    });
+    if (!canReceiveOptionalEmail(me?.ageBracket)) {
+      return NextResponse.json(
+        { error: "These emails are for spotters aged 13 and over who have told us their age." },
+        { status: 403 },
+      );
+    }
   }
   // Opting IN also resets the outbound watermark to now, so switching the
   // setting on never triggers a backfill email about clips that landed while

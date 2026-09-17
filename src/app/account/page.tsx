@@ -6,6 +6,9 @@ import { prisma } from "@/lib/prisma";
 import { AccountClient } from "./AccountClient";
 import { MarineBackdrop } from "@/components/MarineBackdrop";
 import { BackToFeed } from "@/components/BackToFeed";
+import { GuestSavePrompt } from "@/components/guest/GuestSavePrompt";
+import { isPlaceholderEmail } from "@/lib/age";
+import { loadConsentSummary } from "@/lib/parental-consent";
 
 export const dynamic = "force-dynamic";
 
@@ -26,11 +29,17 @@ export default async function AccountPage() {
       newClipsOptIn: true,
       leaderboardOptIn: true,
       createdAt: true,
+      ageBracket: true,
+      isGuest: true,
     },
   });
   if (!user) {
     redirect("/auth/signin?callbackUrl=/account");
   }
+  // Guests and under-13s hold a placeholder address that must never be shown
+  // as theirs (src/lib/age.ts).
+  const realEmail = user.isGuest || isPlaceholderEmail(user.email) ? null : user.email;
+  const consents = await loadConsentSummary(prisma, user.id, new Date());
 
   return (
     <MarineBackdrop>
@@ -51,13 +60,15 @@ export default async function AccountPage() {
       </section>
 
       <AccountClient
-        email={user.email}
+        email={realEmail}
         emailVerified={!!user.emailVerified}
         displayName={user.displayName ?? user.name ?? ""}
         digestOptIn={user.digestOptIn}
         newClipsOptIn={user.newClipsOptIn}
         leaderboardOptIn={user.leaderboardOptIn}
         createdAt={user.createdAt.toISOString()}
+        ageBand={user.ageBracket}
+        parentAccount={consents.account}
       />
 
       <section className="pebl-surface rounded-card p-6">
@@ -92,6 +103,16 @@ export default async function AccountPage() {
             </Link>
           </li>
           <li>
+            <Link href="/prize-rules" className="text-teal-700 underline">
+              Prize rules
+            </Link>
+          </li>
+          <li>
+            <Link href="/parent" className="text-teal-700 underline">
+              For parents and carers
+            </Link>
+          </li>
+          <li>
             <Link href="/accessibility" className="text-teal-700 underline">
               Accessibility statement
             </Link>
@@ -99,6 +120,8 @@ export default async function AccountPage() {
         </ul>
       </section>
     </main>
+    {/* Opened by "Add my email" above; renders nothing otherwise. */}
+    <GuestSavePrompt />
     </MarineBackdrop>
   );
 }

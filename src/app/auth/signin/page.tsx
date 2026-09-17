@@ -4,6 +4,8 @@ import { getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { TAB_AGE_KEY } from "@/lib/age-events";
+import { parseAgeBand } from "@/lib/age";
 
 // Accept only same-origin relative paths: must start with "/" and not "//"
 // (protocol-relative URLs like //evil.com would otherwise pass through to
@@ -59,11 +61,40 @@ function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  // ICO Children's Code: self-declared age band at signup. "" = not chosen.
+  // ICO Children's Code and COPPA: self-declared age band at signup. "" = not
+  // chosen. An under-13 answer already given in this tab (here or on the
+  // guest start screen) is kept and cannot be swapped, so the question stays
+  // neutral: a child cannot simply pick again.
   const [ageBracket, setAgeBracket] = useState("");
+  const [ageLocked, setAgeLocked] = useState(false);
+  useEffect(() => {
+    try {
+      const held = parseAgeBand(sessionStorage.getItem(TAB_AGE_KEY));
+      if (held) {
+        setAgeBracket(held);
+        setAgeLocked(held === "under_13");
+      }
+    } catch {
+      /* storage unavailable: the server still stores only what is sent */
+    }
+  }, []);
+  const chooseAge = (value: string) => {
+    setAgeBracket(value);
+    const band = parseAgeBand(value);
+    if (!band) return;
+    try {
+      sessionStorage.setItem(TAB_AGE_KEY, band);
+    } catch {
+      /* ignore */
+    }
+    // Only an under-13 answer is held: that is the one a child might want
+    // to take back, and an adult who mis-taps another band can still fix it.
+    setAgeLocked(band === "under_13");
+  };
   // Default to sign-up when arriving from the landing CTA
   // (`/auth/signin?isSignUp=1`). Otherwise default to sign-in.
   const [isSignUp, setIsSignUp] = useState(searchParams.get("isSignUp") === "1");
+  const under13SignUp = isSignUp && ageBracket === "under_13";
 
   // P-19: surface a contextual line when the user was redirected here
   // rather than navigating intentionally (e.g. tried to access /feed
@@ -109,9 +140,8 @@ function SignInForm() {
           return;
         }
         if (ageBracket === "under_13") {
-          setError(
-            "You need to be at least 13 to create a FishSpotter account.",
-          );
+          // The form is replaced by the nickname route for under-13s; this is
+          // only reachable by a stale form, and never sends their email.
           return;
         }
       }
@@ -159,7 +189,7 @@ function SignInForm() {
               Join the PEBL marine monitoring community to submit identifications, track your streak, and contribute to the shared observation record.
             </p>
           )}
-        {oauthProviders.length > 0 && (
+        {oauthProviders.length > 0 && !under13SignUp && (
           <div className="mb-6 space-y-2">
             {oauthProviders.map((prov) => (
               <button
@@ -179,6 +209,29 @@ function SignInForm() {
             </div>
           </div>
         )}
+        {under13SignUp ? (
+          <div className="space-y-3 rounded-card border border-teal-500/30 bg-surface-muted p-4" role="status">
+            <p className="text-base font-semibold text-navy-900">Great to have you here!</p>
+            <p className="text-sm leading-6 text-navy-900/80">
+              You don&apos;t need an account to play. Pick a nickname and start spotting straight
+              away. When you want to keep your finds for good, ask a parent or carer to save them
+              for you.
+            </p>
+            <Link
+              href="/feed"
+              className="pebl-button-primary inline-flex min-h-[44px] w-full items-center justify-center rounded-full py-3 font-semibold"
+            >
+              Start spotting
+            </Link>
+            <p className="text-xs text-navy-900/60">
+              Grown-ups can read{" "}
+              <Link href="/parent" className="underline">
+                how we look after children
+              </Link>
+              .
+            </p>
+          </div>
+        ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-navy-900">
@@ -251,7 +304,8 @@ function SignInForm() {
                 required
                 aria-required="true"
                 value={ageBracket}
-                onChange={(e) => setAgeBracket(e.target.value)}
+                disabled={ageLocked}
+                onChange={(e) => chooseAge(e.target.value)}
                 className="w-full rounded-modal border border-navy-900/12 bg-[color:var(--surface-muted)] px-4 py-3 text-navy-900"
               >
                 <option value="" disabled>
@@ -261,9 +315,11 @@ function SignInForm() {
                 <option value="13_17">13 to 17</option>
                 <option value="18_plus">18 or over</option>
               </select>
-              <p className="mt-1 text-xs text-navy-900/72">
-                If you are under 18, a parent or guardian must agree to the Terms on your behalf. Under-18 accounts are kept off the public leaderboard by default, you can change this later in your account settings.
-              </p>
+              {ageBracket === "13_17" ? (
+                <p className="mt-1 text-xs text-navy-900/72">
+                  Please check with a parent or carer before signing up. Your name stays off the public leaderboard unless you switch it on in your account settings.
+                </p>
+              ) : null}
             </div>
           )}
           {isSignUp && (
@@ -294,6 +350,7 @@ function SignInForm() {
             {loading ? "Please wait…" : isSignUp ? "Create account" : "Sign in"}
           </button>
         </form>
+        )}
         <div className="mt-4 flex items-center justify-between gap-3 text-sm">
           <button
             type="button"

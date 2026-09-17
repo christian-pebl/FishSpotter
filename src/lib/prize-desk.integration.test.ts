@@ -44,6 +44,8 @@ async function seedUser(opts: {
   /** How many distinct days of answers to write (spread weekly). */
   answerDays?: number;
   trustScore?: number;
+  /** User.ageBracket; adults unless a test says otherwise. */
+  ageBracket?: string | null;
 }) {
   await prisma.user.create({
     data: {
@@ -54,6 +56,7 @@ async function seedUser(opts: {
       displayName: opts.displayName ?? null,
       createdAt: LONG_AGO,
       trustScore: opts.trustScore ?? 100,
+      ageBracket: opts.ageBracket === undefined ? "18_plus" : opts.ageBracket,
     },
   });
 
@@ -187,6 +190,55 @@ describe.skipIf(!url)("prize desk (integration)", () => {
 
     const rows = await loadPrizeWinnerRows(prisma, NOW);
     expect(rows.map((r) => r.userId)).toEqual(["topost", "hi", "lo", "guest", "posted"]);
+  });
+
+  it("routes a teenager's prize to the parent who said yes", async () => {
+    await seedUser({ id: "teen", email: "teen@school.test", ageBracket: "13_17", pebbles: 2500 });
+    await seedClaim("teen");
+    await prisma.parentalConsent.create({
+      data: {
+        childId: "teen",
+        purpose: "prize",
+        status: "granted",
+        parentEmail: "carer@home.test",
+        grantedAt: LONG_AGO,
+        ukAddressConfirmed: true,
+      },
+    });
+    const [row] = await loadPrizeWinnerRows(prisma, NOW);
+    expect(row.contact).toBe("parent");
+    expect(row.contactEmail).toBe("carer@home.test");
+    expect(row.status).toBe("to-post");
+    expect(row.eligible).toBe(true);
+  });
+
+  it("holds a teenager's claim, and hides their address, while a request is only pending", async () => {
+    await seedUser({ id: "teen", email: "teen@school.test", ageBracket: "13_17", pebbles: 2500 });
+    await seedClaim("teen");
+    await prisma.parentalConsent.create({
+      data: {
+        childId: "teen",
+        purpose: "prize",
+        status: "pending",
+        parentEmail: "carer@home.test",
+        requestExpiresAt: new Date(NOW.getTime() + 86_400_000),
+      },
+    });
+    const [row] = await loadPrizeWinnerRows(prisma, NOW);
+    expect(row.contact).toBe("needs-parent");
+    expect(row.contactEmail).toBeNull();
+    expect(row.status).toBe("on-hold");
+    expect(row.eligible).toBe(false);
+    expect(JSON.stringify(row)).not.toContain("carer@home.test");
+  });
+
+  it("shows no address at all for a winner who hasn't told us their age", async () => {
+    await seedUser({ id: "u1", email: "pupil@school.test", ageBracket: null, pebbles: 2500 });
+    const [row] = await loadPrizeWinnerRows(prisma, NOW);
+    expect(row.contact).toBe("age-unknown");
+    expect(row.contactEmail).toBeNull();
+    expect(row.status).toBe("unreachable");
+    expect(row.eligibilityReasons).toContain("age not given");
   });
 
   it("flags an unverified address but still shows it", async () => {

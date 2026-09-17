@@ -13,6 +13,9 @@ export default function robots(): MetadataRoute.Robots {
           "/auth/",
           "/account",
           "/admin",
+          // Parent links carry one-time tokens.
+          "/parent/consent/",
+          "/parent/manage/",
         ],
       },
     ],
