@@ -2644,6 +2644,13 @@ UK Children's Code, and the "13 and over" rule the privacy policy stated was not
     are never sent account links again. Verified locally end to end against a mocked mail API:
     the right recipients, names and date, stamps only on accepted sends, nothing on refusals.
 
+11. **`npm run db:enable-rls` had been broken since 28 Aug.** The repo-wide dash sweep
+    (`cc94eb1`) turned two `--` comment lines in `prisma/rls.sql` into `-`, a SQL syntax error, so
+    the script failed for everyone. It surfaced at this deploy: the two new tables were created
+    with RLS off and stayed that way for a few minutes, empty, before the fixed script ran (all 23
+    production tables protected). The CI integration job now runs the real script against its
+    throwaway database on every PR.
+
 **Deploy order.** The schema change is additive (two tables, `User.ageDeclaredAt` and
 `User.ageNoticeSentAt`). Run `prisma db push`, then `npm run db:enable-rls`, before the code goes
 live, because the new pages and the prize route read the new tables.

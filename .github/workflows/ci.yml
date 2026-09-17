@@ -98,6 +98,15 @@ jobs:
       - name: Push schema to the throwaway database
         run: npx prisma db push
 
+      - name: Apply and check row-level security (prisma/rls.sql)
+        # The same SQL production gets from `npm run db:enable-rls`, which must
+        # run after every schema push. From 28 Aug to 17 Sep 2026 a dash sweep
+        # had turned two of its `--` comment lines into `-`, so the script failed
+        # for everyone and nothing noticed until a deploy needed it. Running it
+        # here keeps that from happening again. Called through tsx directly
+        # because the npm script reads .env.local, which CI does not have.
+        run: npx tsx scripts/enable-rls.ts
+
       - name: Integration tests
         # --no-file-parallelism: the suites TRUNCATE overlapping tables in
         # beforeEach against the SAME throwaway database, so running the two
