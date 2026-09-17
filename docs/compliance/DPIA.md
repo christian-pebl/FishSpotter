@@ -243,6 +243,7 @@ This section is the re-run section 1 asks for "before lowering the minimum age".
 | Comments | Any saved account | Declared 13+ only |
 | AI chat | Any signed-in account | Declared adults only |
 | Prize | Verified email and activity gates | Also a declared age, UK address, and a parent's consent for anyone under 18; staff write only to the parent |
+| School-like addresses on accounts with no age | Kept | One notice email explaining the change, then the address is removed on the date it gives (14 days later); progress kept |
 | New data | n/a | Parent or carer's email address, consent state and dates; hashed one-time links |
 
 ### 8.3 New inventory rows
@@ -271,7 +272,7 @@ This section is the re-run section 1 asks for "before lowering the minimum age".
 | R9 | A child's email collected without consent | Medium (it happened) | Medium | Medium | Guest save and signup refuse under-13s; existing under-13 accounts lose their email on declaring; unasked accounts get no email and cannot save or claim until they answer | **Low** |
 | R10 | Consent given by someone who is not the parent (the child's own second address) | Medium | Medium | Medium | Accepted limitation of email plus; the parent's address is refused if it matches the child's or a staff address; confirmation email a day later with a withdraw link; nothing is made public or shared, which caps the harm | **Low-Medium** |
 | R11 | A parent link intercepted or reused | Low | High | Medium | Links are 256-bit random, stored hashed, short-lived (consent 14 days; manage 1 hour, or 7 days in the confirmation; child sign-in 10 minutes and single use); rate-limited; pages carry no-referrer and noindex | **Low** |
-| R12 | Children's data kept too long | Low | Medium | Low-Medium | Written retention rules published in the privacy policy and run daily by a cron (unanswered requests, expired links, idle under-13 accounts, spent prize consents) | **Low** |
+| R12 | Children's data kept too long | Low | Medium | Low-Medium | Written retention rules published in the privacy policy and run daily by a cron (unanswered requests, expired links, idle under-13 accounts, spent prize consents, school-like addresses on their notified removal date) | **Low** |
 | R13 | Prize posted to a child without a parent knowing | Low | Medium | Low-Medium | Claim refused without a granted prize consent; the staff desk shows only the parent's address for a minor and holds any claim missing a parent's consent or an age | **Low** |
 | R14 | Children exposed to user comments | Low | Medium | Low-Medium | Under-13s cannot post; comments are moderated, link-free, reportable and auto-hidden at three reports; no private messaging exists (see the Online Safety Act assessments in `docs/safety/`) | **Low** |
 

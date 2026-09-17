@@ -159,7 +159,10 @@ Anthropic's usage policy (in force from 15 September 2025) requires extra safegu
 
 - The 129 accounts without an age are hidden from public lists and get no optional email, no prize and no comment posting. The app asks them once on their next visit.
 - An account that answers "under 13" loses its email address, password, pending links, social sign-in links, comments and usage events at once, has a typed display name replaced with a generated nickname, keeps its game progress, and is offered the parent route.
-- The ten school-address accounts were **not** contacted again and **not** deleted in advance. Emailing them to ask their age could itself be contacting a child. **Open:** the director may prefer to delete those ten email addresses now rather than wait for the accounts to return.
+- **The ten school-address accounts (decided 16 September 2026): tell them, then remove the addresses.** Each gets one email from `/admin/children` (`src/lib/age-notice.ts`, template `AgePolicyNoticeEmail`). It says the rules have changed, explains the new process (the age question, nicknames and a parent for under-13s, a parent's OK for any prize to an under-18), and names the date the address will be removed, 14 days after sending. It does not ask for an age, invite a reply, or say which answer keeps what, so it does not nudge anyone to misstate their age (Children's Code standard 13). Finds and Pebbles stay.
+  - **The removal** runs in the daily child-data job (05:00 UTC) on the UK date the email gave, whatever age the account declares in the meantime. An account that has not told us its age, or says it is under 13, gets the full under-13 strip (email, password, links, social sign-ins, comments, usage events). One that says 13 or over loses the address, password and links but keeps its comments. An under-13 answer before the date removes everything at once, as for any account.
+  - **Why an email at all (the director's decision):** these addresses already received a transactional email the same day, and this one message only explains a change that reduces what we hold. Silent deletion would leave a pupil, parent or teacher unable to understand why sign-in stopped working. It is on the list for the legal review (section 11).
+  - **Safeguards:** the admin previews the email and picks recipients; the server re-checks each account before sending (only saved accounts, only school-like domains, only if no age has been given, only once); an account told is never sent account links again (`verification-backlog.ts`); sends are spaced, and stop after two refusals.
 - Check Resend for bounces from the 16 September send; school mail systems often reject outside senders.
 
 ## 11. Open items
@@ -167,11 +170,12 @@ Anthropic's usage policy (in force from 15 September 2025) requires extra safegu
 1. **Legal review.** A short review by a UK data protection solicitor familiar with COPPA before relying on the under-13 route for US children, in particular:
    - the band picker's neutrality;
    - email plus under the amended rule;
-   - whether the school domains amount to actual knowledge.
+   - whether the school domains amount to actual knowledge;
+   - the one notice email to the ten school addresses before their removal (section 10).
 2. **Telephone number** in the privacy policy (COPPA 312.4(d)(1)).
 3. **Sign-offs:** DPIA section 8, this record, and re-adoption of both Online Safety Act assessments.
 4. **Prize rules:** confirm the staff exclusion and the open-ended duration (or set a closing date).
-5. **The ten school addresses:** delete now, or wait for the in-app question.
+5. **The ten school addresses:** resolved. Notify, then remove on the stated date (section 10). Confirm the send on `/admin/children` and check Resend for bounces afterwards.
 6. **Complaints:** consider an online complaint form (Data (Use and Access) Act 2025 s103).
 7. **Admin escalation:** the guest-claim path to a PEBL address is tracked as a separate task.
 

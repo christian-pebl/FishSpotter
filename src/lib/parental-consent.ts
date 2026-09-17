@@ -28,7 +28,9 @@
 
 import type { PrismaClient } from "@prisma/client";
 import { generateToken, hashToken } from "@/lib/auth/tokens";
-import { isMinor, isUnder13, type AgeBand } from "@/lib/age";
+import { isMinor, isPlaceholderEmail, isUnder13, type AgeBand } from "@/lib/age";
+import { isRemovalDue, removalCandidateCutoff } from "@/lib/age-notice";
+import { stripContactOps } from "@/lib/child-contact";
 import { SEASEARCH_GUIDE_ID } from "@/lib/prize";
 import {
   CONSENT_REQUEST_TTL_WORDS,
@@ -577,6 +579,7 @@ export interface PurgeResult {
   expiredRequests: number;
   expiredTokens: number;
   spentPrizeConsents: number;
+  noticedAddressesRemoved: number;
   inactiveChildAccounts: number;
 }
 
@@ -588,11 +591,14 @@ export interface PurgeResult {
  *   - Expired parent links are deleted.
  *   - A prize consent is deleted, parent address and all, once the prize
  *     was posted PRIZE_CONSENT_KEEP_AFTER_POSTING_MS ago.
+ *   - A school-like address the account was told about (src/lib/age-notice.ts)
+ *     is removed on the UK date the notice gave (14 days on). An account that
+ *     has not told us its age, or is under 13, gets the full child strip.
  *   - An under-13 account with no identification for CHILD_ACCOUNT_INACTIVE_MS
  *     (or, with none at all, created that long ago) is deleted.
  */
 export async function purgeChildData(
-  prisma: Db,
+  prisma: PrismaClient,
   now: Date,
   opts: { maxAccounts?: number } = {},
 ): Promise<PurgeResult> {
@@ -617,6 +623,31 @@ export async function purgeChildData(
           where: { purpose: "prize", childId: { in: posted.map((p) => p.userId) } },
         });
 
+  const noticed = await prisma.user.findMany({
+    where: { ageNoticeSentAt: { lte: removalCandidateCutoff(now) } },
+    select: { id: true, email: true, ageBracket: true, ageNoticeSentAt: true },
+    orderBy: { ageNoticeSentAt: "asc" },
+    take: opts.maxAccounts ?? 200,
+  });
+  let noticedAddressesRemoved = 0;
+  for (const u of noticed) {
+    if (!u.ageNoticeSentAt || !isRemovalDue(u.ageNoticeSentAt, now)) continue;
+    if (isPlaceholderEmail(u.email)) {
+      await prisma.user.update({
+        where: { id: u.id },
+        data: { ageNoticeSentAt: null },
+        select: { id: true },
+      });
+      continue;
+    }
+    // Not told us an age, or under 13: possibly a child, so the full strip.
+    const asChild = !u.ageBracket || isUnder13(u.ageBracket);
+    await prisma.$transaction(
+      stripContactOps(prisma, u.id, { asChild, data: { ageNoticeSentAt: null } }),
+    );
+    noticedAddressesRemoved++;
+  }
+
   const cutoff = new Date(now.getTime() - CHILD_ACCOUNT_INACTIVE_MS);
   const candidates = await prisma.user.findMany({
     where: { ageBracket: "under_13", createdAt: { lte: cutoff } },
@@ -637,6 +668,7 @@ export async function purgeChildData(
     expiredRequests: expiredRequests.count,
     expiredTokens: expiredTokens.count,
     spentPrizeConsents: spentPrizeConsents.count,
+    noticedAddressesRemoved,
     inactiveChildAccounts,
   };
 }

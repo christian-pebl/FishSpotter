@@ -2631,8 +2631,22 @@ UK Children's Code, and the "13 and over" rule the privacy policy stated was not
    is gone, the new consent suite is listed, and a follow-up step fails the job unless all three
    files ran with nothing skipped.
 
-**Deploy order.** The schema change is additive. Run `prisma db push`, then `npm run db:enable-rls`,
-before the code goes live, because the new pages and the prize route read the new tables.
+10. **The ten school addresses: a notice, then removal** (Christian's call, replacing "delete them
+    now"). `/admin/children` gains a sender in the same pattern as the catch-up on `/admin/email`:
+    preview to yourself, tick recipients, confirm, then one request per account, spaced, stopping
+    after two refusals. The email (`AgePolicyNoticeEmail`) says the rules have changed, explains the
+    new process, and gives the date the address comes off the account, 14 days on. It never asks
+    for an age or says which answer keeps what. `User.ageNoticeSentAt` records the send. The
+    child-data job removes the address on that UK date (`isRemovalDue`, so the 05:00 UTC run lands
+    on the morning of the stated day, not the day after; a test walks every hour across the
+    October clock change). Removal uses the same code as an under-13 answer (`child-contact.ts`):
+    unasked or under-13 accounts lose comments and usage events too, 13+ keep them. Told accounts
+    are never sent account links again. Verified locally end to end against a mocked mail API:
+    the right recipients, names and date, stamps only on accepted sends, nothing on refusals.
+
+**Deploy order.** The schema change is additive (two tables, `User.ageDeclaredAt` and
+`User.ageNoticeSentAt`). Run `prisma db push`, then `npm run db:enable-rls`, before the code goes
+live, because the new pages and the prize route read the new tables.
 
 **Still open** (`docs/compliance/children.md` section 11):
 
@@ -2640,4 +2654,4 @@ before the code goes live, because the new pages and the prize route read the ne
 - a phone number for the COPPA notice;
 - director sign-offs;
 - the prize closing date and staff exclusion;
-- whether to delete the ten school addresses now rather than wait for the in-app question.
+- sending the school-address notice from `/admin/children`, then checking Resend for bounces.

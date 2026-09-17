@@ -1,30 +1,31 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { requireAdminSession } from "@/lib/admin";
 import { AGE_BANDS, AGE_BAND_LABEL, isPlaceholderEmail } from "@/lib/age";
+import { emailDomain, isSchoolLikeEmail, loadAgeNoticeRows } from "@/lib/age-notice";
 import { isRequestLive, maskEmail } from "@/lib/parental-consent";
+import { AgeNoticeSender } from "./AgeNoticeSender";
 
-// Read-only oversight for the children's rules (src/lib/age.ts,
+// Oversight for the children's rules (src/lib/age.ts,
 // src/lib/parental-consent.ts): who has told us their age, which parent
 // requests are open, and which unasked accounts hold a real email address,
-// the group the 16 Sep 2026 school-address finding came from. Parent
-// addresses are masked; nothing here needs them in full.
+// the group the 16 Sep 2026 school-address finding came from. The one thing
+// it can do is send those school-like accounts the policy notice
+// (src/lib/age-notice.ts). Parent addresses are masked; nothing here needs
+// them in full.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "Children · FishSpotter admin" };
-
-// Mail domains that usually belong to a school or pupil. A hint for a human,
-// never a decision: nothing is done to an account because of its domain.
-const SCHOOLISH =
-  /(\.sch\.|k12|\.edu$|\.edu\.|school|student|pupil|academy|isd\.|usd\.|schools\.|christian\.org$)/i;
 
 function dateOnly(d: Date | null): string {
   return d ? d.toISOString().slice(0, 10) : "-";
 }
 
 export default async function AdminChildrenPage() {
+  const { email: adminEmail } = await requireAdminSession();
   const now = new Date();
-  const [bands, consents, unasked] = await Promise.all([
+  const [bands, consents, unasked, noticeRows] = await Promise.all([
     prisma.user.groupBy({ by: ["ageBracket", "isGuest"], _count: { _all: true } }),
     prisma.parentalConsent.findMany({
       select: {
@@ -52,6 +53,7 @@ export default async function AdminChildrenPage() {
       },
       orderBy: { createdAt: "desc" },
     }),
+    loadAgeNoticeRows(prisma),
   ]);
 
   const count = (band: string | null, guest?: boolean) =>
@@ -60,7 +62,7 @@ export default async function AdminChildrenPage() {
       .reduce((n, b) => n + b._count._all, 0);
 
   const unaskedReal = unasked.filter((u) => !isPlaceholderEmail(u.email));
-  const schoolish = unaskedReal.filter((u) => SCHOOLISH.test(u.email.split("@")[1] ?? ""));
+  const schoolish = unaskedReal.filter((u) => isSchoolLikeEmail(u.email));
 
   return (
     <div className="space-y-6">
@@ -156,12 +158,26 @@ export default async function AdminChildrenPage() {
 
       <section>
         <h2 className="text-sm font-semibold text-navy-900">
+          School-like addresses: policy notice ({noticeRows.length})
+        </h2>
+        <p className="mt-1 text-sm text-navy-600">
+          One email that says the rules have changed, explains the new process, and gives the date
+          the address comes off the account (14 days after sending). The address is removed on that
+          date whatever age they give, and at once if they say they are under 13. Their finds and
+          Pebbles stay. The email never asks their age and never says which answer keeps what. The
+          removal runs in the 05:00 UTC child-data job.
+        </p>
+        <AgeNoticeSender rows={noticeRows} adminEmail={adminEmail} />
+      </section>
+
+      <section>
+        <h2 className="text-sm font-semibold text-navy-900">
           Saved accounts not yet asked their age ({unaskedReal.length})
         </h2>
         <p className="mt-1 text-sm text-navy-600">
           They are hidden from public lists and get no optional email until they answer, which the
-          app asks on their next visit. {schoolish.length} use a school-like mail domain. Do not
-          email them to ask: they may be children.
+          app asks on their next visit. {schoolish.length} use a school-like mail domain (the notice
+          above covers those). Never email anyone to ask their age: they may be children.
         </p>
         {unaskedReal.length > 0 ? (
           <div className="mt-2 overflow-x-auto rounded-card border border-navy-200/60 bg-white">
@@ -176,13 +192,13 @@ export default async function AdminChildrenPage() {
               </thead>
               <tbody className="divide-y divide-navy-200/60">
                 {unaskedReal.map((u) => {
-                  const domain = u.email.split("@")[1] ?? "?";
+                  const domain = emailDomain(u.email);
                   return (
                     <tr key={u.id}>
                       <td className="px-3 py-2 text-navy-900">{u.displayName ?? u.id.slice(0, 8)}</td>
                       <td className="px-3 py-2 text-navy-600">
                         {domain}
-                        {SCHOOLISH.test(domain) ? (
+                        {isSchoolLikeEmail(u.email) ? (
                           <span className="ml-2 rounded-full bg-warn/15 px-2 py-0.5 text-[10px] font-semibold text-warn">
                             school-like
                           </span>

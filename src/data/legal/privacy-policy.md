@@ -116,6 +116,7 @@ We keep children's information only as long as we need it for the reasons above:
 - **An under-13's account (nickname, identifications, points):** kept while it is used, and deleted after 12 months with no identifications, or as soon as a parent asks or withdraws consent.
 - **A parent's email address on a consent they gave:** kept for as long as the child's account (for an account consent), or until 90 days after the prize is posted (for a prize consent), so that we can show consent was given and handle any delivery problem.
 - **A prize winner's postal address:** used only to post the prize and deleted within 90 days of posting. For a child, we get it from the parent, never the child.
+- **A school email address on an account that had not told us its age:** we emailed the account once to explain these rules, and remove the address on the date given in that email (14 days later). The account's progress stays.
 
 These deletions run automatically every day, apart from postal addresses, which are handled by email and deleted by our staff.
 

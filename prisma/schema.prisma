@@ -33,6 +33,10 @@ model User {
   ageBracket          String? // AGE_BANDS in src/lib/age.ts: "under_13" | "13_17" | "18_plus"
   // When the band was declared. Null for rows that predate the question.
   ageDeclaredAt       DateTime?
+  // When this account was emailed that its (school-like) address will be
+  // removed (src/lib/age-notice.ts, 16 Sep 2026). The child-data-retention
+  // cron removes the address AGE_NOTICE_GRACE_MS later and clears this.
+  ageNoticeSentAt     DateTime?
   // Under-18s default to OFF the public leaderboard; 13-17s can switch it on
   // in account settings, under-13s never appear (src/lib/age.ts).
   leaderboardOptIn    Boolean              @default(true)

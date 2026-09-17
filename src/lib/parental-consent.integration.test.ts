@@ -30,6 +30,14 @@ import {
   purgeChildData,
   resolveManageToken,
 } from "./parental-consent";
+import {
+  AGE_NOTICE_GRACE_MS,
+  decideAgeNotice,
+  loadAgeNoticeRows,
+  markAgeNoticeSent,
+  readAgeNoticeTarget,
+} from "./age-notice";
+import { isPlaceholderEmail } from "./age";
 
 const url = process.env.CONSENT_TEST_DATABASE_URL;
 const prisma = url
@@ -279,6 +287,7 @@ describe.skipIf(!url)("parental consent (integration)", () => {
       expiredRequests: 1,
       expiredTokens: 1,
       spentPrizeConsents: 0,
+      noticedAddressesRemoved: 0,
       inactiveChildAccounts: 1,
     });
 
@@ -287,5 +296,140 @@ describe.skipIf(!url)("parental consent (integration)", () => {
     // The granted consent survives; the unanswered one, and its address, do not.
     const consents = await prisma.parentalConsent.findMany({ select: { parentEmail: true } });
     expect(consents.map((c) => c.parentEmail)).toEqual(["dad@home.test"]);
+  });
+  it("tells school-like addresses, then removes them on the date the email gave", async () => {
+    const snip = await prisma.snippet.create({
+      data: {
+        externalId: "s-notice",
+        videoUrl: "https://example.test/v.mp4",
+        thumbnailUrl: "https://example.test/t.jpg",
+        site: "Test",
+        deployment: "D1",
+      },
+    });
+    // A saved account from the old guest path: school address, no age, the
+    // lot. And one that answers "18 or over" after the notice.
+    for (const [id, email] of [
+      ["pupil", "c.pupil@thepegasusschool.org"],
+      ["grownup", "teacher@lincoln.k12.ca.us"],
+    ] as const) {
+      await prisma.user.create({
+        data: {
+          id,
+          email,
+          displayName: `Name ${id}`,
+          isGuest: false,
+          passwordHash: "hash",
+          digestOptIn: true,
+          newClipsOptIn: true,
+          createdAt: id === "pupil" ? NOW : later(1000),
+        },
+      });
+      await prisma.answer.create({ data: { userId: id, snippetId: snip.id, chosenOption: "Crab" } });
+      await prisma.comment.create({ data: { userId: id, snippetId: snip.id, body: "My name is Sam" } });
+      await prisma.event.create({ data: { userId: id, sessionId: `tab-${id}`, type: "session_start" } });
+      await prisma.verificationToken.create({
+        data: { userId: id, token: `v-${id}`, expiresAt: later(24 * 60 * 60 * 1000) },
+      });
+      await prisma.passwordResetToken.create({
+        data: { userId: id, token: `r-${id}`, expiresAt: later(60 * 60 * 1000) },
+      });
+      await prisma.account.create({
+        data: { userId: id, type: "oauth", provider: "google", providerAccountId: `g-${id}` },
+      });
+    }
+    // Not school-like, and a school-like account that already gave its age:
+    // neither is on the list.
+    await prisma.user.create({
+      data: { id: "plain", email: "someone@gmail.test", isGuest: false, createdAt: NOW },
+    });
+    await prisma.user.create({
+      data: {
+        id: "answered",
+        email: "x@student.scusd.edu",
+        isGuest: false,
+        ageBracket: "13_17",
+        createdAt: NOW,
+      },
+    });
+
+    let rows = await loadAgeNoticeRows(prisma);
+    expect(rows.map((r) => r.userId)).toEqual(["pupil", "grownup"]);
+    expect(rows.every((r) => !r.noticeSentAt && !r.noticeSentOn && !r.removalOn)).toBe(true);
+
+    for (const id of ["pupil", "grownup"]) {
+      expect(decideAgeNotice(await readAgeNoticeTarget(prisma, id))).toEqual({ send: true });
+      await markAgeNoticeSent(prisma, id, NOW);
+    }
+    // A second stamp never moves the promised date.
+    await markAgeNoticeSent(prisma, "pupil", later(3 * 24 * 60 * 60 * 1000));
+    expect(decideAgeNotice(await readAgeNoticeTarget(prisma, "pupil"))).toEqual({
+      send: false,
+      reason: "already told",
+    });
+    await prisma.user.update({ where: { id: "grownup" }, data: { ageBracket: "18_plus" } });
+
+    rows = await loadAgeNoticeRows(prisma);
+    expect(rows.map((r) => [r.userId, r.noticeSentAt, r.noticeSentOn, r.removalOn])).toEqual([
+      ["pupil", NOW.toISOString(), "16 September 2026", "30 September 2026"],
+      ["grownup", NOW.toISOString(), "16 September 2026", "30 September 2026"],
+    ]);
+
+    // Nothing moves before the date, even at 23:59 UK time the night before.
+    expect(
+      (await purgeChildData(prisma, new Date("2026-09-29T22:59:00Z"))).noticedAddressesRemoved,
+    ).toBe(0);
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: "pupil" } })).email).toBe(
+      "c.pupil@thepegasusschool.org",
+    );
+
+    // The 05:00 UTC run on the date the email gave.
+    expect(
+      (await purgeChildData(prisma, new Date("2026-09-30T05:00:00Z"))).noticedAddressesRemoved,
+    ).toBe(2);
+
+    for (const id of ["pupil", "grownup"]) {
+      const u = await prisma.user.findUniqueOrThrow({ where: { id } });
+      expect(isPlaceholderEmail(u.email)).toBe(true);
+      expect(u).toMatchObject({
+        emailVerified: null,
+        passwordHash: null,
+        isGuest: true,
+        digestOptIn: false,
+        newClipsOptIn: false,
+        ageNoticeSentAt: null,
+      });
+      expect(await prisma.verificationToken.count({ where: { userId: id } })).toBe(0);
+      expect(await prisma.passwordResetToken.count({ where: { userId: id } })).toBe(0);
+      expect(await prisma.account.count({ where: { userId: id } })).toBe(0);
+      // Progress stays.
+      expect(await prisma.answer.count({ where: { userId: id } })).toBe(1);
+      // The admin cannot mail it again.
+      expect(decideAgeNotice(await readAgeNoticeTarget(prisma, id))).toMatchObject({ send: false });
+    }
+    // Unasked: possibly a child, so free text and usage go too.
+    expect(await prisma.comment.count({ where: { userId: "pupil" } })).toBe(0);
+    expect(await prisma.event.count({ where: { userId: "pupil" } })).toBe(0);
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: "pupil" } })).displayName).toBe(
+      "Name pupil",
+    );
+    // Said 18 or over: the address still goes, as the email said, but nothing else.
+    expect(await prisma.comment.count({ where: { userId: "grownup" } })).toBe(1);
+    expect(await prisma.event.count({ where: { userId: "grownup" } })).toBe(1);
+
+    // Untouched.
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: "plain" } })).email).toBe(
+      "someone@gmail.test",
+    );
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: "answered" } })).email).toBe(
+      "x@student.scusd.edu",
+    );
+
+    // Done once: the next run finds nothing, and the list is empty.
+    expect(
+      (await purgeChildData(prisma, later(AGE_NOTICE_GRACE_MS + 60 * 60 * 1000)))
+        .noticedAddressesRemoved,
+    ).toBe(0);
+    expect(await loadAgeNoticeRows(prisma)).toEqual([]);
   });
 });

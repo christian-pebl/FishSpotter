@@ -29,12 +29,8 @@ import { authOptions } from "@/lib/auth";
 import { assertSameOrigin } from "@/lib/csrf";
 import { prisma } from "@/lib/prisma";
 import { checkAuthRateLimit } from "@/lib/rate-limit";
-import {
-  AGE_BANDS,
-  isPlaceholderEmail,
-  parseAgeBand,
-  placeholderEmail,
-} from "@/lib/age";
+import { AGE_BANDS, isPlaceholderEmail, parseAgeBand } from "@/lib/age";
+import { stripContactOps } from "@/lib/child-contact";
 import { generateNickname, isGeneratedNickname } from "@/lib/nickname";
 
 export const dynamic = "force-dynamic";
@@ -84,34 +80,19 @@ export async function POST(req: Request) {
   if (band === "under_13") {
     const hadEmail = !isPlaceholderEmail(me.email);
     const newNickname = isGeneratedNickname(me.displayName ?? "") ? null : generateNickname();
-    await prisma.$transaction([
-      prisma.verificationToken.deleteMany({ where: { userId } }),
-      prisma.passwordResetToken.deleteMany({ where: { userId } }),
-      prisma.account.deleteMany({ where: { userId } }),
-      prisma.comment.deleteMany({ where: { userId } }),
-      // Usage events rest on a consent a child under 13 cannot give.
-      prisma.event.deleteMany({ where: { userId } }),
-      prisma.user.update({
-        where: { id: userId },
+    await prisma.$transaction(
+      stripContactOps(prisma, userId, {
+        asChild: true,
         data: {
           ageBracket: band,
           ageDeclaredAt: now,
           leaderboardOptIn: false,
-          digestOptIn: false,
-          newClipsOptIn: false,
+          // Their address is gone now, so a pending removal notice is done.
+          ageNoticeSentAt: null,
           ...(newNickname ? { displayName: newNickname, name: newNickname } : {}),
-          ...(hadEmail
-            ? {
-                email: placeholderEmail(globalThis.crypto.randomUUID()),
-                emailVerified: null,
-                passwordHash: null,
-                isGuest: true,
-              }
-            : {}),
         },
-        select: { id: true },
       }),
-    ]);
+    );
     return NextResponse.json({
       ok: true,
       ageBand: band,
