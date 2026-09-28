@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useEffect, useState } from "react";
+import { useCallback, useMemo, useRef, useEffect, useLayoutEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { FeedCard } from "./FeedCard";
 import { FeedComplete, type FeedCompleteProps } from "./feed/FeedComplete";
@@ -10,6 +10,12 @@ import { useEngagementTracker } from "@/lib/useEngagement";
 import { useSplitOpen } from "@/lib/split-screen";
 import { useSession } from "next-auth/react";
 import { drainGuestAnswers } from "@/lib/guestAnswers";
+import { keepFeedOrder, sendAnsweredToBack } from "@/lib/feed-ordering";
+import { indexAtScroll, stageIndex, type Stage } from "@/lib/feed-stage";
+
+// `useLayoutEffect` is a no-op on the server but React 18 still warns about
+// it there; this is the same guard as src/lib/split-screen.ts.
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // Q3A-T7: delay the move-to-back reorder until AFTER FeedCard's
@@ -18,6 +24,10 @@ const HINT_STORAGE_KEY = "fishspotter:navHintSeen";
 // scroll takes ~300ms (P-8 tightened layout transition), so 500ms
 // total gives enough clearance without feeling sluggish.
 const MOVE_TO_BACK_DELAY_MS = 500;
+/** How long the feed must go without a scroll event to count as settled. */
+const SCROLL_SETTLE_MS = 150;
+/** The stage key of the end-of-feed card, which has no snippet id. */
+const COMPLETE_KEY = "feed-complete";
 
 /** How far either side of the active card to attach the VIDEO. Kept tight:
  *  clips run to ~30 MB each, so every extra card is real bandwidth. */
@@ -121,6 +131,21 @@ interface FeedPlayerProps {
   initialIsDesktopGuess?: boolean;
 }
 
+/**
+ * A refreshed /feed inlines tracking JSON only for ITS opening cards (see
+ * INLINE_TRACK_COUNT in app/feed/page.tsx), so a clip this feed already holds
+ * a track for can come back with null, which there means "not sent", never
+ * "no track". Keep the track rather than drop it: the opening card's track
+ * sets its cover-crop anchor, so losing it would re-centre the clip on stage.
+ */
+function carryLoadedTrack(previous: FeedSnippet, fresh: FeedSnippet): FeedSnippet {
+  const freshLoaded = fresh.bboxes !== null || (fresh.manualTrack ?? null) !== null;
+  const previousLoaded = previous.bboxes !== null || (previous.manualTrack ?? null) !== null;
+  return !freshLoaded && previousLoaded
+    ? { ...fresh, bboxes: previous.bboxes, manualTrack: previous.manualTrack }
+    : fresh;
+}
+
 export function FeedPlayer({
   snippets,
   unansweredCount,
@@ -129,7 +154,6 @@ export function FeedPlayer({
   initialIsDesktopGuess = false,
 }: FeedPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [hintVisible, setHintVisible] = useState(false);
   const [hintIsTouch, setHintIsTouch] = useState(false);
   // The working half of the split is up (the rung tiles, the reveal, ...). Its
@@ -147,12 +171,46 @@ export function FeedPlayer({
     () => new Set(),
   );
 
-  const orderedSnippets = useMemo(() => {
-    if (recentlyAnswered.size === 0) return snippets;
-    const unanswered = snippets.filter((s) => !recentlyAnswered.has(s.id));
-    const answered = snippets.filter((s) => recentlyAnswered.has(s.id));
-    return [...unanswered, ...answered];
-  }, [snippets, recentlyAnswered]);
+  // The order this feed shows: the server's order at mount, then kept for as
+  // long as the feed is mounted. The guest gate refreshes /feed the moment
+  // someone picks a username, and that render is shuffled on their new user
+  // id instead of the anonymous cookie; applying it moved every card under the
+  // viewer. Later renders still update each clip's data (keepFeedOrder).
+  const [feedOrder, setFeedOrder] = useState(snippets);
+  const [orderedFrom, setOrderedFrom] = useState(snippets);
+  if (snippets !== orderedFrom) {
+    setOrderedFrom(snippets);
+    setFeedOrder(keepFeedOrder(feedOrder, snippets, carryLoadedTrack));
+  }
+
+  // The card on stage, held by its key rather than its position, so a reorder
+  // cannot hand "active" to whichever card slid into its old slot. Set from
+  // the scroll position (see the scroll effect below; src/lib/feed-stage.ts).
+  const [stage, setStage] = useState<Stage>({ key: null, index: 0 });
+
+  const orderedSnippets = useMemo(
+    () => sendAnsweredToBack(feedOrder, recentlyAnswered, stage.key),
+    [feedOrder, recentlyAnswered, stage.key],
+  );
+
+  // Has this spotter run out of clips? Derived live rather than read once from
+  // the server, so someone who identifies their LAST clip in this session gets
+  // the completion card immediately instead of only after a reload. Each entry
+  // in recentlyAnswered is necessarily a fresh answer: FeedCard only renders
+  // the quiz when the viewer has no answer for that clip.
+  const cleared =
+    !!completion &&
+    unansweredCount !== undefined &&
+    unansweredCount - recentlyAnswered.size <= 0;
+
+  // One key per section, in render order: the clips, then the end-of-feed
+  // card when it is showing.
+  const stageKeys = useMemo(() => {
+    const keys = orderedSnippets.map((s) => s.id);
+    if (cleared) keys.push(COMPLETE_KEY);
+    return keys;
+  }, [orderedSnippets, cleared]);
+  const activeIndex = stageIndex(stageKeys, stage);
 
   // Engagement measurement (consent-gated): track the active clip + watch-time.
   useEngagementTracker(orderedSnippets[activeIndex]?.id ?? null);
@@ -239,25 +297,26 @@ export function FeedPlayer({
     return () => window.clearTimeout(t);
   }, [drainUserId]);
 
-  // Has this spotter run out of clips? Derived live rather than read once from
-  // the server, so someone who identifies their LAST clip in this session gets
-  // the completion card immediately instead of only after a reload. Each entry
-  // in recentlyAnswered is necessarily a fresh answer: FeedCard only renders
-  // the quiz when the viewer has no answer for that clip.
-  const cleared =
-    !!completion &&
-    unansweredCount !== undefined &&
-    unansweredCount - recentlyAnswered.size <= 0;
-
+  // When the feed last scrolled (see the scroll effect below).
+  const lastScrollAtRef = useRef(0);
   const markAnswered = useCallback((snippetId: string) => {
-    window.setTimeout(() => {
+    const moveToBack = () => {
+      // Still scrolling to the next card: wait. Moving a card out from above
+      // a scroll in flight shifts its destination, and on a desktop-height
+      // card the scroll outlasts MOVE_TO_BACK_DELAY_MS, so it landed one card
+      // too far and skipped a clip.
+      if (performance.now() - lastScrollAtRef.current < SCROLL_SETTLE_MS) {
+        window.setTimeout(moveToBack, SCROLL_SETTLE_MS);
+        return;
+      }
       setRecentlyAnswered((prev) => {
         if (prev.has(snippetId)) return prev;
         const next = new Set(prev);
         next.add(snippetId);
         return next;
       });
-    }, MOVE_TO_BACK_DELAY_MS);
+    };
+    window.setTimeout(moveToBack, MOVE_TO_BACK_DELAY_MS);
   }, []);
 
   const scrollToIndex = useCallback(
@@ -290,26 +349,66 @@ export function FeedPlayer({
     return () => window.removeEventListener("keydown", onKey);
   }, [activeIndex, scrollToIndex]);
 
+  // The card on stage is the one the feed is scrolled to, read as a POSITION:
+  // every section is exactly one container tall, so it is scrollTop over that
+  // height, which flips at the halfway point like the old 0.5 threshold.
+  //
+  // This replaces an IntersectionObserver that set the active index from
+  // whichever section last reported itself visible, reading `data-feed-index`
+  // off the element. After a reorder that attribute belongs to a different
+  // card, and cards on their way past reported themselves visible too. Both
+  // left the card actually on screen inert and paused, found 28 Sep 2026: the
+  // frozen first clip after the guest gate's refresh, and an empty screen
+  // after "Next" on a reveal.
+  const feedEmpty = snippets.length === 0;
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const sections = el.querySelectorAll("[data-feed-index]");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const index = Number((entry.target as HTMLElement).dataset.feedIndex);
-          if (!Number.isNaN(index)) setActiveIndex(index);
-        }
-      },
-      { root: el, rootMargin: "0px", threshold: 0.5 }
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-    // `cleared` is a dependency because the completion card is an extra
-    // [data-feed-index] section that appears mid-session; without it the
-    // observer would never watch the card the user just scrolled onto.
-  }, [snippets.length, cleared]);
+    let frame = 0;
+    const sync = () => {
+      frame = 0;
+      const sections = el.querySelectorAll<HTMLElement>("[data-feed-index]");
+      const index = indexAtScroll(el.scrollTop, el.clientHeight, sections.length);
+      if (index < 0) return;
+      const key = sections[index].dataset.feedKey ?? null;
+      setStage((prev) => (prev.key === key && prev.index === index ? prev : { key, index }));
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(sync);
+    };
+    const onScroll = () => {
+      lastScrollAtRef.current = performance.now();
+      schedule();
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    // A resize (phone rotation, the URL bar) changes the card height and so
+    // the maths, without necessarily firing a scroll.
+    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(schedule);
+    resize?.observe(el);
+    schedule();
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      resize?.disconnect();
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [feedEmpty]);
+
+  // When the order changes under the card on stage (an answered card sent to
+  // the back from above it, clips a refresh added or dropped), keep that card
+  // in view, before paint. Whether a snap container follows a moved element on
+  // its own differs by browser and by timing; without this the viewer could be
+  // left looking at a different card from the one on stage. Keyed on the order
+  // alone: following activeIndex would fight the viewer's own scrolling.
+  const orderSignature = stageKeys.join("\n");
+  useIsomorphicLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onStage = el.querySelectorAll<HTMLElement>("[data-feed-index]")[activeIndex];
+    if (onStage && Math.abs(el.scrollTop - onStage.offsetTop) >= 1) {
+      el.scrollTop = onStage.offsetTop;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderSignature]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -381,6 +480,7 @@ export function FeedPlayer({
             layout={reduceMotion ? false : "position"}
             transition={reduceMotion ? { duration: 0 } : TRANSITION.layout}
             data-feed-index={index}
+            data-feed-key={snippet.id}
             {...(activeIndex === index ? {} : ({ inert: "" } as unknown as { inert?: boolean }))}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
           >
@@ -406,6 +506,7 @@ export function FeedPlayer({
             layout={reduceMotion ? false : "position"}
             transition={reduceMotion ? { duration: 0 } : TRANSITION.layout}
             data-feed-index={orderedSnippets.length}
+            data-feed-key={COMPLETE_KEY}
             {...(activeIndex === orderedSnippets.length
               ? {}
               : ({ inert: "" } as unknown as { inert?: boolean }))}

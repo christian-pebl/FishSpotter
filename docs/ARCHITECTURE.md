@@ -84,7 +84,7 @@ degrading silently. See `docs/runbooks/add-a-species.md`.
 ```
 /feed (server component, src/app/feed/page.tsx)
   → feed-ordering.ts: per-user deterministic shuffle, first-unanswered first
-  → FeedPlayer (IntersectionObserver) sets the active card
+  → FeedPlayer sets the active card from the scroll position, held by snippet id (feed-stage.ts)
   → FeedCard (the orchestrator) renders one snippet + the guess UI
        ├─ MCQ path:    MCQCandidatePicker  → /api/snippets/[id]/quiz
        └─ Spot It path: ShapeGate → BodyShapeGate → CandidateGate → SpeciesGuidePopup

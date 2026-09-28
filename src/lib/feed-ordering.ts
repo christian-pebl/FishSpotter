@@ -83,3 +83,58 @@ export function orderFeed<T extends OrderableSnippet>(
 function hasDifficultyScores<T>(items: T[]): items is (T & DifficultyRateable)[] {
   return items.every((i) => typeof (i as { difficultyScore?: unknown }).difficultyScore === "number");
 }
+
+/**
+ * Keep the order a mounted feed is already showing when a fresh server render
+ * of the same feed arrives.
+ *
+ * `orderFeed` is only stable for a fixed seed and answered set, and both can
+ * change mid-visit: the guest gate signs a new spotter in and refreshes /feed,
+ * which moves the seed from the anonymous cookie to their new user id and
+ * reshuffles every card. Applying that order under a mounted feed moved the
+ * clip being watched somewhere down the list and stranded the viewer on a
+ * frozen card (28 Sep 2026). The next full page load uses the new order; a
+ * refresh must not.
+ *
+ * Clips in both lists keep `current`'s order and take `next`'s data (through
+ * `merge`, for data a fresh render may omit). Clips that are new in `next` go
+ * on the end, in `next`'s order. Clips missing from `next` are dropped.
+ */
+export function keepFeedOrder<T extends OrderableSnippet>(
+  current: readonly T[],
+  next: readonly T[],
+  merge: (previous: T, fresh: T) => T = (_previous, fresh) => fresh,
+): T[] {
+  const fresh = new Map(next.map((s) => [s.id, s]));
+  const kept: T[] = [];
+  for (const s of current) {
+    const update = fresh.get(s.id);
+    if (!update) continue;
+    kept.push(merge(s, update));
+    fresh.delete(s.id);
+  }
+  return [...kept, ...fresh.values()];
+}
+
+/**
+ * The feed with this visit's answered clips moved to the back (Q3A-T7), except
+ * `onStage`, the clip the viewer is looking at: it moves only once they have
+ * left it. Moving the card on stage is what dragged the active card to the end
+ * of the feed and left an empty, frozen screen after "Next" (28 Sep 2026).
+ *
+ * Returns `order` itself when there is no answered clip to move.
+ */
+export function sendAnsweredToBack<T extends OrderableSnippet>(
+  order: T[],
+  answered: ReadonlySet<string>,
+  onStage: string | null,
+): T[] {
+  if (answered.size === 0) return order;
+  const front: T[] = [];
+  const back: T[] = [];
+  for (const s of order) {
+    if (answered.has(s.id) && s.id !== onStage) back.push(s);
+    else front.push(s);
+  }
+  return back.length === 0 ? order : [...front, ...back];
+}
