@@ -10,7 +10,7 @@ import { useEngagementTracker } from "@/lib/useEngagement";
 import { useSplitOpen } from "@/lib/split-screen";
 import { useSession } from "next-auth/react";
 import { drainGuestAnswers } from "@/lib/guestAnswers";
-import { keepFeedOrder, sendAnsweredToBack } from "@/lib/feed-ordering";
+import { keepFeedOrder, leadWith, sendAnsweredToBack } from "@/lib/feed-ordering";
 import { indexAtScroll, stageIndex, type Stage } from "@/lib/feed-stage";
 
 // `useLayoutEffect` is a no-op on the server but React 18 still warns about
@@ -129,6 +129,12 @@ interface FeedPlayerProps {
    * pre-existing, merely-suboptimal-not-wrong behaviour rather than an error.
    */
   initialIsDesktopGuess?: boolean;
+  /**
+   * The first-run tour's tutorial clip, when the server pinned it for a
+   * spotter who still needs the tour (src/lib/onboarding-clip.ts). Brought to
+   * the front and onto the stage whenever it newly appears; see `ledWith`.
+   */
+  leadClipId?: string;
 }
 
 /**
@@ -152,6 +158,7 @@ export function FeedPlayer({
   completion,
   newClipCount = 0,
   initialIsDesktopGuess = false,
+  leadClipId,
 }: FeedPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hintVisible, setHintVisible] = useState(false);
@@ -178,15 +185,35 @@ export function FeedPlayer({
   // viewer. Later renders still update each clip's data (keepFeedOrder).
   const [feedOrder, setFeedOrder] = useState(snippets);
   const [orderedFrom, setOrderedFrom] = useState(snippets);
-  if (snippets !== orderedFrom) {
-    setOrderedFrom(snippets);
-    setFeedOrder(keepFeedOrder(feedOrder, snippets, carryLoadedTrack));
-  }
 
   // The card on stage, held by its key rather than its position, so a reorder
   // cannot hand "active" to whichever card slid into its old slot. Set from
   // the scroll position (see the scroll effect below; src/lib/feed-stage.ts).
   const [stage, setStage] = useState<Stage>({ key: null, index: 0 });
+
+  // The one exception to keeping the order: the first-run tour's tutorial clip.
+  // A spotter who signs in through the guest gate needs the tour from that
+  // refresh on, so the clip it teaches on must come to the front AND onto the
+  // stage then, wherever the viewer was. `leadEpoch` makes the scroll follow
+  // even when the clip was already first.
+  const [ledWith, setLedWith] = useState(leadClipId);
+  const [leadEpoch, setLeadEpoch] = useState(0);
+  if (snippets !== orderedFrom || leadClipId !== ledWith) {
+    let next = feedOrder;
+    if (snippets !== orderedFrom) {
+      setOrderedFrom(snippets);
+      next = keepFeedOrder(next, snippets, carryLoadedTrack);
+    }
+    if (leadClipId !== ledWith) {
+      setLedWith(leadClipId);
+      if (leadClipId) {
+        next = leadWith(next, leadClipId);
+        setStage({ key: leadClipId, index: 0 });
+        setLeadEpoch((n) => n + 1);
+      }
+    }
+    if (next !== feedOrder) setFeedOrder(next);
+  }
 
   const orderedSnippets = useMemo(
     () => sendAnsweredToBack(feedOrder, recentlyAnswered, stage.key),
@@ -398,7 +425,8 @@ export function FeedPlayer({
   // in view, before paint. Whether a snap container follows a moved element on
   // its own differs by browser and by timing; without this the viewer could be
   // left looking at a different card from the one on stage. Keyed on the order
-  // alone: following activeIndex would fight the viewer's own scrolling.
+  // (and on the tutorial clip being brought on stage) alone: following
+  // activeIndex would fight the viewer's own scrolling.
   const orderSignature = stageKeys.join("\n");
   useIsomorphicLayoutEffect(() => {
     const el = containerRef.current;
@@ -408,7 +436,7 @@ export function FeedPlayer({
       el.scrollTop = onStage.offsetTop;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderSignature]);
+  }, [orderSignature, leadEpoch]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

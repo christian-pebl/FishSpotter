@@ -31,6 +31,7 @@ export function PanelOverlay({
   ariaLabel,
   onDismiss,
   surfaceClassName,
+  tourAnchor,
   children,
 }: {
   /** The caller's dialog element, so it keeps ownership of focus + Tab trap. */
@@ -40,6 +41,9 @@ export function PanelOverlay({
   onDismiss?: () => void;
   /** Surface colours (background, text). Layout is this component's business. */
   surfaceClassName: string;
+  /** First-run tour anchor (`data-tour`), so the spotlight can light this
+   *  panel (src/components/onboarding/tour-steps.ts). */
+  tourAnchor?: string;
   children: React.ReactNode;
 }) {
   // Open/closed only: the geometry itself arrives through the `--fs-panel-*`
@@ -76,6 +80,7 @@ export function PanelOverlay({
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}
+        data-tour={tourAnchor}
         className={[
           "flex flex-col overflow-hidden",
           inSplit

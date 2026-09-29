@@ -117,6 +117,19 @@ export function keepFeedOrder<T extends OrderableSnippet>(
 }
 
 /**
+ * `order` with the clip `id` moved to the front: the first-run tour's tutorial
+ * clip, which the server pins for a spotter who still needs the tour. Needed on
+ * the client too, because `keepFeedOrder` holds the order through the guest
+ * gate's refresh, which is exactly when a new spotter first needs the tour.
+ * Returns `order` itself when the clip is already first or not in the feed.
+ */
+export function leadWith<T extends OrderableSnippet>(order: T[], id: string): T[] {
+  const index = order.findIndex((s) => s.id === id);
+  if (index <= 0) return order;
+  return [order[index], ...order.slice(0, index), ...order.slice(index + 1)];
+}
+
+/**
  * The feed with this visit's answered clips moved to the back (Q3A-T7), except
  * `onStage`, the clip the viewer is looking at: it moves only once they have
  * left it. Moving the card on stage is what dragged the active card to the end

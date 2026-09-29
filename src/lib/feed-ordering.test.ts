@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { keepFeedOrder, orderFeed, sendAnsweredToBack } from "./feed-ordering";
+import { keepFeedOrder, leadWith, orderFeed, sendAnsweredToBack } from "./feed-ordering";
 
 const snippets = (ids: string[]) => ids.map((id) => ({ id }));
 
@@ -198,6 +198,21 @@ describe("keepFeedOrder", () => {
 
   it("starts from the fresh order when nothing was shown yet", () => {
     expect(ids(keepFeedOrder([], snippets(["b", "a"])))).toEqual(["b", "a"]);
+  });
+});
+
+describe("leadWith", () => {
+  const ids = (list: { id: string }[]) => list.map((s) => s.id);
+
+  it("moves the tutorial clip to the front, everyone else keeping their order", () => {
+    expect(ids(leadWith(snippets(["a", "b", "crab", "c"]), "crab"))).toEqual(["crab", "a", "b", "c"]);
+  });
+
+  it("returns the same array when the clip is already first or not in the feed", () => {
+    const first = snippets(["crab", "a"]);
+    expect(leadWith(first, "crab")).toBe(first);
+    const absent = snippets(["a", "b"]);
+    expect(leadWith(absent, "crab")).toBe(absent);
   });
 });
 

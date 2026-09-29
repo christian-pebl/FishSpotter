@@ -828,6 +828,7 @@ export function TileGate({
                     stepFrame(tile.key, frames.length, e.key === "ArrowLeft" ? -1 : 1, tile.label);
                   }}
                   aria-label={tile.ariaLabel ?? tile.label}
+                  data-tour-tile={tile.key}
                   aria-keyshortcuts={canFlip ? "ArrowLeft ArrowRight" : undefined}
                   className={[
                     "absolute inset-y-0 z-10 focus:outline-none",
@@ -859,6 +860,7 @@ export function TileGate({
               onMouseEnter={() => setHovered(tile.key)}
               onMouseLeave={() => setHovered(null)}
               aria-label={tile.ariaLabel ?? tile.label}
+              data-tour-tile={tile.key}
               animate={commitAnimate}
               transition={commitTransition}
               className={chrome}
@@ -911,6 +913,7 @@ export function TileGate({
                 onMouseEnter={() => setHovered(tile.key)}
                 onMouseLeave={() => setHovered(null)}
                 aria-label={tile.ariaLabel ?? tile.label}
+                data-tour-tile={tile.key}
                 animate={
                   committing === tile.key && !reduceMotion
                     ? { scale: [1, 0.97, 1] }
@@ -1245,6 +1248,9 @@ export function TileGate({
             <div
               ref={scrollRef}
               onScroll={syncMoreBelow}
+              // First-run tour anchor: the spotlight lights the tile area, not
+              // the whole panel, so the caption stays readable.
+              data-tour="tiles"
               className="-mx-1 min-h-0 flex-1 overflow-y-auto px-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/15"
             >
               {tiles.length === 0 && emptyMessage ? (
@@ -1399,6 +1405,7 @@ export function TileGate({
                 {compare && (
                   <button
                     type="button"
+                    data-tour="compare"
                     onClick={compare.onClick}
                     className={actionClass("plain")}
                   >
