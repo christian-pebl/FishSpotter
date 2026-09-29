@@ -16,6 +16,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ComparisonGroup } from "@/lib/idflow/comparisons";
+import { emitTour } from "@/lib/tour-bus";
 import { PanelOverlay } from "@/components/idflow/PanelOverlay";
 
 // Below this many records in the clip's bucket the share is too noisy to show
@@ -50,6 +51,8 @@ export function SpeciesComparison({
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+  // Announce the side-by-side to the first-run tour (see SpeciesGuidePopup).
+  useEffect(() => emitTour("comparison-opened"), []);
 
   // Lead photo per member, fetched once (same route the candidate grid uses).
   const [photos, setPhotos] = useState<Record<string, string | null>>({});
@@ -161,6 +164,7 @@ export function SpeciesComparison({
     <PanelOverlay
       dialogRef={dialogRef}
       ariaLabel={group.title}
+      tourAnchor="comparison"
       onDismiss={onClose}
       surfaceClassName="bg-navy-900 text-white"
     >

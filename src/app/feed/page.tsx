@@ -25,6 +25,7 @@ import {
 import { FeedFilterNotice } from "@/components/FeedFilterNotice";
 import { archiveUrl, feedUrlForFilter } from "@/lib/archive-url";
 import { canReceiveOptionalEmail } from "@/lib/age";
+import { pinTutorialClip } from "@/lib/onboarding-clip";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +35,7 @@ export const metadata: Metadata = {
 
 type FeedSnippetRow = {
   id: string;
+  externalId: string;
   videoUrl: string;
   videoUrlSd: string | null;
   thumbnailUrl: string;
@@ -101,6 +103,7 @@ export default async function FeedPage({
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
+        externalId: true,
         videoUrl: true,
         videoUrlSd: true,
         thumbnailUrl: true,
@@ -214,7 +217,16 @@ export default async function FeedPage({
   // Pull the tracking JSON for the opening cards ONLY (see INLINE_TRACK_COUNT).
   // Indexed lookup on 3 ids, so it costs far less than carrying every snippet's
   // per-frame blob through the HTML did.
-  const inlineIds = orderedSnippets.slice(0, INLINE_TRACK_COUNT).map((s) => s.id);
+  // First-run only: the tour's ghost cursor points at "Crab", which is only
+  // honest over footage that contains one, so hoist the tutorial clip to the
+  // front (src/lib/onboarding-clip.ts). Done before the opening cards' tracks
+  // are inlined, so the clip keeps its crop anchor. If the clip is missing the
+  // order is untouched and the tour falls back to shape-agnostic coaching.
+  const tourOrdered = needsTour ? pinTutorialClip(orderedSnippets as FeedSnippetRow[]) : null;
+  const tutorialClipPinned = tourOrdered?.pinned ?? false;
+  const servedSnippets = tourOrdered?.rows ?? orderedSnippets;
+
+  const inlineIds = servedSnippets.slice(0, INLINE_TRACK_COUNT).map((s) => s.id);
   const inlineTrackRows = inlineIds.length
     ? await prisma.snippet.findMany({
         where: { id: { in: inlineIds } },
@@ -223,7 +235,7 @@ export default async function FeedPage({
     : [];
   const inlineTrackById = new Map(inlineTrackRows.map((r) => [r.id, r]));
 
-  const feedSnippets = orderedSnippets.map((snippet: FeedSnippetRow) => {
+  const feedSnippets = servedSnippets.map((snippet: FeedSnippetRow) => {
     const track = inlineTrackById.get(snippet.id);
     return {
       id: snippet.id,
@@ -253,6 +265,10 @@ export default async function FeedPage({
       <FeedPlayer
         key={feedUrlForFilter(filter)}
         snippets={feedSnippets}
+        // A refresh keeps the feed's order (keepFeedOrder), so when the guest
+        // gate's refresh first asks for the tutorial clip, FeedPlayer has to be
+        // told to lead with it, or the tour would point at "Crab" over a pollack.
+        leadClipId={tutorialClipPinned ? servedSnippets[0]?.id : undefined}
         unansweredCount={unansweredCount}
         completion={completion}
         newClipCount={newClipCount}
@@ -265,7 +281,7 @@ export default async function FeedPage({
         clips={feedSnippets.length}
         archiveHref={filtered ? archiveUrl(filter) : undefined}
       />
-      <OnboardingTour needsTour={needsTour} />
+      <OnboardingTour needsTour={needsTour} tutorialClipPinned={tutorialClipPinned} />
       <VerificationBanner unverified={unverified} />
       {/* Zero-friction guest flow: username prompt for signed-out spotters,
           then an email-save nudge once a guest has spotted a few clips. Both

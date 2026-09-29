@@ -2751,3 +2751,42 @@ recovers by itself; more show the overlay, which stays until the clip really pla
 paused to study a frame stays paused through a seek, because the retries stop once playback
 has started (the old `onCanPlay` would have restarted it). The first-clip, Next and scrolling
 checks from #186 still pass. `tsc`, 1173 unit tests, `lint` and `lint:tokens` clean.
+
+## 2026-09-29: the first-run tour is a spotlight over the real app, at last
+
+The tour every new spotter sees was still the old modal around `TourPreview`, a hand-drawn
+replica of a feed card. It had drifted: it taught the retired multiple-choice picker and showed
+a "Reference: Velvet crab" badge, though the crowd is the authority and there is no answer key.
+The rebuild (a six-step spotlight over the live app, designed and signed off 28 Aug 2026,
+`implementation/2026-08-28/onboarding-tour-revision.md`) was committed to a branch that had
+already been merged, so it never reached main. This re-applies it by hand to current main.
+
+What it is: the app is dimmed except one real control, a ghost cursor mimes the tap, and the
+spotter makes the real tap. It follows the app through the tour bus (clip, shape, crab
+sub-split, candidates, species page or side-by-side, reveal) and ends on the consensus, with
+a real first answer and real Pebbles. Focus is deliberately NOT trapped (it inverts the 2 Jun
+modal contract, because the coach mark points at controls the user has to reach); Escape skips.
+
+What had to change to land it on today's app:
+
+- **The tutorial clip and the guest gate.** The tour teaches on the velvet crab at Pabay,
+  pinned to the front for a spotter who still needs the tour. But a newcomer usually meets the
+  tour straight after the guest gate, whose refresh now keeps the feed's order (#186), so the
+  pin would have been ignored and the cursor would have pointed at "Crab" over another animal.
+  `/feed` now passes the pinned clip as `leadClipId`, and FeedPlayer brings it to the front and
+  onto the stage when it first appears (`leadWith`), leaving the rest of the order alone.
+- **Anchors on today's components.** The comparison and species panels now render through
+  `PanelOverlay` (split-screen refactor), which takes a `tourAnchor` prop; `TileGate` has
+  three tile renderers (photo, silhouette, list row) and all carry `data-tour-tile`. The drift
+  gate (`tour-steps.test.ts`) knows the new spelling.
+- **The August QA scripts are not shipped.** They predate the age question and would create
+  test guests in whatever database `.env.local` points at.
+
+**Verified** on a local production build against a throwaway database, Edge, 1280x900 and
+390x844, as a newcomer really meets it: anonymous feed, scrolled two clips in, then age,
+username, Start spotting, with no reload. The crab comes to the front and plays; all six steps
+show on screen; the cursor lands on the Crab and broad-carapace tiles; Done clears it, nothing
+blocks the feed, and a reload does not bring it back. Reduced motion passes on both sizes.
+Skipping at step 1 leaves the clip playing and tappable. Tab reaches the app as well as the
+caption, and Escape skips. The #186 and #188 checks still pass. `tsc`, 1182 unit tests
+(9 new), `lint` and `lint:tokens` clean.
