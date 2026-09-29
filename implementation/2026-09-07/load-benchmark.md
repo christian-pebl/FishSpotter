@@ -215,3 +215,44 @@ load 202 to 190 ms, `/species` 105 to 103 ms, `/` 236 to 252 ms (one 58 ms long 
 one after run; `/` imports none of the changed code). `bench:split`: the first painted frame
 of an open is the final layout at laptop, landscape tablet and phone, before and after, so
 the #176 flash stays fixed.
+
+### Production, before (3f2f942) and after (a4a674a), 29 Sep 2026
+
+The same three scripts against https://www.fishspotter.app (139 clips), same machine and
+network, medians of three, read-only anonymous loads. "Before" was taken minutes before the
+merge, "after" as soon as the deployment reported success, then again once caches were warm.
+
+| `/feed`, 1280x800 | before | after, first run | after, warm |
+|---|---|---|---|
+| TTFB | 11 ms | 10 ms | 11 ms |
+| DOMContentLoaded | 279 ms | 246 ms | 215 ms |
+| load event | 503 ms | 617 ms | 439 ms |
+| JS files / JS compressed | 24 / 381 KB | 24 / 381 KB | 24 / 381 KB |
+| DOM nodes / `<video>` elements | 344 / 4 | 340 / 4 | 338 / 4 |
+| long tasks / blocking time | 0 / 0 ms | 0 / 0 ms | 0 / 0 ms |
+| JS heap | 12 MB | 11 MB | 10 MB |
+
+| `/feed`, phone 390x844, CPU 4x | before | after, first run | after, warm run 1 | after, warm run 2 |
+|---|---|---|---|---|
+| DOMContentLoaded | 1,073 ms | 1,254 ms | 1,051 ms | 1,006 ms |
+| load event | 1,193 ms | 1,495 ms | 1,211 ms | 1,084 ms |
+| time to tappable | 1,301 ms | 1,821 ms | 1,493 ms | 1,214 ms |
+| tap to panel | 189 ms | 227 ms | 192 ms | 179 ms |
+| long tasks (total) | 4 (583 ms) | 4 (627 ms) | 4 (522 ms) | 4 (516 ms) |
+| blocking time | 383 ms | 401 ms | 322 ms | 316 ms |
+| DOM nodes / heap | 336 / 12 MB | 336 / 13 MB | 335 / 13 MB | 337 / 13 MB |
+
+The first run after a deploy reads slow on the load-time rows, including routes this change
+does not touch (`/species` load 321 to 403 ms and `/` 790 to 838 ms in the desktop run),
+which is what cold edge caches look like. The warm runs sit at or under the before numbers on
+every route. Blocking time and the long-task total, the CPU cost and the numbers this change
+could move, did not rise (383 ms before, 316 to 401 ms after). `bench:split`: the first painted
+frame of an open is the final layout at laptop, tablet and phone, before and after.
+
+One thing the live scroll check turned up that this change did not cause. Desktop is served
+the 1080p master, and on this connection a 25.4 MB clip (the MP4 index is at the front of the
+file, so it is not a packaging fault) took about 15 s to reach its first frame during a fast
+scroll through five clips. A second run hit the same on a different large clip. Phone, on the
+720p renditions, started every clip at once, and the first clip started in about 170 ms on
+both. Serving the master to desktop unconditionally is a standing choice
+(`src/lib/video-rendition-select.ts`), so this is a note, not a change.
