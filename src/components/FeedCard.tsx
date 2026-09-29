@@ -1117,38 +1117,63 @@ export function FeedCard({
     }
 
     let cancelled = false;
-
-    const tryPlay = () => {
-      if (cancelled || !videoRef.current) return;
-      videoRef.current.play().then(() => {
-        if (!cancelled) { setVideoPaused(false); setAutoplayBlocked(false); }
-      }).catch((err: unknown) => {
-        if (cancelled) return;
-        const name = err instanceof Error ? err.name : String(err);
-        if (name === "NotAllowedError") {
-          setVideoPaused(true);
-          setAutoplayBlocked(true);
-        }
-      });
+    let inFlight = false;
+    const disarm = () => {
+      v.removeEventListener("loadeddata", attempt);
+      v.removeEventListener("canplay", attempt);
     };
 
-    if (v.readyState >= 3) {
-      tryPlay();
-    } else {
-      const onCanPlay = () => {
-        v.removeEventListener("canplay", onCanPlay);
-        tryPlay();
-      };
-      v.addEventListener("canplay", onCanPlay);
-      tryPlay();
-      return () => {
-        cancelled = true;
-        v.removeEventListener("canplay", onCanPlay);
-      };
-    }
+    // One play() at a time, and never before the element has a frame. This used
+    // to fire play() at once, again from a `canplay` listener and a third time
+    // from the JSX onCanPlay, and overlapping requests on one element are what
+    // makes a browser reject with AbortError.
+    const attempt = () => {
+      const el = videoRef.current;
+      if (cancelled || !el || inFlight || !el.paused) return;
+      // HAVE_CURRENT_DATA. Below it, play() races the load; an event retries.
+      if (el.readyState < 2) return;
+      inFlight = true;
+      el.play()
+        .then(() => {
+          if (cancelled) return;
+          setVideoPaused(false);
+          setAutoplayBlocked(false);
+          // Started: stop retrying, so a later `canplay` (after a seek, say)
+          // never restarts a clip the spotter paused to study a frame.
+          disarm();
+        })
+        .catch(() => {
+          // ANY refusal gets the tap-to-play overlay, not only NotAllowedError.
+          // A swallowed AbortError left the card frozen on its poster with no
+          // control, recoverable only by scrolling away and back (reported on
+          // Firefox, Vanadium and Edge, 11 Aug 2026; the fix sat on an unmerged
+          // branch until 29 Sep 2026).
+          if (!cancelled && videoRef.current?.paused) {
+            setVideoPaused(true);
+            setAutoplayBlocked(true);
+          }
+        })
+        .finally(() => {
+          inFlight = false;
+        });
+    };
 
-    return () => { cancelled = true; };
-  }, [isActive]);
+    // Retry as the element becomes playable: a cold card reaches
+    // HAVE_CURRENT_DATA on `loadeddata`, one restored from cache can go
+    // straight to `canplay`. A refused attempt retries here too, and the
+    // <video>'s onPlay clears the overlay once one succeeds.
+    v.addEventListener("loadeddata", attempt);
+    v.addEventListener("canplay", attempt);
+    attempt();
+
+    return () => {
+      cancelled = true;
+      disarm();
+    };
+    // `preload` and the source matter: a card far enough out of the window has
+    // its src removed, and a failed 720p rendition swaps to the master, so both
+    // need fresh listeners on a re-loading element.
+  }, [isActive, preload, chosenVideoSrc]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -1533,10 +1558,9 @@ export function FeedCard({
             // play glyph.
             if (isActive) setVideoPaused(true);
           }}
-          onCanPlay={() => {
-            setVideoErrored(false);
-            if (isActive) videoRef.current?.play().catch(() => {});
-          }}
+          // No play() here: the playback effect owns starting the clip, one
+          // attempt at a time (a second caller is what raced into AbortError).
+          onCanPlay={() => setVideoErrored(false)}
           onError={(e) => {
             const v = e.currentTarget;
             // A broken 720p rendition retries with the always-present master
