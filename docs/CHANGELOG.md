@@ -2706,3 +2706,17 @@ active; "Show all" opens a fresh feed at the top. `bench:load`, `bench:phone` an
 Not in this change: commit `8eac70e` on the unmerged `fix/feed-video-autoplay` branch fixes a
 different freeze (a rejected `play()` that is swallowed, so a card can sit on its poster with
 no play button) and has never reached main.
+
+**Live 29 Sep 2026** (PR #186, `a4a674a`). Checked on the live site with anonymous visits
+only, because an account cannot be created there for a test. The exact guest sign-up path was
+verified on local production builds, not on production. On the live 139-clip feed, at phone
+and desktop sizes, the first clip plays at once; five cards down, five back and the arrow keys
+always leave the card on screen active and playing; and "Show all" from a filtered feed opens
+a fresh feed at the top.
+
+The build before the deploy failed that last check, in the one run made before the merge.
+"Show all" left the viewer on card 27 with card 20 active and no video, an empty screen. The
+feed stayed mounted, so the browser kept the clip in view as the list changed around it while
+the active card went to a different one. That is the same fault as the frozen first clip,
+reached without an account. Production numbers are in
+`implementation/2026-09-07/load-benchmark.md`.
