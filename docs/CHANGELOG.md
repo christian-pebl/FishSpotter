@@ -2720,3 +2720,34 @@ feed stayed mounted, so the browser kept the clip in view as the list changed ar
 the active card went to a different one. That is the same fault as the frozen first clip,
 reached without an account. Production numbers are in
 `implementation/2026-09-07/load-benchmark.md`.
+
+## 2026-09-29: a clip the browser refuses to start no longer freezes on its poster
+
+A spotter reported on 11 Aug 2026, on Firefox, Vanadium and Edge: "videos occasionally won't
+play until I scroll down and back up again". The fix was written that day (`8eac70e`) and
+verified, but it sat on the unmerged `fix/feed-video-autoplay` branch and never reached main.
+Found again while fixing the first-clip freeze, and re-applied by hand here, because FeedCard
+has changed since (the play/pause controls split `videoPaused` from `autoplayBlocked`, and
+clips now play a 720p rendition on phones).
+
+**What was wrong**, all in FeedCard's playback effect:
+
+- Only a `NotAllowedError` earned the tap-to-play overlay. Every other refusal was swallowed,
+  and the commonest one, `AbortError`, left the clip frozen on its poster with no control.
+- Up to three `play()` calls raced on one element (at once, from a `canplay` listener, and
+  from the `<video>`'s own `onCanPlay`). Overlapping requests are what produce `AbortError`.
+- Nothing retried. Only the card becoming active again re-ran the effect, which is literally
+  "scroll away and back".
+
+**Now**: one attempt at a time, never before the element has a frame, retried on `loadeddata`
+and `canplay`, and ANY refusal shows the overlay. A later successful retry clears it through
+the `<video>`'s `onPlay`. The effect also re-arms when the source changes (a card leaving the
+window loses its `src`; a failed 720p rendition swaps to the master).
+
+**Verified** on local production builds of `main` and of this change, Edge at phone and desktop
+sizes, forcing the browser to refuse `play()` with `AbortError`. On `main`, three refusals left
+the clip frozen on its poster with no control, every time. With the change: one refusal
+recovers by itself; more show the overlay, which stays until the clip really plays. A clip
+paused to study a frame stays paused through a seek, because the retries stop once playback
+has started (the old `onCanPlay` would have restarted it). The first-clip, Next and scrolling
+checks from #186 still pass. `tsc`, 1173 unit tests, `lint` and `lint:tokens` clean.
