@@ -21,10 +21,19 @@
  * right length, and looked structurally fine); only looking at the image can.
  * See `scripts/lib/burn-in.ts`.
  *
+ * It also checks the CODEC. On 28 Aug 2026 all 52 Car-Y-Mor clips shipped as
+ * MPEG-4 Part 2 (`mp4v`) rather than H.264, because TRDesk4's `shutil.which
+ * ("ffmpeg")` came back empty inside its own process and it fell back to the
+ * cv2 mp4v writer with only a log warning. Chrome has no decoder for that, so
+ * every one of them rendered as "This clip didn't load." Metadata and pixels
+ * were both fine. See `scripts/lib/video-codec.ts`.
+ *
  * Verdicts, per folder:
- *   READY   new or changed, metadata complete, no burnt-in overlay. Safe to sync.
- *   HOLD    new or changed, but a required field is missing, or the clip has a
- *           detector overlay burned into it. Names the reason.
+ *   READY   new or changed, metadata complete, no burnt-in overlay, H.264.
+ *           Safe to sync.
+ *   HOLD    new or changed, but a required field is missing, the clip has a
+ *           detector overlay burned into it, or its codec will not play in a
+ *           browser. Names the reason.
  *   SKIP    excluded (TRDesk4 toggle or blocklist), or not a complete snip folder.
  *   SYNCED  already on FishSpotter and unchanged since the last sync.
  *
@@ -39,6 +48,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { isSnippetExcluded } from "../src/lib/snippet-blocklist";
 import { checkSnipBurnIn, type BurnInStatus } from "./lib/burn-in";
+import { checkSnipCodec, type CodecStatus } from "./lib/video-codec";
 
 const SNIPS_DIR = process.env.SNIPS_DIR ?? path.join(process.cwd(), "Fish Spotter Snips");
 const MANIFEST_PATH = path.join(process.cwd(), ".sync-manifest.json");
@@ -76,6 +86,10 @@ interface Result {
   deployment?: string;
   /** Result of the pixel check; absent when the snip never got that far. */
   burnIn?: BurnInStatus;
+  /** Result of the codec check; absent when the snip never got that far. */
+  codec?: CodecStatus;
+  /** ffprobe's codec_name, kept for the report even when the verdict is READY. */
+  codecName?: string | null;
 }
 
 interface Signature {
@@ -190,6 +204,23 @@ function inspect(folder: string, manifest: Record<string, Signature>): Result {
     };
   }
 
+  // Codec gate. A clip can be perfectly framed, perfectly labelled and still
+  // be undecodable; that is exactly how the CYM batch shipped.
+  const codec = checkSnipCodec(videoPath);
+  if (codec.status === "unplayable") {
+    return {
+      ...base,
+      verdict: "HOLD",
+      reason: `unplayable video codec: ${codec.reason}`,
+      isNew,
+      site,
+      deployment,
+      burnIn: burnIn.status,
+      codec: codec.status,
+      codecName: codec.codec,
+    };
+  }
+
   return {
     ...base,
     verdict: "READY",
@@ -198,6 +229,8 @@ function inspect(folder: string, manifest: Record<string, Signature>): Result {
     site,
     deployment,
     burnIn: burnIn.status,
+    codec: codec.status,
+    codecName: codec.codec,
   };
 }
 
@@ -242,6 +275,7 @@ function main() {
       deployment: r.deployment,
       isNew: r.isNew,
       burnIn: r.burnIn,
+      codec: r.codecName,
     })),
     hold: hold.map((r) => ({
       folder: r.folder,
@@ -250,6 +284,7 @@ function main() {
       deployment: r.deployment,
       isNew: r.isNew,
       burnIn: r.burnIn,
+      codec: r.codecName,
     })),
     skip: skip.map((r) => ({ folder: r.folder, reason: r.reason })),
   };
@@ -280,7 +315,8 @@ function main() {
   }
 
   const burned = hold.filter((r) => r.burnIn === "burned-in");
-  const heldForMeta = hold.filter((r) => r.burnIn !== "burned-in");
+  const badCodec = hold.filter((r) => r.codec === "unplayable");
+  const heldForMeta = hold.filter((r) => r.burnIn !== "burned-in" && r.codec !== "unplayable");
 
   if (heldForMeta.length > 0) {
     console.log(`HELD (${heldForMeta.length}), not uploaded until these are filled in TRDesk4:`);
@@ -304,6 +340,17 @@ function main() {
       "\n   These were cut from an ML pipeline render, not the raw footage, so the\n" +
         "   detector's answer is drawn on the animal. Re-export from the original in\n" +
         "   TRDesk4 (check the video resolves via data/clip_registry.json) and re-run.\n",
+    );
+  }
+
+  if (badCodec.length > 0) {
+    console.log(`HELD (${badCodec.length}) with a VIDEO CODEC NO BROWSER CAN DECODE:`);
+    for (const r of badCodec) console.log(`   - ${r.folder}\n       ${r.reason}`);
+    console.log(
+      "\n   These upload and serve normally, then show as 'This clip didn't load.' in\n" +
+        "   the feed. TRDesk4 encodes H.264 only when ffmpeg is on the PATH of its own\n" +
+        "   process; otherwise it falls back to the cv2 mp4v writer and only logs a\n" +
+        "   warning. Put ffmpeg on PATH, restart TRDesk4, re-export, then re-run.\n",
     );
   }
 
