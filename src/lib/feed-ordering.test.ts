@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { orderFeed } from "./feed-ordering";
+import { keepFeedOrder, orderFeed, sendAnsweredToBack } from "./feed-ordering";
 
 const snippets = (ids: string[]) => ids.map((id) => ({ id }));
 
@@ -162,5 +162,63 @@ describe("orderFeed with a difficulty readiness param", () => {
       hardSum += indexOf("h1") + indexOf("h2") + indexOf("h3");
     }
     expect(easySum / trials).toBeLessThan(hardSum / trials);
+  });
+});
+
+describe("keepFeedOrder", () => {
+  const ids = (list: { id: string }[]) => list.map((s) => s.id);
+
+  it("keeps the mounted order when a refresh reshuffles the same clips", () => {
+    // The guest gate case: same clips, new seed, a different shuffle.
+    const shown = snippets(["a", "b", "c", "d"]);
+    const refreshed = snippets(["c", "a", "d", "b"]);
+    expect(ids(keepFeedOrder(shown, refreshed))).toEqual(["a", "b", "c", "d"]);
+  });
+
+  it("takes each clip's data from the fresh render", () => {
+    const shown = [{ id: "a", v: 1 }, { id: "b", v: 1 }];
+    const refreshed = [{ id: "b", v: 2 }, { id: "a", v: 2 }];
+    expect(keepFeedOrder(shown, refreshed)).toEqual([{ id: "a", v: 2 }, { id: "b", v: 2 }]);
+  });
+
+  it("puts new clips on the end in the fresh order and drops removed ones", () => {
+    const shown = snippets(["a", "b", "c"]);
+    const refreshed = snippets(["y", "c", "x", "a"]);
+    expect(ids(keepFeedOrder(shown, refreshed))).toEqual(["a", "c", "y", "x"]);
+  });
+
+  it("lets the caller keep data the fresh render left out", () => {
+    const shown = [{ id: "a", track: "loaded" as string | null }];
+    const refreshed = [{ id: "a", track: null as string | null }];
+    const merged = keepFeedOrder(shown, refreshed, (prev, fresh) =>
+      fresh.track === null ? { ...fresh, track: prev.track } : fresh,
+    );
+    expect(merged).toEqual([{ id: "a", track: "loaded" }]);
+  });
+
+  it("starts from the fresh order when nothing was shown yet", () => {
+    expect(ids(keepFeedOrder([], snippets(["b", "a"])))).toEqual(["b", "a"]);
+  });
+});
+
+describe("sendAnsweredToBack", () => {
+  const ids = (list: { id: string }[]) => list.map((s) => s.id);
+
+  it("moves answered clips to the back, keeping everyone's relative order", () => {
+    const order = snippets(["a", "b", "c", "d", "e"]);
+    expect(ids(sendAnsweredToBack(order, new Set(["d", "a"]), "c"))).toEqual(["b", "c", "e", "a", "d"]);
+  });
+
+  it("never moves the clip on stage, even once it is answered", () => {
+    // Moving it dragged the active card to the end of the feed.
+    const order = snippets(["a", "b", "c"]);
+    expect(ids(sendAnsweredToBack(order, new Set(["a"]), "a"))).toEqual(["a", "b", "c"]);
+    expect(ids(sendAnsweredToBack(order, new Set(["a"]), "b"))).toEqual(["b", "c", "a"]);
+  });
+
+  it("returns the same array when there is nothing to move", () => {
+    const order = snippets(["a", "b"]);
+    expect(sendAnsweredToBack(order, new Set(), "a")).toBe(order);
+    expect(sendAnsweredToBack(order, new Set(["a"]), "a")).toBe(order);
   });
 });

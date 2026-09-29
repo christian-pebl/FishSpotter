@@ -178,3 +178,40 @@ with a desktop and an iPhone User-Agent against the same URL.
 hook safe for layout because being briefly wrong costs nothing is not automatically safe
 for a resource URL, where being briefly wrong costs a real download. Check what the
 default is USED FOR, not just whether the hook itself is hydration-safe.
+
+## 28 Sep 2026: the active card follows the scroll position (first-clip freeze fix)
+
+The fix for the frozen first clip after the guest gate, and the empty screen after Next
+(`docs/CHANGELOG.md`, 2026-09-28), changes how `FeedPlayer` picks the active card: a
+scroll listener reading the scroll position replaces the IntersectionObserver, and the feed
+keeps its order through a refresh. Measured because it is a feed change.
+
+Local production builds of `main` (`3f2f942`) and the fix, `next start` against a throwaway
+local Postgres holding **12 clips**, so these absolute numbers are not comparable with the
+139-clip rows above; only this before/after pair is. Medians of three, same machine.
+
+| `/feed`, 1280x800 | before | after |
+|---|---|---|
+| TTFB | 37 ms | 47 ms |
+| DOMContentLoaded | 119 ms | 132 ms |
+| load event | 315 ms | 328 ms |
+| requests / JS files / JS compressed | 75 / 24 / 373 KB | 75 / 24 / 374 KB |
+| DOM nodes / `<video>` elements | 203 / 4 | 203 / 4 |
+| long tasks / blocking time | 0 / 0 ms | 0 / 0 ms |
+
+| `/feed`, phone 390x844, CPU 4x | before | after |
+|---|---|---|
+| DOMContentLoaded | 961 ms | 908 ms |
+| load event | 1,466 ms | 1,069 ms |
+| time to tappable | 1,558 ms | 1,165 ms |
+| tap to panel | 175 ms | 154 ms |
+| long tasks (total) | 4 (524 ms) | 5 (526 ms) |
+| blocking time | 309 ms | 300 ms |
+| DOM nodes | 202 | 206 |
+
+Unchanged within noise. The phone load and tappable times move with the clip download, not
+with this code (blocking time, the CPU cost, is 309 against 300 ms). Other routes: `/feed/browse`
+load 202 to 190 ms, `/species` 105 to 103 ms, `/` 236 to 252 ms (one 58 ms long task in
+one after run; `/` imports none of the changed code). `bench:split`: the first painted frame
+of an open is the final layout at laptop, landscape tablet and phone, before and after, so
+the #176 flash stays fixed.

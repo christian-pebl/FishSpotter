@@ -23,7 +23,7 @@ import {
   snippetFilterWhere,
 } from "@/lib/snippet-filter";
 import { FeedFilterNotice } from "@/components/FeedFilterNotice";
-import { archiveUrl } from "@/lib/archive-url";
+import { archiveUrl, feedUrlForFilter } from "@/lib/archive-url";
 import { canReceiveOptionalEmail } from "@/lib/age";
 
 export const dynamic = "force-dynamic";
@@ -247,7 +247,11 @@ export default async function FeedPage({
 
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
+      {/* Keyed on the selection: FeedPlayer keeps its order through a refresh
+          of the SAME feed, so a different filter ("Show all" is a soft
+          navigation that keeps this page mounted) must be a fresh feed. */}
       <FeedPlayer
+        key={feedUrlForFilter(filter)}
         snippets={feedSnippets}
         unansweredCount={unansweredCount}
         completion={completion}

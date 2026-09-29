@@ -2662,3 +2662,47 @@ live, because the new pages and the prize route read the new tables.
 - director sign-offs;
 - the prize closing date and staff exclusion;
 - sending the school-address notice from `/admin/children`, then checking Resend for bounces.
+
+## 2026-09-28: the first clip froze after sign-up, and Next could leave an empty screen
+
+Reported: start a new account, skip the welcome tour, and the first clip is frozen.
+
+**What was happening.** Picking a username on the guest gate signs the spotter in and
+refreshes /feed. The refreshed page is shuffled on the new user's id instead of the anonymous
+cookie, so every card moved under the viewer. The browser kept the clip being watched in view
+at its new position, while the IntersectionObserver that picked the active card settled on a
+card that had only slid past during the reorder. The card on screen was then `inert`, had no
+video attached, and ignored taps: a frozen still behind the tour, still frozen after Skip. The
+tour was never the cause; it is just what the spotter was looking at when it happened.
+
+The same fault had a second trigger. Next on a reveal moves the answered card to the back of
+the feed 500 ms later. The observer read `data-feed-index` off the moving card, which by then
+named the end of the feed, and made it active. The clip on screen went inert and the cards
+around it unmounted: an empty dark screen on the very first Next.
+
+**The fix** (`FeedPlayer`, with `src/lib/feed-stage.ts` and two helpers in `feed-ordering.ts`):
+
+- The feed keeps the order it opened with through a refresh of the same feed
+  (`keepFeedOrder`). Fresh data still lands on each clip, new clips go on the end, and a track
+  the refresh did not re-send is kept, so the clip on stage does not re-centre. `/feed` keys
+  `FeedPlayer` on its filter, because "Show all" is a soft navigation that keeps the page
+  mounted and would otherwise have carried the filtered order into the full feed.
+- The active card is read from the scroll position and held by snippet id, never from an
+  observer. After any reorder, a layout effect puts that card back in view before paint.
+- An answered card is never moved while it is on stage, and waits for the scroll to Next to
+  settle. On a desktop-height card that scroll outlasts the 500 ms delay, and moving a card
+  mid-scroll made it land one card too far, silently skipping a clip.
+
+**Verified** in Edge against local production builds and a throwaway local Postgres (no
+production writes), at 390x844 and 1280x900. On `main`: after the guest gate and Skip the
+active card was index 1 or 5 while index 2 or 7 was on screen, and the first Next made card 11
+active over a blank screen. With the fix: the clip being watched keeps playing through sign-up,
+tour and Skip (skipped at 300 ms and 1.5 s); four Nexts in a row each land on the next clip,
+playing; scrolling down and back up, and the arrow keys, always leave the card on screen
+active; "Show all" opens a fresh feed at the top. `bench:load`, `bench:phone` and
+`bench:split` are unchanged within noise (`implementation/2026-09-07/load-benchmark.md`).
+`tsc` clean, 1173 unit tests (15 new), `lint:tokens` clean.
+
+Not in this change: commit `8eac70e` on the unmerged `fix/feed-video-autoplay` branch fixes a
+different freeze (a rejected `play()` that is swallowed, so a card can sit on its poster with
+no play button) and has never reached main.
