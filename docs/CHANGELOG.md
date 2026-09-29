@@ -2790,3 +2790,22 @@ blocks the feed, and a reload does not bring it back. Reduced motion passes on b
 Skipping at step 1 leaves the clip playing and tappable. Tab reaches the app as well as the
 caption, and Escape skips. The #186 and #188 checks still pass. `tsc`, 1182 unit tests
 (9 new), `lint` and `lint:tokens` clean.
+
+## 2026-09-29: the codec gate is actually on main now
+
+`CLAUDE.md` has said since 28 Aug 2026 that `npm run db:sync` HOLDS a clip no browser can
+decode (`scripts/lib/video-codec.ts`), and that `npm run db:fix-codecs` repairs one. Neither
+was true on main: the gate was committed as `12f37dd` to a branch that had already been merged,
+so `sync.ts` had no codec check and `db:fix-codecs` pointed at a file that did not exist. Only
+the read-only `check:codecs` had landed, which reports a broken clip after the public has seen
+it. The next TRDesk4 export made without ffmpeg on its PATH would have published mp4v clips
+that show "This clip didn't load.", exactly as the 52 Car-Y-Mor clips did on 28 Aug.
+
+Re-applied by hand: `video-codec.ts` (H.264 only; warns and fails open when ffprobe is absent;
+holds a file ffprobe cannot parse), its tests, the hold in `sync.ts` (`--allow-bad-codec` to
+override) and `snip-preflight.ts`, and `fix-unplayable-snippets.ts`.
+
+Verified: on real files the gate passes an H.264 clip, holds an mp4v clip with the reason and
+the fix, and holds a truncated file. `npm run snips:check` on a throwaway folder of one of each
+reports READY 1, HOLD 1. `db:fix-codecs --dry-run` against production reads all 163 live clips
+and finds 0 unplayable. `tsc`, 1188 unit tests (6 new), `lint` and `lint:tokens` clean.
