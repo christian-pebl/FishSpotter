@@ -2809,3 +2809,10 @@ Verified: on real files the gate passes an H.264 clip, holds an mp4v clip with t
 the fix, and holds a truncated file. `npm run snips:check` on a throwaway folder of one of each
 reports READY 1, HOLD 1. `db:fix-codecs --dry-run` against production reads all 163 live clips
 and finds 0 unplayable. `tsc`, 1188 unit tests (6 new), `lint` and `lint:tokens` clean.
+
+## 7 Oct 2026: staff are emailed when a spotter reaches the prize target
+
+- Two spotters (2,309 and 2,154 Pebbles) sat over 2,000 for weeks without anyone noticing. Staff were only emailed when a spotter pressed Claim, and the claim gate (5 spotting days over 14) meant neither could.
+- New daily cron `/api/cron/prize-alerts` (07:30, after consensus-rescore) emails every verified admin "send a prize to these people", reading the same rows as `/admin/prizes`. Logic in `src/lib/prize-alerts.ts` (pure, tested). Unreachable winners (guest, under-18 without a parent's OK, age unknown) are listed once, then again when they become reachable. Claimed rows and PEBL staff are skipped. Stamps on `User.prizeAlertedAt` / `prizeSendableAlertedAt`, written only after an admin inbox was reached.
+- `/admin/prizes` now shows "Mark posted" on unclaimed rows PEBL may write to. Posting records the claim row on the spotter's behalf; undoing a staff-recorded posting removes it again.
+- Guests over the target now see a prize version of the save prompt after each answer ("You've earned the Seasearch guide, add your email so we can post it"), once per tab and separate from the clip-3 nudge's "Not now". A guest's session lapses 7 days after their last visit, after which the account cannot be signed back into, so the moment they cross is the only chance to reach them. `GUEST_PRIZE_EVENT` in `src/lib/guest.ts`, fired from `useCreatureQuiz`.

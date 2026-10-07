@@ -269,11 +269,26 @@ describe.skipIf(!url)("prize desk (integration)", () => {
       expect((await loadPrizeWinnerRows(prisma, NOW))[0].status).toBe("to-post");
     });
 
-    it("refuses to stamp a spotter who never claimed", async () => {
+    it("posts to a spotter who never claimed, and a mis-click undo clears it", async () => {
+      // Staff post on reaching the target since 7 Oct 2026, without waiting
+      // for a claim (src/lib/prize-alerts.ts).
+      await seedUser({ id: "u1", email: "a@x.test", pebbles: 3000 });
+      expect((await loadPrizeWinnerRows(prisma, NOW))[0].status).toBe("reached-unclaimed");
+
+      const marked = await markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk");
+      expect(marked.fulfilledBy).toBe("chris@pebl-cic.co.uk");
+      expect((await loadPrizeWinnerRows(prisma, NOW))[0].status).toBe("posted");
+
+      await markPrizeFulfilled(prisma, "u1", false, "chris@pebl-cic.co.uk");
+      expect((await loadPrizeWinnerRows(prisma, NOW))[0].status).toBe("reached-unclaimed");
+      expect(await prisma.pebblePurchase.count({ where: { userId: "u1" } })).toBe(0);
+    });
+
+    it("refuses to un-post a spotter with no guide at all", async () => {
       await seedUser({ id: "u1", email: "a@x.test", pebbles: 3000 });
       await expect(
-        markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk"),
-      ).rejects.toThrow(/hasn't claimed/);
+        markPrizeFulfilled(prisma, "u1", false, "chris@pebl-cic.co.uk"),
+      ).rejects.toThrow(/no guide/);
     });
 
     it("never stamps a retired shop purchase as a posted prize", async () => {
@@ -284,14 +299,16 @@ describe.skipIf(!url)("prize desk (integration)", () => {
         data: { userId: "u1", itemId: "tide-freeze", pebbleCost: 50 },
       });
 
-      await expect(
-        markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk"),
-      ).rejects.toThrow(/hasn't claimed/);
+      await markPrizeFulfilled(prisma, "u1", true, "chris@pebl-cic.co.uk");
 
       const freeze = await prisma.pebblePurchase.findFirstOrThrow({
         where: { itemId: "tide-freeze" },
       });
       expect(freeze.fulfilledAt).toBeNull();
+      const guide = await prisma.pebblePurchase.findFirstOrThrow({
+        where: { itemId: SEASEARCH_GUIDE_ID },
+      });
+      expect(guide.fulfilledAt).not.toBeNull();
     });
 
     it("stamps only the guide when a spotter also holds shop purchases", async () => {

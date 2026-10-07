@@ -16,3 +16,14 @@ export const GUEST_SAVE_REQUEST_EVENT = "fishspotter:guest-save-request";
 
 /** Window event fired once a guest's account is saved. Detail: { emailSent }. */
 export const GUEST_SAVED_EVENT = "fishspotter:guest-saved";
+
+/**
+ * Window event fired when a guest's lifetime Pebbles reach the prize target
+ * (the quiz hook, after each answer). A guest can earn the prize in one
+ * sitting, and with no email on the account PEBL has no way to post it: the
+ * session cookie lapses a week after their last visit and the account is
+ * orphaned. FrankTheShark, 7 Oct 2026, 2,154 Pebbles in two hours, unreachable.
+ * GuestSavePrompt opens a prize version of the save prompt, with its own
+ * once-per-tab "Not now", so dismissing the clip-3 nudge doesn't hide it.
+ */
+export const GUEST_PRIZE_EVENT = "fishspotter:guest-prize";
