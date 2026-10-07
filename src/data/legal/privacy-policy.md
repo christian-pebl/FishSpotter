@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last updated: 16 September 2026**
+**Last updated: 7 October 2026**
 
 > **The short version, for young spotters**
 >
@@ -147,7 +147,7 @@ We use the following first-party cookies and browser storage:
 
 | Name | Type | Duration | Purpose | Consent |
 |--------|------|----------|---------|---------|
-| **NextAuth session** | Strictly necessary | Until sign-out or after a period of inactivity | A signed, HTTP-only token that keeps you authenticated. For a child, this is the persistent identifier that keeps their game on their device; it is used for nothing else | Exempt from consent under PECR Reg. 6(1) |
+| **NextAuth session** | Strictly necessary | Until sign-out, or after 7 days without a visit (90 days for a guest player, who has no email or password to sign back in with) | A signed, HTTP-only token that keeps you authenticated. For a child, this is the persistent identifier that keeps their game on their device; it is used for nothing else | Exempt from consent under PECR Reg. 6(1) |
 | **`fishspotter:ageBand`** | Strictly necessary | Until you close the tab (sessionStorage) | Remembers the age group chosen in this tab, so a child's answer cannot simply be changed by going back | Exempt from consent under PECR Reg. 6(1) |
 | **fs.anon_seed** | Functional / preferences | ~12 months | Stable, personalised feed ordering for anonymous visitors (deterministic shuffle that stays consistent across page loads) | Covered by the consent banner |
 | **`pebl_consent`** | Strictly necessary | ~12 months | Records your cookie-consent choice so we do not ask you again on every visit | Exempt from consent under PECR Reg. 6(1) |

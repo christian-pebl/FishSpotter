@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  METRIC_SECTIONS,
   buildDailyCounts,
   buildMetricSeries,
+  countActiveIdSpotters,
   distinctActiveSpotters,
   ratioSeries,
   rollingAverage,
@@ -17,7 +19,7 @@ function at(day: string, time = "10:00:00"): Date {
 }
 
 function input(partial: Partial<SeriesInput> = {}): SeriesInput {
-  return { users: [], events: [], answers: [], unlocks: [], usersBefore: 0, ...partial };
+  return { users: [], events: [], answers: [], unlocks: [], usersBefore: 0, idAnswers: [], ...partial };
 }
 
 describe("buildDailyCounts", () => {
@@ -47,10 +49,10 @@ describe("buildDailyCounts", () => {
 
   it("counts a spotter once a day however many sessions they start", () => {
     const events: EventRow[] = [
-      { createdAt: at("2026-08-01", "08:00:00"), type: "session_start", value: null, userId: "u1" },
-      { createdAt: at("2026-08-01", "12:00:00"), type: "session_start", value: null, userId: "u1" },
-      { createdAt: at("2026-08-01", "18:00:00"), type: "session_start", value: null, userId: "u2" },
-      { createdAt: at("2026-08-02"), type: "session_start", value: null, userId: "u1" },
+      { createdAt: at("2026-08-01", "08:00:00"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-01", "12:00:00"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-01", "18:00:00"), type: "session_start", value: null, userId: "u2", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-02"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
     ];
     const counts = buildDailyCounts(DAYS, input({ events }));
     expect(counts.sessions).toEqual([3, 1, 0]);
@@ -59,8 +61,8 @@ describe("buildDailyCounts", () => {
 
   it("leaves signed-out sessions out of the active-spotter count but in the session count", () => {
     const events: EventRow[] = [
-      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: null },
-      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1" },
+      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: null, sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
     ];
     const counts = buildDailyCounts(DAYS, input({ events }));
     expect(counts.sessions[0]).toBe(2);
@@ -69,18 +71,18 @@ describe("buildDailyCounts", () => {
 
   it("sums watch seconds and treats a missing value as zero", () => {
     const events: EventRow[] = [
-      { createdAt: at("2026-08-02"), type: "clip_watch", value: 30, userId: "u1" },
-      { createdAt: at("2026-08-02"), type: "clip_watch", value: 12.5, userId: "u1" },
-      { createdAt: at("2026-08-02"), type: "clip_watch", value: null, userId: "u1" },
+      { createdAt: at("2026-08-02"), type: "clip_watch", value: 30, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-02"), type: "clip_watch", value: 12.5, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-02"), type: "clip_watch", value: null, userId: "u1", sessionId: "s1", snippetId: null },
     ];
     expect(buildDailyCounts(DAYS, input({ events })).watchSeconds).toEqual([0, 42.5, 0]);
   });
 
   it("counts clip views separately from watch time", () => {
     const events: EventRow[] = [
-      { createdAt: at("2026-08-01"), type: "clip_view", value: null, userId: "u1" },
-      { createdAt: at("2026-08-01"), type: "clip_view", value: null, userId: "u2" },
-      { createdAt: at("2026-08-01"), type: "cta_click", value: null, userId: "u2" },
+      { createdAt: at("2026-08-01"), type: "clip_view", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-01"), type: "clip_view", value: null, userId: "u2", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-01"), type: "cta_click", value: null, userId: "u2", sessionId: "s1", snippetId: null },
     ];
     const counts = buildDailyCounts(DAYS, input({ events }));
     expect(counts.clipViews).toEqual([2, 0, 0]);
@@ -127,14 +129,117 @@ describe("buildDailyCounts", () => {
   it("holds the total flat across a range with no signups", () => {
     expect(buildDailyCounts(DAYS, input({ usersBefore: 89 })).totalSpotters).toEqual([89, 89, 89]);
   });
+
+  it("caps one tab's watch time on one clip at five minutes, keeping it on the day it happened", () => {
+    const watch = (day: string, time: string, value: number, sessionId: string, snippetId: string): EventRow => ({
+      createdAt: at(day, time),
+      type: "clip_watch",
+      value,
+      userId: null,
+      sessionId,
+      snippetId,
+    });
+    const events: EventRow[] = [
+      // A tab left looping clip A across midnight: only its first 300 s count.
+      watch("2026-08-01", "23:50:00", 200, "tab1", "A"),
+      watch("2026-08-01", "23:55:00", 200, "tab1", "A"),
+      watch("2026-08-02", "00:05:00", 200, "tab1", "A"),
+      // Another clip in the same tab, and the same clip in another tab, count on their own.
+      watch("2026-08-02", "09:00:00", 60, "tab1", "B"),
+      watch("2026-08-03", "09:00:00", 90, "tab2", "A"),
+    ];
+    expect(buildDailyCounts(DAYS, input({ events })).watchSeconds).toEqual([300, 60, 90]);
+  });
+});
+
+describe("activeIdSpotters30d (Atlas OP 3.2)", () => {
+  const id = (iso: string, userId: string) => ({ createdAt: new Date(iso), userId });
+
+  it("counts each spotter once per day if they made an ID in the 30 days to that day", () => {
+    const counts = buildDailyCounts(
+      DAYS,
+      input({
+        idAnswers: [
+          id("2026-07-20T10:00:00Z", "u1"), // inside the window for all three days
+          id("2026-07-25T10:00:00Z", "u1"), // same person again, still one
+          id("2026-08-02T10:00:00Z", "u2"), // joins on the 2nd
+        ],
+      }),
+    );
+    expect(counts.activeIdSpotters30d).toEqual([1, 2, 2]);
+  });
+
+  it("drops a spotter on the 31st day after their last ID", () => {
+    // Window for 1 Aug is 3 Jul 00:00 to 2 Aug 00:00 (30 days including 1 Aug).
+    const counts = buildDailyCounts(
+      DAYS,
+      input({
+        idAnswers: [
+          id("2026-07-03T00:00:00Z", "edge"), // first instant of 1 Aug's window
+          id("2026-07-02T23:59:59Z", "gone"), // one second too early for 1 Aug
+        ],
+      }),
+    );
+    expect(counts.activeIdSpotters30d).toEqual([1, 0, 0]);
+  });
+
+  it("does not count an ID made after the day being measured", () => {
+    const counts = buildDailyCounts(DAYS, input({ idAnswers: [id("2026-08-03T00:00:00Z", "late")] }));
+    expect(counts.activeIdSpotters30d).toEqual([0, 0, 1]);
+  });
+
+  it("leaves PEBL's own accounts out", () => {
+    const counts = buildDailyCounts(
+      DAYS,
+      input({
+        idAnswers: [id("2026-08-01T10:00:00Z", "staff"), id("2026-08-01T11:00:00Z", "public")],
+        excludedUserIds: new Set(["staff"]),
+      }),
+    );
+    expect(counts.activeIdSpotters30d).toEqual([1, 1, 1]);
+  });
+
+  it("is headlined by the last day of the range, as a line, from complete Answer data", () => {
+    const counts = buildDailyCounts(
+      DAYS,
+      input({ idAnswers: [id("2026-07-15T10:00:00Z", "u1"), id("2026-08-03T10:00:00Z", "u2")] }),
+    );
+    const metric = buildMetricSeries(counts, { activeInRange: 0 }).find((s) => s.key === "activeIdSpotters30d")!;
+    expect(metric.values).toEqual([1, 1, 2]);
+    expect(metric.total).toBe(2);
+    expect(metric.shape).toBe("line");
+    expect(metric.totalIsSumOfDays).toBe(false);
+    expect(metric.eventDerived).toBe(false);
+  });
+
+  it("has its own section at the top of the page", () => {
+    expect(METRIC_SECTIONS[0]).toEqual({ title: "Atlas target", keys: ["activeIdSpotters30d"] });
+  });
+
+  it("gives the roundup's one-day figure the same answer as the dashboard's daily series", () => {
+    // The CLI and summary API (countActiveIdSpotters) and the card
+    // (buildDailyCounts) must never report two numbers for one measure.
+    const idAnswers = [
+      id("2026-07-02T23:59:59Z", "a"),
+      id("2026-07-03T00:00:00Z", "b"),
+      id("2026-07-20T08:00:00Z", "c"),
+      id("2026-08-02T12:00:00Z", "d"),
+      id("2026-08-03T23:59:59Z", "staff"),
+      id("2026-08-04T00:00:00Z", "tomorrow"),
+    ];
+    const excludedUserIds = new Set(["staff"]);
+    const daily = buildDailyCounts(DAYS, input({ idAnswers, excludedUserIds })).activeIdSpotters30d;
+    expect(DAYS.map((d) => countActiveIdSpotters(d, idAnswers, excludedUserIds))).toEqual(daily);
+    expect(daily).toEqual([2, 2, 2]);
+  });
 });
 
 describe("distinctActiveSpotters", () => {
   it("counts a returning spotter once across the whole range", () => {
     const events: EventRow[] = [
-      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1" },
-      { createdAt: at("2026-08-02"), type: "session_start", value: null, userId: "u1" },
-      { createdAt: at("2026-08-03"), type: "session_start", value: null, userId: "u2" },
+      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-02"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-03"), type: "session_start", value: null, userId: "u2", sessionId: "s1", snippetId: null },
     ];
     // Three daily bars of 1, but two people.
     expect(buildDailyCounts(DAYS, input({ events })).activeSpotters).toEqual([1, 1, 1]);
@@ -143,8 +248,8 @@ describe("distinctActiveSpotters", () => {
 
   it("ignores sessions outside the range", () => {
     const events: EventRow[] = [
-      { createdAt: at("2026-07-31"), type: "session_start", value: null, userId: "u9" },
-      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1" },
+      { createdAt: at("2026-07-31"), type: "session_start", value: null, userId: "u9", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
     ];
     expect(distinctActiveSpotters(DAYS, events)).toBe(1);
   });
@@ -187,11 +292,11 @@ describe("buildMetricSeries", () => {
       ],
       unlocks: [{ firstUnlockedAt: at("2026-08-02") }],
       events: [
-        { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1" },
-        { createdAt: at("2026-08-02"), type: "session_start", value: null, userId: "u1" },
-        { createdAt: at("2026-08-01"), type: "clip_watch", value: 120, userId: "u1" },
-        { createdAt: at("2026-08-02"), type: "clip_watch", value: 240, userId: "u1" },
-        { createdAt: at("2026-08-01"), type: "clip_view", value: null, userId: "u1" },
+        { createdAt: at("2026-08-01"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+        { createdAt: at("2026-08-02"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+        { createdAt: at("2026-08-01"), type: "clip_watch", value: 120, userId: "u1", sessionId: "s1", snippetId: "c1" },
+        { createdAt: at("2026-08-02"), type: "clip_watch", value: 240, userId: "u1", sessionId: "s1", snippetId: "c2" },
+        { createdAt: at("2026-08-01"), type: "clip_view", value: null, userId: "u1", sessionId: "s1", snippetId: null },
       ],
     }),
   );

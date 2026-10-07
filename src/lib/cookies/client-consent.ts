@@ -10,6 +10,14 @@
  */
 const CONSENT_COOKIE = "pebl_consent";
 
+/**
+ * Window event the cookie banner fires after it saves a choice. The banner sets
+ * the cookie without a reload, so anything already mounted that depends on
+ * consent (the feed's engagement tracker) listens for this instead of waiting
+ * for the next navigation.
+ */
+export const CONSENT_CHANGED_EVENT = "pebl:consent-changed";
+
 export function hasAnalyticsConsent(): boolean {
   if (typeof document === "undefined") return false;
   const match = document.cookie.match(/(?:^|; )pebl_consent=([^;]*)/);

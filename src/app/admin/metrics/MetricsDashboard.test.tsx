@@ -33,11 +33,17 @@ function fixtureSeries() {
     ],
     unlocks: [{ firstUnlockedAt: at("2026-08-29") }],
     events: [
-      { createdAt: at("2026-08-29"), type: "session_start", value: null, userId: "u1" },
-      { createdAt: at("2026-08-30"), type: "session_start", value: null, userId: "u2" },
-      { createdAt: at("2026-08-29"), type: "clip_watch", value: 600, userId: "u1" },
-      { createdAt: at("2026-08-29"), type: "clip_view", value: null, userId: "u1" },
-      { createdAt: at("2026-08-30"), type: "clip_view", value: null, userId: "u2" },
+      { createdAt: at("2026-08-29"), type: "session_start", value: null, userId: "u1", sessionId: "s1", snippetId: null },
+      { createdAt: at("2026-08-30"), type: "session_start", value: null, userId: "u2", sessionId: "s2", snippetId: null },
+      // Ten minutes over two clips: one tab counts at most five minutes per clip.
+      { createdAt: at("2026-08-29"), type: "clip_watch", value: 300, userId: "u1", sessionId: "s1", snippetId: "c1" },
+      { createdAt: at("2026-08-29"), type: "clip_watch", value: 300, userId: "u1", sessionId: "s1", snippetId: "c2" },
+      { createdAt: at("2026-08-29"), type: "clip_view", value: null, userId: "u1", sessionId: "s1", snippetId: "c1" },
+      { createdAt: at("2026-08-30"), type: "clip_view", value: null, userId: "u2", sessionId: "s2", snippetId: "c1" },
+    ],
+    idAnswers: [
+      { createdAt: at("2026-08-28"), userId: "u1" },
+      { createdAt: at("2026-08-30"), userId: "u2" },
     ],
   };
   return buildMetricSeries(buildDailyCounts(DAYS, input), { activeInRange: 2 });

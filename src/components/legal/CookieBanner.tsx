@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CONSENT_CHANGED_EVENT } from "@/lib/cookies/client-consent";
 
 // Kept in sync with src/lib/cookies/consent.ts. Inlined here so this
 // client component doesn't import the server-only `cookies` helper.
@@ -56,6 +57,8 @@ export function CookieBanner() {
     });
     document.cookie = `${CONSENT_COOKIE}=${encodeURIComponent(value)}; max-age=${TWELVE_MONTHS_SECS}; path=/; SameSite=Lax`;
     setDismissed(true);
+    // No reload follows, so tell anything already mounted (the feed tracker).
+    window.dispatchEvent(new Event(CONSENT_CHANGED_EVENT));
   };
 
   if (!mounted || dismissed) return null;

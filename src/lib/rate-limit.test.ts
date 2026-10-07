@@ -95,6 +95,37 @@ describe("checkAuthRateLimit (in-memory backend)", () => {
   });
 });
 
+describe("checkGuestStartRateLimit (a class on one address)", () => {
+  const GUEST_START_MAX = 40; // mirror of the module constant
+
+  it("lets a whole class start from one address, then blocks", async () => {
+    const { checkGuestStartRateLimit } = await loadModule();
+    const ip = "10.0.0.1";
+
+    // The auth budget stopped the sixth child; a class of 30 now gets in.
+    for (let i = 0; i < GUEST_START_MAX; i++) {
+      expect(await checkGuestStartRateLimit(ip)).toBe(true);
+    }
+    expect(await checkGuestStartRateLimit(ip)).toBe(false);
+
+    // Same 15-minute window as the auth limiter.
+    vi.setSystemTime(START + WINDOW_MS);
+    expect(await checkGuestStartRateLimit(ip)).toBe(true);
+  });
+
+  it("does not share a bucket with sign-in, signup or claim attempts", async () => {
+    const { checkAuthRateLimit, checkGuestStartRateLimit } = await loadModule();
+    const ip = "10.0.0.2";
+
+    for (let i = 0; i < GUEST_START_MAX; i++) await checkGuestStartRateLimit(ip);
+    expect(await checkGuestStartRateLimit(ip)).toBe(false);
+
+    // A class filling the guest budget must not lock out a teacher's signup.
+    expect(await checkAuthRateLimit(`signup:${ip}`)).toBe(true);
+    expect(await checkAuthRateLimit(`claim:${ip}`)).toBe(true);
+  });
+});
+
 describe("checkChatRateLimit / checkAnswerRateLimit (separate namespaces)", () => {
   it("namespaces chat and answer keys apart from auth and each other", async () => {
     const { checkAuthRateLimit, checkChatRateLimit, checkAnswerRateLimit } =

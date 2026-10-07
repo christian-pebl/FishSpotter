@@ -20,6 +20,8 @@
  *     leaving an admin to find the discrepancy and mistrust the page.
  */
 
+import { cappedWatchSeconds } from "@/lib/watch-time";
+
 export interface UserRow {
   createdAt: Date;
 }
@@ -29,11 +31,20 @@ export interface EventRow {
   type: string;
   value: number | null;
   userId: string | null;
+  /** The per-tab session id; watch time is capped per tab and clip. */
+  sessionId: string;
+  snippetId: string | null;
 }
 
 export interface AnswerRow {
   createdAt: Date;
   isCorrect: boolean | null;
+}
+
+/** An identification with who made it, for the rolling 30-day active count. */
+export interface IdAnswerRow {
+  createdAt: Date;
+  userId: string;
 }
 
 export interface UnlockRow {
@@ -47,6 +58,13 @@ export interface SeriesInput {
   unlocks: UnlockRow[];
   /** Spotters who signed up before the range started, the running total's base. */
   usersBefore: number;
+  /**
+   * Identifications with their spotter, reaching back at least
+   * ACTIVE_WINDOW_DAYS before the first day, or the first days undercount.
+   */
+  idAnswers: IdAnswerRow[];
+  /** Accounts the 30-day active count leaves out (PEBL staff). */
+  excludedUserIds?: ReadonlySet<string>;
 }
 
 /** Raw per-day counts, every array the same length as `days`. */
@@ -62,7 +80,17 @@ export interface DailyCounts {
   settledIds: number[];
   matchedIds: number[];
   speciesLearned: number[];
+  /**
+   * Distinct spotters with at least one ID in the ACTIVE_WINDOW_DAYS ending on
+   * each day: the Atlas Objective 3 measure (OP 3.2).
+   */
+  activeIdSpotters30d: number[];
 }
+
+/** The Atlas measure's window: active means an ID in the last 30 days. */
+export const ACTIVE_WINDOW_DAYS = 30;
+
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 function dayKeyOf(d: Date): string {
   return d.toISOString().slice(0, 10);
@@ -95,6 +123,7 @@ export function buildDailyCounts(days: string[], input: SeriesInput): DailyCount
     settledIds: zeros(n),
     matchedIds: zeros(n),
     speciesLearned: zeros(n),
+    activeIdSpotters30d: zeros(n),
   };
 
   for (const u of input.users) {
@@ -130,12 +159,46 @@ export function buildDailyCounts(days: string[], input: SeriesInput): DailyCount
       if (e.userId) activePerDay[i].add(e.userId);
     } else if (e.type === "clip_view") {
       counts.clipViews[i]++;
-    } else if (e.type === "clip_watch") {
-      counts.watchSeconds[i] += e.value ?? 0;
     }
   }
   activePerDay.forEach((set, i) => {
     counts.activeSpotters[i] = set.size;
+  });
+
+  // Watch time, with each tab's time on any one clip capped (src/lib/watch-time.ts),
+  // so a tab left looping overnight cannot pass for the busiest day of the year.
+  // The cap runs over every row passed in, inside the range or not, so the
+  // range and its comparison window share one ledger.
+  const watchRows = input.events.filter((e) => e.type === "clip_watch");
+  const allowed = cappedWatchSeconds(watchRows);
+  watchRows.forEach((e, k) => {
+    const i = index.get(dayKeyOf(e.createdAt));
+    if (i !== undefined) counts.watchSeconds[i] += allowed[k];
+  });
+
+  // Atlas OP 3.2: distinct spotters with an ID in the 30 days ending on each
+  // day (that day's UTC midnight-to-midnight included). A sliding window over
+  // the time-sorted IDs, so a long range stays linear.
+  const excluded = input.excludedUserIds;
+  const ids = input.idAnswers
+    .filter((a) => !excluded?.has(a.userId))
+    .map((a) => ({ t: a.createdAt.getTime(), userId: a.userId }))
+    .sort((a, b) => a.t - b.t);
+  const inWindow = new Map<string, number>();
+  let lo = 0;
+  let hi = 0;
+  days.forEach((day, i) => {
+    const end = Date.parse(`${day}T00:00:00Z`) + DAY_MS;
+    const start = end - ACTIVE_WINDOW_DAYS * DAY_MS;
+    for (; hi < ids.length && ids[hi].t < end; hi++) {
+      inWindow.set(ids[hi].userId, (inWindow.get(ids[hi].userId) ?? 0) + 1);
+    }
+    for (; lo < hi && ids[lo].t < start; lo++) {
+      const left = (inWindow.get(ids[lo].userId) ?? 1) - 1;
+      if (left > 0) inWindow.set(ids[lo].userId, left);
+      else inWindow.delete(ids[lo].userId);
+    }
+    counts.activeIdSpotters30d[i] = inWindow.size;
   });
 
   let running = input.usersBefore;
@@ -145,6 +208,27 @@ export function buildDailyCounts(days: string[], input: SeriesInput): DailyCount
   }
 
   return counts;
+}
+
+/**
+ * The Atlas OP 3.2 count for one UTC day: distinct spotters, other than the
+ * excluded ones, with an ID in the 30 days up to and including `day`. The same
+ * window `buildDailyCounts` slides across a range, for callers that need one
+ * day's figure (the roundup's "today"), so the two can never disagree.
+ */
+export function countActiveIdSpotters(
+  day: string,
+  idAnswers: readonly IdAnswerRow[],
+  excludedUserIds?: ReadonlySet<string>,
+): number {
+  const end = Date.parse(`${day}T00:00:00Z`) + DAY_MS;
+  const start = end - ACTIVE_WINDOW_DAYS * DAY_MS;
+  const seen = new Set<string>();
+  for (const a of idAnswers) {
+    const t = a.createdAt.getTime();
+    if (t >= start && t < end && !excludedUserIds?.has(a.userId)) seen.add(a.userId);
+  }
+  return seen.size;
 }
 
 /** Distinct spotters with a session anywhere in the range (not the daily sum). */
@@ -247,6 +331,18 @@ export function buildMetricSeries(
 
   return [
     {
+      key: "activeIdSpotters30d",
+      label: "Active, last 30 days",
+      sub: "spotters with an ID · goal 40 by Jul 2027",
+      unit: "count",
+      shape: "line",
+      values: counts.activeIdSpotters30d,
+      total: counts.activeIdSpotters30d.at(-1) ?? 0,
+      totalIsSumOfDays: false,
+      eventDerived: false,
+      note: "The Atlas (National Lottery Climate Action Fund) measure for Objective 3, OP 3.2: a public citizen scientist counts as active with at least one identification in the 30 days up to and including that day. The headline is the last day of the range, not a sum. Recovery curve: 12 by the end of 2026, 25 by mid-2027, 40 by 31 July 2027. PEBL staff accounts are left out; guests and children count. A guest whose login lapses comes back as a new account, so a returning guest can occasionally be counted twice.",
+    },
+    {
       key: "totalSpotters",
       label: "Spotters",
       sub: "total signups, all time",
@@ -302,7 +398,7 @@ export function buildMetricSeries(
       total: totalWatchSeconds / 60,
       totalIsSumOfDays: true,
       eventDerived: true,
-      note: "On-screen, tab-visible time only, banked in short segments while a clip is the active card.",
+      note: "On-screen, tab-visible time while a clip is the active card, banked in short segments. Since 7 Oct 2026 it stops two minutes after the viewer's last tap, swipe, key or scroll, and one tab counts at most five minutes on any one clip (applied to older rows too), so a tab left looping does not count as viewing.",
     },
     {
       key: "clipViews",
@@ -366,6 +462,7 @@ export function buildMetricSeries(
 
 /** The card grid is drawn in three sections; this is the one place they are named. */
 export const METRIC_SECTIONS: ReadonlyArray<{ title: string; keys: string[] }> = [
+  { title: "Atlas target", keys: ["activeIdSpotters30d"] },
   { title: "Reach", keys: ["totalSpotters", "newSpotters", "activeSpotters", "sessions"] },
   {
     title: "Engagement",
