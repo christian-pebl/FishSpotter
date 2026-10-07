@@ -5,7 +5,8 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { triggerCorrectConfetti } from "@/lib/confetti";
 import { emitPebbles } from "@/lib/pebble-bus";
 import { getMyAnswer, setMyAnswer as cacheMyAnswer } from "@/lib/myAnswers";
-import { GUEST_SAVE_PROMPT_AT, GUEST_MILESTONE_EVENT } from "@/lib/guest";
+import { GUEST_SAVE_PROMPT_AT, GUEST_MILESTONE_EVENT, GUEST_PRIZE_EVENT } from "@/lib/guest";
+import { hasReachedPrizeTarget } from "@/lib/prize";
 // The guest guess queue (P0 "play before the wall") lives in its own module so
 // the feed can drain the entries whose cards are not mounted; see there.
 import {
@@ -293,6 +294,15 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
               detail: { count: data.answerCount },
             }),
           );
+        }
+        // A guest over the prize target has won a book we can't post without
+        // an email. Fired on every answer while over; the prompt shows it
+        // once per tab.
+        if (
+          (session?.user as { isGuest?: boolean } | undefined)?.isGuest &&
+          hasReachedPrizeTarget(data.pebbles?.total ?? 0)
+        ) {
+          window.dispatchEvent(new CustomEvent(GUEST_PRIZE_EVENT));
         }
         window.dispatchEvent(new CustomEvent("fishspotter:streak"));
         await loadStats();

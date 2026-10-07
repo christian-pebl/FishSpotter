@@ -66,6 +66,15 @@ model User {
   // consensus camps (see src/lib/trust.ts), recomputed daily by the
   // consensus-rescore cron. Never shown to spotters; gates prize eligibility
   // only, never removes Pebbles or status.
+  // Prize milestone alert to PEBL staff (src/lib/prize-alerts.ts, 7 Oct 2026).
+  // Until then nothing told anyone a spotter had crossed the Pebble target:
+  // staff only heard when a spotter pressed Claim, and two spotters sat over
+  // 2,000 for weeks unseen. `prizeAlertedAt` is the first alert; a spotter
+  // with no address we may write to (guest, child without a parent's OK, age
+  // unknown) is alerted again, once, when they become reachable, which is
+  // `prizeSendableAlertedAt`.
+  prizeAlertedAt         DateTime?
+  prizeSendableAlertedAt DateTime?
   isTrustSeed         Boolean              @default(false)
   trustScore          Float                @default(0)
   trustUpdatedAt      DateTime?

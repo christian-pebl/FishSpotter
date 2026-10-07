@@ -10,11 +10,15 @@ import {
 } from "@/lib/prize";
 import { CopyEmailButton, PostedToggle } from "./PrizeRowActions";
 import { AGE_BAND_LABEL, parseAgeBand } from "@/lib/age";
+import { isAdminUser } from "@/lib/admin";
 
 // The fulfilment desk. Claiming the guide records that a spotter asked for it
 // (POST /api/prize/claim writes a zero-cost PebblePurchase) and, since 16 Sep
-// 2026, emails the PEBL admins (src/lib/email/prize-notify.ts). This page is
-// the work queue. Read-mostly: the single write is "mark posted".
+// 2026, emails the PEBL admins (src/lib/email/prize-notify.ts). Since 7 Oct
+// 2026 staff are also emailed when a spotter crosses the target
+// (src/lib/prize-alerts.ts) and post without waiting for a claim, so "mark
+// posted" shows on unclaimed rows we may write to. This page is the work
+// queue. Read-mostly: the single write is "mark posted".
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "Prizes · FishSpotter admin" };
@@ -88,9 +92,10 @@ export default async function AdminPrizesPage() {
     <div>
       <h1 className="font-brand text-xl font-semibold text-navy-900">Prize fulfilment</h1>
       <p className="mt-1 text-sm text-navy-600">
-        Spotters at or over {PRIZE_TARGET_PEBBLES.toLocaleString()} lifetime Pebbles. Claiming
-        records that someone asked for the {PRIZE_NAME} and emails the PEBL admins. Posting it is
-        manual, and this page is the queue.
+        Spotters at or over {PRIZE_TARGET_PEBBLES.toLocaleString()} lifetime Pebbles. The PEBL
+        admins get an email when someone crosses the line, and again if they press Claim. You
+        don&apos;t have to wait for a claim: email them for an address, post the {PRIZE_NAME},
+        then mark it posted here.
       </p>
       <p className="mt-2 text-sm text-navy-600">
         UK addresses only (see /prize-rules). For anyone under 18, write only to the parent or
@@ -168,7 +173,7 @@ export default async function AdminPrizesPage() {
                     </span>
                   </td>
                   <td className="px-3 py-2">
-                    {r.claimedAt ? (
+                    {r.claimedAt || (r.status === "reached-unclaimed" && !isAdminUser(r)) ? (
                       <PostedToggle
                         userId={r.userId}
                         spotter={r.spotter}

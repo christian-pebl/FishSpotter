@@ -6,9 +6,11 @@ import Link from "next/link";
 import { useModalFocus } from "@/lib/useModalFocus";
 import {
   GUEST_MILESTONE_EVENT,
+  GUEST_PRIZE_EVENT,
   GUEST_SAVED_EVENT,
   GUEST_SAVE_REQUEST_EVENT,
 } from "@/lib/guest";
+import { PRIZE_TARGET_PEBBLES } from "@/lib/prize";
 import { SUPPORT_EMAIL } from "@/lib/email/outcome";
 import { AGE_UNKNOWN, isUnder13 } from "@/lib/age";
 import { requestAgeCheck } from "@/lib/age-events";
@@ -31,9 +33,25 @@ import type { ConsentSummary } from "@/lib/parental-consent-shared";
  * is sent to the age question instead, and an under-13 never sees an email
  * box at all: they ask a parent or carer, whose consent saves the account
  * (src/lib/parental-consent.ts).
+ *
+ * GUEST_PRIZE_EVENT (7 Oct 2026) opens the prize version: a guest over the
+ * Pebble target has won a book PEBL cannot post without an email, and the
+ * account itself is lost once the session lapses. It has its own "Not now",
+ * so dismissing the clip-3 nudge doesn't hide the one that matters.
  */
 
 const DISMISS_KEY = "fishspotter:guestSaveDismissed";
+const PRIZE_DISMISS_KEY = "fishspotter:guestPrizeDismissed";
+
+function dismissed(key: string): boolean {
+  try {
+    return sessionStorage.getItem(key) === "1";
+  } catch {
+    return false;
+  }
+}
+
+const PRIZE_EYEBROW = `${PRIZE_TARGET_PEBBLES.toLocaleString("en-GB")} Pebbles`;
 
 export function GuestSavePrompt() {
   const { data: session, update } = useSession();
@@ -41,6 +59,7 @@ export function GuestSavePrompt() {
   const ageBand = (session?.user as { ageBand?: string } | undefined)?.ageBand ?? AGE_UNKNOWN;
   const child = isUnder13(ageBand);
   const [open, setOpen] = useState(false);
+  const [prize, setPrize] = useState(false);
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -54,11 +73,8 @@ export function GuestSavePrompt() {
   useEffect(() => {
     function onMilestone() {
       if (!isGuest) return;
-      try {
-        if (sessionStorage.getItem(DISMISS_KEY) === "1") return;
-      } catch {
-        /* ignore */
-      }
+      if (dismissed(DISMISS_KEY)) return;
+      setPrize(false);
       // AgeCheck is already asking; don't stack a second dialog on it.
       if (ageBand === AGE_UNKNOWN) return;
       if (child) {
@@ -81,17 +97,30 @@ export function GuestSavePrompt() {
       }
       setOpen(true);
     }
+    function onPrize() {
+      if (!isGuest) return;
+      if (dismissed(PRIZE_DISMISS_KEY)) return;
+      // The prize needs an age before anything else; AgeCheck asks it.
+      if (ageBand === AGE_UNKNOWN) {
+        requestAgeCheck();
+        return;
+      }
+      setPrize(true);
+      setOpen(true);
+    }
     window.addEventListener(GUEST_MILESTONE_EVENT, onMilestone);
     window.addEventListener(GUEST_SAVE_REQUEST_EVENT, onRequest);
+    window.addEventListener(GUEST_PRIZE_EVENT, onPrize);
     return () => {
       window.removeEventListener(GUEST_MILESTONE_EVENT, onMilestone);
       window.removeEventListener(GUEST_SAVE_REQUEST_EVENT, onRequest);
+      window.removeEventListener(GUEST_PRIZE_EVENT, onPrize);
     };
   }, [isGuest, ageBand, child]);
 
   function close() {
     try {
-      sessionStorage.setItem(DISMISS_KEY, "1");
+      sessionStorage.setItem(prize ? PRIZE_DISMISS_KEY : DISMISS_KEY, "1");
     } catch {
       /* ignore */
     }
@@ -141,6 +170,7 @@ export function GuestSavePrompt() {
     );
     try {
       sessionStorage.setItem(DISMISS_KEY, "1");
+      sessionStorage.setItem(PRIZE_DISMISS_KEY, "1");
     } catch {
       /* ignore */
     }
@@ -163,16 +193,17 @@ export function GuestSavePrompt() {
       >
         {child ? (
           <>
-            <p className="pebl-eyebrow text-xs">Nice spotting</p>
+            <p className="pebl-eyebrow text-xs">{prize ? PRIZE_EYEBROW : "Nice spotting"}</p>
             <h2
               id="guest-save-title"
               className="mt-1 font-brand-heading text-2xl font-bold text-navy-900"
             >
-              Keep your finds for good
+              {prize ? "You've won a prize" : "Keep your finds for good"}
             </h2>
             <p className="mt-1.5 text-sm text-navy-900/70">
-              Your finds are saved on this device for now. Because you&apos;re under 13, a parent or
-              carer needs to say yes before we keep your account for good.
+              {prize
+                ? "You've earned the Seasearch guide to sea life. Ask a parent or carer to save your account, so we can arrange it with them. Until they do, your finds are only on this device."
+                : "Your finds are saved on this device for now. Because you're under 13, a parent or carer needs to say yes before we keep your account for good."}
             </p>
             <AskParentForm purpose="account" onClose={() => setOpen(false)} />
             <button
@@ -217,17 +248,21 @@ export function GuestSavePrompt() {
           </>
         ) : (
           <>
-            <p className="pebl-eyebrow text-xs">Nice spotting</p>
+            <p className="pebl-eyebrow text-xs">{prize ? PRIZE_EYEBROW : "Nice spotting"}</p>
             <h2
               id="guest-save-title"
               className="mt-1 font-brand-heading text-2xl font-bold text-navy-900"
             >
-              Save your progress
+              {prize ? "You've earned the Seasearch guide" : "Save your progress"}
             </h2>
             <p className="mt-1.5 text-sm text-navy-900/70">
-              {ageBand === "13_17"
-                ? "Add your email to keep your finds and come back to them later. If you're under 18, check with a parent or carer first."
-                : "You're on the leaderboard. Add your email to keep your spot and come back to it later. No password needed now."}
+              {prize
+                ? ageBand === "13_17"
+                  ? "Add your email so we can reach you about it. A parent or carer will need to say yes before we post anything. Without an email, this account and its Pebbles stay on this device and can be lost."
+                  : "Add your email so we can post it to you. Without one we have no way to reach you, and this account and its Pebbles stay on this device and can be lost."
+                : ageBand === "13_17"
+                  ? "Add your email to keep your finds and come back to them later. If you're under 18, check with a parent or carer first."
+                  : "You're on the leaderboard. Add your email to keep your spot and come back to it later. No password needed now."}
             </p>
 
             <form onSubmit={save} className="mt-4">
@@ -261,7 +296,7 @@ export function GuestSavePrompt() {
                 disabled={submitting}
                 className="pebl-button-primary mt-3 inline-flex min-h-[44px] w-full items-center justify-center rounded-full px-6 py-3 text-sm font-semibold shadow-glow transition-shadow hover:shadow-glow-strong disabled:opacity-60"
               >
-                {submitting ? "Saving…" : "Save my progress"}
+                {submitting ? "Saving…" : prize ? "Save so we can post it" : "Save my progress"}
               </button>
             </form>
 

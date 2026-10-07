@@ -206,13 +206,21 @@ export type MarkFulfilledResult = {
 };
 
 /**
- * Stamp (or clear) the posted marker on a spotter's guide claim.
+ * Stamp (or clear) the posted marker on a spotter's guide.
  *
  * Scoped by itemId as well as userId: the ledger also holds retired shop
  * purchases (gold-nameplate, coral-accent, tide-freeze) that must never be
- * stamped as a posted prize. Throws when the spotter holds no guide claim.
+ * stamped as a posted prize.
  *
- * Never touches Pebbles, the claim itself, or leaderboard rank.
+ * Since 7 Oct 2026 staff post the book on reaching the target, without
+ * waiting for the spotter to press Claim (src/lib/prize-alerts.ts). Marking
+ * an unclaimed spotter posted records the claim row on their behalf, with
+ * purchasedAt equal to fulfilledAt. Undoing that clears the row again, so a
+ * mis-click returns the spotter to "Not claimed" rather than leaving a claim
+ * they never made. A real claim (purchasedAt earlier) is only un-stamped.
+ *
+ * Who may be marked posted is the caller's check (the desk action refuses
+ * anyone PEBL may not write to). Never touches Pebbles or leaderboard rank.
  */
 export async function markPrizeFulfilled(
   prisma: PrismaClient,
@@ -222,11 +230,31 @@ export async function markPrizeFulfilled(
 ): Promise<MarkFulfilledResult> {
   const claim = await prisma.pebblePurchase.findFirst({
     where: { userId, itemId: SEASEARCH_GUIDE_ID },
-    select: { id: true },
+    select: { id: true, purchasedAt: true, fulfilledAt: true },
     orderBy: { purchasedAt: "asc" },
   });
+
   if (!claim) {
-    throw new Error("That spotter hasn't claimed the guide yet.");
+    if (!posted) throw new Error("That spotter has no guide to un-post.");
+    const now = new Date();
+    // `select` keeps this insert from RETURNING columns prod may not have yet
+    // (see the claim route).
+    return prisma.pebblePurchase.create({
+      data: {
+        userId,
+        itemId: SEASEARCH_GUIDE_ID,
+        pebbleCost: 0,
+        purchasedAt: now,
+        fulfilledAt: now,
+        fulfilledBy: adminEmail,
+      },
+      select: { fulfilledAt: true, fulfilledBy: true },
+    });
+  }
+
+  if (!posted && claim.fulfilledAt?.getTime() === claim.purchasedAt.getTime()) {
+    await prisma.pebblePurchase.delete({ where: { id: claim.id }, select: { id: true } });
+    return { fulfilledAt: null, fulfilledBy: null };
   }
 
   return prisma.pebblePurchase.update({
