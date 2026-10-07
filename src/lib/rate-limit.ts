@@ -91,6 +91,19 @@ export async function checkAuthRateLimit(key: string): Promise<boolean> {
   return consume(key, WINDOW_MS, MAX_ATTEMPTS);
 }
 
+// Starting a guest game (age band + nickname, no email, no password). The auth
+// budget of 5 per 15 minutes is right for anything that sends an email or
+// checks a password, but a whole class, club or festival stand shares one
+// school or venue address, and the sixth child was told "Could not start just
+// now". A guest row costs one insert and earns nothing redeemable on its own:
+// prizes are gated by a verified email plus the trust checks (src/lib/trust.ts),
+// so a looser budget here does not open the prize to sock puppets.
+const GUEST_START_MAX_ATTEMPTS = 40;
+
+export async function checkGuestStartRateLimit(ipKey: string): Promise<boolean> {
+  return consume(`guest:${ipKey}`, WINDOW_MS, GUEST_START_MAX_ATTEMPTS);
+}
+
 const CHAT_WINDOW_MS = 60 * 60 * 1000;
 const CHAT_MAX_PER_HOUR = 30;
 

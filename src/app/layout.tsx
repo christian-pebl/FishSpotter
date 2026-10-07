@@ -7,6 +7,7 @@ import { SessionProvider } from "@/components/SessionProvider";
 import { Header } from "@/components/Header";
 import { CookieBanner } from "@/components/legal/CookieBanner";
 import { PwaRegister } from "@/components/PwaRegister";
+import { LandingAttribution } from "@/components/LandingAttribution";
 import { WebVitalsReporter } from "@/components/WebVitalsReporter";
 import { AgeCheck } from "@/components/age/AgeCheck";
 import { AskParentDialog } from "@/components/parent/AskParentDialog";
@@ -107,6 +108,7 @@ export default function RootLayout({
       <body className="font-body antialiased h-[100dvh] flex flex-col overflow-hidden">
         <a href="#main" className="skip-link">Skip to main content</a>
         <SessionProvider>
+          <LandingAttribution />
           <PwaRegister />
           <Header />
           <div className="flex-1 flex flex-col min-h-0">

@@ -11,7 +11,9 @@
  * a 60s serverless function budget as the tables grow):
  *   - Anything that's just a total, a sum, or a single-column group-by goes
  *     through Prisma's `count` / `aggregate` / `groupBy` so Postgres does the
- *     work and only the small result crosses the wire.
+ *     work and only the small result crosses the wire. Watch time is the one
+ *     sum that cannot: each tab's time on a clip is capped first, so its rows
+ *     come back as a narrow projection (createdAt, value, sessionId, snippetId).
  *   - The Discovery (First Sighting) and Community (contested-clip) numbers
  *     need arrival ORDER and per-snippet DISTINCT-spotter breakdowns, neither
  *     of which a single Prisma `groupBy` can express without raw SQL. Those
@@ -37,6 +39,9 @@ import {
 import { normalizeForMatch } from "@/lib/normalize-answer";
 import { computeStreakFromDates, toDateKey } from "@/lib/streak";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
+import { ADMIN_EMAIL_SUFFIX } from "@/lib/admin-email";
+import { countActiveIdSpotters } from "@/lib/metrics/series";
+import { cappedWatchSeconds } from "@/lib/watch-time";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -51,6 +56,8 @@ export const ROUNDUP_CAVEATS: readonly string[] = [
   "Answer-derived rows (IDs, First Sightings, streaks) are complete back to launch.",
   "isCorrect means 'matched the community leader', not a PEBL reference, and stays null until the consensus cron settles a clip.",
   "Answer.points was scaled x10 by the 18 Jun 2026 Pebbles migration, so any cross-period Pebble comparison is apples-to-oranges.",
+  "Watch time caps each tab at 5 minutes on any one clip (applied to all rows), and from 7 Oct 2026 the browser stops counting 2 minutes after the viewer's last input, so a tab left looping is not counted as viewing.",
+  "idSpottersLast30d is the Atlas OP 3.2 figure: spotters with an ID in the 30 UTC days up to and including today (the /admin/metrics card on its last day), PEBL staff excluded. A guest whose login lapsed comes back as a new account, so a returning guest can occasionally count twice.",
 ];
 
 export interface Roundup {
@@ -65,6 +72,12 @@ export interface Roundup {
     verified: number;
     onboarded: number;
     everSubmittedAnId: number;
+    /**
+     * The Atlas Objective 3 measure (OP 3.2): distinct spotters with at least
+     * one ID in the 30 UTC days up to and including today, PEBL staff
+     * excluded, guests included. Always 30 days, whatever windowDays is.
+     */
+    idSpottersLast30d: number;
     ageBrackets: Record<string, number>;
   };
   discovery: {
@@ -178,8 +191,8 @@ export async function computeRoundup(
     clipViewsCount,
     identifications,
     identificationsInWindow,
-    watchAgg,
-    watchAggWindow,
+    watchRows,
+    staffRows,
     eventLogRows,
     firstEventAgg,
     activeUsersWindowRows,
@@ -212,10 +225,17 @@ export async function computeRoundup(
     prisma.event.count({ where: { type: "clip_view" } }),
     prisma.answer.count(),
     prisma.answer.count({ where: { createdAt: { gte: since } } }),
-    prisma.event.aggregate({ _sum: { value: true }, where: { type: "clip_watch" } }),
-    prisma.event.aggregate({
-      _sum: { value: true },
-      where: { type: "clip_watch", createdAt: { gte: since } },
+    // Watch rows come back whole (narrow projection) because each tab's time on
+    // a clip is capped before summing (src/lib/watch-time.ts); a SQL sum would
+    // count a tab left looping overnight as hours of viewing.
+    prisma.event.findMany({
+      where: { type: "clip_watch" },
+      select: { createdAt: true, value: true, sessionId: true, snippetId: true },
+    }),
+    // PEBL's own accounts, left out of the funder's 30-day active count.
+    prisma.user.findMany({
+      where: { email: { endsWith: ADMIN_EMAIL_SUFFIX, mode: "insensitive" } },
+      select: { id: true },
     }),
     prisma.event.count(),
     prisma.event.aggregate({ _min: { createdAt: true } }),
@@ -349,8 +369,22 @@ export async function computeRoundup(
   }
 
   const totalPebbles = totalPebblesAgg._sum.points ?? 0;
-  const watchSeconds = watchAgg._sum.value ?? 0;
-  const watchSecondsWindow = watchAggWindow._sum.value ?? 0;
+  const allowedWatch = cappedWatchSeconds(watchRows);
+  let watchSeconds = 0;
+  let watchSecondsWindow = 0;
+  watchRows.forEach((r, i) => {
+    watchSeconds += allowedWatch[i];
+    if (r.createdAt >= since) watchSecondsWindow += allowedWatch[i];
+  });
+
+  // Atlas OP 3.2, always over 30 days whatever windowDays says, and counted
+  // exactly as the /admin/metrics card counts today: the 30 UTC days up to
+  // and including today, PEBL staff left out.
+  const idSpottersLast30d = countActiveIdSpotters(
+    now.toISOString().slice(0, 10),
+    answers.filter((a) => a.createdAt <= now),
+    new Set(staffRows.map((s) => s.id)),
+  );
   const answersRetroCredited = consensusEvents.reduce((s, c) => s + c.creditedAnswerIds.length, 0);
 
   return {
@@ -365,6 +399,7 @@ export async function computeRoundup(
       verified,
       onboarded,
       everSubmittedAnId: answeredEverRows.length,
+      idSpottersLast30d,
       ageBrackets,
     },
     discovery: {

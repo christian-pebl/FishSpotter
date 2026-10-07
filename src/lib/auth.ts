@@ -1,11 +1,12 @@
 import type { NextAuthOptions } from "next-auth";
+import { encode as encodeJwt } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import AppleProvider from "next-auth/providers/apple";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { checkAuthRateLimit } from "@/lib/rate-limit";
+import { checkAuthRateLimit, checkGuestStartRateLimit } from "@/lib/rate-limit";
 import { clientIpKeyFromHeaders } from "@/lib/client-ip";
 import { sendVerificationEmail } from "@/lib/email/dispatch";
 import { wasSent } from "@/lib/email/outcome";
@@ -19,6 +20,7 @@ import {
 } from "@/lib/age";
 import { isGeneratedNickname } from "@/lib/nickname";
 import { consumeChildSignInToken } from "@/lib/parental-consent";
+import { SESSION_COOKIE_SECONDS, sessionMaxAgeFor } from "@/lib/session-lifetime";
 
 if (!process.env.NEXTAUTH_SECRET) {
   throw new Error("NEXTAUTH_SECRET is required");
@@ -105,7 +107,7 @@ export const authOptions: NextAuthOptions = {
         // may only use a nickname we generated, never one they typed, since
         // a child's typed username can be their real name.
         if (credentials?.guest === "true") {
-          if (!(await checkAuthRateLimit(`guest:${clientIp}`))) return null;
+          if (!(await checkGuestStartRateLimit(clientIp))) return null;
           const ageBand = parseAgeBand(credentials.ageBracket);
           if (!ageBand) return null;
           const rawName = (credentials.name ?? "").trim().slice(0, 32);
@@ -251,6 +253,12 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: { signIn: "/auth/signin" },
-  session: { strategy: "jwt", maxAge: 7 * 24 * 60 * 60, updateAge: 24 * 60 * 60 },
+  // The cookie lives as long as the longest login; each token inside it is
+  // stamped with its own expiry by `jwt.encode` below, so guests stay signed
+  // in for 90 days and members for seven. See src/lib/session-lifetime.ts.
+  session: { strategy: "jwt", maxAge: SESSION_COOKIE_SECONDS, updateAge: 24 * 60 * 60 },
+  jwt: {
+    encode: (params) => encodeJwt({ ...params, maxAge: sessionMaxAgeFor(params.token) }),
+  },
   secret: process.env.NEXTAUTH_SECRET,
 };

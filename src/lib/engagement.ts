@@ -7,22 +7,30 @@
  *   - Does NOTHING unless the visitor opted into analytics (hasAnalyticsConsent).
  *   - The session id is random and lives in sessionStorage, so it dies with the
  *     tab, nothing follows a person across visits.
- *   - Watch-time is the ACTIVE clip's on-screen, tab-visible time, flushed in
- *     short segments via navigator.sendBeacon so a crash/close loses ~nothing.
+ *   - Watch-time is the ACTIVE clip's on-screen, tab-visible time while someone
+ *     is there: it stops two minutes after the last tap, swipe, key or scroll
+ *     (clips loop, so an abandoned tab used to count forever). Flushed in short
+ *     segments via navigator.sendBeacon so a crash/close loses ~nothing. The
+ *     rules live in src/lib/watch-time.ts.
  *
  * Three event types only (see src/lib/events.ts): session_start, clip_view,
  * clip_watch. Everything else the funder needs (IDs, accuracy, species learned)
  * is derived from existing tables, not tracked here. session_start also
  * carries a one-time referrer hostname + UTM params (landing-page attribution
  * only, never a fingerprint) so a traffic source can be tied to the funnel.
+ * They are read from the first page of the visit (src/lib/landing-attribution.ts),
+ * not from the feed's URL, which has usually lost its query string by then.
  */
 
 import { hasAnalyticsConsent } from "@/lib/cookies/client-consent";
 import type { EventType } from "@/lib/events";
+import { landingAttribution } from "@/lib/landing-attribution";
+import { countableWatchSeconds, isWatchIdle } from "@/lib/watch-time";
 
 const SESSION_KEY = "fishspotter:sid";
 const FLUSH_INTERVAL_MS = 25_000; // segment long watches so they flush mid-clip
 const MIN_SEGMENT_SECONDS = 1; // ignore sub-second flickers
+const INPUT_EVENTS = ["pointerdown", "keydown", "wheel", "touchstart"] as const;
 
 type QueuedEvent = {
   type: EventType;
@@ -35,43 +43,10 @@ type QueuedEvent = {
   utmCampaign?: string;
 };
 
-const MAX_ATTR_LEN = 128;
-
-function truncate(value: string): string {
-  return value.slice(0, MAX_ATTR_LEN);
-}
-
-/** Hostname only (e.g. "reddit.com"), never the full referrer URL, which can carry a source page's own query/path. */
-function referrerHostname(): string | undefined {
-  try {
-    if (!document.referrer) return undefined;
-    const host = new URL(document.referrer).hostname.replace(/^www\./, "");
-    return host ? truncate(host) : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-/** Landing-URL UTM params, captured once at session start. */
-function utmParams(): { utmSource?: string; utmMedium?: string; utmCampaign?: string } {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const source = params.get("utm_source");
-    const medium = params.get("utm_medium");
-    const campaign = params.get("utm_campaign");
-    return {
-      utmSource: source ? truncate(source) : undefined,
-      utmMedium: medium ? truncate(medium) : undefined,
-      utmCampaign: campaign ? truncate(campaign) : undefined,
-    };
-  } catch {
-    return {};
-  }
-}
-
 let queue: QueuedEvent[] = [];
 let activeSnippet: string | null = null;
 let segmentStart: number | null = null; // ms timestamp of the current watch segment
+let lastInputAt = 0; // ms timestamp of the last tap, swipe, key or scroll
 let listenersBound = false;
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -94,7 +69,7 @@ function getSessionId(): string | null {
     if (!id) {
       id = randomId();
       window.sessionStorage.setItem(SESSION_KEY, id);
-      queue.push({ type: "session_start", sessionId: id, referrer: referrerHostname(), ...utmParams() });
+      queue.push({ type: "session_start", sessionId: id, ...landingAttribution() });
     }
     return id;
   } catch {
@@ -132,10 +107,13 @@ function flush(useBeacon = false) {
   }
 }
 
-/** End the current watch segment, banking its seconds as a clip_watch event. */
+/**
+ * End the current watch segment, banking its seconds as a clip_watch event.
+ * Only the time up to the idle cut-off counts, capped at one segment's worth.
+ */
 function endSegment() {
   if (segmentStart != null && activeSnippet) {
-    const seconds = (Date.now() - segmentStart) / 1000;
+    const seconds = countableWatchSeconds(segmentStart, Date.now(), lastInputAt);
     if (seconds >= MIN_SEGMENT_SECONDS) {
       enqueue("clip_watch", activeSnippet, Math.round(seconds));
     }
@@ -143,11 +121,24 @@ function endSegment() {
   segmentStart = null;
 }
 
-/** Start a watch segment if we have an active clip and the tab is visible. */
+/**
+ * Start a watch segment if we have an active clip, the tab is visible and the
+ * viewer has done something recently. The next input restarts it (onInput).
+ */
 function beginSegment() {
   if (!activeSnippet) return;
   if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+  if (isWatchIdle(Date.now(), lastInputAt)) return;
   segmentStart = Date.now();
+}
+
+function noteInput() {
+  lastInputAt = Date.now();
+}
+
+function onInput() {
+  noteInput();
+  if (segmentStart == null) beginSegment();
 }
 
 function onVisibility() {
@@ -155,6 +146,8 @@ function onVisibility() {
     endSegment();
     flush(true);
   } else {
+    // Coming back to the tab is someone being there.
+    noteInput();
     beginSegment();
   }
 }
@@ -169,6 +162,9 @@ function bindListeners() {
   listenersBound = true;
   document.addEventListener("visibilitychange", onVisibility);
   window.addEventListener("pagehide", onPageHide);
+  for (const type of INPUT_EVENTS) {
+    window.addEventListener(type, onInput, { passive: true, capture: true });
+  }
   // Periodic flush so a long single-clip watch is banked incrementally.
   intervalId = setInterval(() => {
     endSegment();
@@ -191,11 +187,17 @@ export function initEngagement() {
  */
 export function setActiveClip(snippetId: string | null) {
   if (!hasAnalyticsConsent()) return;
+  // Consent can arrive after the feed mounted (the banner sets the cookie
+  // without a reload), so the listeners are bound here too, not only in init.
+  bindListeners();
   if (snippetId === activeSnippet) return;
   endSegment();
   flush(false);
   activeSnippet = snippetId;
   if (snippetId) {
+    // Reaching a new clip is itself an action: a swipe, a tap on Next, or
+    // opening the feed.
+    noteInput();
     enqueue("clip_view", snippetId);
     beginSegment();
   }

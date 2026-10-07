@@ -21,7 +21,9 @@
  */
 
 import type { PrismaClient } from "@prisma/client";
+import { ADMIN_EMAIL_SUFFIX } from "@/lib/admin-email";
 import {
+  ACTIVE_WINDOW_DAYS,
   buildDailyCounts,
   buildMetricSeries,
   distinctActiveSpotters,
@@ -61,6 +63,8 @@ export interface MetricsView {
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
 export async function loadMetricsView(
   prisma: PrismaClient,
   searchParams: SearchParams,
@@ -87,12 +91,16 @@ export async function loadMetricsView(
   const previousDays = wantsPrevious ? dayKeysBetween(previousFrom, range.from) : [];
   const window = { gte: previousFrom, lt: range.toExclusive };
 
-  const [users, usersBeforeWindow, events, answers, unlocks, sourceRows] = await Promise.all([
+  // The 30-day active count on the comparison window's first day looks 30 days
+  // further back still, so its IDs are read from there.
+  const idWindowFrom = new Date(previousFrom.getTime() - ACTIVE_WINDOW_DAYS * DAY_MS);
+
+  const [users, usersBeforeWindow, events, answers, unlocks, sourceRows, idAnswers, staff] = await Promise.all([
     prisma.user.findMany({ where: { createdAt: window }, select: { createdAt: true } }),
     prisma.user.count({ where: { createdAt: { lt: previousFrom } } }),
     prisma.event.findMany({
       where: { createdAt: window },
-      select: { createdAt: true, type: true, value: true, userId: true },
+      select: { createdAt: true, type: true, value: true, userId: true, sessionId: true, snippetId: true },
     }),
     prisma.answer.findMany({
       where: { createdAt: window },
@@ -112,9 +120,18 @@ export async function loadMetricsView(
       orderBy: { _count: { id: "desc" } },
       take: 10,
     }),
+    prisma.answer.findMany({
+      where: { createdAt: { gte: idWindowFrom, lt: range.toExclusive } },
+      select: { createdAt: true, userId: true },
+    }),
+    // PEBL's own accounts, left out of the funder's 30-day active count.
+    prisma.user.findMany({
+      where: { email: { endsWith: ADMIN_EMAIL_SUFFIX, mode: "insensitive" } },
+      select: { id: true },
+    }),
   ]);
 
-  const rows = { users, events, answers, unlocks };
+  const rows = { users, events, answers, unlocks, idAnswers, excludedUserIds: new Set(staff.map((s) => s.id)) };
 
   // The previous window's signups are what stand between "everyone before the
   // whole query window" and "everyone before the range", so the running total
@@ -176,6 +193,7 @@ export function metricsCsv(range: MetricRange, counts: DailyCounts): string {
     "settled_ids",
     "matched_ids",
     "species_learned",
+    "active_30d_id_spotters",
   ].join(",");
 
   const lines = range.days.map((day, i) =>
@@ -191,6 +209,7 @@ export function metricsCsv(range: MetricRange, counts: DailyCounts): string {
       counts.settledIds[i],
       counts.matchedIds[i],
       counts.speciesLearned[i],
+      counts.activeIdSpotters30d[i],
     ].join(","),
   );
 

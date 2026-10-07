@@ -59,6 +59,11 @@ function printRoundup(r: Roundup) {
   );
 
   heading("Reach");
+  row(
+    "Active, last 30 days",
+    n(r.reach.idSpottersLast30d),
+    "Atlas OP 3.2: an ID in the last 30 days, PEBL excluded; goal 40 by 31 Jul 2027",
+  );
   row("Spotters (total)", n(r.reach.totalUsers));
   row("- registered / guest", `${n(r.reach.registered)} / ${n(r.reach.guests)}`);
   row("Email verified", n(r.reach.verified), pct(r.reach.verified, r.reach.registered) + " of registered");
