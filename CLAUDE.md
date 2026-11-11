@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**FishSpotter** (fish-spotter.vercel.app) is a PEBL CIC marine monitoring web app built with Next.js 14 (App Router), Prisma, Supabase Storage, and NextAuth.
+**FishSpotter** (fish-spotter.vercel.app) is a PEBL CIC marine monitoring web app built with Next.js 16 (App Router, React 19), Prisma, Supabase Storage, and NextAuth.
 
 - Repo: https://github.com/christian-pebl/FishSpotter
 - Live URL: **https://fish-spotter.vercel.app** (canonical, ignore fishspotter.vercel.app, different deployment)
@@ -21,7 +21,7 @@
 
 ## Stack
 
-- **Next.js 14 App Router** (TypeScript)
+- **Next.js 16 App Router** (TypeScript, React 19). `src/proxy.ts` is the old `middleware.ts` (Next 16 rename). Lint is ESLint 9 flat config (`eslint.config.mjs`); `next lint` no longer exists.
 - **Prisma** ORM (PostgreSQL via Supabase)
 - **Supabase Storage** for video and thumbnail files
 - **NextAuth** for auth
@@ -106,7 +106,7 @@
 | `src/app/admin/email/page.tsx` | **Email delivery diagnostics.** Three checks, cheapest first, then a fix (section 4, the catch-up send, see `verification-backlog.ts` below): is the sender configured (env var names, never values); are verification emails getting through (`src/lib/email/verification-stats.ts`, pure: `VerificationToken` rows minted vs. consumed by a real click, where a click is a consumed token whose owner's `emailVerified` was stamped in the same moment, so tokens the old resend retired never count); and a **test send** to the admin's own address that quotes Resend verbatim on a refusal (a 403 saying the domain is not verified is the whole diagnosis, and it used to live only in Vercel's function logs). |
 | `src/lib/prize-requirements.ts` | **The prize claim rules as a checklist (16 Sep 2026).** `prizeClaimStatus()` returns the Pebble target, the account step (a guest must save an email first, anyone else must confirm theirs), five separate spotting days and a 14-day spread, each with progress text, computed with the SAME constants and the same `measureActivity()` as `isPrizeEligible` in `trust.ts`, so the card can never promise a claim the route refuses (a test sweeps inputs to prove the two agree). The trust score is never listed; `trustPending` marks the case where it is the only thing left, and the card then says "almost there" without naming it. Built because a production pull found the unseen rules were what blocked everyone: 1 of 95 public spotters had five spotting days, and 38 had never confirmed an email, including five of the top six. `PrizeCard` shows the list from the first Pebble (it used to surface one generic reason only after 2,000), with a "Send me the link" verification action and an "Add my email" action that opens `GuestSavePrompt` via `GUEST_SAVE_REQUEST_EVENT` (`src/lib/guest.ts`). `prizeRulesSummary()` is the one-sentence version for signed-out visitors. **Import it only from server code**: it pulls `trust.ts`, which pulls the catalogue; the client card takes the result as props. |
 | `src/lib/email/verification-backlog.ts` | **The catch-up send (16 Sep 2026)**, section 4 of `/admin/email`. Every non-guest account with no confirmed address gets ONE fresh link: a set-a-password link (`sendAccountSetupEmail` in `dispatch.ts`, 3-day TTL) when the account has no password, since using it also confirms the address, otherwise a verification link (7-day TTL). The admin domain always gets the verification link, because setting a password never confirms an address there. 24-hour cooldown against ANY recent link, re-decided server-side per account in `sendCatchUpEmail` (the page loops one account per request, 600 ms apart, and stops after two refusals in a row). Previews go to the admin with a dead token, so they can never set a password or confirm anything. Found on 16 Sep: 41 such accounts, 32 of them guests who saved their progress and never received a set-a-password link, so they could not sign back in. |
-| `src/app/about/page.tsx` | **The story of the project (8 Sep 2026)**, asked for by a new spotter who could not find one: who films the clips, the National Lottery Climate Action Fund project with WWF, the six host farms, and what identifications are used for (crowd consensus, anonymised species records for PEBL's monitoring and UK marine biodiversity science, engagement figures to the funder only with analytics consent, never sold). Every claim is one the landing page, farms page, privacy policy or LIA already makes; nothing about partners or data use is asserted beyond those. Linked from the side menu ("About the project"), the landing page, the farms page and the account page, because a signed-in spotter never sees the landing page (middleware sends them to `/feed`). |
+| `src/app/about/page.tsx` | **The story of the project (8 Sep 2026)**, asked for by a new spotter who could not find one: who films the clips, the National Lottery Climate Action Fund project with WWF, the six host farms, and what identifications are used for (crowd consensus, anonymised species records for PEBL's monitoring and UK marine biodiversity science, engagement figures to the funder only with analytics consent, never sold). Every claim is one the landing page, farms page, privacy policy or LIA already makes; nothing about partners or data use is asserted beyond those. Linked from the side menu ("About the project"), the landing page, the farms page and the account page, because a signed-in spotter never sees the landing page (`src/proxy.ts` sends them to `/feed`). |
 | `src/components/landing/*` | Landing-page redesign (2 Jun 2026, `implementation/2026-06-02/landing-redesign.md`). `UnderwaterBackdrop` (depth gradient + drifting CC0 silhouettes + light shafts + bubbles), `HeroPreview` (real looping snippet with a self-playing faux species-pick overlay), `StatsBand` (live clips/species/spotters count-up), `StepCards` (Spot→Compare→Streak, stroked-teal icons + scroll-in stagger), `SpeciesMarquee` (auto-scrolling real `SpeciesImage` photos with `© Author · LICENCE` credit). All on-brand, reduced-motion-safe, off-screen-paused. |
 | `src/lib/useInView.ts` | Shared client IntersectionObserver hook (`[ref, inView]`) used by the landing components to pause always-on CSS animations + the hero video when scrolled off-screen. Pairs with the `.fs-paused` utility in `globals.css`. |
 | `src/app/admin/layout.tsx` | Single gate + top nav for everything under `/admin`. Carries `robots: noindex` so admin pages never get indexed. |
@@ -525,8 +525,9 @@ Q4-A/C/D sprints. Follow these when touching any UI:
 - **Off-screen overlay content must be `inert`.** Any component that renders
   multiple items where only one is "active" (feed cards, carousel slides,
   off-screen drawers) must set `inert` on inactive items. `tabIndex=-1` alone
-  does not remove items from the accessibility tree. Note: React 18.3 needs
-  `inert` spread as a string (`{ inert: "" }`) cast for Framer compatibility.
+  does not remove items from the accessibility tree. Under React 19 pass it as
+  a boolean (`inert={!isActive}`). The old React 18.3 `{ inert: "" }` spread
+  now reads as false and silently drops the attribute.
 - **Reveal / result feedback must be immediate.** Any action where a user
   submits and expects a score must show the result *in place* before
   navigating away; never rely on the user finding it in a different scroll

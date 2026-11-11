@@ -194,6 +194,8 @@ export default async function SnippetDetailPage({
     };
   });
 
+  const userAgent = (await headers()).get("user-agent");
+
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
       <script
@@ -205,7 +207,7 @@ export default async function SnippetDetailPage({
           starts wherever the spotter tapped and laps the whole archive. */}
       <FeedPlayer
         snippets={feedSnippets}
-        initialIsDesktopGuess={!isLikelyMobileUserAgent(headers().get("user-agent"))}
+        initialIsDesktopGuess={!isLikelyMobileUserAgent(userAgent)}
         // Signed out means the guest gate below will cover the feed, so the
         // clips wait for it (src/lib/guest-gate.ts).
         holdVideoForGuestGate={!session?.user?.id}

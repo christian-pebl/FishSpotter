@@ -123,7 +123,7 @@ export default async function FeedPage({
   // S8-T1: pick the shuffle seed + collect the user's answered IDs.
   // Seed = userId for signed-in users (stable across reloads, distinct
   // across users). Seed = `fs.anon_seed` cookie for anon visitors
-  // (minted by src/middleware.ts on first request).
+  // (minted by src/proxy.ts on first request).
   let seed: string;
   let answeredIds = new Set<string>();
   let pebbleTotal = 0;
@@ -138,12 +138,12 @@ export default async function FeedPage({
     answeredIds = new Set(answers.map((a) => a.snippetId));
     pebbleTotal = answers.reduce((sum, a) => sum + a.points, 0);
   } else {
-    // Read the middleware-set cookie. Defensive fallback: if the cookie
-    // is somehow missing (middleware miss / direct API hit), fall back
+    // Read the proxy-set cookie. Defensive fallback: if the cookie
+    // is somehow missing (proxy miss / direct API hit), fall back
     // to a fixed string so the page doesn't 500 and ordering is at
     // least deterministic across the request.
-    const cookieStore = cookies();
-    seed = cookieStore.get(ANON_SEED_COOKIE)?.value ?? "anon-fallback";
+    const cookieStore = await cookies();
+    seed =cookieStore.get(ANON_SEED_COOKIE)?.value ?? "anon-fallback";
   }
 
   // Difficulty ramp: brand-new spotters (readiness 0) get a feed skewed
@@ -257,6 +257,8 @@ export default async function FeedPage({
     };
   });
 
+  const userAgent = (await headers()).get("user-agent");
+
   return (
     <main id="main" tabIndex={-1} className="flex-1 flex flex-col min-h-0 overflow-hidden">
       {/* Keyed on the selection: FeedPlayer keeps its order through a refresh
@@ -272,7 +274,7 @@ export default async function FeedPage({
         unansweredCount={unansweredCount}
         completion={completion}
         newClipCount={newClipCount}
-        initialIsDesktopGuess={!isLikelyMobileUserAgent(headers().get("user-agent"))}
+        initialIsDesktopGuess={!isLikelyMobileUserAgent(userAgent)}
         // Signed out means the guest gate below will cover the feed, so the
         // clips wait for it (src/lib/guest-gate.ts).
         holdVideoForGuestGate={!session?.user?.id}

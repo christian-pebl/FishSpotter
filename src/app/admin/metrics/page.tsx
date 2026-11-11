@@ -20,9 +20,9 @@ export const metadata: Metadata = { title: "Metrics · FishSpotter admin" };
 export default async function MetricsPage({
   searchParams,
 }: {
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const view = await loadMetricsView(prisma, searchParams);
+  const view = await loadMetricsView(prisma, await searchParams);
   const { range } = view;
   const lastDay = range.days[range.days.length - 1] ?? dayKey(new Date());
 

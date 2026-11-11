@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useRef, useEffect, useLayoutEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { FeedCard } from "./FeedCard";
 import { FeedComplete, type FeedCompleteProps } from "./feed/FeedComplete";
 import { NewClipsBanner } from "./feed/NewClipsBanner";
@@ -509,12 +510,12 @@ export function FeedPlayer({
             New underwater snippets are added as deployments come in. Browse the
             archive in the meantime.
           </p>
-          <a
+          <Link
             href="/feed/browse"
             className="pebl-button-primary mt-4 inline-flex min-h-[44px] items-center px-5 text-sm"
           >
             Browse the archive
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -536,15 +537,16 @@ export function FeedPlayer({
           // tabIndex=-1 on the <video> alone leaves every Button + Link
           // inside an inactive card focusable. `inert` removes the whole
           // subtree from the accessibility tree and disables pointer events.
-          // Spread-pattern because React 18.3 hasn't typed `inert` on JSX
-          // intrinsics yet (React 19 supports it as a boolean prop).
+          // React 19 takes `inert` as a boolean (an empty string now reads
+          // as false, so the old React 18.3 `{ inert: "" }` spread would
+          // silently stop working).
           <motion.section
             key={snippet.id}
             layout={reduceMotion ? false : "position"}
             transition={reduceMotion ? { duration: 0 } : TRANSITION.layout}
             data-feed-index={index}
             data-feed-key={snippet.id}
-            {...(activeIndex === index ? {} : ({ inert: "" } as unknown as { inert?: boolean }))}
+            inert={activeIndex !== index}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
           >
             {Math.abs(activeIndex - index) <= RENDER_WINDOW && (
@@ -576,9 +578,7 @@ export function FeedPlayer({
             transition={reduceMotion ? { duration: 0 } : TRANSITION.layout}
             data-feed-index={orderedSnippets.length}
             data-feed-key={COMPLETE_KEY}
-            {...(activeIndex === orderedSnippets.length
-              ? {}
-              : ({ inert: "" } as unknown as { inert?: boolean }))}
+            inert={activeIndex !== orderedSnippets.length}
             className="h-full snap-start snap-always flex flex-col bg-slate-900"
           >
             <FeedComplete {...completion} />

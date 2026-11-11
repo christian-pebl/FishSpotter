@@ -92,8 +92,8 @@ export type Env = z.infer<typeof envSchema>;
  * This is the ONLY function in this module that throws. Call it from a server
  * entry point (see instrumentation.ts), never at import time.
  */
-export function validateEnv(): Env {
-  const parsed = envSchema.safeParse(process.env);
+export function validateEnv(source: NodeJS.ProcessEnv = process.env): Env {
+  const parsed = envSchema.safeParse(source);
 
   if (!parsed.success) {
     const issues = parsed.error.issues
@@ -107,4 +107,26 @@ export function validateEnv(): Env {
   }
 
   return parsed.data;
+}
+
+/**
+ * The boot-time check instrumentation.ts runs: {@link validateEnv}, but it LOGS
+ * a bad configuration instead of throwing. Returns true when the env is valid.
+ *
+ * Why not throw: Next 16 re-raises a register() error on every request, so a
+ * single missing variable would turn the whole site into 500s, including
+ * variables the running app never reads (NEXT_PUBLIC_SUPABASE_ANON_KEY is used
+ * only by scripts). Next 14 only logged it. Measured 11 Nov 2026.
+ */
+export function reportEnvAtBoot(
+  source: NodeJS.ProcessEnv = process.env,
+  log: (message: string) => void = console.error,
+): boolean {
+  try {
+    validateEnv(source);
+    return true;
+  } catch (err) {
+    log(err instanceof Error ? err.message : String(err));
+    return false;
+  }
 }
