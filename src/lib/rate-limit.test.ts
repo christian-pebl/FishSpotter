@@ -258,11 +258,13 @@ describe("MAX_BUCKETS eviction path", () => {
 const redisMockState = vi.hoisted(() => ({
   store: new Map<string, number>(),
   shouldThrow: false,
+  incrCalls: 0,
 }));
 
 vi.mock("@upstash/redis", () => ({
   Redis: vi.fn().mockImplementation(() => ({
     incr: vi.fn(async (key: string) => {
+      redisMockState.incrCalls += 1;
       if (redisMockState.shouldThrow) throw new Error("simulated Upstash outage");
       const next = (redisMockState.store.get(key) ?? 0) + 1;
       redisMockState.store.set(key, next);
@@ -277,16 +279,23 @@ describe("Redis backend (UPSTASH_REDIS_REST_URL/TOKEN set)", () => {
   // tests never touch the network or need a real Upstash account. The mock
   // is a tiny in-memory stand-in for Redis's INCR/EXPIRE semantics, just
   // enough to exercise rate-limit.ts's own logic (the fixed-window counter
-  // + fail-open error handling), not to re-test Redis itself.
+  // + the in-memory fallback on error), not to re-test Redis itself.
+  // The fallback logs the outage; keep it out of the test output. Restored
+  // on its own: vi.restoreAllMocks() would also reset the mocked Redis client.
+  let errorLog: ReturnType<typeof vi.spyOn>;
+
   beforeEach(() => {
+    errorLog = vi.spyOn(console, "error").mockImplementation(() => {});
     redisMockState.store.clear();
     redisMockState.shouldThrow = false;
+    redisMockState.incrCalls = 0;
     vi.stubEnv("UPSTASH_REDIS_REST_URL", "https://example-upstash.test");
     vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "test-token");
   });
 
   afterEach(() => {
     vi.unstubAllEnvs();
+    errorLog.mockRestore();
   });
 
   it("allows the first MAX_ATTEMPTS in the window and blocks the next", async () => {
@@ -307,10 +316,44 @@ describe("Redis backend (UPSTASH_REDIS_REST_URL/TOKEN set)", () => {
     expect(await checkAuthRateLimit("redis-b")).toBe(true);
   });
 
-  it("fails open (allows the request) when Redis is unreachable", async () => {
+  // Production on 11 Nov 2026: the Upstash host had gone, and the old
+  // fail-open path allowed every request. A dead Redis must still leave a limit.
+  it("still enforces the limit, in memory, when Redis is unreachable", async () => {
     const { checkAuthRateLimit } = await loadModule();
     redisMockState.shouldThrow = true;
 
-    expect(await checkAuthRateLimit("doesnt-matter")).toBe(true);
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+      expect(await checkAuthRateLimit("dead-redis")).toBe(true);
+    }
+    expect(await checkAuthRateLimit("dead-redis")).toBe(false);
+    // Proof the Redis path was tried and failed, not skipped.
+    expect(redisMockState.incrCalls).toBe(1);
+  });
+
+  it("holds the parent-email cap at 3 a day through a Redis outage", async () => {
+    const { checkParentRequestRateLimit } = await loadModule();
+    redisMockState.shouldThrow = true;
+
+    for (let i = 0; i < 3; i++) {
+      expect(await checkParentRequestRateLimit("child-1")).toBe(true);
+    }
+    expect(await checkParentRequestRateLimit("child-1")).toBe(false);
+  });
+
+  it("leaves Redis alone for a minute after a failure, logs once, then retries", async () => {
+    const { checkAuthRateLimit } = await loadModule();
+    redisMockState.shouldThrow = true;
+
+    for (let i = 0; i < 4; i++) await checkAuthRateLimit("paused");
+    // One failed call to Redis, then three in-memory checks without trying it.
+    expect(redisMockState.incrCalls).toBe(1);
+    expect(errorLog).toHaveBeenCalledTimes(1);
+
+    // A minute later Redis is back and is used again.
+    redisMockState.shouldThrow = false;
+    vi.setSystemTime(START + 60 * 1000);
+    expect(await checkAuthRateLimit("after-recovery")).toBe(true);
+    expect(redisMockState.incrCalls).toBe(2);
+    expect(redisMockState.store.get("ratelimit:after-recovery")).toBe(1);
   });
 });

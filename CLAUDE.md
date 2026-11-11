@@ -574,9 +574,11 @@ Two backends, auto-selected at module load:
   are set.** One shared counter regardless of instance count. Uses
   `@upstash/redis`'s REST client (works over HTTP, no persistent connection
   needed, the right shape for serverless) with a fixed-window `INCR` +
-  one-time `EXPIRE` per key. Fails OPEN on any Redis error (allows the
-  request rather than blocking everyone if Upstash has an outage), a rate
-  limiter's job is abuse resistance, not core auth.
+  one-time `EXPIRE` per key. On any Redis error it falls back to the
+  in-memory limiter (looser, per instance, but still a limit), skips Redis
+  for the next minute and logs once. It used to fail open, and on 11 Nov 2026
+  production was found allowing everything because the Upstash database had
+  been deleted and its host no longer resolved.
 
 All six `checkXRateLimit()` exports are `async` (the Redis path is a real
 network call), every call site already awaits them from inside an async

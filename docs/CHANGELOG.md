@@ -2864,3 +2864,13 @@ Framework upgrade from Next 14.2.35 and React 18 to Next 16.4.6 and React 19.3.1
 - **Lint.** `next lint` no longer exists, so `npm run lint` is `eslint src` with a flat `eslint.config.mjs` (same rules, token guard included). Four new React Compiler rules from eslint-plugin-react-hooks 7 are switched off for now: they flag 45 spots in working code, mostly "setState in an effect". Two plain `<a>` links to the archive became `<Link>`.
 
 Verified on a local production build with a throwaway database, at 390 px: the age gate for an adult and an under-13 (nickname picker), the clip plays, off-screen cards are inert and Tab never enters one, comments stay hidden until the spotter has answered, a guest is told to make a profile and an under-13 cannot post, and the `/pebbles` total rises straight after an answer. `tsc`, the unit suite, `lint`, `lint:tokens`, `next build` and `storybook build` clean.
+
+## 11 Nov 2026: rate limits hold when Redis is down
+
+Production was found with every rate limit open. The Upstash Redis host in the Vercel env no longer resolves, and `src/lib/rate-limit.ts` allowed any request when Redis failed, so sign-in, guest start, comments, answers and the parent-email caps were all unlimited.
+
+- **A Redis error now falls back to the in-memory limiter** instead of allowing the request. It is per instance, so looser than a shared counter, but every limit holds.
+- **Redis is skipped for a minute after a failure**, so a dead host does not add a failed lookup to each request, and the outage is logged once a minute rather than on every call.
+- Tests cover the auth limit and the parent-email cap through an outage, and the pause and retry.
+
+The dead env vars still need removing in Vercel, or a new free Upstash database setting up, before the shared counter works again. Until then every request tries Redis at most once a minute per instance.
