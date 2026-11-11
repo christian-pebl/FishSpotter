@@ -2,11 +2,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import type { ReactNode } from "react";
 
-// Isolate the boundary from MarineFrame's decorative internals and Sentry.
+// Isolate the boundary from MarineFrame's decorative internals.
 vi.mock("@/components/MarineFrame", () => ({
   MarineFrame: ({ children }: { children?: ReactNode }) => children,
 }));
-vi.mock("@sentry/nextjs", () => ({ captureException: vi.fn() }));
 
 import FeedError from "./error";
 

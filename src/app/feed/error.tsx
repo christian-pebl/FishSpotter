@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
-import * as Sentry from "@sentry/nextjs";
 import { MarineFrame } from "@/components/MarineFrame";
 
 // Segment-level error boundary for /feed: a crash in the feed render (e.g. a
@@ -18,8 +17,6 @@ export default function FeedError({
 }) {
   useEffect(() => {
     console.error(error);
-    // No-op while SENTRY_DSN is unset (init() is disabled in that case).
-    Sentry.captureException(error);
   }, [error]);
 
   return (

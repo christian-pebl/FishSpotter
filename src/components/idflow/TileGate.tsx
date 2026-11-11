@@ -540,11 +540,6 @@ export function TileGate({
   // rather than stacking; see the action row below.
   const phone = !docked;
 
-  // React 18.3 needs `inert` spread as a string for Framer compatibility.
-  const inertProps = suspendKeyboard
-    ? ({ inert: "" } as Record<string, string>)
-    : {};
-
   // Phone: the caller's `phoneColumns` if it set one. Compact (a short sheet
   // the user has dragged down): one more column again, so the grid reflows into
   // the space that is left instead of showing a clipped first row. Capped at 4
@@ -1062,7 +1057,9 @@ export function TileGate({
           role="dialog"
           aria-modal="false"
           aria-label={ariaLabel}
-          {...inertProps}
+          // React 19 takes `inert` as a boolean; an empty string now reads as
+          // false, so the old React 18.3 `{ inert: "" }` spread is gone.
+          inert={suspendKeyboard}
         >
           {/* The grip (sheet mode). Same dots the card has always shown at the
               top, but it now RESIZES rather than moves: drag it down and the

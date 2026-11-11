@@ -1,5 +1,3 @@
-import { withSentryConfig } from "@sentry/nextjs";
-
 /** @type {import('next').NextConfig} */
 const remotePatterns = [];
 
@@ -57,10 +55,8 @@ const isProd = process.env.NODE_ENV === "production";
 // next.config.mjs already whitelists it for next/image, and STORAGE_PROVIDER
 // flips back to r2 for new uploads (see the Storage provider section of
 // CLAUDE.md) -- omitting it would just break silently the next time that
-// happens. Sentry is NOT listed: SENTRY_DSN is unset (Sentry.init's own
-// `enabled: Boolean(dsn)` guard makes it a no-op today), so there is no
-// ingest host to allow yet -- add the project's *.ingest.<region>.sentry.io
-// host to connect-src when a DSN is actually provisioned.
+// happens. No error-reporting host is listed: Sentry was removed on 11 Nov 2026
+// (it never had a DSN). Add any future ingest host to connect-src.
 const IMAGE_HOSTS = [
   "https://aazxphcrexkggbmmceli.supabase.co",
   "https://pub-b0fda9a751144df59165871565716de4.r2.dev",
@@ -75,8 +71,8 @@ const MEDIA_HOSTS = [
   "https://pub-b0fda9a751144df59165871565716de4.r2.dev",
 ];
 
-// Next 14 dev mode needs 'unsafe-eval' (webpack's eval-based sourcemaps) and
-// a websocket connect-src (HMR). Neither is needed -- or shipped -- in prod.
+// Dev mode needs 'unsafe-eval' (eval-based sourcemaps) and a websocket
+// connect-src (HMR). Neither is needed -- or shipped -- in prod.
 const CSP_DIRECTIVES = [
   `default-src 'self'`,
   // No nonce/hash infra exists for Next's inline bootstrap scripts or
@@ -119,14 +115,8 @@ if (isProd) {
 
 const nextConfig = {
   poweredByHeader: false,
-  // Next 14.2.x gates the instrumentation.ts `register()` hook behind this
-  // flag (it defaults to false and becomes the default only in Next 15).
-  // Required so the fail-fast env validation in instrumentation.ts runs at
-  // server boot. Build static-analysis is unaffected (the hook only fires on
-  // the Node server runtime, see instrumentation.ts).
-  experimental: {
-    instrumentationHook: true,
-  },
+  // instrumentation.ts (fail-fast env validation) runs without a flag since
+  // Next 15, so the old `experimental.instrumentationHook` is gone.
   images: {
     remotePatterns: dedupedPatterns,
     // Every image the optimizer serves is immutable per URL: snippet stills
@@ -148,20 +138,4 @@ const nextConfig = {
   },
 };
 
-// Wrap with the Sentry build plugin. This preserves every option in
-// `nextConfig` above (image remotePatterns, security headers,
-// experimental.instrumentationHook) and only layers Sentry's build-time
-// behaviour on top. The plugin is deliberately configured NOT to require a
-// Sentry account or token:
-//   - silent: true            -> no plugin log spam in CI / local builds.
-//   - SENTRY_AUTH_TOKEN unset  -> source-map upload is skipped automatically
-//                                 (no token => no upload, no failure).
-//   - disableLogger: true      -> tree-shakes Sentry logger statements.
-//   - automaticVercelMonitors: false -> we manage crons via vercel.json.
-// With SENTRY_DSN unset the runtime init files no-op, so the whole
-// integration stays inert until a DSN is provided.
-export default withSentryConfig(nextConfig, {
-  silent: true,
-  disableLogger: true,
-  automaticVercelMonitors: false,
-});
+export default nextConfig;

@@ -17,6 +17,7 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { TRANSITION, spring } from "@/lib/motion";
 import {
   VerificationHelp,
@@ -183,12 +184,12 @@ export function FeedComplete({
           >
             See where you rank
           </a>
-          <a
+          <Link
             href="/feed/browse"
             className="pebl-button-secondary inline-flex min-h-[44px] items-center justify-center px-5 text-sm"
           >
             Browse the archive
-          </a>
+          </Link>
         </div>
       </motion.div>
     </div>

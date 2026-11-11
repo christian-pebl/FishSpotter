@@ -2828,3 +2828,17 @@ From the 7 Oct engagement check (`implementation/2026-10-07/next-steps.md`). Fiv
 - **The Atlas number is on `/admin/metrics`.** New top card "Active, last 30 days": distinct spotters with an ID in the 30 UTC days up to each day, PEBL staff excluded, the Atlas OP 3.2 measure (goal 40 by 31 Jul 2027). Also in the CSV (`active_30d_id_spotters`, last column) and the roundup (`reach.idSpottersLast30d`, printed first by `db:stats`), through one shared definition (`countActiveIdSpotters`). Reads 85 on 7 Oct 2026.
 
 Verified: `tsc`, the full unit suite, eslint with the repo config, and `next build` clean. The new metrics code run read-only against production reproduces the hand-computed 85 active and 1,419 capped minutes.
+
+## 11 Nov 2026: Next 16 and React 19, and Sentry removed
+
+Framework upgrade from Next 14.2.35 and React 18 to Next 16.4.6 and React 19.3.1, with next-auth 4.24.15, zod 4.6.7, ESLint 9 and Storybook 10. No feature change is intended.
+
+- **Request APIs are async.** `cookies()` and `headers()` are awaited in `/feed` and `/feed/[id]`, and `/admin/metrics` awaits its `searchParams` (left as it was, the date range would have silently fallen back to the default).
+- **`inert` is a boolean.** React 19 reads the old `{ inert: "" }` spread as false, which would have let keyboard users tab into off-screen feed cards and the suspended tile grid. `FeedPlayer` and `TileGate` now pass `inert={...}`.
+- **`middleware.ts` is now `src/proxy.ts`** (Next 16 rename, same matcher). The signed-in redirect from `/` to `/feed` and the consent-gated shuffle cookie behave as before.
+- **Leaderboard cache.** `revalidateTag` now needs a profile; `{ expire: 0 }` keeps the old "expire at once" behaviour, so a new answer still shows on `/pebbles` straight away.
+- **The env check logs instead of crashing.** Next 16 re-raises an `instrumentation.ts` error on every request, so one missing variable would have turned every page into a 500 (Next 14 only logged it). `reportEnvAtBoot` in `src/lib/env.ts` logs the problem and the site keeps serving.
+- **Sentry removed.** It never had a DSN, so it never sent anything, and its build plugin blocked Turbopack. The error pages still log with `console.error`, which Vercel keeps.
+- **Lint.** `next lint` no longer exists, so `npm run lint` is `eslint src` with a flat `eslint.config.mjs` (same rules, token guard included). Four new React Compiler rules from eslint-plugin-react-hooks 7 are switched off for now: they flag 45 spots in working code, mostly "setState in an effect". Two plain `<a>` links to the archive became `<Link>`.
+
+Verified on a local production build with a throwaway database, at 390 px: the age gate for an adult and an under-13 (nickname picker), the clip plays, off-screen cards are inert and Tab never enters one, comments stay hidden until the spotter has answered, a guest is told to make a profile and an under-13 cannot post, and the `/pebbles` total rises straight after an answer. `tsc`, the unit suite, `lint`, `lint:tokens`, `next build` and `storybook build` clean.

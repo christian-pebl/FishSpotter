@@ -148,8 +148,10 @@ export async function POST(req: Request) {
 
   // The leaderboard caches its whole-table aggregates for a minute; an answer
   // is the one write that changes them, so drop the cache here rather than
-  // let the spotter's own new total lag on /pebbles.
-  revalidateTag(LEADERBOARD_CACHE_TAG);
+  // let the spotter's own new total lag on /pebbles. Next 16 needs a profile:
+  // `{ expire: 0 }` keeps the old expire-now behaviour (the default "max"
+  // profile would serve the stale board once more while it refreshes).
+  revalidateTag(LEADERBOARD_CACHE_TAG, { expire: 0 });
 
   return NextResponse.json({
     answer,

@@ -97,7 +97,7 @@ Install behavior depends on the browser:
 
 ## Stack
 
-- **Next.js 14** (App Router), **React 18**, **TypeScript**
+- **Next.js 16** (App Router), **React 19**, **TypeScript**
 - **Tailwind CSS**
 - **Prisma** + **Supabase Postgres**
 - **Supabase Storage** (or **Cloudflare R2**: see `CLAUDE.md` for the migration path)

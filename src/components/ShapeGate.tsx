@@ -15,7 +15,7 @@
  * as a fallback for any class the fetch can't resolve.
  */
 
-import { useMemo } from "react";
+import { useMemo, type JSX } from "react";
 import { narrowCandidates } from "@/lib/idguide/narrow";
 import { SHAPE_CLASS, type ShapeClass } from "@/lib/idguide/traits";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
