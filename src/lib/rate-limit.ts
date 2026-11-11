@@ -6,9 +6,9 @@ import { Redis } from "@upstash/redis";
 // instances are warm at once. When UPSTASH_REDIS_REST_URL/TOKEN are set,
 // every check is backed by a single shared Redis counter instead, so the
 // limit means what it says regardless of how many instances are running.
-// Unset (the default -- no Upstash account exists yet), this falls back to
-// the original in-memory behaviour with zero change: local dev and any
-// deployment without Redis configured work exactly as before.
+// Unset, it uses the in-memory behaviour: local dev and any deployment
+// without Redis configured work exactly as before. If Redis is set but
+// failing, it also falls back to in-memory (see consume()).
 const redis =
   process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
     ? new Redis({
@@ -22,7 +22,7 @@ const MAX_ATTEMPTS = 5;
 // Bound the map so an attacker spinning unique keys can't exhaust memory.
 // On overflow, drop all expired entries first, then evict the oldest live
 // entry (Map iteration is insertion-ordered). Only relevant to the
-// in-memory fallback -- Redis keys expire on their own via TTL.
+// in-memory path; Redis keys expire on their own via TTL.
 const MAX_BUCKETS = 10000;
 
 type Bucket = { count: number; resetAt: number };
@@ -66,24 +66,40 @@ async function consumeRedis(
   maxAttempts: number,
 ): Promise<boolean> {
   const redisKey = `ratelimit:${key}`;
-  try {
-    const count = await redis!.incr(redisKey);
-    if (count === 1) {
-      await redis!.expire(redisKey, Math.ceil(windowMs / 1000));
-    }
-    return count <= maxAttempts;
-  } catch (err) {
-    // Fail OPEN: a rate limiter's job is abuse resistance, not core auth.
-    // If Upstash is unreachable, blocking every legitimate request would be
-    // a worse outcome than under-enforcing a limit until it recovers.
-    // eslint-disable-next-line no-console
-    console.error("[rate-limit] Redis backend unavailable, allowing request", err);
-    return true;
+  const count = await redis!.incr(redisKey);
+  if (count === 1) {
+    await redis!.expire(redisKey, Math.ceil(windowMs / 1000));
   }
+  return count <= maxAttempts;
 }
 
+// When Redis fails, the request is counted in this instance's memory instead.
+// This used to fail OPEN (allow everything), and on 11 Nov 2026 production
+// was found doing exactly that: the Upstash database had been deleted, its
+// host no longer resolved, and every limit in the app (sign-in, guest start,
+// the parent emails) quietly allowed every request. Blocking everyone would
+// be worse, so the fallback is the per-instance limiter, which is looser
+// than the shared one but still a limit.
+//
+// After a failure, Redis is left alone for REDIS_RETRY_MS so a dead host does
+// not add a failed lookup to every request, and the outage is logged once per
+// pause rather than once per request.
+const REDIS_RETRY_MS = 60 * 1000;
+let redisPausedUntil = 0;
+
 async function consume(key: string, windowMs: number, maxAttempts: number): Promise<boolean> {
-  if (redis) return consumeRedis(key, windowMs, maxAttempts);
+  if (redis && Date.now() >= redisPausedUntil) {
+    try {
+      return await consumeRedis(key, windowMs, maxAttempts);
+    } catch (err) {
+      redisPausedUntil = Date.now() + REDIS_RETRY_MS;
+      // eslint-disable-next-line no-console
+      console.error(
+        "[rate-limit] Redis backend unavailable, using in-memory limits for the next minute",
+        err,
+      );
+    }
+  }
   return consumeInMemory(key, windowMs, maxAttempts);
 }
 
@@ -214,8 +230,9 @@ export async function checkPrizeDeskRateLimit(key: string): Promise<boolean> {
   return consume(`prize-desk:${key}`, PRIZE_DESK_WINDOW_MS, PRIZE_DESK_MAX_PER_HOUR);
 }
 
-// Only needed for the in-memory fallback -- Redis keys expire on their own.
-if (!redis && typeof globalThis !== "undefined") {
+// Clears expired in-memory buckets. Installed even with Redis configured,
+// because a Redis outage falls back to the in-memory buckets.
+if (typeof globalThis !== "undefined") {
   const sweep = () => {
     const now = Date.now();
     for (const [k, v] of buckets) if (v.resetAt <= now) buckets.delete(k);
