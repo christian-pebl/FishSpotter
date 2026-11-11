@@ -2829,6 +2829,20 @@ From the 7 Oct engagement check (`implementation/2026-10-07/next-steps.md`). Fiv
 
 Verified: `tsc`, the full unit suite, eslint with the repo config, and `next build` clean. The new metrics code run read-only against production reproduces the hand-computed 85 active and 1,419 capped minutes.
 
+## 11 Nov 2026: the crowd's answer was readable before you guessed
+
+From the 11 Nov estate review. One route, no schema change.
+
+- **What was wrong.** `GET /api/snippets/[id]/stats` returned the full community histogram to anyone who asked, signed in or not, before they had answered. A live clip returned "Ballan wrasse 86%". The crowd is the authority and the consensus payout follows it, so that histogram is the answer, and 2,000 Pebbles win a book. The route's own comment said nobody sees the crowd before deciding; the code only held back the consensus summary.
+- **The gate.** The histogram and the consensus state now go only to a signed-in spotter who has an `Answer` row for that clip. Everyone else gets `{ gated: true, total: 0, stats: [] }`, the same shape the client already falls back to when the fetch fails. The app only ever calls this route after an answer, so nothing changes for a spotter. Signed-out visitors still get their reveal from `POST /api/answers/preview`, after they commit a guess.
+- **No shared caching on this route.** The old response carried `public, s-maxage=30`. Vercel's CDN keys on the URL and not the cookie (a request carrying a cookie was served the anonymous entry, measured 11 Nov), and it will not cache a response whose `Vary` names `Cookie`. A cached gated body would therefore reach a spotter who had just answered and blank their reveal. Every response is now `private, no-store`. The signed-out path returns before any database query, so it costs a function call and nothing else.
+- **Test.** `src/app/api/snippets/[id]/stats/route.test.ts` runs the real handler: no histogram for a signed-out visitor (and no query), none for a signed-in spotter who has not answered, the full payload for one who has, and no response that a shared cache may store. Four of its six cases fail against the old route.
+
+## 11 Nov 2026: a gentler picture lift, and no blurb under Sources
+
+- **Clips looked washed out.** Every clip has two treatments: the colour rescue baked into the files on 3 Sep, and a picture lift the feed adds in the browser on every device that has never touched the brightness or contrast buttons. That lift was written in May for murky, uncorrected footage and was +8% brightness and +8% contrast; stacked on the rescue it read as washed out. Each step is now 4% instead of 8% and the range is 10 steps either way instead of 5, so the default (+1 step) is half the lift it was and the strongest and weakest settings a spotter can reach are unchanged (0.6 to 1.4). A device that had moved the controls keeps its step count, so its picture moves halfway back towards neutral too. `src/lib/videoSettings.ts`.
+- **The paragraph under "Sources" on every species page is gone.** It explained how the sources were checked and read as boilerplate; each row's labels and "link checked" date already say it. `src/components/species/SpeciesSources.tsx`.
+
 ## 11 Nov 2026: the feed waits for the age question, and the cookie notice stops covering it
 
 From the 11 Nov estate review. No schema change.

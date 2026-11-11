@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { VIDEO_SPEEDS, stepSpeed, videoFilterFor, type VideoSpeed } from "./videoSettings";
+import {
+  PICTURE_MAX,
+  PICTURE_MIN,
+  VIDEO_SETTING_DEFAULTS,
+  VIDEO_SPEEDS,
+  stepSpeed,
+  videoFilterFor,
+  type VideoSpeed,
+} from "./videoSettings";
 
 const base = { trace: false, speed: 1 as VideoSpeed, brightness: 0, contrast: 0 };
 
@@ -61,7 +69,19 @@ describe("videoFilterFor", () => {
   });
 
   it("builds a filter when brightness or contrast is off zero", () => {
-    expect(videoFilterFor({ ...base, brightness: 1 })).toContain("brightness(1.08)");
-    expect(videoFilterFor({ ...base, contrast: -1 })).toContain("contrast(0.92)");
+    expect(videoFilterFor({ ...base, brightness: 1 })).toContain("brightness(1.04)");
+    expect(videoFilterFor({ ...base, contrast: -1 })).toContain("contrast(0.96)");
+  });
+
+  it("lifts every clip by half what it used to out of the box (+4%, was +8%)", () => {
+    // Every device that has never touched a picture control gets this filter on
+    // every clip. On 11 Nov 2026 the old +8% read as washed out on top of the
+    // colour rescue baked into the clips, so it was halved.
+    expect(videoFilterFor(VIDEO_SETTING_DEFAULTS)).toBe("brightness(1.04) contrast(1.04)");
+  });
+
+  it("still reaches the old extremes at the ends of the range", () => {
+    expect(videoFilterFor({ ...base, brightness: PICTURE_MAX })).toContain("brightness(1.40)");
+    expect(videoFilterFor({ ...base, brightness: PICTURE_MIN })).toContain("brightness(0.60)");
   });
 });
