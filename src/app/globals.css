@@ -119,6 +119,15 @@ a {
   }
 }
 
+/* One question at a time. The cookie notice is fixed to the bottom of the
+ * screen above every dialog, so on a phone it covered the guest gate's age
+ * options. While any dialog is open (useModalFocus sets data-modal-open on
+ * <html>) the notice steps aside; it returns the moment the dialog closes.
+ * Nothing is recorded in the meantime: analytics wait for the answer. */
+html[data-modal-open] .pebl-cookie-notice {
+  display: none;
+}
+
 /* S5-T10: visually-hidden helper for screen-reader-only labels. */
 .sr-only {
   position: absolute;

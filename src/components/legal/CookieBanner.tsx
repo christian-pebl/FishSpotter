@@ -67,7 +67,9 @@ export function CookieBanner() {
     <div
       role="region"
       aria-label="Cookie notice"
-      className="fixed inset-x-2 bottom-2 z-[60] mx-auto max-w-2xl pebl-surface rounded-card border border-navy-900/12 p-4 text-sm shadow-card"
+      // `pebl-cookie-notice`: hidden while a dialog is open (globals.css), so
+      // it never covers a dialog's buttons. It comes back when the dialog shuts.
+      className="pebl-cookie-notice fixed inset-x-2 bottom-2 z-[60] mx-auto max-w-2xl pebl-surface rounded-card border border-navy-900/12 p-4 text-sm shadow-card"
     >
       <p className="text-navy-900">
         FishSpotter keeps one strictly-necessary cookie to sign you in. May we also

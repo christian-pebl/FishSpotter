@@ -12,6 +12,11 @@ import { useSession } from "next-auth/react";
 import { drainGuestAnswers } from "@/lib/guestAnswers";
 import { keepFeedOrder, leadWith, sendAnsweredToBack } from "@/lib/feed-ordering";
 import { indexAtScroll, stageIndex, type Stage } from "@/lib/feed-stage";
+import {
+  GUEST_GATE_CLOSED_EVENT,
+  isGuestGateDismissed,
+  shouldHoldVideoForGuestGate,
+} from "@/lib/guest-gate";
 
 // `useLayoutEffect` is a no-op on the server but React 18 still warns about
 // it there; this is the same guard as src/lib/split-screen.ts.
@@ -135,6 +140,17 @@ interface FeedPlayerProps {
    * the front and onto the stage whenever it newly appears; see `ledWith`.
    */
   leadClipId?: string;
+  /**
+   * True when the server rendered this page for a signed-out visitor, on a page
+   * that mounts the guest gate. The feed then leaves every clip's `src` off
+   * until the gate is dismissed or the visitor signs in (see
+   * src/lib/guest-gate.ts): the gate covers the feed, so a clip fetched behind
+   * it is bandwidth nobody chose to spend. Must come from the server, because a
+   * `<video src>` in the HTML starts downloading before any script runs.
+   * Defaults to false, which is the previous behaviour, so a page without the
+   * gate can never be left holding.
+   */
+  holdVideoForGuestGate?: boolean;
 }
 
 /**
@@ -159,6 +175,7 @@ export function FeedPlayer({
   newClipCount = 0,
   initialIsDesktopGuess = false,
   leadClipId,
+  holdVideoForGuestGate = false,
 }: FeedPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hintVisible, setHintVisible] = useState(false);
@@ -310,6 +327,24 @@ export function FeedPlayer({
   // children first) has already taken its entry before this looks.
   const { data: session, status: sessionStatus } = useSession();
   const drainUserId = sessionStatus === "authenticated" ? (session?.user?.id ?? null) : null;
+
+  // Clips wait for the guest gate. `gateDismissed` starts false on the server
+  // AND on the client's first render, so hydration agrees with the HTML (no
+  // `src`); the effect then reads what this tab remembers, and listens for the
+  // gate's own "Just watch for now".
+  const [gateDismissed, setGateDismissed] = useState(false);
+  useEffect(() => {
+    if (!holdVideoForGuestGate) return;
+    if (isGuestGateDismissed()) setGateDismissed(true);
+    const onClosed = () => setGateDismissed(true);
+    window.addEventListener(GUEST_GATE_CLOSED_EVENT, onClosed);
+    return () => window.removeEventListener(GUEST_GATE_CLOSED_EVENT, onClosed);
+  }, [holdVideoForGuestGate]);
+  const videoHeld = shouldHoldVideoForGuestGate({
+    signedOutAtRender: holdVideoForGuestGate,
+    sessionStatus,
+    dismissed: gateDismissed,
+  });
   const mountedIdsRef = useRef<Set<string>>(new Set());
   mountedIdsRef.current = new Set(
     snippetsWithTracks
@@ -516,8 +551,14 @@ export function FeedPlayer({
               <FeedCard
                 snippet={snippet}
                 isActive={activeIndex === index}
-                preload={Math.abs(activeIndex - index) <= VIDEO_WINDOW}
-                showStill={Math.abs(activeIndex - index) <= STILL_WINDOW}
+                // Behind the guest gate nothing is fetched but the one still
+                // the visitor can see through it: no clip, no neighbours.
+                preload={!videoHeld && Math.abs(activeIndex - index) <= VIDEO_WINDOW}
+                showStill={
+                  videoHeld
+                    ? activeIndex === index
+                    : Math.abs(activeIndex - index) <= STILL_WINDOW
+                }
                 initialIsDesktopGuess={initialIsDesktopGuess}
                 // The completion card is a real scroll target, so the last clip
                 // still has a "next" when it's present.
