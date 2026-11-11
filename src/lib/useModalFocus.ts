@@ -11,6 +11,7 @@ import type { RefObject } from "react";
  *   2. move focus into the first focusable inside the dialog on open,
  *   3. trap Tab / Shift+Tab within the dialog and close on Escape,
  *   4. lock body scroll while open,
+ *   5. mark the document while any dialog is open (MODAL_OPEN_ATTR),
  * and restore focus to the opener on close.
  *
  * The hook no-ops while `open` is false, so it is safe to call
@@ -20,6 +21,22 @@ import type { RefObject } from "react";
  * @param dialogRef ref to the dialog container whose focusables are trapped
  * @param onClose   called when the user presses Escape
  */
+/**
+ * Present on <html> while at least one dialog using this hook is open.
+ *
+ * Page furniture that floats above the content reads it to get out of the way.
+ * The cookie notice is the case that forced it: fixed to the bottom of the
+ * screen at a higher z-index than any dialog, it sat on top of the guest gate's
+ * bottom sheet on a phone and covered two of the three age options, "Just
+ * watch for now" and "I have an account" (measured 11 Nov 2026). An age screen
+ * with one answer reachable is not a neutral one. See the rule in globals.css.
+ */
+export const MODAL_OPEN_ATTR = "data-modal-open";
+
+/** How many dialogs are open right now. Dialogs can stack (the ask-a-parent
+ *  dialog opens over others), so the attribute is counted, not toggled. */
+let openModals = 0;
+
 export function useModalFocus(
   open: boolean,
   dialogRef: RefObject<HTMLElement | null>,
@@ -44,6 +61,19 @@ export function useModalFocus(
     );
     focusable?.focus();
   }, [open, dialogRef]);
+
+  // 5: mark the document. Its own effect, keyed on `open` alone: the effect
+  // below re-runs whenever `onClose` changes identity, which for most callers
+  // is every render.
+  useEffect(() => {
+    if (!open) return;
+    openModals += 1;
+    document.documentElement.setAttribute(MODAL_OPEN_ATTR, "");
+    return () => {
+      openModals = Math.max(0, openModals - 1);
+      if (openModals === 0) document.documentElement.removeAttribute(MODAL_OPEN_ATTR);
+    };
+  }, [open]);
 
   // 3 + 4: Escape, Tab trap, body scroll lock.
   useEffect(() => {

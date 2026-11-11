@@ -273,6 +273,9 @@ export default async function FeedPage({
         completion={completion}
         newClipCount={newClipCount}
         initialIsDesktopGuess={!isLikelyMobileUserAgent(headers().get("user-agent"))}
+        // Signed out means the guest gate below will cover the feed, so the
+        // clips wait for it (src/lib/guest-gate.ts).
+        holdVideoForGuestGate={!session?.user?.id}
       />
       {/* A filtered feed must say so, or a spotter who launched one from the
           archive has no way to tell a 5-clip selection from a 5-clip site. */}
