@@ -5,38 +5,61 @@ import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { consensusSummary } from "@/lib/consensus";
 import { prisma } from "@/lib/prisma";
 
-// Public CDN cache for the PRE-ANSWER payload only. The community histogram
-// (total + stats) is the same for every user and changes slowly, so the
-// un-gated shape is safe at the edge. Short TTL because the histogram does drift
-// as people answer: s-maxage caches for 30s, stale-while-revalidate serves a
-// stale copy for another 60s while it refreshes.
+// Blind submission. The community histogram IS the answer on this app (the
+// crowd is the authority and the consensus payout follows it), so it is only
+// ever sent to a spotter who has already committed their own guess on this
+// clip. Everyone else, signed in or not, gets GATED_BODY: the same shape the
+// client falls back to when the fetch fails, plus `gated: true`.
 //
-// PRIVACY: once the user has answered we add staffAnswer / hasReference (the
-// reference answer) and, on no-reference clips, the live consensus lean. Those
-// are gated on THIS user having committed, so the post-answer response is
-// returned with no public Cache-Control header (the CDN must not share it).
-const CACHE_CONTROL_PUBLIC =
-  "public, s-maxage=30, stale-while-revalidate=60";
+// Until 11 Nov 2026 the un-answered response carried the full histogram and a
+// public CDN header, so anyone could read "Ballan wrasse 86%" before guessing.
+//
+// CACHING: nothing on this route may be stored by a shared cache.
+//  - Vercel's CDN keys on the URL, not the cookie (a request carrying a cookie
+//    was served the anonymous entry, measured 11 Nov 2026), and it refuses to
+//    cache a response whose Vary names Cookie. So a publicly cached gated body
+//    would be handed to a spotter who has just answered, and their reveal
+//    would show an empty breakdown for as long as the entry lived.
+//  - The histogram response is per-viewer by definition.
+// The anonymous path costs no database query instead: with no session there is
+// nothing to look up, so it returns before Prisma is touched.
+export const dynamic = "force-dynamic";
+
+const NO_SHARED_CACHE = { "Cache-Control": "private, no-store" } as const;
+
+const GATED_BODY = { gated: true, total: 0, stats: [] } as const;
+
+function gated() {
+  return NextResponse.json(GATED_BODY, { headers: NO_SHARED_CACHE });
+}
 
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const snippet = await prisma.snippet.findUnique({
-    where: { id },
-    select: { id: true },
-  });
-  if (!snippet) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
+  // Signed-out visitors can never have a persisted answer (their reveal comes
+  // from POST /api/answers/preview, after they commit a guess), so there is
+  // nothing to check and nothing to show.
   const session = await getServerSession(authOptions);
-  const userHasAnswered = !!(
-    session?.user?.id &&
-    (await prisma.answer.findFirst({
-      where: { userId: session.user.id, snippetId: id },
+  const userId = session?.user?.id;
+  if (!userId) return gated();
+
+  const [snippet, myAnswer] = await Promise.all([
+    prisma.snippet.findUnique({ where: { id }, select: { id: true } }),
+    prisma.answer.findFirst({
+      where: { userId, snippetId: id },
       select: { id: true },
-    }))
-  );
+    }),
+  ]);
+  if (!snippet) {
+    return NextResponse.json(
+      { error: "Not found" },
+      { status: 404, headers: NO_SHARED_CACHE },
+    );
+  }
+  if (!myAnswer) return gated();
 
   const answers = await prisma.answer.findMany({
     where: { snippetId: id },
@@ -54,22 +77,13 @@ export async function GET(
     }))
     .sort((a, b) => b.count - a.count);
 
-  // Blind submission: the live consensus lean is gated on THIS user having
-  // committed their own guess, so nobody sees the crowd before deciding.
-  // Pre-answer the response is just the user-independent histogram (total +
-  // stats) and gets the public CDN header; post-answer it carries the
-  // per-user-gated consensus state, so no public cache header (the CDN must not
-  // store/share it).
   return NextResponse.json(
     {
       total,
       stats,
-      ...(userHasAnswered
-        ? { hasReference: false, consensus: consensusSummary(stats, total) }
-        : {}),
+      hasReference: false,
+      consensus: consensusSummary(stats, total),
     },
-    userHasAnswered
-      ? undefined
-      : { headers: { "Cache-Control": CACHE_CONTROL_PUBLIC } },
+    { headers: NO_SHARED_CACHE },
   );
 }

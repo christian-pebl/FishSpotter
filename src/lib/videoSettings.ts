@@ -18,15 +18,17 @@ export const VIDEO_SPEEDS: readonly VideoSpeed[] = [0.25, 0.5, 0.75, 1, 1.5, 2];
 export interface VideoSettings {
   trace: boolean;
   speed: VideoSpeed;
-  brightness: number; // -5..5
-  contrast: number;   // -5..5
+  brightness: number; // PICTURE_MIN..PICTURE_MAX steps
+  contrast: number;   // PICTURE_MIN..PICTURE_MAX steps
 }
 
 const DEFAULTS: VideoSettings = {
   trace: false,
   speed: 1,
-  // Murky underwater footage reads better with a gentle default lift; users can
-  // still dial it back to 0 (or up) in the settings menu (persisted per-device).
+  // A gentle default lift: one step each, which is +4% (see PICTURE_STEP).
+  // Spotters can still dial it back to 0 (or up) on the clip (persisted
+  // per-device). It was +8% until 11 Nov 2026; on top of the colour rescue
+  // baked into every clip since 3 Sep, that read as washed out.
   brightness: 1,
   contrast: 1,
 };
@@ -62,8 +64,16 @@ const EVENT_NAME = "fishspotter:videoSettingsChanged";
  * whose limits disagreed with the clamp would look broken (a press that
  * visibly does nothing).
  */
-export const PICTURE_MIN = -5;
-export const PICTURE_MAX = 5;
+export const PICTURE_MIN = -10;
+export const PICTURE_MAX = 10;
+
+/**
+ * How much one step of brightness or contrast changes the picture. Halved from
+ * 0.08 on 11 Nov 2026, with the step range doubled to match, so the default
+ * (+1 step) is half the lift it was while the extremes a spotter can reach stay
+ * where they were (0.6 to 1.4).
+ */
+export const PICTURE_STEP = 0.04;
 
 function clampStep(v: number) {
   if (!Number.isFinite(v)) return 0;
@@ -157,9 +167,9 @@ export function useVideoSettings(): VideoSettings {
 }
 
 export function videoFilterFor(settings: VideoSettings): string {
-  // 1 step = 8% adjustment; range yields ~0.6..1.4
-  const b = 1 + settings.brightness * 0.08;
-  const c = 1 + settings.contrast * 0.08;
+  // 1 step = 4% (PICTURE_STEP); the full range yields 0.6..1.4.
+  const b = 1 + settings.brightness * PICTURE_STEP;
+  const c = 1 + settings.contrast * PICTURE_STEP;
   if (b === 1 && c === 1) return "none";
   return `brightness(${b.toFixed(2)}) contrast(${c.toFixed(2)})`;
 }

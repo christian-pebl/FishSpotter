@@ -208,6 +208,9 @@ export default async function SnippetDetailPage({
       <FeedPlayer
         snippets={feedSnippets}
         initialIsDesktopGuess={!isLikelyMobileUserAgent(userAgent)}
+        // Signed out means the guest gate below will cover the feed, so the
+        // clips wait for it (src/lib/guest-gate.ts).
+        holdVideoForGuestGate={!session?.user?.id}
       />
       <FeedFilterNotice
         parts={filterApplies ? describeSnippetFilter(filter, speciesIndex) : []}

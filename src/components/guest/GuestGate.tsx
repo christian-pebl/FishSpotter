@@ -9,6 +9,11 @@ import { AgeBandPicker } from "@/components/age/AgeBandPicker";
 import { isUnder13, parseAgeBand, type AgeBand } from "@/lib/age";
 import { nicknameSuggestions } from "@/lib/nickname";
 import { TAB_AGE_KEY } from "@/lib/age-events";
+import {
+  clearGuestGateDismissal,
+  dismissGuestGate,
+  isGuestGateDismissed,
+} from "@/lib/guest-gate";
 
 /**
  * Zero-friction entry: when a signed-out spotter reaches the feed, ask their
@@ -28,7 +33,6 @@ import { TAB_AGE_KEY } from "@/lib/age-events";
  * different age.
  */
 
-const DISMISS_KEY = "fishspotter:guestGateDismissed";
 const MAX_NAME = 24;
 const SUGGESTION_COUNT = 4;
 
@@ -62,13 +66,8 @@ export function GuestGate() {
 
   useEffect(() => {
     if (status !== "unauthenticated") return;
-    let already = false;
-    try {
-      already = sessionStorage.getItem(DISMISS_KEY) === "1";
-    } catch {
-      /* private mode / disabled storage, just show it */
-    }
-    setDismissed(already);
+    // Private mode / disabled storage reads as "not dismissed": just show it.
+    setDismissed(isGuestGateDismissed());
     const remembered = readTabAge();
     if (remembered) {
       setBand(remembered);
@@ -84,11 +83,8 @@ export function GuestGate() {
   const child = isUnder13(band);
 
   function close() {
-    try {
-      sessionStorage.setItem(DISMISS_KEY, "1");
-    } catch {
-      /* ignore */
-    }
+    // Also tells the feed behind the gate that it may start its clip.
+    dismissGuestGate();
     setDismissed(true);
   }
 
@@ -126,11 +122,7 @@ export function GuestGate() {
       setError("Could not start just now. Please try again.");
       return;
     }
-    try {
-      sessionStorage.removeItem(DISMISS_KEY);
-    } catch {
-      /* ignore */
-    }
+    clearGuestGateDismissal();
     // Session flips to authenticated (guest); the overlay unmounts itself.
     router.refresh();
   }

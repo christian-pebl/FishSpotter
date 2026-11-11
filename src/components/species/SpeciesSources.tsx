@@ -8,6 +8,10 @@
  *      is what makes every other citation addressable;
  *   2. the numbered source list, each an outbound link with its publisher,
  *      licence and the date the link was last proved to be about this species;
+ * The list carries no introduction. A paragraph explaining how the sources were
+ * checked sat under the heading until 11 Nov 2026 and read as boilerplate; the
+ * dates and labels on each row already say it.
+ *
  * There used to be a third part: a note admitting which statements on the page
  * were not yet traced to a source. It is gone because the thing it apologised
  * for is gone. Every claim the guide renders now carries a passage somebody
@@ -116,12 +120,7 @@ export function SpeciesSources({ provenance }: { provenance: SpeciesProvenance |
 
   return (
     <section id="species-sources" className="pebl-surface rounded-card p-4">
-      <h2 className="mb-1 font-brand-heading text-h3 text-navy-900">Sources</h2>
-      <p className="mb-2 text-xs leading-relaxed text-navy-900/60">
-        Open-access references behind this page. Every statement on this page was read out of one of
-        them; anything that could not be traced to a source was taken off the page rather than left
-        standing. Each link was checked on the date shown, and confirmed then to be about this species.
-      </p>
+      <h2 className="mb-2 font-brand-heading text-h3 text-navy-900">Sources</h2>
       <ul className="divide-y divide-border">
         {sources.map((s, i) => (
           <SourceRow key={s.id} source={s} index={i} />
