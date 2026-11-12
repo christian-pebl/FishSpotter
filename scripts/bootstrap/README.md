@@ -42,7 +42,7 @@ npm run bootstrap -- --doctor   # see what's currently set vs missing
 
 ```bash
 npm run bootstrap                       # full sequence (no R2 data migration)
-npm run bootstrap -- --r2-migration     # full + db:migrate-to-r2
+npm run bootstrap -- --r2-migration     # full + db:migrate-to-r2 (a dry run: prints the plan, moves nothing)
 npm run bootstrap -- --only vercel,github  # subset
 npm run bootstrap -- --doctor           # read-only drift check
 ```

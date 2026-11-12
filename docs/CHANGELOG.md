@@ -2874,3 +2874,16 @@ Production was found with every rate limit open. The Upstash Redis host in the V
 - Tests cover the auth limit and the parent-email cap through an outage, and the pause and retry.
 
 The dead env vars still need removing in Vercel, or a new free Upstash database setting up, before the shared counter works again. Until then every request tries Redis at most once a minute per instance.
+
+## 12 Nov 2026: a clip's address no longer says what is in it (code; nothing migrated yet)
+
+A clip was stored at `<bucket>/<export folder name>/snippet.mp4`, and for 64 of the 163 rows the folder name has a label where a clip number normally sits (`..._wrasse00007270_track_manual_...`). The player has to be handed that URL, so the address gave the species away before anyone guessed.
+
+- **Content-addressed keys.** `scripts/lib/object-keys.ts`: `clips/<hash>.mp4`, `clips/<hash>-sd.mp4`, `thumbs/<hash>.jpg`, where `<hash>` is 24 hex characters of the file's own SHA-256. `objectKey()` takes a kind and the bytes, so there is no folder name for it to carry.
+- **Every upload path uses them:** `sync.ts`, `seed.ts`, `add-anjali-clips.ts`, `generate-renditions.ts`, `fix-unplayable-snippets.ts`, `reupload-snippets-hq.ts`, `transcode-to-h264.ts`. The `?v=N` cache-buster is gone (new bytes are a new address) and the objects are uploaded with a one-year cache header.
+- **`scripts/migrate-clip-keys.ts`** (`npm run db:migrate-clip-keys`) moves the existing rows. It is a dry run unless given `--execute`; a dry run builds no storage client and reads the rows in a `READ ONLY` transaction. A real run uploads, checks each new URL answers with the same length, writes a log line with the old and new URLs, and only then changes the row. `--rollback` is a database update from that log. `--delete-old` removes the named objects later, 14 days on by default. `migrate-to-r2.ts` is replaced by it: with `STORAGE_PROVIDER=r2` the same command copies the same keys to R2.
+- **Tests:** 40, running the real migration logic against a pretend storage, database and log (dry run writes nothing; a truncated upload, a failed upload and a failed row update all leave the row as it was; rollback and clean-up refuse a row that has changed since). The whole write path was also rehearsed against a stand-in storage server and the local sandbox database.
+- **Dry run on production (read-only):** 163 rows, 489 objects, 2,479 MB, none already migrated, none failing. Details and the runbook: `implementation/2026-11-12/opaque-clip-keys.md`.
+- **Correction carried:** clips are cached for 30 days. The 11 Nov review's "uncached" reading came from a HEAD request; a real GET says `public, max-age=2592000` and `HIT` (CLAUDE.md, Storage provider).
+
+Not done, and needing a yes each: the three-clip run, the full run, and the later clean-up. Before the next weekly sync, the PC's main checkout has to be on current `main`, or new clips go up under their folder names again.

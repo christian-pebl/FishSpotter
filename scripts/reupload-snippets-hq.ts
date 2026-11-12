@@ -1,17 +1,15 @@
 /**
  * Re-upload the high-quality re-exported snippet clips to the active storage
- * provider (R2 in production) and cache-bust the DB URLs.
+ * provider and point the DB rows at them.
  *
  * Context: the live clips were exported via OpenCV's mp4v encoder and then
  * re-encoded to H.264, two lossy passes. The TRDesk4 export now writes H.264
  * once, straight from source (see reexport_snippets_hq.py). This script pushes
  * those improved files over the existing R2 objects.
  *
- * R2 objects are served with `immutable, max-age=2592000`, so overwriting the
- * same key would let browsers/edge keep serving the stale clip. We therefore
- * bump a `?v=N` query param on Snippet.videoUrl / thumbnailUrl, which both the
- * browser and Cloudflare treat as a fresh resource. The underlying object IS
- * overwritten too, so a cold cache fetches the new bytes.
+ * Objects are stored under a name made from their own bytes
+ * (scripts/lib/object-keys.ts), so the re-exported file lands at a new address
+ * and the row follows it. Nothing is overwritten and no `?v=N` is needed.
  *
  * The Snippet row id is preserved (we only touch the URLs), so existing Answers
  * / leaderboard history stay attached.
@@ -34,7 +32,7 @@
 import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
 import * as path from "path";
-import { buildPublicUrl, getActiveProvider, uploadThumbnail, uploadVideo } from "./lib/storage";
+import { getActiveProvider, getStorageDriver, uploadThumbnail, uploadVideo } from "./lib/storage";
 
 const prisma = new PrismaClient();
 
@@ -61,19 +59,6 @@ function localVideo(dir: string): string | null {
   return null;
 }
 
-/** Append/increment a ?v=N cache-busting param, basing the version on the
- *  current DB URL so re-runs keep incrementing. */
-function bustFrom(cleanUrl: string, existing: string | null): string {
-  let v = 1;
-  if (existing) {
-    const m = /[?&]v=(\d+)/.exec(existing);
-    if (m) v = parseInt(m[1], 10);
-  }
-  const u = new URL(cleanUrl);
-  u.searchParams.set("v", String(v + 1));
-  return u.toString();
-}
-
 async function main() {
   console.log(
     `Storage provider: ${getActiveProvider()} ` +
@@ -87,7 +72,7 @@ async function main() {
     select: { id: true, externalId: true, videoUrl: true, thumbnailUrl: true },
     orderBy: { externalId: "asc" },
   });
-  const providerHost = new URL(buildPublicUrl("_", "video")).host;
+  const providerHost = new URL(getStorageDriver().publicBase).host;
   console.log(
     `DB snippets: ${rows.length}  from: ${FROM}  dryRun: ${DRY}  ` +
       `forceAll: ${FORCE_ALL}  providerHost: ${providerHost}\n`,
@@ -113,15 +98,14 @@ async function main() {
 
     if (DRY) {
       const kb = Math.round(fs.statSync(vid).size / 1024);
-      console.log(`DRY  ${row.externalId}: would upload ${kb}KB + bust ?v`);
+      console.log(`DRY  ${row.externalId}: would upload ${kb}KB`);
       done++;
       continue;
     }
 
-    const videoClean = await uploadVideo(row.externalId, fs.readFileSync(vid));
-    const thumbClean = await uploadThumbnail(row.externalId, fs.readFileSync(thumb));
-    const videoUrl = bustFrom(videoClean, row.videoUrl);
-    const thumbnailUrl = bustFrom(thumbClean, row.thumbnailUrl);
+    // Content-addressed: new bytes, new URL, no `?v=` cache-buster.
+    const videoUrl = await uploadVideo(fs.readFileSync(vid));
+    const thumbnailUrl = await uploadThumbnail(fs.readFileSync(thumb));
 
     await prisma.snippet.update({
       where: { id: row.id },

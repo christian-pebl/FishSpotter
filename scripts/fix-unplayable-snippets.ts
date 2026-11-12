@@ -105,18 +105,6 @@ function transcode(input: string, output: string): void {
   if (r.status !== 0) throw new Error(`ffmpeg exit ${r.status}: ${(r.stderr ?? "").slice(-600)}`);
 }
 
-/**
- * Bump `?v=N`. The object is overwritten at the same key, so without this the
- * browser and the CDN keep serving the undecodable bytes they already cached.
- */
-function bumpCacheBuster(baseUrl: string, oldUrl: string): string {
-  const previous = Number(new URL(oldUrl).searchParams.get("v") ?? "1");
-  const next = (Number.isFinite(previous) ? previous : 1) + 1;
-  const u = new URL(baseUrl);
-  u.searchParams.set("v", String(next));
-  return u.toString();
-}
-
 async function downloadTo(url: string, dest: string): Promise<void> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`download ${res.status} for ${url}`);
@@ -125,7 +113,8 @@ async function downloadTo(url: string, dest: string): Promise<void> {
 
 async function main() {
   const provider = getActiveProvider();
-  const driver = getStorageDriver();
+  // Construct the driver now so a misconfigured env fails before any transcode.
+  getStorageDriver();
   console.log(`Storage provider: ${provider}   dryRun=${DRY}`);
 
   const where = ONLY.length > 0 ? { externalId: { in: ONLY } } : {};
@@ -187,12 +176,9 @@ async function main() {
       }
 
       const body = fs.readFileSync(output);
-      await uploadVideo(t.externalId, body);
-
-      // Rebuild from the driver rather than editing the old string, so a
-      // provider switch is reflected instead of silently pointing at whichever
-      // bucket the row happened to be in before.
-      const newUrl = bumpCacheBuster(driver.buildPublicUrl(t.externalId, "video"), t.videoUrl);
+      // The re-encode has new bytes, so it lands at a new content-addressed
+      // URL on the active provider; the row follows it. No `?v=` needed.
+      const newUrl = await uploadVideo(body);
       await prisma.snippet.update({ where: { id: t.id }, data: { videoUrl: newUrl } });
 
       const inKb = (fs.statSync(input).size / 1024).toFixed(0);

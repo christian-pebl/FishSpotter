@@ -1,27 +1,20 @@
 /**
- * Transcodes all mp4v-encoded snippet videos to H.264 and re-uploads to Supabase.
+ * Transcodes all mp4v-encoded snippet videos to H.264 and re-uploads them.
  * Run: npx tsx --env-file=.env.local scripts/transcode-to-h264.ts
+ *
+ * Older than `fix-unplayable-snippets.ts` (npm run db:fix-codecs), which is the
+ * one to use. Kept working: it uploads through scripts/lib/storage.ts, so the
+ * re-encoded clip lands at a content-addressed URL like every other upload,
+ * not back under the export folder name.
  */
 import { PrismaClient } from "@prisma/client";
-import { createClient } from "@supabase/supabase-js";
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import { execSync, spawnSync } from "child_process";
+import { uploadVideo } from "./lib/storage";
 
 const prisma = new PrismaClient();
-
-const SUPABASE_URL = process.env.SUPABASE_URL!;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const BUCKET = process.env.SUPABASE_STORAGE_BUCKET ?? "snippets";
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-  auth: { persistSession: false, autoRefreshToken: false },
-});
-
-function getPublicUrl(objectPath: string) {
-  return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${objectPath}`;
-}
 
 async function downloadFile(url: string, destPath: string) {
   const urlWithoutQuery = url.split("?")[0];
@@ -60,15 +53,6 @@ async function transcodeToH264(inputPath: string, outputPath: string) {
   if (result.status !== 0) {
     throw new Error(`ffmpeg failed:\n${result.stderr}`);
   }
-}
-
-async function uploadToStorage(objectPath: string, filePath: string) {
-  const fileBuffer = fs.readFileSync(filePath);
-  const { error } = await supabase.storage.from(BUCKET).upload(objectPath, fileBuffer, {
-    upsert: true,
-    contentType: "video/mp4",
-  });
-  if (error) throw error;
 }
 
 async function main() {
@@ -115,11 +99,8 @@ async function main() {
       const outputSize = fs.statSync(outputPath).size;
       console.log(`  Size: ${(inputSize / 1024).toFixed(0)}KB → ${(outputSize / 1024).toFixed(0)}KB`);
 
-      const objectPath = `${externalId}/snippet.mp4`;
-      console.log(`  Uploading to ${objectPath}...`);
-      await uploadToStorage(objectPath, outputPath);
-
-      const newVideoUrl = `${getPublicUrl(objectPath)}?v=3`;
+      console.log(`  Uploading...`);
+      const newVideoUrl = await uploadVideo(fs.readFileSync(outputPath));
       await prisma.snippet.update({
         where: { id },
         data: { videoUrl: newVideoUrl },

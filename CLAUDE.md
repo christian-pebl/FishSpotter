@@ -8,7 +8,7 @@
 - Live URL: **https://fish-spotter.vercel.app** (canonical, ignore fishspotter.vercel.app, different deployment)
 - Local dev: `npm run dev` runs on **localhost:3000**
 - Database: Supabase Postgres (project ID: `aazxphcrexkggbmmceli`, region: West EU / Ireland)
-- Storage: Supabase Storage bucket `snippets`, public URLs at `https://aazxphcrexkggbmmceli.supabase.co/storage/v1/object/public/snippets/{externalId}/snippet.mp4`
+- Storage: Supabase Storage bucket `snippets`. A clip's objects are named after their own bytes: `.../snippets/clips/<hash>.mp4`, `clips/<hash>-sd.mp4`, `thumbs/<hash>.jpg` (`scripts/lib/object-keys.ts`). **Never build a storage key from `externalId`**: the export folder name carries a species label for about four clips in ten, and the URL is public. Rows uploaded before 12 Nov 2026 sit at `.../snippets/{externalId}/snippet.mp4` until `npm run db:migrate-clip-keys` has been run on them.
 
 ### Docs
 
@@ -52,10 +52,10 @@
 | `src/app/leaderboard/page.tsx` | Community leaderboard |
 | `prisma/schema.prisma` | DB schema: User, Snippet, Answer |
 | `scripts/seed.ts` | One-time seed: reads local snips folders, uploads to Supabase, inserts DB records (now also ingests `manual_track` -> `manualTrackJson`) |
-| `scripts/sync.ts` | **Incremental snippet sync (`npm run db:sync`).** Reads `SNIPS_DIR`, upserts only NEW/CHANGED folders (tracked via a local `.sync-manifest.json` of size+mtime signatures), re-uploads media + cache-busts ONLY when the clip bytes changed (so the editor's manual-track-only rewrites don't re-upload video), and writes `bboxJson` + `manualTrackJson`. This is what DesktopML's `fishspotter_sync.py` invokes after every export; `seed.ts` stays the upload-everything bootstrap. Three gates HOLD a snip rather than publishing it: incomplete metadata (`REQUIRED_META`), a burnt-in detector overlay (`scripts/lib/burn-in.ts`), and a video codec no browser can decode (`scripts/lib/video-codec.ts`); none writes a manifest entry, so a corrected re-export is picked up next run. Flags: `--all`, `--dry-run`, `--limit N`, `--allow-incomplete`, `--allow-burned-in`, `--allow-bad-codec`. |
+| `scripts/sync.ts` | **Incremental snippet sync (`npm run db:sync`).** Reads `SNIPS_DIR`, upserts only NEW/CHANGED folders (tracked via a local `.sync-manifest.json` of size+mtime signatures), re-uploads media ONLY when the clip bytes changed (so the editor's manual-track-only rewrites don't re-upload video), under a content-addressed key (`scripts/lib/object-keys.ts`, never the folder name), and writes `bboxJson` + `manualTrackJson`. This is what DesktopML's `fishspotter_sync.py` invokes after every export; `seed.ts` stays the upload-everything bootstrap. Three gates HOLD a snip rather than publishing it: incomplete metadata (`REQUIRED_META`), a burnt-in detector overlay (`scripts/lib/burn-in.ts`), and a video codec no browser can decode (`scripts/lib/video-codec.ts`); none writes a manifest entry, so a corrected re-export is picked up next run. Flags: `--all`, `--dry-run`, `--limit N`, `--allow-incomplete`, `--allow-burned-in`, `--allow-bad-codec`. |
 | `scripts/lib/burn-in.ts` | **Burnt-in overlay detector (28 Aug 2026).** Refuses to publish a clip that has the ML detector's own output drawn INTO the pixels. TRDesk4 falls back to cutting from a pipeline render (`*_unified_tracked.mp4`, `*_yolo_tracked_web.mp4`, `*_step2_motion.mp4`) when it cannot resolve the raw footage; those carry a black HUD bar reading `FUSED TRACKS (n) Frame N` plus detection rectangles, which shows a player the machine's answer. Two independent signals: `pipelineRenderName()` reads `metadata.source_video_used` (cheap, exact, only on exports new enough to record it), and `detectBurnedInOverlay()` samples frames with ffmpeg and measures the top-left 500x26 band. **A "is the top-left dark?" test is NOT usable** (murky green footage trips it; it false-positived a clean live Skye clip), so a HUD verdict requires a near-black background AND white glyph pixels together: measured over 11 burnt-in clips vs 11 clean re-cuts the populations were black 0.67-0.71 / white 0.047-0.051 versus 0.00 / 0.000, no overlap. Returns `unknown` (never `burned-in`) when ffmpeg is absent, so a missing toolchain warns instead of freezing every sync. Used by `sync.ts` and `snip-preflight.ts`. |
 | `scripts/lib/video-codec.ts` | **Codec gate (28 Aug 2026).** Refuses to publish a clip a browser cannot decode. TRDesk4's exporter pipes frames to `ffmpeg -c:v libx264` ONLY when `shutil.which("ffmpeg")` resolves inside its own process; otherwise it falls back to the cv2 `mp4v` writer (MPEG-4 Part 2) and merely logs a warning. On 28 Aug 2026 that shipped all 52 Car-Y-Mor clips as `mpeg4`: they uploaded fine, served a healthy HTTP 206, carried complete metadata and clean pixels, and rendered as "This clip didn't load." in every browser. The existing `npm run check:codecs` catches this, but only by probing live DB URLs, i.e. after the public has seen it; this gate runs before upload. `isPlayableCodec()` is the pure predicate (H.264 only, deliberately: HEVC/AV1 are refused because widening the set is a product decision, not something a sync should infer). `checkSnipCodec()` returns `unknown` (warn, fail open) when ffprobe is absent, but `unplayable` (hold) when ffprobe IS present and cannot parse the file, since that is a truncated or corrupt clip rather than a missing tool. Used by `sync.ts` and `snip-preflight.ts`. |
-| `scripts/fix-unplayable-snippets.ts` | **Codec repair (`npm run db:fix-codecs`, 28 Aug 2026).** The remediation half of the gate above: probes every live `Snippet.videoUrl`, re-encodes any non-H.264 clip to H.264, uploads over the same storage key, and bumps the `?v=` cache-buster so browsers and the CDN drop the undecodable bytes they cached. Prefers re-encoding from `SNIPS_DIR/<externalId>/snippet.mp4` (the exact uploaded bytes) and downloads only when there is no local copy. NB this is a SECOND lossy pass over a weak mp4v intermediate, the very thing the 10 Jun 2026 re-cut existed to stop, so it is the emergency fix, not the best output: the clean fix is to make ffmpeg resolvable to TRDesk4 and re-export from the raw footage (one encode at crf 16). `--dry-run`, `--limit N`, `--external <id>`. Verify with `npm run check:codecs`. |
+| `scripts/fix-unplayable-snippets.ts` | **Codec repair (`npm run db:fix-codecs`, 28 Aug 2026).** The remediation half of the gate above: probes every live `Snippet.videoUrl`, re-encodes any non-H.264 clip to H.264, uploads it (new bytes, so a new content-addressed URL) and points the row at it, so browsers and the CDN never see the undecodable bytes again. Prefers re-encoding from `SNIPS_DIR/<externalId>/snippet.mp4` (the exact uploaded bytes) and downloads only when there is no local copy. NB this is a SECOND lossy pass over a weak mp4v intermediate, the very thing the 10 Jun 2026 re-cut existed to stop, so it is the emergency fix, not the best output: the clean fix is to make ffmpeg resolvable to TRDesk4 and re-export from the raw footage (one encode at crf 16). `--dry-run`, `--limit N`, `--external <id>`. Verify with `npm run check:codecs`. |
 | `scripts/transcode-to-h264.ts` | Utility: downloads all mp4v snippets, transcodes to H.264, re-uploads, updates DB URLs |
 | `scripts/lib/video-rendition.ts` | **The 720p feed rendition (7 Sep 2026).** `encodeSdRendition(sourcePath)`: ffmpeg to 720p, CRF 20, slow preset, no audio, `-fps_mode passthrough` so the frame COUNT matches the 1080p source exactly (verified before returning; a mismatch would desync the bbox/manual-track trail, which is a normalised `(x, y, t)` path and only correct if timing matches). Setting chosen by SSIM measurement on three real clips (0.983-0.991 at CRF 20), deliberately conservative for an app whose "Spot It" flow needs small diagnostic features legible. `hasFfmpeg()` is a cached PATH check; every caller treats `{ ok: false }` as "leave the rendition unset, fall back to the master", never as a reason to abort a batch. See "Video / Codec Notes" below for the full reasoning and who gets served the rendition. |
 | `scripts/generate-renditions.ts` | Production backfill for the 720p rendition. `npm run db:generate-renditions -- --dry-run` etc. Source bytes come from a local mirror (`--from <dir>`, matched against the live ETag, multipart-ETag aware) when given, else a checksum-verified download. `--dry-run`, `--limit N`, `--external <id>`, `--force` (re-generate even when `videoUrlSd` is already set). Idempotent: skips rows that already have one. |
@@ -348,6 +348,23 @@ silently fall back to `max-age=3600` again; check with an S3 `HeadObject` or a f
 public URL some minutes after the write, never a HEAD (it says `no-cache` regardless) and never
 a read straight after the write (the CDN serves its old copy for a while).
 
+**Clips ARE cached (re-measured 12 Nov 2026).** The 11 Nov 2026 review reported clips as served
+uncached. That was the HEAD trap above: a HEAD to a clip answers `Cache-Control: private, no-cache`
+and `CF-Cache-Status: DYNAMIC`, while a real GET (ranged or whole) of the same URL answers
+`public, max-age=2592000` and `HIT`. A ranged GET of every live object on 12 Nov found the 30-day
+header on all 417 (139 masters, 139 renditions, 139 stills). Nothing to fix there. What remains is
+quota, not caching: the clips are 2.48 GB against the 1 GB of storage the Supabase Free plan
+includes, and egress grows with use (`implementation/2026-11-11/clip-delivery-plan.md`, Option B).
+
+**Content-addressed keys (12 Nov 2026).** Every upload path (`sync.ts`, `seed.ts`,
+`generate-renditions.ts`, `fix-unplayable-snippets.ts`, `reupload-snippets-hq.ts`) stores a clip
+under the hash of its bytes and writes the returned URL to the row. There is no `?v=N` any more:
+new bytes are a new address, cached for a year. `scripts/migrate-clip-keys.ts` moves existing rows
+(dry run by default; `--execute --limit 3` first; a row-by-row log in `~/.fishspotter/` makes
+rollback a database update; old objects are deleted only by `--delete-old`, 14 days on). Runbook:
+`implementation/2026-11-12/opaque-clip-keys.md`. A re-cut leaves its previous object behind in
+storage; prune by hand a few times a year.
+
 **Current state (10 Jun 2026):** the clips were migrated to R2 earlier, but the
 quality re-cut (see Video / Codec Notes) was shipped from a machine without R2
 creds, so **all 30 snippet rows now point back at Supabase Storage** (HQ). Vercel
@@ -375,16 +392,17 @@ with `STORAGE_PROVIDER=r2` (the script is idempotent and cache-busts the DB URLs
    R2_BUCKET_NAME=fishspotter-snippets
    R2_PUBLIC_URL=https://pub-<hash>.r2.dev    # or your custom domain, no trailing slash
    ```
-4. **Run the migration** (copies existing snippets from Supabase → R2 and updates DB URLs):
+4. **Run the migration** (copies existing snippets from Supabase → R2 under the same content-addressed keys and updates DB URLs). It is `scripts/migrate-clip-keys.ts`; with `STORAGE_PROVIDER=r2` set, "done" means "on R2":
    ```
-   npm run db:migrate-to-r2 -- --dry-run     # preview what will move
-   npm run db:migrate-to-r2 -- --limit 3     # spot-check on 3 clips first
-   npm run db:migrate-to-r2                  # full migration (idempotent)
+   npm run db:migrate-clip-keys                          # dry run: what will move, nothing written
+   npm run db:migrate-clip-keys -- --execute --limit 3   # 3 clips for real, then look at the site
+   npm run db:migrate-clip-keys -- --execute --all       # the rest (idempotent, resumable)
    ```
+   Add the new host to `IMAGE_HOSTS` and `MEDIA_HOSTS` in `next.config.mjs` and deploy BEFORE the rows change, or the CSP blocks every clip.
 5. **Verify**: load any snippet on fish-spotter.vercel.app, confirm the video URL in the page source points at R2 (`pub-*.r2.dev` or your custom domain). The codec guard (`npm run check:codecs`) probes URLs regardless of host, so the H.264 invariant is preserved.
 6. **Drop the Supabase objects** only after a few days of production traffic confirm R2 is serving. The Snippet rows now point at R2; the Supabase objects are dead weight but harmless until removed via the Supabase dashboard.
 
-The migration is idempotent: re-running skips any row whose URL already lives under `R2_PUBLIC_URL`. Use `--force` to re-upload anyway.
+The migration is idempotent: re-running skips any row whose URLs are already content-addressed keys under `R2_PUBLIC_URL`. `--rollback` puts rows back from the log; `--delete-old` removes the objects left behind.
 
 ## Image analysis (Gemini vision tool)
 
