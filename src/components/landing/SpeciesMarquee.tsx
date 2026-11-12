@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { DeferredImg } from "@/components/DeferredImg";
+import type { SizedImage } from "@/lib/sized-image";
 import { useInView } from "@/lib/useInView";
 
 /**
@@ -41,10 +43,14 @@ function creditLine(attr: string): string {
 }
 
 export type MarqueeSpecies = {
-  url: string;
+  /** The photo, already sized for a card (see `@/lib/sized-image`). */
+  image: SizedImage;
   name: string;
   attribution: string;
 };
+
+/** A card is 128 CSS px wide (144 from `md`); the optimizer's 256 covers 2x. */
+const CARD_SIZES = "(min-width: 768px) 144px, 128px";
 
 export function SpeciesMarquee({ species }: { species: MarqueeSpecies[] }) {
   const [ref, inView] = useInView<HTMLDivElement>();
@@ -94,15 +100,15 @@ export function SpeciesMarquee({ species }: { species: MarqueeSpecies[] }) {
               className="relative h-40 w-32 overflow-hidden rounded-card border border-[color:var(--border)] shadow-card md:h-48 md:w-36"
               title={s.attribution}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={s.url}
+              {/* Every card waits for the page's first paint. The strip sits
+                  below the fold on a phone and on a laptop, and the three cards
+                  that used to load eagerly were preloaded by React ahead of the
+                  hero poster: two of them 960 px Wikimedia files of 150 to
+                  180 KB each (measured 12 Nov 2026). */}
+              <DeferredImg
+                image={s.image}
                 alt={s.name}
-                // The first few cards are on-screen the moment the landing page
-                // renders, so lazy-loading them just delays the first paint.
-                // Eager-load the leading cards; the rest scroll in and stay lazy.
-                loading={i < 3 ? "eager" : "lazy"}
-                decoding="async"
+                sizes={CARD_SIZES}
                 className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
               />
               <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-900/95 to-transparent px-2 pb-2 pt-8">
