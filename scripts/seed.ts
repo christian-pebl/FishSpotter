@@ -9,7 +9,6 @@ import { PrismaClient } from "@prisma/client";
 import * as fs from "fs";
 import * as path from "path";
 import {
-  buildPublicUrl,
   getActiveProvider,
   getStorageDriver,
   uploadThumbnail,
@@ -133,8 +132,8 @@ async function main() {
     } else {
       const videoBuffer = fs.readFileSync(videoPath);
       const thumbBuffer = fs.readFileSync(thumbPath);
-      videoUrl = await uploadVideo(folderName, videoBuffer);
-      thumbnailUrl = await uploadThumbnail(folderName, thumbBuffer);
+      videoUrl = await uploadVideo(videoBuffer);
+      thumbnailUrl = await uploadThumbnail(thumbBuffer);
     }
 
     await prisma.snippet.upsert({
@@ -171,8 +170,6 @@ async function main() {
   }
 
   console.log("Seed complete.");
-  // Reference buildPublicUrl so tree-shake keeps it exported for future callers.
-  void buildPublicUrl;
 }
 
 main()

@@ -3,10 +3,15 @@
  *
  * Reads the Fish Spotter Snips folders (SNIPS_DIR env, or ./Fish Spotter Snips)
  * and, for each folder that is NEW or CHANGED since the last run:
- *   - re-uploads snippet.mp4 + thumbnail.jpg to the active storage provider and
- *     cache-busts the DB URL, but ONLY when the video bytes actually changed
+ *   - uploads snippet.mp4 + thumbnail.jpg to the active storage provider and
+ *     points the DB row at them, but ONLY when the video bytes actually changed
  *     (a re-cut). When only bbox_data.json / metadata.json changed (the editor's
  *     in-place "rewrite manual track" path), the media is left untouched.
+ *     Objects are stored under a name made from their own bytes
+ *     (clips/<hash>.mp4, see scripts/lib/object-keys.ts), never the folder
+ *     name: for many clips the folder name says which species is in it. A
+ *     re-cut therefore lands at a new address by itself; the previous cut's
+ *     object is left behind in storage (a few a month, pruned by hand).
  *   - upserts the Snippet row (site/.../bboxJson/manualTrackJson) on externalId.
  *
  * "Changed" is tracked by a local manifest (.sync-manifest.json) of per-folder
@@ -187,19 +192,6 @@ function shouldUseLocalFallback(): boolean {
   } catch {
     return true;
   }
-}
-
-/** Append/increment a ?v=N cache-busting param so the edge/browser refetches a
- *  re-cut clip whose object was overwritten in place. */
-function bustFrom(cleanUrl: string, existing: string | null): string {
-  let v = 1;
-  if (existing) {
-    const m = /[?&]v=(\d+)/.exec(existing);
-    if (m) v = parseInt(m[1], 10);
-  }
-  const u = new URL(cleanUrl);
-  u.searchParams.set("v", String(v + 1));
-  return u.toString();
 }
 
 function readTracking(bboxPath: string): { bboxJson: string | null; manualTrackJson: string | null } {
@@ -402,10 +394,10 @@ async function main() {
         thumbnailUrl = existing?.thumbnailUrl ?? "(new upload)";
         videoUrlSd = existing?.videoUrlSd;
       } else {
-        const vClean = await uploadVideo(folderName, fs.readFileSync(videoPath));
-        const tClean = await uploadThumbnail(folderName, fs.readFileSync(thumbPath));
-        videoUrl = bustFrom(vClean, existing?.videoUrl ?? null);
-        thumbnailUrl = bustFrom(tClean, existing?.thumbnailUrl ?? null);
+        // The URL is derived from the bytes, so a re-cut gets a new one and
+        // no `?v=` cache-buster is needed (or wanted: one clip, one address).
+        videoUrl = await uploadVideo(fs.readFileSync(videoPath));
+        thumbnailUrl = await uploadThumbnail(fs.readFileSync(thumbPath));
 
         // Build the SD rendition from the SAME local master file that was
         // just uploaded, so it never disagrees with what videoUrl now points
@@ -424,8 +416,7 @@ async function main() {
             console.warn(`WARN ${folderName}: 720p rendition failed (${enc.reason})`);
             videoUrlSd = null;
           } else {
-            const sdClean = await uploadVideoSd(folderName, enc.buffer);
-            videoUrlSd = bustFrom(sdClean, existing?.videoUrlSd ?? null);
+            videoUrlSd = await uploadVideoSd(enc.buffer);
           }
         }
       }

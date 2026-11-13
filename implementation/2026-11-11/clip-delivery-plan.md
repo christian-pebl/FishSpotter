@@ -18,6 +18,10 @@ Measured on production on 11 Nov 2026 with a range request to every live clip.
 
 The 11 Nov review recorded `Cache-Control: private, no-cache` and `CF-Cache-Status: DYNAMIC`. That is not what production returns now; every clip already says it may be cached for 30 days. So the problem is not the header. It is where the bytes are billed and how cold the cache is.
 
+**Correction, 12 Nov 2026.** The review's reading was never true of a real request. It came from a HEAD: a HEAD to a clip answers `private, no-cache` and `DYNAMIC`, while a GET of the same URL, ranged or whole, answers `public, max-age=2592000` and `HIT`. Re-measured on 12 Nov with a ranged GET of all 417 live objects: the 30-day header on every one. Clips are cached. Do not re-open this from a HEAD.
+
+**Status, 12 Nov 2026.** Steps 1 to 4 below are built (`implementation/2026-11-12/opaque-clip-keys.md`): content-addressed keys in every upload path, the public API fix, and `scripts/migrate-clip-keys.ts` in place of an extended `migrate-to-r2.ts`. It is planned in two stages, the rename inside the Supabase bucket first and the copy to R2 second, with the same command. Nothing has been run against production. That note also records a storage figure this plan did not have: the clips are 2.48 GB against the 1 GB of storage the Free plan includes.
+
 ## Why it matters
 
 Supabase Free gives 5 GB of uncached and 5 GB of cached egress a month, counted separately. Over quota, a free organisation gets a notice and a grace period, then restrictions until the next cycle. It is not billed. Smart CDN is Pro only.

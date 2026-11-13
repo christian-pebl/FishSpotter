@@ -1,4 +1,13 @@
 /**
+ * RETIRED 12 Nov 2026. It did its one job on 7 Sep 2026 and is kept as the
+ * record of how. Clips are now stored under content-addressed keys
+ * (scripts/lib/object-keys.ts) and uploaded with a one-year header, so there
+ * is no object left for it to rewrite: a row on a hashed key is reported as
+ * "not the expected key" and skipped. Measuring note for whoever reads this
+ * next: check a clip's cache header with a ranged GET, never a HEAD. A HEAD to
+ * Supabase storage answers `private, no-cache` / `DYNAMIC` for an object whose
+ * real GET says `public, max-age=2592000` / `HIT` (measured 12 Nov 2026).
+ *
  * Give every live clip and still the 30-day cache header, without changing a
  * byte, a URL or a database row.
  *
@@ -50,7 +59,8 @@ import { PrismaClient } from "@prisma/client";
 import * as crypto from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-import { getActiveProvider, uploadThumbnail, uploadVideo } from "./lib/storage";
+import { legacyObjectKey } from "./lib/object-keys";
+import { getActiveProvider, getStorageDriver } from "./lib/storage";
 
 const prisma = new PrismaClient();
 
@@ -287,8 +297,13 @@ async function main() {
       let putError: unknown = null;
       for (let attempt = 1; attempt <= 2; attempt++) {
         try {
-          if (kind === "video") await uploadVideo(row.externalId, body);
-          else await uploadThumbnail(row.externalId, body);
+          // Deliberately the PRE-RENAME key: this script rewrites an object
+          // where it already is. See the retirement note at the top.
+          await getStorageDriver().uploadObject(
+            legacyObjectKey(row.externalId, kind),
+            body,
+            kind === "video" ? "video/mp4" : "image/jpeg",
+          );
           putError = null;
           break;
         } catch (e) {
