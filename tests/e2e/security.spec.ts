@@ -75,6 +75,35 @@ test.describe("S1-T11: anonymous spoiler-gate on API", () => {
   });
 });
 
+test.describe("the public snippet API names no clip", () => {
+  // A clip's export folder name carries a species label for about four clips in
+  // ten, its storage URLs are built from that name, and the row holds the label
+  // it was exported under. None of that may reach a signed-out caller.
+  const FORBIDDEN = ["externalId", "videoUrl", "videoUrlSd", "thumbnailUrl", "staffAnswer", "bboxes", "manualTrack"];
+
+  test("/api/snippets lists where and when, nothing else", async ({ request }) => {
+    const res = await request.get("/api/snippets");
+    expect(res.status()).toBe(200);
+    expect(res.headers()["cache-control"]).toContain("no-store");
+    const rows = (await res.json()) as Record<string, unknown>[];
+    if (rows.length === 0) test.skip(true, "No snippets seeded; skipping API contract test.");
+    for (const row of rows) {
+      expect(Object.keys(row).sort()).toEqual(["deployment", "id", "recordingDatetime", "site"]);
+    }
+    expect(JSON.stringify(rows)).not.toContain("/storage/v1/object/");
+  });
+
+  test("/api/snippets/[id] returns no folder name, media URL or label", async ({ request }) => {
+    const rows = (await (await request.get("/api/snippets")).json()) as { id: string }[];
+    if (rows.length === 0) test.skip(true, "No snippets seeded; skipping API contract test.");
+    const res = await request.get(`/api/snippets/${rows[0].id}`);
+    expect(res.status()).toBe(200);
+    const body = (await res.json()) as Record<string, unknown>;
+    for (const key of FORBIDDEN) expect(body).not.toHaveProperty(key);
+    expect(body).toHaveProperty("site");
+  });
+});
+
 test.describe("clip comments: anti-herding gate + leak guard (INV-1, INV-2)", () => {
   async function firstSnippetId(page: import("@playwright/test").Page) {
     await page.goto("/feed/browse");

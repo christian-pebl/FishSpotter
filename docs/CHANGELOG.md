@@ -2875,6 +2875,17 @@ Production was found with every rate limit open. The Upstash Redis host in the V
 
 The dead env vars still need removing in Vercel, or a new free Upstash database setting up, before the shared counter works again. Until then every request tries Redis at most once a minute per instance.
 
+## 12 Nov 2026: the public snippet API names no clip
+
+Measured on production on 12 Nov: `GET /api/snippets` returned the export folder name (`externalId`), the clip URL and the still URL for all 139 live clips to anyone signed out, and 56 of those folder names carry a species label (`..._wrasse00007270_...`). `GET /api/snippets/<id>` returned the whole database row, which also held `staffAnswer`, the label the clip was exported under. Nothing in the app calls either route.
+
+- **Public callers now get where and when a clip was filmed, and nothing that names it.** The list returns `id`, `site`, `deployment` and `recordingDatetime`. One clip adds depth and position. The fields are a fixed `select` in `src/lib/snippet-public.ts`, so a column added to the model later cannot leak through a spread.
+- **PEBL staff (a verified @pebl-cic.co.uk account) still get the full row**, which is what these routes are for now.
+- **A hidden clip is a 404 for the public** on the single-clip route. It used to be returned.
+- **`private, no-store` on both.** The answer differs by caller, so a shared cache must not keep it.
+- Tests run the real handlers against a database double that returns only the selected columns, and check the raw response for the folder name, the label and the storage host.
+
+This closes the API half. The clip URLs a player needs still carry the folder name until the clips are renamed in storage, which is a separate change with its own dry run.
 ## 12 Nov 2026: a clip's address no longer says what is in it (code; nothing migrated yet)
 
 A clip was stored at `<bucket>/<export folder name>/snippet.mp4`, and for 64 of the 163 rows the folder name has a label where a clip number normally sits (`..._wrasse00007270_track_manual_...`). The player has to be handed that URL, so the address gave the species away before anyone guessed.
