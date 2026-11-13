@@ -2915,6 +2915,33 @@ Measured with Lighthouse 12.8.2, mobile, two runs each after a warm-up, same mac
 The 96 for best practices is 100 less one local-only miss (Vercel's analytics script does not exist off Vercel). The largest contentful paint is short of the 2.5 s target by about 0.15 s. What is left before that first paint is about 200 KB of JavaScript, two thirds of it the framework; the one sizeable piece of the app's own is framer-motion (41 KB), loaded on every page because the header's Pebble bag and side menu import it. Splitting that out is its own change.
 
 Checked against production by screenshot at phone and laptop sizes: the wordmark, the headline and the arrow links are pixel for pixel identical, and the hero poster differs only by compression noise. Read-only on the Vercel preview in a signed-in browser: the hero is the largest paint, three font files load, the clip plays, no image is broken. Lighthouse itself could not be pointed at the preview, which sits behind Vercel's login.
+
+## 13 Nov 2026: no animation library in the first download
+
+The home page's largest contentful paint on a phone was 2.66 s, short of the 2.5 s target by 0.16 s. What was left before the first paint was about 200 KB of JavaScript, and the one sizeable piece of the app's own in it was framer-motion (41 KB over the wire). It was in the download of every page, because the site header imports the side menu and the Pebble bag, and the landing page's step cards used it for a scroll reveal. None of the three is visible on a signed-out visitor's first screen.
+
+- **Step cards: a CSS transition, not `whileInView`.** `landing/RevealOnView.tsx` does the same fade and 24 px rise with one IntersectionObserver: 0.3 s ease-out, 0.12 s stagger, once, at 40% visible, hidden in the server-rendered markup as before. `StepCards` is now a server component. Checked against the old build in Chrome: same start state, no reveal at 20% visible, reveal at 45%, the two stay hidden on a phone until they are on screen, and the timeline agrees within a frame or two (about 20 ms). **One deliberate difference:** a visitor with the OS "reduce motion" setting now gets the cards without the fade, because the app's global `prefers-reduced-motion` rule applies to a CSS transition. The framer version animated regardless.
+- **The side menu loads after the first paint.** `Header` fetches it through `useLazyComponent` once the page has painted, or at once if the menu button is touched, hovered or focused. A tap that beats the fetch opens the menu the moment it lands. Opening, the scroll lock, the focus on Close, the focus trap, Escape, the backdrop and the focus return were compared against the old build in Chrome and are identical, first open included.
+- **The install offer survives the late menu.** Chrome fires `beforeinstallprompt` once, early, and the menu used to be the thing listening. `src/lib/useInstallPrompt.ts` is now a small shared store that `PwaRegister` (every page, no animation library) arms at hydration; the menu reads from it. Tested with the offer arriving while the menu's code was held back for 4 s: the "Install app" entry is there when the menu opens and its button calls the browser's prompt.
+- **The Pebble bag split in two.** `PebbleBag.tsx` is the container (session, total, `pebble-bus`, the link) and stays in the header; `PebbleBagView.tsx` is the animated pouch, fetched only once a spotter is signed in, in parallel with the total, so a guest never downloads it. The link appears only when the total and the pouch are both there, so there is never an empty pill. Checked signed in against the sandbox database: same bag, same count-up (0 to 130) and the same fly-in as before, same one `/api/me/pebbles` and one `/api/streak` call per page load.
+- **A guard so it stays out.** `first-paint-bundle.test.ts` follows the static imports of `app/layout.tsx` and `app/page.tsx` and fails, printing the chain, if either reaches framer-motion again. The live feed still loads it up front, where the animation is the product.
+- **Nothing looks different.** Header element screenshots, phone (390 px at 2x) and laptop (1280 px), on `/`, `/about`, `/species` and `/feed`: 0 pixels differ between the old build and this one in all eight, and `/`, `/about` and `/species` are also 0 pixels from the live site. (The live `/feed` header is transparent over different footage, so that one cannot match.)
+
+Measured with Lighthouse 12.8.2, mobile, through the same local HTTP/2 and brotli proxy and the same seeded sandbox database as the home page speed change, a warm-up then three runs after, five before:
+
+| | Before | After |
+|---|---|---|
+| Largest contentful paint | 2.66 s, 2.69 s, 2.68 s, 2.66 s, 2.66 s | **2.37 s, 2.39 s, 2.36 s** |
+| Performance | 97 (all five) | **98** (all three) |
+| Script bytes in the load | 202 KB | 151 KB |
+| Page weight | 1,048 KB | 998 KB |
+| First contentful paint | 0.91 to 0.92 s | 0.92 s |
+| Total blocking time | 53 to 64 ms | 64 to 86 ms |
+| Cumulative layout shift, accessibility | 0, 100 | 0, 100 |
+
+The target of under 2.5 s is met, by about 0.12 s. Chrome's network log agrees: for a signed-out visitor on `/` the framer-motion chunk is requested 35 ms after the first contentful paint on a fast connection and 0.9 s after it on slow 4G with a 4x slower CPU, where the old build requested it before. It is still requested up front on `/feed`.
+
+Two costs, both small. Total blocking time rises by about 15 to 20 ms, most likely because the chunk is now parsed just after the paint, still inside Lighthouse's window (not isolated); it stays far under the 200 ms line. And on a throttled connection (slow 4G, 4x CPU), a tap on the menu button in the first second after the page becomes interactive waits for the menu's code (4.1 s from first tap to open against 3.1 s before, measured at the earliest possible tap); after that first second it is instant.
 ## 12 Nov 2026: a clip's address no longer says what is in it (code; nothing migrated yet)
 
 A clip was stored at `<bucket>/<export folder name>/snippet.mp4`, and for 64 of the 163 rows the folder name has a label where a clip number normally sits (`..._wrasse00007270_track_manual_...`). The player has to be handed that URL, so the address gave the species away before anyone guessed.

@@ -1,14 +1,14 @@
-"use client";
-
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
-import { DURATION, EASE } from "@/lib/motion";
+import { RevealOnView } from "@/components/landing/RevealOnView";
 
 /**
  * The "how it works" loop, shown as three visual cards (Spot -> Compare
  * -> Streak) that stagger in on scroll. Each carries a stroked teal icon
  * (never emoji) and a faint corner silhouette watermark. A dotted teal
  * path behind the row on desktop signals that it's a repeating loop.
+ *
+ * A server component: only the scroll reveal is client code (RevealOnView, a
+ * CSS transition), so the page ships no animation library for it.
  */
 
 type Step = {
@@ -79,12 +79,9 @@ export function StepCards() {
       />
       <div className="relative grid gap-4 md:grid-cols-3">
         {STEPS.map((step, i) => (
-          <motion.article
+          <RevealOnView
             key={step.eyebrow}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: DURATION.layout, ease: EASE.enter, delay: i * 0.12 }}
+            index={i}
             className="pebl-surface group relative overflow-hidden rounded-card p-5"
           >
             {/* Corner silhouette watermark. */}
@@ -110,7 +107,7 @@ export function StepCards() {
               <h3 className="mt-2 text-xl font-bold text-navy-900">{step.title}</h3>
               <p className="mt-2 text-sm leading-6 text-navy-900">{step.body}</p>
             </div>
-          </motion.article>
+          </RevealOnView>
         ))}
       </div>
     </div>

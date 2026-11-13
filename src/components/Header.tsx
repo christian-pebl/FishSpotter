@@ -2,11 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { SideMenu } from "@/components/SideMenu";
+import { useCallback, useEffect, useState } from "react";
 import { PebbleBag } from "@/components/PebbleBag";
+import { useAfterFirstPaint } from "@/lib/useAfterFirstPaint";
+import { useLazyComponent } from "@/lib/useLazyComponent";
 
 const overlayTextShadow = "0 1px 3px rgba(0,0,0,0.55)";
+
+// The side menu is the one piece of the header that pulls in framer-motion
+// (41 KB over the wire), and it is invisible until opened. It is fetched after
+// the page's first paint, or the moment the menu button is touched, whichever
+// comes first, so it is never in the way of what a visitor is waiting to see.
+// The browser's install offer, which the menu used to catch itself, is caught by
+// PwaRegister instead (src/lib/useInstallPrompt.ts), so nothing is lost while
+// the menu is on its way.
+const loadSideMenu = () => import("@/components/SideMenu").then((m) => m.SideMenu);
 
 export function Header() {
   const pathname = usePathname() ?? "/";
@@ -14,6 +24,13 @@ export function Header() {
   // Browse / archive / other pages keep the standard slim solid bar.
   const onFeed = pathname === "/feed";
   const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const painted = useAfterFirstPaint();
+  const [SideMenu, requestSideMenu] = useLazyComponent(loadSideMenu);
+
+  useEffect(() => {
+    if (painted) requestSideMenu();
+  }, [painted, requestSideMenu]);
 
   // On /feed: render as a fully transparent overlay so the video fills the
   // viewport with no scrim or blur over the top of the clip. The menu button and
@@ -41,7 +58,16 @@ export function Header() {
           <div className="flex items-center gap-1.5">
             <button
               type="button"
-              onClick={() => setMenuOpen(true)}
+              onClick={() => {
+                // If the menu's code is still on its way (a slow connection, a
+                // very early tap), it appears already open as soon as it lands.
+                requestSideMenu();
+                setMenuOpen(true);
+              }}
+              // Warm it a beat before the click lands.
+              onPointerEnter={requestSideMenu}
+              onPointerDown={requestSideMenu}
+              onFocus={requestSideMenu}
               aria-label="Open menu"
               aria-expanded={menuOpen}
               className={`pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full ${
@@ -109,7 +135,7 @@ export function Header() {
           </div>
         </div>
       </header>
-      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      {SideMenu && <SideMenu open={menuOpen} onClose={closeMenu} />}
     </>
   );
 }

@@ -43,6 +43,16 @@ function Write-Log($msg) {
 
 Set-Location $repo
 $env:SNIPS_DIR = $snipsDir
+# npm's weekly "new version available" check prints to stderr. It is noise in an
+# unattended job, and on 21 Sep 2026 it is what killed the run (see below).
+$env:npm_config_update_notifier = "false"
+
+# Anything that still escapes is logged with its reason, so the dated log never
+# again just stops mid-run with no explanation.
+trap {
+    if ($log) { Write-Log "FATAL: $($_.Exception.Message)" }
+    exit 1
+}
 
 Write-Log "Weekly snip sync starting. repo=$repo"
 
@@ -56,7 +66,13 @@ if (-not (Test-Path $snipsDir)) {
 Write-Log "Running preflight..."
 # npm rather than npx: under Task Scheduler's non-interactive shell, npx cannot
 # always resolve the local tsx binary ("could not determine executable to run").
-& npm.cmd run snips:check -- --report $report 2>&1 | ForEach-Object { Write-Log $_ }
+# Windows PowerShell 5.1 turns every stderr line of a native command into an
+# error record once 2>&1 merges the streams, and under "Stop" the first one is
+# fatal. npm writes warnings to stderr, so relax the preference for the call.
+$ErrorActionPreference = "Continue"
+& npm.cmd run snips:check -- --report $report 2>&1 | ForEach-Object { Write-Log "$_" }
+Write-Log "Preflight exited $LASTEXITCODE."
+$ErrorActionPreference = "Stop"
 
 if (-not (Test-Path $report)) {
     Write-Log "ABORT: preflight wrote no report. Nothing was uploaded."
@@ -72,7 +88,9 @@ Write-Log "Preflight: READY=$ready HOLD=$hold SKIP=$($pf.totals.skip) SYNCED=$($
 # snip that went stale between the two steps is still caught.
 if ($ready -gt 0 -and -not $WhatIf) {
     Write-Log "Uploading $ready snip(s)..."
-    & npm.cmd run db:sync 2>&1 | ForEach-Object { Write-Log $_ }
+    $ErrorActionPreference = "Continue"
+    & npm.cmd run db:sync 2>&1 | ForEach-Object { Write-Log "$_" }
+    $ErrorActionPreference = "Stop"
     if ($LASTEXITCODE -ne 0) {
         Write-Log "WARNING: db:sync exited $LASTEXITCODE. Check the log above."
     }
