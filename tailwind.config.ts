@@ -90,7 +90,9 @@ export default {
       },
       fontFamily: {
         brand: ["var(--font-heading)", "sans-serif"],
-        body: ["var(--font-body)", "sans-serif"],
+        // "FS Arrow" covers two arrow characters only (see globals.css); all
+        // other text falls through to Roboto.
+        body: ['"FS Arrow"', "var(--font-body)", "sans-serif"],
         display: ["var(--font-display)", "var(--font-heading)", "sans-serif"],
       },
       letterSpacing: {

@@ -2886,3 +2886,32 @@ Measured on production on 12 Nov: `GET /api/snippets` returned the export folder
 - Tests run the real handlers against a database double that returns only the selected columns, and check the raw response for the folder name, the label and the storage host.
 
 This closes the API half. The clip URLs a player needs still carry the folder name until the clips are renamed in storage, which is a separate change with its own dry run.
+## 12 Nov 2026: the home page paints its hero first
+
+Lighthouse mobile on production that morning: performance 74, largest contentful paint 8.5 to 8.7 s, page 3.1 MB, best practices 79. The page's text painted in 1.1 s. The hero poster, the largest thing a phone shows, came last, because everything else on the page started downloading beside it.
+
+- **The hero clip waits for its own poster.** The video has no `autoplay` and `preload="none"`. Once the poster has arrived and the first frame is on screen, the effect that already paused the clip off-screen starts it. The poster is preloaded at high priority and is the 3:4 region the card actually shows: 18 KB of WebP where the 16:9 JPEG was 52 KB.
+- **Photos below the fold queue behind the first paint, at tile size.** `DeferredImg` holds a transparent pixel until the page has painted. Pictures PEBL hosts (the farm tiles, the species thumbnails in the storage bucket) go through the image optimizer at 256 or 384 px: a 292 KB farm hero becomes 7 to 15 KB, and the request is first party. Wikimedia thumbnails step from 960 px to 500 px and load without credentials. iNaturalist photos keep their size, because the next one down looked soft.
+- **Three photos were being preloaded ahead of the poster.** React preloads an `<img loading="eager">`, and the species strip marked its first three eager: two were 960 px Wikimedia files of 150 to 180 KB. The strip is below the fold on a phone and a laptop, so every card is lazy now.
+- **The drifting silhouettes mount after the first paint.** 18 mask files, about 70 KB, were fetched at high priority for decoration that is 5 to 12% opaque.
+- **Fonts: 170 KB to 71 KB, with no visible change.** The wordmark font is a 4.5 KB subset of its ten letters (it was a 97 KB TTF, preloaded on every page). And one arrow character in body text made the browser fetch two Roboto subsets, 54 KB, that do not contain an arrow: Chrome then drew it from the system fallback anyway. A fallback face limited to that character, first in the body font stack, gives the same glyph with no download.
+- **Third-party cookie gone.** Wikimedia set one on each image; loading those images without credentials means the browser discards it. The storage host (behind Cloudflare, which also sets one) is no longer contacted from the home page at all.
+- **`next.config.mjs`:** the optimizer may read `/farm-media`, `/hero` and `/media/snippets` locally and nothing else. Unset, it accepted any local path, API routes included.
+
+Measured with Lighthouse 12.8.2, mobile, two runs each after a warm-up, same machine and same seeded sandbox database. The first pair of rows is through a local HTTP/2 and brotli proxy, which is how Vercel serves the site; on the old build that rig reproduces production (75, 8.3 s, 3.08 MB against 74, 8.5 to 8.7 s, 3.1 MB).
+
+| | Before | After |
+|---|---|---|
+| Performance (HTTP/2 rig) | 75, 75 | 97, 97 |
+| Largest contentful paint (HTTP/2 rig) | 8.31 s, 8.35 s | 2.67 s, 2.65 s |
+| First contentful paint | 1.22 s | 0.93 s, 0.91 s |
+| Speed index | 2.67 s, 2.70 s | 1.08 s, 0.99 s |
+| Page weight | 3.08 MB | 1.05 MB |
+| Best practices | 75 | 96 |
+| Third-party cookies | 1 | 0 |
+| Performance (plain `next start`, HTTP/1.1) | 77, 78 | 90, 90 |
+| Largest contentful paint (plain) | 6.17 s, 5.97 s | 3.67 s, 3.70 s |
+
+The 96 for best practices is 100 less one local-only miss (Vercel's analytics script does not exist off Vercel). The largest contentful paint is short of the 2.5 s target by about 0.15 s. What is left before that first paint is about 200 KB of JavaScript, two thirds of it the framework; the one sizeable piece of the app's own is framer-motion (41 KB), loaded on every page because the header's Pebble bag and side menu import it. Splitting that out is its own change.
+
+Checked against production by screenshot at phone and laptop sizes: the wordmark, the headline and the arrow links are pixel for pixel identical, and the hero poster differs only by compression noise. Read-only on the Vercel preview in a signed-in browser: the hero is the largest paint, three font files load, the clip plays, no image is broken. Lighthouse itself could not be pointed at the preview, which sits behind Vercel's login.
