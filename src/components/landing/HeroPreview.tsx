@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useAfterFirstPaint } from "@/lib/useAfterFirstPaint";
 
 /**
  * The landing hero's "the app plays itself" preview: a real, muted,
@@ -13,6 +14,14 @@ import { useEffect, useRef, useState } from "react";
  * Motion is JS-driven (the chip cycle), so it guards on
  * prefers-reduced-motion directly: reduced-motion users see the answer
  * chip already revealed, static.
+ *
+ * The poster comes first, the clip second. The poster is the largest thing a
+ * phone paints on the landing page, and the 300 KB clip used to start
+ * downloading beside it (`autoplay`), so the still a visitor was waiting for
+ * shared the connection with the film that replaces it. Now the `<video>` loads
+ * nothing by itself (`preload="none"`, no `autoplay`); once the poster has
+ * arrived and the first frame is on screen, the same effect that already paused
+ * the clip off-screen starts it. Same poster, same clip, same loop.
  */
 
 type Props = {
@@ -29,6 +38,10 @@ type Props = {
 // Cycle phases, in ms: scan across each chip, then dwell on the reveal.
 const SCAN_MS = 850;
 const REVEAL_DWELL_MS = 2600;
+// Beat between "the first frame is up and the poster is loaded" and asking for
+// the clip. The poster can be decoded a frame or two after the first paint, and
+// this keeps the clip's request clear of that frame.
+const CLIP_START_DELAY_MS = 300;
 
 export function HeroPreview({ videoUrl, poster, answer, distractors, site }: Props) {
   // Build a stable chip order: answer + up to 3 distractors, answer not
@@ -46,6 +59,28 @@ export function HeroPreview({ videoUrl, poster, answer, distractors, site }: Pro
   const reduced = useRef(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const painted = useAfterFirstPaint();
+  const [clipMayStart, setClipMayStart] = useState(false);
+
+  // The clip may start once the page has painted AND the poster has arrived
+  // (or failed: a missing poster must not leave the card frozen).
+  useEffect(() => {
+    if (!painted) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const probe = new Image();
+    const ready = () => {
+      timer ??= setTimeout(() => setClipMayStart(true), CLIP_START_DELAY_MS);
+    };
+    probe.onload = ready;
+    probe.onerror = ready;
+    probe.src = poster;
+    if (probe.complete) ready();
+    return () => {
+      probe.onload = null;
+      probe.onerror = null;
+      if (timer) clearTimeout(timer);
+    };
+  }, [painted, poster]);
 
   // One observer drives visibility; the video and the chip cycle both pause
   // off-screen so neither burns CPU/battery while scrolled away.
@@ -60,13 +95,14 @@ export function HeroPreview({ videoUrl, poster, answer, distractors, site }: Pro
     return () => obs.disconnect();
   }, []);
 
-  // Play / pause the looping video with visibility.
+  // Play / pause the looping video with visibility. `play()` is also what
+  // makes it load: the element has no `autoplay` and `preload="none"`.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (inView) v.play().catch(() => {});
+    if (inView && clipMayStart) v.play().catch(() => {});
     else v.pause();
-  }, [inView]);
+  }, [inView, clipMayStart]);
 
   // Chip scan/reveal cycle. Guards reduced-motion (static reveal) and only
   // runs while in view; re-entering the viewport restarts a fresh scan.
@@ -118,11 +154,10 @@ export function HeroPreview({ videoUrl, poster, answer, distractors, site }: Pro
             className="absolute inset-0 h-full w-full object-cover"
             src={videoUrl}
             poster={poster}
-            autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
           />
 
           {/* Readability gradient. */}

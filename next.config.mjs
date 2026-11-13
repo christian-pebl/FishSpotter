@@ -119,6 +119,17 @@ const nextConfig = {
   // Next 15, so the old `experimental.instrumentationHook` is gone.
   images: {
     remotePatterns: dedupedPatterns,
+    // Local folders the optimizer may read, and nothing else under the site
+    // root. Unset, Next optimizes ANY local path, API routes included. The
+    // landing page sends its farm tiles through the optimizer
+    // (src/lib/sized-image.ts, whose test checks this list); /media/snippets
+    // is the storage scripts' local fallback for a dev machine with no bucket.
+    // `search: ""` means the exact path only, no query string.
+    localPatterns: [
+      { pathname: "/farm-media/**", search: "" },
+      { pathname: "/hero/**", search: "" },
+      { pathname: "/media/snippets/**", search: "" },
+    ],
     // Every image the optimizer serves is immutable per URL: snippet stills
     // carry a `?v=` that changes on re-cut, species WebPs are keyed by content
     // hash. The upstream objects only say `max-age=3600`, so without this the
