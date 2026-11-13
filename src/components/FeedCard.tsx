@@ -2425,10 +2425,15 @@ export function FeedCard({
                          the whole pane and let the +1 bonus chip carry the
                          messaging. The headless resolver fetches the reference's
                          canonical scientific name (the visible "Ecological
-                         likelihood" panel that used to do this was removed). */}
+                         likelihood" panel that used to do this was removed).
+                         The reference name comes from the stats response ONLY.
+                         The page props carry no staffAnswer (it is a label, so it
+                         must not reach the browser before an answer), and the
+                         stats route sends it only once this spotter's answer is
+                         saved. If the stats fetch fails the gallery is skipped,
+                         never filled in from anywhere else. */}
                     {(() => {
-                      const referenceAnswer =
-                        stats!.staffAnswer ?? snippet.staffAnswer ?? null;
+                      const referenceAnswer = stats!.staffAnswer ?? null;
                       if (referenceAnswer === null) return null;
                       return (
                         <>

@@ -9,6 +9,9 @@
  * page's initial payload also omits it; the FeedPlayer fetches per-
  * card bbox via `/api/snippets/[id]/bbox` only when the card enters
  * the ±1 window. Keeps the /feed HTML small.
+ *
+ * `staffAnswer` is NOT included either: it is a label for the clip and this
+ * route is public, so it would hand every label to anyone before a guess.
  */
 
 import { NextResponse } from "next/server";
@@ -48,7 +51,6 @@ export async function GET(req: Request) {
       thumbnailUrl: true,
       site: true,
       deployment: true,
-      staffAnswer: true,
       lat: true,
       lon: true,
       depthM: true,

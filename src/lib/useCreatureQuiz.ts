@@ -49,9 +49,12 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
     points: number;
   } | null>(null);
   // staffAnswer is gated server-side until the user has submitted an Answer for
-  // this snippet (S1-T11). loadStats is only invoked after myAnswer is set
-  // (see effect below), so in normal use it is always present at consumption,
-  // but the type is optional to match the API contract.
+  // this snippet (S1-T11): it is NOT in the feed's page props or /api/feed, and
+  // GET /api/snippets/[id]/stats sends it only to a signed-in spotter whose
+  // answer is saved. loadStats is only invoked after myAnswer is set (see effect
+  // below), so in normal use it is present at consumption, but the type is
+  // optional to match the API contract. A guest's preview carries none (their
+  // reveal has no reference gallery).
   // S7-T1: staffAnswer may be null when the snippet has no reference yet;
   // hasReference is a convenience flag the server includes alongside.
   const [stats, setStats] = useState<{
@@ -122,6 +125,9 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
       // if the stats fetch blips (transient 500 / timeout). Fall back to an
       // empty community breakdown so the result still renders; the user keeps
       // their score (myAnswer / rewardProgress drive the reveal regardless).
+      // No staffAnswer in the fallback on purpose: the reveal's reference
+      // gallery is skipped on this path instead of reading the name from
+      // somewhere ungated.
       setStats({ total: 0, stats: [] });
     }
   }, [snippet.id]);

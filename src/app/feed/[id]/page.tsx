@@ -75,6 +75,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
+// staffAnswer is deliberately NOT selected: it is a label for the clip and must
+// not reach the browser before the spotter has answered (see /feed/page.tsx).
 const FEED_SELECT = {
   id: true,
   videoUrl: true,
@@ -82,7 +84,6 @@ const FEED_SELECT = {
   thumbnailUrl: true,
   site: true,
   deployment: true,
-  staffAnswer: true,
   lat: true,
   lon: true,
   depthM: true,
@@ -182,7 +183,6 @@ export default async function SnippetDetailPage({
       thumbnailUrl: snippet.thumbnailUrl,
       site: snippet.site,
       deployment: snippet.deployment,
-      staffAnswer: snippet.staffAnswer,
       // null is "not loaded yet", not "no track": FeedPlayer fetches it as each
       // card comes into range.
       bboxes: track ? safeParseJson(track.bboxJson) : null,

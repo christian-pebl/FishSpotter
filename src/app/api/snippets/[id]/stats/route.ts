@@ -14,6 +14,11 @@ import { prisma } from "@/lib/prisma";
 // Until 11 Nov 2026 the un-answered response carried the full histogram and a
 // public CDN header, so anyone could read "Ballan wrasse 86%" before guessing.
 //
+// The clip's reference identification (`staffAnswer`) follows the same rule. It
+// is a label, so it rides only on the answered response below, never on
+// GATED_BODY and never in the page props (see /feed/page.tsx). The reveal uses
+// it to pick the species photo gallery, which is the only thing it still does.
+//
 // CACHING: nothing on this route may be stored by a shared cache.
 //  - Vercel's CDN keys on the URL, not the cookie (a request carrying a cookie
 //    was served the anonymous entry, measured 11 Nov 2026), and it refuses to
@@ -47,7 +52,8 @@ export async function GET(
   if (!userId) return gated();
 
   const [snippet, myAnswer] = await Promise.all([
-    prisma.snippet.findUnique({ where: { id }, select: { id: true } }),
+    // staffAnswer is read here but only ever copied into the answered response.
+    prisma.snippet.findUnique({ where: { id }, select: { id: true, staffAnswer: true } }),
     prisma.answer.findFirst({
       where: { userId, snippetId: id },
       select: { id: true },
@@ -67,8 +73,9 @@ export async function GET(
   });
 
   const total = answers.length;
-  // No PEBL reference any more, the crowd is the authority. The histogram is
-  // pure community answers.
+  // The histogram is pure community answers: the crowd is the authority and
+  // there is no PEBL verdict. The reference name is returned alongside only so
+  // the reveal can show that species' photos; it grades nothing.
   const stats = bucketAnswersByNormalized(answers)
     .map(({ option, count }) => ({
       option,
@@ -81,7 +88,8 @@ export async function GET(
     {
       total,
       stats,
-      hasReference: false,
+      staffAnswer: snippet.staffAnswer,
+      hasReference: snippet.staffAnswer !== null,
       consensus: consensusSummary(stats, total),
     },
     { headers: NO_SHARED_CACHE },
