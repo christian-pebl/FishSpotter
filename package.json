@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.96.0",
-    "@auth/prisma-adapter": "^2.11.2",
+    "@auth/prisma-adapter": "^2.11.3",
     "@prisma/client": "^6.19.2",
     "@react-email/components": "^1.0.12",
     "@supabase/supabase-js": "^2.99.3",
