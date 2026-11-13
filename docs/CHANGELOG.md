@@ -2874,3 +2874,15 @@ Production was found with every rate limit open. The Upstash Redis host in the V
 - Tests cover the auth limit and the parent-email cap through an outage, and the pause and retry.
 
 The dead env vars still need removing in Vercel, or a new free Upstash database setting up, before the shared counter works again. Until then every request tries Redis at most once a minute per instance.
+
+## 13 Nov 2026: a clip's reference answer no longer ships before a guess
+
+Measured on production on 12 Nov: one signed-out `/feed` page load carried 77 clips' `staffAnswer` in its payload, `/feed/[id]` carried them too, and `GET /api/feed?take=5` returned it on every row. Live values are shape words ("Fish", "Crab", "Jellyfish"), weaker than a species name, but the code says the reference is held back until the spotter has answered, and it was not. The reveal read it from the page props, because the stats and preview routes return none.
+
+- **Gone from the page and the public feed.** `/feed`, `/feed/[id]`, the `FeedSnippet` type and `GET /api/feed` no longer select or send it.
+- **Sent after an answer only.** `GET /api/snippets/[id]/stats` returns `staffAnswer` and `hasReference` to a signed-in spotter whose answer is saved (the response is still `private, no-store`). Every other response from that route, signed out or not yet answered, carries neither.
+- **The reveal reads it from there only.** `FeedCard` takes the reference name from the stats response. If the stats request fails the reference gallery is skipped; it used to fall back silently to the page prop.
+- **Guests are unchanged.** `POST /api/answers/preview` still returns `staffAnswer: null`. A guest's reveal never had the gallery (the species it needs comes from `/api/snippets/[id]/probability`, which withholds it until an answer is saved), and that endpoint needs no proof the clip was watched, so it should not carry a label.
+- **Tests.** The stats route (no reference signed out or before an answer, present after; none on a 404), the preview route, `/api/feed`, and the page shape of `/feed` and `/feed/[id]` (the database mock returns only the columns a query selects, so a re-added `staffAnswer` fails). Eight of the new tests fail on the old code.
+
+**Verified** on local production builds of `main` and of this change against a throwaway local Postgres (no production reads or writes), Chrome at 390 x 844. Signed out, on `main` the `/feed` payload held a label for each of the sandbox's 6 clips and `/api/feed?take=5` returned it on 5 of 5 rows; with the change both held none. Signed in, answering the clip whose reference resolves to a species: the reveal and its reference gallery (caption and 4 photos) are the same on both builds, with the reference now coming from the stats response. As a guest the reveal is the same on both (no gallery). `tsc`, 1,279 unit tests, `lint` and `lint:tokens` clean.
