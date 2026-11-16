@@ -57,10 +57,15 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   // reveal has no reference gallery).
   // S7-T1: staffAnswer may be null when the snippet has no reference yet;
   // hasReference is a convenience flag the server includes alongside.
+  // staffAnswerScientific is the reference's scientific name, from the same
+  // per-user, answered-only response, so it is never served from a shared cache
+  // (the /probability route is cached at the edge by URL alone, and could not
+  // carry it to a signed-in spotter).
   const [stats, setStats] = useState<{
     total: number;
     stats: StatsItem[];
     staffAnswer?: string | null;
+    staffAnswerScientific?: string | null;
     hasReference?: boolean;
   } | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -137,8 +142,14 @@ export function useCreatureQuiz(snippet: SnippetForQuiz, signInCallbackUrl?: str
   }, [loadMyAnswer]);
 
   useEffect(() => {
-    if (myAnswer) loadStats();
-  }, [myAnswer, loadStats]);
+    // Signed-in spotters only. A guest's reveal is filled by the preview that
+    // graded their guess, and GET /stats answers a signed-out caller with the
+    // gated empty body: fetching it for a guest overwrote the real community
+    // panel with "0 spotters" a moment after it appeared. When a guest signs
+    // in, userId arrives, this runs, and the panel is refreshed from the
+    // saved answer.
+    if (myAnswer && userId) loadStats();
+  }, [myAnswer, userId, loadStats]);
 
   // P0: on auth, carry in the guest guess for THIS snippet, submit it via the
   // authed path so it's persisted + scored, then drop it from the queue. Each
