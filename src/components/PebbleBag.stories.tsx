@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { PebbleBagView } from "./PebbleBag";
+import { PebbleBagView } from "./PebbleBagView";
 
 /**
  * Live playground for the Pebble bag's collect-into-pouch animation, so the

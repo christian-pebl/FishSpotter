@@ -46,9 +46,9 @@ async function main() {
     const videoBuf = readFileSync(c.video);
     const thumbBuf = readFileSync(c.thumb);
 
-    const videoUrl = await uploadVideo(c.externalId, videoBuf);
+    const videoUrl = await uploadVideo(videoBuf);
     console.log("video ->", videoUrl);
-    const thumbnailUrl = await uploadThumbnail(c.externalId, thumbBuf);
+    const thumbnailUrl = await uploadThumbnail(thumbBuf);
     console.log("thumb ->", thumbnailUrl);
 
     const row = await prisma.snippet.upsert({

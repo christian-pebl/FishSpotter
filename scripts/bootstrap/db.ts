@@ -5,8 +5,12 @@
  * Sequence (idempotent):
  *   1. `npm run db:push`         , apply pending schema changes
  *   2. `npm run db:seed-aliases` , populate SpeciesAlias if empty
- *   3. `npm run db:migrate-to-r2`, move snippets to R2 (only when
- *                                    STORAGE_PROVIDER=r2 is active)
+ *   3. `npm run db:migrate-to-r2`, PLAN the move of snippets to R2 (only
+ *                                    when STORAGE_PROVIDER=r2 is active).
+ *      Since 12 Nov 2026 that name runs scripts/migrate-clip-keys.ts, which
+ *      is a dry run unless given `--execute`: this step prints what would
+ *      move and changes nothing. Moving clips is a decision, made by hand:
+ *      `npm run db:migrate-clip-keys -- --execute --limit 3`, then `--all`.
  */
 
 import { spawnSync } from "node:child_process";

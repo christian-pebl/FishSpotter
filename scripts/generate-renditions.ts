@@ -159,8 +159,9 @@ async function main() {
         failures.push(label);
         continue;
       }
-      uploaded = await uploadVideoSd(row.externalId, enc.buffer);
-      const videoUrlSd = `${uploaded}?v=1`;
+      // Named after its own bytes (clips/<hash>-sd.mp4), so no `?v=` is needed.
+      uploaded = await uploadVideoSd(enc.buffer);
+      const videoUrlSd = uploaded;
       await prisma.snippet.update({ where: { id: row.id }, data: { videoUrlSd } });
       bytesIn += src.buf.length;
       bytesOut += enc.bytes;

@@ -12,46 +12,78 @@
  * never imports this module, it just reads Snippet.videoUrl as an opaque
  * URL. Provisioning + migration is documented in CLAUDE.md.
  *
- * Both providers expose the same three operations:
- *   uploadVideo(externalId, body, contentType) -> public URL
- *   uploadThumbnail(externalId, body, contentType) -> public URL
- *   buildPublicUrl(externalId, kind) -> deterministic URL (no upload)
+ * A clip object is stored under a key made from its own bytes
+ * (`clips/<hash>.mp4`, see ./object-keys.ts), never from the export folder
+ * name, so the address of a clip says nothing about what is in it. That is why
+ * the upload functions take no `externalId`: there is nothing for it to do.
+ * The caller writes the URL that comes back into the row.
+ *
+ *   uploadVideo(body)      -> public URL of clips/<hash>.mp4
+ *   uploadVideoSd(body)    -> public URL of clips/<hash>-sd.mp4
+ *   uploadThumbnail(body)  -> public URL of thumbs/<hash>.jpg
+ *   publicUrlFor(kind, body) -> the same URL, without uploading
  */
 
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectsCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { objectKey, type StorageKind } from "./object-keys";
+
+export type { StorageKind } from "./object-keys";
 
 export type StorageProvider = "supabase" | "r2";
 
-export type StorageKind = "video" | "thumbnail" | "video_sd";
-
-const VIDEO_FILENAME = "snippet.mp4";
-const THUMBNAIL_FILENAME = "thumbnail.jpg";
-// A second, smaller rendition of the clip (720p, see scripts/lib/video-rendition.ts),
-// stored alongside the 1080p master under the same externalId prefix rather than
-// overwriting it: the master is still what admin editors and the OG/JSON-LD video
-// metadata point at, and a clip whose rendition generation failed just has no
-// video_sd object, which callers treat as "fall back to the master".
-const VIDEO_SD_FILENAME = "snippet_720.mp4";
-
-function fileName(kind: StorageKind): string {
-  if (kind === "video") return VIDEO_FILENAME;
-  if (kind === "video_sd") return VIDEO_SD_FILENAME;
-  return THUMBNAIL_FILENAME;
+export interface UploadOptions {
+  /**
+   * The key is derived from the bytes, so the object can never change under
+   * it. Cached for a year instead of 30 days. Only for content-addressed keys.
+   */
+  immutable?: boolean;
 }
 
-function objectKey(externalId: string, kind: StorageKind): string {
-  return `${externalId}/${fileName(kind)}`;
-}
+/** Seconds. Content-addressed objects: the name changes when the bytes do. */
+const IMMUTABLE_MAX_AGE = 31536000;
+/** Seconds. Everything else (species WebPs are keyed by source URL, not bytes). */
+const DEFAULT_MAX_AGE = 2592000;
 
 export interface StorageDriver {
   provider: StorageProvider;
-  upload(externalId: string, kind: StorageKind, body: Buffer, contentType: string): Promise<string>;
-  buildPublicUrl(externalId: string, kind: StorageKind): string;
-  // Lower-level put at an arbitrary key (used for species-image WebP
-  // derivatives, which aren't snippet-scoped). Returns the public URL.
-  uploadObject(key: string, body: Buffer, contentType: string): Promise<string>;
+  /** Everything before the object key in a public URL, no trailing slash. */
+  publicBase: string;
+  /** Upload a clip object under its content-addressed key. Returns the public URL. */
+  upload(kind: StorageKind, body: Buffer, contentType: string): Promise<string>;
+  // Lower-level put at an arbitrary key (species-image WebP derivatives, and
+  // the clip migration, which computes the key itself). Returns the public URL.
+  uploadObject(key: string, body: Buffer, contentType: string, options?: UploadOptions): Promise<string>;
   publicUrlForKey(key: string): string;
+  /** Delete objects by key. Only the clip migration's clean-up step calls this. */
+  removeObjects(keys: string[]): Promise<void>;
+}
+
+/** Each path segment encoded, slashes kept: eight legacy keys hold spaces. */
+function encodeKey(key: string): string {
+  return key.split("/").map(encodeURIComponent).join("/");
+}
+
+/** The public URL of `key` under a provider's public base. */
+export function publicUrlUnder(publicBase: string, key: string): string {
+  return `${publicBase.replace(/\/+$/, "")}/${encodeKey(key)}`;
+}
+
+/**
+ * A provider's public base URL, from the NON-SECRET variables alone. A dry run
+ * of the clip migration uses this instead of a driver, so it can be run with
+ * no storage credentials in the environment at all: it cannot upload or
+ * delete, because it never holds a key.
+ */
+export function publicBaseFor(provider: StorageProvider): string {
+  if (provider === "r2") {
+    const publicUrl = process.env.R2_PUBLIC_URL;
+    if (!publicUrl) throw new Error("R2_PUBLIC_URL is not set.");
+    return publicUrl.replace(/\/+$/, "");
+  }
+  const url = process.env.SUPABASE_URL?.replace(/\/+$/, "");
+  if (!url) throw new Error("SUPABASE_URL is not set.");
+  return `${url}/storage/v1/object/public/${process.env.SUPABASE_STORAGE_BUCKET ?? "snippets"}`;
 }
 
 /* -------------------------------------------------------------------------- *
@@ -59,7 +91,7 @@ export interface StorageDriver {
  * -------------------------------------------------------------------------- */
 
 function createSupabaseDriver(): StorageDriver {
-  const url = process.env.SUPABASE_URL;
+  const url = process.env.SUPABASE_URL?.replace(/\/+$/, "");
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const bucket = process.env.SUPABASE_STORAGE_BUCKET ?? "snippets";
 
@@ -72,33 +104,38 @@ function createSupabaseDriver(): StorageDriver {
   const client: SupabaseClient = createClient(url, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  const publicBase = publicBaseFor("supabase");
 
   return {
     provider: "supabase",
-    async upload(externalId, kind, body, contentType) {
-      return this.uploadObject(objectKey(externalId, kind), body, contentType);
+    publicBase,
+    async upload(kind, body, contentType) {
+      return this.uploadObject(objectKey(kind, body), body, contentType, { immutable: true });
     },
-    buildPublicUrl(externalId, kind) {
-      return this.publicUrlForKey(objectKey(externalId, kind));
-    },
-    async uploadObject(key, body, contentType) {
+    async uploadObject(key, body, contentType, options) {
       const { error } = await client.storage.from(bucket).upload(key, body, {
         upsert: true,
         contentType,
-        // Match the R2 driver's 30-day immutable cache. Without this Supabase
-        // serves `Cache-Control: no-cache`, so every repeat visitor re-downloads
-        // every clip and thumbnail and the CDN in front of it never stores them
-        // (measured 29 Aug 2026: CF-Cache-Status MISS on every media object).
-        // Safe for the same reason it is safe on R2: content is immutable per
-        // key, and the callers that DO overwrite a key bump a `?v=` on the
-        // stored URL, which busts both the browser and the edge.
-        cacheControl: "2592000",
+        // Without this Supabase serves `Cache-Control: no-cache`, so every
+        // repeat visitor re-downloads every clip and thumbnail and the CDN in
+        // front of it never stores them (measured 29 Aug 2026). 30 days for a
+        // key that could in principle be overwritten; a year for a
+        // content-addressed one, which cannot. (Supabase takes seconds only,
+        // so there is no `immutable` token here; R2 below sends one.)
+        cacheControl: String(options?.immutable ? IMMUTABLE_MAX_AGE : DEFAULT_MAX_AGE),
       });
       if (error) throw error;
       return this.publicUrlForKey(key);
     },
     publicUrlForKey(key) {
-      return `${url}/storage/v1/object/public/${bucket}/${key}`;
+      return publicUrlUnder(publicBase, key);
+    },
+    async removeObjects(keys) {
+      // The API takes up to 1000 paths a call; stay well under.
+      for (let i = 0; i < keys.length; i += 100) {
+        const { error } = await client.storage.from(bucket).remove(keys.slice(i, i + 100));
+        if (error) throw error;
+      }
     },
   };
 }
@@ -122,7 +159,7 @@ function createR2Driver(): StorageDriver {
     );
   }
 
-  const normalisedPublicUrl = publicUrl.replace(/\/$/, "");
+  const publicBase = publicBaseFor("r2");
 
   const client = new S3Client({
     region: "auto",
@@ -132,29 +169,36 @@ function createR2Driver(): StorageDriver {
 
   return {
     provider: "r2",
-    async upload(externalId, kind, body, contentType) {
-      return this.uploadObject(objectKey(externalId, kind), body, contentType);
+    publicBase,
+    async upload(kind, body, contentType) {
+      return this.uploadObject(objectKey(kind, body), body, contentType, { immutable: true });
     },
-    buildPublicUrl(externalId, kind) {
-      return this.publicUrlForKey(objectKey(externalId, kind));
-    },
-    async uploadObject(key, body, contentType) {
+    async uploadObject(key, body, contentType, options) {
       await client.send(
         new PutObjectCommand({
           Bucket: bucket,
           Key: key,
           Body: body,
           ContentType: contentType,
-          // 30-day browser cache. Object content is immutable per key (we never
-          // overwrite, snippet re-encodes get a new externalId, and species
-          // WebP derivatives are keyed by a content hash), so this is safe.
-          CacheControl: "public, max-age=2592000, immutable",
+          CacheControl: options?.immutable
+            ? `public, max-age=${IMMUTABLE_MAX_AGE}, immutable`
+            : `public, max-age=${DEFAULT_MAX_AGE}, immutable`,
         }),
       );
       return this.publicUrlForKey(key);
     },
     publicUrlForKey(key) {
-      return `${normalisedPublicUrl}/${key}`;
+      return publicUrlUnder(publicBase, key);
+    },
+    async removeObjects(keys) {
+      for (let i = 0; i < keys.length; i += 100) {
+        await client.send(
+          new DeleteObjectsCommand({
+            Bucket: bucket,
+            Delete: { Objects: keys.slice(i, i + 100).map((Key) => ({ Key })) },
+          }),
+        );
+      }
     },
   };
 }
@@ -163,53 +207,54 @@ function createR2Driver(): StorageDriver {
  * Public API
  * -------------------------------------------------------------------------- */
 
+function parseProvider(raw: string): StorageProvider {
+  const value = raw.trim().toLowerCase();
+  if (value === "r2") return "r2";
+  if (value === "supabase") return "supabase";
+  throw new Error(`Unknown STORAGE_PROVIDER "${value}". Expected "r2" or "supabase".`);
+}
+
 /**
  * Reads STORAGE_PROVIDER from env. Falls back to "supabase" so existing
  * deployments (no env var) keep working with no behaviour change.
  */
 export function getActiveProvider(): StorageProvider {
-  const raw = (process.env.STORAGE_PROVIDER ?? "supabase").trim().toLowerCase();
-  if (raw === "r2") return "r2";
-  if (raw === "supabase") return "supabase";
-  throw new Error(`Unknown STORAGE_PROVIDER "${raw}". Expected "r2" or "supabase".`);
+  return parseProvider(process.env.STORAGE_PROVIDER ?? "supabase");
 }
 
-let cachedDriver: StorageDriver | null = null;
+const cachedDrivers = new Map<StorageProvider, StorageDriver>();
+
+/** A driver for a named provider, whatever STORAGE_PROVIDER says. The clip
+ *  migration needs this to reach the bucket a clip is leaving. */
+export function getStorageDriverFor(provider: StorageProvider): StorageDriver {
+  let driver = cachedDrivers.get(provider);
+  if (!driver) {
+    driver = provider === "r2" ? createR2Driver() : createSupabaseDriver();
+    cachedDrivers.set(provider, driver);
+  }
+  return driver;
+}
 
 export function getStorageDriver(): StorageDriver {
-  if (cachedDriver) return cachedDriver;
-  const provider = getActiveProvider();
-  cachedDriver = provider === "r2" ? createR2Driver() : createSupabaseDriver();
-  return cachedDriver;
+  return getStorageDriverFor(getActiveProvider());
 }
 
-export async function uploadVideo(
-  externalId: string,
-  body: Buffer,
-  contentType = "video/mp4",
-): Promise<string> {
-  return getStorageDriver().upload(externalId, "video", body, contentType);
+export async function uploadVideo(body: Buffer, contentType = "video/mp4"): Promise<string> {
+  return getStorageDriver().upload("video", body, contentType);
 }
 
-export async function uploadThumbnail(
-  externalId: string,
-  body: Buffer,
-  contentType = "image/jpeg",
-): Promise<string> {
-  return getStorageDriver().upload(externalId, "thumbnail", body, contentType);
+export async function uploadThumbnail(body: Buffer, contentType = "image/jpeg"): Promise<string> {
+  return getStorageDriver().upload("thumbnail", body, contentType);
 }
 
 /** The 720p rendition (see scripts/lib/video-rendition.ts). */
-export async function uploadVideoSd(
-  externalId: string,
-  body: Buffer,
-  contentType = "video/mp4",
-): Promise<string> {
-  return getStorageDriver().upload(externalId, "video_sd", body, contentType);
+export async function uploadVideoSd(body: Buffer, contentType = "video/mp4"): Promise<string> {
+  return getStorageDriver().upload("video_sd", body, contentType);
 }
 
-export function buildPublicUrl(externalId: string, kind: StorageKind): string {
-  return getStorageDriver().buildPublicUrl(externalId, kind);
+/** The URL `body` would be served from, without uploading it. */
+export function publicUrlFor(kind: StorageKind, body: Buffer): string {
+  return getStorageDriver().publicUrlForKey(objectKey(kind, body));
 }
 
 /* -------------------------------------------------------------------------- *

@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { PwaInstallButton, useInstallPrompt } from "@/components/PwaInstallButton";
+import { PwaInstallButton } from "@/components/PwaInstallButton";
+import { useInstallPrompt } from "@/lib/useInstallPrompt";
 import { VideoSettingsPanel } from "@/components/VideoSettingsPanel";
 import { TRANSITION } from "@/lib/motion";
 

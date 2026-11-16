@@ -28,10 +28,20 @@ const roboto = Roboto({
 });
 
 // Super Water (DaFont, fsuarez913), a rounded bubble cartoon face, free for
-// commercial use. Used only for the "FishSpotter" brand wordmark on the landing
-// hero, so it's exposed as its own display variable.
+// commercial use. Used only for the "FishSpotter" brand wordmark in the header,
+// so it's exposed as its own display variable.
+//
+// The file shipped is a subset holding just the wordmark's ten letters
+// (F S e h i o p r s t): 4.5 KB where the full TTF was 97 KB (52 KB on the
+// wire), preloaded on every page. Same outlines, hinting, kerning and metrics.
+// The display font class must therefore style nothing but the wordmark, which
+// src/components/wordmark-font.test.ts enforces. To use the face for other
+// text, regenerate from the full font, which stays beside it as the source:
+//   python -m fontTools.subset src/app/fonts/SuperWater.ttf
+//     --text="<letters>" --flavor=woff2 --layout-features="*"
+//     --output-file=src/app/fonts/SuperWater-wordmark.woff2
 const superWater = localFont({
-  src: "./fonts/SuperWater.ttf",
+  src: "./fonts/SuperWater-wordmark.woff2",
   variable: "--font-display",
   display: "swap",
 });

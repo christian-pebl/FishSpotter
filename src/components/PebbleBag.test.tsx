@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { PebbleBagView } from "./PebbleBag";
+import { PebbleBagView } from "./PebbleBagView";
 
 // Functional smoke for the presentational pouch: it renders the total and
 // survives an earn signal (the fly-in burst) without crashing. Smoothness/FPS is

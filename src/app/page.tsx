@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { preload } from "react-dom";
 import { prisma } from "@/lib/prisma";
 import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { siteLabel } from "@/lib/site-label";
@@ -9,7 +10,10 @@ import { HeroPreview } from "@/components/landing/HeroPreview";
 import { StatsBand } from "@/components/landing/StatsBand";
 import { StepCards } from "@/components/landing/StepCards";
 import { SpeciesMarquee, type MarqueeSpecies } from "@/components/landing/SpeciesMarquee";
+import { DeferredImg } from "@/components/DeferredImg";
 import { FARMS } from "@/lib/farms/catalogue";
+import { TILE_SIZES, optimizerHosts, sizedImage } from "@/lib/sized-image";
+import { thumbnailSrc } from "@/lib/thumbnail-src";
 
 // Hardening (conference prep): the landing page (the demo URL) renders the same
 // for everyone (5 global queries, no per-user data), so ISR caches it. A QR-code
@@ -45,7 +49,15 @@ const HERO_CLIP_EXTERNAL_ID =
 // -crf 26 -preset slow -profile:v high -level 4.0 -pix_fmt yuv420p -an
 // -movflags +faststart public/hero/velvet-crab-preview.mp4
 const HERO_PREVIEW_VIDEO_URL = "/hero/velvet-crab-preview.mp4";
-const HERO_PREVIEW_POSTER_URL = "/hero/velvet-crab-preview.jpg";
+// The poster is the page's largest paint on a phone. The card is 3:4 and the
+// clip is 16:9, so `object-cover` only ever showed the middle 360 of the old
+// 854 px JPEG's width. This file is that same middle region of the same frame,
+// cut once and saved as WebP: 18 KB where the JPEG was 52 KB, and pixel for
+// pixel the picture the card showed before. Regenerate from the JPEG with:
+// sharp(jpg).extract({ left: 247, top: 0, width: 360, height: 480 })
+//   .webp({ quality: 85, effort: 6 })
+// velvet-crab-preview.jpg stays in public/hero/ as the source for that.
+const HERO_PREVIEW_POSTER_URL = "/hero/velvet-crab-preview-3x4.webp";
 
 export default async function HomePage() {
   const [pinnedHero, featuredCandidates, clips, idsMade, photoRows] = await Promise.all([
@@ -74,6 +86,16 @@ export default async function HomePage() {
     }),
   ]);
 
+  // Ask for the hero poster in the very first bytes of the page, ahead of the
+  // fonts and scripts, so it is already there when the browser first paints.
+  // A `<video poster>` is invisible to the preload scanner, so without this it
+  // is only requested once the parser reaches the tag.
+  if (pinnedHero) preload(HERO_PREVIEW_POSTER_URL, { as: "image", fetchPriority: "high" });
+
+  // The image optimizer only serves hosts next.config.mjs whitelists; resolved
+  // once here on the server and passed down, so no client code reads env.
+  const imageHosts = optimizerHosts();
+
   // Prefer the pinned velvet-crab clip; fall back to a clip whose staffAnswer
   // maps to a real catalogue species, then to the newest clip.
   const featured =
@@ -92,8 +114,9 @@ export default async function HomePage() {
     if (seen.has(row.scientificName)) continue;
     seen.add(row.scientificName);
     marquee.push({
-      // Route C: prefer the PEBL-hosted WebP thumb, then the cached origin thumb.
-      url: row.webpThumbUrl ?? row.thumbUrl ?? row.url,
+      // Route C: prefer the PEBL-hosted WebP thumb, then the cached origin
+      // thumb. Either way it is sized for a card before it reaches the page.
+      image: sizedImage(row.webpThumbUrl ?? row.thumbUrl ?? row.url, imageHosts),
       name: displayName(row.scientificName),
       attribution: row.attribution,
     });
@@ -167,7 +190,7 @@ export default async function HomePage() {
             {featured && (
               <HeroPreview
                 videoUrl={pinnedHero ? HERO_PREVIEW_VIDEO_URL : featured.videoUrl}
-                poster={pinnedHero ? HERO_PREVIEW_POSTER_URL : featured.thumbnailUrl}
+                poster={pinnedHero ? HERO_PREVIEW_POSTER_URL : thumbnailSrc(featured.thumbnailUrl)}
                 answer="Velvet crab"
                 distractors={["Brown crab", "Hermit crab", "Spider crab"]}
                 site={siteLabel(featured.site)}
@@ -256,11 +279,13 @@ export default async function HomePage() {
                 <Link href={`/farms/${farm.slug}`} className="group block">
                   <div className="relative aspect-square overflow-hidden rounded-modal bg-navy-900/10 ring-1 ring-navy-900/10">
                     {farm.media?.hero && (
-                      /* eslint-disable-next-line @next/next/no-img-element -- local static asset */
-                      <img
-                        src={farm.media.hero.src}
+                      // The hero files are 1600 px wide for the farm pages; a
+                      // tile here is about 105 px on a phone and 170 on a
+                      // laptop, so it takes a 256 or 384 px copy instead.
+                      <DeferredImg
+                        image={sizedImage(farm.media.hero.src, imageHosts)}
                         alt=""
-                        loading="lazy"
+                        sizes={TILE_SIZES}
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     )}

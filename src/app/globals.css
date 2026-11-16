@@ -342,6 +342,29 @@ html[data-modal-open] .pebl-cookie-notice {
   animation: fs-shaft ease-in-out infinite;
 }
 
+/* The arrow on "read more" links. Roboto's files hold no arrow glyph, yet
+   Google's unicode-range lists U+2190 and U+2192 for two of its subsets. So one
+   arrow in body text made the browser download both (54 KB, one after the
+   other), find nothing in either, and draw the arrow from Roboto's fallback
+   anyway: the local Arial that next/font tunes to Roboto's metrics (measured
+   12 Nov 2026, Chrome reports the glyph as system Arial).
+
+   This face is that same fallback, with the same metric overrides, limited to
+   the two arrows and listed FIRST in the body font stack (tailwind.config.ts).
+   The browser finds the arrow here and never asks Roboto for it, so it renders
+   exactly as before and nothing is fetched. Every other character is outside
+   the range and falls through to Roboto untouched. On a device with no Arial
+   the face does not load and the old behaviour applies. */
+@font-face {
+  font-family: "FS Arrow";
+  src: local("Arial");
+  unicode-range: U+2190, U+2192;
+  ascent-override: 92.98%;
+  descent-override: 24.47%;
+  line-gap-override: 0%;
+  size-adjust: 99.78%;
+}
+
 /* Seamless species marquee (track holds two copies, scrolls -50%). */
 @keyframes fs-marquee {
   from {

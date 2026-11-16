@@ -2875,6 +2875,85 @@ Production was found with every rate limit open. The Upstash Redis host in the V
 
 The dead env vars still need removing in Vercel, or a new free Upstash database setting up, before the shared counter works again. Until then every request tries Redis at most once a minute per instance.
 
+## 12 Nov 2026: the public snippet API names no clip
+
+Measured on production on 12 Nov: `GET /api/snippets` returned the export folder name (`externalId`), the clip URL and the still URL for all 139 live clips to anyone signed out, and 56 of those folder names carry a species label (`..._wrasse00007270_...`). `GET /api/snippets/<id>` returned the whole database row, which also held `staffAnswer`, the label the clip was exported under. Nothing in the app calls either route.
+
+- **Public callers now get where and when a clip was filmed, and nothing that names it.** The list returns `id`, `site`, `deployment` and `recordingDatetime`. One clip adds depth and position. The fields are a fixed `select` in `src/lib/snippet-public.ts`, so a column added to the model later cannot leak through a spread.
+- **PEBL staff (a verified @pebl-cic.co.uk account) still get the full row**, which is what these routes are for now.
+- **A hidden clip is a 404 for the public** on the single-clip route. It used to be returned.
+- **`private, no-store` on both.** The answer differs by caller, so a shared cache must not keep it.
+- Tests run the real handlers against a database double that returns only the selected columns, and check the raw response for the folder name, the label and the storage host.
+
+This closes the API half. The clip URLs a player needs still carry the folder name until the clips are renamed in storage, which is a separate change with its own dry run.
+## 12 Nov 2026: the home page paints its hero first
+
+Lighthouse mobile on production that morning: performance 74, largest contentful paint 8.5 to 8.7 s, page 3.1 MB, best practices 79. The page's text painted in 1.1 s. The hero poster, the largest thing a phone shows, came last, because everything else on the page started downloading beside it.
+
+- **The hero clip waits for its own poster.** The video has no `autoplay` and `preload="none"`. Once the poster has arrived and the first frame is on screen, the effect that already paused the clip off-screen starts it. The poster is preloaded at high priority and is the 3:4 region the card actually shows: 18 KB of WebP where the 16:9 JPEG was 52 KB.
+- **Photos below the fold queue behind the first paint, at tile size.** `DeferredImg` holds a transparent pixel until the page has painted. Pictures PEBL hosts (the farm tiles, the species thumbnails in the storage bucket) go through the image optimizer at 256 or 384 px: a 292 KB farm hero becomes 7 to 15 KB, and the request is first party. Wikimedia thumbnails step from 960 px to 500 px and load without credentials. iNaturalist photos keep their size, because the next one down looked soft.
+- **Three photos were being preloaded ahead of the poster.** React preloads an `<img loading="eager">`, and the species strip marked its first three eager: two were 960 px Wikimedia files of 150 to 180 KB. The strip is below the fold on a phone and a laptop, so every card is lazy now.
+- **The drifting silhouettes mount after the first paint.** 18 mask files, about 70 KB, were fetched at high priority for decoration that is 5 to 12% opaque.
+- **Fonts: 170 KB to 71 KB, with no visible change.** The wordmark font is a 4.5 KB subset of its ten letters (it was a 97 KB TTF, preloaded on every page). And one arrow character in body text made the browser fetch two Roboto subsets, 54 KB, that do not contain an arrow: Chrome then drew it from the system fallback anyway. A fallback face limited to that character, first in the body font stack, gives the same glyph with no download.
+- **Third-party cookie gone.** Wikimedia set one on each image; loading those images without credentials means the browser discards it. The storage host (behind Cloudflare, which also sets one) is no longer contacted from the home page at all.
+- **`next.config.mjs`:** the optimizer may read `/farm-media`, `/hero` and `/media/snippets` locally and nothing else. Unset, it accepted any local path, API routes included.
+
+Measured with Lighthouse 12.8.2, mobile, two runs each after a warm-up, same machine and same seeded sandbox database. The first pair of rows is through a local HTTP/2 and brotli proxy, which is how Vercel serves the site; on the old build that rig reproduces production (75, 8.3 s, 3.08 MB against 74, 8.5 to 8.7 s, 3.1 MB).
+
+| | Before | After |
+|---|---|---|
+| Performance (HTTP/2 rig) | 75, 75 | 97, 97 |
+| Largest contentful paint (HTTP/2 rig) | 8.31 s, 8.35 s | 2.67 s, 2.65 s |
+| First contentful paint | 1.22 s | 0.93 s, 0.91 s |
+| Speed index | 2.67 s, 2.70 s | 1.08 s, 0.99 s |
+| Page weight | 3.08 MB | 1.05 MB |
+| Best practices | 75 | 96 |
+| Third-party cookies | 1 | 0 |
+| Performance (plain `next start`, HTTP/1.1) | 77, 78 | 90, 90 |
+| Largest contentful paint (plain) | 6.17 s, 5.97 s | 3.67 s, 3.70 s |
+
+The 96 for best practices is 100 less one local-only miss (Vercel's analytics script does not exist off Vercel). The largest contentful paint is short of the 2.5 s target by about 0.15 s. What is left before that first paint is about 200 KB of JavaScript, two thirds of it the framework; the one sizeable piece of the app's own is framer-motion (41 KB), loaded on every page because the header's Pebble bag and side menu import it. Splitting that out is its own change.
+
+Checked against production by screenshot at phone and laptop sizes: the wordmark, the headline and the arrow links are pixel for pixel identical, and the hero poster differs only by compression noise. Read-only on the Vercel preview in a signed-in browser: the hero is the largest paint, three font files load, the clip plays, no image is broken. Lighthouse itself could not be pointed at the preview, which sits behind Vercel's login.
+
+## 13 Nov 2026: no animation library in the first download
+
+The home page's largest contentful paint on a phone was 2.66 s, short of the 2.5 s target by 0.16 s. What was left before the first paint was about 200 KB of JavaScript, and the one sizeable piece of the app's own in it was framer-motion (41 KB over the wire). It was in the download of every page, because the site header imports the side menu and the Pebble bag, and the landing page's step cards used it for a scroll reveal. None of the three is visible on a signed-out visitor's first screen.
+
+- **Step cards: a CSS transition, not `whileInView`.** `landing/RevealOnView.tsx` does the same fade and 24 px rise with one IntersectionObserver: 0.3 s ease-out, 0.12 s stagger, once, at 40% visible, hidden in the server-rendered markup as before. `StepCards` is now a server component. Checked against the old build in Chrome: same start state, no reveal at 20% visible, reveal at 45%, the two stay hidden on a phone until they are on screen, and the timeline agrees within a frame or two (about 20 ms). **One deliberate difference:** a visitor with the OS "reduce motion" setting now gets the cards without the fade, because the app's global `prefers-reduced-motion` rule applies to a CSS transition. The framer version animated regardless.
+- **The side menu loads after the first paint.** `Header` fetches it through `useLazyComponent` once the page has painted, or at once if the menu button is touched, hovered or focused. A tap that beats the fetch opens the menu the moment it lands. Opening, the scroll lock, the focus on Close, the focus trap, Escape, the backdrop and the focus return were compared against the old build in Chrome and are identical, first open included.
+- **The install offer survives the late menu.** Chrome fires `beforeinstallprompt` once, early, and the menu used to be the thing listening. `src/lib/useInstallPrompt.ts` is now a small shared store that `PwaRegister` (every page, no animation library) arms at hydration; the menu reads from it. Tested with the offer arriving while the menu's code was held back for 4 s: the "Install app" entry is there when the menu opens and its button calls the browser's prompt.
+- **The Pebble bag split in two.** `PebbleBag.tsx` is the container (session, total, `pebble-bus`, the link) and stays in the header; `PebbleBagView.tsx` is the animated pouch, fetched only once a spotter is signed in, in parallel with the total, so a guest never downloads it. The link appears only when the total and the pouch are both there, so there is never an empty pill. Checked signed in against the sandbox database: same bag, same count-up (0 to 130) and the same fly-in as before, same one `/api/me/pebbles` and one `/api/streak` call per page load.
+- **A guard so it stays out.** `first-paint-bundle.test.ts` follows the static imports of `app/layout.tsx` and `app/page.tsx` and fails, printing the chain, if either reaches framer-motion again. The live feed still loads it up front, where the animation is the product.
+- **Nothing looks different.** Header element screenshots, phone (390 px at 2x) and laptop (1280 px), on `/`, `/about`, `/species` and `/feed`: 0 pixels differ between the old build and this one in all eight, and `/`, `/about` and `/species` are also 0 pixels from the live site. (The live `/feed` header is transparent over different footage, so that one cannot match.)
+
+Measured with Lighthouse 12.8.2, mobile, through the same local HTTP/2 and brotli proxy and the same seeded sandbox database as the home page speed change, a warm-up then three runs after, five before:
+
+| | Before | After |
+|---|---|---|
+| Largest contentful paint | 2.66 s, 2.69 s, 2.68 s, 2.66 s, 2.66 s | **2.37 s, 2.39 s, 2.36 s** |
+| Performance | 97 (all five) | **98** (all three) |
+| Script bytes in the load | 202 KB | 151 KB |
+| Page weight | 1,048 KB | 998 KB |
+| First contentful paint | 0.91 to 0.92 s | 0.92 s |
+| Total blocking time | 53 to 64 ms | 64 to 86 ms |
+| Cumulative layout shift, accessibility | 0, 100 | 0, 100 |
+
+The target of under 2.5 s is met, by about 0.12 s. Chrome's network log agrees: for a signed-out visitor on `/` the framer-motion chunk is requested 35 ms after the first contentful paint on a fast connection and 0.9 s after it on slow 4G with a 4x slower CPU, where the old build requested it before. It is still requested up front on `/feed`.
+
+Two costs, both small. Total blocking time rises by about 15 to 20 ms, most likely because the chunk is now parsed just after the paint, still inside Lighthouse's window (not isolated); it stays far under the 200 ms line. And on a throttled connection (slow 4G, 4x CPU), a tap on the menu button in the first second after the page becomes interactive waits for the menu's code (4.1 s from first tap to open against 3.1 s before, measured at the earliest possible tap); after that first second it is instant.
+## 12 Nov 2026: a clip's address no longer says what is in it (code; nothing migrated yet)
+
+A clip was stored at `<bucket>/<export folder name>/snippet.mp4`, and for 64 of the 163 rows the folder name has a label where a clip number normally sits (`..._wrasse00007270_track_manual_...`). The player has to be handed that URL, so the address gave the species away before anyone guessed.
+
+- **Content-addressed keys.** `scripts/lib/object-keys.ts`: `clips/<hash>.mp4`, `clips/<hash>-sd.mp4`, `thumbs/<hash>.jpg`, where `<hash>` is 24 hex characters of the file's own SHA-256. `objectKey()` takes a kind and the bytes, so there is no folder name for it to carry.
+- **Every upload path uses them:** `sync.ts`, `seed.ts`, `add-anjali-clips.ts`, `generate-renditions.ts`, `fix-unplayable-snippets.ts`, `reupload-snippets-hq.ts`, `transcode-to-h264.ts`. The `?v=N` cache-buster is gone (new bytes are a new address) and the objects are uploaded with a one-year cache header.
+- **`scripts/migrate-clip-keys.ts`** (`npm run db:migrate-clip-keys`) moves the existing rows. It is a dry run unless given `--execute`; a dry run builds no storage client and reads the rows in a `READ ONLY` transaction. A real run uploads, checks each new URL answers with the same length, writes a log line with the old and new URLs, and only then changes the row. `--rollback` is a database update from that log. `--delete-old` removes the named objects later, 14 days on by default. `migrate-to-r2.ts` is replaced by it: with `STORAGE_PROVIDER=r2` the same command copies the same keys to R2.
+- **Tests:** 40, running the real migration logic against a pretend storage, database and log (dry run writes nothing; a truncated upload, a failed upload and a failed row update all leave the row as it was; rollback and clean-up refuse a row that has changed since). The whole write path was also rehearsed against a stand-in storage server and the local sandbox database.
+- **Dry run on production (read-only):** 163 rows, 489 objects, 2,479 MB, none already migrated, none failing. Details and the runbook: `implementation/2026-11-12/opaque-clip-keys.md`.
+- **Correction carried:** clips are cached for 30 days. The 11 Nov review's "uncached" reading came from a HEAD request; a real GET says `public, max-age=2592000` and `HIT` (CLAUDE.md, Storage provider).
+
+Not done, and needing a yes each: the three-clip run, the full run, and the later clean-up. Before the next weekly sync, the PC's main checkout has to be on current `main`, or new clips go up under their folder names again.
 ## 13 Nov 2026: a clip's reference answer no longer ships before a guess
 
 Measured on production on 12 Nov: one signed-out `/feed` page load carried 77 clips' `staffAnswer` in its payload, `/feed/[id]` carried them too, and `GET /api/feed?take=5` returned it on every row. Live values are shape words ("Fish", "Crab", "Jellyfish"), weaker than a species name, but the code says the reference is held back until the spotter has answered, and it was not. The reveal read it from the page props, because the stats and preview routes return none.

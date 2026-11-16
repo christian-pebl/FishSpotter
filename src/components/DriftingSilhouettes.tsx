@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { useAfterFirstPaint } from "@/lib/useAfterFirstPaint";
 import { useInView } from "@/lib/useInView";
 
 /**
@@ -16,6 +17,12 @@ import { useInView } from "@/lib/useInView";
  * the numbers get stringified into `style`, so there is no hydration
  * mismatch. Decorative -> aria-hidden, and the global prefers-reduced-motion
  * block freezes every drifter.
+ *
+ * The drifters mount after the page's first paint. They are 5 to 12% opaque
+ * decoration, yet their 18 mask files (about 70 KB) were fetched at high
+ * priority beside the fonts and the hero poster, and the 44 styled spans added
+ * roughly a fifth to every page's HTML. They now arrive a moment after the
+ * content instead of competing with it.
  */
 
 // Recognisable, UK-marine, non-blob silhouettes (the coiled/ambiguous ones the
@@ -76,6 +83,7 @@ export function DriftingSilhouettes({
   seed?: number;
 }) {
   const [ref, inView] = useInView<HTMLDivElement>();
+  const painted = useAfterFirstPaint();
   const items = useMemo(() => {
     const rand = mulberry32(seed);
     return Array.from({ length: count }, () => {
@@ -103,7 +111,7 @@ export function DriftingSilhouettes({
       aria-hidden="true"
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className} ${inView ? "" : "fs-paused"}`}
     >
-      {items.map((d, i) => (
+      {painted && items.map((d, i) => (
         <span
           key={i}
           className="fs-drifter absolute block bg-current"
