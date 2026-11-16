@@ -21,7 +21,6 @@ import {
 import { SplitPanel } from "./idflow/SplitPanel";
 import { DOCK_MEDIA_QUERY, useDocked, useSplitOpen } from "@/lib/split-screen";
 import { useMediaQuery } from "@/lib/useMediaQuery";
-import { StaffScientificResolver } from "./StaffScientificResolver";
 import { resolveFarmByDeployment } from "@/lib/farms/catalogue";
 import { SpeciesSuggestions } from "./idflow/SpeciesSuggestions";
 import { SpeciesGallery } from "./SpeciesGallery";
@@ -539,10 +538,6 @@ export function FeedCard({
   // the depth/location/date HUD appears bottom-left (and the prompt retires).
   const [hasTappedIdentify, setHasTappedIdentify] = useState(false);
   const [keyboardOffset, setKeyboardOffset] = useState(0);
-  // Surfaced by RarityPanel once /api/snippets/[id]/probability resolves.
-  // Used by the inline SpeciesGallery in the reveal card (S2-T08) so we
-  // don't fire a second /probability fetch.
-  const [staffScientific, setStaffScientific] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const articleRef = useRef<HTMLElement>(null);
   // Wide viewport: the working half docks beside the clip instead of sliding up
@@ -2423,10 +2418,8 @@ export function FeedCard({
                          when a reference ID exists, it shows the staff answer's
                          photos + diagnostic marks. On no-reference clips we skip
                          the whole pane and let the +1 bonus chip carry the
-                         messaging. The headless resolver fetches the reference's
-                         canonical scientific name (the visible "Ecological
-                         likelihood" panel that used to do this was removed).
-                         The reference name comes from the stats response ONLY.
+                         messaging. The reference's common and scientific names
+                         both come from the stats response ONLY.
                          The page props carry no staffAnswer (it is a label, so it
                          must not reach the browser before an answer), and the
                          stats route sends it only once this spotter's answer is
@@ -2435,12 +2428,9 @@ export function FeedCard({
                     {(() => {
                       const referenceAnswer = stats!.staffAnswer ?? null;
                       if (referenceAnswer === null) return null;
+                      const staffScientific = stats!.staffAnswerScientific ?? null;
                       return (
                         <>
-                          <StaffScientificResolver
-                            snippetId={snippet.id}
-                            onResolve={setStaffScientific}
-                          />
                           {/* S2-T08 inline gallery, sits between the staff
                                answer line and the IdGuide trigger row.
                                SpeciesGallery hides itself silently when the

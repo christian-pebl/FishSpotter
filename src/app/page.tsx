@@ -13,11 +13,10 @@ import { SpeciesMarquee, type MarqueeSpecies } from "@/components/landing/Specie
 import { DeferredImg } from "@/components/DeferredImg";
 import { FARMS } from "@/lib/farms/catalogue";
 import { TILE_SIZES, optimizerHosts, sizedImage } from "@/lib/sized-image";
-import { thumbnailSrc } from "@/lib/thumbnail-src";
 
 // Hardening (conference prep): the landing page (the demo URL) renders the same
-// for everyone (5 global queries, no per-user data), so ISR caches it. A QR-code
-// crowd then hits a cached render (~1 rebuild/min) instead of re-running all 5
+// for everyone (4 global queries, no per-user data), so ISR caches it. A QR-code
+// crowd then hits a cached render (~1 rebuild/min) instead of re-running all 4
 // queries on every request. Counts are at most 60s stale, which is fine here.
 export const revalidate = 60;
 
@@ -60,20 +59,17 @@ const HERO_PREVIEW_VIDEO_URL = "/hero/velvet-crab-preview.mp4";
 const HERO_PREVIEW_POSTER_URL = "/hero/velvet-crab-preview-3x4.webp";
 
 export default async function HomePage() {
-  const [pinnedHero, featuredCandidates, clips, idsMade, photoRows] = await Promise.all([
+  // The hero is the pinned clip and nothing else. Only its `site` is read: the
+  // video and poster are local files (see above), so no URL, no label and no
+  // other column of a clip is fetched for the home page. There used to be a
+  // fallback to "the newest clip whose staffAnswer names a catalogue species",
+  // which would have captioned unrelated footage "Velvet crab" (the chips below
+  // are fixed for the pinned clip) and downloaded a full-size master as the
+  // hero. If the pinned row is ever missing the card is left out instead.
+  const [pinnedHero, clips, idsMade, photoRows] = await Promise.all([
     prisma.snippet.findUnique({
       where: { externalId: HERO_CLIP_EXTERNAL_ID },
-      select: { videoUrl: true, thumbnailUrl: true, staffAnswer: true, site: true },
-    }),
-    // Fetch top 25 so we can pick the first whose staffAnswer resolves to
-    // a real catalogue species, skipping junk labels like "Fish" or "Crab".
-    // Stable ordering via id tiebreaker (recordingDatetime is a nullable
-    // string, so id ensures deterministic results when datetimes tie).
-    prisma.snippet.findMany({
-      where: { staffAnswer: { not: null }, ...excludeBlockedSnippetsWhere() },
-      orderBy: [{ recordingDatetime: "desc" }, { id: "desc" }],
-      take: 25,
-      select: { videoUrl: true, thumbnailUrl: true, staffAnswer: true, site: true },
+      select: { site: true },
     }),
     prisma.snippet.count({ where: excludeBlockedSnippetsWhere() }),
     // T-22: "identifications made" grows per-play and reads positively; the raw
@@ -95,14 +91,6 @@ export default async function HomePage() {
   // The image optimizer only serves hosts next.config.mjs whitelists; resolved
   // once here on the server and passed down, so no client code reads env.
   const imageHosts = optimizerHosts();
-
-  // Prefer the pinned velvet-crab clip; fall back to a clip whose staffAnswer
-  // maps to a real catalogue species, then to the newest clip.
-  const featured =
-    pinnedHero ??
-    featuredCandidates.find((r) => COMMON_NAMES.includes(displayName(r.staffAnswer!))) ??
-    featuredCandidates[0] ??
-    null;
 
   // All species the ID system can recognise.
   const speciesCount = COMMON_NAMES.length;
@@ -137,7 +125,7 @@ export default async function HomePage() {
           className="relative pt-2 md:pt-6"
           aria-labelledby="hero-heading"
         >
-          <div className={`relative grid items-center gap-8 md:gap-12 ${featured ? "md:grid-cols-[1.05fr_0.95fr]" : ""}`}>
+          <div className={`relative grid items-center gap-8 md:gap-12 ${pinnedHero ? "md:grid-cols-[1.05fr_0.95fr]" : ""}`}>
             <div>
               {/* The brand wordmark now lives discreetly in the header; the hero
                   leads with the value-proposition headline. */}
@@ -187,13 +175,13 @@ export default async function HomePage() {
               </p>
             </div>
 
-            {featured && (
+            {pinnedHero && (
               <HeroPreview
-                videoUrl={pinnedHero ? HERO_PREVIEW_VIDEO_URL : featured.videoUrl}
-                poster={pinnedHero ? HERO_PREVIEW_POSTER_URL : thumbnailSrc(featured.thumbnailUrl)}
+                videoUrl={HERO_PREVIEW_VIDEO_URL}
+                poster={HERO_PREVIEW_POSTER_URL}
                 answer="Velvet crab"
                 distractors={["Brown crab", "Hermit crab", "Spider crab"]}
-                site={siteLabel(featured.site)}
+                site={siteLabel(pinnedHero.site)}
               />
             )}
           </div>

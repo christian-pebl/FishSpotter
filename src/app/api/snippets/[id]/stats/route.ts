@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { bucketAnswersByNormalized } from "@/lib/answer-histogram";
 import { consensusSummary } from "@/lib/consensus";
 import { prisma } from "@/lib/prisma";
+import { normaliseCommonName } from "@/lib/biodiversity/gbif-match";
 
 // Blind submission. The community histogram IS the answer on this app (the
 // crowd is the authority and the consensus payout follows it), so it is only
@@ -18,6 +19,12 @@ import { prisma } from "@/lib/prisma";
 // is a label, so it rides only on the answered response below, never on
 // GATED_BODY and never in the page props (see /feed/page.tsx). The reveal uses
 // it to pick the species photo gallery, which is the only thing it still does.
+// Its scientific name (`staffAnswerScientific`) rides with it. That name used to
+// come from GET /probability, but that route is cached at the edge by URL alone:
+// measured on production on 16 Nov 2026, a request carrying a session cookie was
+// served the same anonymous copy (X-Vercel-Cache: HIT), so a signed-in spotter
+// never received the name and the gallery stayed empty. This route is
+// private, no-store, so the per-user answer cannot be shared or replayed.
 //
 // CACHING: nothing on this route may be stored by a shared cache.
 //  - Vercel's CDN keys on the URL, not the cookie (a request carrying a cookie
@@ -84,11 +91,21 @@ export async function GET(
     }))
     .sort((a, b) => b.count - a.count);
 
+  // An empty or missing reference has nothing to look up (and no gallery).
+  const staffAnswerScientific = snippet.staffAnswer
+    ? ((
+        await prisma.speciesNameMap.findUnique({
+          where: { commonName: normaliseCommonName(snippet.staffAnswer) },
+        })
+      )?.scientificName ?? null)
+    : null;
+
   return NextResponse.json(
     {
       total,
       stats,
       staffAnswer: snippet.staffAnswer,
+      staffAnswerScientific,
       hasReference: snippet.staffAnswer !== null,
       consensus: consensusSummary(stats, total),
     },

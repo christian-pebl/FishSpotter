@@ -17,6 +17,7 @@ const session = vi.hoisted(() => ({
 }));
 const prismaMock = vi.hoisted(() => ({
   snippet: { findUnique: vi.fn() },
+  speciesNameMap: { findUnique: vi.fn() },
   answer: { findFirst: vi.fn(), findMany: vi.fn() },
 }));
 
@@ -144,7 +145,47 @@ describe("GET /api/snippets/[id]/stats", () => {
 
     const body = await (await get()).json();
     expect(body.staffAnswer).toBeNull();
+    expect(body.staffAnswerScientific).toBeNull();
     expect(body.hasReference).toBe(false);
+    // Nothing to look up, so the name map is never asked.
+    expect(prismaMock.speciesNameMap.findUnique).not.toHaveBeenCalled();
+  });
+
+  it("gives an answered spotter the reference's scientific name, looked up by its common name", async () => {
+    // The reveal's species gallery needs it. It used to come from /probability,
+    // which the edge serves from one shared copy (a session cookie made no
+    // difference on production), so a signed-in spotter never received it.
+    session.current = { user: { id: "u1" } };
+    prismaMock.answer.findFirst.mockResolvedValue({ id: "a1" });
+    prismaMock.speciesNameMap.findUnique.mockResolvedValue({ scientificName: "Necora puber" });
+
+    const body = await (await get()).json();
+    expect(body.staffAnswerScientific).toBe("Necora puber");
+    // Looked up by the normalised common name, as the old route did.
+    expect(prismaMock.speciesNameMap.findUnique).toHaveBeenCalledTimes(1);
+    expect(prismaMock.speciesNameMap.findUnique.mock.calls[0][0].where.commonName).toBe("velvet crab");
+  });
+
+  it("returns a null scientific name when the common name is not in the map", async () => {
+    session.current = { user: { id: "u1" } };
+    prismaMock.answer.findFirst.mockResolvedValue({ id: "a1" });
+    prismaMock.speciesNameMap.findUnique.mockResolvedValue(null);
+
+    const body = await (await get()).json();
+    expect(body.staffAnswer).toBe(REFERENCE);
+    expect(body.staffAnswerScientific).toBeNull();
+  });
+
+  it("never carries the scientific name unless the spotter has answered", async () => {
+    prismaMock.speciesNameMap.findUnique.mockResolvedValue({ scientificName: "Necora puber" });
+    const bodies = [await (await get()).text()];
+    session.current = { user: { id: "u1" } };
+    bodies.push(await (await get()).text());
+    for (const text of bodies) {
+      expect(text).not.toContain("staffAnswerScientific");
+      expect(text).not.toContain("Necora");
+    }
+    expect(prismaMock.speciesNameMap.findUnique).not.toHaveBeenCalled();
   });
 
   it("keeps the reference identification off every response that is not an answered 200", async () => {
