@@ -41,7 +41,6 @@ type FeedSnippetRow = {
   thumbnailUrl: string;
   site: string;
   deployment: string;
-  staffAnswer: string | null;
   lat: number | null;
   lon: number | null;
   depthM: number | null;
@@ -91,6 +90,10 @@ export default async function FeedPage({
   // shuffles on top of that, so any future tie-break (within the same
   // shuffle bucket) is stable on insert order.
   //
+  // staffAnswer is deliberately NOT selected. It is a label for the clip, so it
+  // must not reach the browser before the spotter has answered: the reveal reads
+  // it from GET /api/snippets/[id]/stats once an Answer row exists.
+  //
   // difficultyScore now rides the typed select. It used to need a second
   // `SELECT id, "difficultyScore" FROM "Snippet"` via $queryRaw, because the
   // column was added while a native-binary lock from concurrent dev processes
@@ -109,7 +112,6 @@ export default async function FeedPage({
         thumbnailUrl: true,
         site: true,
         deployment: true,
-        staffAnswer: true,
         lat: true,
         lon: true,
         depthM: true,
@@ -244,7 +246,6 @@ export default async function FeedPage({
       thumbnailUrl: snippet.thumbnailUrl,
       site: snippet.site,
       deployment: snippet.deployment,
-      staffAnswer: snippet.staffAnswer,
       // null here is "not loaded yet", not "no track". FeedPlayer fetches it
       // when the card comes into range; a snippet with genuinely no track
       // resolves to null again and renders exactly as it does today.

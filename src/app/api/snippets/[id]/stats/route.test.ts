@@ -28,6 +28,9 @@ import { GET } from "./route";
 
 const SNIPPET_ID = "clip1";
 
+/** The clip's reference identification: a label, so it must not leak. */
+const REFERENCE = "Velvet crab";
+
 /** Seven answers on the clip: six agree, one does not. */
 const CROWD = [
   ...Array.from({ length: 6 }, () => ({ chosenOption: "Ballan wrasse", isCorrect: null })),
@@ -50,7 +53,7 @@ function sharedCacheMayStore(res: Response): boolean {
 describe("GET /api/snippets/[id]/stats", () => {
   beforeEach(() => {
     session.current = null;
-    prismaMock.snippet.findUnique.mockResolvedValue({ id: SNIPPET_ID });
+    prismaMock.snippet.findUnique.mockResolvedValue({ id: SNIPPET_ID, staffAnswer: REFERENCE });
     prismaMock.answer.findFirst.mockResolvedValue(null);
     prismaMock.answer.findMany.mockResolvedValue(CROWD);
   });
@@ -67,6 +70,10 @@ describe("GET /api/snippets/[id]/stats", () => {
     // The leak was the species name itself, so check the raw body too.
     expect(text).not.toContain("wrasse");
     expect(text).not.toContain("consensus");
+    // Nor the clip's reference identification, under any key.
+    expect(text).not.toContain("staffAnswer");
+    expect(text).not.toContain("hasReference");
+    expect(text).not.toContain(REFERENCE);
 
     expect(prismaMock.snippet.findUnique).not.toHaveBeenCalled();
     expect(prismaMock.answer.findFirst).not.toHaveBeenCalled();
@@ -80,6 +87,11 @@ describe("GET /api/snippets/[id]/stats", () => {
     const text = await res.text();
     expect(JSON.parse(text)).toEqual({ gated: true, total: 0, stats: [] });
     expect(text).not.toContain("wrasse");
+    // The route read the clip (it needs it for the 404), but its reference
+    // identification must not be in what it sent back.
+    expect(text).not.toContain("staffAnswer");
+    expect(text).not.toContain("hasReference");
+    expect(text).not.toContain(REFERENCE);
 
     // The gate asked about THIS spotter on THIS clip...
     expect(prismaMock.answer.findFirst).toHaveBeenCalledWith({
@@ -110,11 +122,47 @@ describe("GET /api/snippets/[id]/stats", () => {
       { option: "Ballan wrasse", count: 6, percent: 86 },
       { option: "Crab", count: 1, percent: 14 },
     ]);
-    expect(body.hasReference).toBe(false);
     expect(body.consensus).toMatchObject({
       spotters: 7,
       leader: { option: "Ballan wrasse", users: 6 },
     });
+  });
+
+  it("gives a spotter who has answered the clip's reference identification", async () => {
+    session.current = { user: { id: "u1" } };
+    prismaMock.answer.findFirst.mockResolvedValue({ id: "a1" });
+
+    const body = await (await get()).json();
+    expect(body.staffAnswer).toBe(REFERENCE);
+    expect(body.hasReference).toBe(true);
+  });
+
+  it("reports no reference for an answered clip that has none yet", async () => {
+    session.current = { user: { id: "u1" } };
+    prismaMock.answer.findFirst.mockResolvedValue({ id: "a1" });
+    prismaMock.snippet.findUnique.mockResolvedValue({ id: SNIPPET_ID, staffAnswer: null });
+
+    const body = await (await get()).json();
+    expect(body.staffAnswer).toBeNull();
+    expect(body.hasReference).toBe(false);
+  });
+
+  it("keeps the reference identification off every response that is not an answered 200", async () => {
+    // Signed out, signed in but not answered, and not found: none may carry it.
+    const bodies: string[] = [];
+    bodies.push(await (await get()).text());
+
+    session.current = { user: { id: "u1" } };
+    bodies.push(await (await get()).text());
+
+    prismaMock.snippet.findUnique.mockResolvedValue(null);
+    prismaMock.answer.findFirst.mockResolvedValue({ id: "a1" });
+    bodies.push(await (await get("nope")).text());
+
+    for (const text of bodies) {
+      expect(text).not.toContain("staffAnswer");
+      expect(text).not.toContain(REFERENCE);
+    }
   });
 
   it("answers 404 for a clip that does not exist, to a signed-in spotter", async () => {

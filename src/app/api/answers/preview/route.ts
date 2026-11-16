@@ -19,6 +19,14 @@ import { consensusSummary } from "@/lib/consensus";
 // authority. The reveal shows the community histogram (gated behind the guess,
 // so the submission stays blind) and the consensus state; there is no
 // correct/wrong grade.
+//
+// This route never returns the clip's reference identification (`staffAnswer`).
+// A signed-in spotter gets it from GET /api/snippets/[id]/stats after their
+// answer is saved, and it only drives the species photo gallery, which a guest
+// cannot see anyway (GET /api/snippets/[id]/probability withholds the reference
+// species from anyone without a saved answer). This endpoint needs no proof the
+// clip was watched, so sending a label through it would buy a guest nothing and
+// give a script one more field to harvest.
 
 const MAX_ANSWER_LENGTH = 80;
 

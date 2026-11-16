@@ -95,8 +95,9 @@ export interface FeedSnippet {
   thumbnailUrl: string;
   site: string;
   deployment: string;
-  /** Reference identification. Null when the snippet has no reference yet (S7-T1). */
-  staffAnswer: string | null;
+  // No staffAnswer here, on purpose. The reference identification is a label,
+  // so the page never ships it; the reveal gets it from the stats route after
+  // the spotter has answered.
   bboxes: BBoxFrame[] | null;
   /** Hand-marked centre path. When present, FeedCard draws its trail from this
    *  in preference to the auto bboxes (it is the cleaner signal). */
