@@ -42,6 +42,7 @@ import { CATALOGUE } from "@/lib/idguide/catalogue";
 import { ADMIN_EMAIL_SUFFIX } from "@/lib/admin-email";
 import { countActiveIdSpotters } from "@/lib/metrics/series";
 import { cappedWatchSeconds } from "@/lib/watch-time";
+import { tallyVitals } from "@/lib/web-vitals-rating";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -58,6 +59,7 @@ export const ROUNDUP_CAVEATS: readonly string[] = [
   "Answer.points was scaled x10 by the 18 Jun 2026 Pebbles migration, so any cross-period Pebble comparison is apples-to-oranges.",
   "Watch time caps each tab at 5 minutes on any one clip (applied to all rows), and from 7 Oct 2026 the browser stops counting 2 minutes after the viewer's last input, so a tab left looping is not counted as viewing.",
   "idSpottersLast30d is the Atlas OP 3.2 figure: spotters with an ID in the 30 UTC days up to and including today (the /admin/metrics card on its last day), PEBL staff excluded. A guest whose login lapsed comes back as a new account, so a returning guest can occasionally count twice.",
+  "Web-vitals 'good' counts come from a 10% sample of sessions. Samples stored before 24 Nov 2026 carry no rating and are rated from their value with Google's bands (LCP 2.5 s, INP 200 ms, CLS 0.1), the same ones web-vitals applies in the browser.",
 ];
 
 export interface Roundup {
@@ -186,6 +188,7 @@ export async function computeRoundup(
     settledIds,
     matched,
     vitalsGroups,
+    unratedVitals,
     sessions,
     sessionsInWindow,
     clipViewsCount,
@@ -219,7 +222,15 @@ export async function computeRoundup(
     prisma.unlockedSpecies.groupBy({ by: ["userId"], _count: { _all: true } }),
     prisma.answer.count({ where: { isCorrect: { not: null } } }),
     prisma.answer.count({ where: { isCorrect: true } }),
-    prisma.vital.groupBy({ by: ["name", "rating"], _count: { _all: true } }),
+    prisma.vital.groupBy({
+      by: ["name", "rating"],
+      where: { rating: { not: null } },
+      _count: { _all: true },
+    }),
+    // Rows stored before 24 Nov 2026 carry no rating (the reporter never sent
+    // one), so they are rated here from their value. A fixed set of a few
+    // hundred rows: every row written since has its rating.
+    prisma.vital.findMany({ where: { rating: null }, select: { name: true, value: true } }),
     prisma.event.count({ where: { type: "session_start" } }),
     prisma.event.count({ where: { type: "session_start", createdAt: { gte: since } } }),
     prisma.event.count({ where: { type: "clip_view" } }),
@@ -361,12 +372,10 @@ export async function computeRoundup(
   const bySite: Record<string, number> = {};
   for (const g of bySiteGroups) bySite[g.site] = g._count._all;
 
-  const vitalsByName: Record<string, { good: number; total: number }> = {};
-  for (const g of vitalsGroups) {
-    const e = (vitalsByName[g.name] ??= { good: 0, total: 0 });
-    e.total += g._count._all;
-    if (g.rating === "good") e.good += g._count._all;
-  }
+  const vitalsByName = tallyVitals(
+    vitalsGroups.map((g) => ({ name: g.name, rating: g.rating, count: g._count._all })),
+    unratedVitals,
+  );
 
   const totalPebbles = totalPebblesAgg._sum.points ?? 0;
   const allowedWatch = cappedWatchSeconds(watchRows);

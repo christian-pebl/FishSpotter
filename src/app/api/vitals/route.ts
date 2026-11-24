@@ -14,6 +14,7 @@ import { prisma } from "@/lib/prisma";
 import { assertSameOrigin } from "@/lib/csrf";
 import { clientIpKey } from "@/lib/client-ip";
 import { checkVitalsRateLimit } from "@/lib/rate-limit";
+import { VITAL_RATINGS, rateVital } from "@/lib/web-vitals-rating";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +24,9 @@ const Schema = z.object({
   id: z.string().min(1).max(64),
   path: z.string().min(1).max(200),
   ua: z.string().max(220).optional(),
+  // web-vitals' own band. Optional because bundles cached from before
+  // 24 Nov 2026 do not send it.
+  rating: z.enum(VITAL_RATINGS).optional(),
 });
 
 export async function POST(req: Request) {
@@ -52,11 +56,15 @@ export async function POST(req: Request) {
   // run) or any transient DB error degrades to "logged but not stored"
   // rather than failing the beacon. The metric's client `id` is validated
   // for shape but not stored (the Vital row has its own cuid primary key).
+  // The rating is derived from the value for every metric with known bands,
+  // so a stored rating always agrees with its value; the client's rating is
+  // kept only for a metric we have no bands for.
   try {
     await prisma.vital.create({
       data: {
         name: parsed.name,
         value: parsed.value,
+        rating: rateVital(parsed.name, parsed.value) ?? parsed.rating ?? null,
         path: parsed.path,
         ua: parsed.ua ?? null,
       },

@@ -6,9 +6,9 @@ const SAMPLE_RATE = 0.1; // 10% of sessions report to /api/vitals.
 
 /**
  * Web-vitals sampler (S4-16). Loads `web-vitals` dynamically so it
- * doesn't bloat the initial JS bundle. Reports LCP / CLS / INP for
- * a 10% slice of sessions. The receiving route writes nothing to
- * the DB yet, a future ticket can persist to a `Vital` table.
+ * doesn't bloat the initial JS bundle. Reports LCP / CLS / INP, with
+ * web-vitals' own good / needs-improvement / poor rating, for a 10%
+ * slice of sessions. /api/vitals stores each sample in the `Vital` table.
  */
 export function WebVitalsReporter() {
   useEffect(() => {
@@ -19,12 +19,13 @@ export function WebVitalsReporter() {
     import("web-vitals")
       .then((wv) => {
         if (cancelled) return;
-        const report = (metric: { name: string; value: number; id: string }) => {
+        const report = (metric: { name: string; value: number; id: string; rating: string }) => {
           try {
             const body = JSON.stringify({
               name: metric.name,
               value: metric.value,
               id: metric.id,
+              rating: metric.rating,
               path: window.location.pathname,
               ua: navigator.userAgent.slice(0, 200),
             });
