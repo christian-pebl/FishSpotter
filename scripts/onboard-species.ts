@@ -26,6 +26,7 @@
  * marks step is skipped with a clear notice (so it can't silently no-op).
  */
 import { spawnSync } from "node:child_process";
+import path from "node:path";
 import speciesTraitsData from "../src/data/species-traits.json";
 import { P2_MARK_DRAFTS } from "./data/p2-mark-drafts";
 
@@ -86,10 +87,19 @@ function buildSteps(species: string, opts: { skipGallery: boolean; skipMarks: bo
   return steps;
 }
 
+// Run tsx's CLI with this same node binary rather than `npx`. On Windows `npx`
+// is `npx.cmd`, which spawnSync cannot start without a shell, so every step
+// failed at once (found 24 Nov 2026 onboarding Homarus gammarus); and adding a
+// shell would split a binomial like "Homarus gammarus" into two arguments.
+// Going through node directly needs neither and behaves the same on every OS.
+const TSX_CLI = path.join(process.cwd(), "node_modules", "tsx", "dist", "cli.mjs");
+
 function runStep(step: Step): boolean {
-  const args = ["tsx", "--env-file=.env.local", step.script, ...step.args];
-  console.log(`\n▶ ${step.name}${step.needsGemini ? "  (Gemini)" : ""}\n  npx ${args.join(" ")}`);
-  const res = spawnSync("npx", args, { stdio: "inherit" });
+  const args = ["--env-file=.env.local", step.script, ...step.args];
+  const shown = args.map((a) => (/\s/.test(a) ? `"${a}"` : a)).join(" ");
+  console.log(`\n▶ ${step.name}${step.needsGemini ? "  (Gemini)" : ""}\n  npx tsx ${shown}`);
+  const res = spawnSync(process.execPath, [TSX_CLI, ...args], { stdio: "inherit" });
+  if (res.error) console.error(`  could not start: ${res.error.message}`);
   if (res.status === 0) return true;
   console.error(`\n✗ ${step.name} exited with ${res.status ?? res.signal ?? "an error"}`);
   return false;

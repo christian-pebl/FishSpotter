@@ -6304,6 +6304,14 @@
     "https://www.inaturalist.org/observations/99691798": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
+    },
+    "https://www.inaturalist.org/observations/252427919": {
+      "reason": "larva",
+      "scientificName": "Homarus gammarus"
+    },
+    "https://www.inaturalist.org/observations/255398324": {
+      "reason": "larva",
+      "scientificName": "Homarus gammarus"
     }
   }
 }
