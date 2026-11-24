@@ -283,4 +283,26 @@ describe.skipIf(!url)("computeRoundup (integration)", () => {
     expect(r.retention.returnRate).toBeNull();
     expect(r.learning.consensusAccuracy).toBeNull();
   });
+
+  it("rates web-vitals rows stored without a rating from their value", async () => {
+    // Every row written before 24 Nov 2026 has rating null; the roundup used to
+    // count them as "good 0 of N".
+    await prisma.vital.createMany({
+      data: [
+        { name: "LCP", value: 1800, rating: null },
+        { name: "LCP", value: 2988, rating: null },
+        { name: "LCP", value: 2100, rating: "good" },
+        { name: "LCP", value: 4500, rating: "poor" },
+        { name: "INP", value: 120, rating: null },
+        { name: "CLS", value: 0.191, rating: null },
+      ],
+    });
+
+    const r = await computeRoundup(prisma, { now: NOW });
+    expect(r.content.vitals).toEqual({
+      LCP: { good: 2, total: 4 },
+      INP: { good: 1, total: 1 },
+      CLS: { good: 0, total: 1 },
+    });
+  });
 });

@@ -2975,3 +2975,10 @@ Three small things found while reviewing the 12 Nov change that stopped clips sh
 - **The home page hero reads one column of one clip.** It selected the pinned clip's label and URLs, and the newest 25 clips', to fall back to "the newest clip that names a species". None of that reached the page, but the fallback would have captioned unrelated footage "Velvet crab" and downloaded a full-size master as the hero. The hero is now the pinned clip only (its `site`), and the card is left out if that row is ever missing. One query fewer on each regeneration.
 
 Tests: the hook (five cases, three of which fail on the old effect), the stats route (name returned only after an answer, null when unmapped), the probability route (identical for any caller, no reference), and the home page (what it reads, what it ships, the missing-clip case).
+
+## 24 Nov 2026: web-vitals samples carry their rating
+
+- **The roundup's web-vitals line no longer reads "good 0 of N".** The reporter sent no rating and `/api/vitals` stored none, so all 466 `Vital` rows had `rating` null and the roundup counted none of them as good. The reporter now sends web-vitals' own rating, and the route stores one with every sample, derived from the value with Google's bands (`src/lib/web-vitals-rating.ts`, checked against the thresholds the installed web-vitals exports) so a stored rating always agrees with its value. The roundup rates the old null rows from their value, so they count too. No data was migrated.
+- Checked read-only against production on 24 Nov 2026 (466 rows, 13 Jun to 24 Nov): the roundup read good 0 of 177 (LCP), 0 of 172 (CLS) and 0 of 117 (INP); with the old rows rated it reads 115 of 177, 121 of 172 and 80 of 117. The 75th percentiles (interpolated) are LCP 2,988 ms, INP 256 ms and CLS 0.191, each in the "needs improvement" band.
+
+Tests: the thresholds and tally (`web-vitals-rating.test.ts`), the route (six cases, all of which fail on the old route), and a real-Postgres roundup case with null and rated rows mixed.
