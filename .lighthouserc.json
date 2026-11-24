@@ -7,8 +7,9 @@
         "http://localhost:3000/feed/browse",
         "http://localhost:3000/leaderboard"
       ],
-      "startServerCommand": "npm run build && npm run start",
+      "startServerCommand": "npm run start",
       "startServerReadyPattern": "Ready",
+      "startServerReadyTimeout": 60000,
       "numberOfRuns": 2,
       "settings": { "preset": "desktop" }
     },
