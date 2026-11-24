@@ -35,6 +35,7 @@ const QUESTIONS: Partial<Record<TraitKey, Record<string, string>>> = {
     swimming: "Does the last pair of legs end in flattened swimming paddles?",
     spider: "Is it a spider crab, triangular shell with long spindly legs?",
     hermit: "Is it a hermit crab, living inside an empty snail shell?",
+    lobster: "Does it have a long jointed tail behind the shell and a big pair of claws?",
   },
   carapaceTexture: {
     smooth: "Is the shell smooth?",

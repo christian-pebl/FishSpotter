@@ -58,6 +58,7 @@ export const SUB_SPLITS: Partial<Record<ShapeClass, SubSplit>> = {
       },
       { value: "spider", label: "Triangular, long legs (spider)" },
       { value: "hermit", label: "In a shell (hermit)" },
+      { value: "lobster", label: "Long tail, big claws (lobster)" },
     ],
   },
   fish: {

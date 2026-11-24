@@ -1408,6 +1408,43 @@
     ],
     "fieldNote": "Unmistakable once you've seen one: a broad reddish-brown shell with a crimped 'pie-crust' edge and big black-tipped pincers. Small ones hide under stones on the lower shore, while the dinner-plate-sized adults live in deeper water."
   },
+  "Homarus gammarus": {
+    "commonName": "European Lobster",
+    "shapeClass": "crab",
+    "bodyShape": [],
+    "size": "large",
+    "coloration": [
+      "uniform"
+    ],
+    "markings": [
+      "none"
+    ],
+    "finShape": [],
+    "features": [
+      "none"
+    ],
+    "behavior": [
+      "on-bottom",
+      "hiding",
+      "solitary"
+    ],
+    "habitat": [
+      "rocky-crevice"
+    ],
+    "movement": [
+      "crawl"
+    ],
+    "carapaceTexture": [
+      "smooth"
+    ],
+    "crabFeatures": [
+      "none"
+    ],
+    "crabForm": [
+      "lobster"
+    ],
+    "fieldNote": "A long jointed tail behind the shell and two big, unequal claws held out in front, with long red antennae. Dark blue-black on the seabed, never the red of a cooked one. It sits in a crevice or under a ledge by day and walks out to feed at dusk and night."
+  },
   "Necora puber": {
     "commonName": "Velvet Swimming Crab",
     "shapeClass": "crab",

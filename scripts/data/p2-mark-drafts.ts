@@ -439,6 +439,24 @@ export const P2_MARK_DRAFTS: Record<string, Feature[]> = {
         "A grey coat marked with bold irregular dark blotches; a big, heavy seal (bulls up to 2.5 m).",
     },
   ],
+  // ---- Lobster (added 24 Nov 2026, Norfolk NORF-4 clip) ----
+  "Homarus gammarus": [
+    {
+      label: "Two big unequal claws",
+      description:
+        "A heavy pair of claws held out in front, one a broad crusher and the other a slimmer cutter. No crab carries claws this size.",
+    },
+    {
+      label: "Long jointed tail",
+      description:
+        "A segmented tail runs out behind the shell and ends in a tail fan, so the body is long, not round like a crab's.",
+    },
+    {
+      label: "Long red antennae",
+      description:
+        "Two long antennae sweep back from the head, often reddish against the dark blue-black body (a live lobster is not red).",
+    },
+  ],
   "Phoca vitulina": [
     {
       label: "Short dished 'puppy' face",

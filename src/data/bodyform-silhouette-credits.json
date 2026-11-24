@@ -243,5 +243,12 @@
     "attribution": "PEBL CIC (original silhouette)",
     "license": "CC0 1.0",
     "source": "https://fish-spotter.vercel.app"
+  },
+  "lobster": {
+    "taxon": "Homarus gammarus (Nephropidae)",
+    "imageUuid": "8d538340-49b0-4950-8dbc-ad4942363bb5",
+    "attribution": "Public Domain (CC0 1.0), via PhyloPic",
+    "license": "CC0 1.0",
+    "source": "https://www.phylopic.org/images/8d538340-49b0-4950-8dbc-ad4942363bb5"
   }
 }
