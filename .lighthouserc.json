@@ -5,7 +5,7 @@
         "http://localhost:3000/",
         "http://localhost:3000/feed",
         "http://localhost:3000/feed/browse",
-        "http://localhost:3000/leaderboard"
+        "http://localhost:3000/pebbles"
       ],
       "startServerCommand": "npm run start",
       "startServerReadyPattern": "Ready",

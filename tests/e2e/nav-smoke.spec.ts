@@ -4,7 +4,7 @@ const PUBLIC_ROUTES = [
   { path: "/", title: /FishSpotter/i },
   { path: "/feed", title: /FishSpotter/i },
   { path: "/feed/browse", title: /FishSpotter/i },
-  { path: "/leaderboard", title: /FishSpotter/i },
+  { path: "/pebbles", title: /FishSpotter/i },
   { path: "/about", title: /FishSpotter/i },
   { path: "/auth/signin", title: /FishSpotter/i },
 ] as const;
@@ -29,6 +29,12 @@ for (const route of PUBLIC_ROUTES) {
     expect(real, `${route.path} produced console errors`).toEqual([]);
   });
 }
+
+// /leaderboard is kept only as a redirect to /pebbles for old links.
+test("/leaderboard still lands on /pebbles", async ({ page }) => {
+  await page.goto("/leaderboard");
+  await page.waitForURL(/\/pebbles$/);
+});
 
 test("404: unmatched route shows branded not-found", async ({ page }) => {
   const response = await page.goto("/this-route-does-not-exist");
