@@ -482,6 +482,18 @@
         "ordering": 1
       }
     ],
+    "Homarus gammarus": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Homarus_gammarus_239918972.jpg",
+        "thumbUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Homarus_gammarus_239918972.jpg/500px-Homarus_gammarus_239918972.jpg",
+        "attribution": "Klaus Kevin Kristensen, CC BY 4.0 via Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Homarus_gammarus_239918972.jpg",
+        "license": "cc-by",
+        "lifeStage": "adult",
+        "sex": null,
+        "ordering": 1
+      }
+    ],
     "Necora puber": [
       {
         "url": "https://inaturalist-open-data.s3.amazonaws.com/photos/439118717/medium.jpeg",

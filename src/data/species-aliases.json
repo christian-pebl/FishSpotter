@@ -151,6 +151,10 @@
     "commonName": "Edible Crab",
     "aliases": ["brown crab", "Cancer"]
   },
+  "Homarus gammarus": {
+    "commonName": "European Lobster",
+    "aliases": ["lobster", "common lobster", "Homarus"]
+  },
   "Necora puber": {
     "commonName": "Velvet Swimming Crab",
     "aliases": ["velvet crab", "devil crab", "Necora"]

@@ -7,6 +7,7 @@
  * (mirrors the shape-class silhouette pattern).
  *
  * Run: node scripts/fetch-bodyform-silhouettes.cjs
+ *      node scripts/fetch-bodyform-silhouettes.cjs --only lobster   (one file; keeps the rest as committed)
  */
 const fs = require("fs");
 const path = require("path");
@@ -49,6 +50,17 @@ const TARGETS = [
     license: "CC0 1.0",
     attribution: "Kurtis Wothe, via PhyloPic",
     source: "https://www.phylopic.org/images/d2064615-2851-40c8-b99c-f7e5669958ee",
+  },
+  {
+    file: "lobster",
+    uuid: "8d538340-49b0-4950-8dbc-ad4942363bb5",
+    taxon: "Homarus gammarus (Nephropidae)",
+    license: "CC0 1.0",
+    attribution: "Public Domain (CC0 1.0), via PhyloPic",
+    source: "https://www.phylopic.org/images/8d538340-49b0-4950-8dbc-ad4942363bb5",
+    // PhyloPic draws it head-up (633 x 1536); the other tiles are landscape, so
+    // it is turned a quarter clockwise to lie claws-forward like them.
+    rotate90: true,
   },
   // fish bodyShape -------------------------------------------------------
   {
@@ -208,6 +220,18 @@ async function getVectorUrl(uuid, build) {
   return j?._links?.vectorFile?.href || null;
 }
 
+// Quarter-turn clockwise: swap the viewBox and wrap the drawing in a rotation
+// about the new origin, so the silhouette fills a landscape tile.
+function rotate90(svg) {
+  const m = svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+  if (!m) throw new Error("rotate90: no viewBox");
+  const [w, h] = [Number(m[1]), Number(m[2])];
+  return svg
+    .replace(m[0], `viewBox="0 0 ${h} ${w}"`)
+    .replace(/(<svg[^>]*>)/, `$1<g transform="translate(${h},0) rotate(90)">`)
+    .replace(/<\/svg>\s*$/, "</g></svg>");
+}
+
 function sanitise(svg) {
   let out = svg
     .replace(/fill="(#000000|#000|#010101|black)"/gi, 'fill="currentColor"')
@@ -235,14 +259,17 @@ async function main() {
   try {
     const existing = JSON.parse(fs.readFileSync(creditsPath, "utf8"));
     for (const [k, v] of Object.entries(existing)) {
-      if (v && v.imageUuid == null) credits[k] = v;
+      // --only keeps every other credit as committed; a full run rebuilds the pinned ones.
+      if (v && (v.imageUuid == null || process.argv.includes("--only"))) credits[k] = v;
     }
   } catch {
     // first run, no existing credits file
   }
   let ok = 0;
 
-  for (const t of TARGETS) {
+  const onlyIdx = process.argv.indexOf("--only");
+  const only = onlyIdx !== -1 ? process.argv[onlyIdx + 1] : null;
+  for (const t of only ? TARGETS.filter((x) => x.file === only) : TARGETS) {
     const vectorUrl = await getVectorUrl(t.uuid, build);
     if (!vectorUrl) {
       console.log(`SKIP ${t.file}: no vectorFile href for UUID ${t.uuid}`);
@@ -253,7 +280,7 @@ async function main() {
       console.log(`SKIP ${t.file}: vector looks empty`);
       continue;
     }
-    const svg = sanitise(raw);
+    const svg = t.rotate90 ? rotate90(sanitise(raw)) : sanitise(raw);
     fs.writeFileSync(path.join(outDir, `${t.file}.svg`), svg + "\n");
     credits[t.file] = {
       taxon: t.taxon,

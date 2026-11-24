@@ -260,6 +260,7 @@ export const CRAB_FORM = [
   "swimming", // portunid, broad carapace, flattened paddle on the rear legs (Necora, Liocarcinus)
   "spider", // spider crab, triangular carapace, long spindly legs (Majoidea: Hyas, Maja, Inachus)
   "hermit", // hermit crab, soft body inside a coiled gastropod shell (Pagurus)
+  "lobster", // long jointed tail, a big pair of claws out front (Homarus). Added 24 Nov 2026 after a Norfolk NORF-4 lobster clip.
 ] as const;
 export type CrabForm = (typeof CRAB_FORM)[number];
 
