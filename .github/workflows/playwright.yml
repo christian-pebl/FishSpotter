@@ -27,7 +27,9 @@ jobs:
   e2e:
     needs: check-secrets
     if: needs.check-secrets.outputs.has-db == 'true'
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04, which Playwright's
+    # install --with-deps does not support yet. Unpin once it does.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4

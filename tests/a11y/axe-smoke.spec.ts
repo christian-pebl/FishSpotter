@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const SURFACES = ["/", "/feed", "/feed/browse", "/leaderboard", "/auth/signin"] as const;
+const SURFACES = ["/", "/feed", "/feed/browse", "/pebbles", "/auth/signin"] as const;
 
 for (const path of SURFACES) {
   test(`axe-core: ${path} has no serious or critical violations`, async ({ page }) => {

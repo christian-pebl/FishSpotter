@@ -5,10 +5,11 @@
         "http://localhost:3000/",
         "http://localhost:3000/feed",
         "http://localhost:3000/feed/browse",
-        "http://localhost:3000/leaderboard"
+        "http://localhost:3000/pebbles"
       ],
-      "startServerCommand": "npm run build && npm run start",
+      "startServerCommand": "npm run start",
       "startServerReadyPattern": "Ready",
+      "startServerReadyTimeout": 60000,
       "numberOfRuns": 2,
       "settings": { "preset": "desktop" }
     },

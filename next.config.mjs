@@ -35,6 +35,11 @@ whitelistHost(process.env.R2_PUBLIC_URL);
 // guarantees thumbnails optimize regardless of build-time env. If R2_PUBLIC_URL
 // IS set and resolves to the same host, the dedup below drops the duplicate.
 whitelistHost("https://pub-b0fda9a751144df59165871565716de4.r2.dev");
+// Same for the live Supabase project, which holds every snippet thumbnail
+// today. In GitHub Actions the SUPABASE_URL secret does not yield this host
+// (see the note on whitelistHost), so without this line every page with a
+// thumbnail threw "Invalid src prop" and most e2e tests failed.
+whitelistHost("https://aazxphcrexkggbmmceli.supabase.co");
 
 // Dedup hosts so a present R2_PUBLIC_URL and the literal fallback don't both
 // emit the same pattern.

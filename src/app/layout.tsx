@@ -130,7 +130,10 @@ export default function RootLayout({
           <AgeCheck />
           <AskParentDialog />
           <WebVitalsReporter />
-          <Analytics />
+          {/* Production only: in dev, Analytics loads a debug script from
+              va.vercel-scripts.com, which our CSP blocks, so every page
+              logged a console error and the e2e smoke tests failed. */}
+          {process.env.NODE_ENV === "production" && <Analytics />}
         </SessionProvider>
       </body>
     </html>
