@@ -1,5 +1,5 @@
 import { act, render } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 import { HeroPreview } from "./HeroPreview";
 
 let painted = false;
@@ -26,8 +26,8 @@ const PROPS = {
 /** The poster probe: a stand-in for `new Image()` whose load we trigger by hand. */
 let probes: { src: string; onload: (() => void) | null; onerror: (() => void) | null; complete: boolean }[] = [];
 
-let play: ReturnType<typeof vi.fn>;
-let pause: ReturnType<typeof vi.fn>;
+let play: Mock<() => Promise<void>>;
+let pause: Mock<() => void>;
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -45,8 +45,8 @@ beforeEach(() => {
       }
     },
   );
-  play = vi.fn().mockResolvedValue(undefined);
-  pause = vi.fn();
+  play = vi.fn<() => Promise<void>>().mockResolvedValue(undefined);
+  pause = vi.fn<() => void>();
   vi.spyOn(HTMLMediaElement.prototype, "play").mockImplementation(play);
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(pause);
   vi.stubGlobal("matchMedia", () => ({ matches: false }));

@@ -261,17 +261,21 @@ const redisMockState = vi.hoisted(() => ({
   incrCalls: 0,
 }));
 
+// `function`, not an arrow: rate-limit.ts calls `new Redis(...)`, and since
+// vitest 4 a mock whose implementation is an arrow function cannot be newed.
 vi.mock("@upstash/redis", () => ({
-  Redis: vi.fn().mockImplementation(() => ({
-    incr: vi.fn(async (key: string) => {
-      redisMockState.incrCalls += 1;
-      if (redisMockState.shouldThrow) throw new Error("simulated Upstash outage");
-      const next = (redisMockState.store.get(key) ?? 0) + 1;
-      redisMockState.store.set(key, next);
-      return next;
-    }),
-    expire: vi.fn(async () => 1),
-  })),
+  Redis: vi.fn().mockImplementation(function () {
+    return {
+      incr: vi.fn(async (key: string) => {
+        redisMockState.incrCalls += 1;
+        if (redisMockState.shouldThrow) throw new Error("simulated Upstash outage");
+        const next = (redisMockState.store.get(key) ?? 0) + 1;
+        redisMockState.store.set(key, next);
+        return next;
+      }),
+      expire: vi.fn(async () => 1),
+    };
+  }),
 }));
 
 describe("Redis backend (UPSTASH_REDIS_REST_URL/TOKEN set)", () => {
