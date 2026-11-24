@@ -2,21 +2,36 @@ import { defineConfig } from "vitest/config";
 import { loadEnv } from "vite";
 import path from "node:path";
 
+// Component and route tests need a DOM, so those two trees run under jsdom.
+// Everything else (notably src/lib/**) runs under node. A file can still pick
+// its own with a `// @vitest-environment` comment. Two projects since vitest 4
+// removed `environmentMatchGlobs`, which used to express this mapping.
+const DOM_TREES = ["src/components/**", "src/app/**"];
+const TEST_FILES = "*.{test,spec}.{ts,tsx}";
+// Playwright e2e specs live under tests/ and are not vitest's.
+const NEVER = ["tests/**", "node_modules/**", ".next/**"];
+
 export default defineConfig(({ mode }) => ({
   test: {
-    include: [
-      "src/**/*.{test,spec}.{ts,tsx}",
-      "scripts/**/__tests__/*.{test,spec}.ts",
-    ],
-    // Exclude Playwright e2e specs (they live under tests/).
-    exclude: ["tests/**", "node_modules/**", ".next/**"],
-    // Default environment for pure-logic and scripts tests (the ~36 existing files).
-    environment: "node",
-    // Component and route tests need a DOM, so map those two trees to jsdom.
-    // Everything else (notably src/lib/**) stays on the node default above.
-    environmentMatchGlobs: [
-      ["src/components/**", "jsdom"],
-      ["src/app/**", "jsdom"],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: "node",
+          environment: "node",
+          include: [`src/**/${TEST_FILES}`, "scripts/**/__tests__/*.{test,spec}.ts"],
+          exclude: [...NEVER, ...DOM_TREES],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: "dom",
+          environment: "jsdom",
+          include: DOM_TREES.map((tree) => `${tree}/${TEST_FILES}`),
+          exclude: NEVER,
+        },
+      },
     ],
     // Runs for every test file (node and jsdom): adds jest-dom matchers and a
     // DOM-guarded afterEach cleanup() (see vitest.setup.ts).
@@ -34,6 +49,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   // Use the React 17+ automatic JSX runtime (matches Next's compiler) so
-  // component tests do not need an explicit React import.
-  esbuild: { jsx: "automatic" },
+  // component tests do not need an explicit React import. Vite 8 transforms
+  // with oxc, not esbuild.
+  oxc: { jsx: { runtime: "automatic" } },
 }));
