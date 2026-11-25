@@ -220,8 +220,22 @@ export function titleNamesACongener(title: string | undefined, scientificName: s
 
 /** Width Commons is asked to render the display copy at. */
 export const COMMONS_RENDER_WIDTH = 1280;
-/** Width the small strip thumbnail is derived at. */
-const THUMB_STRIP_WIDTH = 480;
+/**
+ * The only thumbnail widths Commons will render. Since late 2026 any other
+ * width (we used 480) gets HTTP 400 "Use thumbnail sizes listed on
+ * https://w.wiki/GHai", which silently dropped Commons candidates from the
+ * gallery vision pass and broke stored strip thumbnails.
+ */
+export const COMMONS_STANDARD_WIDTHS = [20, 40, 60, 120, 250, 330, 500, 960, 1280, 1920, 3840] as const;
+/** Width the small strip thumbnail is derived at. Must be a standard width. */
+export const THUMB_STRIP_WIDTH = 500;
+
+/** The largest standard Commons width that is not wider than `width`. */
+export function standardWidthAtMost(width: number): number {
+  let best: number = COMMONS_STANDARD_WIDTHS[0];
+  for (const w of COMMONS_STANDARD_WIDTHS) if (w <= width) best = w;
+  return best;
+}
 
 /** Drop the `?utm_source=...` analytics tail the Commons API appends. */
 function stripQuery(url: string): string {
@@ -243,13 +257,14 @@ function scaledOr(thumbUrl: string | undefined, originalUrl: string): string {
  * that rewriting upwards is not. Returns null if the URL is not a thumb path,
  * so the caller falls back rather than inventing one.
  */
-function narrowerThumb(thumbUrl: string | undefined, width: number): string | null {
+export function narrowerThumb(thumbUrl: string | undefined, width: number): string | null {
   if (!thumbUrl) return null;
   const clean = stripQuery(thumbUrl);
   const m = /\/(\d+)px-([^/]+)$/.exec(clean);
   if (!m) return null;
-  if (Number(m[1]) <= width) return clean;
-  return clean.replace(/\/\d+px-([^/]+)$/, `/${width}px-$1`);
+  const target = standardWidthAtMost(width);
+  if (Number(m[1]) <= target) return clean;
+  return clean.replace(/\/\d+px-([^/]+)$/, `/${target}px-$1`);
 }
 
 function normaliseLicense(licenseSlug: string | undefined): string {
