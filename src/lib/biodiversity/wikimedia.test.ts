@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { isAcceptedLicense, looksNonPhotographic, titleNamesACongener } from "./wikimedia";
+import {
+  COMMONS_STANDARD_WIDTHS,
+  isAcceptedLicense,
+  looksNonPhotographic,
+  narrowerThumb,
+  standardWidthAtMost,
+  THUMB_STRIP_WIDTH,
+  titleNamesACongener,
+} from "./wikimedia";
 
 describe("looksNonPhotographic", () => {
   it("rejects historical engravings / plates by title", () => {
@@ -159,5 +167,25 @@ describe("looksNonPhotographic: the Commons API's own query string", () => {
 
   it("rejects a scanned Freshwater and Marine Image Bank illustration", () => {
     expect(looksNonPhotographic("File:FMIB 43639 Sprat.jpeg", "https://x/FMIB_43639_Sprat.jpeg")).toBe(true);
+  });
+});
+
+describe("narrowerThumb", () => {
+  const base = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Seal.jpg";
+
+  it("asks Commons only for a standard width (480 is refused with HTTP 400)", () => {
+    expect(THUMB_STRIP_WIDTH).toBe(500);
+    expect(COMMONS_STANDARD_WIDTHS).toContain(THUMB_STRIP_WIDTH);
+    expect(narrowerThumb(`${base}/1280px-Seal.jpg?utm_source=x`, THUMB_STRIP_WIDTH)).toBe(`${base}/500px-Seal.jpg`);
+  });
+
+  it("snaps a non-standard request down to the nearest standard width", () => {
+    expect(narrowerThumb(`${base}/1280px-Seal.jpg`, 480)).toBe(`${base}/330px-Seal.jpg`);
+    expect(standardWidthAtMost(1000)).toBe(960);
+  });
+
+  it("keeps a render that is already narrow enough, and refuses non-thumb URLs", () => {
+    expect(narrowerThumb(`${base}/250px-Seal.jpg`, 500)).toBe(`${base}/250px-Seal.jpg`);
+    expect(narrowerThumb("https://upload.wikimedia.org/wikipedia/commons/0/00/Seal.jpg", 500)).toBeNull();
   });
 });
