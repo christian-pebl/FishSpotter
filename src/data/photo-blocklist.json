@@ -245,6 +245,10 @@
       "reason": "dead",
       "scientificName": "Cyanea lamarckii"
     },
+    "https://commons.wikimedia.org/wiki/File:Boqueria,_Barcelona_(P1170745).jpg": {
+      "reason": "dead",
+      "scientificName": "Homarus gammarus"
+    },
     "https://commons.wikimedia.org/wiki/File:Brockhaus_and_Efron_Encyclopedic_Dictionary_b1_282-0.jpg": {
       "reason": "drawing",
       "scientificName": "Spinachia spinachia"
@@ -536,6 +540,10 @@
     "https://commons.wikimedia.org/wiki/File:Histoire_naturelle_des_poissons_(Pl._78)_(7949967258).jpg": {
       "reason": "drawing",
       "scientificName": "Taurulus bubalis"
+    },
+    "https://commons.wikimedia.org/wiki/File:Homarus_gammarus.102_-_MPM_San_Cibrao.jpg": {
+      "reason": "dead",
+      "scientificName": "Homarus gammarus"
     },
     "https://commons.wikimedia.org/wiki/File:Humphrey-fishes17.jpg": {
       "reason": "drawing",
@@ -2068,6 +2076,10 @@
     "https://www.inaturalist.org/observations/171025164": {
       "reason": "dead",
       "scientificName": "Cancer pagurus"
+    },
+    "https://www.inaturalist.org/observations/17125446": {
+      "reason": "dead",
+      "scientificName": "Homarus gammarus"
     },
     "https://www.inaturalist.org/observations/171377607": {
       "reason": "dead",
@@ -3689,6 +3701,10 @@
       "reason": "dead",
       "scientificName": "Trisopterus luscus"
     },
+    "https://www.inaturalist.org/observations/252427919": {
+      "reason": "larva",
+      "scientificName": "Homarus gammarus"
+    },
     "https://www.inaturalist.org/observations/252512342": {
       "reason": "dead",
       "scientificName": "Marthasterias glacialis"
@@ -3740,6 +3756,10 @@
     "https://www.inaturalist.org/observations/255058564": {
       "reason": "preserved",
       "scientificName": "Calliostoma zizyphinum"
+    },
+    "https://www.inaturalist.org/observations/255398324": {
+      "reason": "larva",
+      "scientificName": "Homarus gammarus"
     },
     "https://www.inaturalist.org/observations/255530333": {
       "reason": "dead",
@@ -6304,14 +6324,6 @@
     "https://www.inaturalist.org/observations/99691798": {
       "reason": "dead",
       "scientificName": "Gadus morhua"
-    },
-    "https://www.inaturalist.org/observations/252427919": {
-      "reason": "larva",
-      "scientificName": "Homarus gammarus"
-    },
-    "https://www.inaturalist.org/observations/255398324": {
-      "reason": "larva",
-      "scientificName": "Homarus gammarus"
     }
   }
 }
